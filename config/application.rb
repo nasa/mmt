@@ -31,5 +31,11 @@ module Mmt
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # Custom directories with classes and modules you want to be autoloadable.
+    config.autoload_paths += Dir["#{config.root}/lib", "#{config.root}/lib/**/"]
+    config.eager_load_paths += Dir["#{config.root}/lib", "#{config.root}/lib/**/"]
+
+    config.services = YAML.load_file(Rails.root.join('config/services.yml'))
   end
 end

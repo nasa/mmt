@@ -1,0 +1,40 @@
+earthdata:
+  # Endpoints for Earthdata.  These must remain in sync, because for instance ECHO SIT can't accept tokens from URS ops
+  ops:
+    urs_root: "https://urs.earthdata.nasa.gov"
+    echo_root: "https://api.echo.nasa.gov"
+    cmr_root: "https://cmr.earthdata.nasa.gov" # Does not exist yet
+  workload:
+    urs_root: "https://urs.earthdata.nasa.gov" # Does not work.  Workload mocks URS
+    echo_root: "http://wlapp4.dev.echo.nasa.gov:42000" # Requires VPN, no URS support
+    cmr_root: "http://cmr-wl-app1.dev.echo.nasa.gov:3003" # Runs on cmr-wl-app1, cmr-wl-app2, and cmr-wl-app3.  Requires VPN
+  partnertest:
+    urs_root: "https://uat.urs.earthdata.nasa.gov"
+    echo_root: "https://api-test.echo.nasa.gov"
+    cmr_root: "https://cmr.uat.earthdata.nasa.gov" # Does not exist yet
+  sit:
+    urs_root: "https://sit.urs.earthdata.nasa.gov"
+    echo_root: "https://testbed.echo.nasa.gov"
+    cmr_root: "https://cmr.sit.earthdata.nasa.gov"
+
+# Every (MMT, URS) environment pair has a different client id.
+# TODO: These are the EDSC Client Ids, we will need to create our own client.
+urs:
+  # production:
+  #   "https://urs.earthdata.nasa.gov": "6VThsdWMcfrKzLEP_A5xCQ"
+  # uat:
+  #   "https://urs.earthdata.nasa.gov": "HoOcKmts_X6VtUtDYxNmbQ"
+  #   "https://uat.urs.earthdata.nasa.gov": "f9SNO2nTTMVzG9uLa3vxqA"
+  #   "https://sit.urs.earthdata.nasa.gov": "2wWD3U2YiF3-h2PwehP0CQ"
+  sit:
+    "https://urs.earthdata.nasa.gov": "ObPbuvn1Clh8PCphoJ4oLA"
+    "https://uat.urs.earthdata.nasa.gov": "e_QqKiCh7IkQefVdJL4BVg"
+    "https://sit.urs.earthdata.nasa.gov": "Mw9_IJ-1U-zSz8uKSrgVlQ"
+  development:
+    "https://urs.earthdata.nasa.gov": "Gsk6IBbEfa98sbE5UavsZQ"
+    "https://uat.urs.earthdata.nasa.gov": "e8QKhLdQqhfDzzmSJrBW7g"
+    "https://sit.urs.earthdata.nasa.gov": "mUM6VJvn6dXjZfhdeSeBbA"
+  test:
+    "https://urs.earthdata.nasa.gov": "Gsk6IBbEfa98sbE5UavsZQ"
+    "https://uat.urs.earthdata.nasa.gov": "e8QKhLdQqhfDzzmSJrBW7g"
+    "https://sit.urs.earthdata.nasa.gov": "mUM6VJvn6dXjZfhdeSeBbA"
