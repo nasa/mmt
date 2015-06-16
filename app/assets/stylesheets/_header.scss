@@ -1,0 +1,74 @@
+header {
+  @include row();
+  background-color: $midnight-blue;
+  color: white;
+  padding: 1.25em 3.75em;
+
+  a:link, a:visited {
+    color: $sky-blue;
+  }
+
+  h1 {
+    font-size: 1.4em;
+    line-height: 1.2;
+  }
+
+  p {
+    display: inline-block;
+    margin: 0 0.8em 0 0;
+  }
+
+  .fa {
+    margin-right: 0.625em;
+  }
+
+  /* Help Row
+  =================================================*/
+
+  #help {
+    @include row();
+    text-align: right;
+  }
+
+  /* Primary Logo
+  =================================================*/
+
+  #masthead-logo {
+    @include row();
+    display: block;
+    width: 100%;
+  }
+
+  /* Search Form
+  =================================================*/
+
+  #search {
+    float: right;
+    text-align: right;
+
+    form {
+      margin: 0.5em 0;
+    }
+
+    label {
+      width: 7em;
+      margin: 0.55em 0.8em 0 0;
+    }
+
+    input[value="Find"] {
+      width: 6em;
+    }
+  }
+
+  /* User information and menu below logo
+  =================================================*/
+
+  #user-info {
+    @include row();
+    display: block;
+
+    a {
+      margin-right: 0.8em;
+    }
+  }
+}

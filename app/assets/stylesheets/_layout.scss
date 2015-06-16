@@ -1,0 +1,52 @@
+article {
+  @include row();
+}
+
+aside {
+  padding: 0 3.75em;
+}
+
+main.dashboard {
+  @include outer-container;
+}
+
+/* Grid Layout
+========================================================*/
+
+// NOTE: Will be refactored to .container after all pages have been established.
+
+section {
+  @include outer-container;
+}
+
+.col-4 {
+  @include span-columns(4);
+}
+
+.col-6 {
+  @include span-columns(6);
+}
+
+.content {
+  @include outer-container;
+}
+
+.row {
+  @include row();
+  padding: 0.3125em 0;
+}
+
+.row-header {
+  padding-top: 2em;
+}
+
+.subheader {
+  background: $light-grey;
+}
+
+/* Box Styles
+========================================================*/
+
+.full-width {
+  width: 100%;
+}

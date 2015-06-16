@@ -1,0 +1,28 @@
+/* Alert Banner
+====================================================*/
+
+aside {
+  p {
+    margin: 0;
+    text-align: center;
+  }
+}
+
+/* Submit Button
+====================================================*/
+
+input[type="submit"] {
+  background-color: $ocean-blue;
+  color: white;
+}
+
+/* User Login
+====================================================*/
+
+.user-login {
+  background-color: $light-blue;
+  padding: 1.5em;
+  .submit {
+    width: 7em;
+  }
+}
