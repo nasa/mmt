@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-  <title>Mmt</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Metadata Management Tool - Search Results</title>
+  <meta name="description" content="">
+
+  <!-- Temporary local EUI for development -->
+  <link rel="stylesheet" href="http://localhost:8000/stylesheets/application.css">
+  <!-- Open Sans Font - Google Font -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
+  <!-- Font Awesome: Use this link for development since icons do not show up properly on local dev -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <!-- Font Awesome: Local file linked below for production -->
+  <!--<link rel="stylesheet" href="/dist/stylesheets/font-awesome.min.css">-->
+  <!--link rel="stylesheet" href="/dist/stylesheets/mmt.css"-->
 </head>
-<body>
+<body class="search-results">
 
 <%= yield %>
 

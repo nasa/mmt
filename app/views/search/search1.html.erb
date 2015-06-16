@@ -1,0 +1,134 @@
+
+<header>
+  <div class="content">
+    <a href="#" id="help"><i class="fa fa-question"></i>Help</a>
+    <div class="col-6">
+      <div class="masthead-logo" id="masthead-logo">
+        <h1>Metadata Management Tool (MMT)<br>GESDISC</h1>
+      </div>
+      <section id="user-info">
+        <p>Rob Flores</p>
+        <a href="#">Logout</a>
+        <a href="#">Account Settings</a>
+      </section>
+    </div>
+    <div class="col-6">
+      <section id="search">
+        <form action="">
+          <label for="search">Quick Find</label>
+          <input type="text" name="entry_id_target" placeholder="Enter Entry ID">
+          <input type="submit" value="Find">
+        </form>
+        <%#= link_to 'Display', search_search1_path(:entry_id=>'DEM_100M_1') %>
+        <a href="#"><i class="fa fa-search"></i>Full Metadata Record Search</a>
+      </section>
+    </div>
+  </div>
+</header>
+<div class="subheader">
+  <section>
+    <div class="breadcrumb">
+      <ol>
+        <li><a href="#">Dashboard</a></li>
+        <li>Search Results</li>
+      </ol>
+    </div>
+    <p>
+      <%= @table_rows.nil? ? 'No matches found' : "#{@table_rows.size} Result#{'s' if @table_rows.size !=1 }"%>
+      for: Collection | GESDISC | Not Reviewed | Published on or after 2015-03-31
+    </p>
+  </section>
+</div>
+<main class="col-2">
+  <div class="sidebar">
+    <h2>Filters</h2>
+    <div class="accordion">
+      <ul class="bar">
+        <li>
+          <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
+          <ul class="submenu">
+            <li>
+              <!--Content should be placed within each <li> element-->
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="js-accordion-trigger">Services <i class="chevron-toggle"></i></a>
+          <ul class="submenu">
+            <li>
+              <!--Content should be placed within each <li> element-->
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="js-accordion-trigger">Publishing Status <i class="chevron-toggle"></i></a>
+          <ul class="submenu">
+            <li>
+              <!--Content should be placed within each <li> element-->
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
+          <ul class="submenu">
+            <li>
+              <!--Content should be placed within each <li> element-->
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="content">
+    <% #= @table_rows %>
+    <table border="1">
+      <thead>
+      <tr>
+        <th><input type="checkbox" name="name" value=""></th>
+        <th>Entry ID</th>
+        <th>Entry Title</th>
+        <th>Last Modified</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @table_rows.nil? %>
+          <tr>
+            <td colspan="4">
+              No collections found
+            </td>
+          </tr>
+      <% else %>
+          <% @table_rows.each do |row| %>
+              <tr>
+                <td>
+                  <input type="checkbox" name="name" value="">
+                </td>
+                <td>
+                  <%= row['id']%>
+                </td>
+                <td>
+                  <%= row['title']%>
+                </td>
+                <td>
+                  <% fragments = row['updated'].split('T')
+                     date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
+                  <%= date %>
+                </td>
+              </tr>
+          <% end %>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</main>
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+<script>
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-XXXXX-X');ga('send','pageview');
+</script>
+
+
