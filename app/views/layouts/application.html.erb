@@ -4,18 +4,30 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Metadata Management Tool</title>
+  <meta name="description" content="">
+
   <!-- Temporary local EUI for development -->
   <link rel="stylesheet" href="http://localhost:8000/stylesheets/application.css">
   <!-- Open Sans Font - Google Font -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
   <!-- Font Awesome: Use this link for development since icons do not show up properly on local dev -->
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <!-- Font Awesome: Local file linked below for production -->
+  <!--<link rel="stylesheet" href="/dist/stylesheets/font-awesome.min.css">-->
+  <!--link rel="stylesheet" href="/dist/stylesheets/mmt.css"-->
+
+  <!-- Added as a stop gap in order to get jquery to work -->
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
 </head>
-<body>
+<body class="search-results">
 
 <%= yield %>
 

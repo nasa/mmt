@@ -1,0 +1,124 @@
+
+<header>
+  <noscript>JAVASCRIPT MUST BE ENABLED FOR ADVANCED FUNCTIONS TO WORK</noscript>
+  <div class="content">
+    <a href="#" id="help"><i class="fa fa-question"></i>Help</a>
+    <div class="col-6">
+      <div class="masthead-logo" id="masthead-logo">
+        <h1>Metadata Management Tool (MMT)<br>GESDISC</h1>
+      </div>
+      <section id="user-info">
+        <p>Rob Flores</p>
+        <a href="#">Logout</a>
+        <a href="#">Account Settings</a>
+      </section>
+    </div>
+    <div class="col-6">
+      <section id="search">
+        <form action="">
+          <label for="search">Quick Find</label>
+          <input type="text" name="entry_id_target" id="entry_id_target" placeholder="Enter Entry ID">
+          <!--input type="submit" value="Find"-->
+          <button type='button' onclick="update_collection_search_input();return false;">Find (AJAX)</button>
+        </form>
+        <%#= button_to 'Ajax Search!', :alt=>'Search', :class=>'js-enabled-object', search_search1_path(:entry_id=>'DEM_100M_1'), :remote=>true %>
+
+        <a href="#"><i class="fa fa-search"></i>Full Metadata Record Search</a>
+      </section>
+    </div>
+  </div>
+</header>
+<div class="subheader">
+  <section>
+    <div class="breadcrumb">
+      <ol>
+        <li><a href="#">Dashboard</a></li>
+        <li>Search Results</li>
+      </ol>
+    </div>
+    <div class="content" id="collection_search_criteria">
+      <%= render :partial=>'collection_search_criteria' %>
+    </div>
+  </section>
+</div>
+<main class="col-2">
+  <div class="sidebar">
+    <h2>Filters</h2>
+    <div class="accordion">
+      <ul class="bar">
+        <li>
+          <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
+          <ul class="submenu">
+            <li>
+              <!--Content should be placed within each <li> element-->
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="js-accordion-trigger">Services <i class="chevron-toggle"></i></a>
+          <ul class="submenu">
+            <li>
+              <!--Content should be placed within each <li> element-->
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="js-accordion-trigger">Publishing Status <i class="chevron-toggle"></i></a>
+          <ul class="submenu">
+            <li>
+              <!--Content should be placed within each <li> element-->
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
+          <ul class="submenu">
+            <li>
+              <!--Content should be placed within each <li> element-->
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content" id="collection_search_results">
+     <%= render :partial=>'collection_search_results' %>
+  </div>
+
+</main>
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+<script>
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-XXXXX-X');ga('send','pageview');
+</script>
+<script>
+  // Handle presence of Javascript by turning off or on visibility of JS sensitive objects
+  $(".js-disabled-object").css({"visibility": "hidden"});
+  $(".js-enabled-object").css({"visibility": "visible"});
+</script>
+
+<script>
+    function update_collection_search_input() {
+        // Get the value to search on
+        var entry_id_target = $('#entry_id_target').val();
+        //alert(entry_id_target);
+
+        var target_url = '<%= url_for(action: "fetch_collection_search_results") %>';
+        var params = 'entry_id_target='+ entry_id_target;
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'script',
+            url: target_url,
+            data: params
+        });
+    return false;
+    }
+</script>
+
+

@@ -1,0 +1,39 @@
+<% #= @table_rows %>
+<table border="1">
+  <thead>
+  <tr>
+    <th><input type="checkbox" name="name" value=""></th>
+    <th>Entry ID</th>
+    <th>Entry Title</th>
+    <th>Last Modified</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% if @table_rows.blank? %>
+      <tr>
+        <td colspan="4">
+          No collections found
+        </td>
+      </tr>
+  <% else %>
+      <% @table_rows.each do |row| %>
+          <tr>
+            <td>
+              <input type="checkbox" name="name" value="">
+            </td>
+            <td>
+              <%= row['id']%>
+            </td>
+            <td>
+              <%= row['title']%>
+            </td>
+            <td>
+              <% fragments = row['updated'].split('T')
+                 date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
+              <%= date %>
+            </td>
+          </tr>
+      <% end %>
+  <% end %>
+  </tbody>
+</table>
