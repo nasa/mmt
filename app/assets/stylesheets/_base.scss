@@ -1,0 +1,21 @@
+/* Global
+===========================================*/
+
+html {
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  background-color: #fff;
+
+  &.home {
+    background-color: $light-grey;
+  }
+}
+
+/* Display
+===========================================*/
+
+.hide {
+  display: none;
+}

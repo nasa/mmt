@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Metadata Management Tool - Search Results</title>
+    <meta name="description" content="">
+
+    <!-- Temporary local EUI for development -->
+    <link rel="stylesheet" href="http://localhost:8000/stylesheets/application.css">
+    <!-- Open Sans Font - Google Font -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
+    <!-- Font Awesome: Use this link for development since icons do not show up properly on local dev -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <!-- Font Awesome: Local file linked below for production -->
+    <!--<link rel="stylesheet" href="/dist/stylesheets/font-awesome.min.css">-->
+    <link rel="stylesheet" href="/dist/stylesheets/mmt.css">
+  </head>
+  <body id="search-results">
+    <header>
+      <div class="content">
+        <a href="#" id="help"><i class="fa fa-question"></i>Help</a>
+        <div class="col-6">
+          <div class="masthead-logo" id="masthead-logo">
+            <h1>Metadata Management Tool (MMT)<br>GESDISC</h1>
+          </div>
+          <div id="user-info">
+            <p>Rob Flores</p>
+            <a href="#">Logout</a>
+            <a href="#">Account Settings</a>
+          </div>
+        </div>
+        <div class="col-6">
+          <div id="search">
+            <form action="">
+              <label for="search">Quick Find</label>
+              <input type="text" name="search" placeholder="Enter Entry ID">
+              <input type="submit" value="Find">
+            </form>
+            <a href="#"><i class="fa fa-search"></i>Full Metadata Record Search</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="internal">
+      <header>
+        <div class="content">
+          <div class="breadcrumb">
+            <ol>
+              <li><a href="#">Dashboard</a></li>
+              <li>Search Results</li>
+            </ol>
+          </div>
+          <p>24 Results for: Collection | GESDISC | Not Reviewed | Published on or after 2015-03-31</p>
+        </div>
+      </header>
+      <section class="col-2">
+        <div class="sidebar">
+          <h2>Filters</h2>
+          <div class="accordion">
+            <ul class="bar">
+              <li>
+                <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
+                <ul class="submenu">
+                  <li>
+                    <!--Content should be placed within each <li> element-->
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="js-accordion-trigger">Services <i class="chevron-toggle"></i></a>
+                <ul class="submenu">
+                  <li>
+                    <!--Content should be placed within each <li> element-->
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="js-accordion-trigger">Publishing Status <i class="chevron-toggle"></i></a>
+                <ul class="submenu">
+                  <li>
+                    <!--Content should be placed within each <li> element-->
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
+                <ul class="submenu">
+                  <li>
+                    <!--Content should be placed within each <li> element-->
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="content">
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox" name="name" value=""></th>
+                <th>Entry ID</th>
+                <th>Entry Title</th>
+                <th>Last Modified</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" name="name" value=""></td>
+                <td>CIESIN_SEDAC_ENTRI_TEXTS_COL</td>
+                <td>Socioeconomic Data and Applications Center (SEDAC) Collection of Treaty Texts</td>
+                <td>2015-03-31</td>
+              </tr>
+              <tr class="alt">
+                <td><input type="checkbox" name="name" value=""></td>
+                <td>CIESIN_SEDAC_ENTRI_TEXTS_COL</td>
+                <td>Socioeconomic Data and Applications Center (SEDAC) Collection of Treaty Texts</td>
+                <td>2015-03-31</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" name="name" value=""></td>
+                <td>CIESIN_SEDAC_ENTRI_TEXTS_COL</td>
+                <td>Socioeconomic Data and Applications Center (SEDAC) Collection of Treaty Texts</td>
+                <td>2015-03-31</td>
+              </tr>
+              <tr class="alt">
+                <td><input type="checkbox" name="name" value=""></td>
+                <td>CIESIN_SEDAC_ENTRI_TEXTS_COL</td>
+                <td>Socioeconomic Data and Applications Center (SEDAC) Collection of Treaty Texts</td>
+                <td>2015-03-31</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+  </body>
+</html>
