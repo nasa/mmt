@@ -1,5 +1,50 @@
+/* Action Row
+===========================================*/
+
+.action {
+  border-bottom: 1px solid $dolphin-grey;
+  padding: 0.9375em 0 0.625em !important;
+  .btn {
+    margin-right: 0.625em;
+  }
+}
+
+.cta {
+  width: 50%;
+  float: left;
+}
+
+.badges {
+  width: 10.625em;
+  float: left;
+}
+
+.badges img {
+  width: 1.5625em;
+  padding: 0;
+  margin-right: 0.3125em;
+}
+
+.score-info {
+  width: 15.625em;
+  float: left;
+  margin-left: 0.3125em;
+  p {
+    margin: 0;
+    font-size: 1em;
+  }
+  p:first-child {
+    margin-top: -0.1875em;
+  }
+}
+
+.quality-score {
+  float: left;
+  width: 50%;
+}
+
 /* Alert Banner
-====================================================*/
+===========================================*/
 
 aside {
   p {
@@ -8,8 +53,86 @@ aside {
   }
 }
 
+/* Geographic Coverage
+===========================================*/
+
+.coordinates {
+  list-style-type: none;
+  padding-left: 0;
+  li {
+    display: inline-block;
+    margin-right: 0.3125em;
+  }
+}
+
+.geographic-coverage {
+  @include span-columns(4);
+  background-color: $pale-blue;
+  padding: 1.875em 1.25em;
+  img {
+    padding: 0;
+    margin-bottom: 0.625em;
+  }
+  h3:before {
+    content: "";
+    margin: 0;
+    padding-bottom: 10.3125em;
+  }
+  h3 {
+    margin-bottom: 1em;
+  }
+}
+
+/* Metadata Fields
+===========================================*/
+
+.metadata {
+  padding-bottom: 1.875em !important;
+  border-bottom: 1px solid $dolphin-grey !important;
+  margin-bottom: 1.25em;
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li {
+    @include span-columns(4);
+    margin-right: 0;
+    margin-bottom: 0.625em;
+  }
+  .fa {
+    color: $dark-green;
+  }
+  .status {
+    width: 1.3125em;
+    height: 0.9375em;
+    float: left;
+    font-size: 2em;
+    margin-top: 0.1875em;
+  }
+  .meta-info {
+    width: 16.25em;
+    float: left;
+  }
+  .fa-circle,
+  .fa-circle-o {
+    margin-right: 0.3125em;
+  }
+  .icon-grey {
+    color: $dolphin-grey;
+  }
+}
+
+.preview {
+  @include span-columns(8);
+  padding-top: 0 !important;
+  ul {
+    padding-left: 0;
+    list-style: none;
+  }
+}
+
 /* Submit Button
-====================================================*/
+===========================================*/
 
 input[type="submit"] {
   background-color: $ocean-blue;
@@ -17,7 +140,7 @@ input[type="submit"] {
 }
 
 /* User Login
-====================================================*/
+===========================================*/
 
 .user-login {
   background-color: $light-blue;
