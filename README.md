@@ -4,7 +4,7 @@ The Metadata Management Tool is a web application to assist users in managing me
 ## Getting Started
 
 ### Requirements
- - Ruby ???
+ - Ruby 2.1.2
 
 ### Setup
 Clone the Earthdata Redesign Git project:
@@ -22,7 +22,9 @@ Depending on your version of Ruby, you may need to install ruby rdoc/ri data:
      = 1.9.1 : gem install rdoc-data; rdoc-data --install
     >= 1.9.2 : you're good to go!
 
-Check your `/config` directory for a `database.yml` file. In the event you have two with additional extensions (i.e., `.example` or `.bamboo`), remove the `.example` extension in order to create your `database.yml`.
+Check your `/config/` directory for a `database.yml` file (with no additional extensions). If you do not have one, duplicate* the `database.yml.example` file and then rename it to `database.yml`.
+
+*_Note: Do not simply rename the `database.yml.example` file as it is being tracked in Git and has its own history._
 
 Next, create your database by running the standard rails command:
 
