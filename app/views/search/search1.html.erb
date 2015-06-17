@@ -1,5 +1,6 @@
 
 <header>
+  <noscript>JVASCRIPT MUST BE ENABLED FOR ADVANCED FUNCTIONS TO WORK</noscript>
   <div class="content">
     <a href="#" id="help"><i class="fa fa-question"></i>Help</a>
     <div class="col-6">
@@ -16,10 +17,12 @@
       <section id="search">
         <form action="">
           <label for="search">Quick Find</label>
-          <input type="text" name="entry_id_target" placeholder="Enter Entry ID">
-          <input type="submit" value="Find">
+          <input type="text" name="entry_id_target" id="entry_id_target" placeholder="Enter Entry ID">
+          <!--input type="submit" value="Find"-->
+          <button type='button' onclick="update_collection_search_input();return false;">Find (AJAX)</button>
         </form>
-        <%#= link_to 'Display', search_search1_path(:entry_id=>'DEM_100M_1') %>
+        <%#= button_to 'Ajax Search!', :alt=>'Search', :class=>'js-enabled-object', search_search1_path(:entry_id=>'DEM_100M_1'), :remote=>true %>
+
         <a href="#"><i class="fa fa-search"></i>Full Metadata Record Search</a>
       </section>
     </div>
@@ -33,10 +36,9 @@
         <li>Search Results</li>
       </ol>
     </div>
-    <p>
-      <%= @table_rows.nil? ? 'No matches found' : "#{@table_rows.size} Result#{'s' if @table_rows.size !=1 }"%>
-      for: Collection | GESDISC | Not Reviewed | Published on or after 2015-03-31
-    </p>
+    <div class="content" id="collection_search_criteria">
+      <%= render :partial=>'collection_search_criteria' %>
+    </div>
   </section>
 </div>
 <main class="col-2">
@@ -79,47 +81,11 @@
       </ul>
     </div>
   </div>
-  <div class="content">
-    <% #= @table_rows %>
-    <table border="1">
-      <thead>
-      <tr>
-        <th><input type="checkbox" name="name" value=""></th>
-        <th>Entry ID</th>
-        <th>Entry Title</th>
-        <th>Last Modified</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% if @table_rows.nil? %>
-          <tr>
-            <td colspan="4">
-              No collections found
-            </td>
-          </tr>
-      <% else %>
-          <% @table_rows.each do |row| %>
-              <tr>
-                <td>
-                  <input type="checkbox" name="name" value="">
-                </td>
-                <td>
-                  <%= row['id']%>
-                </td>
-                <td>
-                  <%= row['title']%>
-                </td>
-                <td>
-                  <% fragments = row['updated'].split('T')
-                     date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
-                  <%= date %>
-                </td>
-              </tr>
-          <% end %>
-      <% end %>
-      </tbody>
-    </table>
+
+  <div class="content" id="collection_search_results">
+     <%= render :partial=>'collection_search_results' %>
   </div>
+
 </main>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>
@@ -129,6 +95,30 @@
         e.src='//www.google-analytics.com/analytics.js';
         r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
     ga('create','UA-XXXXX-X');ga('send','pageview');
+</script>
+<script>
+  // Handle presence of Javascript by turning off or on visibility of JS sensitive objects
+  $(".js-disabled-object").css({"visibility": "hidden"});
+  $(".js-enabled-object").css({"visibility": "visible"});
+</script>
+
+<script>
+    function update_collection_search_input() {
+        // Get the value to search on
+        var entry_id_target = $('#entry_id_target').val();
+        //alert(entry_id_target);
+
+        var target_url = '<%= url_for(action: "fetch_collection_search_results") %>';
+        var params = 'entry_id_target='+ entry_id_target;
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'script',
+            url: target_url,
+            data: params
+        });
+    return false;
+    }
 </script>
 
 
