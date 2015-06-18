@@ -5,7 +5,10 @@
     <a href="#" id="help"><i class="fa fa-question"></i>Help</a>
     <div class="col-6">
       <div class="masthead-logo" id="masthead-logo">
-        <h1>Metadata Management Tool (MMT)<br>GESDISC</h1>
+        <a href="#">
+          <h1>Metadata Management Tool (MMT)</h1>
+          <span class="badge badge-sm daac">GESDISC</span>
+        </a>
       </div>
       <section id="user-info">
         <p>Rob Flores</p>
@@ -19,7 +22,7 @@
           <label for="search">Quick Find</label>
           <input type="text" name="entry_id_target" id="entry_id_target" placeholder="Enter Entry ID">
           <!--input type="submit" value="Find"-->
-          <button type='button' onclick="update_collection_search_input();return false;">Find (AJAX)</button>
+          <button type="button" class="btn btn-blue" onclick="update_collection_search_input();return false;">Find (AJAX)</button>
         </form>
         <%#= button_to 'Ajax Search!', :alt=>'Search', :class=>'js-enabled-object', search_search1_path(:entry_id=>'DEM_100M_1'), :remote=>true %>
 
@@ -28,64 +31,64 @@
     </div>
   </div>
 </header>
-<div class="subheader">
+<main class="internal">
+  <header>
+    <div class="content">
+      <div class="breadcrumb">
+        <ol>
+          <li><a href="#">Dashboard</a></li>
+          <li>Search Results</li>
+        </ol>
+      </div>
+      <div id="collection_search_criteria"><%= render :partial=>'collection_search_criteria' %></div>
+    </div>
+  </header>
   <section>
-    <div class="breadcrumb">
-      <ol>
-        <li><a href="#">Dashboard</a></li>
-        <li>Search Results</li>
-      </ol>
+    <div class="col-3">
+      <h2>Filters</h2>
+      <div class="accordion">
+        <ul class="bar">
+          <li>
+            <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
+            <ul class="submenu">
+              <li>
+                <!--Content should be placed within each <li> element-->
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="js-accordion-trigger">Services <i class="chevron-toggle"></i></a>
+            <ul class="submenu">
+              <li>
+                <!--Content should be placed within each <li> element-->
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="js-accordion-trigger">Publishing Status <i class="chevron-toggle"></i></a>
+            <ul class="submenu">
+              <li>
+                <!--Content should be placed within each <li> element-->
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
+            <ul class="submenu">
+              <li>
+                <!--Content should be placed within each <li> element-->
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="content" id="collection_search_criteria">
-      <%= render :partial=>'collection_search_criteria' %>
+
+    <div class="col-9" id="collection_search_results">
+       <%= render :partial=>'collection_search_results' %>
     </div>
+
   </section>
-</div>
-<main class="col-2">
-  <div class="sidebar">
-    <h2>Filters</h2>
-    <div class="accordion">
-      <ul class="bar">
-        <li>
-          <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
-          <ul class="submenu">
-            <li>
-              <!--Content should be placed within each <li> element-->
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a href="javascript:void(0)" class="js-accordion-trigger">Services <i class="chevron-toggle"></i></a>
-          <ul class="submenu">
-            <li>
-              <!--Content should be placed within each <li> element-->
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a href="javascript:void(0)" class="js-accordion-trigger">Publishing Status <i class="chevron-toggle"></i></a>
-          <ul class="submenu">
-            <li>
-              <!--Content should be placed within each <li> element-->
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
-          <ul class="submenu">
-            <li>
-              <!--Content should be placed within each <li> element-->
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="content" id="collection_search_results">
-     <%= render :partial=>'collection_search_results' %>
-  </div>
-
 </main>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>
@@ -120,5 +123,3 @@
     return false;
     }
 </script>
-
-
