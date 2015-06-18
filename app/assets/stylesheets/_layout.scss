@@ -31,6 +31,10 @@ main.dashboard {
   }
 }
 
+div.breadcrumb {
+  margin-bottom: 0;
+}
+
 /* Grid Layout
 ===========================================*/
 
@@ -40,12 +44,20 @@ section {
   @include outer-container;
 }
 
+.col-3 {
+  @include span-columns(3);
+}
+
 .col-4 {
   @include span-columns(4);
 }
 
 .col-6 {
   @include span-columns(6);
+}
+
+.col-9 {
+  @include span-columns(9);
 }
 
 .content {
