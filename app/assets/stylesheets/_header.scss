@@ -1,6 +1,6 @@
 header {
   @include row();
-  background-color: $midnight-blue;
+  @include linear-gradient($midnight-blue, darken($midnight-blue, 2%));
   color: white;
   padding: 1.25em 3.75em;
 
@@ -75,10 +75,25 @@ header {
     label {
       width: 7em;
       margin: 0.55em 0.8em 0 0;
+      color: $light-grey;
     }
 
-    input[value="Find"] {
-      width: 6em;
+    input[type="text"] {
+      width: 10em;
+      padding: 0.5em;
+      border: none;
+      vertical-align: middle;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+
+    button {
+      border-color: $midnight-blue;
+      border-left: none;
+    }
+
+    .full-search {
+      font-size: 0.8em;
     }
   }
 
@@ -88,6 +103,7 @@ header {
   #user-info {
     @include row();
     display: block;
+    font-size: 0.8em;
 
     a {
       margin-right: 0.8em;
