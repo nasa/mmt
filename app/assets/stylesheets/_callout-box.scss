@@ -57,7 +57,7 @@
   .comments {
     @include span-columns(2);
     text-align: center;
-    background-image: url('/images/comment.png');
+    background-image: image-url('comment.png');
     background-size: 2.25em;
     background-repeat: no-repeat;
     height: 2.75em;
@@ -76,6 +76,7 @@
       display: inline-block;
       float: left;
       width: 1.8125em;
+      border: 0;
     }
 
     input[type="radio"] {
