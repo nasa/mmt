@@ -22,7 +22,7 @@
           <label for="search">Quick Find</label>
           <input type="text" name="entry_id_target" id="entry_id_target" placeholder="Enter Entry ID">
           <!--input type="submit" value="Find"-->
-          <button type="button" class="btn btn-blue" onclick="update_collection_search_input();return false;">Find (AJAX)</button>
+          <button type="button" class="btn btn-blue" onclick="update_collection_search_input(1);return false;">Find (AJAX)</button>
         </form>
         <%#= button_to 'Ajax Search!', :alt=>'Search', :class=>'js-enabled-object', search_search1_path(:entry_id=>'DEM_100M_1'), :remote=>true %>
 
@@ -106,13 +106,14 @@
 </script>
 
 <script>
-    function update_collection_search_input() {
+    function update_collection_search_input(page) {
         // Get the value to search on
         var entry_id_target = $('#entry_id_target').val();
+        var sort = 'entry_title';
         //alert(entry_id_target);
 
         var target_url = '<%= url_for(action: "fetch_collection_search_results") %>';
-        var params = 'entry_id_target='+ entry_id_target;
+        var params = 'entry_id_target='+ entry_id_target + '&page=' + page + '&sort=' + sort;
 
         $.ajax({
             type: 'GET',
