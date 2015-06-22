@@ -6,15 +6,20 @@ aside {
   padding: 0 3.75em;
 }
 
+main {
+  margin-bottom: 2em;
+}
+
 main.dashboard {
   @include outer-container;
 }
 
 .internal {
   header {
-    background-color: $light-blue;
+    background: $light-blue;
     color: $black;
-    border-bottom: 1px solid $dolphin-grey;
+    border-bottom: 1px solid $pale-blue;
+    border-top: 5px solid darken($light-blue, 5%);
     padding-bottom: 0;
     h2 {
       border-bottom: 0;

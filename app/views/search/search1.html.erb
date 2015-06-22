@@ -2,7 +2,6 @@
 <header>
   <noscript>JAVASCRIPT MUST BE ENABLED FOR ADVANCED FUNCTIONS TO WORK</noscript>
   <div class="content">
-    <a href="#" id="help"><i class="fa fa-question"></i>Help</a>
     <div class="col-6">
       <div class="masthead-logo" id="masthead-logo">
         <a href="#">
@@ -11,22 +10,21 @@
         </a>
       </div>
       <section id="user-info">
-        <p>Rob Flores</p>
+        <p><strong>Rob Flores</strong></p>
         <a href="#">Logout</a>
         <a href="#">Account Settings</a>
       </section>
     </div>
     <div class="col-6">
+      <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <section id="search">
         <form action="">
           <label for="search">Quick Find</label>
-          <input type="text" name="entry_id_target" id="entry_id_target" placeholder="Enter Entry ID">
-          <!--input type="submit" value="Find"-->
-          <button type="button" class="btn btn-blue" onclick="update_collection_search_input();return false;">Find (AJAX)</button>
+          <input type="text" name="entry_id_target" id="entry_id_target" placeholder="Enter Entry ID"><button type="button" class="btn btn-blue" onclick="update_collection_search_input();return false;"><i class="fa fa-search"></i>Find</button>
         </form>
         <%#= button_to 'Ajax Search!', :alt=>'Search', :class=>'js-enabled-object', search_search1_path(:entry_id=>'DEM_100M_1'), :remote=>true %>
 
-        <a href="#"><i class="fa fa-search"></i>Full Metadata Record Search</a>
+        <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
       </section>
     </div>
   </div>
@@ -85,6 +83,7 @@
     </div>
 
     <div class="col-9" id="collection_search_results">
+      <p class="bulk-record-actions"><a href="#" class="btn btn-md btn-blue">Bulk Edit Records</a> <a href="#" class="btn btn-md btn-blue">Bulk Delete Records</a></p>
        <%= render :partial=>'collection_search_results' %>
     </div>
 
