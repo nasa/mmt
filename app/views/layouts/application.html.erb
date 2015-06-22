@@ -10,7 +10,7 @@
   <meta name="description" content="">
 
   <!-- Temporary local EUI for development -->
-  <link rel="stylesheet" href="http://localhost:8000/stylesheets/application.css">
+  <link rel="stylesheet" href="<%= Rails.application.config.eui_url %>">
   <!-- Open Sans Font - Google Font -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
   <!-- Font Awesome: Use this link for development since icons do not show up properly on local dev -->
@@ -27,7 +27,7 @@
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
 </head>
-<body id="search-results">
+<body class="<%= (controller.action_name == 'dashboard' ? "home" : "") %>">
 
 <%= yield %>
 
