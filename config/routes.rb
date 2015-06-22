@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'search#search1'
+   root 'pages#dashboard'
 
   get "/fetch_collection_search_results" => 'search#fetch_collection_search_results', as: 'fetch_collection_search_results'
 

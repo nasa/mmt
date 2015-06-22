@@ -57,7 +57,7 @@
   .comments {
     @include span-columns(2);
     text-align: center;
-    background-image: url('/images/comment.png');
+    background-image: asset-url('comment.png');
     background-size: 2.25em;
     background-repeat: no-repeat;
     height: 2.75em;
