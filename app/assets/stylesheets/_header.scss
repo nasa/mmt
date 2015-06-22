@@ -46,7 +46,6 @@ header {
       @include transition(background-image .1s linear);
 
       @include hidpi(1.3) {
-        @include hide-text;
         background-image: asset-url("nasa-meatball_2x.png");
         background-size: auto 50px;
       }
