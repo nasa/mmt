@@ -25,9 +25,18 @@ header {
   /* Help Row
   =================================================*/
 
-  #help {
+  .header-tools {
     @include row();
     text-align: right;
+
+    #help {
+      display: block;
+      margin: .5em 0;
+    }
+
+    .btn-blue:hover {
+      background-color: lighten($ocean-blue,2%);
+    }
   }
 
   /* Primary Logo
