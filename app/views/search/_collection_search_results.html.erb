@@ -8,7 +8,6 @@
 <table>
   <thead>
   <tr>
-    <th>#</th>
     <th><input type="checkbox" name="name" value=""></th>
     <th>Entry ID</th>
     <th>Entry Title</th>
@@ -25,9 +24,6 @@
   <% else %>
       <% @table_rows.each_with_index do |row, i| %>
           <tr>
-            <td>
-              <%= (@record_num + i)%>
-            </td>
             <td>
               <input type="checkbox" name="name" value="">
             </td>
