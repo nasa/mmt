@@ -8,7 +8,7 @@
 <table>
   <thead>
   <tr>
-    <th><input type="checkbox" name="name" value=""></th>
+    <!--th><input type="checkbox" name="name" value=""></th-->
     <th>Entry ID</th>
     <th>Entry Title</th>
     <th>Last Modified</th>
@@ -24,9 +24,9 @@
   <% else %>
       <% @table_rows.each do |row| %>
           <tr class='<%= cycle("alt", "") %>'>
-            <td>
+            <!--td>
               <input type="checkbox" name="name" value="">
-            </td>
+            </td-->
             <td>
               <%= row['id']%>
             </td>

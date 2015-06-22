@@ -47,61 +47,18 @@
   </header>
   <section>
     <div class="col-3">
-      <h2>Filters</h2>
-      <div class="accordion">
-        <ul class="bar">
-          <li>
-            <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
-            <ul class="submenu">
-              <li>
-                <!--Content should be placed within each <li> element-->
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="javascript:void(0)" class="js-accordion-trigger">Services <i class="chevron-toggle"></i></a>
-            <ul class="submenu">
-              <li>
-                <!--Content should be placed within each <li> element-->
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="javascript:void(0)" class="js-accordion-trigger">Publishing Status <i class="chevron-toggle"></i></a>
-            <ul class="submenu">
-              <li>
-                <!--Content should be placed within each <li> element-->
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="javascript:void(0)" class="js-accordion-trigger">Provider <i class="chevron-toggle"></i></a>
-            <ul class="submenu">
-              <li>
-                <!--Content should be placed within each <li> element-->
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+      <!--%= render :partial=>'filters' %-->
     </div>
 
+    <!--p class="bulk-record-actions"><a href="#" class="btn btn-md btn-blue">Bulk Edit Records</a> <a href="#" class="btn btn-md btn-blue">Bulk Delete Records</a></p-->
+
     <div class="col-9" id="collection_search_results">
-      <p class="bulk-record-actions"><a href="#" class="btn btn-md btn-blue">Bulk Edit Records</a> <a href="#" class="btn btn-md btn-blue">Bulk Delete Records</a></p>
        <%= render :partial=>'collection_search_results' %>
     </div>
 
   </section>
 </main>
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-<script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='//www.google-analytics.com/analytics.js';
-        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-XXXXX-X');ga('send','pageview');
-</script>
+
 <script>
   // Handle presence of Javascript by turning off or on visibility of JS sensitive objects
   $(".js-disabled-object").css({"visibility": "hidden"});
@@ -111,7 +68,7 @@
 <script>
     function update_collection_search_input(entry_id_target, sort, page, push_url) {
 
-        var target_url = '<%= url_for(action: "fetch_collection_search_results") %>';
+        var target_url = '<%= url_for(action: 'index') %>';
         var params = 'entry_id_target=' + entry_id_target + '&page=' + page + '&sort=' + sort;
 
         if (history.pushState) {

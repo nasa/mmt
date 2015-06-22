@@ -1,5 +1,5 @@
 
 <p class="search-meta">
-  <strong><%= @table_rows.nil? ? 'No matches found' : "#{@table_rows.size} Result#{'s' if @table_rows.size !=1 }"%></strong>
+  <strong><%= (@total_hit_count==0) ? 'No matches found' : "#{@total_hit_count} Result#{'s' if @total_hit_count !=1 }"%></strong>
   for: Collection | GESDISC | Not Reviewed | Published on or after 2015-03-31
 </p>

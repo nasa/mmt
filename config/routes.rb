@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'welcome/index'
 
-  get 'search/search1'
+  get 'search/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
-  get "/fetch_collection_search_results" => 'search#fetch_collection_search_results', as: 'fetch_collection_search_results'
+  #get "/fetch_collection_search_results" => 'search#fetch_collection_search_results', as: 'fetch_collection_search_results'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
