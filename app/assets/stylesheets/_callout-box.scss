@@ -14,14 +14,6 @@
     background-color: $steel-blue;
     border-right: 8px solid darken($steel-blue, 10%);
     box-shadow: -1.5em 0 0 0 $steel-blue;
-
-    &.icon-title {
-      padding-left: 1.875em;
-      background-image: url('/images/template_white.png');
-      background-size: 1em;
-      background-repeat: no-repeat;
-      background-position: left 46%;
-    }
   }
 }
 
