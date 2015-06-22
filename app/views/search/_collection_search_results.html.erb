@@ -22,8 +22,8 @@
         </td>
       </tr>
   <% else %>
-      <% @table_rows.each_with_index do |row, i| %>
-          <tr>
+      <% @table_rows.each do |row| %>
+          <tr class='<%= cycle("alt", "") %>'>
             <td>
               <input type="checkbox" name="name" value="">
             </td>

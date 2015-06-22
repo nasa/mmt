@@ -1,0 +1,199 @@
+<header>
+  <noscript>JAVASCRIPT MUST BE ENABLED FOR ADVANCED FUNCTIONS TO WORK</noscript>
+  <div class="content">
+    <div class="col-6">
+      <div class="masthead-logo" id="masthead-logo">
+        <a href="#">
+          <h1>Metadata Management Tool (MMT)</h1>
+          <span class="badge badge-sm daac">GESDISC</span>
+        </a>
+      </div>
+      <section id="user-info">
+        <p><strong>Rob Flores</strong></p>
+        <a href="#">Logout</a>
+        <a href="#">Account Settings</a>
+      </section>
+    </div>
+    <div class="col-6">
+      <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
+      <section id="search">
+        <form action="">
+          <label for="search">Quick Find</label>
+          <input type="text" name="entry_id_target" id="entry_id_target" placeholder="Enter Entry ID"><button type="button" class="btn btn-blue" onclick="update_collection_search_input();return false;"><i class="fa fa-search"></i>Find</button>
+        </form>
+        <%#= button_to 'Ajax Search!', :alt=>'Search', :class=>'js-enabled-object', search_search1_path(:entry_id=>'DEM_100M_1'), :remote=>true %>
+
+        <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
+      </section>
+    </div>
+  </div>
+</header>
+<aside class="banner banner-warn">
+  <div class="content">
+    <p><strong>CMR Outage (Apr 26 2015 10:00EDT to Apr 26 2015 22:00 EDT):</strong> User may experience connectivity issues with EOSDIS.</p>
+  </div>
+</aside>
+<main class="dashboard">
+  <nav>
+    <h2 class="current">Manage Metadata</h2>
+    <h2><a href="#">Manage CMR</a></h2>
+  </nav>
+  <article id="metadata">
+    <section class="callout-box col-left">
+      <div class="callout-content">
+        <h3>Your Open Drafts</h2>
+        <ul>
+          <li>
+            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+          </li>
+          <li>
+            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+          </li>
+          <li>
+            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+          </li>
+          <li>
+            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+          </li>
+          <li>
+            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+          </li>
+          <li>
+            <a href="#">More</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section class="callout-box col-left">
+      <div class="callout-content">
+        <h3>Comments Received</h3>
+        <ul>
+          <li>
+            <div class="comments">
+              <p>2</p>
+            </div>
+            <div class="info">
+              <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+            </div>
+          </li>
+          <li>
+            <div class="comments">
+              <p>2</p>
+            </div>
+            <div class="info">
+              <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+            </div>
+          </li>
+          <li>
+            <div class="comments">
+              <p>2</p>
+            </div>
+            <div class="info">
+              <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+            </div>
+          </li>
+          <li>
+            <div class="comments">
+              <p>2</p>
+            </div>
+            <div class="info">
+              <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+            </div>
+          </li>
+          <li>
+            <div class="comments">
+              <p>2</p>
+            </div>
+            <div class="info">
+              <time datetime="2015-04-23">2014-04-23</time> | ASF57FR15
+              <p>Global Cyclone Lorem Ipsum</p>
+            </div>
+          </li>
+          <li>
+            <a href="#">More</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section class="callout-box col-left">
+      <div class="callout-content">
+        <h3>Your Recently Published Collections</h3>
+        <ul>
+          <li>
+            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+          </li>
+          <li>
+            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+          </li>
+          <li>
+            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+          </li>
+          <li>
+            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+          </li>
+          <li>
+            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+          </li>
+          <li>
+            <a href="#">More</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section class="callout-box col-left">
+      <div class="callout-content">
+        <h3>Create New Record</h3>
+        <form action="">
+          <div class="question-group">
+            <div class="row">
+              <input type="radio" name="new-collection">
+              <%= image_tag "collection.png" %>
+              <label for="new-collection">
+                New Collection Record
+              </label>
+            </div>
+            <div class="row">
+              <input type="radio" name="new-service">
+              <%= image_tag "services.png" %>
+              <label for="new-service">New Service Record</label>
+            </div>
+          </div>
+          <div class="question-group">
+            <div class="row">
+              <input type="radio" name="from-template">
+              <label for="from-template">From Template</label>
+              <select name="select-template" class="single-select">
+                <option value="Select Template">Select Template</option>
+              </select>
+            </div>
+            <div class="row">
+              <input type="radio" name="blank-record">
+              <label for="blank-record">From Blank Record<br><strong>OR</strong> use <a href="#">search</a> to find an existing record to use as a basis for a new record</label>
+            </div>
+          </div>
+          <div class="row">
+            <input type="submit" class="btn submit" value="Create Record">
+          </div>
+        </form>
+      </div>
+    </section>
+    <section class="callout-box col-left">
+      <div class="callout-content">
+        <h3>Upload XML Files</h3>
+        <a href="#">Select files</a>
+      </div>
+    </section>
+    <section class="callout-box col-left">
+      <div class="callout-content">
+        <h3>Collection Templates</h3>
+        <div class="row">
+          <a href="#">View Manage Templates (9)</a>
+        </div>
+        <div class="row">
+          <a href="#">New Template</a>
+        </div>
+
+      </div>
+    </section>
+  </article>
+</main>
