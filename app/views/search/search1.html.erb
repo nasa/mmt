@@ -1,5 +1,7 @@
 
 <header>
+  <input type='hidden' id='results_per_page' value="<%= @results_per_page.to_s %>">
+
   <noscript>JAVASCRIPT MUST BE ENABLED FOR ADVANCED FUNCTIONS TO WORK</noscript>
   <div class="content">
     <a href="#" id="help"><i class="fa fa-question"></i>Help</a>
@@ -22,9 +24,8 @@
           <label for="search">Quick Find</label>
           <input type="text" name="entry_id_target" id="entry_id_target" placeholder="Enter Entry ID">
           <!--input type="submit" value="Find"-->
-          <button type="button" class="btn btn-blue" onclick="update_collection_search_input(1);return false;">Find (AJAX)</button>
+          <button type="button" class="btn btn-blue" onclick="update_collection_search_input($('#entry_id_target').val(), 'entry_title', 1, true);return false;">Find</button>
         </form>
-        <%#= button_to 'Ajax Search!', :alt=>'Search', :class=>'js-enabled-object', search_search1_path(:entry_id=>'DEM_100M_1'), :remote=>true %>
 
         <a href="#"><i class="fa fa-search"></i>Full Metadata Record Search</a>
       </section>
@@ -40,7 +41,9 @@
           <li>Search Results</li>
         </ol>
       </div>
-      <div id="collection_search_criteria"><%= render :partial=>'collection_search_criteria' %></div>
+      <div id="collection_search_criteria">
+        <%= render :partial=>'collection_search_criteria' %>
+      </div>
     </div>
   </header>
   <section>
@@ -85,7 +88,7 @@
     </div>
 
     <div class="col-9" id="collection_search_results">
-       <%= render :partial=>'collection_search_results' %>
+      <%= render :partial=>'collection_search_results' %>
     </div>
 
   </section>
@@ -106,14 +109,17 @@
 </script>
 
 <script>
-    function update_collection_search_input(page) {
-        // Get the value to search on
-        var entry_id_target = $('#entry_id_target').val();
-        var sort = 'entry_title';
-        //alert(entry_id_target);
+    function update_collection_search_input(entry_id_target, sort, page, push_url) {
 
         var target_url = '<%= url_for(action: "fetch_collection_search_results") %>';
-        var params = 'entry_id_target='+ entry_id_target + '&page=' + page + '&sort=' + sort;
+        var params = 'entry_id_target=' + entry_id_target + '&page=' + page + '&sort=' + sort;
+
+        if (history.pushState) {
+            if (push_url) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + params;
+                window.history.pushState({path: newurl}, '', newurl);
+            }
+        }
 
         $.ajax({
             type: 'GET',
@@ -121,6 +127,22 @@
             url: target_url,
             data: params
         });
-    return false;
+
+        return false;
     }
+
+    function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+    }
+
+    // Handle "Back" button
+    $(window).on("popstate", function () {
+        // Refresh the contents page using AJAX. Extract & use the parameters from the "backed" url
+        var page = getURLParameter("page");
+        if (page != null) {
+          update_collection_search_input(getURLParameter("entry_id_target") || '', getURLParameter("sort") || '', getURLParameter("page") || '', false);
+        }
+    });
+
+
 </script>
