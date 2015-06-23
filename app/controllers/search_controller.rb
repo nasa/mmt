@@ -5,8 +5,8 @@ class SearchController < ApplicationController
 
   def index
     @entry_id = params[:entry_id] || ''
-    @page = params[:page] || '1'
-    @page = '1' if @page.to_i < 1
+    @page = params[:page].to_i || 1
+    @page = 1 if @page < 1
     @sort = params[:sort] || DEFAULT_SORT_ORDER
 
     @results_per_page = RESULTS_PER_PAGE
