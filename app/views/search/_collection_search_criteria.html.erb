@@ -1,5 +1,7 @@
 
 <p class="search-meta">
-  <strong><%= (@total_hit_count==0) ? 'No matches found' : "#{@total_hit_count} Result#{'s' if @total_hit_count !=1 }"%></strong>
-  for: Collection | GESDISC | Not Reviewed | Published on or after 2015-03-31
+  <% if !@entry_id.blank? %>
+    <strong><%= (@total_hit_count==0) ? 'No matches found' : pluralize(@total_hit_count, 'Result') %></strong>
+    for: Entry Id: "<%= @entry_id %>"
+  <% end %>
 </p>

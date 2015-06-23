@@ -3,15 +3,16 @@
 $(".js-disabled-object").css({"visibility": "hidden"});
 $(".js-enabled-object").css({"visibility": "visible"});
 
-    function update_collection_search_input(entry_id_target, sort, page, push_url) {
+    function update_collection_search_input(entry_id, sort, page, push_url) {
 
-        //var target_url = '<#%= url_for(action: 'index') %>';
-        var target_url = 'index';
-        var params = 'entry_id_target=' + entry_id_target + '&page=' + page + '&sort=' + sort;
+        var target_url = 'search';
+        var query_params = 'page=' + page + '&sort=' + sort;
+        if (entry_id && entry_id.length != 0)
+            query_params += '&entry_id=' + entry_id ;
 
         if (history.pushState) {
             if (push_url) {
-                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + params;
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + query_params;
                 window.history.pushState({path: newurl}, '', newurl);
             }
         }
@@ -20,7 +21,7 @@ $(".js-enabled-object").css({"visibility": "visible"});
             type: 'GET',
             dataType: 'script',
             url: target_url,
-            data: params
+            data: query_params
         });
 
         return false;
@@ -35,11 +36,11 @@ $(".js-enabled-object").css({"visibility": "visible"});
       // Refresh the contents page using AJAX. Extract & use the parameters from the "backed" url
       var page = getURLParameter("page");
       if (page != null) {
-        update_collection_search_input(getURLParameter("entry_id_target") || '', getURLParameter("sort") || '', getURLParameter("page") || '', false);
+        update_collection_search_input(getURLParameter("entry_id") || '', getURLParameter("sort") || '', getURLParameter("page") || '', false);
       }
     });
 
     function go_to_page(page) {
-        update_collection_search_input($('#entry_id_target').val(), $('#sort').val(), page, true);
+        update_collection_search_input($('#entry_id').val(), $('#sort').val(), page, true);
     }
 

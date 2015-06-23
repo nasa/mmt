@@ -30,6 +30,7 @@
 
 <body class="<%= (controller.action_name == 'dashboard' ? "home" : "") %>">
 
+<%= render 'shared/header' %>
 <%= yield %>
 
 </body>

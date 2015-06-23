@@ -4,10 +4,10 @@
   <div class="content">
     <div class="col-6">
       <div class="masthead-logo" id="masthead-logo">
-        <a href="#">
-          <h1>Metadata Management Tool (MMT)</h1>
-          <span class="badge badge-sm daac">GESDISC</span>
-        </a>
+        <%= link_to root_url do %>
+            <h1>Metadata Management Tool (MMT)</h1>
+            <span class="badge badge-sm daac">GESDISC</span>
+        <% end %>
       </div>
       <section id="user-info">
         <p><strong>Rob Flores</strong></p>
@@ -21,14 +21,14 @@
       <% if !params[:controller].include? 'welcome'%>
           <section id="search">
             <form action="">
-              <label for="search">Quick Find</label>
-              <input type="text" name="entry_id_target" id="entry_id_target" placeholder="Enter Entry ID">
-              <% if request.path.include? 'search/index' # TODO - There ought to be a better way...%>
-                <button type="button" class="btn btn-blue" onclick="update_collection_search_input($('#entry_id_target').val(), 'entry_title', 1, true);return false;"><i class="fa fa-search"></i>Find</button>
+              <label for="entry_id">Quick Find</label>
+              <input type="text" name="entry_id" id="entry_id" placeholder="Enter Entry ID">
+              <% if params[:controller] == 'search' %>
+                <button type="button" class="btn btn-blue" onclick="update_collection_search_input($('#entry_id').val(), 'entry_title', 1, true);return false;"><i class="fa fa-search"></i>Find</button>
               <% else %>
                   <!-- invoke the search page passing in the correct parameter -->
                 <button type="button" class="btn btn-blue"
-                        onclick="var target = $('#entry_id_target').val();location.href='<%= url_for(controller: 'search', action: 'index') %>?entry_id_target=' + target;return false;">
+                        onclick="var target = $('#entry_id').val();location.href='<%= url_for(controller: 'search', action: 'index') %>?entry_id=' + target;return false;">
                   <i class="fa fa-search"></i>Find</button>
               <% end %>
             </form>

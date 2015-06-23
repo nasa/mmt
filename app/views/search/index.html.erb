@@ -1,13 +1,12 @@
 
 <input type='hidden' id='results_per_page' value="<%= @results_per_page.to_s %>">
-<%= render :partial=>'shared/header' %>
 
 <main class="internal">
   <header>
     <div class="content">
       <div class="breadcrumb">
         <ol>
-          <li><a href="#">Dashboard</a></li>
+          <li><%= link_to 'Dashboard', dashboard_path %></li>
           <li>Search Results</li>
         </ol>
       </div>
