@@ -1,0 +1,39 @@
+<header>
+
+  <noscript>JAVASCRIPT MUST BE ENABLED FOR ADVANCED FUNCTIONS TO WORK</noscript>
+  <div class="content">
+    <div class="col-6">
+      <div class="masthead-logo" id="masthead-logo">
+        <%= link_to root_url do %>
+            <h1>Metadata Management Tool (MMT)</h1>
+            <span class="badge badge-sm daac">GESDISC</span>
+        <% end %>
+      </div>
+      <section id="user-info">
+        <p><strong>Rob Flores</strong></p>
+        <a href="#">Logout</a>
+        <a href="#">Account Settings</a>
+      </section>
+    </div>
+    <div class="col-6 header-tools">
+      <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
+      <% if controller_name.include? 'welcome'%>
+          <button type="button" class="btn btn-blue">Earthdata Login</button>
+      <% else %>
+          <section id="search">
+
+            <% remote = controller_name == 'search' %>
+            <%= form_tag(search_path, method: "get", remote: remote) do %>
+                <%= label_tag(:entry_id, "Quick Find") %>
+                <%= text_field_tag(:entry_id, nil, placeholder: 'Enter Entry Id') %>
+                <%= button_tag(type: 'submit', class: 'btn btn-blue') do %>
+                    <i class="fa fa-search"></i>Find
+                <% end %>
+            <% end %>
+
+            <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
+          </section>
+      <% end %>
+    </div>
+  </div>
+</header>

@@ -1,5 +1,7 @@
 
 <p class="search-meta">
-  <strong><%= @table_rows.nil? ? 'No matches found' : "#{@table_rows.size} Result#{'s' if @table_rows.size !=1 }"%></strong>
-  for: Collection | GESDISC | Not Reviewed | Published on or after 2015-03-31
+  <strong><%= (@total_hit_count==0) ? 'No matches found' : pluralize(@total_hit_count, 'Result') %></strong>
+  <% if !@entry_id.blank? %>
+    for: Entry Id: "<%= @entry_id %>"
+  <% end %>
 </p>

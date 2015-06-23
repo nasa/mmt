@@ -1,43 +1,29 @@
 class SearchController < ApplicationController
 
-  def search1
-    entry_id_target = params[:entry_id_target] || ''
+  RESULTS_PER_PAGE = 25
+  DEFAULT_SORT_ORDER = 'entry_title'
 
-    client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
+  def index
+    @entry_id = params[:entry_id] || ''
+    @page = params[:page].to_i || 1
+    @page = 1 if @page < 1
+    @sort = params[:sort] || DEFAULT_SORT_ORDER
 
-    @query_results = client.get_collections("entry_id" => entry_id_target)
+    @results_per_page = RESULTS_PER_PAGE
 
-    if (@query_results.nil? || @query_results.body.nil? || @query_results.body["feed"].nil? || @query_results.body["feed"]["entry"].nil?)
-      t = nil
+    query_params = {'page_num' => @page, 'page_size' => @results_per_page, 'sort_key' => @sort}
+    query_params["entry_id"] = @entry_id  if !@entry_id.blank?
+
+    query_results = cmr_client.get_collections(query_params)
+
+    if (query_results.nil? || query_results.body.nil? || query_results.body["feed"].nil? || query_results.body["feed"]["entry"].nil?)
+      @table_rows = nil
+      @total_hit_count = 0
     else
-      t = @query_results.body["feed"]["entry"]
-      t = t + t + t + t # temp for testing
+      @table_rows = query_results.body["feed"]["entry"]
+      @total_hit_count = query_results.headers['cmr-hits'].to_i
     end
 
-    @table_rows = t
-  end
-
-  def fetch_collection_search_results
-    entry_id_target = params[:entry_id_target] || ''
-
-    client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
-
-    @query_results = client.get_collections("entry_id" => entry_id_target)
-
-    if (@query_results.nil? || @query_results.body.nil? || @query_results.body["feed"].nil? || @query_results.body["feed"]["entry"].nil?)
-      t = nil
-    else
-      t = @query_results.body["feed"]["entry"]
-      t = t + t + t + t # temp for testing
-    end
-
-    @table_rows = t
-
-    respond_to do |format|
-      format.js
-    end
-
-
-  end
+  end 
 
 end

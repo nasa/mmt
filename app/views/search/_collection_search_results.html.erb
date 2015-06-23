@@ -1,8 +1,15 @@
 <% #= @table_rows %>
+<input type="hidden" id="entry_id" value="<%= @entry_id %>" />
+<input type="hidden" id="sort" value="<%= @sort %>" />
+
+
+<%= render :partial=>"pagination"  %>
+
 <table>
   <thead>
   <tr>
-    <th><input type="checkbox" name="name" value=""></th>
+    <!-- Temporarily commented out because this is not a part of the MVP %-->
+    <!--th><input type="checkbox" name="name" value=""></th-->
     <th>Entry ID</th>
     <th>Entry Title</th>
     <th>Last Modified</th>
@@ -17,10 +24,11 @@
       </tr>
   <% else %>
       <% @table_rows.each do |row| %>
-          <tr class="<%= cycle("alt", "") %>"">
-            <td>
+          <tr class='<%= cycle("alt", "") %>'>
+            <!-- Temporarily commented out because this is not a part of the MVP %-->
+            <!--td>
               <input type="checkbox" name="name" value="">
-            </td>
+            </td-->
             <td>
               <%= row['id']%>
             </td>

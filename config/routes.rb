@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   get 'welcome/index'
 
-  get 'search/search1'
+  get 'search' => 'search#index', as: 'search'
+
+  get 'dashboard' => 'pages#dashboard', as: 'dashboard'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -9,8 +11,6 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
 
   root 'welcome#index'
-
-  get "/fetch_collection_search_results" => 'search#fetch_collection_search_results', as: 'fetch_collection_search_results'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

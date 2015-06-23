@@ -1,0 +1,58 @@
+<%
+   record_num = ((@page-1) * @results_per_page) + 1
+   page_count = (@total_hit_count/@results_per_page.to_f).ceil
+   page_radius = 3
+   begin_page_sequence = (@page - page_radius) < 1 ? 1 : @page - page_radius
+   end_page_sequence = (@page + page_radius) > page_count ? page_count : @page + page_radius
+   page_span = (begin_page_sequence .. end_page_sequence)
+   max_record_on_page = record_num + (@results_per_page) - 1
+   max_record_on_page = (max_record_on_page > @total_hit_count) ? @total_hit_count : max_record_on_page
+%>
+
+<% if page_count > 1%>
+
+    <div class="ps-summary">
+      Showing records <%= record_num %> - <%= max_record_on_page %> of <%= @total_hit_count %>
+    </div>
+
+    <ul class="pagination">
+      <li><a href="#" onclick="go_to_page(1);return false;" title="Go to page 1">
+        First
+      </a></li>
+      <% prev_page = (@page<=1)? 1 : (@page-1) %>
+      <li><a href="#" onclick="go_to_page(<%=prev_page%>);return false;" title="Go to page <%= prev_page %>">
+        <i class="fa fa-chevron-circle-left"></i>
+      </a></li>
+
+
+      <% page_span.each do |page| %>
+          <% if page == @page %>
+              <li><a class="active-page" href="#">
+                <%= page %>
+              </a></li>
+          <% else %>
+              <li><a href="#" onclick="go_to_page(<%=page%>);return false;"  title="Go to page <%= page %>">
+                <%= page %>
+              </a></li>
+          <% end %>
+      <% end %>
+
+      <% if page_span.last < page_count-1 %>
+          <li><a href="#">&hellip;</a></li>
+          <li><a href="#" onclick="go_to_page(<%=page_count%>);return false;"  title="Go to page <%= page_count %>">
+            <%= page_count %>
+          </a></li>
+      <% end %>
+
+
+      <% next_page = (@page >= page_count)? page_count : (@page+1) %>
+      <li><a href="#" onclick="go_to_page(<%=next_page%>);return false;" title="Go to page <%= next_page %>">
+        <i class="fa fa-chevron-circle-right"></i>
+      </a></li>
+      <li><a href="#" onclick="go_to_page(<%=page_count%>);return false;" title="Go to page <%= page_count %>">
+        Last
+      </a></li>
+    </ul>
+
+
+<% end %>
