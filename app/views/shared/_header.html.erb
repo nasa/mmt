@@ -17,21 +17,19 @@
     </div>
     <div class="col-6 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
-      <button type="button" class="btn btn-blue">Earthdata Login</button>
-      <% if !params[:controller].include? 'welcome'%>
+      <% if controller_name.include? 'welcome'%>
+          <button type="button" class="btn btn-blue">Earthdata Login</button>
+      <% else %>
           <section id="search">
-            <form action="">
-              <label for="entry_id">Quick Find</label>
-              <input type="text" name="entry_id" id="entry_id" placeholder="Enter Entry ID">
-              <% if params[:controller] == 'search' %>
-                <button type="button" class="btn btn-blue" onclick="update_collection_search_input($('#entry_id').val(), 'entry_title', 1, true);return false;"><i class="fa fa-search"></i>Find</button>
-              <% else %>
-                  <!-- invoke the search page passing in the correct parameter -->
-                <button type="button" class="btn btn-blue"
-                        onclick="var target = $('#entry_id').val();location.href='<%= url_for(controller: 'search', action: 'index') %>?entry_id=' + target;return false;">
-                  <i class="fa fa-search"></i>Find</button>
-              <% end %>
-            </form>
+
+            <% remote = controller_name == 'search' %>
+            <%= form_tag(search_path, method: "get", remote: remote) do %>
+                <%= label_tag(:entry_id, "Quick Find") %>
+                <%= text_field_tag(:entry_id, nil, placeholder: 'Enter Entry Id') %>
+                <%= button_tag(type: 'submit', class: 'btn btn-blue') do %>
+                    <i class="fa fa-search"></i>Find
+                <% end %>
+            <% end %>
 
             <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
           </section>
