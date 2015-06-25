@@ -7,6 +7,7 @@ class OauthTokensController < ApplicationController
       if response.success?
         store_oauth_token(response.body)
         profile = cmr_client.get_profile(response.body['endpoint'], response.body['access_token'])
+        store_profile(profile.body)
         Rails.logger.info "Profile: #{profile.body}"
       else
         Rails.logger.error("Oauth error: #{response.body}")

@@ -38,6 +38,11 @@ class ApplicationController < ActionController::Base
     session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
   end
 
+  def store_profile(profile={})
+    session[:name] = "#{profile['first_name']} #{profile['last_name']}"
+    session[:urs_uid] = profile['uid']
+  end
+
   def refresh_urs_token
     json = cmr_client.refresh_token(session[:refresh_token]).body
     store_oauth_token(json)

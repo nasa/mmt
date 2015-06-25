@@ -11,7 +11,7 @@
       </div>
       <section id="user-info">
         <% if logged_in? %>
-          <p><strong>Rob Flores</strong></p>
+          <p><strong><%= session[:name] %></strong></p>
           <%= link_to 'Logout', logout_path %>
           <a href="#">Account Settings</a>
         <% end %>
