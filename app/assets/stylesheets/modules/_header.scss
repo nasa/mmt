@@ -1,3 +1,8 @@
+/* Header
+------------------------------------------*/
+
+// Note: Needs refactoring.
+
 header {
   @include row();
   @include linear-gradient($midnight-blue, darken($midnight-blue, 2%));
@@ -23,7 +28,7 @@ header {
   }
 
   /* Help Row
-  =================================================*/
+  ------------------------------------------*/
 
   .header-tools {
     @include row();
@@ -40,7 +45,7 @@ header {
   }
 
   /* Primary Logo
-  =================================================*/
+  ------------------------------------------*/
 
   #masthead-logo {
     @include row();
@@ -70,7 +75,7 @@ header {
   }
 
   /* Search Form
-  =================================================*/
+  ------------------------------------------*/
 
   #search {
     float: right;
@@ -106,7 +111,7 @@ header {
   }
 
   /* User information and menu below logo
-  =================================================*/
+  ------------------------------------------*/
 
   #user-info {
     @include row();
@@ -117,4 +122,11 @@ header {
       margin-right: 0.8em;
     }
   }
+}
+
+/* Subheader
+------------------------------------------*/
+
+.subheader {
+  background: $light-grey;
 }

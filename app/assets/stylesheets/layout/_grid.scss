@@ -1,0 +1,43 @@
+/* Grid
+------------------------------------------*/
+
+// START NOTE: Will be refactored to .container after all pages have been established.
+
+article {
+  @include row();
+}
+
+main.dashboard {
+  @include outer-container;
+}
+
+section {
+  @include outer-container;
+}
+
+// END NOTE
+
+.col-3 {
+  @include span-columns(3);
+}
+
+.col-4 {
+  @include span-columns(4);
+}
+
+.col-6 {
+  @include span-columns(6);
+}
+
+.col-9 {
+  @include span-columns(9);
+}
+
+.content {
+  @include outer-container;
+}
+
+.row {
+  @include row();
+  padding: 0.3125em 0;
+}
