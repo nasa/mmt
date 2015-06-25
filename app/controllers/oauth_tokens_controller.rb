@@ -1,4 +1,6 @@
 class OauthTokensController < ApplicationController
+  skip_before_filter :is_logged_in
+
   def urs_callback
     if params[:code]
       auth_code = params[:code]

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_filter :is_logged_in
 
   def login
     session[:last_point] = request.referrer

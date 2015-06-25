@@ -22,7 +22,7 @@ describe 'User login' do
     end
 
     it 'redirects the user to the landing page' do
-      expect(page).to have_content('Earthdata Login')
+      expect(page).to have_content('About the Metadata Management Tool')
     end
   end
 end
