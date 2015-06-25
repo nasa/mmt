@@ -20,7 +20,7 @@
       <% if controller_name.include? 'welcome'%>
           <button type="button" class="btn btn-blue">Earthdata Login</button>
       <% else %>
-          <section id="search">
+          <section id="search" class="full-width">
 
             <% remote = controller_name == 'search' %>
             <%= form_tag(search_path, method: "get", remote: remote) do %>
@@ -30,8 +30,12 @@
                     <i class="fa fa-search"></i>Find
                 <% end %>
             <% end %>
-
+            
             <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
+
+            <div class="search-module">
+              
+            </div>
           </section>
       <% end %>
     </div>
