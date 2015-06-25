@@ -1,3 +1,12 @@
+$(document).ready(function() {
+
+    // Toggles advanced search in header
+    $(".full-search").click(function() {
+        $('.search-module').toggleClass( "is-hidden" );
+        console.log("Test");
+    });
+});
+
 
 // Handle presence of Javascript by turning off or on visibility of JS sensitive objects
 $(".js-disabled-object").css({"visibility": "hidden"});
