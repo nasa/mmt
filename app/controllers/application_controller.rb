@@ -1,10 +1,15 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  #test comment by Shae
   protect_from_forgery with: :exception
 
   protected
+
+  def redirect_from_urs
+    last_point = session[:last_point]
+    session[:last_point] = nil
+    last_point || root_url
+  end
 
   def cmr_client
     if @cmr_client.nil?
@@ -18,4 +23,42 @@ class ApplicationController < ActionController::Base
     @cmr_env = Rails.configuration.cmr_env
   end
   helper_method :cmr_env
+
+  def clear_session
+    store_oauth_token()
+    session[:user_id] = nil
+    session[:recent_datasets] = []
+  end
+
+  def store_oauth_token(json={})
+    json ||= {}
+    session[:access_token] = json["access_token"]
+    session[:refresh_token] = json["refresh_token"]
+    session[:expires_in] = json["expires_in"]
+    session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
+  end
+
+  def refresh_urs_token
+    json = cmr_client.refresh_token(session[:refresh_token]).body
+    store_oauth_token(json)
+
+    if json.nil? && !request.xhr?
+      session[:last_point] = request.fullpath
+
+      redirect_to cmr_client.urs_login_path
+    end
+
+    json
+  end
+
+  def logged_in?
+    logged_in = session[:access_token].present? &&
+          session[:refresh_token].present? &&
+          session[:expires_in].present? &&
+          session[:logged_in_at]
+
+    store_oauth_token() unless logged_in
+    logged_in
+  end
+  helper_method :logged_in?
 end

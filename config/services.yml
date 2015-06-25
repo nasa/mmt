@@ -15,6 +15,7 @@ earthdata:
   sit:
     urs_root: "https://sit.urs.earthdata.nasa.gov"
     echo_root: "https://testbed.echo.nasa.gov"
+    # cmr_root: "http://localhost:3001"
     cmr_root: "https://cmr.sit.earthdata.nasa.gov"
 
 # Every (MMT, URS) environment pair has a different client id.
@@ -29,12 +30,12 @@ urs:
   sit:
     "https://urs.earthdata.nasa.gov": "ObPbuvn1Clh8PCphoJ4oLA"
     "https://uat.urs.earthdata.nasa.gov": "e_QqKiCh7IkQefVdJL4BVg"
-    "https://sit.urs.earthdata.nasa.gov": "Mw9_IJ-1U-zSz8uKSrgVlQ"
+    "https://sit.urs.earthdata.nasa.gov": "ib0xxidN7KukqrYMX_4pKg"
   development:
     "https://urs.earthdata.nasa.gov": "Gsk6IBbEfa98sbE5UavsZQ"
     "https://uat.urs.earthdata.nasa.gov": "e8QKhLdQqhfDzzmSJrBW7g"
-    "https://sit.urs.earthdata.nasa.gov": "mUM6VJvn6dXjZfhdeSeBbA"
+    "https://sit.urs.earthdata.nasa.gov": "ib0xxidN7KukqrYMX_4pKg"
   test:
     "https://urs.earthdata.nasa.gov": "Gsk6IBbEfa98sbE5UavsZQ"
     "https://uat.urs.earthdata.nasa.gov": "e8QKhLdQqhfDzzmSJrBW7g"
-    "https://sit.urs.earthdata.nasa.gov": "mUM6VJvn6dXjZfhdeSeBbA"
+    "https://sit.urs.earthdata.nasa.gov": "ib0xxidN7KukqrYMX_4pKg"

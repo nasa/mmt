@@ -5,6 +5,11 @@ Rails.application.routes.draw do
 
   get 'dashboard' => 'pages#dashboard', as: 'dashboard'
 
+  get "login" => 'users#login'
+  get "logout" => 'users#logout'
+  get 'urs_callback' => 'oauth_tokens#urs_callback'
+  get 'refresh_token' => 'oauth_tokens#refresh_token'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

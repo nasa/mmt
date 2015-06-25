@@ -10,15 +10,17 @@
         <% end %>
       </div>
       <section id="user-info">
-        <p><strong>Rob Flores</strong></p>
-        <a href="#">Logout</a>
-        <a href="#">Account Settings</a>
+        <% if logged_in? %>
+          <p><strong>Rob Flores</strong></p>
+          <%= link_to 'Logout', logout_path %>
+          <a href="#">Account Settings</a>
+        <% end %>
       </section>
     </div>
     <div class="col-6 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <% if controller_name.include? 'welcome'%>
-          <button type="button" class="btn btn-blue">Earthdata Login</button>
+        <%= link_to 'Earthdata Login', login_path, class: 'btn btn-blue' %>
       <% else %>
           <section id="search">
 
