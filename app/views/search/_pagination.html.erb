@@ -16,40 +16,40 @@
     </div>
 
     <ul class="pagination">
-      <li><a href="#" onclick="go_to_page(1);return false;" title="Go to page 1">
+      <li><a href="#" id='page_to_first' onclick="go_to_page(1);return false;" title="Go to page 1">
         First
       </a></li>
       <% prev_page = (@page<=1)? 1 : (@page-1) %>
-      <li><a href="#" onclick="go_to_page(<%=prev_page%>);return false;" title="Go to page <%= prev_page %>">
+      <li><a href="#" id='page_to_prev' onclick="go_to_page(<%=prev_page%>);return false;" title="Go to page <%= prev_page %>">
         <i class="fa fa-chevron-circle-left"></i>
       </a></li>
 
 
       <% page_span.each do |page| %>
           <% if page == @page %>
-              <li><a class="active-page" href="#">
+              <li><a class="active-page" href="#" id='page_to_<%=page%>'>
                 <%= page %>
               </a></li>
           <% else %>
-              <li><a href="#" onclick="go_to_page(<%=page%>);return false;"  title="Go to page <%= page %>">
+              <li><a href="#" id='page_to_<%=page%>' onclick="go_to_page(<%=page%>);return false;"  title="Go to page <%= page %>">
                 <%= page %>
               </a></li>
           <% end %>
       <% end %>
 
       <% if page_span.last < page_count-1 %>
-          <li><a href="#">&hellip;</a></li>
-          <li><a href="#" onclick="go_to_page(<%=page_count%>);return false;"  title="Go to page <%= page_count %>">
+          <li><a href="#" id='page_to_ellipses'>&hellip;</a></li>
+          <li><a href="#" id='page_to_<%=page_count%>' onclick="go_to_page(<%=page_count%>);return false;"  title="Go to page <%= page_count %>">
             <%= page_count %>
           </a></li>
       <% end %>
 
 
       <% next_page = (@page >= page_count)? page_count : (@page+1) %>
-      <li><a href="#" onclick="go_to_page(<%=next_page%>);return false;" title="Go to page <%= next_page %>">
+      <li><a href="#" id='page_to_next' onclick="go_to_page(<%=next_page%>);return false;" title="Go to page <%= next_page %>">
         <i class="fa fa-chevron-circle-right"></i>
       </a></li>
-      <li><a href="#" onclick="go_to_page(<%=page_count%>);return false;" title="Go to page <%= page_count %>">
+      <li><a href="#" id='page_to_last' onclick="go_to_page(<%=page_count%>);return false;" title="Go to page <%= page_count %>">
         Last
       </a></li>
     </ul>
