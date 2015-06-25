@@ -18,13 +18,14 @@ class OauthTokensController < ApplicationController
     redirect_to redirect_from_urs
   end
 
-  def refresh_token
-    json = refresh_urs_token
-
-    # if json
-    #   render json: {tokenExpiresIn: script_session_expires_in}
-    # else
-    #   render json: nil, status: 401
-    # end
-  end
+  # MMT-125
+  # def refresh_token
+  #   json = refresh_urs_token
+  #
+  #   # if json
+  #   #   render json: {tokenExpiresIn: script_session_expires_in}
+  #   # else
+  #   #   render json: nil, status: 401
+  #   # end
+  # end
 end
