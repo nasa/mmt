@@ -1,11 +1,11 @@
 /* Grid
 ------------------------------------------*/
 
-// START NOTE: Will be refactored to .container after all pages have been established.
-
 article {
   @include row();
 }
+
+// START NOTE: Will be refactored to .container after all pages have been established.
 
 main.dashboard {
   @include outer-container;
@@ -27,6 +27,10 @@ section {
 
 .col-6 {
   @include span-columns(6);
+}
+
+.col-8 {
+  @include span-columns(8);
 }
 
 .col-9 {
