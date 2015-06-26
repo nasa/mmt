@@ -30,7 +30,7 @@
                     <i class="fa fa-search"></i>Find
                 <% end %>
             <% end %>
-            
+
             <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
 
             <div class="search-module is-hidden">
@@ -54,16 +54,22 @@
                   <div class="col-4">
                     <select name="record-type">
                       <option value="published-records" selected="selected">Published Records</option>
+                      <option value="draft-records">Draft Records</option>
+                      <option value="published-and-draft-records">Published &amp; Draft Records</option>
                     </select>
                   </div>
                   <div class="col-4">
                     <select name="review-status">
                       <option value="any-review-status" selected="selected">Any Review Status</option>
+                      <option value="reviewed">Reviewed</option>
+                      <option value="not-reviewed">Not Reviewed</option>
                     </select>
                   </div>
                   <div class="col-4">
                     <select name="record-type">
                       <option value="active-only" selected="selected">Active Records ONLY</option>
+                      <option value="deleted-only">Deleted Records ONLY</option>
+                      <option value="active-and-deleted-records">Active &amp; Deleted Records</option>
                     </select>
                   </div>
                 </div>
@@ -73,13 +79,17 @@
                   <div class="col-4">
                     <select name="date-filter">
                       <option value="last-modified-date" selected="selected">Last Modified Date</option>
+                      <option value="published-date">Published Date</option>
+                      <option value="deleted-date">Deleted Date</option>
                     </select>
                   </div>
                   <div class="col-4">
                     <select name="on-or-afer">
                       <option value="on-or-after" selected="selected">On or After</option>
-                      <option value="on">on</option>
-                      <option value="after">after</option>
+                      <option value="on-or-before">On or Before</option>
+                      <option value="on">On</option>
+                      <option value="after">After</option>
+                      <option value="before">Before</option>
                     </select>
                   </div>
                   <div class="col-4">
@@ -90,6 +100,8 @@
                   <div class="col-4">
                     <select name="author-type">
                       <option value="created-by" selected="selected">Created by</option>
+                      <option value="modified-by">Modified by</option>
+                      <option value="deleted-by">Deleted by</option>
                     </select>
                   </div>
                   <div class="col-8">
