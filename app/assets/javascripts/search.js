@@ -2,9 +2,23 @@ $(document).ready(function() {
 
     // Toggles advanced search in header
     $(".full-search").click(function() {
-        $('.search-module').toggleClass( "is-hidden" );
-        console.log("Test");
+        $(".search-module").toggleClass( "is-hidden" );
+        
+        var pageHeight = $(document).height() - 164 // Header height;
+
+        lightbox(pageHeight);
     });
+
+    // Basic lightbox functionality
+    var lightbox = function(height) {
+        if ($("#lightbox").size() === 0) {
+            var lightbox = $('<div id="lightbox"/>');
+            $("body").append(lightbox);
+            $("#lightbox").height(height);
+        } else {
+            $("#lightbox").remove();
+        }
+    }
 });
 
 
