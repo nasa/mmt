@@ -33,7 +33,6 @@ class ApplicationController < ActionController::Base
   end
 
   def store_oauth_token(json={})
-    json ||= {}
     session[:access_token] = json["access_token"]
     session[:refresh_token] = json["refresh_token"]
     session[:expires_in] = json["expires_in"]

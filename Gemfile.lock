@@ -52,6 +52,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-screenshot (1.0.9)
+      capybara (>= 1.0, < 3)
+      launchy
     cliver (0.3.2)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -204,6 +207,7 @@ DEPENDENCIES
   bourbon
   byebug
   capybara
+  capybara-screenshot
   coffee-rails (~> 4.1.0)
   faraday
   faraday_middleware (<= 0.9.0)
@@ -227,4 +231,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.10.4
+   1.10.5

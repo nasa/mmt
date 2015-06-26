@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'UsersController Access' do
+describe 'User Access', js: true do
   context 'when a logged out user tries to view an access restricted page' do
     before do
       visit '/search'
@@ -17,6 +17,10 @@ describe 'UsersController Access' do
     before do
       login
       visit '/search'
+    end
+
+    after do
+      click_on 'Logout'
     end
 
     it 'displays the page' do

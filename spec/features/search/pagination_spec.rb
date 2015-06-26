@@ -2,8 +2,9 @@
 
 require 'rails_helper'
 
-describe 'Search Result Pagination' do
+describe 'Search Result Pagination', js: true do
   before do
+    login
     visit '/search'
   end
 

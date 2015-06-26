@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 describe 'Quick find search' do
+  before do
+    login
+  end
+
   context 'when not viewing the search page' do
     context 'and performing a quick find search' do
       before do
@@ -17,8 +21,8 @@ describe 'Quick find search' do
         expect(page).to have_content('2 Results for: Entry Id: "DEM_100M_1"')
       end
     end
-
   end
+
   context 'when viewing the search page' do
     before do
       visit '/search'
@@ -41,5 +45,4 @@ describe 'Quick find search' do
       expect(page).not_to have_button('quick_find_button')
     end
   end
-
 end
