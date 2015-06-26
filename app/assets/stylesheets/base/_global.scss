@@ -17,14 +17,19 @@ img {
   border: none;
 }
 
-select {
-  color: $black;
-  width: 100% !important;
-}
-
 input {
   &[type="date"] {
     padding: 0;
     width: 100%;
   }
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+select {
+  color: $black;
+  width: 100% !important;
 }
