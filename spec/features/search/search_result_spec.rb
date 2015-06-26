@@ -5,8 +5,10 @@ require 'rails_helper'
 describe 'Search results' do
 
   before :each do
+    login
     visit "/search"
   end
+
   context 'when performing a collection search by entry id' do
     before do
       fill_in 'entry_id', with: 'DEM_100M_1'

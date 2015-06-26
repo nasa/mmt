@@ -57,6 +57,7 @@ group :test do
   gem 'capybara'
   gem 'poltergeist'
   gem 'launchy'
+  gem 'capybara-screenshot'
 end
 
 group :production do
