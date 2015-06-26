@@ -55,7 +55,8 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'capybara-webkit'
+  gem 'poltergeist'
+  gem 'launchy'
 end
 
 group :production do
