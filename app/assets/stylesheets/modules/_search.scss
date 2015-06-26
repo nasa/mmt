@@ -1,0 +1,26 @@
+/* Search Module in Header
+------------------------------------------*/
+
+.search-module {
+  background-color: rgba($black, 0.95);
+  width: 800px;
+  z-index: 10;
+  position: absolute;
+  top: 164px;
+  text-align: left;
+  margin-left: -265px;
+  padding: 0 25px;
+
+  input {
+    color: $black;
+    &[type="text"] {
+      width: 100% !important;
+      padding: 0.15em !important;
+    }
+  }
+}
+
+.cancel {
+  vertical-align: middle;
+  margin-left: 0.625em;
+}

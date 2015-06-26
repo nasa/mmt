@@ -1,0 +1,35 @@
+/* Global
+------------------------------------------*/
+
+html {
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  background-color: #fff;
+}
+
+hr {
+  border: 1px solid lighten($black, 20%);
+}
+
+img {
+  border: none;
+}
+
+input {
+  &[type="date"] {
+    padding: 0;
+    width: 100%;
+  }
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+select {
+  color: $black;
+  width: 100% !important;
+}

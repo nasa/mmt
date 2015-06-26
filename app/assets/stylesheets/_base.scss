@@ -1,25 +1,6 @@
-/* Global
-===========================================*/
+/*==========================================
+   Base Styles
+==========================================*/
 
-html {
-  font-family: 'Open Sans', sans-serif;
-}
-
-body {
-  background-color: #fff;
-
-  &.home {
-    background-color: $light-grey;
-  }
-}
-
-img {
-  border: none;
-}
-
-/* Display
-===========================================*/
-
-.hide {
-  display: none;
-}
+@import "base/global";
+@import "base/typography";

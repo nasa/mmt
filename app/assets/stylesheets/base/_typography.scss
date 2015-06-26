@@ -1,0 +1,23 @@
+/* Headings
+------------------------------------------*/
+
+h2 {
+  line-height: 1.231em;
+}
+
+h4 {
+  color: $black;
+  font-weight: bold;
+}
+
+/* Sub-Headings
+------------------------------------------*/
+
+.subtitle {
+  border-bottom: 2px solid $red;
+  text-transform: uppercase;
+  padding-bottom: 0.625em;
+  font-weight: bold;
+}
+
+

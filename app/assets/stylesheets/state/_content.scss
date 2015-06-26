@@ -1,0 +1,22 @@
+/* Content
+----------------------------------------*/
+
+.form-description {
+  color: lighten($black, 30%);
+}
+
+.is-collapsed {
+  &:before {
+    content: "\f0da";
+    font-family: FontAwesome;
+    margin-right: 0.3125em;
+  }
+}
+
+.is-expanded {
+  &:before {
+    content: "\f0d7";
+    font-family: FontAwesome;
+    margin-right: 0.3125em;
+  }
+}

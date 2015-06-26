@@ -1,0 +1,21 @@
+/* Icons
+------------------------------------------*/
+
+// Note: Needs improved naming convention
+
+.internal {
+  h3:before {
+    content: "\f0d7";
+    font-family: "FontAwesome";
+    margin-right: 0.3125em;
+  }
+}
+
+.search-meta {
+  margin-bottom: 1.5em;
+  color: lighten($steel-blue, 20%);
+}
+
+input[type="text"] {
+  color: #424242;
+}
