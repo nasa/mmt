@@ -11,19 +11,20 @@ class SearchController < ApplicationController
 
     @results_per_page = RESULTS_PER_PAGE
 
-    query_params = {'page_num' => @page, 'page_size' => @results_per_page, 'sort_key' => @sort}
-    query_params["entry_id"] = @entry_id  if !@entry_id.blank?
+    # query_params = {'page_num' => @page, 'page_size' => @results_per_page, 'sort_key' => @sort}
+    query_params = {"latest" => true}
+    query_params["entry-id"] = @entry_id  if !@entry_id.blank?
 
     query_results = cmr_client.get_collections(query_params)
 
-    if (query_results.nil? || query_results.body.nil? || query_results.body["feed"].nil? || query_results.body["feed"]["entry"].nil?)
+    if (query_results.nil? || query_results.body.nil?)
       @table_rows = nil
       @total_hit_count = 0
     else
-      @table_rows = query_results.body["feed"]["entry"]
-      @total_hit_count = query_results.headers['cmr-hits'].to_i
+      @table_rows = query_results.body
+      @total_hit_count = query_results.body.size
     end
 
-  end 
+  end
 
 end
