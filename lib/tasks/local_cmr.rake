@@ -12,7 +12,7 @@ namespace :cmr do
 
   desc "Start local CMR"
   task :start do
-    Process.spawn("java -XX:MaxPermSize=256m -classpath ./cmr/cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr/cmr_logs.log &")
+    Process.spawn("cd cmr; java -XX:MaxPermSize=256m -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr_logs.log &")
   end
 
   desc "Kill local CMR process"
