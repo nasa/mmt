@@ -19,3 +19,29 @@
 input[type="text"] {
   color: #424242;
 }
+
+.icon-completed,
+.icon-required {
+  &:before {
+    content: "\f10c";
+    font-family: "FontAwesome";
+    color: $dark-green;
+    margin-left: -1.5em;
+    margin-right: 0.5em;
+  }
+}
+
+.icon-completed {
+  &:before {
+    content: "\f111";
+  }
+}
+
+.icon-more {
+  &:before {
+    content: "\f055";
+    font-family: "FontAwesome";
+    color: $ocean-blue;
+    margin-right: 0.75em;
+  }
+}
