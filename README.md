@@ -57,4 +57,10 @@ After 5-10 seconds you will see some log4j messages in your terminal. 10-15 seco
 
     rake cmr:load
 
-After you see "Done!", you can load the app in your browser and use the local CMR.
+After you see "Done!", you can load the app in your browser and use the local CMR. If you see an error `Faraday::Error::ConnectionFailed: Connection refused - connect(2)` you should wait a few more seconds, then try to load data again.
+
+To stop the locally running CMR, run this command:
+
+    rake cmr:stop
+
+You will need to stop the CMR before upgrading to a new CMR version. Note: stopping the running CMR for any reason will delete all data from the CMR. You will have to load the data again when you start it.

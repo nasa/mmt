@@ -41,13 +41,13 @@ module Cmr
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{    "acl": {        "access_control_entries": [            {                "permissions": [                    "READ"                ],                "sid": {                    "user_authorization_type_sid": {                        "user_authorization_type": "GUEST"                    }                }            },            {                "permissions": [                    "READ"                ],                "sid": {                    "user_authorization_type_sid": {                        "user_authorization_type": "REGISTERED"                    }                }            }        ],        "catalog_item_identity": {            "collection_applicable": true,            "granule_applicable": true,            "provider_guid": "provguid1"        },        "system_object_identity": {}    }}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid1"},"system_object_identity": {}}}'
       end
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{    "acl": {        "access_control_entries": [            {                "permissions": [                    "UPDATE",                    "DELETE"                ],                "sid": {                    "user_authorization_type_sid": {                        "user_authorization_type": "GUEST"                    }                }            },            {                "permissions": [                    "UPDATE",                    "DELETE"                ],                "sid": {                    "user_authorization_type_sid": {                        "user_authorization_type": "REGISTERED"                    }                }            }        ],        "provider_object_identity": {            "provider_guid": "provguid1",            "target": "INGEST_MANAGEMENT_ACL"        }    }}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
     end
 
@@ -78,8 +78,8 @@ module Cmr
 
     def connection
       @connection ||= Faraday.new do |faraday|
-        faraday.request  :url_encoded             # form-encode POST params
-        # faraday.response :logger                  # log requests to STDOUT
+        faraday.request :url_encoded # form-encode POST params
+        # faraday.response :logger  # log requests to STDOUT
         faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
       end
     end

@@ -15,8 +15,8 @@ namespace :cmr do
     Process.spawn("cd cmr; java -XX:MaxPermSize=256m -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr_logs.log &")
   end
 
-  desc "Kill local CMR process"
-  task :kill do
+  desc "Stop local CMR process"
+  task :stop do
     `kill $(ps aux | grep '[c]mr-dev-system' | awk '{print $2}')`
   end
 end
