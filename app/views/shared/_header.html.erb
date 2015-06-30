@@ -47,7 +47,7 @@
                     <label for="find-2">Services</label>
                   </div>
                 </fieldset>
-                
+
                 <hr>
                 <!-- Record Details -->
                 <fieldset>
@@ -120,6 +120,14 @@
                 <hr>
                 <fieldset>
                   <legend>Search Term</legend>
+                  <div class="col-4">
+                    <select name="term-type">
+                      <option value="select-an-option" selected="selected">Select an option</option>
+                      <option value="entry-id">Entry ID</option>
+                      <option value="concept-id">CMR Concept ID</option>
+                      <option value="entry-title">Entry Title</option>
+                    </select>
+                  </div>
                   <input type="text" id="search-term" aria-label="Search Term">
                   <p class="form-description">Enter an Entry ID, CMR Concept ID, or Entry Title</p>
                   <hr>
@@ -132,7 +140,7 @@
                     <a href="#" class="cancel">Cancel</a>
                   </div>
                 </fieldset>
-                
+
               </form>
             </div>
           </section>
