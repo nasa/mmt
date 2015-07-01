@@ -15,8 +15,8 @@ earthdata:
   sit:
     urs_root: "https://urs.earthdata.nasa.gov"
     echo_root: "https://testbed.echo.nasa.gov"
-    # cmr_root: "http://localhost:3001"
-    cmr_root: "https://cmr.sit.earthdata.nasa.gov"
+    cmr_root: "http://localhost:3001"
+    # cmr_root: "https://cmr.sit.earthdata.nasa.gov"
 
 # Every (MMT, URS) environment pair has a different client id.
 # TODO: These are the EDSC Client Ids, we will need to create our own client.

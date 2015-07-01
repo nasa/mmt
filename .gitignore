@@ -31,3 +31,4 @@ test_results
 
 /config/database.yml
 .jhw-cache
+/cmr/*

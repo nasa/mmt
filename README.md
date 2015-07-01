@@ -1,4 +1,4 @@
-# Metadata Management Tool Application 
+# Metadata Management Tool Application
 The Metadata Management Tool is a web application to assist users in managing metadata on various Nasa.gov applications.
 
 ## Getting Started
@@ -7,7 +7,7 @@ The Metadata Management Tool is a web application to assist users in managing me
  - Ruby 2.1.2
 
 ### Setup
-Clone the Earthdata Redesign Git project:
+Clone the Metadata Management Tool Git project:
 
     git clone https://<username>@git.earthdata.nasa.gov/scm/mmt/mmt_app.git
 
@@ -41,3 +41,26 @@ To start the project, just type the default rails command:
     rails s
 
 And if you need to stop the server from running, hit `Ctrl + C` and the server will shutdown.
+
+### Running a local copy of CMR
+In order to use a local copy of the CMR you will need to download the latest cmr-dev-system-uberjar.jar file and ingest some sample data. Download the latest version of cmr-dev-system-uberjar.jar here:
+
+    https://ci.earthdata.nasa.gov/browse/CMR-CSB/latest/artifact/
+
+Place this file in (Rails.root)/cmr/
+
+To start the local CMR:
+
+    rake cmr:start
+
+After 5-10 seconds you will see some log4j messages in your terminal. 10-15 seconds after that you can ingest some dummy data (press enter to get a new prompt):
+
+    rake cmr:load
+
+After you see "Done!", you can load the app in your browser and use the local CMR. If you see an error `Faraday::Error::ConnectionFailed: Connection refused - connect(2)` you should wait a few more seconds, then try to load data again.
+
+To stop the locally running CMR, run this command:
+
+    rake cmr:stop
+
+You will need to stop the CMR before upgrading to a new CMR version. Note: stopping the running CMR for any reason will delete all data from the CMR. You will have to load the data again when you start it.
