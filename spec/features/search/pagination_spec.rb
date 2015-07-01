@@ -1,4 +1,5 @@
 # MMT-268
+# TODO These tests will not pass with the current concept search API
 
 require 'rails_helper'
 

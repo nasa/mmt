@@ -3,7 +3,7 @@ module Cmr
                               :logging => Cmr::ClientMiddleware::LoggingMiddleware,
                               :events => Cmr::ClientMiddleware::EventMiddleware)
   class BaseClient
-    include Cmr::QueryTransformations
+    # include Cmr::QueryTransformations
     CLIENT_ID = 'MMT'
 
     def connection
