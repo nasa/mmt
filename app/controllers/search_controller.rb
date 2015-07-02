@@ -16,7 +16,15 @@ class SearchController < ApplicationController
     @query = params.clone
     @query['latest'] = true
     @query['page'] = 1
-    @query['entry-id'] = params['entry-id'] unless params['entry-id'].blank?
+    @query.delete('entry-id') if @query['entry-id'].blank?
+
+    # populate search term from quick find entry-id searches
+    if @query['entry-id'].present?
+      @query['search-term-type'] = 'entry-id'
+      @query['search-term'] = @query['entry-id']
+    end
+
+    # Handle search term field with selector
     case params['search-term-type']
     when 'entry-id'
       @query['entry-id'] = params['search-term']
@@ -24,9 +32,7 @@ class SearchController < ApplicationController
       @query['entry-title'] = params['search-term']
     end
 
-    good_params = prune_query(@query.clone) # temporary until pages work again
-    # removing params we don't want to send to CMR
-
+    good_params = prune_query(@query.clone)
     query_results = cmr_client.get_collections(good_params)
 
     if (query_results.nil? || query_results.body.nil?)
