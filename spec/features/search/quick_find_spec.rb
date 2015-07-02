@@ -11,14 +11,14 @@ describe 'Quick find search' do
     context 'and performing a quick find search' do
       before do
         visit '/dashboard'
-        fill_in 'entry_id', with: 'doi:10.3334/ORNLDAAC/8_1'
+        fill_in 'entry-id', with: 'doi:10.3334/ORNLDAAC/8_1'
         click_on 'Find'
       end
       it 'redirects the user to the search page' do
         expect(page).to have_content('Search Result')
       end
       it 'displays collection results' do
-        expect(page).to have_content('1 Result for: Entry Id: "doi:10.3334/ORNLDAAC/8_1"')
+        expect(page).to have_content('1 Result for: Entry Id: doi:10.3334/ORNLDAAC/8_1')
       end
     end
   end
@@ -26,14 +26,14 @@ describe 'Quick find search' do
   context 'when viewing the search page' do
     before do
       visit '/search'
-      fill_in 'entry_id', with: 'doi:10.3334/ORNLDAAC/8_1'
+      fill_in 'entry-id', with: 'doi:10.3334/ORNLDAAC/8_1'
       click_on 'Find'
     end
     it 'keeps the user on the search page' do
       expect(page).to have_content('Search Result')
     end
     it 'displays collection results' do
-      expect(page).to have_content('1 Result for: Entry Id: "doi:10.3334/ORNLDAAC/8_1"')
+      expect(page).to have_content('1 Result for: Entry Id: doi:10.3334/ORNLDAAC/8_1')
     end
   end
 

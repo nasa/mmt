@@ -1,5 +1,5 @@
 class OauthTokensController < ApplicationController
-  skip_before_filter :is_logged_in
+  skip_before_filter :is_logged_in, :setup_query
 
   def urs_callback
     if params[:code]

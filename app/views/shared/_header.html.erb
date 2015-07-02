@@ -26,8 +26,8 @@
 
             <% remote = controller_name == 'search' %>
             <%= form_tag(search_path, method: "get", remote: remote) do %>
-                <%= label_tag(:entry_id, "Quick Find") %>
-                <%= text_field_tag(:entry_id, nil, placeholder: 'Enter Entry Id') %>
+                <%= label_tag('entry-id', "Quick Find") %>
+                <%= text_field_tag('entry-id', @query['entry-id'], placeholder: 'Enter Entry Id') %>
                 <%= button_tag(type: 'submit', class: 'btn btn-blue') do %>
                     <i class="fa fa-search"></i>Find
                 <% end %>
@@ -36,7 +36,7 @@
             <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
 
             <div class="search-module is-hidden">
-              <form action="">
+              <%= form_tag(search_path, method: "get", remote: remote) do %>
                 <!-- Type of Record -->
                 <fieldset>
                   <legend>Find</legend>
@@ -92,7 +92,7 @@
                       </select>
                     </div>
                     <div class="col-4">
-                      <select name="on-or-afer">
+                      <select name="on-or-after">
                         <option value="on-or-after" selected="selected">On or After</option>
                         <option value="on-or-before">On or Before</option>
                         <option value="on">On</option>
@@ -107,7 +107,7 @@
                   <div class="row">
                     <div class="col-4">
                       <select name="author-type">
-                        <option value="created-by" selected="selected">Created by</option>
+                        <option value="" selected="selected">Created by</option>
                         <option value="modified-by">Modified by</option>
                         <option value="deleted-by">Deleted by</option>
                       </select>
@@ -121,27 +121,22 @@
                 <fieldset>
                   <legend>Search Term</legend>
                   <div class="col-4">
-                    <select name="term-type">
-                      <option value="select-an-option" selected="selected">Select an option</option>
-                      <option value="entry-id">Entry ID</option>
-                      <option value="concept-id">CMR Concept ID</option>
-                      <option value="entry-title">Entry Title</option>
-                    </select>
+                    <%= select_tag "search-term-type", options_for_select([ ['Select an option', ''], ['Entry ID', 'entry-id'], ['Cmr Concept ID', 'concept-id'], ['Entry Title', 'entry-title'] ], @query['search-term-type']) %>
                   </div>
-                  <input type="text" id="search-term" aria-label="Search Term">
+                  <%= text_field_tag('search-term', @query['search-term'], 'aria-label' => 'Search Term') %>
                   <p class="form-description">Enter an Entry ID, CMR Concept ID, or Entry Title</p>
                   <hr>
                   <div class="row">
                     <a href="#" class="is-collapsed">Has a relationship to</a>
                   </div>
                   <hr>
-                  <div class="row">
+                  <div class="row search-form-actions">
                     <button type="submit" class="btn btn-blue">Submit</button>
                     <a href="#" class="cancel">Cancel</a>
                   </div>
                 </fieldset>
 
-              </form>
+              <% end %>
             </div>
           </section>
       <% end %>

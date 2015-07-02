@@ -1,12 +1,13 @@
 <%
-   record_num = ((@page-1) * @results_per_page) + 1
-   page_count = (@total_hit_count/@results_per_page.to_f).ceil
-   page_radius = 3
-   begin_page_sequence = (@page - page_radius) < 1 ? 1 : @page - page_radius
-   end_page_sequence = (@page + page_radius) > page_count ? page_count : @page + page_radius
-   page_span = (begin_page_sequence .. end_page_sequence)
-   max_record_on_page = record_num + (@results_per_page) - 1
-   max_record_on_page = (max_record_on_page > @total_hit_count) ? @total_hit_count : max_record_on_page
+  page = @query['page']
+  record_num = ((page-1) * @results_per_page) + 1
+  page_count = (@total_hit_count/@results_per_page.to_f).ceil
+  page_radius = 3
+  begin_page_sequence = (page - page_radius) < 1 ? 1 : page - page_radius
+  end_page_sequence = (page + page_radius) > page_count ? page_count : page + page_radius
+  page_span = (begin_page_sequence .. end_page_sequence)
+  max_record_on_page = record_num + (@results_per_page) - 1
+  max_record_on_page = (max_record_on_page > @total_hit_count) ? @total_hit_count : max_record_on_page
 %>
 
 <input type="hidden" id="page_count" value="<%= page_count %>" />
@@ -22,20 +23,20 @@
       <li><a href="#" onclick="go_to_page(1);return false;" title="First Page">
         First
       </a></li>
-      <% prev_page = (@page<=1)? 1 : (@page-1) %>
+      <% prev_page = (page<=1)? 1 : (page-1) %>
       <li><a href="#" onclick="go_to_page(<%=prev_page%>);return false;" title="Previous Page">
         <i class="fa fa-chevron-circle-left"></i>
       </a></li>
 
 
-      <% page_span.each do |page| %>
-          <% if page == @page %>
+      <% page_span.each do |p| %>
+          <% if p == page %>
               <li><a class="active-page" href="#">
-                <%= page %>
+                <%= p %>
               </a></li>
           <% else %>
-              <li><a href="#" onclick="go_to_page(<%=page%>);return false;"  title="Page <%= page %>">
-                <%= page %>
+              <li><a href="#" onclick="go_to_page(<%=p%>);return false;"  title="Page <%= p %>">
+                <%= p %>
               </a></li>
           <% end %>
       <% end %>
@@ -48,7 +49,7 @@
       <% end %>
 
 
-      <% next_page = (@page >= page_count)? page_count : (@page+1) %>
+      <% next_page = (page >= page_count)? page_count : (page+1) %>
       <li><a href="#" onclick="go_to_page(<%=next_page%>);return false;" title="Next Page">
         <i class="fa fa-chevron-circle-right"></i>
       </a></li>
