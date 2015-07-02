@@ -52,9 +52,7 @@
                 <!-- Record Details -->
                 <fieldset>
                   <div class="row">
-                    <select name="organization" class="single-select" aria-label="Select Organization">
-                      <option value="GEDISC" selected="selected">GEDISC</option>
-                    </select>
+                    <%= select_tag "provider-id", options_for_select(@provider_ids.unshift(['Select Organization', '']), @query['provider-id']), class: 'single-select', "aria-label" => "Select Organization" %>
                   </div>
                   <div class="row">
                     <div class="col-4">

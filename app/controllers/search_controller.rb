@@ -17,6 +17,7 @@ class SearchController < ApplicationController
     @query['latest'] = true
     @query['page'] = 1
     @query.delete('entry-id') if @query['entry-id'].blank?
+    @query.delete('provider-id') if @query['provider-id'].blank?
 
     # populate search term from quick find entry-id searches
     if @query['entry-id'].present?
