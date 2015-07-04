@@ -1,14 +1,8 @@
-<% if !@events.nil? && @events.length > 0 %>
+<% if !@notification.nil? %>
   <aside class="banner banner-warn">
     <div class="content">
       <p>
-        <% @events[0..@notification_limit-1].each do |event| %>
-          <strong>
-            Planned Maintenance Scheduled For <%= "#{event['calendar_event']['start_date']} to #{event['calendar_event']['end_date']}" %>:
-          </strong>
-          <%= raw(event['calendar_event']['message']) %>
-          </br>
-        <% end %>
+          <%= raw(@notification) %>
       </p>
     </div>
   </aside>
