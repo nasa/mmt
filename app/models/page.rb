@@ -31,10 +31,10 @@ class Page
       end_time = '12 Noon' if end_time == '12 pm'
 
       if start_date == end_date # Outage does not span multiple days
-        time_range_string = "on <b>#{start_day_of_week}, #{start_date} between #{start_time} - #{end_time} ET</b>"
+        time_range_string = "on <strong>#{start_day_of_week}, #{start_date} between #{start_time} - #{end_time} ET</strong>"
       else
         end_day_of_week = end_date_obj.strftime('%A')
-        time_range_string = "between <b>#{start_day_of_week}, #{start_date} at #{start_time} and #{end_day_of_week}, #{end_date} at #{end_time} ET</b>"
+        time_range_string = "between <strong>#{start_day_of_week}, #{start_date} at #{start_time} and #{end_day_of_week}, #{end_date} at #{end_time} ET</strong>"
       end
 
       @notification = "This site may be unavailable for a brief period due to planned maintenance #{time_range_string}. We apologize for the inconvenience."
