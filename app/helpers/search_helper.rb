@@ -22,7 +22,6 @@ module SearchHelper
     query.delete('search-term-type')
     query.delete('search-term')
     query.delete('review-status')
-    query.delete('organization')
     query.delete('date-filter')
     query.delete('author-type')
     query.delete('on-or-after')
