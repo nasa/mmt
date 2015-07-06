@@ -6,6 +6,9 @@ class Page
 
     current_time = DateTime.current.to_s
 
+    # Uncomment the line below when developing so you might actually see a notification
+    #current_time = (DateTime.current-(1.year)).to_s
+
     events = event_query_results.body.delete_if {|event| event['calendar_event']['end_date'] < current_time }
 
     events.sort! {|x, y| x['calendar_event']['start_date'] <=> y['calendar_event']['start_date']}
@@ -28,13 +31,13 @@ class Page
       end_time = '12 Noon' if end_time == '12 pm'
 
       if start_date == end_date # Outage does not span multiple days
-        time_range_string = "on #{start_day_of_week}, #{start_date} between #{start_time} - #{end_time} ET"
+        time_range_string = "on <b>#{start_day_of_week}, #{start_date} between #{start_time} - #{end_time} ET</b>"
       else
         end_day_of_week = end_date_obj.strftime('%A')
-        time_range_string = "between #{start_day_of_week}, #{start_date} at #{start_time} and #{end_day_of_week}, #{end_date} at #{end_time} ET"
+        time_range_string = "between <b>#{start_day_of_week}, #{start_date} at #{start_time} and #{end_day_of_week}, #{end_date} at #{end_time} ET</b>"
       end
 
-      @notification = "This site may be unavailable for a brief period due to planned maintenance <b>#{time_range_string}</b>. We apologize for the inconvenience."
+      @notification = "This site may be unavailable for a brief period due to planned maintenance #{time_range_string}. We apologize for the inconvenience."
     else
       @notification = nil
     end
