@@ -1,8 +1,10 @@
-# MMT-22
+# MMT-22, MMT-10
 
 require 'rails_helper'
 
 describe 'Search results' do
+  entry_id = 'doi:10.3334/ORNLDAAC/8_1'
+  entry_title = 'Aircraft Flux-Filtered: Univ. Col. (FIFE)'
 
   before :each do
     login
@@ -11,15 +13,15 @@ describe 'Search results' do
 
   context 'when performing a collection search by quick find entry id' do
     before do
-      fill_in 'entry-id', with: 'doi:10.3334/ORNLDAAC/8_1'
+      fill_in 'entry-id', with: entry_id
       click_on 'Find'
     end
     it 'displays collection results' do
       expect(page).to have_content('1 Result for: Entry Id: doi:10.3334/ORNLDAAC/8_1')
     end
     it 'displays expected Entry ID, Entry Title and Last Modified values' do
-      expect(page).to have_content('doi:10.3334/ORNLDAAC/8_1')
-      expect(page).to have_content('Aircraft Flux-Filtered: Univ. Col. (FIFE)')
+      expect(page).to have_content(entry_id)
+      expect(page).to have_content(entry_title)
       expect(page).to have_content(Date.today.strftime("%Y-%m-%d"))
     end
 
@@ -34,7 +36,7 @@ describe 'Search results' do
 
       it 'displays the entry id in the full search form' do
         expect(page).to have_field('search-term-type', with: 'entry-id')
-        expect(page).to have_field('search-term', with: 'doi:10.3334/ORNLDAAC/8_1')
+        expect(page).to have_field('search-term', with: entry_id)
       end
     end
     # We could add a test to actually examine the results table contents more specifically
@@ -44,7 +46,7 @@ describe 'Search results' do
     before do
       click_on 'Full Metadata Record Search'
       select 'Entry ID', from: 'search-term-type'
-      fill_in 'search-term', with: 'doi:10.3334/ORNLDAAC/8_1'
+      fill_in 'search-term', with: entry_id
       click_on 'Submit'
     end
 
@@ -53,8 +55,8 @@ describe 'Search results' do
     end
 
     it 'displays expected data' do
-      expect(page).to have_content('doi:10.3334/ORNLDAAC/8_1')
-      expect(page).to have_content('Aircraft Flux-Filtered: Univ. Col. (FIFE)')
+      expect(page).to have_content(entry_id)
+      expect(page).to have_content(entry_title)
       expect(page).to have_content(Date.today.strftime("%Y-%m-%d"))
     end
 
@@ -69,7 +71,7 @@ describe 'Search results' do
 
       it 'displays the entry id in the full search form' do
         expect(page).to have_field('search-term-type', with: 'entry-id')
-        expect(page).to have_field('search-term', with: 'doi:10.3334/ORNLDAAC/8_1')
+        expect(page).to have_field('search-term', with: entry_id)
       end
     end
   end
@@ -78,7 +80,7 @@ describe 'Search results' do
     before do
       click_on 'Full Metadata Record Search'
       select 'Entry Title', from: 'search-term-type'
-      fill_in 'search-term', with: 'Aircraft Flux-Filtered: Univ. Col. (FIFE)'
+      fill_in 'search-term', with: entry_title
       click_on 'Submit'
     end
 
@@ -87,8 +89,8 @@ describe 'Search results' do
     end
 
     it 'displays expected data' do
-      expect(page).to have_content('doi:10.3334/ORNLDAAC/8_1')
-      expect(page).to have_content('Aircraft Flux-Filtered: Univ. Col. (FIFE)')
+      expect(page).to have_content(entry_id)
+      expect(page).to have_content(entry_title)
       expect(page).to have_content(Date.today.strftime("%Y-%m-%d"))
     end
 
@@ -103,7 +105,7 @@ describe 'Search results' do
 
       it 'displays the entry id in the full search form' do
         expect(page).to have_field('search-term-type', with: 'entry-title')
-        expect(page).to have_field('search-term', with: 'Aircraft Flux-Filtered: Univ. Col. (FIFE)')
+        expect(page).to have_field('search-term', with: entry_title)
       end
     end
   end

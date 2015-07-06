@@ -21,14 +21,15 @@ module SearchHelper
     query.delete('page')
     query.delete('search-term-type')
     query.delete('search-term')
-    query.delete('utf8')
     query.delete('review-status')
     query.delete('organization')
     query.delete('date-filter')
     query.delete('author-type')
     query.delete('on-or-after')
     query.delete('record-type')
-    query.delete('button')
+    query.delete('quick-find')
+    query.delete('full-search')
+    query.delete('find')
     query
   end
 end
