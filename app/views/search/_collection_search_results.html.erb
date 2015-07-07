@@ -1,8 +1,3 @@
-<% #= @table_rows %>
-<input type="hidden" id="entry_id" value="<%= @entry_id %>" />
-<input type="hidden" id="sort" value="<%= @sort %>" />
-
-
 <%= render :partial=>"pagination"  %>
 
 <table>
@@ -30,13 +25,13 @@
               <input type="checkbox" name="name" value="">
             </td-->
             <td>
-              <%= row['id']%>
+              <%= row['extra-fields']['entry-id']%>
             </td>
             <td>
-              <%= row['title']%>
+              <%= row['extra-fields']['entry-title']%>
             </td>
             <td>
-              <% fragments = row['updated'].split('T')
+              <% fragments = row['revision-date'].split('T')
                  date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
               <%= date %>
             </td>

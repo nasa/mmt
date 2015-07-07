@@ -80,7 +80,7 @@ header {
   #search {
     float: right;
 
-    form {
+    .full-search-form, .quick-search {
       margin: 0.5em 0;
     }
 
