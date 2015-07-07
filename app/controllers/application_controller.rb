@@ -3,9 +3,15 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_filter :is_logged_in
+  before_filter :is_logged_in, :setup_query
 
   protected
+
+  def setup_query
+    @query ||= {}
+    # we don't want to do this on every page, it takes forever
+    @provider_ids = cmr_client.get_providers
+  end
 
   def redirect_from_urs
     last_point = session[:last_point]

@@ -1,7 +1,4 @@
-
 <p class="search-meta">
   <strong><%= (@total_hit_count==0) ? 'No matches found' : pluralize(@total_hit_count, 'Result') %></strong>
-  <% if !@entry_id.blank? %>
-    for: Entry Id: "<%= @entry_id %>"
-  <% end %>
+  <%= results_query_label(@query.clone) %>
 </p>

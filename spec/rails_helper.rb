@@ -57,4 +57,5 @@ RSpec.configure do |config|
   config.order = :random
 
   config.include Helpers::UserHelpers
+  config.include Helpers::AjaxHelpers
 end

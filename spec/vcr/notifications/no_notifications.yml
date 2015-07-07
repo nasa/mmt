@@ -2,6 +2,43 @@
 http_interactions:
 - request:
     method: get
+    uri: http://localhost:3003/provider_holdings
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.9
+      Client-Id:
+      - MMT
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      date:
+      - Tue, 07 Jul 2015 20:51:56 GMT
+      cmr-collection-hits:
+      - '50'
+      cmr-granule-hits:
+      - '0'
+      access-control-allow-origin:
+      - "*"
+      content-type:
+      - application/json; charset=utf-8
+      vary:
+      - Accept-Encoding, User-Agent
+      connection:
+      - close
+      server:
+      - Jetty(7.x.y-SNAPSHOT)
+    body:
+      encoding: ASCII-8BIT
+      string: '[]'
+    http_version: 
+  recorded_at: Tue, 07 Jul 2015 20:51:56 GMT
+- request:
+    method: get
     uri: https://testbed.echo.nasa.gov/echo-rest/calendar_events.json?severity=ALERT
     body:
       encoding: US-ASCII
