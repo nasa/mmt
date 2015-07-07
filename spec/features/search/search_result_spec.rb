@@ -110,6 +110,38 @@ describe 'Search results' do
     end
   end
 
+  context 'when searching by provider' do
+    before do
+      click_on 'Full Metadata Record Search'
+      select 'PROV2', from: 'provider-id'
+      click_on 'Submit'
+    end
+
+    it 'displays collection results' do
+      expect(page).to have_content('25 Results for: Provider Id: PROV2')
+    end
+
+    it 'displays expected data' do
+      expect(page).to have_content('aces1efm_1')
+      expect(page).to have_content('ACES ELECTRIC FIELD MILL V1')
+      expect(page).to have_content(Date.today.strftime("%Y-%m-%d"))
+    end
+
+    context 'when viewing the full search form' do
+      before do
+        click_on 'Full Metadata Record Search'
+      end
+
+      after do
+        click_on 'Cancel'
+      end
+
+      it 'displays the entry id in the full search form' do
+        expect(page).to have_field('provider-id', with: 'PROV2')
+      end
+    end
+  end
+
   context 'when performing a search that has no results' do
     before do
       fill_in 'entry-id', with: 'NO HITS'

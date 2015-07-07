@@ -27,6 +27,7 @@ class SearchController < ApplicationController
       params.delete('full-search')
       params.delete('entry-id')
       @query = params.clone
+      @query.delete('provider-id') if @query['provider-id'].blank?
 
       # Handle search term field with selector
       # if no search term exists, reset the type

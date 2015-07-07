@@ -20,23 +20,40 @@ module Cmr
     end
 
     def setup_cmr
-      # Creating a Provider in CMR
+      ### Creating a Provider in CMR
+      # Provider 1
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"provider-id": "PROV1", "short-name": "p1", "cmr-only": true}'
       end
+      # Provider 2
+      connection.post do |req|
+        req.url('http://localhost:3002/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"provider-id": "PROV2", "short-name": "p2", "cmr-only": true}'
+      end
 
-      # Create a provider in Mock Echo
+      ### Create a provider in Mock Echo
+      # Provider 1
       connection.post do |req|
         req.url('http://localhost:3008/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '[{"provider":{"id":"provguid1","provider_id":"PROV1"}}]'
       end
+      # Provider 2
+      connection.post do |req|
+        req.url('http://localhost:3008/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '[{"provider":{"id":"provguid2","provider_id":"PROV2"}}]'
+      end
 
-      # Adding ACLs
+      ### Adding ACLs
+      # Provider 1
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
@@ -48,6 +65,24 @@ module Cmr
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "INGEST_MANAGEMENT_ACL"}}}'
+      end
+      # Provider 2
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid2"},"system_object_identity": {}}}'
+      end
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid2","target": "INGEST_MANAGEMENT_ACL"}}}'
+      end
+
+      ### Clear Cache
+      connection.post do |req|
+        req.url('http://localhost:2999/clear-cache')
       end
     end
 
@@ -62,7 +97,11 @@ module Cmr
       uri_list.each_with_index do |uri, index|
         metadata = connection.get(uri).body
         response = connection.put do |req|
-          req.url("http://localhost:3002/providers/PROV1/collections/collection#{index}")
+          if index > 24
+            req.url("http://localhost:3002/providers/PROV1/collections/collection#{index}")
+          else
+            req.url("http://localhost:3002/providers/PROV2/collections/collection#{index}")
+          end
           req.headers['Content-Type'] = 'application/echo10+xml'
           req.headers['Echo-token'] = 'mock-echo-system-token'
           req.body = metadata

@@ -7,8 +7,16 @@ module Cmr
     # client.get_collections().body['feed']['entry']
     # TODO this is currently using the CMR Search API. We will switch to the CMR Ingest API when we get access.
     def get_collections(options={}, token=nil)
-      format = options.delete(:format) || 'json'
       get("/concepts/search/collections", options, token_header(token))
+    end
+
+    def get_providers()
+      holdings = get_provider_holdings.body
+      holdings.map{ |holding| holding['provider-id'] }.uniq.sort
+    end
+
+    def get_provider_holdings(options={}, token=nil)
+      get("http://localhost:3003/provider_holdings", options, token_header(token))
     end
   end
 end

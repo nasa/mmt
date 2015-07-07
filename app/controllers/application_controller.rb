@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
 
   def setup_query
     @query ||= {}
+    # we don't want to do this on every page, it takes forever
+    @provider_ids = cmr_client.get_providers
   end
 
   def redirect_from_urs
