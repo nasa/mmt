@@ -8,7 +8,7 @@ module Cmr
     # TODO this is currently using the CMR Search API. We will switch to the CMR Ingest API when we get access.
     def get_collections(options={}, token=nil)
       format = options.delete(:format) || 'json'
-      get("/concepts/search/collections", options, token_header(token))
+      get("http://localhost:3001/concepts/search/collections", options, token_header(token))
     end
   end
 end
