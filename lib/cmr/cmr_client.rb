@@ -7,7 +7,7 @@ module Cmr
     # client.get_collections().body['feed']['entry']
     # TODO this is currently using the CMR Search API. We will switch to the CMR Ingest API when we get access.
     def get_collections(options={}, token=nil)
-      get("/concepts/search/collections", options, token_header(token))
+      get("http://localhost:3001/concepts/search/collections", options, token_header(token))
     end
 
     def get_providers()
