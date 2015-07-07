@@ -1,0 +1,115 @@
+<% remote = controller_name == 'search' %>
+<%= form_tag(search_path, method: "get", remote: remote, enforce_utf8: false) do %>
+  <div class="quick-search">
+    <%= label_tag('entry-id', "Quick Find") %>
+    <%= text_field_tag('entry-id', @query['entry-id'], placeholder: 'Enter Entry Id') %>
+    <button type="submit" name="quick-find" class="btn btn-blue"><i class="fa fa-search"></i>Find</button>
+  </div>
+<%# end %>
+
+  <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
+
+  <div class="search-module is-hidden">
+    <%#= form_tag(search_path, method: "get", remote: remote) do %>
+      <!-- Type of Record -->
+    <div class='full-search-form'>
+      <fieldset>
+        <legend>Find</legend>
+        <div class="row">
+          <input type="radio" name="find" id="find-1">
+          <label for="find-1">Collections</label>
+          <input type="radio" name="find" id="find-2">
+          <label for="find-2">Services</label>
+        </div>
+      </fieldset>
+
+      <hr>
+      <!-- Record Details -->
+      <fieldset>
+        <div class="row">
+          <select name="organization" class="single-select" aria-label="Select Organization">
+            <option value="GEDISC" selected="selected">GEDISC</option>
+          </select>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <select name="record-type">
+              <option value="published-records" selected="selected">Published Records</option>
+              <option value="draft-records">Draft Records</option>
+              <option value="published-and-draft-records">Published &amp; Draft Records</option>
+            </select>
+          </div>
+          <div class="col-4">
+            <select name="review-status">
+              <option value="any-review-status" selected="selected">Any Review Status</option>
+              <option value="reviewed">Reviewed</option>
+              <option value="not-reviewed">Not Reviewed</option>
+            </select>
+          </div>
+          <div class="col-4">
+            <select name="record-type">
+              <option value="active-only" selected="selected">Active Records ONLY</option>
+              <option value="deleted-only">Deleted Records ONLY</option>
+              <option value="active-and-deleted-records">Active &amp; Deleted Records</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+      <hr>
+      <!-- Additional Filter Criteria -->
+      <fieldset>
+        <div class="row">
+          <div class="col-4">
+            <select name="date-filter">
+              <option value="last-modified-date" selected="selected">Last Modified Date</option>
+              <option value="published-date">Published Date</option>
+              <option value="deleted-date">Deleted Date</option>
+            </select>
+          </div>
+          <div class="col-4">
+            <select name="on-or-after">
+              <option value="on-or-after" selected="selected">On or After</option>
+              <option value="on-or-before">On or Before</option>
+              <option value="on">On</option>
+              <option value="after">After</option>
+              <option value="before">Before</option>
+            </select>
+          </div>
+          <div class="col-4">
+            <input type="date"></input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <select name="author-type">
+              <option value="" selected="selected">Created by</option>
+              <option value="modified-by">Modified by</option>
+              <option value="deleted-by">Deleted by</option>
+            </select>
+          </div>
+          <div class="col-8">
+            <input type="text">
+          </div>
+        </div>
+      </fieldset>
+      <hr>
+      <fieldset>
+        <legend>Search Term</legend>
+        <div class="col-4">
+          <%= select_tag "search-term-type", options_for_select([ ['Select an option', ''], ['Entry ID', 'entry-id'], ['Cmr Concept ID', 'concept-id'], ['Entry Title', 'entry-title'] ], @query['search-term-type']) %>
+        </div>
+        <%= text_field_tag('search-term', @query['search-term'], 'aria-label' => 'Search Term') %>
+        <p class="form-description">Enter an Entry ID, CMR Concept ID, or Entry Title</p>
+        <hr>
+        <div class="row">
+          <a href="#" class="is-collapsed">Has a relationship to</a>
+        </div>
+        <hr>
+        <div class="row search-form-actions">
+          <button type="submit" name="full-search" class="btn btn-blue">Submit</button>
+          <a href="#" class="cancel">Cancel</a>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+<% end %>

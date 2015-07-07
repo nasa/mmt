@@ -1,3 +1,9 @@
-$("#collection_search_results").html("<%= escape_javascript(render 'collection_search_results', :locals=> {  } ) %>");
+$("#collection_search_results").html("<%= escape_javascript(render 'collection_search_results') %>");
 
-$("#collection_search_criteria").html("<%= escape_javascript(render 'collection_search_criteria', :locals=> {  } ) %>");
+$("#collection_search_criteria").html("<%= escape_javascript(render 'collection_search_criteria') %>");
+
+$('#search').html("<%= escape_javascript(render 'shared/search_form') %>");
+// Setup toggle full search behavior again
+$(".full-search, .search-form-actions button, .search-form-actions a").click(function() {
+  $(document).trigger('toggleSearch');
+});
