@@ -14,7 +14,38 @@
       <h2>Data Providers</h2>
 
       <div class="col-9" id="public_holdings_search_results">
-        <%= render :partial=>'public_holdings_search_results' %>
+        <table id='public-holdings'>
+          <thead>
+          <tr>
+            <th>Provider Name</th>
+            <th>Collections</th>
+            <th>Granules</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% if @table_rows.blank? %>
+            <tr>
+              <td colspan="4">
+                No public holdings found
+              </td>
+            </tr>
+          <% else %>
+            <% @table_rows.each do |row| %>
+              <tr class='<%= cycle("alt", "") %>'>
+                <td>
+                  <%= row['short_name']%>
+                </td>
+                <td>
+                  <%= number_with_delimiter(row['collection_count']) %>
+                </td>
+                <td>
+                  <%= number_with_delimiter(row['granule_count']) %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+          </tbody>
+        </table>
       </div>
 
     </section>

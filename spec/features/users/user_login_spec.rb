@@ -25,4 +25,16 @@ describe 'User login' do
       expect(page).to have_content('About the Metadata Management Tool')
     end
   end
+
+  context 'when logged in and on home page' do
+    before do
+      login
+      visit "/"
+    end
+
+    it 'does not display public holdings' do
+      expect(page).to have_no_css('table#public-holdings')
+    end
+  end
+
 end

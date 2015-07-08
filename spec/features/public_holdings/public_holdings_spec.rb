@@ -14,20 +14,9 @@ describe 'Public Holdings Display' do
 
     it 'shows public holdings' do
       expect(page).to have_css('table#public-holdings')
-      expect(page.find('table#public-holdings')).to have_content('p1')
+      expect(page.find('table#public-holdings')).to have_content('Provider 1')
       expect(page.find('table#public-holdings')).to have_content('25')
       expect(page.find('table#public-holdings')).to have_content('0')
-    end
-  end
-
-  context 'when logged in and on home page' do
-    before :each do
-      login
-      visit "/"
-    end
-
-    it 'does not display public holdings' do
-      expect(page).to_not have_css('table#public-holdings')
     end
   end
 
