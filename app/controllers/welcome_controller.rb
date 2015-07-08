@@ -1,6 +1,4 @@
 class WelcomeController < ApplicationController
-  include SearchHelper
-
   skip_before_filter :is_logged_in, :setup_query
 
   RESULTS_PER_PAGE = 25
@@ -18,19 +16,26 @@ class WelcomeController < ApplicationController
     @query = params.clone
     @query['page'] = 1
 
+    # Create a hash w/ provider-id as the key and provider-name as the value so we can easily lookup provider-names later
+    provider_query = cmr_client.get_providers()
+    provider_hash = Hash.new
+    provider_query.body.each do |p|
+      provider_hash[p['provider-id']] = p['short-name']
+    end
+
     query_results = cmr_client.get_provider_holdings()
 
-    # Create hash holding keyed on provider_id holding provider name, total collections and total granules
+    # Create hash w/ keyed on provider-id holding a hash of provider name, total collections and total granules
     holdings_hash = Hash.new
     query_results.body.each do |q|
       provider_id = q['provider-id']
       if holdings_hash[provider_id].nil?
-        holdings_hash[provider_id] = {'id'=>q['provider-id'], 'name'=>q['provider-id'], 'granule-count'=>q['granule-count'].to_i, 'collection-count'=>1}
+        provider_name = provider_hash[q['provider-id']]
+        holdings_hash[provider_id] = {'id'=>q['provider-id'], 'name'=>provider_name, 'granule-count'=>q['granule-count'].to_i, 'collection-count'=>1}
       else
         holdings_hash[provider_id]['collection-count'] += 1
         holdings_hash[provider_id]['granule-count'] += q['granule-count'].to_i
       end
-
     end
 
     if (holdings_hash.empty?)

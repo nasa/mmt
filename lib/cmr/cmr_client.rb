@@ -10,9 +10,13 @@ module Cmr
       get("http://localhost:3001/concepts/search/collections", options, token_header(token))
     end
 
-    def get_providers()
+    def get_provider_ids()
       holdings = get_provider_holdings.body
       holdings.map{ |holding| holding['provider-id'] }.uniq.sort
+    end
+
+    def get_providers()
+      get("http://localhost:3002/providers")
     end
 
     def get_provider_holdings(options={}, token=nil)
