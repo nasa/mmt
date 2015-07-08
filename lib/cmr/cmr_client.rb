@@ -22,5 +22,6 @@ module Cmr
     def get_provider_holdings(options={}, token=nil)
       get("http://localhost:3003/provider_holdings", options, token_header(token))
     end
+
   end
 end

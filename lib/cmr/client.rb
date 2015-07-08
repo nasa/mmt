@@ -10,8 +10,7 @@ module Cmr
       @config = service_config
       clients = []
       clients << CmrClient.new(@config['cmr_root'], urs_client_id)
-      # We will need the EchoClient for things like calendar events
-      # clients << EchoClient.new(@config['echo_root'], urs_client_id)
+      clients << EchoClient.new(@config['echo_root'], urs_client_id)
       clients << UrsClient.new(@config['urs_root'], urs_client_id)
       @clients = clients
     end
