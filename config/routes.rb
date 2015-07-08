@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'welcome/index'
+  get 'welcome/collections'
 
   get 'search' => 'search#index', as: 'search'
 

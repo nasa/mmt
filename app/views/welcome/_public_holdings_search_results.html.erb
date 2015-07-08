@@ -17,7 +17,7 @@
     <% @table_rows.each do |row| %>
       <tr class='<%= cycle("alt", "") %>'>
         <td>
-          <%= row['name']%>
+          <%= link_to row['name'], collections_path(id: row['provider-id']) %>
         </td>
         <td>
           <%= number_with_delimiter(row['collection-count']) %>

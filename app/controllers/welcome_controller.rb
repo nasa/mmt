@@ -4,12 +4,6 @@ class WelcomeController < ApplicationController
   def index
     redirect_to dashboard_path if logged_in?
 
-    page = params[:page].to_i || 1
-    page = 1 if page < 1
-
-    @query = params.clone
-    @query['page'] = 1
-
     # Create a hash w/ provider-id as the key and provider-name as the value so we can easily lookup provider-names later
     provider_query = cmr_client.get_provider_summaries
     provider_hash = Hash.new
@@ -41,4 +35,27 @@ class WelcomeController < ApplicationController
     end
 
   end
+
+  def collections
+
+    provider_id = params[:provider_id] || 'PROV1'
+    provider_name = params[:provider_name] || 'p1'
+
+    query_results = cmr_client.get_provider_holdings({'provider_id'=>provider_id})
+
+    collections = []
+    query_results.body.each do |q|
+      collections << {:id=>q['concept-id'], :title=>q['entry-title'], :granules=>q['granule-count']}
+    end
+
+    if (collections.empty?)
+      @table_rows = nil
+      @total_hit_count = 0
+    else
+      @table_rows = collections.sort {|x, y| x['entry-title']<=>y['entry-title']}
+      @total_hit_count = @table_rows.size
+    end
+
+  end
+
 end
