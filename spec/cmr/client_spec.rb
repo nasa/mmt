@@ -8,7 +8,7 @@ describe Cmr::Client do
   before { allow(cmr_client).to receive(:connection).and_return(connection) }
 
   context 'dataset search' do
-    let(:dataset_search_url) { "/concepts/search/collections" }
+    let(:dataset_search_url) { "http://localhost:3001/concepts/search/collections" }
 
     context 'using Entry Id' do
       it 'performs searches using exact matches' do
