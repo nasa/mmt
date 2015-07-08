@@ -4,33 +4,31 @@ class WelcomeController < ApplicationController
   def index
     redirect_to dashboard_path if logged_in?
 
+<<<<<<< HEAD
     # Create a hash w/ provider-id as the key and provider-name as the value so we can easily lookup provider-names later
     provider_query = cmr_client.get_provider_summaries
     provider_hash = Hash.new
     provider_query.body.each do |p|
       provider_hash[p['provider-id']] = p['short-name']
+=======
+    providers = Hash[cmr_client.get_provider_summaries.body.map{|p| [p['provider-id'], {'provider_id'=>p['provider-id'], 'short_name' => p['short-name']}]}]
+
+    holdings = cmr_client.get_provider_holdings.body
+
+    providers.each do |id, values|
+      holding = holdings.select{|h| h['provider-id'] == id}
+      values['collection_count'] = holding.size
+      values['granule_count'] = holding.map{|h| h['granule-count']}.inject(:+)
+>>>>>>> MMT-112
     end
 
-    query_results = cmr_client.get_provider_holdings
+    providers = providers.delete_if {|id, value| value['collection_count'] == 0 }
 
-    # Create hash w/ provider-id as the key, holding a hash of provider name, total collections and total granules
-    holdings_hash = Hash.new
-    query_results.body.each do |q|
-      provider_id = q['provider-id']
-      if holdings_hash[provider_id].nil?
-        provider_name = provider_hash[provider_id]
-        holdings_hash[provider_id] = {'id'=>provider_id, 'name'=>provider_name, 'granule-count'=>q['granule-count'].to_i, 'collection-count'=>1}
-      else
-        holdings_hash[provider_id]['collection-count'] += 1
-        holdings_hash[provider_id]['granule-count'] += q['granule-count'].to_i
-      end
-    end
-
-    if (holdings_hash.empty?)
+    if (providers.empty?)
       @table_rows = nil
       @total_hit_count = 0
     else
-      @table_rows = holdings_hash.values.sort {|x, y| x['name']<=>y['name']}
+      @table_rows = providers.values.sort {|x, y| x['short_name']<=>y['short_name']}
       @total_hit_count = @table_rows.size
     end
 
