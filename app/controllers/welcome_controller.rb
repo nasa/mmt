@@ -4,12 +4,6 @@ class WelcomeController < ApplicationController
   def index
     redirect_to dashboard_path if logged_in?
 
-    page = params[:page].to_i || 1
-    page = 1 if page < 1
-
-    @query = params.clone
-    @query['page'] = 1
-
     # Create a hash w/ provider-id as the key and provider-name as the value so we can easily lookup provider-names later
     provider_query = cmr_client.get_provider_summaries
     provider_hash = Hash.new
