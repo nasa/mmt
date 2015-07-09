@@ -1,4 +1,4 @@
-<%= render :partial=>"pagination"  %>
+<%= render :partial=>"shared/pagination", :locals => {:table_rows=> @collections} %>
 
 <table>
   <thead>
@@ -11,14 +11,14 @@
   </tr>
   </thead>
   <tbody>
-  <% if @table_rows.blank? %>
+  <% if @collections.blank? %>
       <tr>
         <td colspan="4">
           No collections found
         </td>
       </tr>
   <% else %>
-      <% @table_rows.each do |row| %>
+      <% @collections.each do |row| %>
           <tr class='<%= cycle("alt", "") %>'>
             <!-- Temporarily commented out because this is not a part of the MVP %-->
             <!--td>

@@ -22,41 +22,34 @@
   <div class="row">
     <section>
 
-      <div class="col-9" id="collections_search_results">
-
-        <table id='collections'>
-          <thead>
+      <table id='collections'>
+        <thead>
+        <tr>
+          <th>Collection</th>
+          <th>Granules</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @collections.blank? %>
           <tr>
-            <th>Collection</th>
-            <th>Granules</th>
+            <td colspan="2">
+              No collections found
+            </td>
           </tr>
-          </thead>
-          <tbody>
-          <% if @table_rows.blank? %>
-            <tr>
-              <td colspan="2">
-                No collections found
+        <% else %>
+          <% @collections.each do |row| %>
+            <tr class='<%= cycle("alt", "") %>'>
+              <td>
+                <%= row[:title] %>
+              </td>
+              <td class="justify-right">
+                <%= number_with_delimiter(row[:granules]) %>
               </td>
             </tr>
-          <% else %>
-            <% @table_rows.each do |row| %>
-              <tr class='<%= cycle("alt", "") %>'>
-                <td>
-                  <%= row[:title] %>
-                </td>
-                <td >
-                  <span class="right_justified_number">
-                    <%= number_with_delimiter(row[:granules]) %>
-                  </span>
-                </td>
-              </tr>
-            <% end %>
           <% end %>
-          </tbody>
-        </table>
-
-
-      </div>
+        <% end %>
+        </tbody>
+      </table>
 
     </section>
   </div>

@@ -1,13 +1,14 @@
 <%
   page = @query['page']
+  total_hit_count = table_rows.size
   record_num = ((page-1) * @results_per_page) + 1
-  page_count = (@total_hit_count/@results_per_page.to_f).ceil
+  page_count = (total_hit_count/@results_per_page.to_f).ceil
   page_radius = 3
   begin_page_sequence = (page - page_radius) < 1 ? 1 : page - page_radius
   end_page_sequence = (page + page_radius) > page_count ? page_count : page + page_radius
   page_span = (begin_page_sequence .. end_page_sequence)
   max_record_on_page = record_num + (@results_per_page) - 1
-  max_record_on_page = (max_record_on_page > @total_hit_count) ? @total_hit_count : max_record_on_page
+  max_record_on_page = (max_record_on_page > total_hit_count) ? total_hit_count : max_record_on_page
 %>
 
 <input type="hidden" id="page_count" value="<%= page_count %>" />
@@ -16,7 +17,7 @@
 <% if page_count > 1%>
 
     <div class="ps-summary">
-      Showing records <%= record_num %> - <%= max_record_on_page %> of <%= @total_hit_count %>
+      Showing records <%= record_num %> - <%= max_record_on_page %> of <%= total_hit_count %>
     </div>
 
     <ul class="pagination">

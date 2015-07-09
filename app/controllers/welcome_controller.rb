@@ -14,15 +14,9 @@ class WelcomeController < ApplicationController
       values['granule_count'] = holding.map{|h| h['granule-count']}.inject(:+)
     end
 
-    providers = providers.delete_if {|id, value| value['collection_count'] == 0 }
-
-    if (providers.empty?)
-      @table_rows = nil
-      @total_hit_count = 0
-    else
-      @table_rows = providers.values.sort {|x, y| x['short_name']<=>y['short_name']}
-      @total_hit_count = @table_rows.size
-    end
+    @providers = providers.delete_if {|id, value|
+      value['collection_count'] == 0
+    }.values.sort {|x, y| x['short_name']<=>y['short_name']}
 
   end
 
@@ -33,15 +27,9 @@ class WelcomeController < ApplicationController
 
     @provider_description = '[Provider description goes here]'
 
-    collections = cmr_client.get_provider_holdings({'provider_id'=>provider_id}).body.map{|q| {:id=>q['concept-id'], :title=>q['entry-title'], :granules=>q['granule-count']}}
-
-    if (collections.empty?)
-      @table_rows = nil
-      @total_hit_count = 0
-    else
-      @table_rows = collections.sort {|x, y| x['entry-title']<=>y['entry-title']}
-      @total_hit_count = @table_rows.size
-    end
+    @collections = cmr_client.get_provider_holdings({'provider_id'=>provider_id}).body.map{|q|
+      {:id=>q['concept-id'], :title=>q['entry-title'], :granules=>q['granule-count']}
+    }.sort {|x, y| x['entry-title']<=>y['entry-title']}
 
   end
 
