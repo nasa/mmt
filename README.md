@@ -92,11 +92,10 @@ Try the following steps:
     * `brew update`
     * `brew install openssl`
     * `brew link openssl --force`
-    * `brew install curl-ca-bundle`
 
-3. Check to ensure that OpenSSL version is 1.0.2 or newer with the command `openssl version`
+3. Restart your terminal to refresh the OpenSSL version.
 
-4. Restart your terminal to refresh the OpenSSL.
+4. Check to ensure that OpenSSL version is 1.0.2 or newer with the command `openssl version`
 
 5. Try running `rake cmr:start` and `rake cmr:load` as instructed above. If you still have issues, continue with these instructions below:
 
@@ -110,7 +109,7 @@ Try the following steps:
 
 9. Run `bundle install` to install any missing gems.
 
-    * If your terminal tells you that you do not have bundler, run `gem install bundler`
+    * If your terminal tells you that it does not recognize the `bundle` command, run `gem install bundler`
 
 9. Restart your terminal to refresh all settings.
 
