@@ -2,13 +2,16 @@
 ------------------------------------------*/
 
 .internal {
-  header {
+  header,
+  .content-header {
+    min-width: 100%;
     background: $light-blue;
     color: $black;
     border-bottom: 1px solid $pale-blue;
     border-top: 5px solid darken($light-blue, 5%);
-    padding-bottom: 0;
+    padding: 0;
     h2 {
+      margin-bottom: 0.5em;
       border-bottom: 0;
       img {
         width: 1.25em;
