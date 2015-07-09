@@ -13,7 +13,7 @@
     <section>
       <h2>Data Providers</h2>
 
-      <div class="col-9" id="public_holdings_search_results">
+      <div id="public_holdings_search_results">
         <table id='public-holdings'>
           <thead>
           <tr>
@@ -35,15 +35,11 @@
                 <td>
                   <%= row['short_name']%>
                 </td>
-                <td>
-                  <span class="right_justified_number">
-                    <%= number_with_delimiter(row['collection_count']) %>
-                  </span>
+                <td class="justify-right">
+                  <%= number_with_delimiter(row['collection_count']) %>
                 </td>
-                <td>
-                  <span class="right_justified_number">
-                    <%= number_with_delimiter(row['granule_count']) %>
-                  </span>
+                <td class="justify-right">
+                  <%= number_with_delimiter(row['granule_count']) %>
                 </td>
               </tr>
             <% end %>
