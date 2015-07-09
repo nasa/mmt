@@ -4,7 +4,7 @@ The Metadata Management Tool is a web application to assist users in managing me
 ## Getting Started
 
 ### Requirements
- - Ruby 2.1.2
+ - Ruby 2.2.2
 
 ### Setup
 Clone the Metadata Management Tool Git project:
@@ -53,7 +53,7 @@ To start the local CMR:
 
     rake cmr:start
 
-After 5-10 seconds you will see some log4j messages in your terminal. 10-15 seconds after that you can ingest some dummy data (press enter to get a new prompt):
+After 5-10 seconds you will see some log4j messages in your terminal. 10-15 seconds after that you can ingest some dummy data (press enter to get a new prompt)*:
 
     rake cmr:load
 
@@ -64,3 +64,11 @@ To stop the locally running CMR, run this command:
     rake cmr:stop
 
 You will need to stop the CMR before upgrading to a new CMR version. Note: stopping the running CMR for any reason will delete all data from the CMR. You will have to load the data again when you start it.
+
+*If you have the following error:
+
+    Faraday::Error::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
+
+Try the following steps:
+
+
