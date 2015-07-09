@@ -15,6 +15,10 @@ module Cmr
       holdings.map{ |holding| holding['provider-id'] }.uniq.sort
     end
 
+    def get_provider_summaries()
+      get("http://localhost:3002/providers")
+    end
+
     def get_provider_holdings(options={}, token=nil)
       get("http://localhost:3003/provider_holdings", options, token_header(token))
     end
