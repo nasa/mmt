@@ -57,6 +57,7 @@ group :test do
   gem 'launchy'
   gem 'capybara-screenshot'
   gem 'vcr'
+  gem 'rspec_junit_formatter'
 end
 
 group :production do
