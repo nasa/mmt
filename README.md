@@ -4,7 +4,7 @@ The Metadata Management Tool is a web application to assist users in managing me
 ## Getting Started
 
 ### Requirements
- - Ruby 2.1.2
+ - Ruby 2.2.2
 
 ### Setup
 Clone the Metadata Management Tool Git project:
@@ -43,17 +43,27 @@ To start the project, just type the default rails command:
 And if you need to stop the server from running, hit `Ctrl + C` and the server will shutdown.
 
 ### Running a local copy of CMR
-In order to use a local copy of the CMR you will need to download the latest cmr-dev-system-uberjar.jar file and ingest some sample data. Download the latest version of cmr-dev-system-uberjar.jar here:
+In order to use a local copy of the CMR you will need to download the latest file and ingest some sample data. 
 
-    https://ci.earthdata.nasa.gov/browse/CMR-CSB/latest/artifact/
+1. Go to this page https://ci.earthdata.nasa.gov/browse/CMR-CSB
 
-Place this file in (Rails.root)/cmr/
+2. Click on the latest successful build from Recent History.
+
+3. Scroll to the Shared Artifacts section 
+
+4. Download the `cmr-dev-system-uberjar.jar` file.
+    * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO
+NOT rename the file.**
+
+5. In your root directory for MMT, create a folder named `cmr`.
+
+6. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder from Step #5.
 
 To start the local CMR:
 
     rake cmr:start
 
-After 5-10 seconds you will see some log4j messages in your terminal. 10-15 seconds after that you can ingest some dummy data (press enter to get a new prompt):
+After 5-10 seconds you will see some log4j messages in your terminal. 10-15 seconds after that you can ingest some dummy data (press enter to get a new prompt)*:
 
     rake cmr:load
 
@@ -64,3 +74,45 @@ To stop the locally running CMR, run this command:
     rake cmr:stop
 
 You will need to stop the CMR before upgrading to a new CMR version. Note: stopping the running CMR for any reason will delete all data from the CMR. You will have to load the data again when you start it.
+
+## Troubleshooting
+
+### OpenSSL Issue
+
+*If you have a similar error from `rake cmr:load` below:
+
+    Faraday::Error::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
+
+Try the following steps:
+
+1. Ensure you are using RubyGems 2.0.3 or newer by typing `gem -v`. If it is older, type `gem update --system` to upgrade the RubyGems system.
+
+2. Update the SSL certificates by running the following commands
+
+    * `brew update`
+    * `brew install openssl`
+    * `brew link openssl --force`
+
+3. Restart your terminal to refresh the OpenSSL version.
+
+4. Check to ensure that OpenSSL version is 1.0.2 or newer with the command `openssl version`
+
+5. Try running `rake cmr:start` and `rake cmr:load` as instructed above. If you still have issues, continue with these instructions below:
+
+6. Uninstall Ruby 2.2.2. If you are using rvm, use the command `rvm remove 2.2.2`
+
+7. Find out where your OpenSSL directory is by typing `which openssl`. An example directory you might get would be `/usr/local/bin/openssl`
+
+8. Reinstall Ruby with the following command (if you are using rvm): `rvm install 2.2.2 --with-open-ssl-dir={DIRECTORY FROM STEP 7}`. 
+
+    * Using the example directory from above, it would be `rvm install 2.2.2 --with-open-ssl-dir=/usr/local/bin/openssl`.
+
+9. Run `bundle install` to install any missing gems.
+
+    * If your terminal tells you that it does not recognize the `bundle` command, run `gem install bundler`
+
+9. Restart your terminal to refresh all settings.
+
+10. Navigate to MMT directory and check to make sure Ruby and OpenSSL version are correct.
+
+11. Run `rake cmr:start` and `rake cmr:load` again. If you still have issues, please reach out to a developer to help with troubleshooting.
