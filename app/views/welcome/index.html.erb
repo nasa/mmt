@@ -36,10 +36,14 @@
                   <%= link_to row['short_name'], :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] %>
                 </td>
                 <td>
-                  <%= link_to number_with_delimiter(row['collection_count']), :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] %>
+                  <span class="right_justified_number">
+                    <%= link_to number_with_delimiter(row['collection_count']), :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] %>
+                  </span>
                 </td>
                 <td>
-                  <%= link_to number_with_delimiter(row['granule_count']), :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] %>
+                  <span class="right_justified_number">
+                    <%= link_to number_with_delimiter(row['granule_count']), :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] %>
+                  </span>
                 </td>
               </tr>
             <% end %>
