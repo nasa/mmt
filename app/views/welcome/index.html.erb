@@ -36,10 +36,14 @@
                   <%= row['short_name']%>
                 </td>
                 <td>
-                  <%= number_with_delimiter(row['collection_count']) %>
+                  <span class="right_justified_number">
+                    <%= number_with_delimiter(row['collection_count']) %>
+                  </span>
                 </td>
                 <td>
-                  <%= number_with_delimiter(row['granule_count']) %>
+                  <span class="right_justified_number">
+                    <%= number_with_delimiter(row['granule_count']) %>
+                  </span>
                 </td>
               </tr>
             <% end %>
