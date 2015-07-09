@@ -56,7 +56,7 @@ group :test do
   gem 'poltergeist'
   gem 'launchy'
   gem 'capybara-screenshot'
-  gem 'vcr'
+  gem 'rack_session_access'
 end
 
 group :production do
