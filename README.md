@@ -52,8 +52,9 @@ In order to use a local copy of the CMR you will need to download the latest fil
 3. Scroll to the Shared Artifacts section 
 
 4. Download the `cmr-dev-system-uberjar.jar` file.
-    * Note: It will rename itself to something like `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is normal and you do not need to take any additional action.
-    
+    * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO
+NOT rename the file.**
+
 5. In your root directory for MMT, create a folder named `cmr`.
 
 6. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder from Step #5.
