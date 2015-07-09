@@ -113,12 +113,12 @@ describe 'Search results' do
   context 'when searching by provider' do
     before do
       click_on 'Full Metadata Record Search'
-      select 'PROV2', from: 'provider-id'
+      select 'LARC', from: 'provider-id'
       click_on 'Submit'
     end
 
     it 'displays collection results' do
-      expect(page).to have_content('25 Results for: Provider Id: PROV2')
+      expect(page).to have_content('25 Results for: Provider Id: LARC')
     end
 
     it 'displays expected data' do
@@ -137,7 +137,7 @@ describe 'Search results' do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('provider-id', with: 'PROV2')
+        expect(page).to have_field('provider-id', with: 'LARC')
       end
     end
   end
