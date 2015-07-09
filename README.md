@@ -107,6 +107,12 @@ Try the following steps:
 
     * Using the example directory from above, it would be `rvm install 2.2.2 --with-open-ssl-dir=/usr/local/bin/openssl`.
 
+9. Run `bundle install` to install any missing gems.
+
+    * If your terminal tells you that you do not have bundler, run `gem install bundler`
+
 9. Restart your terminal to refresh all settings.
 
-10. Run `rake cmr:start` and `rake cmr:load` again. If you still have issues, please reach out to a developer to help with troubleshooting.
+10. Navigate to MMT directory and check to make sure Ruby and OpenSSL version are correct.
+
+11. Run `rake cmr:start` and `rake cmr:load` again. If you still have issues, please reach out to a developer to help with troubleshooting.
