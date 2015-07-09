@@ -18,6 +18,21 @@ describe 'Public Holdings Display' do
       expect(page.find('table#public-holdings')).to have_content('25')
       expect(page.find('table#public-holdings')).to have_content('0')
     end
+
+    context 'when user clicks on provider name' do
+      before :each do
+        click_on 'Provider 1'
+      end
+
+      it 'shows the collection page and collection list' do
+        expect(page).to have_content('Provider 1')
+        expect(page).to have_content('[Provider description goes here]')
+        expect(page).to have_css('table#collections')
+        expect(page.find('table#collections')).to have_content('ACRIM III Level 2 Daily Mean Data V001')
+        expect(page.find('table#collections')).to have_content('0')
+      end
+    end
+
   end
 
 end
