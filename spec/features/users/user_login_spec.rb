@@ -12,6 +12,9 @@ describe 'User login' do
       expect(page).to have_content('Test User')
       expect(page).to have_content('Logout')
     end
+    it 'does not display public holdings' do
+      expect(page).to have_no_css('table#public-holdings')
+    end
   end
 
   context 'when logging out' do
