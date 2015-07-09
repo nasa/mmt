@@ -54,8 +54,8 @@ module Cmr
       Faraday.new(:url => @root) do |conn|
         conn.response :logging
 
+        conn.response :events, :content_type => /\bjson$/
         conn.response :json, :content_type => /\bjson$/
-        conn.response :events, :content_type => /\bxml$/
         conn.response :xml, :content_type => /\bxml$/
 
         conn.adapter Faraday.default_adapter

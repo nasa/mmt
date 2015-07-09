@@ -1,8 +1,12 @@
-<aside class="banner banner-warn">
-  <div class="content">
-    <p><strong>CMR Outage (Apr 26 2015 10:00EDT to Apr 26 2015 22:00 EDT):</strong> User may experience connectivity issues with EOSDIS.</p>
-  </div>
-</aside>
+<% if !@notification.nil? %>
+  <aside class="banner banner-warn">
+    <div class="content">
+      <p>
+          <%= raw(@notification) %>
+      </p>
+    </div>
+  </aside>
+<% end %>
 <main class="dashboard">
   <nav>
     <h2 class="current">Manage Metadata</h2>
