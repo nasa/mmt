@@ -1,14 +1,23 @@
-<main class="content">
-  <div class="row row-header">
-    <section class="col-6">
-      <h2>About the Metadata Management Tool</h2>
-      <p>The MMT is a web-based user interface to the NASA EOSDIS Common Metadata Repository (CMR). The MMT allows metadata authors to create and update CMR metadata records by importing XML or by using a data entry form based on the metadata fields in the CMR Unified Metadata Model (UMM). Metadata authors may also publish, view, delete, and manage revisions of CMR metadata records using the MMT.</p>
-    </section>
-    <section class="col-6">
-      <h2>About the CMR</h2>
-      <p>The CMR is a high-performance, high-quality metadata repository for earth science metadata records. The CMR manages the evolution of NASA Earth Science metadata in a unified and consistent way by providing a central storage and access capability that streamlines current workflows while increasing overall metadata quality and anticipating future capabilities.</p>
-    </section>
-  </div>
+<main class="internal">
+  <header>
+    <div class="content">
+      <div class="breadcrumb">
+        <ol>
+          <li><%= link_to 'MMT Home', root_url %></li>
+          <li><%= @provider_name %> Collections</li>
+        </ol>
+      </div>
+    </div>
+  </header>
+
+  <section >
+    <h2 style="border-bottom: 0px">
+      <%= @provider_name %>
+    </h2>
+    <p>
+      <%= @provider_description %>
+    </p>
+  </section>
 
   <div class="row">
     <section>
@@ -25,7 +34,7 @@
           <tbody>
           <% if @table_rows.blank? %>
             <tr>
-              <td colspan="4">
+              <td colspan="2">
                 No collections found
               </td>
             </tr>
@@ -33,10 +42,12 @@
             <% @table_rows.each do |row| %>
               <tr class='<%= cycle("alt", "") %>'>
                 <td>
-                  <%= row['title'] %>
+                  <%= row[:title] %>
                 </td>
-                <td>
-                  <%= number_with_delimiter(row['granules']) %>
+                <td >
+                  <span style="float: right">
+                    <%= number_with_delimiter(row[:granules]) %>
+                  </span>
                 </td>
               </tr>
             <% end %>
