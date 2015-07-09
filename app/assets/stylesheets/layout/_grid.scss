@@ -17,6 +17,10 @@ section {
 
 // END NOTE
 
+.col-2 {
+  @include span-columns(2);
+}
+
 .col-3 {
   @include span-columns(3);
 }
