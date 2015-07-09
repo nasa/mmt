@@ -6,6 +6,9 @@
 #   retrieve metadata
 #   insert metadata into local CMR
 
+#TODO: Need to ingest some granule metadata
+
+
 require 'multi_xml'
 
 module Cmr
@@ -26,14 +29,14 @@ module Cmr
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "PROV1", "short-name": "p1", "cmr-only": true}'
+        req.body = '{"provider-id": "PROV1", "short-name": "Provider 1", "cmr-only": true}'
       end
       # Provider 2
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "PROV2", "short-name": "p2", "cmr-only": true}'
+        req.body = '{"provider-id": "PROV2", "short-name": "Provider 2", "cmr-only": true}'
       end
 
       ### Create a provider in Mock Echo
