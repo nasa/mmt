@@ -14,9 +14,11 @@
     <h2 style="border-bottom: 0px">
       <%= @provider_name %>
     </h2>
-    <p>
-      <%= @provider_description %>
-    </p>
+    <% if !@provider_description.nil? %>
+      <p>
+        <%= @provider_description %>
+      </p>
+    <% end %>
   </section>
 
   <div class="row">

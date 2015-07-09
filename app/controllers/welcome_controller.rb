@@ -26,7 +26,6 @@ class WelcomeController < ApplicationController
     @provider_name = params[:provider_name] || ''
 
     provider_holdings = cmr_client.get_echo_provider_holdings()
-    @provider_description = 'Provider description not available'
     provider_holdings.body.each { |p|
       if p['provider']['provider_id'] == provider_id
         @provider_description = p ['provider']['description_of_holdings']
