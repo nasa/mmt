@@ -20,13 +20,31 @@ describe 'Public Holdings Display' do
     end
 
     context 'when user clicks on provider name' do
-      before :each do
-        click_on 'SEDAC'
+      before do
+        VCR.use_cassette('public_holdings/get_provider_description', record: :none) do
+          click_on 'SEDAC'
+        end
       end
 
       it 'shows the collection page and collection list' do
         expect(page).to have_content('Socioeconomic Data and Applications Center (SEDAC)')
         expect(page).to have_content('The Socioeconomic Data and Applications Center (SEDAC) mission is to develop and operate')
+        expect(page).to have_css('table#collections')
+        expect(page.find('table#collections')).to have_content('ACRIM III Level 2 Daily Mean Data V001')
+        expect(page.find('table#collections')).to have_content('0')
+      end
+    end
+
+    context 'when ECHO fails to return provider description' do
+      before do
+        VCR.use_cassette('public_holdings/echo_fails', record: :none) do
+          click_on 'SEDAC'
+        end
+      end
+
+      it 'handles failure gracefully and shows what data it can' do
+        expect(page).to have_content('Socioeconomic Data and Applications Center (SEDAC)')
+        expect(page).to_not have_content('The Socioeconomic Data and Applications Center (SEDAC) mission is to develop and operate')
         expect(page).to have_css('table#collections')
         expect(page.find('table#collections')).to have_content('ACRIM III Level 2 Daily Mean Data V001')
         expect(page.find('table#collections')).to have_content('0')
