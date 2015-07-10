@@ -41,4 +41,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.cmr_env = 'sit'
+
+  config.middleware.use RackSessionAccess::Middleware
 end

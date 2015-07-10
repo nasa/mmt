@@ -45,19 +45,14 @@ And if you need to stop the server from running, hit `Ctrl + C` and the server w
 ### Running a local copy of CMR
 In order to use a local copy of the CMR you will need to download the latest file and ingest some sample data.
 
-1. Go to this page https://ci.earthdata.nasa.gov/browse/CMR-CSB
+1. Go to this page https://ci.earthdata.nasa.gov/browse/CMR-CSB/latestSuccessful/artifact/
 
-2. Click on the latest successful build from Recent History.
+2. Download the `cmr-dev-system-uberjar.jar` file.
+    * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO NOT rename the file.**
 
-3. Scroll to the Shared Artifacts section
+3. In your root directory for MMT, create a folder named `cmr`.
 
-4. Download the `cmr-dev-system-uberjar.jar` file.
-    * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO
-NOT rename the file.**
-
-5. In your root directory for MMT, create a folder named `cmr`.
-
-6. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder from Step #5.
+4. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder from Step #3.
 
 To start the local CMR and load data*:
 

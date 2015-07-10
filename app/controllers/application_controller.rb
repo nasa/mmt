@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_filter :is_logged_in, :setup_query
+  before_filter :refresh_urs_if_needed, except: [:logout, :refresh_token]
 
   protected
 
@@ -34,8 +35,6 @@ class ApplicationController < ActionController::Base
 
   def clear_session
     store_oauth_token()
-    session[:user_id] = nil
-    session[:recent_datasets] = []
   end
 
   def store_oauth_token(json={})
@@ -48,6 +47,12 @@ class ApplicationController < ActionController::Base
   def store_profile(profile={})
     session[:name] = "#{profile['first_name']} #{profile['last_name']}"
     session[:urs_uid] = profile['uid']
+  end
+
+  def refresh_urs_if_needed
+    if logged_in? && server_session_expires_in < 0
+      refresh_urs_token
+    end
   end
 
   def refresh_urs_token
@@ -76,5 +81,23 @@ class ApplicationController < ActionController::Base
 
   def is_logged_in
     redirect_to root_url unless logged_in?
+  end
+
+  def logged_in_at
+    session[:logged_in_at].nil? ? 0 : session[:logged_in_at]
+  end
+
+  def expires_in
+    (logged_in_at + session[:expires_in]) - Time.now.to_i
+  end
+
+  # Seconds ahead of the token expiration that the server should
+  # attempt to refresh the token
+  SERVER_EXPIRATION_OFFSET_S = 60
+  # For testing, token expires after 10 seconds
+  # SERVER_EXPIRATION_OFFSET_S = 3590
+
+  def server_session_expires_in
+    logged_in? ? (expires_in - SERVER_EXPIRATION_OFFSET_S).to_i : 0
   end
 end
