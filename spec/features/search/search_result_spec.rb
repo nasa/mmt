@@ -1,10 +1,11 @@
-# MMT-22, MMT-10
+# MMT-22, MMT-10, MMT-8
 
 require 'rails_helper'
 
 describe 'Search results' do
   entry_id = 'doi:10.3334/ORNLDAAC/8_1'
   entry_title = 'Aircraft Flux-Filtered: Univ. Col. (FIFE)'
+  concept_id = 'C1200000036-PROV1'
 
   before :each do
     login
@@ -51,7 +52,7 @@ describe 'Search results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content('1 Result for: Entry Id: doi:10.3334/ORNLDAAC/8_1')
+      expect(page).to have_content("1 Result for: Entry Id: #{entry_id}")
     end
 
     it 'displays expected data' do
@@ -85,7 +86,7 @@ describe 'Search results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content('1 Result for: Entry Title: Aircraft Flux-Filtered: Univ. Col. (FIFE)')
+      expect(page).to have_content("1 Result for: Entry Title: #{entry_title}")
     end
 
     it 'displays expected data' do
@@ -141,6 +142,41 @@ describe 'Search results' do
       end
     end
   end
+
+  context 'when searching by CMR Concept Id' do
+    before do
+      click_on 'Full Metadata Record Search'
+      select 'CMR Concept ID', from: 'search-term-type'
+      fill_in 'search-term', with: concept_id
+      click_on 'Submit'
+    end
+
+    it 'displays collection results' do
+      expect(page).to have_content("1 Result for: Concept Id: #{concept_id}")
+    end
+
+    it 'displays expected data' do
+      expect(page).to have_content(entry_id)
+      expect(page).to have_content(entry_title)
+      expect(page).to have_content(Date.today.strftime("%Y-%m-%d"))
+    end
+
+    context 'when viewing the full search form' do
+      before do
+        click_on 'Full Metadata Record Search'
+      end
+
+      after do
+        click_on 'Cancel'
+      end
+
+      it 'displays the entry id in the full search form' do
+        expect(page).to have_field('search-term-type', with: 'concept-id')
+        expect(page).to have_field('search-term', with: concept_id)
+      end
+    end
+  end
+
 
   context 'when performing a search that has no results' do
     before do

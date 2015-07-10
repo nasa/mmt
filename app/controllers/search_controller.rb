@@ -37,6 +37,8 @@ class SearchController < ApplicationController
         @query['entry-id'] = params['search-term']
       when 'entry-title'
         @query['entry-title'] = params['search-term']
+      when 'concept-id'
+        @query['concept-id'] = params['search-term']
       end
     end
 

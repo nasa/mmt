@@ -94,7 +94,7 @@
       <fieldset>
         <legend>Search Term</legend>
         <div class="col-4">
-          <%= select_tag "search-term-type", options_for_select([ ['Select an option', ''], ['Entry ID', 'entry-id'], ['Cmr Concept ID', 'concept-id'], ['Entry Title', 'entry-title'] ], @query['search-term-type']) %>
+          <%= select_tag "search-term-type", options_for_select([ ['Select an option', ''], ['Entry ID', 'entry-id'], ['CMR Concept ID', 'concept-id'], ['Entry Title', 'entry-title'] ], @query['search-term-type']) %>
         </div>
         <%= text_field_tag('search-term', @query['search-term'], 'aria-label' => 'Search Term') %>
         <p class="form-description">Enter an Entry ID, CMR Concept ID, or Entry Title</p>
