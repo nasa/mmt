@@ -18,7 +18,16 @@ module Cmr
     end
 
     def load_data
-      setup_cmr
+      cmr_up = false
+      until cmr_up do
+        begin
+          cmr_up = setup_cmr
+        rescue Faraday::Error::ConnectionFailed => e
+          puts "CMR is still starting, please wait..."
+          sleep 5
+        end
+      end
+
       insert_metadata(retrieve_metadata_uris)
     end
 

@@ -48,22 +48,17 @@ In order to use a local copy of the CMR you will need to download the latest fil
 1. Go to this page https://ci.earthdata.nasa.gov/browse/CMR-CSB/latestSuccessful/artifact/
 
 2. Download the `cmr-dev-system-uberjar.jar` file.
-    * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO
-NOT rename the file.**
+    * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO NOT rename the file.**
 
 3. In your root directory for MMT, create a folder named `cmr`.
 
 4. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder from Step #3.
 
-To start the local CMR:
-
-    rake cmr:start
-
-After 5-10 seconds you will see some log4j messages in your terminal. 10-15 seconds after that you can ingest some dummy data (press enter to get a new prompt)*:
+To start the local CMR and load data*:
 
     rake cmr:load
 
-After you see "Done!", you can load the app in your browser and use the local CMR. If you see an error `Faraday::Error::ConnectionFailed: Connection refused - connect(2)` you should wait a few more seconds, then try to load data again.
+After you see "Done!", you can load the app in your browser and use the local CMR.
 
 To stop the locally running CMR, run this command:
 
