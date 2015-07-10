@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-JS_WARNING_STRING = "Jxavascript is disabled! JavaScript must be enabled for some features to work."
+JS_WARNING_STRING = "Javascript is disabled! JavaScript must be enabled for some features to work."
 
 describe 'Javascript status testing' do
 
