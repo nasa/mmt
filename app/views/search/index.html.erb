@@ -2,7 +2,7 @@
 <input type='hidden' id='results_per_page' value="<%= @results_per_page.to_s %>">
 
 <main class="internal">
-  <header>
+  <section class="content-header">
     <div class="content">
       <div class="breadcrumb">
         <ol>
@@ -14,7 +14,7 @@
         <%= render :partial=>'collection_search_criteria' %>
       </div>
     </div>
-  </header>
+  </section>
   <section>
     <div class="col-3">
       <!-- Temporarily commented out because this is not a part of the MVP %-->
