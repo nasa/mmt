@@ -13,13 +13,27 @@ require 'multi_xml'
 
 module Cmr
   class Local
-    def initialize(num_collections)
+    def initialize(num_collections=nil)
       @num = num_collections
     end
 
     def load_data
-      setup_cmr
+      wait_for_cmr do
+        setup_cmr
+      end
       insert_metadata(retrieve_metadata_uris)
+    end
+
+    def wait_for_cmr
+        cmr_up = false
+        until cmr_up do
+          begin
+            cmr_up = yield
+          rescue Faraday::Error::ConnectionFailed => e
+            puts "CMR is still starting, please wait..."
+            sleep 5
+          end
+        end
     end
 
     def setup_cmr
@@ -116,6 +130,14 @@ module Cmr
         end
       end
       puts "Done!"
+    end
+
+    def reset_data
+      wait_for_cmr do
+        connection.post do |req|
+          req.url('http://localhost:2999/reset')
+        end
+      end
     end
 
     def connection

@@ -43,31 +43,24 @@ To start the project, just type the default rails command:
 And if you need to stop the server from running, hit `Ctrl + C` and the server will shutdown.
 
 ### Running a local copy of CMR
-In order to use a local copy of the CMR you will need to download the latest file and ingest some sample data. 
+In order to use a local copy of the CMR you will need to download the latest file and ingest some sample data.
 
-1. Go to this page https://ci.earthdata.nasa.gov/browse/CMR-CSB
+1. Go to this page https://ci.earthdata.nasa.gov/browse/CMR-CSB/latestSuccessful/artifact/
 
-2. Click on the latest successful build from Recent History.
+2. Download the `cmr-dev-system-uberjar.jar` file.
+    * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO NOT rename the file.**
 
-3. Scroll to the Shared Artifacts section 
+3. In your root directory for MMT, create a folder named `cmr`.
 
-4. Download the `cmr-dev-system-uberjar.jar` file.
-    * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO
-NOT rename the file.**
+4. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder from Step #3.
 
-5. In your root directory for MMT, create a folder named `cmr`.
+To start the local CMR and load data*:
 
-6. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder from Step #5.
+    rake cmr:start_and_load
 
-To start the local CMR:
-
-    rake cmr:start
-
-After 5-10 seconds you will see some log4j messages in your terminal. 10-15 seconds after that you can ingest some dummy data (press enter to get a new prompt)*:
+After you see "Done!", you can load the app in your browser and use the local CMR. After you have started CMR, to just reload the data:
 
     rake cmr:load
-
-After you see "Done!", you can load the app in your browser and use the local CMR. If you see an error `Faraday::Error::ConnectionFailed: Connection refused - connect(2)` you should wait a few more seconds, then try to load data again.
 
 To stop the locally running CMR, run this command:
 
@@ -79,7 +72,7 @@ You will need to stop the CMR before upgrading to a new CMR version. Note: stopp
 
 ### OpenSSL Issue
 
-*If you have a similar error from `rake cmr:load` below:
+*If you have a similar error from `rake cmr:start_and_load` below:
 
     Faraday::Error::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
 
@@ -103,7 +96,7 @@ Try the following steps:
 
 7. Find out where your OpenSSL directory is by typing `which openssl`. An example directory you might get would be `/usr/local/bin/openssl`
 
-8. Reinstall Ruby with the following command (if you are using rvm): `rvm install 2.2.2 --with-open-ssl-dir={DIRECTORY FROM STEP 7}`. 
+8. Reinstall Ruby with the following command (if you are using rvm): `rvm install 2.2.2 --with-open-ssl-dir={DIRECTORY FROM STEP 7}`.
 
     * Using the example directory from above, it would be `rvm install 2.2.2 --with-open-ssl-dir=/usr/local/bin/openssl`.
 
