@@ -93,9 +93,9 @@ class ApplicationController < ActionController::Base
 
   # Seconds ahead of the token expiration that the server should
   # attempt to refresh the token
-  # SERVER_EXPIRATION_OFFSET_S = 60
+  SERVER_EXPIRATION_OFFSET_S = 60
   # For testing, token expires after 10 seconds
-  SERVER_EXPIRATION_OFFSET_S = 3590
+  # SERVER_EXPIRATION_OFFSET_S = 3590
 
   def server_session_expires_in
     logged_in? ? (expires_in - SERVER_EXPIRATION_OFFSET_S).to_i : 0
