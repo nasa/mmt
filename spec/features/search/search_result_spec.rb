@@ -143,10 +143,10 @@ describe 'Search results' do
     end
   end
 
-  context 'when searching by Cmr Concept Id' do
+  context 'when searching by CMR Concept Id' do
     before do
       click_on 'Full Metadata Record Search'
-      select 'Cmr Concept ID', from: 'search-term-type'
+      select 'CMR Concept ID', from: 'search-term-type'
       fill_in 'search-term', with: concept_id
       click_on 'Submit'
     end
