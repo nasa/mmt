@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'Search results' do
   entry_id = 'doi:10.3334/ORNLDAAC/8_1'
   entry_title = 'Aircraft Flux-Filtered: Univ. Col. (FIFE)'
-  concept_id = 'C1200000036-PROV1'
+  concept_id = 'C1200000036-SEDAC'
 
   before :each do
     login
