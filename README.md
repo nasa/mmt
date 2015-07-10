@@ -56,9 +56,11 @@ In order to use a local copy of the CMR you will need to download the latest fil
 
 To start the local CMR and load data*:
 
-    rake cmr:load
+    rake cmr:start_and_load
 
-After you see "Done!", you can load the app in your browser and use the local CMR.
+After you see "Done!", you can load the app in your browser and use the local CMR. After you have started CMR, to just reload the data:
+
+    rake cmr:load
 
 To stop the locally running CMR, run this command:
 
@@ -70,7 +72,7 @@ You will need to stop the CMR before upgrading to a new CMR version. Note: stopp
 
 ### OpenSSL Issue
 
-*If you have a similar error from `rake cmr:load` below:
+*If you have a similar error from `rake cmr:start_and_load` below:
 
     Faraday::Error::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
 
