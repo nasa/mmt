@@ -1,4 +1,4 @@
-# MMT-112
+# MMT-112, MMT-113
 
 # In the future we need to add tests for 0 public holdings and multiple pages of public holdings.
 # When we have more realistic data we also need to add tests for various counts of collections and granules, and the proper formatting of those counts.
