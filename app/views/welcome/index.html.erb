@@ -13,40 +13,38 @@
     <section>
       <h2>Data Providers</h2>
 
-      <div id="public_holdings_search_results">
-        <table id='public-holdings'>
-          <thead>
+      <table id='public-holdings'>
+        <thead>
+        <tr>
+          <th>Provider Name</th>
+          <th>Collections</th>
+          <th>Granules</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @providers.blank? %>
           <tr>
-            <th>Provider Name</th>
-            <th>Collections</th>
-            <th>Granules</th>
+            <td colspan="4">
+              No public holdings found
+            </td>
           </tr>
-          </thead>
-          <tbody>
-          <% if @table_rows.blank? %>
-            <tr>
-              <td colspan="4">
-                No public holdings found
+        <% else %>
+          <% @providers.each do |row| %>
+            <tr class='<%= cycle("alt", "") %>'>
+              <td>
+                <%= link_to row['short_name'], :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] %>
+              </td>
+              <td class="justify-right">
+                <%= number_with_delimiter(row['collection_count']) %>
+              </td>
+              <td class="justify-right">
+                <%= number_with_delimiter(row['granule_count']) %>
               </td>
             </tr>
-          <% else %>
-            <% @table_rows.each do |row| %>
-              <tr class='<%= cycle("alt", "") %>'>
-                <td>
-                  <%= row['short_name']%>
-                </td>
-                <td class="justify-right">
-                  <%= number_with_delimiter(row['collection_count']) %>
-                </td>
-                <td class="justify-right">
-                  <%= number_with_delimiter(row['granule_count']) %>
-                </td>
-              </tr>
-            <% end %>
           <% end %>
-          </tbody>
-        </table>
-      </div>
+        <% end %>
+        </tbody>
+      </table>
 
     </section>
   </div>
