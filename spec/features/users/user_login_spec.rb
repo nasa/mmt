@@ -28,5 +28,20 @@ describe 'User login' do
       expect(page).to have_content('About the Metadata Management Tool')
     end
   end
-  
+
+  context 'when the user token is expiring' do
+    before do
+      login
+      visit_with_expiring_token('/dashboard')
+    end
+
+    it 'allows access to the dashboard' do
+      expect(page).to have_content('Test User')
+      expect(page).to have_content('Logout')
+    end
+
+    it 'refreshes the user token' do
+      expect(page.get_rack_session_key('access_token')).to eql('new_access_token')
+    end
+  end
 end
