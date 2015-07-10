@@ -6,6 +6,9 @@
 #   retrieve metadata
 #   insert metadata into local CMR
 
+#TODO: Need to ingest some granule metadata
+
+
 require 'multi_xml'
 
 module Cmr
@@ -21,39 +24,39 @@ module Cmr
 
     def setup_cmr
       ### Creating a Provider in CMR
-      # Provider 1
+      # Provider SEDAC
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "PROV1", "short-name": "p1", "cmr-only": true}'
+        req.body = '{"provider-id": "SEDAC", "short-name": "Socioeconomic Data and Applications Center (SEDAC)", "cmr-only": true}'
       end
-      # Provider 2
+      # Provider LARC
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "PROV2", "short-name": "p2", "cmr-only": true}'
+        req.body = '{"provider-id": "LARC", "short-name": "NASA Langley Research Center Atmospheric Science Data Center", "cmr-only": true}'
       end
 
       ### Create a provider in Mock Echo
-      # Provider 1
+      # Provider SEDAC
       connection.post do |req|
         req.url('http://localhost:3008/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '[{"provider":{"id":"provguid1","provider_id":"PROV1"}}]'
+        req.body = '[{"provider":{"id":"provguid1","provider_id":"SEDAC"}}]'
       end
-      # Provider 2
+      # Provider LARC
       connection.post do |req|
         req.url('http://localhost:3008/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '[{"provider":{"id":"provguid2","provider_id":"PROV2"}}]'
+        req.body = '[{"provider":{"id":"provguid2","provider_id":"LARC"}}]'
       end
 
       ### Adding ACLs
-      # Provider 1
+      # Provider SEDAC
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
@@ -66,7 +69,7 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
-      # Provider 2
+      # Provider LARC
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
@@ -98,9 +101,9 @@ module Cmr
         metadata = connection.get(uri).body
         response = connection.put do |req|
           if index > 24
-            req.url("http://localhost:3002/providers/PROV1/collections/collection#{index}")
+            req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
           else
-            req.url("http://localhost:3002/providers/PROV2/collections/collection#{index}")
+            req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
           end
           req.headers['Content-Type'] = 'application/echo10+xml'
           req.headers['Echo-token'] = 'mock-echo-system-token'

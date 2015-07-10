@@ -37,6 +37,8 @@ class SearchController < ApplicationController
         @query['entry-id'] = params['search-term']
       when 'entry-title'
         @query['entry-title'] = params['search-term']
+      when 'concept-id'
+        @query['concept-id'] = params['search-term']
       end
     end
 
@@ -46,15 +48,7 @@ class SearchController < ApplicationController
     @query['page'] = 1
 
     good_params = prune_query(@query.clone)
-    query_results = cmr_client.get_collections(good_params)
-
-    if (query_results.nil? || query_results.body.nil?)
-      @table_rows = nil
-      @total_hit_count = 0
-    else
-      @table_rows = query_results.body
-      @total_hit_count = query_results.body.size
-    end
+    @collections = cmr_client.get_collections(good_params).body
 
   end
 

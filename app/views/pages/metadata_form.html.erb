@@ -1,0 +1,130 @@
+<main class="internal">
+  <section class="content-header">
+    <div class="content">
+      <div class="breadcrumb">
+        <ol>
+          <li><%= link_to 'Manage Metadata Dashboard', dashboard_path %></li>
+          <li><a href="#" title="#">Untitled Collection Record</a></li>
+          <li>Data Identification</li>
+        </ol>
+      </div>
+      <h2>Data Identification</h2>
+    </div>
+  </section>
+  <section>
+    <form action="" class="metadata-form">
+      <div class="row metadata-cta">
+        <div class="col-2">
+          <button type="submit" class="btn btn-blue">Save &amp; Done</button>
+        </div>
+        <div class="col-9 form-nav">
+          <label for="next-section">Next: </label>
+          <select name="next-section" id="next-section">
+            <option value="Descriptive Keywords" selected="selected">Descriptive Keywords</option>
+          </select>
+          <button type="submit" class="btn btn-blue">Save &amp; Next ></button>
+        </div>
+        <div class="col-1">
+          <a href="#" title="Cancel" class="cancel">Cancel</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <p class="icon-required">Indicates required field</p>
+        </div>
+      </div>
+      <!-- Entry ID -->
+      <div class="row">
+        <div class="col-12">
+          <label for="entry-id" class="icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
+          <input type="text" id="entry-id" class="half-width" required>
+        </div>
+      </div>
+      <div class="banner banner-danger half-width">
+        <i class="fa fa-exclamation-triangle"></i><strong>Please enter a valid ID (i.e., 12345).</strong>
+      </div>
+      <!-- Entry Title -->
+      <div class="row">
+        <div class="col-12">
+          <label for="entry-title" class="icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
+          <input type="text" id="entry-title" class="full-width" required>
+        </div>
+      </div>
+      <div class="banner banner-danger">
+        <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
+      </div>
+      <!-- Abstract -->
+      <div class="row">
+        <div class="col-12">
+          <label for="abstract" class="icon-required">Abstract</label><i class="fa fa-info-circle"></i>
+          <textarea rows="8" id="abstract" required></textarea>
+        </div>
+      </div>
+      <div class="banner banner-danger">
+        <i class="fa fa-exclamation-triangle"></i><strong>Please enter at least 10 characters.</strong>
+      </div>
+      <!-- Purpose -->
+      <div class="row">
+        <div class="col-12">
+          <label for="purpose">Purpose</label><i class="fa fa-info-circle"></i>
+          <textarea name="purpose" id="purpose" rows="8"></textarea>
+        </div>
+        <div class="banner banner-danger">
+          <i class="fa fa-exclamation-triangle"></i><strong>Please enter at least 10 characters.</strong>
+        </div>
+      </div>
+      <!-- Organization -->
+      <div class="row taller">
+        <div class="col-12">
+          <label for="organization" class="icon-required">Organization</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+          <div class="row">
+            <div class="col-12">
+              <a href="#" class="icon-more">Add organization</a>
+            </div>
+          </div>
+        </div>
+        <div class="banner banner-danger">
+          <i class="fa fa-exclamation-triangle"></i><strong>Please select at least one organization.</strong>
+        </div>
+      </div>
+      <!-- Personnel -->
+      <div class="row taller">
+        <div class="col-12">
+          <label for="personnel">Personnel</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+          <div class="row">
+            <div class="col-12">
+              <a href="#" class="icon-more">Add personnel</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Related URL -->
+      <div class="row">
+        <div class="col-12">
+          <label for="related-url" class="icon-required">Related URL</label><i class="fa fa-info-circle"></i>
+          <input type="url" id="related-url" class="full-width">
+        </div>
+        <div class="banner banner-danger">
+          <i class="fa fa-exclamation-triangle"></i><strong>Please enter a valid URL</strong>
+        </div>
+      </div>
+      <div class="row metadata-cta">
+        <div class="col-2">
+          <button type="submit" class="btn btn-blue">Save &amp; Done</button>
+        </div>
+        <div class="col-9 form-nav">
+          <label for="next-section">Next: </label>
+          <select name="next-section" id="next-section">
+            <option value="Descriptive Keywords" selected="selected">Descriptive Keywords</option>
+          </select>
+          <button type="submit" class="btn btn-blue">Save &amp; Next ></button>
+        </div>
+        <div class="col-1">
+          <a href="#" title="Cancel" class="cancel">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </section>
+</main>
+
+
