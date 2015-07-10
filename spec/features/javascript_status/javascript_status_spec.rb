@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-BASE_STRING = "Javascript is disabled! JavaScript must be enabled for some features to work."
+JS_WARNING_STRING = "Jxavascript is disabled! JavaScript must be enabled for some features to work."
 
 describe 'Javascript status testing' do
 
@@ -13,13 +13,13 @@ describe 'Javascript status testing' do
 
     context 'when javascript is enabled' do
       it 'does not display the javascript disabled warning' do
-        expect(page).to_not have_css('#javascript_warning', :text => BASE_STRING, :visible => true)
+        expect(page).to have_css('#javascript_warning', :text => JS_WARNING_STRING, :visible => false)
       end
     end
 
-    context 'when javascript is disabled', :js=>false do
+    context 'when javascript is disabled', js: false do
       it 'does display the javascript disabled warning' do
-        expect(page).to have_css('#javascript_warning', :text => BASE_STRING, :visible => true)
+        expect(page).to have_css('#javascript_warning', :text => JS_WARNING_STRING, :visible => true)
       end
     end
 
