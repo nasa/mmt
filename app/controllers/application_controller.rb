@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_filter :is_logged_in, :setup_query
+  before_filter :is_logged_in, :setup_query, :setup_current_user
   before_filter :refresh_urs_if_needed, except: [:logout, :refresh_token]
 
   protected
@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
     @query ||= {}
     # we don't want to do this on every page, it takes forever
     @provider_ids = cmr_client.get_providers
+  end
+
+  def setup_current_user
+    @current_user = User.from_urs_uid(session[:urs_uid])
   end
 
   def redirect_from_urs
@@ -47,6 +51,7 @@ class ApplicationController < ActionController::Base
   def store_profile(profile={})
     session[:name] = "#{profile['first_name']} #{profile['last_name']}"
     session[:urs_uid] = profile['uid']
+    @current_user = User.from_urs_uid(profile['uid'])
   end
 
   def refresh_urs_if_needed

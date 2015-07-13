@@ -1,0 +1,153 @@
+<main class="internal record">
+  <header>
+    <div class="content">
+      <div class="breadcrumb">
+        <ol>
+          <li><a href="#">Dashboard</a></li>
+        </ol>
+      </div>
+      <h2>
+        <%= image_tag('collection.png', alt: 'Sun') %> <%= @draft.title || '<Untitled Collection Record>' %></h2>
+      <p class="subtitle">Draft Record</p>
+    </div>
+  </header>
+  <section class="action">
+    <div class="cta">
+      <a href="#" alt="Publish Button" class="btn btn-blue">Publish</a>
+      <a href="#" alt="Download XML">Download XML</a> |
+      <a href="#" alt="Delete Draft">Delete Draft</a>
+    </div>
+    <div class="quality-score">
+      <div class="badges">
+        <%= image_tag('badge.png', alt: 'Badge') %>
+        <%= image_tag('badge.png', alt: 'Badge') %>
+        <%= image_tag('badge.png', alt: 'Badge') %>
+        <%= image_tag('badge.png', alt: 'Badge') %>
+        <%= image_tag('badge.png', alt: 'Badge') %>
+      </div>
+      <div class="score-info">
+        <p>Quality Score = 20</p>
+        <p>Required fields not complete</p>
+      </div>
+    </div>
+  </section>
+  <section class="metadata">
+    <h3>Metadata Fields</h3>
+    <ul>
+      <li>
+        <div class="status">
+          <i class="fa fa-circle-thin"></i>
+        </div>
+        <div class="meta-info">
+          <%= link_to 'Data Identification', draft_edit_form_path(@draft, 'data_identification') %>
+          <br>
+          <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+        </div>
+      </li>
+      <li>
+        <div class="status">
+          <i class="fa fa-circle-thin"></i>
+        </div>
+        <div class="meta-info">
+          <%= link_to 'Descriptive Keywords', draft_edit_form_path(@draft, 'descriptive_keywords') %>
+          <br>
+          <i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+        </div>
+      </li>
+      <li>
+        <div class="status">
+          <i class="fa fa-circle-thin"></i>
+        </div>
+        <div class="meta-info">
+          <%= link_to 'Associations', draft_edit_form_path(@draft, 'associations') %>
+          <br>
+          <i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+        </div>
+      </li>
+      <li>
+        <div class="status">
+          <i class="fa fa-check-circle"></i>
+        </div>
+        <div class="meta-info">
+          <%= link_to 'Temporal Extent', draft_edit_form_path(@draft, 'temporal_extent') %>
+          <br>
+          <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+        </div>
+      </li>
+      <li>
+        <div class="status">
+          <i class="fa fa-circle-thin"></i>
+        </div>
+        <div class="meta-info">
+          <%= link_to 'Spatial Extent', draft_edit_form_path(@draft, 'spatial_extent') %>
+          <br>
+          <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
+        </div>
+      </li>
+      <li>
+        <div class="status">
+          <i class="fa fa-circle-thin"></i>
+        </div>
+        <div class="meta-info">
+          <%= link_to 'Acquisition Information', draft_edit_form_path(@draft, 'acquisition_information') %>
+          <br>
+          <i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle- icon-grey"></i>
+        </div>
+      </li>
+      <li>
+        <div class="status">
+          <i class="fa fa-check-circle"></i>
+        </div>
+        <div class="meta-info">
+          <%= link_to 'Metadata Information', draft_edit_form_path(@draft, 'metadata_information') %>
+          <br>
+          <i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <div class="row content">
+    <section class="preview">
+      <h3>Preview</h3>
+      <input type="checkbox" name="markdown"></input>
+      <label for="markdown">Show as markdown</label>
+      <h4>Entry ID</h4>
+      <p>ASF20CD03</p>
+      <h4>Abstract</h4>
+      <p>The CD-ROM contains the 250 resolution RADARSAT-1 SAR Mosaic of Antartica and the Image Explorer software for viewing the data. The mosaics are a part of the RADARSAT-1 Antartica Mapping Project, a collaboration between CSA and NASA. Partners include the Byrd Polar Research Center of the Ohio State University, the Alaska Satellite Facility, the Jet Propulsion Laboratory, and Vexcel Corporation.</p>
+      <h4>Science Keywords</h4>
+      <ul>
+        <li>Spectral/Engineering > Radar > Radar Backscatter</li>
+        <li>Spectral/Engineering > Radar > Radar Cross-Section</li>
+        <li>Spectral/Engineering > Radar > Radar Imagery</li>
+      </ul>
+      <h4>Data Center</h4>
+      <p>Alaska Satellite Facility</p>
+      <h4>Personnel</h4>
+      <ul>
+        <li>Nettie Labelle-Hamer<br>Role: Technical Contact</li>
+      </ul>
+    </section>
+    <aside class="geographic-coverage">
+      <h3>Geographic Coverage</h3>
+      <img src="http://placehold.it/306x155">
+      <caption>Spatial Coordinates</caption>
+      <ol class="coordinates">
+        <li>N: -62.83</li>
+        <li>S: 90.0</li>
+        <li>E: 180.0</li>
+        <li>W: -180.0</li>
+      </ol>
+      <h4>Location Keywords</h4>
+      <ul>
+        <li>Continent > Antartica</li>
+        <li>Geographic Region > Polar</li>
+      </ul>
+      <h4>Temporal Coverage</h4>
+      <ul>
+        <li>Start Date: <time datetime="1997-09-09"></time>1997-09-09</li>
+        <li>Stop Date: <time datetime="1997-10-22">1997-10-22</time></li>
+      </ul>
+    </aside>
+  </div>
+</main>
