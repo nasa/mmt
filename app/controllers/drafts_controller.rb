@@ -23,7 +23,6 @@ class DraftsController < ApplicationController
     if params[:form]
       @content_partial_name = params[:form]
       @current_form_name = @content_partial_name.titleize()
-      #render "_#{params[:form]}"
     else
       render action: 'show'
     end
@@ -49,14 +48,21 @@ class DraftsController < ApplicationController
   # PATCH/PUT /drafts/1.json
   def update
     # TODO Each "Save" button will call update to update the draft, and navigate to another form or collection page (show action)
-    respond_to do |format|
-      if @draft.update(draft_params)
-        format.html { redirect_to @draft, notice: 'Draft was successfully updated.' }
-        format.json { render :show, status: :ok, location: @draft }
-      else
-        format.html { render :edit }
-        format.json { render json: @draft.errors, status: :unprocessable_entity }
+    @draft = Draft.find(params[:id])
+    if @draft.update_attributes(draft_params)
+      case params[:commit]
+      when "Save & Done"
+        redirect_to @draft, notice: 'Draft was successfully updated.'
+      when "Save & Next"
+        # Determine next form to go to
+        next_form_name = Draft.get_next_form(params["next-section"])
+        redirect_to draft_edit_form_path(@draft, next_form_name)
+      else # Jump directly to a form
+        next_form_name = params["new_form_name"]
+        redirect_to draft_edit_form_path(@draft, next_form_name)
       end
+    else # record update failed
+      render 'edit'
     end
   end
 

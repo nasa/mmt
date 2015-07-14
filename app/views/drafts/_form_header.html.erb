@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <ol>
         <li><%= link_to 'Manage Metadata Dashboard', dashboard_path %></li>
-        <li><%= link_to @draft.title || '<Untitled Collection Record>', draft_path(@draft) %></li>
+        <li><%= link_to (@draft.title.empty? ? nil : @draft.title) || '<Untitled Collection Record>', draft_path(@draft) %></li>
         <li><%= @current_form_name %></li>
       </ol>
     </div>

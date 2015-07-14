@@ -1,1 +1,16 @@
+<%= fields_for @draft do |f| %>
+
+  <div class="row">
+    <div class="col-12">
+      <%= f.label :title, {:class=>'icon-required'} %>
+      <i class="fa fa-info-circle"></i>
+      <%= f.text_field :title, {:class=>'full-width'} %>
+    </div>
+  </div>
+  <div class="banner banner-danger">
+    <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
+  </div>
+
+<% end %>
+
 [<%= @current_form_name %> fields go here]

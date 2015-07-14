@@ -1,17 +1,52 @@
 <main class="internal">
-  <%= render 'form_header' %>
+  <%= form_for(@draft) do |f| %>
 
-  <section>
-    <form action="" class="metadata-form">
+    <%= render 'form_header' %>
 
-      <%= render 'form_navigation' %>
+    <% if @draft.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@draft.errors.count, 'error') %>) prohibit this draft from being saved:</h2>
+        <ul>
+          <% @draft.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <section>
+
+      <input type="hidden" name='new_form_name' id="new_form_name" />
+
+      <% @location='top' # ugly work-around %>
+      <%= render 'form_navigation', :locals=>{:location=>'top'} %>
 
       <%= render 'form_required_field_notice' %>
 
-      <%= render @content_partial_name %>
+      <%= render @content_partial_name, object: @draft, as: 'draft' %>
 
-      <%= render 'form_navigation' %>
+      </br>
 
-    </form>
-  </section>
+      <% @location='bottom' # ugly work-around %>
+      <%= render 'form_navigation', :locals=>{:location=>'bottom'} %>
+
+    </section>
+  <% end %>>
 </main>
+
+
+<script type="text/javascript" charset="utf-8">
+
+  function go_to_form(location) {
+
+    calling_selector = (location == 'top') ? "#next-section-top" : "#next-section-bottom"
+    $("#new_form_name").val($(calling_selector).val());
+
+    // Handle any JS validation and related issues for @content_partial_name
+    //   Call page specific JS validations & handle findings
+    // If ready, go to server to take next appropriate action
+    document.forms["edit_draft_<%= @draft_id %>"].submit();
+  }
+
+</script>
+
