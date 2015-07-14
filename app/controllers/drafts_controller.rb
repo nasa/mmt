@@ -21,7 +21,9 @@ class DraftsController < ApplicationController
   # GET /drafts/1/edit
   def edit
     if params[:form]
-      render "_#{params[:form]}"
+      @content_partial_name = params[:form]
+      @current_form_name = @content_partial_name.titleize()
+      #render "_#{params[:form]}"
     else
       render action: 'show'
     end
@@ -72,7 +74,9 @@ class DraftsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_draft
       id = params[:draft_id] || params[:id]
+      @draft_id = id
       @draft = Draft.find(id)
+      @draft_forms = Draft::DRAFT_FORMS
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

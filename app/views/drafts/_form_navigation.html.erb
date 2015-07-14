@@ -1,0 +1,40 @@
+<div class="row metadata-cta">
+
+  <div class="col-2">
+    <button type="submit" class="btn btn-blue">Save &amp; Done</button>
+  </div>
+
+  <div class="col-9 form-nav">
+    <label for="next-section">Next: </label>
+    <select name="next-section" id="next-section">
+      <% @draft_forms.each do |f| %>
+        <option value="<%=f[:go_to_page]%>" <%= @current_form_name == f[:name] ? 'selected="selected"' : ''%> >
+          <%= f[:name] %>
+        </option>
+      <% end %>
+    </select>
+    <button type="submit" class="btn btn-blue">Save &amp; Next ></button>
+  </div>
+
+  <div class="col-1">
+    <a href="#" title="Cancel" class="cancel">Cancel</a>
+  </div>
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  $("#next-section").change(function(){
+    alert('<%="Navigate from #{@content_partial_name} to "%>' + $(this).val() + ' for draft <%= @draft_id %>.');
+
+    // Handle any validation and related issues for @content_partial_name
+    //   Call page specific validations & handle findings
+    // If ready, go to server to take next appropriate action
+
+    //<a href="/drafts/2/edit/descriptive_keywords">Descriptive Keywords</a>
+
+    //<%= link_to 'Descriptive Keywords', draft_edit_form_path(@draft, 'descriptive_keywords') %>
+
+    //  Notify user of problems &
+  });
+</script>
+
