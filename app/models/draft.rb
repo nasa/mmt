@@ -2,7 +2,7 @@ class Draft < ActiveRecord::Base
   belongs_to :user
   #validates :title, :presence=> true
 
-  DRAFT_FORMS = [
+  DRAFT_FORMS = [ # array of hashes provide flexibility to add additional columns later
       {:form_partial_name=>'data_identification'},
       {:form_partial_name=>'descriptive_keywords'},
       {:form_partial_name=>'distribution_information'},
