@@ -117,38 +117,38 @@
     <section class="callout-box col-left">
       <div class="callout-content">
         <h3>Create New Record</h3>
-        <form action="">
+        <%= form_tag(new_record_path, method: 'get', enforce_utf8: false) do %>
           <div class="question-group">
             <div class="row">
-              <input type="radio" name="new-collection">
+              <%= radio_button_tag(:type, "new_collection") %>
               <%= image_tag "collection.png" %>
               <label for="new-collection">
                 New Collection Record
               </label>
             </div>
             <div class="row">
-              <input type="radio" name="new-service">
+              <%= radio_button_tag(:type, "new_service") %>
               <%= image_tag "services.png" %>
               <label for="new-service">New Service Record</label>
             </div>
           </div>
           <div class="question-group">
             <div class="row">
-              <input type="radio" name="from-template">
+              <%= radio_button_tag(:type, "from_template") %>
               <label for="from-template">From Template</label>
               <select name="select-template" class="single-select">
                 <option value="Select Template">Select Template</option>
               </select>
             </div>
             <div class="row">
-              <input type="radio" name="blank-record">
+              <%= radio_button_tag(:type, "blank_record") %>
               <label for="blank-record">From Blank Record<br><strong>OR</strong> use <a href="#">search</a> to find an existing record to use as a basis for a new record</label>
             </div>
           </div>
           <div class="row">
             <input type="submit" class="btn submit" value="Create Record">
           </div>
-        </form>
+        <% end %>
       </div>
     </section>
     <section class="callout-box col-left">

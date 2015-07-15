@@ -1,0 +1,29 @@
+<%= fields_for @draft do |f| %>
+  <div class="row metadata-cta">
+
+    <div class="col-2">
+      <%= f.submit "Save & Done", {:class=>"btn btn-blue"}%>
+    </div>
+
+    <div class="col-9 form-nav">
+      <label for="next-section">Next: </label>
+
+      <select name="next-section" id="next-section-<%=location%>" onchange="go_to_form('<%=location%>'); return false;">
+        <% @draft_forms.each do |form| %>
+          <% form_title = form[:form_partial_name].titleize %>
+          <option value="<%=form[:form_partial_name]%>" <%= @draft_form.titleize == form_title ? 'selected="selected"' : ''%> >
+            <%= form_title %>
+          </option>
+        <% end %>
+      </select>
+
+      <%= f.submit "Save & Next", {:class=>"btn btn-blue"}%>
+    </div>
+
+    <div class="col-1">
+      <%= link_to 'Cancel', draft_path(@draft), {:class=>"cancel", :id=>'discard_changes'} %>
+    </div>
+
+  </div>
+
+<% end %>

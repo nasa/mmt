@@ -7,6 +7,11 @@
     width: 70% !important;
     margin-right: 0.8em;
   }
+
+  .cancel {
+    display: block;
+    margin-top: 0.8em;
+  }
 }
 
 .form-nav {
@@ -14,4 +19,3 @@
   border-right: 1px solid  $black;
   padding-left: 2em;  
 }
-
