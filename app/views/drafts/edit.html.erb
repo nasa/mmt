@@ -18,8 +18,7 @@
 
       <input type="hidden" name='new_form_name' id="new_form_name" />
 
-      <% @location='top' # ugly work-around %>
-      <%= render 'form_navigation', :locals=>{:location=>'top'} %>
+      <%= render :partial => 'form_navigation', :locals=>{:location=>'top'} %>
 
       <%= render 'form_required_field_notice' %>
 
@@ -27,8 +26,7 @@
 
       </br>
 
-      <% @location='bottom' # ugly work-around %>
-      <%= render 'form_navigation', :locals=>{:location=>'bottom'} %>
+      <%= render :partial => 'form_navigation', :locals=>{:location=>'bottom'} %>
 
     </section>
   <% end %>>
