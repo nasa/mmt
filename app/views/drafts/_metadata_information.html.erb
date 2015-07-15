@@ -1,16 +1,24 @@
-<%= fields_for @draft do |f| %>
-
-  <div class="row">
-    <div class="col-12">
-      <%= f.label :title, {:class=>'icon-required'} %>
-      <i class="fa fa-info-circle"></i>
-      <%= f.text_field :title, {:class=>'full-width'} %>
-    </div>
+<!-- Metadata language -->
+<!-- TODO -->
+<!-- <div class="row">
+  <div class="col-12">
+    <label for="draft_entry_id" class="icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
+    <input type="text" id="entry_id" name="draft[entry_id]" class="half-width" value="<%= @draft.draft['EntryId'] %>" required>
   </div>
-  <div class="banner banner-danger">
-    <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
+</div>
+<div class="banner banner-danger half-width">
+  <i class="fa fa-exclamation-triangle"></i><strong>Please enter a valid ID (i.e., 12345).</strong>
+</div> -->
+<!-- Metdata Standard -->
+<!-- TODO -->
+<!-- <div class="row">
+  <div class="col-12">
+    <label for="draft_entry_title" class="icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
+    <input type="text" id="entry_title" name="draft[entry_title]" class="full-width" value="<%= @draft.draft['EntryTitle'] %>" required>
   </div>
-
-<% end %>
-
-[<%= @draft_form.titleize %> fields go here]
+</div>
+<div class="banner banner-danger">
+  <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
+</div> -->
+<!-- Metadata Dates -->
+<!-- Not in UMM JSON Schema  -->

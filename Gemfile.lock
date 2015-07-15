@@ -85,6 +85,8 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    json-schema (2.5.1)
+      addressable (~> 2.3.7)
     kgio (2.9.3)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -223,6 +225,7 @@ DEPENDENCIES
   figaro
   jbuilder (~> 2.0)
   jquery-rails
+  json-schema
   launchy
   multi_xml
   neat

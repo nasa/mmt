@@ -1,16 +1,47 @@
-<%= fields_for @draft do |f| %>
-
-  <div class="row">
-    <div class="col-12">
-      <%= f.label :title, {:class=>'icon-required'} %>
-      <i class="fa fa-info-circle"></i>
-      <%= f.text_field :title, {:class=>'full-width'} %>
+<!-- ISOTopicCategory -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="iso_topic_category">ISO Topic Category</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+    <div class="row">
+      <div class="col-12">
+        <a href="#" class="icon-more">Add ISO topic category</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ScienceKeyword -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="science_keyword" class="icon-required">Science Keyword</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+    <div class="row">
+      <div class="col-12">
+        <a href="#" class="icon-more">Add science keyword</a>
+      </div>
     </div>
   </div>
   <div class="banner banner-danger">
-    <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
+    <i class="fa fa-exclamation-triangle"></i><strong>Please select at least one science keyword.</strong>
   </div>
-
-<% end %>
-
-[<%= @draft_form.titleize %> fields go here]
+</div>
+<!-- AncillaryKeyword -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="ancillary_keyword">Ancillary Keyword</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+    <div class="row">
+      <div class="col-12">
+        <a href="#" class="icon-more">Add ancillary keyword</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- AdditionalAttribute -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="additional_attribute">Additional Attribute</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+    <div class="row">
+      <div class="col-12">
+        <a href="#" class="icon-more">Add additional attribute</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 class Draft < ActiveRecord::Base
   belongs_to :user
-  #validates :title, :presence=> true
+  serialize :draft, JSON
 
   DRAFT_FORMS = [ # array of hashes provide flexibility to add additional fiels
       {:form_partial_name=>'data_identification'},
@@ -23,4 +23,31 @@ class Draft < ActiveRecord::Base
     return nil
   end
 
+  def title
+    self.draft['EntryTitle'] || '<Untitled Collection Record>'
+  end
+
+  def update_draft(params)
+    if params
+      self.draft.merge!(map_params(params))
+      puts "DRAFT"
+      puts self.inspect
+      self.save
+    end
+    # TODO take out
+    true
+  end
+
+  def map_params(params)
+    new_params = {}
+    # Data Identification
+    if params['entry_id']
+      new_params['EntryId'] = params['entry_id']
+      new_params['EntryTitle'] = params['entry_title']
+      new_params['Abstract'] = params['abstract']
+      new_params['Purpose'] = params['purpose']
+    end
+
+    new_params
+  end
 end

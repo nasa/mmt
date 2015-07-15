@@ -1,16 +1,100 @@
 <!-- Entry ID -->
-<%= fields_for @draft do |f| %>
+<div class="row">
+  <div class="col-12">
+    <label for="draft_entry_id" class="icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
+    <!-- <input type="text" id="entry_id" name="draft[entry_id]" class="half-width" value="<%= @draft.draft['EntryId'] %>" required> -->
+    <%= text_field_tag('draft[entry_id]', @draft.draft['EntryId'], class: 'half-width', required: true) %>
+  </div>
+</div>
+<div class="banner banner-danger half-width">
+  <i class="fa fa-exclamation-triangle"></i><strong>Please enter a valid ID (i.e., 12345).</strong>
+</div>
+<!-- Entry Title -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_entry_title" class="icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
+    <!-- <input type="text" id="entry_title" name="draft[entry_title]" class="full-width" value="<%= @draft.draft['EntryTitle'] %>" required> -->
+    <%= text_field_tag('draft[entry_title]', @draft.draft['EntryTitle'], class: 'half-width', required: true) %>
+  </div>
+</div>
+<div class="banner banner-danger">
+  <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
+</div>
+<!-- Abstract -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_abstract" class="icon-required">Abstract</label><i class="fa fa-info-circle"></i>
+    <!-- <textarea rows="8" id="abstract" name="draft[abstract]" value="<%= @draft.draft['Abstract'] %>" required></textarea> -->
+    <%= text_area_tag('draft[abstract]', @draft.draft['Abstract'], rows: 8, required: true) %>
+  </div>
+</div>
+<div class="banner banner-danger">
+  <i class="fa fa-exclamation-triangle"></i><strong>Please enter at least 10 characters.</strong>
+</div>
+<!-- Purpose -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_purpose">Purpose</label><i class="fa fa-info-circle"></i>
+    <!-- <textarea name="draft[purpose]" id="purpose" rows="8"></textarea> -->
+    <%= text_area_tag('draft[purpose]', @draft.draft['Purpose'], rows: 8) %>
+  </div>
+  <div class="banner banner-danger">
+    <i class="fa fa-exclamation-triangle"></i><strong>Please enter at least 10 characters.</strong>
+  </div>
+</div>
+<!-- Data language -->
 
-  <div class="row">
-    <div class="col-12">
-      <%= f.label :title, {:class=>'icon-required'} %>
-      <i class="fa fa-info-circle"></i>
-      <%= f.text_field :title, {:class=>'full-width'} %>
+<!-- Data dates -->
+
+<!-- Organization -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="organization" class="icon-required">Organization</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+    <div class="row">
+      <div class="col-12">
+        <a href="#" class="icon-more">Add organization</a>
+      </div>
     </div>
   </div>
   <div class="banner banner-danger">
-    <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
+    <i class="fa fa-exclamation-triangle"></i><strong>Please select at least one organization.</strong>
   </div>
+</div>
+<!-- Personnel -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="personnel">Personnel</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+    <div class="row">
+      <div class="col-12">
+        <a href="#" class="icon-more">Add personnel</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Collection Data Type -->
+  <!-- Dropdown with ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"] -->
 
-<% end %>
+<!-- Processing Level [r] -->
+  <!-- ProcessingLevelType  -->
 
+<!-- Resource Citation -->
+  <!-- CollectionCitation -->
+  <!-- Array of ResourceCitationType -->
+
+<!-- Collection Progress -->
+<!-- Dropdown with ["PLANNED", "IN WORK", "COMPLETE"] -->
+
+<!-- Quality -->
+  <!-- string -->
+
+<!-- Use Constraints -->
+  <!-- string -->
+
+<!-- Access Constraints -->
+  <!-- object: description, value -->
+
+<!-- Metadata Association -->
+  <!-- array of MetadataAssociationType -->
+
+<!-- Publication Reference -->
+  <!-- array of PublicationReferenceType -->

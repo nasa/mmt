@@ -65,3 +65,5 @@ group :production do
 end
 
 gem 'figaro'
+
+gem 'json-schema'
