@@ -9,9 +9,9 @@
       <label for="next-section">Next: </label>
 
       <select name="next-section" id="next-section-<%=location%>" onchange="go_to_form('<%=location%>'); return false;">
-        <% @draft_forms.each do |f| %>
-          <% form_title = f[:form_partial_name].titleize() %>
-          <option value="<%=f[:form_partial_name]%>" <%= @current_form_name == form_title ? 'selected="selected"' : ''%> >
+        <% @draft_forms.each do |form| %>
+          <% form_title = form[:form_partial_name].titleize %>
+          <option value="<%=form[:form_partial_name]%>" <%= @draft_form.titleize == form_title ? 'selected="selected"' : ''%> >
             <%= form_title %>
           </option>
         <% end %>

@@ -21,8 +21,8 @@ class DraftsController < ApplicationController
   # GET /drafts/1/edit
   def edit
     if params[:form]
-      @content_partial_name = params[:form]
-      @current_form_name = @content_partial_name.titleize()
+      @draft_form = params[:form]
+      #@draft_form.titleize = @draft_form.titleize()
     else
       render action: 'show'
     end
