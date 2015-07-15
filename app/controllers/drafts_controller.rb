@@ -22,7 +22,6 @@ class DraftsController < ApplicationController
   def edit
     if params[:form]
       @draft_form = params[:form]
-      #@draft_form.titleize = @draft_form.titleize()
     else
       render action: 'show'
     end

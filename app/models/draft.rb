@@ -2,14 +2,14 @@ class Draft < ActiveRecord::Base
   belongs_to :user
   #validates :title, :presence=> true
 
-  DRAFT_FORMS = [ # array of hashes provide flexibility to add additional columns later
+  DRAFT_FORMS = [ # array of hashes provide flexibility to add additional fiels
       {:form_partial_name=>'data_identification'},
       {:form_partial_name=>'descriptive_keywords'},
-      {:form_partial_name=>'distribution_information'},
+      {:form_partial_name=>'metadata_information'},
       {:form_partial_name=>'temporal_extent'},
       {:form_partial_name=>'spatial_extent'},
       {:form_partial_name=>'acquisition_information'},
-      {:form_partial_name=>'metadata_information'}
+      {:form_partial_name=>'distribution_information'}
   ]
 
   def self.get_next_form(cur_form_name)
