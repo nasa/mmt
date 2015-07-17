@@ -70,12 +70,13 @@ class SearchController < ApplicationController
     draft_collections = []
     if need_to_search_draft_records && !published_collections.is_a?(Hash) # Don't bother to search if published search returned an error.
 
-      # Temporary mapping of params to the field names currently supported by drafts
+      # Temporary mapping of (ECHO) params to the UMM-C field names currently supported by drafts
         draft_params = {}
         draft_params['title'] = good_params['entry-title'] if !good_params['entry-title'].blank?
         draft_params['id'] = good_params['entry-id'] if !good_params['entry-id'].blank?
+        good_params = draft_params
 
-      draft_collections = Draft.where(draft_params)  #.first #(for testing)
+      draft_collections = Draft.where(good_params)  #.first #(for testing)
       # Note that draft_collections is either an array, an object or nil
 
       # Temporary changes to drafts to allow them to be handled in the same manner as crm records.
@@ -91,8 +92,8 @@ class SearchController < ApplicationController
     end
 
     # Combine and sort the query results
-    if published_collections.is_a?(Hash) # search of published returned error
-      @collections = published_collections
+    if published_collections.is_a?(Hash) # the search of published collections returned an error
+      @collections = published_collections # Display the error msg. Don't bother with the drafts
     else
       @collections = (published_collections.concat(draft_collections)).sort {|x, y|
         x['extra-fields']['entry-title']<=>y['extra-fields']['entry-title']

@@ -43,7 +43,7 @@ describe 'Search results' do
     # We could add a test to actually examine the results table contents more specifically
   end
 
-  context 'when searching by entry id' do
+  context 'when searching published by entry id' do
     before do
       click_on 'Full Metadata Record Search'
       select 'Entry ID', from: 'search-term-type'
@@ -77,7 +77,28 @@ describe 'Search results' do
     end
   end
 
-  context 'when searching by entry title' do
+  context 'when searching published & draft by entry id' do
+    before do
+      click_on 'Full Metadata Record Search'
+      select 'Published & Draft Records', from: 'record-state'
+      select 'Entry ID', from: 'search-term-type'
+      fill_in 'search-term', with: entry_id
+      click_on 'Submit'
+    end
+
+    it 'displays collection results' do
+      expect(page).to have_content("1 Result for: Record State: published-and-draft-records |  Entry Id: #{entry_id}")
+    end
+
+    it 'displays expected data' do
+      expect(page).to have_content(entry_id)
+      expect(page).to have_content(entry_title)
+      expect(page).to have_content(Date.today.strftime("%Y-%m-%d"))
+    end
+
+  end
+
+  context 'when searching published by entry title' do
     before do
       click_on 'Full Metadata Record Search'
       select 'Entry Title', from: 'search-term-type'
@@ -111,7 +132,7 @@ describe 'Search results' do
     end
   end
 
-  context 'when searching by provider' do
+  context 'when searching published by provider' do
     before do
       click_on 'Full Metadata Record Search'
       select 'LARC', from: 'provider-id'
@@ -143,7 +164,7 @@ describe 'Search results' do
     end
   end
 
-  context 'when searching by CMR Concept Id' do
+  context 'when searching published by CMR Concept Id' do
     before do
       click_on 'Full Metadata Record Search'
       select 'CMR Concept ID', from: 'search-term-type'
