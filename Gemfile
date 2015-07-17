@@ -67,3 +67,4 @@ end
 gem 'figaro'
 
 gem 'json-schema'
+gem 'awrence' # convert snake_case hash keys to CamelCase hash keys

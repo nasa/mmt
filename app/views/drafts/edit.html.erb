@@ -44,23 +44,5 @@
       <%= render :partial => 'form_navigation', :locals=>{:location=>'bottom'} %>
 
     </section>
-  <% end %>>
+  <% end %>
 </main>
-
-
-<script type="text/javascript" charset="utf-8">
-
-  function go_to_form(form,value) {
-
-    // calling_selector = (location == 'top') ? "#next-section-top" : "#next-section-bottom"
-    $("#new_form_name").val(value);
-
-    // Handle any JS validation and related issues for @content_partial_name
-    //   Call page specific JS validations & handle findings
-    // If ready, go to server to take next appropriate action
-    // document.forms["edit_draft_<%= @draft_id %>"].submit();
-
-    form.submit();
-  }
-
-</script>

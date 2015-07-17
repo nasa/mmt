@@ -1,4 +1,48 @@
-<!-- Fields
-Temporal Extent [r]
-Temporal Keywords
-Paleo Temporal Coverage -->
+<!-- Temporal Extent [r] -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_entry_id" class="icon-required">Temporal Extent</label><i class="fa fa-info-circle"></i>
+
+    <div class="row sub-fields">
+      <% temporal_extent = @draft.draft['TemporalExtent'] || {} %>
+      <label for="draft_temporal_extent_temporal_range_type">Temporal Range Type</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[temporal_extent][temporal_range_type]', temporal_extent['TemporalRangeType'], class: 'half-width') %>
+
+      <label for="draft_temporal_extent_precision_of_seconds">Precision Of Seconds</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[temporal_extent][precision_of_seconds]', temporal_extent['PrecisionOfSeconds'], class: 'half-width') %>
+
+      <label for="draft_temporal_extent_ends_at_present_flag">Ends At Present Flag</label><i class="fa fa-info-circle"></i>
+      <!-- TODO boolean field -->
+      <%= text_field_tag('draft[temporal_extent][ends_at_present_flag]', temporal_extent['EndsAtPresentFlag'], class: 'half-width') %>
+
+      <label for="draft_temporal_extent_precision_of_seconds">Range Date Time</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[temporal_extent][range_date_time]', temporal_extent['RangeDateTime'], class: 'half-width') %>
+
+      <label for="draft_temporal_extent_single_date_time">Single Date Time</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[temporal_extent][single_date_time]', temporal_extent['SingleDateTime'], class: 'half-width') %>
+
+      <label for="draft_temporal_extent_periodic_date_time">Periodic Date Time</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[temporal_extent][periodic_date_time]', temporal_extent['PeriodicDateTime'], class: 'half-width') %>
+    </div>
+  </div>
+</div>
+
+<!-- Temporal Keywords -->
+<div class="row">
+  <div class="col-12">
+    <label for="temporal_keywords">Temporal Keywords</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- Insert Fields -->
+    </div>
+  </div>
+</div>
+
+<!-- Paleo Temporal Coverage -->
+<div class="row">
+  <div class="col-12">
+    <label for="paleo_temporal_coverage">Paleo Temporal Coverage</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- Insert Fields -->
+    </div>
+  </div>
+</div>

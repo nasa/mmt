@@ -1,11 +1,52 @@
-<!-- Spatial Extent -->
+<!-- Spatial Extent [r] -->
   <!-- array of SpatialExtentType -->
+  <div class="row">
+    <div class="col-12">
+      <label for="draft_entry_id" class="icon-required">Spatial Extent</label><i class="fa fa-info-circle"></i>
+
+      <div class="row sub-fields">
+        <% spatial_extent = @draft.draft['SpatialExtent'] || {} %>
+        <label for="draft_spatial_extent_spatial_coverage_type">Spatial Coverage Type</label><i class="fa fa-info-circle"></i>
+        <%= select_tag "draft[spatial_extent][spatial_coverage_type]", options_for_select(['HORIZONTAL', 'VERTICAL', 'ORBITAL'], spatial_extent['SpatialCoverageType']), class: 'half-width' %>
+
+        <label for="draft_spatial_extent_horizontal_spatial_domain">Horizontal Spatial Domain</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[spatial_extent][horizontal_spatial_domain]', spatial_extent['HorizontalSpatialDomain'], class: 'half-width') %>
+      </div>
+    </div>
+  </div>
+
 
 <!-- Tiling Identification System -->
   <!-- TilingIdentificationSystemType -->
+<div class="row">
+  <div class="col-12">
+    <label for="tiling_identification_system">Tiling Identification System</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- Insert Fields -->
+    </div>
+  </div>
+</div>
+
 
 <!-- Spatial Representation Information -->
   <!-- SpatialInformation -->
+<div class="row">
+  <div class="col-12">
+    <label for="spatial_representation_information">Spatial Representation Information</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- Insert Fields -->
+    </div>
+  </div>
+</div>
 
-<!-- Spatial keywords -->
+
+<!-- Spatial Keywords -->
   <!-- KeywordUuidStringType -->
+<div class="row">
+  <div class="col-12">
+    <label for="spatial_keywords">Spatial Keywords</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- Insert Fields -->
+    </div>
+  </div>
+</div>

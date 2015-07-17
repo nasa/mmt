@@ -1,24 +1,38 @@
 <!-- Metadata language -->
-<!-- TODO -->
-<!-- <div class="row">
+<div class="row taller">
   <div class="col-12">
-    <label for="draft_entry_id" class="icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
-    <input type="text" id="entry_id" name="draft[entry_id]" class="half-width" value="<%= @draft.draft['EntryId'] %>" required>
+    <label for="metadata_language">Metadata Language</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- Insert Fields -->
+    </div>
   </div>
 </div>
-<div class="banner banner-danger half-width">
-  <i class="fa fa-exclamation-triangle"></i><strong>Please enter a valid ID (i.e., 12345).</strong>
-</div> -->
-<!-- Metdata Standard -->
-<!-- TODO -->
-<!-- <div class="row">
+
+<!-- Metdata Standard [r] -->
+<div class="row">
   <div class="col-12">
-    <label for="draft_entry_title" class="icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
-    <input type="text" id="entry_title" name="draft[entry_title]" class="full-width" value="<%= @draft.draft['EntryTitle'] %>" required>
+    <label for="draft_metadata_standard" class="icon-required">Metadata Standard</label><i class="fa fa-info-circle"></i>
+
+    <div class="row sub-fields">
+      <% metadata_standard = @draft.draft['MetadataStandard'] || {} %>
+      <label for="draft_metadata_standard_name">Metadata Standard Name</label><i class="fa fa-info-circle"></i>
+      <%= select_tag "draft[metadata_standard][name]", options_for_select(['SERF', 'UMM', 'ECHO10', 'DIF', 'ISO 19115-2', 'ISO 19115-1'], metadata_standard['Name']), class: 'half-width' %>
+
+      <label for="draft_metadata_standard_version" class="icon-required">Metadata Standard Version</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[metadata_standard][version]', metadata_standard['Version'], class: 'half-width', required: true) %>
+
+    </div>
   </div>
 </div>
-<div class="banner banner-danger">
-  <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
-</div> -->
+
+
 <!-- Metadata Dates -->
-<!-- Not in UMM JSON Schema  -->
+  <!-- Not in UMM JSON Schema  -->
+<!-- <div class="row">
+  <div class="col-12">
+    <label for="Metedata Dates">Metedata Dates</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+
+    </div>
+  </div>
+</div> -->
