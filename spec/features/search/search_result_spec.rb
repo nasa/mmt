@@ -52,7 +52,7 @@ describe 'Search results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Entry Id: #{entry_id}")
+      expect(page).to have_content("1 Result for: Record State: published-records |  Entry Id: #{entry_id}")
     end
 
     it 'displays expected data' do
@@ -86,7 +86,7 @@ describe 'Search results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Entry Title: #{entry_title}")
+      expect(page).to have_content("1 Result for: Record State: published-records | Entry Title: #{entry_title}")
     end
 
     it 'displays expected data' do
@@ -152,7 +152,7 @@ describe 'Search results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Concept Id: #{concept_id}")
+      expect(page).to have_content("1 Result for: Record State: published-records | Concept Id: #{concept_id}")
     end
 
     it 'displays expected data' do

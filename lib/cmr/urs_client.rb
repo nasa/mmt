@@ -9,7 +9,9 @@ module Cmr
     end
 
     def refresh_token(refresh_token)
-      Cmr::Response.new(connection.post("/oauth/token?grant_type=refresh_token&refresh_token=#{refresh_token}"))
+      response = Cmr::Response.new(connection.post("/oauth/token?grant_type=refresh_token&refresh_token=#{refresh_token}"))
+      puts "Refresh Response: #{response.inspect}"
+      response
     end
 
     def get_profile(endpoint, token)
