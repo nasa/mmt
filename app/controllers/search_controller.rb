@@ -77,7 +77,7 @@ class SearchController < ApplicationController
         good_params = draft_params
 
       draft_collections = Draft.where(good_params)  #.first #(for testing)
-      # Note that draft_collections is either an array, an object or nil
+      # Note that draft_collections returns as either an array, an object or nil
 
       # Temporary changes to drafts to allow them to be handled in the same manner as crm records.
         temp = []

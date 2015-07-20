@@ -3,19 +3,21 @@
 require 'rails_helper'
 
 describe 'Search results' do
-  entry_id = '1'
+  entry_id = nil
   entry_title = 'Aircraft Flux-Filtered: Univ. Col. (FIFE)'
-  #concept_id = 'C1200000036-SEDAC'
 
   before :each do
     login
     visit "/search"
+    Draft.create({:title=>entry_title})
+    last_draft = Draft.last
+    entry_id = last_draft.id
+    entry_title = last_draft.title
+    click_on 'Full Metadata Record Search'
   end
 
   context 'when searching drafts by entry id' do
     before do
-      Draft.create({:title=>entry_title})
-      click_on 'Full Metadata Record Search'
       select 'Draft Records', from: 'record-state'
       select 'Entry ID', from: 'search-term-type'
       fill_in 'search-term', with: entry_id
@@ -35,8 +37,6 @@ describe 'Search results' do
 
   context 'when searching drafts by entry title' do
     before do
-      Draft.create({:title=>entry_title})
-      click_on 'Full Metadata Record Search'
       select 'Draft Records', from: 'record-state'
       select 'Entry Title', from: 'search-term-type'
       fill_in 'search-term', with: entry_title
@@ -56,8 +56,6 @@ describe 'Search results' do
 
   context 'when searching published and drafts by entry id' do
     before do
-      Draft.create({:title=>entry_title})
-      click_on 'Full Metadata Record Search'
       select 'Published & Draft Records', from: 'record-state'
       select 'Entry ID', from: 'search-term-type'
       fill_in 'search-term', with: entry_id
