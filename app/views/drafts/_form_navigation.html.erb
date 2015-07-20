@@ -8,14 +8,16 @@
     <div class="col-9 form-nav">
       <label for="next-section">Next: </label>
 
-      <select name="next-section" id="next-section-<%=location%>" onchange="go_to_form('<%=location%>'); return false;">
+      <!--select-- name="next-section" id="next-section-<%=location%>" onchange="go_to_form('<%=location%>'); return false;">
         <% @draft_forms.each do |form| %>
           <% form_title = form[:form_partial_name].titleize %>
           <option value="<%=form[:form_partial_name]%>" <%= @draft_form.titleize == form_title ? 'selected="selected"' : ''%> >
             <%= form_title %>
           </option>
         <% end %>
-      </select>
+      </select-->
+      <%= select_tag "next-section-#{location}",
+                     options_for_select(@draft_forms.map{|d| [d[:form_partial_name].titleize, d[:form_partial_name]]}, @draft_form), onchange: 'go_to_form(this.form, this.value)' %>
 
       <%= f.submit "Save & Next", {:class=>"btn btn-blue"}%>
     </div>

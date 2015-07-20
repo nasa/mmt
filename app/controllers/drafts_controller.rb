@@ -54,7 +54,7 @@ class DraftsController < ApplicationController
         redirect_to @draft, notice: 'Draft was successfully updated.'
       when "Save & Next"
         # Determine next form to go to
-        next_form_name = Draft.get_next_form(params["next-section"])
+        next_form_name = Draft.get_next_form(params["next-section-top"])
         redirect_to draft_edit_form_path(@draft, next_form_name)
       else # Jump directly to a form
         next_form_name = params["new_form_name"]

@@ -31,25 +31,31 @@
         </div>
         <div class="row">
           <div class="col-4">
-            <select name="record-state">
-              <option value="published-records" selected="selected">Published Records</option>
-              <option value="draft-records">Draft Records</option>
-              <option value="published-and-draft-records">Published &amp; Draft Records</option>
-            </select>
+            <%= select_tag "record-state",
+               options_for_select({'Published Records'=>'published-records',
+                                    'Draft Records'=>'draft-records',
+                                    'Published & Draft Records'=>'published-and-draft-records'
+                                  },
+                                  @query['record-state']),
+               class: 'single-select', "aria-label" => "Select Record State" %>
           </div>
           <div class="col-4">
-            <select name="review-status">
-              <option value="any-review-status" selected="selected">Any Review Status</option>
-              <option value="reviewed">Reviewed</option>
-              <option value="not-reviewed">Not Reviewed</option>
-            </select>
+            <%= select_tag "review-status",
+               options_for_select({'Any Review Status'=>'any-review-status',
+                                   'Reviewed'=>'reviewed',
+                                   'Not Reviewed'=>'not-reviewed'
+                                  },
+                                  @query['review-status']),
+               class: 'single-select', "aria-label" => "Select Review Status" %>
           </div>
           <div class="col-4">
-            <select name="record-type">
-              <option value="active-only" selected="selected">Active Records ONLY</option>
-              <option value="deleted-only">Deleted Records ONLY</option>
-              <option value="active-and-deleted-records">Active &amp; Deleted Records</option>
-            </select>
+            <%= select_tag "record-type",
+               options_for_select({'Active Records ONLY'=>'active-only',
+                                   'Deleted Records ONLY'=>'deleted-only',
+                                   'Active & Deleted Records'=>'active-and-deleted-records'
+                                  },
+                                  @query['record-type']),
+               class: 'single-select', "aria-label" => "Select Record Type" %>
           </div>
         </div>
       </fieldset>
@@ -58,20 +64,24 @@
       <fieldset>
         <div class="row">
           <div class="col-4">
-            <select name="date-filter">
-              <option value="last-modified-date" selected="selected">Last Modified Date</option>
-              <option value="published-date">Published Date</option>
-              <option value="deleted-date">Deleted Date</option>
-            </select>
+            <%= select_tag "date-filter",
+               options_for_select({'Last Modified Date'=>'last-modified-date',
+                                   'Published Date'=>'published-date',
+                                   'Deleted Date'=>'deleted-date'
+                                  },
+                                  @query['date-filter']),
+               class: 'single-select', "aria-label" => "Select Date" %>
           </div>
           <div class="col-4">
-            <select name="on-or-after">
-              <option value="on-or-after" selected="selected">On or After</option>
-              <option value="on-or-before">On or Before</option>
-              <option value="on">On</option>
-              <option value="after">After</option>
-              <option value="before">Before</option>
-            </select>
+            <%= select_tag "on-or-after",
+               options_for_select({'On or After'=>'on-or-after',
+                                   'On or Before'=>'on-or-before',
+                                   'On'=>'on',
+                                   'After'=>'after',
+                                   'Before'=>'before'
+                                  },
+                                  @query['on-or-after']),
+               class: 'single-select', "aria-label" => "On or After" %>
           </div>
           <div class="col-4">
             <input type="date"></input>
@@ -79,11 +89,13 @@
         </div>
         <div class="row">
           <div class="col-4">
-            <select name="author-type">
-              <option value="" selected="selected">Created by</option>
-              <option value="modified-by">Modified by</option>
-              <option value="deleted-by">Deleted by</option>
-            </select>
+            <%= select_tag "author-type",
+               options_for_select({'Created by'=>'',
+                                   'Modified by'=>'modified-by',
+                                   'Deleted by'=>'"deleted-by'
+                                  },
+                                  @query['author-type']),
+               class: 'single-select', "aria-label" => "Author Type" %>
           </div>
           <div class="col-8">
             <input type="text">
@@ -94,7 +106,12 @@
       <fieldset>
         <legend>Search Term</legend>
         <div class="col-4">
-          <%= select_tag "search-term-type", options_for_select([ ['Select an option', ''], ['Entry ID', 'entry-id'], ['CMR Concept ID', 'concept-id'], ['Entry Title', 'entry-title'] ], @query['search-term-type']) %>
+          <%= select_tag "search-term-type",
+             options_for_select([ ['Select an option', ''],
+                                  ['Entry ID', 'entry-id'],
+                                  ['CMR Concept ID', 'concept-id'],
+                                  ['Entry Title', 'entry-title'] ],
+                                @query['search-term-type']) %>
         </div>
         <%= text_field_tag('search-term', @query['search-term'], 'aria-label' => 'Search Term') %>
         <p class="form-description">Enter an Entry ID, CMR Concept ID, or Entry Title</p>
