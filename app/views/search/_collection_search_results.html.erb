@@ -11,40 +11,43 @@
   </tr>
   </thead>
   <tbody>
-  <% if @collections.blank? %>
+
+    <% @errors.each do |error| %>
+      <tr>
+        <td colspan="4">
+          <strong>Error:</strong> <%= error %>
+        </td>
+      </tr>
+    <% end %>
+
+    <% if @collections.blank? %>
       <tr>
         <td colspan="4">
           No collections found
         </td>
       </tr>
-  <% elsif @collections.is_a?(Hash) && @collections['errors'] %>
-    <% @collections['errors'].each do |error| %>
-      <tr>
-        <td colspan="4">
-          <%= error %>
-        </td>
-      </tr>
-    <% end %>
-  <% else %>
+    <% else %>
+
       <% @collections.each do |row| %>
-          <tr class='<%= cycle("alt", "") %>'>
-            <!-- Temporarily commented out because this is not a part of the MVP %-->
-            <!--td>
-              <input type="checkbox" name="name" value="">
-            </td-->
-            <td>
-              <%= row['extra-fields']['entry-id']%>
-            </td>
-            <td>
-              <%= row['extra-fields']['entry-title']%>
-            </td>
-            <td>
-              <% fragments = row['revision-date'].split('T')
-                 date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
-              <%= date %>
-            </td>
-          </tr>
+        <tr class='<%= cycle("alt", "") %>'>
+          <!-- Temporarily commented out because this is not a part of the MVP %-->
+          <!--td>
+            <input type="checkbox" name="name" value="">
+          </td-->
+          <td>
+            <%= row['extra-fields']['entry-id']%>
+          </td>
+          <td>
+            <%= row['extra-fields']['entry-title']%>
+          </td>
+          <td>
+            <% fragments = row['revision-date'].split('T')
+               date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
+            <%= date %>
+          </td>
+        </tr>
       <% end %>
-  <% end %>
+
+    <% end %>
   </tbody>
 </table>
