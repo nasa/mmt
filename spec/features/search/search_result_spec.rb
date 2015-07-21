@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Search results' do
+describe 'Search published results' do
   entry_id = 'doi:10.3334/ORNLDAAC/8_1'
   entry_title = 'Aircraft Flux-Filtered: Univ. Col. (FIFE)'
   concept_id = 'C1200000036-SEDAC'
@@ -18,7 +18,7 @@ describe 'Search results' do
       click_on 'Find'
     end
     it 'displays collection results' do
-      expect(page).to have_content('1 Result for: Entry Id: doi:10.3334/ORNLDAAC/8_1')
+      expect(page).to have_content('1 Result for: Entry Id: doi:10.3334/ORNLDAAC/8_1 | Record State: Published Records')
     end
     it 'displays expected Entry ID, Entry Title and Last Modified values' do
       expect(page).to have_content(entry_id)
@@ -43,7 +43,7 @@ describe 'Search results' do
     # We could add a test to actually examine the results table contents more specifically
   end
 
-  context 'when searching published by entry id' do
+  context 'when searching by entry id' do
     before do
       click_on 'Full Metadata Record Search'
       select 'Entry ID', from: 'search-term-type'
@@ -52,7 +52,7 @@ describe 'Search results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: published-records |  Entry Id: #{entry_id}")
+      expect(page).to have_content("1 Result for: Record State: Published Records | Entry Id: #{entry_id}")
     end
 
     it 'displays expected data' do
@@ -77,7 +77,7 @@ describe 'Search results' do
     end
   end
 
-  context 'when searching published & draft by entry id' do
+  context 'when searching published and drafts for a published by entry id' do
     before do
       click_on 'Full Metadata Record Search'
       select 'Published & Draft Records', from: 'record-state'
@@ -87,7 +87,7 @@ describe 'Search results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: published-and-draft-records |  Entry Id: #{entry_id}")
+      expect(page).to have_content("1 Result for: Record State: Published And Draft Records | Entry Id: #{entry_id}")
     end
 
     it 'displays expected data' do
@@ -98,7 +98,7 @@ describe 'Search results' do
 
   end
 
-  context 'when searching published by entry title' do
+  context 'when searching by entry title' do
     before do
       click_on 'Full Metadata Record Search'
       select 'Entry Title', from: 'search-term-type'
@@ -107,7 +107,7 @@ describe 'Search results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: published-records | Entry Title: #{entry_title}")
+      expect(page).to have_content("1 Result for: Record State: Published Records | Entry Title: #{entry_title}")
     end
 
     it 'displays expected data' do
@@ -132,7 +132,7 @@ describe 'Search results' do
     end
   end
 
-  context 'when searching published by provider' do
+  context 'when searching by provider' do
     before do
       click_on 'Full Metadata Record Search'
       select 'LARC', from: 'provider-id'
@@ -164,7 +164,7 @@ describe 'Search results' do
     end
   end
 
-  context 'when searching published by CMR Concept Id' do
+  context 'when searching by CMR Concept Id' do
     before do
       click_on 'Full Metadata Record Search'
       select 'CMR Concept ID', from: 'search-term-type'
@@ -173,7 +173,7 @@ describe 'Search results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: published-records | Concept Id: #{concept_id}")
+      expect(page).to have_content("1 Result for: Record State: Published Records | Concept Id: #{concept_id}")
     end
 
     it 'displays expected data' do
