@@ -85,17 +85,17 @@
       <% responsible_organizations = @draft.draft['ResponsibleOrganization'] || [] %>
 
       <div class="organization-values">
-        <%= display_organizations(responsible_organizations) %>
+        <%= display_key_value_pairs(responsible_organizations) %>
         <%= hidden_fields_for_organizations(responsible_organizations) %>
       </div>
 
       <div class="organization-fields" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">
-        <%= render 'drafts/forms/organization_form' %>
+        <%= render partial: 'drafts/forms/organization_form', locals: {disable_fields: responsible_organizations.size > 0} %>
       </div>
 
       <div class="col-12">
-        <a href="#" class="icon-more add-organization">Add <%= "another " if responsible_organizations.size > 0 %>organization</a>
-        <a href="#" class="icon-less cancel-add-organization" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">Done adding organizations</a>
+        <a class="icon-more add-another-field organization">Add <%= "another " if responsible_organizations.size > 0 %>organization</a>
+        <a class="icon-less cancel-add organization" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">Done adding organizations</a>
       </div>
     </div>
   </div>
@@ -171,10 +171,8 @@
   <!-- text area -->
 <div class="row">
   <div class="col-12">
-    <label for="quality">Quality</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
-    </div>
+    <label for="draft_quality">Quality</label><i class="fa fa-info-circle"></i>
+    <%= text_area_tag('draft[quality]', @draft.draft['Quality'], rows: 8) %>
   </div>
 </div>
 
@@ -182,10 +180,8 @@
   <!-- text area -->
 <div class="row">
   <div class="col-12">
-    <label for="use_constraints">Use Constraints</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
-    </div>
+    <label for="draft_use_constraints">Use Constraints</label><i class="fa fa-info-circle"></i>
+    <%= text_area_tag('draft[use_constraints]', @draft.draft['UseConstraints'], rows: 8) %>
   </div>
 </div>
 
@@ -204,8 +200,8 @@
   <!-- array of MetadataAssociationType -->
 <div class="row">
   <div class="col-12">
-    <label for="metadata_association">Metadata Association</label><i class="fa fa-info-circle"></i>
-    <div class="row">
+    <label for="metadata_association" class="main-field">Metadata Association</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
       <!-- show form until one association entered -->
       <!-- dropdown for type -->
       <!-- text area for description -->

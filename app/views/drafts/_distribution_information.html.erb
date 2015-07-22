@@ -1,44 +1,24 @@
 <!-- Related URL [r] -->
 <div class="row">
   <div class="col-12">
-    <label for="draft_related_url" class="icon-required">Related URL</label><i class="fa fa-info-circle"></i>
+    <label for="draft_related_url" class="main-field icon-required">Related URL</label><i class="fa fa-info-circle"></i>
     <div class="row sub-fields">
-      <% related_url = @draft.draft['RelatedURL'] || {} %>
-      <!-- multiple URLs possible, add new button  -->
-      <label for="draft_related_url_url" class="icon-required">URL</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[related_url][url]', related_url['URL'], class: 'half-width', required: true) %>
+      <!-- show related urls -->
+      <% related_urls = @draft.draft['RelatedUrl'] || [] %>
 
-      <label for="draft_related_url_description">Description</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[related_url][description]', related_url['Description'], class: 'half-width') %>
+      <div class="related-url-values">
+        <%= display_key_value_pairs(related_urls) %>
+        <%= hidden_fields_for_related_urls(related_urls) %>
+      </div>
 
-      <!-- dropdown [http, https, ftp, ssh] -->
-      <label for="draft_related_url_protocol">Protocol</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[related_url][protocol]', related_url['Protocol'], class: 'half-width') %>
+      <div class="related-url-fields" style="<%= 'display: none;' if related_urls.size > 0 %>">
+        <%= render partial: 'drafts/forms/related_url_form', locals: {disable_fields: related_urls.size > 0} %>
+      </div>
 
-      <label for="draft_related_url_mime_type">Mime Type</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[related_url][mime_type]', related_url['MimeType'], class: 'half-width') %>
-
-      <label for="draft_related_url_caption">Caption</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[related_url][caption]', related_url['Caption'], class: 'half-width') %>
-
-      <label for="draft_related_url_title">Title</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[related_url][title]', related_url['Title'], class: 'half-width') %>
-
-      <% file_size = related_url['FileSize'] || {} %>
-      <label for="draft_related_url_file_size_size">File Size: Size</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[related_url][file_size][size]', file_size['Size'], class: 'half-width') %>
-
-      <label for="draft_related_url_file_size_unit">File Size: Unit</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[related_url][file_size][unit]', file_size['Unit'], class: 'half-width') %>
-
-      <% content_type = related_url['ContentType'] || {} %>
-      <label for="draft_related_url_content_type_type">Content Type: Type</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[related_url][content_type][type]', content_type['Type'], class: 'half-width') %>
-
-      <label for="draft_related_url_content_type_subtype">Content Type: Subtype</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[related_url][content_type][subtype]', content_type['Subtype'], class: 'half-width') %>
-
-      <!-- add new related url button -->
+      <div class="col-12">
+        <a href="#" class="icon-more add-another-field related-url">Add <%= "another " if related_urls.size > 0 %>related url</a>
+        <a href="#" class="icon-less cancel-add related-url" style="<%= 'display: none;' if related_urls.size > 0 %>">Done adding related urls</a>
+      </div>
     </div>
   </div>
 </div>

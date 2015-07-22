@@ -39,9 +39,16 @@ class Draft < ActiveRecord::Base
 
   def fix_params(params)
     # fields that need to be arrays need to be mapped to arrays
-    orgs = params['responsible_organization'].map{|key, value| value}
-    puts orgs.inspect
-    params['responsible_organization'] = orgs
+    if params['responsible_organization']
+      orgs = params['responsible_organization'].map{|key, value| value}
+      puts orgs.inspect
+      params['responsible_organization'] = orgs
+    end
+    if params['related_url']
+      related_urls = params['related_url'].map{|key, value| value}
+      puts related_urls.inspect
+      params['related_url'] = related_urls
+    end
 
     # TODO if param is empty remove it from params
     # Example: {Purpose: ""} is invalid, remove Purpose all together
