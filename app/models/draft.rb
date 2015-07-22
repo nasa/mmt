@@ -29,11 +29,24 @@ class Draft < ActiveRecord::Base
 
   def update_draft(params)
     if params
-      json_params = params.to_hash.to_camel_keys
+      json_params = fix_params(params)
       self.draft.merge!(json_params)
       self.save
     end
     # TODO take out
     true
+  end
+
+  def fix_params(params)
+    # fields that need to be arrays need to be mapped to arrays
+    orgs = params['responsible_organization'].map{|key, value| value}
+    puts orgs.inspect
+    params['responsible_organization'] = orgs
+
+    # TODO if param is empty remove it from params
+    # Example: {Purpose: ""} is invalid, remove Purpose all together
+
+    # Convert parameter keys to CamelCase for UMM
+    params.to_hash.to_camel_keys
   end
 end

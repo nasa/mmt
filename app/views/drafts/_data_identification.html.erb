@@ -1,9 +1,19 @@
 <!-- Entry ID [r] -->
-  <!-- TODO Change to match EntryIdType -->
 <div class="row">
   <div class="col-12">
-    <label for="draft_entry_id" class="icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
-    <%= text_field_tag('draft[entry_id]', @draft.draft['EntryId'], class: 'half-width', required: true) %>
+    <label for="draft_entry_id" class="main-field icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
+
+    <div class="row sub-fields">
+      <% entry_id = @draft.draft['EntryId'] || {} %>
+      <label for="draft_entry_id_id" class="icon-required">ID</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[entry_id][id]', entry_id['Id'], class: 'half-width', required: true) %>
+
+      <label for="draft_entry_id_version" class="icon-required">Version</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[entry_id][version]', entry_id['Version'], class: 'half-width', required: true) %>
+
+      <label for="draft_entry_id_authority" class="icon-required">Authority</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[entry_id][authority]', entry_id['Authority'], class: 'half-width', required: true) %>
+    </div>
   </div>
 </div>
 
@@ -11,7 +21,7 @@
 <!-- Entry Title [r] -->
 <div class="row">
   <div class="col-12">
-    <label for="draft_entry_title" class="icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
+    <label for="draft_entry_title" class="main-field icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
     <%= text_field_tag('draft[entry_title]', @draft.draft['EntryTitle'], class: 'half-width', required: true) %>
   </div>
 </div>
@@ -49,11 +59,19 @@
 
 <!-- Data dates [r] -->
   <!-- DataLineage -->
+  <!-- hidden field for scope of 'date' -->
 <div class="row">
   <div class="col-12">
-    <label for="data_lineage" class="icon-required">Data Lineage</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
+    <label for="data_lineage" class="main-field icon-required">Data Lineage</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <!-- add new data date: adds field to page -->
+      <!-- choose which date, create update delete review -->
+      <!-- date picker for selected date -->
+      <!-- description, text field -->
+      <!-- responsibility: single party for now -->
+        <!-- party, choose org or person, radio buttons -->
+        <!-- org: text field -->
+        <!-- person: shows full form (address, hours, etc.) -->
     </div>
   </div>
 </div>
@@ -61,15 +79,25 @@
 <!-- Organization [r] -->
 <div class="row taller">
   <div class="col-12">
-    <label for="organization" class="icon-required">Organization</label><i class="fa fa-info-circle"></i>
-    <div class="row">
+    <label for="organization" class="main-field icon-required">Organization</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <!-- show orgs -->
+      <% responsible_organizations = @draft.draft['ResponsibleOrganization'] || [] %>
+
+      <div class="organization-values">
+        <%= display_organizations(responsible_organizations) %>
+        <%= hidden_fields_for_organizations(responsible_organizations) %>
+      </div>
+
+      <div class="organization-fields" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">
+        <%= render 'drafts/forms/organization_form' %>
+      </div>
+
       <div class="col-12">
-        <a href="#" class="icon-more">Add organization</a>
+        <a href="#" class="icon-more add-organization">Add <%= "another " if responsible_organizations.size > 0 %>organization</a>
+        <a href="#" class="icon-less cancel-add-organization" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">Done adding organizations</a>
       </div>
     </div>
-  </div>
-  <div class="banner banner-danger">
-    <i class="fa fa-exclamation-triangle"></i><strong>Please select at least one organization.</strong>
   </div>
 </div>
 
@@ -78,7 +106,11 @@
   <div class="col-12">
     <label for="personnel">Personnel</label><i class="fa fa-info-circle"></i>
     <div class="row">
-      <!-- Insert Fields -->
+      <!-- responsibility: display form when no people added -->
+      <!-- person: shows full form (address, hours, etc.) -->
+      <div class="col-12">
+        <a href="#" class="icon-more">Add personnel</a>
+      </div>
     </div>
   </div>
 </div>
@@ -87,10 +119,8 @@
   <!-- Dropdown with ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"] -->
 <div class="row">
   <div class="col-12">
-    <label for="collection_data_type">Collection Data Type</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
-    </div>
+    <label for="draft_collection_data_type">Collection Data Type</label><i class="fa fa-info-circle"></i>
+    <%= select_tag "draft[collection_data_type]", options_for_select([['Science Quality', 'SCIENCE_QUALITY'], ['Near Real Time', 'NEAR_REAL_TIME'], ['Other', 'OTHER']], @draft.draft['CollectionDataType']), class: 'half-width' %>
   </div>
 </div>
 
@@ -101,11 +131,14 @@
 
     <div class="row sub-fields">
       <% processing_level = @draft.draft['ProcessingLevel'] || {} %>
-      <label for="draft_processing_level_description">Processing Level Description</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'half-width') %>
-
       <label for="draft_processing_level_id">Id</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag('draft[processing_level][id]', processing_level['Id'], class: 'half-width') %>
+      <!-- ID should be dropdown with level 0, level 1a, etc. -->
+
+      <label for="draft_processing_level_processing_level_description">Processing Level Description</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'half-width') %>
+      <!-- TODO description needs stuff from Mark -->
+
     </div>
   </div>
 </div>
@@ -114,6 +147,7 @@
 <!-- Resource Citation -->
   <!-- CollectionCitation -->
   <!-- Array of ResourceCitationType -->
+  <!-- waiting on more details -->
 <div class="row">
   <div class="col-12">
     <label for="resource_citation">Resource Citation</label><i class="fa fa-info-circle"></i>
@@ -128,15 +162,13 @@
 <!-- Dropdown with ["PLANNED", "IN WORK", "COMPLETE"] -->
 <div class="row">
   <div class="col-12">
-    <label for="collection_progress">Collection Progress</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
-    </div>
+    <label for="draft_collection_progress">Collection Progress</label><i class="fa fa-info-circle"></i>
+    <%= select_tag "draft[collection_progress]", options_for_select([['Planned', 'PLANNED'], ['In work', 'IN WORK'], ['Complete', 'COMPLETE']], @draft.draft['CollectionProgress']), class: 'half-width' %>
   </div>
 </div>
 
 <!-- Quality -->
-  <!-- string -->
+  <!-- text area -->
 <div class="row">
   <div class="col-12">
     <label for="quality">Quality</label><i class="fa fa-info-circle"></i>
@@ -147,7 +179,7 @@
 </div>
 
 <!-- Use Constraints -->
-  <!-- string -->
+  <!-- text area -->
 <div class="row">
   <div class="col-12">
     <label for="use_constraints">Use Constraints</label><i class="fa fa-info-circle"></i>
@@ -158,7 +190,7 @@
 </div>
 
 <!-- Access Constraints -->
-  <!-- object: description, value -->
+  <!-- object: description: text area, value: [public, in-house, limited] -->
 <div class="row">
   <div class="col-12">
     <label for="access_constraints">Access Constraints</label><i class="fa fa-info-circle"></i>
@@ -174,7 +206,13 @@
   <div class="col-12">
     <label for="metadata_association">Metadata Association</label><i class="fa fa-info-circle"></i>
     <div class="row">
-      <!-- Insert Fields -->
+      <!-- show form until one association entered -->
+      <!-- dropdown for type -->
+      <!-- text area for description -->
+      <!-- entry_id form -->
+      <!-- dropdown for provider, enum -->
+
+      <!-- Add new association button -->
     </div>
   </div>
 </div>
@@ -185,7 +223,9 @@
   <div class="col-12">
     <label for="publication_reference">Publication Reference</label><i class="fa fa-info-circle"></i>
     <div class="row">
-      <!-- Insert Fields -->
+      <!-- show form until one reference entered -->
+      <!-- lots o text fields -->
+      <!-- Add new reference button -->
     </div>
   </div>
 </div>

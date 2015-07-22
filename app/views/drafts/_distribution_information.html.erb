@@ -4,12 +4,14 @@
     <label for="draft_related_url" class="icon-required">Related URL</label><i class="fa fa-info-circle"></i>
     <div class="row sub-fields">
       <% related_url = @draft.draft['RelatedURL'] || {} %>
+      <!-- multiple URLs possible, add new button  -->
       <label for="draft_related_url_url" class="icon-required">URL</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag('draft[related_url][url]', related_url['URL'], class: 'half-width', required: true) %>
 
       <label for="draft_related_url_description">Description</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag('draft[related_url][description]', related_url['Description'], class: 'half-width') %>
 
+      <!-- dropdown [http, https, ftp, ssh] -->
       <label for="draft_related_url_protocol">Protocol</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag('draft[related_url][protocol]', related_url['Protocol'], class: 'half-width') %>
 
@@ -36,6 +38,7 @@
       <label for="draft_related_url_content_type_subtype">Content Type: Subtype</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag('draft[related_url][content_type][subtype]', content_type['Subtype'], class: 'half-width') %>
 
+      <!-- add new related url button -->
     </div>
   </div>
 </div>
@@ -46,7 +49,8 @@
   <div class="col-12">
     <label for="distribution">Distribution</label><i class="fa fa-info-circle"></i>
     <div class="row">
-      <!-- Insert Fields -->
+      <!-- form with text fields -->
+      <!-- add another distribution button -->
     </div>
   </div>
 </div>
