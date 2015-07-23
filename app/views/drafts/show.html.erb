@@ -107,27 +107,181 @@
       </li>
     </ul>
   </section>
+  
   <div class="row content">
     <section class="preview">
+      <!--/br>
+      <%= @draft.inspect %>
+      </br>
+      </br>
+      <%= @draft_json.inspect %>
+      </br>
+      </br-->
+
       <h3>Preview</h3>
       <input type="checkbox" name="markdown"></input>
       <label for="markdown">Show as markdown</label>
-      <h4>Entry ID</h4>
-      <p>ASF20CD03</p>
-      <h4>Abstract</h4>
-      <p>The CD-ROM contains the 250 resolution RADARSAT-1 SAR Mosaic of Antartica and the Image Explorer software for viewing the data. The mosaics are a part of the RADARSAT-1 Antartica Mapping Project, a collaboration between CSA and NASA. Partners include the Byrd Polar Research Center of the Ohio State University, the Alaska Satellite Facility, the Jet Propulsion Laboratory, and Vexcel Corporation.</p>
-      <h4>Science Keywords</h4>
-      <ul>
-        <li>Spectral/Engineering > Radar > Radar Backscatter</li>
-        <li>Spectral/Engineering > Radar > Radar Cross-Section</li>
-        <li>Spectral/Engineering > Radar > Radar Imagery</li>
-      </ul>
-      <h4>Data Center</h4>
-      <p>Alaska Satellite Facility</p>
-      <h4>Personnel</h4>
-      <ul>
-        <li>Nettie Labelle-Hamer<br>Role: Technical Contact</li>
-      </ul>
+
+      <!-- ========================================= DATA IDENTIFICATION FORM FIELDS ======================================= -->
+
+      <% if !@draft_json['EntryId'].blank? %>
+        <h4>Entry ID</h4>
+        <p>
+          <%= raw(display_field("ID", @draft_json['EntryId']['Id'])) %>
+          <%= raw(display_field("Version", @draft_json['EntryId']['Version'])) %>
+          <%= raw(display_field("Authority", @draft_json['EntryId']['Authority'])) %>
+        </p>
+      <% end %>
+
+
+      <%= raw(display_field_section_with_header('EntryTitle', 'Title')) %>
+
+      <%= raw(display_field_section_with_header('Abstract')) %>
+
+      <%= raw(display_field_section_with_header('Purpose')) %>
+
+      <!-- Data language -->
+      <%= raw(display_field_section_with_header('DataLanguage')) %>
+
+      <!-- Data dates [r] -->
+        <!-- DataLineage -->
+      <% if !@draft_json['DataLineage'].nil? %>
+        <h4>Data Lineage</h4>
+        <p>
+          <% !@draft_json['DataLineage'].each do |r| %>
+            <%= raw(display_field('Scope', r['Scope'])) %>
+            <%= raw(display_field('Date', r['Date'])) %>
+            Date: Number two?? </br>
+            <%= raw(display_field('Type', r['Type'])) %>
+            <%= raw(display_field('Description', r['Description'])) %>
+            <%= raw(display_field('Responsibility', r['Responsibility'])) %>
+            <%= raw((r == @draft_json['DataLineage'].last) ? '' : '</br>') %>
+          <% end %>
+        </p>
+      <% end %>
+
+      <!-- Organization [r] -->
+        <!-- show orgs -->
+      <% if !@draft_json['ResponsibleOrganization'].nil? %>
+        <h4>Responsible Organization</h4>
+        <p>
+          <% !@draft_json['ResponsibleOrganization'].each do |r| %>
+            <%= raw(display_field('Role', r['Role'])) %>
+            <%= raw(display_field('Party', r['Party'])) %>
+            <%= raw((r == @draft_json['ResponsibleOrganization'].last) ? '' : '</br>') %>
+          <% end %>
+        </p>
+      <% end %>
+
+      <!-- Personnel -->
+        <!-- responsibility: display form when no people added -->
+        <!-- person: shows full form (address, hours, etc.) -->
+      <% if !@draft_json['ResponsiblePersonnel'].nil? %>
+        <h4>Responsible Personnel</h4>
+        <p>
+          <% !@draft_json['ResponsiblePersonnel'].each do |r| %>
+            <%= raw(display_field('Role', r['Role'])) %>
+            <%= raw(display_field('Party', r['Party'])) %>
+            <%= raw((r == @draft_json['ResponsiblePersonnel'].last) ? '' : '</br>') %>
+          <% end %>
+        </p>
+      <% end %>
+
+      <!-- Collection Data Type -->
+        <!-- Dropdown with ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"] -->
+      <%= raw(display_field_section_with_header('CollectionDataType')) %>
+
+      <!-- Resource Citation -->
+        <!-- CollectionCitation -->
+          <!-- Array of ResourceCitationType -->
+      <% if !@draft_json['CollectionCitation'].nil? %>
+        <h4>Resource Citation/Collection Citation</h4>
+        <p>
+          <% !@draft_json['CollectionCitation'].each do |r| %>
+            <%= raw(display_field('RelatedUrl', r['RelatedUrl'])) %>
+            <%= raw(display_field('Title', r['Title'])) %>
+            <%= raw(display_field('Creator', r['Creator'])) %>
+            <%= raw(display_field('Editor', r['Editor'])) %>
+            <%= raw(display_field('SeriesName', r['SeriesName'])) %>
+            <%= raw(display_field('ReleaseDate', r['ReleaseDate'])) %>
+            <%= raw(display_field('ReleasePlace', r['ReleasePlace'])) %>
+            <%= raw(display_field('Publisher', r['Publisher'])) %>
+            <%= raw(display_field('IssueIdentification', r['IssueIdentification'])) %>
+            <%= raw(display_field('DataPresentationForm', r['DataPresentationForm'])) %>
+            <%= raw(display_field('OtherCitationDetails', r['OtherCitationDetails'])) %>
+            <%= raw(display_field('*DOI', r['DOI'])) %>
+            <%= raw((r == @draft_json['CollectionCitation'].last) ? '' : '</br>') %>
+          <% end %>
+        </p>
+      <% end %>
+
+      <!-- Collection Progress -->
+      <%= raw(display_field_section_with_header('CollectionProgress')) %>
+
+      <!-- Quality -->
+      <%= raw(display_field_section_with_header('Quality')) %>
+
+      <!-- Use Constraints -->
+      <%= raw(display_field_section_with_header('UseConstraints')) %>
+
+      <!-- Access Constraints -->
+      <% if !@draft_json['AccessConstraints'].blank? %>
+        <h4>Access Constraints</h4>
+        <p>
+          <%= raw(display_field('Description', @draft_json['AccessConstraints']['Description'])) %>
+          <%= raw(display_field('Value', @draft_json['AccessConstraints']['Value'])) %>
+        </p>
+      <% end %>
+
+      <!-- Metadata Association -->
+      <% if !@draft_json['MetadataAssociation'].nil? %>
+        <h4>Metadata Association</h4>
+        <p>
+          <% !@draft_json['MetadataAssociation'].each do |r| %>
+            <%= raw(display_field('Type', r['Type'])) %>
+            <%= raw(display_field('Description', r['Description'])) %>
+            <%= raw(display_field('EntryId', r['EntryId'])) %>
+            <%= raw(display_field('ProviderId', r['ProviderId'])) %>
+            <%= raw((r == @draft_json['MetadataAssociation'].last) ? '' : '</br>') %>
+          <% end %>
+        </p>
+      <% end %>
+
+      <!-- Publication Reference -->
+      <% if !@draft_json['PublicationReference'].nil? %>
+        <h4>Publication Reference</h4>
+        <p>
+          <% !@draft_json['PublicationReference'].each do |r| %>
+            <%= raw(display_field('RelatedUrl', r['RelatedUrl'])) %>
+            <%= raw(display_field('Title', r['Title'])) %>
+            <%= raw(display_field('Publisher', r['Publisher'])) %>
+            <%= raw(display_field('*DOI', r['DOI'])) %>
+            <%= raw(display_field('Author', r['Author'])) %>
+            <%= raw(display_field('PublicationDate', r['PublicationDate'])) %>
+            <%= raw(display_field('Series', r['Series'])) %>
+            <%= raw(display_field('Edition', r['Edition'])) %>
+            <%= raw(display_field('Volume', r['Volume'])) %>
+            <%= raw(display_field('Issue', r['Issue'])) %>
+            <%= raw(display_field('ReportNumber', r['ReportNumber'])) %>
+            <%= raw(display_field('PublicationPlace', r['PublicationPlace'])) %>
+            <%= raw(display_field('Pages', r['Pages'])) %>
+            <%= raw(display_field('*ISBN', r['ISBN'])) %>
+            <%= raw(display_field('OtherReferenceDetails', r['OtherReferenceDetails'])) %>
+            <%= raw((r == @draft_json['PublicationReference'].last) ? '' : '</br>') %>
+          <% end %>
+        </p>
+      <% end %>
+
+
+
+
+      <!-- ========================================= descriptive_keywords FORM FIELDS ======================================= -->
+      <!-- ========================================= metadata_information FORM FIELDS ======================================= -->
+      <!-- ========================================= temporal_extent FORM FIELDS ======================================= -->
+      <!-- ========================================= spatial_extent FORM FIELDS ======================================= -->
+      <!-- ========================================= acquisition_information FORM FIELDS ======================================= -->
+      <!-- ========================================= distribution_information FORM FIELDS ======================================= -->
+
     </section>
     <aside class="geographic-coverage">
       <h3>Geographic Coverage</h3>

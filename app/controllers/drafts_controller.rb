@@ -10,7 +10,12 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
+    @draft_json = @draft.draft ? JSON.parse(@draft.draft) : {}
+
+    # Temp call for testing purposes
+    overwrite_draft_json_with_dummy_data
   end
+
 
   # GET /drafts/new
   def new
@@ -76,6 +81,54 @@ class DraftsController < ApplicationController
   # end
 
   private
+
+
+
+  def overwrite_draft_json_with_dummy_data
+
+    @draft_json['EntryId'] = {'Id'=>'test Id', 'Version'=>'test Version', 'Authority'=>'test Authority'}
+    @draft_json['Title'] = 'Test Title'
+    @draft_json['Abstract'] = 'Test Abstract'
+    @draft_json['Purpose'] = 'Test purpose'
+    @draft_json['DataLanguage'] = 'Test DataLanguage'
+    @draft_json['DataLineage'] = [
+        {'Scope'=> 'test Scope', 'Date'=> 'test Date', 'Type'=> 'test type', 'Description'=>'test description', 'Responsibility'=>'test Responsibility'},
+        {'Scope'=> 'test 2 Scope', 'Date'=> 'test 2 Date', 'Type'=> 'test 2 type', 'Description'=>'test 2 description', 'Responsibility'=>'test 2 Responsibility'}
+    ]
+    @draft_json['ResponsibleOrganization'] = [
+        {'Role'=> 'test role', 'Party'=> 'test party'},
+        {'Role'=> 'test 2 role', 'Party'=> 'test 2 party'}
+    ]
+    @draft_json['ResponsiblePersonnel'] = [
+        {'Role'=> 'test role', 'Party'=> 'test party'},
+        {'Role'=> 'test 2 role', 'Party'=> 'test 2 party'}
+    ]
+    @draft_json['CollectionCitation'] = [
+        {'Version'=>'test Version','RelatedUrl'=>'test RelatedUrl','Title'=>'test Title','Creator'=>'test Creator','Editor'=>'test Editor','SeriesName'=>'test SeriesName',
+         'ReleaseDate'=>'test ReleaseDate','ReleasePlace'=>'test ReleasePlace','Publisher'=>'test Publisher','IssueIdentification'=>'test IssueIdentification',
+         'DataPresentationForm'=>'test DataPresentationForm','OtherCitationDetails'=>'test OtherCitationDetails','DOI'=>'test DOI'},
+        {'Version'=>'test 2Version', 'RelatedUrl'=>'test 2 RelatedUrl', 'Title'=>'test 2 Title', 'Creator'=>'test 2 Creator', 'Editor'=>'test 2 Editor',
+         'SeriesName'=>'test 2 SeriesName', 'ReleaseDate'=>'test 2 ReleaseDate', 'ReleasePlace'=>'test 2 ReleasePlace', 'Publisher'=>'test 2 Publisher',
+         'IssueIdentification'=>'test 2 IssueIdentification', 'DataPresentationForm'=>'test 2 DataPresentationForm', 'OtherCitationDetails'=>'test 2 OtherCitationDetails', 'DOI'=>'test 2 DOI'}
+    ]
+    @draft_json['Quality'] = 'Test Quality'
+    @draft_json['UseConstraints'] = 'Test UseConstraints'
+    @draft_json['AccessConstraints'] = {'Description'=>'test description', 'Value'=>'test value'}
+    @draft_json['MetadataAssociation'] = [
+        {'Type'=> 'test Type', 'Description'=> 'test Description', 'EntryId'=> 'test EntryId', 'ProviderId'=> 'test ProviderId'},
+        {'Type'=> 'test 2 Type', 'Description'=> 'test 2 Description', 'EntryId'=> 'test 2 EntryId', 'ProviderId'=> 'test 2 ProviderId'}
+    ]
+    @draft_json['PublicationReference'] = [
+        {'RelatedUrl'=>'test RelatedUrl','Title'=>'test Title','Publisher'=>'test Publisher','DOI'=>'test DOI','Author'=>'test Author','PublicationDate'=>'test PublicationDate',
+         'Series'=>'test Series','Edition'=>'test Edition','Volume'=>'test Volume','Issue'=>'test Issue','ReportNumber'=>'test ReportNumber','PublicationPlace'=>'test PublicationPlace',
+         'Pages'=>'test Pages','ISBN'=>'test ISBN','OtherReferenceDetails'=>'test OtherReferenceDetails'},
+        {'RelatedUrl'=>'test 2 RelatedUrl','Title'=>'test 2 Title','Publisher'=>'test 2 Publisher','DOI'=>'test 2 DOI','Author'=>'test 2 Author','PublicationDate'=>'test 2 PublicationDate',
+         'Series'=>'test 2 Series','Edition'=>'test 2 Edition','Volume'=>'test 2 Volume','Issue'=>'test 2 Issue','ReportNumber'=>'test 2 ReportNumber','PublicationPlace'=>'test 2 PublicationPlace',
+         'Pages'=>'test 2 Pages','ISBN'=>'test 2 ISBN','OtherReferenceDetails'=>'test 2 OtherReferenceDetails'}
+    ]
+
+  end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_draft
       id = params[:draft_id] || params[:id]
