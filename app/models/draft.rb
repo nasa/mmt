@@ -50,8 +50,9 @@ class Draft < ActiveRecord::Base
       params['related_url'] = related_urls
     end
 
-    # TODO if param is empty remove it from params
-    # Example: {Purpose: ""} is invalid, remove Purpose all together
+    # if param is empty remove it from params
+    params = params.delete_if{|k,v| v.empty?}
+    puts "PARAMS: #{params.inspect}"
 
     # Convert parameter keys to CamelCase for UMM
     params.to_hash.to_camel_keys

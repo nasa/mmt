@@ -27,7 +27,6 @@ $(document).ready(function() {
         lastIndex = parseInt(id);
       }
 
-
       // Display field values with other organization values
       var values = getKeyValuePairs(fields);
       $('.'+ type +'-values').append(values);
@@ -36,16 +35,19 @@ $(document).ready(function() {
         var id = $(field).attr('id');
         var name = $(field).attr('name');
 
-        // Create a hidden field with each fields value
-        var newField = $('<input>');
-        $(newField).attr('type', 'hidden');
-        $(newField).attr('name', name.replace("index", lastIndex+1));
-        $(newField).attr('id', id.replace("index", lastIndex+1));
-        $(newField).attr('value', $(field).val());
-        $('.'+ type +'-values').append(newField);
+        // Create a hidden field with each fields value if there is a value
+        var fieldValue = $(field).val();
+        if (fieldValue != "") {
+          var newField = $('<input>');
+          $(newField).attr('type', 'hidden');
+          $(newField).attr('name', name.replace("index", lastIndex+1));
+          $(newField).attr('id', id.replace("index", lastIndex+1));
+          $(newField).attr('value', fieldValue);
+          $('.'+ type +'-values').append(newField);
 
-        // Clear field
-        $(field).val('');
+          // Clear field
+          $(field).val('');
+        }
       });
     } else {
       // if fields are not visible

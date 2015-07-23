@@ -3,12 +3,15 @@
   <div class="col-12">
     <label for="draft_related_url" class="main-field icon-required">Related URL</label><i class="fa fa-info-circle"></i>
     <div class="row sub-fields">
-      <!-- show related urls -->
       <% related_urls = @draft.draft['RelatedUrl'] || [] %>
 
       <div class="related-url-values">
-        <%= display_key_value_pairs(related_urls) %>
-        <%= hidden_fields_for_related_urls(related_urls) %>
+        <% related_urls.each do |value| %>
+          <p>
+            <%= display_key_value_pairs(value) %>
+          </p>
+        <% end %>
+        <%= render partial: 'drafts/forms/hidden_fields/related_url', locals: {urls: related_urls} %>
       </div>
 
       <div class="related-url-fields" style="<%= 'display: none;' if related_urls.size > 0 %>">
@@ -16,8 +19,8 @@
       </div>
 
       <div class="col-12">
-        <a href="#" class="icon-more add-another-field related-url">Add <%= "another " if related_urls.size > 0 %>related url</a>
-        <a href="#" class="icon-less cancel-add related-url" style="<%= 'display: none;' if related_urls.size > 0 %>">Done adding related urls</a>
+        <a class="icon-more add-another-field related-url">Add <%= "another " if related_urls.size > 0 %>related url</a>
+        <a class="icon-less cancel-add related-url" style="<%= 'display: none;' if related_urls.size > 0 %>">Done adding related urls</a>
       </div>
     </div>
   </div>

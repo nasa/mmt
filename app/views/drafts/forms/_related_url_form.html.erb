@@ -1,30 +1,31 @@
+<!-- TODO URL field needs to have add another button and display list like RelatedUrl field -->
 <label for="draft_related_url_index_url" class="icon-required">URL</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag('draft[related_url][index][url]', nil, class: 'half-width', required: true) %>
+<%= text_field_tag('draft[related_url][index][url]', nil, class: 'half-width', disabled: disable_fields, required: true) %>
 
 <label for="draft_related_url_index_description">Description</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag('draft[related_url][index][description]', nil, class: 'half-width') %>
+<%= text_field_tag('draft[related_url][index][description]', nil, class: 'half-width', disabled: disable_fields) %>
 
 <!-- dropdown [http, https, ftp, ssh] -->
 <label for="draft_related_url_index_protocol">Protocol</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag('draft[related_url][index][protocol]', nil, class: 'half-width') %>
+<%= select_tag('draft[related_url][index][protocol]', options_for_select(['HTTP', 'HTTPS', 'FTP', 'SSH']), class: 'single-select', disabled: disable_fields) %>
 
 <label for="draft_related_url_index_mime_type">Mime Type</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag('draft[related_url][index][mime_type]', nil, class: 'half-width') %>
+<%= text_field_tag('draft[related_url][index][mime_type]', nil, class: 'half-width', disabled: disable_fields) %>
 
 <label for="draft_related_url_index_caption">Caption</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag('draft[related_url][index][caption]', nil, class: 'half-width') %>
+<%= text_field_tag('draft[related_url][index][caption]', nil, class: 'half-width', disabled: disable_fields) %>
 
 <label for="draft_related_url_index_title">Title</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag('draft[related_url][index][title]', nil, class: 'half-width') %>
+<%= text_field_tag('draft[related_url][index][title]', nil, class: 'half-width', disabled: disable_fields) %>
 
 <label for="draft_related_url_index_file_size_size">File Size: Size</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag('draft[related_url][index][file_size][size]', nil, class: 'half-width') %>
+<%= text_field_tag('draft[related_url][index][file_size][size]', nil, class: 'half-width', disabled: disable_fields) %>
 
 <label for="draft_related_url_index_file_size_unit">File Size: Unit</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag('draft[related_url][index][file_size][unit]', nil, class: 'half-width') %>
+<%= text_field_tag('draft[related_url][index][file_size][unit]', nil, class: 'half-width', disabled: disable_fields) %>
 
 <label for="draft_related_url_index_content_type_type">Content Type: Type</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag('draft[related_url][index][content_type][type]', nil, class: 'half-width') %>
+<%= text_field_tag('draft[related_url][index][content_type][type]', nil, class: 'half-width', disabled: disable_fields) %>
 
 <label for="draft_related_url_index_content_type_subtype">Content Type: Subtype</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag('draft[related_url][index][content_type][subtype]', nil, class: 'half-width') %>
+<%= text_field_tag('draft[related_url][index][content_type][subtype]', nil, class: 'half-width', disabled: disable_fields) %>

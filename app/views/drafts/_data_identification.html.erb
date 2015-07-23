@@ -81,12 +81,15 @@
   <div class="col-12">
     <label for="organization" class="main-field icon-required">Organization</label><i class="fa fa-info-circle"></i>
     <div class="row sub-fields">
-      <!-- show orgs -->
       <% responsible_organizations = @draft.draft['ResponsibleOrganization'] || [] %>
 
       <div class="organization-values">
-        <%= display_key_value_pairs(responsible_organizations) %>
-        <%= hidden_fields_for_organizations(responsible_organizations) %>
+        <% responsible_organizations.each do |value| %>
+          <p>
+            <%= display_key_value_pairs(value) %>
+          </p>
+        <% end %>
+        <%= render partial: 'drafts/forms/hidden_fields/organization', locals: {orgs: responsible_organizations} %>
       </div>
 
       <div class="organization-fields" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">
