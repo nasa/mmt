@@ -137,7 +137,7 @@ describe 'Search published results' do
   context 'when searching by provider' do
     before do
       click_on 'Full Metadata Record Search'
-      select 'LARC', from: 'provider-id'
+      select 'LARC', from: 'provider_id'
       click_on 'Submit'
     end
 
@@ -161,7 +161,7 @@ describe 'Search published results' do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('provider-id', with: 'LARC')
+        expect(page).to have_field('provider_id', with: 'LARC')
       end
     end
   end

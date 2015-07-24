@@ -28,7 +28,7 @@ class SearchController < ApplicationController
       params.delete('full_search')
       params.delete('entry-id')
       @query = params.clone
-      @query.delete('provider-id') if @query['provider-id'].blank?
+      @query.delete('provider_id') if @query['provider_id'].blank?
 
       # Handle search term field with selector
       # if no search term exists, reset the type
@@ -69,7 +69,7 @@ class SearchController < ApplicationController
   def get_published(query)
     # Note that published_collections is an array if successful and a hash if there are errors.
     query.delete('record_state')
-    published_collections = cmr_client.get_collections(query).body
+    published_collections = cmr_client.get_collections(query, token).body
     if published_collections.is_a?(Hash) && published_collections['errors']
       @errors = published_collections['errors']
       published_collections = []

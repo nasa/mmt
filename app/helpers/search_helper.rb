@@ -15,7 +15,8 @@ module SearchHelper
         else
           usable_value = value
         end
-        result += "#{key.gsub('-', ' ').titleize}: #{usable_value} | "
+        need_to_append_id = true if key[-3,3] == '_id' # titleize removes "_id". Another option is to override titleize
+        result += "#{key.gsub('-', ' ').titleize}#{need_to_append_id ? ' Id':''}: #{usable_value} | "
       end
       result[0..-3]
     end
