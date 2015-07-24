@@ -73,6 +73,10 @@ class ApplicationController < ActionController::Base
     json
   end
 
+  def token
+    session[:access_token]
+  end
+
   def logged_in?
     logged_in = session[:access_token].present? &&
           session[:refresh_token].present? &&

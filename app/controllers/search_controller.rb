@@ -48,7 +48,7 @@ class SearchController < ApplicationController
     @query['page'] = 1
 
     good_params = prune_query(@query.clone)
-    @collections = cmr_client.get_collections(good_params).body
+    @collections = cmr_client.get_collections(good_params, token).body
 
   end
 
