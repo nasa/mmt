@@ -1,6 +1,4 @@
-var go_to_form = function(form,value) {
-  // TODO switch to goToForm()
-
+var goToForm = function(form,value) {
   $("#new_form_name").val(value);
 
   // Handle any JS validation and related issues for @content_partial_name
@@ -8,6 +6,7 @@ var go_to_form = function(form,value) {
   // If ready, go to server to take next appropriate action
   // document.forms["edit_draft_<%= @draft_id %>"].submit();
 
+  // TODO is this behavior what we want?
   form.submit();
 }
 

@@ -41,18 +41,18 @@ class Draft < ActiveRecord::Base
     # fields that need to be arrays need to be mapped to arrays
     if params['responsible_organization']
       orgs = params['responsible_organization'].map{|key, value| value}
-      puts orgs.inspect
+      # puts orgs.inspect
       params['responsible_organization'] = orgs
     end
     if params['related_url']
       related_urls = params['related_url'].map{|key, value| value}
-      puts related_urls.inspect
+      # puts related_urls.inspect
       params['related_url'] = related_urls
     end
 
     # if param is empty remove it from params
     params = params.delete_if{|k,v| v.empty?}
-    puts "PARAMS: #{params.inspect}"
+    # puts "PARAMS: #{params.inspect}"
 
     # Convert parameter keys to CamelCase for UMM
     params.to_hash.to_camel_keys
