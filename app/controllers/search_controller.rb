@@ -48,17 +48,17 @@ class SearchController < ApplicationController
     @query['latest'] = true
     @query['page'] = 1
 
-    good_params = Search.prune_query(@query.clone)
+    good_query_params = prune_query(@query.clone)
 
     @errors = []
     @collections = []
     case @query['record-state']
       when 'published-records'
-        @collections = get_published(good_params)
+        @collections = get_published(good_query_params)
       when 'draft-records'
-        @collections = get_drafts(good_params)
+        @collections = get_drafts(good_query_params)
       when 'published-and-draft-records'
-        @collections = get_published_and_drafts(good_params)
+        @collections = get_published_and_drafts(good_query_params)
     end
     
   end
@@ -66,10 +66,10 @@ class SearchController < ApplicationController
 
   private
 
-  def get_published(params)
+  def get_published(query)
     # Note that published_collections is an array if successful and a hash if there are errors.
-    params.delete('record-state')
-    published_collections = cmr_client.get_collections(params).body
+    query.delete('record-state')
+    published_collections = cmr_client.get_collections(query).body
     if published_collections.is_a?(Hash) && published_collections['errors']
       @errors = published_collections['errors']
       published_collections = []
@@ -77,14 +77,14 @@ class SearchController < ApplicationController
     return published_collections
   end
 
-  def get_drafts(params)
+  def get_drafts(query)
     # Temporary mapping of (ECHO) params to the UMM-C field names currently supported by drafts
     draft_params = {}
-    draft_params['title'] = params['entry-title'] if !params['entry-title'].blank?
-    draft_params['id'] = params['entry-id'] if !params['entry-id'].blank?
-    params = draft_params
+    draft_params['title'] = query['entry-title'] if !query['entry-title'].blank?
+    draft_params['id'] = query['entry-id'] if !query['entry-id'].blank?
+    query = draft_params
 
-    draft_collections = Draft.where(params)  #.first #(for testing)
+    draft_collections = Draft.where(query)  #.first #(for testing)
     # Note that draft_collections returns as either an array, an object or nil
 
     # Temporary changes to drafts to allow them to be handled in the same manner as crm records.
@@ -99,9 +99,9 @@ class SearchController < ApplicationController
     return temp
   end
 
-  def get_published_and_drafts(params)
-    published_collections = get_published(params)
-    draft_collections = get_drafts(params)
+  def get_published_and_drafts(query)
+    published_collections = get_published(query)
+    draft_collections = get_drafts(query)
 
     collections = (published_collections.concat(draft_collections)).sort {|x, y|
       x['extra-fields']['entry-title']<=>y['extra-fields']['entry-title']

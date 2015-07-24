@@ -54,7 +54,7 @@ describe 'Search drafts results' do
 
   end
 
-  context 'when searching published and drafts for a draft by entry id' do
+  context 'when searching drafts by entry id' do # is actually searching published and drafts for a draft by entry id
     before do
       select 'Published & Draft Records', from: 'record-state'
       select 'Entry ID', from: 'search-term-type'

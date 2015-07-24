@@ -92,7 +92,7 @@
             <%= select_tag "author-type",
                options_for_select({'Created by'=>'',
                                    'Modified by'=>'modified-by',
-                                   'Deleted by'=>'"deleted-by'
+                                   'Deleted by'=>'deleted-by'
                                   },
                                   @query['author-type']),
                class: 'single-select', "aria-label" => "Author Type" %>

@@ -1,5 +1,7 @@
 # MMT-22, MMT-10, MMT-8
 
+# TODO Create helper method for results_query_label assertions
+
 require 'rails_helper'
 
 describe 'Search published results' do
@@ -77,7 +79,7 @@ describe 'Search published results' do
     end
   end
 
-  context 'when searching published and drafts for a published by entry id' do
+  context 'when searching published records by entry id' do # Is actually searching published and drafts for a published by entry id
     before do
       click_on 'Full Metadata Record Search'
       select 'Published & Draft Records', from: 'record-state'
