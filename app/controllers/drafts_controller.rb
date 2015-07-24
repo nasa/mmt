@@ -86,6 +86,8 @@ class DraftsController < ApplicationController
 
   def overwrite_draft_json_with_dummy_data
 
+    # Data Identification fields
+
     @draft_json['EntryId'] = {'Id'=>'test Id', 'Version'=>'test Version', 'Authority'=>'test Authority'}
     @draft_json['Title'] = 'Test Title'
     @draft_json['Abstract'] = 'Test Abstract'
@@ -126,6 +128,47 @@ class DraftsController < ApplicationController
          'Series'=>'test 2 Series','Edition'=>'test 2 Edition','Volume'=>'test 2 Volume','Issue'=>'test 2 Issue','ReportNumber'=>'test 2 ReportNumber','PublicationPlace'=>'test 2 PublicationPlace',
          'Pages'=>'test 2 Pages','ISBN'=>'test 2 ISBN','OtherReferenceDetails'=>'test 2 OtherReferenceDetails'}
     ]
+
+    # Descriptive Keyword fields ---------------------
+    @draft_json['ISOTopicCategory'] = [
+      'test ISOTopicCategory',
+      'test 2 ISOTopicCategory'
+    ]
+    @draft_json['ScienceKeywords'] = [
+      {'Category'=>'test Category','Topic'=>'test Topic','Term'=>'test Term','VariableLevel1'=>'test VariableLevel1','VariableLevel2'=>'test VariableLevel2',
+       'VariableLevel3'=>'test VariableLevel3','DetailedVariable'=>'test DetailedVariable'},
+      {'Category'=>'test 2 Category','Topic'=>'test 2 Topic','Term'=>'test 2 Term','VariableLevel1'=>'test 2 VariableLevel1','VariableLevel2'=>'test 2 VariableLevel2',
+       'VariableLevel3'=>'test 2 VariableLevel3'},
+      {'Category'=>'test 3 Category','Topic'=>'test 3 Topic','Term'=>'test 3 Term','VariableLevel1'=>'test 3 VariableLevel1','VariableLevel2'=>'test 3 VariableLevel2'},
+      {'Category'=>'test 4 Category','Topic'=>'test 4 Topic','Term'=>'test 4 Term','VariableLevel1'=>'test 4 VariableLevel1'},
+      {'Category'=>'test 5 Category','Topic'=>'test 5 Topic','Term'=>'test 5 Term'}
+    ]
+    @draft_json['AncillaryKeyword'] = [
+        'test AncillaryKeyword',
+        'test 2 AncillaryKeyword'
+    ]
+    @draft_json['AdditionalAttribute'] = [
+      {'Name'=>'test Name','Description'=>'test Description','Value'=>'test Value','DataType'=>'test DataType','MeasurementResolution'=>'test MeasurementResolution',
+       'ParameterRangeBegin'=>'test ParameterRangeBegin','ParameterRangeEnd'=>'test ParameterRangeEnd','ParameterUnitsOfMeasure'=>'test ParameterUnitsOfMeasure',
+       'ParameterValueAccuracy'=>'test ParameterValueAccuracy','ValueAccuracyExplanation'=>'test ValueAccuracyExplanation','Group'=>'test Group',
+       'UpdateDate'=>'test UpdateDate'},
+      {'Name'=>'test 2 Name','Description'=>'test 2 Description','Value'=>'test 2 Value','DataType'=>'test 2 DataType','MeasurementResolution'=>'test 2 MeasurementResolution',
+       'ParameterRangeBegin'=>'test 2 ParameterRangeBegin','ParameterRangeEnd'=>'test 2 ParameterRangeEnd','ParameterUnitsOfMeasure'=>'test 2 ParameterUnitsOfMeasure',
+       'ParameterValueAccuracy'=>'test 2 ParameterValueAccuracy','ValueAccuracyExplanation'=>'test 2 ValueAccuracyExplanation','Group'=>'test 2 Group',
+       'UpdateDate'=>'test 2 UpdateDate'}
+    ]
+
+    # metadata_information FORM FIELDS ---------------------
+    @draft_json['MetadataLanguage'] = 'Test MetadataLanguage'
+    @draft_json['MetadataStandard'] = {'Name'=>'test name', 'Version'=>'test version'}
+    @draft_json['MetadataDates'] = ['test Date', 'test 2 Date']
+
+
+    # temporal_extent FORM FIELDS ---------------------
+    # spatial_extent FORM FIELDS ---------------------
+    # acquisition_information FORM FIELDS ---------------------
+    # distribution_information FORM FIELDS ---------------------
+
 
   end
 
