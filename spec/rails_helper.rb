@@ -60,4 +60,5 @@ RSpec.configure do |config|
   config.include Helpers::UserHelpers
   config.include Helpers::AjaxHelpers
   config.include Helpers::DraftHelpers
+  config.include Helpers::DateHelpers
 end
