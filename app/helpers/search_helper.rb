@@ -9,8 +9,8 @@ module SearchHelper
       result = 'for: '
       pruned.each do |key, value|
         # You want to de-dash and titleize some search values but not others
-        if  key == 'record-state' || key == 'review-status' || key == 'record-type' ||
-            key == 'date-filter'   || key == 'on-or-after' ||  key == 'author-type'   || key == 'search-term-type'
+        if  key == 'record_state' || key == 'review_status' || key == 'record_type' ||
+            key == 'date_filter'   || key == 'on_or_after' ||  key == 'author_type'   || key == 'search_term_type'
           usable_value = value.gsub('-', ' ').titleize
         else
           usable_value = value
@@ -26,15 +26,15 @@ module SearchHelper
     query.delete('controller')
     query.delete('action')
     query.delete('page')
-    query.delete('search-term-type')
-    query.delete('search-term')
-    query.delete('review-status')
-    query.delete('date-filter')
-    query.delete('author-type')
-    query.delete('on-or-after')
-    query.delete('record-type')
-    query.delete('quick-find')
-    query.delete('full-search')
+    query.delete('search_term_type')
+    query.delete('search_term')
+    query.delete('review_status')
+    query.delete('date_filter')
+    query.delete('author_type')
+    query.delete('on_or_after')
+    query.delete('record_type')
+    query.delete('quick_find')
+    query.delete('full_search')
     query.delete('find')
     query
   end

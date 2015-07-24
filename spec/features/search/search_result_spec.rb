@@ -38,8 +38,8 @@ describe 'Search published results' do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search-term-type', with: 'entry-id')
-        expect(page).to have_field('search-term', with: entry_id)
+        expect(page).to have_field('search_term_type', with: 'entry-id')
+        expect(page).to have_field('search_term', with: entry_id)
       end
     end
     # We could add a test to actually examine the results table contents more specifically
@@ -48,8 +48,8 @@ describe 'Search published results' do
   context 'when searching by entry id' do
     before do
       click_on 'Full Metadata Record Search'
-      select 'Entry ID', from: 'search-term-type'
-      fill_in 'search-term', with: entry_id
+      select 'Entry ID', from: 'search_term_type'
+      fill_in 'search_term', with: entry_id
       click_on 'Submit'
     end
 
@@ -73,8 +73,8 @@ describe 'Search published results' do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search-term-type', with: 'entry-id')
-        expect(page).to have_field('search-term', with: entry_id)
+        expect(page).to have_field('search_term_type', with: 'entry-id')
+        expect(page).to have_field('search_term', with: entry_id)
       end
     end
   end
@@ -82,9 +82,9 @@ describe 'Search published results' do
   context 'when searching published records by entry id' do # Is actually searching published and drafts for a published by entry id
     before do
       click_on 'Full Metadata Record Search'
-      select 'Published & Draft Records', from: 'record-state'
-      select 'Entry ID', from: 'search-term-type'
-      fill_in 'search-term', with: entry_id
+      select 'Published & Draft Records', from: 'record_state'
+      select 'Entry ID', from: 'search_term_type'
+      fill_in 'search_term', with: entry_id
       click_on 'Submit'
     end
 
@@ -103,8 +103,8 @@ describe 'Search published results' do
   context 'when searching by entry title' do
     before do
       click_on 'Full Metadata Record Search'
-      select 'Entry Title', from: 'search-term-type'
-      fill_in 'search-term', with: entry_title
+      select 'Entry Title', from: 'search_term_type'
+      fill_in 'search_term', with: entry_title
       click_on 'Submit'
     end
 
@@ -128,8 +128,8 @@ describe 'Search published results' do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search-term-type', with: 'entry-title')
-        expect(page).to have_field('search-term', with: entry_title)
+        expect(page).to have_field('search_term_type', with: 'entry-title')
+        expect(page).to have_field('search_term', with: entry_title)
       end
     end
   end
@@ -169,8 +169,8 @@ describe 'Search published results' do
   context 'when searching by CMR Concept Id' do
     before do
       click_on 'Full Metadata Record Search'
-      select 'CMR Concept ID', from: 'search-term-type'
-      fill_in 'search-term', with: concept_id
+      select 'CMR Concept ID', from: 'search_term_type'
+      fill_in 'search_term', with: concept_id
       click_on 'Submit'
     end
 
@@ -194,8 +194,8 @@ describe 'Search published results' do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search-term-type', with: 'concept-id')
-        expect(page).to have_field('search-term', with: concept_id)
+        expect(page).to have_field('search_term_type', with: 'concept-id')
+        expect(page).to have_field('search_term', with: concept_id)
       end
     end
   end

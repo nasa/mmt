@@ -11,35 +11,35 @@ class SearchController < ApplicationController
     
     @results_per_page = RESULTS_PER_PAGE
 
-    # Did the search come from quick-find or full-search
-    if params['quick-find'] #&& params['entry-id'].present?
+    # Did the search come from quick_find or full_search
+    if params['quick_find'] #&& params['entry-id'].present?
       # If search came from quick find, only use the quick find input
-      params.delete('quick-find')
-      params.delete('search-term-type')
-      params.delete('search-term')
+      params.delete('quick_find')
+      params.delete('search_term_type')
+      params.delete('search_term')
       @query = {}
       unless params['entry-id'].blank?
-        @query['entry-id'] = @query['search-term'] = params['entry-id']
-        @query['search-term-type'] = 'entry-id'
+        @query['entry-id'] = @query['search_term'] = params['entry-id']
+        @query['search_term_type'] = 'entry-id'
       end
-      @query['record-state'] = 'published-records'
-    elsif params['full-search']
+      @query['record_state'] = 'published-records'
+    elsif params['full_search']
       # If search came from full search, ignore whatever was in quick find
-      params.delete('full-search')
+      params.delete('full_search')
       params.delete('entry-id')
       @query = params.clone
       @query.delete('provider-id') if @query['provider-id'].blank?
 
       # Handle search term field with selector
       # if no search term exists, reset the type
-      params.delete('search-term-type') if params['search-term'].empty?
-      case params['search-term-type']
+      params.delete('search_term_type') if params['search_term'].empty?
+      case params['search_term_type']
       when 'entry-id'
-        @query['entry-id'] = params['search-term']
+        @query['entry-id'] = params['search_term']
       when 'entry-title'
-        @query['entry-title'] = params['search-term']
+        @query['entry-title'] = params['search_term']
       when 'concept-id'
-        @query['concept-id'] = params['search-term']
+        @query['concept-id'] = params['search_term']
       end
     end
 
@@ -52,7 +52,7 @@ class SearchController < ApplicationController
 
     @errors = []
     @collections = []
-    case @query['record-state']
+    case @query['record_state']
       when 'published-records'
         @collections = get_published(good_query_params)
       when 'draft-records'
@@ -68,7 +68,7 @@ class SearchController < ApplicationController
 
   def get_published(query)
     # Note that published_collections is an array if successful and a hash if there are errors.
-    query.delete('record-state')
+    query.delete('record_state')
     published_collections = cmr_client.get_collections(query).body
     if published_collections.is_a?(Hash) && published_collections['errors']
       @errors = published_collections['errors']

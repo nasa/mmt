@@ -19,8 +19,8 @@ describe 'Search Form', js: true do
 
     it 'fills in the full search box with the entry id' do
       click_on 'Full Metadata Record Search'
-      expect(page).to have_field('search-term-type', with: 'entry-id')
-      expect(page).to have_field('search-term', with: entry_id)
+      expect(page).to have_field('search_term_type', with: 'entry-id')
+      expect(page).to have_field('search_term', with: entry_id)
 
       click_on 'Full Metadata Record Search'
     end
@@ -34,8 +34,8 @@ describe 'Search Form', js: true do
 
       it 'clears the entry id from the full search' do
         click_on 'Full Metadata Record Search'
-        expect(page).to have_no_field('search-term-type', with: 'entry-id')
-        expect(page).to have_no_field('search-term', with: entry_id)
+        expect(page).to have_no_field('search_term_type', with: 'entry-id')
+        expect(page).to have_no_field('search_term', with: entry_id)
 
         click_on 'Full Metadata Record Search'
       end
@@ -45,8 +45,8 @@ describe 'Search Form', js: true do
   context 'when searching with the full form' do
     before do
       click_on 'Full Metadata Record Search'
-      select 'Entry ID', from: 'search-term-type'
-      fill_in 'search-term', with: entry_id
+      select 'Entry ID', from: 'search_term_type'
+      fill_in 'search_term', with: entry_id
       click_on 'Submit'
       wait_for_ajax
     end
@@ -58,7 +58,7 @@ describe 'Search Form', js: true do
     context 'when clearing the search term' do
       before do
         click_on 'Full Metadata Record Search'
-        fill_in 'search-term', with: ''
+        fill_in 'search_term', with: ''
         click_on 'Submit'
         wait_for_ajax
       end

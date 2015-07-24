@@ -18,9 +18,9 @@ describe 'Search drafts results' do
 
   context 'when searching drafts by entry id' do
     before do
-      select 'Draft Records', from: 'record-state'
-      select 'Entry ID', from: 'search-term-type'
-      fill_in 'search-term', with: entry_id
+      select 'Draft Records', from: 'record_state'
+      select 'Entry ID', from: 'search_term_type'
+      fill_in 'search_term', with: entry_id
       click_on 'Submit'
     end
 
@@ -37,9 +37,9 @@ describe 'Search drafts results' do
 
   context 'when searching drafts by entry title' do
     before do
-      select 'Draft Records', from: 'record-state'
-      select 'Entry Title', from: 'search-term-type'
-      fill_in 'search-term', with: entry_title
+      select 'Draft Records', from: 'record_state'
+      select 'Entry Title', from: 'search_term_type'
+      fill_in 'search_term', with: entry_title
       click_on 'Submit'
     end
 
@@ -56,9 +56,9 @@ describe 'Search drafts results' do
 
   context 'when searching drafts by entry id' do # is actually searching published and drafts for a draft by entry id
     before do
-      select 'Published & Draft Records', from: 'record-state'
-      select 'Entry ID', from: 'search-term-type'
-      fill_in 'search-term', with: entry_id
+      select 'Published & Draft Records', from: 'record_state'
+      select 'Entry ID', from: 'search_term_type'
+      fill_in 'search_term', with: entry_id
       click_on 'Submit'
     end
 

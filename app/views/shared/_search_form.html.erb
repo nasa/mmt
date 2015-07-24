@@ -3,7 +3,7 @@
   <div class="quick-search">
     <%= label_tag('entry-id', "Quick Find") %>
     <%= text_field_tag('entry-id', @query['entry-id'], placeholder: 'Enter Entry Id') %>
-    <button type="submit" name="quick-find" class="btn btn-blue"><i class="fa fa-search"></i>Find</button>
+    <button type="submit" name="quick_find" class="btn btn-blue"><i class="fa fa-search"></i>Find</button>
   </div>
 <%# end %>
 
@@ -31,30 +31,30 @@
         </div>
         <div class="row">
           <div class="col-4">
-            <%= select_tag "record-state",
+            <%= select_tag "record_state",
                options_for_select({'Published Records'=>'published-records',
                                     'Draft Records'=>'draft-records',
                                     'Published & Draft Records'=>'published-and-draft-records'
                                   },
-                                  @query['record-state']),
+                                  @query['record_state']),
                class: 'single-select', "aria-label" => "Select Record State" %>
           </div>
           <div class="col-4">
-            <%= select_tag "review-status",
+            <%= select_tag "review_status",
                options_for_select({'Any Review Status'=>'any-review-status',
                                    'Reviewed'=>'reviewed',
                                    'Not Reviewed'=>'not-reviewed'
                                   },
-                                  @query['review-status']),
+                                  @query['review_status']),
                class: 'single-select', "aria-label" => "Select Review Status" %>
           </div>
           <div class="col-4">
-            <%= select_tag "record-type",
+            <%= select_tag "record_type",
                options_for_select({'Active Records ONLY'=>'active-only',
                                    'Deleted Records ONLY'=>'deleted-only',
                                    'Active & Deleted Records'=>'active-and-deleted-records'
                                   },
-                                  @query['record-type']),
+                                  @query['record_type']),
                class: 'single-select', "aria-label" => "Select Record Type" %>
           </div>
         </div>
@@ -64,23 +64,23 @@
       <fieldset>
         <div class="row">
           <div class="col-4">
-            <%= select_tag "date-filter",
+            <%= select_tag "date_filter",
                options_for_select({'Last Modified Date'=>'last-modified-date',
                                    'Published Date'=>'published-date',
                                    'Deleted Date'=>'deleted-date'
                                   },
-                                  @query['date-filter']),
+                                  @query['date_filter']),
                class: 'single-select', "aria-label" => "Select Date" %>
           </div>
           <div class="col-4">
-            <%= select_tag "on-or-after",
+            <%= select_tag "on_or_after",
                options_for_select({'On or After'=>'on-or-after',
                                    'On or Before'=>'on-or-before',
                                    'On'=>'on',
                                    'After'=>'after',
                                    'Before'=>'before'
                                   },
-                                  @query['on-or-after']),
+                                  @query['on_or_after']),
                class: 'single-select', "aria-label" => "On or After" %>
           </div>
           <div class="col-4">
@@ -89,12 +89,12 @@
         </div>
         <div class="row">
           <div class="col-4">
-            <%= select_tag "author-type",
+            <%= select_tag "author_type",
                options_for_select({'Created by'=>'',
                                    'Modified by'=>'modified-by',
                                    'Deleted by'=>'deleted-by'
                                   },
-                                  @query['author-type']),
+                                  @query['author_type']),
                class: 'single-select', "aria-label" => "Author Type" %>
           </div>
           <div class="col-8">
@@ -106,14 +106,14 @@
       <fieldset>
         <legend>Search Term</legend>
         <div class="col-4">
-          <%= select_tag "search-term-type",
+          <%= select_tag "search_term_type",
              options_for_select([ ['Select an option', ''],
                                   ['Entry ID', 'entry-id'],
                                   ['CMR Concept ID', 'concept-id'],
                                   ['Entry Title', 'entry-title'] ],
-                                @query['search-term-type']) %>
+                                @query['search_term_type']) %>
         </div>
-        <%= text_field_tag('search-term', @query['search-term'], 'aria-label' => 'Search Term') %>
+        <%= text_field_tag('search_term', @query['search_term'], 'aria-label' => 'Search Term') %>
         <p class="form-description">Enter an Entry ID, CMR Concept ID, or Entry Title</p>
         <hr>
         <div class="row">
@@ -121,7 +121,7 @@
         </div>
         <hr>
         <div class="row search-form-actions">
-          <button type="submit" name="full-search" class="btn btn-blue">Submit</button>
+          <button type="submit" name="full_search" class="btn btn-blue">Submit</button>
           <a href="#" class="cancel">Cancel</a>
         </div>
       </fieldset>
