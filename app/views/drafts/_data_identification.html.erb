@@ -4,15 +4,17 @@
     <label for="draft_entry_id" class="main-field icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
 
     <div class="row sub-fields">
-      <% entry_id = @draft.draft['EntryId'] || {} %>
-      <label for="draft_entry_id_id" class="icon-required">ID</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[entry_id][id]', entry_id['Id'], class: 'half-width', required: true) %>
+      <div class="entry-id-fields">
+        <% entry_id = @draft.draft['EntryId'] || {} %>
+        <label for="draft_entry_id_id" class="icon-required">ID</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[entry_id][id]', entry_id['Id'], class: 'half-width', required: true) %>
 
-      <label for="draft_entry_id_version" class="icon-required">Version</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[entry_id][version]', entry_id['Version'], class: 'half-width', required: true) %>
+        <label for="draft_entry_id_version" class="icon-required">Version</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[entry_id][version]', entry_id['Version'], class: 'half-width', required: true) %>
 
-      <label for="draft_entry_id_authority" class="icon-required">Authority</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[entry_id][authority]', entry_id['Authority'], class: 'half-width', required: true) %>
+        <label for="draft_entry_id_authority" class="icon-required">Authority</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[entry_id][authority]', entry_id['Authority'], class: 'half-width', required: true) %>
+      </div>
     </div>
   </div>
 </div>
@@ -133,14 +135,16 @@
     <label for="draft_entry_id" class="icon-required">Processing Level</label><i class="fa fa-info-circle"></i>
 
     <div class="row sub-fields">
-      <% processing_level = @draft.draft['ProcessingLevel'] || {} %>
-      <label for="draft_processing_level_id">Id</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[processing_level][id]', processing_level['Id'], class: 'half-width') %>
-      <!-- ID should be dropdown with level 0, level 1a, etc. -->
+      <div class="processing-level-fields">
+        <% processing_level = @draft.draft['ProcessingLevel'] || {} %>
+        <label for="draft_processing_level_id">ID</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[processing_level][id]', processing_level['Id'], class: 'half-width') %>
+        <!-- ID should be dropdown with level 0, level 1a, etc. -->
 
-      <label for="draft_processing_level_processing_level_description">Processing Level Description</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'half-width') %>
-      <!-- TODO description needs stuff from Mark -->
+        <label for="draft_processing_level_processing_level_description">Processing Level Description</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'half-width') %>
+        <!-- TODO description needs stuff from Mark -->
+      </div>
 
     </div>
   </div>

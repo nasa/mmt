@@ -49,6 +49,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'vcr'
+  gem 'factory_girl_rails'
 end
 
 group :test do

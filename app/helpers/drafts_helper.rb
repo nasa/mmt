@@ -5,7 +5,7 @@ module DraftsHelper
   end
 
   def list_key_values(hash)
-    puts "HASH: #{hash.inspect}"
+    # puts "HASH: #{hash.inspect}"
     hash.map do |key, value|
       if value.is_a? Hash
         list_key_values(value)

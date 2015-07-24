@@ -1,5 +1,5 @@
 class RemoveEntryTitleFromDrafts < ActiveRecord::Migration
   def change
-    remove_column :drafts, :entry_title, :string
+    remove_column :drafts, :title, :string
   end
 end

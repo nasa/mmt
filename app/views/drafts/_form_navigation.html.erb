@@ -1,4 +1,4 @@
-<div class="row metadata-cta">
+<div class="row metadata-cta nav-<%= location %>">
   <div class="col-2">
     <%= submit_tag "Save & Done", class: "btn btn-blue" %>
   </div>
@@ -6,7 +6,7 @@
   <div class="col-9 form-nav">
     <label for="next-section">Next: </label>
 
-    <%= select_tag "next_section_#{location}", options_for_select(@draft_forms.map{|d| [d[:form_partial_name].titleize, d[:form_partial_name]]}, @draft_form), onchange: 'goToForm(this.form, this.value)' %>
+    <%= select_tag "next_section", options_for_select(@draft_forms.map{|d| [d[:form_partial_name].titleize, d[:form_partial_name]]}, @draft_form), class: 'next-section' %>
 
     <%= submit_tag "Save & Next", class: "btn btn-blue" %>
   </div>

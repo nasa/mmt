@@ -1,17 +1,11 @@
-var goToForm = function(form,value) {
-  $("#new_form_name").val(value);
-
-  // Handle any JS validation and related issues for @content_partial_name
-  //   Call page specific JS validations & handle findings
-  // If ready, go to server to take next appropriate action
-  // document.forms["edit_draft_<%= @draft_id %>"].submit();
-
-  // TODO is this behavior what we want?
-  form.submit();
-}
-
-
 $(document).ready(function() {
+  // Handle form navigation
+  $('.next-section').change(function() {
+    $('#new_form_name').val(this.value);
+    this.form.submit();
+  });
+
+  // Add another field to array fields
   $('.add-another-field').click(function() {
     var type = getFieldType(this);
 
