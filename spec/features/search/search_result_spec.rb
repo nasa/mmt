@@ -16,7 +16,7 @@ describe 'Search published results' do
 
   context 'when performing a collection search by quick find entry id' do
     before do
-      fill_in 'entry-id', with: entry_id
+      fill_in 'entry_id', with: entry_id
       click_on 'Find'
     end
     it 'displays collection results' do
@@ -38,7 +38,7 @@ describe 'Search published results' do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search_term_type', with: 'entry-id')
+        expect(page).to have_field('search_term_type', with: 'entry_id')
         expect(page).to have_field('search_term', with: entry_id)
       end
     end
@@ -73,7 +73,7 @@ describe 'Search published results' do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search_term_type', with: 'entry-id')
+        expect(page).to have_field('search_term_type', with: 'entry_id')
         expect(page).to have_field('search_term', with: entry_id)
       end
     end
@@ -128,7 +128,7 @@ describe 'Search published results' do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search_term_type', with: 'entry-title')
+        expect(page).to have_field('search_term_type', with: 'entry_title')
         expect(page).to have_field('search_term', with: entry_title)
       end
     end
@@ -194,7 +194,7 @@ describe 'Search published results' do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search_term_type', with: 'concept-id')
+        expect(page).to have_field('search_term_type', with: 'concept_id')
         expect(page).to have_field('search_term', with: concept_id)
       end
     end
@@ -203,7 +203,7 @@ describe 'Search published results' do
 
   context 'when performing a search that has no results' do
     before do
-      fill_in 'entry-id', with: 'NO HITS'
+      fill_in 'entry_id', with: 'NO HITS'
       click_on 'Find'
     end
     it 'displays collection results' do

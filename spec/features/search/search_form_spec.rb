@@ -19,7 +19,7 @@ describe 'Search Form', js: true do
 
     it 'fills in the full search box with the entry id' do
       click_on 'Full Metadata Record Search'
-      expect(page).to have_field('search_term_type', with: 'entry-id')
+      expect(page).to have_field('search_term_type', with: 'entry_id')
       expect(page).to have_field('search_term', with: entry_id)
 
       click_on 'Full Metadata Record Search'
@@ -34,7 +34,7 @@ describe 'Search Form', js: true do
 
       it 'clears the entry id from the full search' do
         click_on 'Full Metadata Record Search'
-        expect(page).to have_no_field('search_term_type', with: 'entry-id')
+        expect(page).to have_no_field('search_term_type', with: 'entry_id')
         expect(page).to have_no_field('search_term', with: entry_id)
 
         click_on 'Full Metadata Record Search'

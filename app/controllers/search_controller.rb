@@ -8,7 +8,7 @@ class SearchController < ApplicationController
     page = params[:page].to_i || 1
     page = 1 if page < 1
     sort = params[:sort] || DEFAULT_SORT_ORDER
-    
+
     @results_per_page = RESULTS_PER_PAGE
 
     # Did the search come from quick_find or full_search
@@ -18,15 +18,15 @@ class SearchController < ApplicationController
       params.delete('search_term_type')
       params.delete('search_term')
       @query = {}
-      unless params['entry-id'].blank?
-        @query['entry-id'] = @query['search_term'] = params['entry-id']
-        @query['search_term_type'] = 'entry-id'
+      unless params['entry_id'].blank?
+        @query['entry_id'] = @query['search_term'] = params['entry_id']
+        @query['search_term_type'] = 'entry_id'
       end
-      @query['record_state'] = 'published-records'
+      @query['record_state'] = 'published_records'
     elsif params['full_search']
       # If search came from full search, ignore whatever was in quick find
       params.delete('full_search')
-      params.delete('entry-id')
+      params.delete('entry_id')
       @query = params.clone
       @query.delete('provider_id') if @query['provider_id'].blank?
 
@@ -34,12 +34,12 @@ class SearchController < ApplicationController
       # if no search term exists, reset the type
       params.delete('search_term_type') if params['search_term'].empty?
       case params['search_term_type']
-      when 'entry-id'
-        @query['entry-id'] = params['search_term']
-      when 'entry-title'
-        @query['entry-title'] = params['search_term']
-      when 'concept-id'
-        @query['concept-id'] = params['search_term']
+      when 'entry_id'
+        @query['entry_id'] = params['search_term']
+      when 'entry_title'
+        @query['entry_title'] = params['search_term']
+      when 'concept_id'
+        @query['concept_id'] = params['search_term']
       end
     end
 
@@ -53,14 +53,14 @@ class SearchController < ApplicationController
     @errors = []
     @collections = []
     case @query['record_state']
-      when 'published-records'
+    when 'published_records'
         @collections = get_published(good_query_params)
-      when 'draft-records'
+      when 'draft_records'
         @collections = get_drafts(good_query_params)
-      when 'published-and-draft-records'
+      when 'published_and_draft_records'
         @collections = get_published_and_drafts(good_query_params)
     end
-    
+
   end
 
 
@@ -80,8 +80,8 @@ class SearchController < ApplicationController
   def get_drafts(query)
     # Temporary mapping of (ECHO) params to the UMM-C field names currently supported by drafts
     draft_params = {}
-    draft_params['title'] = query['entry-title'] if !query['entry-title'].blank?
-    draft_params['id'] = query['entry-id'] if !query['entry-id'].blank?
+    draft_params['title'] = query['entry_title'] if !query['entry_title'].blank?
+    draft_params['id'] = query['entry_id'] if !query['entry_id'].blank?
     query = draft_params
 
     draft_collections = Draft.where(query)  #.first #(for testing)

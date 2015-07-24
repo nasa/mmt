@@ -7,16 +7,17 @@ module SearchHelper
     # We might want to worry about how we order this at some point
     unless pruned.empty?
       result = 'for: '
+
+      special_keys = ['record_state', 'review_status', 'record_type','date_filter', 'on_or_after','author_type','search_term_type']
+
       pruned.each do |key, value|
         # You want to de-dash and titleize some search values but not others
-        if  key == 'record_state' || key == 'review_status' || key == 'record_type' ||
-            key == 'date_filter'   || key == 'on_or_after' ||  key == 'author_type'   || key == 'search_term_type'
+        if special_keys.include?(key)
           usable_value = value.gsub('-', ' ').titleize
         else
           usable_value = value
         end
-        need_to_append_id = true if key[-3,3] == '_id' # titleize removes "_id". Another option is to override titleize
-        result += "#{key.gsub('-', ' ').titleize}#{need_to_append_id ? ' Id':''}: #{usable_value} | "
+        result += "#{key.gsub('_', ' ').titleize}: #{usable_value} | "
       end
       result[0..-3]
     end

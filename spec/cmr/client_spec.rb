@@ -12,9 +12,9 @@ describe Cmr::Client do
 
     context 'using Entry Id' do
       it 'performs searches using exact matches' do
-        expect(connection).to receive(:get).with(dataset_search_url, 'entry-id' => "term").and_return(:response)
+        expect(connection).to receive(:get).with(dataset_search_url, 'entry_id' => "term").and_return(:response)
 
-        response = cmr_client.get_collections('entry-id' => "term")
+        response = cmr_client.get_collections('entry_id' => "term")
         expect(response.faraday_response).to eq(:response)
       end
     end
