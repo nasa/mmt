@@ -8,13 +8,13 @@ describe Cmr::Client do
   before { allow(cmr_client).to receive(:connection).and_return(connection) }
 
   context 'dataset search' do
-    let(:dataset_search_url) { "http://localhost:3001/concepts/search/collections" }
+    let(:dataset_search_url) { "http://localhost:3003/concept-revisions/collections" }
 
     context 'using Entry Id' do
       it 'performs searches using exact matches' do
-        expect(connection).to receive(:get).with(dataset_search_url, 'entry-id' => "term").and_return(:response)
+        expect(connection).to receive(:get).with(dataset_search_url, 'entry_id' => "term").and_return(:response)
 
-        response = cmr_client.get_collections('entry-id' => "term")
+        response = cmr_client.get_collections('entry_id' => "term")
         expect(response.faraday_response).to eq(:response)
       end
     end

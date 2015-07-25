@@ -7,7 +7,12 @@ module Cmr
     # client.get_collections().body['feed']['entry']
     # TODO this is currently using the CMR Search API. We will switch to the CMR Ingest API when we get access.
     def get_collections(options={}, token=nil)
-      get("http://localhost:3001/concepts/search/collections", options, token_header(token))
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/concept-revisions/collections'
+      else
+        url = '/search/concept-revisions/collections'
+      end
+      get(url, options, token_header(token))
     end
 
     def get_providers()
@@ -16,11 +21,21 @@ module Cmr
     end
 
     def get_provider_summaries()
-      get("http://localhost:3002/providers")
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3002/providers'
+      else
+        url = '/ingest/providers'
+      end
+      get(url)
     end
 
     def get_provider_holdings(options={}, token=nil)
-      get("http://localhost:3003/provider_holdings", options, token_header(token))
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/provider_holdings.json'
+      else
+        url = '/search/provider_holdings.json'
+      end
+      get(url, options, token_header(token))
     end
 
   end

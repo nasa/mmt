@@ -68,10 +68,10 @@ $(window).on("popstate", function () {
   // Refresh the contents page using AJAX. Extract & use the parameters from the "backed" url
   var page = getURLParameter("page");
   if (page != null) {
-    update_collection_search_input(getURLParameter("entry-id") || '', getURLParameter("sort") || '', getURLParameter("page") || '', false);
+    update_collection_search_input(getURLParameter("entry_id") || '', getURLParameter("sort") || '', getURLParameter("page") || '', false);
   }
 });
 
 function go_to_page(page) {
-  update_collection_search_input($('#entry-id').val(), $('#sort').val(), page, true);
+  update_collection_search_input($('#entry_id').val(), $('#sort').val(), page, true);
 }
