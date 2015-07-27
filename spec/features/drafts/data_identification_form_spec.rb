@@ -51,8 +51,8 @@ describe 'Data identification form' do
 
     it 'shows the values in the draft preview page' do
       expect(page).to have_content('12345')
-      expect(page).to have_content('Version 1')
-      expect(page).to have_content('Authority 1')
+      expect(page).to have_content('1')
+      expect(page).to have_content('Authority')
     end
 
     context 'when returning to the form' do
