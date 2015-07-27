@@ -11,7 +11,10 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
+    # TODO - review logic to make draft a consistent type
+    @draft_json = @draft.draft.is_a?(String) ? JSON.parse(@draft.draft) : (@draft.draft || {})
   end
+
 
   # GET /drafts/new
   def new
@@ -79,6 +82,7 @@ class DraftsController < ApplicationController
   # end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_draft
       id = params[:draft_id] || params[:id]

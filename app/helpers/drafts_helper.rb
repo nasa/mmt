@@ -1,5 +1,19 @@
 # TODO Move all markup out of this helper
 module DraftsHelper
+
+  def construct_keyword_string(hash_obj, str)
+    # Assumes hash is passed in as ordered
+    hash_obj.each do |key, value|
+      if value.is_a?(String)
+        str << ' > ' if !str.blank?
+        str = str << value
+      else # Use tail recursion to construct the string found in the sub-hash
+        str = construct_keyword_string(value, str)
+      end
+    end
+    return str
+  end
+
   def display_key_value_pairs(value)
     list_key_values(value).flatten.compact.join(' | ')
   end
@@ -16,4 +30,5 @@ module DraftsHelper
       end
     end
   end
+
 end

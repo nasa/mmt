@@ -107,27 +107,31 @@
       </li>
     </ul>
   </section>
+  
   <div class="row content">
     <section class="preview">
+      <!--/br>
+      <%= @draft.inspect %>
+      </br>
+      </br>
+      <%= @draft_json.inspect %>
+      </br>
+      </br-->
+
       <h3>Preview</h3>
       <input type="checkbox" name="markdown"></input>
       <label for="markdown">Show as markdown</label>
-      <h4>Entry ID</h4>
-      <p>ASF20CD03</p>
-      <h4>Abstract</h4>
-      <p>The CD-ROM contains the 250 resolution RADARSAT-1 SAR Mosaic of Antartica and the Image Explorer software for viewing the data. The mosaics are a part of the RADARSAT-1 Antartica Mapping Project, a collaboration between CSA and NASA. Partners include the Byrd Polar Research Center of the Ohio State University, the Alaska Satellite Facility, the Jet Propulsion Laboratory, and Vexcel Corporation.</p>
-      <h4>Science Keywords</h4>
-      <ul>
-        <li>Spectral/Engineering > Radar > Radar Backscatter</li>
-        <li>Spectral/Engineering > Radar > Radar Cross-Section</li>
-        <li>Spectral/Engineering > Radar > Radar Imagery</li>
-      </ul>
-      <h4>Data Center</h4>
-      <p>Alaska Satellite Facility</p>
-      <h4>Personnel</h4>
-      <ul>
-        <li>Nettie Labelle-Hamer<br>Role: Technical Contact</li>
-      </ul>
+
+
+      <%= render :partial=>'drafts/display_fields/show_data_identification' %>
+      <%= render :partial=>'drafts/display_fields/show_descriptive_keywords' %>
+      <%= render :partial=>'drafts/display_fields/show_metadata_information' %>
+      <%= render :partial=>'drafts/display_fields/show_temporal_extent' %>
+      <%= render :partial=>'drafts/display_fields/show_spatial_extent' %>
+      <%= render :partial=>'drafts/display_fields/show_acquisition_information' %>
+      <%= render :partial=>'drafts/display_fields/show_distribution_information' %>
+
+
     </section>
     <aside class="geographic-coverage">
       <h3>Geographic Coverage</h3>
