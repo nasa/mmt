@@ -13,7 +13,7 @@ describe 'Quick find search' do
     context 'and performing a quick find search' do
       before do
         visit '/dashboard'
-        fill_in 'entry-id', with: entry_id
+        fill_in 'entry_id', with: entry_id
         click_on 'Find'
       end
       it 'redirects the user to the search page' do
@@ -28,7 +28,7 @@ describe 'Quick find search' do
   context 'when viewing the search page' do
     before do
       visit '/search'
-      fill_in 'entry-id', with: entry_id
+      fill_in 'entry_id', with: entry_id
       click_on 'Find'
     end
     it 'keeps the user on the search page' do

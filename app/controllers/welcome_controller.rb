@@ -4,7 +4,9 @@ class WelcomeController < ApplicationController
   def index
     redirect_to dashboard_path if logged_in?
 
-    providers = Hash[cmr_client.get_provider_summaries.body.map{|p| [p['provider-id'], {'provider_id'=>p['provider-id'], 'short_name' => p['short-name']}]}]
+    providers = Hash[cmr_client.get_provider_summaries.body.map{|p|
+                       [p['provider-id'], {'provider_id'=>p['provider-id'], 'short_name' => p['short-name']}]
+                     }]
 
     holdings = cmr_client.get_provider_holdings.body
 
@@ -31,7 +33,7 @@ class WelcomeController < ApplicationController
       # rescue statement required, but no action needed
     end
 
-    @collections = cmr_client.get_provider_holdings({'provider_id'=>provider_id}).body.map{|q|
+    @collections = cmr_client.get_provider_holdings({'provider-id'=>provider_id}).body.map{|q|
       {:id=>q['concept-id'], :title=>q['entry-title'], :granules=>q['granule-count']}
     }.sort {|x, y| x['entry-title']<=>y['entry-title']}
 

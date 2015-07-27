@@ -24,11 +24,18 @@ class Draft < ActiveRecord::Base
   end
 
   def title
-    self.draft['EntryTitle'] || '<Untitled Collection Record>'
+    self.entry_title || '<Untitled Collection Record>'
   end
 
   def update_draft(params)
     if params
+      # pull out searchable fields if provided
+      self.entry_title = params['entry_title'] if params['entry_title']
+      self.entry_id = params['entry_id']['id'] if params['entry_id'] && params['entry_id']['id']
+
+      # The provider_id isn't actually part of the metadata. You can think of that as the owner of the metadata. It's meta-metadata.
+      # self.provider_id = ?
+
       json_params = fix_params(params)
       self.draft.merge!(json_params)
       self.save
