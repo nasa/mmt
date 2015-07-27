@@ -3,16 +3,13 @@
 require 'rails_helper'
 
 describe 'Search drafts results' do
-  entry_id = nil
+  entry_id = 'id_123'
   entry_title = 'Aircraft Flux-Filtered: Univ. Col. (FIFE)'
 
   before :each do
     login
     visit "/search"
-    Draft.create({:title=>entry_title})
-    last_draft = Draft.last
-    entry_id = last_draft.id
-    entry_title = last_draft.title
+    create(:draft, entry_title: entry_title, entry_id: entry_id)
     click_on 'Full Metadata Record Search'
   end
 

@@ -7,7 +7,7 @@ describe Draft do
     expect(draft.title).to eq('Title Example')
   end
   it 'returns Untitled if there is no entry title' do
-    draft = build(:draft, draft: {})
+    draft = build(:draft, entry_title: nil)
     expect(draft.title).to eq('<Untitled Collection Record>')
   end
 
