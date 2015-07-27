@@ -7,7 +7,7 @@
     <% !@draft_json['RelatedUrl'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Protocol', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'URL', :hash_for_key=>r} %>
+      <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'URL', :hash_for_key=>r, :title_override=>'URL'} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'MimeType', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Caption', :hash_for_key=>r} %>
