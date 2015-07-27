@@ -1,16 +1,40 @@
-<%= fields_for @draft do |f| %>
+<!-- need better support in json-schema -->
 
-  <div class="row">
-    <div class="col-12">
-      <%= f.label :title, {:class=>'icon-required'} %>
-      <i class="fa fa-info-circle"></i>
-      <%= f.text_field :title, {:class=>'full-width'} %>
+<!-- Platform [r] -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="platform" class="icon-required">Platform</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+    <div class="row">
+      <div class="col-12">
+        <a href="#" class="icon-more">Add platform</a>
+      </div>
     </div>
   </div>
-  <div class="banner banner-danger">
-    <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
+</div>
+
+<!-- Instrument -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="instrument" class="icon-required">Instrument</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+    <div class="row">
+      <div class="col-12">
+        <a href="#" class="icon-more">Add instrument</a>
+      </div>
+    </div>
   </div>
+</div>
 
-<% end %>
+<!-- Sensor -->
+<!-- Not in UMM JSON Schema yet -->
 
-[<%= @draft_form.titleize %> fields go here]
+<!-- Project -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="project">Project</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
+    <div class="row">
+      <div class="col-12">
+        <a href="#" class="icon-more">Add project</a>
+      </div>
+    </div>
+  </div>
+</div>

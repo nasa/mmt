@@ -52,6 +52,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'vcr'
+  gem 'factory_girl_rails'
 end
 
 group :test do
@@ -68,3 +69,6 @@ group :production do
 end
 
 gem 'figaro'
+
+gem 'json-schema'
+gem 'awrence' # convert snake_case hash keys to CamelCase hash keys

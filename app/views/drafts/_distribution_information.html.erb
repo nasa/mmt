@@ -1,16 +1,39 @@
-<%= fields_for @draft do |f| %>
+<!-- Related URL [r] -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_related_url" class="main-field icon-required">Related URL</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <% related_urls = @draft.draft['RelatedUrl'] || [] %>
 
-  <div class="row">
-    <div class="col-12">
-      <%= f.label :title, {:class=>'icon-required'} %>
-      <i class="fa fa-info-circle"></i>
-      <%= f.text_field :title, {:class=>'full-width'} %>
+      <div class="related-url-values">
+        <% related_urls.each do |value| %>
+          <p>
+            <%= display_key_value_pairs(value) %>
+          </p>
+        <% end %>
+        <%= render partial: 'drafts/forms/hidden_fields/related_url', locals: {urls: related_urls} %>
+      </div>
+
+      <div class="related-url-fields" style="<%= 'display: none;' if related_urls.size > 0 %>">
+        <%= render partial: 'drafts/forms/related_url_form', locals: {disable_fields: related_urls.size > 0} %>
+      </div>
+
+      <div class="col-12">
+        <a class="icon-more add-another-field related-url">Add <%= "another " if related_urls.size > 0 %>related url</a>
+        <a class="icon-less cancel-add related-url" style="<%= 'display: none;' if related_urls.size > 0 %>">Done adding related urls</a>
+      </div>
     </div>
   </div>
-  <div class="banner banner-danger">
-    <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
+</div>
+
+
+<!-- Distribution -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="distribution">Distribution</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- form with text fields -->
+      <!-- add another distribution button -->
+    </div>
   </div>
-
-<% end %>
-
-[<%= @draft_form.titleize %> fields go here]
+</div>

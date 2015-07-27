@@ -79,19 +79,22 @@ class SearchController < ApplicationController
 
   def get_drafts(query)
     # Temporary mapping of (ECHO) params to the UMM-C field names currently supported by drafts
-    draft_params = {}
-    draft_params['title'] = query['entry_title'] if !query['entry_title'].blank?
-    draft_params['id'] = query['entry_id'] if !query['entry_id'].blank?
-    query = draft_params
+    # draft_params = {}
+    # draft_params['title'] = query['entry_title'] if !query['entry_title'].blank?
+    # draft_params['id'] = query['entry_id'] if !query['entry_id'].blank?
+    # query = draft_params
+    query.delete('record_state')
+    query.delete('latest')
 
-    draft_collections = Draft.where(query)  #.first #(for testing)
+    puts "QUERY: #{query.inspect}"
+    draft_collections = Draft.where(query.permit!)  #.first #(for testing)
     # Note that draft_collections returns as either an array, an object or nil
 
-    # Temporary changes to drafts to allow them to be handled in the same manner as crm records.
+    # Temporary changes to drafts to allow them to be handled in the same manner as CMR records.
     temp = []
     if draft_collections.respond_to?('each')
       draft_collections.each do |d|
-        temp << {'revision-date'=>d['updated_at'].to_s[0..9], 'extra-fields' => {'entry-title'=>d['title']|| 'ABC (Draft)', 'entry-id'=>d['id']}}
+        temp << {'revision-date'=>d['updated_at'].to_s[0..9], 'extra-fields' => {'entry-title'=>d['entry_title']|| '<Untitled Collection Record>', 'entry-id'=>d['entry_id']}}
       end
     elsif !draft_collections.nil?
       temp << {'revision-date'=>draft_collections['updated_at'].to_s[0..9], 'extra-fields' => {'entry-title'=>draft_collections['title']|| 'ABC (Draft)', 'entry-id'=>draft_collections['id']}}
@@ -107,6 +110,4 @@ class SearchController < ApplicationController
       x['extra-fields']['entry-title']<=>y['extra-fields']['entry-title']
     }
   end
-
-
 end

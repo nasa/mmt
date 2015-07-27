@@ -5,7 +5,7 @@ require 'rails_helper'
 SUMMARY_PAGE_STRING = 'Quality Score ='
 TEST_TITLE_STRING = 'test title'
 
-describe 'Draft Navigation' do
+describe 'Draft form navigation' do
 
   before :each do
     login
@@ -48,7 +48,9 @@ describe 'Draft Navigation' do
         next_form_title = Draft.get_next_form(f[:form_partial_name]).titleize()
         context "#{next_form_title} from the first form selection drop down" do
           before do
-            select next_form_title, :from=>"next-section-top"
+            within('.nav-top') do
+              select next_form_title, :from=>"next_section"
+            end
           end
           it "displays the #{next_form_title} form" do # Note - randomization causes test result order to not agree with DRAFT_FORMS order.
             expect(page).to have_content(next_form_title)
@@ -60,7 +62,9 @@ describe 'Draft Navigation' do
       this_form_title = "Spatial Extent" # Only test one form from the second navigation drop down
       context "#{this_form_title} from the second form selection drop down" do
         before do
-          select this_form_title, :from=>"next-section-bottom"
+          within('.nav-bottom') do
+            select this_form_title, :from=>"next_section"
+          end
         end
         it "displays the #{this_form_title} form" do
           expect(page).to have_content(this_form_title)

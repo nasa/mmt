@@ -38,6 +38,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     arel (6.0.0)
+    awrence (0.1.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bourbon (4.2.3)
@@ -68,6 +69,11 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.5.2)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
     faraday_middleware (0.9.0)
@@ -86,6 +92,8 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    json-schema (2.5.1)
+      addressable (~> 2.3.7)
     kgio (2.9.3)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -217,16 +225,19 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awrence
   bourbon
   byebug
   capybara
   capybara-screenshot
   coffee-rails (~> 4.1.0)
+  factory_girl_rails
   faraday
   faraday_middleware (<= 0.9.0)
   figaro
   jbuilder (~> 2.0)
   jquery-rails
+  json-schema
   launchy
   multi_xml
   neat

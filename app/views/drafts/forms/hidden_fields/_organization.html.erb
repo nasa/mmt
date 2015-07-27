@@ -1,0 +1,10 @@
+<% orgs.each_with_index do |org, index| %>
+  <%= hidden_field_tag("draft[responsible_organization][#{index}][role]", org['Role']) unless org['Role'].empty? %>
+
+  <% party = org['Party'] || {} %>
+  <% organization_name = party['OrganizationName'] || {} %>
+  <% unless party.empty? || organization_name.empty? %>
+    <%= hidden_field_tag("draft[responsible_organization][#{index}][party][organization_name][short_name]", organization_name['ShortName']) unless organization_name['ShortName'].empty? %>
+    <%= hidden_field_tag("draft[responsible_organization][#{index}][party][organization_name][long_name]", organization_name['LongName']) unless organization_name['LongName'].empty? %>
+  <% end %>
+<% end %>
