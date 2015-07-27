@@ -98,8 +98,8 @@ class DraftsController < ApplicationController
         {'Scope'=> 'test 2 Scope', 'Date'=> 'test 2 Date', 'Type'=> 'test 2 type', 'Description'=>'test 2 description', 'Responsibility'=>'test 2 Responsibility'}
     ]
     @draft_json['ResponsibleOrganization'] = [
-        {'Role'=> 'test role', 'Party'=> 'test party'},
-        {'Role'=> 'test 2 role', 'Party'=> 'test 2 party'}
+        {'Role'=> 'test role', 'Party'=> {'OrganizationName'=>{'ShortName'=>'test short name', 'LongName'=>'test long name'}}},
+        {'Role'=> 'test 2 role', 'Party'=> {'OrganizationName'=>{'ShortName'=>'test 2 short name', 'LongName'=>'test 2 long name'}}}
     ]
     @draft_json['ResponsiblePersonnel'] = [
         {'Role'=> 'test role', 'Party'=> 'test party'},
@@ -163,11 +163,61 @@ class DraftsController < ApplicationController
     @draft_json['MetadataStandard'] = {'Name'=>'test name', 'Version'=>'test version'}
     @draft_json['MetadataDates'] = ['test Date', 'test 2 Date']
 
-
     # temporal_extent FORM FIELDS ---------------------
+    @draft_json['TemporalExtent'] = [
+      {'TemporalRangeType'=>'test TemporalRangeType','PrecisionOfSeconds'=>'test PrecisionOfSeconds','EndsAtPresentFlag'=>'test EndsAtPresentFlag',
+       'RangeDateTime'=>'test RangeDateTime','SingleDateTime'=>'test SingleDateTime','PeriodicDateTime'=>'test PeriodicDateTime'},
+      {'TemporalRangeType'=>'test 2 TemporalRangeType','PrecisionOfSeconds'=>'test 2 PrecisionOfSeconds','EndsAtPresentFlag'=>'test 2 EndsAtPresentFlag',
+       'RangeDateTime'=>'test 2 RangeDateTime','SingleDateTime'=>'test 2 SingleDateTime','PeriodicDateTime'=>'test 2 PeriodicDateTime'}
+    ]
+    @draft_json['TemporalKeywords'] = [
+        'test TemporalKeywords',
+        'test 2 TemporalKeywords'
+    ]
+    @draft_json['PaleoTemporalCoverage'] = {'PaleoTemporalCoverage'=>'test PaleoTemporalCoverage', 'ChronostratigraphicUnit'=>'test ChronostratigraphicUnit',
+      'StartDate'=>'test StartDate', 'EndDate'=>'test EndDate'}
+
     # spatial_extent FORM FIELDS ---------------------
+    @draft_json['SpatialExtent'] = [
+      {'SpatialCoverageType'=>'test SpatialCoverageType','HorizontalSpatialDomain'=>'test HorizontalSpatialDomain',
+       'VerticalSpatialDomain'=>'test VerticalSpatialDomain','OrbitParameters'=>'test OrbitParameters','GranuleSpatialRepresentation'=>'test GranuleSpatialRepresentation'},
+      {'SpatialCoverageType'=>'test 2 SpatialCoverageType','HorizontalSpatialDomain'=>'test 2 HorizontalSpatialDomain',
+       'VerticalSpatialDomain'=>'test 2 VerticalSpatialDomain','OrbitParameters'=>'test 2 OrbitParameters','GranuleSpatialRepresentation'=>'test 2 GranuleSpatialRepresentation'}
+    ]
+    @draft_json['TilingIdentificationSystem'] = {'TilingIdentificationSystemName'=> 'test TilingIdentificationSystemName', 'Coordinate1'=> ' test Coordinate1', 'Coordinate2'=> 'test Coordinate2'}
+    @draft_json['SpatialInformation'] = {'VerticalCoordinateSystem'=> 'test VerticalCoordinateSystem', 'HorizontalCoordinateSystem'=> ' test HorizontalCoordinateSystem',
+      'SpatialCoverageType'=> 'test SpatialCoverageType'}
+    @draft_json['SpatialKeyword'] = {'Category'=> 'test Category', 'Type'=> ' test Type'}
+
     # acquisition_information FORM FIELDS ---------------------
+    @draft_json['Platform'] = [
+      {'Type'=>'test Type', 'LongName'=>'test LongName', 'Characteristics'=>'test Characteristics'},
+      {'Type'=>'test 2 Type', 'LongName'=>'test 2 LongName', 'Characteristics'=>'test 2 Characteristics'}
+    ]
+    @draft_json['Instrument'] = [
+        {'Type'=>'test Type', 'LongName'=>'test LongName', 'Characteristics'=>'test Characteristics', 'Technique'=>'test Technique', 'Sensors'=>'test Sensors', 'OperationalMode'=>'test OperationalMode'},
+        {'Type'=>'test 2 Type', 'LongName'=>'test 2 LongName', 'Characteristics'=>'test 2 Characteristics', 'Technique'=>'test 2 Technique', 'Sensors'=>'test 2 Sensors', 'OperationalMode'=>'test 2 OperationalMode'}
+    ]
+    @draft_json['Sensor'] = [
+        {'Type'=>'test Type', 'LongName'=>'test LongName', 'Characteristics'=>'test Characteristics'},
+        {'Type'=>'test 2 Type', 'LongName'=>'test 2 LongName', 'Characteristics'=>'test 2 Characteristics'}
+    ]
+    @draft_json['Project'] = [
+      {'ShortName'=>'test ShortName','LongName'=>'test LongName','Campaign'=>'test Campaign','StartDate'=>'test StartDate','EndDate'=>'test EndDate'},
+      {'ShortName'=>'test 2 ShortName','LongName'=>'test 2 LongName','Campaign'=>'test 2 Campaign','StartDate'=>'test 2 StartDate','EndDate'=>'test 2 EndDate'}
+    ]
+
     # distribution_information FORM FIELDS ---------------------
+    @draft_json['RelatedUrl'] = [
+      {'Description'=>'test Description','Protocol'=>'test Protocol','URL'=>'test URL','Title'=>'test Title','MimeType'=>'test MimeType','Caption'=>'test Caption',
+       'FileSize'=>'test FileSize'},
+      {'Description'=>'test 2 Description','Protocol'=>'test 2 Protocol','URL'=>'test 2 URL','Title'=>'test 2 Title','MimeType'=>'test 2 MimeType','Caption'=>'test 2 Caption',
+       'FileSize'=>'test 2 FileSize'}
+    ]
+    @draft_json['Distribution'] = [
+      {'DistributionMedia'=>'test DistributionMedia','DistributionSize'=>'test DistributionSize','DistributionFormat'=>'test DistributionFormat', 'Fees'=>'test Fees'},
+      {'DistributionMedia'=>'test 2 DistributionMedia','DistributionSize'=>'test 2 DistributionSize','DistributionFormat'=>'test 2 DistributionFormat', 'Fees'=>'test 2 Fees'}
+    ]
 
 
   end

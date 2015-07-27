@@ -1,1 +1,55 @@
 <h4>Spatial Extent Fields:</h4>
+
+<!-- Spatial Extent [r] -->
+<!-- array of SpatialExtentType -->
+<% if !@draft_json['SpatialExtent'].blank? %>
+  <h4>Spatial Extent</h4>
+  <p>
+    <% !@draft_json['SpatialExtent'].each do |r| %>
+      <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'SpatialCoverageType', :hash_for_key=>r} %>
+      <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'HorizontalSpatialDomain', :hash_for_key=>r} %>
+      <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'VerticalSpatialDomain', :hash_for_key=>r} %>
+      <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'OrbitParameters', :hash_for_key=>r} %>
+      <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'GranuleSpatialRepresentation', :hash_for_key=>r} %>
+      <%= raw((r == @draft_json['SpatialExtent'].last) ? '' : '</br>') %>
+    <% end %>
+  </p>
+<% end %>
+
+<!-- Tiling Identification System -->
+<!-- TilingIdentificationSystemType -->
+<% if !@draft_json['TilingIdentificationSystem'].blank? %>
+  <h4>Tiling Identification System</h4>
+  <p>
+    <% r = @draft_json['TilingIdentificationSystem'] %>
+    <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'TilingIdentificationSystemName', :hash_for_key=>r} %>
+    <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Coordinate1',   :hash_for_key=>r} %>
+    <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Coordinate2', :hash_for_key=>r} %>
+  </p>
+<% end %>
+
+<!-- Spatial Representation Information -->
+<!-- SpatialInformation -->
+<% if !@draft_json['SpatialInformation'].blank? %>
+  <h4>Spatial Information</h4>
+  <p>
+    <% r = @draft_json['SpatialInformation'] %>
+    <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'VerticalCoordinateSystem', :hash_for_key=>r} %>
+    <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'HorizontalCoordinateSystem',   :hash_for_key=>r} %>
+    <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'SpatialCoverageType', :hash_for_key=>r} %>
+  </p>
+<% end %>
+
+<!-- Spatial Keywords -->
+<!-- KeywordUuidStringType -->
+<% if !@draft_json['SpatialKeyword'].blank? %>
+  <h4>Spatial Keyword</h4>
+  <p>
+    <% r = @draft_json['SpatialKeyword'] %>
+    <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Category', :hash_for_key=>r} %>
+    <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
+  </p>
+<% end %>
+
+
+

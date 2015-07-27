@@ -47,7 +47,8 @@
   <p>
     <% !@draft_json['ResponsibleOrganization'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Party', :hash_for_key=>r} %>
+      <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>r['Party']['OrganizationName']} %>
+      <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r['Party']['OrganizationName']} %>
       <%= raw((r == @draft_json['ResponsibleOrganization'].last) ? '' : '</br>') %>
     <% end %>
   </p>
