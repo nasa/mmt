@@ -14,24 +14,20 @@
   </nav>
   <article id="metadata">
     <section class="callout-box col-left">
-      <div class="callout-content">
+      <div class="callout-content open-drafts">
         <h3>Your Open Drafts</h2>
         <ul>
-          <li>
-            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-          </li>
-          <li>
-            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-          </li>
-          <li>
-            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-          </li>
-          <li>
-            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-          </li>
-          <li>
-            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-          </li>
+          <% @drafts.each do |draft| %>
+            <!-- <li>
+              <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
+            </li> -->
+            <li>
+              <p>
+                <%= time_tag draft.updated_at, draft.updated_at.strftime("%Y-%m-%d") %><br>
+                <%= link_to draft.title, draft_path(draft) %>
+              </p>
+            </li>
+          <% end %>
           <li>
             <a href="#">More</a>
           </li>

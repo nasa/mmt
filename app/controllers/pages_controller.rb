@@ -2,6 +2,7 @@ class PagesController < ApplicationController
 
   def dashboard
     @notification = cmr_client.get_calendar_events().body
+    @drafts = @current_user.drafts
   end
 
   def new_record

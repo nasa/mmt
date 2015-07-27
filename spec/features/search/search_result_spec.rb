@@ -25,7 +25,7 @@ describe 'Search published results' do
     it 'displays expected Entry ID, Entry Title and Last Modified values' do
       expect(page).to have_content(entry_id)
       expect(page).to have_content(entry_title)
-      expect(page).to have_content(Time.now.in_time_zone("Eastern Time (US & Canada)").strftime("%Y-%m-%d"))
+      expect(page).to have_content(today_string)
     end
 
     context 'when viewing the full search form' do
@@ -60,7 +60,7 @@ describe 'Search published results' do
     it 'displays expected data' do
       expect(page).to have_content(entry_id)
       expect(page).to have_content(entry_title)
-      expect(page).to have_content(Time.now.in_time_zone("Eastern Time (US & Canada)").strftime("%Y-%m-%d"))
+      expect(page).to have_content(today_string)
     end
 
     context 'when viewing the full search form' do
@@ -115,7 +115,7 @@ describe 'Search published results' do
     it 'displays expected data' do
       expect(page).to have_content(entry_id)
       expect(page).to have_content(entry_title)
-      expect(page).to have_content(Time.now.in_time_zone("Eastern Time (US & Canada)").strftime("%Y-%m-%d"))
+      expect(page).to have_content(today_string)
     end
 
     context 'when viewing the full search form' do
@@ -148,7 +148,7 @@ describe 'Search published results' do
     it 'displays expected data' do
       expect(page).to have_content('aces1efm_1')
       expect(page).to have_content('ACES ELECTRIC FIELD MILL V1')
-      expect(page).to have_content(Time.now.in_time_zone("Eastern Time (US & Canada)").strftime("%Y-%m-%d"))
+      expect(page).to have_content(today_string)
     end
 
     context 'when viewing the full search form' do
@@ -181,7 +181,7 @@ describe 'Search published results' do
     it 'displays expected data' do
       expect(page).to have_content(entry_id)
       expect(page).to have_content(entry_title)
-      expect(page).to have_content(Time.now.in_time_zone("Eastern Time (US & Canada)").strftime("%Y-%m-%d"))
+      expect(page).to have_content(today_string)
     end
 
     context 'when viewing the full search form' do
