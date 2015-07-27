@@ -1,12 +1,12 @@
 <main class="internal">
-  <%= form_for(@draft) do |f| %>
+  <%= form_tag(draft_path(@draft), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
 
     <section class="content-header">
       <div class="content">
         <div class="breadcrumb">
           <ol>
             <li><%= link_to 'Manage Metadata Dashboard', dashboard_path %></li>
-            <li><%= link_to (@draft.title.blank? ? nil : @draft.title) || '<Untitled Collection Record>', draft_path(@draft) %></li>
+            <li><%= link_to @draft.title, draft_path(@draft) %></li>
             <li><%= @draft_form.titleize %></li>
           </ol>
         </div>
@@ -24,7 +24,7 @@
         </ul>
       </div>
     <% end %>
-    
+
     <section>
 
       <input type="hidden" name='new_form_name' id="new_form_name" />
@@ -44,22 +44,5 @@
       <%= render :partial => 'form_navigation', :locals=>{:location=>'bottom'} %>
 
     </section>
-  <% end %>>
+  <% end %>
 </main>
-
-
-<script type="text/javascript" charset="utf-8">
-
-  function go_to_form(location) {
-
-    calling_selector = (location == 'top') ? "#next-section-top" : "#next-section-bottom"
-    $("#new_form_name").val($(calling_selector).val());
-
-    // Handle any JS validation and related issues for @content_partial_name
-    //   Call page specific JS validations & handle findings
-    // If ready, go to server to take next appropriate action
-    document.forms["edit_draft_<%= @draft_id %>"].submit();
-  }
-
-</script>
-

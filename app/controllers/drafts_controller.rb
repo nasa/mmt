@@ -1,5 +1,6 @@
 class DraftsController < ApplicationController
   before_action :set_draft, only: [:show, :edit, :update, :destroy]
+  before_action :load_umm_schema
 
   # GET /drafts
   # GET /drafts.json
@@ -10,7 +11,8 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
-    @draft_json = @draft.draft ? JSON.parse(@draft.draft) : {}
+    # TODO - review logic to make draft a consistent type
+    @draft_json = @draft.draft.is_a?(String) ? JSON.parse(@draft.draft) : (@draft.draft || {})
 
     # Temp call for testing purposes
     overwrite_draft_json_with_dummy_data
@@ -19,7 +21,7 @@ class DraftsController < ApplicationController
 
   # GET /drafts/new
   def new
-    draft = Draft.create(user: @current_user)
+    draft = Draft.create(user: @current_user, draft: {})
     redirect_to draft_path(draft)
   end
 
@@ -53,20 +55,22 @@ class DraftsController < ApplicationController
   def update
     # TODO Each "Save" button will call update to update the draft, and navigate to another form or collection page (show action)
     @draft = Draft.find(params[:id])
-    if @draft.update_attributes(draft_params)
+    if @draft.update_draft(params[:draft])
       case params[:commit]
       when "Save & Done"
         redirect_to @draft, notice: 'Draft was successfully updated.'
       when "Save & Next"
         # Determine next form to go to
-        next_form_name = Draft.get_next_form(params["next-section"])
+        next_form_name = Draft.get_next_form(params["next_section"])
         redirect_to draft_edit_form_path(@draft, next_form_name)
       else # Jump directly to a form
         next_form_name = params["new_form_name"]
         redirect_to draft_edit_form_path(@draft, next_form_name)
       end
     else # record update failed
-      render 'edit'
+      # render 'edit' # this should get @draft_form
+      # Remove
+      redirect_to @draft
     end
   end
 
@@ -233,5 +237,10 @@ class DraftsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def draft_params
       params.require(:draft).permit(:user_id, :draft, :title)
+    end
+
+    def load_umm_schema
+      @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-json-schema.json')))
+      # puts @json_schema
     end
 end

@@ -1,16 +1,234 @@
-<!-- Entry ID -->
-<%= fields_for @draft do |f| %>
+<!-- Entry ID [r] -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_entry_id" class="main-field icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
 
-  <div class="row">
-    <div class="col-12">
-      <%= f.label :title, {:class=>'icon-required'} %>
-      <i class="fa fa-info-circle"></i>
-      <%= f.text_field :title, {:class=>'full-width'} %>
+    <div class="row sub-fields">
+      <div class="entry-id-fields">
+        <% entry_id = @draft.draft['EntryId'] || {} %>
+        <label for="draft_entry_id_id" class="icon-required">ID</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[entry_id][id]', entry_id['Id'], class: 'half-width', required: true) %>
+
+        <label for="draft_entry_id_version" class="icon-required">Version</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[entry_id][version]', entry_id['Version'], class: 'half-width', required: true) %>
+
+        <label for="draft_entry_id_authority" class="icon-required">Authority</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[entry_id][authority]', entry_id['Authority'], class: 'half-width', required: true) %>
+      </div>
     </div>
   </div>
-  <div class="banner banner-danger">
-    <i class="fa fa-exclamation-triangle"></i><strong>Please enter a title between 1 to 255 characters.</strong>
+</div>
+
+
+<!-- Entry Title [r] -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_entry_title" class="main-field icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
+    <%= text_field_tag('draft[entry_title]', @draft.draft['EntryTitle'], class: 'half-width', required: true) %>
   </div>
+</div>
 
-<% end %>
 
+<!-- Abstract [r] -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_abstract" class="icon-required">Abstract</label><i class="fa fa-info-circle"></i>
+    <%= text_area_tag('draft[abstract]', @draft.draft['Abstract'], rows: 8, required: true) %>
+  </div>
+</div>
+
+
+<!-- Purpose -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_purpose">Purpose</label><i class="fa fa-info-circle"></i>
+    <%= text_area_tag('draft[purpose]', @draft.draft['Purpose'], rows: 8) %>
+  </div>
+</div>
+
+
+<!-- Data language -->
+  <!-- LanguageType is currently defined with properties: {} -->
+  <!-- I think it is just a string, but not sure -->
+<div class="row">
+  <div class="col-12">
+    <label for="data_language">Data Language</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- Insert Fields -->
+    </div>
+  </div>
+</div>
+
+<!-- Data dates [r] -->
+  <!-- DataLineage -->
+  <!-- hidden field for scope of 'date' -->
+<div class="row">
+  <div class="col-12">
+    <label for="data_lineage" class="main-field icon-required">Data Lineage</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <!-- add new data date: adds field to page -->
+      <!-- choose which date, create update delete review -->
+      <!-- date picker for selected date -->
+      <!-- description, text field -->
+      <!-- responsibility: single party for now -->
+        <!-- party, choose org or person, radio buttons -->
+        <!-- org: text field -->
+        <!-- person: shows full form (address, hours, etc.) -->
+    </div>
+  </div>
+</div>
+
+<!-- Organization [r] -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="organization" class="main-field icon-required">Organization</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <% responsible_organizations = @draft.draft['ResponsibleOrganization'] || [] %>
+
+      <div class="organization-values">
+        <% responsible_organizations.each do |value| %>
+          <p>
+            <%= display_key_value_pairs(value) %>
+          </p>
+        <% end %>
+        <%= render partial: 'drafts/forms/hidden_fields/organization', locals: {orgs: responsible_organizations} %>
+      </div>
+
+      <div class="organization-fields" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">
+        <%= render partial: 'drafts/forms/organization_form', locals: {disable_fields: responsible_organizations.size > 0} %>
+      </div>
+
+      <div class="col-12">
+        <a class="icon-more add-another-field organization">Add <%= "another " if responsible_organizations.size > 0 %>organization</a>
+        <a class="icon-less cancel-add organization" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">Done adding organizations</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Personnel -->
+<div class="row taller">
+  <div class="col-12">
+    <label for="personnel">Personnel</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- responsibility: display form when no people added -->
+      <!-- person: shows full form (address, hours, etc.) -->
+      <div class="col-12">
+        <a href="#" class="icon-more">Add personnel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Collection Data Type -->
+  <!-- Dropdown with ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"] -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_collection_data_type">Collection Data Type</label><i class="fa fa-info-circle"></i>
+    <%= select_tag "draft[collection_data_type]", options_for_select([['Science Quality', 'SCIENCE_QUALITY'], ['Near Real Time', 'NEAR_REAL_TIME'], ['Other', 'OTHER']], @draft.draft['CollectionDataType']), class: 'half-width' %>
+  </div>
+</div>
+
+<!-- Processing Level [r] -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_entry_id" class="icon-required">Processing Level</label><i class="fa fa-info-circle"></i>
+
+    <div class="row sub-fields">
+      <div class="processing-level-fields">
+        <% processing_level = @draft.draft['ProcessingLevel'] || {} %>
+        <label for="draft_processing_level_id">ID</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[processing_level][id]', processing_level['Id'], class: 'half-width') %>
+        <!-- ID should be dropdown with level 0, level 1a, etc. -->
+
+        <label for="draft_processing_level_processing_level_description">Processing Level Description</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'half-width') %>
+        <!-- TODO description needs stuff from Mark -->
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Resource Citation -->
+  <!-- CollectionCitation -->
+  <!-- Array of ResourceCitationType -->
+  <!-- waiting on more details -->
+<div class="row">
+  <div class="col-12">
+    <label for="resource_citation">Resource Citation</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- Insert Fields -->
+    </div>
+  </div>
+</div>
+
+
+<!-- Collection Progress -->
+<!-- Dropdown with ["PLANNED", "IN WORK", "COMPLETE"] -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_collection_progress">Collection Progress</label><i class="fa fa-info-circle"></i>
+    <%= select_tag "draft[collection_progress]", options_for_select([['Planned', 'PLANNED'], ['In work', 'IN WORK'], ['Complete', 'COMPLETE']], @draft.draft['CollectionProgress']), class: 'half-width' %>
+  </div>
+</div>
+
+<!-- Quality -->
+  <!-- text area -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_quality">Quality</label><i class="fa fa-info-circle"></i>
+    <%= text_area_tag('draft[quality]', @draft.draft['Quality'], rows: 8) %>
+  </div>
+</div>
+
+<!-- Use Constraints -->
+  <!-- text area -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_use_constraints">Use Constraints</label><i class="fa fa-info-circle"></i>
+    <%= text_area_tag('draft[use_constraints]', @draft.draft['UseConstraints'], rows: 8) %>
+  </div>
+</div>
+
+<!-- Access Constraints -->
+  <!-- object: description: text area, value: [public, in-house, limited] -->
+<div class="row">
+  <div class="col-12">
+    <label for="access_constraints">Access Constraints</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- Insert Fields -->
+    </div>
+  </div>
+</div>
+
+<!-- Metadata Association -->
+  <!-- array of MetadataAssociationType -->
+<div class="row">
+  <div class="col-12">
+    <label for="metadata_association" class="main-field">Metadata Association</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <!-- show form until one association entered -->
+      <!-- dropdown for type -->
+      <!-- text area for description -->
+      <!-- entry_id form -->
+      <!-- dropdown for provider, enum -->
+
+      <!-- Add new association button -->
+    </div>
+  </div>
+</div>
+
+<!-- Publication Reference -->
+  <!-- array of PublicationReferenceType -->
+<div class="row">
+  <div class="col-12">
+    <label for="publication_reference">Publication Reference</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <!-- show form until one reference entered -->
+      <!-- lots o text fields -->
+      <!-- Add new reference button -->
+    </div>
+  </div>
+</div>

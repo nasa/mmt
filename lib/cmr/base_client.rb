@@ -18,7 +18,11 @@ module Cmr
     protected
 
     def token_header(token)
-      token.present? ? {'Echo-Token' => "#{token}:#{@client_id}"} : {}
+      if Rails.env.development? || Rails.env.test?
+        token.present? ? {'Echo-Token' => "mock-echo-system-token"} : {}
+      else
+        token.present? ? {'Echo-Token' => "#{token}:#{@client_id}"} : {}
+      end
     end
 
     def request(method, url, params, body, headers)
