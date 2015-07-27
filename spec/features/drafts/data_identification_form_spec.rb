@@ -1,3 +1,5 @@
+#MMT-53
+
 require 'rails_helper'
 
 describe 'Data identification form' do
@@ -47,8 +49,11 @@ describe 'Data identification form' do
       expect(page).to have_content('Draft Title')
     end
 
-    # After merged MMT-53
-    it 'shows the values in the draft preview page'
+    it 'shows the values in the draft preview page' do
+      expect(page).to have_content('12345')
+      expect(page).to have_content('Version 1')
+      expect(page).to have_content('Authority 1')
+    end
 
     context 'when returning to the form' do
       before do
