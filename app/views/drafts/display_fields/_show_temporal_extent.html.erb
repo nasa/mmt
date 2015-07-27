@@ -4,7 +4,7 @@
 <% if !@draft_json['TemporalExtent'].blank? %>
   <h4>Temporal Extent</h4>
   <p>
-    <% !@draft_json['TemporalExtent'].each do |r| %>
+    <% @draft_json['TemporalExtent'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'TemporalRangeType', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'PrecisionOfSeconds', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'EndsAtPresentFlag', :hash_for_key=>r} %>

@@ -16,7 +16,7 @@
   <h4>Science Keywords</h4>
   <p>
     <% @draft_json['ScienceKeywords'].each do |r| %>
-      <%= Draft.construct_keyword_string(r, '').titleize %>
+      <%= construct_keyword_string(r, '').titleize %>
       </br>
     <% end %>
   </p>
@@ -26,7 +26,7 @@
 <% if !@draft_json['AncillaryKeyword'].blank? %>
   <h4>Ancillary Keyword</h4>
   <p>
-    <% !@draft_json['AncillaryKeyword'].each do |r| %>
+    <% @draft_json['AncillaryKeyword'].each do |r| %>
       <%= r %>
       </br>
     <% end %>

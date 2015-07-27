@@ -28,7 +28,7 @@
 <% if !@draft_json['DataLineage'].blank? %>
   <h4>Data Lineage</h4>
   <p>
-    <% !@draft_json['DataLineage'].each do |r| %>
+    <% @draft_json['DataLineage'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Scope', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Date', :hash_for_key=>r} %>
       Date: Number two?? </br>
@@ -45,7 +45,7 @@
 <% if !@draft_json['ResponsibleOrganization'].blank? %>
   <h4>Responsible Organization</h4>
   <p>
-    <% !@draft_json['ResponsibleOrganization'].each do |r| %>
+    <% @draft_json['ResponsibleOrganization'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>r['Party']['OrganizationName']} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r['Party']['OrganizationName']} %>
@@ -60,7 +60,7 @@
 <% if !@draft_json['ResponsiblePersonnel'].blank? %>
   <h4>Responsible Personnel</h4>
   <p>
-    <% !@draft_json['ResponsiblePersonnel'].each do |r| %>
+    <% @draft_json['ResponsiblePersonnel'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Party', :hash_for_key=>r} %>
       <%= raw((r == @draft_json['ResponsiblePersonnel'].last) ? '' : '</br>') %>
@@ -78,7 +78,7 @@
 <% if !@draft_json['CollectionCitation'].blank? %>
   <h4>Resource Citation/Collection Citation</h4>
   <p>
-    <% !@draft_json['CollectionCitation'].each do |r| %>
+    <% @draft_json['CollectionCitation'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'RelatedUrl', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Creator', :hash_for_key=>r} %>
@@ -117,7 +117,7 @@
 <% if !@draft_json['MetadataAssociation'].blank? %>
   <h4>Metadata Association</h4>
   <p>
-    <% !@draft_json['MetadataAssociation'].each do |r| %>
+    <% @draft_json['MetadataAssociation'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'EntryId', :hash_for_key=>r, :title_override=>'Entry ID'} %>
@@ -131,7 +131,7 @@
 <% if !@draft_json['PublicationReference'].blank? %>
   <h4>Publication Reference</h4>
   <p>
-    <% !@draft_json['PublicationReference'].each do |r| %>
+    <% @draft_json['PublicationReference'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'RelatedUrl', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Publisher', :hash_for_key=>r} %>

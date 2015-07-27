@@ -6,7 +6,7 @@
 <% if !@draft_json['Platform'].blank? %>
   <h4>Platform</h4>
   <p>
-    <% !@draft_json['Platform'].each do |r| %>
+    <% @draft_json['Platform'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
@@ -19,7 +19,7 @@
 <% if !@draft_json['Instrument'].blank? %>
   <h4>Instrument</h4>
   <p>
-    <% !@draft_json['Instrument'].each do |r| %>
+    <% @draft_json['Instrument'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
@@ -36,7 +36,7 @@
 <% if !@draft_json['Sensor'].blank? %>
   <h4>Sensor</h4>
   <p>
-    <% !@draft_json['Sensor'].each do |r| %>
+    <% @draft_json['Sensor'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
@@ -49,7 +49,7 @@
 <% if !@draft_json['Project'].blank? %>
   <h4>Project</h4>
   <p>
-    <% !@draft_json['Project'].each do |r| %>
+    <% @draft_json['Project'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Campaign', :hash_for_key=>r} %>
