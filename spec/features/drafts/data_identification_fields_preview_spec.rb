@@ -47,13 +47,8 @@ describe 'Data identification fields preview' do
       expect(page).to have_content('Draft Title')
     end
 
-    # After merged MMT-53
-    it 'shows the values in the draft preview page'
+    context 'shows the values in the draft preview page' do
 
-    context 'when returning to the form' do
-      before do
-        #click_on 'Data Identification'
-      end
 
       it 'populates the form with the values' do
         expect(page).to have_content('12345')
