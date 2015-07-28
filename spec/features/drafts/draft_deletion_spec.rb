@@ -5,8 +5,6 @@ require 'rails_helper'
 describe 'Draft deletion', js: true do
   before do
     login
-  end
-  before :each do
     create_new_draft
     visit '/dashboard'
     within('.open-drafts') do
