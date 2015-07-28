@@ -1,0 +1,54 @@
+<main class="internal">
+  <section class="content-header">
+    <div class="content">
+      <div class="breadcrumb">
+        <ol>
+          <li><%= link_to 'Dashboard', dashboard_path %></li>
+          <li>Your Open Drafts</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+  <section>
+
+    <table id="open_drafts">
+      <thead>
+        <tr>
+          <th>Entry ID</th>
+          <th>Entry Title</th>
+          <th>Last Modified</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      <% if @drafts.blank? %>
+        <tr>
+          <td colspan="4">
+            No Open Drafts found
+          </td>
+        </tr>
+      <% else %>
+
+        <% @drafts.each do |row| %>
+          <tr class='<%= cycle("alt", "") %>'>
+            <td>
+              <%= link_to row.entry_id, draft_path(row) %>
+            </td>
+            <td>
+              <%= row.entry_title%>
+            </td>
+            <td>
+              <%= row.updated_at.strftime("%Y-%m-%d") %>
+            </td>
+          </tr>
+        <% end %>
+
+      <% end %>
+      </tbody>
+    </table>
+
+
+  </section>
+</main>
+
+
