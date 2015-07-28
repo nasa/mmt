@@ -16,7 +16,7 @@
     <div class="cta">
       <a href="#" alt="Publish Button" class="btn btn-blue">Publish</a>
       <a href="#" alt="Download XML">Download XML</a> |
-      <a href="#" alt="Delete Draft">Delete Draft</a>
+      <%= link_to 'Delete Draft', @draft, method: :delete, data: { confirm: 'Are you sure you want to delete this record?' } %>
     </div>
     <div class="quality-score">
       <div class="badges">
