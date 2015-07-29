@@ -2,7 +2,7 @@ class PagesController < ApplicationController
 
   def dashboard
     @notification = cmr_client.get_calendar_events().body
-    @draft_display_max_count = 2
+    @draft_display_max_count = 5
     @drafts = @current_user.drafts.order("updated_at DESC").limit(@draft_display_max_count+1)
   end
 

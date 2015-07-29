@@ -1,4 +1,7 @@
+#MMT-57
+
 require 'rails_helper'
+
 
 describe 'Draft creation' do
   before do
