@@ -21,8 +21,8 @@
             <li>
               <p>
                 <%= time_tag draft.updated_at, draft.updated_at.strftime("%Y-%m-%d") %> |
-                <%= link_to draft.entry_id, draft_path(draft) %> </br>
-                &nbsp;<%= draft.title[0..33].gsub(/\s\w+\s*$/, '...') %>
+                <%= link_to draft.display_entry_id, draft_path(draft) %> </br>
+                &nbsp;<%= draft.title.truncate(32) %>
               </p>
             </li>
           <% end %>

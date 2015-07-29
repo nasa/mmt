@@ -29,16 +29,16 @@
         </tr>
       <% else %>
 
-        <% @drafts.each do |row| %>
+        <% @drafts.each do |draft| %>
           <tr class='<%= cycle("alt", "") %>'>
             <td>
-              <%= link_to row.entry_id, draft_path(row) %>
+              <%= link_to draft.display_entry_id, draft_path(draft) %>
             </td>
             <td>
-              <%= row.entry_title%>
+              <%= draft.title%>
             </td>
             <td>
-              <%= row.updated_at.strftime("%Y-%m-%d") %>
+              <%= draft.updated_at.strftime("%Y-%m-%d") %>
             </td>
           </tr>
         <% end %>

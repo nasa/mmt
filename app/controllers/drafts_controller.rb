@@ -18,7 +18,7 @@ class DraftsController < ApplicationController
 
   # GET /drafts/new
   def new
-    draft = Draft.create(user: @current_user, draft: {}, entry_id: '<Blank Entry Id>') # Note: If entry_id is not populated then link_to will display something like '/drafts/1' in its place on the dashboard, which is undesirable.
+    draft = Draft.create(user: @current_user, draft: {})
     redirect_to draft_path(draft)
   end
 
