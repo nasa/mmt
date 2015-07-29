@@ -73,18 +73,17 @@ class DraftsController < ApplicationController
 
   # DELETE /drafts/1
   # DELETE /drafts/1.json
-  # def destroy
-  #   @draft.destroy
-  #   respond_to do |format|
-  #     format.html { redirect_to drafts_url, notice: 'Draft was successfully destroyed.' }
-  #     format.json { head :no_content }
-  #   end
-  # end
-
+  def destroy
+    @draft.destroy
+    respond_to do |format|
+      format.html { redirect_to dashboard_url} # Retain this for later use?, notice: "Draft \"#{@draft.entry_id}\"was successfully deleted." }
+    end
+  end
 
   def open_drafts
     @drafts = @current_user.drafts.order("updated_at DESC")
   end
+
 
   private
 
