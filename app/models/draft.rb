@@ -46,22 +46,30 @@ class Draft < ActiveRecord::Base
 
   def fix_params(params)
     # fields that need to be arrays need to be mapped to arrays
-    if params['responsible_organization']
-      orgs = params['responsible_organization'].map{|key, value| value}
-      # puts orgs.inspect
-      params['responsible_organization'] = orgs
-    end
-    if params['related_url']
-      related_urls = params['related_url'].map{|key, value| value}
-      # puts related_urls.inspect
-      params['related_url'] = related_urls
+    array_fields = ['responsible_organization', 'related_url', 'metadata_lineage']
+    array_fields.each do |array_field|
+      if params[array_field]
+        orgs = params[array_field].map{|key, value| value}
+        params[array_field] = orgs
+      end
     end
 
     # if param is empty remove it from params
-    params = params.delete_if{|k,v| v.empty?}
-    # puts "PARAMS: #{params.inspect}"
+    params = compact_blank(params.clone)
 
     # Convert parameter keys to CamelCase for UMM
     params.to_hash.to_camel_keys
+  end
+
+  def compact_blank(node)
+    return node.map {|n| compact_blank(n)}.compact.presence if node.is_a?(Array)
+    return node.presence unless node.is_a?(Hash)
+    result = {}
+    node.each do |k, v|
+      result[k] = compact_blank(v)
+    end
+    result = result.compact
+    result = {} if result.keys.all? {|k| k.start_with?('cmep_')}
+    result.compact.presence
   end
 end

@@ -1,0 +1,20 @@
+<div class="multiple related-url">
+  <% related_urls.each_with_index do |related_url, index| %>
+    <%= render partial: 'drafts/forms/related_url_form', locals: {
+        related_url: related_url,
+        name_prefix: "#{name_prefix}related_url_#{index}_",
+        disable_fields: false,
+        last_url: related_url == related_urls.last,
+        index: index } %>
+  <% end %>
+</div>
+
+<!-- disabled div that allows inserting an index -->
+<div class="related-url-template multiple-template">
+  <%= render partial: 'drafts/forms/related_url_form', locals: {
+      related_url: {},
+      name_prefix: "#{name_prefix}related_url_newindex_",
+      disable_fields: true,
+      last_url: false,
+      index: 'newindex' } %>
+</div>

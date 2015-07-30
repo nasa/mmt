@@ -1,6 +1,4 @@
-# TODO Move all markup out of this helper
 module DraftsHelper
-
   def construct_keyword_string(hash_obj, str)
     # Assumes hash is passed in as ordered
     hash_obj.each do |key, value|
@@ -14,21 +12,27 @@ module DraftsHelper
     return str
   end
 
-  def display_key_value_pairs(value)
-    list_key_values(value).flatten.compact.join(' | ')
-  end
+  # Takes a html element name (draft_metadata_lineage_index_role)
+  # outputs a param name (draft[metadata_lineage][index][role])
+  WORDS = ['metadata_lineage', 'organization_name', 'short_name', 'long_name', 'first_name', 'middle_name', 'last_name', 'service_hours', 'contact_instructions', 'street_address', 'state_province', 'postal_code', 'file_size', 'content_type', 'mime_type', 'related_url']
+  def name_to_param(name)
+    # convert good words to dashes
+    # TODO is there a way to do this only if name includes a value within WORDS?
+    WORDS.each do |word|
+      name.gsub!(word, word.dasherize)
+    end
 
-  def list_key_values(hash)
-    # puts "HASH: #{hash.inspect}"
-    hash.map do |key, value|
-      if value.is_a? Hash
-        list_key_values(value)
+    # split words on underscores, wrap in brackets, and convert good words back to underscores
+    name = name.split('_').map.with_index do |word, index|
+      word = word.gsub(/(?<!new)index/, '').underscore
+      if index == 0
+        word
       else
-        # TODO can this value improve?
-          # Resource Provider instead of RESOURCEPROVIDER or Resourceprovider
-        "#{key}: #{value}" unless value.empty?
+        "[#{word}]"
       end
     end
-  end
 
+    # join wrapped words
+    name.join
+  end
 end

@@ -15,3 +15,21 @@
     margin: 0 0.75em;
   }
 }
+
+.add-new {
+  display: none;
+}
+
+.multiple > :last-child > .accordion-header > .actions .add-new,
+.multiple > :last-child > .actions .add-new {
+  display: inline-block;
+}
+
+.multiple > :only-child > .accordion-header > .actions .remove,
+.multiple > :only-child > .actions .remove {
+  display: none;
+}
+
+.multiple-template {
+  display: none;
+}

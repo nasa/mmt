@@ -5,7 +5,8 @@ require 'rails_helper'
 describe 'Data identification form' do
   before do
     login
-    create_new_draft
+    draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
+    visit draft_path(draft)
   end
 
   context 'when submitting the form' do
