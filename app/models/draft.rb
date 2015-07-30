@@ -46,7 +46,7 @@ class Draft < ActiveRecord::Base
 
   def fix_params(params)
     # fields that need to be arrays need to be mapped to arrays
-    array_fields = ['responsible_organization', 'related_url', 'metadata_lineage']
+    array_fields = ['responsible_organization', 'related_url', 'metadata_lineage', 'distribution']
     array_fields.each do |array_field|
       if params[array_field]
         orgs = params[array_field].map{|key, value| value}

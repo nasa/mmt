@@ -14,7 +14,7 @@ module DraftsHelper
 
   # Takes a html element name (draft_metadata_lineage_index_role)
   # outputs a param name (draft[metadata_lineage][index][role])
-  WORDS = ['metadata_lineage', 'organization_name', 'short_name', 'long_name', 'first_name', 'middle_name', 'last_name', 'service_hours', 'contact_instructions', 'street_address', 'state_province', 'postal_code', 'file_size', 'content_type', 'mime_type', 'related_url']
+  WORDS = ['metadata_lineage', 'organization_name', 'short_name', 'long_name', 'first_name', 'middle_name', 'last_name', 'service_hours', 'contact_instructions', 'street_address', 'state_province', 'postal_code', 'file_size', 'content_type', 'mime_type', 'related_url', 'distribution_size', 'distribution_format', 'distribution_media']
   def name_to_param(name)
     # convert good words to dashes
     # TODO is there a way to do this only if name includes a value within WORDS?

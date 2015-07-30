@@ -1,20 +1,19 @@
 <!-- Related URL [r] -->
 <div class="row">
   <div class="col-12">
+    <label for="draft_related_url" class="main-field icon-required">Related URL</label><i class="fa fa-info-circle"></i>
     <%= render partial: 'drafts/forms/types/related_url_type', locals: {
         related_urls: @draft.draft['RelatedUrl'] || [{}],
         name_prefix: 'draft_' } %>
   </div>
 </div>
 
-
 <!-- Distribution -->
 <div class="row taller">
   <div class="col-12">
-    <label for="distribution">Distribution</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- form with text fields -->
-      <!-- add another distribution button -->
-    </div>
+    <label for="draft_distribution" class="main-field">Distribution</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/types/distribution_type', locals: {
+        distributions: @draft.draft['Distribution'] || [{}],
+        name_prefix: 'draft_' } %>
   </div>
 </div>

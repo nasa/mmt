@@ -7,14 +7,12 @@
     </div>
   </div>
   <div class="accordion-body">
-    <label for="draft_related_url" class="main-field icon-required">Related URL</label><i class="fa fa-info-circle"></i>
     <div class="row sub-fields">
-
       <% urls = related_url['URL'] || [nil] # [nil] creates at least one URL field %>
       <div class="multiple related-url-url">
       <% urls.each do |url| %>
         <div class="multiple-item">
-          <label for="<%= name_prefix %>url_">URL</label><i class="fa fa-info-circle"></i>
+          <label for="<%= name_prefix %>url_" class="icon-required">URL</label><i class="fa fa-info-circle"></i>
           <%= text_field_tag(name_to_param("#{name_prefix}url_index"), url, class: 'half-width', disabled: disable_fields) %>
           <div class="actions">
             <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button>

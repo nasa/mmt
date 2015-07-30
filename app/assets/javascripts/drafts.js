@@ -15,7 +15,7 @@ $(document).ready(function() {
     if (index === false) {
       // clone parent and clear field
       newDiv = $(parent).clone(true);
-      $.each($(newDiv).find('select, input'), function(index, field) {
+      $.each($(newDiv).find('select, input, textarea'), function(index, field) {
         $(field).val('');
       });
     } else {
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
     $(newDiv).appendTo(topMultiple);
 
-    $(newDiv).find('select, input').removeAttr('disabled');
+    $(newDiv).find('select, input, textarea').removeAttr('disabled');
     $(newDiv).show();
     $(newDiv).removeClass('is-closed');
     e.stopImmediatePropagation();
@@ -48,6 +48,8 @@ $(document).ready(function() {
       type = 'related-url'
     } else if (classes.indexOf('metadata-dates') != -1) {
       type = 'metadata-dates'
+    } else if (classes.indexOf('distribution') != -1) {
+      type = 'distribution'
     }
     return type;
   }
