@@ -28,8 +28,9 @@ describe 'Open Drafts listings' do
 
   context "when more than #{draft_display_max_count} open drafts exist" do
     before do
-      (0..draft_display_max_count).each do
-          create_new_draft
+      current_user_id = User.where(urs_uid: 'testuser').first.id
+      (draft_display_max_count+1).times do
+        create(:draft, user_id: current_user_id)
       end
       visit '/dashboard'
     end
