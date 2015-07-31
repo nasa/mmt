@@ -37,7 +37,7 @@ class Draft < ActiveRecord::Base
       # self.provider_id = ?
 
       json_params = fix_params(params)
-      self.draft.merge!(json_params)
+      self.draft.merge!(json_params) if json_params
       self.save
     end
     # TODO take out
@@ -58,7 +58,7 @@ class Draft < ActiveRecord::Base
     params = compact_blank(params.clone)
 
     # Convert parameter keys to CamelCase for UMM
-    params.to_hash.to_camel_keys
+    params.to_hash.to_camel_keys if params
   end
 
   def compact_blank(node)

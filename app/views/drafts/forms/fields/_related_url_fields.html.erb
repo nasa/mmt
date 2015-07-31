@@ -27,7 +27,7 @@
 
       <!-- dropdown [http, https, ftp, ssh] -->
       <label for="<%= name_prefix %>protocol">Protocol</label><i class="fa fa-info-circle"></i>
-      <%= select_tag(name_to_param("#{name_prefix}protocol"), options_for_select(['HTTP', 'HTTPS', 'FTP', 'SSH'], related_url['Protocol']), class: 'single-select', disabled: disable_fields) %>
+      <%= select_tag(name_to_param("#{name_prefix}protocol"), options_for_select([['Select Protocol', ''],'HTTP', 'HTTPS', 'FTP', 'SSH'], related_url['Protocol']), class: 'single-select', disabled: disable_fields) %>
 
       <label for="<%= name_prefix %>mime_type">Mime Type</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}mime_type"), related_url['MimeType'], class: 'half-width', disabled: disable_fields) %>
