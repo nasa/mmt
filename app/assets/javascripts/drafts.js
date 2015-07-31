@@ -13,17 +13,20 @@ $(document).ready(function() {
     var index = getIndex(parent);
 
     if (index === false) {
+      // multiple-item is a simple field, like just a text field
       // clone parent and clear field
       newDiv = $(parent).clone(true);
       $.each($(newDiv).find('select, input, textarea'), function(index, field) {
         $(field).val('');
       });
     } else {
+      // multiple-item is a collection of fields
       // get template and replace newindex
       var type = getFieldType(topMultiple);
       var template = $('.' + type + '-template').clone(true);
       var newIndex = index + 1;
       newDiv = $(template.html().replace(/newindex/g, newIndex));
+      $(this).closest('.accordion').addClass('is-closed');
     }
 
     $(newDiv).appendTo(topMultiple);
