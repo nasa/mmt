@@ -1,0 +1,11 @@
+
+<% if !@draft_json[key_name].blank? %>
+  <% # If no title_override is passed in, just titleize the key_name %>
+  <% title = defined?(title_override).nil? ? key_name.titleize : title_override %>
+  <h4>
+    <%= title %>
+  </h4>
+  <p>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>key_name, :hash_for_key=>@draft_json, :title_override=>''} %>
+  </p>
+<% end %>

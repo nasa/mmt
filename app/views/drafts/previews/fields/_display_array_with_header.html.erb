@@ -1,0 +1,10 @@
+<% data_array = hash_for_key[key_name] %>
+<% if data_array.count == 1 %>
+  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'URL', :hash_for_key=>hash_for_key, :title_override=>title_override} %>
+<% else %>
+  <%= (defined?(title_override).nil? ? key_name.titleize : title_override).pluralize %>:
+  </br>
+  <% data_array.each do |s|%>
+    &nbsp;&nbsp;<%= s %> </br>
+  <% end %>
+<% end %>

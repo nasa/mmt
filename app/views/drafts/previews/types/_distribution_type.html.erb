@@ -1,0 +1,14 @@
+<% #Typical call: render :partial=>'drafts/previews/types/distribution_type', :locals=>{:key_name=>'Distribution', :hash_for_key=>@draft_json} %>
+
+<% if !hash_for_key[key_name].blank? %>
+  <h4><%= defined?(title_override).nil? ? key_name.titleize : title_override %></h4>
+  <p>
+    <% hash_for_key[key_name].each do |r| %>
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionMedia', :hash_for_key=>r} %>
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionSize', :hash_for_key=>r} %>
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionFormat', :hash_for_key=>r} %>
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Fees', :hash_for_key=>r} %>
+      <%= raw((r == hash_for_key[key_name].last) ? '' : '</br>') %>
+    <% end %>
+  </p>
+<% end %>
