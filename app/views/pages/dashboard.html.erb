@@ -17,20 +17,20 @@
       <div class="callout-content open-drafts">
         <h3>Your Open Drafts</h2>
         <ul>
-          <% @drafts.each do |draft| %>
-            <!-- <li>
-              <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-            </li> -->
+          <% @drafts[0..@draft_display_max_count-1].each do |draft| %>
             <li>
               <p>
-                <%= time_tag draft.updated_at, draft.updated_at.strftime("%Y-%m-%d") %><br>
-                <%= link_to draft.title, draft_path(draft) %>
+                <%= time_tag draft.updated_at, draft.updated_at.strftime("%Y-%m-%d") %> |
+                <%= link_to draft.display_entry_id, draft_path(draft) %> </br>
+                &nbsp;<%= draft.title.truncate(32) %>
               </p>
             </li>
           <% end %>
-          <li>
-            <a href="#">More</a>
-          </li>
+          <% if @drafts.size > @draft_display_max_count %>
+            <li>
+              <%= link_to 'More', open_drafts_path %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </section>

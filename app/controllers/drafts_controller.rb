@@ -79,6 +79,12 @@ class DraftsController < ApplicationController
       format.html { redirect_to dashboard_url} # Retain this for later use?, notice: "Draft \"#{@draft.entry_id}\"was successfully deleted." }
     end
   end
+
+  def open_drafts
+    @drafts = @current_user.drafts.order("updated_at DESC")
+  end
+
+
   private
 
     # Use callbacks to share common setup or constraints between actions.

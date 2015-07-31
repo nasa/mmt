@@ -8,7 +8,7 @@ describe 'Draft deletion', js: true do
     create_new_draft
     visit '/dashboard'
     within('.open-drafts') do
-      click_on '<Untitled Collection Record>'
+      click_on '<Blank Entry Id>'
     end
   end
 

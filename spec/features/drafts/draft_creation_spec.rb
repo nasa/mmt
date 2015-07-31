@@ -1,4 +1,7 @@
+#MMT-57
+
 require 'rails_helper'
+
 
 describe 'Draft creation' do
   before do
@@ -25,14 +28,15 @@ describe 'Draft creation' do
 
       it 'displays the new draft' do
         within('.open-drafts') do
-          expect(page).to have_content("#{today_string} <Untitled Collection Record>")
+          expect(page).to have_content("#{today_string} | <Blank Entry Id>")
+          expect(page).to have_content("<Untitled Collection Record>")
         end
       end
 
       context 'when clicking on the draft title' do
         before do
           within('.open-drafts') do
-            click_on '<Untitled Collection Record>'
+            click_on '<Blank Entry Id>'
           end
         end
 

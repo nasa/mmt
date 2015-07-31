@@ -27,6 +27,10 @@ class Draft < ActiveRecord::Base
     self.entry_title || '<Untitled Collection Record>'
   end
 
+  def display_entry_id
+    self.entry_id || '<Blank Entry Id>'
+  end
+
   def update_draft(params)
     if params
       # pull out searchable fields if provided
