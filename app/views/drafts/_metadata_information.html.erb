@@ -1,18 +1,16 @@
 <!-- Metadata language -->
 <div class="row taller">
   <div class="col-12">
-    <label for="metadata_language">Metadata Language</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
-      <!--  Not clear in UMM json-schema what the field should be -->
-    </div>
+    <label for="draft_metadata_language" class="main-field">Metadata Language</label><i class="fa fa-info-circle"></i>
+    <!-- Might need to be "eng", or a dropdown of languages. Should default to English -->
+    <%= text_field_tag('draft[metadata_language]', @draft.draft['MetadataLanguage'] || 'English', class: 'half-width') %>
   </div>
 </div>
 
 <!-- Metdata Standard [r] -->
 <div class="row">
   <div class="col-12">
-    <label for="draft_metadata_standard" class="icon-required">Metadata Standard</label><i class="fa fa-info-circle"></i>
+    <label for="draft_metadata_standard" class="main-field icon-required">Metadata Standard</label><i class="fa fa-info-circle"></i>
 
     <div class="row sub-fields">
       <% metadata_standard = @draft.draft['MetadataStandard'] || {} %>
@@ -26,14 +24,34 @@
   </div>
 </div>
 
-
 <!-- Metadata Dates -->
-  <!-- Not in UMM JSON Schema  -->
-<!-- <div class="row">
+  <!-- MetadataLineage -->
+  <!-- hidden field for scope of 'metadata' -->
+<div class="row">
   <div class="col-12">
     <label for="Metadata Dates">Metadata Dates</label><i class="fa fa-info-circle"></i>
-    <div class="row">
+    <div class="row sub-fields">
+      <% metadata_dates = @draft.draft['MetadataLineage'] || [] %>
+      <% has_dates = metadata_dates.size > 0 %>
+
+      <div class="metadata-dates-values">
+        <% metadata_dates.each do |value| %>
+          <p>
+            <%#= display_key_value_pairs(value) %>
+          </p>
+        <% end %>
+        <%#= render partial: 'drafts/forms/hidden_fields/metadata_dates', locals: {dates: metadata_dates} %>
+      </div>
+
+      <div class="metadata-dates-fields" style="<%= 'display: none;' if has_dates %>">
+        <%#= render partial: 'drafts/forms/metadata_dates_form', locals: {disable_fields: has_dates} %>
+      </div>
+
+      <div class="col-12">
+        <a class="icon-more add-another-field metadata-dates">Add <%= "another " if has_dates %>date</a>
+        <a class="icon-less cancel-add metadata-dates" style="<%= 'display: none;' if has_dates %>">Done adding dates</a>
+      </div>
 
     </div>
   </div>
-</div> -->
+</div>
