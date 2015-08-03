@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+# We can make testing more robust by checking to insure that values are showing up in the correct locations.
+
 draft_json = {}
 current_user_id = 0
 
