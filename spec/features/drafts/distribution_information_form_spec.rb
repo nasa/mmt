@@ -27,10 +27,14 @@ describe 'Distribution information form', js: true do
         fill_in 'Mime Type', with: 'text/html'
         fill_in 'Caption', with: 'Example Caption'
         fill_in 'Title', with: 'Example Title'
-        fill_in 'File Size: Size', with: '42'
-        fill_in 'File Size: Unit', with: 'MB'
-        fill_in 'Content Type: Type', with: 'Text'
-        fill_in 'Content Type: Subtype', with: 'Subtext'
+        within '.file-size' do
+          fill_in 'Size', with: '42'
+          fill_in 'Unit', with: 'MB'
+        end
+        within '.content-type' do
+          fill_in 'Type', with: 'Text'
+          fill_in 'Subtype', with: 'Subtext'
+        end
 
         # Add another RelatedUrl
         within '.multiple-item-0 .accordion-header' do
@@ -50,10 +54,14 @@ describe 'Distribution information form', js: true do
           fill_in 'Mime Type', with: 'text/json'
           fill_in 'Caption', with: 'Example Caption 1'
           fill_in 'Title', with: 'Example Title 1'
-          fill_in 'File Size: Size', with: '4.2'
-          fill_in 'File Size: Unit', with: 'GB'
-          fill_in 'Content Type: Type', with: 'Text 1'
-          fill_in 'Content Type: Subtype', with: 'Subtext 1'
+          within '.file-size' do
+            fill_in 'Size', with: '4.2'
+            fill_in 'Unit', with: 'GB'
+          end
+          within '.content-type' do
+            fill_in 'Type', with: 'Text 1'
+            fill_in 'Subtype', with: 'Subtext 1'
+          end
         end
       end
 
@@ -118,10 +126,14 @@ describe 'Distribution information form', js: true do
             expect(page).to have_field('Mime Type', with: 'text/html')
             expect(page).to have_field('Caption', with: 'Example Caption')
             expect(page).to have_field('Title', with: 'Example Title')
-            expect(page).to have_field('File Size: Size', with: '42')
-            expect(page).to have_field('File Size: Unit', with: 'MB')
-            expect(page).to have_field('Content Type: Type', with: 'Text')
-            expect(page).to have_field('Content Type: Subtype', with: 'Subtext')
+            within '.file-size' do
+              expect(page).to have_field('Size', with: '42')
+              expect(page).to have_field('Unit', with: 'MB')
+            end
+            within '.content-type' do
+              expect(page).to have_field('Type', with: 'Text')
+              expect(page).to have_field('Subtype', with: 'Subtext')
+            end
           end
 
           within '.multiple-item-1' do
@@ -132,10 +144,14 @@ describe 'Distribution information form', js: true do
             expect(page).to have_field('Mime Type', with: 'text/json')
             expect(page).to have_field('Caption', with: 'Example Caption 1')
             expect(page).to have_field('Title', with: 'Example Title 1')
-            expect(page).to have_field('File Size: Size', with: '4.2')
-            expect(page).to have_field('File Size: Unit', with: 'GB')
-            expect(page).to have_field('Content Type: Type', with: 'Text 1')
-            expect(page).to have_field('Content Type: Subtype', with: 'Subtext 1')
+            within '.file-size' do
+              expect(page).to have_field('Size', with: '4.2')
+              expect(page).to have_field('Unit', with: 'GB')
+            end
+            within '.content-type' do
+              expect(page).to have_field('Type', with: 'Text 1')
+              expect(page).to have_field('Subtype', with: 'Subtext 1')
+            end
           end
         end
 

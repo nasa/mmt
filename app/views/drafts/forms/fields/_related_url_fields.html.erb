@@ -38,19 +38,25 @@
       <label for="<%= name_prefix %>title">Title</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}title"), related_url['Title'], class: 'half-width', disabled: disable_fields) %>
 
-      <% file_size = related_url['FileSize'] || {} %>
-      <label for="<%= name_prefix %>file_size_size">File Size: Size</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}file_size_size"), file_size['Size'], class: 'half-width', disabled: disable_fields) %>
+      <div class="file-size">
+        <% file_size = related_url['FileSize'] || {} %>
+        <h4>File Size</h4>
+        <label for="<%= name_prefix %>file_size_size">Size</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag(name_to_param("#{name_prefix}file_size_size"), file_size['Size'], class: 'half-width', disabled: disable_fields) %>
 
-      <label for="<%= name_prefix %>file_size_unit">File Size: Unit</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}file_size_unit"), file_size['Unit'], class: 'half-width', disabled: disable_fields) %>
+        <label for="<%= name_prefix %>file_size_unit">Unit</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag(name_to_param("#{name_prefix}file_size_unit"), file_size['Unit'], class: 'half-width', disabled: disable_fields) %>
+      </div>
 
-      <% content_type = related_url['ContentType'] || {} %>
-      <label for="<%= name_prefix %>content_type_type">Content Type: Type</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}content_type_type"), content_type['Type'], class: 'half-width', disabled: disable_fields) %>
+      <div class="content-type">
+        <% content_type = related_url['ContentType'] || {} %>
+        <h4>Content Type</h4>
+        <label for="<%= name_prefix %>content_type_type">Type</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag(name_to_param("#{name_prefix}content_type_type"), content_type['Type'], class: 'half-width', disabled: disable_fields) %>
 
-      <label for="<%= name_prefix %>content_type_subtype">Content Type: Subtype</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}content_type_subtype"), content_type['Subtype'], class: 'half-width', disabled: disable_fields) %>
+        <label for="<%= name_prefix %>content_type_subtype">Subtype</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag(name_to_param("#{name_prefix}content_type_subtype"), content_type['Subtype'], class: 'half-width', disabled: disable_fields) %>
+      </div>
 
     </div>
   </div>
