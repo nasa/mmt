@@ -37,9 +37,7 @@ describe 'Distribution information form', js: true do
         end
 
         # Add another RelatedUrl
-        within '.multiple-item-0 .accordion-header' do
-          click_on 'Add another'
-        end
+        click_on 'Add another Related Url'
 
         within '.multiple-item-1' do
           within '.multiple.related-url-url' do
@@ -73,9 +71,7 @@ describe 'Distribution information form', js: true do
         fill_in 'Fees', with: '0'
 
         # Add another Distribution
-        within '.multiple-item-0 .accordion-header' do
-          click_on 'Add another'
-        end
+        click_on 'Add another Distribution'
 
         within '.multiple-item-1' do
           fill_in 'Distribution Media', with: 'Floppy disc'

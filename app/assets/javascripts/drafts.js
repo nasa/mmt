@@ -6,40 +6,44 @@ $(document).ready(function() {
   });
 
   $('.multiple').on('click', '.add-new', function(e) {
-    var parent = $(this).closest('.multiple-item'),
-    topMultiple = $(this).closest('.multiple'),
-    newDiv;
+    var simple = $(this).hasClass('new-simple');
+    var topMultiple = $(this).closest('.multiple'),
+        multipleItem,
+        newDiv;
 
-    var index = getIndex(parent);
-
-    if (index === false) {
+    if (simple) {
       // multiple-item is a simple field, like just a text field
       // clone parent and clear field
-      newDiv = $(parent).clone(true);
+      multipleItem = $(this).closest('.multiple-item')
+      newDiv = $(multipleItem).clone(true);
       $.each($(newDiv).find('select, input, textarea'), function(index, field) {
         $(field).val('');
       });
+      $(newDiv).appendTo(topMultiple);
     } else {
       // multiple-item is a collection of fields
       // get template and replace newindex
+      multipleItem = topMultiple.children('.multiple-item:last')
+      var index = getIndex(multipleItem);
       var type = getFieldType(topMultiple);
       var template = $('.' + type + '-template').clone(true);
       var newIndex = index + 1;
       newDiv = $(template.html().replace(/newindex/g, newIndex));
       $(this).closest('.accordion').addClass('is-closed');
+      $(newDiv).insertAfter(multipleItem);
+      $(multipleItem).addClass('is-closed');
     }
-
-    $(newDiv).appendTo(topMultiple);
 
     $(newDiv).find('select, input, textarea').removeAttr('disabled');
     $(newDiv).show();
     $(newDiv).removeClass('is-closed');
+    $(newDiv).find('select, input, textarea')[0].focus();
     e.stopImmediatePropagation();
   });
 
   $('.multiple').on('click', '.remove', function() {
-    var parent = $(this).closest('.multiple-item');
-    $(parent).remove();
+    var multipleItem = $(this).closest('.multiple-item');
+    $(multipleItem).remove();
   });
 
   var getFieldType = function(field) {

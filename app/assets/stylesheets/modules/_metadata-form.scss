@@ -20,7 +20,10 @@
   display: none;
 }
 
-.multiple > :last-child > .accordion-header > .actions .add-new,
+.multiple > .actions .add-new {
+  display: inline-block;
+}
+
 .multiple > :last-child > .actions .add-new {
   display: inline-block;
 }

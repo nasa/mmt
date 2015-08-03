@@ -3,7 +3,6 @@
     <i class="fa fa-angle-down toggle"></i>
     Related Url Header
     <div class="actions">
-      <!-- <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button> -->
       <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
     </div>
   </div>
@@ -16,7 +15,7 @@
           <label for="<%= name_prefix %>url_" class="icon-required">URL</label><i class="fa fa-info-circle"></i>
           <%= text_field_tag(name_to_param("#{name_prefix}url_index"), url, class: 'half-width', disabled: disable_fields) %>
           <div class="actions">
-            <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button>
+            <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
             <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
           </div>
         </div>
@@ -60,8 +59,5 @@
       </div>
 
     </div>
-  </div>
-  <div class="actions">
-    <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button>
   </div>
 </div>
