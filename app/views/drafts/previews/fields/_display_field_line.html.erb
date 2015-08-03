@@ -1,12 +1,13 @@
-<% value = hash_for_key[key_name]%>
-<% value = value[0] if value.is_a?(Array) && value.count == 1 # if passed an array w/ only 1 element, use just that element's value %>
+<% if !hash_for_key.nil? %>
+  <% value = hash_for_key[key_name]%>
+  <% value = value[0] if value.is_a?(Array) && value.count == 1 # if passed an array w/ only 1 element, use just that element's value %>
 
-<% if !value.blank? %>
-  <% # If no title_override is passed in, just titleize the key_name %>
-  <% title = defined?(title_override).nil? ? key_name.titleize : title_override %>
+  <% if !value.blank? %>
+    <% # If no title_override is passed in, just titleize the key_name %>
+    <% title = defined?(title_override).nil? ? key_name.titleize : title_override %>
 
-  <%= "#{title}#{title.blank? ? '': ': '}" %>
-  <%= "#{value}" %>
-  </br>
+    <%= "#{title}#{title.blank? ? '': ': '}" %>
+    <%= "#{value}" %>
+    </br>
+  <% end %>
 <% end %>
-
