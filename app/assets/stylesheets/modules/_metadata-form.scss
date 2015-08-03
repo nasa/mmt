@@ -28,7 +28,7 @@
   display: inline-block;
 }
 
-.multiple > :only-child > .accordion-header > .actions .remove,
+.multiple-item:first-of-type > .accordion-header > .actions > .remove,
 .multiple > :only-child > .actions .remove {
   display: none;
 }
