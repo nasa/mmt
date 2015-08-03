@@ -1,8 +1,8 @@
 <div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_distribution %>">
   <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
     Distribution Header
     <div class="actions">
-      <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button>
       <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
     </div>
   </div>
@@ -25,5 +25,8 @@
       <label for="<%= name_prefix %>fees">Fees</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}fees"), distribution['Fees'], class: 'half-width', disabled: disable_fields) %>
     </div>
+  </div>
+  <div class="actions">
+    <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button>
   </div>
 </div>
