@@ -6,6 +6,7 @@ require 'rails_helper'
 
 draft_json = {}
 current_user_id = 0
+test_fee = '123.45'
 
 describe 'Distribution Information form' do
   before do
@@ -28,8 +29,8 @@ describe 'Distribution Information form' do
        ]
       draft_json['Distribution'] = [
         {},
-        {DistributionMedia:'test 1 DistributionMedia',DistributionSize:'test 1 DistributionSize',DistributionFormat:'test 1 DistributionFormat', Fees:'test 1 Fees'},
-        {DistributionMedia:'test 2 DistributionMedia',DistributionSize:'test 2 DistributionSize',DistributionFormat:'test 2 DistributionFormat', Fees:'test 2 Fees'}
+        {DistributionMedia:'test 1 DistributionMedia',DistributionSize:'test 1 DistributionSize',DistributionFormat:'test 1 DistributionFormat', Fees:test_fee},
+        {DistributionMedia:'test 2 DistributionMedia',DistributionSize:'test 2 DistributionSize',DistributionFormat:'test 2 DistributionFormat', Fees:'bad fee amount'}
       ]
 
       create(:draft, user_id: current_user_id, draft: draft_json)
@@ -43,6 +44,15 @@ describe 'Distribution Information form' do
     it 'shows the values in the draft preview page' do
       check_page_for_display_of_values (draft_json)
     end
+
+    it 'handles bad currency values' do # TODO: Does NOT properly handle '123.456'
+      expect(page).to have_content('bad fee amount')
+    end
+
+    it 'handles good currency values' do
+      expect(page).to have_content("$#{test_fee}")
+    end
+
 
   end
 

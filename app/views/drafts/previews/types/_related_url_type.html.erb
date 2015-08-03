@@ -2,22 +2,33 @@
 
 <% if !hash_for_key[key_name].blank? %>
   <h4><%= defined?(title_override).nil? ? key_name.titleize : title_override %></h4>
-  <p>
-    <% hash_for_key[key_name].each do |r| %>
+    <% hash_for_key[key_name].each do |related_url| %>
 
-      <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'URL', :hash_for_key=>r, :title_override=>'URL'} %>
+      <ul>
+        <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'URL', :hash_for_key=>related_url, :title_override=>'URL'} %>
 
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Protocol', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MimeType', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Caption', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Size', :hash_for_key=>r['FileSize'], :title_override=>'File Size: Size'} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Unit', :hash_for_key=>r['FileSize'], :title_override=>'File Size: Unit'} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r['ContentType'], :title_override=>'Content Type: Type'} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Subtype', :hash_for_key=>r['ContentType'], :title_override=>'Content Type: SubType'} %>
+        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>related_url} %>
+        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Protocol', :hash_for_key=>related_url} %>
+        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MimeType', :hash_for_key=>related_url} %>
+        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Caption', :hash_for_key=>related_url} %>
+        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>related_url} %>
 
-      <%= raw((r == hash_for_key[key_name].last) ? '' : '</br>') %>
+        <% if !related_url['FileSize'].blank? %>
+          <h4>File Size</h4>
+          <li>
+            <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Size',   :hash_for_key=>related_url['FileSize']} %>
+            <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Unit',   :hash_for_key=>related_url['FileSize']} %>
+          </li>
+        <% end %>
+
+        <% if !related_url['ContentType'].blank? %>
+          <h4>Content Type</h4>
+          <li>
+            <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Type',   :hash_for_key=>related_url['ContentType']} %>
+            <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Subtype',   :hash_for_key=>related_url['ContentType']} %>
+          </li>
+        <% end %>
+
+      </ul>
     <% end %>
-  </p>
 <% end %>

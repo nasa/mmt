@@ -5,7 +5,9 @@
   <h4>
     <%= title %>
   </h4>
-  <p>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>key_name, :hash_for_key=>@draft_json, :title_override=>''} %>
-  </p>
+  <ul>
+    <li>
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>key_name, :hash_for_key=>@draft_json, :title_override=>''} %>
+    </li>
+  </ul>
 <% end %>
