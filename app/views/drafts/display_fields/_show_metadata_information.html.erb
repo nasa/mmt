@@ -4,20 +4,20 @@
 <%= render :partial=>'drafts/display_fields/display_field_value_with_header', :locals=>{:key_name=>'MetadataLanguage'} %>
 
 <!-- Metdata Standard [r] -->
-<% if !@draft_json['MetadataStandard'].blank? %>
+<% if !@draft.draft['MetadataStandard'].blank? %>
   <h4>Metadata Standard</h4>
   <p>
-    <% r = @draft_json['MetadataStandard'] %>
+    <% r = @draft.draft['MetadataStandard'] %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>r} %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>r} %>
   </p>
 <% end %>
 
 <!-- Metadata Dates -->
-<% if !@draft_json['MetadataDates'].blank? %>
+<% if !@draft.draft['MetadataDates'].blank? %>
   <h4>Metadata Dates</h4>
   <p>
-    <% @draft_json['MetadataDates'].each do |r| %>
+    <% @draft.draft['MetadataDates'].each do |r| %>
       <%= r %>
       </br>
     <% end %>

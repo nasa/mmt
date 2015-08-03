@@ -1,4 +1,4 @@
-<% #Typical call: render :partial=>'drafts/previews/types/distribution_type', :locals=>{:key_name=>'Distribution', :hash_for_key=>@draft_json} %>
+<% #Typical call: render :partial=>'drafts/previews/types/distribution_type', :locals=>{:key_name=>'Distribution', :hash_for_key=>@draft.draft} %>
 
 <% if !hash_for_key[key_name].blank? %>
   <h4><%= defined?(title_override).nil? ? key_name.titleize : title_override %></h4>

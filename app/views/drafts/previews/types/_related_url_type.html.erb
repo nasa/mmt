@@ -1,4 +1,4 @@
-<% #Typical call: render :partial=>'drafts/previews/types/related_url_fields', :locals=>{:key_name=>'RelatedUrl', :hash_for_key=>@draft_json} #, :title_override=>'Related URL'} %>
+<% #Typical call: render :partial=>'drafts/previews/types/related_url_fields', :locals=>{:key_name=>'RelatedUrl', :hash_for_key=>@draft.draft} #, :title_override=>'Related URL'} %>
 
 <% if !hash_for_key[key_name].blank? %>
   <h4><%= defined?(title_override).nil? ? key_name.titleize : title_override %></h4>

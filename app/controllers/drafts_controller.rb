@@ -11,8 +11,6 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
-    # TODO - review logic to make draft a consistent type
-    @draft_json = @draft.draft.is_a?(String) ? JSON.parse(@draft.draft) : (@draft.draft || {})
   end
 
 

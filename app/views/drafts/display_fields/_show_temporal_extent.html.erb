@@ -1,26 +1,26 @@
 <h4>Temporal Extent Fields:</h4>
 
 <!-- Temporal Extent [r] -->
-<% if !@draft_json['TemporalExtent'].blank? %>
+<% if !@draft.draft['TemporalExtent'].blank? %>
   <h4>Temporal Extent</h4>
   <p>
-    <% @draft_json['TemporalExtent'].each do |r| %>
+    <% @draft.draft['TemporalExtent'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'TemporalRangeType', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'PrecisionOfSeconds', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'EndsAtPresentFlag', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'RangeDateTime', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'SingleDateTime', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'PeriodicDateTime', :hash_for_key=>r} %>
-      <%= raw((r == @draft_json['TemporalExtent'].last) ? '' : '</br>') %>
+      <%= raw((r == @draft.draft['TemporalExtent'].last) ? '' : '</br>') %>
     <% end %>
   </p>
 <% end %>
 
 <!-- Temporal Keywords -->
-<% if !@draft_json['TemporalKeywords'].blank? %>
+<% if !@draft.draft['TemporalKeywords'].blank? %>
   <h4>Temporal Keywords</h4>
   <p>
-    <% @draft_json['TemporalKeywords'].each do |r| %>
+    <% @draft.draft['TemporalKeywords'].each do |r| %>
       <%= r %>
       </br>
     <% end %>
@@ -28,10 +28,10 @@
 <% end %>
 
 <!-- Paleo Temporal Coverage -->
-<% if !@draft_json['PaleoTemporalCoverage'].blank? %>
+<% if !@draft.draft['PaleoTemporalCoverage'].blank? %>
   <h4>Paleo Temporal Coverage</h4>
   <p>
-    <% r = @draft_json['PaleoTemporalCoverage'] %>
+    <% r = @draft.draft['PaleoTemporalCoverage'] %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'PaleoTemporalCoverage',        :hash_for_key=>r} %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'ChronostratigraphicUnit',   :hash_for_key=>r} %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'StartDate', :hash_for_key=>r} %>

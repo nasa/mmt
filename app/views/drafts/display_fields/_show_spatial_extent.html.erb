@@ -2,26 +2,26 @@
 
 <!-- Spatial Extent [r] -->
 <!-- array of SpatialExtentType -->
-<% if !@draft_json['SpatialExtent'].blank? %>
+<% if !@draft.draft['SpatialExtent'].blank? %>
   <h4>Spatial Extent</h4>
   <p>
-    <% @draft_json['SpatialExtent'].each do |r| %>
+    <% @draft.draft['SpatialExtent'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'SpatialCoverageType', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'HorizontalSpatialDomain', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'VerticalSpatialDomain', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'OrbitParameters', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'GranuleSpatialRepresentation', :hash_for_key=>r} %>
-      <%= raw((r == @draft_json['SpatialExtent'].last) ? '' : '</br>') %>
+      <%= raw((r == @draft.draft['SpatialExtent'].last) ? '' : '</br>') %>
     <% end %>
   </p>
 <% end %>
 
 <!-- Tiling Identification System -->
 <!-- TilingIdentificationSystemType -->
-<% if !@draft_json['TilingIdentificationSystem'].blank? %>
+<% if !@draft.draft['TilingIdentificationSystem'].blank? %>
   <h4>Tiling Identification System</h4>
   <p>
-    <% r = @draft_json['TilingIdentificationSystem'] %>
+    <% r = @draft.draft['TilingIdentificationSystem'] %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'TilingIdentificationSystemName', :hash_for_key=>r} %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Coordinate1',   :hash_for_key=>r} %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Coordinate2', :hash_for_key=>r} %>
@@ -30,10 +30,10 @@
 
 <!-- Spatial Representation Information -->
 <!-- SpatialInformation -->
-<% if !@draft_json['SpatialInformation'].blank? %>
+<% if !@draft.draft['SpatialInformation'].blank? %>
   <h4>Spatial Information</h4>
   <p>
-    <% r = @draft_json['SpatialInformation'] %>
+    <% r = @draft.draft['SpatialInformation'] %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'VerticalCoordinateSystem', :hash_for_key=>r} %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'HorizontalCoordinateSystem',   :hash_for_key=>r} %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'SpatialCoverageType', :hash_for_key=>r} %>
@@ -42,10 +42,10 @@
 
 <!-- Spatial Keywords -->
 <!-- KeywordUuidStringType -->
-<% if !@draft_json['SpatialKeyword'].blank? %>
+<% if !@draft.draft['SpatialKeyword'].blank? %>
   <h4>Spatial Keyword</h4>
   <p>
-    <% r = @draft_json['SpatialKeyword'] %>
+    <% r = @draft.draft['SpatialKeyword'] %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Category', :hash_for_key=>r} %>
     <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
   </p>

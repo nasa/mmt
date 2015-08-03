@@ -1,10 +1,10 @@
 <h4>Descriptive Keyword Fields:</h4>
 
 <!-- ISOTopicCategory -->
-<% if !@draft_json['ISOTopicCategory'].blank? %>
+<% if !@draft.draft['ISOTopicCategory'].blank? %>
   <h4>ISO Topic Category</h4>
   <p>
-    <% @draft_json['ISOTopicCategory'].each do |r| %>
+    <% @draft.draft['ISOTopicCategory'].each do |r| %>
       <%= r %>
       </br>
     <% end %>
@@ -12,10 +12,10 @@
 <% end %>
 
 <!-- ScienceKeyword [r] -->
-<% if !@draft_json['ScienceKeywords'].blank? %>
+<% if !@draft.draft['ScienceKeywords'].blank? %>
   <h4>Science Keywords</h4>
   <p>
-    <% @draft_json['ScienceKeywords'].each do |r| %>
+    <% @draft.draft['ScienceKeywords'].each do |r| %>
       <%= construct_keyword_string(r, '').titleize %>
       </br>
     <% end %>
@@ -23,10 +23,10 @@
 <% end %>
 
 <!-- AncillaryKeyword -->
-<% if !@draft_json['AncillaryKeyword'].blank? %>
+<% if !@draft.draft['AncillaryKeyword'].blank? %>
   <h4>Ancillary Keyword</h4>
   <p>
-    <% @draft_json['AncillaryKeyword'].each do |r| %>
+    <% @draft.draft['AncillaryKeyword'].each do |r| %>
       <%= r %>
       </br>
     <% end %>
@@ -34,10 +34,10 @@
 <% end %>
 
 <!-- AdditionalAttribute -->
-<% if !@draft_json['AdditionalAttribute'].blank? %>
+<% if !@draft.draft['AdditionalAttribute'].blank? %>
   <h4>Additional Attributes</h4>
   <p>
-    <% @draft_json['AdditionalAttribute'].each do |r| %>
+    <% @draft.draft['AdditionalAttribute'].each do |r| %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Value', :hash_for_key=>r} %>
@@ -50,7 +50,7 @@
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'ValueAccuracyExplanation', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'Group', :hash_for_key=>r} %>
       <%= render :partial=>'drafts/display_fields/display_field_line', :locals=>{:key_name=>'UpdateDate', :hash_for_key=>r} %>
-      <%= raw((r == @draft_json['AdditionalAttribute'].last) ? '' : '</br>') %>
+      <%= raw((r == @draft.draft['AdditionalAttribute'].last) ? '' : '</br>') %>
     <% end %>
   </p>
 <% end %>
