@@ -61,7 +61,7 @@
 
 <!-- Data dates [r] -->
   <!-- DataLineage -->
-  <!-- hidden field for scope of 'date' -->
+  <!-- hidden field for scope of 'data' -->
 <div class="row">
   <div class="col-12">
     <label for="data_lineage" class="main-field icon-required">Data Lineage</label><i class="fa fa-info-circle"></i>
@@ -88,14 +88,14 @@
       <div class="organization-values">
         <% responsible_organizations.each do |value| %>
           <p>
-            <%= display_key_value_pairs(value) %>
+            <%#= display_key_value_pairs(value) %>
           </p>
         <% end %>
-        <%= render partial: 'drafts/forms/hidden_fields/organization', locals: {orgs: responsible_organizations} %>
+        <%#= render partial: 'drafts/forms/hidden_fields/organization', locals: {orgs: responsible_organizations} %>
       </div>
 
       <div class="organization-fields" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">
-        <%= render partial: 'drafts/forms/organization_form', locals: {disable_fields: responsible_organizations.size > 0} %>
+        <%#= render partial: 'drafts/forms/organization_form', locals: {disable_fields: responsible_organizations.size > 0} %>
       </div>
 
       <div class="col-12">

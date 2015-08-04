@@ -45,3 +45,12 @@ input[type="text"] {
     margin-right: 0.75em;
   }
 }
+
+.icon-less {
+  &:before {
+    content: "\f056";
+    font-family: "FontAwesome";
+    color: $ocean-blue;
+    margin-right: 0.75em;
+  }
+}

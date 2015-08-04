@@ -38,6 +38,8 @@ module Mmt
 
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
 
-    config.eui_url = 'https://cdn.earthdata.nasa.gov/eui/latest/stylesheets/application.css'
+    config.eui_css = 'https://cdn.earthdata.nasa.gov/eui/latest/stylesheets/application.css'
+
+    config.eui_javascript = "https://cdn.earthdata.nasa.gov/eui/0.2.6/js/eui.js"
   end
 end

@@ -1,0 +1,63 @@
+<div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_url %>">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    Related Url Header
+    <div class="actions">
+      <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+    </div>
+  </div>
+  <div class="accordion-body">
+    <div class="row sub-fields">
+      <% urls = related_url['URL'] || [nil] # [nil] creates at least one URL field %>
+      <div class="multiple related-url-url">
+      <% urls.each do |url| %>
+        <div class="multiple-item">
+          <label for="<%= name_prefix %>url_" class="icon-required">URL</label><i class="fa fa-info-circle"></i>
+          <%= text_field_tag(name_to_param("#{name_prefix}url_index"), url, class: 'half-width', disabled: disable_fields) %>
+          <div class="actions">
+            <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
+            <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+          </div>
+        </div>
+      <% end %>
+      </div>
+
+      <label for="<%= name_prefix %>description">Description</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}description"), related_url['Description'], class: 'half-width', disabled: disable_fields) %>
+
+      <!-- dropdown [http, https, ftp, ssh] -->
+      <label for="<%= name_prefix %>protocol">Protocol</label><i class="fa fa-info-circle"></i>
+      <%= select_tag(name_to_param("#{name_prefix}protocol"), options_for_select([['Select Protocol', ''],'HTTP', 'HTTPS', 'FTP', 'SSH'], related_url['Protocol']), class: 'single-select', disabled: disable_fields) %>
+
+      <label for="<%= name_prefix %>mime_type">Mime Type</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}mime_type"), related_url['MimeType'], class: 'half-width', disabled: disable_fields) %>
+
+      <label for="<%= name_prefix %>caption">Caption</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}caption"), related_url['Caption'], class: 'half-width', disabled: disable_fields) %>
+
+      <label for="<%= name_prefix %>title">Title</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}title"), related_url['Title'], class: 'half-width', disabled: disable_fields) %>
+
+      <div class="file-size">
+        <% file_size = related_url['FileSize'] || {} %>
+        <h4>File Size</h4>
+        <label for="<%= name_prefix %>file_size_size">Size</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag(name_to_param("#{name_prefix}file_size_size"), file_size['Size'], class: 'half-width', disabled: disable_fields) %>
+
+        <label for="<%= name_prefix %>file_size_unit">Unit</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag(name_to_param("#{name_prefix}file_size_unit"), file_size['Unit'], class: 'half-width', disabled: disable_fields) %>
+      </div>
+
+      <div class="content-type">
+        <% content_type = related_url['ContentType'] || {} %>
+        <h4>Content Type</h4>
+        <label for="<%= name_prefix %>content_type_type">Type</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag(name_to_param("#{name_prefix}content_type_type"), content_type['Type'], class: 'half-width', disabled: disable_fields) %>
+
+        <label for="<%= name_prefix %>content_type_subtype">Subtype</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag(name_to_param("#{name_prefix}content_type_subtype"), content_type['Subtype'], class: 'half-width', disabled: disable_fields) %>
+      </div>
+
+    </div>
+  </div>
+</div>
