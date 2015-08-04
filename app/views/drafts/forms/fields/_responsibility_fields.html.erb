@@ -1,0 +1,62 @@
+<div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_responsibility %>">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    Responsibility <%= index + 1 %>
+    <div class="actions">
+      <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button>
+      <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+    </div>
+  </div>
+  <div class="accordion-body">
+
+    <div class="row sub-fields">
+      <label for="<%= name_prefix %>role" class="icon-required">Role</label><i class="fa fa-info-circle"></i>
+      <%= select_tag name_to_param("#{name_prefix}role"), options_for_select([['Select Role', ''],['Resource Provider', 'RESOURCEPROVIDER'], ['Custodian', 'CUSTODIAN'], ['Owner', 'OWNER'], ['User', 'USER'], ['Distributor', 'DISTRIBUTOR'], ['Originator', 'ORIGINATOR'], ['Point of Contact', 'POINTOFCONTACT'], ['Principal Investigator', 'PRINCIPALINVESTIGATOR'], ['Processor', 'PROCESSOR'], ['Publisher', 'PUBLISHER'], ['Author', 'AUTHOR'], ['Sponsor', 'SPONSOR'], ['Co-Author', 'COAUTHOR'], ['Collaborator', 'COLLABORATOR'], ['Editor', 'EDITOR'], ['Mediator', 'MEDIATOR'], ['Rights Holder', 'RIGHTSHOLDER'], ['Contributor', 'CONTRIBUTOR'], ['Funder', 'FUNDER'], ['Stakeholder', 'STAKEHOLDER']], responsibility['Role']), class: 'single-select' %>
+
+      <% party = responsibility['Party'] || {} %>
+      <!-- Person or Org radio buttons -->
+      <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
+      <% person_checked = !party['Person'].nil? %>
+      <input type="radio" id="<%= name_prefix %>responsibility_organization" value="organization" class="responsibility-picker" <%= 'checked="checked"' unless person_checked %>>
+      <label for="<%= name_prefix %>responsibility_organization">Organization</label>
+      <input type="radio" id="<%= name_prefix %>responsibility_person" value="person" class="responsibility-picker" <%= 'checked="checked"' if person_checked %>>
+      <label for="<%= name_prefix %>responsibility_person">Person</label>
+
+      <!-- org fields -->
+      <div class="organization-fields" style="<%= 'display: none;' if person_checked %>">
+        <%= render partial: 'drafts/forms/types/organization_name_type', locals: {
+          organization_name: party['OrganizationName'] || {},
+          name_prefix: "#{name_prefix}party_" } %>
+      </div>
+
+      <!-- person fields -->
+      <div class="person-fields" style="<%= 'display: none;' unless person_checked %>">
+        <%= render partial: 'drafts/forms/types/person_type', locals: {
+          person: party['Person'] || {},
+          name_prefix: "#{name_prefix}party_" } %>
+      </div>
+
+      <!-- all party fields -->
+      <label for="<%= name_prefix %>party_service_hours" class="icon-required">Service Hours</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}party_service_hours"), party['ServiceHours'], class: 'half-width') %>
+
+      <label for="<%= name_prefix %>party_contact_instructions" class="icon-required">Contact Instructions</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}party_contact_instructions"), party['ContactInstructions'], class: 'half-width') %>
+
+      <!-- Contact - multiple -->
+      <%= render partial: 'drafts/forms/types/contact_type', locals: {
+          contacts: party['Contact'] || [{}],
+          name_prefix: "#{name_prefix}party_contact_" } %>
+
+      <!-- Address - multiple -->
+      <%= render partial: 'drafts/forms/types/address_type', locals: {
+          addresses: party['Address'] || [{}],
+          name_prefix: "#{name_prefix}party_address_" } %>
+
+      <!-- RelatedUrl - multiple -->
+      <%= render partial: 'drafts/forms/types/related_url_type', locals: {
+          related_urls: party['RelatedUrl'] || [{}],
+          name_prefix: "#{name_prefix}party_related_url_" } %>
+    </div>
+  </div>
+</div>

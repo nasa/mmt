@@ -2,22 +2,11 @@
   <% distributions.each_with_index do |distribution, index| %>
     <%= render partial: 'drafts/forms/fields/distribution_fields', locals: {
         distribution: distribution,
-        name_prefix: "#{name_prefix}distribution_#{index}_",
-        disable_fields: false,
+        name_prefix: "#{name_prefix}#{index}_",
         last_distribution: distribution == distributions.last,
         index: index } %>
   <% end %>
   <div class="actions">
     <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another Distribution</button>
   </div>
-</div>
-
-<!-- disabled div that allows inserting an index -->
-<div class="distribution-template multiple-template">
-  <%= render partial: 'drafts/forms/fields/distribution_fields', locals: {
-      distribution: {},
-      name_prefix: "#{name_prefix}distribution_newindex_",
-      disable_fields: true,
-      last_distribution: false,
-      index: 'newindex' } %>
 </div>

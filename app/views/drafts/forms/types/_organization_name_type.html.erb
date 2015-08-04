@@ -1,0 +1,5 @@
+<label for="<%= name_prefix %>organization_name_short_name" class="icon-required">Short Name</label><i class="fa fa-info-circle"></i>
+<%= text_field_tag(name_to_param("#{name_prefix}organization_name_short_name"), organization_name['ShortName'], class: 'half-width') %>
+
+<label for="<%= name_prefix %>organization_name_long_name" class="icon-required">Long Name</label><i class="fa fa-info-circle"></i>
+<%= text_field_tag(name_to_param("#{name_prefix}organization_name_long_name"), organization_name['LongName'], class: 'half-width') %>

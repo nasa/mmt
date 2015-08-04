@@ -1,0 +1,22 @@
+<div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_lineage %>">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    <%= lineage_type.titleize %> Date <%= index + 1 %>
+    <div class="actions">
+      <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button>
+      <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+    </div>
+  </div>
+  <div class="accordion-body">
+
+    <div class="row sub-fields">
+      <!-- Scope - always METADATA -->
+      <%= hidden_field_tag name_to_param("#{name_prefix}scope"), lineage_type.upcase %>
+
+      <%= render partial: 'drafts/forms/types/lineage_date_type', locals: {
+          lineage_type: lineage_type,
+          name_prefix: "#{name_prefix}date_",
+          dates: lineage['Date'] || [{}] } %>
+    </div>
+  </div>
+</div>

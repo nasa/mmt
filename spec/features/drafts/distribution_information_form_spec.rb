@@ -14,54 +14,7 @@ describe 'Distribution information form', js: true do
       click_on 'Distribution Information'
 
       # Complete RelatedUrl fields
-      within '.multiple.related-url' do
-        within '.multiple.related-url-url' do
-          fill_in 'URL', with: 'http://example.com'
-          click_on 'Add another'
-          within all('.multiple-item').last do
-            fill_in 'URL', with: 'http://another-example.com'
-          end
-        end
-        fill_in 'Description', with: 'Example Description'
-        select 'FTP', from: 'Protocol'
-        fill_in 'Mime Type', with: 'text/html'
-        fill_in 'Caption', with: 'Example Caption'
-        fill_in 'Title', with: 'Example Title'
-        within '.file-size' do
-          fill_in 'Size', with: '42'
-          fill_in 'Unit', with: 'MB'
-        end
-        within '.content-type' do
-          fill_in 'Type', with: 'Text'
-          fill_in 'Subtype', with: 'Subtext'
-        end
-
-        # Add another RelatedUrl
-        click_on 'Add another Related Url'
-
-        within '.multiple-item-1' do
-          within '.multiple.related-url-url' do
-            fill_in 'URL', with: 'http://example.com/1'
-            click_on 'Add another'
-            within all('.multiple-item').last do
-              fill_in 'URL', with: 'http://another-example.com/1'
-            end
-          end
-          fill_in 'Description', with: 'Example Description 1'
-          select 'SSH', from: 'Protocol'
-          fill_in 'Mime Type', with: 'text/json'
-          fill_in 'Caption', with: 'Example Caption 1'
-          fill_in 'Title', with: 'Example Title 1'
-          within '.file-size' do
-            fill_in 'Size', with: '4.2'
-            fill_in 'Unit', with: 'GB'
-          end
-          within '.content-type' do
-            fill_in 'Type', with: 'Text 1'
-            fill_in 'Subtype', with: 'Subtext 1'
-          end
-        end
-      end
+      add_related_urls
 
       # Complete Distribution fields
       within '.multiple.distribution' do

@@ -19,13 +19,13 @@
       <!-- show form unless one keyword exists -->
       <% science_keyword = @draft.draft['ScienceKeyword'] || {} %>
       <label for="draft_science_keyword_category" class="icon-required">Category</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[science_keyword][category]', science_keyword['Category'], class: 'half-width', required: true) %>
+      <%= text_field_tag('draft[science_keyword][category]', science_keyword['Category'], class: 'half-width') %>
 
       <label for="draft_science_keyword_topic" class="icon-required">Topic</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[science_keyword][topic]', science_keyword['Topic'], class: 'half-width', required: true) %>
+      <%= text_field_tag('draft[science_keyword][topic]', science_keyword['Topic'], class: 'half-width') %>
 
       <label for="draft_science_keyword_term" class="icon-required">Term</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[science_keyword][term]', science_keyword['Term'], class: 'half-width', required: true) %>
+      <%= text_field_tag('draft[science_keyword][term]', science_keyword['Term'], class: 'half-width') %>
 
       <label for="draft_science_keyword_variable_level_1">Variable Level 1</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag('draft[science_keyword][variable_level_1]', science_keyword['VariableLevel1'], class: 'half-width') %>
