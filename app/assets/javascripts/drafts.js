@@ -14,7 +14,7 @@ $(document).ready(function() {
     if (simple) {
       // multiple-item is a simple field, like just a text field
       // clone parent and clear field
-      multipleItem = $(this).closest('.multiple-item')
+      multipleItem = $(this).closest('.multiple-item');
       newDiv = $(multipleItem).clone(true);
       $.each($(newDiv).find('select, input, textarea'), function(index, field) {
         $(field).val('');
