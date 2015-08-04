@@ -1,10 +1,10 @@
 <h4>Distribution Information Fields:</h4>
 
 <!-- Related URL [r] -->
-<%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{:key_name=>'RelatedUrl', :hash_for_key=>@draft.draft, :title_override=>'Related URL'} %>
+<%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{related_urls: @draft.draft['RelatedUrl'], header_text: 'Related URL'} %>
 
 <!-- Distribution -->
-<%= render :partial=>'drafts/previews/types/distribution_type', :locals=>{:key_name=>'Distribution', :hash_for_key=>@draft.draft} %>
+<%= render :partial=>'drafts/previews/types/distribution_type', :locals=>{distributions: @draft.draft['Distribution'], header_text: 'Distribution'} %>
 
 
 

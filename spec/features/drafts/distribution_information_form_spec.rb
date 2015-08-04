@@ -1,4 +1,4 @@
-# MMT-292
+# MMT-292, MMT-299
 
 require 'rails_helper'
 
@@ -90,8 +90,20 @@ describe 'Distribution information form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    # TODO MMT-299
-    it 'shows the values in the draft preview page'
+    # Test Preview (MMT-299)
+    it 'shows the values in the draft preview page' do
+      expect(page).to have_content('http://example.com')
+      expect(page).to have_content('http://another-example.com')
+      expect(page).to have_content('Example Description')
+      expect(page).to have_content('42')
+      expect(page).to have_content('Subtext')
+      expect(page).to have_content('http://another-example.com/1')
+      expect(page).to have_content('SSH')
+      expect(page).to have_content('text/json')
+      expect(page).to have_content('Online Download')
+      expect(page).to have_content('HDF')
+      expect(page).to have_content('1.44 MB')
+    end
 
     context 'when returning to the form' do
       before do
