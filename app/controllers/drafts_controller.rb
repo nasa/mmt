@@ -48,7 +48,6 @@ class DraftsController < ApplicationController
   # PATCH/PUT /drafts/1
   # PATCH/PUT /drafts/1.json
   def update
-    # TODO Each "Save" button will call update to update the draft, and navigate to another form or collection page (show action)
     @draft = Draft.find(params[:id])
     if @draft.update_draft(params[:draft])
       case params[:commit]

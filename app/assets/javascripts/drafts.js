@@ -5,68 +5,45 @@ $(document).ready(function() {
     this.form.submit();
   });
 
-  // Add another field to array fields
-  $('.add-another-field').click(function() {
-    var type = getFieldType(this);
+  $('.multiple').on('click', '.add-new', function(e) {
+    var simple = $(this).hasClass('new-simple');
+    var topMultiple = $(this).closest('.multiple'),
+        multipleItem,
+        newDiv;
 
-    var fields = $('.'+ type +'-fields').find('select, input');
-    if (fields.is(":visible")) {
-      // if fields are visible
-
-      // get last index used by previous values
-      var lastIndex = 0;
-      if ($('.'+ type +'-values input').length > 0) {
-        var id = $('.'+ type +'-values input').last().attr('id').replace( /[^\d.]/g, '' );
-        lastIndex = parseInt(id);
-      }
-
-      // Display field values with other organization values
-      var values = getKeyValuePairs(fields);
-      $('.'+ type +'-values').append(values);
-
-      $.each(fields, function(index, field) {
-        var id = $(field).attr('id');
-        var name = $(field).attr('name');
-
-        // Create a hidden field with each fields value if there is a value
-        var fieldValue = $(field).val();
-        if (fieldValue != "") {
-          var newField = $('<input>');
-          $(newField).attr('type', 'hidden');
-          $(newField).attr('name', name.replace("index", lastIndex+1));
-          $(newField).attr('id', id.replace("index", lastIndex+1));
-          $(newField).attr('value', fieldValue);
-          $('.'+ type +'-values').append(newField);
-
-          // Clear field
-          $(field).val('');
-        }
+    if (simple) {
+      // multiple-item is a simple field, like just a text field
+      // clone parent and clear field
+      multipleItem = $(this).closest('.multiple-item');
+      newDiv = $(multipleItem).clone(true);
+      $.each($(newDiv).find('select, input, textarea'), function(index, field) {
+        $(field).val('');
       });
+      $(newDiv).appendTo(topMultiple);
     } else {
-      // if fields are not visible
-      // show the form and done button
-      $('.'+ type +'-fields').show();
-      $('.cancel-add.'+ type +'').show();
-
-      // Enable fields
-      $(fields).removeAttr('disabled');
+      // multiple-item is a collection of fields
+      // get template and replace newindex
+      multipleItem = topMultiple.children('.multiple-item:last')
+      var index = getIndex(multipleItem);
+      var type = getFieldType(topMultiple);
+      var template = $('.' + type + '-template').clone(true);
+      var newIndex = index + 1;
+      newDiv = $(template.html().replace(/newindex/g, newIndex));
+      $(this).closest('.accordion').addClass('is-closed');
+      $(newDiv).insertAfter(multipleItem);
+      $(multipleItem).addClass('is-closed');
     }
+
+    $(newDiv).find('select, input, textarea').removeAttr('disabled');
+    $(newDiv).show();
+    $(newDiv).removeClass('is-closed');
+    $(newDiv).find('select, input, textarea')[0].focus();
+    e.stopImmediatePropagation();
   });
 
-  // Hide form, and remove required fields
-  $('.cancel-add').click(function() {
-    var type = getFieldType(this);
-
-    var fields = $('.'+ type +'-fields').find('select, input');
-
-    // Disable fields to keep from being submitted
-    $(fields).attr('disabled', true);
-
-    // Hide form
-    $('.'+ type +'-fields').hide();
-
-    // Hide 'Done' button
-    $(this).hide();
+  $('.multiple').on('click', '.remove', function() {
+    var multipleItem = $(this).closest('.multiple-item');
+    $(multipleItem).remove();
   });
 
   var getFieldType = function(field) {
@@ -76,33 +53,20 @@ $(document).ready(function() {
       type = 'organization';
     } else if (classes.indexOf('related-url') != -1) {
       type = 'related-url'
+    } else if (classes.indexOf('metadata-dates') != -1) {
+      type = 'metadata-dates'
+    } else if (classes.indexOf('distribution') != -1) {
+      type = 'distribution'
     }
     return type;
   }
 
-  var getKeyValuePairs = function(fields) {
-    console.log('getting pairs');
-    var values = [];
-    $.each(fields, function(index, field) {
-      var label = $('label[for="'+ $(field).attr('id') +'"]').text();
-      var value = '';
-      switch (field.type) {
-        case "text":
-          console.log('text field');
-          value = $(field).val();
-          break;
-        case "select-one":
-          console.log('select field');
-          value = $(field).find("option:selected").text();
-          break;
-        default:
-
-      }
-      if (value != '') {
-        values.push(label + ": " + value);
-      }
-    });
-
-    return "<p>" + values.join(" | ") + "</p>";;
+  var getIndex = function(multipleItem) {
+    var classMatch = $(multipleItem).attr('class').match(/multiple-item-(\d+)/);
+    if (classMatch == null) {
+      return false;
+    } else {
+      return parseInt(classMatch[1]);
+    }
   }
 });
