@@ -87,7 +87,7 @@ describe 'Distribution information form', js: true do
     end
 
     it 'shows the draft preview page' do
-      expect(page).to have_content('Title Example DRAFT RECORD')
+      expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
     # TODO MMT-299
