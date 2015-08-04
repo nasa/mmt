@@ -22,7 +22,7 @@
       <%= text_field_tag(name_to_param("#{name_prefix}distribution_format"), distribution['DistributionFormat'], class: 'half-width', disabled: disable_fields) %>
 
       <!-- Fees -->
-      <label for="<%= name_prefix %>fees">Fees</label><i class="fa fa-info-circle"></i>
+      <label for="<%= name_prefix %>fees">Fees (in US Dollars)</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}fees"), distribution['Fees'], class: 'half-width', disabled: disable_fields) %>
     </div>
   </div>
