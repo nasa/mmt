@@ -11,13 +11,12 @@ test_fee = '123.45'
 describe 'drafts/previews/_distribution_information.html.erb' do
   context 'when the distribution information' do
     context 'is empty' do
-      it 'does not crash or have Distribution Information' do # Contents here use the Four Phase Test approach recommended in the link above.
-
-        draft_json = {}
-        assign(:draft, build(:draft, draft: draft_json))
-
+      before do
+        assign(:draft, build(:draft, draft: {}))
         render
+      end
 
+      it 'does not crash or have Distribution Information' do
         expect(rendered).to have_content('Distribution Information')
         expect(rendered).to_not have_content('MimeType')
         expect(rendered).to_not have_content('DistributionSize')
@@ -43,7 +42,6 @@ describe 'drafts/previews/_distribution_information.html.erb' do
             {DistributionMedia:'test 2 DistributionMedia',DistributionSize:'test 2 DistributionSize',DistributionFormat:'test 2 DistributionFormat', Fees:'bad fee amount'}
         ]
         assign(:draft, build(:draft, draft: draft_json))
-
         render
       end
 
@@ -58,7 +56,6 @@ describe 'drafts/previews/_distribution_information.html.erb' do
       it 'handles good currency values' do
         expect(rendered).to have_content("$#{test_fee}")
       end
-
     end
 
   end

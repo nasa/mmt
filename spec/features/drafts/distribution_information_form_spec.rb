@@ -2,6 +2,9 @@
 
 require 'rails_helper'
 
+initialization_storage = []
+
+
 describe 'Distribution information form', js: true do
   before do
     login
@@ -16,10 +19,10 @@ describe 'Distribution information form', js: true do
       # Complete RelatedUrl fields
       within '.multiple.related-url' do
         within '.multiple.related-url-url' do
-          fill_in 'URL', with: 'http://example.com'
+          xfill_in initialization_storage, 'URL', with: 'http://example.com'
           click_on 'Add another'
           within all('.multiple-item').last do
-            fill_in 'URL', with: 'http://another-example.com'
+            xfill_in initialization_storage, 'URL', with: 'http://another-example.com'
           end
         end
         fill_in 'Description', with: 'Example Description'
@@ -92,17 +95,20 @@ describe 'Distribution information form', js: true do
 
     # Test Preview (MMT-299)
     it 'shows the values in the draft preview page' do
-      expect(page).to have_content('http://example.com')
-      expect(page).to have_content('http://another-example.com')
-      expect(page).to have_content('Example Description')
-      expect(page).to have_content('42')
-      expect(page).to have_content('Subtext')
-      expect(page).to have_content('http://another-example.com/1')
-      expect(page).to have_content('SSH')
-      expect(page).to have_content('text/json')
-      expect(page).to have_content('Online Download')
-      expect(page).to have_content('HDF')
-      expect(page).to have_content('1.44 MB')
+      puts "IS = #{initialization_storage.inspect}"
+      check_page_for_display_of_values(page, initialization_storage)
+      #
+      # expect(page).to have_content('http://example.com')
+      # expect(page).to have_content('http://another-example.com')
+      # expect(page).to have_content('Example Description')
+      # expect(page).to have_content('42')
+      # expect(page).to have_content('Subtext')
+      # expect(page).to have_content('http://another-example.com/1')
+      # expect(page).to have_content('SSH')
+      # expect(page).to have_content('text/json')
+      # expect(page).to have_content('Online Download')
+      # expect(page).to have_content('HDF')
+      # expect(page).to have_content('1.44 MB')
     end
 
     context 'when returning to the form' do

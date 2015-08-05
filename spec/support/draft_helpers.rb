@@ -26,6 +26,16 @@ module Helpers
       end
     end
 
+    def xfill_in(initialization_storage, locator, options={})
+      raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
+      with = options.delete(:with)
+      fill_options = options.delete(:fill_options)
+      puts "ISI  =  #{initialization_storage.inspect}"
+      puts "X called with #{with}"
+      initialization_storage << {locator=> with}
+      find(:fillable_field, locator, options).set(with, fill_options)
+    end
+
   end
 end
 
