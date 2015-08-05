@@ -8,18 +8,52 @@ module Helpers
     end
 
     # Traverse the JSON (depth first), checking all values on all branches for display on this page.
-    def check_page_for_display_of_values (page, draft)
+    def check_page_for_display_of_values (page, draft, special_handling={})
       case draft.class.to_s
         when nil
         when 'String'
           expect(page).to have_content(draft)
         when 'Hash'
-          draft.each do |k, v|
-            check_page_for_display_of_values(page, v)
+          draft.each do |key, value|
+            if value.is_a? String
+              if special_handling[key] == :handle_as_currency && value =~ /\A[-+]?\d*\.?\d+\z/
+                value = number_to_currency(value.to_f)
+              end
+              expect(page).to have_content(value)
+            else
+              check_page_for_display_of_values(page, value, special_handling)
+            end
           end
         when 'Array'
-          draft.each do |v|
-            check_page_for_display_of_values(page, v)
+          draft.each do |value|
+            check_page_for_display_of_values(page, value, special_handling)
+          end
+        else
+          puts ("Class Unknown: #{draft.class}")
+      end
+    end
+
+    def check_section_for_display_of_values (page, draft, special_handling={})
+      case draft.class.to_s
+        when nil
+        when 'String'
+          expect(page).to have_content(draft)
+          #puts "Checking for #{draft}"
+        when 'Hash'
+          draft.each do |key, value|
+            if value.is_a? String
+              if special_handling[key] == :handle_as_currency && value =~ /\A[-+]?\d*\.?\d+\z/
+                value = number_to_currency(value.to_f)
+              end
+              target =  "#{key.to_s.titleize}: #{value}"
+              expect(page).to have_content(target)
+            else
+              check_section_for_display_of_values(page, value, special_handling)
+            end
+          end
+        when 'Array'
+          draft.each do |value|
+            check_section_for_display_of_values(page, value, special_handling)
           end
         else
           puts ("Class Unknown: #{draft.class}")
@@ -40,8 +74,7 @@ module Helpers
         from = options_clone.delete(:from)
         init_store << {from=> value}
       else
-        # init_store << {from=> value}
-        # find(:option, value, options_clone).select_option
+        raise "Must pass in a 'from' parameter"
       end
     end
 

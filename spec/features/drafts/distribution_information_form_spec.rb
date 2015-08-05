@@ -94,8 +94,7 @@ describe 'Distribution information form', js: true do
 
     # Test Preview (MMT-299)
     it "shows pre-entered values in the draft preview page" do
-      #puts "#{init_store.size} values known."
-      check_page_for_display_of_values(page, init_store)
+      check_page_for_display_of_values(page, init_store, {Fees: :handle_as_currency})
     end
 
     context 'when returning to the form' do

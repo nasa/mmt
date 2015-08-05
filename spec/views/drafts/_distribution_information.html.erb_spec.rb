@@ -6,9 +6,9 @@
 
 require 'rails_helper'
 
-test_fee = '123.45'
+test_fee = '1234.56'
 
-describe 'drafts/previews/_distribution_information.html.erb' do
+describe 'drafts/previews/_distribution_information.html.erb', type: :view do
   context 'when the distribution information' do
     context 'is empty' do
       before do
@@ -38,15 +38,21 @@ describe 'drafts/previews/_distribution_information.html.erb' do
         ]
         draft_json['Distribution'] = [
             {},
-            {DistributionMedia:'test 1 DistributionMedia',DistributionSize:'test 1 DistributionSize',DistributionFormat:'test 1 DistributionFormat', Fees:test_fee},
-            {DistributionMedia:'test 2 DistributionMedia',DistributionSize:'test 2 DistributionSize',DistributionFormat:'test 2 DistributionFormat', Fees:'bad fee amount'}
+            {DistributionMedia:'test 2 DistributionMedia',DistributionSize:'test 2 DistributionSize',DistributionFormat:'test 2 DistributionFormat', Fees:'bad fee amount'},
+            {DistributionMedia:'test 1 DistributionMedia',DistributionSize:'test 1 DistributionSize',DistributionFormat:'test 1 DistributionFormat', Fees:test_fee}
         ]
         assign(:draft, build(:draft, draft: draft_json))
         render
       end
 
-      it 'shows the values in the draft preview page' do
-        check_page_for_display_of_values(rendered, draft_json)
+      it 'shows the values in the correct places and formats in the draft preview page' do
+        rendered_node = Capybara.string(rendered)
+        draft_json['RelatedUrl'].each_with_index do |related_url, index|
+          check_section_for_display_of_values(rendered_node.find(".related-url-#{index}"), related_url)
+        end
+        draft_json['Distribution'].each_with_index do |distribution, index|
+          check_section_for_display_of_values(rendered_node.find(".distribution-#{index}"), distribution, {Fees: :handle_as_currency})
+        end
       end
 
       it 'handles bad currency values' do # TODO: Does NOT properly handle '123.456'
@@ -54,7 +60,9 @@ describe 'drafts/previews/_distribution_information.html.erb' do
       end
 
       it 'handles good currency values' do
-        expect(rendered).to have_content("$#{test_fee}")
+        value = number_to_currency(test_fee.to_f)
+
+        expect(rendered).to have_content(number_to_currency(test_fee.to_f))
       end
     end
 

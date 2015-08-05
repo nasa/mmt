@@ -2,9 +2,9 @@
   <h4>
     <%= header_text %>
   </h4>
-  <% related_urls.each_with_index do |related_url, i| %>
+  <% related_urls.each_with_index do |related_url, index| %>
 
-    <ul class="related-url-#{i+1}">
+    <ul class="related-url-<%=index%>">
       <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'URL', :hash_for_key=>related_url, :title_override=>'URL'} %>
 
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>related_url} %>
