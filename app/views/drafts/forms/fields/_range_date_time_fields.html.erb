@@ -1,0 +1,22 @@
+<div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_range_date_time %>">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    Range Date Time <%= index + 1 %>
+    <div class="actions">
+      <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+    </div>
+  </div>
+  <div class="accordion-body">
+    <div class="row sub-fields">
+
+      <!-- BeginningDateTime -->
+      <label for="<%= name_prefix %>beginning_date_time">Beginning Date Time</label><i class="fa fa-info-circle"></i>
+      <%= datetime_field_tag(name_to_param("#{name_prefix}beginning_date_time"), range_date_time['BeginningDateTime'], class: 'half-width') %>
+
+      <!-- EndingDateTime -->
+      <label for="<%= name_prefix %>ending_date_time">Ending Date Time</label><i class="fa fa-info-circle"></i>
+      <%= datetime_field_tag(name_to_param("#{name_prefix}ending_date_time"), range_date_time['EndingDateTime'], class: 'half-width') %>
+
+    </div>
+  </div>
+</div>

@@ -59,8 +59,10 @@ $(document).ready(function() {
           $(field).val('');
         } else if ($(field).is('label')) {
           var labelFor = $(field).attr('for');
-            labelFor = labelFor.slice(0, idIndex) + labelFor.slice(idIndex).replace(multipleIndex, multipleIndex + 1);
-            $(field).attr('for', labelFor);
+            if (labelFor != undefined) {
+              labelFor = labelFor.slice(0, idIndex) + labelFor.slice(idIndex).replace(multipleIndex, multipleIndex + 1);
+              $(field).attr('for', labelFor);
+            }
         }
       });
 
@@ -98,6 +100,27 @@ $(document).ready(function() {
     // Toggle checkboxes
     $(this).siblings('.responsibility-picker').prop('checked', false);
     $(this).prop('checked', true);
+  });
+
+  // Handle TemporalRangeType selector
+  $('.temporal-range-type-select').change(function() {
+    $(this).siblings('.temporal-range-type').hide();
+    // Clear all fields
+    $(this).siblings('.temporal-range-type').find('input, select').val('');
+
+    switch ($(this).val()) {
+      case 'SingleDateTime':
+        $('.temporal-range-type.single-date-time').show();
+        break;
+      case 'RangeDateTime':
+        $('.temporal-range-type.range-date-time').show();
+        break;
+      case 'PeriodicDateTime':
+        $('.temporal-range-type.periodic-date-time').show();
+        break;
+      default:
+
+    }
   });
 
   var getIndex = function(multipleItem) {
