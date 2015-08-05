@@ -48,10 +48,10 @@ describe 'drafts/previews/_distribution_information.html.erb', type: :view do
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
         draft_json['RelatedUrl'].each_with_index do |related_url, index|
-          check_section_for_display_of_values(rendered_node.find(".related-url-#{index}"), related_url)
+          check_section_for_display_of_values(rendered_node.find(".related-url-#{index}"), related_url, nil)
         end
         draft_json['Distribution'].each_with_index do |distribution, index|
-          check_section_for_display_of_values(rendered_node.find(".distribution-#{index}"), distribution, {Fees: :handle_as_currency})
+          check_section_for_display_of_values(rendered_node.find(".distribution-#{index}"), distribution, nil, {Fees: :handle_as_currency})
         end
       end
 

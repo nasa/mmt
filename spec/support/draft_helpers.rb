@@ -33,7 +33,7 @@ module Helpers
       end
     end
 
-    def check_section_for_display_of_values (page, draft, special_handling={})
+    def check_section_for_display_of_values (page, draft, key, special_handling={})
       case draft.class.to_s
         when nil
         when 'String'
@@ -41,6 +41,7 @@ module Helpers
           #puts "Checking for #{draft}"
         when 'Hash'
           draft.each do |key, value|
+            #puts "Checking for #{key}:#{value}"
             if value.is_a? String
               if special_handling[key] == :handle_as_currency && value =~ /\A[-+]?\d*\.?\d+\z/
                 value = number_to_currency(value.to_f)
@@ -48,12 +49,19 @@ module Helpers
               target =  "#{key.to_s.titleize}: #{value}"
               expect(page).to have_content(target)
             else
-              check_section_for_display_of_values(page, value, special_handling)
+              check_section_for_display_of_values(page, value, key, special_handling)
             end
           end
         when 'Array'
-          draft.each do |value|
-            check_section_for_display_of_values(page, value, special_handling)
+          draft.each_with_index do |value, index|
+            #puts "Checking for #{key}:#{value}"
+            if value.is_a? String
+              target =  value
+              expect(page).to have_content(target)
+            else
+              # Pass along just this array section
+              check_section_for_display_of_values(page.find(".#{key}-#{index}"), value, key, special_handling)
+            end
           end
         else
           puts ("Class Unknown: #{draft.class}")
