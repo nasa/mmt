@@ -26,14 +26,23 @@ module Helpers
       end
     end
 
-    def xfill_in(initialization_storage, locator, options={})
-      raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
-      with = options.delete(:with)
-      fill_options = options.delete(:fill_options)
-      puts "ISI  =  #{initialization_storage.inspect}"
-      puts "X called with #{with}"
-      initialization_storage << {locator=> with}
-      find(:fillable_field, locator, options).set(with, fill_options)
+    def mmt_fill_in(init_store, locator, options={})
+      with = options[:with]
+      fill_in(locator, options)
+      #puts init_store.inspect
+      init_store << {locator=> with}
+    end
+
+    def mmt_select(init_store, value, options={})
+      options_clone = options.clone
+      select(value, options)
+      if options_clone.has_key?(:from)
+        from = options_clone.delete(:from)
+        init_store << {from=> value}
+      else
+        # init_store << {from=> value}
+        # find(:option, value, options_clone).select_option
+      end
     end
 
   end

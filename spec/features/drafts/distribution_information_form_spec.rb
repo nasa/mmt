@@ -2,8 +2,7 @@
 
 require 'rails_helper'
 
-initialization_storage = []
-
+init_store = [] # Will be populated to contain {locator=> value_string} hashes
 
 describe 'Distribution information form', js: true do
   before do
@@ -19,24 +18,24 @@ describe 'Distribution information form', js: true do
       # Complete RelatedUrl fields
       within '.multiple.related-url' do
         within '.multiple.related-url-url' do
-          xfill_in initialization_storage, 'URL', with: 'http://example.com'
+          mmt_fill_in init_store, 'URL', with: 'http://example.com'
           click_on 'Add another'
           within all('.multiple-item').last do
-            xfill_in initialization_storage, 'URL', with: 'http://another-example.com'
+            mmt_fill_in init_store, 'URL', with: 'http://another-example.com'
           end
         end
-        fill_in 'Description', with: 'Example Description'
-        select 'FTP', from: 'Protocol'
-        fill_in 'Mime Type', with: 'text/html'
-        fill_in 'Caption', with: 'Example Caption'
-        fill_in 'Title', with: 'Example Title'
+        mmt_fill_in init_store, 'Description', with: 'Example Description'
+        mmt_select init_store, 'FTP', from: 'Protocol'
+        mmt_fill_in init_store, 'Mime Type', with: 'text/html'
+        mmt_fill_in init_store, 'Caption', with: 'Example Caption'
+        mmt_fill_in init_store, 'Title', with: 'Example Title'
         within '.file-size' do
-          fill_in 'Size', with: '42'
-          fill_in 'Unit', with: 'MB'
+          mmt_fill_in init_store, 'Size', with: '42'
+          mmt_fill_in init_store, 'Unit', with: 'MB'
         end
         within '.content-type' do
-          fill_in 'Type', with: 'Text'
-          fill_in 'Subtype', with: 'Subtext'
+          mmt_fill_in init_store, 'Type', with: 'Text'
+          mmt_fill_in init_store, 'Subtype', with: 'Subtext'
         end
 
         # Add another RelatedUrl
@@ -44,43 +43,43 @@ describe 'Distribution information form', js: true do
 
         within '.multiple-item-1' do
           within '.multiple.related-url-url' do
-            fill_in 'URL', with: 'http://example.com/1'
+            mmt_fill_in init_store, 'URL', with: 'http://example.com/1'
             click_on 'Add another'
             within all('.multiple-item').last do
-              fill_in 'URL', with: 'http://another-example.com/1'
+              mmt_fill_in init_store, 'URL', with: 'http://another-example.com/1'
             end
           end
-          fill_in 'Description', with: 'Example Description 1'
-          select 'SSH', from: 'Protocol'
-          fill_in 'Mime Type', with: 'text/json'
-          fill_in 'Caption', with: 'Example Caption 1'
-          fill_in 'Title', with: 'Example Title 1'
+          mmt_fill_in init_store, 'Description', with: 'Example Description 1'
+          mmt_select init_store, 'SSH', from: 'Protocol'
+          mmt_fill_in init_store, 'Mime Type', with: 'text/json'
+          mmt_fill_in init_store, 'Caption', with: 'Example Caption 1'
+          mmt_fill_in init_store, 'Title', with: 'Example Title 1'
           within '.file-size' do
-            fill_in 'Size', with: '4.2'
-            fill_in 'Unit', with: 'GB'
+            mmt_fill_in init_store, 'Size', with: '4.2'
+            mmt_fill_in init_store, 'Unit', with: 'GB'
           end
           within '.content-type' do
-            fill_in 'Type', with: 'Text 1'
-            fill_in 'Subtype', with: 'Subtext 1'
+            mmt_fill_in init_store, 'Type', with: 'Text 1'
+            mmt_fill_in init_store, 'Subtype', with: 'Subtext 1'
           end
         end
       end
 
       # Complete Distribution fields
       within '.multiple.distribution' do
-        fill_in 'Distribution Media', with: 'Online Download'
-        fill_in 'Distribution Size', with: '42 MB'
-        fill_in 'Distribution Format', with: 'HDF'
-        fill_in 'Fees', with: '0'
+        mmt_fill_in init_store, 'Distribution Media', with: 'Online Download'
+        mmt_fill_in init_store, 'Distribution Size', with: '42 MB'
+        mmt_fill_in init_store, 'Distribution Format', with: 'HDF'
+        mmt_fill_in init_store, 'Fees', with: '0'
 
         # Add another Distribution
         click_on 'Add another Distribution'
 
         within '.multiple-item-1' do
-          fill_in 'Distribution Media', with: 'Floppy disc'
-          fill_in 'Distribution Size', with: '1.44 MB'
-          fill_in 'Distribution Format', with: '.txt'
-          fill_in 'Fees', with: '0'
+          mmt_fill_in init_store, 'Distribution Media', with: 'Floppy disc'
+          mmt_fill_in init_store, 'Distribution Size', with: '1.44 MB'
+          mmt_fill_in init_store, 'Distribution Format', with: '.txt'
+          mmt_fill_in init_store, 'Fees', with: '0'
         end
       end
 
@@ -94,21 +93,9 @@ describe 'Distribution information form', js: true do
     end
 
     # Test Preview (MMT-299)
-    it 'shows the values in the draft preview page' do
-      puts "IS = #{initialization_storage.inspect}"
-      check_page_for_display_of_values(page, initialization_storage)
-      #
-      # expect(page).to have_content('http://example.com')
-      # expect(page).to have_content('http://another-example.com')
-      # expect(page).to have_content('Example Description')
-      # expect(page).to have_content('42')
-      # expect(page).to have_content('Subtext')
-      # expect(page).to have_content('http://another-example.com/1')
-      # expect(page).to have_content('SSH')
-      # expect(page).to have_content('text/json')
-      # expect(page).to have_content('Online Download')
-      # expect(page).to have_content('HDF')
-      # expect(page).to have_content('1.44 MB')
+    it "shows pre-entered values in the draft preview page" do
+      #puts "#{init_store.size} values known."
+      check_page_for_display_of_values(page, init_store)
     end
 
     context 'when returning to the form' do
