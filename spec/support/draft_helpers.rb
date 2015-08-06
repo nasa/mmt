@@ -88,10 +88,11 @@ module Helpers
     def add_addresses
       within '.multiple.address' do
         within '.multiple.address-street-address' do
-          fill_in 'Street Address', with: '300 E Street Southwest'
-          click_on 'Add another'
+          within first('.multiple-item') do
+            find('input').set '300 E Street Southwest'
+          end
           within all('.multiple-item').last do
-            fill_in 'Street Address', with: 'Room 203'
+            find('input').set 'Room 203'
           end
         end
         fill_in 'City', with: 'Washington'
@@ -100,7 +101,11 @@ module Helpers
         fill_in 'Country', with: 'United States'
         click_on 'Add another Address'
         within '.multiple-item-1' do
-          fill_in 'Street Address', with: '8800 Greenbelt Road'
+          within '.multiple.address-street-address' do
+            within first('.multiple-item') do
+              find('input').set '8800 Greenbelt Road'
+            end
+          end
           fill_in 'City', with: 'Greenbelt'
           fill_in 'State / Province', with: 'MD'
           fill_in 'Postal Code', with: '20771'
