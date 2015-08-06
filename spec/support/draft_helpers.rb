@@ -168,10 +168,12 @@ module Helpers
     def add_addresses(init_store=[])
       within '.multiple.address' do
         within '.multiple.address-street-address' do
-          mmt_fill_in init_store, 'Street Address', with: '300 E Street Southwest'
-          click_on 'Add another'
+          # TODO - address how find bypasses init_store
+          within first('.multiple-item') do
+            find('input').set '300 E Street Southwest'
+          end
           within all('.multiple-item').last do
-            mmt_fill_in init_store, 'Street Address', with: 'Room 203'
+            find('input').set 'Room 203'
           end
         end
         mmt_fill_in init_store, 'City', with: 'Washington'
@@ -180,7 +182,12 @@ module Helpers
         mmt_fill_in init_store, 'Country', with: 'United States'
         click_on 'Add another Address'
         within '.multiple-item-1' do
-          mmt_fill_in init_store, 'Street Address', with: '8800 Greenbelt Road'
+          within '.multiple.address-street-address' do
+            within first('.multiple-item') do
+              # TODO - address how find bypasses init_store
+              find('input').set '8800 Greenbelt Road'
+            end
+          end
           mmt_fill_in init_store, 'City', with: 'Greenbelt'
           mmt_fill_in init_store, 'State / Province', with: 'MD'
           mmt_fill_in init_store, 'Postal Code', with: '20771'

@@ -29,7 +29,7 @@ $(document).ready(function() {
       $(newDiv).removeClass('multiple-item-' + multipleIndex).addClass('multiple-item-' + (multipleIndex + 1));
 
       // Remove any extra multiple-item, should only be one per .multiple
-      $.each($(newDiv).find('.multiple'), function(index, multiple) {
+      $.each($(newDiv).find('.multiple').not('.multiple.address-street-address'), function(index, multiple) {
         $.each($(multiple).children('.multiple-item'), function(index2, field) {
           if (index2 > 0) {
             $(this).remove();

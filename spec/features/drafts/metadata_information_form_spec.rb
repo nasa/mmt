@@ -87,6 +87,7 @@ describe 'Metadata Information form', js: true do
         # Address 2
         address_2_prefix = "#{responsibility_1_prefix}party_address_1_"
         expect(page).to have_field("#{address_2_prefix}street_address_", with: '8800 Greenbelt Road')
+        expect(page).to have_field("#{address_2_prefix}street_address_", with: '')
         expect(page).to have_field("#{address_2_prefix}city", with: 'Greenbelt')
         expect(page).to have_field("#{address_2_prefix}state_province", with: 'MD')
         expect(page).to have_field("#{address_2_prefix}postal_code", with: '20771')
@@ -149,6 +150,7 @@ describe 'Metadata Information form', js: true do
         # Address 2
         address_2_prefix = "#{responsibility_2_prefix}party_address_1_"
         expect(page).to have_field("#{address_2_prefix}street_address_", with: '8800 Greenbelt Road')
+        expect(page).to have_field("#{address_2_prefix}street_address_", with: '')
         expect(page).to have_field("#{address_2_prefix}city", with: 'Greenbelt')
         expect(page).to have_field("#{address_2_prefix}state_province", with: 'MD')
         expect(page).to have_field("#{address_2_prefix}postal_code", with: '20771')

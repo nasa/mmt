@@ -10,18 +10,16 @@
   <div class="accordion-body">
 
     <div class="row sub-fields">
-      <% street_addresses = address['StreetAddress'] || [nil] # [nil] creates at least one Street Address field %>
+      <% street_addresses = address['StreetAddress'] || [nil, nil] # [nil] creates at least one Street Address field %>
       <div class="multiple address-street-address">
-      <% street_addresses.each do |street_address| %>
-        <div class="multiple-item">
-          <label for="<%= name_prefix %>street_address_" class="icon-required">Street Address</label><i class="fa fa-info-circle"></i>
-          <%= text_field_tag(name_to_param("#{name_prefix}street_address_index"), street_address, class: 'half-width') %>
-          <div class="actions">
-            <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
-            <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+        <label for="<%= name_prefix %>street_address_" class="icon-required">Street Address</label><i class="fa fa-info-circle"></i>
+
+        <% street_addresses += [nil, nil] # always display two street address fields %>
+        <% street_addresses[0..1].each do |street_address| %>
+          <div class="multiple-item">
+            <%= text_field_tag(name_to_param("#{name_prefix}street_address_index"), street_address, class: 'half-width') %>
           </div>
-        </div>
-      <% end %>
+        <% end %>
       </div>
 
       <label for="<%= name_prefix %>city" class="icon-required">City</label><i class="fa fa-info-circle"></i>
