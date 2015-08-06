@@ -100,8 +100,18 @@ $(document).ready(function() {
 
   // Handle responsibility-picker (org/person)
   $('.responsibility-picker').change(function() {
-    $(this).siblings('.organization-fields').toggle();
-    $(this).siblings('.person-fields').toggle();
+    switch ($(this).val()) {
+      case 'organization':
+        $(this).siblings('.organization-fields').show();
+        $(this).siblings('.person-fields').hide();
+        break;
+      case 'person':
+        $(this).siblings('.organization-fields').hide();
+        $(this).siblings('.person-fields').show();
+        break;
+      default:
+
+    }
     // Clear all org and person fields
     $.each($(this).siblings('.organization-fields, .person-fields').find('input'), function(index, field) {
       $(field).val('');
