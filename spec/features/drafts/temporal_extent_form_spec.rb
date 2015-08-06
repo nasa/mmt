@@ -15,18 +15,18 @@ describe 'Temporal extent form', js: true do
 
       # Complete TemporalExtent fields
       within '.multiple.temporal-extent' do
-        select 'Single', from: 'Temporal Range Type'
+        choose 'draft_temporal_extent_0_temporal_range_type_SingleDateTime'#, from: 'Temporal Range Type'
         fill_in 'Precision Of Seconds', with: '1'
-        select 'False', from: 'Ends At Present Flag'
+        choose 'draft_temporal_extent_0_ends_at_present_flag_false'
         fill_in 'Single Date Time', with: '2015-07-01'
 
         # Add another TemporalExtent
         click_on 'Add another Temporal Extent'
 
         within '.multiple-item-1' do
-          select 'Range', from: 'Temporal Range Type'
+          choose 'draft_temporal_extent_1_temporal_range_type_RangeDateTime'#, from: 'Temporal Range Type'
           fill_in 'Precision Of Seconds', with: '10'
-          select 'False', from: 'Ends At Present Flag'
+          choose 'draft_temporal_extent_1_ends_at_present_flag_false'
           fill_in 'Beginning Date Time', with: '2015-07-01'
           fill_in 'Ending Date Time', with: '2015-08-01'
         end
@@ -35,9 +35,9 @@ describe 'Temporal extent form', js: true do
         click_on 'Add another Temporal Extent'
 
         within '.multiple-item-2' do
-          select 'Periodic', from: 'Temporal Range Type'
+          choose 'draft_temporal_extent_2_temporal_range_type_PeriodicDateTime'#, from: 'Temporal Range Type'
           fill_in 'Precision Of Seconds', with: '30'
-          select 'False', from: 'Ends At Present Flag'
+          choose 'draft_temporal_extent_2_ends_at_present_flag_false'
           fill_in 'Name', with: 'Periodic Extent'
           fill_in 'Start Date', with: '2015-07-01'
           fill_in 'End Date', with: '2015-08-01'
@@ -118,24 +118,33 @@ describe 'Temporal extent form', js: true do
         # TemporalExtent fields
         within '.multiple.temporal-extent' do
           within all('.multiple-item-0').first do
-            expect(page).to have_field('Temporal Range Type', with: 'SingleDateTime')
+            expect(page).to have_checked_field('Single')
+            expect(page).to have_no_checked_field('Range')
+            expect(page).to have_no_checked_field('Periodic')
             expect(page).to have_field('Precision Of Seconds', with: '1')
-            expect(page).to have_field('Ends At Present Flag', with: 'false')
+            expect(page).to have_no_checked_field('True')
+            expect(page).to have_checked_field('False')
             expect(page).to have_field('Single Date Time', with: '2015-07-01')
           end
 
           within '.multiple-item-1' do
-            expect(page).to have_field('Temporal Range Type', with: 'RangeDateTime')
+            expect(page).to have_no_checked_field('Single')
+            expect(page).to have_checked_field('Range')
+            expect(page).to have_no_checked_field('Periodic')
             expect(page).to have_field('Precision Of Seconds', with: '10')
-            expect(page).to have_field('Ends At Present Flag', with: 'false')
+            expect(page).to have_no_checked_field('True')
+            expect(page).to have_checked_field('False')
             expect(page).to have_field('Beginning Date Time', with: '2015-07-01')
             expect(page).to have_field('Ending Date Time', with: '2015-08-01')
           end
 
           within '.multiple-item-2' do
-            expect(page).to have_field('Temporal Range Type', with: 'PeriodicDateTime')
+            expect(page).to have_no_checked_field('Single')
+            expect(page).to have_no_checked_field('Range')
+            expect(page).to have_checked_field('Periodic')
             expect(page).to have_field('Precision Of Seconds', with: '30')
-            expect(page).to have_field('Ends At Present Flag', with: 'false')
+            expect(page).to have_no_checked_field('True')
+            expect(page).to have_checked_field('False')
             expect(page).to have_field('Name', with: 'Periodic Extent')
             expect(page).to have_field('Start Date', with: '2015-07-01')
             expect(page).to have_field('End Date', with: '2015-08-01')

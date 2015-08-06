@@ -56,7 +56,11 @@ $(document).ready(function() {
             $(field).attr('id', id);
 
           // Clear field value
-          $(field).val('');
+          if ($(field).attr('type') == 'radio') {
+            $(field).prop('checked', false);
+          } else {
+            $(field).val('');
+          }
         } else if ($(field).is('label')) {
           var labelFor = $(field).attr('for');
             if (labelFor != undefined) {
@@ -110,13 +114,13 @@ $(document).ready(function() {
 
     switch ($(this).val()) {
       case 'SingleDateTime':
-        $('.temporal-range-type.single-date-time').show();
+        $(this).siblings('.temporal-range-type.single-date-time').show();
         break;
       case 'RangeDateTime':
-        $('.temporal-range-type.range-date-time').show();
+        $(this).siblings('.temporal-range-type.range-date-time').show();
         break;
       case 'PeriodicDateTime':
-        $('.temporal-range-type.periodic-date-time').show();
+        $(this).siblings('.temporal-range-type.periodic-date-time').show();
         break;
       default:
 
