@@ -1,12 +1,12 @@
 <% if !hash_for_key.nil? %>
   <% data_array = hash_for_key[key_name] %>
   <% if !data_array.nil? %>
-    <%= (defined?(title_override).nil? ? key_name.titleize : title_override).pluralize %>:
+    <strong><%= (defined?(title_override).nil? ? key_name.titleize : title_override).pluralize %>:</strong>
     </br>
     <ul class="<%=key_name%>">
       <% data_array.each_with_index do |element_of_array, index|%>
         <li class="<%=key_name%>-<%=index%>">
-          &nbsp;&nbsp;<%= element_of_array %> </br>
+          &nbsp;&nbsp;<%= element_of_array %>
         </li>
       <% end %>
     </ul>
