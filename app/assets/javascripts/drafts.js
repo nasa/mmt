@@ -29,7 +29,7 @@ $(document).ready(function() {
       $(newDiv).removeClass('multiple-item-' + multipleIndex).addClass('multiple-item-' + (multipleIndex + 1));
 
       // Remove any extra multiple-item, should only be one per .multiple
-      $.each($(newDiv).find('.multiple'), function(index, multiple) {
+      $.each($(newDiv).find('.multiple').not('.multiple.address-street-address'), function(index, multiple) {
         $.each($(multiple).children('.multiple-item'), function(index2, field) {
           if (index2 > 0) {
             $(this).remove();
@@ -74,12 +74,18 @@ $(document).ready(function() {
       // close last accordion and open all new accordions
       $(multipleItem).addClass('is-closed');
       $(newDiv).find('.accordion').removeClass('is-closed');
-      // Increment index on accordion header
-      var headerHtml = $(newDiv).find('.accordion-header').html();
-      var headerIndex = headerHtml.match(/\d+/);
-      if (headerIndex != undefined) {
-        $(newDiv).find('.accordion-header').html(headerHtml.replace(headerIndex, parseInt(headerIndex)+1));
-      }
+      // Increment index on first accordion header, set all others to 1
+      $.each($(newDiv).find('.accordion-header'), function(index, field) {
+        var headerHtml = $(field).html();
+        var headerIndex = headerHtml.match(/\d+/);
+        if (headerIndex != undefined) {
+          if (index == 0) {
+            $(field).html(headerHtml.replace(headerIndex, parseInt(headerIndex)+1));
+          } else {
+            $(field).html(headerHtml.replace(headerIndex, 1));
+          }
+        }
+      })
     }
 
     $(newDiv).find('select, input, textarea').removeAttr('disabled');
