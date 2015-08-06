@@ -1,9 +1,0 @@
-<label for="draft_responsible_organization_index_role" class="icon-required">Role</label><i class="fa fa-info-circle"></i>
-<%= select_tag "draft[responsible_organization][index][role]", options_for_select([['Resource Provider', 'RESOURCEPROVIDER'], ['Custodian', 'CUSTODIAN'], ['Owner', 'OWNER'], ['User', 'USER'], ['Distributor', 'DISTRIBUTOR'], ['Originator', 'ORIGINATOR'], ['Point of Contact', 'POINTOFCONTACT'], ['Principal Investigator', 'PRINCIPALINVESTIGATOR'], ['Processor', 'PROCESSOR'], ['Publisher', 'PUBLISHER'], ['Author', 'AUTHOR'], ['Sponsor', 'SPONSOR'], ['Co-Author', 'COAUTHOR'], ['Collaborator', 'COLLABORATOR'], ['Editor', 'EDITOR'], ['Mediator', 'MEDIATOR'], ['Rights Holder', 'RIGHTSHOLDER'], ['Contributor', 'CONTRIBUTOR'], ['Funder', 'FUNDER'], ['Stakeholder', 'STAKEHOLDER']]), class: 'single-select', disabled: disable_fields %>
-
-<!-- party -->
-<label for="draft_responsible_organization_index_party_organization_name_short_name" class="icon-required">Short Name</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag("draft[responsible_organization][index][party][organization_name][short_name]", nil, class: 'half-width', disabled: disable_fields, required: true) %>
-
-<label for="draft_responsible_organization_index_party_organization_name_long_name" class="icon-required">Long Name</label><i class="fa fa-info-circle"></i>
-<%= text_field_tag("draft[responsible_organization][index][party][organization_name][long_name]", nil, class: 'half-width', disabled: disable_fields, required: true) %>

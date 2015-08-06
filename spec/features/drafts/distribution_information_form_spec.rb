@@ -16,54 +16,7 @@ describe 'Distribution information form', js: true do
       click_on 'Distribution Information'
 
       # Complete RelatedUrl fields
-      within '.multiple.related-url' do
-        within '.multiple.related-url-url' do
-          mmt_fill_in init_store, 'URL', with: 'http://example.com'
-          click_on 'Add another'
-          within all('.multiple-item').last do
-            mmt_fill_in init_store, 'URL', with: 'http://another-example.com'
-          end
-        end
-        mmt_fill_in init_store, 'Description', with: 'Example Description'
-        mmt_select init_store, 'FTP', from: 'Protocol'
-        mmt_fill_in init_store, 'Mime Type', with: 'text/html'
-        mmt_fill_in init_store, 'Caption', with: 'Example Caption'
-        mmt_fill_in init_store, 'Title', with: 'Example Title'
-        within '.file-size' do
-          mmt_fill_in init_store, 'Size', with: '42'
-          mmt_fill_in init_store, 'Unit', with: 'MB'
-        end
-        within '.content-type' do
-          mmt_fill_in init_store, 'Type', with: 'Text'
-          mmt_fill_in init_store, 'Subtype', with: 'Subtext'
-        end
-
-        # Add another RelatedUrl
-        click_on 'Add another Related Url'
-
-        within '.multiple-item-1' do
-          within '.multiple.related-url-url' do
-            mmt_fill_in init_store, 'URL', with: 'http://example.com/1'
-            click_on 'Add another'
-            within all('.multiple-item').last do
-              mmt_fill_in init_store, 'URL', with: 'http://another-example.com/1'
-            end
-          end
-          mmt_fill_in init_store, 'Description', with: 'Example Description 1'
-          mmt_select init_store, 'SSH', from: 'Protocol'
-          mmt_fill_in init_store, 'Mime Type', with: 'text/json'
-          mmt_fill_in init_store, 'Caption', with: 'Example Caption 1'
-          mmt_fill_in init_store, 'Title', with: 'Example Title 1'
-          within '.file-size' do
-            mmt_fill_in init_store, 'Size', with: '4.2'
-            mmt_fill_in init_store, 'Unit', with: 'GB'
-          end
-          within '.content-type' do
-            mmt_fill_in init_store, 'Type', with: 'Text 1'
-            mmt_fill_in init_store, 'Subtype', with: 'Subtext 1'
-          end
-        end
-      end
+      add_related_urls(init_store)
 
       # Complete Distribution fields
       within '.multiple.distribution' do

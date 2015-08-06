@@ -7,13 +7,13 @@
       <div class="entry-id-fields">
         <% entry_id = @draft.draft['EntryId'] || {} %>
         <label for="draft_entry_id_id" class="icon-required">ID</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[entry_id][id]', entry_id['Id'], class: 'half-width', required: true) %>
+        <%= text_field_tag('draft[entry_id][id]', entry_id['Id'], class: 'half-width') %>
 
         <label for="draft_entry_id_version" class="icon-required">Version</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[entry_id][version]', entry_id['Version'], class: 'half-width', required: true) %>
+        <%= text_field_tag('draft[entry_id][version]', entry_id['Version'], class: 'half-width') %>
 
         <label for="draft_entry_id_authority" class="icon-required">Authority</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[entry_id][authority]', entry_id['Authority'], class: 'half-width', required: true) %>
+        <%= text_field_tag('draft[entry_id][authority]', entry_id['Authority'], class: 'half-width') %>
       </div>
     </div>
   </div>
@@ -24,7 +24,7 @@
 <div class="row">
   <div class="col-12">
     <label for="draft_entry_title" class="main-field icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
-    <%= text_field_tag('draft[entry_title]', @draft.draft['EntryTitle'], class: 'half-width', required: true) %>
+    <%= text_field_tag('draft[entry_title]', @draft.draft['EntryTitle'], class: 'half-width') %>
   </div>
 </div>
 
@@ -33,7 +33,7 @@
 <div class="row">
   <div class="col-12">
     <label for="draft_abstract" class="icon-required">Abstract</label><i class="fa fa-info-circle"></i>
-    <%= text_area_tag('draft[abstract]', @draft.draft['Abstract'], rows: 8, required: true) %>
+    <%= text_area_tag('draft[abstract]', @draft.draft['Abstract'], rows: 8) %>
   </div>
 </div>
 
@@ -95,7 +95,7 @@
       </div>
 
       <div class="organization-fields" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">
-        <%#= render partial: 'drafts/forms/organization_form', locals: {disable_fields: responsible_organizations.size > 0} %>
+        <%#= render partial: 'drafts/forms/organization_form', locals: {} %>
       </div>
 
       <div class="col-12">

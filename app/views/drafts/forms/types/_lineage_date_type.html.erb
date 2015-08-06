@@ -1,0 +1,13 @@
+<div class="multiple <%= lineage_type %>-lineage-date">
+  <% dates.each_with_index do |date, date_index| %>
+    <%= render partial: 'drafts/forms/fields/lineage_date_fields', locals: {
+        date: date,
+        name_prefix: "#{name_prefix}#{date_index}_",
+        last_date: date == dates.last,
+        index: date_index,
+        lineage_type: lineage_type } %>
+  <% end %>
+  <div class="actions">
+    <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another Date</button>
+  </div>
+</div>

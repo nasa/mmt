@@ -86,7 +86,6 @@ class SearchController < ApplicationController
     query.delete('record_state')
     query.delete('latest')
 
-    puts "QUERY: #{query.inspect}"
     draft_collections = Draft.where(query.permit!)  #.first #(for testing)
     # Note that draft_collections returns as either an array, an object or nil
 
