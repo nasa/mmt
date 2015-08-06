@@ -6,20 +6,19 @@
 <!-- Metdata Standard [r] -->
 <% if !@draft.draft['MetadataStandard'].blank? %>
   <h4>Metadata Standard</h4>
-  <p>
-    <% r = @draft.draft['MetadataStandard'] %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>r} %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>r} %>
-  </p>
+  <ul class="MetadataStandard">
+    <% metadata_standard = @draft.draft['MetadataStandard'] %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>metadata_standard} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>metadata_standard} %>
+  </ul>
 <% end %>
 
 <!-- Metadata Dates -->
-<% if !@draft.draft['MetadataDates'].blank? %>
+<% if !@draft.draft['MetadataLineage'].blank? %>
   <h4>Metadata Dates</h4>
-  <p>
-    <% @draft.draft['MetadataDates'].each do |r| %>
-      <%= r %>
-      </br>
-    <% end %>
-  </p>
+    <% @draft.draft['MetadataLineage'].each_with_index do |metadata_lineage, index| %>
+      <ul class='metadata_lineage-<%=index%>'>
+        <%= metadata_lineage %>
+      </ul>
+   <% end %>
 <% end %>
