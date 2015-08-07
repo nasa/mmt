@@ -1,7 +1,7 @@
-<label for="<%= name_prefix %>person_first_name" class="icon-required">Person First Name</label><i class="fa fa-info-circle"></i>
+<label for="<%= name_prefix %>person_first_name">Person First Name</label><i class="fa fa-info-circle"></i>
 <%= text_field_tag(name_to_param("#{name_prefix}person_first_name"), person['FirstName'], class: 'half-width') %>
 
-<label for="<%= name_prefix %>person_middle_name" class="icon-required">Person Middle Name</label><i class="fa fa-info-circle"></i>
+<label for="<%= name_prefix %>person_middle_name">Person Middle Name</label><i class="fa fa-info-circle"></i>
 <%= text_field_tag(name_to_param("#{name_prefix}person_middle_name"), person['MiddleName'], class: 'half-width') %>
 
 <label for="<%= name_prefix %>person_last_name" class="icon-required">Person Last Name</label><i class="fa fa-info-circle"></i>

@@ -1,10 +1,10 @@
 <div class="multiple <%= lineage_type %>-lineage">
-  <% lineages.each_with_index do |lineage, lineage_index| %>
+  <% lineages.each_with_index do |lineage, index| %>
     <%= render partial: 'drafts/forms/fields/lineage_fields', locals: {
         lineage: lineage,
-        name_prefix: "#{name_prefix}#{lineage_index}_",
+        name_prefix: "#{name_prefix}#{index}_",
         last_lineage: lineage == lineages.last,
-        index: lineage_index,
+        index: index,
         lineage_type: lineage_type } %>
   <% end %>
   <div class="actions">

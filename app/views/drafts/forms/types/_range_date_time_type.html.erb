@@ -1,0 +1,12 @@
+<div class="multiple range-date-time">
+  <% range_date_times.each_with_index do |range_date_time, index| %>
+    <%= render partial: 'drafts/forms/fields/range_date_time_fields', locals: {
+        range_date_time: range_date_time,
+        name_prefix: "#{name_prefix}#{index}_",
+        last_range_date_time: range_date_time == range_date_times.last,
+        index: index } %>
+  <% end %>
+  <div class="actions">
+    <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another Range Date Time</button>
+  </div>
+</div>
