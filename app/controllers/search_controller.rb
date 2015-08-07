@@ -43,11 +43,6 @@ class SearchController < ApplicationController
       end
     end
 
-    # Pages are not currently supported in CMR
-    # @query = {'page_num' => @page, 'page_size' => @results_per_page, 'sort_key' => @sort}
-    @query['latest'] = true
-    @query['page'] = 1
-
     good_query_params = prune_query(@query.clone)
 
     @errors = []
@@ -67,47 +62,47 @@ class SearchController < ApplicationController
   private
 
   def get_published(query)
-    # Note that published_collections is an array if successful and a hash if there are errors.
+    # TODO Fix paging
+    query['page_size'] = 25
+    query['page_num'] = 1
+
+    query['all_revisions'] = true
+
     query.delete('record_state')
     published_collections = cmr_client.get_collections(query, token).body
-    if published_collections.is_a?(Hash) && published_collections['errors']
+    if published_collections['errors']
       @errors = published_collections['errors']
       published_collections = []
     end
-    return published_collections
+    if published_collections['items']
+      published_collections = published_collections['items']
+    end
+    published_collections
   end
 
   def get_drafts(query)
-    # Temporary mapping of (ECHO) params to the UMM-C field names currently supported by drafts
-    # draft_params = {}
-    # draft_params['title'] = query['entry_title'] if !query['entry_title'].blank?
-    # draft_params['id'] = query['entry_id'] if !query['entry_id'].blank?
-    # query = draft_params
     query.delete('record_state')
-    query.delete('latest')
 
-    puts "QUERY: #{query.inspect}"
     draft_collections = Draft.where(query.permit!)  #.first #(for testing)
-    # Note that draft_collections returns as either an array, an object or nil
 
     # Temporary changes to drafts to allow them to be handled in the same manner as CMR records.
-    temp = []
-    if draft_collections.respond_to?('each')
-      draft_collections.each do |d|
-        temp << {'revision-date'=>d['updated_at'].to_s[0..9], 'extra-fields' => {'entry-title'=>d['entry_title']|| '<Untitled Collection Record>', 'entry-id'=>d['entry_id']}}
-      end
-    elsif !draft_collections.nil?
-      temp << {'revision-date'=>draft_collections['updated_at'].to_s[0..9], 'extra-fields' => {'entry-title'=>draft_collections['title']|| 'ABC (Draft)', 'entry-id'=>draft_collections['id']}}
+    draft_collections.map do |draft|
+      {
+        'meta' => { 'revision-date' => draft['updated_at'].to_s[0..9] },
+        'umm' => {
+          'entry-id' => draft.display_entry_id,
+          'entry-title' => draft.title
+        }
+      }
     end
-    return temp
   end
 
   def get_published_and_drafts(query)
-    published_collections = get_published(query)
+    published_collections = get_published(query.clone)
     draft_collections = get_drafts(query)
 
     collections = (published_collections.concat(draft_collections)).sort {|x, y|
-      x['extra-fields']['entry-title']<=>y['extra-fields']['entry-title']
+      x['umm']['entry-title']<=>y['umm']['entry-title']
     }
   end
 end
