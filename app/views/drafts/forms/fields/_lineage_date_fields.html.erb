@@ -16,7 +16,7 @@
 
       <!-- Date -->
       <label for="<%= name_prefix %>date" class="icon-required">Date</label><i class="fa fa-info-circle"></i>
-      <%= date_field_tag(name_to_param("#{name_prefix}date"), date['Date'], class: 'half-width') %>
+      <%= datetime_field_tag(name_to_param("#{name_prefix}date"), date['Date'], class: 'half-width') %>
 
       <!-- Description - text field -->
       <label for="<%= name_prefix %>description">Description</label><i class="fa fa-info-circle"></i>
