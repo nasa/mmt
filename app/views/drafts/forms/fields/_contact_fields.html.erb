@@ -10,10 +10,10 @@
   <div class="accordion-body">
 
     <div class="row sub-fields">
-      <label for="<%= name_prefix %>type" class="icon-required">Type</label><i class="fa fa-info-circle"></i>
+      <label for="<%= name_prefix %>type">Type</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}type"), contact['Type'], class: 'half-width') %>
 
-      <label for="<%= name_prefix %>value" class="icon-required">Value</label><i class="fa fa-info-circle"></i>
+      <label for="<%= name_prefix %>value">Value</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}value"), contact['Value'], class: 'half-width') %>
     </div>
   </div>

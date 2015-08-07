@@ -2,8 +2,6 @@
 
 # View specs are described here: https://robots.thoughtbot.com/how-we-test-rails-applications#view-specs
 
-#_distribution_information.html.erb_spec.rb
-
 require 'rails_helper'
 
 test_fee = '1234.56'
@@ -46,13 +44,9 @@ describe 'drafts/previews/_distribution_information.html.erb', type: :view do
       end
 
       it 'shows the values in the correct places and formats in the draft preview page' do
-        rendered_node = Capybara.string(rendered)
-        draft_json['RelatedUrl'].each_with_index do |related_url, index|
-          check_section_for_display_of_values(rendered_node.find(".related-url-#{index}"), related_url, nil)
-        end
-        draft_json['Distribution'].each_with_index do |distribution, index|
-          check_section_for_display_of_values(rendered_node.find(".distribution-#{index}"), distribution, nil, {Fees: :handle_as_currency})
-        end
+        rendered_section = Capybara.string(rendered)
+        check_section_for_display_of_values(rendered_section.find(".related-urls"), draft_json['RelatedUrl'], 'related-url')
+        check_section_for_display_of_values(rendered_section.find(".distributions"), draft_json['Distribution'], 'distribution', {Fees: :handle_as_currency})
       end
 
       it 'handles bad currency values' do # TODO: Does NOT properly handle '123.456'
@@ -61,7 +55,6 @@ describe 'drafts/previews/_distribution_information.html.erb', type: :view do
 
       it 'handles good currency values' do
         value = number_to_currency(test_fee.to_f)
-
         expect(rendered).to have_content(number_to_currency(test_fee.to_f))
       end
     end

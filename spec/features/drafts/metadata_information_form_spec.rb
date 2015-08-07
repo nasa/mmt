@@ -17,8 +17,8 @@ describe 'Metadata Information form', js: true do
 
       mmt_fill_in init_store, 'Metadata Language', with: 'English'
 
-      select 'DIF', from: 'Metadata Standard Name'
-      mmt_fill_in init_store, 'Metadata Standard Version', with: '10'
+      mmt_select init_store, 'DIF', from: 'Name'
+      mmt_fill_in init_store, 'Version', with: '10'
 
       add_metadata_dates_values(init_store)
 
@@ -47,8 +47,8 @@ describe 'Metadata Information form', js: true do
 
       it 'populates the form with the values' do
         expect(page).to have_field('Metadata Language', with: 'English')
-        expect(page).to have_field('Metadata Standard Name', with: 'DIF')
-        expect(page).to have_field('Metadata Standard Version', with: '10')
+        expect(page).to have_field('Name', with: 'DIF')
+        expect(page).to have_field('Version', with: '10')
 
         # crazy nested fields are too complex for within '' statements, use the crazy complex field IDs instead
         # Metadata Lineage 1

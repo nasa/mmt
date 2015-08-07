@@ -10,7 +10,7 @@ module Helpers
     # Traverse the JSON (depth first), checking all values on all branches for display on this page.
     def check_page_for_display_of_values (page, draft, special_handling={})
       case draft.class.to_s
-        when nil
+        when 'NilClass'
         when 'String'
           expect(page).to have_content(draft)
         when 'Hash'
@@ -33,35 +33,22 @@ module Helpers
       end
     end
 
-    def check_section_for_display_of_values (page, draft, key, special_handling={})
+    def check_section_for_display_of_values(page, draft, parent_key, special_handling={})
+      #puts "Checking for #{parent_key} (#{draft.class.to_s}) in #{page}"
       case draft.class.to_s
-        when nil
+        when 'NilClass'
         when 'String'
+          if special_handling[parent_key] == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
+            draft = number_to_currency(draft.to_f)
+          end
           expect(page).to have_content(draft)
-          #puts "Checking for #{draft}"
         when 'Hash'
-          draft.each do |key, value|
-            #puts "Checking for #{key}:#{value}"
-            if value.is_a? String
-              if special_handling[key] == :handle_as_currency && value =~ /\A[-+]?\d*\.?\d+\z/
-                value = number_to_currency(value.to_f)
-              end
-              target =  "#{key.to_s.titleize}: #{value}"
-              expect(page).to have_content(target)
-            else
-              check_section_for_display_of_values(page, value, key, special_handling)
-            end
+          draft.each_with_index do |(key, value), index|
+            check_section_for_display_of_values(page.find(".#{key}"), value, key, special_handling)
           end
         when 'Array'
           draft.each_with_index do |value, index|
-            #puts "Checking for #{key}:#{value}"
-            if value.is_a? String
-              target =  value
-              expect(page).to have_content(target)
-            else
-              # Pass along just this array section
-              check_section_for_display_of_values(page.find(".#{key}-#{index}"), value, key, special_handling)
-            end
+            check_section_for_display_of_values(page.find(".#{parent_key}-#{index}"), value, parent_key, special_handling)
           end
         else
           puts ("Class Unknown: #{draft.class}")
@@ -86,7 +73,7 @@ module Helpers
       end
     end
 
-    def add_metadata_dates_values(init_store=[])
+    def add_metadata_dates_values(init_store) #=[])
       within '.multiple.metadata-lineage' do
         within '.multiple.metadata-lineage-date' do
           mmt_select init_store, 'Create', from: 'Date Type'
@@ -97,6 +84,7 @@ module Helpers
 
             mmt_select init_store, 'Resource Provider', from: 'Role'
             find('#draft_metadata_lineage_0_date_0_responsibility_0_responsibility_organization').click
+
             mmt_fill_in init_store, 'Short Name', with: 'ORG_SHORT'
             mmt_fill_in init_store, 'Long Name', with: 'Organization Long Name'
 
@@ -153,7 +141,7 @@ module Helpers
       end
     end
 
-    def add_contacts(init_store=[])
+    def add_contacts(init_store) #=[])
       within '.multiple.contact' do
         mmt_fill_in init_store, 'Type', with: 'Email'
         mmt_fill_in init_store, 'Value', with: 'example@example.com'
@@ -165,7 +153,7 @@ module Helpers
       end
     end
 
-    def add_addresses(init_store=[])
+    def add_addresses(init_store) #=[])
       within '.multiple.address' do
         within '.multiple.address-street-address' do
           # TODO - address how find bypasses init_store
@@ -196,7 +184,7 @@ module Helpers
       end
     end
 
-    def add_related_urls(init_store=[])
+    def add_related_urls(init_store) #=[])
       within '.multiple.related-url' do
         within '.multiple.related-url-url' do
           mmt_fill_in init_store, 'URL', with: 'http://example.com'

@@ -1,11 +1,7 @@
 <h4>Distribution Information Fields:</h4>
 
 <!-- Related URL [r] -->
-<%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{related_urls: @draft.draft['RelatedUrl'], header_text: 'Related URL'} %>
+<%= render :partial=>'drafts/previews/types/related_url_array_type', :locals=>{related_urls: @draft.draft['RelatedUrl'], title:'Related URL'} %>
 
 <!-- Distribution -->
-<%= render :partial=>'drafts/previews/types/distribution_type', :locals=>{distributions: @draft.draft['Distribution'], header_text: 'Distribution'} %>
-
-
-
-
+<%= render :partial=>'drafts/previews/types/distribution_array_type', :locals=>{distributions: @draft.draft['Distribution'], title:'Distribution'} %>

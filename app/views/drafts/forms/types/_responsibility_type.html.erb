@@ -1,10 +1,10 @@
 <div class="multiple responsibility">
-  <% responsibilities.each_with_index do |responsibility, responsibility_index| %>
+  <% responsibilities.each_with_index do |responsibility, index| %>
     <%= render partial: 'drafts/forms/fields/responsibility_fields', locals: {
         responsibility: responsibility,
-        name_prefix: "#{name_prefix}#{responsibility_index}_",
+        name_prefix: "#{name_prefix}#{index}_",
         last_responsibility: responsibility == responsibilities.last,
-        index: responsibility_index } %>
+        index: index } %>
   <% end %>
   <div class="actions">
     <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another Responsibility</button>

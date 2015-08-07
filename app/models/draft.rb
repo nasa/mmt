@@ -56,31 +56,32 @@ class Draft < ActiveRecord::Base
     params = compact_blank(params.clone)
 
     # Convert parameter keys to CamelCase for UMM
+    # TODO Detailed_Classification needs to have an underscore
     params.to_hash.to_camel_keys if params
   end
 
-  def convert_to_arrays(obj)
-    case obj
+  def convert_to_arrays(object)
+    case object
     when Hash
       # if the first key is an integer, change hash to array
-      keys = obj.keys
+      keys = object.keys
       if keys.first =~ /\d+/
-        obj = obj.map{|key, value| value}
-        obj.each do |value|
+        object = object.map{|key, value| value}
+        object.each do |value|
           value = convert_to_arrays(value)
         end
       else
-        obj.each do |key, value|
-          obj[key] = convert_to_arrays(value)
+        object.each do |key, value|
+          object[key] = convert_to_arrays(value)
         end
       end
     # if value is array, loop through each hash
     when Array
-      obj.each do |o|
-        o = convert_to_arrays(o)
+      object.each do |obj|
+        obj = convert_to_arrays(obj)
       end
     end
-    obj
+    object
   end
 
   def compact_blank(node)
