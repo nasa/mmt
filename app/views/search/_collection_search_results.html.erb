@@ -1,4 +1,4 @@
-<%= render :partial=>"shared/pagination", :locals => {:table_rows=> @collections} %>
+<%#= render :partial=>"shared/pagination", :locals => {:table_rows=> @collections} %>
 
 <table id="search-results">
   <thead>
@@ -28,20 +28,20 @@
       </tr>
     <% else %>
 
-      <% @collections.each do |row| %>
+      <% @collections.each do |collection| %>
         <tr class='<%= cycle("alt", "") %>'>
           <!-- Temporarily commented out because this is not a part of the MVP %-->
           <!--td>
             <input type="checkbox" name="name" value="">
           </td-->
           <td>
-            <%= row['extra-fields']['entry-id']%>
+            <%= collection['umm']['entry-id']%>
           </td>
           <td>
-            <%= row['extra-fields']['entry-title']%>
+            <%= collection['umm']['entry-title']%>
           </td>
           <td>
-            <% fragments = row['revision-date'].split('T')
+            <% fragments = collection['meta']['revision-date'].split('T')
                date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
             <%= date %>
           </td>
