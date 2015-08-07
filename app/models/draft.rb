@@ -49,20 +49,38 @@ class Draft < ActiveRecord::Base
   end
 
   def fix_params(params)
-    # fields that need to be arrays need to be mapped to arrays
-    array_fields = ['responsible_organization', 'related_url', 'metadata_lineage', 'distribution']
-    array_fields.each do |array_field|
-      if params[array_field]
-        orgs = params[array_field].map{|key, value| value}
-        params[array_field] = orgs
-      end
-    end
+    # TODO FileSize-Size needs to be a number, not a string
+    params = convert_to_arrays(params.clone)
 
     # if param is empty remove it from params
     params = compact_blank(params.clone)
 
     # Convert parameter keys to CamelCase for UMM
     params.to_hash.to_camel_keys if params
+  end
+
+  def convert_to_arrays(obj)
+    case obj
+    when Hash
+      # if the first key is an integer, change hash to array
+      keys = obj.keys
+      if keys.first =~ /\d+/
+        obj = obj.map{|key, value| value}
+        obj.each do |value|
+          value = convert_to_arrays(value)
+        end
+      else
+        obj.each do |key, value|
+          obj[key] = convert_to_arrays(value)
+        end
+      end
+    # if value is array, loop through each hash
+    when Array
+      obj.each do |o|
+        o = convert_to_arrays(o)
+      end
+    end
+    obj
   end
 
   def compact_blank(node)

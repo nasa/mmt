@@ -1,0 +1,12 @@
+<div class="multiple contact">
+  <% contacts.each_with_index do |contact, contact_index| %>
+    <%= render partial: 'drafts/forms/fields/contact_fields', locals: {
+        contact: contact,
+        name_prefix: "#{name_prefix}#{contact_index}_",
+        last_contact: contact == contacts.last,
+        index: contact_index } %>
+  <% end %>
+  <div class="actions">
+    <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another Contact</button>
+  </div>
+</div>

@@ -1,9 +1,10 @@
 <!-- Metadata language -->
+<!-- MetadataLanguage needs to be an object, not a string, but we don't have enough info in the json-schema -->
 <div class="row taller">
   <div class="col-12">
     <label for="draft_metadata_language" class="main-field">Metadata Language</label><i class="fa fa-info-circle"></i>
     <!-- Might need to be "eng", or a dropdown of languages. Should default to English -->
-    <%= text_field_tag('draft[metadata_language]', @draft.draft['MetadataLanguage'] || 'English', class: 'half-width') %>
+    <%= text_field_tag('draft[metadata_language]', @draft.draft['MetadataLanguage'], placeholder: 'English', class: 'half-width') %>
   </div>
 </div>
 
@@ -15,10 +16,10 @@
     <div class="row sub-fields">
       <% metadata_standard = @draft.draft['MetadataStandard'] || {} %>
       <label for="draft_metadata_standard_name" class="icon-required">Metadata Standard Name</label><i class="fa fa-info-circle"></i>
-      <%= select_tag "draft[metadata_standard][name]", options_for_select(['SERF', 'UMM', 'ECHO10', 'DIF', 'ISO 19115-2', 'ISO 19115-1'], metadata_standard['Name']), class: 'half-width', required: true %>
+      <%= select_tag "draft[metadata_standard][name]", options_for_select([['Select Metadata Standard', ''],'SERF', 'UMM', 'ECHO10', 'DIF', 'ISO 19115-2', 'ISO 19115-1'], metadata_standard['Name']), class: 'half-width' %>
 
       <label for="draft_metadata_standard_version" class="icon-required">Metadata Standard Version</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[metadata_standard][version]', metadata_standard['Version'], class: 'half-width', required: true) %>
+      <%= text_field_tag('draft[metadata_standard][version]', metadata_standard['Version'], class: 'half-width') %>
 
     </div>
   </div>
@@ -29,29 +30,10 @@
   <!-- hidden field for scope of 'metadata' -->
 <div class="row">
   <div class="col-12">
-    <label for="Metadata Dates">Metadata Dates</label><i class="fa fa-info-circle"></i>
-    <div class="row sub-fields">
-      <% metadata_dates = @draft.draft['MetadataLineage'] || [] %>
-      <% has_dates = metadata_dates.size > 0 %>
-
-      <div class="metadata-dates-values">
-        <% metadata_dates.each do |value| %>
-          <p>
-            <%#= display_key_value_pairs(value) %>
-          </p>
-        <% end %>
-        <%#= render partial: 'drafts/forms/hidden_fields/metadata_dates', locals: {dates: metadata_dates} %>
-      </div>
-
-      <div class="metadata-dates-fields" style="<%= 'display: none;' if has_dates %>">
-        <%#= render partial: 'drafts/forms/metadata_dates_form', locals: {disable_fields: has_dates} %>
-      </div>
-
-      <div class="col-12">
-        <a class="icon-more add-another-field metadata-dates">Add <%= "another " if has_dates %>date</a>
-        <a class="icon-less cancel-add metadata-dates" style="<%= 'display: none;' if has_dates %>">Done adding dates</a>
-      </div>
-
-    </div>
+    <label class="main-field">Metadata Dates</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/types/lineage_type', locals: {
+        lineages: @draft.draft['MetadataLineage'] || [{}],
+        name_prefix: 'draft_metadata_lineage_',
+        lineage_type: 'metadata' } %>
   </div>
 </div>

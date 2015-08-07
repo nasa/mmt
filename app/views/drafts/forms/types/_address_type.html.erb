@@ -1,0 +1,12 @@
+<div class="multiple address">
+  <% addresses.each_with_index do |address, address_index| %>
+    <%= render partial: 'drafts/forms/fields/address_fields', locals: {
+        address: address,
+        name_prefix: "#{name_prefix}#{address_index}_",
+        last_address: address == addresses.last,
+        index: address_index } %>
+  <% end %>
+  <div class="actions">
+    <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another Address</button>
+  </div>
+</div>
