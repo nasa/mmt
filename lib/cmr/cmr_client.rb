@@ -8,9 +8,9 @@ module Cmr
     # TODO this is currently using the CMR Search API. We will switch to the CMR Ingest API when we get access.
     def get_collections(options={}, token=nil)
       if Rails.env.development? || Rails.env.test?
-        url = 'http://localhost:3003/concept-revisions/collections'
+        url = 'http://localhost:3003/collections.umm-json'
       else
-        url = '/search/concept-revisions/collections'
+        url = '/search/collections.umm-json'
       end
       get(url, options, token_header(token))
     end
