@@ -37,10 +37,10 @@
       </div>
 
       <!-- all party fields -->
-      <label for="<%= name_prefix %>party_service_hours" class="icon-required">Service Hours</label><i class="fa fa-info-circle"></i>
+      <label for="<%= name_prefix %>party_service_hours">Service Hours</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}party_service_hours"), party['ServiceHours'], class: 'half-width') %>
 
-      <label for="<%= name_prefix %>party_contact_instructions" class="icon-required">Contact Instructions</label><i class="fa fa-info-circle"></i>
+      <label for="<%= name_prefix %>party_contact_instructions">Contact Instructions</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}party_contact_instructions"), party['ContactInstructions'], class: 'half-width') %>
 
       <!-- Contact - multiple -->
