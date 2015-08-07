@@ -1,0 +1,39 @@
+<div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_address %>">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    Address <%= index + 1 %>
+    <div class="actions">
+      <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button>
+      <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+    </div>
+  </div>
+  <div class="accordion-body">
+
+    <div class="row sub-fields">
+      <% street_addresses = address['StreetAddress'] || [nil, nil] # [nil] creates at least one Street Address field %>
+      <div class="multiple address-street-address">
+        <label for="<%= name_prefix %>street_address_" class="icon-required">Street Address</label><i class="fa fa-info-circle"></i>
+
+        <% street_addresses += [nil, nil] # always display two street address fields %>
+        <% street_addresses[0..1].each do |street_address| %>
+          <div class="multiple-item">
+            <%= text_field_tag(name_to_param("#{name_prefix}street_address_index"), street_address, class: 'half-width') %>
+          </div>
+        <% end %>
+      </div>
+
+      <label for="<%= name_prefix %>city" class="icon-required">City</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}city"), address['City'], class: 'half-width') %>
+
+      <label for="<%= name_prefix %>state_province" class="icon-required">State / Province</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}state_province"), address['StateProvince'], class: 'half-width') %>
+
+      <label for="<%= name_prefix %>postal_code" class="icon-required">Postal Code</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}postal_code"), address['PostalCode'], class: 'half-width') %>
+
+      <label for="<%= name_prefix %>country" class="icon-required">Country</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}country"), address['Country'], class: 'half-width') %>
+
+    </div>
+  </div>
+</div>
