@@ -83,9 +83,9 @@ class SearchController < ApplicationController
   def get_drafts(query)
     query.delete('record_state')
 
-    draft_collections = Draft.where(query.permit!)  #.first #(for testing)
+    draft_collections = Draft.where(query.permit!)
 
-    # Temporary changes to drafts to allow them to be handled in the same manner as CMR records.
+    # Map drafts to same structure we get from CMR
     draft_collections.map do |draft|
       {
         'meta' => { 'revision-date' => draft['updated_at'].to_s[0..9] },
