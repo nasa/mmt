@@ -10,7 +10,7 @@
     <div class="row sub-fields">
 
       <!-- BeginningDateTime -->
-      <label for="<%= name_prefix %>beginning_date_time">Beginning Date Time</label><i class="fa fa-info-circle"></i>
+      <label for="<%= name_prefix %>beginning_date_time" class="icon-required">Beginning Date Time</label><i class="fa fa-info-circle"></i>
       <%= datetime_field_tag(name_to_param("#{name_prefix}beginning_date_time"), range_date_time['BeginningDateTime'], class: 'half-width') %>
 
       <!-- EndingDateTime -->

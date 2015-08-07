@@ -109,3 +109,7 @@ Try the following steps:
 10. Navigate to MMT directory and check to make sure Ruby and OpenSSL version are correct.
 
 11. Run `rake cmr:start` and `rake cmr:load` again. If you still have issues, please reach out to a developer to help with troubleshooting.
+
+### UMM JSON-Schema
+
+You can view/download the latest UMM JSON-Schema here, https://git.earthdata.nasa.gov/projects/CMR/repos/cmr/browse/umm-spec-lib/resources/json-schemas

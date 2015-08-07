@@ -15,8 +15,8 @@ describe 'Metadata Information form', js: true do
 
       fill_in 'Metadata Language', with: 'English'
 
-      select 'DIF', from: 'Metadata Standard Name'
-      fill_in 'Metadata Standard Version', with: '10'
+      select 'DIF', from: 'Name'
+      fill_in 'Version', with: '10'
 
       add_metadata_dates_values
 
@@ -43,8 +43,8 @@ describe 'Metadata Information form', js: true do
 
       it 'populates the form with the values' do
         expect(page).to have_field('Metadata Language', with: 'English')
-        expect(page).to have_field('Metadata Standard Name', with: 'DIF')
-        expect(page).to have_field('Metadata Standard Version', with: '10')
+        expect(page).to have_field('Name', with: 'DIF')
+        expect(page).to have_field('Version', with: '10')
 
         # crazy nested fields are too complex for within '' statements, use the crazy complex field IDs instead
         # Metadata Lineage 1

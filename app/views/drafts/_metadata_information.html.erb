@@ -15,10 +15,10 @@
 
     <div class="row sub-fields">
       <% metadata_standard = @draft.draft['MetadataStandard'] || {} %>
-      <label for="draft_metadata_standard_name" class="icon-required">Metadata Standard Name</label><i class="fa fa-info-circle"></i>
+      <label for="draft_metadata_standard_name" class="icon-required">Name</label><i class="fa fa-info-circle"></i>
       <%= select_tag "draft[metadata_standard][name]", options_for_select([['Select Metadata Standard', ''],'SERF', 'UMM', 'ECHO10', 'DIF', 'ISO 19115-2', 'ISO 19115-1'], metadata_standard['Name']), class: 'half-width' %>
 
-      <label for="draft_metadata_standard_version" class="icon-required">Metadata Standard Version</label><i class="fa fa-info-circle"></i>
+      <label for="draft_metadata_standard_version" class="icon-required">Version</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag('draft[metadata_standard][version]', metadata_standard['Version'], class: 'half-width') %>
 
     </div>

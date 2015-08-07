@@ -10,7 +10,7 @@
     <div class="row sub-fields">
 
       <!-- Eon -->
-      <label for="<%= name_prefix %>eon">Eon</label><i class="fa fa-info-circle"></i>
+      <label for="<%= name_prefix %>eon" class="icon-required">Eon</label><i class="fa fa-info-circle"></i>
       <%= text_area_tag(name_to_param("#{name_prefix}eon"), chronostratigraphic_unit['Eon'], rows: 8) %>
 
       <!-- Era -->
