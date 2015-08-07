@@ -45,7 +45,6 @@ describe 'Distribution information form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    # Test Preview (MMT-299)
     it "shows pre-entered values in the draft preview page" do
       check_page_for_display_of_values(page, init_store, {Fees: :handle_as_currency})
     end

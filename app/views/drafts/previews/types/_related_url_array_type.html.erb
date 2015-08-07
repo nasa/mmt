@@ -1,0 +1,8 @@
+<% if !related_urls.blank? %>
+  <h4><%= title %></h4>
+  <div class="related-urls">
+    <% related_urls.each_with_index do |related_url, index| %>
+      <%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{related_url: related_url, index: index} %>
+    <% end %>
+  </div>
+<% end %>
