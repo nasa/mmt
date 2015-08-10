@@ -95,4 +95,10 @@ class Draft < ActiveRecord::Base
     result = {} if result.keys.all? {|k| k.start_with?('cmep_')}
     result.compact.presence
   end
+
+  #Change json keys like 'FileSize' to acceptable html class names like 'file-size'
+  def self.key_to_html_class(key)
+    return key.to_s.underscore.dasherize
+  end
+
 end
