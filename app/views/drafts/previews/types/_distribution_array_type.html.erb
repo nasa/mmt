@@ -1,8 +1,0 @@
-<% if !distributions.blank? %>
-  <h4><%= title %></h4>
-  <ul class="distributions">
-    <% distributions.each_with_index do |distribution, index| %>
-      <%= render :partial=>'drafts/previews/types/distribution_type', :locals=>{distribution: distribution, index: index} %>
-    <% end %>
-  </ul>
-<% end %>

@@ -14,4 +14,14 @@
 <% end %>
 
 <!-- Metadata Dates -->
-<%= render :partial=>'drafts/previews/types/metadata_lineage_array_type', :locals=>{metadata_lineages: @draft.draft['MetadataLineage'], title:'Metadata Dates'} %>
+<% if !@draft.draft['MetadataLineage'].blank? %>
+  <h4>Metadata Dates</h4>
+  <ul class="<%= Draft.key_to_html_class('MetadataLineage').pluralize%>">
+    <% @draft.draft['MetadataLineage'].each_with_index do |metadata_lineage, index| %>
+      <ul class='MetadataLineage-<%=index%>'>
+        <%= render :partial=>'drafts/previews/types/metadata_lineage_type', :locals=>{metadata_lineage: metadata_lineage, index: index} %>
+      </ul>
+    <% end %>
+  </ul>
+<% end %>
+

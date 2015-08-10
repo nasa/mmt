@@ -2,9 +2,10 @@
   <% data_array = hash_for_key[key_name] %>
   <% if !data_array.nil? %>
     <strong><%= (defined?(title_override).nil? ? key_name.titleize : title_override).pluralize %>:</strong>
-    <ul class="<%=key_name%>">
+    <% html_class_name = Draft.key_to_html_class(key_name) %>
+    <ul class="<%=html_class_name%>">
       <% data_array.each_with_index do |element_of_array, index|%>
-        <li class="<%=key_name%>-<%=index%>">
+        <li class="<%=html_class_name%>-<%=index%>">
           <%= element_of_array %>
         </li>
       <% end %>

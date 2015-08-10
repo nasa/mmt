@@ -1,7 +1,21 @@
 <h4>Distribution Information Fields:</h4>
 
 <!-- Related URL [r] -->
-<%= render :partial=>'drafts/previews/types/related_url_array_type', :locals=>{related_urls: @draft.draft['RelatedUrl'], title:'Related URL'} %>
+<% if !@draft.draft['RelatedUrl'].blank? %>
+  <h4>Related URL</h4>
+  <ul class="<%= Draft.key_to_html_class('RelatedUrl').pluralize%>">
+    <% @draft.draft['RelatedUrl'].each_with_index do |related_url, index| %>
+      <%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{related_url: related_url, index: index} %>
+    <% end %>
+  </ul>
+<% end %>
 
 <!-- Distribution -->
-<%= render :partial=>'drafts/previews/types/distribution_array_type', :locals=>{distributions: @draft.draft['Distribution'], title:'Distribution'} %>
+<% if !@draft.draft['Distribution'].blank? %>
+  <h4>Distribution</h4>
+  <ul class="<%= Draft.key_to_html_class('Distribution').pluralize%>">
+    <% @draft.draft['Distribution'].each_with_index do |distribution, index| %>
+      <%= render :partial=>'drafts/previews/types/distribution_type', :locals=>{distribution: distribution, index: index} %>
+    <% end %>
+  </ul>
+<% end %>

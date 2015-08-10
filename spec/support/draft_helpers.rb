@@ -34,7 +34,7 @@ module Helpers
     end
 
     def check_section_for_display_of_values(page, draft, parent_key, special_handling={})
-      #puts "Checking for #{parent_key} (#{draft.class.to_s}) in #{page}"
+      #puts "Checking for #{parent_key} (#{Draft.key_to_html_class(parent_key)}) (#{draft.class.to_s}) in #{page}"
       case draft.class.to_s
         when 'NilClass'
         when 'String'
@@ -44,11 +44,12 @@ module Helpers
           expect(page).to have_content(draft)
         when 'Hash'
           draft.each_with_index do |(key, value), index|
-            check_section_for_display_of_values(page.find(".#{key}"), value, key, special_handling)
+            check_section_for_display_of_values(page.find(".#{Draft.key_to_html_class(key)}"), value, key, special_handling)
           end
         when 'Array'
+          html_class_name = Draft.key_to_html_class(parent_key)
           draft.each_with_index do |value, index|
-            check_section_for_display_of_values(page.find(".#{parent_key}-#{index}"), value, parent_key, special_handling)
+            check_section_for_display_of_values(page.find(".#{html_class_name}-#{index}"), value, parent_key, special_handling)
           end
         else
           puts ("Class Unknown: #{draft.class}")
