@@ -1,5 +1,5 @@
 <strong>Related URL <%=index+1%></strong>
-<ul class="<%= Draft.key_to_html_class('RelatedUrl')%>-<%=index%>">
+<ul class="<%= name_to_class('RelatedUrl')%>-<%=index%>">
   <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'URL', :hash_for_key=>related_url, :title_override=>'URL'} %>
 
   <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>related_url} %>
@@ -10,7 +10,7 @@
 
   <% if !related_url['FileSize'].blank? %>
     <h4>File Size</h4>
-    <ul class="<%= Draft.key_to_html_class('FileSize')%>">
+    <ul class="<%= name_to_class('FileSize')%>">
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Size',   :hash_for_key=>related_url['FileSize']} %>
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Unit',   :hash_for_key=>related_url['FileSize']} %>
     </ul>
@@ -18,7 +18,7 @@
 
   <% if !related_url['ContentType'].blank? %>
     <h4>Content Type</h4>
-    <ul class="<%= Draft.key_to_html_class('ContentType')%>">
+    <ul class="<%= name_to_class('ContentType')%>">
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type',   :hash_for_key=>related_url['ContentType']} %>
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Subtype',   :hash_for_key=>related_url['ContentType']} %>
     </ul>

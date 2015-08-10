@@ -4,6 +4,8 @@
 
 require 'rails_helper'
 
+include DraftsHelper
+
 test_fee = '1234.56'
 
 describe 'drafts/previews/_distribution_information.html.erb', type: :view do
@@ -45,8 +47,8 @@ describe 'drafts/previews/_distribution_information.html.erb', type: :view do
 
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_section = Capybara.string(rendered)
-        check_section_for_display_of_values(rendered_section.find(".#{Draft.key_to_html_class('RelatedUrl').pluralize}"), draft_json['RelatedUrl'], 'related-url')
-        check_section_for_display_of_values(rendered_section.find(".#{Draft.key_to_html_class('Distribution').pluralize}"), draft_json['Distribution'], 'distribution', {Fees: :handle_as_currency})
+        check_section_for_display_of_values(rendered_section.find(".#{name_to_class('RelatedUrl').pluralize}"), draft_json['RelatedUrl'], 'related-url')
+        check_section_for_display_of_values(rendered_section.find(".#{name_to_class('Distribution').pluralize}"), draft_json['Distribution'], 'distribution', {Fees: :handle_as_currency})
       end
 
       it 'handles bad currency values' do # TODO: Does NOT properly handle '123.456'
