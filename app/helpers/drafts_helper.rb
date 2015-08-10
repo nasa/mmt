@@ -35,4 +35,10 @@ module DraftsHelper
     # join wrapped words
     name.join
   end
+
+  #Change json keys like 'FileSize' to acceptable html class names like 'file-size'
+  def name_to_class(key)
+    return key.to_s.underscore.dasherize
+  end
+
 end

@@ -9,7 +9,7 @@
     <% if defined?(handle_as_currency) && handle_as_currency && value =~ /\A[-+]?\d*\.?\d+\z/ %>
       <% value = number_to_currency(value.to_f) %>
     <% end %>
-    <li class="<%= Draft.key_to_html_class(key_name)%>">
+    <li class="<%= name_to_class(key_name)%>">
       <%= "#{title}#{title.blank? ? '': ': '}#{value}" %>
     </li>
   <% end %>
