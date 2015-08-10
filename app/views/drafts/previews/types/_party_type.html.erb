@@ -1,0 +1,46 @@
+<!-- org fields -->
+<%= render :partial=>'drafts/previews/types/organization_name_type', :locals=>{organization_name: party['OrganizationName'], title:'Organization'} %>
+
+<!-- person fields -->
+<% if !party['Person'].blank? %>
+  <h4>Person</h4>
+  <ul class="Person">
+    <% person = party['Person'] %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'FirstName', :hash_for_key=>person} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MiddleName',   :hash_for_key=>person} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LastName',   :hash_for_key=>person} %>
+  </ul>
+<% end %>
+
+<!-- Service Hours -->
+<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ServiceHours', :hash_for_key=>party} %>
+
+<!-- Contact Instructions -->
+<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ContactInstructions', :hash_for_key=>party} %>
+
+<!-- Contact - multiple -->
+<%= render :partial=>'drafts/previews/types/contact_array_type', :locals=>{contacts: party['Contact'], title:'Contact'} %>
+
+<!-- Address - multiple -->
+<% if !party['Address'].blank? %>
+  <h4>Address</h4>
+  <% party['Address'].each_with_index do |address, index| %>
+    <ul class='address-<%=index%>'>
+      <%= render :partial=>'drafts/previews/types/address_type', :locals=>{address: address, index: index} %>
+    </ul>
+  <% end %>
+<% end %>
+
+<!-- RelatedUrl - multiple -->
+<% if !party['RelatedUrl'].blank? %>
+  <h4>RelatedUrl</h4>
+  <% party['RelatedUrl'].each_with_index do |related_url, index| %>
+    <ul class='related_url-<%=index%>'>
+      <%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{related_url: related_url, index: index} %>
+    </ul>
+  <% end %>
+<% end %>
+
+
+
+

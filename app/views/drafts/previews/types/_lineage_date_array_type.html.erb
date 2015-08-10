@@ -1,0 +1,9 @@
+
+<% if !lineage_dates.blank? %>
+  <h4><%= title %></h4>
+  <% lineage_dates.each_with_index do |lineage_date, index| %>
+    <ul class='metadata-lineage-date-<%=index%>'>
+      <%= render :partial=>'drafts/previews/types/lineage_date_type', :locals=>{lineage_date: lineage_date, index: index} %>
+    </ul>
+  <% end %>
+<% end %>

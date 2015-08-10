@@ -29,8 +29,9 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
         draft_json['MetadataLineage'] = [
             # minimal object populating
             {},
-            {MetadataLineage:[]},
+            {Responsibility:[]},
             # Regular object populating
+            {"Scope"=>"METADATA", "Date"=>[{"Type"=>"CREATE", "Date"=>"2010-01-01", "Description"=>"test", "Responsibility"=>[{"Role"=>"RESOURCEPROVIDER", "Party"=>{"Person"=>{"FirstName"=>"x", "MiddleName"=>"y", "LastName"=>"z"}, "ServiceHours"=>"342", "ContactInstructions"=>"phone", "Contact"=>[{"Type"=>"432", "Value"=>"234"}], "Address"=>[{"StreetAddress"=>["123", "4321"], "City"=>"asdf", "StateProvince"=>"asdf", "PostalCode"=>"asdf", "Country"=>"asdf"}], "RelatedUrl"=>[{"URL"=>["fds"], "Description"=>"fds", "Protocol"=>"HTTP", "MimeType"=>"fds", "Caption"=>"fds", "Title"=>"fsd", "FileSize"=>{"Size"=>"123", "Unit"=>"fds"}, "ContentType"=>{"Type"=>"fds", "Subtype"=>"sdf"}}]}}]}]}
         ]
 
         # {"Scope"=>"METADATA", "Date"=>[{"Type"=>"CREATE", "Date"=>"2010-01-01", "Description"=>"test", "Responsibility"=>[{"Role"=>"RESOURCEPROVIDER", "Party"=>{"Person"=>{"FirstName"=>"x", "MiddleName"=>"y", "LastName"=>"z"}, "ServiceHours"=>"342", "ContactInstructions"=>"phone", "Contact"=>[{"Type"=>"432", "Value"=>"234"}], "Address"=>[{"StreetAddress"=>["123", "4321"], "City"=>"asdf", "StateProvince"=>"asdf", "PostalCode"=>"asdf", "Country"=>"asdf"}], "RelatedUrl"=>[{"URL"=>["fds"], "Description"=>"fds", "Protocol"=>"HTTP", "MimeType"=>"fds", "Caption"=>"fds", "Title"=>"fsd", "FileSize"=>{"Size"=>"123", "Unit"=>"fds"}, "ContentType"=>{"Type"=>"fds", "Subtype"=>"sdf"}}]}}]}]}
@@ -56,14 +57,14 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
       end
 
       it 'shows the values in the correct places and formats in the draft preview page' do
-        # rendered_node = Capybara.string(rendered)
-        #
-        # check_section_for_display_of_values(rendered_node.find(".MetadataLanguage"), draft_json['MetadataLanguage'], nil)
-        # check_section_for_display_of_values(rendered_node.find(".MetadataStandard"), draft_json['MetadataStandard'], nil)
-        #
-        # draft_json['MetadataLineage'].each_with_index do |metadata_lineage, index|
-        #   check_section_for_display_of_values(rendered_node.find(".metadata_lineage-#{index}"), metadata_lineage, nil)
-        # end
+        rendered_node = Capybara.string(rendered)
+
+        check_section_for_display_of_values(rendered_node.find(".MetadataLanguage"), draft_json['MetadataLanguage'], nil)
+        check_section_for_display_of_values(rendered_node.find(".MetadataStandard"), draft_json['MetadataStandard'], nil)
+
+        draft_json['MetadataLineage'].each_with_index do |metadata_lineage, index|
+          check_section_for_display_of_values(rendered_node.find(".MetadataLineage-#{index}"), metadata_lineage, nil)
+        end
 
       end
 

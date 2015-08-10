@@ -1,0 +1,13 @@
+Date <%= index + 1 %>
+
+<!-- Type [r] - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
+<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>lineage_date} %>
+
+<!-- Date [r] -->
+<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Date', :hash_for_key=>lineage_date} %>
+
+<!-- Description - text field -->
+<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>lineage_date} %>
+
+<!-- Responsibility [r] -->
+<%= render :partial=>'drafts/previews/types/responsibility_array_type', :locals=>{responsibilities: lineage_date['Responsibility'], title:'Responsibility'} %>

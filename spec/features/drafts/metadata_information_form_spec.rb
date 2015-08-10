@@ -33,7 +33,7 @@ describe 'Metadata Information form', js: true do
 
     # TODO MMT-295
     it "shows pre-entered values in the draft preview page" do
-      #check_page_for_display_of_values(page, init_store, {})
+      check_page_for_display_of_values(page, init_store, {})
     end
 
     context 'when returning to the form' do

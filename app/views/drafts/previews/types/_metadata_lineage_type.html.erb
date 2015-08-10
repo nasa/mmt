@@ -1,0 +1,5 @@
+<!-- Metadata Lineage scope [r] -->
+<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Scope', :hash_for_key=>metadata_lineage} %>
+
+<!-- Metadata Lineage Dates -->
+<%= render :partial=>'drafts/previews/types/lineage_date_array_type', :locals=>{lineage_dates: metadata_lineage['Date'], title:'Date'} %>

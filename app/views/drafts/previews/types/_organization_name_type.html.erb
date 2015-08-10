@@ -1,0 +1,9 @@
+
+<% if !organization_name.blank? %>
+  <h4>Organization</h4>
+  <ul class="OrganizationName">
+    <% organization_name = party['OrganizationName'] %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>organization_name} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName',   :hash_for_key=>organization_name} %>
+  </ul>
+<% end %>
