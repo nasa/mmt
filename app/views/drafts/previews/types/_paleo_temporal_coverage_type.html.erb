@@ -1,0 +1,19 @@
+<ul class='<%= name_to_class('PaleoTemporalCoverage')%>'>
+  <strong>Paleo Temporal Coverage</strong>
+
+  <!-- ChronostratigraphicUnit -->
+  <% if !paleo_temporal_coverage['ChronostratigraphicUnit'].blank? %>
+    <ul class="<%= name_to_class('ChronostratigraphicUnit')%>">
+      <h4><%= 'Chronostratigraphic Unit'.pluralize(paleo_temporal_coverage['ChronostratigraphicUnit'].count)%></h4>
+      <% paleo_temporal_coverage['ChronostratigraphicUnit'].each_with_index do |chronostratigraphic_unit, index| %>
+        <%= render :partial=>'drafts/previews/types/chronostratigraphic_unit_type', :locals=>{chronostratigraphic_unit: chronostratigraphic_unit, index: index} %>
+      <% end %>
+    </ul>
+  <% end %>
+
+  </br> <%# Need to remove %>
+
+  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'StartDate', :hash_for_key=>paleo_temporal_coverage} %>
+  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EndDate', :hash_for_key=>paleo_temporal_coverage} %>
+
+</ul>

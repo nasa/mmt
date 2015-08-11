@@ -52,9 +52,17 @@ module DraftsHelper
     ]
   end
 
-  def map_role_onto_display_string(role)
-    options_hash = Hash[role_options.map{|key, value| [value, key]}]
-    return options_hash[role]
+  def duration_options
+    [
+        ['', ''], ['Day', 'DAY'], ['Month', 'MONTH'], ['Year', 'YEAR']
+    ]
   end
-  
+
+  # Used by view test scripts to derive the displayed string from the value stored in json
+  def map_value_onto_display_string(str, options)
+    options_hash = Hash[options.map{|key, value| [value, key]}]
+    return options_hash[str]
+  end
+
+
 end

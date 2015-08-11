@@ -44,7 +44,10 @@ module Helpers
             draft = number_to_currency(draft.to_f)
           elsif parent_key_special_handling == :handle_as_role
             # Map role value stored in json to what is actually supposed to be displayed
-            draft = map_role_onto_display_string(draft)
+            draft = map_value_onto_display_string(draft, role_options)
+          elsif parent_key_special_handling == :handle_as_duration
+            # Map duration value stored in json to what is actually supposed to be displayed
+            draft = map_value_onto_display_string(draft, duration_options)
           end
           expect(page).to have_content(draft)
         when 'Hash'
