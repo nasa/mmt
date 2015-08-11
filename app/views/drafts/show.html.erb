@@ -110,26 +110,19 @@
 
   <div class="row content">
     <section class="preview">
-      <!--/br>
-      <%= @draft.inspect %>
-      </br>
-      </br>
-      <%= @draft_json.inspect %>
-      </br>
-      </br-->
 
       <h3>Preview</h3>
       <input type="checkbox" name="markdown"></input>
       <label for="markdown">Show as markdown</label>
 
 
-      <%= render :partial=>'drafts/display_fields/show_data_identification' %>
-      <%= render :partial=>'drafts/display_fields/show_descriptive_keywords' %>
-      <%= render :partial=>'drafts/display_fields/show_metadata_information' %>
-      <%#= render :partial=>'drafts/display_fields/show_temporal_extent' %>
-      <%#= render :partial=>'drafts/display_fields/show_spatial_extent' %>
-      <%= render :partial=>'drafts/display_fields/show_acquisition_information' %>
-      <%= render :partial=>'drafts/display_fields/show_distribution_information' %>
+      <%= render :partial=>'drafts/previews/data_identification' %>
+      <%= render :partial=>'drafts/previews/descriptive_keywords' %>
+      <%= render :partial=>'drafts/previews/metadata_information' %>
+      <%#= render :partial=>'drafts/previews/temporal_extent' %>
+      <%#= render :partial=>'drafts/previews/spatial_extent' %>
+      <%= render :partial=>'drafts/previews/acquisition_information' %>
+      <%= render :partial=>'drafts/previews/distribution_information' %>
 
 
     </section>

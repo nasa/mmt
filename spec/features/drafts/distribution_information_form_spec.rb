@@ -1,6 +1,8 @@
-# MMT-292
+# MMT-292, MMT-299
 
 require 'rails_helper'
+
+init_store = [] # Will be populated to contain {locator=> value_string} hashes
 
 describe 'Distribution information form', js: true do
   before do
@@ -14,23 +16,23 @@ describe 'Distribution information form', js: true do
       click_on 'Distribution Information'
 
       # Complete RelatedUrl fields
-      add_related_urls
+      add_related_urls(init_store)
 
       # Complete Distribution fields
       within '.multiple.distribution' do
-        fill_in 'Distribution Media', with: 'Online Download'
-        fill_in 'Distribution Size', with: '42 MB'
-        fill_in 'Distribution Format', with: 'HDF'
-        fill_in 'Fees', with: '0'
+        mmt_fill_in init_store, 'Distribution Media', with: 'Online Download'
+        mmt_fill_in init_store, 'Distribution Size', with: '42 MB'
+        mmt_fill_in init_store, 'Distribution Format', with: 'HDF'
+        mmt_fill_in init_store, 'Fees', with: '0'
 
         # Add another Distribution
         click_on 'Add another Distribution'
 
         within '.multiple-item-1' do
-          fill_in 'Distribution Media', with: 'Floppy disc'
-          fill_in 'Distribution Size', with: '1.44 MB'
-          fill_in 'Distribution Format', with: '.txt'
-          fill_in 'Fees', with: '0'
+          mmt_fill_in init_store, 'Distribution Media', with: 'Floppy disc'
+          mmt_fill_in init_store, 'Distribution Size', with: '1.44 MB'
+          mmt_fill_in init_store, 'Distribution Format', with: '.txt'
+          mmt_fill_in init_store, 'Fees', with: '0'
         end
       end
 
@@ -43,8 +45,9 @@ describe 'Distribution information form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    # TODO MMT-299
-    it 'shows the values in the draft preview page'
+    it "shows pre-entered values in the draft preview page" do
+      check_page_for_display_of_values(page, init_store, {Fees: :handle_as_currency})
+    end
 
     context 'when returning to the form' do
       before do

@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+init_store = [] # Will be populated to contain {locator=> value_string} hashes
+
 describe 'Metadata Information form', js: true do
   before do
     login
@@ -18,7 +20,7 @@ describe 'Metadata Information form', js: true do
       select 'DIF', from: 'Name'
       fill_in 'Version', with: '10'
 
-      add_metadata_dates_values
+      add_metadata_dates_values(init_store)
 
       within '.nav-top' do
         click_on 'Save & Done'
@@ -30,7 +32,10 @@ describe 'Metadata Information form', js: true do
     end
 
     # TODO MMT-295
-    it 'shows the values in the draft preview page'
+    it "shows pre-entered values in the draft preview page" do
+      # TODO implement metadata display in MMT-295
+      #check_page_for_display_of_values(page, init_store)
+    end
 
     context 'when returning to the form' do
       before do

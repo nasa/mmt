@@ -1,0 +1,16 @@
+<%# Typical call: render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Fees', :hash_for_key=>r, :handle_as_currency=>true} %>
+<%# Typical call: render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Id', :hash_for_key=>r, :title_override=>'ID'} %>
+
+<% if !hash_for_key.nil? %>
+  <% value = hash_for_key[key_name]%>
+  <% if !value.blank? %>
+    <% # If no title_override is passed in, just titleize the key_name %>
+    <% title = defined?(title_override).nil? ? key_name.titleize : title_override %>
+    <% if defined?(handle_as_currency) && handle_as_currency && value =~ /\A[-+]?\d*\.?\d+\z/ %>
+      <% value = number_to_currency(value.to_f) %>
+    <% end %>
+    <li class="<%= name_to_class(key_name)%>">
+      <%= "#{title}#{title.blank? ? '': ': '}#{value}" %>
+    </li>
+  <% end %>
+<% end %>
