@@ -1,13 +1,23 @@
-Date <%= index + 1 %>
+<ul class='<%= name_to_class('Date')%>-<%=index%>'>
+  <strong>Date <%= index + 1 %></strong>
 
-<!-- Type [r] - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>lineage_date} %>
+  <!-- Type [r] - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
+  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>lineage_date} %>
 
-<!-- Date [r] -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Date', :hash_for_key=>lineage_date} %>
+  <!-- Date [r] -->
+  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Date', :hash_for_key=>lineage_date} %>
 
-<!-- Description - text field -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>lineage_date} %>
+  <!-- Description - text field -->
+  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>lineage_date} %>
 
-<!-- Responsibility [r] -->
-<%= render :partial=>'drafts/previews/types/responsibility_array_type', :locals=>{responsibilities: lineage_date['Responsibility'], title:'Responsibility'} %>
+  <!-- Responsibility [r] -->
+  <% if !lineage_date['Responsibility'].blank? %>
+    <ul class="<%= name_to_class('Responsibility')%>">
+      <h4>Responsibility</h4>
+      <% lineage_date['Responsibility'].each_with_index do |responsibility, index| %>
+        <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index} %>
+      <% end %>
+    </ul>
+  <% end %>
+
+</ul>

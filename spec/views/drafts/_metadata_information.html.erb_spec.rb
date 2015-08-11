@@ -3,6 +3,7 @@
 # View specs are described here: https://robots.thoughtbot.com/how-we-test-rails-applications#view-specs
 
 require 'rails_helper'
+include DraftsHelper
 
 describe 'drafts/previews/_metadata_information.html.erb', type: :view do
   context 'when the metadata information' do
@@ -29,9 +30,20 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
         draft_json['MetadataLineage'] = [
             # minimal object populating
             {},
-            {Responsibility:[]},
             # Regular object populating
-            {"Scope"=>"METADATA", "Date"=>[{"Type"=>"CREATE", "Date"=>"2010-01-01", "Description"=>"test", "Responsibility"=>[{"Role"=>"RESOURCEPROVIDER", "Party"=>{"Person"=>{"FirstName"=>"x", "MiddleName"=>"y", "LastName"=>"z"}, "ServiceHours"=>"342", "ContactInstructions"=>"phone", "Contact"=>[{"Type"=>"432", "Value"=>"234"}], "Address"=>[{"StreetAddress"=>["123", "4321"], "City"=>"asdf", "StateProvince"=>"asdf", "PostalCode"=>"asdf", "Country"=>"asdf"}], "RelatedUrl"=>[{"URL"=>["fds"], "Description"=>"fds", "Protocol"=>"HTTP", "MimeType"=>"fds", "Caption"=>"fds", "Title"=>"fsd", "FileSize"=>{"Size"=>"123", "Unit"=>"fds"}, "ContentType"=>{"Type"=>"fds", "Subtype"=>"sdf"}}]}}]}]}
+            {"Scope"=>"METADATA",
+             "Date"=>[{"Type"=>"CREATE", "Date"=>"2010-01-01x", "Description"=>"test",
+                       "Responsibility"=>[{"Role"=>"RESOURCEPROVIDER",
+                                           "Party"=>{"Person"=>{"FirstName"=>"x", "MiddleName"=>"y", "LastName"=>"z"},
+                                                     "ServiceHours"=>"342",
+                                                     "ContactInstructions"=>"phone",
+                                                     "Contact"=>[{"Type"=>"432", "Value"=>"234"}],
+                                                     "Address"=>[{"StreetAddress"=>["123", "4321"],
+                                                                  "City"=>"asdf", "StateProvince"=>"asdf",
+                                                                  "PostalCode"=>"asdf", "Country"=>"asdf"}],
+                                                     "RelatedUrl"=>[{"URL"=>["fds"], "Description"=>"fds", "Protocol"=>"HTTP",
+                                                                     "MimeType"=>"fds", "Caption"=>"fds", "Title"=>"fsd",
+                                                                     "FileSize"=>{"Size"=>"123", "Unit"=>"fds"}, "ContentType"=>{"Type"=>"fds", "Subtype"=>"sdf"}}]}}]}]}
         ]
 
         # {"Scope"=>"METADATA", "Date"=>[{"Type"=>"CREATE", "Date"=>"2010-01-01", "Description"=>"test", "Responsibility"=>[{"Role"=>"RESOURCEPROVIDER", "Party"=>{"Person"=>{"FirstName"=>"x", "MiddleName"=>"y", "LastName"=>"z"}, "ServiceHours"=>"342", "ContactInstructions"=>"phone", "Contact"=>[{"Type"=>"432", "Value"=>"234"}], "Address"=>[{"StreetAddress"=>["123", "4321"], "City"=>"asdf", "StateProvince"=>"asdf", "PostalCode"=>"asdf", "Country"=>"asdf"}], "RelatedUrl"=>[{"URL"=>["fds"], "Description"=>"fds", "Protocol"=>"HTTP", "MimeType"=>"fds", "Caption"=>"fds", "Title"=>"fsd", "FileSize"=>{"Size"=>"123", "Unit"=>"fds"}, "ContentType"=>{"Type"=>"fds", "Subtype"=>"sdf"}}]}}]}]}
@@ -58,12 +70,12 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
 
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
-
-        check_section_for_display_of_values(rendered_node.find(".MetadataLanguage"), draft_json['MetadataLanguage'], nil)
-        check_section_for_display_of_values(rendered_node.find(".MetadataStandard"), draft_json['MetadataStandard'], nil)
+#puts rendered.gsub(/\s+/, " ").strip
+        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataLanguage')}"), draft_json['MetadataLanguage'], 'MetadataLanguage')
+        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataStandard')}"), draft_json['MetadataStandard'], 'MetadataStandard')
 
         draft_json['MetadataLineage'].each_with_index do |metadata_lineage, index|
-          check_section_for_display_of_values(rendered_node.find(".MetadataLineage-#{index}"), metadata_lineage, nil)
+          check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataLineage')}-#{index}"), metadata_lineage, 'MetadataLineage')
         end
 
       end

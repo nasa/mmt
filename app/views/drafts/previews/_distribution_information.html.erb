@@ -2,8 +2,8 @@
 
 <!-- Related URL [r] -->
 <% if !@draft.draft['RelatedUrl'].blank? %>
-  <h4>Related URL</h4>
   <ul class="<%= name_to_class('RelatedUrl').pluralize%>">
+    <h4>Related URL</h4>
     <% @draft.draft['RelatedUrl'].each_with_index do |related_url, index| %>
       <%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{related_url: related_url, index: index} %>
     <% end %>
@@ -12,8 +12,8 @@
 
 <!-- Distribution -->
 <% if !@draft.draft['Distribution'].blank? %>
-  <h4>Distribution</h4>
   <ul class="<%= name_to_class('Distribution').pluralize%>">
+    <h4>Distribution</h4>
     <% @draft.draft['Distribution'].each_with_index do |distribution, index| %>
       <%= render :partial=>'drafts/previews/types/distribution_type', :locals=>{distribution: distribution, index: index} %>
     <% end %>

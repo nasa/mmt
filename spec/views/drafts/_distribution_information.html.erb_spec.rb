@@ -3,7 +3,6 @@
 # View specs are described here: https://robots.thoughtbot.com/how-we-test-rails-applications#view-specs
 
 require 'rails_helper'
-
 include DraftsHelper
 
 test_fee = '1234.56'

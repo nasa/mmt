@@ -34,22 +34,29 @@ module Helpers
     end
 
     def check_section_for_display_of_values(page, draft, parent_key, special_handling={})
-      #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in #{page}"
+      #puts ''
+      #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in #{page.text.gsub(/\s+/, " ").strip}"
       case draft.class.to_s
         when 'NilClass'
         when 'String'
           if special_handling[parent_key] == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
             draft = number_to_currency(draft.to_f)
           end
+          if draft == 'RESOURCEPROVIDER'
+            #puts 'RP XFORM'
+            draft = 'Resource Provider'
+          end
           expect(page).to have_content(draft)
         when 'Hash'
           draft.each_with_index do |(key, value), index|
-            check_section_for_display_of_values(page.find(".#{name_to_class(key)}"), value, key, special_handling)
+            #puts "  H Looking for: #{name_to_class(key)} inside: #{page.text.gsub(/\s+/, " ").strip}"
+            check_section_for_display_of_values(page.first(:css, ".#{name_to_class(key)}"), value, key, special_handling)
           end
         when 'Array'
           html_class_name = name_to_class(parent_key)
           draft.each_with_index do |value, index|
-            check_section_for_display_of_values(page.find(".#{html_class_name}-#{index}"), value, parent_key, special_handling)
+            #puts "  A Looking for: #{html_class_name}-#{index} inside: #{page.text.gsub(/\s+/, " ").strip}"
+            check_section_for_display_of_values(page.first(:css, ".#{html_class_name}-#{index}"), value, parent_key, special_handling)
           end
         else
           puts ("Class Unknown: #{draft.class}")

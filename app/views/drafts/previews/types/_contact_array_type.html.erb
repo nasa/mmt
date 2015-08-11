@@ -1,9 +1,0 @@
-
-<% if !contacts.blank? %>
-  <h4><%= title %></h4>
-  <% contacts.each_with_index do |contact, index| %>
-    <ul class='contact-<%=index%>'>
-      <%= render :partial=>'drafts/previews/types/contact_type', :locals=>{contact: contact, index: index} %>
-    </ul>
-  <% end %>
-<% end %>

@@ -1,0 +1,8 @@
+<% if !person.blank? %>
+  <ul class="<%= name_to_class('Person')%>">
+    <h4>Person</h4>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'FirstName', :hash_for_key=>person} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MiddleName',   :hash_for_key=>person} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LastName',   :hash_for_key=>person} %>
+  </ul>
+<% end %>

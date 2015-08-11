@@ -1,9 +1,10 @@
-Responsibility <%= index + 1 %>
+<ul class='<%= name_to_class('Responsibility')%>-<%=index%>'>
+  <strong>Responsibility <%= index + 1 %></strong>
 
-<!-- Role [r] -->
-<%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>responsibility,
-                                                                                          options: [['Resource Provider', 'RESOURCEPROVIDER'], ['Custodian', 'CUSTODIAN'], ['Owner', 'OWNER'], ['User', 'USER'], ['Distributor', 'DISTRIBUTOR'], ['Originator', 'ORIGINATOR'], ['Point of Contact', 'POINTOFCONTACT'], ['Principal Investigator', 'PRINCIPALINVESTIGATOR'], ['Processor', 'PROCESSOR'], ['Publisher', 'PUBLISHER'], ['Author', 'AUTHOR'], ['Sponsor', 'SPONSOR'], ['Co-Author', 'COAUTHOR'], ['Collaborator', 'COLLABORATOR'], ['Editor', 'EDITOR'], ['Mediator', 'MEDIATOR'], ['Rights Holder', 'RIGHTSHOLDER'], ['Contributor', 'CONTRIBUTOR'], ['Funder', 'FUNDER'], ['Stakeholder', 'STAKEHOLDER']]} %>
+  <!-- Role [r] -->
+  <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>responsibility,
+    options: [['Resource Provider', 'RESOURCEPROVIDER'], ['Custodian', 'CUSTODIAN'], ['Owner', 'OWNER'], ['User', 'USER'], ['Distributor', 'DISTRIBUTOR'], ['Originator', 'ORIGINATOR'], ['Point of Contact', 'POINTOFCONTACT'], ['Principal Investigator', 'PRINCIPALINVESTIGATOR'], ['Processor', 'PROCESSOR'], ['Publisher', 'PUBLISHER'], ['Author', 'AUTHOR'], ['Sponsor', 'SPONSOR'], ['Co-Author', 'COAUTHOR'], ['Collaborator', 'COLLABORATOR'], ['Editor', 'EDITOR'], ['Mediator', 'MEDIATOR'], ['Rights Holder', 'RIGHTSHOLDER'], ['Contributor', 'CONTRIBUTOR'], ['Funder', 'FUNDER'], ['Stakeholder', 'STAKEHOLDER']]} %>
 
-<!-- Party [r] -->
-<%= render :partial=>'drafts/previews/types/party_type', :locals=>{party: responsibility['Party'], title:'Party'} %>
-
+  <!-- Party [r] -->
+  <%= render :partial=>'drafts/previews/types/party_type', :locals=>{party: responsibility['Party'], title:'Party'} %>
+</ul>

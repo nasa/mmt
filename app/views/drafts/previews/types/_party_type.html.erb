@@ -1,46 +1,50 @@
-<!-- org fields -->
-<%= render :partial=>'drafts/previews/types/organization_name_type', :locals=>{organization_name: party['OrganizationName'], title:'Organization'} %>
+<ul class='<%= name_to_class('Party')%>'>
+  <strong>Party</strong>
 
-<!-- person fields -->
-<% if !party['Person'].blank? %>
-  <h4>Person</h4>
-  <ul class="Person">
-    <% person = party['Person'] %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'FirstName', :hash_for_key=>person} %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MiddleName',   :hash_for_key=>person} %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LastName',   :hash_for_key=>person} %>
-  </ul>
-<% end %>
+  <!-- org fields -->
+  <%= render :partial=>'drafts/previews/types/organization_name_type', :locals=>{organization_name: party['OrganizationName'], title:'Organization'} %>
 
-<!-- Service Hours -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ServiceHours', :hash_for_key=>party} %>
+  <!-- person fields -->
+  <%= render :partial=>'drafts/previews/types/person_type', :locals=>{person: party['Person'], title:'Person'} %>
 
-<!-- Contact Instructions -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ContactInstructions', :hash_for_key=>party} %>
+  <!-- Service Hours -->
+  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ServiceHours', :hash_for_key=>party} %>
 
-<!-- Contact - multiple -->
-<%= render :partial=>'drafts/previews/types/contact_array_type', :locals=>{contacts: party['Contact'], title:'Contact'} %>
+  <!-- Contact Instructions -->
+  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ContactInstructions', :hash_for_key=>party} %>
 
-<!-- Address - multiple -->
-<% if !party['Address'].blank? %>
-  <h4>Address</h4>
-  <% party['Address'].each_with_index do |address, index| %>
-    <ul class='address-<%=index%>'>
-      <%= render :partial=>'drafts/previews/types/address_type', :locals=>{address: address, index: index} %>
+  <!-- Contact - multiple -->
+  <% if !party['Contact'].blank? %>
+    <ul class="<%= name_to_class('Contact')%>">
+      <h4>Contact</h4>
+      <% party['Contact'].each_with_index do |contact, index| %>
+        <%= render :partial=>'drafts/previews/types/contact_type', :locals=>{contact: contact, index: index} %>
+      <% end %>
     </ul>
   <% end %>
-<% end %>
 
-<!-- RelatedUrl - multiple -->
-<% if !party['RelatedUrl'].blank? %>
-  <h4>RelatedUrl</h4>
-  <% party['RelatedUrl'].each_with_index do |related_url, index| %>
-    <ul class='related_url-<%=index%>'>
-      <%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{related_url: related_url, index: index} %>
+  <!-- Address - multiple -->
+  <% if !party['Address'].blank? %>
+    <ul class="<%= name_to_class('Address')%>">
+      <h4>Address</h4>
+      <% party['Address'].each_with_index do |address, index| %>
+        <%= render :partial=>'drafts/previews/types/address_type', :locals=>{address: address, index: index} %>
+      <% end %>
     </ul>
   <% end %>
-<% end %>
 
+  <!-- RelatedUrl - multiple -->
+  <% if !party['RelatedUrl'].blank? %>
+    <ul class="<%= name_to_class('RelatedUrl')%>">
+      <h4>RelatedUrl</h4>
+      <% party['RelatedUrl'].each_with_index do |related_url, index| %>
+        <ul class='related_url-<%=index%>'>
+          <%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{related_url: related_url, index: index} %>
+        </ul>
+      <% end %>
+    </ul>
+  <% end %>
 
+</ul>
 
 
