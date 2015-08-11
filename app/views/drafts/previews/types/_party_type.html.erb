@@ -16,7 +16,7 @@
   <!-- Contact - multiple -->
   <% if !party['Contact'].blank? %>
     <ul class="<%= name_to_class('Contact')%>">
-      <h4>Contact</h4>
+      <h4><%= 'Contact'.pluralize(party['Contact'].count)%></h4>
       <% party['Contact'].each_with_index do |contact, index| %>
         <%= render :partial=>'drafts/previews/types/contact_type', :locals=>{contact: contact, index: index} %>
       <% end %>
@@ -26,7 +26,7 @@
   <!-- Address - multiple -->
   <% if !party['Address'].blank? %>
     <ul class="<%= name_to_class('Address')%>">
-      <h4>Address</h4>
+      <h4><%= 'Address'.pluralize(party['Address'].count)%></h4>
       <% party['Address'].each_with_index do |address, index| %>
         <%= render :partial=>'drafts/previews/types/address_type', :locals=>{address: address, index: index} %>
       <% end %>
@@ -36,7 +36,7 @@
   <!-- RelatedUrl - multiple -->
   <% if !party['RelatedUrl'].blank? %>
     <ul class="<%= name_to_class('RelatedUrl')%>">
-      <h4>RelatedUrl</h4>
+      <h4><%= 'Related Url'.pluralize(party['RelatedUrl'].count)%></h4>
       <% party['RelatedUrl'].each_with_index do |related_url, index| %>
         <ul class='related_url-<%=index%>'>
           <%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{related_url: related_url, index: index} %>

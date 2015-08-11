@@ -13,7 +13,7 @@
   <!-- Responsibility [r] -->
   <% if !lineage_date['Responsibility'].blank? %>
     <ul class="<%= name_to_class('Responsibility')%>">
-      <h4>Responsibility</h4>
+      <h4><%= 'Responsibility'.pluralize(lineage_date['Responsibility'].count)%></h4>
       <% lineage_date['Responsibility'].each_with_index do |responsibility, index| %>
         <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index} %>
       <% end %>

@@ -41,4 +41,20 @@ module DraftsHelper
     return key.to_s.underscore.dasherize
   end
 
+  def role_options
+    [
+        ['Resource Provider', 'RESOURCEPROVIDER'], ['Custodian', 'CUSTODIAN'],
+        ['Owner', 'OWNER'], ['User', 'USER'], ['Distributor', 'DISTRIBUTOR'], ['Originator', 'ORIGINATOR'],
+        ['Point of Contact', 'POINTOFCONTACT'], ['Principal Investigator', 'PRINCIPALINVESTIGATOR'], ['Processor', 'PROCESSOR'],
+        ['Publisher', 'PUBLISHER'], ['Author', 'AUTHOR'], ['Sponsor', 'SPONSOR'], ['Co-Author', 'COAUTHOR'], ['Collaborator', 'COLLABORATOR'],
+        ['Editor', 'EDITOR'], ['Mediator', 'MEDIATOR'], ['Rights Holder', 'RIGHTSHOLDER'], ['Contributor', 'CONTRIBUTOR'], ['Funder', 'FUNDER'],
+        ['Stakeholder', 'STAKEHOLDER']
+    ]
+  end
+
+  def map_role_onto_display_string(role)
+    options_hash = Hash[role_options.map{|key, value| [value, key]}]
+    return options_hash[role]
+  end
+  
 end

@@ -39,12 +39,12 @@ module Helpers
       case draft.class.to_s
         when 'NilClass'
         when 'String'
-          if special_handling[parent_key] == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
+          parent_key_special_handling = special_handling[parent_key.to_sym]
+          if parent_key_special_handling == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
             draft = number_to_currency(draft.to_f)
-          end
-          if draft == 'RESOURCEPROVIDER'
-            #puts 'RP XFORM'
-            draft = 'Resource Provider'
+          elsif parent_key_special_handling == :handle_as_role
+            # Map role value stored in json to what is actually supposed to be displayed
+            draft = map_role_onto_display_string(draft)
           end
           expect(page).to have_content(draft)
         when 'Hash'
