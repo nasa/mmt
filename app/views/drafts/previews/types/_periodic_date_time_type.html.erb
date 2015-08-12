@@ -1,16 +1,18 @@
 <ul class='<%= name_to_class('PeriodicDateTime')%>-<%=index%>'>
-  <strong>Periodic Date Time <%= index + 1 %></strong>
+  <li>
+    Periodic Date Time <%= index + 1 %>
 
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>periodic_date_time} %>
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'StartDate', :hash_for_key=>periodic_date_time} %>
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EndDate', :hash_for_key=>periodic_date_time} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>periodic_date_time} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'StartDate', :hash_for_key=>periodic_date_time} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EndDate', :hash_for_key=>periodic_date_time} %>
 
-  <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'DurationUnit', :hash_for_key=>periodic_date_time, options: duration_options} %>
+    <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'DurationUnit', :hash_for_key=>periodic_date_time, options: duration_options} %>
 
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DurationValue', :hash_for_key=>periodic_date_time} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DurationValue', :hash_for_key=>periodic_date_time} %>
 
-  <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'PeriodCycleDurationUnit', :hash_for_key=>periodic_date_time, options: duration_options} %>
+    <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'PeriodCycleDurationUnit', :hash_for_key=>periodic_date_time, options: duration_options} %>
 
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'PeriodCycleDurationValue', :hash_for_key=>periodic_date_time} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'PeriodCycleDurationValue', :hash_for_key=>periodic_date_time} %>
 
+  </li>
 </ul>
