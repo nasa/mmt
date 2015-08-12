@@ -1,12 +1,14 @@
 <ul class='<%= name_to_class('Address')%>-<%=index%>'>
-  <li>Address <%= index + 1 %></li>
+  <li>
+    Address <%= index + 1 %>
 
-  <% if !address['StreetAddress'].blank? %>
-    <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'StreetAddress', :hash_for_key=>address} %>
-  <% end %>
+    <% if !address['StreetAddress'].blank? %>
+      <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'StreetAddress', :hash_for_key=>address} %>
+    <% end %>
 
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'City', :hash_for_key=>address} %>
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'StateProvince', :hash_for_key=>address} %>
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'PostalCode', :hash_for_key=>address} %>
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Country', :hash_for_key=>address} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'City', :hash_for_key=>address} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'StateProvince', :hash_for_key=>address} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'PostalCode', :hash_for_key=>address} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Country', :hash_for_key=>address} %>
+  </li>
 </ul>
