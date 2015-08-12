@@ -69,7 +69,6 @@ describe 'Data identification form', js: true do
 
     it 'shows the draft preview page' do
       expect(page).to have_content('Draft Title')
-      puts Draft.first.draft.inspect
     end
 
     it 'shows the values in the draft preview page' do
