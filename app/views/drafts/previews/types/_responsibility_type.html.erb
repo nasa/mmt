@@ -1,9 +1,11 @@
 <ul class='<%= name_to_class('Responsibility')%>-<%=index%>'>
-  <strong>Responsibility <%= index + 1 %></strong>
+  <li>
+    Responsibility <%= index + 1 %>
 
-  <!-- Role [r] -->
-  <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>responsibility, options: role_options} %>
+    <!-- Role [r] -->
+    <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>responsibility, options: role_options} %>
 
-  <!-- Party [r] -->
-  <%= render :partial=>'drafts/previews/types/party_type', :locals=>{party: responsibility['Party'], title:'Party'} %>
+    <!-- Party [r] -->
+    <%= render :partial=>'drafts/previews/types/party_type', :locals=>{party: responsibility['Party'], title:'Party'} %>
+  </li>
 </ul>
