@@ -80,27 +80,13 @@ describe 'Distribution information form', js: true do
               expect(page).to have_field('Unit', with: 'MB')
             end
             within '.content-type' do
-              expect(page).to have_field('Type', with: 'Text')
-              expect(page).to have_field('Subtype', with: 'Subtext')
+              expect(page).to have_field('Type', with: 'Type')
+              expect(page).to have_field('Subtype', with: 'Subtype')
             end
           end
 
           within '.multiple-item-1' do
             expect(page).to have_field('URL', with: 'http://example.com/1')
-            expect(page).to have_field('URL', with: 'http://another-example.com/1')
-            expect(page).to have_field('Description', with: 'Example Description 1')
-            expect(page).to have_field('Protocol', with: 'SSH')
-            expect(page).to have_field('Mime Type', with: 'text/json')
-            expect(page).to have_field('Caption', with: 'Example Caption 1')
-            expect(page).to have_field('Title', with: 'Example Title 1')
-            within '.file-size' do
-              expect(page).to have_field('Size', with: '4.2')
-              expect(page).to have_field('Unit', with: 'GB')
-            end
-            within '.content-type' do
-              expect(page).to have_field('Type', with: 'Text 1')
-              expect(page).to have_field('Subtype', with: 'Subtext 1')
-            end
           end
         end
 

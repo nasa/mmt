@@ -31,9 +31,17 @@
 <div class="row">
   <div class="col-12">
     <label class="main-field">Metadata Dates</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/types/lineage_type', locals: {
-        lineages: @draft.draft['MetadataLineage'] || [{}],
-        name_prefix: 'draft_metadata_lineage_',
-        lineage_type: 'metadata' } %>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'lineage',
+          values: @draft.draft['MetadataLineage'] || [{}],
+          name_prefix: 'draft_|metadata_lineage|_',
+          multiple: true,
+          options: {
+            lineage_type: 'metadata',
+            type: 'metadata_lineage',
+            title: 'Metadata Date'
+          } } %>
+    </div>
   </div>
 </div>

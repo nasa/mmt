@@ -1,21 +1,13 @@
 <!-- Entry ID [r] -->
-<div class="row">
+<div class="row entry-id">
   <div class="col-12">
     <label for="draft_entry_id" class="main-field icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
-
-    <div class="row sub-fields">
-      <div class="entry-id-fields">
-        <% entry_id = @draft.draft['EntryId'] || {} %>
-        <label for="draft_entry_id_id" class="icon-required">ID</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[entry_id][id]', entry_id['Id'], class: 'half-width') %>
-
-        <label for="draft_entry_id_version" class="icon-required">Version</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[entry_id][version]', entry_id['Version'], class: 'half-width') %>
-
-        <label for="draft_entry_id_authority" class="icon-required">Authority</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[entry_id][authority]', entry_id['Authority'], class: 'half-width') %>
-      </div>
-    </div>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'entry_id',
+        values: @draft.draft['EntryId'] || {},
+        name_prefix: "draft_|entry_id|_",
+        multiple: false,
+        options: {} } %>
   </div>
 </div>
 
@@ -48,91 +40,80 @@
 
 
 <!-- Data language -->
-  <!-- LanguageType is currently defined with properties: {} -->
-  <!-- I think it is just a string, but not sure -->
+<!-- DataLanguage needs to be an object, not a string, but we don't have enough info in the json-schema -->
 <div class="row">
   <div class="col-12">
-    <label for="data_language">Data Language</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
-    </div>
+    <label for="draft_data_language">Data Language</label><i class="fa fa-info-circle"></i>
+    <%= text_field_tag('draft[data_language]', @draft.draft['DataLanguage'], placeholder: 'English', class: 'half-width') %>
   </div>
 </div>
 
 <!-- Data dates [r] -->
-  <!-- DataLineage -->
-  <!-- hidden field for scope of 'data' -->
 <div class="row">
   <div class="col-12">
-    <label for="data_lineage" class="main-field icon-required">Data Lineage</label><i class="fa fa-info-circle"></i>
-    <div class="row sub-fields">
-      <!-- add new data date: adds field to page -->
-      <!-- choose which date, create update delete review -->
-      <!-- date picker for selected date -->
-      <!-- description, text field -->
-      <!-- responsibility: single party for now -->
-        <!-- party, choose org or person, radio buttons -->
-        <!-- org: text field -->
-        <!-- person: shows full form (address, hours, etc.) -->
-    </div>
+    <label class="main-field icon-required">Data Lineage</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'lineage',
+        values: @draft.draft['DataLineage'] || [{}],
+        name_prefix: 'draft_|data_lineage|_',
+        multiple: true,
+        options: {
+          lineage_type: 'data',
+          type: 'data_lineage',
+          title: 'Data Date'
+        } } %>
   </div>
 </div>
 
 <!-- Organization [r] -->
-<div class="row taller">
+<div class="row taller responsible-organization">
   <div class="col-12">
-    <label for="organization" class="main-field icon-required">Organization</label><i class="fa fa-info-circle"></i>
+    <label class="main-field icon-required">Organization</label><i class="fa fa-info-circle"></i>
     <div class="row sub-fields">
-      <% responsible_organizations = @draft.draft['ResponsibleOrganization'] || [] %>
-
-      <div class="organization-values">
-        <% responsible_organizations.each do |value| %>
-          <p>
-            <%#= display_key_value_pairs(value) %>
-          </p>
-        <% end %>
-        <%#= render partial: 'drafts/forms/hidden_fields/organization', locals: {orgs: responsible_organizations} %>
-      </div>
-
-      <div class="organization-fields" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">
-        <%#= render partial: 'drafts/forms/organization_form', locals: {} %>
-      </div>
-
-      <div class="col-12">
-        <a class="icon-more add-another-field organization">Add <%= "another " if responsible_organizations.size > 0 %>organization</a>
-        <a class="icon-less cancel-add organization" style="<%= 'display: none;' if responsible_organizations.size > 0 %>">Done adding organizations</a>
-      </div>
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'responsibility',
+          values: @draft.draft['ResponsibleOrganization'] || [{}],
+          name_prefix: "draft_|responsible_organization|_",
+          multiple: true,
+          options: {
+            limit_type: 'organization',
+            title: 'Organization'
+          } } %>
     </div>
   </div>
 </div>
 
 <!-- Personnel -->
-<div class="row taller">
+<div class="row taller responsible-personnel">
   <div class="col-12">
-    <label for="personnel">Personnel</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- responsibility: display form when no people added -->
-      <!-- person: shows full form (address, hours, etc.) -->
-      <div class="col-12">
-        <a href="#" class="icon-more">Add personnel</a>
-      </div>
+    <label>Personnel</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'responsibility',
+          values: @draft.draft['ResponsiblePersonnel'] || [{}],
+          name_prefix: "draft_|responsible_personnel|_",
+          multiple: true,
+          options: {
+            limit_type: 'personnel',
+            title: 'Personnel'
+          } } %>
     </div>
   </div>
 </div>
 
 <!-- Collection Data Type -->
-  <!-- Dropdown with ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"] -->
 <div class="row">
   <div class="col-12">
     <label for="draft_collection_data_type">Collection Data Type</label><i class="fa fa-info-circle"></i>
-    <%= select_tag "draft[collection_data_type]", options_for_select([['Science Quality', 'SCIENCE_QUALITY'], ['Near Real Time', 'NEAR_REAL_TIME'], ['Other', 'OTHER']], @draft.draft['CollectionDataType']), class: 'half-width' %>
+    <%= select_tag "draft[collection_data_type]", options_for_select([['Select Data Type', ''], ['Science Quality', 'SCIENCE_QUALITY'], ['Near Real Time', 'NEAR_REAL_TIME'], ['Other', 'OTHER']], @draft.draft['CollectionDataType']), class: 'half-width' %>
   </div>
 </div>
 
 <!-- Processing Level [r] -->
+<!-- TODO , maybe? -->
 <div class="row">
   <div class="col-12">
-    <label for="draft_entry_id" class="icon-required">Processing Level</label><i class="fa fa-info-circle"></i>
+    <label class="icon-required">Processing Level</label><i class="fa fa-info-circle"></i>
 
     <div class="row sub-fields">
       <div class="processing-level-fields">
@@ -153,29 +134,31 @@
 
 <!-- Resource Citation -->
   <!-- CollectionCitation -->
-  <!-- Array of ResourceCitationType -->
-  <!-- waiting on more details -->
 <div class="row">
   <div class="col-12">
-    <label for="resource_citation">Resource Citation</label><i class="fa fa-info-circle"></i>
+    <label>Resource Citation</label><i class="fa fa-info-circle"></i>
     <div class="row">
-      <!-- Insert Fields -->
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'resource_citation',
+          values: @draft.draft['CollectionCitation'] || [{}],
+          name_prefix: "draft_|collection_citation|_",
+          multiple: true,
+          options: {} } %>
     </div>
   </div>
 </div>
 
 
 <!-- Collection Progress -->
-<!-- Dropdown with ["PLANNED", "IN WORK", "COMPLETE"] -->
 <div class="row">
   <div class="col-12">
     <label for="draft_collection_progress">Collection Progress</label><i class="fa fa-info-circle"></i>
-    <%= select_tag "draft[collection_progress]", options_for_select([['Planned', 'PLANNED'], ['In work', 'IN WORK'], ['Complete', 'COMPLETE']], @draft.draft['CollectionProgress']), class: 'half-width' %>
+    <%= select_tag "draft[collection_progress]", options_for_select([['Select Progress', ''], ['Planned', 'PLANNED'], ['In work', 'IN WORK'], ['Complete', 'COMPLETE']], @draft.draft['CollectionProgress']), class: 'half-width' %>
   </div>
 </div>
 
+
 <!-- Quality -->
-  <!-- text area -->
 <div class="row">
   <div class="col-12">
     <label for="draft_quality">Quality</label><i class="fa fa-info-circle"></i>
@@ -183,8 +166,8 @@
   </div>
 </div>
 
+
 <!-- Use Constraints -->
-  <!-- text area -->
 <div class="row">
   <div class="col-12">
     <label for="draft_use_constraints">Use Constraints</label><i class="fa fa-info-circle"></i>
@@ -192,43 +175,52 @@
   </div>
 </div>
 
+
 <!-- Access Constraints -->
-  <!-- object: description: text area, value: [public, in-house, limited] -->
-<div class="row">
+<div class="row access-constraints">
   <div class="col-12">
-    <label for="access_constraints">Access Constraints</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
+    <label>Access Constraints</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <% access_constraints = @draft.draft['AccessConstraints'] || {} %>
+      <!-- Value -->
+      <label for="draft_access_constraints_value" class="icon-required">Value</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width') %>
+
+      <!-- Description -->
+      <label for="draft_access_constraints_description" class="icon-required">Description</label><i class="fa fa-info-circle"></i>
+      <%= text_area_tag(name_to_param("draft_|access_constraints|_description"), access_constraints['Description'], rows: 8) %>
     </div>
   </div>
 </div>
+
 
 <!-- Metadata Association -->
-  <!-- array of MetadataAssociationType -->
 <div class="row">
   <div class="col-12">
-    <label for="metadata_association" class="main-field">Metadata Association</label><i class="fa fa-info-circle"></i>
+    <label class="main-field">Metadata Association</label><i class="fa fa-info-circle"></i>
     <div class="row sub-fields">
-      <!-- show form until one association entered -->
-      <!-- dropdown for type -->
-      <!-- text area for description -->
-      <!-- entry_id form -->
-      <!-- dropdown for provider, enum -->
-
-      <!-- Add new association button -->
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'metadata_association',
+          values: @draft.draft['MetadataAssociation'] || [{}],
+          name_prefix: "draft_|metadata_association|_",
+          multiple: true,
+          options: {} } %>
     </div>
   </div>
 </div>
 
+
 <!-- Publication Reference -->
-  <!-- array of PublicationReferenceType -->
 <div class="row">
   <div class="col-12">
-    <label for="publication_reference">Publication Reference</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- show form until one reference entered -->
-      <!-- lots o text fields -->
-      <!-- Add new reference button -->
+    <label>Publication Reference</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'publication_reference',
+          values: @draft.draft['PublicationReference'] || [{}],
+          name_prefix: "draft_|publication_reference|_",
+          multiple: true,
+          options: {} } %>
     </div>
   </div>
 </div>

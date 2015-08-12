@@ -7,6 +7,7 @@
   <div class="col-9 form-nav">
     <label for="next-section">Next: </label>
 
+    <!-- TODO take @draft and @draft_forms out of this partial -->
     <%= select_tag "next_section", options_for_select(@draft_forms.map{|d| [d[:form_partial_name].titleize, d[:form_partial_name]]}, @draft_form), class: 'next-section' %>
 
     <%= submit_tag "Save & Next", class: "btn btn-blue" %>

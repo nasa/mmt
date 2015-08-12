@@ -18,7 +18,7 @@ describe 'Metadata Information form', js: true do
       select 'DIF', from: 'Name'
       fill_in 'Version', with: '10'
 
-      add_metadata_dates_values
+      add_dates('meta')
 
       within '.nav-top' do
         click_on 'Save & Done'
@@ -100,21 +100,11 @@ describe 'Metadata Information form', js: true do
         expect(page).to have_field("#{related_url_1_prefix}title", with: 'Example Title')
         expect(page).to have_field("#{related_url_1_prefix}file_size_size", with: '42')
         expect(page).to have_field("#{related_url_1_prefix}file_size_unit", with: 'MB')
-        expect(page).to have_field("#{related_url_1_prefix}content_type_type", with: 'Text')
-        expect(page).to have_field("#{related_url_1_prefix}content_type_subtype", with: 'Subtext')
+        expect(page).to have_field("#{related_url_1_prefix}content_type_type", with: 'Type')
+        expect(page).to have_field("#{related_url_1_prefix}content_type_subtype", with: 'Subtype')
         # RelatedUrl 2
         related_url_2_prefix = "#{responsibility_1_prefix}party_related_url_1_"
         expect(page).to have_field("#{related_url_2_prefix}url_", with: 'http://example.com/1')
-        expect(page).to have_field("#{related_url_2_prefix}url_", with: 'http://another-example.com/1')
-        expect(page).to have_field("#{related_url_2_prefix}description", with: 'Example Description 1')
-        expect(page).to have_field("#{related_url_2_prefix}protocol", with: 'SSH')
-        expect(page).to have_field("#{related_url_2_prefix}mime_type", with: 'text/json')
-        expect(page).to have_field("#{related_url_2_prefix}caption", with: 'Example Caption 1')
-        expect(page).to have_field("#{related_url_2_prefix}title", with: 'Example Title 1')
-        expect(page).to have_field("#{related_url_2_prefix}file_size_size", with: '4.2')
-        expect(page).to have_field("#{related_url_2_prefix}file_size_unit", with: 'GB')
-        expect(page).to have_field("#{related_url_2_prefix}content_type_type", with: 'Text 1')
-        expect(page).to have_field("#{related_url_2_prefix}content_type_subtype", with: 'Subtext 1')
 
         # Responsibility 2
         responsibility_2_prefix = "#{date_1_prefix}responsibility_1_"
@@ -163,21 +153,11 @@ describe 'Metadata Information form', js: true do
         expect(page).to have_field("#{related_url_1_prefix}title", with: 'Example Title')
         expect(page).to have_field("#{related_url_1_prefix}file_size_size", with: '42')
         expect(page).to have_field("#{related_url_1_prefix}file_size_unit", with: 'MB')
-        expect(page).to have_field("#{related_url_1_prefix}content_type_type", with: 'Text')
-        expect(page).to have_field("#{related_url_1_prefix}content_type_subtype", with: 'Subtext')
+        expect(page).to have_field("#{related_url_1_prefix}content_type_type", with: 'Type')
+        expect(page).to have_field("#{related_url_1_prefix}content_type_subtype", with: 'Subtype')
         # RelatedUrl 2
         related_url_2_prefix = "#{responsibility_2_prefix}party_related_url_1_"
         expect(page).to have_field("#{related_url_2_prefix}url_", with: 'http://example.com/1')
-        expect(page).to have_field("#{related_url_2_prefix}url_", with: 'http://another-example.com/1')
-        expect(page).to have_field("#{related_url_2_prefix}description", with: 'Example Description 1')
-        expect(page).to have_field("#{related_url_2_prefix}protocol", with: 'SSH')
-        expect(page).to have_field("#{related_url_2_prefix}mime_type", with: 'text/json')
-        expect(page).to have_field("#{related_url_2_prefix}caption", with: 'Example Caption 1')
-        expect(page).to have_field("#{related_url_2_prefix}title", with: 'Example Title 1')
-        expect(page).to have_field("#{related_url_2_prefix}file_size_size", with: '4.2')
-        expect(page).to have_field("#{related_url_2_prefix}file_size_unit", with: 'GB')
-        expect(page).to have_field("#{related_url_2_prefix}content_type_type", with: 'Text 1')
-        expect(page).to have_field("#{related_url_2_prefix}content_type_subtype", with: 'Subtext 1')
 
         #### Date 2
         date_2_prefix = 'draft_metadata_lineage_0_date_1_'

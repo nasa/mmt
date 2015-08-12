@@ -2,9 +2,14 @@
 <div class="row">
   <div class="col-12">
     <label for="draft_related_url" class="main-field icon-required">Temporal Extent</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/types/temporal_extent_type', locals: {
-        temporal_extents: @draft.draft['TemporalExtent'] || [{}],
-        name_prefix: 'draft_temporal_extent_' } %>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'temporal_extent',
+          values: @draft.draft['TemporalExtent'] || [{}],
+          name_prefix: 'draft_|temporal_extent|_',
+          multiple: true,
+          options: {} } %>
+    </div>
   </div>
 </div>
 
@@ -12,14 +17,13 @@
 <div class="row">
   <div class="col-12">
     <label>Temporal Keywords</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-
+    <div class="row sub-fields">
       <% keywords = @draft.draft['TemporalKeyword'] || [nil] # [nil] creates at least one keyword field %>
       <div class="multiple temporal-keyword">
       <% keywords.each do |keyword| %>
         <div class="multiple-item">
           <label for="draft_temporal_keyword_">Temporal Keyword</label><i class="fa fa-info-circle"></i>
-          <%= text_field_tag(name_to_param("draft_temporal_keyword_index"), keyword, class: 'half-width') %>
+          <%= text_field_tag(name_to_param("draft_|temporal_keyword|_index"), keyword, class: 'half-width') %>
           <div class="actions">
             <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
             <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
@@ -37,10 +41,13 @@
 <div class="row">
   <div class="col-12">
     <label for="paleo_temporal_coverage">Paleo Temporal Coverage</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <%= render partial: 'drafts/forms/types/paleo_temporal_coverage_type', locals: {
-          paleo_temporal_coverage: @draft.draft['PaleoTemporalCoverage'] || {},
-          name_prefix: 'draft_paleo_temporal_coverage_' } %>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'paleo_temporal_coverage',
+          values: @draft.draft['PaleoTemporalCoverage'] || {},
+          name_prefix: 'draft_|paleo_temporal_coverage|_',
+          multiple: false,
+          options: {} } %>
     </div>
   </div>
 </div>

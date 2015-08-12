@@ -1,29 +1,17 @@
-<div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_distribution %>">
-  <div class="accordion-header">
-    <i class="fa fa-angle-down toggle"></i>
-    Distribution <%= index + 1 %>
-    <div class="actions">
-      <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
-    </div>
-  </div>
-  <div class="accordion-body">
+<div class="row sub-fields">
+  <!-- Distribution Media -->
+  <label for="<%= remove_pipes(name_prefix) %>distribution_media">Distribution Media</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}|distribution_media|"), distribution['DistributionMedia'], rows: 8) %>
 
-    <div class="row sub-fields">
-      <!-- Distribution Media -->
-      <label for="<%= name_prefix %>distribution_media">Distribution Media</label><i class="fa fa-info-circle"></i>
-      <%= text_area_tag(name_to_param("#{name_prefix}distribution_media"), distribution['DistributionMedia'], rows: 8) %>
+  <!-- Distribution Size -->
+  <label for="<%= remove_pipes(name_prefix) %>distribution_size">Distribution Size</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|distribution_size|"), distribution['DistributionSize'], class: 'half-width') %>
 
-      <!-- Distribution Size -->
-      <label for="<%= name_prefix %>distribution_size">Distribution Size</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}distribution_size"), distribution['DistributionSize'], class: 'half-width') %>
+  <!-- Distribution Format -->
+  <label for="<%= remove_pipes(name_prefix) %>distribution_format">Distribution Format</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|distribution_format|"), distribution['DistributionFormat'], class: 'half-width') %>
 
-      <!-- Distribution Format -->
-      <label for="<%= name_prefix %>distribution_format">Distribution Format</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}distribution_format"), distribution['DistributionFormat'], class: 'half-width') %>
-
-      <!-- Fees -->
-      <label for="<%= name_prefix %>fees">Fees (in US Dollars)</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}fees"), distribution['Fees'], class: 'half-width') %>
-    </div>
-  </div>
+  <!-- Fees -->
+  <label for="<%= remove_pipes(name_prefix) %>fees">Fees (in US Dollars)</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}fees"), distribution['Fees'], class: 'half-width') %>
 </div>

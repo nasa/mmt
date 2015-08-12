@@ -2,9 +2,12 @@
 <div class="row">
   <div class="col-12">
     <label for="draft_related_url" class="main-field icon-required">Related URL</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/types/related_url_type', locals: {
-        related_urls: @draft.draft['RelatedUrl'] || [{}],
-        name_prefix: 'draft_related_url_' } %>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'related_url',
+        values: @draft.draft['RelatedUrl'] || [{}],
+        name_prefix: 'draft_|related_url|_',
+        multiple: true,
+        options: {} } %>
   </div>
 </div>
 
@@ -12,8 +15,11 @@
 <div class="row taller">
   <div class="col-12">
     <label for="draft_distribution" class="main-field">Distribution</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/types/distribution_type', locals: {
-        distributions: @draft.draft['Distribution'] || [{}],
-        name_prefix: 'draft_distribution_' } %>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'distribution',
+        values: @draft.draft['Distribution'] || [{}],
+        name_prefix: 'draft_distribution_',
+        multiple: true,
+        options: {} } %>
   </div>
 </div>
