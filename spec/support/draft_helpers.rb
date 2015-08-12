@@ -81,7 +81,7 @@ module Helpers
       end
     end
 
-    def add_metadata_dates_values(init_store) #=[])
+    def add_metadata_dates_values(init_store)
       within '.multiple.metadata-lineage' do
         within '.multiple.metadata-lineage-date' do
           mmt_select init_store, 'Create', from: 'Date Type'
@@ -149,7 +149,7 @@ module Helpers
       end
     end
 
-    def add_contacts(init_store) #=[])
+    def add_contacts(init_store)
       within '.multiple.contact' do
         mmt_fill_in init_store, 'Type', with: 'Email'
         mmt_fill_in init_store, 'Value', with: 'example@example.com'
@@ -161,7 +161,7 @@ module Helpers
       end
     end
 
-    def add_addresses(init_store) #=[])
+    def add_addresses(init_store)
       within '.multiple.address' do
         within '.multiple.address-street-address' do
           # TODO - address how find bypasses init_store
@@ -192,7 +192,7 @@ module Helpers
       end
     end
 
-    def add_related_urls(init_store) #=[])
+    def add_related_urls(init_store)
       within '.multiple.related-url' do
         within '.multiple.related-url-url' do
           mmt_fill_in init_store, 'URL', with: 'http://example.com'
