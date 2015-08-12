@@ -50,19 +50,9 @@ describe 'Distribution information form', js: true do
       before do
         click_on 'Distribution Information'
 
-        # Expand first RelatedUrl item
-        within '.multiple.related-url' do
-          within '.multiple-item-0' do
-            find('.accordion-header').click
-          end
-        end
-
-        # Expand first Distribution item
-        within '.multiple.distribution' do
-          within '.multiple-item-0' do
-            find('.accordion-header').click
-          end
-        end
+        # Open all accordions
+        script = "$('.multiple-item.is-closed').removeClass('is-closed');"
+        page.evaluate_script script
       end
 
       it 'populates the form with the values' do
