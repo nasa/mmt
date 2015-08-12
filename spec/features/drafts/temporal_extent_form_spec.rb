@@ -93,8 +93,6 @@ describe 'Temporal extent form', js: true do
 
     # TODO MMT-296
     it "shows pre-entered values in the draft preview page" do
-# t = Draft.first
-# puts t.inspect
       check_page_for_display_of_values(page, init_store, {})
     end
 
