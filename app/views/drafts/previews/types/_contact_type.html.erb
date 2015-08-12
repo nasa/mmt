@@ -1,5 +1,5 @@
 <ul class='<%= name_to_class('Contact')%>-<%=index%>'>
-  <strong>Contact <%= index + 1 %></strong>
+  <li>Contact <%= index + 1 %></li>
   <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>contact} %>
   <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Value',   :hash_for_key=>contact} %>
 </ul>

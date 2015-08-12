@@ -3,7 +3,7 @@
 <!-- Related URL [r] -->
 <% if !@draft.draft['RelatedUrl'].blank? %>
   <ul class="<%= name_to_class('RelatedUrl').pluralize%>">
-    <h4><%= 'Related URL'.pluralize(@draft.draft['RelatedUrl'].count)%></h4>
+    <li><%= 'Related URL'.pluralize(@draft.draft['RelatedUrl'].count)%></li>
     <% @draft.draft['RelatedUrl'].each_with_index do |related_url, index| %>
       <%= render :partial=>'drafts/previews/types/related_url_type', :locals=>{related_url: related_url, index: index} %>
     <% end %>
@@ -13,7 +13,7 @@
 <!-- Distribution -->
 <% if !@draft.draft['Distribution'].blank? %>
   <ul class="<%= name_to_class('Distribution').pluralize%>">
-    <h4><%= 'Distribution'.pluralize(@draft.draft['Distribution'].count)%></h4>
+    <li><%= 'Distribution'.pluralize(@draft.draft['Distribution'].count)%></li>
     <% @draft.draft['Distribution'].each_with_index do |distribution, index| %>
       <%= render :partial=>'drafts/previews/types/distribution_type', :locals=>{distribution: distribution, index: index} %>
     <% end %>

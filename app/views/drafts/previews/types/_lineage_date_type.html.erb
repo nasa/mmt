@@ -1,5 +1,5 @@
 <ul class='<%= name_to_class('Date')%>-<%=index%>'>
-  <strong>Date <%= index + 1 %></strong>
+  <li>Date <%= index + 1 %></li>
 
   <!-- Type [r] - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
   <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>lineage_date} %>
@@ -13,7 +13,7 @@
   <!-- Responsibility [r] -->
   <% if !lineage_date['Responsibility'].blank? %>
     <ul class="<%= name_to_class('Responsibility')%>">
-      <h4><%= 'Responsibility'.pluralize(lineage_date['Responsibility'].count)%></h4>
+      <li><%= 'Responsibility'.pluralize(lineage_date['Responsibility'].count)%></li>
       <% lineage_date['Responsibility'].each_with_index do |responsibility, index| %>
         <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index} %>
       <% end %>

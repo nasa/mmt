@@ -1,5 +1,5 @@
 <ul class='<%= name_to_class('Address')%>-<%=index%>'>
-  <strong>Address <%= index + 1 %></strong>
+  <li>Address <%= index + 1 %></li>
 
   <% if !address['StreetAddress'].blank? %>
     <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'StreetAddress', :hash_for_key=>address} %>

@@ -1,13 +1,13 @@
 <!-- Metadata Lineage scope [r] -->
 <ul class='<%= name_to_class('MetadataLineage')%>-<%=index%>'>
-  <strong>Lineage <%= index + 1 %></strong>
+  <li>Lineage <%= index + 1 %></li>
 
   <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Scope', :hash_for_key=>lineage} %>
 
   <!-- Metadata Lineage Dates -->
   <% if !lineage['Date'].blank? %>
     <ul class="<%= name_to_class('Date')%>">
-      <h4><%= 'Date'.pluralize(lineage['Date'].count)%></h4>
+      <li><%= 'Date'.pluralize(lineage['Date'].count)%></li>
       <% lineage['Date'].each_with_index do |lineage_date, index| %>
         <%= render :partial=>'drafts/previews/types/lineage_date_type', :locals=>{lineage_date: lineage_date, index: index} %>
       <% end %>
