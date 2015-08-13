@@ -29,7 +29,11 @@
 
       <input type="hidden" name='new_form_name' id="new_form_name" />
 
-      <%= render :partial => 'drafts/forms/form_navigation', :locals => { :location => 'top' } %>
+      <%= render :partial => 'drafts/forms/form_navigation', :locals => {
+          location: 'top',
+          draft: @draft,
+          draft_form: @draft_form,
+          draft_forms: @draft_forms } %>
 
       <div class="row">
         <div class="col-12">
@@ -37,11 +41,15 @@
         </div>
       </div>
 
-      <%= render :partial => "drafts/forms/#{@draft_form}", :locals => { :draft => @draft } %>
+      <%= render :partial => "drafts/forms/#{@draft_form}", :locals => { draft: @draft } %>
 
       </br>
 
-      <%= render :partial => 'drafts/forms/form_navigation', :locals => { :location => 'bottom' } %>
+      <%= render :partial => 'drafts/forms/form_navigation', :locals => {
+          location: 'bottom',
+          draft: @draft,
+          draft_form: @draft_form,
+          draft_forms: @draft_forms } %>
 
     </section>
   <% end %>
