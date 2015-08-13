@@ -74,7 +74,7 @@ describe 'Data identification form', js: true do
     it "shows pre-entered values in the draft preview page" do
       expect(page).to have_content('12345')
       expect(page).to have_content('1')
-      expect(page).to have_content('Authoritxxy')
+      expect(page).to have_content('Authority')
 
 
 
