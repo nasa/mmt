@@ -44,6 +44,12 @@ module Helpers
           elsif parent_key_special_handling == :handle_as_role
             # Map role value stored in json to what is actually supposed to be displayed
             draft = map_role_onto_display_string(draft)
+          elsif parent_key_special_handling == :handle_as_date_type
+            # Map role value stored in json to what is actually supposed to be displayed
+            draft = map_date_type_onto_display_string(draft)
+          elsif parent_key_special_handling == :handle_as_invisible
+            # This field is not supposed to be displayed
+            return
           end
           expect(page).to have_content(draft)
         when 'Hash'

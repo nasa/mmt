@@ -1,7 +1,7 @@
 <div class="row sub-fields">
   <!-- Type - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
   <label for="<%= remove_pipes(name_prefix) %>type" class="icon-required">Date Type</label><i class="fa fa-info-circle"></i>
-  <%= select_tag name_to_param("#{name_prefix}type"), options_for_select([['Select Date Type', ''],['Create', 'CREATE'], ['Update', 'UPDATE'], ['Delete', 'DELETE'], ['Review', 'REVIEW']], lineage_date['Type']), class: 'single-select' %>
+  <%= select_tag name_to_param("#{name_prefix}type"), options_for_select(date_type_options, lineage_date['Type']), class: 'single-select' %>
 
   <!-- Date -->
   <label for="<%= remove_pipes(name_prefix) %>date" class="icon-required">Date</label><i class="fa fa-info-circle"></i>

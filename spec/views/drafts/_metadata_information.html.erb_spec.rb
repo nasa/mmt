@@ -80,7 +80,7 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
 
         draft_json['MetadataLineage'].each_with_index do |metadata_lineage, index|
           check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataLineage')}-#{index}"), metadata_lineage, 'MetadataLineage',
-                                              {Role: :handle_as_role})
+                                              {Role: :handle_as_role, Scope: :handle_as_invisible, Type: :handle_as_date_type})
         end
 
       end

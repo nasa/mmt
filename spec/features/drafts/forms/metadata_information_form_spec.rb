@@ -13,10 +13,10 @@ describe 'Metadata Information form', js: true do
     before do
       click_on 'Metadata Information'
 
-      mmt_fill_in init_store, 'Metadata Language', with: 'English'
+      fill_in 'Metadata Language', with: 'English'
 
-      mmt_select init_store, 'DIF', from: 'Name'
-      mmt_fill_in init_store, 'Version', with: '10'
+      select 'DIF', from: 'Name'
+      fill_in 'Version', with: '10'
 
       add_dates('meta')
 
@@ -29,125 +29,124 @@ describe 'Metadata Information form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    # TODO MMT-295
     it "shows pre-entered values in the draft preview page" do
-      # expect(page).to have_content('English')
-      # expect(page).to have_content('DIF')
-      # expect(page).to have_content('10')
+      expect(page).to have_content('English')
+      expect(page).to have_content('DIF')
+      expect(page).to have_content('10')
       #
-      # # Metadata Lineage 1
-      # # Date 1
-      # expect(page).to have_content('CREATE')
-      # expect(page).to have_content('2015-07-01')
-      # expect(page).to have_content('Create metadata')
+      # Metadata Lineage 1
+      # Date 1
+      expect(page).to have_content('Create')
+      expect(page).to have_content('2015-07-01')
+      expect(page).to have_content('Create metadata')
       #
-      # # Responsibility 1
-      # expect(page).to have_content('RESOURCEPROVIDER')
-      # expect(page).to have_content('ORG_SHORT')
-      # expect(page).to have_content('Organization Long Name')
-      # expect(page).to have_content('9-5, M-F')
-      # expect(page).to have_content('Email only')
+      # Responsibility 1
+      expect(page).to have_content('Resource Provider')
+      expect(page).to have_content('ORG_SHORT')
+      expect(page).to have_content('Organization Long Name')
+      expect(page).to have_content('9-5, M-F')
+      expect(page).to have_content('Email only')
       #
-      # # Contact 1
-      # expect(page).to have_content('Email')
-      # expect(page).to have_content('example@example.com')
-      # # Contact 2
-      # expect(page).to have_content('Email')
-      # expect(page).to have_content('example2@example.com')
+      # Contact 1
+      expect(page).to have_content('Email')
+      expect(page).to have_content('example@example.com')
+      # Contact 2
+      expect(page).to have_content('Email')
+      expect(page).to have_content('example2@example.com')
       #
-      # # Address 1
-      # expect(page).to have_content('300 E Street Southwest')
-      # expect(page).to have_content('Room 203')
-      # expect(page).to have_content('Washington')
-      # expect(page).to have_content('DC')
-      # expect(page).to have_content('20546')
-      # expect(page).to have_content('United States')
-      # # Address 2
-      # expect(page).to have_content('8800 Greenbelt Road')
-      # expect(page).to have_content('')
-      # expect(page).to have_content('Greenbelt')
-      # expect(page).to have_content('MD')
-      # expect(page).to have_content('20771')
-      # expect(page).to have_content('United States')
+      # Address 1
+      expect(page).to have_content('300 E Street Southwest')
+      expect(page).to have_content('Room 203')
+      expect(page).to have_content('Washington')
+      expect(page).to have_content('DC')
+      expect(page).to have_content('20546')
+      expect(page).to have_content('United States')
+      # Address 2
+      expect(page).to have_content('8800 Greenbelt Road')
+      expect(page).to have_content('')
+      expect(page).to have_content('Greenbelt')
+      expect(page).to have_content('MD')
+      expect(page).to have_content('20771')
+      expect(page).to have_content('United States')
       #
-      # # RelatedUrl 1
-      # expect(page).to have_content('http://example.com')
-      # expect(page).to have_content('http://another-example.com')
-      # expect(page).to have_content('Example Description')
-      # expect(page).to have_content('FTP')
-      # expect(page).to have_content('text/html')
-      # expect(page).to have_content('Example Caption')
-      # expect(page).to have_content('Example Title')
-      # expect(page).to have_content('42')
-      # expect(page).to have_content('MB')
-      # expect(page).to have_content('Type')
-      # expect(page).to have_content('Subtype')
-      # # RelatedUrl 2
-      # expect(page).to have_content('http://example.com/1')
+      # RelatedUrl 1
+      expect(page).to have_content('http://example.com')
+      expect(page).to have_content('http://another-example.com')
+      expect(page).to have_content('Example Description')
+      expect(page).to have_content('FTP')
+      expect(page).to have_content('text/html')
+      expect(page).to have_content('Example Caption')
+      expect(page).to have_content('Example Title')
+      expect(page).to have_content('42')
+      expect(page).to have_content('MB')
+      expect(page).to have_content('Type')
+      expect(page).to have_content('Subtype')
+      # RelatedUrl 2
+      expect(page).to have_content('http://example.com/1')
       #
-      # # Responsibility 2
-      # expect(page).to have_content('OWNER')
-      # expect(page).to have_content('First Name')
-      # expect(page).to have_content('Middle Name')
-      # expect(page).to have_content('Last Name')
+      # Responsibility 2
+      expect(page).to have_content('Owner')
+      expect(page).to have_content('First Name')
+      expect(page).to have_content('Middle Name')
+      expect(page).to have_content('Last Name')
       #
-      # expect(page).to have_content('10-2, M-W')
-      # expect(page).to have_content('Email only')
+      expect(page).to have_content('10-2, M-W')
+      expect(page).to have_content('Email only')
       #
-      # # Contact 1
-      # expect(page).to have_content('Email')
-      # expect(page).to have_content('example@example.com')
-      # # Contact 2
-      # expect(page).to have_content('Email')
-      # expect(page).to have_content('example2@example.com')
+      # Contact 1
+      expect(page).to have_content('Email')
+      expect(page).to have_content('example@example.com')
+      # Contact 2
+      expect(page).to have_content('Email')
+      expect(page).to have_content('example2@example.com')
       #
-      # # Address 1
-      # expect(page).to have_content('300 E Street Southwest')
-      # expect(page).to have_content('Room 203')
-      # expect(page).to have_content('Washington')
-      # expect(page).to have_content('DC')
-      # expect(page).to have_content('20546')
-      # expect(page).to have_content('United States')
-      # # Address 2
-      # expect(page).to have_content('8800 Greenbelt Road')
-      # expect(page).to have_content('')
-      # expect(page).to have_content('Greenbelt')
-      # expect(page).to have_content('MD')
-      # expect(page).to have_content('20771')
-      # expect(page).to have_content('United States')
+      # Address 1
+      expect(page).to have_content('300 E Street Southwest')
+      expect(page).to have_content('Room 203')
+      expect(page).to have_content('Washington')
+      expect(page).to have_content('DC')
+      expect(page).to have_content('20546')
+      expect(page).to have_content('United States')
+      # Address 2
+      expect(page).to have_content('8800 Greenbelt Road')
+      expect(page).to have_content('')
+      expect(page).to have_content('Greenbelt')
+      expect(page).to have_content('MD')
+      expect(page).to have_content('20771')
+      expect(page).to have_content('United States')
       #
-      # # RelatedUrl 1
-      # expect(page).to have_content('http://example.com')
-      # expect(page).to have_content('http://another-example.com')
-      # expect(page).to have_content('Example Description')
-      # expect(page).to have_content('FTP')
-      # expect(page).to have_content('text/html')
-      # expect(page).to have_content('Example Caption')
-      # expect(page).to have_content('Example Title')
-      # expect(page).to have_content('42')
-      # expect(page).to have_content('MB')
-      # expect(page).to have_content('Type')
-      # expect(page).to have_content('Subtype')
-      # # RelatedUrl 2
-      # expect(page).to have_content('http://example.com/1')
+      # RelatedUrl 1
+      expect(page).to have_content('http://example.com')
+      expect(page).to have_content('http://another-example.com')
+      expect(page).to have_content('Example Description')
+      expect(page).to have_content('FTP')
+      expect(page).to have_content('text/html')
+      expect(page).to have_content('Example Caption')
+      expect(page).to have_content('Example Title')
+      expect(page).to have_content('42')
+      expect(page).to have_content('MB')
+      expect(page).to have_content('Type')
+      expect(page).to have_content('Subtype')
+      # RelatedUrl 2
+      expect(page).to have_content('http://example.com/1')
       #
-      # #### Date 2
-      # expect(page).to have_content('REVIEW')
-      # expect(page).to have_content('2015-07-02')
-      # expect(page).to have_content('Reviewed metadata')
+      # Date 2
+      expect(page).to have_content('Review')
+      expect(page).to have_content('2015-07-02')
+      expect(page).to have_content('Reviewed metadata')
       #
-      # # Responsibility 1
-      # expect(page).to have_content('EDITOR')
-      # expect(page).to have_content('short_name')
+      # Responsibility 1
+      expect(page).to have_content('Editor')
+      expect(page).to have_content('short_name')
       #
-      # ########## Metadata Lineage 2
-      # expect(page).to have_content('CREATE')
-      # expect(page).to have_content('2015-07-05')
-      # expect(page).to have_content('Create metadata')
+      # Metadata Lineage 2
+      expect(page).to have_content('Create')
+      expect(page).to have_content('2015-07-05')
+      expect(page).to have_content('Create metadata')
       #
-      # # Responsibility 1
-      # expect(page).to have_content('USER')
-      # expect(page).to have_content('another_short_name')
+      # Responsibility 1
+      expect(page).to have_content('User')
+      expect(page).to have_content('another_short_name')
     end
 
     context 'when returning to the form' do

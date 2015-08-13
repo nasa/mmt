@@ -1,6 +1,6 @@
 <ul class='<%= name_to_class('Distribution')%>-<%=index%>'>
   <li>
-    Distribution <%=index+1%>
+    <strong>Distribution <%=index+1%></strong>
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionMedia', :hash_for_key=>distribution} %>
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionSize', :hash_for_key=>distribution} %>
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionFormat', :hash_for_key=>distribution} %>
