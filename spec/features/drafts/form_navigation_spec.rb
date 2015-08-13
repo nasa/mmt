@@ -90,7 +90,7 @@ describe 'Draft form navigation' do
 
     context 'Clicking Save & Done' do
       before do
-        fill_in 'Title', with: TEST_TITLE_STRING
+        fill_in 'Entry Title', with: TEST_TITLE_STRING
         click_button("Save & Done", match: :first)
       end
       it 'returns you to the Summary page with edits saved' do
@@ -101,7 +101,7 @@ describe 'Draft form navigation' do
 
     context 'Clicking Cancel' do
       before do
-        fill_in 'Title', with: TEST_TITLE_STRING
+        fill_in 'Entry Title', with: TEST_TITLE_STRING
         click_link("discard_changes", match: :first) # There are multiple "cancel" links
       end
       it 'returns you to the Summary page with edits discarded' do

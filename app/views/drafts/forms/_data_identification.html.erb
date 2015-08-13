@@ -1,0 +1,226 @@
+<!-- Entry ID [r] -->
+<div class="row entry-id">
+  <div class="col-12">
+    <label for="draft_entry_id" class="main-field icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'entry_id',
+        values: draft.draft['EntryId'] || {},
+        name_prefix: "draft_|entry_id|_",
+        multiple: false,
+        options: {} } %>
+  </div>
+</div>
+
+
+<!-- Entry Title [r] -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_entry_title" class="main-field icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
+    <%= text_field_tag('draft[entry_title]', draft.draft['EntryTitle'], class: 'half-width') %>
+  </div>
+</div>
+
+
+<!-- Abstract [r] -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_abstract" class="icon-required">Abstract</label><i class="fa fa-info-circle"></i>
+    <%= text_area_tag('draft[abstract]', draft.draft['Abstract'], rows: 8) %>
+  </div>
+</div>
+
+
+<!-- Purpose -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_purpose">Purpose</label><i class="fa fa-info-circle"></i>
+    <%= text_area_tag('draft[purpose]', draft.draft['Purpose'], rows: 8) %>
+  </div>
+</div>
+
+
+<!-- Data language -->
+<!-- DataLanguage needs to be an object, not a string, but we don't have enough info in the json-schema -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_data_language">Data Language</label><i class="fa fa-info-circle"></i>
+    <%= text_field_tag('draft[data_language]', draft.draft['DataLanguage'], placeholder: 'English', class: 'half-width') %>
+  </div>
+</div>
+
+<!-- Data dates [r] -->
+<div class="row">
+  <div class="col-12">
+    <label class="main-field icon-required">Data Lineage</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'lineage',
+        values: draft.draft['DataLineage'] || [{}],
+        name_prefix: 'draft_|data_lineage|_',
+        multiple: true,
+        options: {
+          lineage_type: 'data',
+          type: 'data_lineage',
+          title: 'Data Date'
+        } } %>
+  </div>
+</div>
+
+<!-- Organization [r] -->
+<div class="row taller responsible-organization">
+  <div class="col-12">
+    <label class="main-field icon-required">Organization</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'responsibility',
+          values: draft.draft['ResponsibleOrganization'] || [{}],
+          name_prefix: "draft_|responsible_organization|_",
+          multiple: true,
+          options: {
+            limit_type: 'organization',
+            title: 'Organization'
+          } } %>
+    </div>
+  </div>
+</div>
+
+<!-- Personnel -->
+<div class="row taller responsible-personnel">
+  <div class="col-12">
+    <label>Personnel</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'responsibility',
+          values: draft.draft['ResponsiblePersonnel'] || [{}],
+          name_prefix: "draft_|responsible_personnel|_",
+          multiple: true,
+          options: {
+            limit_type: 'personnel',
+            title: 'Personnel'
+          } } %>
+    </div>
+  </div>
+</div>
+
+<!-- Collection Data Type -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_collection_data_type">Collection Data Type</label><i class="fa fa-info-circle"></i>
+    <%= select_tag "draft[collection_data_type]", options_for_select([['Select Data Type', ''], ['Science Quality', 'SCIENCE_QUALITY'], ['Near Real Time', 'NEAR_REAL_TIME'], ['Other', 'OTHER']], draft.draft['CollectionDataType']), class: 'half-width' %>
+  </div>
+</div>
+
+<!-- Processing Level [r] -->
+<!-- TODO , maybe? -->
+<div class="row">
+  <div class="col-12">
+    <label class="icon-required">Processing Level</label><i class="fa fa-info-circle"></i>
+
+    <div class="row sub-fields">
+      <div class="processing-level-fields">
+        <% processing_level = draft.draft['ProcessingLevel'] || {} %>
+        <label for="draft_processing_level_id">ID</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[processing_level][id]', processing_level['Id'], class: 'half-width') %>
+        <!-- ID should be dropdown with level 0, level 1a, etc. -->
+
+        <label for="draft_processing_level_processing_level_description">Processing Level Description</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'half-width') %>
+        <!-- TODO description needs stuff from Mark -->
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Resource Citation -->
+  <!-- CollectionCitation -->
+<div class="row">
+  <div class="col-12">
+    <label>Resource Citation</label><i class="fa fa-info-circle"></i>
+    <div class="row">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'resource_citation',
+          values: draft.draft['CollectionCitation'] || [{}],
+          name_prefix: "draft_|collection_citation|_",
+          multiple: true,
+          options: {} } %>
+    </div>
+  </div>
+</div>
+
+
+<!-- Collection Progress -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_collection_progress">Collection Progress</label><i class="fa fa-info-circle"></i>
+    <%= select_tag "draft[collection_progress]", options_for_select([['Select Progress', ''], ['Planned', 'PLANNED'], ['In work', 'IN WORK'], ['Complete', 'COMPLETE']], draft.draft['CollectionProgress']), class: 'half-width' %>
+  </div>
+</div>
+
+
+<!-- Quality -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_quality">Quality</label><i class="fa fa-info-circle"></i>
+    <%= text_area_tag('draft[quality]', draft.draft['Quality'], rows: 8) %>
+  </div>
+</div>
+
+
+<!-- Use Constraints -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_use_constraints">Use Constraints</label><i class="fa fa-info-circle"></i>
+    <%= text_area_tag('draft[use_constraints]', draft.draft['UseConstraints'], rows: 8) %>
+  </div>
+</div>
+
+
+<!-- Access Constraints -->
+<div class="row access-constraints">
+  <div class="col-12">
+    <label>Access Constraints</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <% access_constraints = draft.draft['AccessConstraints'] || {} %>
+      <!-- Value -->
+      <label for="draft_access_constraints_value" class="icon-required">Value</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width') %>
+
+      <!-- Description -->
+      <label for="draft_access_constraints_description" class="icon-required">Description</label><i class="fa fa-info-circle"></i>
+      <%= text_area_tag(name_to_param("draft_|access_constraints|_description"), access_constraints['Description'], rows: 8) %>
+    </div>
+  </div>
+</div>
+
+
+<!-- Metadata Association -->
+<div class="row">
+  <div class="col-12">
+    <label class="main-field">Metadata Association</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'metadata_association',
+          values: draft.draft['MetadataAssociation'] || [{}],
+          name_prefix: "draft_|metadata_association|_",
+          multiple: true,
+          options: {} } %>
+    </div>
+  </div>
+</div>
+
+
+<!-- Publication Reference -->
+<div class="row">
+  <div class="col-12">
+    <label>Publication Reference</label><i class="fa fa-info-circle"></i>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'publication_reference',
+          values: draft.draft['PublicationReference'] || [{}],
+          name_prefix: "draft_|publication_reference|_",
+          multiple: true,
+          options: {} } %>
+    </div>
+  </div>
+</div>

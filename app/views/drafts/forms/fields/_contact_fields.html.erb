@@ -1,20 +1,7 @@
-<div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_contact %>">
-  <div class="accordion-header">
-    <i class="fa fa-angle-down toggle"></i>
-    Contact <%= index + 1 %>
-    <div class="actions">
-      <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button>
-      <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
-    </div>
-  </div>
-  <div class="accordion-body">
+<div class="row sub-fields">
+  <label for="<%= remove_pipes(name_prefix) %>type">Type</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}type"), contact['Type'], class: 'half-width') %>
 
-    <div class="row sub-fields">
-      <label for="<%= name_prefix %>type">Type</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}type"), contact['Type'], class: 'half-width') %>
-
-      <label for="<%= name_prefix %>value">Value</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}value"), contact['Value'], class: 'half-width') %>
-    </div>
-  </div>
+  <label for="<%= remove_pipes(name_prefix) %>value">Value</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}value"), contact['Value'], class: 'half-width') %>
 </div>

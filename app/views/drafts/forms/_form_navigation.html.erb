@@ -7,13 +7,13 @@
   <div class="col-9 form-nav">
     <label for="next-section">Next: </label>
 
-    <%= select_tag "next_section", options_for_select(@draft_forms.map{|d| [d[:form_partial_name].titleize, d[:form_partial_name]]}, @draft_form), class: 'next-section' %>
+    <%= select_tag "next_section", options_for_select(draft_forms.map{|form| [form[:form_partial_name].titleize, form[:form_partial_name]]}, draft_form), class: 'next-section' %>
 
     <%= submit_tag "Save & Next", class: "btn btn-blue" %>
   </div>
 
   <div class="col-1">
-    <%= link_to 'Cancel', draft_path(@draft), {:class=>"cancel", :id=>'discard_changes'} %>
+    <%= link_to 'Cancel', draft_path(draft), {:class=>"cancel", :id=>'discard_changes'} %>
   </div>
 
 </div>

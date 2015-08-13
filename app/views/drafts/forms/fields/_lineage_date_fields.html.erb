@@ -1,31 +1,23 @@
-<div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_date %>">
-  <div class="accordion-header">
-    <i class="fa fa-angle-down toggle"></i>
-    Date <%= index + 1 %>
-    <div class="actions">
-      <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another</button>
-      <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
-    </div>
-  </div>
-  <div class="accordion-body">
+<div class="row sub-fields">
+  <!-- Type - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
+  <label for="<%= remove_pipes(name_prefix) %>type" class="icon-required">Date Type</label><i class="fa fa-info-circle"></i>
+  <%= select_tag name_to_param("#{name_prefix}type"), options_for_select(date_type_options, lineage_date['Type']), class: 'single-select' %>
 
-    <div class="row sub-fields">
-      <!-- Type - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
-      <label for="<%= name_prefix %>type" class="icon-required">Date Type</label><i class="fa fa-info-circle"></i>
-      <%= select_tag name_to_param("#{name_prefix}type"), options_for_select([['Select Date Type', ''],['Create', 'CREATE'], ['Update', 'UPDATE'], ['Delete', 'DELETE'], ['Review', 'REVIEW']], date['Type']), class: 'single-select' %>
+  <!-- Date -->
+  <label for="<%= remove_pipes(name_prefix) %>date" class="icon-required">Date</label><i class="fa fa-info-circle"></i>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}date"), lineage_date['Date'], class: 'half-width') %>
 
-      <!-- Date -->
-      <label for="<%= name_prefix %>date" class="icon-required">Date</label><i class="fa fa-info-circle"></i>
-      <%= datetime_field_tag(name_to_param("#{name_prefix}date"), date['Date'], class: 'half-width') %>
+  <!-- Description - text field -->
+  <label for="<%= remove_pipes(name_prefix) %>description">Description</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}description"), lineage_date['Description'], class: 'half-width') %>
 
-      <!-- Description - text field -->
-      <label for="<%= name_prefix %>description">Description</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}description"), date['Description'], class: 'half-width') %>
-
-      <!-- Responsibility -->
-      <%= render partial: 'drafts/forms/types/responsibility_type', locals: {
-          name_prefix: "#{name_prefix}responsibility_",
-          responsibilities: date['Responsibility'] || [{}] } %>
-    </div>
-  </div>
+  <!-- Responsibility -->
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'responsibility',
+      values: lineage_date['Responsibility'] || [{}],
+      name_prefix: "#{name_prefix}responsibility_",
+      multiple: true,
+      options: {
+        limit_type: false
+      } } %>
 </div>
