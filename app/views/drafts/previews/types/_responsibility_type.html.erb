@@ -1,6 +1,7 @@
 <ul class='<%= name_to_class('Responsibility')%>-<%=index%>'>
   <li>
-    Responsibility <%= index + 1 %>
+    <% title = defined?(title_override).nil? ? 'Responsibility' : title_override %>
+    <%= title %> <%= index + 1 %>
 
     <!-- Role [r] -->
     <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>responsibility, options: role_options} %>

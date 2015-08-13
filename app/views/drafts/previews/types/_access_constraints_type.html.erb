@@ -1,0 +1,9 @@
+<% if !access_constraints.blank? %>
+  <ul class="<%= name_to_class('AccessConstraints')%>">
+    <li>
+      Access Constraints
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>access_constraints} %>
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Value', :hash_for_key=>access_constraints} %>
+    </li>
+  </ul>
+<% end %>

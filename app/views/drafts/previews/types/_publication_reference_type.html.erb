@@ -1,0 +1,20 @@
+<ul class='<%= name_to_class('PublicationReference')%>-<%=index%>'>
+  <li>
+    Publication Reference <%= index + 1 %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'RelatedUrl', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Publisher', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/types/doi_type', :locals=>{doi: publication_reference['DOI'], title:'DOI'} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Author', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'PublicationDate', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Series', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Edition', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Volume', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Issue', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ReportNumber', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'PublicationPlace', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Pages', :hash_for_key=>publication_reference} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ISBN', :hash_for_key=>publication_reference, :title_override=>'ISBN'} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'OtherReferenceDetails', :hash_for_key=>publication_reference} %>
+  </li>
+</ul>
