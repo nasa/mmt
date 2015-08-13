@@ -96,22 +96,9 @@ describe 'Temporal extent form', js: true do
       before do
         click_on 'Temporal Extent'
 
-        # Expand first two TemporalExtent items
-        within '.multiple.temporal-extent' do
-          within all('.multiple-item-0').first do
-            find('.accordion-header').click
-          end
-          within '.multiple-item-1' do
-            find('.accordion-header').click
-          end
-        end
-
-        # Expand first ChronostratigraphicUnit item
-        within '.multiple.chronostratigraphic-unit' do
-          within '.multiple-item-0' do
-            find('.accordion-header').click
-          end
-        end
+        # Open all accordions
+        script = "$('.multiple-item.is-closed').removeClass('is-closed');"
+        page.evaluate_script script
       end
 
       it 'populates the form with the values' do

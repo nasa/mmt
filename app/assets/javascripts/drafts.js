@@ -59,7 +59,7 @@ $(document).ready(function() {
           if ($(field).attr('type') == 'radio') {
             $(field).prop('checked', false);
           } else {
-            $(field).val('');
+            $(field).not('input[type="hidden"]').val('');
           }
         } else if ($(field).is('label')) {
           var labelFor = $(field).attr('for');
@@ -100,20 +100,21 @@ $(document).ready(function() {
 
   // Handle responsibility-picker (org/person)
   $('.responsibility-picker').change(function() {
+    var partyType = $(this).parents('.party-type');
     switch ($(this).val()) {
       case 'organization':
-        $(this).siblings('.organization-fields').show();
-        $(this).siblings('.person-fields').hide();
+        $(partyType).siblings('.organization-fields').show();
+        $(partyType).siblings('.person-fields').hide();
         break;
       case 'person':
-        $(this).siblings('.organization-fields').hide();
-        $(this).siblings('.person-fields').show();
+        $(partyType).siblings('.organization-fields').hide();
+        $(partyType).siblings('.person-fields').show();
         break;
       default:
 
     }
     // Clear all org and person fields
-    $.each($(this).siblings('.organization-fields, .person-fields').find('input'), function(index, field) {
+    $.each($(partyType).siblings('.organization-fields, .person-fields').find('input'), function(index, field) {
       $(field).val('');
     });
 

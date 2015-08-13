@@ -1,42 +1,30 @@
-<div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_periodic_date_time %>">
-  <div class="accordion-header">
-    <i class="fa fa-angle-down toggle"></i>
-    Periodic Date Time <%= index + 1 %>
-    <div class="actions">
-      <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
-    </div>
-  </div>
-  <div class="accordion-body">
-    <div class="row sub-fields">
+<div class="row sub-fields">
+  <!-- Name -->
+  <label for="<%= remove_pipes(name_prefix) %>name" class="icon-required">Name</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}name"), periodic_date_time['Name'], class: 'half-width') %>
 
-      <!-- Name -->
-      <label for="<%= name_prefix %>name" class="icon-required">Name</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}name"), periodic_date_time['Name'], class: 'half-width') %>
+  <!-- StartDate -->
+  <label for="<%= remove_pipes(name_prefix) %>start_date" class="icon-required">Start Date</label><i class="fa fa-info-circle"></i>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), periodic_date_time['StartDate'], class: 'half-width') %>
 
-      <!-- StartDate -->
-      <label for="<%= name_prefix %>start_date" class="icon-required">Start Date</label><i class="fa fa-info-circle"></i>
-      <%= datetime_field_tag(name_to_param("#{name_prefix}start_date"), periodic_date_time['StartDate'], class: 'half-width') %>
+  <!-- EndDate -->
+  <label for="<%= remove_pipes(name_prefix) %>end_date" class="icon-required">End Date</label><i class="fa fa-info-circle"></i>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), periodic_date_time['EndDate'], class: 'half-width') %>
 
-      <!-- EndDate -->
-      <label for="<%= name_prefix %>end_date" class="icon-required">End Date</label><i class="fa fa-info-circle"></i>
-      <%= datetime_field_tag(name_to_param("#{name_prefix}end_date"), periodic_date_time['EndDate'], class: 'half-width') %>
+  <!-- DurationUnit -->
+  <label for="<%= remove_pipes(name_prefix) %>duration_unit" class="icon-required">Duration Unit</label><i class="fa fa-info-circle"></i>
+  <%= select_tag(name_to_param("#{name_prefix}|duration_unit|"), options_for_select([[''], ['Day', 'DAY'], ['Month', 'MONTH'], ['Year', 'YEAR']], periodic_date_time['DurationUnit']), class: 'half-width') %>
 
-      <!-- DurationUnit -->
-      <label for="<%= name_prefix %>duration_unit" class="icon-required">Duration Unit</label><i class="fa fa-info-circle"></i>
-      <%= select_tag(name_to_param("#{name_prefix}duration_unit"), options_for_select([[''], ['Day', 'DAY'], ['Month', 'MONTH'], ['Year', 'YEAR']], periodic_date_time['DurationUnit']), class: 'half-width') %>
+  <!-- DurationValue -->
+  <label for="<%= remove_pipes(name_prefix) %>duration_value" class="icon-required">Duration Value</label><i class="fa fa-info-circle"></i>
+  <%= number_field_tag(name_to_param("#{name_prefix}|duration_value|"), periodic_date_time['DurationValue'], class: 'half-width') %>
 
-      <!-- DurationValue -->
-      <label for="<%= name_prefix %>duration_value" class="icon-required">Duration Value</label><i class="fa fa-info-circle"></i>
-      <%= number_field_tag(name_to_param("#{name_prefix}duration_value"), periodic_date_time['DurationValue'], class: 'half-width') %>
+  <!-- PeriodCycleDurationUnit -->
+  <label for="<%= remove_pipes(name_prefix) %>period_cycle_duration_unit" class="icon-required">Period Cycle Duration Unit</label><i class="fa fa-info-circle"></i>
+  <%= select_tag(name_to_param("#{name_prefix}|period_cycle_duration_unit|"), options_for_select([[''], ['Day', 'DAY'], ['Month', 'MONTH'], ['Year', 'YEAR']], periodic_date_time['PeriodCycleDurationUnit']), class: 'half-width') %>
 
-      <!-- PeriodCycleDurationUnit -->
-      <label for="<%= name_prefix %>period_cycle_duration_unit" class="icon-required">Period Cycle Duration Unit</label><i class="fa fa-info-circle"></i>
-      <%= select_tag(name_to_param("#{name_prefix}period_cycle_duration_unit"), options_for_select([[''], ['Day', 'DAY'], ['Month', 'MONTH'], ['Year', 'YEAR']], periodic_date_time['PeriodCycleDurationUnit']), class: 'half-width') %>
+  <!-- PeriodCycleDurationValue -->
+  <label for="<%= remove_pipes(name_prefix) %>period_cycle_duration_value" class="icon-required">Period Cycle Duration Value</label><i class="fa fa-info-circle"></i>
+  <%= number_field_tag(name_to_param("#{name_prefix}|period_cycle_duration_value|"), periodic_date_time['PeriodCycleDurationValue'], class: 'half-width') %>
 
-      <!-- PeriodCycleDurationValue -->
-      <label for="<%= name_prefix %>period_cycle_duration_value" class="icon-required">Period Cycle Duration Value</label><i class="fa fa-info-circle"></i>
-      <%= number_field_tag(name_to_param("#{name_prefix}period_cycle_duration_value"), periodic_date_time['PeriodCycleDurationValue'], class: 'half-width') %>
-
-    </div>
-  </div>
 </div>
