@@ -5,7 +5,7 @@
     <div class="row sub-fields">
       <%= render partial: 'drafts/forms/type', locals: {
           type: 'temporal_extent',
-          values: @draft.draft['TemporalExtent'] || [{}],
+          values: draft.draft['TemporalExtent'] || [{}],
           name_prefix: 'draft_|temporal_extent|_',
           multiple: true,
           options: {} } %>
@@ -18,7 +18,7 @@
   <div class="col-12">
     <label>Temporal Keywords</label><i class="fa fa-info-circle"></i>
     <div class="row sub-fields">
-      <% keywords = @draft.draft['TemporalKeyword'] || [nil] # [nil] creates at least one keyword field %>
+      <% keywords = draft.draft['TemporalKeyword'] || [nil] # [nil] creates at least one keyword field %>
       <div class="multiple temporal-keyword">
       <% keywords.each do |keyword| %>
         <div class="multiple-item">
@@ -44,7 +44,7 @@
     <div class="row sub-fields">
       <%= render partial: 'drafts/forms/type', locals: {
           type: 'paleo_temporal_coverage',
-          values: @draft.draft['PaleoTemporalCoverage'] || {},
+          values: draft.draft['PaleoTemporalCoverage'] || {},
           name_prefix: 'draft_|paleo_temporal_coverage|_',
           multiple: false,
           options: {} } %>
