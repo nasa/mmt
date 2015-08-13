@@ -1,6 +1,6 @@
 <ul class='<%= name_to_class('TemporalExtent')%>-<%=index%>'>
   <li>
-    Temporal Extent <%= index + 1 %>
+    <strong>Temporal Extent <%= index + 1 %></strong>
 
     <!-- TemporalRangeType -->
     <%#= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'TemporalRangeType', :hash_for_key=>temporal_extent} %>
@@ -13,7 +13,7 @@
     <% if temporal_extent['TemporalRangeType'] == 'RangeDateTime' && !temporal_extent['RangeDateTime'].blank? %>
       <ul class="<%= name_to_class('RangeDateTime')%>">
         <li>
-          <%= 'Range Date Time'.pluralize(temporal_extent['RangeDateTime'].count)%>
+          <strong><%= 'Range Date Time'.pluralize(temporal_extent['RangeDateTime'].count)%></strong>
           <% temporal_extent['RangeDateTime'].each_with_index do |range_date_time, index| %>
             <%= render :partial=>'drafts/previews/types/range_date_time_type', :locals=>{range_date_time: range_date_time, index: index} %>
           <% end %>
@@ -30,7 +30,7 @@
     <% if temporal_extent['TemporalRangeType'] == 'PeriodicDateTime' && !temporal_extent['PeriodicDateTime'].blank? %>
       <ul class="<%= name_to_class('PeriodicDateTime')%>">
         <li>
-          <%= 'Periodic Date Time'.pluralize(temporal_extent['PeriodicDateTime'].count)%>
+          <strong><%= 'Periodic Date Time'.pluralize(temporal_extent['PeriodicDateTime'].count)%></strong>
           <% temporal_extent['PeriodicDateTime'].each_with_index do |periodic_date_time, index| %>
             <%= render :partial=>'drafts/previews/types/periodic_date_time_type', :locals=>{periodic_date_time: periodic_date_time, index: index} %>
           <% end %>

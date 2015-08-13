@@ -20,9 +20,9 @@
 <% if !@draft.draft['DataLineage'].blank? %>
   <ul class="<%= name_to_class('DataLineage')%>">
     <li>
-      <%= 'Data Lineage'.pluralize(@draft.draft['DataLineage'].count)%>
+      <h4><%= 'Data Lineage'.pluralize(@draft.draft['DataLineage'].count)%></h4>
       <% @draft.draft['DataLineage'].each_with_index do |lineage, index| %>
-        <%= render :partial=>'drafts/previews/types/lineage_type', :locals=>{lineage: lineage, index: index} %>
+        <%= render :partial=>'drafts/previews/types/lineage_type', :locals=>{lineage: lineage, index: index, json_name: 'DataLineage'} %>
       <% end %>
     </li>
   </ul>
@@ -34,7 +34,7 @@
   <ul class="<%= name_to_class('ResponsibleOrganization')%>">
     <li>
       <% title = 'Organization' %>
-      <%= title.pluralize(@draft.draft['ResponsibleOrganization'].count)%>
+      <h4><%= title.pluralize(@draft.draft['ResponsibleOrganization'].count)%></h4>
       <% @draft.draft['ResponsibleOrganization'].each_with_index do |responsibility, index| %>
         <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index, title_override: title} %>
       <% end %>
@@ -49,7 +49,7 @@
   <ul class="<%= name_to_class('ResponsiblePersonnel')%>">
     <li>
       <% title = 'Personnel' %>
-      <%= title.pluralize(@draft.draft['ResponsiblePersonnel'].count)%>
+      <h4><%= title.pluralize(@draft.draft['ResponsiblePersonnel'].count)%></h4>
       <% @draft.draft['ResponsiblePersonnel'].each_with_index do |responsibility, index| %>
         <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index, title_override: title} %>
       <% end %>
@@ -71,7 +71,7 @@
   <ul class="<%= name_to_class('CollectionCitation')%>">
     <li>
       <% title = 'Collection Citation' %>
-      <%= title.pluralize(@draft.draft['CollectionCitation'].count)%>
+      <h4><%= title.pluralize(@draft.draft['CollectionCitation'].count)%></h4>
       <% @draft.draft['CollectionCitation'].each_with_index do |resource_citation, index| %>
         <%= render :partial=>'drafts/previews/types/resource_citation_type', :locals=>{resource_citation: resource_citation, index: index, title_override: title} %>
       <% end %>
@@ -95,7 +95,7 @@
 <% if !@draft.draft['MetadataAssociation'].blank? %>
   <ul class="<%= name_to_class('MetadataAssociation')%>">
     <li>
-      <%= 'Metadata Association'.pluralize(@draft.draft['MetadataAssociation'].count)%>
+      <h4><%= 'Metadata Association'.pluralize(@draft.draft['MetadataAssociation'].count)%></h4>
       <% @draft.draft['MetadataAssociation'].each_with_index do |metadata_association, index| %>
         <%= render :partial=>'drafts/previews/types/metadata_association_type', :locals=>{metadata_association: metadata_association, index: index} %>
       <% end %>
@@ -107,7 +107,7 @@
 <% if !@draft.draft['PublicationReference'].blank? %>
   <ul class="<%= name_to_class('PublicationReference')%>">
     <li>
-      <%= 'Publication Reference'.pluralize(@draft.draft['PublicationReference'].count)%>
+      <h4><%= 'Publication Reference'.pluralize(@draft.draft['PublicationReference'].count)%></h4>
       <% @draft.draft['PublicationReference'].each_with_index do |publication_reference, index| %>
         <%= render :partial=>'drafts/previews/types/publication_reference_type', :locals=>{publication_reference: publication_reference, index: index} %>
       <% end %>

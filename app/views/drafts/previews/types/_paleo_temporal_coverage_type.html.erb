@@ -1,12 +1,12 @@
 <ul class='<%= name_to_class('PaleoTemporalCoverage')%>'>
   <li>
-    Paleo Temporal Coverage
+    <strong>Paleo Temporal Coverage</strong>
 
     <!-- ChronostratigraphicUnit -->
     <% if !paleo_temporal_coverage['ChronostratigraphicUnit'].blank? %>
       <ul class="<%= name_to_class('ChronostratigraphicUnit')%>">
         <li>
-          <%= 'Chronostratigraphic Unit'.pluralize(paleo_temporal_coverage['ChronostratigraphicUnit'].count)%>
+          <strong><%= 'Chronostratigraphic Unit'.pluralize(paleo_temporal_coverage['ChronostratigraphicUnit'].count)%></strong>
           <% paleo_temporal_coverage['ChronostratigraphicUnit'].each_with_index do |chronostratigraphic_unit, index| %>
             <%= render :partial=>'drafts/previews/types/chronostratigraphic_unit_type', :locals=>{chronostratigraphic_unit: chronostratigraphic_unit, index: index} %>
           <% end %>

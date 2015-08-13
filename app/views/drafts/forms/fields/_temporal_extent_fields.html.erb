@@ -1,66 +1,60 @@
-<div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless last_temporal_extent %>">
-  <div class="accordion-header">
-    <i class="fa fa-angle-down toggle"></i>
-    Temporal Extent <%= index + 1 %>
-    <div class="actions">
-      <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
-    </div>
+<div class="row sub-fields">
+  <!-- TemporalRangeType -->
+  <% temporal_range_type = temporal_extent['TemporalRangeType'] || "" %>
+  <label class="icon-required">Temporal Range Type</label><i class="fa fa-info-circle"></i>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'SingleDateTime', temporal_range_type == 'SingleDateTime', class: 'temporal-range-type-select') %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_SingleDateTime">Single</label>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'RangeDateTime', temporal_range_type == 'RangeDateTime', class: 'temporal-range-type-select') %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_RangeDateTime">Range</label>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'PeriodicDateTime', temporal_range_type == 'PeriodicDateTime', class: 'temporal-range-type-select') %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_PeriodicDateTime">Periodic</label>
+
+  <!-- Bad </br>, take out design team! -->
+  </br>
+
+  <!-- PrecisionOfSeconds -->
+  <label for="<%= remove_pipes(name_prefix) %>precision_of_seconds">Precision Of Seconds</label><i class="fa fa-info-circle"></i>
+  <%= number_field_tag(name_to_param("#{name_prefix}|precision_of_seconds|"), temporal_extent['PrecisionOfSeconds'], class: 'half-width') %>
+
+  <!-- EndsAtPresentFlag -->
+  <label class="icon-required">Ends At Present Flag</label><i class="fa fa-info-circle"></i>
+  <% ends_at_present_flag = temporal_extent['EndsAtPresentFlag'] %>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|ends_at_present_flag|"), 'true', ends_at_present_flag == "true") %><label for="<%= remove_pipes(name_prefix) %>ends_at_present_flag_true">True</label>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|ends_at_present_flag|"), 'false', ends_at_present_flag == 'false') %><label for="<%= remove_pipes(name_prefix) %>ends_at_present_flag_false">False</label>
+
+  <!-- RangeDateTime - multiple -->
+  <div class="temporal-range-type range-date-time" style="<%= 'display: none;' unless temporal_range_type == 'RangeDateTime'%>">
+    <label>Range Date Time</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'range_date_time',
+        values: temporal_extent['RangeDateTime'] || [{}],
+        name_prefix: "#{name_prefix}|range_date_time|_",
+        multiple: true,
+        options: options } %>
   </div>
-  <div class="accordion-body">
-    <div class="row sub-fields">
 
-      <!-- TemporalRangeType -->
-      <% temporal_range_type = temporal_extent['TemporalRangeType'] || "" %>
-      <label class="icon-required">Temporal Range Type</label><i class="fa fa-info-circle"></i>
-      <%= radio_button_tag(name_to_param("#{name_prefix}temporal_range_type"), 'SingleDateTime', temporal_range_type == 'SingleDateTime', class: 'temporal-range-type-select') %><label for="<%= name_prefix %>temporal_range_type_SingleDateTime">Single</label>
-      <%= radio_button_tag(name_to_param("#{name_prefix}temporal_range_type"), 'RangeDateTime', temporal_range_type == 'RangeDateTime', class: 'temporal-range-type-select') %><label for="<%= name_prefix %>temporal_range_type_RangeDateTime">Range</label>
-      <%= radio_button_tag(name_to_param("#{name_prefix}temporal_range_type"), 'PeriodicDateTime', temporal_range_type == 'PeriodicDateTime', class: 'temporal-range-type-select') %><label for="<%= name_prefix %>temporal_range_type_PeriodicDateTime">Periodic</label>
-
-      <!-- Bad </br>, take out design team! -->
-      </br>
-
-      <!-- PrecisionOfSeconds -->
-      <label for="<%= name_prefix %>precision_of_seconds">Precision Of Seconds</label><i class="fa fa-info-circle"></i>
-      <%= number_field_tag(name_to_param("#{name_prefix}precision_of_seconds"), temporal_extent['PrecisionOfSeconds'], class: 'half-width') %>
-
-      <!-- EndsAtPresentFlag -->
-      <label class="icon-required">Ends At Present Flag</label><i class="fa fa-info-circle"></i>
-      <% ends_at_present_flag = temporal_extent['EndsAtPresentFlag'] %>
-      <%= radio_button_tag(name_to_param("#{name_prefix}ends_at_present_flag"), 'true', ends_at_present_flag == "true") %><label for="<%= name_prefix %>ends_at_present_flag_true">True</label>
-      <%= radio_button_tag(name_to_param("#{name_prefix}ends_at_present_flag"), 'false', ends_at_present_flag == 'false') %><label for="<%= name_prefix %>ends_at_present_flag_false">False</label>
-
-      <!-- RangeDateTime - multiple -->
-      <div class="temporal-range-type range-date-time" style="<%= 'display: none;' unless temporal_range_type == 'RangeDateTime'%>">
-        <label>Range Date Time</label><i class="fa fa-info-circle"></i>
-        <%= render partial: 'drafts/forms/types/range_date_time_type', locals: {
-            range_date_times: temporal_extent['RangeDateTime'] || [{}],
-            name_prefix: "#{name_prefix}range_date_time_" } %>
-      </div>
-
-      <div class="temporal-range-type single-date-time" style="<%= 'display: none;' unless temporal_range_type == 'SingleDateTime'%>">
-        <% date_times = temporal_extent['SingleDateTime'] || [nil] # [nil] creates at least one date_time field %>
-        <div class="multiple single-date-time">
-        <% date_times.each do |date_time| %>
-          <div class="multiple-item">
-            <label for="<%= name_prefix %>single_date_time_">Single Date Time</label><i class="fa fa-info-circle"></i>
-            <%= datetime_field_tag(name_to_param("#{name_prefix}single_date_time_index"), date_time, class: 'half-width') %>
-            <div class="actions">
-              <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
-              <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
-            </div>
-          </div>
-        <% end %>
+  <div class="temporal-range-type single-date-time" style="<%= 'display: none;' unless temporal_range_type == 'SingleDateTime'%>">
+    <% date_times = temporal_extent['SingleDateTime'] || [nil] # [nil] creates at least one date_time field %>
+    <div class="multiple single-date-time">
+    <% date_times.each do |date_time| %>
+      <div class="multiple-item">
+        <label for="<%= remove_pipes(name_prefix) %>single_date_time_">Single Date Time</label><i class="fa fa-info-circle"></i>
+        <%= datetime_field_tag(name_to_param("#{name_prefix}|single_date_time|_index"), date_time, class: 'half-width') %>
+        <div class="actions">
+          <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
+          <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
         </div>
       </div>
-
-      <!-- PeriodicDateTime - multiple -->
-      <div class="temporal-range-type periodic-date-time" style="<%= 'display: none;' unless temporal_range_type == 'PeriodicDateTime'%>">
-        <label>Periodic Date Time</label><i class="fa fa-info-circle"></i>
-        <%= render partial: 'drafts/forms/types/periodic_date_time_type', locals: {
-            periodic_date_times: temporal_extent['PeriodicDateTime'] || [{}],
-            name_prefix: "#{name_prefix}periodic_date_time_" } %>
-      </div>
-
+    <% end %>
     </div>
   </div>
+
+  <!-- PeriodicDateTime - multiple -->
+  <div class="temporal-range-type periodic-date-time" style="<%= 'display: none;' unless temporal_range_type == 'PeriodicDateTime'%>">
+    <label>Periodic Date Time</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'periodic_date_time',
+        values: temporal_extent['PeriodicDateTime'] || [{}],
+        name_prefix: "#{name_prefix}|periodic_date_time|_",
+        multiple: true,
+        options: options } %>
+  </div>
+
 </div>

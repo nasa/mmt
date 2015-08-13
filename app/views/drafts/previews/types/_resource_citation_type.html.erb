@@ -2,7 +2,7 @@
   <ul class='<%= name_to_class('ResourceCitation')%>-<%=index%>'>
     <li>
       <% title = defined?(title_override).nil? ? 'Resource Citation' : title_override %>
-      <%= title %> <%= index + 1 %>
+      <strong><%= title %> <%= index + 1 %></strong>
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version', :hash_for_key=>resource_citation} %>
 
       <%= render :partial=>'drafts/previews/fields/related_url_fields', :locals=>{:related_url=>resource_citation['RelatedUrl']} %>

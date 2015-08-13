@@ -1,7 +1,7 @@
 <% if !processing_level.blank? %>
   <ul class="<%= name_to_class('ProcessingLevel')%>">
     <li>
-      Processing Level
+      <strong>Processing Level</strong>
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Id',        :hash_for_key=>processing_level, :title_override=>'ID'} %>
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ProcessingLevelDescription',   :hash_for_key=>processing_level} %>
     </li>

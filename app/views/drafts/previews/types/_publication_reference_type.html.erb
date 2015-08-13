@@ -1,6 +1,6 @@
 <ul class='<%= name_to_class('PublicationReference')%>-<%=index%>'>
   <li>
-    Publication Reference <%= index + 1 %>
+    <strong>Publication Reference <%= index + 1 %></strong>
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'RelatedUrl', :hash_for_key=>publication_reference} %>
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>publication_reference} %>
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Publisher', :hash_for_key=>publication_reference} %>

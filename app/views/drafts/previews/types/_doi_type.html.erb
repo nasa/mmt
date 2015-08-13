@@ -1,7 +1,7 @@
 <% if !doi.blank? %>
   <ul class="<%= name_to_class('DOI')%>">
     <li>
-      DOI
+      <strong>DOI</strong>
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DOI',        :hash_for_key=>doi, :title_override=>'DOI'} %>
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Authority', :hash_for_key=>doi} %>
     </li>

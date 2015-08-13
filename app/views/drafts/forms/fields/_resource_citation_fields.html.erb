@@ -1,0 +1,77 @@
+<div class="row sub-fields">
+  <!-- Version -->
+  <label for="<%= remove_pipes(name_prefix) %>version">Version</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag name_to_param("#{name_prefix}version"), resource_citation['Version'], class: 'half-width' %>
+
+  <!-- Title -->
+  <label for="<%= remove_pipes(name_prefix) %>title">Title</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag name_to_param("#{name_prefix}title"), resource_citation['Title'], rows: 8 %>
+
+
+  <!-- Creator -->
+  <label for="<%= remove_pipes(name_prefix) %>creator">Creator</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag name_to_param("#{name_prefix}creator"), resource_citation['Creator'], rows: 8 %>
+
+
+  <!-- Editor -->
+  <label for="<%= remove_pipes(name_prefix) %>editor">Editor</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag name_to_param("#{name_prefix}editor"), resource_citation['Editor'], rows: 8 %>
+
+
+  <!-- SeriesName -->
+  <label for="<%= remove_pipes(name_prefix) %>series_name">Series Name</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag name_to_param("#{name_prefix}|series_name|"), resource_citation['SeriesName'], rows: 8 %>
+
+
+  <!-- ReleaseDate -->
+  <label for="<%= remove_pipes(name_prefix) %>release_date">Release Date</label><i class="fa fa-info-circle"></i>
+  <%= datetime_field_tag name_to_param("#{name_prefix}|release_date|"), resource_citation['ReleaseDate'], class: 'half-width' %>
+
+
+  <!-- ReleasePlace -->
+  <label for="<%= remove_pipes(name_prefix) %>release_place">Release Place</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag name_to_param("#{name_prefix}|release_place|"), resource_citation['ReleasePlace'], rows: 8 %>
+
+
+  <!-- Publisher -->
+  <label for="<%= remove_pipes(name_prefix) %>publisher">Publisher</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag name_to_param("#{name_prefix}publisher"), resource_citation['Publisher'], rows: 8 %>
+
+
+  <!-- IssueIdentification -->
+  <label for="<%= remove_pipes(name_prefix) %>issue_identification">Issue Identification</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag name_to_param("#{name_prefix}|issue_identification|"), resource_citation['IssueIdentification'], class: 'half-width' %>
+
+
+  <!-- DataPresentationForm -->
+  <label for="<%= remove_pipes(name_prefix) %>data_presentation_form">Data Presentation Form</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag name_to_param("#{name_prefix}|data_presentation_form|"), resource_citation['DataPresentationForm'], class: 'half-width' %>
+
+
+  <!-- OtherCitationDetails -->
+  <label for="<%= remove_pipes(name_prefix) %>other_citation_details">Other Citation Details</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag name_to_param("#{name_prefix}|other_citation_details|"), resource_citation['OtherCitationDetails'], rows: 8 %>
+
+
+  <!-- DOI -->
+  <label>DOI</label><i class="fa fa-info-circle"></i>
+  <div class="row sub-fields">
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'doi',
+        values: resource_citation['DOI'] || {},
+        name_prefix: "#{name_prefix}doi_",
+        multiple: false,
+        options: {} } %>
+  </div>
+
+
+  <!-- RelatedUrl - only one -->
+  <label>Related URL</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'related_url',
+      values: resource_citation['RelatedUrl'] || {},
+      name_prefix: "#{name_prefix}|related_url|_",
+      multiple: false,
+      options: {} } %>
+
+</div>

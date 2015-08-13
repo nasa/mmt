@@ -1,6 +1,6 @@
 <ul class='<%= name_to_class('MetadataAssociation')%>-<%=index%>'>
   <li>
-    Metadata Association <%= index + 1 %>
+    <strong>Metadata Association <%= index + 1 %></strong>
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>metadata_association} %>
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>metadata_association} %>
     <%= render :partial=>'drafts/previews/types/entry_id_type',       :locals=>{entry_id: metadata_association['EntryId'], title:'Entry ID'} %>
