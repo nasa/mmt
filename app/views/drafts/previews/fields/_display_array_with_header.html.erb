@@ -3,12 +3,15 @@
   <% if !data_array.nil? %>
     <% html_class_name = name_to_class(key_name) %>
     <ul class="<%=html_class_name%>">
-      <strong><%= (defined?(title_override).nil? ? key_name.titleize : title_override).pluralize(data_array.count) %>:</strong>
-      <% data_array.each_with_index do |element_of_array, index|%>
-        <li class="<%=html_class_name%>-<%=index%>">
-          <%= element_of_array %>
-        </li>
-      <% end %>
+      <li><%= (defined?(title_override).nil? ? key_name.titleize : title_override).pluralize(data_array.count) %>:
+        <ul>
+          <% data_array.each_with_index do |element_of_array, index|%>
+            <li class="<%=html_class_name%>-<%=index%>">
+              <%= element_of_array %>
+            </li>
+          <% end %>
+        </ul>
+      </li>
     </ul>
   <% end %>
 <% end %>

@@ -43,7 +43,7 @@ module DraftsHelper
 
   def role_options
     [
-        ['Resource Provider', 'RESOURCEPROVIDER'], ['Custodian', 'CUSTODIAN'],
+        ['Select Role', ''],['Resource Provider', 'RESOURCEPROVIDER'], ['Custodian', 'CUSTODIAN'],
         ['Owner', 'OWNER'], ['User', 'USER'], ['Distributor', 'DISTRIBUTOR'], ['Originator', 'ORIGINATOR'],
         ['Point of Contact', 'POINTOFCONTACT'], ['Principal Investigator', 'PRINCIPALINVESTIGATOR'], ['Processor', 'PROCESSOR'],
         ['Publisher', 'PUBLISHER'], ['Author', 'AUTHOR'], ['Sponsor', 'SPONSOR'], ['Co-Author', 'COAUTHOR'], ['Collaborator', 'COLLABORATOR'],
