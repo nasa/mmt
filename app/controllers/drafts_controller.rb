@@ -87,7 +87,6 @@ class DraftsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_draft
       id = params[:draft_id] || params[:id]
-      @draft_id = id
       @draft = Draft.find(id)
       @draft_forms = Draft::DRAFT_FORMS
     end

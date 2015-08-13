@@ -1,6 +1,5 @@
 module Helpers
   module DraftHelpers
-
     def create_new_draft
       visit '/dashboard'
       choose 'New Collection Record'
@@ -56,105 +55,108 @@ module Helpers
       end
     end
 
-    def mmt_fill_in(init_store, locator, options={})
-      with = options[:with]
-      fill_in(locator, options)
-      #puts init_store.inspect
-      init_store << {locator=> with}
+    def add_organization
+      fill_in 'Short Name', with: 'ORG_SHORT'
+      fill_in 'Long Name', with: 'Organization Long Name'
     end
 
-    def mmt_select(init_store, value, options={})
-      options_clone = options.clone
-      select(value, options)
-      if options_clone.has_key?(:from)
-        from = options_clone.delete(:from)
-        init_store << {from=> value}
-      else
-        raise "Must pass in a 'from' parameter"
+    def add_person
+      fill_in 'First Name', with: 'First Name'
+      fill_in 'Middle Name', with: 'Middle Name'
+      fill_in 'Last Name', with: 'Last Name'
+    end
+
+    def add_responsibilities(type=nil)
+      within '.multiple.responsibility' do
+        select 'Resource Provider', from: 'Role'
+        case type
+        when 'organization'
+          add_organization
+        when 'personnel'
+          add_person
+        else
+          find(".responsibility-picker.organization").click
+          add_organization
+        end
+
+        fill_in 'Service Hours', with: '9-5, M-F'
+        fill_in 'Contact Instructions', with: 'Email only'
+
+        add_contacts
+        add_addresses
+        add_related_urls
+
+        click_on 'Add another Responsibility'
+        within '.multiple-item-1' do
+          select 'Owner', from: 'Role'
+          case type
+          when 'organization'
+            add_organization
+          when 'personnel'
+            add_person
+          else
+            find(".responsibility-picker.person").click
+            add_person
+          end
+
+          fill_in 'Service Hours', with: '10-2, M-W'
+          fill_in 'Contact Instructions', with: 'Email only'
+
+          add_contacts
+          add_addresses
+          add_related_urls
+        end
       end
     end
 
+    def add_dates(prefix = nil)
+      within ".multiple.#{prefix}data-lineage" do
+        within ".multiple.#{prefix}data-lineage-date" do
+          select 'Create', from: 'Date Type'
+          fill_in 'Date', with: '2015-07-01'
+          fill_in "draft_#{prefix}data_lineage_0_date_0_description", with: "Create #{prefix}data" #Description
 
-    def add_metadata_dates_values(init_store)
-      within '.multiple.metadata-lineage' do
-        within '.multiple.metadata-lineage-date' do
-          mmt_select init_store, 'Create', from: 'Date Type'
-          mmt_fill_in init_store,  'Date', with: '2015-07-01'
-          mmt_fill_in init_store,  'draft_metadata_lineage_0_date_0_description', with: 'Create metadata' #Description
-
-          within '.multiple.responsibility' do
-
-            mmt_select init_store, 'Resource Provider', from: 'Role'
-            find('#draft_metadata_lineage_0_date_0_responsibility_0_responsibility_organization').click
-            mmt_fill_in init_store,  'Short Name', with: 'ORG_SHORT'
-            mmt_fill_in init_store,  'Long Name', with: 'Organization Long Name'
-
-            mmt_fill_in init_store,  'Service Hours', with: '9-5, M-F'
-            mmt_fill_in init_store,  'Contact Instructions', with: 'Email only'
-
-            add_contacts(init_store)
-            add_addresses(init_store)
-            add_related_urls(init_store)
-
-            click_on 'Add another Responsibility'
-            within '.multiple-item-1' do
-              mmt_select init_store, 'Owner', from: 'Role'
-              find('#draft_metadata_lineage_0_date_0_responsibility_1_responsibility_person').click
-
-              mmt_fill_in init_store,  'First Name', with: 'First Name'
-              mmt_fill_in init_store,  'Middle Name', with: 'Middle Name'
-              mmt_fill_in init_store,  'Last Name', with: 'Last Name'
-
-              mmt_fill_in init_store,  'Service Hours', with: '10-2, M-W'
-              mmt_fill_in init_store,  'Contact Instructions', with: 'Email only'
-
-              add_contacts(init_store)
-              add_addresses(init_store)
-              add_related_urls(init_store)
-            end
-
-          end
+          add_responsibilities
 
           click_on 'Add another Date'
           within '.multiple-item-1' do
-            mmt_select init_store, 'Review', from: 'Date Type'
-            mmt_fill_in init_store,  'Date', with: '2015-07-02'
-            mmt_fill_in init_store,  'draft_metadata_lineage_0_date_1_description', with: 'Reviewed metadata' #Description
+            select 'Review', from: 'Date Type'
+            fill_in 'Date', with: '2015-07-02'
+            fill_in "draft_#{prefix}data_lineage_0_date_1_description", with: "Reviewed #{prefix}data" #Description
             within '.multiple.responsibility' do
-              mmt_select init_store, 'Editor', from: 'Role'
-              find('#draft_metadata_lineage_0_date_1_responsibility_0_responsibility_organization').click
-              mmt_fill_in init_store,  'Short Name', with: 'short_name'
+              select 'Editor', from: 'Role'
+              find(".responsibility-picker.organization").click
+              fill_in 'Short Name', with: 'short_name'
             end
           end
         end
-        click_on 'Add another Metadata Date'
+        click_on "Add another #{prefix.nil? ? 'Data' : 'Metadata'} Date"
         within '.multiple-item-1' do
-          mmt_select init_store, 'Create', from: 'Date Type'
-          mmt_fill_in init_store,  'Date', with: '2015-07-05'
-          mmt_fill_in init_store,  'draft_metadata_lineage_1_date_0_description', with: 'Create metadata' #Description
+          select 'Create', from: 'Date Type'
+          fill_in 'Date', with: '2015-07-05'
+          fill_in "draft_#{prefix}data_lineage_1_date_0_description", with: "Create #{prefix}data" #Description
           within '.multiple.responsibility' do
-            mmt_select init_store, 'User', from: 'Role'
-            find('#draft_metadata_lineage_1_date_0_responsibility_0_responsibility_organization').click
-            mmt_fill_in init_store,  'Short Name', with: 'another_short_name'
+            select 'User', from: 'Role'
+            find(".responsibility-picker.organization").click
+            fill_in 'Short Name', with: 'another_short_name'
           end
-
         end
       end
     end
 
-    def add_contacts(init_store)
+    def add_contacts
       within '.multiple.contact' do
-        mmt_fill_in init_store,  'Type', with: 'Email'
-        mmt_fill_in init_store,  'Value', with: 'example@example.com'
+        fill_in 'Type', with: 'Email'
+        fill_in 'Value', with: 'example@example.com'
         click_on 'Add another Contact'
         within '.multiple-item-1' do
-          mmt_fill_in init_store,  'Type', with: 'Email'
-          mmt_fill_in init_store,  'Value', with: 'example2@example.com'
+          fill_in 'Type', with: 'Email'
+          fill_in 'Value', with: 'example2@example.com'
         end
       end
     end
 
-    def add_addresses(init_store)
+    def add_addresses
       within '.multiple.address' do
         within '.multiple.address-street-address' do
           within first('.multiple-item') do
@@ -164,10 +166,10 @@ module Helpers
             find('input').set 'Room 203'
           end
         end
-        mmt_fill_in init_store,  'City', with: 'Washington'
-        mmt_fill_in init_store,  'State / Province', with: 'DC'
-        mmt_fill_in init_store,  'Postal Code', with: '20546'
-        mmt_fill_in init_store,  'Country', with: 'United States'
+        fill_in 'City', with: 'Washington'
+        fill_in 'State / Province', with: 'DC'
+        fill_in 'Postal Code', with: '20546'
+        fill_in 'Country', with: 'United States'
         click_on 'Add another Address'
         within '.multiple-item-1' do
           within '.multiple.address-street-address' do
@@ -175,65 +177,121 @@ module Helpers
               find('input').set '8800 Greenbelt Road'
             end
           end
-          mmt_fill_in init_store,  'City', with: 'Greenbelt'
-          mmt_fill_in init_store,  'State / Province', with: 'MD'
-          mmt_fill_in init_store,  'Postal Code', with: '20771'
-          mmt_fill_in init_store,  'Country', with: 'United States'
+          fill_in 'City', with: 'Greenbelt'
+          fill_in 'State / Province', with: 'MD'
+          fill_in 'Postal Code', with: '20771'
+          fill_in 'Country', with: 'United States'
         end
       end
     end
 
-    def add_related_urls(init_store)
-      within '.multiple.related-url' do
+    def add_related_urls(single=nil)
+      within "#{'.multiple' unless single}.related-url" do
         within '.multiple.related-url-url' do
-          mmt_fill_in init_store,  'URL', with: 'http://example.com'
+          fill_in 'URL', with: 'http://example.com'
           click_on 'Add another'
           within all('.multiple-item').last do
-            mmt_fill_in init_store,  'URL', with: 'http://another-example.com'
+            fill_in 'URL', with: 'http://another-example.com'
           end
         end
-        mmt_fill_in init_store,  'Description', with: 'Example Description'
-        mmt_select init_store, 'FTP', from: 'Protocol'
-        mmt_fill_in init_store,  'Mime Type', with: 'text/html'
-        mmt_fill_in init_store,  'Caption', with: 'Example Caption'
-        mmt_fill_in init_store,  'Title', with: 'Example Title'
+        fill_in 'Description', with: 'Example Description'
+        select 'FTP', from: 'Protocol'
+        fill_in 'Mime Type', with: 'text/html'
+        fill_in 'Caption', with: 'Example Caption'
+        fill_in 'Title', with: 'Example Title'
         within '.file-size' do
-          mmt_fill_in init_store,  'Size', with: '42'
-          mmt_fill_in init_store,  'Unit', with: 'MB'
+          fill_in 'Size', with: '42'
+          fill_in 'Unit', with: 'MB'
         end
         within '.content-type' do
-          mmt_fill_in init_store,  'Type', with: 'Text'
-          mmt_fill_in init_store,  'Subtype', with: 'Subtext'
+          fill_in 'Type', with: 'Type'
+          fill_in 'Subtype', with: 'Subtype'
         end
 
-        # Add another RelatedUrl
-        click_on 'Add another Related Url'
+        unless single
+          # Add another RelatedUrl
+          click_on 'Add another Related Url'
 
-        within '.multiple-item-1' do
-          within '.multiple.related-url-url' do
-            mmt_fill_in init_store,  'URL', with: 'http://example.com/1'
-            click_on 'Add another'
-            within all('.multiple-item').last do
-              mmt_fill_in init_store,  'URL', with: 'http://another-example.com/1'
+          within '.multiple-item-1' do
+            within '.multiple.related-url-url' do
+              fill_in 'URL', with: 'http://example.com/1'
             end
           end
-          mmt_fill_in init_store,  'Description', with: 'Example Description 1'
-          mmt_select init_store, 'SSH', from: 'Protocol'
-          mmt_fill_in init_store,  'Mime Type', with: 'text/json'
-          mmt_fill_in init_store,  'Caption', with: 'Example Caption 1'
-          mmt_fill_in init_store,  'Title', with: 'Example Title 1'
-          within '.file-size' do
-            mmt_fill_in init_store,  'Size', with: '4.2'
-            mmt_fill_in init_store,  'Unit', with: 'GB'
-          end
-          within '.content-type' do
-            mmt_fill_in init_store,  'Type', with: 'Text 1'
-            mmt_fill_in init_store,  'Subtype', with: 'Subtext 1'
-          end
+        end
+      end
+    end
+
+    def add_resource_citation
+      within '.multiple.resource-citation' do
+        fill_in 'Version', with: 'v1'
+        fill_in "draft_collection_citation_0_title", with: "Citation title" #Title
+        fill_in 'Creator', with: 'Citation creator'
+        fill_in 'Editor', with: 'Citation editor'
+        fill_in 'Series Name', with: 'Citation series name'
+        fill_in 'Release Date', with: '2015-07-01T00:00:00Z'
+        fill_in 'Release Place', with: 'Citation release place'
+        fill_in 'Publisher', with: 'Citation publisher'
+        fill_in 'Issue Identification', with: 'Citation issue identification'
+        fill_in 'Data Presentation Form', with: 'Citation data presentation form'
+        fill_in 'Other Citation Details', with: 'Citation other details'
+        fill_in 'DOI', with: 'Citation DOI'
+        fill_in 'Authority', with: 'Citation DOI Authority'
+        add_related_urls(true)
+
+        click_on 'Add another Resource Citation'
+        within '.multiple-item-1' do
+          fill_in 'Version', with: 'v2'
+          fill_in "draft_collection_citation_1_title", with: "Citation title 1" #Title
+          fill_in 'Creator', with: 'Citation creator 1'
+          add_related_urls(true)
+        end
+
+      end
+    end
+
+    def add_metadata_association
+      within '.multiple.metadata-association' do
+        select 'Science Associated', from: 'Type'
+        fill_in 'Description', with: 'Metadata association description'
+        fill_in 'ID', with: '12345'
+        fill_in 'Version', with: 'v1'
+        fill_in 'Authority', with: 'Authority'
+        select 'LPDAAC_ECS', from: 'Provider ID'
+        click_on 'Add another Metadata Association'
+        within '.multiple-item-1' do
+          select 'Larger Citation Works', from: 'Type'
+          fill_in 'ID', with: '123abc'
+          select 'ORNL_DAAC', from: 'Provider ID'
+        end
+      end
+    end
+
+    def add_publication_reference
+      within '.multiple.publication-reference' do
+        fill_in "draft_publication_reference_0_title", with: "Publication reference title" #Title
+        fill_in 'Publisher', with: 'Publication reference publisher'
+        fill_in 'DOI', with: 'Publication reference DOI'
+        fill_in 'Authority', with: 'Publication reference authority'
+        fill_in 'Author', with: 'Publication reference author'
+        fill_in 'Publication Date', with: '2015-07-01T00:00:00Z'
+        fill_in 'Series', with: 'Publication reference series'
+        fill_in 'Edition', with: 'Publication reference edition'
+        fill_in 'Volume', with: 'Publication reference volume'
+        fill_in 'Issue', with: 'Publication reference issue'
+        fill_in 'Report Number', with: 'Publication reference report number'
+        fill_in 'Publication Place', with: 'Publication reference publication place'
+        fill_in 'Pages', with: 'Publication reference pages'
+        fill_in 'ISBN', with: '1234567890123'
+        fill_in 'Other Reference Details', with: 'Publication reference details'
+        add_related_urls(true)
+
+        click_on 'Add another Publication Reference'
+        within '.multiple-item-1' do
+          fill_in "draft_publication_reference_1_title", with: "Publication reference title 1" #Title
+          fill_in 'ISBN', with: '9876543210987'
         end
       end
     end
 
   end
 end
-

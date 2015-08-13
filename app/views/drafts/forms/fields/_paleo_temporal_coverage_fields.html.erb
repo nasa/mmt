@@ -1,0 +1,19 @@
+<div class="paleo-temporal-coverage-fields">
+
+  <!-- StartDate -->
+  <label for="<%= remove_pipes(name_prefix) %>start_date">Start Date</label><i class="fa fa-info-circle"></i>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), paleo_temporal_coverage['StartDate'], class: 'half-width') %>
+
+  <!-- EndDate -->
+  <label for="<%= remove_pipes(name_prefix) %>end_date">End Date</label><i class="fa fa-info-circle"></i>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), paleo_temporal_coverage['EndDate'], class: 'half-width') %>
+
+  <!-- ChronostratigraphicUnit -->
+  <label for="<%= remove_pipes(name_prefix) %>chronostratigraphic_unit">Chronostratigraphic Unit</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'chronostratigraphic_unit',
+      values: paleo_temporal_coverage['ChronostratigraphicUnit'] || [{}],
+      name_prefix: "#{name_prefix}|chronostratigraphic_unit|_",
+      multiple: true,
+      options: {} } %>
+</div>

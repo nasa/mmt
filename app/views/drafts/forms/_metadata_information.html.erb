@@ -4,7 +4,7 @@
   <div class="col-12">
     <label for="draft_metadata_language" class="main-field">Metadata Language</label><i class="fa fa-info-circle"></i>
     <!-- Might need to be "eng", or a dropdown of languages. Should default to English -->
-    <%= text_field_tag('draft[metadata_language]', @draft.draft['MetadataLanguage'], placeholder: 'English', class: 'half-width') %>
+    <%= text_field_tag('draft[metadata_language]', draft.draft['MetadataLanguage'], placeholder: 'English', class: 'half-width') %>
   </div>
 </div>
 
@@ -14,7 +14,7 @@
     <label for="draft_metadata_standard" class="main-field icon-required">Metadata Standard</label><i class="fa fa-info-circle"></i>
 
     <div class="row sub-fields">
-      <% metadata_standard = @draft.draft['MetadataStandard'] || {} %>
+      <% metadata_standard = draft.draft['MetadataStandard'] || {} %>
       <label for="draft_metadata_standard_name" class="icon-required">Name</label><i class="fa fa-info-circle"></i>
       <%= select_tag "draft[metadata_standard][name]", options_for_select([['Select Metadata Standard', ''],'SERF', 'UMM', 'ECHO10', 'DIF', 'ISO 19115-2', 'ISO 19115-1'], metadata_standard['Name']), class: 'half-width' %>
 
@@ -31,9 +31,17 @@
 <div class="row">
   <div class="col-12">
     <label class="main-field">Metadata Dates</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/types/lineage_type', locals: {
-        lineages: @draft.draft['MetadataLineage'] || [{}],
-        name_prefix: 'draft_metadata_lineage_',
-        lineage_type: 'metadata' } %>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'lineage',
+          values: draft.draft['MetadataLineage'] || [{}],
+          name_prefix: 'draft_|metadata_lineage|_',
+          multiple: true,
+          options: {
+            lineage_type: 'metadata',
+            type: 'metadata_lineage',
+            title: 'Metadata Date'
+          } } %>
+    </div>
   </div>
 </div>
