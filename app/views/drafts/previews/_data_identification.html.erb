@@ -1,15 +1,7 @@
 <h4>Data Identification Fields:</h4>
 
 <!-- Entry ID [r] -->
-<% if !@draft.draft['EntryId'].blank? %>
-  <h4>Entry ID</h4>
-  <p>
-    <% r = @draft.draft['EntryId'] %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Id',        :hash_for_key=>r, :title_override=>'ID'} %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>r} %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Authority', :hash_for_key=>r} %>
-  </p>
-<% end %>
+<%= render :partial=>'drafts/previews/types/entry_id_type', :locals=>{entry_id: @draft.draft['EntryId'], title:'Entry ID'} %>
 
 <!-- Entry Title [r] -->
 <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EntryTitle', :hash_for_key=>@draft.draft, :title_override=>'Title'} %>
@@ -26,22 +18,20 @@
 <!-- Data dates [r] -->
 <!-- DataLineage -->
 <% if !@draft.draft['DataLineage'].blank? %>
-  <h4>Data Lineage</h4>
-  <p>
-    <% @draft.draft['DataLineage'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Scope', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Date', :hash_for_key=>r} %>
-      Date: Number two?? </br>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Responsibility', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['DataLineage'].last) ? '' : '</br>') %>
-    <% end %>
-  </p>
+  <ul class="<%= name_to_class('DataLineage')%>">
+    <li>
+      <%= 'Data Lineage'.pluralize(@draft.draft['DataLineage'].count)%>
+      <% @draft.draft['DataLineage'].each_with_index do |lineage, index| %>
+        <%= render :partial=>'drafts/previews/types/lineage_type', :locals=>{lineage: lineage, index: index} %>
+      <% end %>
+    </li>
+  </ul>
 <% end %>
 
 <!-- Organization [r] -->
 <!-- show orgs -->
+<%= render :partial=>'drafts/previews/types/organization_type', :locals=>{organization: @draft.draft['Organization'], title:'Organization'} %>
+
 <% if !@draft.draft['ResponsibleOrganization'].blank? %>
   <h4>Responsible Organization</h4>
   <p>

@@ -1,0 +1,12 @@
+
+<% if !entry_id.blank? %>
+  <ul class="<%= name_to_class('EntryId')%>">
+    <li>
+      Entry ID
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Id',        :hash_for_key=>entry_id, :title_override=>'ID'} %>
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>entry_id} %>
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Authority', :hash_for_key=>entry_id} %>
+    </li>
+  </ul>
+<% end %>
+
