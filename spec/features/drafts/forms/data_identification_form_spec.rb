@@ -71,6 +71,7 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('Draft Title')
     end
 
+    # TODO MMT-293
     it 'shows the values in the draft preview page' do
       expect(page).to have_content('12345')
       expect(page).to have_content('1')

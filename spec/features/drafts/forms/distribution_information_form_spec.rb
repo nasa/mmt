@@ -2,8 +2,6 @@
 
 require 'rails_helper'
 
-init_store = [] # Will be populated to contain {locator=> value_string} hashes
-
 describe 'Distribution information form', js: true do
   before do
     login
