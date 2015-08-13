@@ -6,6 +6,55 @@ module Helpers
       click_on 'Create Record'
     end
 
+    # Traverse the JSON (depth first), checking all values on all branches for display on this page.
+    def check_page_for_display_of_values (page, draft, special_handling={})
+      case draft.class.to_s
+        when nil
+        when 'String'
+          expect(page).to have_content(draft)
+        when 'Hash'
+          draft.each do |key, value|
+            if value.is_a? String
+              if special_handling[key] == :handle_as_currency && value =~ /\A[-+]?\d*\.?\d+\z/
+                value = number_to_currency(value.to_f)
+              end
+              expect(page).to have_content(value)
+            else
+              check_page_for_display_of_values(page, value, special_handling)
+            end
+          end
+        when 'Array'
+          draft.each do |value|
+            check_page_for_display_of_values(page, value, special_handling)
+          end
+        else
+          puts ("Class Unknown: #{draft.class}")
+      end
+    end
+
+    def check_section_for_display_of_values(page, draft, parent_key, special_handling={})
+      #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in #{page}"
+      case draft.class.to_s
+        when 'NilClass'
+        when 'String'
+          if special_handling[parent_key] == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
+            draft = number_to_currency(draft.to_f)
+          end
+          expect(page).to have_content(draft)
+        when 'Hash'
+          draft.each_with_index do |(key, value), index|
+            check_section_for_display_of_values(page.find(".#{name_to_class(key)}"), value, key, special_handling)
+          end
+        when 'Array'
+          html_class_name = name_to_class(parent_key)
+          draft.each_with_index do |value, index|
+            check_section_for_display_of_values(page.find(".#{html_class_name}-#{index}"), value, parent_key, special_handling)
+          end
+        else
+          puts ("Class Unknown: #{draft.class}")
+      end
+    end
+
     def add_organization
       fill_in 'Short Name', with: 'ORG_SHORT'
       fill_in 'Long Name', with: 'Organization Long Name'

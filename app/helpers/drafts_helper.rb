@@ -36,4 +36,10 @@ module DraftsHelper
   def remove_pipes(string)
     string.gsub('|', '')
   end
+
+  #Change json keys like 'FileSize' to acceptable html class names like 'file-size'
+  def name_to_class(key)
+    return key.to_s.underscore.dasherize
+  end
+
 end

@@ -95,4 +95,5 @@ class Draft < ActiveRecord::Base
     result = {} if result.keys.all? {|k| k.start_with?('cmep_')}
     result.compact.presence
   end
+
 end

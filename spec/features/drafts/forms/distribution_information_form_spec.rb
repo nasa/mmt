@@ -1,6 +1,8 @@
-# MMT-292
+# MMT-292, MMT-299
 
 require 'rails_helper'
+
+init_store = [] # Will be populated to contain {locator=> value_string} hashes
 
 describe 'Distribution information form', js: true do
   before do
@@ -43,8 +45,33 @@ describe 'Distribution information form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    # TODO MMT-299
-    it 'shows the values in the draft preview page'
+    it "shows pre-entered values in the draft preview page" do
+      # Related URL 1
+      expect(page).to have_content('http://example.com')
+      expect(page).to have_content('http://another-example.com')
+      expect(page).to have_content('Example Description')
+      expect(page).to have_content('FTP')
+      expect(page).to have_content('text/html')
+      expect(page).to have_content('Example Caption')
+      expect(page).to have_content('Example Title')
+      expect(page).to have_content('42')
+      expect(page).to have_content('MB')
+      expect(page).to have_content('Type')
+      expect(page).to have_content('Subtype')
+      # Related Url 2
+      expect(page).to have_content('http://example.com/1')
+
+      # Distribution 1
+      expect(page).to have_content('Online Download')
+      expect(page).to have_content('42 MB')
+      expect(page).to have_content('HDF')
+      expect(page).to have_content('0')
+      # Distribution 2
+      expect(page).to have_content('Floppy disc')
+      expect(page).to have_content('1.44 MB')
+      expect(page).to have_content('.txt')
+      expect(page).to have_content('0')
+    end
 
     context 'when returning to the form' do
       before do

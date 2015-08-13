@@ -1,0 +1,25 @@
+<h4>Metadata Information Fields:</h4>
+
+<!-- Metadata language -->
+<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MetadataLanguage', :hash_for_key=>@draft.draft} %>
+
+<!-- Metdata Standard [r] -->
+<% if !@draft.draft['MetadataStandard'].blank? %>
+  <h4>Metadata Standard</h4>
+  <p>
+    <% r = @draft.draft['MetadataStandard'] %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>r} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>r} %>
+  </p>
+<% end %>
+
+<!-- Metadata Dates -->
+<% if !@draft.draft['MetadataDates'].blank? %>
+  <h4>Metadata Dates</h4>
+  <p>
+    <% @draft.draft['MetadataDates'].each do |r| %>
+      <%= r %>
+      </br>
+    <% end %>
+  </p>
+<% end %>
