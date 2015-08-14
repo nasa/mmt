@@ -68,6 +68,18 @@ module Helpers
       end
     end
 
+
+    def map_role_onto_display_string(role)
+      options_hash = Hash[role_options.map{|key, value| [value, key]}]
+      return options_hash[role]
+    end
+
+    def map_date_type_onto_display_string(date_type)
+      options_hash = Hash[date_type_options.map{|key, value| [value, key]}]
+      return options_hash[date_type]
+    end
+
+
     def add_organization
       fill_in 'Short Name', with: 'ORG_SHORT'
       fill_in 'Long Name', with: 'Organization Long Name'
