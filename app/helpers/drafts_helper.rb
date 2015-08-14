@@ -65,7 +65,7 @@ module DraftsHelper
     ]
   end
 
-  # Used by view test scripts to derive the displayed string from the value stored in json
+  # Used to derive the displayed string of a select type control from the value stored in json
   def map_value_onto_display_string(str, options)
     options_hash = Hash[options.map{|key, value| [value, key]}]
     return options_hash[str]

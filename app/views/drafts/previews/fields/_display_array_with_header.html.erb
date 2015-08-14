@@ -4,7 +4,9 @@
     <% html_class_name = name_to_class(key_name) %>
     <ul class="<%=html_class_name%>">
       <li>
-        <strong><%= (defined?(title_override).nil? ? key_name.titleize : title_override).pluralize(data_array.count) %>:</strong>
+        <% title = defined?(title_override).nil? ? key_name.titleize : title_override %>
+        <% title = defined?(dont_pluralize) ? title : title.pluralize(data_array.count) %>
+        <strong><%= title %>:</strong>
         <ul>
           <% data_array.each_with_index do |element_of_array, index|%>
             <li class="<%=html_class_name%>-<%=index%>">

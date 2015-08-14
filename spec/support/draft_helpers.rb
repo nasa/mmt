@@ -82,7 +82,6 @@ module Helpers
       fill_in 'Last Name', with: 'Last Name'
     end
 
-
     def add_responsibilities(type=nil)
       within '.multiple.responsibility' do
         select 'Resource Provider', from: 'Role'
