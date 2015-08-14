@@ -109,12 +109,12 @@ describe 'drafts/previews/_data_identification.html.erb', type: :view do
                                      "OtherCitationDetails"=>"Citation other details",
                                      "DOI"=>{"DOI"=>"Citation DOI", "Authority"=>"Citation DOI Authority"},
                                      "RelatedUrl"=>{"URL"=>["http://example.com", "http://another-example.com"], "Description"=>"Example Description",
-                                                    "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example Caption", "Title"=>"Example Title",
+                                                    "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example Caption", "Title"=>"Example related URL Title 1",
                                                     "FileSize"=>{"Size"=>"42", "Unit"=>"MB"},
                                                     "ContentType"=>{"Type"=>"Type", "Subtype"=>"Subtype"}}},
                                     {"Version"=>"v2", "Title"=>"Citation title 1", "Creator"=>"Citation creator 1",
                                      "RelatedUrl"=>{"URL"=>["http://example.com", "http://another-example.com"], "Description"=>"Example Description",
-                                                    "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example Caption", "Title"=>"Example Title",
+                                                    "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example Caption", "Title"=>"Example related URL Title 2",
                                                     "FileSize"=>{"Size"=>"42", "Unit"=>"MB"}, "ContentType"=>{"Type"=>"Type", "Subtype"=>"Subtype"}}}],
              "CollectionProgress"=>"IN WORK",
              "Quality"=>"Metadata quality summary",
@@ -148,6 +148,31 @@ describe 'drafts/previews/_data_identification.html.erb', type: :view do
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
 #puts rendered.gsub(/\s+/, " ").strip
+
+        root_css_path = "ul.data-identification-preview"
+        check_fp_for_display_of_values(rendered_node, draft_json['CollectionCitation'], 'CollectionCitation', root_css_path)
+
+        check_fp_for_display_of_values(rendered_node, draft_json['EntryId'], 'EntryId', root_css_path)
+        check_fp_for_display_of_values(rendered_node, draft_json['EntryTitle'], 'EntryTitle', root_css_path)
+        check_fp_for_display_of_values(rendered_node, draft_json['Abstract'], 'Abstract', root_css_path)
+        check_fp_for_display_of_values(rendered_node, draft_json['Purpose'], 'Purpose', root_css_path)
+        check_fp_for_display_of_values(rendered_node, draft_json['DataLanguage'], 'DataLanguage', root_css_path)
+        check_fp_for_display_of_values(rendered_node, draft_json['DataLineage'], 'DataLineage', root_css_path, {Scope: :handle_as_not_shown, Type: :handle_as_date_type, Role: :handle_as_role})
+        check_fp_for_display_of_values(rendered_node, draft_json['ResponsibleOrganization'], 'ResponsibleOrganization', root_css_path, {Role: :handle_as_role})
+        check_fp_for_display_of_values(rendered_node, draft_json['ResponsiblePersonnel'], 'ResponsiblePersonnel', root_css_path, {Role: :handle_as_role})
+        check_fp_for_display_of_values(rendered_node, draft_json['CollectionDataType'], 'CollectionDataType', root_css_path, {CollectionDataType: :handle_as_collection_data_type})
+        check_fp_for_display_of_values(rendered_node, draft_json['ProcessingLevel'], 'ProcessingLevel', root_css_path)
+        check_fp_for_display_of_values(rendered_node, draft_json['CollectionCitation'], 'CollectionCitation', root_css_path)
+        check_fp_for_display_of_values(rendered_node, draft_json['CollectionProgress'], 'CollectionProgress', root_css_path, {CollectionProgress: :handle_as_collection_progress})
+        check_fp_for_display_of_values(rendered_node, draft_json['Quality'], 'Quality', root_css_path)
+        check_fp_for_display_of_values(rendered_node, draft_json['UseConstraints'], 'UseConstraints', root_css_path)
+        check_fp_for_display_of_values(rendered_node, draft_json['AccessConstraints'], 'AccessConstraints', root_css_path)
+        check_fp_for_display_of_values(rendered_node, draft_json['MetadataAssociation'], 'MetadataAssociation', root_css_path)
+        #check_fp_for_display_of_values(rendered_node, draft_json['PublicationReference'], 'PublicationReference', root_css_path)
+
+
+=begin
+
         check_section_for_display_of_values(rendered_node.first(".#{name_to_class('EntryId')}"), draft_json['EntryId'], 'EntryId') # Replaced "find" with "first" because of ambiguity
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('EntryTitle')}"), draft_json['EntryTitle'], 'EntryTitle')
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('Abstract')}"), draft_json['Abstract'], 'Abstract')
@@ -164,7 +189,8 @@ describe 'drafts/previews/_data_identification.html.erb', type: :view do
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('UseConstraints')}"), draft_json['UseConstraints'], 'UseConstraints')
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('AccessConstraints')}"), draft_json['AccessConstraints'], 'AccessConstraints')
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataAssociation')}"), draft_json['MetadataAssociation'], 'MetadataAssociation')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('PublicationReference')}"), draft_json['PublicationReference'], 'PublicationReference')
+        #check_section_for_display_of_values(rendered_node.find(".#{name_to_class('PublicationReference')}"), draft_json['PublicationReference'], 'PublicationReference')
+=end
       end
 
     end
