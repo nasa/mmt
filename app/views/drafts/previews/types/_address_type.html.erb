@@ -1,0 +1,14 @@
+<ul class='<%= name_to_class('Address')%>-<%=index%>'>
+  <li>
+    <strong>Address <%= index + 1 %></strong>
+
+    <% if !address['StreetAddress'].blank? %>
+      <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'StreetAddress', :hash_for_key=>address, dont_pluralize: true} %>
+    <% end %>
+
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'City', :hash_for_key=>address} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'StateProvince', :hash_for_key=>address} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'PostalCode', :hash_for_key=>address} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Country', :hash_for_key=>address} %>
+  </li>
+</ul>

@@ -5,21 +5,26 @@
 
 <!-- Metdata Standard [r] -->
 <% if !@draft.draft['MetadataStandard'].blank? %>
-  <h4>Metadata Standard</h4>
-  <p>
-    <% r = @draft.draft['MetadataStandard'] %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>r} %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>r} %>
-  </p>
+  <ul class="<%= name_to_class('MetadataStandard')%>">
+    <li>
+      <h4>Metadata Standard</h4>
+      <% metadata_standard = @draft.draft['MetadataStandard'] %>
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>metadata_standard} %>
+      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>metadata_standard} %>
+    </li>
+  </ul>
 <% end %>
 
 <!-- Metadata Dates -->
-<% if !@draft.draft['MetadataDates'].blank? %>
-  <h4>Metadata Dates</h4>
-  <p>
-    <% @draft.draft['MetadataDates'].each do |r| %>
-      <%= r %>
-      </br>
-    <% end %>
-  </p>
+<% if !@draft.draft['MetadataLineage'].blank? %>
+  <ul class="<%= name_to_class('MetadataLineage')%>">
+    <li>
+      <h4><%= 'Metadata Lineage'.pluralize(@draft.draft['MetadataLineage'].count)%></h4>
+      <% @draft.draft['MetadataLineage'].each_with_index do |lineage, index| %>
+        <%= render :partial=>'drafts/previews/types/lineage_type', :locals=>{lineage: lineage, index: index, json_name: 'MetadataLineage'} %>
+      <% end %>
+    </li>
+  </ul>
 <% end %>
+
+

@@ -42,4 +42,19 @@ module DraftsHelper
     return key.to_s.underscore.dasherize
   end
 
+  def role_options
+    [
+        ['Select Role', ''],['Resource Provider', 'RESOURCEPROVIDER'], ['Custodian', 'CUSTODIAN'],
+        ['Owner', 'OWNER'], ['User', 'USER'], ['Distributor', 'DISTRIBUTOR'], ['Originator', 'ORIGINATOR'],
+        ['Point of Contact', 'POINTOFCONTACT'], ['Principal Investigator', 'PRINCIPALINVESTIGATOR'], ['Processor', 'PROCESSOR'],
+        ['Publisher', 'PUBLISHER'], ['Author', 'AUTHOR'], ['Sponsor', 'SPONSOR'], ['Co-Author', 'COAUTHOR'], ['Collaborator', 'COLLABORATOR'],
+        ['Editor', 'EDITOR'], ['Mediator', 'MEDIATOR'], ['Rights Holder', 'RIGHTSHOLDER'], ['Contributor', 'CONTRIBUTOR'], ['Funder', 'FUNDER'],
+        ['Stakeholder', 'STAKEHOLDER']
+    ]
+  end
+
+  def date_type_options
+    [['Select Date Type', ''],['Create', 'CREATE'], ['Update', 'UPDATE'], ['Delete', 'DELETE'], ['Review', 'REVIEW']]
+  end
+
 end

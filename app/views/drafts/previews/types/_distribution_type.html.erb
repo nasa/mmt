@@ -1,8 +1,10 @@
-<strong>Distribution <%=index+1%></strong>
 <ul class='<%= name_to_class('Distribution')%>-<%=index%>'>
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionMedia', :hash_for_key=>distribution} %>
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionSize', :hash_for_key=>distribution} %>
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionFormat', :hash_for_key=>distribution} %>
-  <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Fees', :hash_for_key=>distribution, :handle_as_currency=>true} %>
+  <li>
+    <strong>Distribution <%=index+1%></strong>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionMedia', :hash_for_key=>distribution} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionSize', :hash_for_key=>distribution} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DistributionFormat', :hash_for_key=>distribution} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Fees', :hash_for_key=>distribution, :handle_as_currency=>true} %>
+  </li>
 </ul>
-<hr>
+
