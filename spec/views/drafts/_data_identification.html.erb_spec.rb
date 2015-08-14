@@ -133,7 +133,7 @@ describe 'drafts/previews/_data_identification.html.erb', type: :view do
                                        "ReportNumber"=>"Publication reference report number", "PublicationPlace"=>"Publication reference publication place",
                                        "Pages"=>"Publication reference pages", "ISBN"=>"1234567890123", "OtherReferenceDetails"=>"Publication reference details",
                                        "RelatedUrl"=>{"URL"=>["http://example.com", "http://another-example.com"], "Description"=>"Example Description", "Protocol"=>"FTP",
-                                                      "MimeType"=>"text/html", "Caption"=>"Example Caption", "Title"=>"Example Title",
+                                                      "MimeType"=>"text/html", "Caption"=>"Example Caption", "Title"=>"Example URL Title",
                                                       "FileSize"=>{"Size"=>"42", "Unit"=>"MB"},
                                                       "ContentType"=>{"Type"=>"Type", "Subtype"=>"Subtype"}}},
                                       {"Title"=>"Publication reference title 1", "ISBN"=>"9876543210987"}]}
@@ -148,23 +148,23 @@ describe 'drafts/previews/_data_identification.html.erb', type: :view do
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
 #puts rendered.gsub(/\s+/, " ").strip
-        #check_section_for_display_of_values(rendered_node.find(".#{name_to_class('EntryId')}"), draft_json['EntryId'], 'EntryId')
+        check_section_for_display_of_values(rendered_node.first(".#{name_to_class('EntryId')}"), draft_json['EntryId'], 'EntryId') # Replaced "find" with "first" because of ambiguity
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('EntryTitle')}"), draft_json['EntryTitle'], 'EntryTitle')
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('Abstract')}"), draft_json['Abstract'], 'Abstract')
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('Purpose')}"), draft_json['Purpose'], 'Purpose')
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('DataLanguage')}"), draft_json['DataLanguage'], 'DataLanguage')
-        #check_section_for_display_of_values(rendered_node.find(".#{name_to_class('DataLineage')}"), draft_json['DataLineage'], 'DataLineage')
-        #check_section_for_display_of_values(rendered_node.find(".#{name_to_class('ResponsibleOrganization')}"), draft_json['ResponsibleOrganization'], 'ResponsibleOrganization')
-        #check_section_for_display_of_values(rendered_node.find(".#{name_to_class('ResponsiblePersonnel')}"), draft_json['ResponsiblePersonnel'], 'ResponsiblePersonnel')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('CollectionDataType')}"), draft_json['CollectionDataType'], 'CollectionDataType')
+        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('DataLineage')}"), draft_json['DataLineage'], 'DataLineage', {Scope: :handle_as_not_shown, Type: :handle_as_date_type, Role: :handle_as_role})
+        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('ResponsibleOrganization')}"), draft_json['ResponsibleOrganization'], 'ResponsibleOrganization', {Role: :handle_as_role})
+        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('ResponsiblePersonnel')}"), draft_json['ResponsiblePersonnel'], 'ResponsiblePersonnel', {Role: :handle_as_role})
+        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('CollectionDataType')}"), draft_json['CollectionDataType'], 'CollectionDataType', {CollectionDataType: :handle_as_collection_data_type})
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('ProcessingLevel')}"), draft_json['ProcessingLevel'], 'ProcessingLevel')
         #check_section_for_display_of_values(rendered_node.find(".#{name_to_class('CollectionCitation')}"), draft_json['CollectionCitation'], 'CollectionCitation')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('CollectionProgress')}"), draft_json['CollectionProgress'], 'CollectionProgress')
+        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('CollectionProgress')}"), draft_json['CollectionProgress'], 'CollectionProgress', {CollectionProgress: :handle_as_collection_progress})
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('Quality')}"), draft_json['Quality'], 'Quality')
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('UseConstraints')}"), draft_json['UseConstraints'], 'UseConstraints')
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('AccessConstraints')}"), draft_json['AccessConstraints'], 'AccessConstraints')
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataAssociation')}"), draft_json['MetadataAssociation'], 'MetadataAssociation')
-        #check_section_for_display_of_values(rendered_node.find(".#{name_to_class('PublicationReference')}"), draft_json['PublicationReference'], 'PublicationReference')
+        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('PublicationReference')}"), draft_json['PublicationReference'], 'PublicationReference')
       end
 
     end

@@ -1,4 +1,5 @@
-<ul class='<%= name_to_class('Responsibility')%>-<%=index%>'>
+<% class_name = defined?(class_name_override).nil? ? 'Responsibility' : class_name_override %>
+<ul class='<%= name_to_class(class_name)%>-<%=index%>'>
   <li>
     <% title = defined?(title_override).nil? ? 'Responsibility' : title_override %>
     <strong><%= title %> <%= index + 1 %></strong>

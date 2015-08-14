@@ -36,7 +36,7 @@
       <% title = 'Organization' %>
       <h4><%= title.pluralize(@draft.draft['ResponsibleOrganization'].count)%></h4>
       <% @draft.draft['ResponsibleOrganization'].each_with_index do |responsibility, index| %>
-        <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index, title_override: title} %>
+        <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index, title_override: title, class_name_override: 'responsible-organization'} %>
       <% end %>
     </li>
   </ul>
@@ -51,7 +51,7 @@
       <% title = 'Personnel' %>
       <h4><%= title.pluralize(@draft.draft['ResponsiblePersonnel'].count)%></h4>
       <% @draft.draft['ResponsiblePersonnel'].each_with_index do |responsibility, index| %>
-        <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index, title_override: title} %>
+        <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index, title_override: title, class_name_override: 'responsible-personnel'} %>
       <% end %>
     </li>
   </ul>
@@ -59,7 +59,8 @@
 
 <!-- Collection Data Type -->
 <!-- Dropdown with ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"] -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'CollectionDataType', :hash_for_key=>@draft.draft} %>
+<%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'CollectionDataType', :hash_for_key=>@draft.draft, options: collection_data_type_options} %>
+
 
 <!-- ProcessingLevel -->
 <%= render :partial=>'drafts/previews/types/processing_level_type', :locals=>{processing_level: @draft.draft['ProcessingLevel'], title:'Processing Level'} %>
@@ -73,14 +74,14 @@
       <% title = 'Collection Citation' %>
       <h4><%= title.pluralize(@draft.draft['CollectionCitation'].count)%></h4>
       <% @draft.draft['CollectionCitation'].each_with_index do |resource_citation, index| %>
-        <%= render :partial=>'drafts/previews/types/resource_citation_type', :locals=>{resource_citation: resource_citation, index: index, title_override: title} %>
+        <%= render :partial=>'drafts/previews/types/resource_citation_type', :locals=>{resource_citation: resource_citation, index: index, title_override: title, class_name_override: 'CollectionCitation'} %>
       <% end %>
     </li>
   </ul>
 <% end %>
 
 <!-- Collection Progress -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'CollectionProgress', :hash_for_key=>@draft.draft} %>
+<%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'CollectionProgress', :hash_for_key=>@draft.draft, options: collection_progress_options} %>
 
 <!-- Quality -->
 <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Quality', :hash_for_key=>@draft.draft} %>

@@ -33,8 +33,9 @@ module Helpers
     end
 
     def check_section_for_display_of_values(page, draft, parent_key, special_handling={})
-      #puts ''
-      #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in #{page.text.gsub(/\s+/, " ").strip}"
+      puts ''
+      puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in "
+      puts " #{page.text.gsub(/\s+/, " ").strip}" if !page.nil?
       case draft.class.to_s
         when 'NilClass'
         when 'String'
@@ -47,23 +48,29 @@ module Helpers
           elsif parent_key_special_handling == :handle_as_duration
             # Map duration value stored in json to what is actually supposed to be displayed
             draft = map_value_onto_display_string(draft, duration_options)
+          elsif parent_key_special_handling == :handle_as_collection_data_type
+            # Map duration value stored in json to what is actually supposed to be displayed
+            draft = map_value_onto_display_string(draft, collection_data_type_options)
+          elsif parent_key_special_handling == :handle_as_date_type
+            # Map date type value stored in json to what is actually supposed to be displayed
+            draft = map_value_onto_display_string(draft, date_type_options)
+          elsif parent_key_special_handling == :handle_as_collection_progress
+            # Map duration value stored in json to what is actually supposed to be displayed
+            draft = map_value_onto_display_string(draft, collection_progress_options)
           elsif parent_key_special_handling == :handle_as_not_shown
             # This field is present in json, but intentionally not displayed
             return
-          elsif parent_key_special_handling == :handle_as_date_type
-            # Map date type stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, date_type_options)
           end
           expect(page).to have_content(draft)
         when 'Hash'
           draft.each_with_index do |(key, value), index|
-            #puts "  H Looking for: #{name_to_class(key)} inside: #{page.text.gsub(/\s+/, " ").strip}"
+            puts "  H Looking for: #{name_to_class(key)} inside: #{page.text.gsub(/\s+/, " ").strip}"
             check_section_for_display_of_values(page.first(:css, ".#{name_to_class(key)}"), value, key, special_handling)
           end
         when 'Array'
           html_class_name = name_to_class(parent_key)
           draft.each_with_index do |value, index|
-            #puts "  A Looking for: #{html_class_name}-#{index} inside: #{page.text.gsub(/\s+/, " ").strip}"
+            puts "  A Looking for: #{html_class_name}-#{index} inside: #{page.text.gsub(/\s+/, " ").strip}"
             check_section_for_display_of_values(page.first(:css, ".#{html_class_name}-#{index}"), value, parent_key, special_handling)
           end
         else
