@@ -3,7 +3,7 @@
     <strong>Address <%= index + 1 %></strong>
 
     <% if !address['StreetAddress'].blank? %>
-      <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'StreetAddress', :hash_for_key=>address, pluralization_ok: false} %>
+      <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'StreetAddress', :hash_for_key=>address, dont_pluralize: true} %>
     <% end %>
 
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'City', :hash_for_key=>address} %>
