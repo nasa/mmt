@@ -49,7 +49,7 @@ class Draft < ActiveRecord::Base
   end
 
   def fix_params(params)
-    # TODO FileSize-Size needs to be a number, not a string
+    # TODO FileSize-Size, NumberOfSensors,  needs to be a number, not a string
     params = convert_to_arrays(params.clone)
 
     # if param is empty remove it from params
