@@ -4,11 +4,11 @@
       <div class="breadcrumb">
         <ol>
           <li><%= link_to 'Manage Metadata Dashboard', dashboard_path %></li>
-          <li><%= link_to @draft.title, draft_path(@draft) %></li>
+          <li><%= link_to @draft.display_entry_title, draft_path(@draft) %></li>
         </ol>
       </div>
       <h2>
-        <%= image_tag('collection.png', alt: 'Sun') %> <%= @draft.title %></h2>
+        <%= image_tag('collection.png', alt: 'Sun') %> <%= @draft.display_entry_title %></h2>
       <p class="subtitle">Draft Record</p>
     </div>
   </header>

@@ -23,7 +23,7 @@ class Draft < ActiveRecord::Base
     return nil
   end
 
-  def title
+  def display_entry_title
     self.entry_title || '<Untitled Collection Record>'
   end
 
@@ -34,30 +34,32 @@ class Draft < ActiveRecord::Base
   def update_draft(params)
     if params
       # pull out searchable fields if provided
-      self.entry_title = params['entry_title'] if params['entry_title']
-      self.entry_id = params['entry_id']['id'] if params['entry_id'] && params['entry_id']['id']
+      if params['entry_id']
+        self.entry_title = params['entry_title'].empty? ? nil : params['entry_title']
+        self.entry_id = params['entry_id']['id'].empty? ? nil : params['entry_id']['id']
+      end
 
       # The provider_id isn't actually part of the metadata. You can think of that as the owner of the metadata. It's meta-metadata.
       # self.provider_id = ?
 
-      json_params = fix_params(params)
-      self.draft.merge!(json_params) if json_params
-      self.save
+      # TODO FileSize-Size, NumberOfSensors, all number_field_tag values needs to be a number, not a string
+      # TODO Detailed_Classification needs to have an underscore
+
+      # Convert {'0' => {'id' => 123'}} to [{'id' => '123'}]
+      params = convert_to_arrays(params.clone)
+      # Convert parameter keys to CamelCase for UMM
+      json_params = params.to_hash.to_camel_keys
+      # Merge new params into draft
+      new_draft = self.draft.merge(json_params)
+      # Remove empty params from draft
+      new_draft = compact_blank(new_draft.clone)
+
+      if new_draft
+        self.draft = new_draft
+        self.save
+      end
+
     end
-    # TODO take out
-    true
-  end
-
-  def fix_params(params)
-    # TODO FileSize-Size, NumberOfSensors,  needs to be a number, not a string
-    params = convert_to_arrays(params.clone)
-
-    # if param is empty remove it from params
-    params = compact_blank(params.clone)
-
-    # Convert parameter keys to CamelCase for UMM
-    # TODO Detailed_Classification needs to have an underscore
-    params.to_hash.to_camel_keys if params
   end
 
   def convert_to_arrays(object)
