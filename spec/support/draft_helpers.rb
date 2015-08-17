@@ -1,42 +1,16 @@
 module Helpers
   module DraftHelpers
+
     def create_new_draft
       visit '/dashboard'
       choose 'New Collection Record'
       click_on 'Create Record'
     end
 
-    # Traverse the JSON (depth first), checking all values on all branches for display on this page.
-    def check_page_for_display_of_values (page, draft, special_handling={})
-      case draft.class.to_s
-        when 'NilClass'
-        when 'String'
-          expect(page).to have_content(draft)
-        when 'Hash'
-          draft.each do |key, value|
-            if value.is_a? String
-              if special_handling[key] == :handle_as_currency && value =~ /\A[-+]?\d*\.?\d+\z/
-                value = number_to_currency(value.to_f)
-              end
-              expect(page).to have_content(value)
-            else
-              check_page_for_display_of_values(page, value, special_handling)
-            end
-          end
-        when 'Array'
-          draft.each do |value|
-            check_page_for_display_of_values(page, value, special_handling)
-          end
-        else
-          puts ("Class Unknown: #{draft.class}")
-      end
-    end
-
-
     def check_css_path_for_display_of_values(page, draft, parent_key, parent_path, special_handling={})
       new_path = parent_path + ">li>ul"
       #puts ''
-      #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in *#{parent_path}>li>ul*"
+      #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in *#{new_path}*"
       case draft.class.to_s
         when 'NilClass'
         when 'String'
@@ -74,7 +48,7 @@ module Helpers
           new_path += ".#{name_to_class(parent_key)}"
           html_class_name = name_to_class(parent_key)
           draft.each_with_index do |value, index|
-            puts "  A Looking for: #{new_path} ---> #{name_to_class(parent_key)}-#{index} inside:"  #{page.text.gsub(/\s+/, " ").strip}"
+            #puts "  A Looking for: #{new_path} ---> #{name_to_class(parent_key)}-#{index} inside:"  #{page.text.gsub(/\s+/, " ").strip}"
             check_css_path_for_display_of_values(page, value, "#{name_to_class(parent_key)}-#{index}", new_path, special_handling)
           end
         else

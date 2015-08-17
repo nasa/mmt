@@ -5,12 +5,14 @@
 require 'rails_helper'
 include DraftsHelper
 
-describe 'drafts/previews/_metadata_information.html.erb', type: :view do
+template_path = 'drafts/previews/_metadata_information.html.erb'
+
+describe template_path, type: :view do
   context 'when the metadata information' do
     context 'is empty' do
       before do
         assign(:draft, build(:draft, draft: {}))
-        render
+        render :template => template_path, :locals=>{draft: {}}
       end
 
       it 'does not crash or have Metadata Information' do
@@ -25,7 +27,7 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
       draft_json = {}
       before do
         draft_json['MetadataLanguage'] = 'English'
-        draft_json['MetadataStandard'] = {Name:'test name', Version:'test version'}
+        draft_json['MetadataStandard'] = {"Name" =>'test MS name', "Version" => 'test version'}
 
         draft_json['MetadataLineage'] = [
             # minimal object populating
@@ -69,7 +71,7 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
         ]
 
         assign(:draft, build(:draft, draft: draft_json))
-        render
+        render :template => template_path, :locals=>{draft: draft_json}
       end
 
       it 'shows the values in the correct places and formats in the draft preview page' do
@@ -77,6 +79,7 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
         root_css_path = "ul.metadata-information-preview"
         draft_json.each do |key, value|
           check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {Role: :handle_as_role, Scope: :handle_as_not_shown, Type: :handle_as_date_type})
+
         end
       end
 

@@ -5,12 +5,15 @@
 require 'rails_helper'
 include DraftsHelper
 
-describe 'drafts/previews/_data_identification.html.erb', type: :view do
+template_path = 'drafts/previews/_data_identification.html.erb'
+
+
+describe template_path, type: :view do
   context 'when the data identification data' do
     context 'is empty' do
       before do
         assign(:draft, build(:draft, draft: {}))
-        render
+        render :template => template_path, :locals=>{draft: {}}
       end
 
       it 'does not crash or have data identification data' do
@@ -61,26 +64,26 @@ describe 'drafts/previews/_data_identification.html.erb', type: :view do
                                        {"Type"=>"REVIEW", "Date"=>"2015-07-02", "Description"=>"Reviewed data",
                                         "Responsibility"=>[{"Role"=>"EDITOR", "Party"=>{"OrganizationName"=>{"ShortName"=>"short_name"}}}]}]},
                              {"Scope"=>"DATA",
-                              "Date"=>[{"Type"=>"CREATE", "Date"=>"2015-07-05", "Description"=>"Create data",
+                              "Date"=>[{"Type"=>"CREATE", "Date"=>"2016-07-05", "Description"=>"Create data",
                                         "Responsibility"=>[{"Role"=>"USER", "Party"=>{"OrganizationName"=>{"ShortName"=>"another_short_name"}}}]}]}],
-             "ResponsibleOrganization"=>[{"Role"=>"RESOURCEPROVIDER", "Party"=>{"OrganizationName"=>{"ShortName"=>"ORG_SHORT", "LongName"=>"Organization Long Name"},
-                                                                                "ServiceHours"=>"9-5, M-F", "ContactInstructions"=>"Email only",
+             "ResponsibleOrganization"=>[{"Role"=>"RESOURCEPROVIDER", "Party"=>{"OrganizationName"=>{"ShortName"=>"ORG_SHORT 2", "LongName"=>"Organization Long Name 2"},
+                                                                                "ServiceHours"=>"9-6, M-F", "ContactInstructions"=>"Email only",
                                                                                 "Contact"=>[{"Type"=>"Email", "Value"=>"example@example.com"}, {"Type"=>"Email", "Value"=>"example2@example.com"}],
                                                                                 "Address"=>[{"StreetAddress"=>["300 E Street Southwest", "Room 203"], "City"=>"Washington", "StateProvince"=>"DC", "PostalCode"=>"20546", "Country"=>"United States"},
                                                                                             {"StreetAddress"=>["8800 Greenbelt Road"], "City"=>"Greenbelt", "StateProvince"=>"MD", "PostalCode"=>"20771", "Country"=>"United States"}],
                                                                                 "RelatedUrl"=>[{"URL"=>["http://example.com", "http://another-example.com"],
-                                                                                                "Description"=>"Example Description", "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example Caption", "Title"=>"Example Title",
+                                                                                                "Description"=>"Example Description", "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example Caption 2", "Title"=>"Example Title",
                                                                                                 "FileSize"=>{"Size"=>"42", "Unit"=>"MB"},
-                                                                                                "ContentType"=>{"Type"=>"Type", "Subtype"=>"Subtype"}}, {"URL"=>["http://example.com/1"]}]}},
-                                         {"Role"=>"OWNER", "Party"=>{"OrganizationName"=>{"ShortName"=>"ORG_SHORT", "LongName"=>"Organization Long Name"},
+                                                                                                "ContentType"=>{"Type"=>"Type", "Subtype"=>"Subtype"}}, {"URL"=>["http://example1.com/1"]}]}},
+                                         {"Role"=>"OWNER", "Party"=>{"OrganizationName"=>{"ShortName"=>"ORG_SHORT 3", "LongName"=>"Organization Long Name 3"},
                                                                      "ServiceHours"=>"10-2, M-W", "ContactInstructions"=>"Email only", "Contact"=>[{"Type"=>"Email", "Value"=>"example@example.com"},
                                                                                                                                                    {"Type"=>"Email", "Value"=>"example2@example.com"}],
                                                                      "Address"=>[{"StreetAddress"=>["300 E Street Southwest", "Room 203"], "City"=>"Washington", "StateProvince"=>"DC", "PostalCode"=>"20546", "Country"=>"United States"},
                                                                                  {"StreetAddress"=>["8800 Greenbelt Road"], "City"=>"Greenbelt", "StateProvince"=>"MD", "PostalCode"=>"20771", "Country"=>"United States"}],
                                                                      "RelatedUrl"=>[{"URL"=>["http://example.com", "http://another-example.com"],
-                                                                                     "Description"=>"Example Description", "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example Caption", "Title"=>"Example Title",
+                                                                                     "Description"=>"Example Description", "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example Caption 3", "Title"=>"Example Title",
                                                                                      "FileSize"=>{"Size"=>"42", "Unit"=>"MB"}, "ContentType"=>{"Type"=>"Type", "Subtype"=>"Subtype"}},
-                                                                                    {"URL"=>["http://example.com/1"]}]}}],
+                                                                                    {"URL"=>["http://example2.com/1"]}]}}],
              "ResponsiblePersonnel"=>[{"Role"=>"RESOURCEPROVIDER",
                                        "Party"=>{"Person"=>{"FirstName"=>"First Name", "MiddleName"=>"Middle Name", "LastName"=>"Last Name"},
                                                  "ServiceHours"=>"9-5, M-F", "ContactInstructions"=>"Email only",
@@ -92,8 +95,8 @@ describe 'drafts/previews/_data_identification.html.erb', type: :view do
                                                                  "Description"=>"Example Description", "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example Caption", "Title"=>"Example Title",
                                                                  "FileSize"=>{"Size"=>"42", "Unit"=>"MB"},
                                                                  "ContentType"=>{"Type"=>"Type", "Subtype"=>"Subtype"}}, {"URL"=>["http://example.com/1"]}]}},
-                                      {"Role"=>"OWNER", "Party"=>{"Person"=>{"FirstName"=>"First Name", "MiddleName"=>"Middle Name", "LastName"=>"Last Name"},
-                                                                  "ServiceHours"=>"10-2, M-W", "ContactInstructions"=>"Email only", "Contact"=>[{"Type"=>"Email", "Value"=>"example@example.com"},
+                                      {"Role"=>"OWNER", "Party"=>{"Person"=>{"FirstName"=>"First Name 2", "MiddleName"=>"Middle Name 2", "LastName"=>"Last Name 2"},
+                                                                  "ServiceHours"=>"10-2, M-W", "ContactInstructions"=>"Email only", "Contact"=>[{"Type"=>"Email", "Value"=>"example1@example.com"},
                                                                                                                                                 {"Type"=>"Email", "Value"=>"example2@example.com"}], "Address"=>[{"StreetAddress"=>["300 E Street Southwest", "Room 203"], "City"=>"Washington", "StateProvince"=>"DC", "PostalCode"=>"20546", "Country"=>"United States"},
                                                                                                                                                                                                                  {"StreetAddress"=>["8800 Greenbelt Road"], "City"=>"Greenbelt", "StateProvince"=>"MD", "PostalCode"=>"20771", "Country"=>"United States"}],
                                                                   "RelatedUrl"=>[{"URL"=>["http://example.com", "http://another-example.com"],
@@ -113,8 +116,8 @@ describe 'drafts/previews/_data_identification.html.erb', type: :view do
                                                     "FileSize"=>{"Size"=>"42", "Unit"=>"MB"},
                                                     "ContentType"=>{"Type"=>"Type", "Subtype"=>"Subtype"}}},
                                     {"Version"=>"v2", "Title"=>"Citation title 1", "Creator"=>"Citation creator 1",
-                                     "RelatedUrl"=>{"URL"=>["http://example.com", "http://another-example.com"], "Description"=>"Example Description",
-                                                    "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example Caption", "Title"=>"Example related URL Title 2",
+                                     "RelatedUrl"=>{"URL"=>["http://example2.com", "http://another-example2.com"], "Description"=>"Example 2 Description",
+                                                    "Protocol"=>"FTP", "MimeType"=>"text/html", "Caption"=>"Example 2 Caption", "Title"=>"Example 2 related URL Title",
                                                     "FileSize"=>{"Size"=>"42", "Unit"=>"MB"}, "ContentType"=>{"Type"=>"Type", "Subtype"=>"Subtype"}}}],
              "CollectionProgress"=>"IN WORK",
              "Quality"=>"Metadata quality summary",
@@ -141,9 +144,8 @@ describe 'drafts/previews/_data_identification.html.erb', type: :view do
 
 
         assign(:draft, build(:draft, draft: draft_json))
-        render
+        render :template => template_path, :locals=>{draft: draft_json}
       end
-
 
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
