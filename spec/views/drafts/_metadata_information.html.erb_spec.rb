@@ -74,15 +74,10 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
 
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
-#puts rendered.gsub(/\s+/, " ").strip
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataLanguage')}"), draft_json['MetadataLanguage'], 'MetadataLanguage')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataStandard')}"), draft_json['MetadataStandard'], 'MetadataStandard')
-
-        draft_json['MetadataLineage'].each_with_index do |metadata_lineage, index|
-          check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataLineage')}-#{index}"), metadata_lineage, 'MetadataLineage',
-                                              {Role: :handle_as_role, Scope: :handle_as_not_shown, Type: :handle_as_date_type})
+        root_css_path = "ul.metadata-information-preview"
+        draft_json.each do |key, value|
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {Role: :handle_as_role, Scope: :handle_as_not_shown, Type: :handle_as_date_type})
         end
-
       end
 
     end

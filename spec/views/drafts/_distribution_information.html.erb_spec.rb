@@ -45,9 +45,11 @@ describe 'drafts/previews/_distribution_information.html.erb', type: :view do
       end
 
       it 'shows the values in the correct places and formats in the draft preview page' do
-        rendered_section = Capybara.string(rendered)
-        check_section_for_display_of_values(rendered_section.find(".#{name_to_class('RelatedUrl').pluralize}"), draft_json['RelatedUrl'], 'related-url')
-        check_section_for_display_of_values(rendered_section.find(".#{name_to_class('Distribution').pluralize}"), draft_json['Distribution'], 'distribution', {Fees: :handle_as_currency})
+        rendered_node = Capybara.string(rendered)
+        root_css_path = "ul.distribution-information-preview"
+        draft_json.each do |key, value|
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {Fees: :handle_as_currency})
+        end
       end
 
       it 'handles bad currency values' do # TODO: Does NOT properly handle '123.456'

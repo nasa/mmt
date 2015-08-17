@@ -147,50 +147,14 @@ describe 'drafts/previews/_data_identification.html.erb', type: :view do
 
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
-#puts rendered.gsub(/\s+/, " ").strip
-
         root_css_path = "ul.data-identification-preview"
-        check_fp_for_display_of_values(rendered_node, draft_json['CollectionCitation'], 'CollectionCitation', root_css_path)
+        draft_json.each do |key, value|
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path,
+            {Scope: :handle_as_not_shown, Type: :handle_as_date_type, Role: :handle_as_role, CollectionDataType: :handle_as_collection_data_type, CollectionProgress: :handle_as_collection_progress})
+        end
 
-        check_fp_for_display_of_values(rendered_node, draft_json['EntryId'], 'EntryId', root_css_path)
-        check_fp_for_display_of_values(rendered_node, draft_json['EntryTitle'], 'EntryTitle', root_css_path)
-        check_fp_for_display_of_values(rendered_node, draft_json['Abstract'], 'Abstract', root_css_path)
-        check_fp_for_display_of_values(rendered_node, draft_json['Purpose'], 'Purpose', root_css_path)
-        check_fp_for_display_of_values(rendered_node, draft_json['DataLanguage'], 'DataLanguage', root_css_path)
-        check_fp_for_display_of_values(rendered_node, draft_json['DataLineage'], 'DataLineage', root_css_path, {Scope: :handle_as_not_shown, Type: :handle_as_date_type, Role: :handle_as_role})
-        check_fp_for_display_of_values(rendered_node, draft_json['ResponsibleOrganization'], 'ResponsibleOrganization', root_css_path, {Role: :handle_as_role})
-        check_fp_for_display_of_values(rendered_node, draft_json['ResponsiblePersonnel'], 'ResponsiblePersonnel', root_css_path, {Role: :handle_as_role})
-        check_fp_for_display_of_values(rendered_node, draft_json['CollectionDataType'], 'CollectionDataType', root_css_path, {CollectionDataType: :handle_as_collection_data_type})
-        check_fp_for_display_of_values(rendered_node, draft_json['ProcessingLevel'], 'ProcessingLevel', root_css_path)
-        check_fp_for_display_of_values(rendered_node, draft_json['CollectionCitation'], 'CollectionCitation', root_css_path)
-        check_fp_for_display_of_values(rendered_node, draft_json['CollectionProgress'], 'CollectionProgress', root_css_path, {CollectionProgress: :handle_as_collection_progress})
-        check_fp_for_display_of_values(rendered_node, draft_json['Quality'], 'Quality', root_css_path)
-        check_fp_for_display_of_values(rendered_node, draft_json['UseConstraints'], 'UseConstraints', root_css_path)
-        check_fp_for_display_of_values(rendered_node, draft_json['AccessConstraints'], 'AccessConstraints', root_css_path)
-        check_fp_for_display_of_values(rendered_node, draft_json['MetadataAssociation'], 'MetadataAssociation', root_css_path)
-        #check_fp_for_display_of_values(rendered_node, draft_json['PublicationReference'], 'PublicationReference', root_css_path)
-
-
-=begin
-
-        check_section_for_display_of_values(rendered_node.first(".#{name_to_class('EntryId')}"), draft_json['EntryId'], 'EntryId') # Replaced "find" with "first" because of ambiguity
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('EntryTitle')}"), draft_json['EntryTitle'], 'EntryTitle')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('Abstract')}"), draft_json['Abstract'], 'Abstract')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('Purpose')}"), draft_json['Purpose'], 'Purpose')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('DataLanguage')}"), draft_json['DataLanguage'], 'DataLanguage')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('DataLineage')}"), draft_json['DataLineage'], 'DataLineage', {Scope: :handle_as_not_shown, Type: :handle_as_date_type, Role: :handle_as_role})
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('ResponsibleOrganization')}"), draft_json['ResponsibleOrganization'], 'ResponsibleOrganization', {Role: :handle_as_role})
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('ResponsiblePersonnel')}"), draft_json['ResponsiblePersonnel'], 'ResponsiblePersonnel', {Role: :handle_as_role})
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('CollectionDataType')}"), draft_json['CollectionDataType'], 'CollectionDataType', {CollectionDataType: :handle_as_collection_data_type})
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('ProcessingLevel')}"), draft_json['ProcessingLevel'], 'ProcessingLevel')
-        #check_section_for_display_of_values(rendered_node.find(".#{name_to_class('CollectionCitation')}"), draft_json['CollectionCitation'], 'CollectionCitation')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('CollectionProgress')}"), draft_json['CollectionProgress'], 'CollectionProgress', {CollectionProgress: :handle_as_collection_progress})
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('Quality')}"), draft_json['Quality'], 'Quality')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('UseConstraints')}"), draft_json['UseConstraints'], 'UseConstraints')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('AccessConstraints')}"), draft_json['AccessConstraints'], 'AccessConstraints')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataAssociation')}"), draft_json['MetadataAssociation'], 'MetadataAssociation')
-        #check_section_for_display_of_values(rendered_node.find(".#{name_to_class('PublicationReference')}"), draft_json['PublicationReference'], 'PublicationReference')
-=end
+        # Example of how to test a section directly
+        #check_css_path_for_display_of_values(rendered_node, draft_json['EntryId'], 'EntryId', root_css_path)
       end
 
     end

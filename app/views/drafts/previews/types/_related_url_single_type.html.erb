@@ -1,0 +1,13 @@
+<% if !related_url.blank? %>
+  <ul class="<%= name_to_class('RelatedUrl')%>">
+    <li>
+
+      <%= render :partial=>'drafts/previews/fields/related_url_fields', :locals=>{:related_url=>related_url} %>
+
+    </li>
+  </ul>
+<% end %>
+
+
+
+

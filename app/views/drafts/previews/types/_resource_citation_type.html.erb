@@ -6,7 +6,7 @@
       <strong><%= title %> <%= index + 1 %></strong>
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version', :hash_for_key=>resource_citation} %>
 
-      <%= render :partial=>'drafts/previews/fields/related_url_fields', :locals=>{:related_url=>resource_citation['RelatedUrl']} %>
+      <%= render :partial=>'drafts/previews/types/related_url_single_type', :locals=>{:related_url=>resource_citation['RelatedUrl']} %>
 
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>resource_citation} %>
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Creator', :hash_for_key=>resource_citation} %>

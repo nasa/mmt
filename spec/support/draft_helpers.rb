@@ -33,11 +33,10 @@ module Helpers
     end
 
 
-    def check_fp_for_display_of_values(page, draft, parent_key, parent_path, special_handling={})
+    def check_css_path_for_display_of_values(page, draft, parent_key, parent_path, special_handling={})
       new_path = parent_path + ">li>ul"
-      puts ''
-      puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in *#{parent_path}>li>ul*"
-      #puts " #{page.text.gsub(/\s+/, " ").strip}" if !page.nil?
+      #puts ''
+      #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in *#{parent_path}>li>ul*"
       case draft.class.to_s
         when 'NilClass'
         when 'String'
@@ -68,64 +67,15 @@ module Helpers
         when 'Hash'
           new_path += ".#{name_to_class(parent_key)}"
           draft.each_with_index do |(key, value), index|
-            #look_for = "#{new_path}>li>ul>li}"
-            #puts "  H Looking for: #{look_for} inside: " # #{page.text.gsub(/\s+/, " ").strip}"
-            check_fp_for_display_of_values(page, value, key, new_path, special_handling)
+            #puts "  H Looking for: #{key}:#{value} at #{new_path}"
+            check_css_path_for_display_of_values(page, value, key, new_path, special_handling)
           end
         when 'Array'
           new_path += ".#{name_to_class(parent_key)}"
           html_class_name = name_to_class(parent_key)
           draft.each_with_index do |value, index|
             puts "  A Looking for: #{new_path} ---> #{name_to_class(parent_key)}-#{index} inside:"  #{page.text.gsub(/\s+/, " ").strip}"
-            check_fp_for_display_of_values(page, value, "#{name_to_class(parent_key)}-#{index}", new_path, special_handling)
-          end
-        else
-          puts ("Class Unknown: #{draft.class}")
-      end
-    end
-
-
-
-    def check_section_for_display_of_values(page, draft, parent_key, special_handling={})
-      puts ''
-      puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in "
-      puts " #{page.text.gsub(/\s+/, " ").strip}" if !page.nil?
-      case draft.class.to_s
-        when 'NilClass'
-        when 'String'
-          parent_key_special_handling = special_handling[parent_key.to_sym]
-          if parent_key_special_handling == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
-            draft = number_to_currency(draft.to_f)
-          elsif parent_key_special_handling == :handle_as_role
-            # Map role value stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, role_options)
-          elsif parent_key_special_handling == :handle_as_duration
-            # Map duration value stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, duration_options)
-          elsif parent_key_special_handling == :handle_as_collection_data_type
-            # Map duration value stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, collection_data_type_options)
-          elsif parent_key_special_handling == :handle_as_date_type
-            # Map date type value stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, date_type_options)
-          elsif parent_key_special_handling == :handle_as_collection_progress
-            # Map duration value stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, collection_progress_options)
-          elsif parent_key_special_handling == :handle_as_not_shown
-            # This field is present in json, but intentionally not displayed
-            return
-          end
-          expect(page).to have_content(draft)
-        when 'Hash'
-          draft.each_with_index do |(key, value), index|
-            puts "  H Looking for: #{name_to_class(key)} inside: #{page.text.gsub(/\s+/, " ").strip}"
-            check_section_for_display_of_values(page.first(:css, ".#{name_to_class(key)}"), value, key, special_handling)
-          end
-        when 'Array'
-          html_class_name = name_to_class(parent_key)
-          draft.each_with_index do |value, index|
-            puts "  A Looking for: #{html_class_name}-#{index} inside: #{page.text.gsub(/\s+/, " ").strip}"
-            check_section_for_display_of_values(page.first(:css, ".#{html_class_name}-#{index}"), value, parent_key, special_handling)
+            check_css_path_for_display_of_values(page, value, "#{name_to_class(parent_key)}-#{index}", new_path, special_handling)
           end
         else
           puts ("Class Unknown: #{draft.class}")
