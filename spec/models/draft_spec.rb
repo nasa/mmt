@@ -54,4 +54,28 @@ describe Draft do
 
     expect(draft.draft).to eq({"EntryId" => {"Id" => "12345"}})
   end
+  it '"update_draft" converts number fields to numbers' do
+    draft = create(:draft, draft: {})
+    params = {'size' => '42'}
+
+    draft.update_draft(params)
+
+    expect(draft.draft).to eq({'Size' => 42.0})
+  end
+  it '"update_draft" converts integer fields to integers' do
+    draft = create(:draft, draft: {})
+    params = {'number_of_sensors' => '42'}
+
+    draft.update_draft(params)
+
+    expect(draft.draft).to eq({'NumberOfSensors' => 42})
+  end
+  it '"update_draft" converts boolean fields to boolean' do
+    draft = create(:draft, draft: {})
+    params = {'ends_at_present_flag' => 'false'}
+
+    draft.update_draft(params)
+
+    expect(draft.draft).to eq({'EndsAtPresentFlag' => false})
+  end
 end

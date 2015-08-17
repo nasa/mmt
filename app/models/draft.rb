@@ -62,6 +62,10 @@ class Draft < ActiveRecord::Base
     end
   end
 
+  INTEGER_KEYS = ['number_of_sensors', 'duration_value', 'period_cycle_duration_value', 'precision_of_seconds']
+  NUMBER_KEYS = ['size']
+  BOOLEAN_KEYS = ['ends_at_present_flag']
+
   def convert_to_arrays(object)
     case object
     when Hash
@@ -74,7 +78,15 @@ class Draft < ActiveRecord::Base
         end
       else
         object.each do |key, value|
-          object[key] = convert_to_arrays(value)
+          if INTEGER_KEYS.include?(key)
+            object[key] = value.to_i unless value.empty?
+          elsif NUMBER_KEYS.include?(key)
+            object[key] = value.to_f unless value.empty?
+          elsif BOOLEAN_KEYS.include?(key)
+            object[key] = value == 'true' ? true : false unless value.empty?
+          else
+            object[key] = convert_to_arrays(value)
+          end
         end
       end
     # if value is array, loop through each hash
@@ -88,13 +100,13 @@ class Draft < ActiveRecord::Base
 
   def compact_blank(node)
     return node.map {|n| compact_blank(n)}.compact.presence if node.is_a?(Array)
+    return node if node == false
     return node.presence unless node.is_a?(Hash)
     result = {}
     node.each do |k, v|
       result[k] = compact_blank(v)
     end
     result = result.compact
-    result = {} if result.keys.all? {|k| k.start_with?('cmep_')}
     result.compact.presence
   end
 
