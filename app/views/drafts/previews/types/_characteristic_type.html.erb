@@ -1,0 +1,12 @@
+<ul class="<%= name_to_class('Characteristic')%>-<%=index%>">
+  <li>
+    <strong>Characteristic <%= index + 1 %></strong>
+
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>characteristic} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>characteristic} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Value', :hash_for_key=>characteristic} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Unit', :hash_for_key=>characteristic} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DataType', :hash_for_key=>characteristic} %>
+
+  </li>
+</ul>

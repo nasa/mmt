@@ -1,0 +1,23 @@
+<ul class="<%= name_to_class('Sensor')%>-<%=index%>">
+  <li>
+    <strong>Sensor <%= index + 1 %></strong>
+
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>sensor} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>sensor} %>
+
+    <!-- Characteristic -->
+    <% if !sensor['Characteristic'].blank? %>
+      <ul class="<%= name_to_class('Characteristic')%>">
+        <li>
+          <h4><%= 'Characteristic'.pluralize(sensor['Characteristic'].count)%></h4>
+          <% sensor['Characteristic'].each_with_index do |characteristic, index| %>
+            <%= render :partial=>'drafts/previews/types/characteristic_type', :locals=>{characteristic: characteristic, index: index} %>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Technique', :hash_for_key=>sensor} %>
+
+  </li>
+</ul>

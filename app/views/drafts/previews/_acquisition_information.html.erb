@@ -1,62 +1,31 @@
-<h4>Acquisition Information Fields:</h4>
+<ul class="acquisition-information-preview">
+  <li>
+    <h4>Acquisition Information Fields:</h4>
 
-<!-- need better support in json-schema -->
-
-<!-- Platform [r] -->
-<% if !@draft.draft['Platform'].blank? %>
-  <h4>Platform</h4>
-  <p>
-    <% @draft.draft['Platform'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['Platform'].last) ? '' : '</br>') %>
+    <!-- Platform [r] -->
+    <% if !draft['Platform'].blank? %>
+      <ul class="<%= name_to_class('Platform')%>">
+        <li>
+          <h4><%= 'Platform'.pluralize(draft['Platform'].count)%></h4>
+          <% draft['Platform'].each_with_index do |platform, index| %>
+            <%= render :partial=>'drafts/previews/types/platform_type', :locals=>{platform: platform, index: index} %>
+          <% end %>
+        </li>
+      </ul>
     <% end %>
-  </p>
-<% end %>
 
-<!-- Instrument -->
-<% if !@draft.draft['Instrument'].blank? %>
-  <h4>Instrument</h4>
-  <p>
-    <% @draft.draft['Instrument'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Technique', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Sensors', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'OperationalMode', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['Instrument'].last) ? '' : '</br>') %>
+    <!-- Project [r] -->
+    <% if !draft['Project'].blank? %>
+      <ul class="<%= name_to_class('Project')%>">
+        <li>
+          <h4><%= 'Project'.pluralize(draft['Project'].count)%></h4>
+          <% draft['Project'].each_with_index do |project, index| %>
+            <%= render :partial=>'drafts/previews/types/project_type', :locals=>{project: project, index: index} %>
+          <% end %>
+        </li>
+      </ul>
     <% end %>
-  </p>
-<% end %>
 
-<!-- Sensor -->
-<!-- Not in UMM JSON Schema yet -->
-<% if !@draft.draft['Sensor'].blank? %>
-  <h4>Sensor</h4>
-  <p>
-    <% @draft.draft['Sensor'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['Sensor'].last) ? '' : '</br>') %>
-    <% end %>
-  </p>
-<% end %>
-
-<!-- Project -->
-<% if !@draft.draft['Project'].blank? %>
-  <h4>Project</h4>
-  <p>
-    <% @draft.draft['Project'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Campaign', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'StartDate', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EndDate', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['Project'].last) ? '' : '</br>') %>
-    <% end %>
-  </p>
-<% end %>
+  </li>
+</ul>
 <hr>

@@ -1,0 +1,38 @@
+<ul class="<%= name_to_class('Instrument')%>-<%=index%>">
+  <li>
+    <strong>Instrument <%= index + 1 %></strong>
+
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>instrument} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>instrument} %>
+
+    <!-- Characteristic -->
+    <% if !instrument['Characteristic'].blank? %>
+      <ul class="<%= name_to_class('Characteristic')%>">
+        <li>
+          <h4><%= 'Characteristic'.pluralize(instrument['Characteristic'].count)%></h4>
+          <% instrument['Characteristic'].each_with_index do |characteristic, index| %>
+            <%= render :partial=>'drafts/previews/types/characteristic_type', :locals=>{characteristic: characteristic, index: index} %>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Technique', :hash_for_key=>instrument} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'NumberOfSensors', :hash_for_key=>instrument} %>
+
+    <!-- Sensor -->
+    <% if !instrument['Sensor'].blank? %>
+      <ul class="<%= name_to_class('Sensor')%>">
+        <li>
+          <h4><%= 'Sensor'.pluralize(instrument['Sensor'].count)%></h4>
+          <% instrument['Sensor'].each_with_index do |sensor, index| %>
+            <%= render :partial=>'drafts/previews/types/sensor_type', :locals=>{sensor: sensor, index: index} %>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+
+    <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'OperationalMode', :hash_for_key=>instrument} %>
+
+  </li>
+</ul>

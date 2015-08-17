@@ -1,0 +1,34 @@
+<ul class="<%= name_to_class('Platform')%>-<%=index%>">
+  <li>
+    <strong>Platform <%= index + 1 %></strong>
+
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>platform} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>platform} %>
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>platform} %>
+
+    <!-- Characteristic -->
+    <% if !platform['Characteristic'].blank? %>
+      <ul class="<%= name_to_class('Characteristic')%>">
+        <li>
+          <h4><%= 'Characteristic'.pluralize(platform['Characteristic'].count)%></h4>
+          <% platform['Characteristic'].each_with_index do |characteristic, index| %>
+            <%= render :partial=>'drafts/previews/types/characteristic_type', :locals=>{characteristic: characteristic, index: index} %>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+
+    <!-- Instrument -->
+    <% if !platform['Instrument'].blank? %>
+      <ul class="<%= name_to_class('Instrument')%>">
+        <li>
+          <h4><%= 'Instrument'.pluralize(platform['Instrument'].count)%></h4>
+          <% platform['Instrument'].each_with_index do |instrument, index| %>
+            <%= render :partial=>'drafts/previews/types/instrument_type', :locals=>{instrument: instrument, index: index} %>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+
+  </li>
+</ul>
