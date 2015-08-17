@@ -5,12 +5,14 @@
 require 'rails_helper'
 include DraftsHelper
 
-describe 'drafts/previews/_temporal_extent.html.erb', type: :view do
+template_path = 'drafts/previews/_temporal_extent.html.erb'
+
+describe template_path, type: :view do
   context 'when the temporal extent data' do
     context 'is empty' do
       before do
         assign(:draft, build(:draft, draft: {}))
-        render
+        render :template => template_path, :locals=>{draft: {}}
       end
 
       it 'does not crash or have temporal extent data' do
@@ -51,13 +53,12 @@ describe 'drafts/previews/_temporal_extent.html.erb', type: :view do
         }
 
         assign(:draft, build(:draft, draft: draft_json))
-        render
+        render :template => template_path, :locals=>{draft: draft_json}
       end
 
 
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
-#puts rendered.gsub(/\s+/, " ").strip
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('TemporalExtent')}"), draft_json['TemporalExtent'], 'TemporalExtent',
                                             {DurationUnit: :handle_as_duration, PeriodCycleDurationUnit: :handle_as_duration, TemporalRangeType: :handle_as_not_shown })
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('TemporalKeyword')}"), draft_json['TemporalKeyword'], 'TemporalKeyword')

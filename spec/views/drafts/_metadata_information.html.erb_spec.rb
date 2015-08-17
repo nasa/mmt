@@ -5,12 +5,14 @@
 require 'rails_helper'
 include DraftsHelper
 
-describe 'drafts/previews/_metadata_information.html.erb', type: :view do
+template_path = 'drafts/previews/_metadata_information.html.erb'
+
+describe template_path, type: :view do
   context 'when the metadata information' do
     context 'is empty' do
       before do
         assign(:draft, build(:draft, draft: {}))
-        render
+        render :template => template_path, :locals=>{draft: {}}
       end
 
       it 'does not crash or have Metadata Information' do
@@ -25,7 +27,7 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
       draft_json = {}
       before do
         draft_json['MetadataLanguage'] = 'English'
-        draft_json['MetadataStandard'] = {Name:'test name', Version:'test version'}
+        draft_json['MetadataStandard'] = {"Name" =>'test MS name', "Version" => 'test version'}
 
         draft_json['MetadataLineage'] = [
             # minimal object populating
@@ -69,12 +71,12 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
         ]
 
         assign(:draft, build(:draft, draft: draft_json))
-        render
+        render :template => template_path, :locals=>{draft: draft_json}
       end
 
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
-#puts rendered.gsub(/\s+/, " ").strip
+        #puts rendered_node.text
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataLanguage')}"), draft_json['MetadataLanguage'], 'MetadataLanguage')
         check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataStandard')}"), draft_json['MetadataStandard'], 'MetadataStandard')
 
