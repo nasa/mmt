@@ -1,12 +1,12 @@
-<ul class='<%= name_to_class(json_name)%>-<%=index%>'>
-  <li>
-    <strong>Lineage <%= index + 1 %></strong>
+<% if !lineage['Date'].blank? %>
+  <ul class='<%= name_to_class(json_name)%>-<%=index%>'>
+    <li>
+      <strong>Lineage <%= index + 1 %></strong>
 
-    <!-- Line below commented out because the user does not enter this information. -->
-    <%#= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Scope', :hash_for_key=>lineage} %>
+      <!-- Line below commented out because the user does not enter this information. -->
+      <%#= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Scope', :hash_for_key=>lineage} %>
 
-    <!-- Metadata Lineage Dates -->
-    <% if !lineage['Date'].blank? %>
+      <!-- Metadata Lineage Dates -->
       <ul class="<%= name_to_class('Date')%>">
         <li>
           <strong><%= 'Date'.pluralize(lineage['Date'].count)%></strong>
@@ -15,6 +15,6 @@
           <% end %>
         </li>
       </ul>
-    <% end %>
-  </li>
-</ul>
+    </li>
+  </ul>
+<% end %>

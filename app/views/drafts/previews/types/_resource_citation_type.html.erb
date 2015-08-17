@@ -1,5 +1,5 @@
-<% class_name = defined?(class_name_override).nil? ? 'ResourceCitation' : class_name_override %>
 <% if !resource_citation.blank? %>
+  <% class_name = defined?(class_name_override).nil? ? 'ResourceCitation' : class_name_override %>
   <ul class='<%= name_to_class(class_name)%>-<%=index%>'>
     <li>
       <% title = defined?(title_override).nil? ? 'Resource Citation' : title_override %>
