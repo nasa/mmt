@@ -83,14 +83,58 @@ describe 'Temporal extent form', js: true do
       within '.nav-top' do
         click_on 'Save & Done'
       end
+      open_accordions
     end
 
     it 'shows the draft preview page' do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    # TODO MMT-296
-    it 'shows the values in the draft preview page'
+    it "shows pre-entered values in the draft preview page" do
+
+      # Complete TemporalExtent fields
+      expect(page).to have_content('1')
+      expect(page).to have_content('2015-07-01')
+
+      # Add another TemporalExtent
+      expect(page).to have_content('10')
+      expect(page).to have_content('false')
+      expect(page).to have_content('2015-07-01')
+      expect(page).to have_content('2015-08-01')
+
+      # Add another TemporalExtent
+      expect(page).to have_content('30')
+      expect(page).to have_content('false')
+      expect(page).to have_content('Periodic Extent')
+      expect(page).to have_content('2015-07-01')
+      expect(page).to have_content('2015-08-01')
+      expect(page).to have_content('Duration Unit')
+      expect(page).to have_content('Period Cycle Duration Unit')
+      expect(page).to have_content('1')
+
+      # Complete TemporalKeyword fields
+      expect(page).to have_content('Keyword 1')
+      expect(page).to have_content('Keyword 2')
+
+      # Complete PaleoTemporalCoverage fields
+      expect(page).to have_content('Eon text')
+      expect(page).to have_content('Era text')
+      expect(page).to have_content('Epoch text')
+      expect(page).to have_content('Stage text')
+      expect(page).to have_content('Detailed Classification text')
+      expect(page).to have_content('Period text')
+
+      expect(page).to have_content('Eon text 1')
+      expect(page).to have_content('Era text 1')
+      expect(page).to have_content('Epoch text 1')
+      expect(page).to have_content('Stage text 1')
+      expect(page).to have_content('Detailed Classification text 1')
+      expect(page).to have_content('Period text 1')
+
+      expect(page).to have_content('2015-07-01')
+      expect(page).to have_content('2015-08-01')
+
+    end
 
     context 'when returning to the form' do
       before do

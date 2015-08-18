@@ -6,30 +6,9 @@ module Helpers
       click_on 'Create Record'
     end
 
-    # Traverse the JSON (depth first), checking all values on all branches for display on this page.
-    def check_page_for_display_of_values (page, draft, special_handling={})
-      case draft.class.to_s
-        when 'NilClass'
-        when 'String'
-          expect(page).to have_content(draft)
-        when 'Hash'
-          draft.each do |key, value|
-            if value.is_a? String
-              if special_handling[key] == :handle_as_currency && value =~ /\A[-+]?\d*\.?\d+\z/
-                value = number_to_currency(value.to_f)
-              end
-              expect(page).to have_content(value)
-            else
-              check_page_for_display_of_values(page, value, special_handling)
-            end
-          end
-        when 'Array'
-          draft.each do |value|
-            check_page_for_display_of_values(page, value, special_handling)
-          end
-        else
-          puts ("Class Unknown: #{draft.class}")
-      end
+    def open_accordions
+      script = "$('.accordion.is-closed').removeClass('is-closed');"
+      page.evaluate_script script
     end
 
     def check_section_for_display_of_values(page, draft, parent_key, special_handling={})
@@ -37,20 +16,24 @@ module Helpers
       #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in #{page.text.gsub(/\s+/, " ").strip}"
       case draft.class.to_s
         when 'NilClass'
-        when 'String'
+        when 'String', 'Fixnum', 'FalseClass', 'TrueClass'
           parent_key_special_handling = special_handling[parent_key.to_sym]
           if parent_key_special_handling == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
             draft = number_to_currency(draft.to_f)
           elsif parent_key_special_handling == :handle_as_role
             # Map role value stored in json to what is actually supposed to be displayed
-            draft = map_role_onto_display_string(draft)
-          elsif parent_key_special_handling == :handle_as_date_type
-            # Map role value stored in json to what is actually supposed to be displayed
-            draft = map_date_type_onto_display_string(draft)
-          elsif parent_key_special_handling == :handle_as_invisible
-            # This field is not supposed to be displayed
+            draft = map_value_onto_display_string(draft, role_options)
+          elsif parent_key_special_handling == :handle_as_duration
+            # Map duration value stored in json to what is actually supposed to be displayed
+            draft = map_value_onto_display_string(draft, duration_options)
+          elsif parent_key_special_handling == :handle_as_not_shown
+            # This field is present in json, but intentionally not displayed
             return
+          elsif parent_key_special_handling == :handle_as_date_type
+            # Map date type stored in json to what is actually supposed to be displayed
+            draft = map_value_onto_display_string(draft, date_type_options)
           end
+          # Here is a good location to add a test that !draft.nil? due to a failure to map onto an option array
           expect(page).to have_content(draft)
         when 'Hash'
           draft.each_with_index do |(key, value), index|
@@ -64,21 +47,10 @@ module Helpers
             check_section_for_display_of_values(page.first(:css, ".#{html_class_name}-#{index}"), value, parent_key, special_handling)
           end
         else
-          puts ("Class Unknown: #{draft.class}")
+          puts ("Class for #{parent_key} unhandled: #{draft.class}")
+          raise ("Class for #{parent_key} unhandled: #{draft.class}")
       end
     end
-
-
-    def map_role_onto_display_string(role)
-      options_hash = Hash[role_options.map{|key, value| [value, key]}]
-      return options_hash[role]
-    end
-
-    def map_date_type_onto_display_string(date_type)
-      options_hash = Hash[date_type_options.map{|key, value| [value, key]}]
-      return options_hash[date_type]
-    end
-
 
     def add_organization
       fill_in 'Short Name', with: 'ORG_SHORT'
@@ -90,7 +62,6 @@ module Helpers
       fill_in 'Middle Name', with: 'Middle Name'
       fill_in 'Last Name', with: 'Last Name'
     end
-
 
     def add_responsibilities(type=nil)
       within '.multiple.responsibility' do

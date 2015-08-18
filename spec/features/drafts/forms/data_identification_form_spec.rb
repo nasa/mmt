@@ -65,6 +65,7 @@ describe 'Data identification form', js: true do
       within '.nav-top' do
         click_on 'Save & Done'
       end
+      open_accordions
     end
 
     it 'shows the draft preview page' do

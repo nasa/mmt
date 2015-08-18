@@ -53,8 +53,22 @@ module DraftsHelper
     ]
   end
 
+  def duration_options
+    [
+        ['', ''], ['Day', 'DAY'], ['Month', 'MONTH'], ['Year', 'YEAR']
+    ]
+  end
+
   def date_type_options
-    [['Select Date Type', ''],['Create', 'CREATE'], ['Update', 'UPDATE'], ['Delete', 'DELETE'], ['Review', 'REVIEW']]
+    [
+        ['Select Date Type', ''],['Create', 'CREATE'], ['Update', 'UPDATE'], ['Delete', 'DELETE'], ['Review', 'REVIEW']
+    ]
+  end
+
+  # Used to derive the displayed string of a select type control from the value stored in json
+  def map_value_onto_display_string(str, options)
+    options_hash = Hash[options.map{|key, value| [value, key]}]
+    return options_hash[str]
   end
 
 end

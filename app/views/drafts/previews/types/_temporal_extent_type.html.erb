@@ -1,0 +1,42 @@
+<ul class='<%= name_to_class('TemporalExtent')%>-<%=index%>'>
+  <li>
+    <strong>Temporal Extent <%= index + 1 %></strong>
+
+    <!-- TemporalRangeType -->
+    <%#= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'TemporalRangeType', :hash_for_key=>temporal_extent} %>
+    <!-- PrecisionOfSeconds -->
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'PrecisionOfSeconds', :hash_for_key=>temporal_extent} %>
+    <!-- EndsAtPresentFlag -->
+    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EndsAtPresentFlag', :hash_for_key=>temporal_extent} %>
+
+    <!-- RangeDateTime - multiple -->
+    <% if temporal_extent['TemporalRangeType'] == 'RangeDateTime' && !temporal_extent['RangeDateTime'].blank? %>
+      <ul class="<%= name_to_class('RangeDateTime')%>">
+        <li>
+          <strong><%= 'Range Date Time'.pluralize(temporal_extent['RangeDateTime'].count)%></strong>
+          <% temporal_extent['RangeDateTime'].each_with_index do |range_date_time, index| %>
+            <%= render :partial=>'drafts/previews/types/range_date_time_type', :locals=>{range_date_time: range_date_time, index: index} %>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+
+    <!-- SingleDateTime - multiple -->
+    <% if temporal_extent['TemporalRangeType'] == 'SingleDateTime' && !temporal_extent['SingleDateTime'].blank? %>
+      <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'SingleDateTime', :hash_for_key=>temporal_extent} %>
+    <% end %>
+
+    <!-- PeriodicDateTime - multiple -->
+    <% if temporal_extent['TemporalRangeType'] == 'PeriodicDateTime' && !temporal_extent['PeriodicDateTime'].blank? %>
+      <ul class="<%= name_to_class('PeriodicDateTime')%>">
+        <li>
+          <strong><%= 'Periodic Date Time'.pluralize(temporal_extent['PeriodicDateTime'].count)%></strong>
+          <% temporal_extent['PeriodicDateTime'].each_with_index do |periodic_date_time, index| %>
+            <%= render :partial=>'drafts/previews/types/periodic_date_time_type', :locals=>{periodic_date_time: periodic_date_time, index: index} %>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+  </li>
+</ul>
+
