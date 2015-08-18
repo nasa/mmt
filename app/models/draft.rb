@@ -42,8 +42,7 @@ class Draft < ActiveRecord::Base
       # The provider_id isn't actually part of the metadata. You can think of that as the owner of the metadata. It's meta-metadata.
       # self.provider_id = ?
 
-      # TODO FileSize-Size, NumberOfSensors, all number_field_tag values needs to be a number, not a string
-      # TODO Detailed_Classification needs to have an underscore
+      # TODO Detailed_Classification needs to have an underscore (this will be fixed in CMR soon)
 
       # Convert {'0' => {'id' => 123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
@@ -81,7 +80,7 @@ class Draft < ActiveRecord::Base
           if INTEGER_KEYS.include?(key)
             object[key] = value.to_i unless value.empty?
           elsif NUMBER_KEYS.include?(key)
-            object[key] = value.to_f unless value.empty?
+            object[key] = convert_to_number(value) unless value.empty?
           elsif BOOLEAN_KEYS.include?(key)
             object[key] = value == 'true' ? true : false unless value.empty?
           else
@@ -96,6 +95,10 @@ class Draft < ActiveRecord::Base
       end
     end
     object
+  end
+
+  def convert_to_number(string)
+    string.gsub(/[^0-9.]/, '').to_f
   end
 
   def compact_blank(node)

@@ -62,6 +62,14 @@ describe Draft do
 
     expect(draft.draft).to eq({'Size' => 42.0})
   end
+  it '"update_draft" converts number filds with delimiters to numbers' do
+    draft = create(:draft, draft: {})
+    params = {'size' => '9,001'}
+
+    draft.update_draft(params)
+
+    expect(draft.draft).to eq({'Size' => 9001.0})
+  end
   it '"update_draft" converts integer fields to integers' do
     draft = create(:draft, draft: {})
     params = {'number_of_sensors' => '42'}
