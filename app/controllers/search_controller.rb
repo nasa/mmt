@@ -91,7 +91,7 @@ class SearchController < ApplicationController
         'meta' => { 'revision-date' => draft['updated_at'].to_s[0..9] },
         'umm' => {
           'entry-id' => draft.display_entry_id,
-          'entry-title' => draft.title
+          'entry-title' => draft.display_entry_title
         }
       }
     end

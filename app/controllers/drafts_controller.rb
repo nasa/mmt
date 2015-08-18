@@ -13,7 +13,6 @@ class DraftsController < ApplicationController
   def show
   end
 
-
   # GET /drafts/new
   def new
     draft = Draft.create(user: @current_user, draft: {})
@@ -28,22 +27,6 @@ class DraftsController < ApplicationController
       render action: 'show'
     end
   end
-
-  # POST /drafts
-  # POST /drafts.json
-  # def create
-  #   @draft = Draft.new(draft_params)
-  #
-  #   respond_to do |format|
-  #     if @draft.save
-  #       format.html { redirect_to @draft, notice: 'Draft was successfully created.' }
-  #       format.json { render :show, status: :created, location: @draft }
-  #     else
-  #       format.html { render :new }
-  #       format.json { render json: @draft.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
 
   # PATCH/PUT /drafts/1
   # PATCH/PUT /drafts/1.json

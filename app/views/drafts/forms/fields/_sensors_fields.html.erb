@@ -1,0 +1,25 @@
+<div class="row sub-fields">
+  <!-- Short Name [r] -->
+  <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), sensors['ShortName'], class: 'half-width') %>
+
+
+  <!-- Long Name -->
+  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), sensors['LongName'], class: 'half-width') %>
+
+
+  <!-- Characteristics -->
+  <label>Characteristics</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'characteristics',
+      values: sensors['Characteristics'] || [{}],
+      name_prefix: "#{name_prefix}characteristics_",
+      multiple: true,
+      options: {} } %>
+
+
+<!-- Technique -->
+<label for="<%= remove_pipes(name_prefix) %>technique">Technique</label><i class="fa fa-info-circle"></i>
+<%= text_area_tag(name_to_param("#{name_prefix}technique"), sensors['Technique'], rows: 8) %>
+</div>

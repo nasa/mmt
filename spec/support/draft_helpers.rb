@@ -7,6 +7,11 @@ module Helpers
       click_on 'Create Record'
     end
 
+    def open_accordions
+      script = "$('.accordion.is-closed').removeClass('is-closed');"
+      page.evaluate_script script
+    end
+
     def check_css_path_for_display_of_values(page, draft, parent_key, parent_path, special_handling={})
       new_path = parent_path + ">li>ul"
       #puts ''
@@ -160,7 +165,6 @@ module Helpers
     def add_addresses
       within '.multiple.address' do
         within '.multiple.address-street-address' do
-          # TODO - address how find bypasses init_store
           within first('.multiple-item') do
             find('input').set '300 E Street Southwest'
           end
@@ -176,7 +180,6 @@ module Helpers
         within '.multiple-item-1' do
           within '.multiple.address-street-address' do
             within first('.multiple-item') do
-              # TODO - address how find bypasses init_store
               find('input').set '8800 Greenbelt Road'
             end
           end
@@ -292,6 +295,79 @@ module Helpers
         within '.multiple-item-1' do
           fill_in "draft_publication_reference_1_title", with: "Publication reference title 1" #Title
           fill_in 'ISBN', with: '9876543210987'
+        end
+      end
+    end
+
+    def add_platforms
+      within '.multiple.platform' do
+        fill_in 'Type', with: 'Platform type'
+        fill_in "draft_platform_0_short_name", with: 'Platform short name'
+        fill_in "draft_platform_0_long_name", with: 'Platform long name'
+        add_characteristics
+        add_instruments
+
+        click_on 'Add another Platform'
+        within '.multiple-item-1' do
+          fill_in "draft_platform_1_short_name", with: 'Platform short name 1'
+          add_instruments('1')
+        end
+      end
+    end
+
+    def add_characteristics
+      within first('.multiple.characteristics') do
+        fill_in 'Name', with: 'Characteristics name'
+        fill_in 'Description', with: 'Characteristics description'
+        fill_in 'Value', with: 'Characteristics value'
+        fill_in 'Unit', with: 'unit'
+        fill_in 'Data Type', with: 'Characteristics data type'
+
+        click_on 'Add another Characteristic'
+        within '.multiple-item-1' do
+          fill_in 'Name', with: 'Characteristics name 1'
+          fill_in 'Description', with: 'Characteristics description 1'
+          fill_in 'Value', with: 'Characteristics value 1'
+          fill_in 'Unit', with: 'unit 1'
+          fill_in 'Data Type', with: 'Characteristics data type 1'
+        end
+      end
+    end
+
+    def add_instruments(platform='0')
+      within '.multiple.instruments' do
+        fill_in "draft_platform_#{platform}_instruments_0_short_name", with: 'Instrument short name'
+        fill_in "draft_platform_#{platform}_instruments_0_long_name", with: 'Instrument long name'
+        fill_in "draft_platform_#{platform}_instruments_0_technique", with: 'Instrument technique'
+        fill_in 'Number Of Sensors', with: 2
+        within '.multiple.operational-mode' do
+          fill_in 'Operational Mode', with: 'Instrument mode'
+          click_on 'Add another'
+          within all('.multiple-item').last do
+            fill_in 'Operational Mode', with: 'Instrument mode 1'
+          end
+        end
+
+        add_characteristics
+        add_sensors(platform)
+
+        click_on 'Add another Instrument'
+        within '.multiple-item-1' do
+          fill_in "draft_platform_#{platform}_instruments_1_short_name", with: 'Instrument short name 1'
+        end
+      end
+    end
+
+    def add_sensors(platform)
+      within '.multiple.sensors' do
+        fill_in "draft_platform_#{platform}_instruments_0_sensors_0_short_name", with: 'Sensor short name'
+        fill_in "draft_platform_#{platform}_instruments_0_sensors_0_long_name", with: 'Sensor long name'
+        fill_in "draft_platform_#{platform}_instruments_0_sensors_0_technique", with: 'Sensor technique'
+        add_characteristics
+
+        click_on 'Add another Sensor'
+        within '.multiple-item-1' do
+          fill_in "draft_platform_#{platform}_instruments_0_sensors_1_short_name", with: 'Sensor short name 1'
         end
       end
     end

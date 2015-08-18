@@ -35,7 +35,7 @@
               <%= link_to draft.display_entry_id, draft_path(draft) %>
             </td>
             <td>
-              <%= draft.title%>
+              <%= draft.display_entry_title %>
             </td>
             <td>
               <%= draft.updated_at.strftime("%Y-%m-%d") %>
@@ -50,5 +50,3 @@
 
   </section>
 </main>
-
-

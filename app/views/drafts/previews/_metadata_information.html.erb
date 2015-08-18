@@ -1,33 +1,40 @@
-<ul class="metadata-information-preview">
-  <li>
+<div class="preview-collection accordion is-closed">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
     <h4>Metadata Information Fields:</h4>
+  </div>
+  <div class="accordion-body">
+    <ul class="metadata-information-preview">
+      <li>
+        <h4>Metadata Information Fields:</h4>
 
-    <!-- Metadata language -->
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MetadataLanguage', :hash_for_key=>draft} %>
+        <!-- Metadata language -->
+        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MetadataLanguage', :hash_for_key=>draft} %>
 
-    <!-- Metdata Standard [r] -->
-    <% if !draft['MetadataStandard'].blank? %>
-      <ul class="<%= name_to_class('MetadataStandard')%>">
-        <li>
-          <h4>Metadata Standard</h4>
-          <% metadata_standard = draft['MetadataStandard'] %>
-          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>metadata_standard} %>
-          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>metadata_standard} %>
-        </li>
-      </ul>
-    <% end %>
+        <!-- Metdata Standard [r] -->
+        <% if !draft['MetadataStandard'].blank? %>
+          <ul class="<%= name_to_class('MetadataStandard')%>">
+            <li>
+              <h4>Metadata Standard</h4>
+              <% metadata_standard = draft['MetadataStandard'] %>
+              <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>metadata_standard} %>
+              <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>metadata_standard} %>
+            </li>
+          </ul>
+        <% end %>
 
-    <!-- Metadata Dates -->
-    <% if !draft['MetadataLineage'].blank? %>
-      <ul class="<%= name_to_class('MetadataLineage')%>">
-        <li>
-          <h4><%= 'Metadata Lineage'.pluralize(draft['MetadataLineage'].count)%></h4>
-          <% draft['MetadataLineage'].each_with_index do |lineage, index| %>
-            <%= render :partial=>'drafts/previews/types/lineage_type', :locals=>{lineage: lineage, index: index, json_name: 'MetadataLineage'} %>
-          <% end %>
-        </li>
-      </ul>
-    <% end %>
-  </li>
-</ul>
-<hr>
+        <!-- Metadata Dates -->
+        <% if !draft['MetadataLineage'].blank? %>
+          <ul class="<%= name_to_class('MetadataLineage')%>">
+            <li>
+              <h4><%= 'Metadata Lineage'.pluralize(draft['MetadataLineage'].count)%></h4>
+              <% draft['MetadataLineage'].each_with_index do |lineage, index| %>
+                <%= render :partial=>'drafts/previews/types/lineage_type', :locals=>{lineage: lineage, index: index, json_name: 'MetadataLineage'} %>
+              <% end %>
+            </li>
+          </ul>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>

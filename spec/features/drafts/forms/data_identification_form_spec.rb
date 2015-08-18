@@ -65,6 +65,7 @@ describe 'Data identification form', js: true do
       within '.nav-top' do
         click_on 'Save & Done'
       end
+      open_accordions
     end
 
     it 'shows the draft preview page' do
@@ -153,7 +154,7 @@ describe 'Data identification form', js: true do
         expect(page).to have_field("#{related_url_1_prefix}mime_type", with: 'text/html')
         expect(page).to have_field("#{related_url_1_prefix}caption", with: 'Example Caption')
         expect(page).to have_field("#{related_url_1_prefix}title", with: 'Example Title')
-        expect(page).to have_field("#{related_url_1_prefix}file_size_size", with: '42')
+        expect(page).to have_field("#{related_url_1_prefix}file_size_size", with: '42.0')
         expect(page).to have_field("#{related_url_1_prefix}file_size_unit", with: 'MB')
         expect(page).to have_field("#{related_url_1_prefix}content_type_type", with: 'Type')
         expect(page).to have_field("#{related_url_1_prefix}content_type_subtype", with: 'Subtype')
@@ -206,7 +207,7 @@ describe 'Data identification form', js: true do
         expect(page).to have_field("#{related_url_1_prefix}mime_type", with: 'text/html')
         expect(page).to have_field("#{related_url_1_prefix}caption", with: 'Example Caption')
         expect(page).to have_field("#{related_url_1_prefix}title", with: 'Example Title')
-        expect(page).to have_field("#{related_url_1_prefix}file_size_size", with: '42')
+        expect(page).to have_field("#{related_url_1_prefix}file_size_size", with: '42.0')
         expect(page).to have_field("#{related_url_1_prefix}file_size_unit", with: 'MB')
         expect(page).to have_field("#{related_url_1_prefix}content_type_type", with: 'Type')
         expect(page).to have_field("#{related_url_1_prefix}content_type_subtype", with: 'Subtype')
@@ -283,7 +284,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Mime Type', with: 'text/html')
                 expect(page).to have_field('Caption', with: 'Example Caption')
                 expect(page).to have_field('Title', with: 'Example Title')
-                expect(page).to have_field('Size', with: '42')
+                expect(page).to have_field('Size', with: '42.0')
                 expect(page).to have_field('Unit', with: 'MB')
                 expect(page).to have_field('Type', with: 'Type')
                 expect(page).to have_field('Subtype', with: 'Subtype')
@@ -336,7 +337,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Mime Type', with: 'text/html')
                 expect(page).to have_field('Caption', with: 'Example Caption')
                 expect(page).to have_field('Title', with: 'Example Title')
-                expect(page).to have_field('Size', with: '42')
+                expect(page).to have_field('Size', with: '42.0')
                 expect(page).to have_field('Unit', with: 'MB')
                 expect(page).to have_field('Type', with: 'Type')
                 expect(page).to have_field('Subtype', with: 'Subtype')
@@ -394,7 +395,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Mime Type', with: 'text/html')
                 expect(page).to have_field('Caption', with: 'Example Caption')
                 expect(page).to have_field('Title', with: 'Example Title')
-                expect(page).to have_field('Size', with: '42')
+                expect(page).to have_field('Size', with: '42.0')
                 expect(page).to have_field('Unit', with: 'MB')
                 expect(page).to have_field('Type', with: 'Type')
                 expect(page).to have_field('Subtype', with: 'Subtype')
@@ -448,7 +449,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Mime Type', with: 'text/html')
                 expect(page).to have_field('Caption', with: 'Example Caption')
                 expect(page).to have_field('Title', with: 'Example Title')
-                expect(page).to have_field('Size', with: '42')
+                expect(page).to have_field('Size', with: '42.0')
                 expect(page).to have_field('Unit', with: 'MB')
                 expect(page).to have_field('Type', with: 'Type')
                 expect(page).to have_field('Subtype', with: 'Subtype')
@@ -492,7 +493,7 @@ describe 'Data identification form', js: true do
               expect(page).to have_field("Mime Type", with: 'text/html')
               expect(page).to have_field("Caption", with: 'Example Caption')
               expect(page).to have_field("Title", with: 'Example Title')
-              expect(page).to have_field("Size", with: '42')
+              expect(page).to have_field("Size", with: '42.0')
               expect(page).to have_field("Unit", with: 'MB')
               expect(page).to have_field("Type", with: 'Type')
               expect(page).to have_field("Subtype", with: 'Subtype')
@@ -511,7 +512,7 @@ describe 'Data identification form', js: true do
               expect(page).to have_field("Mime Type", with: 'text/html')
               expect(page).to have_field("Caption", with: 'Example Caption')
               expect(page).to have_field("Title", with: 'Example Title')
-              expect(page).to have_field("Size", with: '42')
+              expect(page).to have_field("Size", with: '42.0')
               expect(page).to have_field("Unit", with: 'MB')
               expect(page).to have_field("Type", with: 'Type')
               expect(page).to have_field("Subtype", with: 'Subtype')
@@ -574,7 +575,7 @@ describe 'Data identification form', js: true do
               expect(page).to have_field("Mime Type", with: 'text/html')
               expect(page).to have_field("Caption", with: 'Example Caption')
               expect(page).to have_field("Title", with: 'Example Title')
-              expect(page).to have_field("Size", with: '42')
+              expect(page).to have_field("Size", with: '42.0')
               expect(page).to have_field("Unit", with: 'MB')
               expect(page).to have_field("Type", with: 'Type')
               expect(page).to have_field("Subtype", with: 'Subtype')
