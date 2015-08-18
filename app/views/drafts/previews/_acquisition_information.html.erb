@@ -1,31 +1,37 @@
-<ul class="acquisition-information-preview">
-  <li>
+<div class="preview-collection accordion is-closed">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
     <h4>Acquisition Information Fields:</h4>
+  </div>
+  <div class="accordion-body">
+    <ul class="acquisition-information-preview">
+      <li>
 
-    <!-- Platform [r] -->
-    <% if !draft['Platform'].blank? %>
-      <ul class="<%= name_to_class('Platform')%>">
-        <li>
-          <h4><%= 'Platform'.pluralize(draft['Platform'].count)%></h4>
-          <% draft['Platform'].each_with_index do |platform, index| %>
-            <%= render :partial=>'drafts/previews/types/platform_type', :locals=>{platform: platform, index: index} %>
-          <% end %>
-        </li>
-      </ul>
-    <% end %>
+        <!-- Platform [r] -->
+        <% if !draft['Platform'].blank? %>
+          <ul class="<%= name_to_class('Platform')%>">
+            <li>
+              <h4><%= 'Platform'.pluralize(draft['Platform'].count)%></h4>
+              <% draft['Platform'].each_with_index do |platform, index| %>
+                <%= render :partial=>'drafts/previews/types/platform_type', :locals=>{platform: platform, index: index} %>
+              <% end %>
+            </li>
+          </ul>
+        <% end %>
 
-    <!-- Project [r] -->
-    <% if !draft['Project'].blank? %>
-      <ul class="<%= name_to_class('Project')%>">
-        <li>
-          <h4><%= 'Project'.pluralize(draft['Project'].count)%></h4>
-          <% draft['Project'].each_with_index do |project, index| %>
-            <%= render :partial=>'drafts/previews/types/project_type', :locals=>{project: project, index: index} %>
-          <% end %>
-        </li>
-      </ul>
-    <% end %>
+        <!-- Project [r] -->
+        <% if !draft['Project'].blank? %>
+          <ul class="<%= name_to_class('Project')%>">
+            <li>
+              <h4><%= 'Project'.pluralize(draft['Project'].count)%></h4>
+              <% draft['Project'].each_with_index do |project, index| %>
+                <%= render :partial=>'drafts/previews/types/project_type', :locals=>{project: project, index: index} %>
+              <% end %>
+            </li>
+          </ul>
+        <% end %>
 
-  </li>
-</ul>
-<hr>
+      </li>
+    </ul>
+  </div>
+</div>

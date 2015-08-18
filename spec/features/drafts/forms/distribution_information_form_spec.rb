@@ -37,6 +37,7 @@ describe 'Distribution information form', js: true do
       within '.nav-top' do
         click_on 'Save & Done'
       end
+      open_accordions
     end
 
     it 'shows the draft preview page' do
@@ -91,7 +92,7 @@ describe 'Distribution information form', js: true do
             expect(page).to have_field('Caption', with: 'Example Caption')
             expect(page).to have_field('Title', with: 'Example Title')
             within '.file-size' do
-              expect(page).to have_field('Size', with: '42')
+              expect(page).to have_field('Size', with: '42.0')
               expect(page).to have_field('Unit', with: 'MB')
             end
             within '.content-type' do

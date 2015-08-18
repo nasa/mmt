@@ -1,4 +1,4 @@
-<ul class="<%= name_to_class('Sensor')%>-<%=index%>">
+<ul class="<%= name_to_class('Sensors')%>-<%=index%>">
   <li>
     <strong>Sensor <%= index + 1 %></strong>
 
@@ -6,11 +6,11 @@
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>sensor} %>
 
     <!-- Characteristic -->
-    <% if !sensor['Characteristic'].blank? %>
-      <ul class="<%= name_to_class('Characteristic')%>">
+    <% if !sensor['Characteristics'].blank? %>
+      <ul class="<%= name_to_class('Characteristics')%>">
         <li>
-          <h4><%= 'Characteristic'.pluralize(sensor['Characteristic'].count)%></h4>
-          <% sensor['Characteristic'].each_with_index do |characteristic, index| %>
+          <h4><%= 'Characteristics'.pluralize(sensor['Characteristics'].count)%></h4>
+          <% sensor['Characteristics'].each_with_index do |characteristic, index| %>
             <%= render :partial=>'drafts/previews/types/characteristic_type', :locals=>{characteristic: characteristic, index: index} %>
           <% end %>
         </li>
