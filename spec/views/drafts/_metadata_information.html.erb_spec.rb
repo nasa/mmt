@@ -49,7 +49,7 @@ describe template_path, type: :view do
                                                                   "PostalCode"=>"test 1b PostalCode", "Country"=>"test 1b Country"}],
                                                      "RelatedUrl"=>[{"URL"=>["test 1 URL"], "Description"=>"test 1 Description", "Protocol"=>"HTTP",
                                                                      "MimeType"=>"test 1 MimeType", "Caption"=>"test 1 Caption", "Title"=>"test 1 Title",
-                                                                     "FileSize"=>{"Size"=>"test 1 123", "Unit"=>"test 1 Unit"},
+                                                                     "FileSize"=>{"Size"=>123, "Unit"=>"test 1 Unit"},
                                                                      "ContentType"=>{"Type"=>"test 1 Type", "Subtype"=>"test 1 Subtype"}}]}},
                                           {"Role"=>"POINTOFCONTACT",
                                            "Party"=>{"Person"=>{"FirstName"=>"test 2 FirstName", "MiddleName"=>"test 2 MiddleName", "LastName"=>"test 2 LastName"},
@@ -65,7 +65,7 @@ describe template_path, type: :view do
                                                                   "PostalCode"=>"test 2b PostalCode", "Country"=>"test 2b Country"}],
                                                      "RelatedUrl"=>[{"URL"=>["test 2 URL"], "Description"=>"test 2 Description", "Protocol"=>"HTTP",
                                                                      "MimeType"=>"test 2 MimeType", "Caption"=>"test 2 Caption", "Title"=>"test 2 Title",
-                                                                     "FileSize"=>{"Size"=>"test 2 123", "Unit"=>"test 2 Unit"},
+                                                                     "FileSize"=>{"Size"=>321, "Unit"=>"test 2 Unit"},
                                                                      "ContentType"=>{"Type"=>"test 2 Type", "Subtype"=>"test 2 Subtype"}}]}}
                        ]}]}
         ]

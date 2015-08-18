@@ -16,7 +16,7 @@ module Helpers
       #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in #{page.text.gsub(/\s+/, " ").strip}"
       case draft.class.to_s
         when 'NilClass'
-        when 'String'
+        when 'String', 'Fixnum', 'FalseClass', 'TrueClass'
           parent_key_special_handling = special_handling[parent_key.to_sym]
           if parent_key_special_handling == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
             draft = number_to_currency(draft.to_f)
@@ -33,6 +33,7 @@ module Helpers
             # Map date type stored in json to what is actually supposed to be displayed
             draft = map_value_onto_display_string(draft, date_type_options)
           end
+          # Here is a good location to add a test that !draft.nil? due to a failure to map onto an option array
           expect(page).to have_content(draft)
         when 'Hash'
           draft.each_with_index do |(key, value), index|
@@ -46,7 +47,8 @@ module Helpers
             check_section_for_display_of_values(page.first(:css, ".#{html_class_name}-#{index}"), value, parent_key, special_handling)
           end
         else
-          puts ("Class Unknown: #{draft.class}")
+          puts ("Class for #{parent_key} unhandled: #{draft.class}")
+          raise ("Class for #{parent_key} unhandled: #{draft.class}")
       end
     end
 
