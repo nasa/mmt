@@ -1,0 +1,36 @@
+<div class="row sub-fields">
+  <!-- Type -->
+  <label for="<%= remove_pipes(name_prefix) %>type">Type</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}type"), platform['Type'], class: 'half-width') %>
+
+
+  <!-- Short Name [r] -->
+  <label for="<%= remove_pipes(name_prefix) %>short_name">Short Name</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), platform['ShortName'], class: 'half-width') %>
+
+
+  <!-- Long Name -->
+  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), platform['LongName'], class: 'half-width') %>
+
+
+  <!-- Characteristics -->
+  <label>Characteristics</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'characteristics',
+      values: platform['Characteristics'] || [{}],
+      name_prefix: "#{name_prefix}characteristics_",
+      multiple: true,
+      options: {} } %>
+
+
+  <!-- Instruments -->
+  <label>Instruments</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'instruments',
+      values: platform['Instruments'] || [{}],
+      name_prefix: "#{name_prefix}instruments_",
+      multiple: true,
+      options: {} } %>
+
+</div>
