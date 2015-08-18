@@ -26,17 +26,17 @@ describe template_path, type: :view do
       draft_json = {}
       before do
         draft_json['TemporalExtent'] = [
-            {"TemporalRangeType"=>"SingleDateTime", "PrecisionOfSeconds"=>"1", "EndsAtPresentFlag"=>"false", "SingleDateTime"=>["2015-07-01", "2015-12-25"]},
+            {"TemporalRangeType"=>"SingleDateTime", "PrecisionOfSeconds"=>1, "EndsAtPresentFlag"=>false, "SingleDateTime"=>["2015-07-01", "2015-12-25"]},
 
-            {"TemporalRangeType"=>"RangeDateTime", "PrecisionOfSeconds"=>"10", "EndsAtPresentFlag"=>"false", "RangeDateTime"=>[
+            {"TemporalRangeType"=>"RangeDateTime", "PrecisionOfSeconds"=>10, "EndsAtPresentFlag"=>false, "RangeDateTime"=>[
                 {"BeginningDateTime"=>"2014-07-01", "EndingDateTime"=>"2014-08-01"},
                 {"BeginningDateTime"=>"2015-07-01", "EndingDateTime"=>"2015-08-01"}
             ]},
 
-            {"TemporalRangeType"=>"PeriodicDateTime", "PrecisionOfSeconds"=>"30", "EndsAtPresentFlag"=>"false",
+            {"TemporalRangeType"=>"PeriodicDateTime", "PrecisionOfSeconds"=>30, "EndsAtPresentFlag"=>false,
                 "PeriodicDateTime"=>[
-                    {"Name"=>"test 1 Periodic Extent", "StartDate"=>"2015-07-01", "EndDate"=>"2015-08-01", "DurationUnit"=>"DAY", "DurationValue"=>"5", "PeriodCycleDurationUnit"=>"DAY", "PeriodCycleDurationValue"=>"1"},
-                    {"Name"=>"test 2 Periodic Extent", "StartDate"=>"2016-07-01", "EndDate"=>"2016-08-01", "DurationUnit"=>"MONTH", "DurationValue"=>"4", "PeriodCycleDurationUnit"=>"MONTH", "PeriodCycleDurationValue"=>"2"},
+                    {"Name"=>"test 1 Periodic Extent", "StartDate"=>"2015-07-01", "EndDate"=>"2015-08-01", "DurationUnit"=>"DAY", "DurationValue"=>5, "PeriodCycleDurationUnit"=>"DAY", "PeriodCycleDurationValue"=>1},
+                    {"Name"=>"test 2 Periodic Extent", "StartDate"=>"2016-07-01", "EndDate"=>"2016-08-01", "DurationUnit"=>"MONTH", "DurationValue"=>4, "PeriodCycleDurationUnit"=>"MONTH", "PeriodCycleDurationValue"=>2},
                 ]}
         ]
 

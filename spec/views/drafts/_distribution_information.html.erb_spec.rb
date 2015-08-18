@@ -33,9 +33,9 @@ describe template_path, type: :view do
             {URL:[]},
             # Regular object populating
             {"Description"=> 'test 1 Description',"Protocol"=> 'test 1 Protocol',"URL"=> ['test 1a URL', 'test 1b URL'],"Title"=>'test 1 Title',"MimeType"=>'test 1 MimeType',
-             "Caption"=>'test 1 Caption',"FileSize"=>{"Size"=>'test 1 FileSize Size', "Unit"=>'test 1 FileSize Unit'}, "ContentType"=>{"Type"=>'test 1 ContentType Type', "Subtype"=>'test 1 ContentType Subtype'}},
+             "Caption"=>'test 1 Caption',"FileSize"=>{"Size"=>123, "Unit"=>'test 1 FileSize Unit'}, "ContentType"=>{"Type"=>'test 1 ContentType Type', "Subtype"=>'test 1 ContentType Subtype'}},
             {"Description"=> 'test 2 Description',"Protocol"=> 'test 2 Protocol',"URL"=> ['test 2a URL', 'test 2b URL'],"Title"=>'test 2 Title',"MimeType"=>'test 2 MimeType',
-             "Caption"=>'test 2 Caption',"FileSize"=>{"Size"=>'test 2 FileSize Size', "Unit"=>'test 2 FileSize Unit'}, "ContentType"=>{"Type"=>'test 2 ContentType Type', "Subtype"=>'test 2 ContentType Subtype'}}
+             "Caption"=>'test 2 Caption',"FileSize"=>{"Size"=>321, "Unit"=>'test 2 FileSize Unit'}, "ContentType"=>{"Type"=>'test 2 ContentType Type', "Subtype"=>'test 2 ContentType Subtype'}}
         ]
         draft_json['Distribution'] = [
             {},

@@ -18,7 +18,7 @@ module Helpers
       #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in *#{new_path}*"
       case draft.class.to_s
         when 'NilClass'
-        when 'String'
+        when 'String', 'Fixnum', 'FalseClass', 'TrueClass'
           parent_key_special_handling = special_handling[parent_key.to_sym]
           if parent_key_special_handling == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
             draft = number_to_currency(draft.to_f)
@@ -41,6 +41,7 @@ module Helpers
             # This field is present in json, but intentionally not displayed
             return
           end
+          # Here is a good location to add a test that !draft.nil? due to a failure to map onto an entry in an option array
           new_path += ">li.#{name_to_class(parent_key)}"
           expect(page.find(:css, new_path)).to have_content(draft)
         when 'Hash'
@@ -57,7 +58,8 @@ module Helpers
             check_css_path_for_display_of_values(page, value, "#{name_to_class(parent_key)}-#{index}", new_path, special_handling)
           end
         else
-          puts ("Class Unknown: #{draft.class}")
+          puts ("Class for #{parent_key} unhandled: #{draft.class}")
+          raise ("Class for #{parent_key} unhandled: #{draft.class}")
       end
     end
 
