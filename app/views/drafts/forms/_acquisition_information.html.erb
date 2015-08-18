@@ -1,40 +1,27 @@
-<!-- need better support in json-schema -->
-
 <!-- Platform [r] -->
 <div class="row taller">
   <div class="col-12">
-    <label for="platform" class="icon-required">Platform</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
-    <div class="row">
-      <div class="col-12">
-        <a href="#" class="icon-more">Add platform</a>
-      </div>
-    </div>
+    <label class="icon-required">Platform</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'platform',
+        values: draft.draft['Platform'] || [{}],
+        name_prefix: "draft_platform_",
+        multiple: true,
+        options: {} } %>
   </div>
 </div>
 
-<!-- Instrument -->
-<div class="row taller">
-  <div class="col-12">
-    <label for="instrument" class="icon-required">Instrument</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
-    <div class="row">
-      <div class="col-12">
-        <a href="#" class="icon-more">Add instrument</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Sensor -->
-<!-- Not in UMM JSON Schema yet -->
 
 <!-- Project -->
 <div class="row taller">
   <div class="col-12">
-    <label for="project">Project</label><i class="fa fa-info-circle"></i><a href="#">Propose a new value</a>
-    <div class="row">
-      <div class="col-12">
-        <a href="#" class="icon-more">Add project</a>
-      </div>
-    </div>
+    <label>Project</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'project',
+        values: draft.draft['Project'] || [{}],
+        name_prefix: "draft_project_",
+        multiple: true,
+        options: {} } %>
+  </div>
   </div>
 </div>

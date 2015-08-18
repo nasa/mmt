@@ -18,7 +18,7 @@
       </div>
     <% end %>
     <div class="actions">
-      <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another <%= options[:title] || type.titleize %></button>
+      <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another <%= options[:title] || type.titleize.singularize %></button>
     </div>
   </div>
 <% else %>

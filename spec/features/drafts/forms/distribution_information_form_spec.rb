@@ -91,7 +91,7 @@ describe 'Distribution information form', js: true do
             expect(page).to have_field('Caption', with: 'Example Caption')
             expect(page).to have_field('Title', with: 'Example Title')
             within '.file-size' do
-              expect(page).to have_field('Size', with: '42')
+              expect(page).to have_field('Size', with: '42.0')
               expect(page).to have_field('Unit', with: 'MB')
             end
             within '.content-type' do
