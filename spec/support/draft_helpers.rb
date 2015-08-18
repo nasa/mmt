@@ -6,6 +6,11 @@ module Helpers
       click_on 'Create Record'
     end
 
+    def open_accordions
+      script = "$('.accordion.is-closed').removeClass('is-closed');"
+      page.evaluate_script script
+    end
+
     def check_section_for_display_of_values(page, draft, parent_key, special_handling={})
       #puts ''
       #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in #{page.text.gsub(/\s+/, " ").strip}"
