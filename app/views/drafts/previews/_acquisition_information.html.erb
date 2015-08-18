@@ -1,62 +1,68 @@
-<h4>Acquisition Information Fields:</h4>
+<div class="preview-collection accordion is-closed">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    <h4>Acquisition Information Fields:</h4>
+  </div>
+  <div class="accordion-body">
+    <!-- need better support in json-schema -->
 
-<!-- need better support in json-schema -->
-
-<!-- Platform [r] -->
-<% if !@draft.draft['Platform'].blank? %>
-  <h4>Platform</h4>
-  <p>
-    <% @draft.draft['Platform'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['Platform'].last) ? '' : '</br>') %>
+    <!-- Platform [r] -->
+    <% if !@draft.draft['Platform'].blank? %>
+      <h4>Platform</h4>
+      <p>
+        <% @draft.draft['Platform'].each do |r| %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
+          <%= raw((r == @draft.draft['Platform'].last) ? '' : '</br>') %>
+        <% end %>
+      </p>
     <% end %>
-  </p>
-<% end %>
 
-<!-- Instrument -->
-<% if !@draft.draft['Instrument'].blank? %>
-  <h4>Instrument</h4>
-  <p>
-    <% @draft.draft['Instrument'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Technique', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Sensors', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'OperationalMode', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['Instrument'].last) ? '' : '</br>') %>
+    <!-- Instrument -->
+    <% if !@draft.draft['Instrument'].blank? %>
+      <h4>Instrument</h4>
+      <p>
+        <% @draft.draft['Instrument'].each do |r| %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Technique', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Sensors', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'OperationalMode', :hash_for_key=>r} %>
+          <%= raw((r == @draft.draft['Instrument'].last) ? '' : '</br>') %>
+        <% end %>
+      </p>
     <% end %>
-  </p>
-<% end %>
 
-<!-- Sensor -->
-<!-- Not in UMM JSON Schema yet -->
-<% if !@draft.draft['Sensor'].blank? %>
-  <h4>Sensor</h4>
-  <p>
-    <% @draft.draft['Sensor'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['Sensor'].last) ? '' : '</br>') %>
+    <!-- Sensor -->
+    <!-- Not in UMM JSON Schema yet -->
+    <% if !@draft.draft['Sensor'].blank? %>
+      <h4>Sensor</h4>
+      <p>
+        <% @draft.draft['Sensor'].each do |r| %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Characteristics', :hash_for_key=>r} %>
+          <%= raw((r == @draft.draft['Sensor'].last) ? '' : '</br>') %>
+        <% end %>
+      </p>
     <% end %>
-  </p>
-<% end %>
 
-<!-- Project -->
-<% if !@draft.draft['Project'].blank? %>
-  <h4>Project</h4>
-  <p>
-    <% @draft.draft['Project'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Campaign', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'StartDate', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EndDate', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['Project'].last) ? '' : '</br>') %>
+    <!-- Project -->
+    <% if !@draft.draft['Project'].blank? %>
+      <h4>Project</h4>
+      <p>
+        <% @draft.draft['Project'].each do |r| %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Campaign', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'StartDate', :hash_for_key=>r} %>
+          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EndDate', :hash_for_key=>r} %>
+          <%= raw((r == @draft.draft['Project'].last) ? '' : '</br>') %>
+        <% end %>
+      </p>
     <% end %>
-  </p>
-<% end %>
-<hr>
+
+  </div>
+</div>
