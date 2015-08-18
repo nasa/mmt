@@ -53,6 +53,14 @@ RSpec.configure do |config|
 
   # End of lines from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
 
+  # Catch all requests, specific examples are still caught using their specific cassettes
+  config.around :each do |spec|
+    VCR.use_cassette('global', :record => :once) do
+      spec.run
+    end
+  end
+
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
