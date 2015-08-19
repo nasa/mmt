@@ -1,11 +1,11 @@
-<ul class='<%= name_to_class('Responsibility')%>-<%=index%>'>
+<% class_name = defined?(class_name_override).nil? ? 'Responsibility' : class_name_override %>
+<ul class='<%= name_to_class(class_name)%>-<%=index%>'>
   <li>
-    <strong>Responsibility <%= index + 1 %></strong>
+    <% title = defined?(title_override).nil? ? 'Responsibility' : title_override %>
+    <strong><%= title %> <%= index + 1 %></strong>
 
-    <!-- Role [r] -->
     <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>responsibility, options: role_options} %>
 
-    <!-- Party [r] -->
     <%= render :partial=>'drafts/previews/types/party_type', :locals=>{party: responsibility['Party'], title:'Party'} %>
   </li>
 </ul>

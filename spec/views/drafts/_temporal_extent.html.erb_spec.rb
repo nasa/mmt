@@ -56,13 +56,13 @@ describe template_path, type: :view do
         render :template => template_path, :locals=>{draft: draft_json}
       end
 
-
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('TemporalExtent')}"), draft_json['TemporalExtent'], 'TemporalExtent',
-                                            {DurationUnit: :handle_as_duration, PeriodCycleDurationUnit: :handle_as_duration, TemporalRangeType: :handle_as_not_shown })
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('TemporalKeyword')}"), draft_json['TemporalKeyword'], 'TemporalKeyword')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('PaleoTemporalCoverage')}"), draft_json['PaleoTemporalCoverage'], 'PaleoTemporalCoverage')
+        root_css_path = "ul.temporal-extent-preview"
+        draft_json.each do |key, value|
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {DurationUnit: :handle_as_duration, PeriodCycleDurationUnit: :handle_as_duration, TemporalRangeType: :handle_as_not_shown })
+        end
+
       end
 
     end

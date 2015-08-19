@@ -54,15 +54,19 @@ module DraftsHelper
   end
 
   def duration_options
-    [
-        ['', ''], ['Day', 'DAY'], ['Month', 'MONTH'], ['Year', 'YEAR']
-    ]
+    [['', ''], ['Day', 'DAY'], ['Month', 'MONTH'], ['Year', 'YEAR']]
   end
 
   def date_type_options
-    [
-        ['Select Date Type', ''],['Create', 'CREATE'], ['Update', 'UPDATE'], ['Delete', 'DELETE'], ['Review', 'REVIEW']
-    ]
+    [['Select Date Type', ''],['Create', 'CREATE'], ['Update', 'UPDATE'], ['Delete', 'DELETE'], ['Review', 'REVIEW']]
+  end
+
+  def collection_data_type_options
+    [['Select Data Type', ''], ['Science Quality', 'SCIENCE_QUALITY'], ['Near Real Time', 'NEAR_REAL_TIME'], ['Other', 'OTHER']]
+  end
+
+  def collection_progress_options
+    [['Select Progress', ''], ['Planned', 'PLANNED'], ['In work', 'IN WORK'], ['Complete', 'COMPLETE']]
   end
 
   # Used to derive the displayed string of a select type control from the value stored in json

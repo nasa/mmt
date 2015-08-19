@@ -1,5 +1,6 @@
 module Helpers
   module DraftHelpers
+
     def create_new_draft
       visit '/dashboard'
       choose 'New Collection Record'
@@ -11,9 +12,10 @@ module Helpers
       page.evaluate_script script
     end
 
-    def check_section_for_display_of_values(page, draft, parent_key, special_handling={})
+    def check_css_path_for_display_of_values(page, draft, parent_key, parent_path, special_handling={})
+      new_path = parent_path + ">li>ul"
       #puts ''
-      #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in #{page.text.gsub(/\s+/, " ").strip}"
+      #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in *#{new_path}*"
       case draft.class.to_s
         when 'NilClass'
         when 'String', 'Fixnum', 'FalseClass', 'TrueClass'
@@ -26,25 +28,34 @@ module Helpers
           elsif parent_key_special_handling == :handle_as_duration
             # Map duration value stored in json to what is actually supposed to be displayed
             draft = map_value_onto_display_string(draft, duration_options)
+          elsif parent_key_special_handling == :handle_as_collection_data_type
+            # Map duration value stored in json to what is actually supposed to be displayed
+            draft = map_value_onto_display_string(draft, collection_data_type_options)
+          elsif parent_key_special_handling == :handle_as_date_type
+            # Map date type value stored in json to what is actually supposed to be displayed
+            draft = map_value_onto_display_string(draft, date_type_options)
+          elsif parent_key_special_handling == :handle_as_collection_progress
+            # Map duration value stored in json to what is actually supposed to be displayed
+            draft = map_value_onto_display_string(draft, collection_progress_options)
           elsif parent_key_special_handling == :handle_as_not_shown
             # This field is present in json, but intentionally not displayed
             return
-          elsif parent_key_special_handling == :handle_as_date_type
-            # Map date type stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, date_type_options)
           end
-          # Here is a good location to add a test that !draft.nil? due to a failure to map onto an option array
-          expect(page).to have_content(draft)
+          # Here is a good location to add a test that !draft.nil? due to a failure to map onto an entry in an option array
+          new_path += ">li.#{name_to_class(parent_key)}"
+          expect(page.find(:css, new_path)).to have_content(draft)
         when 'Hash'
+          new_path += ".#{name_to_class(parent_key)}"
           draft.each_with_index do |(key, value), index|
-            #puts "  H Looking for: #{name_to_class(key)} inside: #{page.text.gsub(/\s+/, " ").strip}"
-            check_section_for_display_of_values(page.first(:css, ".#{name_to_class(key)}"), value, key, special_handling)
+            #puts "  H Looking for: #{key}:#{value} at #{new_path}"
+            check_css_path_for_display_of_values(page, value, key, new_path, special_handling)
           end
         when 'Array'
+          new_path += ".#{name_to_class(parent_key)}"
           html_class_name = name_to_class(parent_key)
           draft.each_with_index do |value, index|
-            #puts "  A Looking for: #{html_class_name}-#{index} inside: #{page.text.gsub(/\s+/, " ").strip}"
-            check_section_for_display_of_values(page.first(:css, ".#{html_class_name}-#{index}"), value, parent_key, special_handling)
+            #puts "  A Looking for: #{new_path} ---> #{name_to_class(parent_key)}-#{index} inside:"  #{page.text.gsub(/\s+/, " ").strip}"
+            check_css_path_for_display_of_values(page, value, "#{name_to_class(parent_key)}-#{index}", new_path, special_handling)
           end
         else
           puts ("Class for #{parent_key} unhandled: #{draft.class}")
