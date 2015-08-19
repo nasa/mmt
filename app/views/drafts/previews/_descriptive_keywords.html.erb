@@ -4,7 +4,6 @@
     <h4>Descriptive Keyword Fields:</h4>
   </div>
   <div class="accordion-body">
-    <!-- ISOTopicCategory -->
     <% if !@draft.draft['ISOTopicCategory'].blank? %>
       <h4>ISO Topic Category</h4>
       <p>
@@ -15,7 +14,6 @@
       </p>
     <% end %>
 
-    <!-- ScienceKeyword [r] -->
     <% if !@draft.draft['ScienceKeywords'].blank? %>
       <h4>Science Keywords</h4>
       <p>
@@ -26,7 +24,6 @@
       </p>
     <% end %>
 
-    <!-- AncillaryKeyword -->
     <% if !@draft.draft['AncillaryKeyword'].blank? %>
       <h4>Ancillary Keyword</h4>
       <p>
@@ -37,7 +34,6 @@
       </p>
     <% end %>
 
-    <!-- AdditionalAttribute -->
     <% if !@draft.draft['AdditionalAttribute'].blank? %>
       <h4>Additional Attributes</h4>
       <p>

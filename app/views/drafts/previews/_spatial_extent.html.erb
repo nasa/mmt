@@ -4,8 +4,7 @@
     <h4>Spatial Extent Fields:</h4>
   </div>
   <div class="accordion-body">
-    <!-- Spatial Extent [r] -->
-    <!-- array of SpatialExtentType -->
+
     <% if !@draft.draft['SpatialExtent'].blank? %>
       <h4>Spatial Extent</h4>
       <p>
@@ -20,8 +19,6 @@
       </p>
     <% end %>
 
-    <!-- Tiling Identification System -->
-    <!-- TilingIdentificationSystemType -->
     <% if !@draft.draft['TilingIdentificationSystem'].blank? %>
       <h4>Tiling Identification System</h4>
       <p>
@@ -32,8 +29,6 @@
       </p>
     <% end %>
 
-    <!-- Spatial Representation Information -->
-    <!-- SpatialInformation -->
     <% if !@draft.draft['SpatialInformation'].blank? %>
       <h4>Spatial Information</h4>
       <p>
@@ -44,8 +39,6 @@
       </p>
     <% end %>
 
-    <!-- Spatial Keywords -->
-    <!-- KeywordUuidStringType -->
     <% if !@draft.draft['SpatialKeyword'].blank? %>
       <h4>Spatial Keyword</h4>
       <p>

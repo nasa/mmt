@@ -7,7 +7,6 @@
     <ul class="acquisition-information-preview">
       <li>
 
-        <!-- Platform [r] -->
         <% if !draft['Platform'].blank? %>
           <ul class="<%= name_to_class('Platform')%>">
             <li>
@@ -18,8 +17,7 @@
             </li>
           </ul>
         <% end %>
-
-        <!-- Project [r] -->
+        
         <% if !draft['Project'].blank? %>
           <ul class="<%= name_to_class('Project')%>">
             <li>
