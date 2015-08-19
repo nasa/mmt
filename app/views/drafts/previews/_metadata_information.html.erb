@@ -8,10 +8,8 @@
       <li>
         <h4>Metadata Information Fields:</h4>
 
-        <!-- Metadata language -->
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MetadataLanguage', :hash_for_key=>draft} %>
 
-        <!-- Metdata Standard [r] -->
         <% if !draft['MetadataStandard'].blank? %>
           <ul class="<%= name_to_class('MetadataStandard')%>">
             <li>
@@ -23,7 +21,6 @@
           </ul>
         <% end %>
 
-        <!-- Metadata Dates -->
         <% if !draft['MetadataLineage'].blank? %>
           <ul class="<%= name_to_class('MetadataLineage')%>">
             <li>

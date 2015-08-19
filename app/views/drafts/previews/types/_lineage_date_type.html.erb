@@ -2,16 +2,12 @@
   <li>
     <strong>Date <%= index + 1 %></strong>
 
-    <!-- Type [r] - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
     <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>lineage_date, options: date_type_options} %>
 
-    <!-- Date [r] -->
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Date', :hash_for_key=>lineage_date} %>
 
-    <!-- Description - text field -->
     <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>lineage_date} %>
 
-    <!-- Responsibility [r] -->
     <% if !lineage_date['Responsibility'].blank? %>
       <ul class="<%= name_to_class('Responsibility')%>">
         <li>

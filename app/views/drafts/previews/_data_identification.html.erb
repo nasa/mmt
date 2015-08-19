@@ -7,23 +7,16 @@
     <ul class="data-identification-preview">
       <li>
 
-        <!-- Entry ID [r] -->
         <%= render :partial=>'drafts/previews/types/entry_id_type', :locals=>{entry_id: @draft.draft['EntryId'], title:'Entry ID'} %>
 
-        <!-- Entry Title [r] -->
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EntryTitle', :hash_for_key=>@draft.draft, :title_override=>'Title'} %>
 
-        <!-- Abstract [r] -->
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Abstract', :hash_for_key=>@draft.draft} %>
 
-        <!-- Purpose -->
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Purpose', :hash_for_key=>@draft.draft} %>
 
-        <!-- Data language -->
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DataLanguage', :hash_for_key=>@draft.draft} %>
 
-        <!-- Data dates [r] -->
-        <!-- DataLineage -->
         <% if !@draft.draft['DataLineage'].blank? %>
           <ul class="<%= name_to_class('DataLineage')%>">
             <li>
@@ -35,8 +28,6 @@
           </ul>
         <% end %>
 
-        <!-- Organization [r] -->
-        <!-- show orgs -->
         <% if !@draft.draft['ResponsibleOrganization'].blank? %>
           <ul class="<%= name_to_class('ResponsibleOrganization')%>">
             <li>
@@ -49,9 +40,6 @@
           </ul>
         <% end %>
 
-        <!-- Personnel -->
-        <!-- responsibility: display form when no people added -->
-        <!-- person: shows full form (address, hours, etc.) -->
         <% if !@draft.draft['ResponsiblePersonnel'].blank? %>
           <ul class="<%= name_to_class('ResponsiblePersonnel')%>">
             <li>
@@ -64,17 +52,10 @@
           </ul>
         <% end %>
 
-        <!-- Collection Data Type -->
-        <!-- Dropdown with ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"] -->
         <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'CollectionDataType', :hash_for_key=>@draft.draft, options: collection_data_type_options} %>
 
-
-        <!-- ProcessingLevel -->
         <%= render :partial=>'drafts/previews/types/processing_level_type', :locals=>{processing_level: @draft.draft['ProcessingLevel'], title:'Processing Level'} %>
 
-        <!-- Resource Citation -->
-        <!-- CollectionCitation -->
-        <!-- Array of ResourceCitationType -->
         <% if !@draft.draft['CollectionCitation'].blank? %>
           <ul class="<%= name_to_class('CollectionCitation')%>">
             <li>
@@ -87,19 +68,14 @@
           </ul>
         <% end %>
 
-        <!-- Collection Progress -->
         <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'CollectionProgress', :hash_for_key=>@draft.draft, options: collection_progress_options} %>
 
-        <!-- Quality -->
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Quality', :hash_for_key=>@draft.draft} %>
 
-        <!-- Use Constraints -->
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'UseConstraints', :hash_for_key=>@draft.draft} %>
 
-        <!-- Access Constraints -->
         <%= render :partial=>'drafts/previews/types/access_constraints_type', :locals=>{access_constraints: @draft.draft['AccessConstraints'], title:'Access Constraints'} %>
 
-        <!-- Metadata Association -->
         <% if !@draft.draft['MetadataAssociation'].blank? %>
           <ul class="<%= name_to_class('MetadataAssociation')%>">
             <li>
@@ -111,7 +87,6 @@
           </ul>
         <% end %>
 
-        <!-- Publication Reference -->
         <% if !@draft.draft['PublicationReference'].blank? %>
           <ul class="<%= name_to_class('PublicationReference')%>">
             <li>

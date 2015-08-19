@@ -7,7 +7,6 @@
     <ul class="distribution-information-preview">
       <li>
 
-        <!-- Related URL [r] -->
         <% if !draft['RelatedUrl'].blank? %>
           <ul class="<%= name_to_class('RelatedUrl')%>">
             <li>
@@ -19,7 +18,6 @@
           </ul>
         <% end %>
 
-        <!-- Distribution -->
         <% if !draft['Distribution'].blank? %>
           <ul class="<%= name_to_class('Distribution')%>">
             <li>

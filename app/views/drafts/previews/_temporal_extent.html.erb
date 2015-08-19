@@ -7,7 +7,6 @@
     <ul class="temporal-extent-preview">
       <li>
 
-        <!-- Temporal Extent [r] -->
         <% if !draft['TemporalExtent'].blank? %>
           <ul class="<%= name_to_class('TemporalExtent')%>">
             <li>
@@ -19,12 +18,10 @@
           </ul>
         <% end %>
 
-        <!-- Temporal Keywords -->
         <% if !draft['TemporalKeyword'].blank? %>
           <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'TemporalKeyword', :hash_for_key=>draft} %>
         <% end %>
 
-        <!-- Paleo Temporal Coverage -->
         <% if !draft['PaleoTemporalCoverage'].blank? %>
           <%= render :partial=>'drafts/previews/types/paleo_temporal_coverage_type', :locals=>{paleo_temporal_coverage: draft['PaleoTemporalCoverage'], title:'Paleo Temporal Coverage'} %>
         <% end %>

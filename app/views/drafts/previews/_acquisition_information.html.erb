@@ -4,9 +4,7 @@
     <h4>Acquisition Information Fields:</h4>
   </div>
   <div class="accordion-body">
-    <!-- need better support in json-schema -->
 
-    <!-- Platform [r] -->
     <% if !@draft.draft['Platform'].blank? %>
       <h4>Platform</h4>
       <p>
@@ -19,7 +17,6 @@
       </p>
     <% end %>
 
-    <!-- Instrument -->
     <% if !@draft.draft['Instrument'].blank? %>
       <h4>Instrument</h4>
       <p>
@@ -35,8 +32,6 @@
       </p>
     <% end %>
 
-    <!-- Sensor -->
-    <!-- Not in UMM JSON Schema yet -->
     <% if !@draft.draft['Sensor'].blank? %>
       <h4>Sensor</h4>
       <p>
@@ -49,7 +44,6 @@
       </p>
     <% end %>
 
-    <!-- Project -->
     <% if !@draft.draft['Project'].blank? %>
       <h4>Project</h4>
       <p>
