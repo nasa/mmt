@@ -47,7 +47,7 @@ describe template_path, type: :view do
                    {"Name"=>"test 1 PI Name", "Description"=>"test 1 PI Description", "Value"=>"test 1 PI Value", "Unit"=>"test 1 PI Unit", "DataType"=>"test 1 PI DataType"},
                    {"Name"=>"test 2 PI Name", "Description"=>"test 2 PI Description", "Value"=>"test 2 PI Value", "Unit"=>"test 2 PI Unit", "DataType"=>"test 2 PI DataType"}
                 ],
-                "Technique"=>"test 1 PI Technique", "NumberOfSensors"=>"2",
+                "Technique"=>"test 1 PI Technique", "NumberOfSensors"=>234,
                 "Sensors"=>[
                   {
                     "ShortName"=>"test 1 PS ShortName", "LongName"=>"test 1 PS LongName","Technique"=>"test 1 PS Technique",
@@ -77,7 +77,7 @@ describe template_path, type: :view do
                         {"Name"=>"test 1d PI Name", "Description"=>"test 1d PI Description", "Value"=>"test 1d PI Value", "Unit"=>"test 1d PI Unit", "DataType"=>"test 1d PI DataType"},
                         {"Name"=>"test 2d PI Name", "Description"=>"test 2d PI Description", "Value"=>"test 2d PI Value", "Unit"=>"test 2d PI Unit", "DataType"=>"test 2d PI DataType"}
                     ],
-                "Technique"=>"test 1d PI Technique", "NumberOfSensors"=>"2",
+                "Technique"=>"test 1d PI Technique", "NumberOfSensors"=>345,
                 "Sensors"=>[
                     {
                         "ShortName"=>"test 1d PS ShortName", "LongName"=>"test 1d PS LongName","Technique"=>"test 1d PS Technique",
@@ -119,7 +119,7 @@ describe template_path, type: :view do
                        {"Name"=>"test a1 PI Name", "Description"=>"test a1 PI Description", "Value"=>"test a1 PI Value", "Unit"=>"test a1 PI Unit", "DataType"=>"test a1 PI DataType"},
                        {"Name"=>"test a2 PI Name", "Description"=>"test a2 PI Description", "Value"=>"test a2 PI Value", "Unit"=>"test a2 PI Unit", "DataType"=>"test a2 PI DataType"}
                    ],
-                   "Technique"=>"test a1 PI Technique", "NumberOfSensors"=>"2",
+                   "Technique"=>"test a1 PI Technique", "NumberOfSensors"=>456,
                    "Sensors"=>[
                    {
                        "ShortName"=>"test a1 PS ShortName", "LongName"=>"test a1 PS LongName","Technique"=>"test a1 PS Technique",
@@ -149,7 +149,7 @@ describe template_path, type: :view do
                        {"Name"=>"test a1d PI Name", "Description"=>"test a1d PI Description", "Value"=>"test a1d PI Value", "Unit"=>"test a1d PI Unit", "DataType"=>"test a1d PI DataType"},
                        {"Name"=>"test a2d PI Name", "Description"=>"test a2d PI Description", "Value"=>"test a2d PI Value", "Unit"=>"test a2d PI Unit", "DataType"=>"test a2d PI DataType"}
                    ],
-                   "Technique"=>"test a1d PI Technique", "NumberOfSensors"=>"2",
+                   "Technique"=>"test a1d PI Technique", "NumberOfSensors"=>567,
                    "Sensors"=>[
                        {
                            "ShortName"=>"test a1d PS ShortName", "LongName"=>"test a1d PS LongName","Technique"=>"test a1d PS Technique",
