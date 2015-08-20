@@ -186,7 +186,7 @@ describe template_path, type: :view do
         rendered_node = Capybara.string(rendered)
         root_css_path = "ul.acquisition-information-preview"
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {  })
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {}, true)
         end
 
       end
@@ -196,5 +196,3 @@ describe template_path, type: :view do
   end
 
 end
-
-

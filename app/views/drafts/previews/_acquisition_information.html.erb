@@ -5,31 +5,19 @@
   </div>
   <div class="accordion-body">
     <ul class="acquisition-information-preview">
-      <li>
 
-        <% if !draft['Platform'].blank? %>
-          <ul class="<%= name_to_class('Platform')%>">
-            <li>
-              <h4><%= 'Platform'.pluralize(draft['Platform'].count)%></h4>
-              <% draft['Platform'].each_with_index do |platform, index| %>
-                <%= render :partial=>'drafts/previews/types/platform_type', :locals=>{platform: platform, index: index} %>
-              <% end %>
-            </li>
-          </ul>
-        <% end %>
-        
-        <% if !draft['Project'].blank? %>
-          <ul class="<%= name_to_class('Project')%>">
-            <li>
-              <h4><%= 'Project'.pluralize(draft['Project'].count)%></h4>
-              <% draft['Project'].each_with_index do |project, index| %>
-                <%= render :partial=>'drafts/previews/types/project_type', :locals=>{project: project, index: index} %>
-              <% end %>
-            </li>
-          </ul>
-        <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['Platform'],
+          name: 'Platform',
+          type: TypesHelper::PlatformType
+      } %>
 
-      </li>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['Project'],
+          name: 'Project',
+          type: TypesHelper::ProjectType
+      } %>
+
     </ul>
   </div>
 </div>

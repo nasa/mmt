@@ -105,7 +105,6 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('Citation title 1')
       expect(page).to have_content('Citation title', :count=>2)
       expect(page).to have_content('Create data', :count=>2)
-      expect(page).to have_content('Data', :count=>5)
       expect(page).to have_content('DC', :count=>6)
       expect(page).to have_content('Draft Title')
       expect(page).to have_content('Editor')
@@ -177,9 +176,7 @@ describe 'Data identification form', js: true do
       before do
         click_on 'Data Identification'
 
-        # Open all accordions
-        script = "$('.multiple-item.is-closed').removeClass('is-closed');"
-        page.evaluate_script script
+        open_accordions
       end
 
       it 'populates the form with the values' do

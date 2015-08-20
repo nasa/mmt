@@ -152,7 +152,7 @@ describe template_path, type: :view do
         root_css_path = "ul.data-identification-preview"
         draft_json.each do |key, value|
           check_css_path_for_display_of_values(rendered_node, value, key, root_css_path,
-            {Scope: :handle_as_not_shown, Type: :handle_as_date_type, Role: :handle_as_role, CollectionDataType: :handle_as_collection_data_type, CollectionProgress: :handle_as_collection_progress})
+            {Scope: :handle_as_not_shown, Type: :handle_as_date_type, Role: :handle_as_role, CollectionDataType: :handle_as_collection_data_type, CollectionProgress: :handle_as_collection_progress}, true)
         end
 
         # Example of how to test a section directly
@@ -164,5 +164,3 @@ describe template_path, type: :view do
   end
 
 end
-
-

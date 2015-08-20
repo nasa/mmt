@@ -5,99 +5,102 @@
   </div>
   <div class="accordion-body">
     <ul class="data-identification-preview">
-      <li>
 
-        <%= render :partial=>'drafts/previews/types/entry_id_type', :locals=>{entry_id: @draft.draft['EntryId'], title:'Entry ID'} %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['EntryId'],
+          name: 'EntryId',
+          type: TypesHelper::EntryIdType
+      } %>
 
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EntryTitle', :hash_for_key=>@draft.draft, :title_override=>'Title'} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'EntryTitle',
+        hash_for_key: draft,
+        title_override: 'Title'
+      } %>
 
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Abstract', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'Abstract',
+        hash_for_key: draft
+      } %>
 
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Purpose', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'Purpose',
+        hash_for_key: draft
+      } %>
 
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DataLanguage', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'DataLanguage',
+        hash_for_key: draft
+      } %>
 
-        <% if !@draft.draft['DataLineage'].blank? %>
-          <ul class="<%= name_to_class('DataLineage')%>">
-            <li>
-              <h4><%= 'Data Lineage'.pluralize(@draft.draft['DataLineage'].count)%></h4>
-              <% @draft.draft['DataLineage'].each_with_index do |lineage, index| %>
-                <%= render :partial=>'drafts/previews/types/lineage_type', :locals=>{lineage: lineage, index: index, json_name: 'DataLineage'} %>
-              <% end %>
-            </li>
-          </ul>
-        <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['DataLineage'],
+          name: 'DataLineage',
+          type: TypesHelper::LineageType
+      } %>
 
-        <% if !@draft.draft['ResponsibleOrganization'].blank? %>
-          <ul class="<%= name_to_class('ResponsibleOrganization')%>">
-            <li>
-              <% title = 'Organization' %>
-              <h4><%= title.pluralize(@draft.draft['ResponsibleOrganization'].count)%></h4>
-              <% @draft.draft['ResponsibleOrganization'].each_with_index do |responsibility, index| %>
-                <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index, title_override: title, class_name_override: 'responsible-organization'} %>
-              <% end %>
-            </li>
-          </ul>
-        <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['ResponsibleOrganization'],
+          name: 'ResponsibleOrganization',
+          type: TypesHelper::ResponsibilityType
+      } %>
 
-        <% if !@draft.draft['ResponsiblePersonnel'].blank? %>
-          <ul class="<%= name_to_class('ResponsiblePersonnel')%>">
-            <li>
-              <% title = 'Personnel' %>
-              <h4><%= title.pluralize(@draft.draft['ResponsiblePersonnel'].count)%></h4>
-              <% @draft.draft['ResponsiblePersonnel'].each_with_index do |responsibility, index| %>
-                <%= render :partial=>'drafts/previews/types/responsibility_type', :locals=>{responsibility: responsibility, index: index, title_override: title, class_name_override: 'responsible-personnel'} %>
-              <% end %>
-            </li>
-          </ul>
-        <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['ResponsiblePersonnel'],
+          name: 'ResponsiblePersonnel',
+          type: TypesHelper::ResponsibilityType
+      } %>
 
-        <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'CollectionDataType', :hash_for_key=>@draft.draft, options: collection_data_type_options} %>
+      <%= render partial: 'drafts/previews/fields/display_single_select_field_line', locals: {
+          key_name: 'CollectionDataType',
+          hash_for_key: draft,
+          options: DraftsHelper::CollectionDataTypeOptions
+      } %>
 
-        <%= render :partial=>'drafts/previews/types/processing_level_type', :locals=>{processing_level: @draft.draft['ProcessingLevel'], title:'Processing Level'} %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['ProcessingLevel'],
+          name: 'ProcessingLevel',
+          type: TypesHelper::ProcessingLevelType
+      } %>
 
-        <% if !@draft.draft['CollectionCitation'].blank? %>
-          <ul class="<%= name_to_class('CollectionCitation')%>">
-            <li>
-              <% title = 'Collection Citation' %>
-              <h4><%= title.pluralize(@draft.draft['CollectionCitation'].count)%></h4>
-              <% @draft.draft['CollectionCitation'].each_with_index do |resource_citation, index| %>
-                <%= render :partial=>'drafts/previews/types/resource_citation_type', :locals=>{resource_citation: resource_citation, index: index, title_override: title, class_name_override: 'CollectionCitation'} %>
-              <% end %>
-            </li>
-          </ul>
-        <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['CollectionCitation'],
+          name: 'CollectionCitation',
+          type: TypesHelper::ResourceCitationType
+      } %>
 
-        <%= render :partial=>'drafts/previews/fields/display_single_select_field_line', :locals=>{:key_name=>'CollectionProgress', :hash_for_key=>@draft.draft, options: collection_progress_options} %>
+      <%= render partial: 'drafts/previews/fields/display_single_select_field_line', locals: {
+          key_name: 'CollectionProgress',
+          hash_for_key: draft,
+          options: DraftsHelper::CollectionProgressOptions
+      } %>
 
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Quality', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'Quality', hash_for_key: draft
+      } %>
 
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'UseConstraints', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'UseConstraints', hash_for_key: draft
+      } %>
 
-        <%= render :partial=>'drafts/previews/types/access_constraints_type', :locals=>{access_constraints: @draft.draft['AccessConstraints'], title:'Access Constraints'} %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['AccessConstraints'],
+          name: 'AccessConstraints',
+          type: TypesHelper::AccessConstraintsType
+      } %>
 
-        <% if !@draft.draft['MetadataAssociation'].blank? %>
-          <ul class="<%= name_to_class('MetadataAssociation')%>">
-            <li>
-              <h4><%= 'Metadata Association'.pluralize(@draft.draft['MetadataAssociation'].count)%></h4>
-              <% @draft.draft['MetadataAssociation'].each_with_index do |metadata_association, index| %>
-                <%= render :partial=>'drafts/previews/types/metadata_association_type', :locals=>{metadata_association: metadata_association, index: index} %>
-              <% end %>
-            </li>
-          </ul>
-        <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['MetadataAssociation'],
+          name: 'MetadataAssociation',
+          type: TypesHelper::MetadataAssociationType
+      } %>
 
-        <% if !@draft.draft['PublicationReference'].blank? %>
-          <ul class="<%= name_to_class('PublicationReference')%>">
-            <li>
-              <h4><%= 'Publication Reference'.pluralize(@draft.draft['PublicationReference'].count)%></h4>
-              <% @draft.draft['PublicationReference'].each_with_index do |publication_reference, index| %>
-                <%= render :partial=>'drafts/previews/types/publication_reference_type', :locals=>{publication_reference: publication_reference, index: index} %>
-              <% end %>
-            </li>
-          </ul>
-        <% end %>
-      </li>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['PublicationReference'],
+          name: 'PublicationReference',
+          type: TypesHelper::PublicationReferenceType
+      } %>
+
     </ul>
   </div>
 </div>

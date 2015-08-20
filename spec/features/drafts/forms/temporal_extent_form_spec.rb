@@ -140,9 +140,7 @@ describe 'Temporal extent form', js: true do
       before do
         click_on 'Temporal Extent'
 
-        # Open all accordions
-        script = "$('.multiple-item.is-closed').removeClass('is-closed');"
-        page.evaluate_script script
+        open_accordions
       end
 
       it 'populates the form with the values' do

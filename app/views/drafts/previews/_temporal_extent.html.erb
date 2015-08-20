@@ -5,28 +5,24 @@
   </div>
   <div class="accordion-body">
     <ul class="temporal-extent-preview">
-      <li>
 
-        <% if !draft['TemporalExtent'].blank? %>
-          <ul class="<%= name_to_class('TemporalExtent')%>">
-            <li>
-              <h4><%= 'Temporal Extent'.pluralize(draft['TemporalExtent'].count)%></h4>
-              <% draft['TemporalExtent'].each_with_index do |temporal_extent, index| %>
-                <%= render :partial=>'drafts/previews/types/temporal_extent_type', :locals=>{temporal_extent: temporal_extent, index: index} %>
-              <% end %>
-            </li>
-          </ul>
-        <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['TemporalExtent'],
+          name: 'TemporalExtent',
+          type: TypesHelper::TemporalExtentType
+      } %>
 
-        <% if !draft['TemporalKeyword'].blank? %>
-          <%= render :partial=>'drafts/previews/fields/display_array_with_header', :locals=>{:key_name=>'TemporalKeyword', :hash_for_key=>draft} %>
-        <% end %>
+      <%= render partial: 'drafts/previews/fields/display_array_with_header', locals: {
+          key_name: 'TemporalKeyword',
+          hash_for_key: draft
+      } %>
 
-        <% if !draft['PaleoTemporalCoverage'].blank? %>
-          <%= render :partial=>'drafts/previews/types/paleo_temporal_coverage_type', :locals=>{paleo_temporal_coverage: draft['PaleoTemporalCoverage'], title:'Paleo Temporal Coverage'} %>
-        <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['PaleoTemporalCoverage'],
+          name: 'PaleoTemporalCoverage',
+          type: TypesHelper::PaleoTemporalCoverageType
+      } %>
 
-      </li>
     </ul>
   </div>
 </div>

@@ -4,6 +4,7 @@
 
 require 'rails_helper'
 include DraftsHelper
+include TypesHelper
 
 template_path = 'drafts/previews/_distribution_information.html.erb'
 
@@ -30,7 +31,7 @@ describe template_path, type: :view do
         draft_json['RelatedUrl'] = [
             # minimal object populating
             {},
-            {URL:[]},
+            {"URL"=>[]},
             # Regular object populating
             {"Description"=> 'test 1 Description',"Protocol"=> 'test 1 Protocol',"URL"=> ['test 1a URL', 'test 1b URL'],"Title"=>'test 1 Title',"MimeType"=>'test 1 MimeType',
              "Caption"=>'test 1 Caption',"FileSize"=>{"Size"=>123, "Unit"=>'test 1 FileSize Unit'}, "ContentType"=>{"Type"=>'test 1 ContentType Type', "Subtype"=>'test 1 ContentType Subtype'}},
@@ -50,7 +51,7 @@ describe template_path, type: :view do
         rendered_node = Capybara.string(rendered)
         root_css_path = "ul.distribution-information-preview"
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {Fees: :handle_as_currency})
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {Fees: :handle_as_currency}, true)
         end
       end
 

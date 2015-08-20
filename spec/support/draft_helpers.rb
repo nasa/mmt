@@ -12,55 +12,81 @@ module Helpers
       page.evaluate_script script
     end
 
-    def check_css_path_for_display_of_values(page, draft, parent_key, parent_path, special_handling={})
-      new_path = parent_path + ">li>ul"
-      #puts ''
-      #puts "Checking for #{parent_key} (#{name_to_class(parent_key)}) (#{draft.class.to_s}) in *#{new_path}*"
-      case draft.class.to_s
-        when 'NilClass'
-        when 'String', 'Fixnum', 'FalseClass', 'TrueClass'
-          parent_key_special_handling = special_handling[parent_key.to_sym]
-          if parent_key_special_handling == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
-            draft = number_to_currency(draft.to_f)
-          elsif parent_key_special_handling == :handle_as_role
-            # Map role value stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, role_options)
-          elsif parent_key_special_handling == :handle_as_duration
-            # Map duration value stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, duration_options)
-          elsif parent_key_special_handling == :handle_as_collection_data_type
-            # Map duration value stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, collection_data_type_options)
-          elsif parent_key_special_handling == :handle_as_date_type
-            # Map date type value stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, date_type_options)
-          elsif parent_key_special_handling == :handle_as_collection_progress
-            # Map duration value stored in json to what is actually supposed to be displayed
-            draft = map_value_onto_display_string(draft, collection_progress_options)
-          elsif parent_key_special_handling == :handle_as_not_shown
-            # This field is present in json, but intentionally not displayed
-            return
+    MismatchedKeys = [
+      "DataLineage",
+      "MetadataLineage",
+      "ResponsibleOrganization",
+      "ResponsiblePersonnel",
+      "CollectionCitation"
+    ]
+
+    def check_css_path_for_display_of_values(rendered, draft, key, path, special_handling = {}, top_level = false)
+      path += " > li.#{name_to_class(key)}" if top_level
+
+      case draft
+      when NilClass
+        # Don't expect any values
+      when String, Fixnum, FalseClass, TrueClass
+        new_path = path
+
+        parent_key_special_handling = special_handling[key.to_sym]
+        if parent_key_special_handling == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
+          draft = number_to_currency(draft.to_f)
+        elsif parent_key_special_handling == :handle_as_role
+          # Map role value stored in json to what is actually supposed to be displayed
+          draft = map_value_onto_display_string(draft, DraftsHelper::RoleOptions)
+        elsif parent_key_special_handling == :handle_as_duration
+          # Map duration value stored in json to what is actually supposed to be displayed
+          draft = map_value_onto_display_string(draft, DraftsHelper::DurationOptions)
+        elsif parent_key_special_handling == :handle_as_collection_data_type
+          # Map duration value stored in json to what is actually supposed to be displayed
+          draft = map_value_onto_display_string(draft, DraftsHelper::CollectionDataTypeOptions)
+        elsif parent_key_special_handling == :handle_as_date_type
+          # Map date type value stored in json to what is actually supposed to be displayed
+          draft = map_value_onto_display_string(draft, DraftsHelper::DateTypeOptions)
+        elsif parent_key_special_handling == :handle_as_collection_progress
+          # Map duration value stored in json to what is actually supposed to be displayed
+          draft = map_value_onto_display_string(draft, DraftsHelper::CollectionProgressOptions)
+        elsif parent_key_special_handling == :handle_as_not_shown
+          # This field is present in json, but intentionally not displayed
+          return
+        end
+
+        expect(rendered.find(:css, new_path)).to have_content(draft)
+
+      when Hash
+        top_path = ''
+        if top_level
+          top_path = " > ul"
+        end
+        draft.each do |new_key, value|
+          new_path = path + top_path
+
+          new_path += " > li.#{name_to_class(new_key)}"
+          if "TypesHelper::#{key == 'Date' ? 'LineageDate' : new_key}Type".safe_constantize
+            new_path += " > ul" unless key == "DOI"
           end
-          # Here is a good location to add a test that !draft.nil? due to a failure to map onto an entry in an option array
-          new_path += ">li.#{name_to_class(parent_key)}"
-          expect(page.find(:css, new_path)).to have_content(draft)
-        when 'Hash'
-          new_path += ".#{name_to_class(parent_key)}"
-          draft.each_with_index do |(key, value), index|
-            #puts "  H Looking for: #{key}:#{value} at #{new_path}"
-            check_css_path_for_display_of_values(page, value, key, new_path, special_handling)
+          check_css_path_for_display_of_values(rendered, value, new_key, new_path, special_handling)
+        end
+
+      when Array
+        draft.each_with_index do |value, index|
+          new_path = path
+
+          class_name = "#{name_to_class(key)}-#{index}"
+          if "TypesHelper::#{key == 'Date' ? 'LineageDate' : key}Type".safe_constantize
+            new_path += " > ul" if key == 'Date'
+            new_path += "#{' > ul' if top_level}.#{class_name}"
+          elsif MismatchedKeys.include?(key)
+            new_path += " > ul.#{class_name}"
+          else
+            new_path += " > ul > li.#{class_name}"
           end
-        when 'Array'
-          new_path += ".#{name_to_class(parent_key)}"
-          html_class_name = name_to_class(parent_key)
-          draft.each_with_index do |value, index|
-            #puts "  A Looking for: #{new_path} ---> #{name_to_class(parent_key)}-#{index} inside:"  #{page.text.gsub(/\s+/, " ").strip}"
-            check_css_path_for_display_of_values(page, value, "#{name_to_class(parent_key)}-#{index}", new_path, special_handling)
-          end
-        else
-          puts ("Class for #{parent_key} unhandled: #{draft.class}")
-          raise ("Class for #{parent_key} unhandled: #{draft.class}")
+
+          check_css_path_for_display_of_values(rendered, value, class_name, new_path, special_handling)
+        end
       end
+
     end
 
     def add_organization

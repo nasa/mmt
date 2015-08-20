@@ -1,7 +1,7 @@
 <% options.delete(:title) %>
 <div class="row sub-fields">
   <label for="<%= remove_pipes(name_prefix) %>role" class="icon-required">Role</label><i class="fa fa-info-circle"></i>
-  <%= select_tag name_to_param("#{name_prefix}role"), options_for_select([['Select Role', ''],['Resource Provider', 'RESOURCEPROVIDER'], ['Custodian', 'CUSTODIAN'], ['Owner', 'OWNER'], ['User', 'USER'], ['Distributor', 'DISTRIBUTOR'], ['Originator', 'ORIGINATOR'], ['Point of Contact', 'POINTOFCONTACT'], ['Principal Investigator', 'PRINCIPALINVESTIGATOR'], ['Processor', 'PROCESSOR'], ['Publisher', 'PUBLISHER'], ['Author', 'AUTHOR'], ['Sponsor', 'SPONSOR'], ['Co-Author', 'COAUTHOR'], ['Collaborator', 'COLLABORATOR'], ['Editor', 'EDITOR'], ['Mediator', 'MEDIATOR'], ['Rights Holder', 'RIGHTSHOLDER'], ['Contributor', 'CONTRIBUTOR'], ['Funder', 'FUNDER'], ['Stakeholder', 'STAKEHOLDER']], responsibility['Role']), class: 'single-select' %>
+  <%= select_tag name_to_param("#{name_prefix}role"), options_for_select(DraftsHelper::RoleOptions, responsibility['Role']), class: 'single-select' %>
 
   <% party = responsibility['Party'] || {} %>
   <!-- Person or Org radio buttons -->
