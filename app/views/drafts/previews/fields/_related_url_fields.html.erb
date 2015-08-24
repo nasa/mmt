@@ -9,27 +9,25 @@
   <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>related_url} %>
 
   <% if !related_url['FileSize'].blank? %>
-    <ul class="<%= name_to_class('FileSize')%>">
-      <li>
-        File Size
+    <li class="<%= name_to_class('FileSize') %>">
+      <ul>
+        <li class="field-name">File Size</li>
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Size',   :hash_for_key=>related_url['FileSize']} %>
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Unit',   :hash_for_key=>related_url['FileSize']} %>
-      </li>
-    </ul>
+
+      </ul>
+    </li>
   <% end %>
 
   <% if !related_url['ContentType'].blank? %>
-    <ul class="<%= name_to_class('ContentType')%>">
-      <li>
-        Content Type
+    <li class="<%= name_to_class('ContentType') %>">
+      <ul>
+        <li class="field-name">Content Type</li>
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type',   :hash_for_key=>related_url['ContentType']} %>
         <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Subtype',   :hash_for_key=>related_url['ContentType']} %>
-      </li>
-    </ul>
+
+      </ul>
+    </li>
   <% end %>
 
 <% end %>
-
-
-
-

@@ -1,4 +1,52 @@
 module DraftsHelper
+  RoleOptions = [
+    ['Select Role', ''],
+    ['Resource Provider', 'RESOURCEPROVIDER'],
+    ['Custodian', 'CUSTODIAN'],
+    ['Owner', 'OWNER'],
+    ['User', 'USER'],
+    ['Distributor', 'DISTRIBUTOR'],
+    ['Originator', 'ORIGINATOR'],
+    ['Point of Contact', 'POINTOFCONTACT'],
+    ['Principal Investigator', 'PRINCIPALINVESTIGATOR'],
+    ['Processor', 'PROCESSOR'],
+    ['Publisher', 'PUBLISHER'],
+    ['Author', 'AUTHOR'],
+    ['Sponsor', 'SPONSOR'],
+    ['Co-Author', 'COAUTHOR'],
+    ['Collaborator', 'COLLABORATOR'],
+    ['Editor', 'EDITOR'],
+    ['Mediator', 'MEDIATOR'],
+    ['Rights Holder', 'RIGHTSHOLDER'],
+    ['Contributor', 'CONTRIBUTOR'],
+    ['Funder', 'FUNDER'],
+    ['Stakeholder', 'STAKEHOLDER']
+  ]
+  DurationOptions = [
+    ['', ''],
+    ['Day', 'DAY'],
+    ['Month', 'MONTH'],
+    ['Year', 'YEAR']
+  ]
+  DateTypeOptions = [
+    ['Select Date Type', ''],
+    ['Create', 'CREATE'],
+    ['Update', 'UPDATE'],
+    ['Delete', 'DELETE'], ['Review', 'REVIEW']
+  ]
+  CollectionDataTypeOptions = [
+    ['Select Data Type', ''],
+    ['Science Quality', 'SCIENCE_QUALITY'],
+    ['Near Real Time', 'NEAR_REAL_TIME'],
+    ['Other', 'OTHER']
+  ]
+  CollectionProgressOptions = [
+    ['Select Progress', ''],
+    ['Planned', 'PLANNED'],
+    ['In work', 'IN WORK'],
+    ['Complete', 'COMPLETE']
+  ]
+
   def construct_keyword_string(hash_obj, str)
     # Assumes hash is passed in as ordered
     hash_obj.each do |key, value|
@@ -42,31 +90,8 @@ module DraftsHelper
     return key.to_s.underscore.dasherize
   end
 
-  def role_options
-    [
-        ['Select Role', ''],['Resource Provider', 'RESOURCEPROVIDER'], ['Custodian', 'CUSTODIAN'],
-        ['Owner', 'OWNER'], ['User', 'USER'], ['Distributor', 'DISTRIBUTOR'], ['Originator', 'ORIGINATOR'],
-        ['Point of Contact', 'POINTOFCONTACT'], ['Principal Investigator', 'PRINCIPALINVESTIGATOR'], ['Processor', 'PROCESSOR'],
-        ['Publisher', 'PUBLISHER'], ['Author', 'AUTHOR'], ['Sponsor', 'SPONSOR'], ['Co-Author', 'COAUTHOR'], ['Collaborator', 'COLLABORATOR'],
-        ['Editor', 'EDITOR'], ['Mediator', 'MEDIATOR'], ['Rights Holder', 'RIGHTSHOLDER'], ['Contributor', 'CONTRIBUTOR'], ['Funder', 'FUNDER'],
-        ['Stakeholder', 'STAKEHOLDER']
-    ]
-  end
-
-  def duration_options
-    [['', ''], ['Day', 'DAY'], ['Month', 'MONTH'], ['Year', 'YEAR']]
-  end
-
-  def date_type_options
-    [['Select Date Type', ''],['Create', 'CREATE'], ['Update', 'UPDATE'], ['Delete', 'DELETE'], ['Review', 'REVIEW']]
-  end
-
-  def collection_data_type_options
-    [['Select Data Type', ''], ['Science Quality', 'SCIENCE_QUALITY'], ['Near Real Time', 'NEAR_REAL_TIME'], ['Other', 'OTHER']]
-  end
-
-  def collection_progress_options
-    [['Select Progress', ''], ['Planned', 'PLANNED'], ['In work', 'IN WORK'], ['Complete', 'COMPLETE']]
+  def name_to_title(name)
+    name.underscore.humanize.titleize
   end
 
   # Used to derive the displayed string of a select type control from the value stored in json

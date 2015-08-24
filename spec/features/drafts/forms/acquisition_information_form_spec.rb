@@ -1,4 +1,4 @@
-# MMT-291
+# MMT-298
 
 require 'rails_helper'
 
@@ -33,21 +33,50 @@ describe 'Acquisition information form', js: true do
       within '.nav-top' do
         click_on 'Save & Done'
       end
+      open_accordions
     end
 
     it 'shows the draft preview page' do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    it "shows pre-entered values in the draft preview page"
+    it "shows pre-entered values in the draft preview page" do
+      expect(page).to have_content('Project campaign')
+      expect(page).to have_content('Characteristics data type 1', :count=>5)
+      expect(page).to have_content('Characteristics data type', :count=>10)
+      expect(page).to have_content('Characteristics description 1', :count=>5)
+      expect(page).to have_content('Characteristics description', :count=>10)
+      expect(page).to have_content('Instrument mode 1', :count=>2)
+      expect(page).to have_content('Instrument mode', :count=>4)
+      expect(page).to have_content('Instrument long name', :count=>2)
+      expect(page).to have_content('Platform long name')
+      expect(page).to have_content('Project long name')
+      expect(page).to have_content('Sensor long name', :count=>2)
+      expect(page).to have_content('Characteristics name 1', :count=>5)
+      expect(page).to have_content('Characteristics name', :count=>10)
+      expect(page).to have_content('2468', :count=>2)
+      expect(page).to have_content('Project campaign 1')
+      expect(page).to have_content('Instrument short name 1', :count=>2)
+      expect(page).to have_content('Instrument short name', :count=>4)
+      expect(page).to have_content('Platform short name 1')
+      expect(page).to have_content('Platform short name', :count=>2)
+      expect(page).to have_content('Project short name')
+      expect(page).to have_content('Sensor short name 1', :count=>2)
+      expect(page).to have_content('Sensor short name', :count=>4)
+      expect(page).to have_content('Instrument technique', :count=>2)
+      expect(page).to have_content('Sensor technique', :count=>2)
+      expect(page).to have_content('Platform type')
+      expect(page).to have_content('unit 1', :count=>5)
+      expect(page).to have_content('unit', :count=>10)
+      expect(page).to have_content('Characteristics value 1', :count=>5)
+      expect(page).to have_content('Characteristics value', :count=>10)
+    end
 
     context 'when returning to the form' do
       before do
         click_on 'Acquisition Information'
 
-        # Open all accordions
-        script = "$('.multiple-item.is-closed').removeClass('is-closed');"
-        page.evaluate_script script
+        open_accordions
       end
 
       it 'populates the form with the values' do
@@ -80,7 +109,7 @@ describe 'Acquisition information form', js: true do
             expect(page).to have_field("draft_platform_0_instruments_0_short_name", with: 'Instrument short name')
             expect(page).to have_field("draft_platform_0_instruments_0_long_name", with: 'Instrument long name')
             expect(page).to have_field("draft_platform_0_instruments_0_technique", with: 'Instrument technique')
-            expect(page).to have_field('Number Of Sensors', with: 2)
+            expect(page).to have_field('Number Of Sensors', with: 2468)
             expect(page).to have_field('Operational Mode', with: 'Instrument mode')
             expect(page).to have_field('Operational Mode', with: 'Instrument mode 1')
             # Characteristics
@@ -138,7 +167,7 @@ describe 'Acquisition information form', js: true do
             expect(page).to have_field("draft_platform_1_instruments_0_short_name", with: 'Instrument short name')
             expect(page).to have_field("draft_platform_1_instruments_0_long_name", with: 'Instrument long name')
             expect(page).to have_field("draft_platform_1_instruments_0_technique", with: 'Instrument technique')
-            expect(page).to have_field('Number Of Sensors', with: 2)
+            expect(page).to have_field('Number Of Sensors', with: 2468)
             expect(page).to have_field('Operational Mode', with: 'Instrument mode')
             expect(page).to have_field('Operational Mode', with: 'Instrument mode 1')
             # Characteristics

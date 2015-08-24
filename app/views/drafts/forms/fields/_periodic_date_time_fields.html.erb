@@ -13,7 +13,7 @@
 
   <!-- DurationUnit -->
   <label for="<%= remove_pipes(name_prefix) %>duration_unit" class="icon-required">Duration Unit</label><i class="fa fa-info-circle"></i>
-  <%= select_tag(name_to_param("#{name_prefix}|duration_unit|"), options_for_select(duration_options, periodic_date_time['DurationUnit']), class: 'half-width') %>
+  <%= select_tag(name_to_param("#{name_prefix}|duration_unit|"), options_for_select(DraftsHelper::DurationOptions, periodic_date_time['DurationUnit']), class: 'half-width') %>
 
   <!-- DurationValue -->
   <label for="<%= remove_pipes(name_prefix) %>duration_value" class="icon-required">Duration Value</label><i class="fa fa-info-circle"></i>
@@ -21,7 +21,7 @@
 
   <!-- PeriodCycleDurationUnit -->
   <label for="<%= remove_pipes(name_prefix) %>period_cycle_duration_unit" class="icon-required">Period Cycle Duration Unit</label><i class="fa fa-info-circle"></i>
-  <%= select_tag(name_to_param("#{name_prefix}|period_cycle_duration_unit|"), options_for_select(duration_options, periodic_date_time['PeriodCycleDurationUnit']), class: 'half-width') %>
+  <%= select_tag(name_to_param("#{name_prefix}|period_cycle_duration_unit|"), options_for_select(DraftsHelper::DurationOptions, periodic_date_time['PeriodCycleDurationUnit']), class: 'half-width') %>
 
   <!-- PeriodCycleDurationValue -->
   <label for="<%= remove_pipes(name_prefix) %>period_cycle_duration_value" class="icon-required">Period Cycle Duration Value</label><i class="fa fa-info-circle"></i>

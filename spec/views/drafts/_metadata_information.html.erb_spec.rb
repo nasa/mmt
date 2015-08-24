@@ -78,8 +78,7 @@ describe template_path, type: :view do
         rendered_node = Capybara.string(rendered)
         root_css_path = "ul.metadata-information-preview"
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {Role: :handle_as_role, Scope: :handle_as_not_shown, Type: :handle_as_date_type})
-
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {Role: :handle_as_role, Scope: :handle_as_not_shown, Type: :handle_as_date_type}, true)
         end
       end
 
@@ -88,5 +87,3 @@ describe template_path, type: :view do
   end
 
 end
-
-
