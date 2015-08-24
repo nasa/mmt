@@ -1,16 +1,15 @@
 <% remote = controller_name == 'search' %>
-<%= form_tag(search_path, method: "get", remote: remote, enforce_utf8: false) do %>
+<%= form_tag(search_path, method: "get", enforce_utf8: false) do %>
+  <input type="hidden" name="search_type" id="search_type" value="">
   <div class="quick-search">
     <%= label_tag('entry_id', "Quick Find") %>
     <%= text_field_tag('entry_id', @query['entry_id'], placeholder: 'Enter Entry Id') %>
-    <button type="submit" name="quick_find" class="btn btn-blue"><i class="fa fa-search"></i>Find</button>
+    <button type="button" name="quick_find" class="btn btn-blue"><i class="fa fa-search"></i>Find</button>
   </div>
-<%# end %>
 
   <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
 
   <div class="search-module is-hidden">
-    <%#= form_tag(search_path, method: "get", remote: remote) do %>
       <!-- Type of Record -->
     <div class='full-search-form'>
       <fieldset>
@@ -121,7 +120,7 @@
         </div>
         <hr>
         <div class="row search-form-actions">
-          <button type="submit" name="full_search" class="btn btn-blue">Submit</button>
+          <button type="button" name="full_search" class="btn btn-blue">Submit</button>
           <a href="#" class="cancel">Cancel</a>
         </div>
       </fieldset>
