@@ -13,8 +13,8 @@
       <h4><%= name_to_title(name).pluralize %></h4>
     <% end %>
     <% data.each_with_index do |data_value, index| %>
+      <h5><%= name_to_title(name) %><%= " #{index + 1}" if is_array %></h5>
       <ul class='sub-field <%= name_to_class(name) %><%= "-#{index}" if is_array %>'>
-        <li class="field-name"><%= name_to_title(name) %><%= " #{index + 1}" if is_array %></li>
         <% type.each do |key| %>
           <% options = key[:options] || [] %>
           <% if options.include?(:array_field) %>
