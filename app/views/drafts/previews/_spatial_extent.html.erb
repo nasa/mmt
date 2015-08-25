@@ -4,6 +4,34 @@
     <h4>Spatial Extent Fields:</h4>
   </div>
   <div class="accordion-body">
+    <ul class="spatial-extent-preview">
+<!--
+      <= render partial: 'drafts/previews/preview_type', locals: {
+                                                                data: draft['SpatialExtent'],
+                                                                name: 'SpatialExtent',
+                                                                type: TypesHelper::SpatialExtentType
+                                                        } %>
+
+      <= render partial: 'drafts/previews/preview_type', locals: {
+                                                                data: draft['TilingIdentificationSystem'],
+                                                                name: 'TilingIdentificationSystem',
+                                                                type: TypesHelper::TilingIdentificationSystemType
+                                                        } %>
+
+      <= render partial: 'drafts/previews/preview_type', locals: {
+                                                                data: draft['SpatialInformation'],
+                                                                name: 'SpatialInformation',
+                                                                type: TypesHelper::SpatialInformationType
+                                                        } %>
+
+      <= render partial: 'drafts/previews/fields/display_array_with_header', locals: {
+                                                                                    key_name: 'SpatialKeyword',
+                                                                                    hash_for_key: draft
+                                                                            } %>
+
+-->
+
+
 
     <% if !@draft.draft['SpatialExtent'].blank? %>
       <h4>Spatial Extent</h4>
@@ -48,7 +76,6 @@
       </p>
     <% end %>
 
-    <hr>
-
+    </ul>
   </div>
 </div>

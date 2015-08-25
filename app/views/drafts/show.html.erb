@@ -119,7 +119,7 @@
       <%= render :partial=>'drafts/previews/descriptive_keywords', :locals=>{:draft=>@draft.draft} %>
       <%= render :partial=>'drafts/previews/metadata_information', :locals=>{:draft=>@draft.draft} %>
       <%= render :partial=>'drafts/previews/temporal_extent', :locals=>{draft: @draft.draft} %>
-      <%#= render :partial=>'drafts/previews/spatial_extent', :locals=>{draft: @draft.draft} %>
+      <%= render :partial=>'drafts/previews/spatial_extent', :locals=>{draft: @draft.draft} %>
       <%= render :partial=>'drafts/previews/acquisition_information', :locals=>{:draft=>@draft.draft} %>
       <%= render :partial=>'drafts/previews/distribution_information', :locals=>{:draft=>@draft.draft} %>
 
