@@ -126,7 +126,8 @@
     </section>
     <aside class="geographic-coverage">
       <h3>Geographic Coverage</h3>
-      <img src="http://placehold.it/306x155">
+      <%= image_tag("plate_carree_earth@2x.png", alt:'Map', id:'preview_map') %>
+
       <caption>Spatial Coordinates</caption>
       <ol class="coordinates">
         <li>N: -62.83</li>
@@ -146,4 +147,62 @@
       </ul>
     </aside>
   </div>
+
+  <script>
+    var preview_map = $('#preview_map');
+    var position = preview_map.offset();
+    var map_x1 = position.left;
+    var map_y1 = position.top;
+
+    var map_width = preview_map.width();
+    var map_height = preview_map.height();
+    var highlight_color = "rgba(250,0,0,0.25)"
+
+    function convert_lat_lon(lat, lon){ // Do a simple transformation to map lat/lon onto y/x of map image
+      var y = ((-1 * parseFloat(lat)) + 90) * (map_height / 180);
+      var x = (180 + parseFloat(lon)) * (map_width / 360);
+      return {x:x,y:y};
+    }
+
+    <% if @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['CoordinateSystem'] == 'Point' %>
+
+      var dot_size = 5;
+      function draw_point(x, y) {
+        var dot = '<div style="position:absolute;width:' + dot_size + 'px;height:' + dot_size + 'px;top:' + y + 'px;left:' + x + 'px;background:' + highlight_color +'"></div>';
+        //alert(dot);
+        document.body.innerHTML += dot;
+      }
+      <% point = @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['Point'] %>
+      var converted_lat_lon = convert_lat_lon('<%= point['Latitude'] %>', '<%= point['Longitude'] %>');
+      draw_point(converted_lat_lon.x + map_x1, converted_lat_lon.y + map_y1);
+
+    <% elsif @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['CoordinateSystem'] == 'Rectangle'%>
+
+      function draw_rectangle(x1, y1, x2, y2) {
+        var min_x = Math.min(x1, x2);
+        var max_x = Math.max(x1, x2);
+        var min_y = Math.min(y1, y2);
+        var max_y = Math.max(y1, y2);
+        var rect = '<div style="position:absolute;width:' + (max_x-min_x) + 'px;height:' + (max_y-min_y) + 'px;top:' + min_y + 'px;left:' + min_x + 'px;background:' + highlight_color +'"></div>';
+        //alert(rect);
+        document.body.innerHTML += rect;
+      }
+
+      <% bounding_rectangle = @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['BoundingRectangle'] %>
+      var converted_lat_lon_1 = convert_lat_lon('<%=bounding_rectangle['NorthBoundingCoordinate']%>',
+                                                '<%=bounding_rectangle['WestBoundingCoordinate']%>');
+      var converted_lat_lon_2 = convert_lat_lon('<%=bounding_rectangle['SouthBoundingCoordinate']%>',
+                                                '<%=bounding_rectangle['EastBoundingCoordinate']%>');
+      draw_rectangle( converted_lat_lon_1.x + map_x1,
+                      converted_lat_lon_1.y + map_y1,
+                      converted_lat_lon_2.x + map_x1,
+                      converted_lat_lon_2.y + map_y1 );
+
+    <% end %>
+
+
+
+  </script>
+
+
 </main>
