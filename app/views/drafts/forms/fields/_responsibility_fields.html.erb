@@ -22,7 +22,7 @@
         values: party['OrganizationName'] || {},
         name_prefix: "#{name_prefix}party_",
         multiple: false,
-        options: options } %>
+        options: options.clone } %>
   </div>
 
   <!-- person fields -->
@@ -32,7 +32,7 @@
         values: party['Person'] || {},
         name_prefix: "#{name_prefix}party_",
         multiple: false,
-        options: options } %>
+        options: options.clone } %>
   </div>
 
   <!-- all party fields -->
@@ -45,24 +45,24 @@
   <!-- Contact - multiple -->
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'contact',
-      values: party['Contact'] || [{}],
-      name_prefix: "#{name_prefix}party_contact_",
+      values: party['Contacts'] || [{}],
+      name_prefix: "#{name_prefix}party_contacts_",
       multiple: true,
-      options: options } %>
+      options: options.clone } %>
 
   <!-- Address - multiple -->
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'address',
-      values: party['Address'] || [{}],
-      name_prefix: "#{name_prefix}party_address_",
+      values: party['Addresses'] || [{}],
+      name_prefix: "#{name_prefix}party_addresses_",
       multiple: true,
-      options: options } %>
+      options: options.clone } %>
 
   <!-- RelatedUrl - multiple -->
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'related_url',
-      values: party['RelatedUrl'] || [{}],
-      name_prefix: "#{name_prefix}party_|related_url|_",
+      values: party['RelatedUrls'] || [{}],
+      name_prefix: "#{name_prefix}party_|related_urls|_",
       multiple: true,
-      options: options } %>
+      options: options.clone } %>
 </div>

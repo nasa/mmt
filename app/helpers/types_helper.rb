@@ -3,8 +3,8 @@ module TypesHelper
     { name: 'Description' },
     { name: 'Value' }
   ]
-  AddressType = [
-    { name: 'StreetAddress', options: [:array_field] },
+  AddressesType = [
+    { name: 'StreetAddresses', options: [:array_field] },
     { name: 'City' },
     { name: 'StateProvince' },
     { name: 'PostalCode' },
@@ -17,7 +17,7 @@ module TypesHelper
     { name: 'Unit' },
     { name: 'DataType' }
   ]
-  ChronostratigraphicUnitType = [
+  ChronostratigraphicUnitsType = [
     { name: 'Eon' },
     { name: 'Era' },
     { name: 'Epoch' },
@@ -25,7 +25,7 @@ module TypesHelper
     { name: 'DetailedClassification' },
     { name: 'Period' }
   ]
-  ContactType = [
+  ContactsType = [
     { name: 'Type' },
     { name: 'Value' }
   ]
@@ -33,7 +33,11 @@ module TypesHelper
     { name: 'Type' },
     { name: 'Subtype' }
   ]
-  DistributionType = [
+  DateType = [
+    { name: 'Type', options: [:select_type], select_type: 'DateTypeOptions' },
+    { name: 'Date' }
+  ]
+  DistributionsType = [
     { name: 'DistributionMedia' },
     { name: 'DistributionSize' },
     { name: 'DistributionFormat' },
@@ -41,11 +45,6 @@ module TypesHelper
   ]
   DOIType = [
     { name: 'DOI' },
-    { name: 'Authority' }
-  ]
-  EntryIdType = [
-    { name: 'Id' },
-    { name: 'Version' },
     { name: 'Authority' }
   ]
   FileSizeType = [
@@ -58,23 +57,13 @@ module TypesHelper
     { name: 'Characteristics', options: [:sub_type] },
     { name: 'Technique' },
     { name: 'NumberOfSensors' },
-    { name: 'OperationalMode', options: [:array_field] },
+    { name: 'OperationalModes', options: [:array_field] },
     { name: 'Sensors', options: [:sub_type] }
   ]
-  LineageDateType = [
-    { name: 'Type', options: [:select_type], select_type: 'DateTypeOptions' },
-    { name: 'Date' },
-    { name: 'Description' },
-    { name: 'Responsibility', options: [:sub_type] }
-  ]
-  LineageType = [
-    # TODO, huh?
-    { name: 'Date', options: [:sub_type, :lineage_date] }
-  ]
-  MetadataAssociationType = [
+  MetadataAssociationsType = [
     { name: 'Type' },
     { name: 'Description' },
-    { name: 'EntryId', options: [:sub_type] },
+    { name: 'EntryId' },
     { name: 'ProviderId' }
   ]
   OrganizationNameType = [
@@ -82,7 +71,7 @@ module TypesHelper
     { name: 'LongName' }
   ]
   PaleoTemporalCoverageType = [
-    { name: 'ChronostratigraphicUnit', options: [:sub_type] },
+    { name: 'ChronostratigraphicUnits', options: [:sub_type] },
     { name: 'StartDate' },
     { name: 'EndDate' }
   ]
@@ -91,11 +80,11 @@ module TypesHelper
     { name: 'Person', options: [:sub_type] },
     { name: 'ServiceHours' },
     { name: 'ContactInstructions' },
-    { name: 'Contact', options: [:sub_type] },
-    { name: 'Address', options: [:sub_type] },
-    { name: 'RelatedUrl', options: [:sub_type] }
+    { name: 'Contacts', options: [:sub_type] },
+    { name: 'Addresses', options: [:sub_type] },
+    { name: 'RelatedUrls', options: [:sub_type] }
   ]
-  PeriodicDateTimeType = [
+  PeriodicDateTimesType = [
     { name: 'Name' },
     { name: 'StartDate' },
     { name: 'EndDate' },
@@ -109,7 +98,7 @@ module TypesHelper
     { name: 'MiddleName' },
     { name: 'LastName' }
   ]
-  PlatformType = [
+  PlatformsType = [
     { name: 'Type' },
     { name: 'ShortName' },
     { name: 'LongName' },
@@ -120,14 +109,14 @@ module TypesHelper
     { name: 'Id' },
     { name: 'ProcessingLevelDescription' }
   ]
-  ProjectType = [
+  ProjectsType = [
     { name: 'ShortName' },
     { name: 'LongName' },
-    { name: 'Campaign', options: [:array_field] },
+    { name: 'Campaigns', options: [:array_field] },
     { name: 'StartDate' },
     { name: 'EndDate' }
   ]
-  PublicationReferenceType = [
+  PublicationReferencesType = [
     { name: 'RelatedUrl', options: [:sub_type] },
     { name: 'Title' },
     { name: 'Publisher' },
@@ -144,12 +133,12 @@ module TypesHelper
     { name: 'ISBN' },
     { name: 'OtherReferenceDetails' }
   ]
-  RangeDateTimeType = [
+  RangeDateTimesType = [
     { name: 'BeginningDateTime' },
     { name: 'EndingDateTime' }
   ]
   RelatedUrlType = [
-    { name: 'URL', options: [:array_field] },
+    { name: 'URLs', options: [:array_field] },
     { name: 'Description' },
     { name: 'Protocol' },
     { name: 'MimeType' },
@@ -158,6 +147,7 @@ module TypesHelper
     { name: 'FileSize', options: [:sub_type] },
     { name: 'ContentType', options: [:sub_type] }
   ]
+  RelatedUrlsType = RelatedUrlType
   ResourceCitationType = [
     { name: 'Version' },
     { name: 'RelatedUrl', options: [:sub_type] },
@@ -183,11 +173,11 @@ module TypesHelper
     { name: 'Technique' },
     { name: 'Characteristics', options: [:sub_type] }
   ]
-  TemporalExtentType = [
+  TemporalExtentsType = [
     { name: 'PrecisionOfSeconds' },
     { name: 'EndsAtPresentFlag' },
-    { name: 'RangeDateTime', options: [:sub_type] },
-    { name: 'SingleDateTime', options: [:array_field] },
-    { name: 'PeriodicDateTime', options: [:sub_type] }
+    { name: 'RangeDateTimes', options: [:sub_type] },
+    { name: 'SingleDateTimes', options: [:array_field] },
+    { name: 'PeriodicDateTimes', options: [:sub_type] }
   ]
 end

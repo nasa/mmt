@@ -29,7 +29,7 @@ $(document).ready(function() {
       $(newDiv).removeClass('multiple-item-' + multipleIndex).addClass('multiple-item-' + (multipleIndex + 1));
 
       // Remove any extra multiple-item, should only be one per .multiple
-      $.each($(newDiv).find('.multiple').not('.multiple.address-street-address'), function(index, multiple) {
+      $.each($(newDiv).find('.multiple').not('.multiple.addresses-street-addresses'), function(index, multiple) {
         $.each($(multiple).children('.multiple-item'), function(index2, field) {
           if (index2 > 0) {
             $(this).remove();
@@ -138,6 +138,31 @@ $(document).ready(function() {
         break;
       case 'PeriodicDateTime':
         $(this).siblings('.temporal-range-type.periodic-date-time').show();
+        break;
+      default:
+
+    }
+  });
+
+  // Handle SpatialCoverageType selector
+  $('.spatial-coverage-type-select').change(function() {
+    $(this).siblings('.spatial-coverage-type').hide();
+    // Clear all fields
+    $(this).siblings('.spatial-coverage-type').find('input, select').not('input[type="radio"]').val('');
+
+    switch ($(this).val()) {
+      case 'Horizontal':
+        $(this).siblings('.spatial-coverage-type.horizontal').show();
+        break;
+      case 'Vertical':
+        $(this).siblings('.spatial-coverage-type.vertical').show();
+        break;
+      case 'Orbit':
+        $(this).siblings('.spatial-coverage-type.orbit').show();
+        break;
+      case 'Both':
+        $(this).siblings('.spatial-coverage-type.horizontal').show();
+        $(this).siblings('.spatial-coverage-type.vertical').show();
         break;
       default:
 

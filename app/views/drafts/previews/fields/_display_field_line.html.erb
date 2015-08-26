@@ -1,4 +1,5 @@
 <% options = [] if options.nil? %>
+<% title_override = false if title_override.nil? %>
 
 <%# Typical call: render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Fees', :hash_for_key=>r, :handle_as_currency=>true} %>
 <%# Typical call: render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Id', :hash_for_key=>r, :title_override=>'ID'} %>
@@ -6,15 +7,13 @@
   <% value = hash_for_key[key_name] %>
   <% value = value.to_s if value.in? [true, false] # Convert booleans back to strings & detect nils %>
   <% if !value.blank? %>
-    <% # If no title_override is passed in, just titleize the key_name %>
-    <% title = defined?(title_override).nil? ? key_name.titleize : title_override %>
     <% if options.include?(:handle_as_currency) && value =~ /\A[-+]?\d*\.?\d+\z/ %>
       <% value = number_to_currency(value.to_f) %>
     <% end %>
 
     <li class="<%= name_to_class(key_name)%>">
       <span class="field-name">
-        <%= "#{title}#{title.blank? ? '' : ': '}" %>
+        <%= title_override || name_to_title(key_name) %>:
       </span>
       <%= value %>
     </li>

@@ -1,0 +1,11 @@
+<div class="row sub-fields">
+  <!-- MinimumValue -->
+  <label for="<%= remove_pipes(name_prefix) %>minimum_value">Minimum Value</label><i class="fa fa-info-circle"></i>
+  <%= number_field_tag(name_to_param("#{name_prefix}|minimum_value|"), tiling_coordinate['MinimumValue'], class: 'half-width') %>
+
+
+  <!-- MaximumValue -->
+  <label for="<%= remove_pipes(name_prefix) %>maximum_value">Maximum Value</label><i class="fa fa-info-circle"></i>
+  <%= number_field_tag(name_to_param("#{name_prefix}|maximum_value|"), tiling_coordinate['MaximumValue'], class: 'half-width') %>
+
+</div>

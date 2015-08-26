@@ -1,6 +1,13 @@
 module Helpers
   module DraftHelpers
 
+    def output_schema_validation(draft)
+      schema = 'lib/assets/schemas/umm-c-json-schema.json'
+      JSON::Validator.fully_validate(schema, draft).each do |error|
+        puts error
+      end
+    end
+
     def create_new_draft
       visit '/dashboard'
       choose 'New Collection Record'
@@ -13,11 +20,11 @@ module Helpers
     end
 
     MismatchedKeys = [
-      "DataLineage",
-      "MetadataLineage",
-      "ResponsibleOrganization",
+      "DataDates",
+      "MetadataDates",
+      "ResponsibleOrganizations",
       "ResponsiblePersonnel",
-      "CollectionCitation"
+      "CollectionCitations"
     ]
 
     def check_css_path_for_display_of_values(rendered, draft, key, path, special_handling = {}, top_level = false)
@@ -63,8 +70,8 @@ module Helpers
           new_path = path + top_path
 
           new_path += " > li.#{name_to_class(new_key)}"
-          if "TypesHelper::#{key == 'Date' ? 'LineageDate' : new_key}Type".safe_constantize
-            new_path += " > ul" unless key == "DOI"
+          if "TypesHelper::#{new_key}Type".safe_constantize
+            new_path += " > ul" unless key == "DOI" || new_key == 'Date'
           end
           check_css_path_for_display_of_values(rendered, value, new_key, new_path, special_handling)
         end
@@ -74,8 +81,7 @@ module Helpers
           new_path = path
 
           class_name = "#{name_to_class(key)}-#{index}"
-          if "TypesHelper::#{key == 'Date' ? 'LineageDate' : key}Type".safe_constantize
-            new_path += " > ul" if key == 'Date'
+          if "TypesHelper::#{key}Type".safe_constantize
             new_path += "#{' > ul' if top_level}.#{class_name}"
           elsif MismatchedKeys.include?(key)
             new_path += " > ul.#{class_name}"
@@ -101,7 +107,7 @@ module Helpers
     end
 
     def add_responsibilities(type=nil)
-      within '.multiple.responsibility' do
+      within '.multiple.responsibilities' do
         select 'Resource Provider', from: 'Role'
         case type
         when 'organization'
@@ -120,7 +126,7 @@ module Helpers
         add_addresses
         add_related_urls
 
-        click_on 'Add another Responsibility'
+        click_on "Add another #{(type || 'responsibility').titleize}"
         within '.multiple-item-1' do
           select 'Owner', from: 'Role'
           case type
@@ -144,42 +150,21 @@ module Helpers
     end
 
     def add_dates(prefix = nil)
-      within ".multiple.#{prefix}data-lineage" do
-        within ".multiple.#{prefix}data-lineage-date" do
-          select 'Create', from: 'Date Type'
-          fill_in 'Date', with: '2015-07-01'
-          fill_in "draft_#{prefix}data_lineage_0_date_0_description", with: "Create #{prefix}data" #Description
+      within ".multiple.dates" do
+        select 'Create', from: 'Type'
+        fill_in 'Date', with: '2015-07-01T00:00:00Z'
 
-          add_responsibilities
-
-          click_on 'Add another Date'
-          within '.multiple-item-1' do
-            select 'Review', from: 'Date Type'
-            fill_in 'Date', with: '2015-07-02'
-            fill_in "draft_#{prefix}data_lineage_0_date_1_description", with: "Reviewed #{prefix}data" #Description
-            within '.multiple.responsibility' do
-              select 'Editor', from: 'Role'
-              find(".responsibility-picker.organization").click
-              fill_in 'Short Name', with: 'short_name'
-            end
-          end
-        end
-        click_on "Add another #{prefix.nil? ? 'Data' : 'Metadata'} Date"
+        click_on 'Add another Date'
         within '.multiple-item-1' do
-          select 'Create', from: 'Date Type'
-          fill_in 'Date', with: '2015-07-05'
-          fill_in "draft_#{prefix}data_lineage_1_date_0_description", with: "Create #{prefix}data" #Description
-          within '.multiple.responsibility' do
-            select 'User', from: 'Role'
-            find(".responsibility-picker.organization").click
-            fill_in 'Short Name', with: 'another_short_name'
-          end
+          select 'Review', from: 'Type'
+          fill_in 'Date', with: '2015-07-02T00:00:00Z'
         end
+
       end
     end
 
     def add_contacts
-      within '.multiple.contact' do
+      within '.multiple.contacts' do
         fill_in 'Type', with: 'Email'
         fill_in 'Value', with: 'example@example.com'
         click_on 'Add another Contact'
@@ -191,8 +176,8 @@ module Helpers
     end
 
     def add_addresses
-      within '.multiple.address' do
-        within '.multiple.address-street-address' do
+      within '.multiple.addresses' do
+        within '.multiple.addresses-street-addresses' do
           within first('.multiple-item') do
             find('input').set '300 E Street Southwest'
           end
@@ -206,7 +191,7 @@ module Helpers
         fill_in 'Country', with: 'United States'
         click_on 'Add another Address'
         within '.multiple-item-1' do
-          within '.multiple.address-street-address' do
+          within '.multiple.addresses-street-addresses' do
             within first('.multiple-item') do
               find('input').set '8800 Greenbelt Road'
             end
@@ -220,7 +205,7 @@ module Helpers
     end
 
     def add_related_urls(single=nil)
-      within "#{'.multiple' unless single}.related-url" do
+      within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
         within '.multiple.related-url-url' do
           fill_in 'URL', with: 'http://example.com'
           click_on 'Add another'
@@ -256,9 +241,9 @@ module Helpers
     end
 
     def add_resource_citation
-      within '.multiple.resource-citation' do
+      within '.multiple.resource-citations' do
         fill_in 'Version', with: 'v1'
-        fill_in "draft_collection_citation_0_title", with: "Citation title" #Title
+        fill_in "draft_collection_citations_0_title", with: "Citation title" #Title
         fill_in 'Creator', with: 'Citation creator'
         fill_in 'Editor', with: 'Citation editor'
         fill_in 'Series Name', with: 'Citation series name'
@@ -275,7 +260,7 @@ module Helpers
         click_on 'Add another Resource Citation'
         within '.multiple-item-1' do
           fill_in 'Version', with: 'v2'
-          fill_in "draft_collection_citation_1_title", with: "Citation title 1" #Title
+          fill_in "draft_collection_citations_1_title", with: "Citation title 1" #Title
           fill_in 'Creator', with: 'Citation creator 1'
           add_related_urls(true)
         end
@@ -284,25 +269,23 @@ module Helpers
     end
 
     def add_metadata_association
-      within '.multiple.metadata-association' do
+      within '.multiple.metadata-associations' do
         select 'Science Associated', from: 'Type'
         fill_in 'Description', with: 'Metadata association description'
-        fill_in 'ID', with: '12345'
-        fill_in 'Version', with: 'v1'
-        fill_in 'Authority', with: 'Authority'
+        fill_in 'Entry Id', with: '12345'
         select 'LPDAAC_ECS', from: 'Provider ID'
         click_on 'Add another Metadata Association'
         within '.multiple-item-1' do
           select 'Larger Citation Works', from: 'Type'
-          fill_in 'ID', with: '123abc'
+          fill_in 'Entry Id', with: '123abc'
           select 'ORNL_DAAC', from: 'Provider ID'
         end
       end
     end
 
     def add_publication_reference
-      within '.multiple.publication-reference' do
-        fill_in "draft_publication_reference_0_title", with: "Publication reference title" #Title
+      within '.multiple.publication-references' do
+        fill_in "draft_publication_references_0_title", with: "Publication reference title" #Title
         fill_in 'Publisher', with: 'Publication reference publisher'
         fill_in 'DOI', with: 'Publication reference DOI'
         fill_in 'Authority', with: 'Publication reference authority'
@@ -321,23 +304,23 @@ module Helpers
 
         click_on 'Add another Publication Reference'
         within '.multiple-item-1' do
-          fill_in "draft_publication_reference_1_title", with: "Publication reference title 1" #Title
+          fill_in "draft_publication_references_1_title", with: "Publication reference title 1" #Title
           fill_in 'ISBN', with: '9876543210987'
         end
       end
     end
 
     def add_platforms
-      within '.multiple.platform' do
+      within '.multiple.platforms' do
         fill_in 'Type', with: 'Platform type'
-        fill_in "draft_platform_0_short_name", with: 'Platform short name'
-        fill_in "draft_platform_0_long_name", with: 'Platform long name'
+        fill_in "draft_platforms_0_short_name", with: 'Platform short name'
+        fill_in "draft_platforms_0_long_name", with: 'Platform long name'
         add_characteristics
         add_instruments
 
         click_on 'Add another Platform'
         within '.multiple-item-1' do
-          fill_in "draft_platform_1_short_name", with: 'Platform short name 1'
+          fill_in "draft_platforms_1_short_name", with: 'Platform short name 1'
           add_instruments('1')
         end
       end
@@ -364,9 +347,9 @@ module Helpers
 
     def add_instruments(platform='0')
       within '.multiple.instruments' do
-        fill_in "draft_platform_#{platform}_instruments_0_short_name", with: 'Instrument short name'
-        fill_in "draft_platform_#{platform}_instruments_0_long_name", with: 'Instrument long name'
-        fill_in "draft_platform_#{platform}_instruments_0_technique", with: 'Instrument technique'
+        fill_in "draft_platforms_#{platform}_instruments_0_short_name", with: 'Instrument short name'
+        fill_in "draft_platforms_#{platform}_instruments_0_long_name", with: 'Instrument long name'
+        fill_in "draft_platforms_#{platform}_instruments_0_technique", with: 'Instrument technique'
         fill_in 'Number Of Sensors', with: 2468
         within '.multiple.operational-mode' do
           fill_in 'Operational Mode', with: 'Instrument mode'
@@ -381,21 +364,21 @@ module Helpers
 
         click_on 'Add another Instrument'
         within '.multiple-item-1' do
-          fill_in "draft_platform_#{platform}_instruments_1_short_name", with: 'Instrument short name 1'
+          fill_in "draft_platforms_#{platform}_instruments_1_short_name", with: 'Instrument short name 1'
         end
       end
     end
 
     def add_sensors(platform)
       within '.multiple.sensors' do
-        fill_in "draft_platform_#{platform}_instruments_0_sensors_0_short_name", with: 'Sensor short name'
-        fill_in "draft_platform_#{platform}_instruments_0_sensors_0_long_name", with: 'Sensor long name'
-        fill_in "draft_platform_#{platform}_instruments_0_sensors_0_technique", with: 'Sensor technique'
+        fill_in "draft_platforms_#{platform}_instruments_0_sensors_0_short_name", with: 'Sensor short name'
+        fill_in "draft_platforms_#{platform}_instruments_0_sensors_0_long_name", with: 'Sensor long name'
+        fill_in "draft_platforms_#{platform}_instruments_0_sensors_0_technique", with: 'Sensor technique'
         add_characteristics
 
         click_on 'Add another Sensor'
         within '.multiple-item-1' do
-          fill_in "draft_platform_#{platform}_instruments_0_sensors_1_short_name", with: 'Sensor short name 1'
+          fill_in "draft_platforms_#{platform}_instruments_0_sensors_1_short_name", with: 'Sensor short name 1'
         end
       end
     end
