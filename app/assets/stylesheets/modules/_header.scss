@@ -5,16 +5,17 @@
 
 header {
   @include row();
-  @include linear-gradient($midnight-blue, darken($midnight-blue, 2%));
+  @include linear-gradient($ocean-blue, darken($ocean-blue, 2%));
   color: white;
-  padding: 1.25em 3.75em;
+  padding: 0.5em 3.75em;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.15);
 
   a:link, a:visited {
     color: $sky-blue;
   }
 
   h1 {
-    font-size: 1.4em;
+    font-size: 1.2em;
     line-height: 1.2;
   }
 
@@ -37,6 +38,7 @@ header {
     #help {
       display: block;
       margin: .5em 0;
+      font-size: 0.8em;
     }
 
     .btn-blue:hover {

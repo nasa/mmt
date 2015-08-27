@@ -1,51 +1,58 @@
-<main class="content">
+<main>
   <div class="row row-header">
-    <section class="col-6">
-      <h2>About the Metadata Management Tool</h2>
-      <p>The MMT is a web-based user interface to the NASA EOSDIS Common Metadata Repository (CMR). The MMT allows metadata authors to create and update CMR metadata records by importing XML or by using a data entry form based on the metadata fields in the CMR Unified Metadata Model (UMM). Metadata authors may also publish, view, delete, and manage revisions of CMR metadata records using the MMT.</p>
-    </section>
-    <section class="col-6">
-      <h2>About the CMR</h2>
-      <p>The CMR is a high-performance, high-quality metadata repository for earth science metadata records. The CMR manages the evolution of NASA Earth Science metadata in a unified and consistent way by providing a central storage and access capability that streamlines current workflows while increasing overall metadata quality and anticipating future capabilities.</p>
-    </section>
+    <div class="content">
+      <section class="col-6 highlight">
+        <h2>About the Metadata Management Tool</h2>
+        <p>The MMT is a web-based user interface to the NASA EOSDIS Common Metadata Repository (CMR). The MMT allows metadata authors to create and update CMR metadata records by importing XML or by using a data entry form based on the metadata fields in the CMR Unified Metadata Model (UMM). Metadata authors may also publish, view, delete, and manage revisions of CMR metadata records using the MMT.</p>
+      </section>
+      <section class="col-6 highlight">
+        <h2>About the CMR</h2>
+        <p>The CMR is a high-performance, high-quality metadata repository for earth science metadata records. The CMR manages the evolution of NASA Earth Science metadata in a unified and consistent way by providing a central storage and access capability that streamlines current workflows while increasing overall metadata quality and anticipating future capabilities.</p>
+      </section>
+    </div>
   </div>
-  <div class="row">
+  <div class="row row-content">
     <section>
       <h2>Data Providers</h2>
 
-      <table id='public-holdings'>
-        <thead>
-        <tr>
-          <th>Provider Name</th>
-          <th>Collections</th>
-          <th>Granules</th>
-        </tr>
-        </thead>
-        <tbody>
+      <ul id="public-holdings" class="grid-list">
         <% if @providers.blank? %>
-          <tr>
-            <td colspan="4">
-              No public holdings found
-            </td>
-          </tr>
+          <li>No public holdings found</li>
         <% else %>
           <% @providers.each do |row| %>
-            <tr class='<%= cycle("alt", "") %>'>
-              <td>
-                <%= link_to row['short_name'], :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] %>
-              </td>
-              <td class="justify-right">
-                <%= number_with_delimiter(row['collection_count']) %>
-              </td>
-              <td class="justify-right">
-                <%= number_with_delimiter(row['granule_count']) %>
-              </td>
-            </tr>
+            <li>
+              <%= link_to :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] do %>
+                <h3><%= row['short_name'] %></h3>
+                <p><strong><%= number_with_delimiter(row['collection_count']) %></strong> Collections<br /><strong><%= number_with_delimiter(row['granule_count']) %></strong> Granules</p>
+              <% end %>
+            </li>
           <% end %>
+          <li>
+            <a href="#">
+              <h3>Goddard Earth Sciences Data and Information Services Center (GES DISC) and Longer name</h3>
+              <p><strong>600</strong> Collections<br /><strong>165,000</strong> Granules</p>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <h3>National Snow and Ice Data Center (NSIDC)</h3>
+              <p><strong>430</strong> Collections<br /><strong>98,000</strong> Granules</p>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <h3>National Snow and Ice Data Center (NSIDC)</h3>
+              <p><strong>430</strong> Collections<br /><strong>98,000</strong> Granules</p>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <h3>National Snow and Ice Data Center (NSIDC)</h3>
+              <p><strong>430</strong> Collections<br /><strong>98,000</strong> Granules</p>
+            </a>
+          </li>
         <% end %>
-        </tbody>
-      </table>
-
+      </ul>
     </section>
   </div>
 </main>
