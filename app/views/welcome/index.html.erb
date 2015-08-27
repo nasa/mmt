@@ -14,45 +14,38 @@
   <div class="row row-content">
     <section>
       <h2>Data Providers</h2>
-
-      <ul id="public-holdings" class="grid-list">
+      <table id='public-holdings'>
+        <thead>
+        <tr>
+          <th>Provider Name</th>
+          <th>Collections</th>
+          <th>Granules</th>
+        </tr>
+        </thead>
+        <tbody>
         <% if @providers.blank? %>
-          <li>No public holdings found</li>
+          <tr>
+            <td colspan="4">
+              No public holdings found
+            </td>
+          </tr>
         <% else %>
           <% @providers.each do |row| %>
-            <li>
-              <%= link_to :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] do %>
-                <h3><%= row['short_name'] %></h3>
-                <p><strong><%= number_with_delimiter(row['collection_count']) %></strong> Collections<br /><strong><%= number_with_delimiter(row['granule_count']) %></strong> Granules</p>
-              <% end %>
-            </li>
+            <tr class='<%= cycle("alt", "") %>'>
+              <td>
+                <%= link_to row['short_name'], :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] %>
+              </td>
+              <td class="justify-right">
+                <%= number_with_delimiter(row['collection_count']) %>
+              </td>
+              <td class="justify-right">
+                <%= number_with_delimiter(row['granule_count']) %>
+              </td>
+            </tr>
           <% end %>
-          <li>
-            <a href="#">
-              <h3>Goddard Earth Sciences Data and Information Services Center (GES DISC) and Longer name</h3>
-              <p><strong>600</strong> Collections<br /><strong>165,000</strong> Granules</p>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <h3>National Snow and Ice Data Center (NSIDC)</h3>
-              <p><strong>430</strong> Collections<br /><strong>98,000</strong> Granules</p>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <h3>National Snow and Ice Data Center (NSIDC)</h3>
-              <p><strong>430</strong> Collections<br /><strong>98,000</strong> Granules</p>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <h3>National Snow and Ice Data Center (NSIDC)</h3>
-              <p><strong>430</strong> Collections<br /><strong>98,000</strong> Granules</p>
-            </a>
-          </li>
         <% end %>
-      </ul>
+        </tbody>
+      </table>
     </section>
   </div>
 </main>

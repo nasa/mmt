@@ -26,3 +26,21 @@ main.content {
     margin: 0;
   }
 }
+
+.heading-group {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding: 0.5em 1em;
+  border-left: 5px solid $red;
+
+  h2 {
+    margin: 0 0 0.2em 0;
+    border: none;
+    font-weight: bold;
+  }
+
+  p {
+    margin: 0;
+    color: $dolphin-grey;
+  }
+}
