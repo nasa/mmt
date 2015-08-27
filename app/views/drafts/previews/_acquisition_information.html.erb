@@ -7,15 +7,15 @@
     <ul class="acquisition-information-preview">
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['Platform'],
-          name: 'Platform',
-          type: TypesHelper::PlatformType
+          data: draft['Platforms'],
+          name: 'Platforms',
+          type: TypesHelper::PlatformsType
       } %>
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['Project'],
-          name: 'Project',
-          type: TypesHelper::ProjectType
+          data: draft['Projects'],
+          name: 'Projects',
+          type: TypesHelper::ProjectsType
       } %>
 
     </ul>

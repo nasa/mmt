@@ -25,31 +25,40 @@ describe template_path, type: :view do
     context 'is populated' do
       draft_json = {}
       before do
-        draft_json['TemporalExtent'] = [
-            {"TemporalRangeType"=>"SingleDateTime", "PrecisionOfSeconds"=>1, "EndsAtPresentFlag"=>false, "SingleDateTime"=>["2015-07-01", "2015-12-25"]},
+        draft_json['SpatialExtent'] = {"SpatialCoverageType"=>"Horizontal",
+                                       "HorizontalSpatialDomain"=>
+                                           {"ZoneIdentifier"=>"Zone ID",
+                                            "Geometry"=>
+                                               {"CoordinateSystem"=>"CARTESIAN",
+                                                'Unkzzz'=>{'Point'=>{'Longitude'=>'123','Latitude'=>'45'},
+                                                      'BoundingRectangle'=>{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
+                                                        'WestBoundingCoordinate'=>'WestBoundingCoordinate',
+                                                        'NorthBoundingCoordinate'=>'NorthBoundingCoordinate',
+                                                        'EastBoundingCoordinate'=>'EastBoundingCoordinate',
+                                                        'SouthBoundingCoordinate'=>'SouthBoundingCoordinate'},
+                                                      'GPolygon'=>{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
+                                                        'Boundary'=>[{'Longitude'=>'123','Latitude'=>'45'},{'Longitude'=>'1234','Latitude'=>'456'}],
+                                                        'ExclusionZone'=>{'BoundaryType'=>'BoundaryType', 'Boundary'=>[{'Longitude'=>'123z','Latitude'=>'45z'},{'Longitude'=>'1234z','Latitude'=>'456z'}]}
+                                                      },
+                                                      'Line'=>{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
+                                                        'Point'=>[{'Longitude'=>'123b','Latitude'=>'45b'},{'Longitude'=>'1234b','Latitude'=>'456b'}]
+                                                      }
+                                                }
+                                               }
+                                           },
+                                       "VerticalSpatialDomain"=>[{'Type'=>'test Type 1', 'Value'=>'test Value 1'},{'Type'=>'test Type 2', 'Value'=>'test Value 2'}],
+                                       "OrbitParameters"=>{'SwathWidth'=>'SwathWidth','Period'=>'Period','InclinationAngle'=>'InclinationAngle','NumberOfOrbits'=>'NumberOfOrbits','StartCircularLatitude'=>'StartCircularLatitude'},
+                                       "GranuleSpatialRepresentation"=>"CARTESIAN"}
 
-            {"TemporalRangeType"=>"RangeDateTime", "PrecisionOfSeconds"=>10, "EndsAtPresentFlag"=>false, "RangeDateTime"=>[
-                {"BeginningDateTime"=>"2014-07-01", "EndingDateTime"=>"2014-08-01"},
-                {"BeginningDateTime"=>"2015-07-01", "EndingDateTime"=>"2015-08-01"}
-            ]},
+        draft_json['TilingIdentificationSystem'] = {"TilingIdentificationSystemName"=>"System name",
+                          "Coordinate1"=> {"MinimumValue"=>"-50", "MaximumValue"=>"50"},
+                          "Coordinate2"=> {"MinimumValue"=>"-30", "MaximumValue"=>"30"}}
 
-            {"TemporalRangeType"=>"PeriodicDateTime", "PrecisionOfSeconds"=>30, "EndsAtPresentFlag"=>false,
-             "PeriodicDateTime"=>[
-                 {"Name"=>"test 1 Periodic Extent", "StartDate"=>"2015-07-01", "EndDate"=>"2015-08-01", "DurationUnit"=>"DAY", "DurationValue"=>5, "PeriodCycleDurationUnit"=>"DAY", "PeriodCycleDurationValue"=>1},
-                 {"Name"=>"test 2 Periodic Extent", "StartDate"=>"2016-07-01", "EndDate"=>"2016-08-01", "DurationUnit"=>"MONTH", "DurationValue"=>4, "PeriodCycleDurationUnit"=>"MONTH", "PeriodCycleDurationValue"=>2},
-             ]}
-        ]
-
-        draft_json['TemporalKeyword'] = ["test 1 Keyword", "test 2 Keyword"]
-
-        draft_json['PaleoTemporalCoverage'] = {"StartDate"=>"2015-07-01", "EndDate"=>"2015-08-01",
-                                               "ChronostratigraphicUnit"=>[
-                                                   {"Eon"=>"test 1 Eon", "Era"=>"test 1 Era", "Epoch"=>"test 1 Epoch", "Stage"=>"test 1 Stage",
-                                                    "DetailedClassification"=>"test 1 Detailed Classification", "Period"=>"test 1 Period"},
-                                                   {"Eon"=>"test 2 Eon", "Era"=>"test 2 Era", "Epoch"=>"test 2 Epoch", "Stage"=>"test 2 Stage",
-                                                    "DetailedClassification"=>"test 2 Detailed Classification", "Period"=>"test 2 Period"},
-                                                   {"Eon"=>"test 3 Eon text 1"}
-                                               ]
+        draft_json['SpatialInformation'] = {"SpatialCoverageType"=>"Both",
+            "HorizontalCoordinateSystem"=> {"GeodeticModel"=>
+                {"HorizontalDatumName"=>"Datum name", "EllipsoidName"=>"Ellipsoid name", "SemiMajorAxis"=>"3", "DenominatorOfFlatteningRatio"=>"4"}},
+            "VerticalCoordinateSystem"=> {"AltitudeSystemDefinition"=>{'DatumName'=>'Datum', 'DistanceUnits'=>'Distance Units', 'EncodingMethod'=>'Encoding', 'Resolution'=>[1, 2, 3]},
+                                          "DepthSystemDefinition"=>{'DatumName'=>'Datum 2', 'DistanceUnits'=>'Distance Units 2', 'EncodingMethod'=>'Encoding 2', 'Resolution'=>[12, 22, 32]}}
         }
 
         assign(:draft, build(:draft, draft: draft_json))
@@ -60,7 +69,7 @@ describe template_path, type: :view do
         rendered_node = Capybara.string(rendered)
         root_css_path = "ul.spatial-extent-preview"
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {DurationUnit: :handle_as_duration, PeriodCycleDurationUnit: :handle_as_duration, TemporalRangeType: :handle_as_not_shown }, true)
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {GranuleSpatialRepresentation: :handle_as_granule_spatial_representation}, true)
         end
 
       end

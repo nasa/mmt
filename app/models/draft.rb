@@ -36,13 +36,11 @@ class Draft < ActiveRecord::Base
       # pull out searchable fields if provided
       if params['entry_id']
         self.entry_title = params['entry_title'].empty? ? nil : params['entry_title']
-        self.entry_id = params['entry_id']['id'].empty? ? nil : params['entry_id']['id']
+        self.entry_id = params['entry_id'].empty? ? nil : params['entry_id']
       end
 
       # The provider_id isn't actually part of the metadata. You can think of that as the owner of the metadata. It's meta-metadata.
       # self.provider_id = ?
-
-      # TODO Detailed_Classification needs to have an underscore (this will be fixed in CMR soon)
 
       # Convert {'0' => {'id' => 123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
@@ -57,12 +55,13 @@ class Draft < ActiveRecord::Base
         self.draft = new_draft
         self.save
       end
-
     end
+    # This keeps an empty form from sending the user back to draft_path when clicking on Save & Next
+    true
   end
 
   INTEGER_KEYS = ['number_of_sensors', 'duration_value', 'period_cycle_duration_value', 'precision_of_seconds']
-  NUMBER_KEYS = ['size']
+  NUMBER_KEYS = ['size', 'fees']
   BOOLEAN_KEYS = ['ends_at_present_flag']
 
   def convert_to_arrays(object)

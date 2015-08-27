@@ -13,13 +13,7 @@ describe 'Data identification form', js: true do
     before do
       click_on 'Data Identification'
 
-      # Entry Id
-      within '.row.entry-id' do
-        fill_in 'ID', with: '12345'
-        fill_in 'Version', with: '1'
-        fill_in 'Authority', with: 'Authority'
-      end
-
+      fill_in 'draft_entry_id', with: '12345'
       fill_in 'Entry Title', with: 'Draft Title'
       fill_in 'Abstract', with: 'This is a long description of the collection'
       fill_in 'Purpose', with: 'This is the purpose field'
@@ -65,6 +59,7 @@ describe 'Data identification form', js: true do
       within '.nav-top' do
         click_on 'Save & Done'
       end
+      # output_schema_validation Draft.first.draft
       open_accordions
     end
 
@@ -73,103 +68,96 @@ describe 'Data identification form', js: true do
     end
 
     it "shows pre-entered values in the draft preview page" do
-      expect(page).to have_content('10-2, M-W', :count=>3)
-      expect(page).to have_content('12345', :count=>3)
-      expect(page).to have_content('1234567890123')
-      expect(page).to have_content('123abc')
-      expect(page).to have_content('2015-07-01')
-      expect(page).to have_content('2015-07-01T00:00:00Z', :count=>2)
-      expect(page).to have_content('2015-07-02')
-      expect(page).to have_content('2015-07-05')
-      expect(page).to have_content('20546', :count=>6)
-      expect(page).to have_content('20771', :count=>6)
-      expect(page).to have_content('300 E Street Southwest', :count=>6)
-      expect(page).to have_content('8800 Greenbelt Road', :count=>6)
-      expect(page).to have_content('9-5, M-F', :count=>3)
-      expect(page).to have_content('9876543210987')
-      expect(page).to have_content('Access constraint description')
-      expect(page).to have_content('Access constraint value')
-      expect(page).to have_content('Authority', :count=>7)
-      expect(page).to have_content('Create', :count=>4)
-      expect(page).to have_content('Citation DOI Authority')
-      expect(page).to have_content('Citation DOI')
-      expect(page).to have_content('Citation creator 1')
-      expect(page).to have_content('Citation creator', :count=>2)
-      expect(page).to have_content('Citation data presentation form')
-      expect(page).to have_content('Citation editor')
-      expect(page).to have_content('Citation issue identification')
-      expect(page).to have_content('Citation other details')
-      expect(page).to have_content('Citation publisher')
-      expect(page).to have_content('Citation release place')
-      expect(page).to have_content('Citation series name')
-      expect(page).to have_content('Citation title 1')
-      expect(page).to have_content('Citation title', :count=>2)
-      expect(page).to have_content('Create data', :count=>2)
-      expect(page).to have_content('DC', :count=>6)
-      expect(page).to have_content('Draft Title')
-      expect(page).to have_content('Editor')
-      expect(page).to have_content('Email only', :count=>6)
-      expect(page).to have_content('Email', :count=>18)
-      expect(page).to have_content('English')
-      expect(page).to have_content('Example Caption', :count=>9)
-      expect(page).to have_content('Example Description', :count=>9)
-      expect(page).to have_content('Example Title', :count=>9)
-      expect(page).to have_content('FTP', :count=>9)
-      expect(page).to have_content('First Name', :count=>6)
-      expect(page).to have_content('Greenbelt', :count=>12)
-      expect(page).to have_content('In work')
-      expect(page).to have_content('LARGER CITATION WORKS')
-      expect(page).to have_content('LPDAAC_ECS')
-      expect(page).to have_content('Last Name', :count=>6)
+      expect(page).to have_content('10-2, M-W', count: 2)
+      expect(page).to have_content('12345', count: 3)
+      expect(page).to have_content('1234567890123', count: 1)
+      expect(page).to have_content('123abc', count: 1)
+      expect(page).to have_content('2015-07-01T00:00:00Z', count: 3)
+      expect(page).to have_content('2015-07-02T00:00:00Z', count: 1)
+      expect(page).to have_content('20546', count: 4)
+      expect(page).to have_content('20771', count: 4)
+      expect(page).to have_content('300 E Street Southwest', count: 4)
+      expect(page).to have_content('8800 Greenbelt Road', count: 4)
+      expect(page).to have_content('9-5, M-F', count: 2)
+      expect(page).to have_content('9876543210987', count: 1)
+      expect(page).to have_content('Access constraint description', count: 1)
+      expect(page).to have_content('Access constraint value', count: 1)
+      expect(page).to have_content('Authority', count: 3)
+      expect(page).to have_content('Create', count: 1)
+      expect(page).to have_content('Citation DOI Authority', count: 2)
+      expect(page).to have_content('Citation DOI', count: 2)
+      expect(page).to have_content('Citation creator 1', count: 1)
+      expect(page).to have_content('Citation creator', count: 2)
+      expect(page).to have_content('Citation data presentation form', count: 1)
+      expect(page).to have_content('Citation editor', count: 1)
+      expect(page).to have_content('Citation issue identification', count: 1)
+      expect(page).to have_content('Citation other details', count: 1)
+      expect(page).to have_content('Citation publisher', count: 1)
+      expect(page).to have_content('Citation release place', count: 1)
+      expect(page).to have_content('Citation series name', count: 1)
+      expect(page).to have_content('Citation title 1', count: 1)
+      expect(page).to have_content('Citation title', count: 2)
+      expect(page).to have_content('DC', count: 4)
+      expect(page).to have_content('Draft Title', count: 3)
+      expect(page).to have_content('Editor', count: 1)
+      expect(page).to have_content('Email only', count: 4)
+      expect(page).to have_content('Email', count: 12)
+      expect(page).to have_content('English', count: 1)
+      expect(page).to have_content('Example Caption', count: 7)
+      expect(page).to have_content('Example Description', count: 7)
+      expect(page).to have_content('Example Title', count: 7)
+      expect(page).to have_content('FTP', count: 7)
+      expect(page).to have_content('First Name', count: 4)
+      expect(page).to have_content('Greenbelt', count: 8)
+      expect(page).to have_content('In work', count: 1)
+      expect(page).to have_content('LARGER CITATION WORKS', count: 1)
+      expect(page).to have_content('LPDAAC_ECS', count: 1)
+      expect(page).to have_content('Last Name', count: 4)
       expect(page).to have_content('Level 1 Description')
-      expect(page).to have_content('Level 1', :count=>2)
-      expect(page).to have_content('MB', :count=>9)
-      expect(page).to have_content('MD', :count=>6)
-      expect(page).to have_content('Metadata association description')
-      expect(page).to have_content('Metadata quality summary')
-      expect(page).to have_content('Middle Name', :count=>6)
-      expect(page).to have_content('ORG_SHORT', :count=>3)
-      expect(page).to have_content('ORNL_DAAC')
-      expect(page).to have_content('Owner', :count=>3)
-      expect(page).to have_content('Organization Long Name', :count=>3)
-      expect(page).to have_content('Publication reference DOI')
-      expect(page).to have_content('Publication reference author', :count=>2)
-      expect(page).to have_content('Publication reference authority')
-      expect(page).to have_content('Publication reference details')
-      expect(page).to have_content('Publication reference edition')
-      expect(page).to have_content('Publication reference issue')
-      expect(page).to have_content('Publication reference pages')
-      expect(page).to have_content('Publication reference publication place')
-      expect(page).to have_content('Publication reference publisher')
-      expect(page).to have_content('Publication reference report number')
-      expect(page).to have_content('Publication reference series')
-      expect(page).to have_content('Publication reference title 1')
-      expect(page).to have_content('Publication reference title', :count=>2)
-      expect(page).to have_content('Publication reference volume')
-      expect(page).to have_content('Resource Provider', :count=>3)
-      expect(page).to have_content('Review')
-      expect(page).to have_content('Reviewed data')
-      expect(page).to have_content('Room 203', :count=>6)
-      expect(page).to have_content('SCIENCE ASSOCIATED')
-      expect(page).to have_content('Subtype', :count=>18)
-      expect(page).to have_content('These are some use constraints')
-      expect(page).to have_content('This is a long description of the collection')
-      expect(page).to have_content('This is the purpose field')
-      #expect(page).to have_content('Type', :count=>9)
-      expect(page).to have_content('User')
-      expect(page).to have_content('United States', :count=>12)
-      expect(page).to have_content('Washington', :count=>6)
-      expect(page).to have_content('another_short_name')
-      expect(page).to have_content('example2@example.com', :count=>6)
-      expect(page).to have_content('example@example.com', :count=>6)
-      expect(page).to have_content('http://another-example.com', :count=>9)
-      expect(page).to have_content('http://example.com', :count=>15)
-      expect(page).to have_content('http://example.com/1', :count=>6)
-      expect(page).to have_content('short_name', :count=>2)
-      expect(page).to have_content('text/html', :count=>9)
-      expect(page).to have_content('v1', :count=>2)
-      expect(page).to have_content('v2')
-      expect(page).to have_content(42.0, :count=>9)
+      expect(page).to have_content('Level 1', count: 2)
+      expect(page).to have_content('MB', count: 7)
+      expect(page).to have_content('MD', count: 4)
+      expect(page).to have_content('Metadata association description', count: 1)
+      expect(page).to have_content('Metadata quality summary', count: 1)
+      expect(page).to have_content('Middle Name', count: 4)
+      expect(page).to have_content('ORG_SHORT', count: 2)
+      expect(page).to have_content('ORNL_DAAC', count: 1)
+      expect(page).to have_content('Owner', count: 2)
+      expect(page).to have_content('Organization Long Name', count: 2)
+      expect(page).to have_content('Publication reference DOI', count: 1)
+      expect(page).to have_content('Publication reference author', count: 2)
+      expect(page).to have_content('Publication reference authority', count: 1)
+      expect(page).to have_content('Publication reference details', count: 1)
+      expect(page).to have_content('Publication reference edition', count: 1)
+      expect(page).to have_content('Publication reference issue', count: 1)
+      expect(page).to have_content('Publication reference pages', count: 1)
+      expect(page).to have_content('Publication reference publication place', count: 1)
+      expect(page).to have_content('Publication reference publisher', count: 1)
+      expect(page).to have_content('Publication reference report number', count: 1)
+      expect(page).to have_content('Publication reference series', count: 1)
+      expect(page).to have_content('Publication reference title 1', count: 1)
+      expect(page).to have_content('Publication reference title', count: 2)
+      expect(page).to have_content('Publication reference volume', count: 1)
+      expect(page).to have_content('Resource Provider', count: 2)
+      expect(page).to have_content('Review', count: 1)
+      expect(page).to have_content('Room 203', count: 4)
+      expect(page).to have_content('SCIENCE ASSOCIATED', count: 1)
+      expect(page).to have_content('Subtype', count: 14)
+      expect(page).to have_content('These are some use constraints', count: 1)
+      expect(page).to have_content('This is a long description of the collection', count: 1)
+      expect(page).to have_content('This is the purpose field', count: 1)
+      expect(page).to have_content('User', count: 1)
+      expect(page).to have_content('United States', count: 8)
+      expect(page).to have_content('Washington', count: 4)
+      expect(page).to have_content('example2@example.com', count: 4)
+      expect(page).to have_content('example@example.com', count: 4)
+      expect(page).to have_content('http://another-example.com', count: 7)
+      expect(page).to have_content('http://example.com', count: 11)
+      expect(page).to have_content('http://example.com/1', count: 4)
+      expect(page).to have_content('text/html', count: 7)
+      expect(page).to have_content('v1', count: 1)
+      expect(page).to have_content('v2', count: 1)
+      expect(page).to have_content('42.0', count: 7)
     end
 
     context 'when returning to the form' do
@@ -180,164 +168,32 @@ describe 'Data identification form', js: true do
       end
 
       it 'populates the form with the values' do
-        within '.row.entry-id' do
-          expect(page).to have_field('ID', with: '12345')
-          expect(page).to have_field('Version', with: '1')
-          expect(page).to have_field('Authority', with: 'Authority')
-        end
-
+        expect(page).to have_field('Entry Id', with: '12345')
         expect(page).to have_field('Entry Title', with: 'Draft Title')
         expect(page).to have_field('Abstract', with: 'This is a long description of the collection')
         expect(page).to have_field('Purpose', with: 'This is the purpose field')
         expect(page).to have_field('Data Language', with: 'English')
 
-
-        # Data Lineage 1
-        # Date 1
-        date_1_prefix = 'draft_data_lineage_0_date_0_'
-        expect(page).to have_field("#{date_1_prefix}type", with: 'CREATE')
-        expect(page).to have_field("#{date_1_prefix}date", with: '2015-07-01')
-        expect(page).to have_field("#{date_1_prefix}description", with: 'Create data')
-
-        # Responsibility 1
-        responsibility_1_prefix = "#{date_1_prefix}responsibility_0_"
-        expect(page).to have_field("#{responsibility_1_prefix}role", with: 'RESOURCEPROVIDER')
-        expect(page).to have_field("#{responsibility_1_prefix}party_organization_name_short_name", with: 'ORG_SHORT')
-        expect(page).to have_field("#{responsibility_1_prefix}party_organization_name_long_name", with: 'Organization Long Name')
-
-        expect(page).to have_field("#{responsibility_1_prefix}party_service_hours", with: '9-5, M-F')
-        expect(page).to have_field("#{responsibility_1_prefix}party_contact_instructions", with: 'Email only')
-
-        # Contact 1
-        contact_1_prefix = "#{responsibility_1_prefix}party_contact_0_"
-        expect(page).to have_field("#{contact_1_prefix}type", with: 'Email')
-        expect(page).to have_field("#{contact_1_prefix}value", with: 'example@example.com')
-        # Contact 2
-        contact_2_prefix = "#{responsibility_1_prefix}party_contact_1_"
-        expect(page).to have_field("#{contact_2_prefix}type", with: 'Email')
-        expect(page).to have_field("#{contact_2_prefix}value", with: 'example2@example.com')
-
-        # Address 1
-        address_1_prefix = "#{responsibility_1_prefix}party_address_0_"
-        expect(page).to have_field("#{address_1_prefix}street_address_", with: '300 E Street Southwest')
-        expect(page).to have_field("#{address_1_prefix}street_address_", with: 'Room 203')
-        expect(page).to have_field("#{address_1_prefix}city", with: 'Washington')
-        expect(page).to have_field("#{address_1_prefix}state_province", with: 'DC')
-        expect(page).to have_field("#{address_1_prefix}postal_code", with: '20546')
-        expect(page).to have_field("#{address_1_prefix}country", with: 'United States')
-        # Address 2
-        address_2_prefix = "#{responsibility_1_prefix}party_address_1_"
-        expect(page).to have_field("#{address_2_prefix}street_address_", with: '8800 Greenbelt Road')
-        expect(page).to have_field("#{address_2_prefix}street_address_", with: '')
-        expect(page).to have_field("#{address_2_prefix}city", with: 'Greenbelt')
-        expect(page).to have_field("#{address_2_prefix}state_province", with: 'MD')
-        expect(page).to have_field("#{address_2_prefix}postal_code", with: '20771')
-        expect(page).to have_field("#{address_2_prefix}country", with: 'United States')
-
-        # RelatedUrl 1
-        related_url_1_prefix = "#{responsibility_1_prefix}party_related_url_0_"
-        expect(page).to have_field("#{related_url_1_prefix}url_", with: 'http://example.com')
-        expect(page).to have_field("#{related_url_1_prefix}url_", with: 'http://another-example.com')
-        expect(page).to have_field("#{related_url_1_prefix}description", with: 'Example Description')
-        expect(page).to have_field("#{related_url_1_prefix}protocol", with: 'FTP')
-        expect(page).to have_field("#{related_url_1_prefix}mime_type", with: 'text/html')
-        expect(page).to have_field("#{related_url_1_prefix}caption", with: 'Example Caption')
-        expect(page).to have_field("#{related_url_1_prefix}title", with: 'Example Title')
-        expect(page).to have_field("#{related_url_1_prefix}file_size_size", with: '42.0')
-        expect(page).to have_field("#{related_url_1_prefix}file_size_unit", with: 'MB')
-        expect(page).to have_field("#{related_url_1_prefix}content_type_type", with: 'Type')
-        expect(page).to have_field("#{related_url_1_prefix}content_type_subtype", with: 'Subtype')
-        # RelatedUrl 2
-        related_url_2_prefix = "#{responsibility_1_prefix}party_related_url_1_"
-        expect(page).to have_field("#{related_url_2_prefix}url_", with: 'http://example.com/1')
-
-        # Responsibility 2
-        responsibility_2_prefix = "#{date_1_prefix}responsibility_1_"
-        expect(page).to have_field("#{responsibility_2_prefix}role", with: 'OWNER')
-        expect(page).to have_field("#{responsibility_2_prefix}party_person_first_name", with: 'First Name')
-        expect(page).to have_field("#{responsibility_2_prefix}party_person_middle_name", with: 'Middle Name')
-        expect(page).to have_field("#{responsibility_2_prefix}party_person_last_name", with: 'Last Name')
-
-        expect(page).to have_field("#{responsibility_2_prefix}party_service_hours", with: '10-2, M-W')
-        expect(page).to have_field("#{responsibility_2_prefix}party_contact_instructions", with: 'Email only')
-
-        # Contact 1
-        contact_1_prefix = "#{responsibility_2_prefix}party_contact_0_"
-        expect(page).to have_field("#{contact_1_prefix}type", with: 'Email')
-        expect(page).to have_field("#{contact_1_prefix}value", with: 'example@example.com')
-        # Contact 2
-        contact_2_prefix = "#{responsibility_2_prefix}party_contact_1_"
-        expect(page).to have_field("#{contact_2_prefix}type", with: 'Email')
-        expect(page).to have_field("#{contact_2_prefix}value", with: 'example2@example.com')
-
-        # Address 1
-        address_1_prefix = "#{responsibility_2_prefix}party_address_0_"
-        expect(page).to have_field("#{address_1_prefix}street_address_", with: '300 E Street Southwest')
-        expect(page).to have_field("#{address_1_prefix}street_address_", with: 'Room 203')
-        expect(page).to have_field("#{address_1_prefix}city", with: 'Washington')
-        expect(page).to have_field("#{address_1_prefix}state_province", with: 'DC')
-        expect(page).to have_field("#{address_1_prefix}postal_code", with: '20546')
-        expect(page).to have_field("#{address_1_prefix}country", with: 'United States')
-        # Address 2
-        address_2_prefix = "#{responsibility_2_prefix}party_address_1_"
-        expect(page).to have_field("#{address_2_prefix}street_address_", with: '8800 Greenbelt Road')
-        expect(page).to have_field("#{address_2_prefix}street_address_", with: '')
-        expect(page).to have_field("#{address_2_prefix}city", with: 'Greenbelt')
-        expect(page).to have_field("#{address_2_prefix}state_province", with: 'MD')
-        expect(page).to have_field("#{address_2_prefix}postal_code", with: '20771')
-        expect(page).to have_field("#{address_2_prefix}country", with: 'United States')
-
-        # RelatedUrl 1
-        related_url_1_prefix = "#{responsibility_2_prefix}party_related_url_0_"
-        expect(page).to have_field("#{related_url_1_prefix}url_", with: 'http://example.com')
-        expect(page).to have_field("#{related_url_1_prefix}url_", with: 'http://another-example.com')
-        expect(page).to have_field("#{related_url_1_prefix}description", with: 'Example Description')
-        expect(page).to have_field("#{related_url_1_prefix}protocol", with: 'FTP')
-        expect(page).to have_field("#{related_url_1_prefix}mime_type", with: 'text/html')
-        expect(page).to have_field("#{related_url_1_prefix}caption", with: 'Example Caption')
-        expect(page).to have_field("#{related_url_1_prefix}title", with: 'Example Title')
-        expect(page).to have_field("#{related_url_1_prefix}file_size_size", with: '42.0')
-        expect(page).to have_field("#{related_url_1_prefix}file_size_unit", with: 'MB')
-        expect(page).to have_field("#{related_url_1_prefix}content_type_type", with: 'Type')
-        expect(page).to have_field("#{related_url_1_prefix}content_type_subtype", with: 'Subtype')
-        # RelatedUrl 2
-        related_url_2_prefix = "#{responsibility_2_prefix}party_related_url_1_"
-        expect(page).to have_field("#{related_url_2_prefix}url_", with: 'http://example.com/1')
-
-        #### Date 2
-        date_2_prefix = 'draft_data_lineage_0_date_1_'
-        expect(page).to have_field("#{date_2_prefix}type", with: 'REVIEW')
-        expect(page).to have_field("#{date_2_prefix}date", with: '2015-07-02')
-        expect(page).to have_field("#{date_2_prefix}description", with: 'Reviewed data')
-
-        # Responsibility 1
-        responsibility_2_prefix = "#{date_2_prefix}responsibility_0_"
-        expect(page).to have_field("#{responsibility_2_prefix}role", with: 'EDITOR')
-        expect(page).to have_field("#{responsibility_2_prefix}party_organization_name_short_name", with: 'short_name')
-
-        ########## Data Lineage 2
-        date_1_prefix = 'draft_data_lineage_1_date_0_'
-        expect(page).to have_field("#{date_1_prefix}type", with: 'CREATE')
-        expect(page).to have_field("#{date_1_prefix}date", with: '2015-07-05')
-        expect(page).to have_field("#{date_1_prefix}description", with: 'Create data')
-
-        # Responsibility 1
-        responsibility_1_prefix = "#{date_1_prefix}responsibility_0_"
-        expect(page).to have_field("#{responsibility_1_prefix}role", with: 'USER')
-        expect(page).to have_field("#{responsibility_1_prefix}party_organization_name_short_name", with: 'another_short_name')
-
-
-
+        within '.multiple.dates' do
+          within '.multiple-item-0' do
+            expect(page).to have_field('Type', with: 'CREATE')
+            expect(page).to have_field('Date', with: '2015-07-01T00:00:00Z')
+          end
+          within '.multiple-item-1' do
+            expect(page).to have_field('Type', with: 'REVIEW')
+            expect(page).to have_field('Date', with: '2015-07-02T00:00:00Z')
+          end
+        end
 
         #### ResponsibleOrganization
         within '.row.responsible-organization' do
-          within '.multiple.responsibility > .multiple-item-0' do
+          within '.multiple.responsibilities > .multiple-item-0' do
             expect(page).to have_field('Role', with: 'RESOURCEPROVIDER')
             expect(page).to have_field('Short Name', with: 'ORG_SHORT')
             expect(page).to have_field('Long Name', with: 'Organization Long Name')
             expect(page).to have_field('Service Hours', with: '9-5, M-F')
             expect(page).to have_field('Contact Instructions', with: 'Email only')
-            within '.multiple.contact' do
+            within '.multiple.contacts' do
               within '.multiple-item-0' do
                 expect(page).to have_field('Type', with: 'Email')
                 expect(page).to have_field('Value', with: 'example@example.com')
@@ -347,7 +203,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Value', with: 'example2@example.com')
               end
             end
-            within '.multiple.address' do
+            within '.multiple.addresses' do
               within '.multiple-item-0' do
                 expect(page).to have_field('Street Address', with: '300 E Street Southwest')
                 expect(page).to have_field('Street Address', with: 'Room 203')
@@ -364,7 +220,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Country', with: 'United States')
               end
             end
-            within '.multiple.related-url' do
+            within '.multiple.related-urls' do
               within '.multiple-item-0' do
                 expect(page).to have_field('URL', with: 'http://example.com')
                 expect(page).to have_field('URL', with: 'http://another-example.com')
@@ -384,13 +240,13 @@ describe 'Data identification form', js: true do
             end
 
           end
-          within '.multiple.responsibility > .multiple-item-1' do
+          within '.multiple.responsibilities > .multiple-item-1' do
             expect(page).to have_field('Role', with: 'OWNER')
             expect(page).to have_field('Short Name', with: 'ORG_SHORT')
             expect(page).to have_field('Long Name', with: 'Organization Long Name')
             expect(page).to have_field('Service Hours', with: '10-2, M-W')
             expect(page).to have_field('Contact Instructions', with: 'Email only')
-            within '.multiple.contact' do
+            within '.multiple.contacts' do
               within '.multiple-item-0' do
                 expect(page).to have_field('Type', with: 'Email')
                 expect(page).to have_field('Value', with: 'example@example.com')
@@ -400,7 +256,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Value', with: 'example2@example.com')
               end
             end
-            within '.multiple.address' do
+            within '.multiple.addresses' do
               within '.multiple-item-0' do
                 expect(page).to have_field('Street Address', with: '300 E Street Southwest')
                 expect(page).to have_field('Street Address', with: 'Room 203')
@@ -417,7 +273,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Country', with: 'United States')
               end
             end
-            within '.multiple.related-url' do
+            within '.multiple.related-urls' do
               within '.multiple-item-0' do
                 expect(page).to have_field('URL', with: 'http://example.com')
                 expect(page).to have_field('URL', with: 'http://another-example.com')
@@ -441,14 +297,14 @@ describe 'Data identification form', js: true do
 
         #### ResponsiblePersonnel
         within '.row.responsible-personnel' do
-          within '.multiple.responsibility > .multiple-item-0' do
+          within '.multiple.responsibilities > .multiple-item-0' do
             expect(page).to have_field('Role', with: 'RESOURCEPROVIDER')
             expect(page).to have_field('First Name', with: 'First Name')
             expect(page).to have_field('Middle Name', with: 'Middle Name')
             expect(page).to have_field('Last Name', with: 'Last Name')
             expect(page).to have_field('Service Hours', with: '9-5, M-F')
             expect(page).to have_field('Contact Instructions', with: 'Email only')
-            within '.multiple.contact' do
+            within '.multiple.contacts' do
               within '.multiple-item-0' do
                 expect(page).to have_field('Type', with: 'Email')
                 expect(page).to have_field('Value', with: 'example@example.com')
@@ -458,7 +314,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Value', with: 'example2@example.com')
               end
             end
-            within '.multiple.address' do
+            within '.multiple.addresses' do
               within '.multiple-item-0' do
                 expect(page).to have_field('Street Address', with: '300 E Street Southwest')
                 expect(page).to have_field('Street Address', with: 'Room 203')
@@ -475,7 +331,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Country', with: 'United States')
               end
             end
-            within '.multiple.related-url' do
+            within '.multiple.related-urls' do
               within '.multiple-item-0' do
                 expect(page).to have_field('URL', with: 'http://example.com')
                 expect(page).to have_field('URL', with: 'http://another-example.com')
@@ -495,14 +351,14 @@ describe 'Data identification form', js: true do
             end
 
           end
-          within '.multiple.responsibility > .multiple-item-1' do
+          within '.multiple.responsibilities > .multiple-item-1' do
             expect(page).to have_field('Role', with: 'OWNER')
             expect(page).to have_field('First Name', with: 'First Name')
             expect(page).to have_field('Middle Name', with: 'Middle Name')
             expect(page).to have_field('Last Name', with: 'Last Name')
             expect(page).to have_field('Service Hours', with: '10-2, M-W')
             expect(page).to have_field('Contact Instructions', with: 'Email only')
-            within '.multiple.contact' do
+            within '.multiple.contacts' do
               within '.multiple-item-0' do
                 expect(page).to have_field('Type', with: 'Email')
                 expect(page).to have_field('Value', with: 'example@example.com')
@@ -512,7 +368,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Value', with: 'example2@example.com')
               end
             end
-            within '.multiple.address' do
+            within '.multiple.addresses' do
               within '.multiple-item-0' do
                 expect(page).to have_field('Street Address', with: '300 E Street Southwest')
                 expect(page).to have_field('Street Address', with: 'Room 203')
@@ -529,7 +385,7 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Country', with: 'United States')
               end
             end
-            within '.multiple.related-url' do
+            within '.multiple.related-urls' do
               within '.multiple-item-0' do
                 expect(page).to have_field('URL', with: 'http://example.com')
                 expect(page).to have_field('URL', with: 'http://another-example.com')
@@ -558,7 +414,7 @@ describe 'Data identification form', js: true do
         end
 
         #### ResourceCitation
-        within '.multiple.resource-citation' do
+        within '.multiple.resource-citations' do
           within '.multiple-item-0' do
             expect(page).to have_field('Version', with: 'v1')
             expect(page).to have_field('Title', with: 'Citation title')
@@ -621,27 +477,25 @@ describe 'Data identification form', js: true do
 
 
         ##### Metadata Association
-        within '.multiple.metadata-association' do
+        within '.multiple.metadata-associations' do
           within '.multiple-item-0' do
             expect(page).to have_field('Type', with: 'SCIENCE ASSOCIATED')
             expect(page).to have_field('Description', with: 'Metadata association description')
-            expect(page).to have_field('ID', with: '12345')
-            expect(page).to have_field('Version', with: 'v1')
-            expect(page).to have_field('Authority', with: 'Authority')
+            expect(page).to have_field('Entry Id', with: '12345')
             expect(page).to have_field('Provider ID', with: 'LPDAAC_ECS')
           end
           within '.multiple-item-1' do
             expect(page).to have_field('Type', with: 'LARGER CITATION WORKS')
-            expect(page).to have_field('ID', with: '123abc')
+            expect(page).to have_field('Entry Id', with: '123abc')
             expect(page).to have_field('Provider ID', with: 'ORNL_DAAC')
           end
         end
 
 
         #### PublicationReference
-        within '.multiple.publication-reference' do
+        within '.multiple.publication-references' do
           within '.multiple-item-0' do
-            expect(page).to have_field("draft_publication_reference_0_title", with: "Publication reference title") #Title
+            expect(page).to have_field("draft_publication_references_0_title", with: "Publication reference title") #Title
             expect(page).to have_field('Publisher', with: 'Publication reference publisher')
             expect(page).to have_field('DOI', with: 'Publication reference DOI')
             expect(page).to have_field('Authority', with: 'Publication reference authority')
@@ -671,7 +525,7 @@ describe 'Data identification form', js: true do
             end
           end
           within '.multiple-item-1' do
-            expect(page).to have_field("draft_publication_reference_1_title", with: "Publication reference title 1") #Title
+            expect(page).to have_field("draft_publication_references_1_title", with: "Publication reference title 1") #Title
             expect(page).to have_field("ISBN", with: '9876543210987')
           end
         end
