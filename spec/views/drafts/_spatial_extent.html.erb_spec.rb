@@ -30,20 +30,39 @@ describe template_path, type: :view do
                                            {"ZoneIdentifier"=>"Zone ID",
                                             "Geometry"=>
                                                {"CoordinateSystem"=>"CARTESIAN",
-                                                'Unkzzz'=>{'Point'=>{'Longitude'=>'123','Latitude'=>'45'},
-                                                      'BoundingRectangle'=>{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
-                                                        'WestBoundingCoordinate'=>'WestBoundingCoordinate',
-                                                        'NorthBoundingCoordinate'=>'NorthBoundingCoordinate',
-                                                        'EastBoundingCoordinate'=>'EastBoundingCoordinate',
-                                                        'SouthBoundingCoordinate'=>'SouthBoundingCoordinate'},
-                                                      'GPolygon'=>{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
-                                                        'Boundary'=>[{'Longitude'=>'123','Latitude'=>'45'},{'Longitude'=>'1234','Latitude'=>'456'}],
-                                                        'ExclusionZone'=>{'BoundaryType'=>'BoundaryType', 'Boundary'=>[{'Longitude'=>'123z','Latitude'=>'45z'},{'Longitude'=>'1234z','Latitude'=>'456z'}]}
-                                                      },
-                                                      'Line'=>{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
-                                                        'Point'=>[{'Longitude'=>'123b','Latitude'=>'45b'},{'Longitude'=>'1234b','Latitude'=>'456b'}]
-                                                      }
-                                                }
+
+                                                'Points'=>[{'Longitude'=>'123','Latitude'=>'45'},
+                                                           {'Longitude'=>'123a','Latitude'=>'45a'}
+                                                ],
+
+                                                'BoundingRectangles'=>[{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
+                                                  'WestBoundingCoordinate'=>'WestBoundingCoordinate',
+                                                  'NorthBoundingCoordinate'=>'NorthBoundingCoordinate',
+                                                  'EastBoundingCoordinate'=>'EastBoundingCoordinate',
+                                                  'SouthBoundingCoordinate'=>'SouthBoundingCoordinate'},
+                                                 {'CenterPoint'=>{'Longitude'=>'cp123b','Latitude'=>'cp45b'},
+                                                  'WestBoundingCoordinate'=>'WestBoundingCoordinate2',
+                                                  'NorthBoundingCoordinate'=>'NorthBoundingCoordinate2',
+                                                  'EastBoundingCoordinate'=>'EastBoundingCoordinate2',
+                                                  'SouthBoundingCoordinate'=>'SouthBoundingCoordinate2'}
+                                                ],
+
+                                                'GPolygons'=>[{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
+                                                  'Boundary'=>[{'Longitude'=>'123','Latitude'=>'45'},{'Longitude'=>'1234','Latitude'=>'456'}],
+                                                  'ExclusionZone'=>{'BoundaryType'=>'BoundaryType',
+                                                                    'Boundary'=>[{'Longitude'=>'123z','Latitude'=>'45z'},{'Longitude'=>'1234z','Latitude'=>'456z'}]}},
+                                                  {'CenterPoint'=>{'Longitude'=>'cp123c','Latitude'=>'cp45c'},
+                                                   'Boundary'=>[{'Longitude'=>'1231','Latitude'=>'451'},{'Longitude'=>'12342','Latitude'=>'4562'}],
+                                                   'ExclusionZone'=>{'BoundaryType'=>'BoundaryType2',
+                                                                     'Boundary'=>[{'Longitude'=>'123zz','Latitude'=>'45zz'},{'Longitude'=>'1234zz','Latitude'=>'456zz'}]}}
+                                                ],
+
+                                                'Lines'=>[{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
+                                                  'Points'=>[{'Longitude'=>'123b','Latitude'=>'45b'},{'Longitude'=>'1234b','Latitude'=>'456b'}]},
+                                                  {'CenterPoint'=>{'Longitude'=>'cp123r','Latitude'=>'cp45r'},
+                                                   'Points'=>[{'Longitude'=>'123br','Latitude'=>'45br'},{'Longitude'=>'1234br','Latitude'=>'456br'}]}
+                                                ]
+
                                                }
                                            },
                                        "VerticalSpatialDomain"=>[{'Type'=>'test Type 1', 'Value'=>'test Value 1'},{'Type'=>'test Type 2', 'Value'=>'test Value 2'}],
@@ -56,7 +75,10 @@ describe template_path, type: :view do
 
         draft_json['SpatialInformation'] = {"SpatialCoverageType"=>"Both",
             "HorizontalCoordinateSystem"=> {"GeodeticModel"=>
-                {"HorizontalDatumName"=>"Datum name", "EllipsoidName"=>"Ellipsoid name", "SemiMajorAxis"=>"3", "DenominatorOfFlatteningRatio"=>"4"}},
+                {"HorizontalDatumName"=>"Datum name", "EllipsoidName"=>"Ellipsoid name", "SemiMajorAxis"=>"3", "DenominatorOfFlatteningRatio"=>"4"},
+                                            "GeographicCoordinateSystem"=>{"GeographicCoordinateUnits"=>"GeographicCoordinateUnits","LatitudeResolution"=>"321","LongitudeResolution"=>"234"},
+                                            "LocalCoordinateSystem"=>{"GeoReferenceInformation"=>"GeoReferenceInformation","Description"=>"Description"}
+            },
             "VerticalCoordinateSystem"=> {"AltitudeSystemDefinition"=>{'DatumName'=>'Datum', 'DistanceUnits'=>'Distance Units', 'EncodingMethod'=>'Encoding', 'Resolution'=>[1, 2, 3]},
                                           "DepthSystemDefinition"=>{'DatumName'=>'Datum 2', 'DistanceUnits'=>'Distance Units 2', 'EncodingMethod'=>'Encoding 2', 'Resolution'=>[12, 22, 32]}}
         }

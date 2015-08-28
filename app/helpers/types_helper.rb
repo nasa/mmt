@@ -182,7 +182,7 @@ module TypesHelper
   ]
 
 #-----------------------------------------------------
-  PointType = [
+  PointsType = [
       { name: 'Longitude' },
       { name: 'Latitude' }
   ]
@@ -193,15 +193,15 @@ module TypesHelper
       { name: 'EncodingMethod' },
       { name: 'Resolution', options: [:array_field] }
   ]
-  BoundingRectangleType = [
+  BoundingRectanglesType = [
       { name: 'CenterPoint', options: [:sub_type] },
       { name: 'WestBoundingCoordinate' },
       { name: 'NorthBoundingCoordinate' },
       { name: 'EastBoundingCoordinate' },
       { name: 'SouthBoundingCoordinate' }
   ]
-  BoundaryType = PointType
-  CenterPointType = PointType
+  BoundaryType = PointsType
+  CenterPointType = PointsType
   Coordinate1Type = [
       { name: 'MinimumValue' },
       { name: 'MaximumValue' }
@@ -218,26 +218,39 @@ module TypesHelper
       { name: 'SemiMajorAxis' },
       { name: 'DenominatorOfFlatteningRatio' }
   ]
+  GeographicCoordinateSystemType = [
+      { name: 'GeographicCoordinateUnits' },
+      { name: 'LatitudeResolution' },
+      { name: 'LongitudeResolution' }
+  ]
   GeometryType = [
       { name: 'CoordinateSystem' },
-      { name: 'Unkzzz', options: [:sub_type] }
+      { name: 'Points', options: [:sub_type] },
+      { name: 'BoundingRectangles', options: [:sub_type] },
+      { name: 'GPolygons', options: [:sub_type] },
+      { name: 'Lines', options: [:sub_type] }
   ]
-  GPolygonType = [
+  GPolygonsType = [
       { name: 'CenterPoint', options: [:sub_type] },
       { name: 'Boundary', options: [:sub_type] },
       { name: 'ExclusionZone', options: [:sub_type] }
   ]
   HorizontalCoordinateSystemType = [
       { name: 'GeodeticModel', options: [:sub_type] },
-      { name: 'TODO' }
+      { name: 'GeographicCoordinateSystem', options: [:sub_type] },
+      { name: 'LocalCoordinateSystem', options: [:sub_type] }
   ]
   HorizontalSpatialDomainType = [
       { name: 'ZoneIdentifier' },
       { name: 'Geometry', options: [:sub_type] }
   ]
-  LineType = [
+  LinesType = [
       { name: 'CenterPoint', options: [:sub_type] },
-      { name: 'Point', options: [:sub_type] }
+      { name: 'Points', options: [:sub_type] }
+  ]
+  LocalCoordinateSystemType = [
+      { name: 'GeoReferenceInformation' },
+      { name: 'Description' }
   ]
   OrbitParametersType = [
       { name: 'SwathWidth' },
@@ -264,12 +277,6 @@ module TypesHelper
       { name: 'TilingIdentificationSystemName' },
       { name: 'Coordinate1', options: [:sub_type]  },
       { name: 'Coordinate2', options: [:sub_type]  }
-  ]
-  UnkzzzType = [
-      { name: 'Point', options: [:sub_type] },
-      { name: 'BoundingRectangle', options: [:sub_type] },
-      { name: 'GPolygon', options: [:sub_type] },
-      { name: 'Line', options: [:sub_type] }
   ]
   VerticalCoordinateSystemType = [
       { name: 'AltitudeSystemDefinition', options: [:sub_type] },
