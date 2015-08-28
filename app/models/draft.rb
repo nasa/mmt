@@ -60,8 +60,33 @@ class Draft < ActiveRecord::Base
     true
   end
 
-  INTEGER_KEYS = ['number_of_sensors', 'duration_value', 'period_cycle_duration_value', 'precision_of_seconds']
-  NUMBER_KEYS = ['size', 'fees']
+  INTEGER_KEYS = [
+    'number_of_sensors',
+    'duration_value',
+    'period_cycle_duration_value',
+    'precision_of_seconds'
+  ]
+  NUMBER_KEYS = [
+    'size',
+    'fees',
+    'longitude',
+    'latitude',
+    'minimum_value',
+    'maximum_value',
+    'west_bounding_coordinate',
+    'north_bounding_coordinate',
+    'east_bounding_coordinate',
+    'south_bounding_coordinate',
+    'denominator_of_flattening_ratio',
+    'semi_major_axis',
+    'latitude_resolution',
+    'longitude_resolution',
+    'swath_width',
+    'inclination_angle',
+    'number_of_orbits',
+    'start_circular_latitude',
+    'resolutions'
+  ]
   BOOLEAN_KEYS = ['ends_at_present_flag']
 
   def convert_to_arrays(object)
@@ -83,6 +108,13 @@ class Draft < ActiveRecord::Base
           elsif BOOLEAN_KEYS.include?(key)
             object[key] = value == 'true' ? true : false unless value.empty?
           else
+            if key == 'orbit_parameters'
+              # There are two fields named 'Period' but only one of them is a number.
+              # Convert the correct 'Period' to a number
+              period = value['period']
+              value['period'] = convert_to_number(period) unless period.nil?
+              object[key] = value
+            end
             object[key] = convert_to_arrays(value)
           end
         end
@@ -97,7 +129,11 @@ class Draft < ActiveRecord::Base
   end
 
   def convert_to_number(string)
-    string.gsub(/[^0-9.]/, '').to_f
+    if string.is_a? Array
+      string.map{ |s| s.gsub(/[^\-0-9.]/, '').to_f }
+    else
+      string.gsub(/[^\-0-9.]/, '').to_f
+    end
   end
 
   def compact_blank(node)

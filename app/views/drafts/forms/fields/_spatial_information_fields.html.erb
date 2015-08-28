@@ -2,9 +2,9 @@
   <!-- SpatialCoverageType -->
   <% spatial_coverage_type = spatial_information['SpatialCoverageType'] || "" %>
   <label class="icon-required">Spatial Coverage Type</label><i class="fa fa-info-circle"></i>
-  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'Horizontal', spatial_coverage_type == 'Horizontal', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_Horizontal">Horizontal</label>
-  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'Vertical', spatial_coverage_type == 'Vertical', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_Vertical">Vertical</label>
-  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'Both', spatial_coverage_type == 'Both', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_Both">Both</label>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'BOTH', spatial_coverage_type == 'BOTH', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_BOTH">Both</label>
 
 
   <!-- Bad </br>, take out design team! -->
@@ -12,7 +12,7 @@
 
 
   <!-- HorizontalCoordinateSystem -->
-  <div class="spatial-coverage-type horizontal" style="<%= 'display: none;' unless spatial_coverage_type == 'Horizontal' || spatial_coverage_type == 'Both' %>">
+  <div class="spatial-coverage-type horizontal" style="<%= 'display: none;' unless spatial_coverage_type == 'HORIZONTAL' || spatial_coverage_type == 'BOTH' %>">
     <label>Horizontal Coordinate System</label><i class="fa fa-info-circle"></i>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'horizontal_coordinate_system',
@@ -24,7 +24,7 @@
 
 
   <!-- VerticalCoordinateSystem -->
-  <div class="spatial-coverage-type vertical" style="<%= 'display: none;' unless spatial_coverage_type == 'Vertical' || spatial_coverage_type == 'Both' %>">
+  <div class="spatial-coverage-type vertical" style="<%= 'display: none;' unless spatial_coverage_type == 'VERTICAL' || spatial_coverage_type == 'BOTH' %>">
     <label>Vertical Coordinate System</label><i class="fa fa-info-circle"></i>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'vertical_coordinate_system',

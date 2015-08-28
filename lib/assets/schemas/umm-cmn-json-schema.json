@@ -7,19 +7,6 @@
       "minLength": 1,
       "maxLength": 25
     },
-    "MetadataStandardType": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "Name": {
-          "$ref": "#/definitions/MetadataStandardNameEnum"
-        },
-        "Version": {
-          "$ref": "#/definitions/MetadataStandardVersionEnum"
-        }
-      },
-      "required": ["Name", "Version"]
-    },
     "LineageType": {
       "type": "object",
       "additionalProperties": false,
@@ -47,7 +34,7 @@
       "properties": {
         "Date": {
           "description": "The date something changed with the metadata or data.",
-          "format": "date",
+          "format": "date-time",
           "type": "string"
         },
         "Type": {
@@ -582,12 +569,7 @@
         }
       }
     },
-    "KeywordUuidStringType": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {}
-    },
-    "ScienceKeywordType": {
+   "ScienceKeywordType": {
       "type": "object",
       "additionalProperties": false,
       "description": "This element enables specification of Earth science keywords.",
@@ -953,7 +935,14 @@
           },
           "minItems": 1
         }
-      }
+      },
+      "anyOf": [{
+        "required": ["RangeDateTimes"]
+      }, {
+        "required": ["SingleDateTimes"]
+      }, {
+        "required": ["PeriodicDateTimes"]
+      }]
     },
     "RangeDateTimeType": {
       "type": "object",
@@ -1064,25 +1053,28 @@
         "CoordinateSystem": {
           "$ref": "#/definitions/CoordinateSystemEnum"
         },
-        "TODOMultiChoice": {
+        "Points": {
           "type": "array",
           "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "Point": {
-                "$ref": "#/definitions/PointType"
-              },
-              "BoundingRectangle": {
-                "$ref": "#/definitions/BoundingRectangleType"
-              },
-              "GPolygon": {
-                "$ref": "#/definitions/GPolygonType"
-              },
-              "Line": {
-                "$ref": "#/definitions/LineType"
-              }
-            }
+            "$ref": "#/definitions/PointType"
+          }
+        },
+        "BoundingRectangles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BoundingRectangleType"
+          }
+        },
+        "GPolygons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GPolygonType"
+          }
+        },
+        "Lines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LineType"
           }
         }
       }
@@ -1263,16 +1255,8 @@
     },
     "UuidType": {
       "description": "A Level 3 UUID, see wiki link http://en.wikipedia.org/wiki/Universally_unique_identifier#Version_4_.28random.29",
-      "type": "string"
-    },
-    "MetadataStandardNameEnum": {
-      "description": "The name of supported metadata conventions",
       "type": "string",
-      "enum": ["SERF", "UMM", "ECHO10", "DIF", "ISO 19115-2", "ISO 19115-1"]
-    },
-    "MetadataStandardVersionEnum": {
-      "description": "The value of the metadata version.",
-      "type": "string"
+      "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89abAB][0-9a-f]{3}-[0-9a-f]{12}"
     },
     "LineageScopeEnum": {
       "description": "The name of supported lineage date types",
@@ -1287,7 +1271,8 @@
     "IdType": {
       "description": "The unique identifier.",
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "pattern":"[^\\\\/:\\s]{1,255}"
     },
     "VersionType": {
       "description": "The version of the metadata record.",

@@ -8,7 +8,43 @@
   <!-- Bad </br>, take out design team! -->
   </br>
 
-  <!-- TODOMultiChoice - don't think it is ready yet -->
+  <!-- Points -->
+  <label>Points</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'point',
+      values: geometry['Points'] || [{}],
+      name_prefix: "#{name_prefix}points_",
+      multiple: true,
+      options: {} } %>
 
+
+  <!-- BoundingRectangles -->
+  <label>Bounding Rectangles</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'bounding_rectangle',
+      values: geometry['BoundingRectangles'] || [{}],
+      name_prefix: "#{name_prefix}|bounding_rectangles|_",
+      multiple: true,
+      options: {} } %>
+
+
+  <!-- GPolygons -->
+  <label>GPolygons</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'g_polygon',
+      values: geometry['GPolygons'] || [{}],
+      name_prefix: "#{name_prefix}|g_polygons|_",
+      multiple: true,
+      options: {} } %>
+
+
+  <!-- Lines -->
+  <label>Lines</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'line',
+      values: geometry['Lines'] || [{}],
+      name_prefix: "#{name_prefix}lines_",
+      multiple: true,
+      options: {} } %>
 
 </div>

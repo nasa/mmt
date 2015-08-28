@@ -14,36 +14,46 @@ describe 'Spatial extent form', js: true do
       click_on 'Spatial Extent'
 
       # Spatial Extent
-      choose 'draft_spatial_extent_spatial_coverage_type_Horizontal'
+      choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
       fill_in 'Zone Identifier', with: 'Zone ID'
       within '.geometry' do
         choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
-        # TODO Fields for TODOMultiChoice
-
+        add_geometry
       end
       select 'Cartesian', from: 'Granule Spatial Representation'
 
       # Tiling Identification System
       fill_in 'Tiling Identification System Name', with: 'System name'
       within first('.tiling-coordinate') do
-        fill_in 'Minimum Value', with: '-50'
-        fill_in 'Maximum Value', with: '50'
+        fill_in 'Minimum Value', with: '-50.0'
+        fill_in 'Maximum Value', with: '50.0'
       end
       within all('.tiling-coordinate').last do
-        fill_in 'Minimum Value', with: '-30'
-        fill_in 'Maximum Value', with: '30'
+        fill_in 'Minimum Value', with: '-30.0'
+        fill_in 'Maximum Value', with: '30.0'
       end
 
       # Spatial Representation Information
-      choose 'draft_spatial_information_spatial_coverage_type_Horizontal'
+      choose 'draft_spatial_information_spatial_coverage_type_HORIZONTAL'
       fill_in 'Horizontal Datum Name', with: 'Datum name'
       fill_in 'Ellipsoid Name', with: 'Ellipsoid name'
-      fill_in 'Semi Major Axis', with: '3'
-      fill_in 'Denominator Of Flattening Ratio', with: '4'
-      # TODO Fields for TODOMultiChoice
+      fill_in 'Semi Major Axis', with: '3.0'
+      fill_in 'Denominator Of Flattening Ratio', with: '4.0'
+
+      find('.coordinate-system-picker.geographic').click
+      fill_in 'Geographic Coordinate Units', with: 'Coordinate units'
+      fill_in 'Latitude Resolution', with: '42.0'
+      fill_in 'Longitude Resolution', with: '43.0'
 
 
       # Spatial Keywords
+      within '.multiple.spatial-keywords' do
+        fill_in 'Spatial Keyword', with: 'f47ac10b-58cc-4372-a567-0e02b2c3d479'
+        click_on 'Add another'
+        within all('.multiple-item').last do
+          fill_in 'Spatial Keyword', with: 'abdf4d5c-55dc-4324-9ae5-5adf41e99da3'
+        end
+      end
 
       within '.nav-top' do
         click_on 'Save & Done'
@@ -56,6 +66,7 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
+    # TODO
     it "shows pre-entered values in the draft preview page"
 
     context 'when returning to the form' do
@@ -75,7 +86,119 @@ describe 'Spatial extent form', js: true do
           within '.geometry' do
             expect(page).to have_checked_field('Cartesian')
             expect(page).to have_no_checked_field('Geodetic')
-            # TODO Fields for TODOMultiChoice
+            # Points
+            within first('.multiple.points') do
+              expect(page).to have_field('Longitude', with: '-77.047878')
+              expect(page).to have_field('Latitude', with: '38.805407')
+              within '.multiple-item-1' do
+                expect(page).to have_field('Longitude', with: '-76.9284587')
+                expect(page).to have_field('Latitude', with: '38.968602')
+              end
+            end
+            # BoundingRectangles
+            within '.multiple.bounding-rectangles' do
+              expect(page).to have_field('Longitude', with: '0.0')
+              expect(page).to have_field('Latitude', with: '0.0')
+              expect(page).to have_field('West Bounding Coordinate', with: '-180.0')
+              expect(page).to have_field('North Bounding Coordinate', with: '90.0')
+              expect(page).to have_field('East Bounding Coordinate', with: '180.0')
+              expect(page).to have_field('South Bounding Coordinate', with: '-90.0')
+              within '.multiple-item-1' do
+                expect(page).to have_field('West Bounding Coordinate', with: '-96.9284587')
+                expect(page).to have_field('North Bounding Coordinate', with: '58.968602')
+                expect(page).to have_field('East Bounding Coordinate', with: '-56.9284587')
+                expect(page).to have_field('South Bounding Coordinate', with: '18.968602')
+              end
+            end
+            # GPolygons
+            within '.multiple.g-polygons > .multiple-item-0' do
+              within '.point' do
+                expect(page).to have_field('Longitude', with: '0.0')
+                expect(page).to have_field('Latitude', with: '0.0')
+              end
+              within '.boundary .multiple.points' do
+                expect(page).to have_field('Longitude', with: '10.0')
+                expect(page).to have_field('Latitude', with: '10.0')
+                within '.multiple-item-1' do
+                  expect(page).to have_field('Longitude', with: '-10.0')
+                  expect(page).to have_field('Latitude', with: '10.0')
+                end
+                within '.multiple-item-2' do
+                  expect(page).to have_field('Longitude', with: '-10.0')
+                  expect(page).to have_field('Latitude', with: '-10.0')
+                end
+                within '.multiple-item-3' do
+                  expect(page).to have_field('Longitude', with: '10.0')
+                  expect(page).to have_field('Latitude', with: '-10.0')
+                end
+              end
+              within '.exclusive-zone' do
+                within '.multiple.boundaries' do
+                  expect(page).to have_field('Longitude', with: '5.0')
+                  expect(page).to have_field('Latitude', with: '5.0')
+                  within '.multiple-item-1' do
+                    expect(page).to have_field('Longitude', with: '-5.0')
+                    expect(page).to have_field('Latitude', with: '5.0')
+                  end
+                  within '.multiple-item-2' do
+                    expect(page).to have_field('Longitude', with: '-5.0')
+                    expect(page).to have_field('Latitude', with: '-5.0')
+                  end
+                  within '.multiple-item-3' do
+                    expect(page).to have_field('Longitude', with: '5.0')
+                    expect(page).to have_field('Latitude', with: '-5.0')
+                  end
+
+                end
+              end
+            end
+            within '.multiple.g-polygons > .multiple-item-1' do
+              within '.boundary .multiple.points' do
+                expect(page).to have_field('Longitude', with: '38.98828125')
+                expect(page).to have_field('Latitude', with: '-77.044921875')
+                within '.multiple-item-1' do
+                  expect(page).to have_field('Longitude', with: '38.935546875')
+                  expect(page).to have_field('Latitude', with: '-77.1240234375')
+                end
+                within '.multiple-item-2' do
+                  expect(page).to have_field('Longitude', with: '38.81689453125')
+                  expect(page).to have_field('Latitude', with: '-77.02734375')
+                end
+                within '.multiple-item-3' do
+                  expect(page).to have_field('Longitude', with: '38.900390625')
+                  expect(page).to have_field('Latitude', with: '-76.9130859375')
+                end
+              end
+            end
+            # Lines
+            within '.multiple.lines > .multiple-item-0' do
+              within '.point' do
+                expect(page).to have_field('Longitude', with: '25.0')
+                expect(page).to have_field('Latitude', with: '25.0')
+              end
+              within '.multiple.points > .multiple-item-0' do
+                expect(page).to have_field('Longitude', with: '24.0')
+                expect(page).to have_field('Latitude', with: '24.0')
+              end
+              within '.multiple.points > .multiple-item-1' do
+                expect(page).to have_field('Longitude', with: '26.0')
+                expect(page).to have_field('Latitude', with: '26.0')
+              end
+            end
+            within '.multiple.lines > .multiple-item-1' do
+              within '.point' do
+                expect(page).to have_field('Longitude', with: '25.0')
+                expect(page).to have_field('Latitude', with: '25.0')
+              end
+              within '.multiple.points > .multiple-item-0' do
+                expect(page).to have_field('Longitude', with: '24.0')
+                expect(page).to have_field('Latitude', with: '26.0')
+              end
+              within '.multiple.points > .multiple-item-1' do
+                expect(page).to have_field('Longitude', with: '26.0')
+                expect(page).to have_field('Latitude', with: '24.0')
+              end
+            end
           end
           expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
         end
@@ -83,12 +206,12 @@ describe 'Spatial extent form', js: true do
         # Tiling Identification System
         expect(page).to have_field('Tiling Identification System Name', with: 'System name')
         within first('.tiling-coordinate') do
-          expect(page).to have_field('Minimum Value', with: '-50')
-          expect(page).to have_field('Maximum Value', with: '50')
+          expect(page).to have_field('Minimum Value', with: '-50.0')
+          expect(page).to have_field('Maximum Value', with: '50.0')
         end
         within all('.tiling-coordinate').last do
-          expect(page).to have_field('Minimum Value', with: '-30')
-          expect(page).to have_field('Maximum Value', with: '30')
+          expect(page).to have_field('Minimum Value', with: '-30.0')
+          expect(page).to have_field('Maximum Value', with: '30.0')
         end
 
         # Spatial Representation Information
@@ -98,12 +221,19 @@ describe 'Spatial extent form', js: true do
 
         expect(page).to have_field('Horizontal Datum Name', with: 'Datum name')
         expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
-        expect(page).to have_field('Semi Major Axis', with: '3')
-        expect(page).to have_field('Denominator Of Flattening Ratio', with: '4')
-        # TODO Fields for TODOMultiChoice
+        expect(page).to have_field('Semi Major Axis', with: '3.0')
+        expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
+        expect(page).to have_checked_field('Geographic Coordinate System')
+        expect(page).to have_field('Geographic Coordinate Units', with: 'Coordinate units')
+        expect(page).to have_field('Latitude Resolution', with: '42.0')
+        expect(page).to have_field('Longitude Resolution', with: '43.0')
 
 
         # Spatial Keywords
+        within '.multiple.spatial-keywords' do
+          expect(page).to have_field('Spatial Keyword', with: 'f47ac10b-58cc-4372-a567-0e02b2c3d479')
+          expect(page).to have_field('Spatial Keyword', with: 'abdf4d5c-55dc-4324-9ae5-5adf41e99da3')
+        end
 
       end
 
@@ -115,7 +245,7 @@ describe 'Spatial extent form', js: true do
       click_on 'Spatial Extent'
 
       # Spatial Extent
-      choose 'draft_spatial_extent_spatial_coverage_type_Vertical'
+      choose 'draft_spatial_extent_spatial_coverage_type_VERTICAL'
       within '.multiple.vertical-spatial-domains' do
         fill_in 'Type', with: 'domain type'
         fill_in 'Value', with: 'domain value'
@@ -127,25 +257,25 @@ describe 'Spatial extent form', js: true do
       end
 
       # Spatial Representation Information
-      choose 'draft_spatial_information_spatial_coverage_type_Vertical'
+      choose 'draft_spatial_information_spatial_coverage_type_VERTICAL'
       within first('.vertical-system-definition') do
         fill_in 'Datum Name', with: 'datum name'
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method'
-        fill_in 'Resolution', with: '3'
+        fill_in 'Resolution', with: '3.0'
         click_on 'Add another'
         within all('.multiple-item').last do
-          fill_in 'Resolution', with: '4'
+          fill_in 'Resolution', with: '4.0'
         end
       end
       within all('.vertical-system-definition').last do
         fill_in 'Datum Name', with: 'datum name 1'
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method 1'
-        fill_in 'Resolution', with: '5'
+        fill_in 'Resolution', with: '5.0'
         click_on 'Add another'
         within all('.multiple-item').last do
-          fill_in 'Resolution', with: '6'
+          fill_in 'Resolution', with: '6.0'
         end
       end
 
@@ -160,6 +290,7 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
+    # TODO
     it "shows pre-entered values in the draft preview page"
 
     context 'when returning to the form' do
@@ -192,15 +323,15 @@ describe 'Spatial extent form', js: true do
           expect(page).to have_field('Datum Name', with: 'datum name')
           expect(page).to have_field('Distance Units', with: 'miles')
           expect(page).to have_field('Encoding Method', with: 'encoding method')
-          expect(page).to have_field('Resolution', with: '3')
-          expect(page).to have_field('Resolution', with: '4')
+          expect(page).to have_field('Resolution', with: '3.0')
+          expect(page).to have_field('Resolution', with: '4.0')
         end
         within all('.vertical-system-definition').last do
           expect(page).to have_field('Datum Name', with: 'datum name 1')
           expect(page).to have_field('Distance Units', with: 'miles')
           expect(page).to have_field('Encoding Method', with: 'encoding method 1')
-          expect(page).to have_field('Resolution', with: '5')
-          expect(page).to have_field('Resolution', with: '6')
+          expect(page).to have_field('Resolution', with: '5.0')
+          expect(page).to have_field('Resolution', with: '6.0')
         end
 
       end
@@ -213,7 +344,7 @@ describe 'Spatial extent form', js: true do
       click_on 'Spatial Extent'
 
       # Spatial Extent
-      choose 'draft_spatial_extent_spatial_coverage_type_Orbit'
+      choose 'draft_spatial_extent_spatial_coverage_type_ORBITAL'
       fill_in 'Swath Width', with: '1'
       fill_in 'Period', with: '2'
       fill_in 'Inclination Angle', with: '3'
@@ -221,30 +352,33 @@ describe 'Spatial extent form', js: true do
       fill_in 'Start Circular Latitude', with: '5'
 
       # Spatial Representation Information
-      choose 'draft_spatial_information_spatial_coverage_type_Both'
+      choose 'draft_spatial_information_spatial_coverage_type_BOTH'
       fill_in 'Horizontal Datum Name', with: 'Datum name'
       fill_in 'Ellipsoid Name', with: 'Ellipsoid name'
       fill_in 'Semi Major Axis', with: '3'
       fill_in 'Denominator Of Flattening Ratio', with: '4'
-      # TODO Fields for TODOMultiChoice
+      find('.coordinate-system-picker.local').click
+      fill_in 'Geo Reference Information', with: 'reference information'
+      fill_in 'Description', with: 'local description'
+
       within first('.vertical-system-definition') do
         fill_in 'Datum Name', with: 'datum name'
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method'
-        fill_in 'Resolution', with: '3'
+        fill_in 'Resolution', with: '3.0'
         click_on 'Add another'
         within all('.multiple-item').last do
-          fill_in 'Resolution', with: '4'
+          fill_in 'Resolution', with: '4.0'
         end
       end
       within all('.vertical-system-definition').last do
         fill_in 'Datum Name', with: 'datum name 1'
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method 1'
-        fill_in 'Resolution', with: '5'
+        fill_in 'Resolution', with: '5.0'
         click_on 'Add another'
         within all('.multiple-item').last do
-          fill_in 'Resolution', with: '6'
+          fill_in 'Resolution', with: '6.0'
         end
       end
 
@@ -259,6 +393,7 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
+    # TODO
     it "shows pre-entered values in the draft preview page"
 
     context 'when returning to the form' do
@@ -274,11 +409,11 @@ describe 'Spatial extent form', js: true do
           expect(page).to have_no_checked_field('Horizontal')
           expect(page).to have_no_checked_field('Vertical')
           expect(page).to have_checked_field('Orbit')
-          expect(page).to have_field('Swath Width', with: '1')
-          expect(page).to have_field('Period', with: '2')
-          expect(page).to have_field('Inclination Angle', with: '3')
-          expect(page).to have_field('Number Of Orbits', with: '4')
-          expect(page).to have_field('Start Circular Latitude', with: '5')
+          expect(page).to have_field('Swath Width', with: '1.0')
+          expect(page).to have_field('Period', with: '2.0')
+          expect(page).to have_field('Inclination Angle', with: '3.0')
+          expect(page).to have_field('Number Of Orbits', with: '4.0')
+          expect(page).to have_field('Start Circular Latitude', with: '5.0')
         end
 
         # Spatial Representation Information
@@ -287,23 +422,25 @@ describe 'Spatial extent form', js: true do
         expect(page).to have_checked_field('Both')
         expect(page).to have_field('Horizontal Datum Name', with: 'Datum name')
         expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
-        expect(page).to have_field('Semi Major Axis', with: '3')
-        expect(page).to have_field('Denominator Of Flattening Ratio', with: '4')
-        # TODO Fields for TODOMultiChoice
+        expect(page).to have_field('Semi Major Axis', with: '3.0')
+        expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
+        expect(page).to have_checked_field('Local Coordinate System')
+        expect(page).to have_field('Geo Reference Information', with: 'reference information')
+        expect(page).to have_field('Description', with: 'local description')
 
         within first('.vertical-system-definition') do
           expect(page).to have_field('Datum Name', with: 'datum name')
           expect(page).to have_field('Distance Units', with: 'miles')
           expect(page).to have_field('Encoding Method', with: 'encoding method')
-          expect(page).to have_field('Resolution', with: '3')
-          expect(page).to have_field('Resolution', with: '4')
+          expect(page).to have_field('Resolution', with: '3.0')
+          expect(page).to have_field('Resolution', with: '4.0')
         end
         within all('.vertical-system-definition').last do
           expect(page).to have_field('Datum Name', with: 'datum name 1')
           expect(page).to have_field('Distance Units', with: 'miles')
           expect(page).to have_field('Encoding Method', with: 'encoding method 1')
-          expect(page).to have_field('Resolution', with: '5')
-          expect(page).to have_field('Resolution', with: '6')
+          expect(page).to have_field('Resolution', with: '5.0')
+          expect(page).to have_field('Resolution', with: '6.0')
         end
 
       end
