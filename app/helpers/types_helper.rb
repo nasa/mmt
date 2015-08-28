@@ -95,7 +95,7 @@ module TypesHelper
     { name: 'Address', options: [:sub_type] },
     { name: 'RelatedUrl', options: [:sub_type] }
   ]
-  PeriodicDateTimeType = [
+  PeriodicDateTimesType = [
     { name: 'Name' },
     { name: 'StartDate' },
     { name: 'EndDate' },
@@ -144,7 +144,7 @@ module TypesHelper
     { name: 'ISBN' },
     { name: 'OtherReferenceDetails' }
   ]
-  RangeDateTimeType = [
+  RangeDateTimesType = [
     { name: 'BeginningDateTime' },
     { name: 'EndingDateTime' }
   ]
@@ -186,8 +186,8 @@ module TypesHelper
   TemporalExtentType = [
     { name: 'PrecisionOfSeconds' },
     { name: 'EndsAtPresentFlag' },
-    { name: 'RangeDateTime', options: [:sub_type] },
-    { name: 'SingleDateTime', options: [:array_field] },
-    { name: 'PeriodicDateTime', options: [:sub_type] }
+    { name: 'RangeDateTimes', options: [:sub_type] },
+    { name: 'SingleDateTimes', options: [:array_field] },
+    { name: 'PeriodicDateTimes', options: [:sub_type] }
   ]
 end

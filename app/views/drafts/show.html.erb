@@ -129,21 +129,13 @@
       <%= image_tag("plate_carree_earth@2x.png", alt:'Map', id:'preview_map') %>
 
       <caption>Spatial Coordinates</caption>
-      <ol class="coordinates">
-        <li>N: -62.83</li>
-        <li>S: 90.0</li>
-        <li>E: 180.0</li>
-        <li>W: -180.0</li>
-      </ol>
+      <ol class="coordinates" id="coordinates"></ol>
+
       <h4>Location Keywords</h4>
-      <ul>
-        <li>Continent > Antartica</li>
-        <li>Geographic Region > Polar</li>
+      <ul id="location_keywords">
       </ul>
       <h4>Temporal Coverage</h4>
-      <ul>
-        <li>Start Date: <time datetime="1997-09-09"></time>1997-09-09</li>
-        <li>Stop Date: <time datetime="1997-10-22">1997-10-22</time></li>
+      <ul id="temporal_coverage">
       </ul>
     </aside>
   </div>
@@ -153,6 +145,8 @@
     var position = preview_map.offset();
     var map_x1 = position.left;
     var map_y1 = position.top;
+    var coordinate_html = '';
+    var temporal_coverage_html = '';
 
     var map_width = preview_map.width();
     var map_height = preview_map.height();
@@ -169,12 +163,15 @@
       var dot_size = 5;
       function draw_point(x, y) {
         var dot = '<div style="position:absolute;width:' + dot_size + 'px;height:' + dot_size + 'px;top:' + y + 'px;left:' + x + 'px;background:' + highlight_color +'"></div>';
-        //alert(dot);
         document.body.innerHTML += dot;
       }
-      <% point = @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['Point'] %>
-      var converted_lat_lon = convert_lat_lon('<%= point['Latitude'] %>', '<%= point['Longitude'] %>');
-      draw_point(converted_lat_lon.x + map_x1, converted_lat_lon.y + map_y1);
+      <% @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['Points'].each do |point| %>
+        var converted_lat_lon = convert_lat_lon('<%= point['Latitude'] %>', '<%= point['Longitude'] %>');
+        draw_point(converted_lat_lon.x + map_x1, converted_lat_lon.y + map_y1);
+
+        coordinate_html +=  "<li>Lat: <%= point['Latitude'] %></li> \
+                            <li>Lon: <%= point['Longitude'] %></li></br>";  // TODO - UI dev - remove </br>
+      <% end %>
 
     <% elsif @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['CoordinateSystem'] == 'Rectangle'%>
 
@@ -184,22 +181,64 @@
         var min_y = Math.min(y1, y2);
         var max_y = Math.max(y1, y2);
         var rect = '<div style="position:absolute;width:' + (max_x-min_x) + 'px;height:' + (max_y-min_y) + 'px;top:' + min_y + 'px;left:' + min_x + 'px;background:' + highlight_color +'"></div>';
-        //alert(rect);
         document.body.innerHTML += rect;
       }
 
-      <% bounding_rectangle = @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['BoundingRectangle'] %>
-      var converted_lat_lon_1 = convert_lat_lon('<%=bounding_rectangle['NorthBoundingCoordinate']%>',
-                                                '<%=bounding_rectangle['WestBoundingCoordinate']%>');
-      var converted_lat_lon_2 = convert_lat_lon('<%=bounding_rectangle['SouthBoundingCoordinate']%>',
-                                                '<%=bounding_rectangle['EastBoundingCoordinate']%>');
-      draw_rectangle( converted_lat_lon_1.x + map_x1,
-                      converted_lat_lon_1.y + map_y1,
-                      converted_lat_lon_2.x + map_x1,
-                      converted_lat_lon_2.y + map_y1 );
+      <% @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['BoundingRectangles'].each do |bounding_rectangle| %>
+        var converted_lat_lon_1 = convert_lat_lon('<%=bounding_rectangle['NorthBoundingCoordinate']%>',
+                                                  '<%=bounding_rectangle['WestBoundingCoordinate']%>');
+        var converted_lat_lon_2 = convert_lat_lon('<%=bounding_rectangle['SouthBoundingCoordinate']%>',
+                                                  '<%=bounding_rectangle['EastBoundingCoordinate']%>');
+        draw_rectangle( converted_lat_lon_1.x + map_x1,
+                        converted_lat_lon_1.y + map_y1,
+                        converted_lat_lon_2.x + map_x1,
+                        converted_lat_lon_2.y + map_y1 );
+
+        coordinate_html +=  "<li>N: <%=bounding_rectangle['NorthBoundingCoordinate']%></li> \
+                            <li>S: <%=bounding_rectangle['SouthBoundingCoordinate']%></li> \
+                            <li>E: <%=bounding_rectangle['EastBoundingCoordinate']%></li> \
+                            <li>W: <%=bounding_rectangle['WestBoundingCoordinate']%></li></br>"; // TODO - UI dev - remove </br>
+      <% end %>
+    <% end %>
+
+    var coordinates = document.getElementById("coordinates");
+    coordinates.innerHTML = coordinate_html;
+
+
+    location_keywords_html = "<li>Continent > Antartica</li> \
+                              <li>Geographic Region > Polar</li>";
+    var location_keywords = document.getElementById("location_keywords");
+    location_keywords.innerHTML = location_keywords_html;
+
+
+    <% @draft.draft['TemporalExtent'].each do |temporal_extent| %>
+
+      <% if temporal_extent['TemporalRangeType'] == 'SingleDateTime' %>
+
+        <% temporal_extent['SingleDateTime'].each do |single_date_time| %>
+          temporal_coverage_html += '<li>Date: <%= single_date_time%></li></br>'; // TODO - UI dev - remove </br>
+        <% end %>
+
+      <% elsif temporal_extent['TemporalRangeType'] == 'RangeDateTime' %>
+
+        <% temporal_extent['RangeDateTime'].each do |range_date_time| %>
+          temporal_coverage_html += '<li>Start Date: <%= range_date_time['BeginningDateTime']%> </li> \
+                                     <li>Stop Date: <%= range_date_time['EndingDateTime']%> </li></br>'; // TODO - UI dev - remove </br>
+        <% end %>
+
+      <% elsif temporal_extent['TemporalRangeType'] == 'PeriodicDateTime' %>
+
+        <% temporal_extent['PeriodicDateTime'].each do |periodic_date_time| %>
+          temporal_coverage_html += '<li>Start Date: <%= periodic_date_time['StartDate']%> </li> \
+                                     <li>Stop Date: <%= periodic_date_time['EndDate']%> </li></br>'; // TODO - UI dev - remove </br>
+        <% end %>
+
+      <% end %>
 
     <% end %>
 
+    var temporal_coverage = document.getElementById("temporal_coverage");
+    temporal_coverage.innerHTML = temporal_coverage_html;
 
 
   </script>
