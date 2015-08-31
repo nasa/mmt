@@ -25,63 +25,81 @@ describe template_path, type: :view do
     context 'is populated' do
       draft_json = {}
       before do
-        draft_json['SpatialExtent'] = {"SpatialCoverageType"=>"Horizontal",
+        draft_json['SpatialExtent'] = {"SpatialCoverageType"=>"HORIZONTAL",
                                        "HorizontalSpatialDomain"=>
                                            {"ZoneIdentifier"=>"Zone ID",
                                             "Geometry"=>
                                                {"CoordinateSystem"=>"CARTESIAN",
 
-                                                'Points'=>[{'Longitude'=>'123','Latitude'=>'45'},
-                                                           {'Longitude'=>'123a','Latitude'=>'45a'}
+                                                'Points'=>[{'Longitude'=>-77.047878,'Latitude'=>38.805407},
+                                                           {'Longitude'=>-76.9284587,'Latitude'=>38.968602}
                                                 ],
 
-                                                'BoundingRectangles'=>[{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
-                                                  'WestBoundingCoordinate'=>'WestBoundingCoordinate',
-                                                  'NorthBoundingCoordinate'=>'NorthBoundingCoordinate',
-                                                  'EastBoundingCoordinate'=>'EastBoundingCoordinate',
-                                                  'SouthBoundingCoordinate'=>'SouthBoundingCoordinate'},
-                                                 {'CenterPoint'=>{'Longitude'=>'cp123b','Latitude'=>'cp45b'},
-                                                  'WestBoundingCoordinate'=>'WestBoundingCoordinate2',
-                                                  'NorthBoundingCoordinate'=>'NorthBoundingCoordinate2',
-                                                  'EastBoundingCoordinate'=>'EastBoundingCoordinate2',
-                                                  'SouthBoundingCoordinate'=>'SouthBoundingCoordinate2'}
+                                                'BoundingRectangles'=>[{'CenterPoint'=>{'Longitude'=>0.0,'Latitude'=>0.0},
+                                                  'WestBoundingCoordinate'=>-180.0,
+                                                  'NorthBoundingCoordinate'=>90.0,
+                                                  'EastBoundingCoordinate'=>180.0,
+                                                  'SouthBoundingCoordinate'=>-90.0},
+                                                 {'CenterPoint'=>{'Longitude'=>20.0,'Latitude'=>10.0},
+                                                  'WestBoundingCoordinate'=>-96.9284587,
+                                                  'NorthBoundingCoordinate'=>58.968602,
+                                                  'EastBoundingCoordinate'=>-56.9284587,
+                                                  'SouthBoundingCoordinate'=>18.968602}
                                                 ],
 
-                                                'GPolygons'=>[{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
-                                                  'Boundary'=>[{'Longitude'=>'123','Latitude'=>'45'},{'Longitude'=>'1234','Latitude'=>'456'}],
-                                                  'ExclusionZone'=>{'BoundaryType'=>'BoundaryType',
-                                                                    'Boundary'=>[{'Longitude'=>'123z','Latitude'=>'45z'},{'Longitude'=>'1234z','Latitude'=>'456z'}]}},
-                                                  {'CenterPoint'=>{'Longitude'=>'cp123c','Latitude'=>'cp45c'},
-                                                   'Boundary'=>[{'Longitude'=>'1231','Latitude'=>'451'},{'Longitude'=>'12342','Latitude'=>'4562'}],
-                                                   'ExclusionZone'=>{'BoundaryType'=>'BoundaryType2',
-                                                                     'Boundary'=>[{'Longitude'=>'123zz','Latitude'=>'45zz'},{'Longitude'=>'1234zz','Latitude'=>'456zz'}]}}
+                                                "GPolygons"=>[
+                                                  {"CenterPoint"=>{"Longitude"=>0.0, "Latitude"=>0.0},
+                                                    "Boundary"=>{"Points"=>[
+                                                        {"Longitude"=>10.0, "Latitude"=>10.0},
+                                                        {"Longitude"=>-10.0, "Latitude"=>10.0},
+                                                        {"Longitude"=>-10.0, "Latitude"=>-10.0},
+                                                        {"Longitude"=>10.0, "Latitude"=>-10.0}
+                                                    ]},
+                                                    "ExclusiveZone"=>{
+                                                        "Boundaries"=>[{"Points"=>[
+                                                          {"Longitude"=>5.0, "Latitude"=>5.0},
+                                                          {"Longitude"=>-5.0, "Latitude"=>5.0},
+                                                          {"Longitude"=>-5.0, "Latitude"=>-5.0},
+                                                          {"Longitude"=>5.0, "Latitude"=>-5.0}
+                                                        ]}]
+                                                    }
+                                                  },
+                                                  {"Boundary"=>{"Points"=>[
+                                                      {"Longitude"=>38.98828125, "Latitude"=>-77.044921875},
+                                                      {"Longitude"=>38.935546875, "Latitude"=>-77.1240234375},
+                                                      {"Longitude"=>38.81689453125, "Latitude"=>-77.02734375},
+                                                      {"Longitude"=>38.900390625, "Latitude"=>-76.9130859375}
+                                                    ]}
+                                                  }
                                                 ],
 
-                                                'Lines'=>[{'CenterPoint'=>{'Longitude'=>'cp123','Latitude'=>'cp45'},
-                                                  'Points'=>[{'Longitude'=>'123b','Latitude'=>'45b'},{'Longitude'=>'1234b','Latitude'=>'456b'}]},
-                                                  {'CenterPoint'=>{'Longitude'=>'cp123r','Latitude'=>'cp45r'},
-                                                   'Points'=>[{'Longitude'=>'123br','Latitude'=>'45br'},{'Longitude'=>'1234br','Latitude'=>'456br'}]}
+                                                'Lines'=>[{'CenterPoint'=>{'Longitude'=>25.0,'Latitude'=>25.0},
+                                                  'Points'=>[{'Longitude'=>24.0,'Latitude'=>24.0},{'Longitude'=>25.0,'Latitude'=>25.0}]},
+                                                  {'CenterPoint'=>{'Longitude'=>25.0,'Latitude'=>25.0},
+                                                   'Points'=>[{'Longitude'=>26.0,'Latitude'=>26.0},{'Longitude'=>27.0,'Latitude'=>27.0}]}
                                                 ]
 
                                                }
                                            },
                                        "VerticalSpatialDomains"=>[{'Type'=>'test Type 1', 'Value'=>'test Value 1'},{'Type'=>'test Type 2', 'Value'=>'test Value 2'}],
-                                       "OrbitParameters"=>{'SwathWidth'=>'SwathWidth','Period'=>'Period','InclinationAngle'=>'InclinationAngle','NumberOfOrbits'=>'NumberOfOrbits','StartCircularLatitude'=>'StartCircularLatitude'},
+                                       "OrbitParameters"=>{'SwathWidth'=>40,'Period'=>50,'InclinationAngle'=>60,'NumberOfOrbits'=>70,'StartCircularLatitude'=>0.0},
                                        "GranuleSpatialRepresentation"=>"CARTESIAN"}
 
         draft_json['TilingIdentificationSystem'] = {"TilingIdentificationSystemName"=>"System name",
-                          "Coordinate1"=> {"MinimumValue"=>"-50", "MaximumValue"=>"50"},
-                          "Coordinate2"=> {"MinimumValue"=>"-30", "MaximumValue"=>"30"}}
+                          "Coordinate1"=> {"MinimumValue"=>-50, "MaximumValue"=>50},
+                          "Coordinate2"=> {"MinimumValue"=>-30, "MaximumValue"=>30}}
 
-        draft_json['SpatialInformation'] = {"SpatialCoverageType"=>"Both",
+        draft_json['SpatialInformation'] = {"SpatialCoverageType"=>"BOTH",
             "HorizontalCoordinateSystem"=> {"GeodeticModel"=>
-                {"HorizontalDatumName"=>"Datum name", "EllipsoidName"=>"Ellipsoid name", "SemiMajorAxis"=>"3", "DenominatorOfFlatteningRatio"=>"4"},
-                                            "GeographicCoordinateSystem"=>{"GeographicCoordinateUnits"=>"GeographicCoordinateUnits","LatitudeResolution"=>"321","LongitudeResolution"=>"234"},
-                                            "LocalCoordinateSystem"=>{"GeoReferenceInformation"=>"GeoReferenceInformation","Description"=>"Description"}
+                {"HorizontalDatumName"=>"Datum name", "EllipsoidName"=>"Ellipsoid name", "SemiMajorAxis"=>3.0, "DenominatorOfFlatteningRatio"=>4.0}
             },
-            "VerticalCoordinateSystem"=> {"AltitudeSystemDefinition"=>{'DatumName'=>'Datum', 'DistanceUnits'=>'Distance Units', 'EncodingMethod'=>'Encoding', 'Resolution'=>{'Resolutions'=>[1, 2, 3]}},
-                                          "DepthSystemDefinition"=>{'DatumName'=>'Datum 2', 'DistanceUnits'=>'Distance Units 2', 'EncodingMethod'=>'Encoding 2', 'Resolution'=>{'Resolutions'=>[12, 22, 32]}}}
+            "VerticalCoordinateSystem"=> {"AltitudeSystemDefinition"=>{'DatumName'=>'Datum', 'DistanceUnits'=>'Distance Units', 'EncodingMethod'=>'Encoding', 'Resolution'=>{'Resolutions'=>[1.0, 2.0, 3.0]}},
+                                          "DepthSystemDefinition"=>{'DatumName'=>'Datum 2', 'DistanceUnits'=>'Distance Units 2', 'EncodingMethod'=>'Encoding 2', 'Resolution'=>{'Resolutions'=>[12.0, 22.0, 32.0]}}}
         }
+
+        # draft_json['SpatialKeywords'] = ["f47ac10b-58cc-4372-a567-0e02b2c3d479", "abdf4d5c-55dc-4324-9ae5-5adf41e99da3"]
+
+        # output_schema_validation draft_json
 
         assign(:draft, build(:draft, draft: draft_json))
         render :template => template_path, :locals=>{draft: draft_json}

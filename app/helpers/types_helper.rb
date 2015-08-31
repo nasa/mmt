@@ -200,7 +200,12 @@ module TypesHelper
       { name: 'EastBoundingCoordinate' },
       { name: 'SouthBoundingCoordinate' }
   ]
-  BoundaryType = PointsType
+  BoundaryType = [
+      { name: 'Points' }
+  ]
+  BoundariesType = [
+      { name: 'Points' }
+  ]
   CenterPointType = PointsType
   Coordinate1Type = [
       { name: 'MinimumValue' },
@@ -209,8 +214,7 @@ module TypesHelper
   Coordinate2Type = Coordinate1Type
   DepthSystemDefinitionType = AltitudeSystemDefinitionType
   ExclusionZoneType = [
-      { name: 'BoundaryType' },
-      { name: 'Boundary', options: [:sub_type] }
+      { name: 'Boundaries', options: [:sub_type] }
   ]
   GeodeticModelType = [
       { name: 'HorizontalDatumName' },
@@ -236,9 +240,7 @@ module TypesHelper
       { name: 'ExclusionZone', options: [:sub_type] }
   ]
   HorizontalCoordinateSystemType = [
-      { name: 'GeodeticModel', options: [:sub_type] },
-      { name: 'GeographicCoordinateSystem', options: [:sub_type] },
-      { name: 'LocalCoordinateSystem', options: [:sub_type] }
+      { name: 'GeodeticModel', options: [:sub_type] }
   ]
   HorizontalSpatialDomainType = [
       { name: 'ZoneIdentifier' },
@@ -275,6 +277,7 @@ module TypesHelper
       { name: 'VerticalCoordinateSystem', options: [:sub_type] }
   ]
   SpatialKeywordsType = [
+      { name: 'Uuid', options: [:array_field] }
   ]
   TilingIdentificationSystemType = [
       { name: 'TilingIdentificationSystemName' },
