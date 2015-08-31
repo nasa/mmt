@@ -1,0 +1,10 @@
+<div class="row sub-fields">
+  <label>Boundary Points</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'point',
+      values: boundary['Points'] || [{}],
+      name_prefix: "#{name_prefix}points_",
+      multiple: true,
+      options: {} } %>
+
+</div>

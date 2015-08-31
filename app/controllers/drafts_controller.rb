@@ -12,24 +12,6 @@ class DraftsController < ApplicationController
   # GET /drafts/1.json
   def show
 
-    @draft.draft['SpatialExtent'] = {'HorizontalSpatialDomain'=>{'Geometry'=>{'CoordinateSystem'=>'Rectangle',
-              'BoundingRectangles'=>[{'WestBoundingCoordinate'=>'-180',
-                                    'NorthBoundingCoordinate'=>'-62.83',
-                                    'EastBoundingCoordinate'=>'180',
-                                    'SouthBoundingCoordinate'=>'-90'},
-                                   {'WestBoundingCoordinate'=>'-80',
-                                    'NorthBoundingCoordinate'=>'62.83',
-                                    'EastBoundingCoordinate'=>'80',
-                                    'SouthBoundingCoordinate'=>'90'}
-              ]
-    }}}
-
-    @draft.draft['SpatialExtentZZZ'] = {'HorizontalSpatialDomain'=>{'Geometry'=>{'CoordinateSystem'=>'Point',
-              'Points'=>[{'Longitude'=>'30', 'Latitude'=>'10'},
-                         {'Longitude'=>'-30', 'Latitude'=>'-10'}
-              ]
-    }}}
-
   end
 
   # GET /drafts/new

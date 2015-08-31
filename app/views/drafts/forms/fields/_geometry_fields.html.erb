@@ -1,0 +1,50 @@
+<div class="row sub-fields">
+  <!-- CoordinateSystem -->
+  <% coordinate_system = geometry['CoordinateSystem'] || "" %>
+  <label>Coordinate System</label><i class="fa fa-info-circle"></i>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label>
+
+  <!-- Bad </br>, take out design team! -->
+  </br>
+
+  <!-- Points -->
+  <label>Points</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'point',
+      values: geometry['Points'] || [{}],
+      name_prefix: "#{name_prefix}points_",
+      multiple: true,
+      options: {} } %>
+
+
+  <!-- BoundingRectangles -->
+  <label>Bounding Rectangles</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'bounding_rectangle',
+      values: geometry['BoundingRectangles'] || [{}],
+      name_prefix: "#{name_prefix}|bounding_rectangles|_",
+      multiple: true,
+      options: {} } %>
+
+
+  <!-- GPolygons -->
+  <label>GPolygons</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'g_polygon',
+      values: geometry['GPolygons'] || [{}],
+      name_prefix: "#{name_prefix}|g_polygons|_",
+      multiple: true,
+      options: {} } %>
+
+
+  <!-- Lines -->
+  <label>Lines</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'line',
+      values: geometry['Lines'] || [{}],
+      name_prefix: "#{name_prefix}lines_",
+      multiple: true,
+      options: {} } %>
+
+</div>

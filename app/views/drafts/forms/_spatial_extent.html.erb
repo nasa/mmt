@@ -1,52 +1,61 @@
 <!-- Spatial Extent [r] -->
-  <!-- array of SpatialExtentType -->
-  <div class="row">
-    <div class="col-12">
-      <label for="draft_entry_id" class="icon-required">Spatial Extent</label><i class="fa fa-info-circle"></i>
-
-      <div class="row sub-fields">
-        <% spatial_extent = @draft.draft['SpatialExtent'] || {} %>
-        <label for="draft_spatial_extent_spatial_coverage_type">Spatial Coverage Type</label><i class="fa fa-info-circle"></i>
-        <%= select_tag "draft[spatial_extent][spatial_coverage_type]", options_for_select(['HORIZONTAL', 'VERTICAL', 'ORBITAL'], spatial_extent['SpatialCoverageType']), class: 'half-width' %>
-
-        <label for="draft_spatial_extent_horizontal_spatial_domain">Horizontal Spatial Domain</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[spatial_extent][horizontal_spatial_domain]', spatial_extent['HorizontalSpatialDomain'], class: 'half-width') %>
-      </div>
-    </div>
+<div class="row">
+  <div class="col-12">
+    <label class="main-field icon-required">Spatial Extent</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'spatial_extent',
+        values: draft.draft['SpatialExtent'] || {},
+        name_prefix: 'draft_|spatial_extent|_',
+        multiple: false,
+        options: {} } %>
   </div>
+</div>
 
 
 <!-- Tiling Identification System -->
-  <!-- TilingIdentificationSystemType -->
 <div class="row">
   <div class="col-12">
-    <label for="tiling_identification_system">Tiling Identification System</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
-    </div>
+    <label class="main-field">Tiling Identification System</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'tiling_identification_system',
+        values: draft.draft['TilingIdentificationSystem'] || {},
+        name_prefix: 'draft_|tiling_identification_system|_',
+        multiple: false,
+        options: {} } %>
   </div>
 </div>
 
 
 <!-- Spatial Representation Information -->
-  <!-- SpatialInformation -->
 <div class="row">
   <div class="col-12">
-    <label for="spatial_representation_information">Spatial Representation Information</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
-    </div>
+    <label class="main-field">Spatial Representation Information</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'spatial_information',
+        values: draft.draft['SpatialInformation'] || {},
+        name_prefix: 'draft_|spatial_information|_',
+        multiple: false,
+        options: {} } %>
   </div>
 </div>
 
 
 <!-- Spatial Keywords -->
-  <!-- KeywordUuidStringType -->
 <div class="row">
   <div class="col-12">
-    <label for="spatial_keywords">Spatial Keywords</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
+    <label class="main-field">Spatial Keywords</label><i class="fa fa-info-circle"></i>
+    <% spatial_keywords = draft.draft['SpatialKeywords'] || [nil] # [nil] creates at least one field %>
+    <div class="multiple spatial-keywords">
+      <% spatial_keywords.each do |spatial_keyword| %>
+        <div class="multiple-item">
+          <label for="draft_spatial_keywords_">Spatial Keyword</label><i class="fa fa-info-circle"></i>
+          <%= text_field_tag(name_to_param("draft_|spatial_keywords|_index"), spatial_keyword, class: 'half-width') %>
+          <div class="actions">
+            <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
+            <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

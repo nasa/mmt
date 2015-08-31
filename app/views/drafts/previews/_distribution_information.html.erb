@@ -7,15 +7,15 @@
     <ul class="distribution-information-preview">
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['RelatedUrl'],
-          name: 'RelatedUrl',
-          type: TypesHelper::RelatedUrlType
+          data: draft['RelatedUrls'],
+          name: 'RelatedUrls',
+          type: TypesHelper::RelatedUrlsType
       } %>
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['Distribution'],
-          name: 'Distribution',
-          type: TypesHelper::DistributionType
+          data: draft['Distributions'],
+          name: 'Distributions',
+          type: TypesHelper::DistributionsType
       } %>
 
     </ul>

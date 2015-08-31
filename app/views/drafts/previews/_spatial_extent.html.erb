@@ -4,51 +4,31 @@
     <h4>Spatial Extent Fields:</h4>
   </div>
   <div class="accordion-body">
+    <ul class="spatial-extent-preview">
 
-    <% if !@draft.draft['SpatialExtent'].blank? %>
-      <h4>Spatial Extent</h4>
-      <p>
-        <% @draft.draft['SpatialExtent'].each do |r| %>
-          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'SpatialCoverageType', :hash_for_key=>r} %>
-          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'HorizontalSpatialDomain', :hash_for_key=>r} %>
-          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'VerticalSpatialDomain', :hash_for_key=>r} %>
-          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'OrbitParameters', :hash_for_key=>r} %>
-          <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'GranuleSpatialRepresentation', :hash_for_key=>r} %>
-          <%= raw((r == @draft.draft['SpatialExtent'].last) ? '' : '</br>') %>
-        <% end %>
-      </p>
-    <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+                                                                data: draft['SpatialExtent'],
+                                                                name: 'SpatialExtent',
+                                                                type: TypesHelper::SpatialExtentType
+                                                        } %>
 
-    <% if !@draft.draft['TilingIdentificationSystem'].blank? %>
-      <h4>Tiling Identification System</h4>
-      <p>
-        <% r = @draft.draft['TilingIdentificationSystem'] %>
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'TilingIdentificationSystemName', :hash_for_key=>r} %>
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Coordinate1',   :hash_for_key=>r} %>
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Coordinate2', :hash_for_key=>r} %>
-      </p>
-    <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+                                                                data: draft['TilingIdentificationSystem'],
+                                                                name: 'TilingIdentificationSystem',
+                                                                type: TypesHelper::TilingIdentificationSystemType
+                                                        } %>
 
-    <% if !@draft.draft['SpatialInformation'].blank? %>
-      <h4>Spatial Information</h4>
-      <p>
-        <% r = @draft.draft['SpatialInformation'] %>
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'VerticalCoordinateSystem', :hash_for_key=>r} %>
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'HorizontalCoordinateSystem',   :hash_for_key=>r} %>
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'SpatialCoverageType', :hash_for_key=>r} %>
-      </p>
-    <% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+                                                                data: draft['SpatialInformation'],
+                                                                name: 'SpatialInformation',
+                                                                type: TypesHelper::SpatialInformationType
+                                                        } %>
 
-    <% if !@draft.draft['SpatialKeyword'].blank? %>
-      <h4>Spatial Keyword</h4>
-      <p>
-        <% r = @draft.draft['SpatialKeyword'] %>
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Category', :hash_for_key=>r} %>
-        <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
-      </p>
-    <% end %>
+      <%= render partial: 'drafts/previews/fields/display_array_with_header', locals: {
+                                                                                    key_name: 'SpatialKeywords',
+                                                                                    hash_for_key: draft
+                                                                            } %>
 
-    <hr>
-
+    </ul>
   </div>
 </div>

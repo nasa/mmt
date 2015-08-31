@@ -8,21 +8,11 @@
 
       <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MetadataLanguage', :hash_for_key=>draft} %>
 
-      <% if draft['MetadataStandard'] %>
-        <li class="sub-field <%= name_to_class('MetadataStandard')%>">
-          <ul>
-            <li class="field-name">Metadata Standard</h4></li>
-            <% metadata_standard = draft['MetadataStandard'] %>
-            <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Name', :hash_for_key=>metadata_standard} %>
-            <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>metadata_standard} %>
-          </ul>
-        </li>
-      <% end %>
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['MetadataLineage'],
-          name: 'MetadataLineage',
-          type: TypesHelper::LineageType
+          data: draft['MetadataDates'],
+          name: 'MetadataDates',
+          type: TypesHelper::DateType
       } %>
 
     </ul>

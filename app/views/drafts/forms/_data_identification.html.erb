@@ -1,13 +1,17 @@
 <!-- Entry ID [r] -->
-<div class="row entry-id">
+<div class="row">
   <div class="col-12">
-    <label for="draft_entry_id" class="main-field icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/type', locals: {
-        type: 'entry_id',
-        values: draft.draft['EntryId'] || {},
-        name_prefix: "draft_|entry_id|_",
-        multiple: false,
-        options: {} } %>
+    <label for="draft_entry_id" class="main-field icon-required">Entry Id</label><i class="fa fa-info-circle"></i>
+    <%= text_field_tag('draft[entry_id]', draft.draft['EntryId'], class: 'half-width') %>
+  </div>
+</div>
+
+
+<!-- Version -->
+<div class="row">
+  <div class="col-12">
+    <label for="draft_version" class="main-field">Version</label><i class="fa fa-info-circle"></i>
+    <%= text_field_tag('draft[version]', draft.draft['Version'], class: 'half-width') %>
   </div>
 </div>
 
@@ -40,7 +44,6 @@
 
 
 <!-- Data language -->
-<!-- DataLanguage needs to be an object, not a string, but we don't have enough info in the json-schema -->
 <div class="row">
   <div class="col-12">
     <label for="draft_data_language">Data Language</label><i class="fa fa-info-circle"></i>
@@ -51,17 +54,13 @@
 <!-- Data dates [r] -->
 <div class="row">
   <div class="col-12">
-    <label class="main-field icon-required">Data Lineage</label><i class="fa fa-info-circle"></i>
+    <label class="main-field icon-required">Data Dates</label><i class="fa fa-info-circle"></i>
     <%= render partial: 'drafts/forms/type', locals: {
-        type: 'lineage',
-        values: draft.draft['DataLineage'] || [{}],
-        name_prefix: 'draft_|data_lineage|_',
+        type: 'date',
+        values: draft.draft['DataDates'] || [{}],
+        name_prefix: 'draft_|data_dates|_',
         multiple: true,
-        options: {
-          lineage_type: 'data',
-          type: 'data_lineage',
-          title: 'Data Date'
-        } } %>
+        options: {} } %>
   </div>
 </div>
 
@@ -72,8 +71,8 @@
     <div class="row sub-fields">
       <%= render partial: 'drafts/forms/type', locals: {
           type: 'responsibility',
-          values: draft.draft['ResponsibleOrganization'] || [{}],
-          name_prefix: "draft_|responsible_organization|_",
+          values: draft.draft['ResponsibleOrganizations'] || [{}],
+          name_prefix: "draft_|responsible_organizations|_",
           multiple: true,
           options: {
             limit_type: 'organization',
@@ -140,8 +139,8 @@
     <div class="row">
       <%= render partial: 'drafts/forms/type', locals: {
           type: 'resource_citation',
-          values: draft.draft['CollectionCitation'] || [{}],
-          name_prefix: "draft_|collection_citation|_",
+          values: draft.draft['CollectionCitations'] || [{}],
+          name_prefix: "draft_|collection_citations|_",
           multiple: true,
           options: {} } %>
     </div>
@@ -201,8 +200,8 @@
     <div class="row sub-fields">
       <%= render partial: 'drafts/forms/type', locals: {
           type: 'metadata_association',
-          values: draft.draft['MetadataAssociation'] || [{}],
-          name_prefix: "draft_|metadata_association|_",
+          values: draft.draft['MetadataAssociations'] || [{}],
+          name_prefix: "draft_|metadata_associations|_",
           multiple: true,
           options: {} } %>
     </div>
@@ -217,8 +216,8 @@
     <div class="row sub-fields">
       <%= render partial: 'drafts/forms/type', locals: {
           type: 'publication_reference',
-          values: draft.draft['PublicationReference'] || [{}],
-          name_prefix: "draft_|publication_reference|_",
+          values: draft.draft['PublicationReferences'] || [{}],
+          name_prefix: "draft_|publication_references|_",
           multiple: true,
           options: {} } %>
     </div>

@@ -25,13 +25,12 @@ describe template_path, type: :view do
     context 'is populated' do
       draft_json = {}
       before do
-        draft_json['TemporalExtent'] = [
+        draft_json['TemporalExtents'] = [
             {"TemporalRangeType"=>"SingleDateTime", "PrecisionOfSeconds"=>1, "EndsAtPresentFlag"=>false, "SingleDateTimes"=>["2015-07-01", "2015-12-25"]},
 
-            {"TemporalRangeType"=>"RangeDateTime", "PrecisionOfSeconds"=>10, "EndsAtPresentFlag"=>false,
-               "RangeDateTimes"=>[
-                  {"BeginningDateTime"=>"2014-07-01", "EndingDateTime"=>"2014-08-01"},
-                  {"BeginningDateTime"=>"2015-07-01", "EndingDateTime"=>"2015-08-01"}
+            {"TemporalRangeType"=>"RangeDateTime", "PrecisionOfSeconds"=>10, "EndsAtPresentFlag"=>false, "RangeDateTimes"=>[
+                {"BeginningDateTime"=>"2014-07-01", "EndingDateTime"=>"2014-08-01"},
+                {"BeginningDateTime"=>"2015-07-01", "EndingDateTime"=>"2015-08-01"}
             ]},
 
             {"TemporalRangeType"=>"PeriodicDateTime", "PrecisionOfSeconds"=>30, "EndsAtPresentFlag"=>false,
@@ -41,10 +40,10 @@ describe template_path, type: :view do
                 ]}
         ]
 
-        draft_json['TemporalKeyword'] = ["test 1 Keyword", "test 2 Keyword"]
+        draft_json['TemporalKeywords'] = ["test 1 Keyword", "test 2 Keyword"]
 
         draft_json['PaleoTemporalCoverage'] = {"StartDate"=>"2015-07-01", "EndDate"=>"2015-08-01",
-           "ChronostratigraphicUnit"=>[
+           "ChronostratigraphicUnits"=>[
                {"Eon"=>"test 1 Eon", "Era"=>"test 1 Era", "Epoch"=>"test 1 Epoch", "Stage"=>"test 1 Stage",
                 "DetailedClassification"=>"test 1 Detailed Classification", "Period"=>"test 1 Period"},
                {"Eon"=>"test 2 Eon", "Era"=>"test 2 Era", "Epoch"=>"test 2 Epoch", "Stage"=>"test 2 Stage",

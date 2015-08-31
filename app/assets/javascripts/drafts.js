@@ -29,7 +29,7 @@ $(document).ready(function() {
       $(newDiv).removeClass('multiple-item-' + multipleIndex).addClass('multiple-item-' + (multipleIndex + 1));
 
       // Remove any extra multiple-item, should only be one per .multiple
-      $.each($(newDiv).find('.multiple').not('.multiple.address-street-address'), function(index, multiple) {
+      $.each($(newDiv).find('.multiple').not('.multiple.addresses-street-addresses'), function(index, multiple) {
         $.each($(multiple).children('.multiple-item'), function(index2, field) {
           if (index2 > 0) {
             $(this).remove();
@@ -123,6 +123,31 @@ $(document).ready(function() {
     $(this).prop('checked', true);
   });
 
+  // Handle coordinate-system-picker (geographic/local)
+  $('.coordinate-system-picker').change(function() {
+    var partyType = $(this).parents('.party-type');
+    switch ($(this).val()) {
+      case 'geographic':
+        $(partyType).siblings('.geographic-coordinate-system-fields').show();
+        $(partyType).siblings('.local-coordinate-system-fields').hide();
+        break;
+      case 'local':
+        $(partyType).siblings('.geographic-coordinate-system-fields').hide();
+        $(partyType).siblings('.local-coordinate-system-fields').show();
+        break;
+      default:
+
+    }
+    // Clear all org and person fields
+    $.each($(partyType).siblings('.geographic-coordinate-system-fields, .local-coordinate-system-fields').find('input'), function(index, field) {
+      $(field).val('');
+    });
+
+    // Toggle checkboxes
+    $(this).siblings('.coordinate-system-picker').prop('checked', false);
+    $(this).prop('checked', true);
+  });
+
   // Handle TemporalRangeType selector
   $('.temporal-range-type-select').change(function() {
     $(this).siblings('.temporal-range-type').hide();
@@ -138,6 +163,31 @@ $(document).ready(function() {
         break;
       case 'PeriodicDateTime':
         $(this).siblings('.temporal-range-type.periodic-date-time').show();
+        break;
+      default:
+
+    }
+  });
+
+  // Handle SpatialCoverageType selector
+  $('.spatial-coverage-type-select').change(function() {
+    $(this).siblings('.spatial-coverage-type').hide();
+    // Clear all fields
+    $(this).siblings('.spatial-coverage-type').find('input, select').not('input[type="radio"]').val('');
+
+    switch ($(this).val()) {
+      case 'HORIZONTAL':
+        $(this).siblings('.spatial-coverage-type.horizontal').show();
+        break;
+      case 'VERTICAL':
+        $(this).siblings('.spatial-coverage-type.vertical').show();
+        break;
+      case 'ORBITAL':
+        $(this).siblings('.spatial-coverage-type.orbit').show();
+        break;
+      case 'BOTH':
+        $(this).siblings('.spatial-coverage-type.horizontal').show();
+        $(this).siblings('.spatial-coverage-type.vertical').show();
         break;
       default:
 

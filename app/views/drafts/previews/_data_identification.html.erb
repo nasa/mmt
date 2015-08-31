@@ -6,16 +6,19 @@
   <div class="accordion-body">
     <ul class="data-identification-preview">
 
-      <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['EntryId'],
-          name: 'EntryId',
-          type: TypesHelper::EntryIdType
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'EntryId',
+        hash_for_key: draft
+      } %>
+
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'Version',
+        hash_for_key: draft
       } %>
 
       <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
         key_name: 'EntryTitle',
-        hash_for_key: draft,
-        title_override: 'Title'
+        hash_for_key: draft
       } %>
 
       <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
@@ -34,14 +37,14 @@
       } %>
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['DataLineage'],
-          name: 'DataLineage',
-          type: TypesHelper::LineageType
+          data: draft['DataDates'],
+          name: 'DataDates',
+          type: TypesHelper::DateType
       } %>
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['ResponsibleOrganization'],
-          name: 'ResponsibleOrganization',
+          data: draft['ResponsibleOrganizations'],
+          name: 'ResponsibleOrganizations',
           type: TypesHelper::ResponsibilityType
       } %>
 
@@ -64,8 +67,8 @@
       } %>
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['CollectionCitation'],
-          name: 'CollectionCitation',
+          data: draft['CollectionCitations'],
+          name: 'CollectionCitations',
           type: TypesHelper::ResourceCitationType
       } %>
 
@@ -90,15 +93,15 @@
       } %>
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['MetadataAssociation'],
-          name: 'MetadataAssociation',
-          type: TypesHelper::MetadataAssociationType
+          data: draft['MetadataAssociations'],
+          name: 'MetadataAssociations',
+          type: TypesHelper::MetadataAssociationsType
       } %>
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['PublicationReference'],
-          name: 'PublicationReference',
-          type: TypesHelper::PublicationReferenceType
+          data: draft['PublicationReferences'],
+          name: 'PublicationReferences',
+          type: TypesHelper::PublicationReferencesType
       } %>
 
     </ul>

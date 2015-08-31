@@ -17,7 +17,7 @@ describe 'Distribution information form', js: true do
       add_related_urls
 
       # Complete Distribution fields
-      within '.multiple.distribution' do
+      within '.multiple.distributions' do
         fill_in 'Distribution Media', with: 'Online Download'
         fill_in 'Distribution Size', with: '42 MB'
         fill_in 'Distribution Format', with: 'HDF'
@@ -30,13 +30,14 @@ describe 'Distribution information form', js: true do
           fill_in 'Distribution Media', with: 'Floppy disc'
           fill_in 'Distribution Size', with: '1.44 MB'
           fill_in 'Distribution Format', with: '.txt'
-          fill_in 'Fees', with: '0'
+          fill_in 'Fees', with: '12.34'
         end
       end
 
       within '.nav-top' do
         click_on 'Save & Done'
       end
+      # output_schema_validation Draft.first.draft
       open_accordions
     end
 
@@ -64,12 +65,12 @@ describe 'Distribution information form', js: true do
       expect(page).to have_content('Online Download')
       expect(page).to have_content('42 MB')
       expect(page).to have_content('HDF')
-      expect(page).to have_content('0')
+      expect(page).to have_content('0.0')
       # Distribution 2
       expect(page).to have_content('Floppy disc')
       expect(page).to have_content('1.44 MB')
       expect(page).to have_content('.txt')
-      expect(page).to have_content('0')
+      expect(page).to have_content('12.34')
     end
 
     context 'when returning to the form' do
@@ -80,7 +81,7 @@ describe 'Distribution information form', js: true do
       end
 
       it 'populates the form with the values' do
-        within '.multiple.related-url' do
+        within '.multiple.related-urls' do
           within '.multiple-item-0' do
             expect(page).to have_field('URL', with: 'http://example.com')
             expect(page).to have_field('URL', with: 'http://another-example.com')
@@ -104,19 +105,19 @@ describe 'Distribution information form', js: true do
           end
         end
 
-        within '.multiple.distribution' do
+        within '.multiple.distributions' do
           within '.multiple-item-0' do
             expect(page).to have_field('Distribution Media', with: 'Online Download')
             expect(page).to have_field('Distribution Size', with: '42 MB')
             expect(page).to have_field('Distribution Format', with: 'HDF')
-            expect(page).to have_field('Fees', with: '0')
+            expect(page).to have_field('Fees', with: '0.0')
           end
 
           within '.multiple-item-1' do
             expect(page).to have_field('Distribution Media', with: 'Floppy disc')
             expect(page).to have_field('Distribution Size', with: '1.44 MB')
             expect(page).to have_field('Distribution Format', with: '.txt')
-            expect(page).to have_field('Fees', with: '0')
+            expect(page).to have_field('Fees', with: '12.34')
           end
         end
 

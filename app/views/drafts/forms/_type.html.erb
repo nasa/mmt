@@ -1,5 +1,5 @@
 <% if multiple %>
-  <div class="multiple <%= (options[:type] || type).dasherize %>">
+  <div class="multiple <%= (options[:type] || type).pluralize.dasherize %>">
     <% values.each_with_index do |value, index| %>
       <div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless value == values.last %>">
         <div class="accordion-header">
@@ -13,7 +13,7 @@
           <%= render partial: "drafts/forms/fields/#{type}_fields", locals: {
               type.to_sym => value,
               name_prefix: "#{name_prefix}#{index}_",
-              options: options } %>
+              options: options.clone } %>
         </div>
       </div>
     <% end %>
@@ -26,6 +26,6 @@
     <%= render partial: "drafts/forms/fields/#{type}_fields", locals: {
         type.to_sym => values,
         name_prefix: "#{name_prefix}",
-        options: options } %>
+        options: options.clone } %>
   </div>
 <% end %>
