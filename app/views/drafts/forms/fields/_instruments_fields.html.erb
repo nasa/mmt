@@ -30,12 +30,12 @@
 
 
   <!-- OperationalMode -->
-  <% modes = instruments['OperationalMode'] || [nil] # [nil] creates at least one field %>
+  <% modes = instruments['OperationalModes'] || [nil] # [nil] creates at least one field %>
   <div class="multiple operational-mode">
   <% modes.each do |mode| %>
     <div class="multiple-item">
-      <label for="<%= remove_pipes(name_prefix) %>operational_mode_">Operational Mode</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}|operational_mode|_index"), mode, class: 'half-width') %>
+      <label for="<%= remove_pipes(name_prefix) %>operational_modes_">Operational Mode</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag(name_to_param("#{name_prefix}|operational_modes|_index"), mode, class: 'half-width') %>
       <div class="actions">
         <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
         <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>

@@ -10,7 +10,7 @@ describe 'Draft form accordions', js: true do
   context 'when clicking on the header' do
     before do
       click_on 'Distribution Information'
-      find('.multiple.related-url > .multiple-item-0 > .accordion-header').click
+      find('.multiple.related-urls > .multiple-item-0 > .accordion-header').click
     end
 
     it 'collapses the accordion' do
@@ -23,7 +23,7 @@ describe 'Draft form accordions', js: true do
 
     context 'when clicking on the header again' do
       before do
-        find('.multiple.related-url > .multiple-item-0.is-closed > .accordion-header').click
+        find('.multiple.related-urls > .multiple-item-0.is-closed > .accordion-header').click
       end
 
       it 'opens the accordion' do

@@ -1,0 +1,23 @@
+<div class="row sub-fields">
+  <!-- HorizontalDatumName -->
+  <label for="<%= remove_pipes(name_prefix) %>horizontal_datum_name">Horizontal Datum Name</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|horizontal_datum_name|"), geodetic_model['HorizontalDatumName'], class: 'half-width') %>
+
+
+  <!-- EllipsoidName -->
+  <label for="<%= remove_pipes(name_prefix) %>ellipsoid_name">Ellipsoid Name</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|ellipsoid_name|"), geodetic_model['EllipsoidName'], class: 'half-width') %>
+
+
+  <!-- SemiMajorAxis -->
+  <label for="<%= remove_pipes(name_prefix) %>semi_major_axis">Semi Major Axis</label><i class="fa fa-info-circle"></i>
+  <%= number_field_tag(name_to_param("#{name_prefix}|semi_major_axis|"), geodetic_model['SemiMajorAxis'], class: 'half-width') %>
+
+
+  <!-- DenominatorOfFlatteningRatio -->
+  <label for="<%= remove_pipes(name_prefix) %>denominator_of_flattening_ratio">Denominator Of Flattening Ratio</label><i class="fa fa-info-circle"></i>
+  <%= number_field_tag(name_to_param("#{name_prefix}|denominator_of_flattening_ratio|"), geodetic_model['DenominatorOfFlatteningRatio'], class: 'half-width') %>
+
+
+
+</div>

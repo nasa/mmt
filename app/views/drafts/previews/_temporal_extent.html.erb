@@ -7,13 +7,13 @@
     <ul class="temporal-extent-preview">
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['TemporalExtent'],
-          name: 'TemporalExtent',
-          type: TypesHelper::TemporalExtentType
+          data: draft['TemporalExtents'],
+          name: 'TemporalExtents',
+          type: TypesHelper::TemporalExtentsType
       } %>
 
       <%= render partial: 'drafts/previews/fields/display_array_with_header', locals: {
-          key_name: 'TemporalKeyword',
+          key_name: 'TemporalKeywords',
           hash_for_key: draft
       } %>
 

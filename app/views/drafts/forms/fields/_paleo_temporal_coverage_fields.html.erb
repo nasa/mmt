@@ -12,8 +12,8 @@
   <label for="<%= remove_pipes(name_prefix) %>chronostratigraphic_unit">Chronostratigraphic Unit</label><i class="fa fa-info-circle"></i>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'chronostratigraphic_unit',
-      values: paleo_temporal_coverage['ChronostratigraphicUnit'] || [{}],
-      name_prefix: "#{name_prefix}|chronostratigraphic_unit|_",
+      values: paleo_temporal_coverage['ChronostratigraphicUnits'] || [{}],
+      name_prefix: "#{name_prefix}|chronostratigraphic_units|_",
       multiple: true,
       options: {} } %>
 </div>

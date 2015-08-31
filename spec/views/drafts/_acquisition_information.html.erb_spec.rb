@@ -25,12 +25,12 @@ describe template_path, type: :view do
     context 'is populated' do
       draft_json = {}
       before do
-        draft_json['Project'] = [
-            {"ShortName"=>"test 1 ShortName", "LongName"=>"test 1 LongName", "Campaign"=>["test 1a Campaign", "test 1b Campaign"], "StartDate"=>"2015-07-01", "EndDate"=>"2015-12-25"},
-            {"ShortName"=>"test 2 ShortName", "LongName"=>"test 2 LongName", "Campaign"=>["test 2a Campaign", "test 2b Campaign"], "StartDate"=>"2015-07-01", "EndDate"=>"2015-12-25"}
+        draft_json['Projects'] = [
+            {"ShortName"=>"test 1 ShortName", "LongName"=>"test 1 LongName", "Campaigns"=>["test 1a Campaign", "test 1b Campaign"], "StartDate"=>"2015-07-01", "EndDate"=>"2015-12-25"},
+            {"ShortName"=>"test 2 ShortName", "LongName"=>"test 2 LongName", "Campaigns"=>["test 2a Campaign", "test 2b Campaign"], "StartDate"=>"2015-07-01", "EndDate"=>"2015-12-25"}
         ]
 
-        draft_json['Platform'] =
+        draft_json['Platforms'] =
         [
           {
             "Type"=>"test 1 Type", "ShortName"=>"test 1 P ShortName", "LongName"=>"test 1 P LongName",
@@ -66,7 +66,7 @@ describe template_path, type: :view do
                         ]
                   }
                 ],
-                "OperationalMode"=>[
+                "OperationalModes"=>[
                     "test 1a OperationalMode", "test 1b OperationalMode"
                 ]
                },
@@ -96,7 +96,7 @@ describe template_path, type: :view do
                             ]
                     }
                 ],
-                "OperationalMode"=>[
+                "OperationalModes"=>[
                     "test 1da OperationalMode", "test 1db OperationalMode"
                 ]
                }
@@ -138,7 +138,7 @@ describe template_path, type: :view do
                        ]
                    }
                    ],
-                   "OperationalMode"=>[
+                   "OperationalModes"=>[
                        "test a1a OperationalMode", "test a1b OperationalMode"
                    ]
                   },
@@ -168,7 +168,7 @@ describe template_path, type: :view do
                            ]
                        }
                    ],
-                   "OperationalMode"=>[
+                   "OperationalModes"=>[
                        "test a1da OperationalMode", "test a1db OperationalMode"
                    ]
                   }

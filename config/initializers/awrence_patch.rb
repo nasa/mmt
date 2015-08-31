@@ -3,11 +3,12 @@
 class Hash
   private
 
-  UPCASE_WORDS = ['url', 'isbn', 'doi']
+  UPCASE_WORDS = ['urls', 'isbn', 'doi']
 
   def camelize(snake_word, first_upper = true)
     # Here is the patch
     if UPCASE_WORDS.include?(snake_word)
+      return 'URLs' if snake_word == "urls"
       return snake_word.upcase
     end
 
