@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-SUMMARY_PAGE_STRING = 'Quality Score ='
+SUMMARY_PAGE_STRING = 'Quality Score:'
 TEST_TITLE_STRING = 'test title'
 
 describe 'Draft form navigation' do
