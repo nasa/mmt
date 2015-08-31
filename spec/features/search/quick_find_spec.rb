@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Quick find search' do
+describe 'Quick find search', js: true do
   entry_id = 'doi:10.3334/ORNLDAAC/8_1'
 
   before do
@@ -20,7 +20,7 @@ describe 'Quick find search' do
         expect(page).to have_content('Search Result')
       end
       it 'displays collection results' do
-        expect(page).to have_content("1 Result for: Entry Id: #{entry_id}")
+        expect(page).to have_search_query(1, "Entry Id: #{entry_id}")
       end
     end
   end
@@ -35,7 +35,7 @@ describe 'Quick find search' do
       expect(page).to have_content('Search Result')
     end
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Entry Id: #{entry_id}")
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}")
     end
   end
 

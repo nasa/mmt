@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Search drafts results' do
+describe 'Search drafts results', js: true do
   entry_id = 'id_123'
   entry_title = 'Aircraft Flux-Filtered: Univ. Col. (FIFE)'
 
@@ -22,7 +22,7 @@ describe 'Search drafts results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: Draft Records | Entry Id: #{entry_id}")
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", "Record State: Draft Records")
     end
 
     it 'displays expected data' do
@@ -41,7 +41,7 @@ describe 'Search drafts results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: Draft Records | Entry Title: #{entry_title}")
+      expect(page).to have_search_query(1, "Entry Title: #{entry_title}", "Record State: Draft Records")
     end
 
     it 'displays expected data' do
@@ -60,7 +60,7 @@ describe 'Search drafts results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: Published And Draft Records | Entry Id: #{entry_id}")
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", "Record State: Published And Draft Records")
     end
 
     it 'displays expected data' do

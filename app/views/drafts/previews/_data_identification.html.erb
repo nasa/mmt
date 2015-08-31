@@ -1,155 +1,106 @@
-<h4>Data Identification Fields:</h4>
+<div class="preview-collection accordion is-closed">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    <h4>Data Identification Fields:</h4>
+  </div>
+  <div class="accordion-body">
+    <ul class="data-identification-preview">
 
-<!-- Entry ID [r] -->
-<% if !@draft.draft['EntryId'].blank? %>
-  <h4>Entry ID</h4>
-  <p>
-    <% r = @draft.draft['EntryId'] %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Id',        :hash_for_key=>r, :title_override=>'ID'} %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Version',   :hash_for_key=>r} %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Authority', :hash_for_key=>r} %>
-  </p>
-<% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['EntryId'],
+          name: 'EntryId',
+          type: TypesHelper::EntryIdType
+      } %>
 
-<!-- Entry Title [r] -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EntryTitle', :hash_for_key=>@draft.draft, :title_override=>'Title'} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'EntryTitle',
+        hash_for_key: draft,
+        title_override: 'Title'
+      } %>
 
-<!-- Abstract [r] -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Abstract', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'Abstract',
+        hash_for_key: draft
+      } %>
 
-<!-- Purpose -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Purpose', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'Purpose',
+        hash_for_key: draft
+      } %>
 
-<!-- Data language -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DataLanguage', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'DataLanguage',
+        hash_for_key: draft
+      } %>
 
-<!-- Data dates [r] -->
-<!-- DataLineage -->
-<% if !@draft.draft['DataLineage'].blank? %>
-  <h4>Data Lineage</h4>
-  <p>
-    <% @draft.draft['DataLineage'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Scope', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Date', :hash_for_key=>r} %>
-      Date: Number two?? </br>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Responsibility', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['DataLineage'].last) ? '' : '</br>') %>
-    <% end %>
-  </p>
-<% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['DataLineage'],
+          name: 'DataLineage',
+          type: TypesHelper::LineageType
+      } %>
 
-<!-- Organization [r] -->
-<!-- show orgs -->
-<% if !@draft.draft['ResponsibleOrganization'].blank? %>
-  <h4>Responsible Organization</h4>
-  <p>
-    <% @draft.draft['ResponsibleOrganization'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ShortName', :hash_for_key=>r['Party']['OrganizationName']} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'LongName', :hash_for_key=>r['Party']['OrganizationName']} %>
-      <%= raw((r == @draft.draft['ResponsibleOrganization'].last) ? '' : '</br>') %>
-    <% end %>
-  </p>
-<% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['ResponsibleOrganization'],
+          name: 'ResponsibleOrganization',
+          type: TypesHelper::ResponsibilityType
+      } %>
 
-<!-- Personnel -->
-<!-- responsibility: display form when no people added -->
-<!-- person: shows full form (address, hours, etc.) -->
-<% if !@draft.draft['ResponsiblePersonnel'].blank? %>
-  <h4>Responsible Personnel</h4>
-  <p>
-    <% @draft.draft['ResponsiblePersonnel'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Role', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Party', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['ResponsiblePersonnel'].last) ? '' : '</br>') %>
-    <% end %>
-  </p>
-<% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['ResponsiblePersonnel'],
+          name: 'ResponsiblePersonnel',
+          type: TypesHelper::ResponsibilityType
+      } %>
 
-<!-- Collection Data Type -->
-<!-- Dropdown with ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"] -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'CollectionDataType', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_single_select_field_line', locals: {
+          key_name: 'CollectionDataType',
+          hash_for_key: draft,
+          options: DraftsHelper::CollectionDataTypeOptions
+      } %>
 
-<!-- Resource Citation -->
-<!-- CollectionCitation -->
-<!-- Array of ResourceCitationType -->
-<% if !@draft.draft['CollectionCitation'].blank? %>
-  <h4>Resource Citation/Collection Citation</h4>
-  <p>
-    <% @draft.draft['CollectionCitation'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'RelatedUrl', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Creator', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Editor', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'SeriesName', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ReleaseDate', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ReleasePlace', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'IssueIdentification', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DataPresentationForm', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'OtherCitationDetails', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DOI', :hash_for_key=>r, :title_override=>'DOI'} %>
-      <%= raw((r == @draft.draft['CollectionCitation'].last) ? '' : '</br>') %>
-    <% end %>
-  </p>
-<% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['ProcessingLevel'],
+          name: 'ProcessingLevel',
+          type: TypesHelper::ProcessingLevelType
+      } %>
 
-<!-- Collection Progress -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'CollectionProgress', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['CollectionCitation'],
+          name: 'CollectionCitation',
+          type: TypesHelper::ResourceCitationType
+      } %>
 
-<!-- Quality -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Quality', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_single_select_field_line', locals: {
+          key_name: 'CollectionProgress',
+          hash_for_key: draft,
+          options: DraftsHelper::CollectionProgressOptions
+      } %>
 
-<!-- Use Constraints -->
-<%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'UseConstraints', :hash_for_key=>@draft.draft} %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'Quality', hash_for_key: draft
+      } %>
 
-<!-- Access Constraints -->
-<% if !@draft.draft['AccessConstraints'].blank? %>
-  <h4>Access Constraints</h4>
-  <p>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>@draft.draft['AccessConstraints']} %>
-    <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Value', :hash_for_key=>@draft.draft['AccessConstraints']} %>
-  </p>
-<% end %>
+      <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+        key_name: 'UseConstraints', hash_for_key: draft
+      } %>
 
-<!-- Metadata Association -->
-<% if !@draft.draft['MetadataAssociation'].blank? %>
-  <h4>Metadata Association</h4>
-  <p>
-    <% @draft.draft['MetadataAssociation'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Type', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Description', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'EntryId', :hash_for_key=>r, :title_override=>'Entry ID'} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ProviderId', :hash_for_key=>r, :title_override=>'Provider ID'} %>
-      <%= raw((r == @draft.draft['MetadataAssociation'].last) ? '' : '</br>') %>
-    <% end %>
-  </p>
-<% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['AccessConstraints'],
+          name: 'AccessConstraints',
+          type: TypesHelper::AccessConstraintsType
+      } %>
 
-<!-- Publication Reference -->
-<% if !@draft.draft['PublicationReference'].blank? %>
-  <h4>Publication Reference</h4>
-  <p>
-    <% @draft.draft['PublicationReference'].each do |r| %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'RelatedUrl', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Title', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Publisher', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'DOI', :hash_for_key=>r, :title_override=>'DOI'} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Author', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'PublicationDate', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Series', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Edition', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Volume', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Issue', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ReportNumber', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'PublicationPlace', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Pages', :hash_for_key=>r} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'ISBN', :hash_for_key=>r, :title_override=>'ISBN'} %>
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'OtherReferenceDetails', :hash_for_key=>r} %>
-      <%= raw((r == @draft.draft['PublicationReference'].last) ? '' : '</br>') %>
-    <% end %>
-  </p>
-<% end %>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['MetadataAssociation'],
+          name: 'MetadataAssociation',
+          type: TypesHelper::MetadataAssociationType
+      } %>
 
-<hr>
+      <%= render partial: 'drafts/previews/preview_type', locals: {
+          data: draft['PublicationReference'],
+          name: 'PublicationReference',
+          type: TypesHelper::PublicationReferenceType
+      } %>
+
+    </ul>
+  </div>
+</div>

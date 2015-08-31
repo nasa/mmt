@@ -105,7 +105,7 @@
 <div class="row">
   <div class="col-12">
     <label for="draft_collection_data_type">Collection Data Type</label><i class="fa fa-info-circle"></i>
-    <%= select_tag "draft[collection_data_type]", options_for_select([['Select Data Type', ''], ['Science Quality', 'SCIENCE_QUALITY'], ['Near Real Time', 'NEAR_REAL_TIME'], ['Other', 'OTHER']], draft.draft['CollectionDataType']), class: 'half-width' %>
+    <%= select_tag "draft[collection_data_type]", options_for_select(DraftsHelper::CollectionDataTypeOptions, draft.draft['CollectionDataType']), class: 'half-width' %>
   </div>
 </div>
 
@@ -153,7 +153,7 @@
 <div class="row">
   <div class="col-12">
     <label for="draft_collection_progress">Collection Progress</label><i class="fa fa-info-circle"></i>
-    <%= select_tag "draft[collection_progress]", options_for_select([['Select Progress', ''], ['Planned', 'PLANNED'], ['In work', 'IN WORK'], ['Complete', 'COMPLETE']], draft.draft['CollectionProgress']), class: 'half-width' %>
+    <%= select_tag "draft[collection_progress]", options_for_select(DraftsHelper::CollectionProgressOptions, draft.draft['CollectionProgress']), class: 'half-width' %>
   </div>
 </div>
 

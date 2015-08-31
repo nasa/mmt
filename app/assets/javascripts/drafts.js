@@ -152,4 +152,31 @@ $(document).ready(function() {
       return parseInt(classMatch[1]);
     }
   }
+
+  // Search form
+  $('#search').on('click', 'button', function(event) {
+    // Set search_type to whichever button was pressed
+    var name = $(this).attr('name');
+    var form = $(this).parents('form');
+
+    $(form).find('#search_type').val(name);
+    form.submit();
+  });
+
+  $('#search input').keypress(function(event) {
+    // Set search_type to whichever form the user pressed enter in
+    if (event.which == 13) {
+      var name = 'full_search';
+
+      if ($(this).parent('.quick-search').length > 0) {
+        name = 'quick_find';
+      }
+
+      var form = $(this).parents('form');
+
+      $(form).find('#search_type').val(name);
+      form.submit();
+    }
+  });
+
 });

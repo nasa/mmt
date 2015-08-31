@@ -5,12 +5,14 @@
 require 'rails_helper'
 include DraftsHelper
 
-describe 'drafts/previews/_metadata_information.html.erb', type: :view do
+template_path = 'drafts/previews/_metadata_information.html.erb'
+
+describe template_path, type: :view do
   context 'when the metadata information' do
     context 'is empty' do
       before do
         assign(:draft, build(:draft, draft: {}))
-        render
+        render :template => template_path, :locals=>{draft: {}}
       end
 
       it 'does not crash or have Metadata Information' do
@@ -25,7 +27,7 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
       draft_json = {}
       before do
         draft_json['MetadataLanguage'] = 'English'
-        draft_json['MetadataStandard'] = {Name:'test name', Version:'test version'}
+        draft_json['MetadataStandard'] = {"Name" =>'test MS name', "Version" => 'test version'}
 
         draft_json['MetadataLineage'] = [
             # minimal object populating
@@ -47,7 +49,7 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
                                                                   "PostalCode"=>"test 1b PostalCode", "Country"=>"test 1b Country"}],
                                                      "RelatedUrl"=>[{"URL"=>["test 1 URL"], "Description"=>"test 1 Description", "Protocol"=>"HTTP",
                                                                      "MimeType"=>"test 1 MimeType", "Caption"=>"test 1 Caption", "Title"=>"test 1 Title",
-                                                                     "FileSize"=>{"Size"=>"test 1 123", "Unit"=>"test 1 Unit"},
+                                                                     "FileSize"=>{"Size"=>123, "Unit"=>"test 1 Unit"},
                                                                      "ContentType"=>{"Type"=>"test 1 Type", "Subtype"=>"test 1 Subtype"}}]}},
                                           {"Role"=>"POINTOFCONTACT",
                                            "Party"=>{"Person"=>{"FirstName"=>"test 2 FirstName", "MiddleName"=>"test 2 MiddleName", "LastName"=>"test 2 LastName"},
@@ -63,26 +65,21 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
                                                                   "PostalCode"=>"test 2b PostalCode", "Country"=>"test 2b Country"}],
                                                      "RelatedUrl"=>[{"URL"=>["test 2 URL"], "Description"=>"test 2 Description", "Protocol"=>"HTTP",
                                                                      "MimeType"=>"test 2 MimeType", "Caption"=>"test 2 Caption", "Title"=>"test 2 Title",
-                                                                     "FileSize"=>{"Size"=>"test 2 123", "Unit"=>"test 2 Unit"},
+                                                                     "FileSize"=>{"Size"=>321, "Unit"=>"test 2 Unit"},
                                                                      "ContentType"=>{"Type"=>"test 2 Type", "Subtype"=>"test 2 Subtype"}}]}}
                        ]}]}
         ]
 
         assign(:draft, build(:draft, draft: draft_json))
-        render
+        render :template => template_path, :locals=>{draft: draft_json}
       end
 
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
-#puts rendered.gsub(/\s+/, " ").strip
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataLanguage')}"), draft_json['MetadataLanguage'], 'MetadataLanguage')
-        check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataStandard')}"), draft_json['MetadataStandard'], 'MetadataStandard')
-
-        draft_json['MetadataLineage'].each_with_index do |metadata_lineage, index|
-          check_section_for_display_of_values(rendered_node.find(".#{name_to_class('MetadataLineage')}-#{index}"), metadata_lineage, 'MetadataLineage',
-                                              {Role: :handle_as_role, Scope: :handle_as_invisible, Type: :handle_as_date_type})
+        root_css_path = "ul.metadata-information-preview"
+        draft_json.each do |key, value|
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {Role: :handle_as_role, Scope: :handle_as_not_shown, Type: :handle_as_date_type}, true)
         end
-
       end
 
     end
@@ -90,5 +87,3 @@ describe 'drafts/previews/_metadata_information.html.erb', type: :view do
   end
 
 end
-
-

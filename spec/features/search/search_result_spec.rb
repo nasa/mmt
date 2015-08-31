@@ -4,7 +4,7 @@
 
 require 'rails_helper'
 
-describe 'Search published results' do
+describe 'Search published results', js: true do
   entry_id = 'doi:10.3334/ORNLDAAC/8_1'
   entry_title = 'Aircraft Flux-Filtered: Univ. Col. (FIFE)'
   concept_id = 'C1200000036-SEDAC'
@@ -20,7 +20,7 @@ describe 'Search published results' do
       click_on 'Find'
     end
     it 'displays collection results' do
-      expect(page).to have_content('1 Result for: Entry Id: doi:10.3334/ORNLDAAC/8_1 | Record State: Published Records')
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", "Record State: Published Records")
     end
     it 'displays expected Entry ID, Entry Title and Last Modified values' do
       expect(page).to have_content(entry_id)
@@ -54,7 +54,7 @@ describe 'Search published results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: Published Records | Entry Id: #{entry_id}")
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", "Record State: Published Records")
     end
 
     it 'displays expected data' do
@@ -89,7 +89,7 @@ describe 'Search published results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: Published And Draft Records | Entry Id: #{entry_id}")
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", "Record State: Published And Draft Records")
     end
 
     it 'displays expected data' do
@@ -109,7 +109,7 @@ describe 'Search published results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: Published Records | Entry Title: #{entry_title}")
+      expect(page).to have_search_query(1, "Entry Title: #{entry_title}", "Record State: Published Records")
     end
 
     it 'displays expected data' do
@@ -175,7 +175,7 @@ describe 'Search published results' do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content("1 Result for: Record State: Published Records | Concept Id: #{concept_id}")
+      expect(page).to have_search_query(1, "Concept Id: #{concept_id}", "Record State: Published Records")
     end
 
     it 'displays expected data' do

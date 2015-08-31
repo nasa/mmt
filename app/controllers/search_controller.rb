@@ -12,9 +12,9 @@ class SearchController < ApplicationController
     @results_per_page = RESULTS_PER_PAGE
 
     # Did the search come from quick_find or full_search
-    if params['quick_find'] #&& params['entry-id'].present?
+    if params['search_type'] == 'quick_find'
       # If search came from quick find, only use the quick find input
-      params.delete('quick_find')
+      params.delete('search_type')
       params.delete('search_term_type')
       params.delete('search_term')
       @query = {}
@@ -23,9 +23,9 @@ class SearchController < ApplicationController
         @query['search_term_type'] = 'entry_id'
       end
       @query['record_state'] = 'published_records'
-    elsif params['full_search']
+    elsif params['search_type'] == 'full_search'
       # If search came from full search, ignore whatever was in quick find
-      params.delete('full_search')
+      params.delete('search_type')
       params.delete('entry_id')
       @query = params.clone
       @query.delete('provider_id') if @query['provider_id'].blank?

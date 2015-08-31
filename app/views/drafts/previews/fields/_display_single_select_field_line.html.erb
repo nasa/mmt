@@ -1,14 +1,16 @@
 <% if !hash_for_key.nil? %>
   <% value = hash_for_key[key_name]%>
   <% if !value.blank? %>
-    <% options_hash = Hash[options.map{|key, value| [value, key]}] %>
-    <% value = options_hash[value] %>
+    <% value = map_value_onto_display_string(value, options) %>
     <% # If no title_override is passed in, just titleize the key_name %>
     <% title = defined?(title_override).nil? ? key_name.titleize : title_override %>
-      <ul>
-      <li class="<%= name_to_class(key_name)%>">
-        <%= "#{title}#{title.blank? ? '': ': '}#{value}" %>
-      </li>
-    </ul>
+
+    <li class="<%= name_to_class(key_name)%>">
+      <span class="field-name">
+        <%= "#{title}#{title.blank? ? '' : ': '}" %>
+      </span>
+      <%= value %>
+    </li>
+
   <% end %>
 <% end %>

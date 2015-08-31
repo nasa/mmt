@@ -23,6 +23,7 @@ describe 'Metadata Information form', js: true do
       within '.nav-top' do
         click_on 'Save & Done'
       end
+      open_accordions
     end
 
     it 'shows the draft preview page' do
@@ -153,9 +154,7 @@ describe 'Metadata Information form', js: true do
       before do
         click_on 'Metadata Information'
 
-        # Open all accordions
-        script = "$('.multiple-item.is-closed').removeClass('is-closed');"
-        page.evaluate_script script
+        open_accordions
       end
 
       it 'populates the form with the values' do

@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'Search Form', js: true do
   entry_id = 'doi:10.3334/ORNLDAAC/8_1'
+  entry_title = '15 Minute Stream Flow Data: USGS (FIFE)'
 
   before do
     login
@@ -68,4 +69,33 @@ describe 'Search Form', js: true do
       end
     end
   end
+
+  # MMT-300
+  context 'when pressing enter to submit a search' do
+    context 'when using quick find' do
+      before do
+        fill_in 'Quick Find', with: entry_id
+        element = find('input#entry_id')
+        element.native.send_key(:Enter)
+      end
+
+      it 'performs the search' do
+        expect(page).to have_search_query(1, "Entry Id: #{entry_id}")
+      end
+    end
+    context 'when using full search' do
+      before do
+        click_on 'Full Metadata Record Search'
+        select 'Entry Title', from: 'search_term_type'
+        fill_in 'search_term', with: entry_title
+        element = find('input#search_term')
+        element.native.send_key(:Enter)
+      end
+
+      it 'performs the search' do
+        expect(page).to have_search_query(1, "Entry Title: #{entry_title}")
+      end
+    end
+  end
+
 end
