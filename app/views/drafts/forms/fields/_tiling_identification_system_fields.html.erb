@@ -5,7 +5,7 @@
 
 
   <!-- Coordinate1 -->
-  <label for="<%= remove_pipes(name_prefix) %>coordinate_1">Coordinate 1</label><i class="fa fa-info-circle"></i>
+  <label>Coordinate 1</label><i class="fa fa-info-circle"></i>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'tiling_coordinate',
       values: tiling_identification_system['Coordinate1'] || {},
@@ -15,7 +15,7 @@
 
 
   <!-- Coordinate2 -->
-  <label for="<%= remove_pipes(name_prefix) %>coordinate_2">Coordinate 2</label><i class="fa fa-info-circle"></i>
+  <label>Coordinate 2</label><i class="fa fa-info-circle"></i>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'tiling_coordinate',
       values: tiling_identification_system['Coordinate2'] || {},

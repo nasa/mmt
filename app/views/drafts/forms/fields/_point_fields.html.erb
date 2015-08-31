@@ -1,20 +1,11 @@
 <div class="row sub-fields">
   <!-- Longitude -->
   <label for="<%= remove_pipes(name_prefix) %>longitude">Longitude</label><i class="fa fa-info-circle"></i>
-  <%= render partial: 'drafts/forms/type', locals: {
-      type: 'longitude',
-      values: point['Longitude'] || {},
-      name_prefix: "#{name_prefix}longitude",
-      multiple: false,
-      options: {} } %>
+  <%= number_field_tag(name_to_param("#{name_prefix}longitude"), point['Longitude'], class: 'half-width') %>
+
 
   <!-- Latitude -->
   <label for="<%= remove_pipes(name_prefix) %>latitude">Latitude</label><i class="fa fa-info-circle"></i>
-  <%= render partial: 'drafts/forms/type', locals: {
-      type: 'latitude',
-      values: point['Latitude'] || {},
-      name_prefix: "#{name_prefix}latitude",
-      multiple: false,
-      options: {} } %>
+  <%= number_field_tag(name_to_param("#{name_prefix}latitude"), point['Latitude'], class: 'half-width') %>
 
 </div>

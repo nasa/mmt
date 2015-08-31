@@ -53,6 +53,12 @@ module DraftsHelper
     ['Funder', 'FUNDER'],
     ['Stakeholder', 'STAKEHOLDER']
   ]
+  SpatialCoverageTypeOptions = [
+      ['Horizontal', 'HORIZONTAL'],
+      ['Vertical', 'VERTICAL'],
+      ['Orbital', 'ORBITAL'],
+      ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
+  ]
 
   def construct_keyword_string(hash_obj, str)
     # Assumes hash is passed in as ordered

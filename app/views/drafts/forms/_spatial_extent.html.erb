@@ -15,7 +15,7 @@
 <!-- Tiling Identification System -->
 <div class="row">
   <div class="col-12">
-    <label class="main-field icon-required">Tiling Identification System</label><i class="fa fa-info-circle"></i>
+    <label class="main-field">Tiling Identification System</label><i class="fa fa-info-circle"></i>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'tiling_identification_system',
         values: draft.draft['TilingIdentificationSystem'] || {},
@@ -29,7 +29,7 @@
 <!-- Spatial Representation Information -->
 <div class="row">
   <div class="col-12">
-    <label class="main-field icon-required">Spatial Representation Information</label><i class="fa fa-info-circle"></i>
+    <label class="main-field">Spatial Representation Information</label><i class="fa fa-info-circle"></i>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'spatial_information',
         values: draft.draft['SpatialInformation'] || {},
@@ -41,12 +41,21 @@
 
 
 <!-- Spatial Keywords -->
-  <!-- KeywordUuidStringType -->
 <div class="row">
   <div class="col-12">
-    <label for="spatial_keywords">Spatial Keywords</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
+    <label class="main-field">Spatial Keywords</label><i class="fa fa-info-circle"></i>
+    <% spatial_keywords = draft.draft['SpatialKeywords'] || [nil] # [nil] creates at least one field %>
+    <div class="multiple spatial-keywords">
+      <% spatial_keywords.each do |spatial_keyword| %>
+        <div class="multiple-item">
+          <label for="draft_spatial_keywords_">Spatial Keyword</label><i class="fa fa-info-circle"></i>
+          <%= text_field_tag(name_to_param("draft_|spatial_keywords|_index"), spatial_keyword, class: 'half-width') %>
+          <div class="actions">
+            <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
+            <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

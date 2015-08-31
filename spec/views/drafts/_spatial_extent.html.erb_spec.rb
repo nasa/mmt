@@ -65,7 +65,7 @@ describe template_path, type: :view do
 
                                                }
                                            },
-                                       "VerticalSpatialDomain"=>[{'Type'=>'test Type 1', 'Value'=>'test Value 1'},{'Type'=>'test Type 2', 'Value'=>'test Value 2'}],
+                                       "VerticalSpatialDomains"=>[{'Type'=>'test Type 1', 'Value'=>'test Value 1'},{'Type'=>'test Type 2', 'Value'=>'test Value 2'}],
                                        "OrbitParameters"=>{'SwathWidth'=>'SwathWidth','Period'=>'Period','InclinationAngle'=>'InclinationAngle','NumberOfOrbits'=>'NumberOfOrbits','StartCircularLatitude'=>'StartCircularLatitude'},
                                        "GranuleSpatialRepresentation"=>"CARTESIAN"}
 
@@ -79,8 +79,8 @@ describe template_path, type: :view do
                                             "GeographicCoordinateSystem"=>{"GeographicCoordinateUnits"=>"GeographicCoordinateUnits","LatitudeResolution"=>"321","LongitudeResolution"=>"234"},
                                             "LocalCoordinateSystem"=>{"GeoReferenceInformation"=>"GeoReferenceInformation","Description"=>"Description"}
             },
-            "VerticalCoordinateSystem"=> {"AltitudeSystemDefinition"=>{'DatumName'=>'Datum', 'DistanceUnits'=>'Distance Units', 'EncodingMethod'=>'Encoding', 'Resolution'=>[1, 2, 3]},
-                                          "DepthSystemDefinition"=>{'DatumName'=>'Datum 2', 'DistanceUnits'=>'Distance Units 2', 'EncodingMethod'=>'Encoding 2', 'Resolution'=>[12, 22, 32]}}
+            "VerticalCoordinateSystem"=> {"AltitudeSystemDefinition"=>{'DatumName'=>'Datum', 'DistanceUnits'=>'Distance Units', 'EncodingMethod'=>'Encoding', 'Resolution'=>{'Resolutions'=>[1, 2, 3]}},
+                                          "DepthSystemDefinition"=>{'DatumName'=>'Datum 2', 'DistanceUnits'=>'Distance Units 2', 'EncodingMethod'=>'Encoding 2', 'Resolution'=>{'Resolutions'=>[12, 22, 32]}}}
         }
 
         assign(:draft, build(:draft, draft: draft_json))
@@ -91,7 +91,7 @@ describe template_path, type: :view do
         rendered_node = Capybara.string(rendered)
         root_css_path = "ul.spatial-extent-preview"
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {GranuleSpatialRepresentation: :handle_as_granule_spatial_representation}, true)
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {SpatialCoverageType: :handle_as_spatial_coverage_type, GranuleSpatialRepresentation: :handle_as_granule_spatial_representation}, true)
         end
 
       end

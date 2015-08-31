@@ -57,6 +57,9 @@ module Helpers
         elsif parent_key_special_handling == :handle_as_granule_spatial_representation
           # Map value stored in json to what is actually supposed to be displayed
           draft = map_value_onto_display_string(draft, DraftsHelper::GranuleSpatialRepresentationOptions)
+        elsif parent_key_special_handling == :handle_as_spatial_coverage_type
+          # Map value stored in json to what is actually supposed to be displayed
+          draft = map_value_onto_display_string(draft, DraftsHelper::SpatialCoverageTypeOptions)
         elsif parent_key_special_handling == :handle_as_not_shown
           # This field is present in json, but intentionally not displayed
           return
@@ -384,6 +387,139 @@ module Helpers
           fill_in "draft_platforms_#{platform}_instruments_0_sensors_1_short_name", with: 'Sensor short name 1'
         end
       end
+    end
+
+    def add_geometry
+      # Points
+      within first('.multiple.points') do
+        fill_in 'Longitude', with: '-77.047878'
+        fill_in 'Latitude', with: '38.805407'
+        click_on 'Add another Point'
+        within '.multiple-item-1' do
+          fill_in 'Longitude', with: '-76.9284587'
+          fill_in 'Latitude', with: '38.968602'
+        end
+      end
+      # BoundingRectangles
+      within first('.multiple.bounding-rectangles') do
+        fill_in 'Longitude', with: '0.0'
+        fill_in 'Latitude', with: '0.0'
+        fill_in 'West Bounding Coordinate', with: '-180.0'
+        fill_in 'North Bounding Coordinate', with: '90.0'
+        fill_in 'East Bounding Coordinate', with: '180.0'
+        fill_in 'South Bounding Coordinate', with: '-90.0'
+        click_on 'Add another Bounding Rectangle'
+        within '.multiple-item-1' do
+          fill_in 'West Bounding Coordinate', with: '-96.9284587'
+          fill_in 'North Bounding Coordinate', with: '58.968602'
+          fill_in 'East Bounding Coordinate', with: '-56.9284587'
+          fill_in 'South Bounding Coordinate', with: '18.968602'
+        end
+      end
+      # GPolygons
+      within first('.multiple.g-polygons') do
+        within '.point' do
+          fill_in 'Longitude', with: '0.0'
+          fill_in 'Latitude', with: '0.0'
+        end
+        within '.boundary .multiple.points' do
+          fill_in 'Longitude', with: '10.0'
+          fill_in 'Latitude', with: '10.0'
+          click_on 'Add another Point'
+          within '.multiple-item-1' do
+            fill_in 'Longitude', with: '-10.0'
+            fill_in 'Latitude', with: '10.0'
+          end
+          click_on 'Add another Point'
+          within '.multiple-item-2' do
+            fill_in 'Longitude', with: '-10.0'
+            fill_in 'Latitude', with: '-10.0'
+          end
+          click_on 'Add another Point'
+          within '.multiple-item-3' do
+            fill_in 'Longitude', with: '10.0'
+            fill_in 'Latitude', with: '-10.0'
+          end
+        end
+        within '.exclusive-zone' do
+          within '.multiple.boundaries' do
+            fill_in 'Longitude', with: '5.0'
+            fill_in 'Latitude', with: '5.0'
+            click_on 'Add another Point'
+            within '.multiple-item-1' do
+              fill_in 'Longitude', with: '-5.0'
+              fill_in 'Latitude', with: '5.0'
+            end
+            click_on 'Add another Point'
+            within '.multiple-item-2' do
+              fill_in 'Longitude', with: '-5.0'
+              fill_in 'Latitude', with: '-5.0'
+            end
+            click_on 'Add another Point'
+            within '.multiple-item-3' do
+              fill_in 'Longitude', with: '5.0'
+              fill_in 'Latitude', with: '-5.0'
+            end
+
+          end
+        end
+
+        click_on 'Add another G Polygon'
+        within all('.multiple-item-1').last do
+          within '.boundary .multiple.points' do
+            fill_in 'Longitude', with: '38.98828125'
+            fill_in 'Latitude', with: '-77.044921875'
+            click_on 'Add another Point'
+            within '.multiple-item-1' do
+              fill_in 'Longitude', with: '38.935546875'
+              fill_in 'Latitude', with: '-77.1240234375'
+            end
+            click_on 'Add another Point'
+            within '.multiple-item-2' do
+              fill_in 'Longitude', with: '38.81689453125'
+              fill_in 'Latitude', with: '-77.02734375'
+            end
+            click_on 'Add another Point'
+            within '.multiple-item-3' do
+              fill_in 'Longitude', with: '38.900390625'
+              fill_in 'Latitude', with: '-76.9130859375'
+            end
+          end
+        end
+      end
+      # Lines
+      within first('.multiple.lines') do
+        within '.point' do
+          fill_in 'Longitude', with: '25.0'
+          fill_in 'Latitude', with: '25.0'
+        end
+        within '.multiple.points' do
+          fill_in 'Longitude', with: '24.0'
+          fill_in 'Latitude', with: '24.0'
+          click_on 'Add another Point'
+          within '.multiple-item-1' do
+            fill_in 'Longitude', with: '26.0'
+            fill_in 'Latitude', with: '26.0'
+          end
+        end
+        click_on 'Add another Line'
+        within all('.multiple-item-1').last do
+          within '.point' do
+            fill_in 'Longitude', with: '25.0'
+            fill_in 'Latitude', with: '25.0'
+          end
+          within '.multiple.points' do
+            fill_in 'Longitude', with: '24.0'
+            fill_in 'Latitude', with: '26.0'
+            click_on 'Add another Point'
+            within '.multiple-item-1' do
+              fill_in 'Longitude', with: '26.0'
+              fill_in 'Latitude', with: '24.0'
+            end
+          end
+        end
+      end
+
     end
 
   end

@@ -191,7 +191,7 @@ module TypesHelper
       { name: 'DatumName' },
       { name: 'DistanceUnits' },
       { name: 'EncodingMethod' },
-      { name: 'Resolution', options: [:array_field] }
+      { name: 'Resolution', options: [:sub_type] }
   ]
   BoundingRectanglesType = [
       { name: 'CenterPoint', options: [:sub_type] },
@@ -259,15 +259,18 @@ module TypesHelper
       { name: 'NumberOfOrbits' },
       { name: 'StartCircularLatitude' }
   ]
+  ResolutionType = [
+      { name: 'Resolutions', options: [:array_field]  }
+  ]
   SpatialExtentType = [
-      { name: 'SpatialCoverageType' },
+      { name: 'SpatialCoverageType', options: [:select_type], select_type: 'SpatialCoverageTypeOptions' },
       { name: 'HorizontalSpatialDomain', options: [:sub_type] },
-      { name: 'VerticalSpatialDomain', options: [:sub_type] },
+      { name: 'VerticalSpatialDomains', options: [:sub_type] },
       { name: 'OrbitParameters', options: [:sub_type] },
       { name: 'GranuleSpatialRepresentation', options: [:select_type], select_type: 'GranuleSpatialRepresentationOptions' }
   ]
   SpatialInformationType = [
-      { name: 'SpatialCoverageType' },
+      { name: 'SpatialCoverageType', options: [:select_type], select_type: 'SpatialCoverageTypeOptions'  },
       { name: 'HorizontalCoordinateSystem', options: [:sub_type] },
       { name: 'VerticalCoordinateSystem', options: [:sub_type] }
   ]
@@ -282,7 +285,7 @@ module TypesHelper
       { name: 'AltitudeSystemDefinition', options: [:sub_type] },
       { name: 'DepthSystemDefinition', options: [:sub_type] }
   ]
-  VerticalSpatialDomainType = [
+  VerticalSpatialDomainsType = [
       { name: 'Type' },
       { name: 'Value' }
   ]
