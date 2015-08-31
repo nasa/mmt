@@ -37,12 +37,16 @@ header {
 
     #help {
       display: block;
-      margin: .5em 0;
+      margin: .5em 0 0 0;
       font-size: 0.8em;
     }
 
+    .btn-blue {
+      background-color: lighten($ocean-blue,4%);
+    }
+
     .btn-blue:hover {
-      background-color: lighten($ocean-blue,2%);
+      background-color: lighten($ocean-blue,6%);
     }
   }
 
@@ -53,6 +57,10 @@ header {
     @include row();
     display: block;
     width: 100%;
+
+    .badge {
+      background: $midnight-blue;
+    }
 
     a:link, a:visited {
       background: asset-url("nasa-meatball.png") no-repeat left;
@@ -82,8 +90,12 @@ header {
   #search {
     float: right;
 
-    .full-search-form, .quick-search {
+    .full-search-form {
       margin: 0.5em 0;
+    }
+
+    .quick-search {
+      margin: 0;
     }
 
     label {
@@ -99,11 +111,12 @@ header {
       vertical-align: middle;
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
+      display: inline-block;
     }
 
     button {
-      border-color: $midnight-blue;
       border-left: none;
+      display: inline-block;
     }
 
     .full-search {
