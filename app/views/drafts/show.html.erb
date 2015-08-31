@@ -20,14 +20,14 @@
       </div>
       <div class="quality-score">
         <div class="badges">
-          <%= image_tag('badge.png', alt: 'Badge') %>
-          <%= image_tag('badge.png', alt: 'Badge') %>
-          <%= image_tag('badge.png', alt: 'Badge') %>
-          <%= image_tag('badge.png', alt: 'Badge') %>
-          <%= image_tag('badge.png', alt: 'Badge') %>
+          <i class="fa fa-star fa-lg"></i>
+          <i class="fa fa-star fa-lg"></i>
+          <i class="fa fa-star fa-lg"></i>
+          <i class="fa fa-star fa-lg"></i>
+          <i class="fa fa-star-o fa-lg"></i>
         </div>
         <div class="score-info">
-          <p>Quality Score = 20</p>
+          <p>Quality Score: <strong>20</strong></p>
           <p>Required fields not complete</p>
         </div>
       </div>
@@ -112,8 +112,10 @@
       <section class="preview">
 
         <h3>Preview</h3>
-        <input type="checkbox" name="markdown"></input>
-        <label for="markdown">Show as markdown</label>
+        <p>
+          <input type="checkbox" name="markdown"></input>
+          <label for="markdown">Show as markdown</label>
+        </p>
 
         <%= render :partial=>'drafts/previews/data_identification', :locals=>{:draft=>@draft.draft} %>
         <%= render :partial=>'drafts/previews/descriptive_keywords', :locals=>{:draft=>@draft.draft} %>
@@ -122,7 +124,7 @@
         <%#= render :partial=>'drafts/previews/spatial_extent', :locals=>{draft: @draft.draft} %>
         <%= render :partial=>'drafts/previews/acquisition_information', :locals=>{:draft=>@draft.draft} %>
         <%= render :partial=>'drafts/previews/distribution_information', :locals=>{:draft=>@draft.draft} %>
-        
+
       </section>
       <aside class="geographic-coverage">
         <h3>Geographic Coverage</h3>

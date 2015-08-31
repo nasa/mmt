@@ -12,8 +12,9 @@
 
 .geographic-coverage {
   @include span-columns(4);
-  background-color: $pale-blue;
-  padding: 1.875em 1.25em;
+  @include linear-gradient(darken($light-blue, 3%), $light-blue);
+  border-top: 5px solid $pale-blue;
+  padding: 1.25em 1.25em;
   img {
     padding: 0;
     margin-bottom: 0.625em;
