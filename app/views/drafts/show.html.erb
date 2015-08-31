@@ -173,7 +173,7 @@
           document.body.innerHTML += dot;
         }
         <% geometry['Points'].each do |point| %>
-            var converted_lat_lon = convert_lat_lon('<%= point['Latitude'] %>', '<%= point['Longitude'] %>');
+            var converted_lat_lon = convert_lat_lon(<%= point['Latitude'] %>, <%= point['Longitude'] %>);
             draw_point(converted_lat_lon.x + map_x1, converted_lat_lon.y + map_y1);
 
             coordinate_html +=  "<li>Lat: <%= point['Latitude'] %></li> \
@@ -192,10 +192,12 @@
         }
 
         <% geometry['BoundingRectangles'].each do |bounding_rectangle| %>
-          var converted_lat_lon_1 = convert_lat_lon('<%=bounding_rectangle['NorthBoundingCoordinate']%>',
-                                                    '<%=bounding_rectangle['WestBoundingCoordinate']%>');
-          var converted_lat_lon_2 = convert_lat_lon('<%=bounding_rectangle['SouthBoundingCoordinate']%>',
-                                                    '<%=bounding_rectangle['EastBoundingCoordinate']%>');
+          var converted_lat_lon_1 = convert_lat_lon(<%=bounding_rectangle['NorthBoundingCoordinate']%>,
+                                                    <%=bounding_rectangle['WestBoundingCoordinate']%>);
+          var converted_lat_lon_2 = convert_lat_lon(<%=bounding_rectangle['SouthBoundingCoordinate']%>,
+                                                    <%=bounding_rectangle['EastBoundingCoordinate']%>);
+    alert (converted_lat_lon_1.x);
+    alert (converted_lat_lon_1.y);
           draw_rectangle( converted_lat_lon_1.x + map_x1,
                           converted_lat_lon_1.y + map_y1,
                           converted_lat_lon_2.x + map_x1,
