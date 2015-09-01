@@ -90,8 +90,10 @@ describe template_path, type: :view do
                           "Coordinate2"=> {"MinimumValue"=>-30, "MaximumValue"=>30}}
 
         draft_json['SpatialInformation'] = {"SpatialCoverageType"=>"BOTH",
-            "HorizontalCoordinateSystem"=> {"GeodeticModel"=>
-                {"HorizontalDatumName"=>"Datum name", "EllipsoidName"=>"Ellipsoid name", "SemiMajorAxis"=>3.0, "DenominatorOfFlatteningRatio"=>4.0}
+            "HorizontalCoordinateSystem"=> {
+                "GeodeticModel"=> {"HorizontalDatumName"=>"Datum name", "EllipsoidName"=>"Ellipsoid name", "SemiMajorAxis"=>3.0, "DenominatorOfFlatteningRatio"=>4.0},
+                "GeographicCoordinateSystem"=>{"GeographicCoordinateUnits"=>"Units","LatitudeResolution"=>45,"LongitudeResolution"=>55},
+                "LocalCoordinateSystem"=>{"GeoReferenceInformation"=>"Reference","Description"=>"Description"}
             },
             "VerticalCoordinateSystem"=> {"AltitudeSystemDefinition"=>{'DatumName'=>'Datum', 'DistanceUnits'=>'Distance Units', 'EncodingMethod'=>'Encoding', 'Resolution'=>{'Resolutions'=>[1.0, 2.0, 3.0]}},
                                           "DepthSystemDefinition"=>{'DatumName'=>'Datum 2', 'DistanceUnits'=>'Distance Units 2', 'EncodingMethod'=>'Encoding 2', 'Resolution'=>{'Resolutions'=>[12.0, 22.0, 32.0]}}}
@@ -99,7 +101,7 @@ describe template_path, type: :view do
 
         draft_json['SpatialKeywords'] = ["f47ac10b-58cc-4372-a567-0e02b2c3d479", "abdf4d5c-55dc-4324-9ae5-5adf41e99da3"]
 
-        # output_schema_validation draft_json
+         #output_schema_validation draft_json
 
         assign(:draft, build(:draft, draft: draft_json))
         render :template => template_path, :locals=>{draft: draft_json}
@@ -109,7 +111,7 @@ describe template_path, type: :view do
         rendered_node = Capybara.string(rendered)
         root_css_path = "ul.spatial-extent-preview"
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {SpatialCoverageType: :handle_as_spatial_coverage_type, GranuleSpatialRepresentation: :handle_as_granule_spatial_representation}, true)
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {CoordinateSystem: :handle_as_coordinate_system_type, SpatialCoverageType: :handle_as_spatial_coverage_type, GranuleSpatialRepresentation: :handle_as_granule_spatial_representation}, true)
         end
 
       end

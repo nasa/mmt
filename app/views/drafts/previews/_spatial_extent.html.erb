@@ -7,27 +7,27 @@
     <ul class="spatial-extent-preview">
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-                                                                data: draft['SpatialExtent'],
-                                                                name: 'SpatialExtent',
-                                                                type: TypesHelper::SpatialExtentType
-                                                        } %>
+          data: draft['SpatialExtent'],
+          name: 'SpatialExtent',
+          type: TypesHelper::SpatialExtentType
+      } %>
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-                                                                data: draft['TilingIdentificationSystem'],
-                                                                name: 'TilingIdentificationSystem',
-                                                                type: TypesHelper::TilingIdentificationSystemType
-                                                        } %>
+          data: draft['TilingIdentificationSystem'],
+          name: 'TilingIdentificationSystem',
+          type: TypesHelper::TilingIdentificationSystemType
+      } %>
 
       <%= render partial: 'drafts/previews/preview_type', locals: {
-                                                                data: draft['SpatialInformation'],
-                                                                name: 'SpatialInformation',
-                                                                type: TypesHelper::SpatialInformationType
-                                                        } %>
+          data: draft['SpatialInformation'],
+          name: 'SpatialInformation',
+          type: TypesHelper::SpatialInformationType
+      } %>
 
       <%= render partial: 'drafts/previews/fields/display_array_with_header', locals: {
-                                                                                    key_name: 'SpatialKeywords',
-                                                                                    hash_for_key: draft
-                                                                            } %>
+          key_name: 'SpatialKeywords',
+          hash_for_key: draft
+      } %>
 
     </ul>
   </div>
