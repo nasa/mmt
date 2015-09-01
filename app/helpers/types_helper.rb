@@ -1,4 +1,8 @@
 module TypesHelper
+  PointsType = [
+      { name: 'Longitude' },
+      { name: 'Latitude' }
+  ]
   AccessConstraintsType = [
     { name: 'Description' },
     { name: 'Value' }
@@ -10,6 +14,26 @@ module TypesHelper
     { name: 'PostalCode' },
     { name: 'Country' }
   ]
+  AltitudeSystemDefinitionType = [
+      { name: 'DatumName' },
+      { name: 'DistanceUnits' },
+      { name: 'EncodingMethod' },
+      { name: 'Resolution', options: [:sub_type] }
+  ]
+  BoundingRectanglesType = [
+      { name: 'CenterPoint', options: [:sub_type] },
+      { name: 'WestBoundingCoordinate' },
+      { name: 'NorthBoundingCoordinate' },
+      { name: 'EastBoundingCoordinate' },
+      { name: 'SouthBoundingCoordinate' }
+  ]
+  BoundaryType = [
+      { name: 'Points', options: [:sub_type]  }
+  ]
+  BoundariesType = [
+      { name: 'Points', options: [:sub_type]  }
+  ]
+  CenterPointType = PointsType
   CharacteristicsType = [
     { name: 'Name' },
     { name: 'Description' },
@@ -33,10 +57,16 @@ module TypesHelper
     { name: 'Type' },
     { name: 'Subtype' }
   ]
+  Coordinate1Type = [
+      { name: 'MinimumValue' },
+      { name: 'MaximumValue' }
+  ]
+  Coordinate2Type = Coordinate1Type
   DateType = [
     { name: 'Type', options: [:select_type], select_type: 'DateTypeOptions' },
     { name: 'Date' }
   ]
+  DepthSystemDefinitionType = AltitudeSystemDefinitionType
   DistributionsType = [
     { name: 'DistributionMedia' },
     { name: 'DistributionSize' },
@@ -47,9 +77,44 @@ module TypesHelper
     { name: 'DOI' },
     { name: 'Authority' }
   ]
+  ExclusionZoneType = [
+      { name: 'Boundaries', options: [:sub_type] }
+  ]
   FileSizeType = [
     { name: 'Size' },
     { name: 'Unit' }
+  ]
+  GeodeticModelType = [
+      { name: 'HorizontalDatumName' },
+      { name: 'EllipsoidName' },
+      { name: 'SemiMajorAxis' },
+      { name: 'DenominatorOfFlatteningRatio' }
+  ]
+  GeographicCoordinateSystemType = [
+      { name: 'GeographicCoordinateUnits' },
+      { name: 'LatitudeResolution' },
+      { name: 'LongitudeResolution' }
+  ]
+  GeometryType = [
+      { name: 'CoordinateSystem', options: [:select_type], select_type: 'CoordinateSystemOptions'  },
+      { name: 'Points', options: [:sub_type] },
+      { name: 'BoundingRectangles', options: [:sub_type] },
+      { name: 'GPolygons', options: [:sub_type] },
+      { name: 'Lines', options: [:sub_type] }
+  ]
+  GPolygonsType = [
+      { name: 'CenterPoint', options: [:sub_type] },
+      { name: 'Boundary', options: [:sub_type] },
+      { name: 'ExclusionZone', options: [:sub_type] }
+  ]
+  HorizontalCoordinateSystemType = [
+      { name: 'GeodeticModel', options: [:sub_type] },
+      { name: 'GeographicCoordinateSystem', options: [:sub_type] },
+      { name: 'LocalCoordinateSystem', options: [:sub_type] }
+  ]
+  HorizontalSpatialDomainType = [
+      { name: 'ZoneIdentifier' },
+      { name: 'Geometry', options: [:sub_type] }
   ]
   InstrumentsType = [
     { name: 'ShortName' },
@@ -60,11 +125,26 @@ module TypesHelper
     { name: 'OperationalModes', options: [:array_field] },
     { name: 'Sensors', options: [:sub_type] }
   ]
+  LinesType = [
+      { name: 'CenterPoint', options: [:sub_type] },
+      { name: 'Points', options: [:sub_type] }
+  ]
+  LocalCoordinateSystemType = [
+      { name: 'GeoReferenceInformation' },
+      { name: 'Description' }
+  ]
   MetadataAssociationsType = [
     { name: 'Type' },
     { name: 'Description' },
     { name: 'EntryId' },
     { name: 'ProviderId' }
+  ]
+  OrbitParametersType = [
+      { name: 'SwathWidth' },
+      { name: 'Period' },
+      { name: 'InclinationAngle' },
+      { name: 'NumberOfOrbits' },
+      { name: 'StartCircularLatitude' }
   ]
   OrganizationNameType = [
     { name: 'ShortName' },
@@ -148,6 +228,9 @@ module TypesHelper
     { name: 'ContentType', options: [:sub_type] }
   ]
   RelatedUrlsType = RelatedUrlType
+  ResolutionType = [
+      { name: 'Resolutions', options: [:array_field]  }
+  ]
   ResourceCitationType = [
     { name: 'Version' },
     { name: 'RelatedUrl', options: [:sub_type] },
@@ -173,97 +256,6 @@ module TypesHelper
     { name: 'Technique' },
     { name: 'Characteristics', options: [:sub_type] }
   ]
-  TemporalExtentsType = [
-      { name: 'PrecisionOfSeconds' },
-      { name: 'EndsAtPresentFlag' },
-      { name: 'RangeDateTimes', options: [:sub_type] },
-      { name: 'SingleDateTimes', options: [:array_field] },
-      { name: 'PeriodicDateTimes', options: [:sub_type] }
-  ]
-
-#-----------------------------------------------------
-  PointsType = [
-      { name: 'Longitude' },
-      { name: 'Latitude' }
-  ]
-
-  AltitudeSystemDefinitionType = [
-      { name: 'DatumName' },
-      { name: 'DistanceUnits' },
-      { name: 'EncodingMethod' },
-      { name: 'Resolution', options: [:sub_type] }
-  ]
-  BoundingRectanglesType = [
-      { name: 'CenterPoint', options: [:sub_type] },
-      { name: 'WestBoundingCoordinate' },
-      { name: 'NorthBoundingCoordinate' },
-      { name: 'EastBoundingCoordinate' },
-      { name: 'SouthBoundingCoordinate' }
-  ]
-  BoundaryType = [
-      { name: 'Points' }
-  ]
-  BoundariesType = [
-      { name: 'Points' }
-  ]
-  CenterPointType = PointsType
-  Coordinate1Type = [
-      { name: 'MinimumValue' },
-      { name: 'MaximumValue' }
-  ]
-  Coordinate2Type = Coordinate1Type
-  DepthSystemDefinitionType = AltitudeSystemDefinitionType
-  ExclusionZoneType = [
-      { name: 'Boundaries', options: [:sub_type] }
-  ]
-  GeodeticModelType = [
-      { name: 'HorizontalDatumName' },
-      { name: 'EllipsoidName' },
-      { name: 'SemiMajorAxis' },
-      { name: 'DenominatorOfFlatteningRatio' }
-  ]
-  GeographicCoordinateSystemType = [
-      { name: 'GeographicCoordinateUnits' },
-      { name: 'LatitudeResolution' },
-      { name: 'LongitudeResolution' }
-  ]
-  GeometryType = [
-      { name: 'CoordinateSystem' },
-      { name: 'Points', options: [:sub_type] },
-      { name: 'BoundingRectangles', options: [:sub_type] },
-      { name: 'GPolygons', options: [:sub_type] },
-      { name: 'Lines', options: [:sub_type] }
-  ]
-  GPolygonsType = [
-      { name: 'CenterPoint', options: [:sub_type] },
-      { name: 'Boundary', options: [:sub_type] },
-      { name: 'ExclusionZone', options: [:sub_type] }
-  ]
-  HorizontalCoordinateSystemType = [
-      { name: 'GeodeticModel', options: [:sub_type] }
-  ]
-  HorizontalSpatialDomainType = [
-      { name: 'ZoneIdentifier' },
-      { name: 'Geometry', options: [:sub_type] }
-  ]
-  LinesType = [
-      { name: 'CenterPoint', options: [:sub_type] },
-      { name: 'Points', options: [:sub_type] }
-  ]
-  LocalCoordinateSystemType = [
-      { name: 'GeoReferenceInformation' },
-      { name: 'Description' }
-  ]
-  OrbitParametersType = [
-      { name: 'SwathWidth' },
-      { name: 'Period' },
-      { name: 'InclinationAngle' },
-      { name: 'NumberOfOrbits' },
-      { name: 'StartCircularLatitude' }
-  ]
-  ResolutionType = [
-      { name: 'Resolutions', options: [:array_field]  }
-  ]
   SpatialExtentType = [
       { name: 'SpatialCoverageType', options: [:select_type], select_type: 'SpatialCoverageTypeOptions' },
       { name: 'HorizontalSpatialDomain', options: [:sub_type] },
@@ -276,8 +268,12 @@ module TypesHelper
       { name: 'HorizontalCoordinateSystem', options: [:sub_type] },
       { name: 'VerticalCoordinateSystem', options: [:sub_type] }
   ]
-  SpatialKeywordsType = [
-      { name: 'Uuid', options: [:array_field] }
+  TemporalExtentsType = [
+      { name: 'PrecisionOfSeconds' },
+      { name: 'EndsAtPresentFlag' },
+      { name: 'RangeDateTimes', options: [:sub_type] },
+      { name: 'SingleDateTimes', options: [:array_field] },
+      { name: 'PeriodicDateTimes', options: [:sub_type] }
   ]
   TilingIdentificationSystemType = [
       { name: 'TilingIdentificationSystemName' },

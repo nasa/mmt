@@ -62,23 +62,61 @@ describe 'Spatial extent form', js: true do
       open_accordions
     end
 
-    it 'shows the draft preview page' do
+    it 'shows the draft preview page including horizontal spatial data' do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    it "shows pre-entered values in the draft preview page" do
-      expect(page).to have_content('Horizontal')
-      expect(page).to have_content('Zone ID')
-      expect(page).to have_content('CARTESIAN')
-      expect(page).to have_content('System name')
-      expect(page).to have_content('Minimum Value: -50')
-      expect(page).to have_content('Maximum Value: 50')
-      expect(page).to have_content('Minimum Value: -30')
-      expect(page).to have_content('Maximum Value: 30')
-      expect(page).to have_content('Datum name')
-      expect(page).to have_content('Ellipsoid name')
-      expect(page).to have_content('Semi Major Axis: 3')
-      expect(page).to have_content('Denominator Of Flattening Ratio: 4')
+    it "shows pre-entered values in the draft preview page including horizontal spatial data" do
+      expect(page).to have_content('Spatial Coverage Type: Horizontal')
+      expect(page).to have_content('Zone Identifier: Zone ID')
+      expect(page).to have_content('Coordinate System: Cartesian')
+      expect(page).to have_content('Longitude: -77.047878')
+      expect(page).to have_content('Latitude: 38.805407')
+      expect(page).to have_content('Longitude: -76.9284587')
+      expect(page).to have_content('Latitude: 38.968602')
+      expect(page).to have_content('Longitude: 0.0')
+      expect(page).to have_content('Latitude: 0.0')
+      expect(page).to have_content('West Bounding Coordinate: -180.0')
+      expect(page).to have_content('North Bounding Coordinate: 90.0')
+      expect(page).to have_content('East Bounding Coordinate: 180.0')
+      expect(page).to have_content('South Bounding Coordinate: -90.0')
+      expect(page).to have_content('West Bounding Coordinate: -96.9284587')
+      expect(page).to have_content('North Bounding Coordinate: 58.968602')
+      expect(page).to have_content('East Bounding Coordinate: -56.9284587')
+      expect(page).to have_content('South Bounding Coordinate: 18.968602')
+      expect(page).to have_content('Longitude: 10.0')
+      expect(page).to have_content('Latitude: 10.0')
+      expect(page).to have_content('Longitude: -10.0')
+      expect(page).to have_content('Latitude: -10.0')
+      expect(page).to have_content('Longitude: 38.98828125')
+      expect(page).to have_content('Latitude: -77.044921875')
+      expect(page).to have_content('Longitude: 38.935546875')
+      expect(page).to have_content('Latitude: -77.1240234375')
+      expect(page).to have_content('Longitude: 38.81689453125')
+      expect(page).to have_content('Latitude: -77.02734375')
+      expect(page).to have_content('Longitude: 38.900390625')
+      expect(page).to have_content('Latitude: -76.9130859375')
+      expect(page).to have_content('Longitude: 25.0')
+      expect(page).to have_content('Latitude: 25.0')
+      expect(page).to have_content('Longitude: 24.0')
+      expect(page).to have_content('Latitude: 24.0')
+      expect(page).to have_content('Longitude: 26.0')
+      expect(page).to have_content('Latitude: 26.0')
+      expect(page).to have_content('Granule Spatial Representation: Cartesian')
+      expect(page).to have_content('Tiling Identification System Name: System name')
+      expect(page).to have_content('Minimum Value: -50.0')
+      expect(page).to have_content('Maximum Value: 50.0')
+      expect(page).to have_content('Minimum Value: -30.0')
+      expect(page).to have_content('Maximum Value: 30.0')
+      expect(page).to have_content('Spatial Coverage Type: Horizontal')
+      expect(page).to have_content('Horizontal Datum Name: Datum name')
+      expect(page).to have_content('Ellipsoid Name: Ellipsoid name')
+      expect(page).to have_content('Semi Major Axis: 3.0')
+      expect(page).to have_content('Denominator Of Flattening Ratio: 4.0')
+      expect(page).to have_content('Geographic Coordinate Units: Coordinate units')
+      expect(page).to have_content('Latitude Resolution: 42.0')
+      expect(page).to have_content('Longitude Resolution: 43.0')
+      expect(page).to have_content('Spatial Keywords: f47ac10b-58cc-4372-a567-0e02b2c3d479 abdf4d5c-55dc-4324-9ae5-5adf41e99da3')
     end
 
     context 'when returning to the form' do
@@ -88,7 +126,7 @@ describe 'Spatial extent form', js: true do
         open_accordions
       end
 
-      it 'populates the form with the values' do
+      it 'populates the form with the values including horizontal spatial data' do
         # Spatial Extent
         within '.spatial-extent' do
           expect(page).to have_checked_field('Horizontal')
@@ -267,6 +305,7 @@ describe 'Spatial extent form', js: true do
           fill_in 'Value', with: 'domain value 1'
         end
       end
+      select 'Cartesian', from: 'Granule Spatial Representation'
 
       # Spatial Representation Information
       choose 'draft_spatial_information_spatial_coverage_type_VERTICAL'
@@ -294,41 +333,41 @@ describe 'Spatial extent form', js: true do
       within '.nav-top' do
         click_on 'Save & Done'
       end
-      # output_schema_validation Draft.first.draft
+       # output_schema_validation Draft.first.draft
       open_accordions
     end
 
-    it 'shows the draft preview page' do
+    it 'shows the draft preview page including vertical spatial data' do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
     it "shows pre-entered values in the draft preview page" do
-      expect(page).to have_content('Vertical')
+      expect(page).to have_content('Spatial Coverage Type: Vertical')
       expect(page).to have_content('domain type', :count=>2)
       expect(page).to have_content('domain type 1')
       expect(page).to have_content('domain value', :count=>2)
       expect(page).to have_content('domain value 1')
-      expect(page).to have_content('encoding method')
-      expect(page).to have_content('Resolutions: 3.0')
+      expect(page).to have_content('Granule Spatial Representation: Cartesian')
+      expect(page).to have_content('Spatial Coverage Type: Vertical')
+      expect(page).to have_content('Datum Name: datum name')
+      expect(page).to have_content('Distance Units: miles')
+      expect(page).to have_content('Encoding Method: encoding method')
       expect(page).to have_content('Resolutions: 3.0 4.0')
-      expect(page).to have_content('datum name', :count=>2)
-      expect(page).to have_content('datum name 1')
-      expect(page).to have_content('miles')
-      expect(page).to have_content('encoding method', :count=>2)
-      expect(page).to have_content('encoding method 1')
-      expect(page).to have_content('Resolutions: 5.0')
+
+      expect(page).to have_content('Datum Name: datum name 1')
+      expect(page).to have_content('Encoding Method: encoding method 1')
       expect(page).to have_content('Resolutions: 5.0 6.0')
     end
 
 
-    context 'when returning to the form' do
+    context 'when returning to the form with vertical spatial data' do
       before do
         click_on 'Spatial Extent'
 
         open_accordions
       end
 
-      it 'populates the form with the values' do
+      it 'populates the form with the values including vertical spatial data' do
         # Spatial Extent
         within '.spatial-extent' do
           expect(page).to have_no_checked_field('Horizontal')
@@ -341,7 +380,9 @@ describe 'Spatial extent form', js: true do
             expect(page).to have_field('Type', with: 'domain type 1')
             expect(page).to have_field('Value', with: 'domain value 1')
           end
+          expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
         end
+
 
         # Spatial Representation Information
         expect(page).to have_no_checked_field('Horizontal')
@@ -379,6 +420,8 @@ describe 'Spatial extent form', js: true do
       fill_in 'Number Of Orbits', with: '4'
       fill_in 'Start Circular Latitude', with: '5'
 
+      select 'Cartesian', from: 'Granule Spatial Representation'
+
       # Spatial Representation Information
       choose 'draft_spatial_information_spatial_coverage_type_BOTH'
       fill_in 'Horizontal Datum Name', with: 'Datum name'
@@ -413,46 +456,45 @@ describe 'Spatial extent form', js: true do
       within '.nav-top' do
         click_on 'Save & Done'
       end
-      # output_schema_validation Draft.first.draft
+       # output_schema_validation Draft.first.draft
       open_accordions
     end
 
-    it 'shows the draft preview page' do
+    it 'shows the draft preview page including orbital spatial data' do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-
-    it "shows pre-entered values in the draft preview page" do
-      expect(page).to have_content('Orbit')
-      expect(page).to have_content('Swath Width: 1')
-      expect(page).to have_content('Period: 2')
-      expect(page).to have_content('Inclination Angle: 3')
-      expect(page).to have_content('Number Of Orbits: 4')
-      expect(page).to have_content('Start Circular Latitude: 5')
-      expect(page).to have_content('Both')
-      expect(page).to have_content('Datum name')
-      expect(page).to have_content('datum name', :count=>2)
-      expect(page).to have_content('Ellipsoid name')
-      expect(page).to have_content('Semi Major Axis: 3')
-      expect(page).to have_content('Denominator Of Flattening Ratio: 4')
-      expect(page).to have_content('miles', :count=>2)
-      expect(page).to have_content('encoding method', :count=>2)
-      expect(page).to have_content('Resolutions: 3.0')
+    it "shows pre-entered values in the draft preview page including orbital spatial data" do
+      expect(page).to have_content('Spatial Coverage Type: Orbital')
+      expect(page).to have_content('Swath Width: 1.0')
+      expect(page).to have_content('Period: 2.0')
+      expect(page).to have_content('Inclination Angle: 3.0')
+      expect(page).to have_content('Number Of Orbits: 4.0')
+      expect(page).to have_content('Start Circular Latitude: 5.0')
+      expect(page).to have_content('Granule Spatial Representation: Cartesian')
+      expect(page).to have_content('Spatial Coverage Type: Both')
+      expect(page).to have_content('Horizontal Datum Name: Datum name')
+      expect(page).to have_content('Ellipsoid Name: Ellipsoid name')
+      expect(page).to have_content('Semi Major Axis: 3.0')
+      expect(page).to have_content('Denominator Of Flattening Ratio: 4.0')
+      expect(page).to have_content('Geo Reference Information: reference information')
+      expect(page).to have_content('Description: local description')
+      expect(page).to have_content('Distance Units: miles')
+      expect(page).to have_content('Encoding Method: encoding method')
       expect(page).to have_content('Resolutions: 3.0 4.0')
-      expect(page).to have_content('datum name 1')
-      expect(page).to have_content('encoding method 1')
-      expect(page).to have_content('Resolutions: 5.0')
+      expect(page).to have_content('Datum Name: datum name 1')
+      expect(page).to have_content('Encoding Method: encoding method 1')
       expect(page).to have_content('Resolutions: 5.0 6.0')
     end
 
-    context 'when returning to the form' do
+    context 'when returning to the form for orbital spatial data' do
       before do
         click_on 'Spatial Extent'
 
         open_accordions
       end
 
-      it 'populates the form with the values' do
+      it 'populates the form with the values including orbital spatial data' do
         # Spatial Extent
         within '.spatial-extent' do
           expect(page).to have_no_checked_field('Horizontal')
@@ -463,6 +505,8 @@ describe 'Spatial extent form', js: true do
           expect(page).to have_field('Inclination Angle', with: '3.0')
           expect(page).to have_field('Number Of Orbits', with: '4.0')
           expect(page).to have_field('Start Circular Latitude', with: '5.0')
+
+          expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
         end
 
         # Spatial Representation Information

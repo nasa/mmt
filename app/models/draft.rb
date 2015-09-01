@@ -104,7 +104,7 @@ class Draft < ActiveRecord::Base
           if INTEGER_KEYS.include?(key)
             object[key] = value.to_i unless value.empty?
           elsif NUMBER_KEYS.include?(key)
-            object[key] = convert_to_number(value) unless value.empty?
+            object[key] = convert_to_number(value)
           elsif BOOLEAN_KEYS.include?(key)
             object[key] = value == 'true' ? true : false unless value.empty?
           else
@@ -112,7 +112,7 @@ class Draft < ActiveRecord::Base
               # There are two fields named 'Period' but only one of them is a number.
               # Convert the correct 'Period' to a number
               period = value['period']
-              value['period'] = convert_to_number(period) unless period.nil?
+              value['period'] = convert_to_number(period)
               object[key] = value
             end
             object[key] = convert_to_arrays(value)
@@ -130,9 +130,9 @@ class Draft < ActiveRecord::Base
 
   def convert_to_number(string)
     if string.is_a? Array
-      string.map{ |s| s.gsub(/[^\-0-9.]/, '').to_f }
+      string.map{ |s| s.gsub(/[^\-0-9.]/, '').to_f unless s.empty? }
     else
-      string.gsub(/[^\-0-9.]/, '').to_f
+      string.gsub(/[^\-0-9.]/, '').to_f unless string.empty?
     end
   end
 

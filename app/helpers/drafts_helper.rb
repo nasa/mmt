@@ -11,6 +11,10 @@ module DraftsHelper
     ['In work', 'IN WORK'],
     ['Complete', 'COMPLETE']
   ]
+  CoordinateSystemOptions = [
+      ['Cartesian', 'CARTESIAN'],
+      ['Geodetic', 'GEODETIC']
+  ]
   DurationOptions = [
     ['Select Duration', ''],
     ['Day', 'DAY'],
