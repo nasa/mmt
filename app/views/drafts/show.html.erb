@@ -132,127 +132,58 @@
       <ol class="coordinates" id="coordinates"></ol>
 
       <h4>Location Keywords</h4>
-      <ul id="location_keywords">
+      <ul>
+        <li>Continent > Antartica</li>
+        <li>Geographic Region > Polar</li>
       </ul>
+
       <h4>Temporal Coverage</h4>
-      <ul id="temporal_coverage">
+      <ul>
+
+        <% @single_date_times.each do |single_date_time| %>
+          <li>Date: <%= single_date_time %></li></br>
+        <% end %>
+
+        <% @range_date_times.each do |range_date_time| %>
+          <li>Start Date: <%= range_date_time['beginning_date_time']%> </li> <li>Stop Date: <%= range_date_time['ending_date_time']%> </li></br>
+        <% end %>
+
+        <% @periodic_date_times.each do |periodic_date_time| %>
+          <li>Start Date: <%= periodic_date_time['start_date']%> </li> <li>Stop Date: <%= periodic_date_time['end_date']%> </li></br>
+        <% end %>
+
+        <% if @single_date_times.blank? && @range_date_times.blank? && @periodic_date_times.blank? %>
+          <li>No Temporal Coverages found</li>
+        <% end %>
+
       </ul>
     </aside>
   </div>
 
   <script>
-    var preview_map = $('#preview_map');
-    var position = preview_map.offset();
-    var map_x1 = position.left;
-    var map_y1 = position.top;
-    var coordinate_html = '';
-    var temporal_coverage_html = '';
+    var map_position = $('#preview_map').offset();
+    var map_x1 = map_position.left;
+    var map_y1 = map_position.top;
 
-    var map_width = preview_map.width();
-    var map_height = preview_map.height();
     var highlight_color = "rgba(250,0,0,0.25)"
+    var dot_size = 5;
 
-    function convert_lat_lon(lat, lon){ // Do a simple transformation to map lat/lon onto y/x of map image
-      var y = ((-1 * lat) + 90) * (map_height / 180);
-      var x = (180 + lon) * (map_width / 360);
-      return {x:x,y:y};
-    }
-
-    <% if @draft.draft['SpatialExtent'] &&
-          @draft.draft['SpatialExtent']['HorizontalSpatialDomain'] &&
-          @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry'] &&
-          @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['CoordinateSystem'] %>
-
-      <% geometry = @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry'] %>
-
-      <% if geometry['Points'] %>
-
-        var dot_size = 5;
-        function draw_point(x, y) {
-          var dot = '<div style="position:absolute;width:' + dot_size + 'px;height:' + dot_size + 'px;top:' + y + 'px;left:' + x + 'px;background:' + highlight_color +'"></div>';
-          document.body.innerHTML += dot;
-        }
-        <% geometry['Points'].each do |point| %>
-            var converted_lat_lon = convert_lat_lon(<%= point['Latitude'] %>, <%= point['Longitude'] %>);
-            draw_point(converted_lat_lon.x + map_x1, converted_lat_lon.y + map_y1);
-
-            coordinate_html +=  "<li>Lat: <%= point['Latitude'] %></li> \
-                                <li>Lon: <%= point['Longitude'] %></li></br>";  // TODO - UI dev - remove </br>
-        <% end %>
-
-      <% elsif geometry['BoundingRectangles'] %>
-
-        function draw_rectangle(x1, y1, x2, y2) {
-          var min_x = Math.min(x1, x2);
-          var max_x = Math.max(x1, x2);
-          var min_y = Math.min(y1, y2);
-          var max_y = Math.max(y1, y2);
-          var rect = '<div style="position:absolute;width:' + (max_x-min_x) + 'px;height:' + (max_y-min_y) + 'px;top:' + min_y + 'px;left:' + min_x + 'px;background:' + highlight_color +'"></div>';
-          document.body.innerHTML += rect;
-        }
-
-        <% geometry['BoundingRectangles'].each do |bounding_rectangle| %>
-          var converted_lat_lon_1 = convert_lat_lon(<%=bounding_rectangle['NorthBoundingCoordinate']%>,
-                                                    <%=bounding_rectangle['WestBoundingCoordinate']%>);
-          var converted_lat_lon_2 = convert_lat_lon(<%=bounding_rectangle['SouthBoundingCoordinate']%>,
-                                                    <%=bounding_rectangle['EastBoundingCoordinate']%>);
-    alert (converted_lat_lon_1.x);
-    alert (converted_lat_lon_1.y);
-          draw_rectangle( converted_lat_lon_1.x + map_x1,
-                          converted_lat_lon_1.y + map_y1,
-                          converted_lat_lon_2.x + map_x1,
-                          converted_lat_lon_2.y + map_y1 );
-
-          coordinate_html +=  "<li>N: <%=bounding_rectangle['NorthBoundingCoordinate']%></li> \
-                              <li>S: <%=bounding_rectangle['SouthBoundingCoordinate']%></li> \
-                              <li>E: <%=bounding_rectangle['EastBoundingCoordinate']%></li> \
-                              <li>W: <%=bounding_rectangle['WestBoundingCoordinate']%></li></br>"; // TODO - UI dev - remove </br>
-        <% end %>
-
-      <% end %>
+    <% @point_coordinate_array.each do |point| %>
+      draw_point(<%=point['x']%> + map_x1, <%=point['y']%> + map_y1, dot_size, highlight_color);
+      document.getElementById("coordinates").innerHTML += "<li>Lat: <%= point['lat'] %></li> <li>Lon: <%= point['lon'] %></li></br>";  // TODO - UI dev - remove </br>
     <% end %>
 
-    var coordinates = document.getElementById("coordinates");
-    coordinates.innerHTML = coordinate_html;
-
-
-    location_keywords_html = "<li>Continent > Antartica</li> \
-                              <li>Geographic Region > Polar</li>";
-    var location_keywords = document.getElementById("location_keywords");
-    location_keywords.innerHTML = location_keywords_html;
-
-
-    <% if !@draft.draft['TemporalExtents'].nil? %>
-      <% @draft.draft['TemporalExtents'].each do |temporal_extent| %>
-
-        <% if temporal_extent['TemporalRangeType'] == 'SingleDateTime' %>
-
-          <% temporal_extent['SingleDateTimes'].each do |single_date_time| %>
-            temporal_coverage_html += '<li>Date: <%= single_date_time%></li></br>'; // TODO - UI dev - remove </br>
-          <% end %>
-
-        <% elsif temporal_extent['TemporalRangeType'] == 'RangeDateTime' %>
-
-          <% temporal_extent['RangeDateTimes'].each do |range_date_time| %>
-            temporal_coverage_html += '<li>Start Date: <%= range_date_time['BeginningDateTime']%> </li> \
-                                       <li>Stop Date: <%= range_date_time['EndingDateTime']%> </li></br>'; // TODO - UI dev - remove </br>
-          <% end %>
-
-        <% elsif temporal_extent['TemporalRangeType'] == 'PeriodicDateTime' %>
-
-          <% temporal_extent['PeriodicDateTimes'].each do |periodic_date_time| %>
-            temporal_coverage_html += '<li>Start Date: <%= periodic_date_time['StartDate']%> </li> \
-                                       <li>Stop Date: <%= periodic_date_time['EndDate']%> </li></br>'; // TODO - UI dev - remove </br>
-          <% end %>
-
-        <% end %>
-
-      <% end %>
+    <% @rectangle_coordinate_array.each do |rectangle| %>
+      draw_rectangle( <%=rectangle['min_x']%> + map_x1, <%=rectangle['min_y']%> + map_y1, <%=rectangle['max_x']%> + map_x1, <%=rectangle['max_y']%> + map_y1, highlight_color );
+      document.getElementById("coordinates").innerHTML +="<li>N: <%=rectangle['nbc']%></li> \
+                                                          <li>S: <%=rectangle['sbc']%></li> \
+                                                          <li>E: <%=rectangle['ebc']%></li> \
+                                                          <li>W: <%=rectangle['wbc']%></li></br>"; // TODO - UI dev - remove </br>
     <% end %>
 
-    var temporal_coverage = document.getElementById("temporal_coverage");
-    temporal_coverage.innerHTML = temporal_coverage_html;
-
+    <% if @point_coordinate_array.blank? && @rectangle_coordinate_array.blank? %>
+      document.getElementById("coordinates").innerHTML = "<li>No Spatial Coordinates found</li>";
+    <% end %>
 
   </script>
 

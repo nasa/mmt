@@ -148,4 +148,10 @@ class Draft < ActiveRecord::Base
     result.compact.presence
   end
 
+  def self.convert_lat_lon_to_image_x_y(lat, lon, map_width, map_height) # Do a simple transformation to map lat/lon onto y/x of map image
+    y = ((-1 * lat) + 90) * (map_height / 180.0);
+    x = (180 + lon) * (map_width / 360.0);
+    return x, y
+  end
+
 end
