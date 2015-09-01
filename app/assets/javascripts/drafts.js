@@ -231,6 +231,8 @@ $(document).ready(function() {
 
 });
 
+// Functions used for drawing on the preview page's map image
+
 function draw_point(x, y, dot_size, highlight_color) {
     var dot = '<div style="position:absolute;width:' + dot_size + 'px;height:' + dot_size + 'px;top:' + y + 'px;left:' + x + 'px;background:' + highlight_color +'"></div>';
     document.body.innerHTML += dot;

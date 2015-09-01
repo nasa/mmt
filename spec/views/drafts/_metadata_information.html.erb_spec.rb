@@ -28,14 +28,13 @@ describe template_path, type: :view do
         draft_json['MetadataLanguage'] = 'English'
 
         draft_json['MetadataDates'] = [
-          # minimal object populating
-          {},
           # Regular object populating
           {"Type" => "CREATE", "Date" => "2010-12-25T00:00:00Z"},
           {"Type" => "REVIEW", "Date" => "2010-12-30T00:00:00Z"}
         ]
 
         assign(:draft, build(:draft, draft: draft_json))
+        #output_schema_validation draft_json
         render :template => template_path, :locals=>{draft: draft_json}
       end
 

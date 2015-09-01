@@ -37,11 +37,11 @@ describe template_path, type: :view do
           "DataDates" => [
             {
               "Type" => "CREATE",
-              "Date" => "2015-07-01T00 => 00 => 00Z"
+              "Date" => "2015-07-01T00:00:00Z"
             },
             {
               "Type" => "REVIEW",
-              "Date" => "2015-07-05T00 => 00 => 00Z"
+              "Date" => "2015-07-05T00:00:00Z"
             }
           ],
           "ResponsibleOrganizations" => [
@@ -334,7 +334,7 @@ describe template_path, type: :view do
               "Creator" => "Citation creator",
               "Editor" => "Citation editor",
               "SeriesName" => "Citation series name",
-              "ReleaseDate" => "2015-07-01T00 => 00 => 00Z",
+              "ReleaseDate" => "2015-07-01T00:00:00Z",
               "ReleasePlace" => "Citation release place",
               "Publisher" => "Citation publisher",
               "IssueIdentification" => "Citation issue identification",
@@ -418,7 +418,7 @@ describe template_path, type: :view do
                 "Authority" => "Publication reference authority"
               },
               "Author" => "Publication reference author",
-              "PublicationDate" => "2015-07-01T00 => 00 => 00Z",
+              "PublicationDate" => "2015-07-01T00:00:00Z",
               "Series" => "Publication reference series",
               "Edition" => "Publication reference edition",
               "Volume" => "Publication reference volume",
@@ -458,6 +458,7 @@ describe template_path, type: :view do
 
 
         assign(:draft, build(:draft, draft: draft_json))
+        #output_schema_validation draft_json
         render :template => template_path, :locals=>{draft: draft_json}
       end
 

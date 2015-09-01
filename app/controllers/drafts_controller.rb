@@ -12,24 +12,10 @@ class DraftsController < ApplicationController
   # GET /drafts/1.json
   def show
 
-    @draft.draft['TemporalExtents'] = [
-      {"TemporalRangeType"=>"SingleDateTime", "PrecisionOfSeconds"=>1, "EndsAtPresentFlag"=>false, "SingleDateTimes"=>["2015-07-01", "2015-12-25"]},
-
-      {"TemporalRangeType"=>"RangeDateTime", "PrecisionOfSeconds"=>10, "EndsAtPresentFlag"=>false, "RangeDateTimes"=>[
-        {"BeginningDateTime"=>"2014-07-01", "EndingDateTime"=>"2014-08-01"},
-        {"BeginningDateTime"=>"2015-07-01", "EndingDateTime"=>"2015-08-01"}
-      ]},
-
-      {"TemporalRangeType"=>"PeriodicDateTime", "PrecisionOfSeconds"=>30, "EndsAtPresentFlag"=>false,
-       "PeriodicDateTimes"=>[
-         {"Name"=>"test 1 Periodic Extent", "StartDate"=>"2015-07-01", "EndDate"=>"2015-08-01", "DurationUnit"=>"DAY", "DurationValue"=>5,
-          "PeriodCycleDurationUnit"=>"DAY", "PeriodCycleDurationValue"=>1},
-         {"Name"=>"test 2 Periodic Extent", "StartDate"=>"2016-07-01", "EndDate"=>"2016-08-01", "DurationUnit"=>"MONTH", "DurationValue"=>4, "PeriodCycleDurationUnit"=>"MONTH", "PeriodCycleDurationValue"=>2},
-       ]}
-    ]
-
-
     # Calculate spatial extent display information
+
+    @point_coordinate_array = []
+    @rectangle_coordinate_array = []
 
     if @draft.draft['SpatialExtent'] &&
       @draft.draft['SpatialExtent']['HorizontalSpatialDomain'] &&
@@ -38,12 +24,10 @@ class DraftsController < ApplicationController
       map_width = 305
       map_height = 153
       highlight_color = "rgba(250,0,0,0.25)"
-      @point_coordinate_array = []
-      @rectangle_coordinate_array = []
 
       geometry = @draft.draft['SpatialExtent']['HorizontalSpatialDomain']['Geometry']
 
-      if geometry['Points']
+      if !geometry['Points'].blank?
 
         dot_size = 5;
 
@@ -52,7 +36,9 @@ class DraftsController < ApplicationController
           @point_coordinate_array <<  {'lat'=>point['Latitude'], 'lon'=>point['Longitude'], 'x'=>x, 'y'=>y}
         end
 
-      elsif geometry['BoundingRectangles']
+      end
+
+      if !geometry['BoundingRectangles'].blank?
 
         geometry['BoundingRectangles'].each do |bounding_rectangle|
           nbc = bounding_rectangle['NorthBoundingCoordinate']
@@ -80,7 +66,7 @@ class DraftsController < ApplicationController
     @range_date_times = []
     @periodic_date_times = []
 
-    if !@draft.draft['TemporalExtents'].nil?
+    if !@draft.draft['TemporalExtents'].blank?
       @draft.draft['TemporalExtents'].each do |temporal_extent|
 
         if temporal_extent['TemporalRangeType'] == 'SingleDateTime'

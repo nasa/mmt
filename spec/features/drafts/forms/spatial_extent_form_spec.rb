@@ -117,6 +117,21 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('Latitude Resolution: 42.0')
       expect(page).to have_content('Longitude Resolution: 43.0')
       expect(page).to have_content('Spatial Keywords: f47ac10b-58cc-4372-a567-0e02b2c3d479 abdf4d5c-55dc-4324-9ae5-5adf41e99da3')
+
+      # Also check side bar
+      expect(page).to have_content('Lat: 38.805407')
+      expect(page).to have_content('Lon: -77.047878')
+      expect(page).to have_content('Lat: 38.968602')
+      expect(page).to have_content('Lon: -76.9284587')
+      expect(page).to have_content('N: 90.0')
+      expect(page).to have_content('S: -90.0')
+      expect(page).to have_content('E: 180.0')
+      expect(page).to have_content('W: -180.0')
+      expect(page).to have_content('N: 58.968602')
+      expect(page).to have_content('S: 18.968602')
+      expect(page).to have_content('E: -56.9284587')
+      expect(page).to have_content('W: -96.9284587')
+
     end
 
     context 'when returning to the form' do
