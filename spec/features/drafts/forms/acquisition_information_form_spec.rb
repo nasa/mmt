@@ -71,6 +71,9 @@ describe 'Acquisition information form', js: true do
       expect(page).to have_content('unit', :count=>10)
       expect(page).to have_content('Characteristics value 1', :count=>5)
       expect(page).to have_content('Characteristics value', :count=>10)
+
+      expect(page).to have_content('No Temporal Coverages found')
+      expect(page).to have_content('No Spatial Coordinates found')
     end
 
     context 'when returning to the form' do

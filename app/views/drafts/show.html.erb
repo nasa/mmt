@@ -128,7 +128,7 @@
       </section>
       <aside class="geographic-coverage">
         <h3>Geographic Coverage</h3>
-        <%= image_tag("plate_carree_earth@2x.png", alt:'Map', id:'preview_map') %>
+        <%= image_tag("plate_carree_earth.png", alt:'Map', id:'preview_map') %>
 
         <caption>Spatial Coordinates</caption>
         <ol class="coordinates" id="coordinates"></ol>
@@ -139,26 +139,29 @@
           <li>Geographic Region > Polar</li>
         </ul>
 
-        <% single_date_times, range_date_times, periodic_date_times = @draft.get_preview_temporal(@draft) %>
+        <% preview_temporal_hash = @draft.get_preview_temporal %>
 
         <h4>Temporal Coverage</h4>
         <ul>
 
+          <% single_date_times = preview_temporal_hash['single_date_times']%>
           <% single_date_times.each do |single_date_time| %>
             <li>Date: <%= single_date_time %></li></br>
-          <% end %>
+          <% end if single_date_times.present? %>
 
+          <% range_date_times = preview_temporal_hash['range_date_times']%>
           <% range_date_times.each do |range_date_time| %>
             <li>Start Date: <%= range_date_time['beginning_date_time']%> </li> <li>Stop Date: <%= range_date_time['ending_date_time']%> </li></br>
-          <% end %>
+          <% end if range_date_times.present? %>
 
+          <% periodic_date_times = preview_temporal_hash['periodic_date_times']%>
           <% periodic_date_times.each do |periodic_date_time| %>
             <li>Start Date: <%= periodic_date_time['start_date']%> </li> <li>Stop Date: <%= periodic_date_time['end_date']%> </li></br>
-          <% end %>
+          <% end if periodic_date_times.present?%>
 
           <% if single_date_times.blank? && range_date_times.blank? && periodic_date_times.blank? %>
             <li>No Temporal Coverages found</li>
-          <% end %>
+          <% end  %>
 
         </ul>
       </aside>
@@ -166,10 +169,8 @@
     </div>
   </div>
 
-  <% point_coordinate_array, rectangle_coordinate_array = @draft.get_preview_spatial(@draft) %>
-
   <script>
-    draw_spatial_extent(<%= raw point_coordinate_array.to_json %>, <%= raw rectangle_coordinate_array.to_json %>);
+    drawSpatialExtent(<%= raw @draft.get_preview_spatial.to_json %>);
   </script>
 
 </main>
