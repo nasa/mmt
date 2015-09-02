@@ -2,14 +2,14 @@
 ------------------------------------------*/
 
 .search-module {
-  background-color: rgba($black, 0.95);
+  background-color: rgba($black,1);
   width: 800px;
   z-index: 10;
   position: absolute;
-  top: 164px;
+  top: 118px;
   text-align: left;
   margin-left: -265px;
-  padding: 0 25px;
+  padding: 25px;
 
   input {
     color: $black;

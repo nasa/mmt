@@ -3,12 +3,17 @@
 
 article {
   @include row();
+
+  &.row-content {
+    @include outer-container;
+  }
 }
 
 // START NOTE: Will be refactored to .container after all pages have been established.
 
 main.dashboard {
-  @include outer-container;
+  background: $light-grey;
+  box-shadow: 0 -3px 3px rgba(0,0,0,0.15);
 }
 
 section {
@@ -48,4 +53,10 @@ section {
 .row {
   @include row();
   padding: 0.3125em 0;
+
+  &.row-content {
+    background: #fff;
+    box-shadow: 0 -3px 3px rgba(0,0,0,0.15);
+    min-height: 300px;
+  }
 }

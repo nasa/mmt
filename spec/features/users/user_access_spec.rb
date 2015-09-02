@@ -9,7 +9,7 @@ describe 'User Access', js: true do
     end
 
     it 'redirects them to the landing page' do
-      expect(page).to have_content 'About the Metadata Management Tool'
+      expect(page).to have_content 'ABOUT THE METADATA MANAGEMENT TOOL'
     end
   end
 

@@ -9,50 +9,48 @@
       </div>
     </div>
   </header>
+  <div class="row row-content">
+    <section class="heading-group">
+      <h2><%= @provider_name %></h2>
+      <% if !@provider_description.nil? %>
+        <p>
+          <%= @provider_description %>
+        </p>
+      <% end %>
+    </section>
+    <div class="row">
+      <section>
 
-  <section >
-    <h2 style="border-bottom: 0px">
-      <%= @provider_name %>
-    </h2>
-    <% if !@provider_description.nil? %>
-      <p>
-        <%= @provider_description %>
-      </p>
-    <% end %>
-  </section>
-
-  <div class="row">
-    <section>
-
-      <table id='collections'>
-        <thead>
-        <tr>
-          <th>Collection</th>
-          <th>Granules</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% if @collections.blank? %>
+        <table id='collections'>
+          <thead>
           <tr>
-            <td colspan="2">
-              No collections found
-            </td>
+            <th>Collection</th>
+            <th>Granules</th>
           </tr>
-        <% else %>
-          <% @collections.each do |row| %>
-            <tr class='<%= cycle("alt", "") %>'>
-              <td>
-                <%= row[:title] %>
-              </td>
-              <td class="justify-right">
-                <%= number_with_delimiter(row[:granules]) %>
+          </thead>
+          <tbody>
+          <% if @collections.blank? %>
+            <tr>
+              <td colspan="2">
+                No collections found
               </td>
             </tr>
+          <% else %>
+            <% @collections.each do |row| %>
+              <tr class='<%= cycle("alt", "") %>'>
+                <td>
+                  <%= row[:title] %>
+                </td>
+                <td class="justify-right">
+                  <%= number_with_delimiter(row[:granules]) %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
 
-    </section>
+      </section>
+    </div>
   </div>
 </main>
