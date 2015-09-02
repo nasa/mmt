@@ -9,44 +9,46 @@
       </div>
     </div>
   </section>
-  <section>
+  <div class="row row-content">
+    <section>
+      <h2>Open Drafts</h2>
+      <table id="open_drafts">
+        <thead>
+          <tr>
+            <th>Entry ID</th>
+            <th>Entry Title</th>
+            <th>Last Modified</th>
+          </tr>
+        </thead>
+        <tbody>
 
-    <table id="open_drafts">
-      <thead>
-        <tr>
-          <th>Entry ID</th>
-          <th>Entry Title</th>
-          <th>Last Modified</th>
-        </tr>
-      </thead>
-      <tbody>
-
-      <% if @drafts.blank? %>
-        <tr>
-          <td colspan="4">
-            No Open Drafts found
-          </td>
-        </tr>
-      <% else %>
-
-        <% @drafts.each do |draft| %>
-          <tr class='<%= cycle("alt", "") %>'>
-            <td>
-              <%= link_to draft.display_entry_id, draft_path(draft) %>
-            </td>
-            <td>
-              <%= draft.display_entry_title %>
-            </td>
-            <td>
-              <%= draft.updated_at.strftime("%Y-%m-%d") %>
+        <% if @drafts.blank? %>
+          <tr>
+            <td colspan="4">
+              No Open Drafts found
             </td>
           </tr>
+        <% else %>
+
+          <% @drafts.each do |draft| %>
+            <tr class='<%= cycle("alt", "") %>'>
+              <td>
+                <%= link_to draft.display_entry_id, draft_path(draft) %>
+              </td>
+              <td>
+                <%= draft.display_entry_title %>
+              </td>
+              <td>
+                <%= draft.updated_at.strftime("%Y-%m-%d") %>
+              </td>
+            </tr>
+          <% end %>
+
         <% end %>
-
-      <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
 
 
-  </section>
+    </section>
+  </div>
 </main>

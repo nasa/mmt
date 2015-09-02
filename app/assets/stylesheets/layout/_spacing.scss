@@ -17,6 +17,15 @@ main {
 
 div.breadcrumb {
   margin-bottom: 0;
+  padding: 1em 0;
+
+  ol {
+    margin: 0;
+  }
+
+  li:last-child {
+    font-weight: normal;
+  }
 }
 
 .full-width {
