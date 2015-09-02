@@ -24,7 +24,7 @@ describe Draft do
   # update_draft method
   it '"update_draft" saves entry_id on update' do
     draft = create(:draft)
-    params = {'entry_id' => {'id' => '12345'}, 'entry_title' => 'new title'}
+    params = {'entry_id' => '12345', 'entry_title' => 'new title'}
 
     draft.update_draft(params)
 
@@ -32,7 +32,7 @@ describe Draft do
   end
   it '"update_draft" saves entry_title on update' do
     draft = create(:draft)
-    params = {'entry_id' => {'id' => '12345'}, 'entry_title' => 'new title'}
+    params = {'entry_id' => '12345', 'entry_title' => 'new title'}
 
     draft.update_draft(params)
 
@@ -48,11 +48,11 @@ describe Draft do
   end
   it '"update_draft" deletes empty values' do
     draft = create(:draft, draft: {'EntryTitle' => 'test title'})
-    params = {'entry_id' => {'id' => '12345'}, 'entry_title' => ''}
+    params = {'entry_id' => '12345', 'entry_title' => ''}
 
     draft.update_draft(params)
 
-    expect(draft.draft).to eq({"EntryId" => {"Id" => "12345"}})
+    expect(draft.draft).to eq({"EntryId" => "12345"})
   end
   it '"update_draft" converts number fields to numbers' do
     draft = create(:draft, draft: {})

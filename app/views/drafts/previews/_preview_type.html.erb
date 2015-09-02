@@ -10,7 +10,7 @@
 <% if data %>
   <li class="<%= 'top_field ' if top_field %><%= name_to_class(name) %>">
     <% if top_field %>
-      <h4><%= name_to_title(name).pluralize %></h4>
+      <h4><%= name_to_title(name) %></h4>
     <% end %>
     <% data.each_with_index do |data_value, index| %>
       <h5><%= name_to_title(name) %><%= " #{index + 1}" if is_array %></h5>
@@ -37,7 +37,7 @@
             <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
                 key_name: key[:name],
                 hash_for_key: data_value,
-                options: options } %>
+                options: options.clone } %>
           <% end %>
 
         <% end %>

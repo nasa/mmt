@@ -10,25 +10,24 @@
           <li>Search Results</li>
         </ol>
       </div>
+    </div>
+  </section>
+  <div class="row row-content">
+    <section>
+      <div class="col-3">
+        <!-- Temporarily commented out because this is not a part of the MVP %-->
+        <!--%= render :partial=>'filters' %-->
+      </div>
+
+      <!-- Temporarily commented out because this is not a part of the MVP %-->
+      <!--p class="bulk-record-actions"><a href="#" class="btn btn-md btn-blue">Bulk Edit Records</a> <a href="#" class="btn btn-md btn-blue">Bulk Delete Records</a></p-->
       <div id="collection_search_criteria">
         <%= render :partial=>'collection_search_criteria' %>
       </div>
-    </div>
-  </section>
-  <section>
-    <div class="col-3">
-      <!-- Temporarily commented out because this is not a part of the MVP %-->
-      <!--%= render :partial=>'filters' %-->
-    </div>
+      <div id="collection_search_results">
+         <%= render :partial=>'collection_search_results' %>
+      </div>
 
-    <!-- Temporarily commented out because this is not a part of the MVP %-->
-    <!--p class="bulk-record-actions"><a href="#" class="btn btn-md btn-blue">Bulk Edit Records</a> <a href="#" class="btn btn-md btn-blue">Bulk Delete Records</a></p-->
-
-    <div id="collection_search_results">
-       <%= render :partial=>'collection_search_results' %>
-    </div>
-
-  </section>
+    </section>
+  </div>
 </main>
-
-

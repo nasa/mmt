@@ -10,13 +10,8 @@
 
 
   <!-- EntryId [r] -->
-  <label for="<%= remove_pipes(name_prefix) %>entry_id" class="icon-required">Entry ID</label><i class="fa fa-info-circle"></i>
-  <%= render partial: 'drafts/forms/type', locals: {
-      type: 'entry_id',
-      values: metadata_association['EntryId'] || {},
-      name_prefix: "#{name_prefix}|entry_id|_",
-      multiple: false,
-      options: {} } %>
+  <label for="<%= remove_pipes(name_prefix) %>entry_id">Entry Id</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|entry_id|"), metadata_association['EntryId'], class: 'half-width') %>
 
 
   <!-- ProviderId [r] -->

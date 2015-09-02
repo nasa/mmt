@@ -4,8 +4,8 @@
     <label class="icon-required">Platform</label><i class="fa fa-info-circle"></i>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'platform',
-        values: draft.draft['Platform'] || [{}],
-        name_prefix: "draft_platform_",
+        values: draft.draft['Platforms'] || [{}],
+        name_prefix: "draft_platforms_",
         multiple: true,
         options: {} } %>
   </div>
@@ -18,8 +18,8 @@
     <label>Project</label><i class="fa fa-info-circle"></i>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'project',
-        values: draft.draft['Project'] || [{}],
-        name_prefix: "draft_project_",
+        values: draft.draft['Projects'] || [{}],
+        name_prefix: "draft_projects_",
         multiple: true,
         options: {} } %>
   </div>

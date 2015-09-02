@@ -1,4 +1,39 @@
 module DraftsHelper
+  CollectionDataTypeOptions = [
+    ['Select Data Type', ''],
+    ['Science Quality', 'SCIENCE_QUALITY'],
+    ['Near Real Time', 'NEAR_REAL_TIME'],
+    ['Other', 'OTHER']
+  ]
+  CollectionProgressOptions = [
+    ['Select Progress', ''],
+    ['Planned', 'PLANNED'],
+    ['In work', 'IN WORK'],
+    ['Complete', 'COMPLETE']
+  ]
+  CoordinateSystemOptions = [
+      ['Cartesian', 'CARTESIAN'],
+      ['Geodetic', 'GEODETIC']
+  ]
+  DurationOptions = [
+    ['Select Duration', ''],
+    ['Day', 'DAY'],
+    ['Month', 'MONTH'],
+    ['Year', 'YEAR']
+  ]
+  DateTypeOptions = [
+    ['Select Date Type', ''],
+    ['Create', 'CREATE'],
+    ['Update', 'UPDATE'],
+    ['Delete', 'DELETE'], ['Review', 'REVIEW']
+  ]
+  GranuleSpatialRepresentationOptions = [
+    ['Select Granule Spatial Representation', ''],
+    ['Cartesian', 'CARTESIAN'],
+    ['Geodetic', 'GEODETIC'],
+    ['Orbit', 'ORBIT'],
+    ['No Spatial', 'NO_SPATIAL'],
+  ]
   RoleOptions = [
     ['Select Role', ''],
     ['Resource Provider', 'RESOURCEPROVIDER'],
@@ -22,29 +57,11 @@ module DraftsHelper
     ['Funder', 'FUNDER'],
     ['Stakeholder', 'STAKEHOLDER']
   ]
-  DurationOptions = [
-    ['', ''],
-    ['Day', 'DAY'],
-    ['Month', 'MONTH'],
-    ['Year', 'YEAR']
-  ]
-  DateTypeOptions = [
-    ['Select Date Type', ''],
-    ['Create', 'CREATE'],
-    ['Update', 'UPDATE'],
-    ['Delete', 'DELETE'], ['Review', 'REVIEW']
-  ]
-  CollectionDataTypeOptions = [
-    ['Select Data Type', ''],
-    ['Science Quality', 'SCIENCE_QUALITY'],
-    ['Near Real Time', 'NEAR_REAL_TIME'],
-    ['Other', 'OTHER']
-  ]
-  CollectionProgressOptions = [
-    ['Select Progress', ''],
-    ['Planned', 'PLANNED'],
-    ['In work', 'IN WORK'],
-    ['Complete', 'COMPLETE']
+  SpatialCoverageTypeOptions = [
+      ['Horizontal', 'HORIZONTAL'],
+      ['Vertical', 'VERTICAL'],
+      ['Orbital', 'ORBITAL'],
+      ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
   ]
 
   def construct_keyword_string(hash_obj, str)
@@ -87,11 +104,21 @@ module DraftsHelper
 
   #Change json keys like 'FileSize' to acceptable html class names like 'file-size'
   def name_to_class(key)
-    return key.to_s.underscore.dasherize
+    if key == 'URLs'
+      'urls'
+    else
+      key.to_s.underscore.dasherize
+    end
   end
 
   def name_to_title(name)
-    name.underscore.humanize.titleize
+    is_id = name.end_with?('Id') && name.size > 2 ? ' Id' : ''
+
+    if name == 'URLs'
+      'URLs'
+    else
+      name.underscore.titleize + is_id
+    end
   end
 
   # Used to derive the displayed string of a select type control from the value stored in json

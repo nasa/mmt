@@ -36,13 +36,11 @@ class Draft < ActiveRecord::Base
       # pull out searchable fields if provided
       if params['entry_id']
         self.entry_title = params['entry_title'].empty? ? nil : params['entry_title']
-        self.entry_id = params['entry_id']['id'].empty? ? nil : params['entry_id']['id']
+        self.entry_id = params['entry_id'].empty? ? nil : params['entry_id']
       end
 
       # The provider_id isn't actually part of the metadata. You can think of that as the owner of the metadata. It's meta-metadata.
       # self.provider_id = ?
-
-      # TODO Detailed_Classification needs to have an underscore (this will be fixed in CMR soon)
 
       # Convert {'0' => {'id' => 123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
@@ -57,12 +55,38 @@ class Draft < ActiveRecord::Base
         self.draft = new_draft
         self.save
       end
-
     end
+    # This keeps an empty form from sending the user back to draft_path when clicking on Save & Next
+    true
   end
 
-  INTEGER_KEYS = ['number_of_sensors', 'duration_value', 'period_cycle_duration_value', 'precision_of_seconds']
-  NUMBER_KEYS = ['size']
+  INTEGER_KEYS = [
+    'number_of_sensors',
+    'duration_value',
+    'period_cycle_duration_value',
+    'precision_of_seconds'
+  ]
+  NUMBER_KEYS = [
+    'size',
+    'fees',
+    'longitude',
+    'latitude',
+    'minimum_value',
+    'maximum_value',
+    'west_bounding_coordinate',
+    'north_bounding_coordinate',
+    'east_bounding_coordinate',
+    'south_bounding_coordinate',
+    'denominator_of_flattening_ratio',
+    'semi_major_axis',
+    'latitude_resolution',
+    'longitude_resolution',
+    'swath_width',
+    'inclination_angle',
+    'number_of_orbits',
+    'start_circular_latitude',
+    'resolutions'
+  ]
   BOOLEAN_KEYS = ['ends_at_present_flag']
 
   def convert_to_arrays(object)
@@ -80,10 +104,17 @@ class Draft < ActiveRecord::Base
           if INTEGER_KEYS.include?(key)
             object[key] = value.to_i unless value.empty?
           elsif NUMBER_KEYS.include?(key)
-            object[key] = convert_to_number(value) unless value.empty?
+            object[key] = convert_to_number(value)
           elsif BOOLEAN_KEYS.include?(key)
             object[key] = value == 'true' ? true : false unless value.empty?
           else
+            if key == 'orbit_parameters'
+              # There are two fields named 'Period' but only one of them is a number.
+              # Convert the correct 'Period' to a number
+              period = value['period']
+              value['period'] = convert_to_number(period)
+              object[key] = value
+            end
             object[key] = convert_to_arrays(value)
           end
         end
@@ -98,7 +129,11 @@ class Draft < ActiveRecord::Base
   end
 
   def convert_to_number(string)
-    string.gsub(/[^0-9.]/, '').to_f
+    if string.is_a? Array
+      string.map{ |s| s.gsub(/[^\-0-9.]/, '').to_f unless s.empty? }
+    else
+      string.gsub(/[^\-0-9.]/, '').to_f unless string.empty?
+    end
   end
 
   def compact_blank(node)
@@ -111,6 +146,12 @@ class Draft < ActiveRecord::Base
     end
     result = result.compact
     result.compact.presence
+  end
+
+  def self.convert_lat_lon_to_image_x_y(lat, lon, map_width, map_height) # Do a simple transformation to map lat/lon onto y/x of map image
+    y = ((-1 * lat) + 90) * (map_height / 180.0);
+    x = (180 + lon) * (map_width / 360.0);
+    return x, y
   end
 
 end

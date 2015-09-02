@@ -4,9 +4,10 @@
 // Note: Needs refactoring.
 
 .metadata {
-  padding-bottom: 1.875em !important;
+  padding-bottom: 1.275em !important;
+  padding-top: 1em !important;
   border-bottom: 1px solid $dolphin-grey !important;
-  margin-bottom: 1.25em;
+  margin-bottom: 1em;
   ul {
     list-style: none;
     padding-left: 0;
@@ -33,6 +34,7 @@
   .fa-circle,
   .fa-circle-o {
     margin-right: 0.3125em;
+    font-size: 0.8em;
   }
   .icon-grey {
     color: $dolphin-grey;

@@ -1,15 +1,37 @@
 module TypesHelper
+  PointsType = [ # Referenced by BoundaryType, GeometryType, LinesType, etc
+    { name: 'Latitude' },
+    { name: 'Longitude' }
+  ]
   AccessConstraintsType = [
     { name: 'Description' },
     { name: 'Value' }
   ]
-  AddressType = [
-    { name: 'StreetAddress', options: [:array_field] },
+  AddressesType = [
+    { name: 'StreetAddresses', options: [:array_field] },
     { name: 'City' },
     { name: 'StateProvince' },
     { name: 'PostalCode' },
     { name: 'Country' }
   ]
+  AltitudeSystemDefinitionType = [
+    { name: 'DatumName' },
+    { name: 'DistanceUnits' },
+    { name: 'EncodingMethod' },
+    { name: 'Resolution', options: [:sub_type] }
+  ]
+  BoundingRectanglesType = [
+    { name: 'CenterPoint', options: [:sub_type] },
+    { name: 'WestBoundingCoordinate' },
+    { name: 'NorthBoundingCoordinate' },
+    { name: 'EastBoundingCoordinate' },
+    { name: 'SouthBoundingCoordinate' }
+  ]
+  BoundaryType = [
+    { name: 'Points', options: [:sub_type]  }
+  ]
+  BoundariesType = BoundaryType
+  CenterPointType = PointsType
   CharacteristicsType = [
     { name: 'Name' },
     { name: 'Description' },
@@ -17,7 +39,7 @@ module TypesHelper
     { name: 'Unit' },
     { name: 'DataType' }
   ]
-  ChronostratigraphicUnitType = [
+  ChronostratigraphicUnitsType = [
     { name: 'Eon' },
     { name: 'Era' },
     { name: 'Epoch' },
@@ -25,7 +47,7 @@ module TypesHelper
     { name: 'DetailedClassification' },
     { name: 'Period' }
   ]
-  ContactType = [
+  ContactsType = [
     { name: 'Type' },
     { name: 'Value' }
   ]
@@ -33,7 +55,17 @@ module TypesHelper
     { name: 'Type' },
     { name: 'Subtype' }
   ]
-  DistributionType = [
+  Coordinate1Type = [
+    { name: 'MinimumValue' },
+    { name: 'MaximumValue' }
+  ]
+  Coordinate2Type = Coordinate1Type
+  DateType = [
+    { name: 'Type', options: [:select_type], select_type: 'DateTypeOptions' },
+    { name: 'Date' }
+  ]
+  DepthSystemDefinitionType = AltitudeSystemDefinitionType
+  DistributionsType = [
     { name: 'DistributionMedia' },
     { name: 'DistributionSize' },
     { name: 'DistributionFormat' },
@@ -43,46 +75,81 @@ module TypesHelper
     { name: 'DOI' },
     { name: 'Authority' }
   ]
-  EntryIdType = [
-    { name: 'Id' },
-    { name: 'Version' },
-    { name: 'Authority' }
+  ExclusionZoneType = [
+    { name: 'Boundaries', options: [:sub_type] }
   ]
   FileSizeType = [
     { name: 'Size' },
     { name: 'Unit' }
   ]
+  GeodeticModelType = [
+    { name: 'HorizontalDatumName' },
+    { name: 'EllipsoidName' },
+    { name: 'SemiMajorAxis' },
+    { name: 'DenominatorOfFlatteningRatio' }
+  ]
+  GeographicCoordinateSystemType = [
+    { name: 'GeographicCoordinateUnits' },
+    { name: 'LatitudeResolution' },
+    { name: 'LongitudeResolution' }
+  ]
+  GeometryType = [
+    { name: 'CoordinateSystem', options: [:select_type], select_type: 'CoordinateSystemOptions'  },
+    { name: 'Points', options: [:sub_type] },
+    { name: 'BoundingRectangles', options: [:sub_type] },
+    { name: 'GPolygons', options: [:sub_type] },
+    { name: 'Lines', options: [:sub_type] }
+  ]
+  GPolygonsType = [
+    { name: 'CenterPoint', options: [:sub_type] },
+    { name: 'Boundary', options: [:sub_type] },
+    { name: 'ExclusionZone', options: [:sub_type] }
+  ]
+  HorizontalCoordinateSystemType = [
+    { name: 'GeodeticModel', options: [:sub_type] },
+    { name: 'GeographicCoordinateSystem', options: [:sub_type] },
+    { name: 'LocalCoordinateSystem', options: [:sub_type] }
+]
+  HorizontalSpatialDomainType = [
+    { name: 'ZoneIdentifier' },
+    { name: 'Geometry', options: [:sub_type] }
+]
   InstrumentsType = [
     { name: 'ShortName' },
     { name: 'LongName' },
     { name: 'Characteristics', options: [:sub_type] },
     { name: 'Technique' },
     { name: 'NumberOfSensors' },
-    { name: 'OperationalMode', options: [:array_field] },
+    { name: 'OperationalModes', options: [:array_field] },
     { name: 'Sensors', options: [:sub_type] }
   ]
-  LineageDateType = [
-    { name: 'Type', options: [:select_type], select_type: 'DateTypeOptions' },
-    { name: 'Date' },
-    { name: 'Description' },
-    { name: 'Responsibility', options: [:sub_type] }
+  LinesType = [
+    { name: 'CenterPoint', options: [:sub_type] },
+    { name: 'Points', options: [:sub_type] }
   ]
-  LineageType = [
-    # TODO, huh?
-    { name: 'Date', options: [:sub_type, :lineage_date] }
-  ]
-  MetadataAssociationType = [
+  LocalCoordinateSystemType = [
+    { name: 'GeoReferenceInformation' },
+    { name: 'Description' }
+]
+  MetadataAssociationsType = [
     { name: 'Type' },
     { name: 'Description' },
-    { name: 'EntryId', options: [:sub_type] },
+    { name: 'EntryId' },
     { name: 'ProviderId' }
+  ]
+  OrbitParametersType = [
+    { name: 'SwathWidth' },
+    { name: 'Period' },
+    { name: 'InclinationAngle' },
+    { name: 'NumberOfOrbits' },
+    { name: 'StartCircularLatitude' }
   ]
   OrganizationNameType = [
     { name: 'ShortName' },
     { name: 'LongName' }
   ]
   PaleoTemporalCoverageType = [
-    { name: 'ChronostratigraphicUnit', options: [:sub_type] },
+    { name: 'ChronostratigraphicUnits', options: [:sub_type] },
     { name: 'StartDate' },
     { name: 'EndDate' }
   ]
@@ -91,11 +158,11 @@ module TypesHelper
     { name: 'Person', options: [:sub_type] },
     { name: 'ServiceHours' },
     { name: 'ContactInstructions' },
-    { name: 'Contact', options: [:sub_type] },
-    { name: 'Address', options: [:sub_type] },
-    { name: 'RelatedUrl', options: [:sub_type] }
+    { name: 'Contacts', options: [:sub_type] },
+    { name: 'Addresses', options: [:sub_type] },
+    { name: 'RelatedUrls', options: [:sub_type] }
   ]
-  PeriodicDateTimeType = [
+  PeriodicDateTimesType = [
     { name: 'Name' },
     { name: 'StartDate' },
     { name: 'EndDate' },
@@ -109,7 +176,7 @@ module TypesHelper
     { name: 'MiddleName' },
     { name: 'LastName' }
   ]
-  PlatformType = [
+  PlatformsType = [
     { name: 'Type' },
     { name: 'ShortName' },
     { name: 'LongName' },
@@ -120,14 +187,14 @@ module TypesHelper
     { name: 'Id' },
     { name: 'ProcessingLevelDescription' }
   ]
-  ProjectType = [
+  ProjectsType = [
     { name: 'ShortName' },
     { name: 'LongName' },
-    { name: 'Campaign', options: [:array_field] },
+    { name: 'Campaigns', options: [:array_field] },
     { name: 'StartDate' },
     { name: 'EndDate' }
   ]
-  PublicationReferenceType = [
+  PublicationReferencesType = [
     { name: 'RelatedUrl', options: [:sub_type] },
     { name: 'Title' },
     { name: 'Publisher' },
@@ -144,12 +211,12 @@ module TypesHelper
     { name: 'ISBN' },
     { name: 'OtherReferenceDetails' }
   ]
-  RangeDateTimeType = [
+  RangeDateTimesType = [
     { name: 'BeginningDateTime' },
     { name: 'EndingDateTime' }
   ]
   RelatedUrlType = [
-    { name: 'URL', options: [:array_field] },
+    { name: 'URLs', options: [:array_field] },
     { name: 'Description' },
     { name: 'Protocol' },
     { name: 'MimeType' },
@@ -157,6 +224,10 @@ module TypesHelper
     { name: 'Title' },
     { name: 'FileSize', options: [:sub_type] },
     { name: 'ContentType', options: [:sub_type] }
+  ]
+  RelatedUrlsType = RelatedUrlType
+  ResolutionType = [
+    { name: 'Resolutions', options: [:array_field]  }
   ]
   ResourceCitationType = [
     { name: 'Version' },
@@ -183,11 +254,39 @@ module TypesHelper
     { name: 'Technique' },
     { name: 'Characteristics', options: [:sub_type] }
   ]
-  TemporalExtentType = [
+  SpatialExtentType = [
+    { name: 'SpatialCoverageType', options: [:select_type], select_type: 'SpatialCoverageTypeOptions' },
+    { name: 'HorizontalSpatialDomain', options: [:sub_type] },
+    { name: 'VerticalSpatialDomains', options: [:sub_type] },
+    { name: 'OrbitParameters', options: [:sub_type] },
+    { name: 'GranuleSpatialRepresentation', options: [:select_type], select_type: 'GranuleSpatialRepresentationOptions' }
+  ]
+  SpatialInformationType = [
+    { name: 'SpatialCoverageType', options: [:select_type], select_type: 'SpatialCoverageTypeOptions'  },
+    { name: 'HorizontalCoordinateSystem', options: [:sub_type] },
+    { name: 'VerticalCoordinateSystem', options: [:sub_type] }
+  ]
+  # SpatialKeywordsType = [ # Is a simple array, handled at the hierarchy top
+  # ]
+  TemporalExtentsType = [
     { name: 'PrecisionOfSeconds' },
     { name: 'EndsAtPresentFlag' },
-    { name: 'RangeDateTime', options: [:sub_type] },
-    { name: 'SingleDateTime', options: [:array_field] },
-    { name: 'PeriodicDateTime', options: [:sub_type] }
+    { name: 'RangeDateTimes', options: [:sub_type] },
+    { name: 'SingleDateTimes', options: [:array_field] },
+    { name: 'PeriodicDateTimes', options: [:sub_type] }
   ]
+  TilingIdentificationSystemType = [
+    { name: 'TilingIdentificationSystemName' },
+    { name: 'Coordinate1', options: [:sub_type]  },
+    { name: 'Coordinate2', options: [:sub_type]  }
+  ]
+  VerticalCoordinateSystemType = [
+    { name: 'AltitudeSystemDefinition', options: [:sub_type] },
+    { name: 'DepthSystemDefinition', options: [:sub_type] }
+  ]
+  VerticalSpatialDomainsType = [
+    { name: 'Type' },
+    { name: 'Value' }
+  ]
+
 end

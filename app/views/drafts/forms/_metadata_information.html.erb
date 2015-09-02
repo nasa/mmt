@@ -1,47 +1,22 @@
 <!-- Metadata language -->
-<!-- MetadataLanguage needs to be an object, not a string, but we don't have enough info in the json-schema -->
 <div class="row taller">
   <div class="col-12">
     <label for="draft_metadata_language" class="main-field">Metadata Language</label><i class="fa fa-info-circle"></i>
-    <!-- Might need to be "eng", or a dropdown of languages. Should default to English -->
     <%= text_field_tag('draft[metadata_language]', draft.draft['MetadataLanguage'], placeholder: 'English', class: 'half-width') %>
   </div>
 </div>
 
-<!-- Metdata Standard [r] -->
-<div class="row">
-  <div class="col-12">
-    <label for="draft_metadata_standard" class="main-field icon-required">Metadata Standard</label><i class="fa fa-info-circle"></i>
-
-    <div class="row sub-fields">
-      <% metadata_standard = draft.draft['MetadataStandard'] || {} %>
-      <label for="draft_metadata_standard_name" class="icon-required">Name</label><i class="fa fa-info-circle"></i>
-      <%= select_tag "draft[metadata_standard][name]", options_for_select([['Select Metadata Standard', ''],'SERF', 'UMM', 'ECHO10', 'DIF', 'ISO 19115-2', 'ISO 19115-1'], metadata_standard['Name']), class: 'half-width' %>
-
-      <label for="draft_metadata_standard_version" class="icon-required">Version</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[metadata_standard][version]', metadata_standard['Version'], class: 'half-width') %>
-
-    </div>
-  </div>
-</div>
-
 <!-- Metadata Dates -->
-  <!-- MetadataLineage -->
-  <!-- hidden field for scope of 'metadata' -->
 <div class="row">
   <div class="col-12">
     <label class="main-field">Metadata Dates</label><i class="fa fa-info-circle"></i>
     <div class="row sub-fields">
       <%= render partial: 'drafts/forms/type', locals: {
-          type: 'lineage',
-          values: draft.draft['MetadataLineage'] || [{}],
-          name_prefix: 'draft_|metadata_lineage|_',
+          type: 'date',
+          values: draft.draft['MetadataDates'] || [{}],
+          name_prefix: 'draft_|metadata_dates|_',
           multiple: true,
-          options: {
-            lineage_type: 'metadata',
-            type: 'metadata_lineage',
-            title: 'Metadata Date'
-          } } %>
+          options: {} } %>
     </div>
   </div>
 </div>

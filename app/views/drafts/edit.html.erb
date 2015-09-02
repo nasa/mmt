@@ -24,33 +24,34 @@
         </ul>
       </div>
     <% end %>
+    <div class="row row-content">
+      <section>
 
-    <section>
+        <input type="hidden" name='new_form_name' id="new_form_name" />
 
-      <input type="hidden" name='new_form_name' id="new_form_name" />
+        <%= render :partial => 'drafts/forms/form_navigation', :locals => {
+            location: 'top',
+            draft: @draft,
+            draft_form: @draft_form,
+            draft_forms: @draft_forms } %>
 
-      <%= render :partial => 'drafts/forms/form_navigation', :locals => {
-          location: 'top',
-          draft: @draft,
-          draft_form: @draft_form,
-          draft_forms: @draft_forms } %>
-
-      <div class="row">
-        <div class="col-12">
-          <p class="icon-required">Indicates required field</p>
+        <div class="row">
+          <div class="col-12">
+            <p class="icon-required">Indicates required field</p>
+          </div>
         </div>
-      </div>
 
-      <%= render :partial => "drafts/forms/#{@draft_form}", :locals => { draft: @draft } %>
+        <%= render :partial => "drafts/forms/#{@draft_form}", :locals => { draft: @draft } %>
 
-      </br>
+        </br>
 
-      <%= render :partial => 'drafts/forms/form_navigation', :locals => {
-          location: 'bottom',
-          draft: @draft,
-          draft_form: @draft_form,
-          draft_forms: @draft_forms } %>
+        <%= render :partial => 'drafts/forms/form_navigation', :locals => {
+            location: 'bottom',
+            draft: @draft,
+            draft_form: @draft_form,
+            draft_forms: @draft_forms } %>
 
-    </section>
+      </section>
+    </div>
   <% end %>
 </main>

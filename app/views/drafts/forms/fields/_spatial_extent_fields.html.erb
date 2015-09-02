@@ -1,0 +1,54 @@
+<div class="row sub-fields">
+  <!-- SpatialCoverageType -->
+  <% spatial_coverage_type = spatial_extent['SpatialCoverageType'] || "" %>
+  <label>Spatial Coverage Type</label><i class="fa fa-info-circle"></i>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label>
+  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'ORBITAL', spatial_coverage_type == 'ORBITAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_ORBITAL">Orbit</label>
+
+
+  <!-- Bad </br>, take out design team! -->
+  </br>
+
+
+  <!-- HorizontalSpatialDomain -->
+  <div class="spatial-coverage-type horizontal" style="<%= 'display: none;' unless spatial_coverage_type == 'HORIZONTAL' %>">
+    <label>Horizontal Spatial Domain</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'horizontal_spatial_domain',
+        values: spatial_extent['HorizontalSpatialDomain'] || {},
+        name_prefix: "#{name_prefix}|horizontal_spatial_domain|_",
+        multiple: false,
+        options: {} } %>
+  </div>
+
+
+  <!-- VerticalSpatialDomains -->
+  <div class="spatial-coverage-type vertical" style="<%= 'display: none;' unless spatial_coverage_type == 'VERTICAL'%>">
+    <label>Vertical Spatial Domain</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'vertical_spatial_domain',
+        values: spatial_extent['VerticalSpatialDomains'] || [{}],
+        name_prefix: "#{name_prefix}|vertical_spatial_domains|_",
+        multiple: true,
+        options: {} } %>
+  </div>
+
+
+  <!-- OrbitParameters -->
+  <div class="spatial-coverage-type orbit" style="<%= 'display: none;' unless spatial_coverage_type == 'ORBITAL'%>">
+    <label>Orbit Parameters</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'orbit_parameters',
+        values: spatial_extent['OrbitParameters'] || {},
+        name_prefix: "#{name_prefix}|orbit_parameters|_",
+        multiple: false,
+        options: {} } %>
+  </div>
+
+
+  <!-- GranuleSpatialRepresentation -->
+  <label for="<%= remove_pipes(name_prefix) %>granule_spatial_representation" class="icon-required">Granule Spatial Representation</label><i class="fa fa-info-circle"></i>
+  <%= select_tag name_to_param("#{name_prefix}|granule_spatial_representation|"), options_for_select(DraftsHelper::GranuleSpatialRepresentationOptions, spatial_extent['GranuleSpatialRepresentation']), class: 'single-select' %>
+
+</div>

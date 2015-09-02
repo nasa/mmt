@@ -14,33 +14,33 @@ describe 'Temporal extent form', js: true do
       click_on 'Temporal Extent'
 
       # Complete TemporalExtent fields
-      within '.multiple.temporal-extent' do
-        choose 'draft_temporal_extent_0_temporal_range_type_SingleDateTime'#, from: 'Temporal Range Type'
+      within '.multiple.temporal-extents' do
+        choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
         fill_in 'Precision Of Seconds', with: '1'
-        choose 'draft_temporal_extent_0_ends_at_present_flag_false'
-        fill_in 'Single Date Time', with: '2015-07-01'
+        choose 'draft_temporal_extents_0_ends_at_present_flag_false'
+        fill_in 'Single Date Time', with: '2015-07-01T00:00:00Z'
 
         # Add another TemporalExtent
         click_on 'Add another Temporal Extent'
 
         within '.multiple-item-1' do
-          choose 'draft_temporal_extent_1_temporal_range_type_RangeDateTime'#, from: 'Temporal Range Type'
+          choose 'draft_temporal_extents_1_temporal_range_type_RangeDateTime'
           fill_in 'Precision Of Seconds', with: '10'
-          choose 'draft_temporal_extent_1_ends_at_present_flag_false'
-          fill_in 'Beginning Date Time', with: '2015-07-01'
-          fill_in 'Ending Date Time', with: '2015-08-01'
+          choose 'draft_temporal_extents_1_ends_at_present_flag_false'
+          fill_in 'Beginning Date Time', with: '2015-07-01T00:00:00Z'
+          fill_in 'Ending Date Time', with: '2015-08-01T00:00:00Z'
         end
 
         # Add another TemporalExtent
         click_on 'Add another Temporal Extent'
 
         within '.multiple-item-2' do
-          choose 'draft_temporal_extent_2_temporal_range_type_PeriodicDateTime'#, from: 'Temporal Range Type'
+          choose 'draft_temporal_extents_2_temporal_range_type_PeriodicDateTime'
           fill_in 'Precision Of Seconds', with: '30'
-          choose 'draft_temporal_extent_2_ends_at_present_flag_false'
+          choose 'draft_temporal_extents_2_ends_at_present_flag_false'
           fill_in 'Name', with: 'Periodic Extent'
-          fill_in 'Start Date', with: '2015-07-01'
-          fill_in 'End Date', with: '2015-08-01'
+          fill_in 'Start Date', with: '2015-09-01T00:00:00Z'
+          fill_in 'End Date', with: '2015-10-01T00:00:00Z'
           select 'Day', from: 'Duration Unit'
           fill_in 'Duration Value', with: '5'
           select 'Month', from: 'Period Cycle Duration Unit'
@@ -49,7 +49,7 @@ describe 'Temporal extent form', js: true do
       end
 
       # Complete TemporalKeyword fields
-      within '.multiple.temporal-keyword' do
+      within '.multiple.temporal-keywords' do
         fill_in 'Temporal Keyword', with: 'Keyword 1'
         click_on 'Add another'
         within all('.multiple-item').last do
@@ -59,7 +59,7 @@ describe 'Temporal extent form', js: true do
 
       # Complete PaleoTemporalCoverage fields
       within '.paleo-temporal-coverage-fields' do
-        within '.multiple.chronostratigraphic-unit' do
+        within '.multiple.chronostratigraphic-units' do
           fill_in 'Eon', with: 'Eon text'
           fill_in 'Era', with: 'Era text'
           fill_in 'Epoch', with: 'Epoch text'
@@ -76,13 +76,14 @@ describe 'Temporal extent form', js: true do
             fill_in 'Period', with: 'Period text 1'
           end
         end
-        fill_in 'Start Date', with: '2015-07-01'
-        fill_in 'End Date', with: '2015-08-01'
+        fill_in 'Start Date', with: '2015-07-01T00:00:00Z'
+        fill_in 'End Date', with: '2015-08-01T00:00:00Z'
       end
 
       within '.nav-top' do
         click_on 'Save & Done'
       end
+      # output_schema_validation Draft.first.draft
       open_accordions
     end
 
@@ -94,20 +95,20 @@ describe 'Temporal extent form', js: true do
 
       # Complete TemporalExtent fields
       expect(page).to have_content('1')
-      expect(page).to have_content('2015-07-01')
+      expect(page).to have_content('2015-07-01T00:00:00Z')
 
       # Add another TemporalExtent
       expect(page).to have_content('10')
       expect(page).to have_content('false')
-      expect(page).to have_content('2015-07-01')
-      expect(page).to have_content('2015-08-01')
+      expect(page).to have_content('2015-07-01T00:00:00Z')
+      expect(page).to have_content('2015-08-01T00:00:00Z')
 
       # Add another TemporalExtent
       expect(page).to have_content('30')
       expect(page).to have_content('false')
       expect(page).to have_content('Periodic Extent')
-      expect(page).to have_content('2015-07-01')
-      expect(page).to have_content('2015-08-01')
+      expect(page).to have_content('2015-07-01T00:00:00Z')
+      expect(page).to have_content('2015-08-01T00:00:00Z')
       expect(page).to have_content('Duration Unit')
       expect(page).to have_content('Period Cycle Duration Unit')
       expect(page).to have_content('1')
@@ -131,8 +132,15 @@ describe 'Temporal extent form', js: true do
       expect(page).to have_content('Detailed Classification text 1')
       expect(page).to have_content('Period text 1')
 
-      expect(page).to have_content('2015-07-01')
-      expect(page).to have_content('2015-08-01')
+      expect(page).to have_content('2015-07-01T00:00:00Z')
+      expect(page).to have_content('2015-08-01T00:00:00Z')
+
+      # Also check side bar
+      expect(page).to have_content('Date: 2015-07-01T00:00:00Z')
+      expect(page).to have_content('Start Date: 2015-07-01T00:00:00Z')
+      expect(page).to have_content('Stop Date: 2015-08-01T00:00:00Z')
+      expect(page).to have_content('Start Date: 2015-09-01T00:00:00Z')
+      expect(page).to have_content('Stop Date: 2015-10-01T00:00:00Z')
 
     end
 
@@ -145,7 +153,7 @@ describe 'Temporal extent form', js: true do
 
       it 'populates the form with the values' do
         # TemporalExtent fields
-        within '.multiple.temporal-extent' do
+        within '.multiple.temporal-extents' do
           within all('.multiple-item-0').first do
             expect(page).to have_checked_field('Single')
             expect(page).to have_no_checked_field('Range')
@@ -153,7 +161,7 @@ describe 'Temporal extent form', js: true do
             expect(page).to have_field('Precision Of Seconds', with: '1')
             expect(page).to have_no_checked_field('True')
             expect(page).to have_checked_field('False')
-            expect(page).to have_field('Single Date Time', with: '2015-07-01')
+            expect(page).to have_field('Single Date Time', with: '2015-07-01T00:00:00Z')
           end
 
           within '.multiple-item-1' do
@@ -163,8 +171,8 @@ describe 'Temporal extent form', js: true do
             expect(page).to have_field('Precision Of Seconds', with: '10')
             expect(page).to have_no_checked_field('True')
             expect(page).to have_checked_field('False')
-            expect(page).to have_field('Beginning Date Time', with: '2015-07-01')
-            expect(page).to have_field('Ending Date Time', with: '2015-08-01')
+            expect(page).to have_field('Beginning Date Time', with: '2015-07-01T00:00:00Z')
+            expect(page).to have_field('Ending Date Time', with: '2015-08-01T00:00:00Z')
           end
 
           within '.multiple-item-2' do
@@ -175,8 +183,8 @@ describe 'Temporal extent form', js: true do
             expect(page).to have_no_checked_field('True')
             expect(page).to have_checked_field('False')
             expect(page).to have_field('Name', with: 'Periodic Extent')
-            expect(page).to have_field('Start Date', with: '2015-07-01')
-            expect(page).to have_field('End Date', with: '2015-08-01')
+            expect(page).to have_field('Start Date', with: '2015-09-01T00:00:00Z')
+            expect(page).to have_field('End Date', with: '2015-10-01T00:00:00Z')
             expect(page).to have_field('Duration Unit', with: 'DAY')
             expect(page).to have_field('Duration Value', with: '5')
             expect(page).to have_field('Period Cycle Duration Unit', with: 'MONTH')
@@ -185,14 +193,14 @@ describe 'Temporal extent form', js: true do
         end
 
         # Complete TemporalKeyword fields
-        within '.multiple.temporal-keyword' do
+        within '.multiple.temporal-keywords' do
           expect(page).to have_field('Temporal Keyword', with: 'Keyword 1')
           expect(page).to have_field('Temporal Keyword', with: 'Keyword 2')
         end
 
         # Complete PaleoTemporalCoverage fields
         within '.paleo-temporal-coverage-fields' do
-          within '.multiple.chronostratigraphic-unit' do
+          within '.multiple.chronostratigraphic-units' do
             within '.multiple-item-0' do
               expect(page).to have_field('Eon', with: 'Eon text')
               expect(page).to have_field('Era', with: 'Era text')
@@ -210,8 +218,8 @@ describe 'Temporal extent form', js: true do
               expect(page).to have_field('Period', with: 'Period text 1')
             end
           end
-          expect(page).to have_field('Start Date', with: '2015-07-01')
-          expect(page).to have_field('End Date', with: '2015-08-01')
+          expect(page).to have_field('Start Date', with: '2015-07-01T00:00:00Z')
+          expect(page).to have_field('End Date', with: '2015-08-01T00:00:00Z')
         end
       end
 
