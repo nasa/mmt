@@ -26,8 +26,8 @@ describe template_path, type: :view do
       draft_json = {}
       before do
         draft_json['Projects'] = [
-            {"ShortName"=>"test 1 ShortName", "LongName"=>"test 1 LongName", "Campaigns"=>["test 1a Campaign", "test 1b Campaign"], "StartDate"=>"2015-07-01", "EndDate"=>"2015-12-25"},
-            {"ShortName"=>"test 2 ShortName", "LongName"=>"test 2 LongName", "Campaigns"=>["test 2a Campaign", "test 2b Campaign"], "StartDate"=>"2015-07-01", "EndDate"=>"2015-12-25"}
+            {"ShortName"=>"test 1 ShortName", "LongName"=>"test 1 LongName", "Campaigns"=>["test 1a Campaign", "test 1b Campaign"], "StartDate"=>"2015-07-01T00:00:00Z", "EndDate"=>"2015-12-25T00:00:00Z"},
+            {"ShortName"=>"test 2 ShortName", "LongName"=>"test 2 LongName", "Campaigns"=>["test 2a Campaign", "test 2b Campaign"], "StartDate"=>"2015-07-01T00:00:00Z", "EndDate"=>"2015-12-25T00:00:00Z"}
         ]
 
         draft_json['Platforms'] =
@@ -67,7 +67,7 @@ describe template_path, type: :view do
                   }
                 ],
                 "OperationalModes"=>[
-                    "test 1a OperationalMode", "test 1b OperationalMode"
+                    "test 1a Op", "test 1b Op"
                 ]
                },
 
@@ -97,7 +97,7 @@ describe template_path, type: :view do
                     }
                 ],
                 "OperationalModes"=>[
-                    "test 1da OperationalMode", "test 1db OperationalMode"
+                    "test 1da Op", "test 1db Op"
                 ]
                }
 
@@ -139,7 +139,7 @@ describe template_path, type: :view do
                    }
                    ],
                    "OperationalModes"=>[
-                       "test a1a OperationalMode", "test a1b OperationalMode"
+                       "test a1a Op", "test a1b Op"
                    ]
                   },
 
@@ -169,7 +169,7 @@ describe template_path, type: :view do
                        }
                    ],
                    "OperationalModes"=>[
-                       "test a1da OperationalMode", "test a1db OperationalMode"
+                       "test a1da Op", "test a1db Op"
                    ]
                   }
 
@@ -179,6 +179,8 @@ describe template_path, type: :view do
         ]
 
         assign(:draft, build(:draft, draft: draft_json))
+        #output_schema_validation draft_json
+
         render :template => template_path, :locals=>{draft: draft_json}
       end
 
