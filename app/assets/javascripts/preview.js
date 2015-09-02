@@ -1,43 +1,51 @@
 
 // Functions used for drawing on the preview page's map image
 
-function draw_point(x, y, dot_size, highlight_color) {
-  var dot = '<div style="position:absolute;width:' + dot_size + 'px;height:' + dot_size + 'px;top:' + y + 'px;left:' + x + 'px;background:' + highlight_color +'"></div>';
+function drawPoint(x, y, dotSize, highlightColor) {
+  var dot = '<div style="position:absolute;width:' + dotSize + 'px;height:' + dotSize + 'px;top:' + y + 'px;left:' + x + 'px;background:' + highlightColor +'"></div>';
   document.body.innerHTML += dot;
 }
 
-function draw_rectangle(min_x, min_y, max_x, max_y, highlight_color) {
-  var rect = '<div style="position:absolute;width:' + (max_x-min_x) + 'px;height:' + (max_y-min_y) + 'px;top:' + min_y + 'px;left:' + min_x + 'px;background:' + highlight_color +'"></div>';
+function drawRectangle(minX, minY, maxX, maxY, highlightColor) {
+  var rect = '<div style="position:absolute;width:' + (maxX-minX) + 'px;height:' + (maxY-minY) + 'px;top:' + minY + 'px;left:' + minX + 'px;background:' + highlightColor +'"></div>';
   document.body.innerHTML += rect;
 }
 
-function draw_spatial_extent(point_coordinate_array_json, rectangle_coordinate_array_json) {
-  var map_position = $('#preview_map').offset();
-  var map_x1 = map_position.left;
-  var map_y1 = map_position.top;
+function drawSpatialExtent(previewSpatialHash) {
 
-  var highlight_color = "rgba(250,0,0,0.25)"
+  var mapPosition = $('#preview_map').offset();
+  var mapX1 = mapPosition.left;
+  var mapY1 = mapPosition.top;
 
-  for (i=0; i<point_coordinate_array_json.length;i++) {
-    var point = point_coordinate_array_json[i];
-    var dot_size = 5;
-    draw_point(point['x'] + map_x1, point['y'] + map_y1, dot_size, highlight_color);
-    document.getElementById("coordinates").innerHTML +=
-      "<li>Lat: " + point['lat'] + "</li>" +
-      "<li>Lon: " + point['lon'] + "</li></br>";  // TODO - UI dev - remove </br>
+  var highlightColor = "rgba(250,0,0,0.25)"
+
+  var pointCoordinateArrayJson = previewSpatialHash['point_coordinate_array'];
+  var rectangleCoordinateArrayJson = previewSpatialHash['rectangle_coordinate_array'];
+
+  if (pointCoordinateArrayJson) {
+    for (i = 0; i < pointCoordinateArrayJson.length; i++) {
+      var point = pointCoordinateArrayJson[i];
+      var dotSize = 5;
+      drawPoint(point['x'] + mapX1, point['y'] + mapY1, dotSize, highlightColor);
+      document.getElementById("coordinates").innerHTML +=
+        "<li>Lat: " + point['lat'] + "</li>" +
+        "<li>Lon: " + point['lon'] + "</li></br>";  // TODO - UI dev - remove </br>
+    }
   }
 
-  for (i=0; i<rectangle_coordinate_array_json.length;i++) {
-    var rectangle = rectangle_coordinate_array_json[i];
-    draw_rectangle( rectangle['min_x'] + map_x1, rectangle['min_y'] + map_y1,rectangle['max_x'] + map_x1, rectangle['max_y'] + map_y1, highlight_color);
-    document.getElementById("coordinates").innerHTML +=
-      "<li>N: " + rectangle['nbc'] + "</li>" +
-      "<li>S: " + rectangle['sbc'] + "</li>" +
-      "<li>E: " + rectangle['ebc'] + "</li>" +
-      "<li>W: " + rectangle['wbc'] + "</li></br>"; // TODO - UI dev - remove </br>*/
+  if (rectangleCoordinateArrayJson) {
+    for (i = 0; i < rectangleCoordinateArrayJson.length; i++) {
+      var rectangle = rectangleCoordinateArrayJson[i];
+      drawRectangle(rectangle['min_x'] + mapX1, rectangle['min_y'] + mapY1, rectangle['max_x'] + mapX1, rectangle['max_y'] + mapY1, highlightColor);
+      document.getElementById("coordinates").innerHTML +=
+        "<li>N: " + rectangle['north_bounding_coordinate'] + "</li>" +
+        "<li>S: " + rectangle['south_bounding_coordinate'] + "</li>" +
+        "<li>E: " + rectangle['east_bounding_coordinate'] + "</li>" +
+        "<li>W: " + rectangle['west_bounding_coordinate'] + "</li></br>"; // TODO - UI dev - remove </br>*/
+    }
   }
 
-  if (point_coordinate_array_json.length == 0 && rectangle_coordinate_array_json.length == 0)
+  if ( (!pointCoordinateArrayJson || !pointCoordinateArrayJson.length) && (!rectangleCoordinateArrayJson || !rectangleCoordinateArrayJson.length) )
     document.getElementById("coordinates").innerHTML = "<li>No Spatial Coordinates found</li>";
 
 }

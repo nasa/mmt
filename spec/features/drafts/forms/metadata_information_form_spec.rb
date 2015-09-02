@@ -39,6 +39,9 @@ describe 'Metadata Information form', js: true do
       # Date 2
       expect(page).to have_content('Review')
       expect(page).to have_content('2015-07-02T00:00:00Z')
+
+      expect(page).to have_content('No Temporal Coverages found')
+      expect(page).to have_content('No Spatial Coordinates found')
     end
 
     context 'when returning to the form' do

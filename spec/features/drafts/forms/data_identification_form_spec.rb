@@ -158,6 +158,9 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('v1', count: 1)
       expect(page).to have_content('v2', count: 1)
       expect(page).to have_content('42.0', count: 7)
+
+      expect(page).to have_content('No Temporal Coverages found')
+      expect(page).to have_content('No Spatial Coordinates found')
     end
 
     context 'when returning to the form' do
