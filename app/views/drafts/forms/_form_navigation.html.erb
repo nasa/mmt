@@ -9,7 +9,7 @@
 
     <%= select_tag "next_section", options_for_select(draft_forms.map{|form| [form[:form_partial_name].titleize, form[:form_partial_name]]}, draft_form), class: 'next-section' %>
 
-    <%= submit_tag "Save & Next", class: "btn btn-blue" %>
+    <%= submit_tag "Save & Next", class: "btn btn-green" %>
   </div>
 
   <div class="col-1">
