@@ -4,7 +4,6 @@ module Cmr
   module ClientMiddleware
     class EventMiddleware < FaradayMiddleware::ResponseMiddleware
       def process_response(env)
-puts "IPR2"
         current_time = DateTime.current.to_s
 
         # Uncomment the line below when developing so you might actually see a notification
@@ -49,10 +48,6 @@ puts "IPR2"
 
       def parse_response?(env)
         body = env[:body]
-        puts env[:url].path
-        puts env[:status].inspect
-        #puts body.inspect         if env[:url].path.include? 'echo-rest/calendar_events.json'
-
         body.is_a?(Array) && body[0] && body[0]['calendar_event']
       end
     end

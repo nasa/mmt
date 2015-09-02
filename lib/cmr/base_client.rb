@@ -1,6 +1,7 @@
 module Cmr
   Faraday.register_middleware(:response,
                               :logging => Cmr::ClientMiddleware::LoggingMiddleware,
+                              :errors => Cmr::ClientMiddleware::ErrorMiddleware,
                               :events => Cmr::ClientMiddleware::EventMiddleware)
   class BaseClient
     # include Cmr::QueryTransformations
@@ -61,6 +62,7 @@ module Cmr
         conn.response :events, :content_type => /\bjson$/
         conn.response :json, :content_type => /\bjson$/
         conn.response :xml, :content_type => /\bxml$/
+        conn.response :errors, :content_type => /\bhtml$/
 
         conn.adapter Faraday.default_adapter
       end
