@@ -231,16 +231,5 @@ $(document).ready(function() {
 
 });
 
-// Functions used for drawing on the preview page's map image
-
-function draw_point(x, y, dot_size, highlight_color) {
-    var dot = '<div style="position:absolute;width:' + dot_size + 'px;height:' + dot_size + 'px;top:' + y + 'px;left:' + x + 'px;background:' + highlight_color +'"></div>';
-    document.body.innerHTML += dot;
-}
-
-function draw_rectangle(min_x, min_y, max_x, max_y, highlight_color) {
-    var rect = '<div style="position:absolute;width:' + (max_x-min_x) + 'px;height:' + (max_y-min_y) + 'px;top:' + min_y + 'px;left:' + min_x + 'px;background:' + highlight_color +'"></div>';
-    document.body.innerHTML += rect;
-}
 
 

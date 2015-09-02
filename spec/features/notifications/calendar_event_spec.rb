@@ -57,6 +57,7 @@ describe 'Calendar Event Query' do
 
       it 'shows the proper upcoming notification' do
         expect(page).to have_content("#{BASE_STRING} on Sunday, 7/18/2021 between 8 am - 9 am ET")
+        expect(page).to_not have_content(ECHO_DOWN_STRING)
       end
     end
 
