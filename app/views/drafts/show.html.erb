@@ -117,78 +117,59 @@
           <label for="markdown">Show as markdown</label>
         </p>
 
-      <%= render :partial=>'drafts/previews/data_identification', :locals=>{:draft=>@draft.draft} %>
-      <%= render :partial=>'drafts/previews/descriptive_keywords', :locals=>{:draft=>@draft.draft} %>
-      <%= render :partial=>'drafts/previews/metadata_information', :locals=>{:draft=>@draft.draft} %>
-      <%= render :partial=>'drafts/previews/temporal_extent', :locals=>{draft: @draft.draft} %>
-      <%= render :partial=>'drafts/previews/spatial_extent', :locals=>{draft: @draft.draft} %>
-      <%= render :partial=>'drafts/previews/acquisition_information', :locals=>{:draft=>@draft.draft} %>
-      <%= render :partial=>'drafts/previews/distribution_information', :locals=>{:draft=>@draft.draft} %>
+        <%= render :partial=>'drafts/previews/data_identification', :locals=>{:draft=>@draft.draft} %>
+        <%= render :partial=>'drafts/previews/descriptive_keywords', :locals=>{:draft=>@draft.draft} %>
+        <%= render :partial=>'drafts/previews/metadata_information', :locals=>{:draft=>@draft.draft} %>
+        <%= render :partial=>'drafts/previews/temporal_extent', :locals=>{draft: @draft.draft} %>
+        <%= render :partial=>'drafts/previews/spatial_extent', :locals=>{draft: @draft.draft} %>
+        <%= render :partial=>'drafts/previews/acquisition_information', :locals=>{:draft=>@draft.draft} %>
+        <%= render :partial=>'drafts/previews/distribution_information', :locals=>{:draft=>@draft.draft} %>
 
-    </section>
-    <aside class="geographic-coverage">
-      <h3>Geographic Coverage</h3>
-      <%= image_tag("plate_carree_earth@2x.png", alt:'Map', id:'preview_map') %>
+      </section>
+      <aside class="geographic-coverage">
+        <h3>Geographic Coverage</h3>
+        <%= image_tag("plate_carree_earth@2x.png", alt:'Map', id:'preview_map') %>
 
-      <caption>Spatial Coordinates</caption>
-      <ol class="coordinates" id="coordinates"></ol>
+        <caption>Spatial Coordinates</caption>
+        <ol class="coordinates" id="coordinates"></ol>
 
-      <h4>Location Keywords</h4>
-      <ul>
-        <li>Continent > Antartica</li>
-        <li>Geographic Region > Polar</li>
-      </ul>
+        <h4>Location Keywords</h4>
+        <ul>
+          <li>Continent > Antartica</li>
+          <li>Geographic Region > Polar</li>
+        </ul>
 
-      <h4>Temporal Coverage</h4>
-      <ul>
+        <% single_date_times, range_date_times, periodic_date_times = @draft.get_preview_temporal(@draft) %>
 
-        <% @single_date_times.each do |single_date_time| %>
-          <li>Date: <%= single_date_time %></li></br>
-        <% end %>
+        <h4>Temporal Coverage</h4>
+        <ul>
 
-        <% @range_date_times.each do |range_date_time| %>
-          <li>Start Date: <%= range_date_time['beginning_date_time']%> </li> <li>Stop Date: <%= range_date_time['ending_date_time']%> </li></br>
-        <% end %>
+          <% single_date_times.each do |single_date_time| %>
+            <li>Date: <%= single_date_time %></li></br>
+          <% end %>
 
-        <% @periodic_date_times.each do |periodic_date_time| %>
-          <li>Start Date: <%= periodic_date_time['start_date']%> </li> <li>Stop Date: <%= periodic_date_time['end_date']%> </li></br>
-        <% end %>
+          <% range_date_times.each do |range_date_time| %>
+            <li>Start Date: <%= range_date_time['beginning_date_time']%> </li> <li>Stop Date: <%= range_date_time['ending_date_time']%> </li></br>
+          <% end %>
 
-        <% if @single_date_times.blank? && @range_date_times.blank? && @periodic_date_times.blank? %>
-          <li>No Temporal Coverages found</li>
-        <% end %>
+          <% periodic_date_times.each do |periodic_date_time| %>
+            <li>Start Date: <%= periodic_date_time['start_date']%> </li> <li>Stop Date: <%= periodic_date_time['end_date']%> </li></br>
+          <% end %>
 
-      </ul>
-    </aside>
+          <% if single_date_times.blank? && range_date_times.blank? && periodic_date_times.blank? %>
+            <li>No Temporal Coverages found</li>
+          <% end %>
 
+        </ul>
+      </aside>
+
+    </div>
   </div>
 
+  <% point_coordinate_array, rectangle_coordinate_array = @draft.get_preview_spatial(@draft) %>
+
   <script>
-    var map_position = $('#preview_map').offset();
-    var map_x1 = map_position.left;
-    var map_y1 = map_position.top;
-
-    var highlight_color = "rgba(250,0,0,0.25)"
-    var dot_size = 5;
-
-    <% @point_coordinate_array.each do |point| %>
-      draw_point(<%=point['x']%> + map_x1, <%=point['y']%> + map_y1, dot_size, highlight_color);
-      document.getElementById("coordinates").innerHTML += "<li>Lat: <%= point['lat'] %></li> <li>Lon: <%= point['lon'] %></li></br>";  // TODO - UI dev - remove </br>
-    <% end %>
-
-    <% @rectangle_coordinate_array.each do |rectangle| %>
-      draw_rectangle( <%=rectangle['min_x']%> + map_x1, <%=rectangle['min_y']%> + map_y1, <%=rectangle['max_x']%> + map_x1, <%=rectangle['max_y']%> + map_y1, highlight_color );
-      document.getElementById("coordinates").innerHTML +="<li>N: <%=rectangle['nbc']%></li> \
-                                                          <li>S: <%=rectangle['sbc']%></li> \
-                                                          <li>E: <%=rectangle['ebc']%></li> \
-                                                          <li>W: <%=rectangle['wbc']%></li></br>"; // TODO - UI dev - remove </br>
-    <% end %>
-
-    <% if @point_coordinate_array.blank? && @rectangle_coordinate_array.blank? %>
-      document.getElementById("coordinates").innerHTML = "<li>No Spatial Coordinates found</li>";
-    <% end %>
-
+    draw_spatial_extent(<%= raw point_coordinate_array.to_json %>, <%= raw rectangle_coordinate_array.to_json %>);
   </script>
-
 
 </main>
