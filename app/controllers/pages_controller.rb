@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
 
   def dashboard
-    @notification = cmr_client.get_calendar_events().body
+    reply = cmr_client.get_calendar_events
+    @notification = reply.body
     @draft_display_max_count = 5 # If you change this number you must also change it in the corresponding test file - features/drafts/open_drafts_spec.rb.
     @drafts = @current_user.drafts.order("updated_at DESC").limit(@draft_display_max_count+1)
   end

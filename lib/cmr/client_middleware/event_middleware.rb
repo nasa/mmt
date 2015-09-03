@@ -4,7 +4,6 @@ module Cmr
   module ClientMiddleware
     class EventMiddleware < FaradayMiddleware::ResponseMiddleware
       def process_response(env)
-
         current_time = DateTime.current.to_s
 
         # Uncomment the line below when developing so you might actually see a notification

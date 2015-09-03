@@ -2,7 +2,8 @@
 
 require 'rails_helper'
 
-BASE_STRING = "This site may be unavailable for a brief period due to planned maintenance"
+BASE_STRING = 'This site may be unavailable for a brief period due to planned maintenance'
+ECHO_DOWN_STRING = 'System availability notifications may be unavailable for a brief period due to planned maintenance. We apologize for the inconvenience.'
 
 describe 'Calendar Event Query' do
 
@@ -16,6 +17,18 @@ describe 'Calendar Event Query' do
     end
   end
 
+  context 'when ECHO is down' do
+    before do
+      VCR.use_cassette('notifications/echo_down', record: :none) do
+        login
+        visit "/"
+      end
+    end
+
+    it 'shows proper notification' do
+      expect(page).to have_content(ECHO_DOWN_STRING)
+    end
+  end
 
   context 'when on home page and logged in' do
     before :each do
@@ -31,6 +44,7 @@ describe 'Calendar Event Query' do
 
       it 'does not display a notification' do
         expect(page).to_not have_content(BASE_STRING)
+        expect(page).to_not have_content(ECHO_DOWN_STRING)
       end
     end
 
@@ -43,6 +57,7 @@ describe 'Calendar Event Query' do
 
       it 'shows the proper upcoming notification' do
         expect(page).to have_content("#{BASE_STRING} on Sunday, 7/18/2021 between 8 am - 9 am ET")
+        expect(page).to_not have_content(ECHO_DOWN_STRING)
       end
     end
 
