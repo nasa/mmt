@@ -11,21 +11,21 @@
 
   <!-- WestBoundingCoordinate -->
   <label for="<%= remove_pipes(name_prefix) %>west_bounding_coordinate">West Bounding Coordinate</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|west_bounding_coordinate|"), bounding_rectangle['WestBoundingCoordinate'], class: 'half-width') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|west_bounding_coordinate|"), bounding_rectangle['WestBoundingCoordinate'], class: 'half-width bounding-rectangle-point west') %>
 
 
   <!-- NorthBoundingCoordinate -->
   <label for="<%= remove_pipes(name_prefix) %>north_bounding_coordinate">North Bounding Coordinate</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|north_bounding_coordinate|"), bounding_rectangle['NorthBoundingCoordinate'], class: 'half-width') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|north_bounding_coordinate|"), bounding_rectangle['NorthBoundingCoordinate'], class: 'half-width bounding-rectangle-point north') %>
 
 
   <!-- EastBoundingCoordinate -->
   <label for="<%= remove_pipes(name_prefix) %>east_bounding_coordinate">East Bounding Coordinate</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|east_bounding_coordinate|"), bounding_rectangle['EastBoundingCoordinate'], class: 'half-width') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|east_bounding_coordinate|"), bounding_rectangle['EastBoundingCoordinate'], class: 'half-width bounding-rectangle-point east') %>
 
 
   <!-- SouthBoundingCoordinate -->
   <label for="<%= remove_pipes(name_prefix) %>south_bounding_coordinate">South Bounding Coordinate</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|south_bounding_coordinate|"), bounding_rectangle['SouthBoundingCoordinate'], class: 'half-width') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|south_bounding_coordinate|"), bounding_rectangle['SouthBoundingCoordinate'], class: 'half-width bounding-rectangle-point south') %>
 
 </div>

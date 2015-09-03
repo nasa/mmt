@@ -1,3 +1,6 @@
+<% options = {} unless options %>
+<% show_preview = options[:show_preview] ? true : false %>
+
 <% if multiple %>
   <div class="multiple <%= (options[:type] || type).pluralize.dasherize %>">
     <% values.each_with_index do |value, index| %>
@@ -14,6 +17,9 @@
               type.to_sym => value,
               name_prefix: "#{name_prefix}#{index}_",
               options: options.clone } %>
+          <% if show_preview %>
+            <%= link_to 'Preview on Map', edsc_map_path, class: 'spatial-preview-link', target: '_blank' %>
+          <% end %>
         </div>
       </div>
     <% end %>

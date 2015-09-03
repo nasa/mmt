@@ -15,5 +15,7 @@ Rails.application.routes.draw do
   get "logout" => 'users#logout'
   get 'urs_callback' => 'oauth_tokens#urs_callback'
 
+  post 'convert' => 'conversions#convert'
+
   root 'welcome#index'
 end

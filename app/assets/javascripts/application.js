@@ -12,4 +12,5 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require dropzone-4.0.1/dropzone
 //= require_tree .
