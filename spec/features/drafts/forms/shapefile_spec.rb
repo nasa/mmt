@@ -13,7 +13,7 @@ describe 'Shapefile upload', js: true do
 
   context 'when uploading a shapefile containing a single feature' do
     before do
-      VCR.use_cassette('shapefiles/simple.yml') do
+      VCR.use_cassette('shapefiles/simple') do
         upload_shapefile('doc/example-data/shapefiles/simple.geojson')
       end
       open_accordions
@@ -47,7 +47,7 @@ describe 'Shapefile upload', js: true do
 
   context 'when uploading a complex shapefile' do
     before do
-      VCR.use_cassette('shapefiles/complex.yml') do
+      VCR.use_cassette('shapefiles/complex') do
         upload_shapefile('doc/example-data/shapefiles/complex.geojson')
       end
       open_accordions

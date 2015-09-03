@@ -43,7 +43,7 @@ http_interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Thu, 03 Sep 2015 21:21:51 GMT
+      - Thu, 03 Sep 2015 22:05:09 GMT
       transfer-encoding:
       - chunked
       connection:
@@ -52,5 +52,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"type":"FeatureCollection","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"prop0":"value0","prop1":null},"geometry":{"type":"Point","coordinates":[102,0.5]}},{"type":"Feature","properties":{"prop0":"value0","prop1":0},"geometry":{"type":"LineString","coordinates":[[102,0],[103,1],[104,0],[105,1]]}},{"type":"Feature","properties":{"prop0":"value0","prop1":0},"geometry":{"type":"Polygon","coordinates":[[[100,0],[101,0],[101,1],[100,1],[100,0]]]}}]}'
     http_version: 
-  recorded_at: Thu, 03 Sep 2015 21:21:51 GMT
+  recorded_at: Thu, 03 Sep 2015 22:05:09 GMT
 recorded_with: VCR 2.9.3
