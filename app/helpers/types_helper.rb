@@ -266,6 +266,8 @@ module TypesHelper
     { name: 'HorizontalCoordinateSystem', options: [:sub_type] },
     { name: 'VerticalCoordinateSystem', options: [:sub_type] }
   ]
+  # SpatialKeywordsType = [ # Is a simple array, handled at the hierarchy top
+  # ]
   TemporalExtentsType = [
     { name: 'PrecisionOfSeconds' },
     { name: 'EndsAtPresentFlag' },

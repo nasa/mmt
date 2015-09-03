@@ -99,7 +99,7 @@ describe template_path, type: :view do
                                           "DepthSystemDefinition"=>{'DatumName'=>'Datum 2', 'DistanceUnits'=>'Distance Units 2', 'EncodingMethod'=>'Encoding 2', 'Resolution'=>{'Resolutions'=>[12.0, 22.0, 32.0]}}}
         }
 
-         draft_json['SpatialKeywords'] = ["f47ac10b-58cc-4372-a567-0e02b2c3d479", "abdf4d5c-55dc-4324-9ae5-5adf41e99da3"]
+        draft_json['SpatialKeywords'] = ["f47ac10b-58cc-4372-a567-0e02b2c3d479", "abdf4d5c-55dc-4324-9ae5-5adf41e99da3"]
 
          #output_schema_validation draft_json
 

@@ -39,8 +39,8 @@ describe 'Temporal extent form', js: true do
           fill_in 'Precision Of Seconds', with: '30'
           choose 'draft_temporal_extents_2_ends_at_present_flag_false'
           fill_in 'Name', with: 'Periodic Extent'
-          fill_in 'Start Date', with: '2015-07-01T00:00:00Z'
-          fill_in 'End Date', with: '2015-08-01T00:00:00Z'
+          fill_in 'Start Date', with: '2015-09-01T00:00:00Z'
+          fill_in 'End Date', with: '2015-10-01T00:00:00Z'
           select 'Day', from: 'Duration Unit'
           fill_in 'Duration Value', with: '5'
           select 'Month', from: 'Period Cycle Duration Unit'
@@ -135,6 +135,16 @@ describe 'Temporal extent form', js: true do
       expect(page).to have_content('2015-07-01T00:00:00Z')
       expect(page).to have_content('2015-08-01T00:00:00Z')
 
+      # Also check side bar
+      # Note that handling blank temporal extents is tested in other form tests that don't populate temporal extents
+      expect(page).to have_content('Date: 2015-07-01T00:00:00Z')
+      expect(page).to have_content('Start Date: 2015-07-01T00:00:00Z')
+      expect(page).to have_content('Stop Date: 2015-08-01T00:00:00Z')
+      expect(page).to have_content('Start Date: 2015-09-01T00:00:00Z')
+      expect(page).to have_content('Stop Date: 2015-10-01T00:00:00Z')
+
+      expect(page).to_not have_content('No Temporal Coverages found')
+      expect(page).to have_content('No Spatial Coordinates found')
     end
 
     context 'when returning to the form' do
@@ -176,8 +186,8 @@ describe 'Temporal extent form', js: true do
             expect(page).to have_no_checked_field('True')
             expect(page).to have_checked_field('False')
             expect(page).to have_field('Name', with: 'Periodic Extent')
-            expect(page).to have_field('Start Date', with: '2015-07-01T00:00:00Z')
-            expect(page).to have_field('End Date', with: '2015-08-01T00:00:00Z')
+            expect(page).to have_field('Start Date', with: '2015-09-01T00:00:00Z')
+            expect(page).to have_field('End Date', with: '2015-10-01T00:00:00Z')
             expect(page).to have_field('Duration Unit', with: 'DAY')
             expect(page).to have_field('Duration Value', with: '5')
             expect(page).to have_field('Period Cycle Duration Unit', with: 'MONTH')
