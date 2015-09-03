@@ -33,3 +33,11 @@ select {
   color: $black;
   width: 100% !important;
 }
+
+form fieldset {
+  background: $light-grey;
+  border-top: 1px solid darken($light-grey, 10%);
+  border-bottom: 1px solid darken($light-grey, 10%);
+  padding: 2em;
+  margin-bottom: 2em;
+}

@@ -2,9 +2,9 @@
 ------------------------------------------*/
 
 .metadata-cta {
-  background: $light-grey;
-  border-bottom: 2px solid darken($light-grey, 10%);
-  padding: 1em;
+  padding: 1.2em;
+  border-bottom: 1px solid darken($light-grey, 10%);
+  @include linear-gradient(#fff, $light-grey);
 
   select {
     width: 70% !important;

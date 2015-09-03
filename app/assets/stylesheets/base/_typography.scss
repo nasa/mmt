@@ -19,3 +19,12 @@ h4 {
   padding-bottom: 0.625em;
   font-weight: bold;
 }
+
+/* Form Headings
+------------------------------------------*/
+fieldset {
+  h3 {
+    margin: 0 0 1em 0;
+    color: $midnight-blue;
+  }
+}

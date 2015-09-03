@@ -6,7 +6,7 @@
           <i class="fa fa-angle-down toggle"></i>
           <%= options[:title] || type.titleize %> <%= index + 1 %>
           <div class="actions">
-            <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+            <a class="remove"><i class="fa fa-times-circle"></i></a>
           </div>
         </div>
         <div class="accordion-body">
@@ -18,7 +18,7 @@
       </div>
     <% end %>
     <div class="actions">
-      <button type="button" class="btn btn-green btn-sm btn-round add-new">Add another <%= options[:title] || type.titleize.singularize %></button>
+      <button type="button" class="btn btn-blue add-new"><i class="fa fa-plus-circle"></i> Add another <%= options[:title] || type.titleize.singularize %></button>
     </div>
   </div>
 <% else %>

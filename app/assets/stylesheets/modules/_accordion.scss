@@ -1,9 +1,10 @@
 .accordion-header {
-  padding: .5em 1em;
+  padding: 0;
   background-color: $light-grey;
   cursor: pointer;
-  border-bottom: 3px solid darken($light-grey,10%);
   margin-bottom: .5em;
+  font-weight: bold;
+  color: $dolphin-grey;
 
   .actions {
     display: inline-block;
@@ -18,10 +19,14 @@
     @include transition(all 0.1s ease-in-out);
     margin-right: .5em;
   }
+
+  .remove {
+    color: $red;
+  }
 }
 
 .accordion-body {
-  padding: 0 1.75em;
+  padding: 0;
 }
 
 .accordion.is-closed > .accordion-body {

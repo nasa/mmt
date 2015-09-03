@@ -1,68 +1,69 @@
-<!-- Entry ID [r] -->
-<div class="row">
-  <div class="col-12">
-    <label for="draft_entry_id" class="main-field icon-required">Entry Id</label><i class="fa fa-info-circle"></i>
-    <%= text_field_tag('draft[entry_id]', draft.draft['EntryId'], class: 'half-width') %>
+<fieldset>
+  <h3>Collection Information</h3>
+  <div class="row">
+    <!-- Entry ID [r] -->
+    <div class="col-6">
+      <label for="draft_entry_id" class="main-field icon-required">Entry Id</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[entry_id]', draft.draft['EntryId'], class: 'full-width') %>
+    </div>
+    <!-- Version -->
+    <div class="col-6">
+      <label for="draft_version" class="main-field">Version</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[version]', draft.draft['Version'], class: 'full-width') %>
+    </div>
   </div>
-</div>
 
 
-<!-- Version -->
-<div class="row">
-  <div class="col-12">
-    <label for="draft_version" class="main-field">Version</label><i class="fa fa-info-circle"></i>
-    <%= text_field_tag('draft[version]', draft.draft['Version'], class: 'half-width') %>
+  <!-- Entry Title [r] -->
+  <div class="row">
+    <div class="col-12">
+      <label for="draft_entry_title" class="main-field icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[entry_title]', draft.draft['EntryTitle'], class: 'full-width') %>
+    </div>
   </div>
-</div>
 
 
-<!-- Entry Title [r] -->
-<div class="row">
-  <div class="col-12">
-    <label for="draft_entry_title" class="main-field icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
-    <%= text_field_tag('draft[entry_title]', draft.draft['EntryTitle'], class: 'half-width') %>
+  <!-- Abstract [r] -->
+  <div class="row">
+    <div class="col-12">
+      <label for="draft_abstract" class="icon-required">Abstract</label><i class="fa fa-info-circle"></i>
+      <%= text_area_tag('draft[abstract]', draft.draft['Abstract'], rows: 8) %>
+    </div>
   </div>
-</div>
 
 
-<!-- Abstract [r] -->
-<div class="row">
-  <div class="col-12">
-    <label for="draft_abstract" class="icon-required">Abstract</label><i class="fa fa-info-circle"></i>
-    <%= text_area_tag('draft[abstract]', draft.draft['Abstract'], rows: 8) %>
+  <!-- Purpose -->
+  <div class="row">
+    <div class="col-12">
+      <label for="draft_purpose">Purpose</label><i class="fa fa-info-circle"></i>
+      <%= text_area_tag('draft[purpose]', draft.draft['Purpose'], rows: 8) %>
+    </div>
   </div>
-</div>
 
 
-<!-- Purpose -->
-<div class="row">
-  <div class="col-12">
-    <label for="draft_purpose">Purpose</label><i class="fa fa-info-circle"></i>
-    <%= text_area_tag('draft[purpose]', draft.draft['Purpose'], rows: 8) %>
+  <!-- Data language -->
+  <div class="row">
+    <div class="col-12">
+      <label for="draft_data_language">Data Language</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[data_language]', draft.draft['DataLanguage'], placeholder: 'English', class: 'half-width') %>
+    </div>
   </div>
-</div>
+</fieldset>
 
-
-<!-- Data language -->
-<div class="row">
-  <div class="col-12">
-    <label for="draft_data_language">Data Language</label><i class="fa fa-info-circle"></i>
-    <%= text_field_tag('draft[data_language]', draft.draft['DataLanguage'], placeholder: 'English', class: 'half-width') %>
+<fieldset>
+  <h3>Dates</h3>
+  <!-- Data dates [r] -->
+  <div class="row">
+    <div class="col-12">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'date',
+          values: draft.draft['DataDates'] || [{}],
+          name_prefix: 'draft_|data_dates|_',
+          multiple: true,
+          options: {} } %>
+    </div>
   </div>
-</div>
-
-<!-- Data dates [r] -->
-<div class="row">
-  <div class="col-12">
-    <label class="main-field icon-required">Data Dates</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/type', locals: {
-        type: 'date',
-        values: draft.draft['DataDates'] || [{}],
-        name_prefix: 'draft_|data_dates|_',
-        multiple: true,
-        options: {} } %>
-  </div>
-</div>
+</fieldset>
 
 <!-- Organization [r] -->
 <div class="row taller responsible-organization">
