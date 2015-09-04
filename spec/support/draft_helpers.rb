@@ -54,6 +54,15 @@ module Helpers
         elsif parent_key_special_handling == :handle_as_collection_progress
           # Map duration value stored in json to what is actually supposed to be displayed
           draft = map_value_onto_display_string(draft, DraftsHelper::CollectionProgressOptions)
+        elsif parent_key_special_handling == :handle_as_granule_spatial_representation
+          # Map value stored in json to what is actually supposed to be displayed
+          draft = map_value_onto_display_string(draft, DraftsHelper::GranuleSpatialRepresentationOptions)
+        elsif parent_key_special_handling == :handle_as_spatial_coverage_type
+          # Map value stored in json to what is actually supposed to be displayed
+          draft = map_value_onto_display_string(draft, DraftsHelper::SpatialCoverageTypeOptions)
+        elsif parent_key_special_handling == :handle_as_coordinate_system_type
+          # Map value stored in json to what is actually supposed to be displayed
+          draft = map_value_onto_display_string(draft, DraftsHelper::CoordinateSystemOptions)
         elsif parent_key_special_handling == :handle_as_not_shown
           # This field is present in json, but intentionally not displayed
           return
@@ -514,6 +523,14 @@ module Helpers
         end
       end
 
+    end
+
+    def upload_shapefile(path)
+      script = "$('.dz-hidden-input').attr('id', 'shapefile');"
+      page.execute_script(script)
+
+      attach_file('shapefile', Rails.root.join(path))
+      sleep 1
     end
 
   end

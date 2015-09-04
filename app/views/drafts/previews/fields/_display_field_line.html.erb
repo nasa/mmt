@@ -7,8 +7,8 @@
   <% value = hash_for_key[key_name] %>
   <% value = value.to_s if value.in? [true, false] # Convert booleans back to strings & detect nils %>
   <% if !value.blank? %>
-    <% if options.include?(:handle_as_currency) && value =~ /\A[-+]?\d*\.?\d+\z/ %>
-      <% value = number_to_currency(value.to_f) %>
+    <% if options.include?(:handle_as_currency) %>
+      <% value = number_to_currency(value) %>
     <% end %>
 
     <li class="<%= name_to_class(key_name)%>">

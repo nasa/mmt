@@ -90,6 +90,11 @@ $(document).ready(function() {
 
     $(newDiv).find('select, input, textarea').removeAttr('disabled');
     $(newDiv).find('select, input, textarea').not('input[type="hidden"]')[0].focus();
+    // Remove points from preview link
+    $.each($(newDiv).find('.spatial-preview-link'), function(index, link) {
+      var url = $(this).attr('href').split('?')[0];
+      $(this).attr('href', url);
+    });
     e.stopImmediatePropagation();
   });
 
@@ -228,5 +233,149 @@ $(document).ready(function() {
       form.submit();
     }
   });
+
+
+  // Shape file uploads
+  var csrf;
+  if (typeof document.querySelector === "function") {
+    if (document.querySelector('meta[name=csrf-token]')) {
+      csrf = document.querySelector('meta[name=csrf-token]').content;
+    }
+  }
+  Dropzone.options.shapeFileUpload = {
+    url: "/convert",
+    paramName: "upload",
+    headers: {'X-CSRF-Token': csrf},
+    clickable: '.geojson-dropzone-link',
+    uploadMultiple: false,
+    createImageThumbnails: false,
+    dictDefaultMessage: '',
+
+    success: function(file, response) {
+      var hasPoints;
+      $.each(response.features, function(index, feature) {
+        if (feature.geometry.type == "Point") {
+          hasPoints = false;
+          var lastPoint = $('.multiple.points').first().find('.multiple-item').last();
+          $.each($(lastPoint).find('input'), function(index, element) {
+            if ($(element).val() != "") {
+              hasPoints = true;
+              return false;
+            }
+          });
+
+          if (hasPoints) {
+            $('.multiple.points').first().find('.actions > .add-new').click();
+          }
+
+          lastPoint = $('.multiple.points').first().find('.multiple-item').last();
+          var points = feature.geometry.coordinates;
+
+          $(lastPoint).find('.longitude').val(points[0]);
+          $(lastPoint).find('.latitude').val(points[1]);
+          $(lastPoint).find('.longitude').trigger('change');
+
+        } else if (feature.geometry.type == "Polygon") {
+          if (feature.geometry.coordinates[0].length > 50) {
+            $(file.previewElement).addClass('dz-error');
+            $(file.previewElement).find('.dz-error-message > span').text( "Too many points in polygon");
+          } else {
+            // if last polygon has points, click add another polygon
+            hasPoints = false;
+            var lastPolygon = $('.multiple.g-polygons > .multiple-item').last();
+            $.each($(lastPolygon).find('input'), function(index, element) {
+              if ($(element).val() != "") {
+                hasPoints = true;
+                return false;
+              }
+            });
+
+            if (hasPoints) {
+              $('.multiple.g-polygons > .actions > .add-new').click();
+            }
+
+            // loop through coordinates and add points to last polygon
+            lastPolygon = $('.multiple.g-polygons > .multiple-item').last();
+            var lastPoint = $(lastPolygon).find('.boundary .multiple.points > .multiple-item').last();
+            $.each(feature.geometry.coordinates[0], function(index, coordinate) {
+              if (index > 0) {
+                $(lastPolygon).find('.boundary .multiple.points > .actions > .add-new').click();
+                lastPoint = $(lastPolygon).find('.boundary .multiple.points > .multiple-item').last();
+              }
+              $(lastPoint).find('.longitude').val(coordinate[0]);
+              $(lastPoint).find('.latitude').val(coordinate[1]);
+            });
+
+            $(lastPoint).find('.longitude').trigger('change');
+
+          }
+        }
+
+      });
+    }
+  };
+
+  $('.latitude, .longitude').on('change', function(event) {
+    var latitude, longitude;
+    var coordinates = [];
+    var previewLink = $(this).parents('.accordion-body').find('.spatial-preview-link');
+    if (previewLink.length > 0) {
+      var url = $(previewLink).attr('href').split('map')[0];
+
+      // if point has both latitude and longitude points, generate a link
+      if ($(this).parents('.boundary').length > 0) {
+        // loop through all points and add to coordinates
+        $.each($(this).parents('.boundary').find('input'), function(index, element) {
+          coordinates.push($(element).val());
+        });
+        if (coordinates.length % 2 == 0) {
+          $(previewLink).attr('href', url + "map?polygon=" +  encodeURIComponent(coordinates.join(',')));
+        }
+      } else {
+        if ($(this).hasClass('latitude')) {
+          latitude = $(this).val();
+          longitude = $(this).siblings('.longitude').val();
+        } else {
+          latitude = $(this).siblings('.latitude').val();
+          longitude = $(this).val();
+        }
+
+        if (latitude != '' && longitude != '') {
+          coordinates.push([longitude, latitude]);
+
+          $(previewLink).attr('href', url + "map?sp=" +  encodeURIComponent(coordinates.join(',')));
+        }
+      }
+    }
+  });
+
+  $('.bounding-rectangle-point').on('change', function(event) {
+    var west, south, east, north;
+    var coordinates = [];
+    var previewLink = $(this).parents('.accordion-body').find('.spatial-preview-link');
+    var url = $(previewLink).attr('href').split('map')[0];
+
+    var parent = $(this).parent();
+    west = $(parent).find('.bounding-rectangle-point.west').val();
+    south = $(parent).find('.bounding-rectangle-point.south').val();
+    east = $(parent).find('.bounding-rectangle-point.east').val();
+    north = $(parent).find('.bounding-rectangle-point.north').val();
+
+    if (west.length > 0 && south.length > 0 && east.length > 0 && north.length > 0) {
+      coordinates = [west, south, east, north];
+
+      $(previewLink).attr('href', url + "map?sb=" +  encodeURIComponent(coordinates.join(',')));
+    }
+  });
+
+  // trigger changes on page load to generate links
+  $.each($('.multiple.points .longitude, .bounding-rectangle-point.west').not('.multiple.lines .longitude, .exclusive-zone .longitude'), function(index, element) {
+    if ($(element).val().length > 0) {
+      $(element).trigger('change');
+    }
+  });
+
+
+
 
 });

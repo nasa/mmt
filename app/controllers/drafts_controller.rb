@@ -11,6 +11,7 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
+
   end
 
   # GET /drafts/new
