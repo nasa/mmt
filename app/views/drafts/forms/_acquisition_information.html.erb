@@ -1,27 +1,29 @@
 <!-- Platform [r] -->
-<div class="row taller">
-  <div class="col-12">
-    <label class="icon-required">Platform</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/type', locals: {
-        type: 'platform',
-        values: draft.draft['Platforms'] || [{}],
-        name_prefix: "draft_platforms_",
-        multiple: true,
-        options: {} } %>
+<fieldset>
+  <h3>Platform</h3>
+  <div class="row taller">
+    <div class="col-12">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'platform',
+          values: draft.draft['Platforms'] || [{}],
+          name_prefix: "draft_platforms_",
+          multiple: true,
+          options: {} } %>
+    </div>
   </div>
-</div>
-
+</fieldset>
 
 <!-- Project -->
-<div class="row taller">
-  <div class="col-12">
-    <label>Project</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/type', locals: {
-        type: 'project',
-        values: draft.draft['Projects'] || [{}],
-        name_prefix: "draft_projects_",
-        multiple: true,
-        options: {} } %>
+<fieldset>
+  <h3>Project</h3>
+  <div class="row taller">
+    <div class="col-12">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'project',
+          values: draft.draft['Projects'] || [{}],
+          name_prefix: "draft_projects_",
+          multiple: true,
+          options: {} } %>
+    </div>
   </div>
-  </div>
-</div>
+</fieldset>
