@@ -37,6 +37,13 @@ class ApplicationController < ActionController::Base
   end
   helper_method :cmr_env
 
+  def edsc_map_path
+    service_configs = Rails.configuration.services
+    edsc_root = service_configs['earthdata'][cmr_env]['edsc_root']
+    "#{edsc_root}/search/map"
+  end
+  helper_method :edsc_map_path
+
   def clear_session
     store_oauth_token()
   end

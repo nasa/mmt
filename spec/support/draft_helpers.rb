@@ -525,5 +525,13 @@ module Helpers
 
     end
 
+    def upload_shapefile(path)
+      script = "$('.dz-hidden-input').attr('id', 'shapefile');"
+      page.execute_script(script)
+
+      attach_file('shapefile', Rails.root.join(path))
+      sleep 1
+    end
+
   end
 end
