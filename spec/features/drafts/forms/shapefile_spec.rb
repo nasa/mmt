@@ -22,23 +22,23 @@ describe 'Shapefile upload', js: true do
     it 'populates the form fields with the shapefile values' do
       within '.multiple.g-polygons > .multiple-item-0' do
         within '.boundary .multiple.points' do
-          expect(page).to have_field('Latitude', with: '100')
-          expect(page).to have_field('Longitude', with: '0')
+          expect(page).to have_field('Longitude', with: '100')
+          expect(page).to have_field('Latitude', with: '0')
           within '.multiple-item-1' do
-            expect(page).to have_field('Latitude', with: '101')
-            expect(page).to have_field('Longitude', with: '0')
+            expect(page).to have_field('Longitude', with: '101')
+            expect(page).to have_field('Latitude', with: '0')
           end
           within '.multiple-item-2' do
-            expect(page).to have_field('Latitude', with: '101')
-            expect(page).to have_field('Longitude', with: '1')
+            expect(page).to have_field('Longitude', with: '101')
+            expect(page).to have_field('Latitude', with: '1')
           end
           within '.multiple-item-3' do
-            expect(page).to have_field('Latitude', with: '100')
-            expect(page).to have_field('Longitude', with: '1')
+            expect(page).to have_field('Longitude', with: '100')
+            expect(page).to have_field('Latitude', with: '1')
           end
           within '.multiple-item-4' do
-            expect(page).to have_field('Latitude', with: '100')
-            expect(page).to have_field('Longitude', with: '0')
+            expect(page).to have_field('Longitude', with: '100')
+            expect(page).to have_field('Latitude', with: '0')
           end
         end
       end
@@ -55,29 +55,29 @@ describe 'Shapefile upload', js: true do
 
     it 'populates the form fields with the shapefile values' do
       within first('.multiple.points') do
-        expect(page).to have_field('Latitude', with: '102')
-        expect(page).to have_field('Longitude', with: '0.5')
+        expect(page).to have_field('Longitude', with: '102')
+        expect(page).to have_field('Latitude', with: '0.5')
       end
 
       within '.multiple.g-polygons > .multiple-item-0' do
         within '.boundary .multiple.points' do
-          expect(page).to have_field('Latitude', with: '100')
-          expect(page).to have_field('Longitude', with: '0')
+          expect(page).to have_field('Longitude', with: '100')
+          expect(page).to have_field('Latitude', with: '0')
           within '.multiple-item-1' do
-            expect(page).to have_field('Latitude', with: '101')
-            expect(page).to have_field('Longitude', with: '0')
+            expect(page).to have_field('Longitude', with: '101')
+            expect(page).to have_field('Latitude', with: '0')
           end
           within '.multiple-item-2' do
-            expect(page).to have_field('Latitude', with: '101')
-            expect(page).to have_field('Longitude', with: '1')
+            expect(page).to have_field('Longitude', with: '101')
+            expect(page).to have_field('Latitude', with: '1')
           end
           within '.multiple-item-3' do
-            expect(page).to have_field('Latitude', with: '100')
-            expect(page).to have_field('Longitude', with: '1')
+            expect(page).to have_field('Longitude', with: '100')
+            expect(page).to have_field('Latitude', with: '1')
           end
           within '.multiple-item-4' do
-            expect(page).to have_field('Latitude', with: '100')
-            expect(page).to have_field('Longitude', with: '0')
+            expect(page).to have_field('Longitude', with: '100')
+            expect(page).to have_field('Latitude', with: '0')
           end
         end
       end

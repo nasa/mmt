@@ -1,11 +1,11 @@
 <div class="row sub-fields">
-  <!-- Latitude -->
-  <label for="<%= remove_pipes(name_prefix) %>latitude">Latitude</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}latitude"), point['Latitude'], class: 'half-width latitude', step: 'any') %>
-
-
   <!-- Longitude -->
   <label for="<%= remove_pipes(name_prefix) %>longitude">Longitude</label><i class="fa fa-info-circle"></i>
   <%= number_field_tag(name_to_param("#{name_prefix}longitude"), point['Longitude'], class: 'half-width longitude', step: 'any') %>
+
+
+  <!-- Latitude -->
+  <label for="<%= remove_pipes(name_prefix) %>latitude">Latitude</label><i class="fa fa-info-circle"></i>
+  <%= number_field_tag(name_to_param("#{name_prefix}latitude"), point['Latitude'], class: 'half-width latitude', step: 'any') %>
 
 </div>

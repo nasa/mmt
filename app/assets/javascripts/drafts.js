@@ -271,8 +271,8 @@ $(document).ready(function() {
           lastPoint = $('.multiple.points').first().find('.multiple-item').last();
           var points = feature.geometry.coordinates;
 
-          $(lastPoint).find('.latitude').val(points[0]);
-          $(lastPoint).find('.longitude').val(points[1]);
+          $(lastPoint).find('.longitude').val(points[0]);
+          $(lastPoint).find('.latitude').val(points[1]);
           $(lastPoint).find('.longitude').trigger('change');
 
         } else if (feature.geometry.type == "Polygon") {
@@ -302,8 +302,8 @@ $(document).ready(function() {
                 $(lastPolygon).find('.boundary .multiple.points > .actions > .add-new').click();
                 lastPoint = $(lastPolygon).find('.boundary .multiple.points > .multiple-item').last();
               }
-              $(lastPoint).find('.latitude').val(coordinate[0]);
-              $(lastPoint).find('.longitude').val(coordinate[1]);
+              $(lastPoint).find('.longitude').val(coordinate[0]);
+              $(lastPoint).find('.latitude').val(coordinate[1]);
             });
 
             $(lastPoint).find('.longitude').trigger('change');
@@ -341,7 +341,7 @@ $(document).ready(function() {
         }
 
         if (latitude != '' && longitude != '') {
-          coordinates.push([latitude, longitude]);
+          coordinates.push([longitude, latitude]);
 
           $(previewLink).attr('href', url + "map?sp=" +  encodeURIComponent(coordinates.join(',')));
         }

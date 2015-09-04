@@ -4,9 +4,9 @@ require 'rails_helper'
 
 describe 'Preview on Map link', js: true do
   base_link = 'https://search.sit.earthdata.nasa.gov/search/map'
-  point_link = 'https://search.sit.earthdata.nasa.gov/search/map?sp=38.789%2C-77.123'
+  point_link = 'https://search.sit.earthdata.nasa.gov/search/map?sp=-77.123%2C38.789'
   rectangle_link = 'https://search.sit.earthdata.nasa.gov/search/map?sb=-50.1%2C-45.2%2C-45.3%2C50.4'
-  polygon_link = 'https://search.sit.earthdata.nasa.gov/search/map?polygon=0.1%2C0.1%2C10.2%2C10.2%2C10.3%2C20.3%2C0.1%2C0.1'
+  polygon_link = 'https://search.sit.earthdata.nasa.gov/search/map?polygon=0.1%2C0.1%2C10.2%2C10.2%2C20.3%2C10.3%2C0.1%2C0.1'
 
   before do
     login

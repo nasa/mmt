@@ -1,7 +1,7 @@
 module TypesHelper
   PointsType = [ # Referenced by BoundaryType, GeometryType, LinesType, etc
-    { name: 'Latitude' },
-    { name: 'Longitude' }
+    { name: 'Longitude' },
+    { name: 'Latitude' }
   ]
   AccessConstraintsType = [
     { name: 'Description' },
