@@ -6,6 +6,12 @@
     display: block;
   }
 
+  input[type="radio"] {
+    display: inline-block;
+    margin: 0 0.5em 0 0;
+    line-height: 1em;
+  }
+
   label {
     font-weight: bold;
     color: $dolphin-grey;
@@ -51,4 +57,13 @@
 
 .sub-fields {
   margin-left: 1em;
+}
+
+.radio-group {
+  margin: 0.5em 0;
+
+  label {
+    font-weight: normal;
+    line-height: 1em;
+  }
 }
