@@ -176,23 +176,23 @@ $(document).ready(function() {
 
   // Handle SpatialCoverageType selector
   $('.spatial-coverage-type-select').change(function() {
-    $(this).siblings('.spatial-coverage-type').hide();
+    $(this).parent().siblings('.spatial-coverage-type').hide();
     // Clear all fields
-    $(this).siblings('.spatial-coverage-type').find('input, select').not('input[type="radio"]').val('');
+    $(this).parent().siblings('.spatial-coverage-type').find('input, select').not('input[type="radio"]').val('');
 
     switch ($(this).val()) {
       case 'HORIZONTAL':
-        $(this).siblings('.spatial-coverage-type.horizontal').show();
+        $(this).parent().siblings('.spatial-coverage-type.horizontal').show();
         break;
       case 'VERTICAL':
-        $(this).siblings('.spatial-coverage-type.vertical').show();
+        $(this).parent().siblings('.spatial-coverage-type.vertical').show();
         break;
       case 'ORBITAL':
-        $(this).siblings('.spatial-coverage-type.orbit').show();
+        $(this).parent().siblings('.spatial-coverage-type.orbit').show();
         break;
       case 'BOTH':
-        $(this).siblings('.spatial-coverage-type.horizontal').show();
-        $(this).siblings('.spatial-coverage-type.vertical').show();
+        $(this).parent().siblings('.spatial-coverage-type.horizontal').show();
+        $(this).parent().siblings('.spatial-coverage-type.vertical').show();
         break;
       default:
 
