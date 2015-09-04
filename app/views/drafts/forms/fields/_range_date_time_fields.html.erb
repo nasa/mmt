@@ -3,13 +3,13 @@
   <div class="col-6">
     <!-- BeginningDateTime -->
     <label for="<%= remove_pipes(name_prefix) %>beginning_date_time" class="icon-required">Beginning Date Time</label><i class="fa fa-info-circle"></i>
-    <%= datetime_field_tag(name_to_param("#{name_prefix}|beginning_date_time|"), range_date_time['BeginningDateTime'], class: 'half-width') %>
+    <%= datetime_field_tag(name_to_param("#{name_prefix}|beginning_date_time|"), range_date_time['BeginningDateTime'], class: 'full-width') %>
   </div>
 
   <div class="col-6">
     <!-- EndingDateTime -->
     <label for="<%= remove_pipes(name_prefix) %>ending_date_time">Ending Date Time</label><i class="fa fa-info-circle"></i>
-    <%= datetime_field_tag(name_to_param("#{name_prefix}|ending_date_time|"), range_date_time['EndingDateTime'], class: 'half-width') %>
+    <%= datetime_field_tag(name_to_param("#{name_prefix}|ending_date_time|"), range_date_time['EndingDateTime'], class: 'full-width') %>
   </div>
-  
+
 </div>

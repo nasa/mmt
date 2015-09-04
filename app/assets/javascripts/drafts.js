@@ -155,19 +155,19 @@ $(document).ready(function() {
 
   // Handle TemporalRangeType selector
   $('.temporal-range-type-select').change(function() {
-    $(this).siblings('.temporal-range-type').hide();
+    $(this).parent().siblings('.temporal-range-type').hide();
     // Clear all fields
-    $(this).siblings('.temporal-range-type').find('input, select').val('');
+    $(this).parent().siblings('.temporal-range-type').find('input, select').val('');
 
     switch ($(this).val()) {
       case 'SingleDateTime':
-        $(this).siblings('.temporal-range-type.single-date-time').show();
+        $(this).parent().siblings('.temporal-range-type.single-date-time').show();
         break;
       case 'RangeDateTime':
-        $(this).siblings('.temporal-range-type.range-date-time').show();
+        $(this).parent().siblings('.temporal-range-type.range-date-time').show();
         break;
       case 'PeriodicDateTime':
-        $(this).siblings('.temporal-range-type.periodic-date-time').show();
+        $(this).parent().siblings('.temporal-range-type.periodic-date-time').show();
         break;
       default:
 
