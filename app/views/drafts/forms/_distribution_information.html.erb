@@ -1,25 +1,29 @@
 <!-- Related URL [r] -->
-<div class="row">
-  <div class="col-12">
-    <label class="main-field icon-required">Related URL</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/type', locals: {
-        type: 'related_url',
-        values: draft.draft['RelatedUrls'] || [{}],
-        name_prefix: 'draft_|related_urls|_',
-        multiple: true,
-        options: {} } %>
+<fieldset>
+  <h3>Related URL</h3>
+  <div class="row">
+    <div class="col-12">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'related_url',
+          values: draft.draft['RelatedUrls'] || [{}],
+          name_prefix: 'draft_|related_urls|_',
+          multiple: true,
+          options: {} } %>
+    </div>
   </div>
-</div>
+</fieldset>
 
 <!-- Distribution -->
-<div class="row taller">
-  <div class="col-12">
-    <label class="main-field">Distribution</label><i class="fa fa-info-circle"></i>
-    <%= render partial: 'drafts/forms/type', locals: {
-        type: 'distribution',
-        values: draft.draft['Distributions'] || [{}],
-        name_prefix: 'draft_distributions_',
-        multiple: true,
-        options: {} } %>
+<fieldset>
+  <h3>Distribution</h3>
+  <div class="row taller">
+    <div class="col-12">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'distribution',
+          values: draft.draft['Distributions'] || [{}],
+          name_prefix: 'draft_distributions_',
+          multiple: true,
+          options: {} } %>
+    </div>
   </div>
-</div>
+</fieldset>
