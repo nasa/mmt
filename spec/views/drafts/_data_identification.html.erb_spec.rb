@@ -44,13 +44,14 @@ describe template_path, type: :view do
               "Date" => "2015-07-05T00:00:00Z"
             }
           ],
-          "ResponsibleOrganizations" => [
+          "Organizations" => [
             {
               "Role" => "RESOURCEPROVIDER",
               "Party" => {
                 "OrganizationName" => {
                   "ShortName" => "ORG_SHORT 2",
-                  "LongName" => "Organization Long Name 2"
+                  "LongName" => "Organization Long Name 2",
+                  "Uuid" => "de135797-8539-4c3a-bc20-17a83d75aa49"
                 },
                 "ServiceHours" => "9-6, M-F",
                 "ContactInstructions" => "Email only",
@@ -118,7 +119,8 @@ describe template_path, type: :view do
               "Party" => {
                 "OrganizationName" => {
                   "ShortName" => "ORG_SHORT 3",
-                  "LongName" => "Organization Long Name 3"
+                  "LongName" => "Organization Long Name 3",
+                  "Uuid" => "de135797-8539-4c3a-bc20-17a83d75aa49"
                 },
                 "ServiceHours" => "10-2, M-W",
                 "ContactInstructions" => "Email only",
@@ -182,14 +184,15 @@ describe template_path, type: :view do
               }
             }
           ],
-          "ResponsiblePersonnel" => [
+          "Personnel" => [
             {
               "Role" => "RESOURCEPROVIDER",
               "Party" => {
                 "Person" => {
                   "FirstName" => "First Name",
                   "MiddleName" => "Middle Name",
-                  "LastName" => "Last Name"
+                  "LastName" => "Last Name",
+                  "Uuid" => "351bb40b-0287-44ce-ba73-83e47f4945f8"
                 },
                 "ServiceHours" => "9-5, M-F",
                 "ContactInstructions" => "Email only",
@@ -258,7 +261,8 @@ describe template_path, type: :view do
                 "Person" => {
                   "FirstName" => "First Name 2",
                   "MiddleName" => "Middle Name 2",
-                  "LastName" => "Last Name 2"
+                  "LastName" => "Last Name 2",
+                  "Uuid" => "351bb40b-0287-44ce-ba73-83e47f4945f8"
                 },
                 "ServiceHours" => "10-2, M-W",
                 "ContactInstructions" => "Email only",

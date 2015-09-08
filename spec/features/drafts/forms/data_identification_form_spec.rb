@@ -23,11 +23,11 @@ describe 'Data identification form', js: true do
       add_dates
 
       # Organization
-      within '.responsible-organization' do
+      within '.organization' do
         add_responsibilities('organization')
       end
       # Personnel
-      within '.responsible-personnel' do
+      within '.personnel' do
         add_responsibilities('personnel')
       end
 
@@ -161,6 +161,9 @@ describe 'Data identification form', js: true do
 
       expect(page).to have_content('No Temporal Coverages found')
       expect(page).to have_content('No Spatial Coordinates found')
+
+      expect(page).to have_content('de135797-8539-4c3a-bc20-17a83d75aa49')
+      expect(page).to have_content('351bb40b-0287-44ce-ba73-83e47f4945f8')
     end
 
     context 'when returning to the form' do
@@ -188,12 +191,13 @@ describe 'Data identification form', js: true do
           end
         end
 
-        #### ResponsibleOrganization
-        within '.row.responsible-organization' do
+        #### Organization
+        within '.row.organization' do
           within '.multiple.responsibilities > .multiple-item-0' do
             expect(page).to have_field('Role', with: 'RESOURCEPROVIDER')
             expect(page).to have_field('Short Name', with: 'ORG_SHORT')
             expect(page).to have_field('Long Name', with: 'Organization Long Name')
+            expect(page).to have_field('Uuid', with: 'de135797-8539-4c3a-bc20-17a83d75aa49')
             expect(page).to have_field('Service Hours', with: '9-5, M-F')
             expect(page).to have_field('Contact Instructions', with: 'Email only')
             within '.multiple.contacts' do
@@ -247,6 +251,7 @@ describe 'Data identification form', js: true do
             expect(page).to have_field('Role', with: 'OWNER')
             expect(page).to have_field('Short Name', with: 'ORG_SHORT')
             expect(page).to have_field('Long Name', with: 'Organization Long Name')
+            expect(page).to have_field('Uuid', with: 'de135797-8539-4c3a-bc20-17a83d75aa49')
             expect(page).to have_field('Service Hours', with: '10-2, M-W')
             expect(page).to have_field('Contact Instructions', with: 'Email only')
             within '.multiple.contacts' do
@@ -298,13 +303,14 @@ describe 'Data identification form', js: true do
           end
         end
 
-        #### ResponsiblePersonnel
-        within '.row.responsible-personnel' do
+        #### Personnel
+        within '.row.personnel' do
           within '.multiple.responsibilities > .multiple-item-0' do
             expect(page).to have_field('Role', with: 'RESOURCEPROVIDER')
             expect(page).to have_field('First Name', with: 'First Name')
             expect(page).to have_field('Middle Name', with: 'Middle Name')
             expect(page).to have_field('Last Name', with: 'Last Name')
+            expect(page).to have_field('Uuid', with: '351bb40b-0287-44ce-ba73-83e47f4945f8')
             expect(page).to have_field('Service Hours', with: '9-5, M-F')
             expect(page).to have_field('Contact Instructions', with: 'Email only')
             within '.multiple.contacts' do
@@ -359,6 +365,7 @@ describe 'Data identification form', js: true do
             expect(page).to have_field('First Name', with: 'First Name')
             expect(page).to have_field('Middle Name', with: 'Middle Name')
             expect(page).to have_field('Last Name', with: 'Last Name')
+            expect(page).to have_field('Uuid', with: '351bb40b-0287-44ce-ba73-83e47f4945f8')
             expect(page).to have_field('Service Hours', with: '10-2, M-W')
             expect(page).to have_field('Contact Instructions', with: 'Email only')
             within '.multiple.contacts' do

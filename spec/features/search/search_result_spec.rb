@@ -1,7 +1,5 @@
 # MMT-22, MMT-10, MMT-8
 
-# TODO Create helper method for results_query_label assertions
-
 require 'rails_helper'
 
 describe 'Search published results', js: true do

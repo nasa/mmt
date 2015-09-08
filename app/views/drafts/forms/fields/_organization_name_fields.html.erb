@@ -3,3 +3,6 @@
 
 <label for="<%= remove_pipes(name_prefix) %>organization_name_long_name">Long Name</label><i class="fa fa-info-circle"></i>
 <%= text_field_tag(name_to_param("#{name_prefix}|organization_name|_|long_name|"), organization_name['LongName'], class: 'half-width') %>
+
+<label for="<%= remove_pipes(name_prefix) %>organization_name_uuid">Uuid</label><i class="fa fa-info-circle"></i>
+<%= text_field_tag(name_to_param("#{name_prefix}|organization_name|_uuid"), organization_name['Uuid'], class: 'half-width') %>
