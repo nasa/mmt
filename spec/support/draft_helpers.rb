@@ -217,7 +217,7 @@ module Helpers
       within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
         within '.multiple.related-url-url' do
           fill_in 'URL', with: 'http://example.com'
-          click_on 'Add another'
+          click_on 'Add Another URL'
           within all('.multiple-item').last do
             fill_in 'URL', with: 'http://another-example.com'
           end
@@ -362,7 +362,7 @@ module Helpers
         fill_in 'Number Of Sensors', with: 2468
         within '.multiple.operational-mode' do
           fill_in 'Operational Mode', with: 'Instrument mode'
-          click_on 'Add another'
+          click_on 'Add Another Mode'
           within all('.multiple-item').last do
             fill_in 'Operational Mode', with: 'Instrument mode 1'
           end

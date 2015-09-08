@@ -23,7 +23,7 @@
       <div class="row sub-fields">
         <% keywords = draft.draft['TemporalKeywords'] || [nil] # [nil] creates at least one keyword field %>
         <div class="multiple temporal-keywords">
-          <label>Temporal Keywords</label><i class="fa fa-info-circle"></i>
+          <label>Temporal Keyword</label><i class="fa fa-info-circle"></i>
         <% keywords.each do |keyword| %>
           <div class="multiple-item">
             <%= text_field_tag(name_to_param("draft_|temporal_keywords|_index"), keyword, class: 'half-width') %>

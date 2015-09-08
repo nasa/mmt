@@ -21,7 +21,7 @@ describe 'Acquisition information form', js: true do
         fill_in 'Long Name', with: 'Project long name'
         within '.multiple.campaign' do
           fill_in 'Campaign', with: 'Project campaign'
-          click_on 'Add another'
+          click_on 'Add Another Campaign'
           within all('.multiple-item').last do
             fill_in 'Campaign', with: 'Project campaign 1'
           end
