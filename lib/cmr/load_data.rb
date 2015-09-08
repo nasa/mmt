@@ -43,14 +43,14 @@ module Cmr
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "SEDAC", "short-name": "Socioeconomic Data and Applications Center (SEDAC)", "cmr-only": true}'
+        req.body = '{"provider-id": "SEDAC", "short-name": "SEDAC", "cmr-only": true}'
       end
       # Provider LARC
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "LARC", "short-name": "NASA Langley Research Center Atmospheric Science Data Center", "cmr-only": true}'
+        req.body = '{"provider-id": "LARC", "short-name": "LARC", "cmr-only": true}'
       end
 
       ### Create a provider in Mock Echo

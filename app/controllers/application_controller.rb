@@ -10,9 +10,7 @@ class ApplicationController < ActionController::Base
 
   def setup_query
     @query ||= {}
-    @provider_ids = Rails.cache.fetch("get_providers", expires_in: 12.hours) do
-      cmr_client.get_providers
-    end
+    @provider_ids = cmr_client.get_providers.body.map{|provider| [provider['short-name'], provider['provider-id']]}
   end
 
   def setup_current_user
