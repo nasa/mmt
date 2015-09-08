@@ -19,13 +19,14 @@
   <% top_resolution = vertical_system_definition['Resolution'] || {} %>
   <% resolutions = top_resolution['Resolutions'] || [nil] %>
   <div class="multiple resolutions">
+    <label for="<%= remove_pipes(name_prefix) %>resolution_resolutions_">Resolution</label><i class="fa fa-info-circle"></i>
+
   <% resolutions.each do |resolution| %>
     <div class="multiple-item">
-      <label for="<%= remove_pipes(name_prefix) %>resolution_resolutions_">Resolution</label><i class="fa fa-info-circle"></i>
       <%= number_field_tag(name_to_param("#{name_prefix}resolution_resolutions_index"), resolution, class: 'half-width') %>
+      <a class="remove"><i class="fa fa-times-circle"></i></a>
       <div class="actions">
-        <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
-        <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+        <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Keyword</button>
       </div>
     </div>
   <% end %>

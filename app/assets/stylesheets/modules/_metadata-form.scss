@@ -51,6 +51,23 @@
   display: none;
 }
 
+// TODO: Global class for this add-new layout behavior
+.temporal-keywords, .spatial-keywords, .operational-mode, .campaign, .related-url-url, .single-date-time, .resolutions {
+  .multiple-item a.remove {
+    color: $red;
+    float: left;
+    font-size: 1.4em;
+    padding: 0.6em;
+  }
+}
+
+.temporal-keywords, .spatial-keywords, .operational-mode, .campaign, .related-url-url, .single-date-time, .resolutions {
+  .multiple-item input[type="text"], .multiple-item input[type="datetime"], .multiple-item input[type="number"] {
+    float: left;
+    clear: both;
+  }
+}
+
 .multiple-template {
   display: none;
 }
