@@ -15,12 +15,12 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def get_providers()
+    def get_providers
       holdings = get_provider_holdings.body
       holdings.map{ |holding| holding['provider-id'] }.uniq.sort
     end
 
-    def get_provider_summaries()
+    def get_provider_summaries
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3002/providers'
       else

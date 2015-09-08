@@ -10,8 +10,9 @@ class ApplicationController < ActionController::Base
 
   def setup_query
     @query ||= {}
-    # we don't want to do this on every page, it takes forever
-    @provider_ids = cmr_client.get_providers
+    @provider_ids = Rails.cache.fetch("get_providers", expires_in: 12.hours) do
+      cmr_client.get_providers
+    end
   end
 
   def setup_current_user
