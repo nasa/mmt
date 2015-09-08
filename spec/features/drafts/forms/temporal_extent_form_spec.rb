@@ -50,10 +50,10 @@ describe 'Temporal extent form', js: true do
 
       # Complete TemporalKeyword fields
       within '.multiple.temporal-keywords' do
-        fill_in 'Temporal Keyword', with: 'Keyword 1'
-        click_on 'Add another'
+        fill_in 'draft_temporal_keywords_', with: 'Keyword 1'
+        click_on 'Add Another Keyword'
         within all('.multiple-item').last do
-          fill_in 'Temporal Keyword', with: 'Keyword 2'
+          fill_in 'draft_temporal_keywords_', with: 'Keyword 2'
         end
       end
 
@@ -197,8 +197,8 @@ describe 'Temporal extent form', js: true do
 
         # Complete TemporalKeyword fields
         within '.multiple.temporal-keywords' do
-          expect(page).to have_field('Temporal Keyword', with: 'Keyword 1')
-          expect(page).to have_field('Temporal Keyword', with: 'Keyword 2')
+          expect(page).to have_field('draft_temporal_keywords_', with: 'Keyword 1')
+          expect(page).to have_field('draft_temporal_keywords_', with: 'Keyword 2')
         end
 
         # Complete PaleoTemporalCoverage fields
