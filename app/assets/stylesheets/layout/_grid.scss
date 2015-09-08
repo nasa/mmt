@@ -52,7 +52,7 @@ section {
 
 .row {
   @include row();
-  padding: 0.3125em 0;
+  padding: 0;
 
   &.row-content {
     background: #fff;

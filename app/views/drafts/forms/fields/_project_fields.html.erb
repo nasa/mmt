@@ -12,13 +12,13 @@
   <!-- Campaign -->
   <% campaigns = project['Campaigns'] || [nil] # [nil] creates at least one field %>
   <div class="multiple campaign">
+    <label for="<%= remove_pipes(name_prefix) %>campaigns_">Campaign</label><i class="fa fa-info-circle"></i>
   <% campaigns.each do |campaign| %>
     <div class="multiple-item">
-      <label for="<%= remove_pipes(name_prefix) %>campaigns_">Campaign</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}campaigns_index"), campaign, class: 'half-width') %>
+      <a class="remove"><i class="fa fa-times-circle"></i></a>
       <div class="actions">
-        <button type="button" class="btn btn-green btn-sm btn-round add-new new-simple">Add another</button>
-        <button type="button" class="btn btn-red btn-sm btn-round remove">Remove</button>
+        <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Campaign</button>
       </div>
     </div>
   <% end %>
@@ -26,11 +26,13 @@
 
 
   <!-- StartDate -->
-  <label for="<%= remove_pipes(name_prefix) %>start_date">Start Date</label><i class="fa fa-info-circle"></i>
-  <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), project['StartDate'], class: 'half-width') %>
-
-
-  <!-- EndDate -->
-  <label for="<%= remove_pipes(name_prefix) %>end_date">End Date</label><i class="fa fa-info-circle"></i>
-  <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), project['EndDate'], class: 'half-width') %>
+  <div class="col-6">
+    <label for="<%= remove_pipes(name_prefix) %>start_date">Start Date</label><i class="fa fa-info-circle"></i>
+    <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), project['StartDate'], class: 'full-width') %>
+  </div>
+  <div class="col-6">
+    <!-- EndDate -->
+    <label for="<%= remove_pipes(name_prefix) %>end_date">End Date</label><i class="fa fa-info-circle"></i>
+    <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), project['EndDate'], class: 'full-width') %>
+  </div>
 </div>

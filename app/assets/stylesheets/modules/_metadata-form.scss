@@ -6,8 +6,15 @@
     display: block;
   }
 
+  input[type="radio"] {
+    display: inline-block;
+    margin: 0 0.5em 0 0;
+    line-height: 1em;
+  }
+
   label {
     font-weight: bold;
+    color: $dolphin-grey;
   }
 
   .fa-info-circle {
@@ -18,6 +25,8 @@
 
 .add-new {
   display: none;
+  width: 100%;
+  margin-top: 1em;
 }
 
 .multiple > .actions .add-new {
@@ -42,10 +51,36 @@
   display: none;
 }
 
+// TODO: Global class for this add-new layout behavior
+.temporal-keywords, .spatial-keywords, .operational-mode, .campaign, .related-url-url, .single-date-time, .resolutions {
+  .multiple-item a.remove {
+    color: $red;
+    float: left;
+    font-size: 1.4em;
+    padding: 0.6em;
+  }
+}
+
+.temporal-keywords, .spatial-keywords, .operational-mode, .campaign, .related-url-url, .single-date-time, .resolutions {
+  .multiple-item input[type="text"], .multiple-item input[type="datetime"], .multiple-item input[type="number"] {
+    float: left;
+    clear: both;
+  }
+}
+
 .multiple-template {
   display: none;
 }
 
 .sub-fields {
   margin-left: 1em;
+}
+
+.radio-group {
+  margin: 0.5em 0;
+
+  label {
+    font-weight: normal;
+    line-height: 1em;
+  }
 }

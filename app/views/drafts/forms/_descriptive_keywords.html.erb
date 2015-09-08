@@ -1,67 +1,76 @@
+
 <!-- ISOTopicCategory -->
 <!-- json-schema has "properties": {} -->
-<div class="row taller">
-  <div class="col-12">
-    <label for="iso_topic_category">ISO Topic Category</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- Insert Fields -->
+<fieldset>
+  <h3>ISO Topic Category</h3>
+  <div class="row taller">
+    <div class="col-12">
+      <label for="iso_topic_category">ISO Topic Category</label><i class="fa fa-info-circle"></i>
+      <div class="row">
+        <!-- Insert Fields -->
+      </div>
     </div>
   </div>
-</div>
+</fieldset>
 
 <!-- ScienceKeyword [r] -->
 <!-- Use 'keyword builder' idea when Mark gets a go-ahead -->
-<div class="row taller">
-  <div class="col-12">
-    <label for="science_keyword" class="icon-required">Science Keyword</label><i class="fa fa-info-circle"></i>
+<!-- json-schema has "properties": {} -->
+<fieldset>
+  <h3>Science Keyword</h3>
+  <div class="row taller">
+    <div class="col-12">
+      <div class="row sub-fields">
+        <!-- show form unless one keyword exists -->
+        <% science_keyword = @draft.draft['ScienceKeyword'] || {} %>
+        <label for="draft_science_keyword_category" class="icon-required">Category</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[science_keyword][category]', science_keyword['Category'], class: 'half-width') %>
 
-    <div class="row sub-fields">
-      <!-- show form unless one keyword exists -->
-      <% science_keyword = @draft.draft['ScienceKeyword'] || {} %>
-      <label for="draft_science_keyword_category" class="icon-required">Category</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[science_keyword][category]', science_keyword['Category'], class: 'half-width') %>
+        <label for="draft_science_keyword_topic" class="icon-required">Topic</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[science_keyword][topic]', science_keyword['Topic'], class: 'half-width') %>
 
-      <label for="draft_science_keyword_topic" class="icon-required">Topic</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[science_keyword][topic]', science_keyword['Topic'], class: 'half-width') %>
+        <label for="draft_science_keyword_term" class="icon-required">Term</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[science_keyword][term]', science_keyword['Term'], class: 'half-width') %>
 
-      <label for="draft_science_keyword_term" class="icon-required">Term</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[science_keyword][term]', science_keyword['Term'], class: 'half-width') %>
+        <label for="draft_science_keyword_variable_level_1">Variable Level 1</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[science_keyword][variable_level_1]', science_keyword['VariableLevel1'], class: 'half-width') %>
 
-      <label for="draft_science_keyword_variable_level_1">Variable Level 1</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[science_keyword][variable_level_1]', science_keyword['VariableLevel1'], class: 'half-width') %>
+        <label for="draft_science_keyword_variable_level_2">Variable Level 2</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[science_keyword][variable_level_2]', science_keyword['VariableLevel2'], class: 'half-width') %>
 
-      <label for="draft_science_keyword_variable_level_2">Variable Level 2</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[science_keyword][variable_level_2]', science_keyword['VariableLevel2'], class: 'half-width') %>
+        <label for="draft_science_keyword_variable_level_3">Variable Level 3</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[science_keyword][variable_level_3]', science_keyword['VariableLevel3'], class: 'half-width') %>
 
-      <label for="draft_science_keyword_variable_level_3">Variable Level 3</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[science_keyword][variable_level_3]', science_keyword['VariableLevel3'], class: 'half-width') %>
+        <label for="draft_science_keyword_detailed_variable">Detailed Variable</label><i class="fa fa-info-circle"></i>
+        <%= text_field_tag('draft[science_keyword][detailed_variable]', science_keyword['DetailedVariable'], class: 'half-width') %>
 
-      <label for="draft_science_keyword_detailed_variable">Detailed Variable</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[science_keyword][detailed_variable]', science_keyword['DetailedVariable'], class: 'half-width') %>
-
-      <!-- add new keyword button -->
+        <!-- add new keyword button -->
+      </div>
     </div>
   </div>
-</div>
+</fieldset>
 
-<!-- AncillaryKeyword -->
-<div class="row taller">
-  <div class="col-12">
-    <label for="ancillary_keyword">Ancillary Keyword</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <p class="field-note">comma delimited</p>
-      <!-- text field, comma delimited -->
+<fieldset>
+  <h3>Additional Information</h3>
+  <!-- AncillaryKeyword -->
+  <div class="row taller">
+    <div class="col-12">
+      <label for="ancillary_keyword">Ancillary Keyword</label><i class="fa fa-info-circle"></i>
+      <div class="row">
+        <p class="field-note">comma delimited</p>
+        <!-- text field, comma delimited -->
+      </div>
     </div>
   </div>
-</div>
 
-<!-- AdditionalAttribute -->
-<div class="row taller">
-  <div class="col-12">
-    <label for="additional_attribute">Additional Attribute</label><i class="fa fa-info-circle"></i>
-    <div class="row">
-      <!-- attribute form -->
-      <!-- add new attribute button -->
+  <!-- AdditionalAttribute -->
+  <div class="row taller">
+    <div class="col-12">
+      <label for="additional_attribute">Additional Attribute</label><i class="fa fa-info-circle"></i>
+      <div class="row">
+        <!-- attribute form -->
+        <!-- add new attribute button -->
+      </div>
     </div>
   </div>
-</div>
+</fieldset>

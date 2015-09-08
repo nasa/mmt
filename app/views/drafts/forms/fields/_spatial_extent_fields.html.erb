@@ -2,13 +2,9 @@
   <!-- SpatialCoverageType -->
   <% spatial_coverage_type = spatial_extent['SpatialCoverageType'] || "" %>
   <label>Spatial Coverage Type</label><i class="fa fa-info-circle"></i>
-  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label>
-  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label>
-  <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'ORBITAL', spatial_coverage_type == 'ORBITAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_ORBITAL">Orbit</label>
-
-
-  <!-- Bad </br>, take out design team! -->
-  </br>
+  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label></p>
+  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label></p>
+  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'ORBITAL', spatial_coverage_type == 'ORBITAL', class: 'spatial-coverage-type-select') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_ORBITAL">Orbit</label></p>
 
 
   <!-- HorizontalSpatialDomain -->
@@ -25,7 +21,6 @@
 
   <!-- VerticalSpatialDomains -->
   <div class="spatial-coverage-type vertical" style="<%= 'display: none;' unless spatial_coverage_type == 'VERTICAL'%>">
-    <label>Vertical Spatial Domain</label><i class="fa fa-info-circle"></i>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'vertical_spatial_domain',
         values: spatial_extent['VerticalSpatialDomains'] || [{}],

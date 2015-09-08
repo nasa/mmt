@@ -49,7 +49,7 @@ describe 'Spatial extent form', js: true do
       # Spatial Keywords
       within '.multiple.spatial-keywords' do
         fill_in 'Spatial Keyword', with: 'f47ac10b-58cc-4372-a567-0e02b2c3d479'
-        click_on 'Add another'
+        click_on 'Add Another Keyword'
         within all('.multiple-item').last do
           fill_in 'Spatial Keyword', with: 'abdf4d5c-55dc-4324-9ae5-5adf41e99da3'
         end
@@ -332,7 +332,7 @@ describe 'Spatial extent form', js: true do
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method'
         fill_in 'Resolution', with: '3.0'
-        click_on 'Add another'
+        click_on 'Add Another Resolution'
         within all('.multiple-item').last do
           fill_in 'Resolution', with: '4.0'
         end
@@ -342,7 +342,7 @@ describe 'Spatial extent form', js: true do
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method 1'
         fill_in 'Resolution', with: '5.0'
-        click_on 'Add another'
+        click_on 'Add Another Resolution'
         within all('.multiple-item').last do
           fill_in 'Resolution', with: '6.0'
         end
@@ -455,7 +455,7 @@ describe 'Spatial extent form', js: true do
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method'
         fill_in 'Resolution', with: '3.0'
-        click_on 'Add another'
+        click_on 'Add Another Resolution'
         within all('.multiple-item').last do
           fill_in 'Resolution', with: '4.0'
         end
@@ -465,7 +465,7 @@ describe 'Spatial extent form', js: true do
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method 1'
         fill_in 'Resolution', with: '5.0'
-        click_on 'Add another'
+        click_on 'Add Another Resolution'
         within all('.multiple-item').last do
           fill_in 'Resolution', with: '6.0'
         end
