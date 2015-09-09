@@ -68,13 +68,13 @@
 <fieldset>
   <h3>Organizations</h3>
   <!-- Organization [r] -->
-  <div class="row taller responsible-organization">
+  <div class="row taller organization">
     <div class="col-12">
       <div class="row sub-fields">
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'responsibility',
-            values: draft.draft['ResponsibleOrganizations'] || [{}],
-            name_prefix: "draft_|responsible_organizations|_",
+            values: draft.draft['Organizations'] || [{}],
+            name_prefix: "draft_|organizations|_",
             multiple: true,
             options: {
               limit_type: 'organization',
@@ -88,13 +88,13 @@
 <fieldset>
   <h3>Personnel</h3>
   <!-- Personnel -->
-  <div class="row taller responsible-personnel">
+  <div class="row taller personnel">
     <div class="col-12">
       <div class="row sub-fields">
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'responsibility',
-            values: draft.draft['ResponsiblePersonnel'] || [{}],
-            name_prefix: "draft_|responsible_personnel|_",
+            values: draft.draft['Personnel'] || [{}],
+            name_prefix: "draft_|personnel|_",
             multiple: true,
             options: {
               limit_type: 'personnel',
@@ -199,7 +199,7 @@
       <div class="row sub-fields">
         <% access_constraints = draft.draft['AccessConstraints'] || {} %>
         <!-- Value -->
-        <label for="draft_access_constraints_value" class="icon-required">Value</label><i class="fa fa-info-circle"></i>
+        <label for="draft_access_constraints_value">Value</label><i class="fa fa-info-circle"></i>
         <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width') %>
 
         <!-- Description -->

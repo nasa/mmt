@@ -146,7 +146,8 @@ module TypesHelper
   ]
   OrganizationNameType = [
     { name: 'ShortName' },
-    { name: 'LongName' }
+    { name: 'LongName' },
+    { name: 'Uuid' }
   ]
   PaleoTemporalCoverageType = [
     { name: 'ChronostratigraphicUnits', options: [:sub_type] },
@@ -174,7 +175,8 @@ module TypesHelper
   PersonType = [
     { name: 'FirstName' },
     { name: 'MiddleName' },
-    { name: 'LastName' }
+    { name: 'LastName' },
+    { name: 'Uuid' }
   ]
   PlatformsType = [
     { name: 'Type' },

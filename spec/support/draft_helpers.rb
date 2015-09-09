@@ -22,8 +22,8 @@ module Helpers
     MismatchedKeys = [
       "DataDates",
       "MetadataDates",
-      "ResponsibleOrganizations",
-      "ResponsiblePersonnel",
+      "Organizations",
+      "Personnel",
       "CollectionCitations"
     ]
 
@@ -107,12 +107,14 @@ module Helpers
     def add_organization
       fill_in 'Short Name', with: 'ORG_SHORT'
       fill_in 'Long Name', with: 'Organization Long Name'
+      fill_in 'Uuid', with: 'de135797-8539-4c3a-bc20-17a83d75aa49'
     end
 
     def add_person
       fill_in 'First Name', with: 'First Name'
       fill_in 'Middle Name', with: 'Middle Name'
       fill_in 'Last Name', with: 'Last Name'
+      fill_in 'Uuid', with: '351bb40b-0287-44ce-ba73-83e47f4945f8'
     end
 
     def add_responsibilities(type=nil)
