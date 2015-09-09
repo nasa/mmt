@@ -2,9 +2,9 @@ class WelcomeController < ApplicationController
   skip_before_filter :is_logged_in, :setup_query
 
   def index
-    redirect_to dashboard_path if logged_in?
+    return redirect_to dashboard_path if logged_in?
 
-    providers = Hash[cmr_client.get_provider_summaries.body.map{|p|
+    providers = Hash[cmr_client.get_providers.body.map{|p|
                        [p['provider-id'], {'provider_id'=>p['provider-id'], 'short_name' => p['short-name']}]
                      }]
 

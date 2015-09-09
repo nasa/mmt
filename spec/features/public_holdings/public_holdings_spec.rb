@@ -14,7 +14,7 @@ describe 'Public Holdings Display' do
 
     it 'shows public holdings' do
       expect(page).to have_css('table#public-holdings')
-      expect(page.find('table#public-holdings')).to have_content('Socioeconomic Data and Applications Center (SEDAC)')
+      expect(page.find('table#public-holdings')).to have_content('SEDAC')
       expect(page.find('table#public-holdings')).to have_content('25')
       expect(page.find('table#public-holdings')).to have_content('0')
     end
@@ -43,7 +43,7 @@ describe 'Public Holdings Display' do
       end
 
       it 'handles failure gracefully and shows what data it can' do
-        expect(page).to have_content('Socioeconomic Data and Applications Center (SEDAC)')
+        expect(page).to have_content('SEDAC')
         expect(page).to_not have_content('The Socioeconomic Data and Applications Center (SEDAC) mission is to develop and operate')
         expect(page).to have_css('table#collections')
         expect(page.find('table#collections')).to have_content('ACRIM III Level 2 Daily Mean Data V001')

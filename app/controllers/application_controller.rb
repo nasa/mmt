@@ -10,8 +10,7 @@ class ApplicationController < ActionController::Base
 
   def setup_query
     @query ||= {}
-    # we don't want to do this on every page, it takes forever
-    @provider_ids = cmr_client.get_providers
+    @provider_ids = cmr_client.get_providers.body.map{|provider| [provider['short-name'], provider['provider-id']]}
   end
 
   def setup_current_user

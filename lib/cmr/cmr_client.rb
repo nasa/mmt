@@ -15,18 +15,16 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def get_providers()
-      holdings = get_provider_holdings.body
-      holdings.map{ |holding| holding['provider-id'] }.uniq.sort
-    end
-
-    def get_provider_summaries()
+    def get_providers
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3002/providers'
       else
         url = '/ingest/providers'
       end
-      get(url)
+      response = Rails.cache.fetch("get_providers", expires_in: 1.hours) do
+        get(url)
+      end
+      response
     end
 
     def get_provider_holdings(options={}, token=nil)
