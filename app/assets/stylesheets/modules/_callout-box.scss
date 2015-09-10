@@ -80,7 +80,7 @@
     }
 
     label {
-      @include span-columns(3.25 of 4);
+      // @include span-columns(3.25 of 4);
       @include omega();
     }
 
