@@ -15,10 +15,10 @@
     <section class="action">
       <div class="cta">
         <a href="#" alt="Publish Button" class="btn btn-blue">Publish</a>
-        <a href="#" alt="Download XML">Download XML</a> |
+        <a class="disabled" href="#" alt="Download XML">Download XML</a> |
         <%= link_to 'Delete Draft', @draft, method: :delete, data: { confirm: 'Are you sure you want to delete this record?' } %>
       </div>
-      <div class="quality-score">
+      <div class="quality-score disabled">
         <div class="badges">
           <i class="fa fa-star fa-lg"></i>
           <i class="fa fa-star fa-lg"></i>
@@ -36,73 +36,80 @@
       <h3>Metadata Fields</h3>
       <ul>
         <li>
-          <div class="status">
+          <div class="status disabled">
             <i class="fa fa-circle-thin"></i>
           </div>
           <div class="meta-info">
             <%= link_to 'Data Identification', draft_edit_form_path(@draft, 'data_identification') %>
-            <br>
-            <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+            <div class="progress-indicators disabled">
+              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
+            </div>
           </div>
         </li>
         <li>
-          <div class="status">
+          <div class="status disabled">
             <i class="fa fa-circle-thin"></i>
           </div>
           <div class="meta-info">
             <%= link_to 'Descriptive Keywords', draft_edit_form_path(@draft, 'descriptive_keywords') %>
-            <br>
-            <i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+            <div class="progress-indicators disabled">
+              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
+            </div>
           </div>
         </li>
         <li>
-          <div class="status">
+          <div class="status disabled">
             <i class="fa fa-circle-thin"></i>
           </div>
           <div class="meta-info">
             <%= link_to 'Metadata Information', draft_edit_form_path(@draft, 'metadata_information') %>
-            <br>
-            <i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+            <div class="progress-indicators disabled">
+              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
+            </div>
           </div>
         </li>
         <li>
-          <div class="status">
+          <div class="status disabled">
             <i class="fa fa-check-circle"></i>
           </div>
           <div class="meta-info">
             <%= link_to 'Temporal Extent', draft_edit_form_path(@draft, 'temporal_extent') %>
-            <br>
-            <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+            <div class="progress-indicators disabled">
+              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
+            </div>
           </div>
         </li>
         <li>
-          <div class="status">
+          <div class="status disabled">
             <i class="fa fa-circle-thin"></i>
           </div>
           <div class="meta-info">
             <%= link_to 'Spatial Extent', draft_edit_form_path(@draft, 'spatial_extent') %>
-            <br>
-            <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
+            <div class="progress-indicators disabled">
+              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
+            </div>
           </div>
         </li>
         <li>
-          <div class="status">
+          <div class="status disabled">
             <i class="fa fa-circle-thin"></i>
           </div>
           <div class="meta-info">
             <%= link_to 'Acquisition Information', draft_edit_form_path(@draft, 'acquisition_information') %>
-            <br>
-            <i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle- icon-grey"></i>
+            <div class="progress-indicators disabled">
+              <i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle- icon-grey"></i>
+            </div>
           </div>
         </li>
         <li>
-          <div class="status">
+          <div class="status disabled">
             <i class="fa fa-check-circle"></i>
           </div>
           <div class="meta-info">
             <%= link_to 'Distribution Information', draft_edit_form_path(@draft, 'distribution_information') %>
-            <br>
-            <i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+            <div class="progress-indicators disabled">
+              <i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
+            </div>
           </div>
         </li>
       </ul>
@@ -112,10 +119,10 @@
       <section class="preview">
 
         <h3>Preview</h3>
-        <p>
+        <!-- <p>
           <input type="checkbox" name="markdown"></input>
           <label for="markdown">Show as markdown</label>
-        </p>
+        </p> -->
 
         <%= render :partial=>'drafts/previews/data_identification', :locals=>{:draft=>@draft.draft} %>
         <%= render :partial=>'drafts/previews/descriptive_keywords', :locals=>{:draft=>@draft.draft} %>

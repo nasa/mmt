@@ -17,8 +17,8 @@
         <div class="row">
           <input type="radio" name="find" id="find-1">
           <label for="find-1">Collections</label>
-          <input type="radio" name="find" id="find-2">
-          <label for="find-2">Services</label>
+          <input type="radio" name="find" id="find-2" disabled>
+          <label class="disabled" for="find-2">Services</label>
         </div>
       </fieldset>
 
@@ -115,10 +115,10 @@
         <%= text_field_tag('search_term', @query['search_term'], 'aria-label' => 'Search Term') %>
         <p class="form-description">Enter an Entry ID, CMR Concept ID, or Entry Title</p>
         <hr>
-        <div class="row">
+        <!-- <div class="row">
           <a href="#" class="is-collapsed">Has a relationship to</a>
         </div>
-        <hr>
+        <hr> -->
         <div class="row search-form-actions">
           <button type="button" name="full_search" class="btn btn-blue">Submit</button>
           <a href="#" class="cancel">Cancel</a>

@@ -36,7 +36,7 @@ header {
     text-align: right;
 
     #help {
-      display: block;
+      display: none; // Change to display: block when help feature is added and remove margin-top on #search
       margin: .5em 0 0 0;
       font-size: 0.8em;
     }
@@ -89,9 +89,17 @@ header {
 
   #search {
     float: right;
+    margin-top: 1.9em; // Remove this line once the help link actually works
 
     .full-search-form {
       margin: 0.5em 0;
+
+      fieldset {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+      }
     }
 
     .quick-search {

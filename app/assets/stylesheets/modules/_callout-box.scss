@@ -79,11 +79,6 @@
       margin-right: 0.6em;
     }
 
-    label {
-      @include span-columns(3.25 of 4);
-      @include omega();
-    }
-
     select {
       @include row();
       width: 14.0625em !important;
