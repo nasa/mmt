@@ -93,6 +93,13 @@ header {
 
     .full-search-form {
       margin: 0.5em 0;
+
+      fieldset {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+      }
     }
 
     .quick-search {
