@@ -6,14 +6,13 @@
 #   retrieve metadata
 #   insert metadata into local CMR
 
-#TODO: Need to ingest some granule metadata
-
+# TODO: Need to ingest some granule metadata
 
 require 'multi_xml'
 
 module Cmr
   class Local
-    def initialize(num_collections=nil)
+    def initialize(num_collections = nil)
       @num = num_collections
     end
 
@@ -25,15 +24,15 @@ module Cmr
     end
 
     def wait_for_cmr
-        cmr_up = false
-        until cmr_up do
-          begin
-            cmr_up = yield
-          rescue Faraday::Error::ConnectionFailed => e
-            puts "CMR is still starting, please wait..."
-            sleep 5
-          end
+      cmr_up = false
+      until cmr_up
+        begin
+          cmr_up = yield
+        rescue Faraday::Error::ConnectionFailed
+          puts 'CMR is still starting, please wait...'
+          sleep 5
         end
+      end
     end
 
     def setup_cmr
@@ -75,7 +74,7 @@ module Cmr
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid1"},"system_object_identity": {}}}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid1"}}}'
       end
       connection.post do |req|
         req.url('http://localhost:3008/acls')
@@ -88,7 +87,7 @@ module Cmr
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid2"},"system_object_identity": {}}}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid2"}}}'
       end
       connection.post do |req|
         req.url('http://localhost:3008/acls')
@@ -106,7 +105,7 @@ module Cmr
     def retrieve_metadata_uris
       response = connection.get("https://cmr.earthdata.nasa.gov/search/collections.xml?page_size=#{@num}&page_num=1")
       xml = MultiXml.parse(response.body)
-      xml['results']['references']['reference'].map{|r| r['location']}
+      xml['results']['references']['reference'].map { |r| r['location'] }
     end
 
     def insert_metadata(uri_list)
@@ -129,7 +128,7 @@ module Cmr
           puts "Loaded #{added} collections"
         end
       end
-      puts "Done!"
+      puts 'Done!'
     end
 
     def reset_data
@@ -144,7 +143,7 @@ module Cmr
       @connection ||= Faraday.new do |faraday|
         faraday.request :url_encoded # form-encode POST params
         # faraday.response :logger  # log requests to STDOUT
-        faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+        faraday.adapter Faraday.default_adapter # make requests with Net::HTTP
       end
     end
   end

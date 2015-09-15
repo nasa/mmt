@@ -31,7 +31,7 @@
 
   <!-- OperationalMode -->
   <% modes = instruments['OperationalModes'] || [nil] # [nil] creates at least one field %>
-  <div class="multiple operational-mode">
+  <div class="multiple simple-multiple operational-mode">
     <label for="<%= remove_pipes(name_prefix) %>operational_modes_">Operational Mode</label><i class="fa fa-info-circle"></i>
 
   <% modes.each do |mode| %>

@@ -1,6 +1,5 @@
 module Helpers
   module DraftHelpers
-
     def output_schema_validation(draft)
       schema = 'lib/assets/schemas/umm-c-json-schema.json'
       JSON::Validator.fully_validate(schema, draft).each do |error|
@@ -19,13 +18,13 @@ module Helpers
       page.evaluate_script script
     end
 
-    MismatchedKeys = [
-      "DataDates",
-      "MetadataDates",
-      "Organizations",
-      "Personnel",
-      "CollectionCitations"
-    ]
+    MISMATCHED_KEYS = %w(
+      DataDates
+      MetadataDates
+      Organizations
+      Personnel
+      CollectionCitations
+    )
 
     def check_css_path_for_display_of_values(rendered, draft, key, path, special_handling = {}, top_level = false)
       path += " > li.#{name_to_class(key)}" if top_level
@@ -72,15 +71,14 @@ module Helpers
 
       when Hash
         top_path = ''
-        if top_level
-          top_path = " > ul"
-        end
+        top_path = ' > ul' if top_level
+
         draft.each do |new_key, value|
           new_path = path + top_path
 
           new_path += " > li.#{name_to_class(new_key)}"
           if "TypesHelper::#{new_key}Type".safe_constantize
-            new_path += " > ul" unless key == "DOI" || new_key == 'Date'
+            new_path += ' > ul' unless key == 'DOI' || new_key == 'Date'
           end
           check_css_path_for_display_of_values(rendered, value, new_key, new_path, special_handling)
         end
@@ -92,7 +90,7 @@ module Helpers
           class_name = "#{name_to_class(key)}-#{index}"
           if "TypesHelper::#{key}Type".safe_constantize
             new_path += "#{' > ul' if top_level}.#{class_name}"
-          elsif MismatchedKeys.include?(key)
+          elsif MISMATCHED_KEYS.include?(key)
             new_path += " > ul.#{class_name}"
           else
             new_path += " > ul > li.#{class_name}"
@@ -101,7 +99,6 @@ module Helpers
           check_css_path_for_display_of_values(rendered, value, class_name, new_path, special_handling)
         end
       end
-
     end
 
     def add_organization
@@ -126,7 +123,7 @@ module Helpers
         when 'personnel'
           add_person
         else
-          find(".responsibility-picker.organization").click
+          find('.responsibility-picker.organization').click
           add_organization
         end
 
@@ -146,7 +143,7 @@ module Helpers
           when 'personnel'
             add_person
           else
-            find(".responsibility-picker.person").click
+            find('.responsibility-picker.person').click
             add_person
           end
 
@@ -160,8 +157,8 @@ module Helpers
       end
     end
 
-    def add_dates(prefix = nil)
-      within ".multiple.dates" do
+    def add_dates
+      within '.multiple.dates' do
         select 'Create', from: 'Type'
         fill_in 'Date', with: '2015-07-01T00:00:00Z'
 
@@ -170,7 +167,6 @@ module Helpers
           select 'Review', from: 'Type'
           fill_in 'Date', with: '2015-07-02T00:00:00Z'
         end
-
       end
     end
 
@@ -215,7 +211,7 @@ module Helpers
       end
     end
 
-    def add_related_urls(single=nil)
+    def add_related_urls(single = nil)
       within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
         within '.multiple.related-url-url' do
           fill_in 'URL', with: 'http://example.com'
@@ -254,7 +250,7 @@ module Helpers
     def add_resource_citation
       within '.multiple.resource-citations' do
         fill_in 'Version', with: 'v1'
-        fill_in "draft_collection_citations_0_title", with: "Citation title" #Title
+        fill_in 'draft_collection_citations_0_title', with: 'Citation title' # Title
         fill_in 'Creator', with: 'Citation creator'
         fill_in 'Editor', with: 'Citation editor'
         fill_in 'Series Name', with: 'Citation series name'
@@ -271,11 +267,10 @@ module Helpers
         click_on 'Add another Resource Citation'
         within '.multiple-item-1' do
           fill_in 'Version', with: 'v2'
-          fill_in "draft_collection_citations_1_title", with: "Citation title 1" #Title
+          fill_in 'draft_collection_citations_1_title', with: 'Citation title 1' # Title
           fill_in 'Creator', with: 'Citation creator 1'
           add_related_urls(true)
         end
-
       end
     end
 
@@ -296,7 +291,7 @@ module Helpers
 
     def add_publication_reference
       within '.multiple.publication-references' do
-        fill_in "draft_publication_references_0_title", with: "Publication reference title" #Title
+        fill_in 'draft_publication_references_0_title', with: 'Publication reference title' # Title
         fill_in 'Publisher', with: 'Publication reference publisher'
         fill_in 'DOI', with: 'Publication reference DOI'
         fill_in 'Authority', with: 'Publication reference authority'
@@ -315,7 +310,7 @@ module Helpers
 
         click_on 'Add another Publication Reference'
         within '.multiple-item-1' do
-          fill_in "draft_publication_references_1_title", with: "Publication reference title 1" #Title
+          fill_in 'draft_publication_references_1_title', with: 'Publication reference title 1' # Title
           fill_in 'ISBN', with: '9876543210987'
         end
       end
@@ -324,14 +319,14 @@ module Helpers
     def add_platforms
       within '.multiple.platforms' do
         fill_in 'Type', with: 'Platform type'
-        fill_in "draft_platforms_0_short_name", with: 'Platform short name'
-        fill_in "draft_platforms_0_long_name", with: 'Platform long name'
+        fill_in 'draft_platforms_0_short_name', with: 'Platform short name'
+        fill_in 'draft_platforms_0_long_name', with: 'Platform long name'
         add_characteristics
         add_instruments
 
         click_on 'Add another Platform'
         within '.multiple-item-1' do
-          fill_in "draft_platforms_1_short_name", with: 'Platform short name 1'
+          fill_in 'draft_platforms_1_short_name', with: 'Platform short name 1'
           add_instruments('1')
         end
       end
@@ -356,7 +351,7 @@ module Helpers
       end
     end
 
-    def add_instruments(platform='0')
+    def add_instruments(platform = '0')
       within '.multiple.instruments' do
         fill_in "draft_platforms_#{platform}_instruments_0_short_name", with: 'Instrument short name'
         fill_in "draft_platforms_#{platform}_instruments_0_long_name", with: 'Instrument long name'
@@ -465,7 +460,6 @@ module Helpers
               fill_in 'Longitude', with: '5.0'
               fill_in 'Latitude', with: '-5.0'
             end
-
           end
         end
 
@@ -524,7 +518,6 @@ module Helpers
           end
         end
       end
-
     end
 
     def upload_shapefile(path)
@@ -535,5 +528,22 @@ module Helpers
       sleep 1
     end
 
+    def add_science_keywords
+      choose_keyword 'EARTH SCIENCE SERVICES'
+      choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
+      choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
+      click_on 'Add Keyword'
+
+      choose_keyword 'EARTH SCIENCE SERVICES'
+      choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
+      choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
+      choose_keyword 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
+      click_on 'Add Keyword'
+    end
+
+    def choose_keyword(text)
+      script = "$('.item-list-pane li:contains(#{text}) > a').click()"
+      page.execute_script(script)
+    end
   end
 end

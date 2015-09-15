@@ -18,7 +18,7 @@
   <!-- TODO I think this needs to be [Resolution][Resolutions][] -->
   <% top_resolution = vertical_system_definition['Resolution'] || {} %>
   <% resolutions = top_resolution['Resolutions'] || [nil] %>
-  <div class="multiple resolutions">
+  <div class="multiple simple-multiple resolutions">
     <label for="<%= remove_pipes(name_prefix) %>resolution_resolutions_">Resolution</label><i class="fa fa-info-circle"></i>
 
   <% resolutions.each do |resolution| %>

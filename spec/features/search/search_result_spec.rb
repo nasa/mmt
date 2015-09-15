@@ -9,7 +9,7 @@ describe 'Search published results', js: true do
 
   before :each do
     login
-    visit "/search"
+    visit '/search'
   end
 
   context 'when performing a collection search by quick find entry id' do
@@ -18,7 +18,7 @@ describe 'Search published results', js: true do
       click_on 'Find'
     end
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", "Record State: Published Records")
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", 'Record State: Published Records')
     end
     it 'displays expected Entry ID, Entry Title and Last Modified values' do
       expect(page).to have_content(entry_id)
@@ -52,7 +52,7 @@ describe 'Search published results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", "Record State: Published Records")
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", 'Record State: Published Records')
     end
 
     it 'displays expected data' do
@@ -87,15 +87,14 @@ describe 'Search published results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", "Record State: Published And Draft Records")
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", 'Record State: Published And Draft Records')
     end
 
     it 'displays expected data' do
       expect(page).to have_content(entry_id)
       expect(page).to have_content(entry_title)
-      expect(page).to have_content(Time.now.in_time_zone("Eastern Time (US & Canada)").strftime("%Y-%m-%d"))
+      expect(page).to have_content(today_string)
     end
-
   end
 
   context 'when searching by entry title' do
@@ -107,7 +106,7 @@ describe 'Search published results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Title: #{entry_title}", "Record State: Published Records")
+      expect(page).to have_search_query(1, "Entry Title: #{entry_title}", 'Record State: Published Records')
     end
 
     it 'displays expected data' do
@@ -173,7 +172,7 @@ describe 'Search published results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Concept Id: #{concept_id}", "Record State: Published Records")
+      expect(page).to have_search_query(1, "Concept Id: #{concept_id}", 'Record State: Published Records')
     end
 
     it 'displays expected data' do
@@ -198,7 +197,6 @@ describe 'Search published results', js: true do
     end
   end
 
-
   context 'when performing a search that has no results' do
     before do
       fill_in 'entry_id', with: 'NO HITS'
@@ -209,5 +207,4 @@ describe 'Search published results', js: true do
     end
     # We could add a test to actually examine the results table contents more specifically
   end
-
 end

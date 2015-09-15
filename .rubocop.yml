@@ -1,0 +1,10 @@
+# Config options: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - '**/*.erb'
+
+Metrics/LineLength:
+  Enabled: false

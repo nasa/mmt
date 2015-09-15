@@ -17,10 +17,12 @@ function drawSpatialExtent(previewSpatialHash) {
   var mapX1 = mapPosition.left;
   var mapY1 = mapPosition.top;
 
-  var highlightColor = "rgba(250,0,0,0.25)"
+  var highlightColor = "rgba(250,0,0,0.25)";
 
   var pointCoordinateArrayJson = previewSpatialHash['point_coordinate_array'];
   var rectangleCoordinateArrayJson = previewSpatialHash['rectangle_coordinate_array'];
+
+  var i;
 
   if (pointCoordinateArrayJson) {
     for (i = 0; i < pointCoordinateArrayJson.length; i++) {
@@ -45,7 +47,8 @@ function drawSpatialExtent(previewSpatialHash) {
     }
   }
 
-  if ( (!pointCoordinateArrayJson || !pointCoordinateArrayJson.length) && (!rectangleCoordinateArrayJson || !rectangleCoordinateArrayJson.length) )
+  if ( (!pointCoordinateArrayJson || !pointCoordinateArrayJson.length) && (!rectangleCoordinateArrayJson || !rectangleCoordinateArrayJson.length) ) {
     document.getElementById("coordinates").innerHTML = "<li>No Spatial Coordinates found</li>";
+  }
 
 }

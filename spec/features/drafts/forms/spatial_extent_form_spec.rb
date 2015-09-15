@@ -66,7 +66,7 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    it "shows pre-entered values in the draft preview page including horizontal spatial data" do
+    it 'shows pre-entered values in the draft preview page including horizontal spatial data' do
       expect(page).to have_content('Spatial Coverage Type: Horizontal')
       expect(page).to have_content('Zone Identifier: Zone ID')
       expect(page).to have_content('Coordinate System: Cartesian')

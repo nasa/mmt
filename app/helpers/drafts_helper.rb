@@ -12,8 +12,21 @@ module DraftsHelper
     ['Complete', 'COMPLETE']
   ]
   CoordinateSystemOptions = [
-      ['Cartesian', 'CARTESIAN'],
-      ['Geodetic', 'GEODETIC']
+    ['Cartesian', 'CARTESIAN'],
+    ['Geodetic', 'GEODETIC']
+  ]
+  DataTypeOptions = [
+    ['Select Data Type', ''],
+    ['String', 'STRING'],
+    ['Float', 'FLOAT'],
+    ['Integer', 'INT'],
+    ['Boolean', 'BOOLEAN'],
+    ['Date', 'DATE'],
+    ['Time', 'TIME'],
+    ['Date time', 'DATETIME'],
+    ['Date String', 'DATESTRING'],
+    ['Time String', 'TIMESTRING'],
+    ['Date Time String', 'DATETIMESTRING']
   ]
   DurationOptions = [
     ['Select Duration', ''],
@@ -66,15 +79,15 @@ module DraftsHelper
 
   def construct_keyword_string(hash_obj, str)
     # Assumes hash is passed in as ordered
-    hash_obj.each do |key, value|
+    hash_obj.each do |_key, value|
       if value.is_a?(String)
-        str << ' > ' if !str.blank?
+        str << ' > ' unless str.blank?
         str = str << value
       else # Use tail recursion to construct the string found in the sub-hash
         str = construct_keyword_string(value, str)
       end
     end
-    return str
+    str
   end
 
   # Takes a html element name (draft_|metadata_lineage|_index_role) and
@@ -82,7 +95,7 @@ module DraftsHelper
   # Words that should keep their underscore should be wrapped in pipes, like "_|metadata_lineage|_"
   def name_to_param(name)
     # convert good words (wrapped in pipes) to dashes
-    name.gsub!(/(_?)\|(\w+)\|(_?)/) {"#{$1}#{$2.dasherize}#{$3}"}
+    name.gsub!(/(_?)\|(\w+)\|(_?)/) { "#{Regexp.last_match[1]}#{Regexp.last_match[2].dasherize}#{Regexp.last_match[3]}" }
 
     # split words on underscores, wrap in brackets, and convert good words back to underscores
     name = name.split('_').map.with_index do |word, index|
@@ -99,10 +112,10 @@ module DraftsHelper
   end
 
   def remove_pipes(string)
-    string.gsub('|', '')
+    string.delete('|')
   end
 
-  #Change json keys like 'FileSize' to acceptable html class names like 'file-size'
+  # Change json keys like 'FileSize' to acceptable html class names like 'file-size'
   def name_to_class(key)
     if key == 'URLs'
       'urls'
@@ -123,8 +136,11 @@ module DraftsHelper
 
   # Used to derive the displayed string of a select type control from the value stored in json
   def map_value_onto_display_string(str, options)
-    options_hash = Hash[options.map{|key, value| [value, key]}]
-    return options_hash[str]
+    options_hash = Hash[options.map { |key, value| [value, key] }]
+    options_hash[str]
   end
 
+  def keyword_string(keywords)
+    keywords.map { |_key, value| value }.join(' > ')
+  end
 end

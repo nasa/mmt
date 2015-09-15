@@ -22,7 +22,7 @@
     <div class="col-12">
       <div class="row sub-fields">
         <% keywords = draft.draft['TemporalKeywords'] || [nil] # [nil] creates at least one keyword field %>
-        <div class="multiple temporal-keywords">
+        <div class="multiple simple-multiple temporal-keywords">
           <label>Temporal Keyword</label><i class="fa fa-info-circle"></i>
         <% keywords.each do |keyword| %>
           <div class="multiple-item">

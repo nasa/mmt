@@ -36,5 +36,14 @@ module Cmr
       get(url, options, token_header(token))
     end
 
+    def get_science_keywords
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/keywords/science_keywords'
+      else
+        url = '/search/keywords/science_keywords'
+      end
+      get(url).body
+    end
+
   end
 end
