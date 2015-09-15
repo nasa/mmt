@@ -83,3 +83,16 @@
     line-height: 1em;
   }
 }
+
+.nested-item-picker {
+  margin-bottom: .5em;
+}
+
+.selected-science-keywords {
+  a.remove {
+    color: $red;
+    font-size: 1.4em;
+    padding: 0.6em;
+    cursor: pointer;
+  }
+}

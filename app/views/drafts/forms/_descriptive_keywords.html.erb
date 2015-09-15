@@ -18,7 +18,7 @@
   <div class="row taller">
     <div class="col-12">
       <div class="row sub-fields">
-        <div class="selected-science-keywords">
+        <div class="selected-science-keywords science-keywords">
           <ul>
             <% science_keywords = draft.draft['ScienceKeywords'] || [] %>
             <% science_keywords.each do |science_keyword| %>
@@ -32,19 +32,10 @@
         </div>
         <div class="nested-item-picker">
           <ul class="item-path">
-            <!-- Initial li in this list is the title of the highest list parent. -->
             <li class="list-title"><a href="javascript:void(0);">Science Keyword</a></li>
-            <!-- Each additional li is the value of the previousy selected item from the .item-list-pane. -->
           </ul>
-          <!-- Add 48px to the left of this element every time a new .item is added to the .item-path list. -->
           <div class="item-list-pane">
             <ul>
-              <!-- If a user has reached the "end point" of that item path, they should not be presented with the arrow on the right. The .final-option class should be added to strip that out. -->
-              <li><a class="item-parent" href="javascript:void(0);">Item Parent 1</a></li>
-              <li><a class="item-parent" href="javascript:void(0);">Item Parent 2</a></li>
-              <!-- When a .final-option is selected, the class should be changed to .final-selection. -->
-              <li><a class="final-option" href="javascript:void(0);">Final Option 1</a></li>
-              <li><a class="final-option" href="javascript:void(0);">Final Option 2</a></li>
             </ul>
           </div>
         </div>
