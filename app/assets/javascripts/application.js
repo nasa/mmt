@@ -12,5 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require eui-0.3.4/eui
 //= require dropzone-4.0.1/dropzone
 //= require_tree .
