@@ -538,6 +538,7 @@ module Helpers
       choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
       choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
       choose_keyword 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
+      choose_keyword 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
       click_on 'Add Keyword'
     end
 

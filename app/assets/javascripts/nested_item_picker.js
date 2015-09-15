@@ -40,8 +40,9 @@
     return options;
   };
 
-  this.NestedItemPicker.prototype.getValue = function() {
+  this.NestedItemPicker.prototype.getValues = function() {
     var pickerElement = this.$element;
+    var values = [];
     var items = [];
     var itemElements = pickerElement.find('.item-path > li').not('.item-path > li.list-title');
     $.each(itemElements, function(index, element) {
@@ -49,11 +50,19 @@
     });
 
     var finalOption = pickerElement.find('.final-option-selected');
+    var parentItems = items.slice();
     if (finalOption.length > 0) {
-      items.push($(finalOption).text());
+      $.each(finalOption, function(index, option) {
+        items = parentItems.slice();
+        items.push(option.text);
+
+        values.push(items.join(' > '));
+      });
+    } else {
+      values.push(items.join(' > '));
     }
 
-    return items.join(' > ');
+    return values;
   };
 
   this.NestedItemPicker.prototype.resetPicker = function() {
@@ -62,11 +71,12 @@
   };
 
   this.NestedItemPicker.prototype.updateList = function() {
-    var selectedItems = this.getValue().split(' > ');
-
-    if (selectedItems.length === 1 && selectedItems[0] === '') {
-      selectedItems = [];
+    var selectedValues = this.getValues();
+    var selectedItems = [];
+    if (selectedValues.length > 0) {
+      selectedItems = this.getValues()[0].split(' > ');
     }
+
     var itemList = this.$element.find('.item-list-pane > ul');
     $(itemList).html('');
 

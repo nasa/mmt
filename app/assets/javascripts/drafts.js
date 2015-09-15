@@ -385,16 +385,19 @@ $(document).ready(function() {
   // Handle add keyword button
   $('.add-keyword').on('click', function() {
     // Add selected value to keyword list
-    var value = picker.getValue();
+    var values = picker.getValues();
     var keywordList = $('.selected-science-keywords ul');
-    var li = $('<li>' + value + "<a class='remove'><i class='fa fa-times-circle'></i></a></li>");
-    $('<input/>', {
-      type: 'hidden',
-      name: 'draft[science_keywords][]',
-      id: 'draft_science_keywords_',
-      value: value
-    }).appendTo(li);
-    $(li).appendTo(keywordList);
+    var li;
+    $.each(values, function(index, value) {
+      li = $('<li>' + value + "<a class='remove'><i class='fa fa-times-circle'></i></a></li>");
+      $('<input/>', {
+        type: 'hidden',
+        name: 'draft[science_keywords][]',
+        id: 'draft_science_keywords_',
+        value: value
+      }).appendTo(li);
+      $(li).appendTo(keywordList);
+    });
 
     // Reset picker to top level
     picker.resetPicker();
