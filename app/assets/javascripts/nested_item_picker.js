@@ -1,99 +1,3 @@
-// Nested item selector
-  // $(function() {
-  //
-  //   function setPickerPosition(itemPath, adding) {
-  //     var top, left;
-  //     left = $(itemPath).height();
-  //     top = -left;
-  //     if (adding) {
-  //       top -= 48;
-  //       left += 48;
-  //     }
-  //
-  //     $(itemPath).closest('.nested-item-picker').css('top', top);
-  //     $(itemPath).siblings('.item-list-pane').css('left', left);
-  //   }
-  //
-  //   // Adds to the item path section
-  //   // $(".item-parent").click(function () {
-  //   $('div.nested-item-picker').on('click', '.item-parent', function() {
-  //     var $this = $(this);
-  //     var itemPathValue = $this.text();
-  //
-  //     setPickerPosition($this.parents('.nested-item-picker').find('.item-path'), true);
-  //
-  //     $('ul.item-path').append('<li><a href="javascript:void(0);">' + itemPathValue + '</a></li>');
-  //   });
-  //
-  //   // Adds final option selected class
-  //   // $(".final-option").click(function () {
-  //   $('div.nested-item-picker').on('click', '.final-option', function() {
-  //     var $this = $(this);
-  //     $this.toggleClass('final-option-selected');
-  //   });
-  //
-  //   $('ul.item-path').on('click', 'li', function() {
-  //     var $this = $(this);
-  //     $this.nextAll().remove();
-  //     setPickerPosition($this.closest('.item-path'), false);
-  //   });
-  // });
-// +function ($) {
-//   'use strict';
-//
-//   var NestedItemPicker = function (element, options) {
-//     this.type = null;
-//     this.$element = null;
-//     this.options = null;
-//     this.data = null;
-//
-//     this.init('nestedItemPicker', element, options)
-//   }
-//
-//   NestedItemPicker.DEFAULTS = {
-//
-//   }
-//
-//   NestedItemPicker.prototype.init = function (type, element, options) {
-//     this.type = type;
-//     this.$element = element;
-//     this.options = this.getOptions(options);
-//   }
-//
-//   NestedItemPicker.prototype.getDefaults = function () {
-//     return NestedItemPicker.DEFAULTS
-//   }
-//
-//   NestedItemPicker.prototype.getOptions = function (options) {
-//     options = $.extend({}, this.getDefaults(), this.$element.data(), options)
-//
-//     return options;
-//   }
-//
-//   NestedItemPicker.prototype.getValue = function () {
-//     alert('test');
-//     var items = this.$element.find('.item-path > li')
-//   }
-//
-//   NestedItemPicker.prototype.selectItem = function () {
-//
-//   }
-//
-//
-//
-//
-//   function Plugin(options) {
-//     return this.each(function () {
-//       var $this = $(this)
-//
-//     })
-//   }
-//
-//   var old = $.fn.nestedItemPicker;
-//   $.fn.nestedItemPicker = Plugin;
-//   $.fn.nestedItemPicker.Constructor = NestedItemPicker;
-// }(jQuery);
-
 (function($) {
   this.NestedItemPicker = function(element, options) {
     this.type = null;
@@ -110,21 +14,20 @@
     this.$element = $(element);
     this.options = this.getOptions(options);
     this.data = this.options.data;
-    this.level = 1;
 
     this.updateList();
 
     // bind events here
-    var asdf = this;
+    var self = this;
     this.$element.on('DOMSubtreeModified', '.item-path', function() {
-      asdf.updateList();
+      self.updateList();
     });
 
     return this;
   };
 
   this.NestedItemPicker.DEFAULTS = {
-
+    // put default options here
   };
 
   this.NestedItemPicker.prototype.getDefaults = function() {
@@ -170,10 +73,6 @@
     var newItems = [];
     var newItem = {};
     if (selectedItems.length === 0) {
-      // display first level values
-      // newItem.class = 'list-title';
-      // newItem.value = 'Category';
-      // newItems.push(newItem);
       $.each(this.data.category, function(index, item) {
         newItem = {};
         newItem.value = item.value;
@@ -198,9 +97,6 @@
         }
       });
 
-      // newItem.class = 'list-title';
-      // newItem.value = arrayType;
-      // newItems.push(newItem);
       $.each(values, function(index, item) {
         newItem = {};
         newItem.value = item.value;
