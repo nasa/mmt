@@ -50,6 +50,9 @@ module Helpers
         elsif parent_key_special_handling == :handle_as_date_type
           # Map date type value stored in json to what is actually supposed to be displayed
           draft = map_value_onto_display_string(draft, DraftsHelper::DateTypeOptions)
+        elsif parent_key_special_handling == :handle_as_data_type
+          # Map data type value stored in json to what is actually supposed to be displayed
+          draft = map_value_onto_display_string(draft, DraftsHelper::DataTypeOptions)
         elsif parent_key_special_handling == :handle_as_collection_progress
           # Map duration value stored in json to what is actually supposed to be displayed
           draft = map_value_onto_display_string(draft, DraftsHelper::CollectionProgressOptions)
@@ -84,19 +87,29 @@ module Helpers
         end
 
       when Array
-        draft.each_with_index do |value, index|
-          new_path = path
+        # ScienceKeywords are displayed differently than all other fields
+        # Catch it at this level for testing
+        if key == 'ScienceKeywords'
+          draft.each_with_index do |value, index|
+            new_path = path + " > ul > li.science-keywords-#{index}"
 
-          class_name = "#{name_to_class(key)}-#{index}"
-          if "TypesHelper::#{key}Type".safe_constantize
-            new_path += "#{' > ul' if top_level}.#{class_name}"
-          elsif MISMATCHED_KEYS.include?(key)
-            new_path += " > ul.#{class_name}"
-          else
-            new_path += " > ul > li.#{class_name}"
+            expect(rendered.find(:css, new_path)).to have_content(keyword_string(value))
           end
+        else
+          draft.each_with_index do |value, index|
+            new_path = path
 
-          check_css_path_for_display_of_values(rendered, value, class_name, new_path, special_handling)
+            class_name = "#{name_to_class(key)}-#{index}"
+            if "TypesHelper::#{key}Type".safe_constantize
+              new_path += "#{' > ul' if top_level}.#{class_name}"
+            elsif MISMATCHED_KEYS.include?(key)
+              new_path += " > ul.#{class_name}"
+            else
+              new_path += " > ul > li.#{class_name}"
+            end
+
+            check_css_path_for_display_of_values(rendered, value, class_name, new_path, special_handling)
+          end
         end
       end
     end
@@ -114,7 +127,7 @@ module Helpers
       fill_in 'Uuid', with: '351bb40b-0287-44ce-ba73-83e47f4945f8'
     end
 
-    def add_responsibilities(type=nil)
+    def add_responsibilities(type = nil)
       within '.multiple.responsibilities' do
         select 'Resource Provider', from: 'Role'
         case type

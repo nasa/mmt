@@ -7,6 +7,20 @@ module TypesHelper
     { name: 'Description' },
     { name: 'Value' }
   ]
+  AdditionalAttributesType = [
+    { name: 'Name' },
+    { name: 'Description' },
+    { name: 'Value' },
+    { name: 'DataType', options: [:select_type], select_type: 'DataTypeOptions' },
+    { name: 'MeasurementResolution' },
+    { name: 'ParameterRangeBegin' },
+    { name: 'ParameterRangeEnd' },
+    { name: 'ParameterUnitsOfMeasure' },
+    { name: 'ParameterValueAccuracy' },
+    { name: 'ValueAccuracyExplanation' },
+    { name: 'Group' },
+    { name: 'UpdateDate' }
+  ]
   AddressesType = [
     { name: 'StreetAddresses', options: [:array_field] },
     { name: 'City' },
