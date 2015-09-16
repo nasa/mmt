@@ -6,13 +6,19 @@ function collectRelevantErrors(obj, errors) {
   return errors;
 }
 
+var validate = null; // Validate object is null until handleFieldValidation needs it
 
-function handleFieldValidation(validate, obj) {
+function handleFieldValidation(obj) {
 
   try {
 
     // Build the json to send to validate
     var json_to_validate = buildJsonToValidate(obj);
+
+    if (!validate) {
+      validate = jsen(globalJsonSchema, {greedy: true});
+    }
+
 
     var valid = validate(json_to_validate); // Generate a valid json object here from field value(s)
 
@@ -42,7 +48,7 @@ function handleFieldValidation(validate, obj) {
         newElement += '</div>';
         $(newElement).insertAfter('#' + objId);
       }
-      console.log(errors);
+      console.log(errorArray);
     }
   } catch (e) {
     console.log(e);

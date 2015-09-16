@@ -1,27 +1,27 @@
 <div class="row sub-fields">
   <!-- SwathWidth -->
   <label for="<%= remove_pipes(name_prefix) %>swath_width">Swath Width</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|swath_width|"), orbit_parameters['SwathWidth'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|swath_width|"), orbit_parameters['SwathWidth'], class: 'half-width validate') %>
 
 
   <!-- Period -->
   <label for="<%= remove_pipes(name_prefix) %>period">Period</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}period"), orbit_parameters['Period'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}period"), orbit_parameters['Period'], class: 'half-width validate') %>
 
 
   <!-- InclinationAngle -->
   <label for="<%= remove_pipes(name_prefix) %>inclination_angle">Inclination Angle</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|inclination_angle|"), orbit_parameters['InclinationAngle'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|inclination_angle|"), orbit_parameters['InclinationAngle'], class: 'half-width validate') %>
 
 
   <!-- NumberOfOrbits -->
   <label for="<%= remove_pipes(name_prefix) %>number_of_orbits">Number Of Orbits</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|number_of_orbits|"), orbit_parameters['NumberOfOrbits'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|number_of_orbits|"), orbit_parameters['NumberOfOrbits'], class: 'half-width validate') %>
 
 
   <!-- StartCircularLatitude -->
   <label for="<%= remove_pipes(name_prefix) %>start_circular_latitude">Start Circular Latitude</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|start_circular_latitude|"), orbit_parameters['StartCircularLatitude'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|start_circular_latitude|"), orbit_parameters['StartCircularLatitude'], class: 'half-width validate') %>
 
 
 </div>

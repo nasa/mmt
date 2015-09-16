@@ -10,7 +10,7 @@
 
   <!-- PrecisionOfSeconds -->
   <label for="<%= remove_pipes(name_prefix) %>precision_of_seconds">Precision Of Seconds</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|precision_of_seconds|"), temporal_extent['PrecisionOfSeconds'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|precision_of_seconds|"), temporal_extent['PrecisionOfSeconds'], class: 'half-width validate') %>
 
   <!-- EndsAtPresentFlag -->
   <label class="icon-required">Ends At Present Flag</label><i class="fa fa-info-circle"></i>

@@ -17,7 +17,7 @@
 
   <!-- DurationValue -->
   <label for="<%= remove_pipes(name_prefix) %>duration_value" class="icon-required">Duration Value</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|duration_value|"), periodic_date_time['DurationValue'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|duration_value|"), periodic_date_time['DurationValue'], class: 'half-width validate') %>
 
   <!-- PeriodCycleDurationUnit -->
   <label for="<%= remove_pipes(name_prefix) %>period_cycle_duration_unit" class="icon-required">Period Cycle Duration Unit</label><i class="fa fa-info-circle"></i>
@@ -25,6 +25,6 @@
 
   <!-- PeriodCycleDurationValue -->
   <label for="<%= remove_pipes(name_prefix) %>period_cycle_duration_value" class="icon-required">Period Cycle Duration Value</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|period_cycle_duration_value|"), periodic_date_time['PeriodCycleDurationValue'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|period_cycle_duration_value|"), periodic_date_time['PeriodCycleDurationValue'], class: 'half-width validate') %>
 
 </div>

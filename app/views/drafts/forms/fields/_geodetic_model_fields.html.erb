@@ -11,12 +11,12 @@
 
   <!-- SemiMajorAxis -->
   <label for="<%= remove_pipes(name_prefix) %>semi_major_axis">Semi Major Axis</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|semi_major_axis|"), geodetic_model['SemiMajorAxis'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|semi_major_axis|"), geodetic_model['SemiMajorAxis'], class: 'half-width validate') %>
 
 
   <!-- DenominatorOfFlatteningRatio -->
   <label for="<%= remove_pipes(name_prefix) %>denominator_of_flattening_ratio">Denominator Of Flattening Ratio</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|denominator_of_flattening_ratio|"), geodetic_model['DenominatorOfFlatteningRatio'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|denominator_of_flattening_ratio|"), geodetic_model['DenominatorOfFlatteningRatio'], class: 'half-width validate') %>
 
 
 

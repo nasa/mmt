@@ -6,12 +6,9 @@ var setupScienceKeywords = function(data) {
 
 $(document).ready(function() {
 
-  var validate = jsen(globalJsonSchema, {greedy: true});
-
-
   // set up validation call
   $('.validate').blur(function(e) {
-    handleFieldValidation (validate, $(this));
+    //handleFieldValidation ($(this));
   });
 
   // Handle form navigation
