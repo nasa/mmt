@@ -1,7 +1,7 @@
 <div class="row sub-fields">
   <!-- TilingIdentificationSystemName -->
   <label for="<%= remove_pipes(name_prefix) %>tiling_identification_system_name">Tiling Identification System Name</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|tiling_identification_system_name|"), tiling_identification_system['TilingIdentificationSystemName'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|tiling_identification_system_name|"), tiling_identification_system['TilingIdentificationSystemName'], class: 'half-width validate') %>
 
 
   <!-- Coordinate1 -->

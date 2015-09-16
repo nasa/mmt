@@ -1,17 +1,17 @@
 <div class="row sub-fields">
   <!-- DatumName -->
   <label for="<%= remove_pipes(name_prefix) %>datum_name">Datum Name</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|datum_name|"), vertical_system_definition['DatumName'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|datum_name|"), vertical_system_definition['DatumName'], class: 'half-width validate') %>
 
 
   <!-- DistanceUnits -->
   <label for="<%= remove_pipes(name_prefix) %>distance_units">Distance Units</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|distance_units|"), vertical_system_definition['DistanceUnits'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|distance_units|"), vertical_system_definition['DistanceUnits'], class: 'half-width validate') %>
 
 
   <!-- EncodingMethod -->
   <label for="<%= remove_pipes(name_prefix) %>encoding_method">Encoding Method</label><i class="fa fa-info-circle"></i>
-  <%= text_area_tag(name_to_param("#{name_prefix}|encoding_method|"), vertical_system_definition['EncodingMethod'], rows: 8) %>
+  <%= text_area_tag(name_to_param("#{name_prefix}|encoding_method|"), vertical_system_definition['EncodingMethod'], rows: 8, class: 'validate') %>
 
 
   <!-- Resolution -->
@@ -23,7 +23,7 @@
 
   <% resolutions.each do |resolution| %>
     <div class="multiple-item">
-      <%= number_field_tag(name_to_param("#{name_prefix}resolution_resolutions_index"), resolution, class: 'half-width') %>
+      <%= number_field_tag(name_to_param("#{name_prefix}resolution_resolutions_index"), resolution, class: 'half-width validate') %>
       <a class="remove"><i class="fa fa-times-circle"></i></a>
       <div class="actions">
         <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Resolution</button>

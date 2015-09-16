@@ -2,11 +2,11 @@
   <!-- Type -->
   <div class="col-6">
     <label for="<%= remove_pipes(name_prefix) %>type">Type</label><i class="fa fa-info-circle"></i>
-    <%= text_field_tag(name_to_param("#{name_prefix}type"), vertical_spatial_domain['Type'], class: 'full-width') %>
+    <%= text_field_tag(name_to_param("#{name_prefix}type"), vertical_spatial_domain['Type'], class: 'full-width validate') %>
   </div>
   <!-- Value -->
   <div class="col-6">
     <label for="<%= remove_pipes(name_prefix) %>value">Value</label><i class="fa fa-info-circle"></i>
-    <%= text_field_tag(name_to_param("#{name_prefix}value"), vertical_spatial_domain['Value'], class: 'full-width') %>
+    <%= text_field_tag(name_to_param("#{name_prefix}value"), vertical_spatial_domain['Value'], class: 'full-width validate') %>
   </div>
 </div>

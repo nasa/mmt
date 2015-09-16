@@ -1,7 +1,7 @@
 <div class="row sub-fields">
   <!-- ZoneIdentifier -->
   <label for="<%= remove_pipes(name_prefix) %>zone_identifier">Zone Identifier</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|zone_identifier|"), horizontal_spatial_domain['ZoneIdentifier'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|zone_identifier|"), horizontal_spatial_domain['ZoneIdentifier'], class: 'half-width validate') %>
 
   <!-- Geometry -->
   <label>Geometry</label><i class="fa fa-info-circle"></i>

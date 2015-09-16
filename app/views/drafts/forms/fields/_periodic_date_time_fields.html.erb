@@ -1,30 +1,30 @@
 <div class="row sub-fields">
   <!-- Name -->
   <label for="<%= remove_pipes(name_prefix) %>name" class="icon-required">Name</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}name"), periodic_date_time['Name'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}name"), periodic_date_time['Name'], class: 'half-width validate') %>
 
   <!-- StartDate -->
   <label for="<%= remove_pipes(name_prefix) %>start_date" class="icon-required">Start Date</label><i class="fa fa-info-circle"></i>
-  <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), periodic_date_time['StartDate'], class: 'half-width') %>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), periodic_date_time['StartDate'], class: 'half-width validate') %>
 
   <!-- EndDate -->
   <label for="<%= remove_pipes(name_prefix) %>end_date" class="icon-required">End Date</label><i class="fa fa-info-circle"></i>
-  <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), periodic_date_time['EndDate'], class: 'half-width') %>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), periodic_date_time['EndDate'], class: 'half-width validate') %>
 
   <!-- DurationUnit -->
   <label for="<%= remove_pipes(name_prefix) %>duration_unit" class="icon-required">Duration Unit</label><i class="fa fa-info-circle"></i>
-  <%= select_tag(name_to_param("#{name_prefix}|duration_unit|"), options_for_select(DraftsHelper::DurationOptions, periodic_date_time['DurationUnit']), class: 'half-width') %>
+  <%= select_tag(name_to_param("#{name_prefix}|duration_unit|"), options_for_select(DraftsHelper::DurationOptions, periodic_date_time['DurationUnit']), class: 'half-width validate') %>
 
   <!-- DurationValue -->
   <label for="<%= remove_pipes(name_prefix) %>duration_value" class="icon-required">Duration Value</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|duration_value|"), periodic_date_time['DurationValue'], class: 'half-width') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|duration_value|"), periodic_date_time['DurationValue'], class: 'half-width validate') %>
 
   <!-- PeriodCycleDurationUnit -->
   <label for="<%= remove_pipes(name_prefix) %>period_cycle_duration_unit" class="icon-required">Period Cycle Duration Unit</label><i class="fa fa-info-circle"></i>
-  <%= select_tag(name_to_param("#{name_prefix}|period_cycle_duration_unit|"), options_for_select(DraftsHelper::DurationOptions, periodic_date_time['PeriodCycleDurationUnit']), class: 'half-width') %>
+  <%= select_tag(name_to_param("#{name_prefix}|period_cycle_duration_unit|"), options_for_select(DraftsHelper::DurationOptions, periodic_date_time['PeriodCycleDurationUnit']), class: 'half-width validate') %>
 
   <!-- PeriodCycleDurationValue -->
   <label for="<%= remove_pipes(name_prefix) %>period_cycle_duration_value" class="icon-required">Period Cycle Duration Value</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|period_cycle_duration_value|"), periodic_date_time['PeriodCycleDurationValue'], class: 'half-width') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|period_cycle_duration_value|"), periodic_date_time['PeriodCycleDurationValue'], class: 'half-width validate') %>
 
 </div>

@@ -4,7 +4,7 @@
     <label for="<%= remove_pipes(name_prefix) %>urls_" class="icon-required">URL</label><i class="fa fa-info-circle"></i>
   <% urls.each do |url| %>
     <div class="multiple-item">
-      <%= text_field_tag(name_to_param("#{name_prefix}urls_index"), url, class: 'half-width') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}urls_index"), url, class: 'half-width validate') %>
       <a class="remove"><i class="fa fa-times-circle"></i></a>
       <div class="actions">
         <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another URL</button>
@@ -14,36 +14,36 @@
   </div>
 
   <label for="<%= remove_pipes(name_prefix) %>description">Description</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}description"), related_url['Description'], class: 'full-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}description"), related_url['Description'], class: 'full-width validate') %>
 
   <div class="row">
     <div class="col-6">
       <!-- dropdown [http, https, ftp, ssh] -->
       <label for="<%= remove_pipes(name_prefix) %>protocol">Protocol</label><i class="fa fa-info-circle"></i>
-      <%= select_tag(name_to_param("#{name_prefix}protocol"), options_for_select([['Select Protocol', ''],'HTTP', 'HTTPS', 'FTP', 'SSH'], related_url['Protocol']), class: 'single-select') %>
+      <%= select_tag(name_to_param("#{name_prefix}protocol"), options_for_select([['Select Protocol', ''],'HTTP', 'HTTPS', 'FTP', 'SSH'], related_url['Protocol']), class: 'single-select validate') %>
     </div>
     <div class="col-6">
       <label for="<%= remove_pipes(name_prefix) %>mime_type">Mime Type</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}|mime_type|"), related_url['MimeType'], class: 'full-width') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}|mime_type|"), related_url['MimeType'], class: 'full-width validate') %>
     </div>
   </div>
 
   <label for="<%= remove_pipes(name_prefix) %>caption">Caption</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}caption"), related_url['Caption'], class: 'full-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}caption"), related_url['Caption'], class: 'full-width validate') %>
 
   <label for="<%= remove_pipes(name_prefix) %>title">Title</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}title"), related_url['Title'], class: 'full-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}title"), related_url['Title'], class: 'full-width validate') %>
 
   <div class="file-size row">
     <% file_size = related_url['FileSize'] || {} %>
     <h4>File Size</h4>
     <div class="col-6">
       <label for="<%= remove_pipes(name_prefix) %>file_size_size">Size</label><i class="fa fa-info-circle"></i>
-      <%= number_field_tag(name_to_param("#{name_prefix}|file_size|_size"), file_size['Size'], class: 'full-width') %>
+      <%= number_field_tag(name_to_param("#{name_prefix}|file_size|_size"), file_size['Size'], class: 'full-width validate') %>
     </div>
     <div class="col-6">
       <label for="<%= remove_pipes(name_prefix) %>file_size_unit">Unit</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}|file_size|_unit"), file_size['Unit'], class: 'full-width') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}|file_size|_unit"), file_size['Unit'], class: 'full-width validate') %>
     </div>
   </div>
 
@@ -52,11 +52,11 @@
     <h4>Content Type</h4>
     <div class="col-6">
       <label for="<%= remove_pipes(name_prefix) %>content_type_type">Type</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}|content_type|_type"), content_type['Type'], class: 'full-width') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}|content_type|_type"), content_type['Type'], class: 'full-width validate') %>
     </div>
     <div class="col-6">
       <label for="<%= remove_pipes(name_prefix) %>content_type_subtype">Subtype</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}|content_type|_subtype"), content_type['Subtype'], class: 'full-width') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}|content_type|_subtype"), content_type['Subtype'], class: 'full-width validate') %>
     </div>
   </div>
 </div>

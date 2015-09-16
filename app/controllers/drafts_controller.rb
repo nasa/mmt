@@ -80,6 +80,6 @@ class DraftsController < ApplicationController
   end
 
   def load_umm_schema
-    @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-json-schema.json')))
+    @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umn-c-merged.json')))
   end
 end

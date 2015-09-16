@@ -1,20 +1,20 @@
 <div class="row sub-fields">
   <!-- Type -->
   <label for="<%= remove_pipes(name_prefix) %>type">Type</label><i class="fa fa-info-circle"></i>
-  <%= select_tag name_to_param("#{name_prefix}type"), options_for_select([['Select Type', ''],['Science Associated', 'SCIENCE ASSOCIATED'], ['Larger Citation Works', 'LARGER CITATION WORKS'], ], metadata_association['Type']), class: 'single-select' %>
+  <%= select_tag name_to_param("#{name_prefix}type"), options_for_select([['Select Type', ''],['Science Associated', 'SCIENCE ASSOCIATED'], ['Larger Citation Works', 'LARGER CITATION WORKS'], ], metadata_association['Type']), class: 'single-select validate' %>
 
 
   <!-- Description -->
   <label for="<%= remove_pipes(name_prefix) %>description">Description</label><i class="fa fa-info-circle"></i>
-  <%= text_area_tag(name_to_param("#{name_prefix}description"), metadata_association['Description'], rows: 8) %>
+  <%= text_area_tag(name_to_param("#{name_prefix}description"), metadata_association['Description'], rows: 8, class: 'validate') %>
 
 
   <!-- EntryId [r] -->
   <label for="<%= remove_pipes(name_prefix) %>entry_id">Entry Id</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|entry_id|"), metadata_association['EntryId'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|entry_id|"), metadata_association['EntryId'], class: 'half-width validate') %>
 
 
   <!-- ProviderId [r] -->
   <label for="<%= remove_pipes(name_prefix) %>provider_id" class="icon-required">Provider ID</label><i class="fa fa-info-circle"></i>
-  <%= select_tag name_to_param("#{name_prefix}|provider_id|"), options_for_select([['Select Provider', ''],['ASF'], ['CDDIS'], ['ORNL_DAAC'], ['GHRC'], ['GSFCS4PA'], ['LAADS'], ['LANCEAMSR2'], ['LANCEMODIS'], ['LARC'], ['LARC_ASDC'], ['LPDAAC_ECS'], ['NSIDC_ECS'], ['NSIDCV0'], ['OBPG'], ['OMINRT'], ['PODAAC'], ['SEDAC'], ['USGS_EROS']], metadata_association['ProviderId']), class: 'single-select' %>
+  <%= select_tag name_to_param("#{name_prefix}|provider_id|"), options_for_select([['Select Provider', ''],['ASF'], ['CDDIS'], ['ORNL_DAAC'], ['GHRC'], ['GSFCS4PA'], ['LAADS'], ['LANCEAMSR2'], ['LANCEMODIS'], ['LARC'], ['LARC_ASDC'], ['LPDAAC_ECS'], ['NSIDC_ECS'], ['NSIDCV0'], ['OBPG'], ['OMINRT'], ['PODAAC'], ['SEDAC'], ['USGS_EROS']], metadata_association['ProviderId']), class: 'single-select validate' %>
 </div>

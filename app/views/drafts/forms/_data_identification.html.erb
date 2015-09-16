@@ -4,12 +4,12 @@
     <!-- Entry ID [r] -->
     <div class="col-6">
       <label for="draft_entry_id" class="main-field icon-required">Entry Id</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[entry_id]', draft.draft['EntryId'], class: 'full-width') %>
+      <%= text_field_tag('draft[entry_id]', draft.draft['EntryId'], class: 'full-width validate') %>
     </div>
     <!-- Version -->
     <div class="col-6">
       <label for="draft_version" class="main-field">Version</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[version]', draft.draft['Version'], class: 'full-width') %>
+      <%= text_field_tag('draft[version]', draft.draft['Version'], class: 'full-width validate') %>
     </div>
   </div>
 
@@ -18,7 +18,7 @@
   <div class="row">
     <div class="col-12">
       <label for="draft_entry_title" class="main-field icon-required">Entry Title</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[entry_title]', draft.draft['EntryTitle'], class: 'full-width') %>
+      <%= text_field_tag('draft[entry_title]', draft.draft['EntryTitle'], class: 'full-width validate') %>
     </div>
   </div>
 
@@ -27,7 +27,7 @@
   <div class="row">
     <div class="col-12">
       <label for="draft_abstract" class="icon-required">Abstract</label><i class="fa fa-info-circle"></i>
-      <%= text_area_tag('draft[abstract]', draft.draft['Abstract'], rows: 8) %>
+      <%= text_area_tag('draft[abstract]', draft.draft['Abstract'], rows: 8, class: 'validate') %>
     </div>
   </div>
 
@@ -36,7 +36,7 @@
   <div class="row">
     <div class="col-12">
       <label for="draft_purpose">Purpose</label><i class="fa fa-info-circle"></i>
-      <%= text_area_tag('draft[purpose]', draft.draft['Purpose'], rows: 8) %>
+      <%= text_area_tag('draft[purpose]', draft.draft['Purpose'], rows: 8, class: 'validate') %>
     </div>
   </div>
 
@@ -45,7 +45,7 @@
   <div class="row">
     <div class="col-12">
       <label for="draft_data_language">Data Language</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag('draft[data_language]', draft.draft['DataLanguage'], placeholder: 'English', class: 'half-width') %>
+      <%= text_field_tag('draft[data_language]', draft.draft['DataLanguage'], placeholder: 'English', class: 'half-width validate') %>
     </div>
   </div>
 </fieldset>
@@ -111,7 +111,7 @@
   <div class="row">
     <div class="col-12">
       <label for="draft_collection_data_type">Collection Data Type</label><i class="fa fa-info-circle"></i>
-      <%= select_tag "draft[collection_data_type]", options_for_select(DraftsHelper::CollectionDataTypeOptions, draft.draft['CollectionDataType']), class: 'half-width' %>
+      <%= select_tag "draft[collection_data_type]", options_for_select(DraftsHelper::CollectionDataTypeOptions, draft.draft['CollectionDataType']), class: 'half-width validate' %>
     </div>
   </div>
 </fieldset>
@@ -127,11 +127,11 @@
         <div class="processing-level-fields">
           <% processing_level = draft.draft['ProcessingLevel'] || {} %>
           <label for="draft_processing_level_id">ID</label><i class="fa fa-info-circle"></i>
-          <%= text_field_tag('draft[processing_level][id]', processing_level['Id'], class: 'half-width') %>
+          <%= text_field_tag('draft[processing_level][id]', processing_level['Id'], class: 'half-width validate') %>
           <!-- ID should be dropdown with level 0, level 1a, etc. -->
 
           <label for="draft_processing_level_processing_level_description">Processing Level Description</label><i class="fa fa-info-circle"></i>
-          <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'half-width') %>
+          <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'half-width validate') %>
           <!-- TODO description needs stuff from Mark -->
         </div>
 
@@ -164,7 +164,7 @@
   <div class="row">
     <div class="col-12">
       <label for="draft_collection_progress">Collection Progress</label><i class="fa fa-info-circle"></i>
-      <%= select_tag "draft[collection_progress]", options_for_select(DraftsHelper::CollectionProgressOptions, draft.draft['CollectionProgress']), class: 'half-width' %>
+      <%= select_tag "draft[collection_progress]", options_for_select(DraftsHelper::CollectionProgressOptions, draft.draft['CollectionProgress']), class: 'half-width validate' %>
     </div>
   </div>
 </fieldset>
@@ -175,7 +175,7 @@
   <div class="row">
     <div class="col-12">
       <label for="draft_quality">Quality</label><i class="fa fa-info-circle"></i>
-      <%= text_area_tag('draft[quality]', draft.draft['Quality'], rows: 8) %>
+      <%= text_area_tag('draft[quality]', draft.draft['Quality'], rows: 8, class: 'validate') %>
     </div>
   </div>
 </fieldset>
@@ -186,7 +186,7 @@
   <div class="row">
     <div class="col-12">
       <label for="draft_use_constraints">Use Constraints</label><i class="fa fa-info-circle"></i>
-      <%= text_area_tag('draft[use_constraints]', draft.draft['UseConstraints'], rows: 8) %>
+      <%= text_area_tag('draft[use_constraints]', draft.draft['UseConstraints'], rows: 8, class: 'validate') %>
     </div>
   </div>
 </fieldset>
@@ -200,11 +200,11 @@
         <% access_constraints = draft.draft['AccessConstraints'] || {} %>
         <!-- Value -->
         <label for="draft_access_constraints_value">Value</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width') %>
+        <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width validate') %>
 
         <!-- Description -->
         <label for="draft_access_constraints_description" class="icon-required">Description</label><i class="fa fa-info-circle"></i>
-        <%= text_area_tag(name_to_param("draft_|access_constraints|_description"), access_constraints['Description'], rows: 8) %>
+        <%= text_area_tag(name_to_param("draft_|access_constraints|_description"), access_constraints['Description'], rows: 8, class: 'validate') %>
       </div>
     </div>
   </div>
@@ -243,3 +243,7 @@
     </div>
   </div>
 </fieldset>
+
+<script>
+  var globalJsonSchema = <%= raw @json_schema.to_json %>;
+</script>

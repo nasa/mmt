@@ -6,18 +6,12 @@ var setupScienceKeywords = function(data) {
 
 $(document).ready(function() {
 
+  var validate = jsen(globalJsonSchema, {greedy: true});
+
+
   // set up validation call
   $('.validate').blur(function(e) {
-    // handleFieldValidation ($(this), true);
-    try {
-      var validate = jsen(globalJsonSchema, {greedy: true});
-      var valid = validate(this.value); // Generate a valid json object here from field value(s)
-      if (valid === false) {
-        console.log(validate.errors);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    handleFieldValidation (validate, $(this));
   });
 
   // Handle form navigation

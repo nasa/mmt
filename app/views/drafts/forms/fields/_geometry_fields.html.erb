@@ -25,8 +25,8 @@
   <!-- CoordinateSystem -->
   <% coordinate_system = geometry['CoordinateSystem'] || "" %>
   <label>Coordinate System</label><i class="fa fa-info-circle"></i>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label></p>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label></p>
+  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label></p>
+  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select validate') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label></p>
 
   <!-- Bad </br>, take out design team! -->
   </br>
