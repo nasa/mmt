@@ -43,7 +43,7 @@ describe 'Descriptive keywords form', js: true do
         click_on 'Add another Additional Attribute'
 
         within '.multiple-item-1' do
-          fill_in 'Name', with: 'Attribute 1'
+          fill_in 'Name', with: 'Attribute 2'
           select 'Integer', from: 'Data Type'
         end
       end
@@ -59,7 +59,31 @@ describe 'Descriptive keywords form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    it 'shows pre-entered values in the draft preview page'
+    it 'shows pre-entered values in the draft preview page' do
+      expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+      expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+      expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
+
+      # Ancillary Keywords
+      expect(page).to have_content('Ancillary keyword 1')
+      expect(page).to have_content('Ancillary keyword 2')
+
+      # Additional Attributes
+      expect(page).to have_content('Attribute 1')
+      expect(page).to have_content('Description')
+      expect(page).to have_content('String')
+      expect(page).to have_content('Description')
+      expect(page).to have_content('Measurement Resolution')
+      expect(page).to have_content('Parameter Range Begin')
+      expect(page).to have_content('Parameter Range End')
+      expect(page).to have_content('Parameter Units Of Measure')
+      expect(page).to have_content('Parameter Value Accuracy')
+      expect(page).to have_content('Value Accuracy Explanation')
+      expect(page).to have_content('Group')
+      expect(page).to have_content('2015-09-14T00:00:00Z')
+      expect(page).to have_content('Attribute 2')
+      expect(page).to have_content('Integer')
+    end
 
     context 'when returning to the form' do
       before do
@@ -96,7 +120,7 @@ describe 'Descriptive keywords form', js: true do
           end
 
           within '.multiple-item-1' do
-            expect(page).to have_field('Name', with: 'Attribute 1')
+            expect(page).to have_field('Name', with: 'Attribute 2')
             expect(page).to have_field('Data Type', with: 'INT')
           end
         end
