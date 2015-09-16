@@ -8,7 +8,7 @@ $(document).ready(function() {
 
   // set up validation call
   $('.validate').blur(function(e) {
-    //handleFieldValidation ($(this));
+    handleFieldValidation ($(this));
   });
 
   // Handle form navigation
