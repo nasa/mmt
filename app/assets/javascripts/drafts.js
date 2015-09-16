@@ -5,6 +5,21 @@ var setupScienceKeywords = function(data) {
 };
 
 $(document).ready(function() {
+
+  // set up validation call
+  $('.validate').blur(function(e) {
+    // handleFieldValidation ($(this), true);
+    try {
+      var validate = jsen(globalJsonSchema, {greedy: true});
+      var valid = validate(this.value); // Generate a valid json object here from field value(s)
+      if (valid === false) {
+        console.log(validate.errors);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
   // Handle form navigation
   $('.next-section').change(function() {
     $('#new_form_name').val(this.value);
