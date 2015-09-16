@@ -1,50 +1,47 @@
-
 <!-- ISOTopicCategory -->
-<!-- json-schema has "properties": {} -->
-<fieldset>
+<!-- waiting for more information -->
+<!-- <fieldset>
   <h3>ISO Topic Category</h3>
   <div class="row taller">
     <div class="col-12">
       <label for="iso_topic_category">ISO Topic Category</label><i class="fa fa-info-circle"></i>
       <div class="row">
-        <!-- Insert Fields -->
+
       </div>
     </div>
   </div>
-</fieldset>
+</fieldset> -->
 
 <!-- ScienceKeyword [r] -->
-<!-- Use 'keyword builder' idea when Mark gets a go-ahead -->
-<!-- json-schema has "properties": {} -->
 <fieldset>
-  <h3>Science Keyword</h3>
+  <h3>Science Keywords</h3>
   <div class="row taller">
     <div class="col-12">
       <div class="row sub-fields">
-        <!-- show form unless one keyword exists -->
-        <% science_keyword = @draft.draft['ScienceKeyword'] || {} %>
-        <label for="draft_science_keyword_category" class="icon-required">Category</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[science_keyword][category]', science_keyword['Category'], class: 'half-width') %>
-
-        <label for="draft_science_keyword_topic" class="icon-required">Topic</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[science_keyword][topic]', science_keyword['Topic'], class: 'half-width') %>
-
-        <label for="draft_science_keyword_term" class="icon-required">Term</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[science_keyword][term]', science_keyword['Term'], class: 'half-width') %>
-
-        <label for="draft_science_keyword_variable_level_1">Variable Level 1</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[science_keyword][variable_level_1]', science_keyword['VariableLevel1'], class: 'half-width') %>
-
-        <label for="draft_science_keyword_variable_level_2">Variable Level 2</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[science_keyword][variable_level_2]', science_keyword['VariableLevel2'], class: 'half-width') %>
-
-        <label for="draft_science_keyword_variable_level_3">Variable Level 3</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[science_keyword][variable_level_3]', science_keyword['VariableLevel3'], class: 'half-width') %>
-
-        <label for="draft_science_keyword_detailed_variable">Detailed Variable</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag('draft[science_keyword][detailed_variable]', science_keyword['DetailedVariable'], class: 'half-width') %>
-
-        <!-- add new keyword button -->
+        <div class="selected-science-keywords science-keywords">
+          <ul>
+            <% science_keywords = draft.draft['ScienceKeywords'] || [] %>
+            <% science_keywords.each do |science_keyword| %>
+              <li>
+                <%= keyword_string(science_keyword) %>
+                <a class="remove"><i class="fa fa-times-circle"></i></a>
+                <%= hidden_field_tag("draft[science_keywords][]", keyword_string(science_keyword)) %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="nested-item-picker">
+          <ul class="item-path">
+            <li class="list-title"><a href="javascript:void(0);">Science Keyword</a></li>
+          </ul>
+          <div class="item-list-pane">
+            <ul>
+            </ul>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-blue add-keyword"><i class="fa fa-plus-circle"></i> Add Keyword</button>
+        </div>
       </div>
     </div>
   </div>
@@ -55,10 +52,21 @@
   <!-- AncillaryKeyword -->
   <div class="row taller">
     <div class="col-12">
-      <label for="ancillary_keyword">Ancillary Keyword</label><i class="fa fa-info-circle"></i>
+      <label for="ancillary_keyword">Ancillary Keywords</label><i class="fa fa-info-circle"></i>
       <div class="row">
-        <p class="field-note">comma delimited</p>
-        <!-- text field, comma delimited -->
+        <% ancillary_keywords = draft.draft['AncillaryKeywords'] || [nil] # [nil] creates at least one field %>
+        <div class="multiple simple-multiple ancillary-keywords">
+          <label for="draft_ancillary_keywords_">Ancillary Keyword</label><i class="fa fa-info-circle"></i>
+          <% ancillary_keywords.each do |ancillary_keyword| %>
+            <div class="multiple-item">
+              <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_index"), ancillary_keyword, class: 'half-width') %>
+              <a class="remove"><i class="fa fa-times-circle"></i></a>
+              <div class="actions">
+                <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Keyword</button>
+              </div>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
@@ -66,11 +74,18 @@
   <!-- AdditionalAttribute -->
   <div class="row taller">
     <div class="col-12">
-      <label for="additional_attribute">Additional Attribute</label><i class="fa fa-info-circle"></i>
-      <div class="row">
-        <!-- attribute form -->
-        <!-- add new attribute button -->
-      </div>
+      <label>Additional Attributes</label><i class="fa fa-info-circle"></i>
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'additional_attribute',
+          values: draft.draft['AdditionalAttributes'] || [{}],
+          name_prefix: 'draft_|additional_attributes|_',
+          multiple: true,
+          options: {} } %>
     </div>
   </div>
 </fieldset>
+
+<!-- Setup Science Keywords -->
+<script type="text/javascript">
+  setupScienceKeywords(JSON.parse('<%= raw @science_keywords.to_json %>'));
+</script>

@@ -50,7 +50,7 @@
   <div class="row">
     <div class="col-12">
       <% spatial_keywords = draft.draft['SpatialKeywords'] || [nil] # [nil] creates at least one field %>
-      <div class="multiple spatial-keywords">
+      <div class="multiple simple-multiple spatial-keywords">
         <label for="draft_spatial_keywords_">Spatial Keyword</label><i class="fa fa-info-circle"></i>
         <% spatial_keywords.each do |spatial_keyword| %>
           <div class="multiple-item">

@@ -1,6 +1,6 @@
 <div class="row sub-fields">
   <% urls = related_url['URLs'] || [nil] # [nil] creates at least one URL field %>
-  <div class="multiple related-url-url">
+  <div class="multiple simple-multiple related-url-url">
     <label for="<%= remove_pipes(name_prefix) %>urls_" class="icon-required">URL</label><i class="fa fa-info-circle"></i>
   <% urls.each do |url| %>
     <div class="multiple-item">

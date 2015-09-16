@@ -11,7 +11,6 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
-
   end
 
   # GET /drafts/new
@@ -24,6 +23,7 @@ class DraftsController < ApplicationController
   def edit
     if params[:form]
       @draft_form = params[:form]
+      @science_keywords = cmr_client.get_science_keywords if params[:form] == 'descriptive_keywords'
     else
       render action: 'show'
     end
@@ -35,14 +35,14 @@ class DraftsController < ApplicationController
     @draft = Draft.find(params[:id])
     if @draft.update_draft(params[:draft])
       case params[:commit]
-      when "Save & Done"
+      when 'Save & Done'
         redirect_to @draft, notice: 'Draft was successfully updated.'
-      when "Save & Next"
+      when 'Save & Next'
         # Determine next form to go to
-        next_form_name = Draft.get_next_form(params["next_section"])
+        next_form_name = Draft.get_next_form(params['next_section'])
         redirect_to draft_edit_form_path(@draft, next_form_name)
       else # Jump directly to a form
-        next_form_name = params["new_form_name"]
+        next_form_name = params['new_form_name']
         redirect_to draft_edit_form_path(@draft, next_form_name)
       end
     else # record update failed
@@ -57,31 +57,29 @@ class DraftsController < ApplicationController
   def destroy
     @draft.destroy
     respond_to do |format|
-      format.html { redirect_to dashboard_url} # Retain this for later use?, notice: "Draft \"#{@draft.entry_id}\"was successfully deleted." }
+      format.html { redirect_to dashboard_url } # Retain this for later use?, notice: "Draft \"#{@draft.entry_id}\"was successfully deleted." }
     end
   end
 
   def open_drafts
-    @drafts = @current_user.drafts.order("updated_at DESC")
+    @drafts = @current_user.drafts.order('updated_at DESC')
   end
-
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_draft
-      id = params[:draft_id] || params[:id]
-      @draft = Draft.find(id)
-      @draft_forms = Draft::DRAFT_FORMS
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_draft
+    id = params[:draft_id] || params[:id]
+    @draft = Draft.find(id)
+    @draft_forms = Draft::DRAFT_FORMS
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def draft_params
-      params.require(:draft).permit(:user_id, :draft, :title)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def draft_params
+    params.require(:draft).permit(:user_id, :draft, :title)
+  end
 
-    def load_umm_schema
-      @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-json-schema.json')))
-      # puts @json_schema
-    end
+  def load_umm_schema
+    @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-json-schema.json')))
+  end
 end

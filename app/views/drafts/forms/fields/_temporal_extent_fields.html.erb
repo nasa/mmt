@@ -31,7 +31,7 @@
 
   <div class="temporal-range-type single-date-time" style="<%= 'display: none;' unless temporal_range_type == 'SingleDateTime' %>">
     <% date_times = temporal_extent['SingleDateTimes'] || [nil] # [nil] creates at least one date_time field %>
-    <div class="multiple single-date-time">
+    <div class="multiple simple-multiple single-date-time">
       <label for="<%= remove_pipes(name_prefix) %>single_date_times_">Single Date Time</label><i class="fa fa-info-circle"></i>
     <% date_times.each do |date_time| %>
       <div class="multiple-item">

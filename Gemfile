@@ -53,6 +53,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'vcr'
   gem 'factory_girl_rails'
+  gem 'jshint'
 end
 
 group :test do

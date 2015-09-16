@@ -15,7 +15,7 @@ describe 'Metadata Information form', js: true do
 
       fill_in 'Metadata Language', with: 'English'
 
-      add_dates('meta')
+      add_dates
 
       within '.nav-top' do
         click_on 'Save & Done'
@@ -28,7 +28,7 @@ describe 'Metadata Information form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    it "shows pre-entered values in the draft preview page" do
+    it 'shows pre-entered values in the draft preview page' do
       expect(page).to have_content('English')
 
       # Metadata Dates

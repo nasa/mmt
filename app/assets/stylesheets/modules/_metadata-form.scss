@@ -47,12 +47,11 @@
   display: none;
 }
 
-.multiple > :only-child > .actions .remove {
+.simple-multiple > .multiple-item:only-of-type > .remove {
   display: none;
 }
 
-// TODO: Global class for this add-new layout behavior
-.temporal-keywords, .spatial-keywords, .operational-mode, .campaign, .related-url-url, .single-date-time, .resolutions {
+.simple-multiple {
   .multiple-item a.remove {
     color: $red;
     float: left;
@@ -61,7 +60,7 @@
   }
 }
 
-.temporal-keywords, .spatial-keywords, .operational-mode, .campaign, .related-url-url, .single-date-time, .resolutions {
+.simple-multiple {
   .multiple-item input[type="text"], .multiple-item input[type="datetime"], .multiple-item input[type="number"] {
     float: left;
     clear: both;
@@ -82,5 +81,18 @@
   label {
     font-weight: normal;
     line-height: 1em;
+  }
+}
+
+.nested-item-picker {
+  margin-bottom: .5em;
+}
+
+.selected-science-keywords {
+  a.remove {
+    color: $red;
+    font-size: 1.4em;
+    padding: 0.6em;
+    cursor: pointer;
   }
 }
