@@ -96,3 +96,8 @@
     cursor: pointer;
   }
 }
+
+// This needs to move to EUI!
+.item-list-pane {
+  overflow-y: scroll;
+}
