@@ -116,7 +116,7 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('Geographic Coordinate Units: Coordinate units')
       expect(page).to have_content('Latitude Resolution: 42.0')
       expect(page).to have_content('Longitude Resolution: 43.0')
-      expect(page).to have_content('Spatial Keywords: f47ac10b-58cc-4372-a567-0e02b2c3d479 abdf4d5c-55dc-4324-9ae5-5adf41e99da3')
+      expect(page).to have_content('Spatial Keywords f47ac10b-58cc-4372-a567-0e02b2c3d479 abdf4d5c-55dc-4324-9ae5-5adf41e99da3')
 
       # Also check side bar
       # Note that handling blank spatial extents is tested in other form tests that don't populate spatial extents
@@ -370,11 +370,11 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('Datum Name: datum name')
       expect(page).to have_content('Distance Units: miles')
       expect(page).to have_content('Encoding Method: encoding method')
-      expect(page).to have_content('Resolutions: 3.0 4.0')
+      expect(page).to have_content('Resolutions 3.0 4.0')
 
       expect(page).to have_content('Datum Name: datum name 1')
       expect(page).to have_content('Encoding Method: encoding method 1')
-      expect(page).to have_content('Resolutions: 5.0 6.0')
+      expect(page).to have_content('Resolutions 5.0 6.0')
     end
 
 
@@ -499,10 +499,10 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('Description: local description')
       expect(page).to have_content('Distance Units: miles')
       expect(page).to have_content('Encoding Method: encoding method')
-      expect(page).to have_content('Resolutions: 3.0 4.0')
+      expect(page).to have_content('Resolutions 3.0 4.0')
       expect(page).to have_content('Datum Name: datum name 1')
       expect(page).to have_content('Encoding Method: encoding method 1')
-      expect(page).to have_content('Resolutions: 5.0 6.0')
+      expect(page).to have_content('Resolutions 5.0 6.0')
     end
 
     context 'when returning to the form for orbital spatial data' do
