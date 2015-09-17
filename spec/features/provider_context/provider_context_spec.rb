@@ -81,9 +81,8 @@ describe 'Provider context', js: true do
 
   context 'when the user only has one provider' do
     before do
-      VCR.use_cassette('provider_context/single_provider', record: :none) do
-        login
-      end
+      # By default the user only has one provider
+      login
     end
 
     it 'saves the provider as the users provider' do

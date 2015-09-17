@@ -60,7 +60,9 @@ RSpec.configure do |config|
   # Catch all requests, specific examples are still caught using their specific cassettes
   config.around :each do |spec|
     VCR.use_cassette('global', :record => :once) do
-      spec.run
+      VCR.use_cassette('provider_context/single_provider', record: :none) do
+        spec.run
+      end
     end
   end
 
