@@ -17,6 +17,10 @@ function buildJsonForPage() {
 function pathToObjId(path) {
   var objId = 'draft.' + path;
   // Camel to snake
+  objId = objId.replace(/\UUID/g, 'Uuid');
+  objId = objId.replace(/\URL/g, 'Url');
+  objId = objId.replace(/\ISBN/g, 'Isbn');
+  objId = objId.replace(/\DOI/g, 'Doi');
   objId = objId.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();});
   objId = objId.replace(/\._/g, '_');
   objId = objId.replace(/\./g, '_');
@@ -98,7 +102,10 @@ function handleFormValidation(updateInlineErrors) {
 }
 
 function getInlineErrorDisplayId (obj) {
-  return obj['id'] + '_errors';
+  var objId = obj['id'];
+  if (objId == undefined)
+    objId = obj.attr('id');
+  return objId + '_errors';
 }
 
 function updateInlineErrorsForField(obj, errorArray) {
@@ -114,7 +121,7 @@ function updateInlineErrorsForField(obj, errorArray) {
       newObj += 'Path = "' + error.path + '" Keyword = "' + error.keyword + '"' + '.</br>';
     }
     newObj += '</div>';
-    $(newObj).insertAfter('#' + obj['id']);
+    $(newObj).insertAfter('#' + obj.attr('id'));
   }
 
 }
@@ -127,6 +134,17 @@ function getObjPathArray(obj) {
   for (i=0; i<objPathArray.length; i++) {
     if (objPathArray[i].length > 0) {
       objPathArray[i] = snakeToCamel(objPathArray[i]);
+      if (objPathArray[i] == 'Doi')
+        objPathArray[i] = 'DOI';
+      else
+        if (objPathArray[i] == 'Isbn')
+          objPathArray[i] = 'ISBN';
+        else
+          if (objPathArray[i] == 'Url')
+            objPathArray[i] = 'URL';
+          else
+            if (objPathArray[i] == 'Uuid')
+              objPathArray[i] = 'UUID';
     }
   }
   return objPathArray;
@@ -155,7 +173,7 @@ function buildJsonToValidate(obj, objPathArray) {
 function collectRelevantErrors(obj, objPathArray, errors) {
 
   var relevantErrors = [];
-  var targetObjId = obj['id'];
+  var targetObjId = obj.attr('id');
 
   for (var i=0; i<errors.length; i++) {
     var error = errors[i];
@@ -182,7 +200,7 @@ function handleFieldValidation(obj) {
 
   //try {
 
-  removeDisplayedInlineErrorsForField(obj);
+  //removeDisplayedInlineErrorsForField(obj);
 
     // Get the path array of the obj here because it will be used in multiple places
     var objPathArray = getObjPathArray(obj);
