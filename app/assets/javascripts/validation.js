@@ -1,3 +1,80 @@
+function createUserValidationMessage(error, messageType) {
+  var errorKeyword = error['keyword'];
+  var errorPath = error['path'];
+  var errorObj = error['obj'];
+
+  var objType = 'string';
+  var objValue = errorObj.val();
+  if (errorObj.hasClass('mmt-number')) {
+    objType = 'number';
+  }
+  else if (errorObj.hasClass('mmt-integer')) {
+    objType = 'integer';
+  }
+  else if (errorObj.hasClass('mmt-boolean')) {
+    objType = 'boolean';
+  }
+
+  var objName = '';
+  if (messageType == 'summary') {
+    var pathArray = errorPath.split('.');
+    var objName = pathArray[pathArray.length - 1] + ': ';
+  }
+
+  var message = translateValidationMessage(errorKeyword, [objType]); //, [schema.disallow]);
+
+  return objName + message;
+}
+
+// Note - portions of this file were derived from the work found here: https://github.com/josdejong/jsoneditor/
+
+var englishValidationMessages = {
+  required: 'Value required',
+  type: 'Value must be of type {{0}}',
+  enum: '"{{0}}" is not one of the allowed values',
+  exclusiveMaximum: 'Value must be less than {{0}}',
+  maximum: 'Value must at most {{0}}',
+  exclusiveMinimum: 'Value must be greater than {{0}}',
+  minimum: 'Value must be at least {{0}}',
+  multipleOf: 'Value must be a multiple of {{0}}',
+  maxLength: 'Value must be at most {{0}} characters long',
+  minLength: 'Value must be at least {{0}} characters long',
+  pattern: 'Value must match the provided pattern of "{{0}}"',
+  format: 'Value must match the provided pattern of "{{0}}"',
+  minItems: 'Value must have at least {{0}} items',
+  maxItems: 'Value must have at most {{0}} items',
+  additionalItems: 'No additional items allowed in this array',
+  uniqueItems: 'Array must have unique items',
+  maxProperties: 'Object must have at most {{0}} properties',
+  minProperties: 'Object must have at least {{0}} properties',
+  additionalProperties: 'No additional properties allowed, but property "{{0}}" is set',
+  dependencies: 'Must have property "{{0}}"',
+  anyOf: 'Value must validate against at least one of the provided schemas',
+  oneOf: 'Value must validate against exactly one of the provided schemas. It currently validates against {{0}} of the schemas',
+  not: 'Value must not validate against the provided schema',
+  bad_number: '"{{0}}" is not a valid number',
+  bad_integer: '"{{0}}" is not a valid integer',
+  date_time: '"{{0}}" is not a valid RFC3339 date-time. Needs to look like "2015-08-01T00:00:00Z"'
+};
+
+function translateValidationMessage (key, variables) {
+  var lang = englishValidationMessages;
+  var string = lang[key]
+
+  if(typeof string === "undefined")
+    string = "Unknown error string: " + key;
+
+  if(variables) {
+    for(var i=0; i<variables.length; i++) {
+      string = string.replace(new RegExp('\\{\\{'+i+'}}','g'),variables[i]);
+    }
+  }
+
+  return string;
+};
+//-----------------------------------------------
+
+
 function buildJsonForPage() {
   var jsonForPage = {};
   $('.validate').each(function( index ) {
@@ -13,7 +90,7 @@ function buildJsonForPage() {
   return jsonForPage;
 }
 
-function getObjId(obj) {
+function xgetObjId(obj) {
   // Ugh
   var objId = obj['id'];
   if (objId == undefined)
@@ -84,10 +161,12 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
 
       for (i = 0; i < relevantErrors.length; i++) {
         var error = relevantErrors[i];
-        var objId = getObjId(error.obj)
-        var fieldName = error['path']; //extractFieldName(error['path']);
-        var errorString = '<a href="javascript:scrollToLabel(\'' + objId + '\');">' +
-          '<important>' + objId + '</important>' + ': ' + error['keyword'] + '.</a></br>';
+        var objId = getObjId(error.obj);
+        //var fieldName = error['path']; //extractFieldName(error['path']);
+        var userMessage = createUserValidationMessage(error, 'summary');
+
+        var errorString = '<a href="javascript:scrollToLabel(\'' + objId + '\');">' + userMessage + '.</a></br>';
+
         newElement += errorString;
       }
       newElement += '</div>';
@@ -136,7 +215,8 @@ function updateInlineErrorsForField(obj, errorArray) {
     var newObj = '<div id="' + inlineErrorDisplayId + '" class="banner banner-danger validation-error-display"><i class="fa fa-exclamation-triangle"></i>';
     for(i=0; i<errorArray.length; i++) {
       error = errorArray[i];
-      newObj += 'Path = "' + error.path + '" Keyword = "' + error.keyword + '"' + '.</br>';
+      var userMessage = createUserValidationMessage(error, 'inline');
+      newObj += userMessage + '.</br>';
     }
     newObj += '</div>';
     $(newObj).insertAfter('#' + getObjId(obj));
