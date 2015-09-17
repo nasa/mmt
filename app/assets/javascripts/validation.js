@@ -7,10 +7,20 @@ function buildJsonForPage() {
       // Build the json for this, given its pathArray
       var jsonForThis = buildJsonToValidate($(this), thisPathArray);
       // Add this's path to jsonForPage
-      jsonForPage = $.extend(jsonForPage, jsonForThis);
+      jsonForPage = $.extend(true, jsonForPage, jsonForThis);
     }
   });
   return jsonForPage;
+}
+
+function getObjId(obj) {
+  // Ugh
+  var objId = obj['id'];
+  if (objId == undefined)
+    objId = obj.attr('id');
+  if (!objId)
+    objId = obj.id;
+  return objId;
 }
 
 // Given an error path value (i.e. 'X.Y.1.CamelCase'), figure out what the obj id should be
@@ -27,7 +37,7 @@ function pathToObjId(path) {
   return objId;
 }
 
-function handleFormValidation(updateInlineErrors) {
+function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
 
   var errorArray = [];
   var jsonForPage = buildJsonForPage();
@@ -46,37 +56,46 @@ function handleFormValidation(updateInlineErrors) {
       relevantErrors.push(error);
     }
   }
-  
-  // Remove previous Summary error display element (if any)
-  var summaryErrorDisplayId = 'summary_error_display';
-  var errorDisplay = document.getElementById(summaryErrorDisplayId);
-  if (errorDisplay) {
-    errorDisplay.parentNode.removeChild(errorDisplay);
+
+  if (updateInlineErrors) {
+    // Start off by removing all previous Inline error display elements (if any). They will be regenearted if needed.
+    $('.validation-error-display').remove();
+  }
+
+  if (updateSummaryErrors) {
+    // Remove previous Summary error display element (if any)
+    var summaryErrorDisplayId = 'summary_error_display';
+    var errorDisplay = document.getElementById(summaryErrorDisplayId);
+    if (errorDisplay) {
+      errorDisplay.parentNode.removeChild(errorDisplay);
+    }
   }
 
   if (relevantErrors.length > 0) {
 
-    // Make sure the errors are sorted by path
-    relevantErrors = relevantErrors.sort(function(a, b){
-      return a.path == b.path ? 0 : +(a.path > b.path) || -1;
-    });
+    if (updateSummaryErrors) {
+      // Make sure the errors are sorted by path for display. THis will group them.
+      relevantErrors = relevantErrors.sort(function (a, b) {
+        return a.path == b.path ? 0 : +(a.path > b.path) || -1;
+      });
 
-    var newElement = '<div id="' + summaryErrorDisplayId + '" class="banner banner-danger"><i class="fa fa-exclamation-triangle"></i>' +
-      'Click on an error to go directly to that field:</br>';
+      var newElement = '<div id="' + summaryErrorDisplayId + '" class="banner banner-danger"><i class="fa fa-exclamation-triangle"></i>' +
+        'Click on an error to go directly to that field:</br>';
 
-    for (i = 0; i < relevantErrors.length; i++) {
-      var error = relevantErrors[i];
-      var objId = error.obj.id;
-      var fieldName = error['path']; //extractFieldName(error['path']);
-      var errorString = '<a href="javascript:scrollToLabel(\'' + objId + '\');">' +
-        '<important>' + objId + '</important>' + ': ' + error['keyword'] + '.</a></br>';
-      newElement += errorString;
+      for (i = 0; i < relevantErrors.length; i++) {
+        var error = relevantErrors[i];
+        var objId = getObjId(error.obj)
+        var fieldName = error['path']; //extractFieldName(error['path']);
+        var errorString = '<a href="javascript:scrollToLabel(\'' + objId + '\');">' +
+          '<important>' + objId + '</important>' + ': ' + error['keyword'] + '.</a></br>';
+        newElement += errorString;
+      }
+      newElement += '</div>';
+
+      // Insert in the proper DOM location
+      var element = document.getElementsByClassName('nav-top');
+      element[0].insertAdjacentHTML('afterend', newElement);
     }
-    newElement += '</div>';
-
-    // Insert in the proper DOM location
-    var element = document.getElementsByClassName('nav-top');
-    element[0].insertAdjacentHTML('afterend', newElement);
 
     if (updateInlineErrors) {
       for (var i = 0; i < relevantErrors.length; i++) {
@@ -95,16 +114,15 @@ function handleFormValidation(updateInlineErrors) {
       }
     }
 
-    return confirm ('This page has invalid data. Are you sure you want to save it and proceed?')
+    if (updateSummaryErrors)
+      return confirm ('This page has invalid data. Are you sure you want to save it and proceed?')
   }
 
   return true;
 }
 
 function getInlineErrorDisplayId (obj) {
-  var objId = obj['id'];
-  if (objId == undefined)
-    objId = obj.attr('id');
+  var objId = getObjId(obj);
   return objId + '_errors';
 }
 
@@ -115,13 +133,13 @@ function updateInlineErrorsForField(obj, errorArray) {
   // Display new error element under field
   var inlineErrorDisplayId = getInlineErrorDisplayId(obj);
   if (errorArray.length > 0) {
-    var newObj = '<div id="' + inlineErrorDisplayId + '" class="banner banner-danger error-display"><i class="fa fa-exclamation-triangle"></i>';
+    var newObj = '<div id="' + inlineErrorDisplayId + '" class="banner banner-danger validation-error-display"><i class="fa fa-exclamation-triangle"></i>';
     for(i=0; i<errorArray.length; i++) {
       error = errorArray[i];
       newObj += 'Path = "' + error.path + '" Keyword = "' + error.keyword + '"' + '.</br>';
     }
     newObj += '</div>';
-    $(newObj).insertAfter('#' + obj.attr('id'));
+    $(newObj).insertAfter('#' + getObjId(obj));
   }
 
 }
@@ -153,7 +171,18 @@ function getObjPathArray(obj) {
 // Build json for this object and all its ancestors
 function buildJsonToValidate(obj, objPathArray) {
   var schema = {};
-  schema[objPathArray[0]] = obj.val();
+  var objValue = obj.val();
+  if (obj.hasClass('mmt-number')) {
+    objValue = objValue * 1.0;
+  }
+  else if (obj.hasClass('mmt-integer')) {
+    objValue = objValue * 1;
+  }
+  else if (obj.hasClass('mmt-boolean')) {
+    objValue = objValue == 'true';
+  }
+
+  schema[objPathArray[0]] = objValue;
 
   for (i=1; i<objPathArray.length; i++) {
     // TODO - find more efficient way of adding outer layers of json to a json object
@@ -173,7 +202,7 @@ function buildJsonToValidate(obj, objPathArray) {
 function collectRelevantErrors(obj, objPathArray, errors) {
 
   var relevantErrors = [];
-  var targetObjId = obj.attr('id');
+  var targetObjId = getObjId(obj);
 
   for (var i=0; i<errors.length; i++) {
     var error = errors[i];
@@ -198,7 +227,14 @@ function removeDisplayedInlineErrorsForField(obj) {
 
 function handleFieldValidation(obj) {
 
-  //try {
+  // If you have emptied a field you need to potentially erase errors for other fields. So redo the entire page.
+  //if (obj.val().length == 0) {
+  //  handleFormValidation(false, true);
+  //  return null;
+  //}
+
+
+    //try {
 
   //removeDisplayedInlineErrorsForField(obj);
 
@@ -250,7 +286,7 @@ $(document).ready(function() {
   
   // Handle form navigation
   $('.next-section').change(function() {
-    if (handleFormValidation(true)) {
+    if (handleFormValidation(true, true)) {
       $('#new_form_name').val(this.value);
       this.form.submit();
     }

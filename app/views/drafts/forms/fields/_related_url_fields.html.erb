@@ -39,7 +39,7 @@
     <h4>File Size</h4>
     <div class="col-6">
       <label for="<%= remove_pipes(name_prefix) %>file_size_size">Size</label><i class="fa fa-info-circle"></i>
-      <%= text_field_tag(name_to_param("#{name_prefix}|file_size|_size"), file_size['Size'], class: 'full-width validate') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}|file_size|_size"), file_size['Size'], class: 'full-width validate mmt-number') %>
     </div>
     <div class="col-6">
       <label for="<%= remove_pipes(name_prefix) %>file_size_unit">Unit</label><i class="fa fa-info-circle"></i>

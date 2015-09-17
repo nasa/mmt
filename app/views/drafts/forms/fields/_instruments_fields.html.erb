@@ -26,7 +26,7 @@
 
   <!-- NumberOfSensors -->
   <label for="<%= remove_pipes(name_prefix) %>number_of_sensors">Number Of Sensors</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|number_of_sensors|"), instruments['NumberOfSensors'], class: 'half-width validate') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|number_of_sensors|"), instruments['NumberOfSensors'], class: 'half-width validate mmt-integer') %>
 
 
   <!-- OperationalMode -->
