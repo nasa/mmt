@@ -71,6 +71,7 @@ class ApplicationController < ActionController::Base
     end
 
     return if @current_user.echo_id.nil?
+    return unless @current_user.available_providers.nil?
     @current_user.providers = available_providers(@current_user.echo_id)
   end
 
