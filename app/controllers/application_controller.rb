@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   def setup_query
     @query ||= {}
-    @provider_ids = cmr_client.get_providers.body.map{|provider| [provider['short-name'], provider['provider-id']]}
+    @provider_ids = cmr_client.get_providers.body.map { |provider| [provider['short-name'], provider['provider-id']] }
   end
 
   def setup_current_user
@@ -25,7 +25,6 @@ class ApplicationController < ActionController::Base
 
   def cmr_client
     if @cmr_client.nil?
-      service_configs = Rails.configuration.services
       @cmr_client = Cmr::Client.client_for_environment(cmr_env, Rails.configuration.services)
     end
     @cmr_client
@@ -44,20 +43,62 @@ class ApplicationController < ActionController::Base
   helper_method :edsc_map_path
 
   def clear_session
-    store_oauth_token()
+    store_oauth_token
+    store_profile
   end
 
-  def store_oauth_token(json={})
-    session[:access_token] = json["access_token"]
-    session[:refresh_token] = json["refresh_token"]
-    session[:expires_in] = json["expires_in"]
+  def store_oauth_token(json = {})
+    session[:access_token] = json['access_token']
+    session[:refresh_token] = json['refresh_token']
+    session[:expires_in] = json['expires_in']
     session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
   end
 
-  def store_profile(profile={})
+  def store_profile(profile = {})
     session[:name] = "#{profile['first_name']} #{profile['last_name']}"
     session[:urs_uid] = profile['uid']
     @current_user = User.from_urs_uid(profile['uid'])
+    return if profile == {}
+
+    # Store ECHO ID
+    if @current_user.echo_id.nil?
+      echo_user = cmr_client.get_current_user(token).body
+      if echo_user['user']
+        @current_user.echo_id = echo_user['user']['id']
+        @current_user.save
+        setup_current_user
+      end
+    end
+
+    return if @current_user.echo_id.nil?
+    @current_user.providers = available_providers(@current_user.echo_id)
+  end
+
+  # TODO I really want to move this to user.rb but cmr_client doesn't want to work there
+  def available_providers(echo_id)
+    # Get groups the user belongs to
+    groups = cmr_client.get_groups(echo_id).body
+    group_ids = groups.map { |group| group['group']['id'] }
+
+    # Get all ACLs
+    acls = cmr_client.get_provider_acls.body
+    good_acls = acls.select do |acl|
+      # If the ACL is an ingest ACL
+      acl['acl']['provider_object_identity']['target'] == 'INGEST_MANAGEMENT_ACL' &&
+
+      # if access_control_entries includes at least one of the users group_ids
+      # and the UPDATE permission is found
+      acl['acl']['access_control_entries'].count { |entry| group_ids.include?(entry['sid']['group_sid']['group_guid']) && entry['permissions'].include?('UPDATE') } > 0
+    end
+
+    # Get the provider_guids
+    provider_guids = good_acls.map { |acl| acl['acl']['provider_object_identity']['provider_guid'] }
+
+    # Get all providers
+    all_providers = cmr_client.get_all_providers.body
+
+    # Find provider_ids for provider_guids and sort
+    all_providers.select { |provider| provider_guids.include? provider['provider']['id'] }.map { |provider| provider['provider']['provider_id'] }.sort
   end
 
   def refresh_urs_if_needed
@@ -85,11 +126,11 @@ class ApplicationController < ActionController::Base
 
   def logged_in?
     logged_in = session[:access_token].present? &&
-          session[:refresh_token].present? &&
-          session[:expires_in].present? &&
-          session[:logged_in_at]
+                session[:refresh_token].present? &&
+                session[:expires_in].present? &&
+                session[:logged_in_at]
 
-    store_oauth_token() unless logged_in
+    store_oauth_token unless logged_in
     logged_in
   end
   helper_method :logged_in?

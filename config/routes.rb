@@ -17,5 +17,8 @@ Rails.application.routes.draw do
 
   post 'convert' => 'conversions#convert'
 
+  get 'set_provider' => 'users#set_provider'
+  get 'refresh_providers' => 'users#refresh_providers', as: 'refresh_user_providers'
+
   root 'welcome#index'
 end
