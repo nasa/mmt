@@ -6,17 +6,6 @@ var setupScienceKeywords = function(data) {
 
 $(document).ready(function() {
 
-  // set up validation call
-  $('.validate').blur(function(e) {
-    handleFieldValidation ($(this));
-  });
-
-  // Handle form navigation
-  $('.next-section').change(function() {
-    $('#new_form_name').val(this.value);
-    this.form.submit();
-  });
-
   $('.multiple').on('click', '.add-new', function(e) {
     var simple = $(this).hasClass('new-simple');
     var topMultiple = $(this).closest('.multiple');
