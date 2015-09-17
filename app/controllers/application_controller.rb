@@ -52,12 +52,14 @@ class ApplicationController < ActionController::Base
     session[:refresh_token] = json['refresh_token']
     session[:expires_in] = json['expires_in']
     session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
+    session[:endpoint] = json['endpoint']
   end
 
   def store_profile(profile = {})
-    session[:name] = "#{profile['first_name']} #{profile['last_name']}"
-    session[:urs_uid] = profile['uid']
-    @current_user = User.from_urs_uid(profile['uid'])
+    uid = session['endpoint'].split('/').last if session['endpoint']
+    session[:name] = profile['first_name'].nil? ? uid : "#{profile['first_name']} #{profile['last_name']}"
+    session[:urs_uid] = profile['uid'] || uid
+    @current_user = User.from_urs_uid(session[:urs_uid])
     return if profile == {}
 
     # Store ECHO ID
