@@ -18,23 +18,23 @@
         <% type.each do |key| %>
           <% options = key[:options] || [] %>
           <% if options.include?(:array_field) %>
-            <%= render partial: 'drafts/previews/fields/display_array_with_header', locals: {
+            <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
                 key_name: key[:name],
                 hash_for_key: data_value } %>
           <% elsif options.include?(:sub_type) %>
             <% new_type = "TypesHelper::#{options.include?(:lineage_date) ? 'LineageDate' : key[:name]}Type".constantize %>
-            <%= render partial: 'drafts/previews/preview_type', locals: {
+            <%= render partial: 'shared/preview/preview_type', locals: {
                 data: data_value[key[:name]],
                 name: key[:name],
                 type: new_type,
                 top_field: false } %>
           <% elsif options.include?(:select_type) %>
-            <%= render :partial => 'drafts/previews/fields/display_single_select_field_line', locals: {
+            <%= render :partial => 'shared/preview/fields/display_single_select_field_line', locals: {
                 key_name: key[:name],
                 hash_for_key: data_value,
                 options: "DraftsHelper::#{key[:select_type]}".constantize } %>
           <% else %>
-            <%= render partial: 'drafts/previews/fields/display_field_line', locals: {
+            <%= render partial: 'shared/preview/fields/display_field_line', locals: {
                 key_name: key[:name],
                 hash_for_key: data_value,
                 options: options.clone } %>

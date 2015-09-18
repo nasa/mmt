@@ -6,14 +6,14 @@
   <div class="accordion-body">
     <ul class="distribution-information-preview">
 
-      <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['RelatedUrls'],
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['RelatedUrls'],
           name: 'RelatedUrls',
           type: TypesHelper::RelatedUrlsType
       } %>
 
-      <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['Distributions'],
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['Distributions'],
           name: 'Distributions',
           type: TypesHelper::DistributionsType
       } %>

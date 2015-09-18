@@ -51,6 +51,20 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"provider-id": "LARC", "short-name": "LARC", "cmr-only": true}'
       end
+      # Provider MMT_1
+      connection.post do |req|
+        req.url('http://localhost:3002/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"provider-id": "MMT_1", "short-name": "MMT_1", "cmr-only": true}'
+      end
+      # Provider MMT_2
+      connection.post do |req|
+        req.url('http://localhost:3002/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"provider-id": "MMT_2", "short-name": "MMT_2", "cmr-only": true}'
+      end
 
       ### Create a provider in Mock Echo
       # Provider SEDAC
@@ -66,6 +80,20 @@ module Cmr
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '[{"provider":{"id":"provguid2","provider_id":"LARC"}}]'
+      end
+      # Provider MMT_1
+      connection.post do |req|
+        req.url('http://localhost:3008/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '[{"provider":{"id":"provguid3","provider_id":"MMT_1"}}]'
+      end
+      # Provider MMT_2
+      connection.post do |req|
+        req.url('http://localhost:3008/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '[{"provider":{"id":"provguid4","provider_id":"MMT_2"}}]'
       end
 
       ### Adding ACLs
@@ -94,6 +122,32 @@ module Cmr
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid2","target": "INGEST_MANAGEMENT_ACL"}}}'
+      end
+      # Provider MMT_1
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid3"}}}'
+      end
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid3","target": "INGEST_MANAGEMENT_ACL"}}}'
+      end
+      # Provider MMT_2
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid4"}}}'
+      end
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
 
       ### Clear Cache
@@ -136,6 +190,47 @@ module Cmr
         connection.post do |req|
           req.url('http://localhost:2999/reset')
         end
+      end
+    end
+
+    def reset_provider(provider_id)
+      # Delete provider
+      response = connection.delete do |req|
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.url("http://localhost:3002/providers/#{provider_id}")
+      end
+
+      guid = "prov-guid-#{Time.now.to_i}"
+
+      # Create provider
+      connection.post do |req|
+        req.url('http://localhost:3002/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"provider-id": "' + provider_id + '", "short-name": "' + provider_id + '", "cmr-only": true}'
+      end
+      connection.post do |req|
+        req.url('http://localhost:3008/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '[{"provider":{"id":"' + guid + '","provider_id":"' + provider_id + '"}}]'
+      end
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "' + guid + '"}}}'
+      end
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "' + guid + '","target": "INGEST_MANAGEMENT_ACL"}}}'
+      end
+
+      ### Clear Cache
+      connection.post do |req|
+        req.url('http://localhost:2999/clear-cache')
       end
     end
 

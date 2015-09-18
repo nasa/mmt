@@ -1,5 +1,5 @@
 class DraftsController < ApplicationController
-  before_action :set_draft, only: [:show, :edit, :update, :destroy]
+  before_action :set_draft, only: [:show, :edit, :update, :destroy, :publish]
   before_action :load_umm_schema
 
   # GET /drafts
@@ -63,6 +63,31 @@ class DraftsController < ApplicationController
 
   def open_drafts
     @drafts = @current_user.drafts.order('updated_at DESC')
+  end
+
+  def publish
+    draft = @draft.draft
+    # puts draft
+    # These fields currently break in CMR when trying to ingest
+    draft.delete('Distributions')
+
+
+    translated_metadata = cmr_client.translate_collection(draft.to_json, 'application/umm+json', 'application/iso19115+xml').body
+    # puts "Translated: #{translated_metadata.inspect}"
+
+    # validated_metadata = cmr_client.validate_collection(translated_metadata, @current_user.provider_id, @draft.id, token).body
+    # puts "Validated: #{validated_metadata.inspect}"
+
+    ingested = cmr_client.ingest_collection(translated_metadata, @current_user.provider_id, @draft.id, token)
+    # puts "ingested: #{ingested.inspect}"
+    if ingested.success?
+      xml = MultiXml.parse(ingested.body)
+      concept_id = xml['result']['concept_id']
+      redirect_to collection_path(concept_id)
+    else
+      # TODO give some error message
+      redirect_to draft_path(@draft)
+    end
   end
 
   private

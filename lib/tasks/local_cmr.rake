@@ -32,4 +32,14 @@ namespace :cmr do
   task :stop do
     `kill $(ps aux | grep '[c]mr-dev-system' | awk '{print $2}')`
   end
+
+  desc "Delete provider used in tests"
+  task :reset_test_provider => [:clear_cache] do
+    cmr = Cmr::Local.new
+    cmr.reset_provider('MMT_2')
+  end
+
+  task :clear_cache => [:environment] do
+    Rake::Task['tmp:cache:clear'].invoke if Rails.env.development?
+  end
 end

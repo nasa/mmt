@@ -6,27 +6,27 @@
   <div class="accordion-body">
     <ul class="spatial-extent-preview">
 
-      <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['SpatialExtent'],
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['SpatialExtent'],
           name: 'SpatialExtent',
           type: TypesHelper::SpatialExtentType
       } %>
 
-      <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['TilingIdentificationSystem'],
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['TilingIdentificationSystem'],
           name: 'TilingIdentificationSystem',
           type: TypesHelper::TilingIdentificationSystemType
       } %>
 
-      <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['SpatialInformation'],
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['SpatialInformation'],
           name: 'SpatialInformation',
           type: TypesHelper::SpatialInformationType
       } %>
 
-      <%= render partial: 'drafts/previews/fields/display_array_with_header', locals: {
+      <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'SpatialKeywords',
-          hash_for_key: draft
+          hash_for_key: metadata
       } %>
 
     </ul>

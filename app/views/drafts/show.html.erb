@@ -14,7 +14,7 @@
   <div class="row row-content">
     <section class="action">
       <div class="cta">
-        <a href="#" alt="Publish Button" class="btn btn-blue">Publish</a>
+        <%= link_to 'Publish', draft_publish_path(@draft), method: :post, class: 'btn btn-blue', alt: 'Publish Draft' %>
         <a class="disabled" href="#" alt="Download XML">Download XML</a> |
         <%= link_to 'Delete Draft', @draft, method: :delete, data: { confirm: 'Are you sure you want to delete this record?' } %>
       </div>
@@ -115,69 +115,8 @@
       </ul>
     </section>
 
-    <div class="row content">
-      <section class="preview">
+    <%= render partial: 'shared/preview/metadata_preview', locals: { metadata: @draft.draft } %>
 
-        <h3>Preview</h3>
-        <!-- <p>
-          <input type="checkbox" name="markdown"></input>
-          <label for="markdown">Show as markdown</label>
-        </p> -->
-
-        <%= render :partial=>'drafts/previews/data_identification', :locals=>{:draft=>@draft.draft} %>
-        <%= render :partial=>'drafts/previews/descriptive_keywords', :locals=>{:draft=>@draft.draft} %>
-        <%= render :partial=>'drafts/previews/metadata_information', :locals=>{:draft=>@draft.draft} %>
-        <%= render :partial=>'drafts/previews/temporal_extent', :locals=>{draft: @draft.draft} %>
-        <%= render :partial=>'drafts/previews/spatial_extent', :locals=>{draft: @draft.draft} %>
-        <%= render :partial=>'drafts/previews/acquisition_information', :locals=>{:draft=>@draft.draft} %>
-        <%= render :partial=>'drafts/previews/distribution_information', :locals=>{:draft=>@draft.draft} %>
-
-      </section>
-      <aside class="geographic-coverage">
-        <h3>Geographic Coverage</h3>
-        <%= image_tag("plate_carree_earth.png", alt:'Map', id:'preview_map') %>
-
-        <caption>Spatial Coordinates</caption>
-        <ol class="coordinates" id="coordinates"></ol>
-
-        <h4>Location Keywords</h4>
-        <ul>
-          <li>Continent > Antartica</li>
-          <li>Geographic Region > Polar</li>
-        </ul>
-
-        <% preview_temporal_hash = @draft.get_preview_temporal %>
-
-        <h4>Temporal Coverage</h4>
-        <ul>
-
-          <% single_date_times = preview_temporal_hash['single_date_times']%>
-          <% single_date_times.each do |single_date_time| %>
-            <li>Date: <%= single_date_time %></li></br>
-          <% end if single_date_times.present? %>
-
-          <% range_date_times = preview_temporal_hash['range_date_times']%>
-          <% range_date_times.each do |range_date_time| %>
-            <li>Start Date: <%= range_date_time['beginning_date_time']%> </li> <li>Stop Date: <%= range_date_time['ending_date_time']%> </li></br>
-          <% end if range_date_times.present? %>
-
-          <% periodic_date_times = preview_temporal_hash['periodic_date_times']%>
-          <% periodic_date_times.each do |periodic_date_time| %>
-            <li>Start Date: <%= periodic_date_time['start_date']%> </li> <li>Stop Date: <%= periodic_date_time['end_date']%> </li></br>
-          <% end if periodic_date_times.present?%>
-
-          <% if single_date_times.blank? && range_date_times.blank? && periodic_date_times.blank? %>
-            <li>No Temporal Coverages found</li>
-          <% end  %>
-
-        </ul>
-      </aside>
-
-    </div>
   </div>
-
-  <script>
-    drawSpatialExtent(<%= raw @draft.get_preview_spatial.to_json %>);
-  </script>
 
 </main>

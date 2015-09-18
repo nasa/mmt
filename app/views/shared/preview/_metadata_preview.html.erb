@@ -1,0 +1,63 @@
+<div class="row content">
+  <section class="preview">
+
+    <h3>Preview</h3>
+    <!-- <p>
+      <input type="checkbox" name="markdown"></input>
+      <label for="markdown">Show as markdown</label>
+    </p> -->
+
+    <%= render partial: 'shared/preview/data_identification', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/descriptive_keywords', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/metadata_information', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/temporal_extent', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/spatial_extent', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/acquisition_information', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/distribution_information', locals: { metadata: metadata } %>
+
+  </section>
+  <aside class="geographic-coverage">
+    <h3>Geographic Coverage</h3>
+    <%= image_tag("plate_carree_earth.png", alt:'Map', id:'preview_map') %>
+
+    <caption>Spatial Coordinates</caption>
+    <ol class="coordinates" id="coordinates"></ol>
+
+    <h4>Location Keywords</h4>
+    <ul>
+      <li>Continent > Antartica</li>
+      <li>Geographic Region > Polar</li>
+    </ul>
+
+    <% preview_temporal_hash = get_preview_temporal(metadata) %>
+
+    <h4>Temporal Coverage</h4>
+    <ul>
+
+      <% single_date_times = preview_temporal_hash['single_date_times']%>
+      <% single_date_times.each do |single_date_time| %>
+        <li>Date: <%= single_date_time %></li></br>
+      <% end if single_date_times.present? %>
+
+      <% range_date_times = preview_temporal_hash['range_date_times']%>
+      <% range_date_times.each do |range_date_time| %>
+        <li>Start Date: <%= range_date_time['beginning_date_time']%> </li> <li>Stop Date: <%= range_date_time['ending_date_time']%> </li></br>
+      <% end if range_date_times.present? %>
+
+      <% periodic_date_times = preview_temporal_hash['periodic_date_times']%>
+      <% periodic_date_times.each do |periodic_date_time| %>
+        <li>Start Date: <%= periodic_date_time['start_date']%> </li> <li>Stop Date: <%= periodic_date_time['end_date']%> </li></br>
+      <% end if periodic_date_times.present?%>
+
+      <% if single_date_times.blank? && range_date_times.blank? && periodic_date_times.blank? %>
+        <li>No Temporal Coverages found</li>
+      <% end  %>
+
+    </ul>
+  </aside>
+
+</div>
+
+<script>
+  drawSpatialExtent(<%= raw get_preview_spatial(metadata).to_json %>);
+</script>

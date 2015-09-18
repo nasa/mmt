@@ -5,14 +5,14 @@
 require 'rails_helper'
 include DraftsHelper
 
-template_path = 'drafts/previews/_metadata_information.html.erb'
+template_path = 'shared/preview/_metadata_information.html.erb'
 
 describe template_path, type: :view do
   context 'when the metadata information' do
     context 'is empty' do
       before do
-        assign(:draft, build(:draft, draft: {}))
-        render :template => template_path, :locals=>{draft: {}}
+        assign :draft, build(:draft, draft: {}).draft
+        render template: template_path, locals: { metadata: {} }
       end
 
       it 'does not crash or have Metadata Information' do
@@ -25,29 +25,22 @@ describe template_path, type: :view do
     context 'is populated' do
       draft_json = {}
       before do
-        draft_json['MetadataLanguage'] = 'English'
+        full_draft = build(:full_draft).draft
 
-        draft_json['MetadataDates'] = [
-          # Regular object populating
-          {"Type" => "CREATE", "Date" => "2010-12-25T00:00:00Z"},
-          {"Type" => "REVIEW", "Date" => "2010-12-30T00:00:00Z"}
-        ]
+        draft_json['MetadataLanguage'] = full_draft['MetadataLanguage']
+        draft_json['MetadataDates'] = full_draft['MetadataDates']
 
-        assign(:draft, build(:draft, draft: draft_json))
-        #output_schema_validation draft_json
-        render :template => template_path, :locals=>{draft: draft_json}
+        assign :metadata, draft_json
+        render template: template_path, locals: { metadata: draft_json }
       end
 
       it 'shows the values in the correct places and formats in the draft preview page' do
         rendered_node = Capybara.string(rendered)
-        root_css_path = "ul.metadata-information-preview"
+        root_css_path = 'ul.metadata-information-preview'
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, {Type: :handle_as_date_type}, true)
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, { Type: :handle_as_date_type }, true)
         end
       end
-
     end
-
   end
-
 end

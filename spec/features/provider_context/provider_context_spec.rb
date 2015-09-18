@@ -86,13 +86,13 @@ describe 'Provider context', js: true do
     end
 
     it 'saves the provider as the users provider' do
-      expect(User.first.provider_id).to eq('MMT_1')
-      expect(User.first.available_providers).to eq(['MMT_1'])
+      expect(User.first.provider_id).to eq('MMT_2')
+      expect(User.first.available_providers).to eq(['MMT_2'])
     end
 
     it 'displays the provider context' do
       within '.badge.daac' do
-        expect(page).to have_content('MMT_1')
+        expect(page).to have_content('MMT_2')
       end
     end
 

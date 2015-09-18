@@ -27,8 +27,8 @@ describe 'Public Holdings Display' do
       end
 
       it 'shows the collection page and collection list' do
-        expect(page).to have_content('Socioeconomic Data and Applications Center (SEDAC)')
-        expect(page).to have_content('The Socioeconomic Data and Applications Center (SEDAC) mission is to develop and operate')
+        expect(page).to have_content('SEDAC')
+        expect(page).to have_content('TEST')
         expect(page).to have_css('table#collections')
         expect(page.find('table#collections')).to have_content('ACRIM III Level 2 Daily Mean Data V001')
         expect(page.find('table#collections')).to have_content('0')
