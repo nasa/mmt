@@ -82,7 +82,8 @@ class DraftsController < ApplicationController
     if ingested.success?
       xml = MultiXml.parse(ingested.body)
       concept_id = xml['result']['concept_id']
-      redirect_to collection_path(concept_id)
+      revision_id = xml['result']['revision_id']
+      redirect_to collection_path(concept_id, revision_id: revision_id)
     else
       # TODO give some error message
       redirect_to draft_path(@draft)

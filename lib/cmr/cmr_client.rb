@@ -1,11 +1,5 @@
 module Cmr
   class CmrClient < BaseClient
-
-    # Example for pulling collections from CMR. (Search Epic will use this)
-    # To get list of collections:
-    # client = Cmr::Client.client_for_environment('sit', Rails.configuration.services)
-    # client.get_collections().body['feed']['entry']
-    # TODO this is currently using the CMR Search API. We will switch to the CMR Ingest API when we get access.
     def get_collections(options={}, token=nil)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3003/collections.umm-json'
@@ -21,7 +15,7 @@ module Cmr
       else
         url = '/ingest/providers'
       end
-      response = Rails.cache.fetch("get_providers", expires_in: 1.hours) do
+      response = Rails.cache.fetch('get_providers', expires_in: 1.hours) do
         get(url)
       end
       response
@@ -82,14 +76,13 @@ module Cmr
       put(url, metadata, headers.merge(token_header(token)))
     end
 
-    def get_concept(concept_id)
+    def get_concept(concept_id, revision_id = nil)
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3003/concepts/#{concept_id}"
+        url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       else
-        url = "/search/concepts/#{concept_id}"
+        url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       end
       get(url).body
     end
-
   end
 end
