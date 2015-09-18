@@ -3,63 +3,41 @@ function createUserValidationMessage(error, messageType) {
   var errorPath = error['path'];
   var errorObj = error['obj'];
 
-  var objType = 'string';
-  var objValue = errorObj.val();
-  if (errorObj.hasClass('mmt-number')) {
-    objType = 'number';
-  }
-  else if (errorObj.hasClass('mmt-integer')) {
-    objType = 'integer';
-  }
-  else if (errorObj.hasClass('mmt-boolean')) {
-    objType = 'boolean';
-  }
-
+  // Get the name of the object into presentable form
   var objName = '';
-  if (messageType == 'summary') {
+  if (messageType === 'summary') {
     var pathArray = errorPath.split('.');
-    var objName = pathArray[pathArray.length - 1] + ': ';
+    if (pathArray[pathArray.length - 1].match(/^[0-9]+$/)) {// Is an array index. Don't use for name
+      pathArray.pop();
+    }
+    objName = pathArray[pathArray.length - 1].replace( /([A-Z])/g, " $1" ) + ': '; // Camel case to title
   }
 
-  var message = translateValidationMessage(errorKeyword, [objType]); //, [schema.disallow]);
+  // Create options to pass in depending on error type
+  var option = null;
+  if (errorKeyword === 'type') {
+    option = 'string';
+    if (errorObj.hasClass('mmt-number')) {
+      option = 'number';
+    }
+    else if (errorObj.hasClass('mmt-integer')) {
+      option = 'integer';
+    }
+    else if (errorObj.hasClass('mmt-boolean')) {
+      option = 'boolean';
+    }
+  }
+
+  var message = translateValidationMessage(errorKeyword, [option]);
 
   return objName + message;
 }
 
 // Note - portions of this file were derived from the work found here: https://github.com/josdejong/jsoneditor/
 
-var englishValidationMessages = {
-  required: 'Value required',
-  type: 'Value must be of type {{0}}',
-  enum: '"{{0}}" is not one of the allowed values',
-  exclusiveMaximum: 'Value must be less than {{0}}',
-  maximum: 'Value must at most {{0}}',
-  exclusiveMinimum: 'Value must be greater than {{0}}',
-  minimum: 'Value must be at least {{0}}',
-  multipleOf: 'Value must be a multiple of {{0}}',
-  maxLength: 'Value must be at most {{0}} characters long',
-  minLength: 'Value must be at least {{0}} characters long',
-  pattern: 'Value must match the provided pattern of "{{0}}"',
-  format: 'Value must match the provided pattern of "{{0}}"',
-  minItems: 'Value must have at least {{0}} items',
-  maxItems: 'Value must have at most {{0}} items',
-  additionalItems: 'No additional items allowed in this array',
-  uniqueItems: 'Array must have unique items',
-  maxProperties: 'Object must have at most {{0}} properties',
-  minProperties: 'Object must have at least {{0}} properties',
-  additionalProperties: 'No additional properties allowed, but property "{{0}}" is set',
-  dependencies: 'Must have property "{{0}}"',
-  anyOf: 'Value must validate against at least one of the provided schemas',
-  oneOf: 'Value must validate against exactly one of the provided schemas. It currently validates against {{0}} of the schemas',
-  not: 'Value must not validate against the provided schema',
-  bad_number: '"{{0}}" is not a valid number',
-  bad_integer: '"{{0}}" is not a valid integer',
-  date_time: '"{{0}}" is not a valid RFC3339 date-time. Needs to look like "2015-08-01T00:00:00Z"'
-};
-
 function translateValidationMessage (key, variables) {
   var lang = englishValidationMessages;
-  var string = lang[key]
+  var string = lang[key];
 
   if(typeof string === "undefined")
     string = "Unknown error string: " + key;
@@ -71,14 +49,59 @@ function translateValidationMessage (key, variables) {
   }
 
   return string;
-};
-//-----------------------------------------------
+}
 
+var englishValidationMessages = {
+  required: 'Value required',
+  type: 'Value must be of type {{0}}',
+  anyOf: 'Value must validate against at least one of the provided schemas',
+  not: 'Value must not validate against the provided schema',
+  additionalItems: 'No additional items allowed in this array',
+  uniqueItems: 'Array must have unique items',
+
+  enum: 'This is not one of the allowed values',
+  exclusiveMaximum: 'Value is too high',
+  maximum: 'Value is too low',
+  exclusiveMinimum: 'Value is too low',
+  minimum: 'Value is too low',
+  multipleOf: 'Value must be a multiple of a given number',
+  maxLength: 'Value is too long',
+  minLength: 'Value is too short',
+  pattern: 'Value must match the provided pattern',
+  format: 'Value must match the provided pattern',
+  minItems: 'Value has too few items',
+  maxItems: 'Value has too many items',
+  //maxProperties: 'Object must have at most {{0}} properties',
+  //minProperties: 'Object must have at least {{0}} properties',
+  //additionalProperties: 'No additional properties allowed, but property "{{0}}" is set',
+  //dependencies: 'Must have property "{{0}}"',
+  oneOf: 'Value must validate against exactly one of the provided schemas.',
+  date_time: 'This is not a valid RFC3339 date-time. Needs to look like "2015-08-01T00:00:00Z"'
+
+  //enum: '"{{0}}" is not one of the allowed values',
+  //exclusiveMaximum: 'Value must be less than {{0}}',
+  //maximum: 'Value must at most {{0}}',
+  //exclusiveMinimum: 'Value must be greater than {{0}}',
+  //minimum: 'Value must be at least {{0}}',
+  //multipleOf: 'Value must be a multiple of {{0}}',
+  //maxLength: 'Value must be at most {{0}} characters long',
+  //minLength: 'Value must be at least {{0}} characters long',
+  //pattern: 'Value must match the provided pattern of "{{0}}"',
+  //format: 'Value must match the provided pattern of "{{0}}"',
+  //minItems: 'Value must have at least {{0}} items',
+  //maxItems: 'Value must have at most {{0}} items',
+  //maxProperties: 'Object must have at most {{0}} properties',
+  //minProperties: 'Object must have at least {{0}} properties',
+  //additionalProperties: 'No additional properties allowed, but property "{{0}}" is set',
+  //dependencies: 'Must have property "{{0}}"',
+  //oneOf: 'Value must validate against exactly one of the provided schemas. It currently validates against {{0}} of the schemas',
+  //date_time: '"{{0}}" is not a valid RFC3339 date-time. Needs to look like "2015-08-01T00:00:00Z"'
+};
 
 function buildJsonForPage() {
   var jsonForPage = {};
   $('.validate').each(function( index ) {
-    if ($(this).val().length != 0) { // skip fields that are empty
+    if ($(this).val().length !== 0) { // skip fields that are empty
       // Get the path of this
       var thisPathArray = getObjPathArray($(this));
       // Build the json for this, given its pathArray
@@ -88,16 +111,6 @@ function buildJsonForPage() {
     }
   });
   return jsonForPage;
-}
-
-function xgetObjId(obj) {
-  // Ugh
-  var objId = obj['id'];
-  if (objId == undefined)
-    objId = obj.attr('id');
-  if (!objId)
-    objId = obj.id;
-  return objId;
 }
 
 // Given an error path value (i.e. 'X.Y.1.CamelCase'), figure out what the obj id should be
@@ -116,7 +129,6 @@ function pathToObjId(path) {
 
 function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
 
-  var errorArray = [];
   var jsonForPage = buildJsonForPage();
   var validate = jsen(globalJsonSchema, {greedy: true});
   var valid = validate(jsonForPage);
@@ -127,8 +139,8 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
   var relevantErrors = [];
   for(i=0; i<validate.errors.length; i++) {
     var error = validate.errors[i];
-    var objId = pathToObjId(error['path']);
-    if (obj = document.getElementById(objId)) {
+    var obj = $('#' + pathToObjId(error['path']));
+    if (obj[0]) {
       error['obj'] = obj;
       relevantErrors.push(error);
     }
@@ -161,10 +173,8 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
 
       for (i = 0; i < relevantErrors.length; i++) {
         var error = relevantErrors[i];
-        var objId = getObjId(error.obj);
-        //var fieldName = error['path']; //extractFieldName(error['path']);
+        var objId = error['obj'].attr('id');
         var userMessage = createUserValidationMessage(error, 'summary');
-
         var errorString = '<a href="javascript:scrollToLabel(\'' + objId + '\');">' + userMessage + '.</a></br>';
 
         newElement += errorString;
@@ -194,14 +204,14 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
     }
 
     if (updateSummaryErrors)
-      return confirm ('This page has invalid data. Are you sure you want to save it and proceed?')
+      return confirm ('This page has invalid data. Are you sure you want to save it and proceed?');
   }
 
   return true;
 }
 
 function getInlineErrorDisplayId (obj) {
-  var objId = getObjId(obj);
+  var objId = obj.attr('id');
   return objId + '_errors';
 }
 
@@ -219,7 +229,7 @@ function updateInlineErrorsForField(obj, errorArray) {
       newObj += userMessage + '.</br>';
     }
     newObj += '</div>';
-    $(newObj).insertAfter('#' + getObjId(obj));
+    $(newObj).insertAfter('#' + obj.attr('id'));
   }
 
 }
@@ -229,19 +239,19 @@ function getObjPathArray(obj) {
   var objPathArray = obj.attr('name').replace(/]/g, '').split('[').reverse();
   objPathArray.pop(); // Removes "Draft", the last element of the array
 
-  for (i=0; i<objPathArray.length; i++) {
+  for (var i=0; i<objPathArray.length; i++) {
     if (objPathArray[i].length > 0) {
       objPathArray[i] = snakeToCamel(objPathArray[i]);
-      if (objPathArray[i] == 'Doi')
+      if (objPathArray[i] === 'Doi')
         objPathArray[i] = 'DOI';
       else
-        if (objPathArray[i] == 'Isbn')
+        if (objPathArray[i] === 'Isbn')
           objPathArray[i] = 'ISBN';
         else
-          if (objPathArray[i] == 'Url')
+          if (objPathArray[i] === 'Url')
             objPathArray[i] = 'URL';
           else
-            if (objPathArray[i] == 'Uuid')
+            if (objPathArray[i] === 'Uuid')
               objPathArray[i] = 'UUID';
     }
   }
@@ -264,7 +274,7 @@ function buildJsonToValidate(obj, objPathArray) {
 
   schema[objPathArray[0]] = objValue;
 
-  for (i=1; i<objPathArray.length; i++) {
+  for (var i=1; i<objPathArray.length; i++) {
     // TODO - find more efficient way of adding outer layers of json to a json object
     var oldSchema = JSON.parse(JSON.stringify(schema)); // clone the json before adding it
     schema = {};
@@ -282,7 +292,7 @@ function buildJsonToValidate(obj, objPathArray) {
 function collectRelevantErrors(obj, objPathArray, errors) {
 
   var relevantErrors = [];
-  var targetObjId = getObjId(obj);
+  var targetObjId = obj.attr('id');
 
   for (var i=0; i<errors.length; i++) {
     var error = errors[i];
@@ -307,37 +317,21 @@ function removeDisplayedInlineErrorsForField(obj) {
 
 function handleFieldValidation(obj) {
 
-  // If you have emptied a field you need to potentially erase errors for other fields. So redo the entire page.
-  //if (obj.val().length == 0) {
-  //  handleFormValidation(false, true);
-  //  return null;
-  //}
+  // Get the path array of the obj here because it will be used in multiple places
+  var objPathArray = getObjPathArray(obj);
 
+  var jsonForPage = buildJsonForPage();
 
-    //try {
+  var validate = jsen(globalJsonSchema, {greedy: true});
 
-  //removeDisplayedInlineErrorsForField(obj);
+  validate(jsonForPage);
 
-    // Get the path array of the obj here because it will be used in multiple places
-    var objPathArray = getObjPathArray(obj);
+  // Remove errors that do not apply
+  var errorArray = collectRelevantErrors(obj, objPathArray, validate.errors);
 
-    var jsonForPage = buildJsonForPage();
-
-    var validate = jsen(globalJsonSchema, {greedy: true});
-
-    var valid = validate(jsonForPage);
-
-    // Remove errors that do not apply
-    var errorArray = collectRelevantErrors(obj, objPathArray, validate.errors);
-
-    updateInlineErrorsForField(obj, errorArray);
-
-  //} catch (e) {
-  //  console.log(e);
-  //}
+  updateInlineErrorsForField(obj, errorArray);
 
   return errorArray;
-
 }
 
 function scrollToLabel(target) {
@@ -357,7 +351,7 @@ function snakeToCamel(str){
 
 $(document).ready(function() {
 
-  var validate = null; // Validate object is null until handleFieldValidation needs it
+  //var validate = null; // Validate object is null until handleFieldValidation needs it
 
   // set up validation call
   $('.validate').blur(function(e) {
