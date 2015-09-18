@@ -46,7 +46,7 @@ describe 'Data identification form', js: true do
 
       # Access Constraints
       within '.access-constraints' do
-        fill_in 'Value', with: 'Access constraint value'
+        fill_in 'Value', with: 42.0
         fill_in 'Description', with: 'Access constraint description'
       end
 
@@ -81,7 +81,6 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('9-5, M-F', count: 2)
       expect(page).to have_content('9876543210987', count: 1)
       expect(page).to have_content('Access constraint description', count: 1)
-      expect(page).to have_content('Access constraint value', count: 1)
       expect(page).to have_content('Authority', count: 3)
       expect(page).to have_content('Create', count: 1)
       expect(page).to have_content('Citation DOI Authority', count: 2)
@@ -157,7 +156,7 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('text/html', count: 7)
       expect(page).to have_content('v1', count: 1)
       expect(page).to have_content('v2', count: 1)
-      expect(page).to have_content('42.0', count: 7)
+      expect(page).to have_content('42.0', count: 8)
 
       expect(page).to have_content('No Temporal Coverages found')
       expect(page).to have_content('No Spatial Coordinates found')
@@ -481,7 +480,7 @@ describe 'Data identification form', js: true do
 
         # Access constraints
         within '.row.access-constraints' do
-          expect(page).to have_field('Value', with: 'Access constraint value')
+          expect(page).to have_field('Value', with: '42.0')
           expect(page).to have_field('Description', with: 'Access constraint description')
         end
 

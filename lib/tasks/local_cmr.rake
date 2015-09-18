@@ -34,12 +34,8 @@ namespace :cmr do
   end
 
   desc "Delete provider used in tests"
-  task :reset_test_provider => [:clear_cache] do
+  task :reset_test_provider => ['tmp:cache:clear'] do
     cmr = Cmr::Local.new
     cmr.reset_provider('MMT_2')
-  end
-
-  task :clear_cache => [:environment] do
-    Rake::Task['tmp:cache:clear'].invoke if Rails.env.development?
   end
 end

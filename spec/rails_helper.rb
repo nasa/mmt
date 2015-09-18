@@ -12,6 +12,7 @@ require "rack_session_access/capybara"
 require 'database_cleaner'
 
 require 'rake'
+require 'rails/tasks'
 
 Capybara.javascript_driver = :poltergeist
 
@@ -76,7 +77,6 @@ RSpec.configure do |config|
       Rake::Task.define_task(:environment)
       Rake::Task['cmr:reset_test_provider'].reenable
       Rake.application.invoke_task 'cmr:reset_test_provider'
-      Rails.cache.clear
     end
   end
 
