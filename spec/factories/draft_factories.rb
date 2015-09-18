@@ -545,7 +545,7 @@ FactoryGirl.define do
     'Quality' => 'Metadata quality summary',
     'UseConstraints' => 'These are some use constraints',
     'AccessConstraints' => {
-      'Value' => '42',
+      'Value' => 42,
       'Description' => 'Access constraint description'
     },
     'MetadataAssociations' => [{
@@ -643,9 +643,9 @@ FactoryGirl.define do
       }
     }],
     'Distributions' => [{}, {
-      'DistributionMedia' => 'test 2 DistributionMedia', 'DistributionSize' => 'test 2 DistributionSize', 'DistributionFormat' => 'test 2 DistributionFormat', 'Fees' => 1234.56
+      'DistributionMedia' => 'test 2 DistributionMedia', 'DistributionSize' => 42, 'DistributionFormat' => 'test 2 DistributionFormat', 'Fees' => 1234.56
     }, {
-      'DistributionMedia' => 'test 1 DistributionMedia', 'DistributionSize' => 'test 1 DistributionSize', 'DistributionFormat' => 'test 1 DistributionFormat', 'Fees' => 1234.56
+      'DistributionMedia' => 'test 1 DistributionMedia', 'DistributionSize' => 43, 'DistributionFormat' => 'test 1 DistributionFormat', 'Fees' => 1234.56
     }],
     'MetadataLanguage' => 'English',
     'MetadataDates' => [{

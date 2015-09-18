@@ -5,7 +5,7 @@
 
   <!-- Distribution Size -->
   <label for="<%= remove_pipes(name_prefix) %>distribution_size">Distribution Size</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|distribution_size|"), distribution['DistributionSize'], class: 'half-width') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|distribution_size|"), distribution['DistributionSize'], class: 'half-width') %>
 
   <!-- Distribution Format -->
   <label for="<%= remove_pipes(name_prefix) %>distribution_format">Distribution Format</label><i class="fa fa-info-circle"></i>

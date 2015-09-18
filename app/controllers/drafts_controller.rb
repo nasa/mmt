@@ -71,7 +71,6 @@ class DraftsController < ApplicationController
     # These fields currently break in CMR when trying to ingest
     draft.delete('Distributions')
 
-
     translated_metadata = cmr_client.translate_collection(draft.to_json, 'application/umm+json', 'application/iso19115+xml').body
     # puts "Translated: #{translated_metadata.inspect}"
 

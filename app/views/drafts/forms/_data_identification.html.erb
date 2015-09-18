@@ -200,7 +200,7 @@
         <% access_constraints = draft.draft['AccessConstraints'] || {} %>
         <!-- Value -->
         <label for="draft_access_constraints_value">Value</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width') %>
+        <%= number_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width') %>
 
         <!-- Description -->
         <label for="draft_access_constraints_description" class="icon-required">Description</label><i class="fa fa-info-circle"></i>
