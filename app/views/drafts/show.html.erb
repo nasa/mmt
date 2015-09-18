@@ -32,6 +32,21 @@
         </div>
       </div>
     </section>
+    <% if @errors && !@errors.empty? %>
+      <section class="errors">
+        <div class="banner banner-danger">
+          <i class="fa fa-exclamation-triangle"></i> This draft has the following errors:
+          <ul class="no-bullet">
+            <% @errors.each do |error| %>
+              <li>
+                <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) if error[:field] %>
+                <%= error[:error] %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </section>
+    <% end %>
     <section class="metadata">
       <h3>Metadata Fields</h3>
       <ul>
