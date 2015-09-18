@@ -61,7 +61,7 @@ var englishValidationMessages = {
 
   enum: 'This is not one of the allowed values',
   exclusiveMaximum: 'Value is too high',
-  maximum: 'Value is too low',
+  maximum: 'Value is too high',
   exclusiveMinimum: 'Value is too low',
   minimum: 'Value is too low',
   multipleOf: 'Value must be a multiple of a given number',
