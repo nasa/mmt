@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require eui-0.3.4/eui
 //= require dropzone-4.0.1/dropzone
+//= require leanModal-1.1/jquery.leanModal.min
 //= require_tree .
