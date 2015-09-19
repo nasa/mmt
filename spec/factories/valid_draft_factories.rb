@@ -1,8 +1,4 @@
 FactoryGirl.define do
-  factory :draft do
-    draft 'Abstract' => 'This is an abstract field'
-  end
-
   factory :full_draft, class: Draft do
     draft 'Projects' => [{
       'ShortName' => 'test 1 ShortName',

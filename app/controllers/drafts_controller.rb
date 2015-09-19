@@ -68,18 +68,13 @@ class DraftsController < ApplicationController
 
   def publish
     draft = @draft.draft
-    # puts draft
     # These fields currently break in CMR when trying to ingest
     draft.delete('Distributions')
 
     translated_metadata = cmr_client.translate_collection(draft.to_json, 'application/umm+json', 'application/iso19115+xml').body
-    # puts "Translated: #{translated_metadata.inspect}"
-
-    # validated_metadata = cmr_client.validate_collection(translated_metadata, @current_user.provider_id, @draft.id, token).body
-    # puts "Validated: #{validated_metadata.inspect}"
 
     ingested = cmr_client.ingest_collection(translated_metadata, @current_user.provider_id, @draft.id, token)
-    # puts "ingested: #{ingested.inspect}"
+
     if ingested.success?
       xml = MultiXml.parse(ingested.body)
       concept_id = xml['result']['concept_id']
@@ -121,7 +116,7 @@ class DraftsController < ApplicationController
       errors = Array.wrap(xml['errors']['error'])
       errors.map! { |error| generate_errors(error, draft) }.flatten!
     end
-    puts errors.inspect
+
     errors
   end
 
@@ -131,26 +126,39 @@ class DraftsController < ApplicationController
     if string.include? 'has missing required properties'
       required_fields = string.delete('"').match(/\(\[(.*)\]\)/)[1].split(',')
 
-      # if none of the fields from a page are completed, don't display errors for that page
-      [
-        ACQUISITION_INFORMATION_FIELDS,
-        DATA_IDENTIFICATION_FIELDS,
-        DESCRIPTIVE_KEYWORDS_FIELDS,
-        DISTRIBUTION_INFORMATION_FIELDS,
-        METADATA_INFORMATION_FIELDS,
-        SPATIAL_EXTENT_FIELDS,
-        TEMPORAL_EXTENT_FIELDS
-      ].each do |all_fields|
-        required_fields.delete_if { |field| all_fields.include?(field) } if (all_fields & draft.keys).empty?
-      end
+      # If the error is for top level required fields
+      if string.start_with? 'object'
+        # if none of the fields from a page are completed, don't display errors for that page
+        [
+          ACQUISITION_INFORMATION_FIELDS,
+          DATA_IDENTIFICATION_FIELDS,
+          DESCRIPTIVE_KEYWORDS_FIELDS,
+          DISTRIBUTION_INFORMATION_FIELDS,
+          METADATA_INFORMATION_FIELDS,
+          SPATIAL_EXTENT_FIELDS,
+          TEMPORAL_EXTENT_FIELDS
+        ].each do |all_fields|
+          required_fields.delete_if { |field| all_fields.include?(field) } if (all_fields & draft.keys).empty?
+        end
 
-      required_fields.map! do |field|
-        {
-          field: field,
-          page: get_page(field),
-          error: 'is required'
-        }
+        required_fields.map! do |field|
+          {
+            field: field,
+            page: get_page(field),
+            error: 'is required'
+          }
+        end
+      # if the error is for nested required fields
+      else
+        required_fields.map! do |field|
+          {
+            field: field,
+            page: get_page(fields.split('/')[1]),
+            error: 'is required'
+          }
+        end
       end
+    # If there error is not about required fields
     else
       {
         field: fields.split('/').last,

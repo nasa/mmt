@@ -1,6 +1,7 @@
 class Draft < ActiveRecord::Base
   belongs_to :user
   serialize :draft, JSON
+  before_save :default_values
 
   DRAFT_FORMS = [ # array of hashes provide flexibility to add additional fiels
     { form_partial_name: 'data_identification' },
@@ -171,5 +172,11 @@ class Draft < ActiveRecord::Base
       end
     end
     values
+  end
+
+  private
+
+  def default_values
+    self.draft ||= {}
   end
 end
