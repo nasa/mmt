@@ -11,7 +11,9 @@ describe 'Data identification form', js: true do
 
   context 'when submitting the form' do
     before do
-      click_on 'Data Identification'
+      within '.metadata' do
+        click_on 'Data Identification'
+      end
 
       fill_in 'draft_entry_id', with: '12345'
       fill_in 'Entry Title', with: 'Draft Title'
@@ -167,7 +169,9 @@ describe 'Data identification form', js: true do
 
     context 'when returning to the form' do
       before do
-        click_on 'Data Identification'
+        within '.metadata' do
+          click_on 'Data Identification'
+        end
 
         open_accordions
       end

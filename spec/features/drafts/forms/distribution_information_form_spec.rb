@@ -11,7 +11,9 @@ describe 'Distribution information form', js: true do
 
   context 'when submitting the form' do
     before do
-      click_on 'Distribution Information'
+      within '.metadata' do
+        click_on 'Distribution Information'
+      end
 
       # Complete RelatedUrl fields
       add_related_urls
@@ -78,7 +80,9 @@ describe 'Distribution information form', js: true do
 
     context 'when returning to the form' do
       before do
-        click_on 'Distribution Information'
+        within '.metadata' do
+          click_on 'Distribution Information'
+        end
 
         open_accordions
       end

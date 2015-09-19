@@ -11,7 +11,9 @@ describe 'Acquisition information form', js: true do
 
   context 'when submitting the form' do
     before do
-      click_on 'Acquisition Information'
+      within '.metadata' do
+        click_on 'Acquisition Information'
+      end
 
       add_platforms
 
@@ -78,7 +80,9 @@ describe 'Acquisition information form', js: true do
 
     context 'when returning to the form' do
       before do
-        click_on 'Acquisition Information'
+        within '.metadata' do
+          click_on 'Acquisition Information'
+        end
 
         open_accordions
       end

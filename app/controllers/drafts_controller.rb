@@ -11,7 +11,7 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
-    @errors = translate_metadata(@draft.draft)
+    _response, @errors = translate_metadata(@draft.draft)
   end
 
   # GET /drafts/new
@@ -68,24 +68,34 @@ class DraftsController < ApplicationController
 
   def publish
     draft = @draft.draft
+    # puts draft
     # These fields currently break in CMR when trying to ingest
     draft.delete('Distributions')
 
-    translated_metadata = cmr_client.translate_collection(draft.to_json, 'application/umm+json', 'application/iso19115+xml').body
+    translated_metadata, @errors = translate_metadata(draft)
 
-    ingested = cmr_client.ingest_collection(translated_metadata, @current_user.provider_id, @draft.id, token)
+    if translated_metadata && !translated_metadata.include?('errors')
+      ingested = cmr_client.ingest_collection(translated_metadata, @current_user.provider_id, @draft.id, token)
 
-    if ingested.success?
-      xml = MultiXml.parse(ingested.body)
-      concept_id = xml['result']['concept_id']
-      revision_id = xml['result']['revision_id']
-      redirect_to collection_path(concept_id, revision_id: revision_id)
+      if ingested.success?
+        xml = MultiXml.parse(ingested.body)
+        concept_id = xml['result']['concept_id']
+        revision_id = xml['result']['revision_id']
+        redirect_to collection_path(concept_id, revision_id: revision_id)
+      else
+        # Log error message
+        Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
+
+        @errors = [{
+          page: nil,
+          field: nil,
+          error: 'An unknown error caused publishing to fail.'
+        }]
+        render :show
+      end
     else
-      @errors = [{
-        page: nil,
-        field: nil,
-        error: 'An unknown error caused publishing to fail.'
-      }]
+      # log translated error message
+      Rails.logger.error("Translated Metadata Error: #{@errors.inspect}")
       render :show
     end
   end
@@ -110,14 +120,15 @@ class DraftsController < ApplicationController
 
   def translate_metadata(draft)
     translated_response = cmr_client.translate_collection(draft.to_json, 'application/umm+json', 'application/iso19115+xml').body
+
     xml = MultiXml.parse(translated_response)
     errors = nil
     if xml['errors']
       errors = Array.wrap(xml['errors']['error'])
       errors.map! { |error| generate_errors(error, draft) }.flatten!
     end
-
-    errors
+    value = errors.nil? ? translated_response : nil
+    [value, errors]
   end
 
   def generate_errors(string, draft)
@@ -138,7 +149,9 @@ class DraftsController < ApplicationController
           SPATIAL_EXTENT_FIELDS,
           TEMPORAL_EXTENT_FIELDS
         ].each do |all_fields|
-          required_fields.delete_if { |field| all_fields.include?(field) } if (all_fields & draft.keys).empty?
+          # Display all missing required fields to make it easier for the user to find problems
+          # This code might still be usefule for the dots/checkboxes on the preview page
+          # required_fields.delete_if { |field| all_fields.include?(field) } if (all_fields & draft.keys).empty?
         end
 
         required_fields.map! do |field|

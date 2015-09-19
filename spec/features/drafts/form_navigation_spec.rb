@@ -27,7 +27,9 @@ describe 'Draft form navigation' do
       form_title = f[:form_partial_name].titleize()
       context "when clicking on #{form_title}" do
         before do
-          click_link form_title
+          within '.metadata' do
+            click_link form_title
+          end
         end
         it "displays the #{form_title} form" do
           expect(page).to have_content(form_title)

@@ -89,6 +89,7 @@ class Draft < ActiveRecord::Base
     number_of_orbits
     start_circular_latitude
     resolutions
+    distribution_size
   )
   BOOLEAN_KEYS = %w(
     ends_at_present_flag
@@ -114,6 +115,10 @@ class Draft < ActiveRecord::Base
             object[key] = value == 'true' ? true : false unless value.empty?
           elsif key == 'science_keywords'
             object[key] = convert_science_keywords(value)
+          elsif key == 'access_constraints'
+            # 'Value' shows up multiple times in the UMM. We just need to convert AccessConstraints/Value to a number
+            value['value'] = convert_to_number(value['value']) if value['value']
+            object[key] = value
           else
             if key == 'orbit_parameters'
               # There are two fields named 'Period' but only one of them is a number.
