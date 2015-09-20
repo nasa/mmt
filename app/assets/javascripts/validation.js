@@ -75,7 +75,7 @@ var englishValidationMessages = {
   //minProperties: 'Object must have at least {{0}} properties',
   //additionalProperties: 'No additional properties allowed, but property "{{0}}" is set',
   //dependencies: 'Must have property "{{0}}"',
-  oneOf: 'Value must validate against exactly one of the provided schemas.',
+  oneOf: 'Value must validate against exactly one of the provided schemas',
   date_time: 'This is not a valid RFC3339 date-time. Needs to look like "2015-08-01T00:00:00Z"'
 
   //enum: '"{{0}}" is not one of the allowed values',
@@ -127,6 +127,45 @@ function pathToObjId(path) {
   return objId;
 }
 
+function errorRequiresSpecialHandling (error) {
+  if (error['keyword'] === 'oneOf')
+    return true;
+
+  if (
+    error['path'] === "MetadataLineagesDatesResponsibilitiesPartyRelatedUrlsURLs" ||
+    error['path'] === "MetadataLineagesDatesResponsibilities" ||
+    error['path'] === "DataDates" ||
+    error['path'] === "OrganizationsPartyRelatedUrlsURLs" ||
+    error['path'] === "Organizations" ||
+    error['path'] === "PersonnelPartyRelatedUrlsURLs" ||
+    error['path'] === "Personnel" ||
+    error['path'] === "CollectionCitationsRelatedUrlsURLs" ||  // CC array
+    error['path'] === "PublicationReferencesRelatedUrlsURLs" ||
+    error['path'] === "RelatedUrlsURLs" ||
+    error['path'] === "RelatedUrls" ||
+
+    error['path'] === "ScienceKeywords" ||
+
+    error['path'] === "TemporalExtentsRangeDateTimes" ||
+    error['path'] === "TemporalExtentsSingleDateTimes" ||
+    error['path'] === "TemporalExtentsPeriodicDateTimes" ||
+    error['path'] === "TemporalExtents" ||
+
+    error['path'] === "SpatialExtentHorizontalSpatialDomainGeometryGPolygonsExclusiveZoneBoundariesPoints" ||
+    error['path'] === "SpatialExtentHorizontalSpatialDomainGeometryGPolygonsExclusiveZoneBoundaries" ||
+    error['path'] === "SpatialExtentHorizontalSpatialDomainGeometryLinesPoints" ||
+    error['path'] === "SpatialExtentHorizontalSpatialDomainGeometryGPolygonsBoundaryPoints" ||
+    error['path'] === "SpatialKeywords" ||
+
+    error['path'] === "PlatformsInstruments" ||
+    error['path'] === "Platforms" ||
+
+  )
+    return true;
+
+  return false;
+}
+
 function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
 
   var jsonForPage = buildJsonForPage();
@@ -140,7 +179,7 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
   for(i=0; i<validate.errors.length; i++) {
     var error = validate.errors[i];
     var obj = $('#' + pathToObjId(error['path']));
-    if (obj[0]) {
+    if (obj[0] || errorRequiresSpecialHandling (error)) {
       error['obj'] = obj;
       relevantErrors.push(error);
     }
