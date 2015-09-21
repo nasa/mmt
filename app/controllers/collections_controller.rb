@@ -16,7 +16,7 @@ class CollectionsController < ApplicationController
       concept_format = concept['meta']['format']
 
       # retrieve native metadata
-      metadata = cmr_client.get_concept(concept_id, revision_id)
+      metadata = cmr_client.get_concept(concept_id, revision_id, token)
 
       # translate to umm-json metadata
       @collection = cmr_client.translate_collection(metadata, concept_format, 'application/umm+json').body

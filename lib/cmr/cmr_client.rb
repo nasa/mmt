@@ -77,13 +77,13 @@ module Cmr
       put(url, metadata, headers.merge(token_header(token)))
     end
 
-    def get_concept(concept_id, revision_id = nil)
+    def get_concept(concept_id, revision_id = nil, token)
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       else
         url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       end
-      get(url).body
+      get(url, {}, token_header(header)).body
     end
   end
 end
