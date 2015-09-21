@@ -1,0 +1,12 @@
+/* Breadcrumb
+------------------------------------------*/
+
+.breadcrumb {
+  a:link, a:visited {
+    color: #fff;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
