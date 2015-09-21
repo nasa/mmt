@@ -16,7 +16,7 @@ class CollectionsController < ApplicationController
 
     attempts = 0
     while attempts < 3
-      concept = cmr_client.get_collections(concept_id: concept_id).body['items'].first
+      concept = cmr_client.get_collections({ concept_id: concept_id }, token).body['items'].first
       break if concept && !@revision_id
       break if concept && concept['meta']['revision-id'] == @revision_id
       attempts += 1
@@ -28,7 +28,7 @@ class CollectionsController < ApplicationController
       concept_format = concept['meta']['format']
 
       # retrieve native metadata
-      metadata = cmr_client.get_concept(concept_id, @revision_id)
+      metadata = cmr_client.get_concept(concept_id, @revision_id, token)
 
       # translate to umm-json metadata
       @collection = cmr_client.translate_collection(metadata, concept_format, 'application/umm+json').body

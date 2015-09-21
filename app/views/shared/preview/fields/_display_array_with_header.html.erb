@@ -7,7 +7,7 @@
     <li class="<%= html_class_name %>">
       <ul class="sub-field">
         <li class="field-name">
-          <h4><%= title_override || name_to_title(key_name) %></h4>
+          <h6><%= title_override || name_to_title(key_name) %></h6>
         </li>
         <% data_array.each_with_index do |element_of_array, index| %>
           <li class="<%= html_class_name %>-<%= index %>">

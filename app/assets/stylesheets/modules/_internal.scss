@@ -5,7 +5,7 @@
   header,
   .content-header {
     min-width: 100%;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.3);
     color: #fff;
     padding: 0;
     h2 {
@@ -17,6 +17,31 @@
         margin-right: 0.5em;
         padding: 0;
       }
+    }
+  }
+}
+
+.preview-collection {
+
+  .accordion-body {
+    .top_field:not(:first-child) {
+      border-top: 1px solid $light-grey;
+      margin-top: .5em;
+    }
+
+    h4, h5 {
+      margin: .25em 0;
+    }
+
+    h6 {
+      margin: .3em 0;
+      font-weight: bold;
+    }
+  }
+
+  .sub-field {
+    li {
+      margin: 0 .75em;
     }
   }
 }

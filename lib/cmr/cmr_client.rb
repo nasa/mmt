@@ -56,7 +56,7 @@ module Cmr
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3002/providers/#{provider_id}/collections/#{native_id}"
       else
-        url = "http://cmr.sit.earthdata.nasa.gov/ingest/providers/#{provider_id}/collections/#{native_id}"
+        url = "/ingest/providers/#{provider_id}/collections/#{native_id}"
       end
       headers = {
         'Content-Type' => 'application/iso19115+xml'
@@ -64,13 +64,13 @@ module Cmr
       put(url, metadata, headers.merge(token_header(token)))
     end
 
-    def get_concept(concept_id, revision_id = nil)
+    def get_concept(concept_id, revision_id = nil, token)
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       else
         url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       end
-      get(url).body
+      get(url, {}, token_header(token)).body
     end
   end
 end

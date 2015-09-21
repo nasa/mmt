@@ -78,6 +78,7 @@ class DraftsController < ApplicationController
       ingested = cmr_client.ingest_collection(translated_metadata, @current_user.provider_id, @draft.native_id, token)
 
       if ingested.success?
+        Rails.logger.error("Ingest Metadata: #{ingested.inspect}")
         xml = MultiXml.parse(ingested.body)
         concept_id = xml['result']['concept_id']
         revision_id = xml['result']['revision_id']
