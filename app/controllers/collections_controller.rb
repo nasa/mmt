@@ -6,7 +6,7 @@ class CollectionsController < ApplicationController
 
     attempts = 0
     while attempts < 3
-      concept = cmr_client.get_collections(concept_id: concept_id).body['items'].first
+      concept = cmr_client.get_collections({ concept_id: concept_id }, token).body['items'].first
       break if concept && concept['meta']['revision-id'] == revision_id
       attempts += 1
       sleep 2
