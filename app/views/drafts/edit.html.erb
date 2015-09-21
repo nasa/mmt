@@ -1,4 +1,7 @@
 <main class="internal">
+
+  <input type='hidden' id='mmt-form-name' value='<%= @draft_form %>'>
+
   <%= form_tag(draft_path(@draft), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
 
     <section class="content-header">

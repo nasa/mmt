@@ -25,7 +25,7 @@
 
   <!-- ReleaseDate -->
   <label for="<%= remove_pipes(name_prefix) %>release_date">Release Date</label><i class="fa fa-info-circle"></i>
-  <%= datetime_field_tag name_to_param("#{name_prefix}|release_date|"), resource_citation['ReleaseDate'], class: 'half-width validate' %>
+  <%= datetime_field_tag name_to_param("#{name_prefix}|release_date|"), resource_citation['ReleaseDate'], class: 'half-width validate mmt-date-time' %>
 
 
   <!-- ReleasePlace -->

@@ -5,11 +5,11 @@
 
   <!-- StartDate -->
   <label for="<%= remove_pipes(name_prefix) %>start_date" class="icon-required">Start Date</label><i class="fa fa-info-circle"></i>
-  <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), periodic_date_time['StartDate'], class: 'half-width validate') %>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), periodic_date_time['StartDate'], class: 'half-width validate mmt-date-time') %>
 
   <!-- EndDate -->
   <label for="<%= remove_pipes(name_prefix) %>end_date" class="icon-required">End Date</label><i class="fa fa-info-circle"></i>
-  <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), periodic_date_time['EndDate'], class: 'half-width validate') %>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), periodic_date_time['EndDate'], class: 'half-width validate mmt-date-time') %>
 
   <!-- DurationUnit -->
   <label for="<%= remove_pipes(name_prefix) %>duration_unit" class="icon-required">Duration Unit</label><i class="fa fa-info-circle"></i>

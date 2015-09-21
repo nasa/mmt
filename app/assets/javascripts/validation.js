@@ -26,6 +26,9 @@ function createUserValidationMessage(error, messageType) {
     else if (errorObj.hasClass('mmt-boolean')) {
       option = 'boolean';
     }
+    else if (errorObj.hasClass('mmt-date-time')) {
+      option = 'date-time';
+    }
   }
 
   var message = translateValidationMessage(errorKeyword, [option]);
@@ -127,41 +130,65 @@ function pathToObjId(path) {
   return objId;
 }
 
-function errorRequiresSpecialHandling (error) {
+function errorRequiresSpecialHandling (formName, error) {
+
   if (error['keyword'] === 'oneOf')
     return true;
 
-  if (
-    error['path'] === "MetadataLineagesDatesResponsibilitiesPartyRelatedUrlsURLs" ||
-    error['path'] === "MetadataLineagesDatesResponsibilities" ||
-    error['path'] === "DataDates" ||
-    error['path'] === "OrganizationsPartyRelatedUrlsURLs" ||
-    error['path'] === "Organizations" ||
-    error['path'] === "PersonnelPartyRelatedUrlsURLs" ||
-    error['path'] === "Personnel" ||
-    error['path'] === "CollectionCitationsRelatedUrlsURLs" ||  // CC array
-    error['path'] === "PublicationReferencesRelatedUrlsURLs" ||
-    error['path'] === "RelatedUrlsURLs" ||
-    error['path'] === "RelatedUrls" ||
+  var simplifiedPath = error['path'].replace(/\.\d*\./g, '.');
+  alert (error['path'] + ': ' + simplifiedPath + ' : ' + error['keyword']);
 
-    error['path'] === "ScienceKeywords" ||
 
-    error['path'] === "TemporalExtentsRangeDateTimes" ||
-    error['path'] === "TemporalExtentsSingleDateTimes" ||
-    error['path'] === "TemporalExtentsPeriodicDateTimes" ||
-    error['path'] === "TemporalExtents" ||
-
-    error['path'] === "SpatialExtentHorizontalSpatialDomainGeometryGPolygonsExclusiveZoneBoundariesPoints" ||
-    error['path'] === "SpatialExtentHorizontalSpatialDomainGeometryGPolygonsExclusiveZoneBoundaries" ||
-    error['path'] === "SpatialExtentHorizontalSpatialDomainGeometryLinesPoints" ||
-    error['path'] === "SpatialExtentHorizontalSpatialDomainGeometryGPolygonsBoundaryPoints" ||
-    error['path'] === "SpatialKeywords" ||
-
-    error['path'] === "PlatformsInstruments" ||
-    error['path'] === "Platforms" ||
-
-  )
+  if (formName === 'data_identification' && (
+      simplifiedPath === "MetadataLineages.Dates.Responsibilities.Party.RelatedUrls.URLs" ||
+      simplifiedPath === "MetadataLineages.Dates.Responsibilities" ||
+      simplifiedPath === "DataDates" ||
+      simplifiedPath === "Organizations.Party.RelatedUrls.URLs" ||
+      simplifiedPath === "Organizations" ||
+      simplifiedPath === "Personnel.Party.RelatedUrls.URLs" ||
+      // simplifiedPath === "Personnel" ||
+      simplifiedPath === "CollectionCitations.RelatedUrls.URLs" ||  // CC array
+      simplifiedPath === "PublicationReferences.RelatedUrls.URLs" ||
+      simplifiedPath === "RelatedUrls.URLs" ||
+      simplifiedPath === "RelatedUrls"
+    )) {
     return true;
+  }
+  else {
+    if (formName === 'descriptive_keywords' && simplifiedPath === "ScienceKeywords") {
+      return true;
+    }
+    else {
+      if (formName === 'temporal_extent' && (
+          simplifiedPath === "TemporalExtents.RangeDateTimes" ||
+          simplifiedPath === "TemporalExtents.SingleDateTimes" ||
+          simplifiedPath === "TemporalExtents.PeriodicDateTimes" ||
+          simplifiedPath === "TemporalExtents"
+        )) {
+        return true;
+      }
+      else {
+        if (formName === 'spatial_extent' && (
+            simplifiedPath === "SpatialExtent.HorizontalSpatialDomain.Geometry.GPolygons.ExclusiveZone.Boundaries.Points" ||
+            simplifiedPath === "SpatialExtent.HorizontalSpatialDomain.Geometry.GPolygons.ExclusiveZone.Boundaries" ||
+            simplifiedPath === "SpatialExtent.HorizontalSpatialDomain.Geometry.Lines.Points" ||
+            simplifiedPath === "SpatialExtent.HorizontalSpatialDomain.Geometry.GPolygons.Boundary" ||
+            simplifiedPath === "SpatialExtent.HorizontalSpatialDomain.Geometry.GPolygons.Boundary.Points" //||
+            // simplifiedPath === "SpatialKeywords"
+          )) {
+          return true;
+        }
+        else {
+          if (formName === 'acquisition_information'&& (
+              //simplifiedPath === "Platforms.Instruments" ||
+              simplifiedPath === "Platforms"
+            )) {
+            return true;
+          }
+        }
+      }
+    }
+  }
 
   return false;
 }
@@ -175,11 +202,17 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
   // Because our required fields are spread over multiple pages and we only validated this one, there will always be errors
 
   // Ignore errors for objects that are not in this DOM (i.e. they lack an ID present on this page)
+  var formName = document.getElementById('mmt-form-name').value;
+
   var relevantErrors = [];
   for(i=0; i<validate.errors.length; i++) {
     var error = validate.errors[i];
     var obj = $('#' + pathToObjId(error['path']));
-    if (obj[0] || errorRequiresSpecialHandling (error)) {
+    // If due to JSEN problem path is not correct, add a '-' & try again.
+    if (!obj[0])
+      obj = $('#' + pathToObjId(error['path']) + '_');
+    //alert (error['path'] + ': ' + error['keyword']);
+    if (obj[0] || errorRequiresSpecialHandling (formName, error)) {
       error['obj'] = obj;
       relevantErrors.push(error);
     }
@@ -212,9 +245,15 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
 
       for (i = 0; i < relevantErrors.length; i++) {
         var error = relevantErrors[i];
-        var objId = error['obj'].attr('id');
         var userMessage = createUserValidationMessage(error, 'summary');
-        var errorString = '<a href="javascript:scrollToLabel(\'' + objId + '\');">' + userMessage + '.</a></br>';
+        var errorString;
+        if (error['obj'][0] === undefined) {
+          errorString = userMessage + '.</br>';
+        }
+        else {
+          var objId = error['obj'].attr('id');
+          errorString = '<a href="javascript:scrollToLabel(\'' + objId + '\');">' + userMessage + '.</a></br>';
+        }
 
         newElement += errorString;
       }
@@ -332,6 +371,10 @@ function collectRelevantErrors(obj, objPathArray, errors) {
 
   var relevantErrors = [];
   var targetObjId = obj.attr('id');
+
+  // For now, if targetObjId ends in an '_', truncate. TODO - remove need for this so it can handle SingleDateTime/other simple arrays better
+  if (targetObjId[targetObjId.length-1] == '_')
+    targetObjId = targetObjId.slice(0, - 1);
 
   for (var i=0; i<errors.length; i++) {
     var error = errors[i];

@@ -28,7 +28,7 @@
 
   <!-- PublicationDate -->
   <label for="<%= remove_pipes(name_prefix) %>publication_date">Publication Date</label><i class="fa fa-info-circle"></i>
-  <%= datetime_field_tag(name_to_param("#{name_prefix}|publication_date|"), publication_reference['PublicationDate'], class: 'half-width validate') %>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|publication_date|"), publication_reference['PublicationDate'], class: 'half-width validate mmt-date-time') %>
 
 
   <!-- Series -->
