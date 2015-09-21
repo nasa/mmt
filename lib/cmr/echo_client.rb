@@ -1,7 +1,7 @@
 module Cmr
   class EchoClient < BaseClient
     def get_calendar_events
-      return Cmr::Response.new(Faraday::Response.new)
+      get('/echo-rest/calendar_events.json', severity: 'ALERT')
     end
 
     def get_echo_provider_holdings(provider_id)
