@@ -90,7 +90,7 @@ describe Draft do
   # after_create sets native_id
   it 'saves a native_id after create' do
     draft = create(:draft)
-    expect(draft.native_id).to eq('mmt_collection_1')
+    expect(draft.native_id).to include('mmt_collection_')
   end
 
   # create_from_collection method
