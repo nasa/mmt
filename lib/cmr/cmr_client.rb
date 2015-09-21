@@ -83,7 +83,7 @@ module Cmr
       else
         url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       end
-      get(url, {}, token_header(header)).body
+      get(url, {}, token_header(token)).body
     end
   end
 end
