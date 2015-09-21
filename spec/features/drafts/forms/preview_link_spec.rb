@@ -12,7 +12,9 @@ describe 'Preview on Map link', js: true do
     login
     draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
     visit draft_path(draft)
-    click_on 'Spatial Extent'
+    within '.metadata' do
+      click_on 'Spatial Extent'
+    end
     choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
   end
 
@@ -48,7 +50,9 @@ describe 'Preview on Map link', js: true do
             click_on 'Save & Done'
           end
 
-          click_on 'Spatial Extent'
+          within '.metadata' do
+            click_on 'Spatial Extent'
+          end
         end
 
         it 'generates the link to Earthdata Search' do
@@ -92,7 +96,9 @@ describe 'Preview on Map link', js: true do
             click_on 'Save & Done'
           end
 
-          click_on 'Spatial Extent'
+          within '.metadata' do
+            click_on 'Spatial Extent'
+          end
         end
 
         it 'generates the link to Earthdata Search' do
@@ -152,7 +158,9 @@ describe 'Preview on Map link', js: true do
             click_on 'Save & Done'
           end
 
-          click_on 'Spatial Extent'
+          within '.metadata' do
+            click_on 'Spatial Extent'
+          end
         end
 
         it 'generates the link to Earthdata Search' do

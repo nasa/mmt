@@ -11,7 +11,9 @@ describe 'Distribution information form', js: true do
 
   context 'when submitting the form' do
     before do
-      click_on 'Distribution Information'
+      within '.metadata' do
+        click_on 'Distribution Information'
+      end
 
       # Complete RelatedUrl fields
       add_related_urls
@@ -19,7 +21,7 @@ describe 'Distribution information form', js: true do
       # Complete Distribution fields
       within '.multiple.distributions' do
         fill_in 'Distribution Media', with: 'Online Download'
-        fill_in 'Distribution Size', with: '42 MB'
+        fill_in 'Distribution Size', with: 4.2
         fill_in 'Distribution Format', with: 'HDF'
         fill_in 'Fees', with: '0'
 
@@ -28,7 +30,7 @@ describe 'Distribution information form', js: true do
 
         within '.multiple-item-1' do
           fill_in 'Distribution Media', with: 'Floppy disc'
-          fill_in 'Distribution Size', with: '1.44 MB'
+          fill_in 'Distribution Size', with: 7.5
           fill_in 'Distribution Format', with: '.txt'
           fill_in 'Fees', with: '12.34'
         end
@@ -63,12 +65,12 @@ describe 'Distribution information form', js: true do
 
       # Distribution 1
       expect(page).to have_content('Online Download')
-      expect(page).to have_content('42 MB')
+      expect(page).to have_content('4.2')
       expect(page).to have_content('HDF')
       expect(page).to have_content('0.0')
       # Distribution 2
       expect(page).to have_content('Floppy disc')
-      expect(page).to have_content('1.44 MB')
+      expect(page).to have_content('7.5')
       expect(page).to have_content('.txt')
       expect(page).to have_content('12.34')
 
@@ -78,7 +80,9 @@ describe 'Distribution information form', js: true do
 
     context 'when returning to the form' do
       before do
-        click_on 'Distribution Information'
+        within '.metadata' do
+          click_on 'Distribution Information'
+        end
 
         open_accordions
       end
@@ -111,14 +115,14 @@ describe 'Distribution information form', js: true do
         within '.multiple.distributions' do
           within '.multiple-item-0' do
             expect(page).to have_field('Distribution Media', with: 'Online Download')
-            expect(page).to have_field('Distribution Size', with: '42 MB')
+            expect(page).to have_field('Distribution Size', with: '4.2')
             expect(page).to have_field('Distribution Format', with: 'HDF')
             expect(page).to have_field('Fees', with: '0.0')
           end
 
           within '.multiple-item-1' do
             expect(page).to have_field('Distribution Media', with: 'Floppy disc')
-            expect(page).to have_field('Distribution Size', with: '1.44 MB')
+            expect(page).to have_field('Distribution Size', with: '7.5')
             expect(page).to have_field('Distribution Format', with: '.txt')
             expect(page).to have_field('Fees', with: '12.34')
           end

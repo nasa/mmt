@@ -6,13 +6,13 @@
   <div class="accordion-body">
     <ul class="descriptive-keywords-preview">
       <%# ISOTopicCategories implemented yet %>
-      <%#= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['ISOTopicCategories'],
+      <%#= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['ISOTopicCategories'],
           name: 'ISOTopicCategories',
           type: TypesHelper::ISOTopicCategoriesType
       } %>
 
-      <% keywords = draft['ScienceKeywords'] || [] %>
+      <% keywords = metadata['ScienceKeywords'] || [] %>
       <% if keywords.size > 0 %>
         <li class="top_field science-keywords">
           <h4>Science Keywords</h4>
@@ -26,13 +26,13 @@
         </li>
       <% end %>
 
-      <%= render partial: 'drafts/previews/fields/display_array_with_header', locals: {
+      <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'AncillaryKeywords',
-          hash_for_key: draft
+          hash_for_key: metadata
       } %>
 
-      <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['AdditionalAttributes'],
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['AdditionalAttributes'],
           name: 'AdditionalAttributes',
           type: TypesHelper::AdditionalAttributesType
       } %>

@@ -1,11 +1,5 @@
 module Cmr
   class CmrClient < BaseClient
-
-    # Example for pulling collections from CMR. (Search Epic will use this)
-    # To get list of collections:
-    # client = Cmr::Client.client_for_environment('sit', Rails.configuration.services)
-    # client.get_collections().body['feed']['entry']
-    # TODO this is currently using the CMR Search API. We will switch to the CMR Ingest API when we get access.
     def get_collections(options={}, token=nil)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3003/collections.umm-json'
@@ -21,7 +15,7 @@ module Cmr
       else
         url = '/ingest/providers'
       end
-      response = Rails.cache.fetch("get_providers", expires_in: 1.hours) do
+      response = Rails.cache.fetch('get_providers', expires_in: 1.hours) do
         get(url)
       end
       response
@@ -45,5 +39,50 @@ module Cmr
       get(url).body
     end
 
+    def translate_collection(draft_metadata, from_format, to_format)
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3002/translate/collection'
+      else
+        url = '/ingest/translate/collection'
+      end
+      headers = {
+        'Content-Type' => from_format,
+        'Accept' => to_format
+      }
+      post(url, draft_metadata, headers)
+    end
+
+    def validate_collection(metadata, provider_id, draft_id, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3002/providers/#{provider_id}/validate/collection/#{draft_id}"
+      else
+        url = "/ingest/providers/#{provider_id}/validate/collection/#{draft_id}"
+      end
+      headers = {
+        'Content-Type' => 'application/iso19115+xml'
+      }
+      post(url, metadata, headers.merge(token_header(token)))
+    end
+
+    def ingest_collection(metadata, provider_id, draft_id, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3002/providers/#{provider_id}/collections/#{draft_id}"
+      else
+        url = "http://cmr.sit.earthdata.nasa.gov/ingest/providers/#{provider_id}/collections/#{draft_id}"
+      end
+      headers = {
+        'Content-Type' => 'application/iso19115+xml'
+      }
+      put(url, metadata, headers.merge(token_header(token)))
+    end
+
+    def get_concept(concept_id, revision_id = nil)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
+      else
+        url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
+      end
+      get(url).body
+    end
   end
 end

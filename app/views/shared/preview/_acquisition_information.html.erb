@@ -6,14 +6,14 @@
   <div class="accordion-body">
     <ul class="acquisition-information-preview">
 
-      <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['Platforms'],
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['Platforms'],
           name: 'Platforms',
           type: TypesHelper::PlatformsType
       } %>
 
-      <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['Projects'],
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['Projects'],
           name: 'Projects',
           type: TypesHelper::ProjectsType
       } %>

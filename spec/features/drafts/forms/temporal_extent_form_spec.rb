@@ -11,7 +11,9 @@ describe 'Temporal extent form', js: true do
 
   context 'when submitting the form' do
     before do
-      click_on 'Temporal Extent'
+      within '.metadata' do
+        click_on 'Temporal Extent'
+      end
 
       # Complete TemporalExtent fields
       within '.multiple.temporal-extents' do
@@ -149,7 +151,9 @@ describe 'Temporal extent form', js: true do
 
     context 'when returning to the form' do
       before do
-        click_on 'Temporal Extent'
+        within '.metadata' do
+          click_on 'Temporal Extent'
+        end
 
         open_accordions
       end

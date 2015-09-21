@@ -51,8 +51,8 @@
 </fieldset>
 
 <fieldset>
-  <h3>Dates</h3>
-  <!-- Data dates [r] -->
+  <h3 class="icon-required">Data Dates</h3>
+  <!-- DataDates [r] -->
   <div class="row">
     <div class="col-12">
       <%= render partial: 'drafts/forms/type', locals: {
@@ -66,7 +66,7 @@
 </fieldset>
 
 <fieldset>
-  <h3>Organizations</h3>
+  <h3 class="icon-required">Organizations</h3>
   <!-- Organization [r] -->
   <div class="row taller organization">
     <div class="col-12">
@@ -117,9 +117,8 @@
 </fieldset>
 
 <fieldset>
-  <h3>Processing Level</h3>
+  <h3 class="icon-required">Processing Level</h3>
   <!-- Processing Level [r] -->
-  <!-- TODO , maybe? -->
   <div class="row">
     <div class="col-12">
 
@@ -200,7 +199,7 @@
         <% access_constraints = draft.draft['AccessConstraints'] || {} %>
         <!-- Value -->
         <label for="draft_access_constraints_value">Value</label><i class="fa fa-info-circle"></i>
-        <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width') %>
+        <%= number_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width') %>
 
         <!-- Description -->
         <label for="draft_access_constraints_description" class="icon-required">Description</label><i class="fa fa-info-circle"></i>

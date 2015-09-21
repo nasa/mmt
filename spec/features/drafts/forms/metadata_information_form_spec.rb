@@ -11,7 +11,9 @@ describe 'Metadata Information form', js: true do
 
   context 'when submitting the form' do
     before do
-      click_on 'Metadata Information'
+      within '.metadata' do
+        click_on 'Metadata Information'
+      end
 
       fill_in 'Metadata Language', with: 'English'
 
@@ -46,7 +48,9 @@ describe 'Metadata Information form', js: true do
 
     context 'when returning to the form' do
       before do
-        click_on 'Metadata Information'
+        within '.metadata' do
+          click_on 'Metadata Information'
+        end
 
         open_accordions
       end

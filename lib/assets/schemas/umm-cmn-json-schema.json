@@ -455,9 +455,7 @@
         },
         "Value": {
           "description": "Value of the constraint",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
+          "type": "number"
         }
       },
       "required": ["Description"]
@@ -702,9 +700,7 @@
         },
         "DistributionSize": {
           "description": "The size of the distribution package of the data or service.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
+          "type": "number"
         },
         "DistributionFormat": {
           "description": "The distribution format of the data.",
@@ -746,7 +742,7 @@
         "Instruments": {
           "type": "array",
           "items": {
-            "$ref": "umm-cmn-json-schema.json#/definitions/InstrumentType"
+            "$ref": "#/definitions/InstrumentType"
           },
           "minItems": 1
         }
@@ -1150,7 +1146,7 @@
     "BoundaryType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "The boundary representing the outer ring of the GPolygon.",
+      "description": "A boundary is set of points connected by straight lines representing a polygon on the earth. It takes a minimum of three points to make a boundary. Points must be specified in counter-clockwise order and closed (the first and last vertices are the same).",
       "properties": {
         "Points": {
           "type": "array",

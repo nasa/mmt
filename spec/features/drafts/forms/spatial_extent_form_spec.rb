@@ -11,7 +11,9 @@ describe 'Spatial extent form', js: true do
 
   context 'when submitting the form with horizontal spatial' do
     before do
-      click_on 'Spatial Extent'
+      within '.metadata' do
+        click_on 'Spatial Extent'
+      end
 
       # Spatial Extent
       choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
@@ -139,7 +141,9 @@ describe 'Spatial extent form', js: true do
 
     context 'when returning to the form' do
       before do
-        click_on 'Spatial Extent'
+        within '.metadata' do
+          click_on 'Spatial Extent'
+        end
 
         open_accordions
       end
@@ -310,7 +314,9 @@ describe 'Spatial extent form', js: true do
 
   context 'when submitting the form with vertical spatial' do
     before do
-      click_on 'Spatial Extent'
+      within '.metadata' do
+        click_on 'Spatial Extent'
+      end
 
       # Spatial Extent
       choose 'draft_spatial_extent_spatial_coverage_type_VERTICAL'
@@ -380,7 +386,9 @@ describe 'Spatial extent form', js: true do
 
     context 'when returning to the form with vertical spatial data' do
       before do
-        click_on 'Spatial Extent'
+        within '.metadata' do
+          click_on 'Spatial Extent'
+        end
 
         open_accordions
       end
@@ -428,7 +436,9 @@ describe 'Spatial extent form', js: true do
 
   context 'when submitting the form with orbital spatial' do
     before do
-      click_on 'Spatial Extent'
+      within '.metadata' do
+        click_on 'Spatial Extent'
+      end
 
       # Spatial Extent
       choose 'draft_spatial_extent_spatial_coverage_type_ORBITAL'
@@ -507,7 +517,9 @@ describe 'Spatial extent form', js: true do
 
     context 'when returning to the form for orbital spatial data' do
       before do
-        click_on 'Spatial Extent'
+        within '.metadata' do
+          click_on 'Spatial Extent'
+        end
 
         open_accordions
       end

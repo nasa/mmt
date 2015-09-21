@@ -1,8 +1,8 @@
 <% options = [] if options.nil? %>
 <% title_override = false if title_override.nil? %>
 
-<%# Typical call: render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Fees', :hash_for_key=>r, :handle_as_currency=>true} %>
-<%# Typical call: render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'Id', :hash_for_key=>r, :title_override=>'ID'} %>
+<%# Typical call: render :partial=>'shared/preview/fields/display_field_line', :locals=>{:key_name=>'Fees', :hash_for_key=>r, :handle_as_currency=>true} %>
+<%# Typical call: render :partial=>'shared/preview/fields/display_field_line', :locals=>{:key_name=>'Id', :hash_for_key=>r, :title_override=>'ID'} %>
 <% if !hash_for_key.nil? %>
   <% value = hash_for_key[key_name] %>
   <% value = value.to_s if value.in? [true, false] # Convert booleans back to strings & detect nils %>
