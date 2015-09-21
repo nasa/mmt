@@ -1,3 +1,64 @@
+var ACQUISITION_INFORMATION_FIELDS = [
+  'Platforms',
+  'Projects'
+];
+var DATA_IDENTIFICATION_FIELDS = [
+  'EntryId',
+  'Version',
+  'EntryTitle',
+  'Abstract',
+  'Purpose',
+  'DataLanguage',
+  'DataDates',
+  'Organizations',
+  'Personnel',
+  'CollectionDataType',
+  'ProcessingLevel',
+  'CollectionCitations',
+  'CollectionProgress',
+  'Quality',
+  'UseConstraints',
+  'AccessConstraints',
+  'MetadataAssociations',
+  'PublicationReferences'
+];
+var DESCRIPTIVE_KEYWORDS_FIELDS = [
+  'ISOTopicCategories',
+  'ScienceKeywords',
+  'AncillaryKeywords',
+  'AdditionalAttributes'
+];
+var DISTRIBUTION_INFORMATION_FIELDS = [
+  'RelatedUrls',
+  'Distributions'
+];
+var METADATA_INFORMATION_FIELDS = [
+  'MetadataLanguage',
+  'MetadataDates'
+];
+var SPATIAL_EXTENT_FIELDS = [
+  'SpatialExtent',
+  'TilingIdentificationSystem',
+  'SpatialInformation',
+  'SpatialKeywords'
+];
+var TEMPORAL_EXTENT_FIELDS = [
+  'TemporalExtents',
+  'TemporalKeywords',
+  'PaleoTemporalCoverage'
+];
+
+var FORM_FIELDS = [
+  { formName: 'data_identification', fields: DATA_IDENTIFICATION_FIELDS },
+  { formName: 'descriptive_keywords', fields: DESCRIPTIVE_KEYWORDS_FIELDS },
+  { formName: 'metadata_information', fields: METADATA_INFORMATION_FIELDS },
+  { formName: 'temporal_extent', fields: TEMPORAL_EXTENT_FIELDS },
+  { formName: 'spatial_extent', fields: SPATIAL_EXTENT_FIELDS },
+  { formName: 'acquisition_information', fields: ACQUISITION_INFORMATION_FIELDS },
+  { formName: 'distribution_information', fields: DISTRIBUTION_INFORMATION_FIELDS }
+];
+
+
 function createUserValidationMessage(error, messageType) {
   var errorKeyword = error['keyword'];
   var errorPath = error['path'];
@@ -129,67 +190,6 @@ function pathToObjId(path) {
   objId = objId.replace(/\./g, '_');
   return objId;
 }
-
-var ACQUISITION_INFORMATION_FIELDS = [
-  'Platforms',
-  'Projects'
-];
-var DATA_IDENTIFICATION_FIELDS = [
-  'EntryId',
-  'Version',
-  'EntryTitle',
-  'Abstract',
-  'Purpose',
-  'DataLanguage',
-  'DataDates',
-  'Organizations',
-  'Personnel',
-  'CollectionDataType',
-  'ProcessingLevel',
-  'CollectionCitations',
-  'CollectionProgress',
-  'Quality',
-  'UseConstraints',
-  'AccessConstraints',
-  'MetadataAssociations',
-  'PublicationReferences'
-];
-var DESCRIPTIVE_KEYWORDS_FIELDS = [
-  'ISOTopicCategories',
-  'ScienceKeywords',
-  'AncillaryKeywords',
-  'AdditionalAttributes'
-];
-var DISTRIBUTION_INFORMATION_FIELDS = [
-  'RelatedUrls',
-  'Distributions'
-];
-var METADATA_INFORMATION_FIELDS = [
-  'MetadataLanguage',
-  'MetadataDates'
-];
-var SPATIAL_EXTENT_FIELDS = [
-  'SpatialExtent',
-  'TilingIdentificationSystem',
-  'SpatialInformation',
-  'SpatialKeywords'
-];
-var TEMPORAL_EXTENT_FIELDS = [
-  'TemporalExtents',
-  'TemporalKeywords',
-  'PaleoTemporalCoverage'
-];
-
-var FORM_FIELDS = [
-  { formName: 'data_identification', fields: DATA_IDENTIFICATION_FIELDS },
-  { formName: 'descriptive_keywords', fields: DESCRIPTIVE_KEYWORDS_FIELDS },
-  { formName: 'metadata_information', fields: METADATA_INFORMATION_FIELDS },
-  { formName: 'temporal_extent', fields: TEMPORAL_EXTENT_FIELDS },
-  { formName: 'spatial_extent', fields: SPATIAL_EXTENT_FIELDS },
-  { formName: 'acquisition_information', fields: ACQUISITION_INFORMATION_FIELDS },
-  { formName: 'distribution_information', fields: DISTRIBUTION_INFORMATION_FIELDS }
-];
-
 
 function errorAppliesToThisPage(formName, error) {
   var errorLocation = error['path'].split('.')[0];
