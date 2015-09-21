@@ -65,6 +65,7 @@ module Cmr
     end
 
     def ingest_collection(metadata, provider_id, draft_id, token)
+      draft_id = "mmt_draft_#{draft_id}"
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3002/providers/#{provider_id}/collections/#{draft_id}"
       else
