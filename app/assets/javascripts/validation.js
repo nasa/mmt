@@ -181,10 +181,6 @@ function buildJsonForPage() {
 function pathToObjId(path) {
   var objId = 'draft.' + path;
   // Camel to snake
-  objId = objId.replace(/\UUID/g, 'Uuid');
-  objId = objId.replace(/\URL/g, 'Url');
-  objId = objId.replace(/\ISBN/g, 'Isbn');
-  objId = objId.replace(/\DOI/g, 'Doi');
   objId = objId.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();});
   objId = objId.replace(/\._/g, '_');
   objId = objId.replace(/\./g, '_');
@@ -214,9 +210,9 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
   var validate = jsen(globalJsonSchema, {greedy: true});
   var valid = validate(jsonForPage);
 
-  // Because our required fields are spread over multiple pages and we only validated this one, there will always be errors
+  // Because our required fields are spread over multiple pages and we only validate data from this one, there will always be errors
 
-  // Ignore errors for objects that are not in this DOM (i.e. they lack an ID present on this page)
+  // Ignore errors for objects that are not on this page
   var formName = document.getElementById('mmt-form-name').value;
 
   var relevantErrors = [];
@@ -255,7 +251,7 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
       });
 
       var newElement = '<div id="' + summaryErrorDisplayId + '" class="banner banner-danger"><i class="fa fa-exclamation-triangle"></i>' +
-        'Click on an error to go directly to that field:</br>';
+        'Click on a blue error message to go directly to that field:</br>';
 
       for (i = 0; i < relevantErrors.length; i++) {
         var error = relevantErrors[i];
@@ -268,7 +264,6 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
           var objId = error['obj'].attr('id');
           errorString = '<a href="javascript:scrollToLabel(\'' + objId + '\');">' + userMessage + '.</a></br>';
         }
-
         newElement += errorString;
       }
       newElement += '</div>';
@@ -334,17 +329,6 @@ function getObjPathArray(obj) {
   for (var i=0; i<objPathArray.length; i++) {
     if (objPathArray[i].length > 0) {
       objPathArray[i] = snakeToCamel(objPathArray[i]);
-      if (objPathArray[i] === 'Doi')
-        objPathArray[i] = 'DOI';
-      else
-        if (objPathArray[i] === 'Isbn')
-          objPathArray[i] = 'ISBN';
-        else
-          if (objPathArray[i] === 'Url')
-            objPathArray[i] = 'URL';
-          else
-            if (objPathArray[i] === 'Uuid')
-              objPathArray[i] = 'UUID';
     }
   }
   return objPathArray;
@@ -446,8 +430,6 @@ function snakeToCamel(str){
 }
 
 $(document).ready(function() {
-
-  //var validate = null; // Validate object is null until handleFieldValidation needs it
 
   // set up validation call
   $('.validate').blur(function(e) {

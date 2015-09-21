@@ -89,7 +89,9 @@ describe 'Data validation for a form', js: true do
 
   context 'when the form is empty' do
     before do
-      click_on 'Data Identification'
+      within 'section.metadata' do
+        click_on 'Data Identification'
+      end
     end
 
     it 'simple mandatory string field validation works' do
@@ -141,7 +143,9 @@ describe 'Data validation for a form', js: true do
 
   context 'when there is a floating point field' do
     before do
-      click_on 'Data Identification'
+      within 'section.metadata' do
+        click_on 'Data Identification'
+      end
     end
     it 'general floating point validation works' do
       within '.row.organization' do
@@ -170,7 +174,9 @@ describe 'Data validation for a form', js: true do
 
   context 'when there are integer and date fields' do
     before do
-      click_on 'Temporal Extent'
+      within 'section.metadata' do
+        click_on 'Temporal Extent'
+      end
     end
 
     it 'simple integer field validation works' do
@@ -210,8 +216,8 @@ describe 'Data validation for a form', js: true do
 
   context 'when there are Lat Lon type fields' do
     before do
-      within '.metadata' do
-        click_on first('Spatial Extent')
+      within 'section.metadata' do
+        click_on 'Spatial Extent'
       end
     end
 
@@ -241,6 +247,122 @@ describe 'Data validation for a form', js: true do
 
     end
 
+  end
+
+  context 'when there are Uuid type fields' do
+    before do
+      within 'section.metadata' do
+        click_on 'Data Identification'
+      end
+    end
+
+    it 'simple Uuid field validation works' do
+
+      within '.row.organization' do
+        within '.multiple.responsibilities > .multiple-item-0' do
+
+          good_uuid_values.each do |test|
+            fill_in 'Uuid', with: test
+            puts "Uuid #{test}" if debug
+            #expect(page).to_not have_content(integer_error_string)
+            expect(page).not_to have_selector(validation_element_display_selector_string)
+          end
+
+          bad_uuid_values.each do |test|
+            fill_in 'Uuid', with: test[:value]
+            puts "Uuid #{test[:value]}: #{test[:error]}" if debug
+            expect(page).to have_content(test[:error])
+          end
+
+        end
+      end
+
+    end
+
+  end
+
+  # Now for more complex testing
+  context 'when there is a oneOf constraint' do
+    before do
+      within 'section.metadata' do
+        click_on 'Temporal Extent'
+      end
+    end
+    it 'validation of oneOf does work' do
+      within '.nav-top' do
+        reject_confirm_from do
+          click_on 'Save & Done'
+        end
+      end
+      expect(page).not_to have_selector(validation_element_display_selector_string)
+      expect(page).to have_content('Value must validate against exactly one of the provided schemas')
+      choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
+      fill_in 'Single Date Time', with: '2015-07-01T00:00:00Z'
+      within '.nav-top' do
+        reject_confirm_from do
+          click_on 'Save & Done'
+        end
+      end
+      expect(page).not_to have_selector(validation_element_display_selector_string)
+    end
+  end
+
+
+  context 'when there is a minItems constraint' do
+    before do
+      within 'section.metadata' do
+        click_on 'Spatial Extent'
+      end
+    end
+    it 'validation of minItems does work' do
+      # Partially populate a boundary's list of points
+      choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+      within '.geometry' do
+        choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
+        within first('.multiple.g-polygons') do
+          within '.point' do
+            fill_in 'Longitude', with: '0.0'
+            fill_in 'Latitude', with: '0.0'
+          end
+          within '.boundary .multiple.points' do
+            fill_in 'Longitude', with: '10.0'
+            fill_in 'Latitude', with: '10.0'
+          end
+        end
+      end
+      within '.nav-top' do
+        reject_confirm_from do
+          click_on 'Save & Done'
+        end
+      end
+      expect(page).not_to have_selector(validation_element_display_selector_string)
+      expect(page).to have_content('Points: Value has too few items')
+
+      # Fully populate a boundary's list of points
+      within '.geometry' do
+        within '.multiple.g-polygons > .multiple-item-0' do
+          within '.boundary .multiple.points' do
+            click_on 'Add another Point'
+            within '.multiple-item-1' do
+              fill_in 'Longitude', with: '-10.0'
+              fill_in 'Latitude', with: '-10.0'
+            end
+            click_on 'Add another Point'
+            within '.multiple-item-2' do
+              fill_in 'Longitude', with: '10.0'
+              fill_in 'Latitude', with: '-10.0'
+            end
+          end
+        end
+      end
+      within '.nav-top' do
+        reject_confirm_from do
+          click_on 'Save & Done'
+        end
+      end
+
+      expect(page).not_to have_content('Points: Value has too few items')
+    end
   end
 
 end
