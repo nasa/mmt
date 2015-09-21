@@ -69,7 +69,7 @@ module Cmr
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3002/providers/#{provider_id}/collections/#{draft_id}"
       else
-        url = "http://cmr.sit.earthdata.nasa.gov/ingest/providers/#{provider_id}/collections/#{draft_id}"
+        url = "/ingest/providers/#{provider_id}/collections/#{draft_id}"
       end
       headers = {
         'Content-Type' => 'application/iso19115+xml'
