@@ -1,13 +1,24 @@
 class CollectionsController < ApplicationController
+  before_action :set_collection
   def show
-    # search based on concept id and revision number
+  end
+
+  def edit
+    draft = Draft.create_from_collection(@collection, @current_user)
+    redirect_to draft_path(draft)
+  end
+
+  private
+
+  def set_collection
     concept_id = params[:id]
-    revision_id = params[:revision_id]
+    @revision_id = params[:revision_id]
 
     attempts = 0
     while attempts < 3
       concept = cmr_client.get_collections(concept_id: concept_id).body['items'].first
-      break if concept && concept['meta']['revision-id'] == revision_id
+      break if concept && !@revision_id
+      break if concept && concept['meta']['revision-id'] == @revision_id
       attempts += 1
       sleep 2
     end
@@ -16,10 +27,11 @@ class CollectionsController < ApplicationController
       concept_format = concept['meta']['format']
 
       # retrieve native metadata
-      metadata = cmr_client.get_concept(concept_id, revision_id)
+      metadata = cmr_client.get_concept(concept_id, @revision_id)
 
       # translate to umm-json metadata
       @collection = cmr_client.translate_collection(metadata, concept_format, 'application/umm+json').body
+      # @collection = cmr_client.translate_metadata(concept_id)
     else
       # concept wasn't found, CMR might be a little slow
       # Take the user to a blank page with a message the collection doesn't exist yet,

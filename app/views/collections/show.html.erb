@@ -11,7 +11,9 @@
       <h2><%= @collection['EntryTitle'] || 'New Collection' %></h2>
       <% unless @error %>
         <p class="subtitle">Published Record</p>
-        <p class="subtitle"><a class="disabled" href="#" alt="Edit Record">Edit Record</a></p>
+        <p class="subtitle">
+          <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id), alt: 'Edit Record' %>
+        </p>
       <% end %>
     </div>
   </header>

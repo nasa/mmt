@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :collections
+  resources :collections, only: [:show, :edit]
 
   resources :drafts do
     get 'edit/:form' => 'drafts#edit', as: 'edit_form'

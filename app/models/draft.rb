@@ -61,6 +61,14 @@ class Draft < ActiveRecord::Base
     true
   end
 
+  def self.create_from_collection(collection, user)
+    draft = Draft.create(user: user, draft: collection)
+    draft.entry_id = collection['EntryId'].empty? ? nil : collection['EntryId']
+    draft.entry_title = collection['EntryTitle'].empty? ? nil : collection['EntryTitle']
+    draft.save
+    draft
+  end
+
   private
 
   INTEGER_KEYS = %w(
