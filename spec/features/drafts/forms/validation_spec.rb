@@ -360,8 +360,22 @@ describe 'Data validation for a form', js: true do
           click_on 'Save & Done'
         end
       end
-
       expect(page).not_to have_content('Points: Value has too few items')
+
+      # # Delete a point and the error should reappear
+      # within '.geometry' do
+      #   within '.multiple.g-polygons > .multiple-item-0' do
+      #     within '.boundary .multiple.points' do
+      #       click_on 'Add another Point'
+      #     end
+      #   end
+      # end
+      # within '.nav-top' do
+      #   reject_confirm_from do
+      #     click_on 'Save & Done'
+      #   end
+      # end
+      # expect(page).to have_content('Points: Value has too few items')
     end
   end
 

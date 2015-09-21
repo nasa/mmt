@@ -1,3 +1,88 @@
+
+function buildJsonForPage() {
+  var rootSchema = {};
+  var arrayToBeCompacted = [];
+  $('.validate').each(function( index ) {
+    if ($(this).val().length !== 0) { // skip fields that are empty
+      // Get the path of this
+      var thisPathArray = getObjPathArray($(this));
+
+      // Loop down through the path. Add missing elements to JsonForPage
+      var schema = rootSchema;
+      // Skip first element
+      for (var i=1; i < thisPathArray.length; i++) {
+        var newElement = thisPathArray[i];
+
+        if (newElement.match(/^[0-9]+$/) == null) {
+          // Not an array subscript. Is it already there?
+          if (schema[newElement]) {
+            // found, continue down path
+            schema = schema[newElement];
+          }
+          else {
+            // need to add this and everything following it on the path.
+            schema[newElement] = createJsonFragment(thisPathArray.slice(i+1).reverse(), $(this));
+            break;
+          }
+        }
+        else {
+          var index = parseInt(newElement);
+          // If this index will be new then insert this and everything following it on the path.
+          if (schema[index] == undefined) {
+            if (index > schema.length) { // Be careful of holes in the array screwing up minItems validations
+              // Save a reference to this array for later compaction - Cannot compact just yet because of still incoming data.
+              arrayToBeCompacted.push(schema);
+            }
+            schema[index] = createJsonFragment(thisPathArray.slice(i + 1).reverse(), $(this));
+            break;
+          }
+          else {
+            schema = schema [index];
+          }
+        }
+      }
+    }
+  });
+
+  // Make sure all arrays are compacted
+  for (var i=0; i< arrayToBeCompacted.length; i++) {
+    var target = arrayToBeCompacted[i];
+    target = target.filter(function() {return true;});
+  }
+
+  return rootSchema;
+}
+
+function createJsonFragment(objPathArray, obj) {
+  var schema = {};
+  var objValue = convertObj(obj);
+
+  if (objPathArray.length == 0)
+    return objValue;
+
+  schema[objPathArray[0]] = objValue;
+
+  for (var i=1; i<objPathArray.length; i++) {
+    // TODO - find more efficient way of adding outer layers of json to a json object
+    var oldSchema = JSON.parse(JSON.stringify(schema)); // clone the json before adding it
+    schema = {};
+    if (objPathArray[i].match(/^[0-9]+$/) == null) {
+      schema[objPathArray[i]] = oldSchema;
+    }
+    else { // handle arrays, including out of order insertions
+//      var index = parseInt(objPathArray[i]);
+//      var elementHoldingArray = objPathArray[++i];
+//      schema[elementHoldingArray] = [];
+//      schema[elementHoldingArray][index] = oldSchema;
+//
+////      schema[index] = oldSchema;
+      schema = [oldSchema];
+    }
+  }
+  return schema;
+}
+
+
 var ACQUISITION_INFORMATION_FIELDS = [
   'Platforms',
   'Projects'
@@ -162,19 +247,40 @@ var englishValidationMessages = {
   //date_time: '"{{0}}" is not a valid RFC3339 date-time. Needs to look like "2015-08-01T00:00:00Z"'
 };
 
-function buildJsonForPage() {
-  var jsonForPage = {};
-  $('.validate').each(function( index ) {
-    if ($(this).val().length !== 0) { // skip fields that are empty
-      // Get the path of this
-      var thisPathArray = getObjPathArray($(this));
-      // Build the json for this, given its pathArray
-      var jsonForThis = buildJsonToValidate($(this), thisPathArray);
-      // Add this's path to jsonForPage
-      jsonForPage = $.extend(true, jsonForPage, jsonForThis);
+function convertObj(obj) {
+  var objValue = obj.val();
+  if (obj.hasClass('mmt-number')) {
+    if (isNaN(parseFloat(objValue)) || !isFinite(objValue)) { // See http://run.plnkr.co/plunks/93FPpacuIcXqqKMecLdk/
+      //objValue = NaN;
     }
-  });
-  return jsonForPage;
+    else {
+      objValue = parseFloat(objValue);
+    }
+  }
+  else if (obj.hasClass('mmt-integer')) {
+    if (!(parseInt(objValue) === Number(objValue))) { // See http://run.plnkr.co/plunks/93FPpacuIcXqqKMecLdk/
+      //objValue = NaN;
+    }
+    else {
+      objValue = parseInt(objValue);
+    }
+  }
+  else if (obj.hasClass('mmt-boolean')) {
+    objValue = objValue == 'true';
+  }
+  return objValue;
+}
+
+// Return an array of all the path element strings
+function getObjPathArray(obj) {
+  var objPathArray = obj.attr('name').replace(/]/g, '').split('[');
+
+  for (var i=0; i<objPathArray.length; i++) {
+    if (objPathArray[i].length > 0) {
+      objPathArray[i] = snakeToCamel(objPathArray[i]);
+    }
+  }
+  return objPathArray;
 }
 
 // Given an error path value (i.e. 'X.Y.1.CamelCase'), figure out what the obj id should be
@@ -321,51 +427,8 @@ function updateInlineErrorsForField(obj, errorArray) {
 
 }
 
-// Return an array of all the path element strings
-function getObjPathArray(obj) {
-  var objPathArray = obj.attr('name').replace(/]/g, '').split('[').reverse();
-  objPathArray.pop(); // Removes "Draft", the last element of the array
-
-  for (var i=0; i<objPathArray.length; i++) {
-    if (objPathArray[i].length > 0) {
-      objPathArray[i] = snakeToCamel(objPathArray[i]);
-    }
-  }
-  return objPathArray;
-}
-
-// Build json for this object and all its ancestors
-function buildJsonToValidate(obj, objPathArray) {
-  var schema = {};
-  var objValue = obj.val();
-  if (obj.hasClass('mmt-number')) {
-    objValue = objValue * 1.0;
-  }
-  else if (obj.hasClass('mmt-integer')) {
-    objValue = objValue * 1;
-  }
-  else if (obj.hasClass('mmt-boolean')) {
-    objValue = objValue == 'true';
-  }
-
-  schema[objPathArray[0]] = objValue;
-
-  for (var i=1; i<objPathArray.length; i++) {
-    // TODO - find more efficient way of adding outer layers of json to a json object
-    var oldSchema = JSON.parse(JSON.stringify(schema)); // clone the json before adding it
-    schema = {};
-    if (objPathArray[i].match(/^[0-9]+$/) == null) {
-      schema[objPathArray[i]] = oldSchema;
-    }
-    else { // handle arrays
-      schema = [oldSchema];
-    }
-  }
-  return schema;
-}
-
 // Return just the errors that are relevant to this obj
-function collectRelevantErrors(obj, objPathArray, errors) {
+function collectRelevantErrors(obj, errors) {
 
   var relevantErrors = [];
   var targetObjId = obj.attr('id');
@@ -397,9 +460,6 @@ function removeDisplayedInlineErrorsForField(obj) {
 
 function handleFieldValidation(obj) {
 
-  // Get the path array of the obj here because it will be used in multiple places
-  var objPathArray = getObjPathArray(obj);
-
   var jsonForPage = buildJsonForPage();
 
   var validate = jsen(globalJsonSchema, {greedy: true});
@@ -407,7 +467,7 @@ function handleFieldValidation(obj) {
   validate(jsonForPage);
 
   // Remove errors that do not apply
-  var errorArray = collectRelevantErrors(obj, objPathArray, validate.errors);
+  var errorArray = collectRelevantErrors(obj, validate.errors);
 
   updateInlineErrorsForField(obj, errorArray);
 
