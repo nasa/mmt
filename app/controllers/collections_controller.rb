@@ -4,7 +4,7 @@ class CollectionsController < ApplicationController
   end
 
   def edit
-    draft = Draft.create_from_collection(@collection, @current_user)
+    draft = Draft.create_from_collection(@collection, @current_user, @native_id)
     redirect_to draft_path(draft)
   end
 
@@ -24,6 +24,7 @@ class CollectionsController < ApplicationController
     end
 
     if concept
+      @native_id = concept['meta']['native-id']
       concept_format = concept['meta']['format']
 
       # retrieve native metadata
@@ -31,7 +32,6 @@ class CollectionsController < ApplicationController
 
       # translate to umm-json metadata
       @collection = cmr_client.translate_collection(metadata, concept_format, 'application/umm+json').body
-      # @collection = cmr_client.translate_metadata(concept_id)
     else
       # concept wasn't found, CMR might be a little slow
       # Take the user to a blank page with a message the collection doesn't exist yet,

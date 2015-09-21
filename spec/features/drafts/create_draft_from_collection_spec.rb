@@ -21,6 +21,11 @@ describe 'Create new draft from collection', js: true do
       expect(Draft.count).to eq(1)
     end
 
+    it 'saves the native_id from the published collection' do
+      draft = Draft.first
+      expect(draft.native_id).to eq('collection0')
+    end
+
     it 'displays the draft preview page' do
       expect(page).to have_content('DRAFT RECORD')
       expect(page).to have_content(entry_title)
