@@ -14,10 +14,22 @@ h4 {
 ------------------------------------------*/
 
 .subtitle {
-  border-bottom: 3px solid $red;
   text-transform: uppercase;
   padding-bottom: 0.625em;
   font-weight: bold;
+
+  &.current {
+    border-bottom: 3px solid $red;
+  }
+
+  a:link, a:visited {
+    color: #fff;
+    padding-bottom: 0.625em;
+
+    &:hover {
+      border-bottom: 3px solid $red;
+    }
+  }
 }
 
 /* Form Headings
