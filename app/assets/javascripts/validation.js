@@ -130,61 +130,76 @@ function pathToObjId(path) {
   return objId;
 }
 
-function errorRequiresSpecialHandling (formName, error) {
+var ACQUISITION_INFORMATION_FIELDS = [
+  'Platforms',
+  'Projects'
+];
+var DATA_IDENTIFICATION_FIELDS = [
+  'EntryId',
+  'Version',
+  'EntryTitle',
+  'Abstract',
+  'Purpose',
+  'DataLanguage',
+  'DataDates',
+  'Organizations',
+  'Personnel',
+  'CollectionDataType',
+  'ProcessingLevel',
+  'CollectionCitations',
+  'CollectionProgress',
+  'Quality',
+  'UseConstraints',
+  'AccessConstraints',
+  'MetadataAssociations',
+  'PublicationReferences'
+];
+var DESCRIPTIVE_KEYWORDS_FIELDS = [
+  'ISOTopicCategories',
+  'ScienceKeywords',
+  'AncillaryKeywords',
+  'AdditionalAttributes'
+];
+var DISTRIBUTION_INFORMATION_FIELDS = [
+  'RelatedUrls',
+  'Distributions'
+];
+var METADATA_INFORMATION_FIELDS = [
+  'MetadataLanguage',
+  'MetadataDates'
+];
+var SPATIAL_EXTENT_FIELDS = [
+  'SpatialExtent',
+  'TilingIdentificationSystem',
+  'SpatialInformation',
+  'SpatialKeywords'
+];
+var TEMPORAL_EXTENT_FIELDS = [
+  'TemporalExtents',
+  'TemporalKeywords',
+  'PaleoTemporalCoverage'
+];
 
-  if (error['keyword'] === 'oneOf')
-    return true;
+var FORM_FIELDS = [
+  { formName: 'data_identification', fields: DATA_IDENTIFICATION_FIELDS },
+  { formName: 'descriptive_keywords', fields: DESCRIPTIVE_KEYWORDS_FIELDS },
+  { formName: 'metadata_information', fields: METADATA_INFORMATION_FIELDS },
+  { formName: 'temporal_extent', fields: TEMPORAL_EXTENT_FIELDS },
+  { formName: 'spatial_extent', fields: SPATIAL_EXTENT_FIELDS },
+  { formName: 'acquisition_information', fields: ACQUISITION_INFORMATION_FIELDS },
+  { formName: 'distribution_information', fields: DISTRIBUTION_INFORMATION_FIELDS }
+];
 
-  var simplifiedPath = error['path'].replace(/\.\d*\./g, '.');
-  alert (error['path'] + ': ' + simplifiedPath + ' : ' + error['keyword']);
 
+function errorAppliesToThisPage(formName, error) {
+  var errorLocation = error['path'].split('.')[0];
 
-  if (formName === 'data_identification' && (
-      simplifiedPath === "MetadataLineages.Dates.Responsibilities.Party.RelatedUrls.URLs" ||
-      simplifiedPath === "MetadataLineages.Dates.Responsibilities" ||
-      simplifiedPath === "DataDates" ||
-      simplifiedPath === "Organizations.Party.RelatedUrls.URLs" ||
-      simplifiedPath === "Organizations" ||
-      simplifiedPath === "Personnel.Party.RelatedUrls.URLs" ||
-      // simplifiedPath === "Personnel" ||
-      simplifiedPath === "CollectionCitations.RelatedUrls.URLs" ||  // CC array
-      simplifiedPath === "PublicationReferences.RelatedUrls.URLs" ||
-      simplifiedPath === "RelatedUrls.URLs" ||
-      simplifiedPath === "RelatedUrls"
-    )) {
-    return true;
-  }
-  else {
-    if (formName === 'descriptive_keywords' && simplifiedPath === "ScienceKeywords") {
-      return true;
-    }
-    else {
-      if (formName === 'temporal_extent' && (
-          simplifiedPath === "TemporalExtents.RangeDateTimes" ||
-          simplifiedPath === "TemporalExtents.SingleDateTimes" ||
-          simplifiedPath === "TemporalExtents.PeriodicDateTimes" ||
-          simplifiedPath === "TemporalExtents"
-        )) {
-        return true;
-      }
-      else {
-        if (formName === 'spatial_extent' && (
-            simplifiedPath === "SpatialExtent.HorizontalSpatialDomain.Geometry.GPolygons.ExclusiveZone.Boundaries.Points" ||
-            simplifiedPath === "SpatialExtent.HorizontalSpatialDomain.Geometry.GPolygons.ExclusiveZone.Boundaries" ||
-            simplifiedPath === "SpatialExtent.HorizontalSpatialDomain.Geometry.Lines.Points" ||
-            simplifiedPath === "SpatialExtent.HorizontalSpatialDomain.Geometry.GPolygons.Boundary" ||
-            simplifiedPath === "SpatialExtent.HorizontalSpatialDomain.Geometry.GPolygons.Boundary.Points" //||
-            // simplifiedPath === "SpatialKeywords"
-          )) {
+  for (var i=0; i< FORM_FIELDS.length; i++) {
+    var thisForm = FORM_FIELDS[i];
+    if (formName === thisForm['formName']) {
+      for (var j = 0; j < thisForm['fields'].length; j++) {
+        if (errorLocation === thisForm['fields'][j]) {
           return true;
-        }
-        else {
-          if (formName === 'acquisition_information'&& (
-              //simplifiedPath === "Platforms.Instruments" ||
-              simplifiedPath === "Platforms"
-            )) {
-            return true;
-          }
         }
       }
     }
@@ -207,12 +222,11 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
   var relevantErrors = [];
   for(i=0; i<validate.errors.length; i++) {
     var error = validate.errors[i];
-    var obj = $('#' + pathToObjId(error['path']));
-    // If due to JSEN problem path is not correct, add a '-' & try again.
-    if (!obj[0])
-      obj = $('#' + pathToObjId(error['path']) + '_');
-    //alert (error['path'] + ': ' + error['keyword']);
-    if (obj[0] || errorRequiresSpecialHandling (formName, error)) {
+    if (errorAppliesToThisPage(formName, error)) {
+      var obj = $('#' + pathToObjId(error['path']));
+      // If due to JSEN problem path is not correct, add a '_' & try again.
+      if (!obj[0])
+        obj = $('#' + pathToObjId(error['path']) + '_');
       error['obj'] = obj;
       relevantErrors.push(error);
     }

@@ -115,7 +115,7 @@ class DraftsController < ApplicationController
   end
 
   def load_umm_schema
-    @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umn-c-merged.json')))
+    @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
   end
 
   def translate_metadata(draft)
