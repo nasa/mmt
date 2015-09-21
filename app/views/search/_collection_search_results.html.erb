@@ -35,7 +35,11 @@
             <input type="checkbox" name="name" value="">
           </td-->
           <td>
-            <%= collection['umm']['entry-id']%>
+            <% if collection['meta']['draft_id'] %>
+              <%= link_to "#{collection['umm']['entry-id']} (Draft)", draft_path(collection['meta']['draft_id'])%>
+            <% else %>
+              <%= link_to collection['umm']['entry-id'], collection_path(collection['meta']['concept-id'])%>
+            <% end %>
           </td>
           <td>
             <%= collection['umm']['entry-title']%>

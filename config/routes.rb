@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  resources :collections
+
   resources :drafts do
     get 'edit/:form' => 'drafts#edit', as: 'edit_form'
+    post 'publish' => 'drafts#publish', as: 'publish'
   end
   get 'welcome/index'
   get 'welcome/collections'

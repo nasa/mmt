@@ -49,15 +49,13 @@ class SearchController < ApplicationController
     @collections = []
     case @query['record_state']
     when 'published_records'
-        @collections = get_published(good_query_params)
-      when 'draft_records'
-        @collections = get_drafts(good_query_params)
-      when 'published_and_draft_records'
-        @collections = get_published_and_drafts(good_query_params)
+      @collections = get_published(good_query_params)
+    when 'draft_records'
+      @collections = get_drafts(good_query_params)
+    when 'published_and_draft_records'
+      @collections = get_published_and_drafts(good_query_params)
     end
-
   end
-
 
   private
 
@@ -88,7 +86,10 @@ class SearchController < ApplicationController
     # Map drafts to same structure we get from CMR
     draft_collections.map do |draft|
       {
-        'meta' => { 'revision-date' => draft['updated_at'].to_s[0..9] },
+        'meta' => {
+          'revision-date' => draft['updated_at'].to_s[0..9],
+          'draft_id' => draft.id
+        },
         'umm' => {
           'entry-id' => draft.display_entry_id,
           'entry-title' => draft.display_entry_title
@@ -101,8 +102,8 @@ class SearchController < ApplicationController
     published_collections = get_published(query.clone)
     draft_collections = get_drafts(query)
 
-    collections = (published_collections.concat(draft_collections)).sort {|x, y|
-      x['umm']['entry-title']<=>y['umm']['entry-title']
+    published_collections.concat(draft_collections).sort { |x, y|
+      x['umm']['entry-title'] <=> y['umm']['entry-title']
     }
   end
 end

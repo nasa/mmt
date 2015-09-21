@@ -6,11 +6,10 @@
   <div class="accordion-body">
     <ul class="metadata-information-preview">
 
-      <%= render :partial=>'drafts/previews/fields/display_field_line', :locals=>{:key_name=>'MetadataLanguage', :hash_for_key=>draft} %>
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: { key_name: 'MetadataLanguage', hash_for_key: metadata } %>
 
-
-      <%= render partial: 'drafts/previews/preview_type', locals: {
-          data: draft['MetadataDates'],
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['MetadataDates'],
           name: 'MetadataDates',
           type: TypesHelper::DateType
       } %>

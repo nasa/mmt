@@ -32,7 +32,7 @@ module TypesHelper
     { name: 'DatumName' },
     { name: 'DistanceUnits' },
     { name: 'EncodingMethod' },
-    { name: 'Resolution', options: [:sub_type] }
+    { name: 'Resolutions', options: [:array_field] }
   ]
   BoundingRectanglesType = [
     { name: 'CenterPoint', options: [:sub_type] },
@@ -242,9 +242,6 @@ module TypesHelper
     { name: 'ContentType', options: [:sub_type] }
   ]
   RelatedUrlsType = RelatedUrlType
-  ResolutionType = [
-    { name: 'Resolutions', options: [:array_field]  }
-  ]
   ResourceCitationType = [
     { name: 'Version' },
     { name: 'RelatedUrl', options: [:sub_type] },
@@ -304,5 +301,4 @@ module TypesHelper
     { name: 'Type' },
     { name: 'Value' }
   ]
-
 end

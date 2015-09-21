@@ -11,7 +11,9 @@ describe 'Descriptive keywords form', js: true do
 
   context 'when submitting the form' do
     before do
-      click_on 'Descriptive Keywords'
+      within '.metadata' do
+        click_on 'Descriptive Keywords'
+      end
 
       # Science keywords
       add_science_keywords
@@ -87,7 +89,9 @@ describe 'Descriptive keywords form', js: true do
 
     context 'when returning to the form' do
       before do
-        click_on 'Descriptive Keywords'
+        within '.metadata' do
+          click_on 'Descriptive Keywords'
+        end
 
         open_accordions
       end

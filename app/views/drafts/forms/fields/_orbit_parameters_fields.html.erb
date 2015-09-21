@@ -1,21 +1,21 @@
 <div class="row sub-fields">
   <!-- SwathWidth -->
-  <label for="<%= remove_pipes(name_prefix) %>swath_width">Swath Width</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>swath_width" class="icon-required">Swath Width</label><i class="fa fa-info-circle"></i>
   <%= text_field_tag(name_to_param("#{name_prefix}|swath_width|"), orbit_parameters['SwathWidth'], class: 'half-width validate mmt-number') %>
 
 
   <!-- Period -->
-  <label for="<%= remove_pipes(name_prefix) %>period">Period</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>period" class="icon-required">Period</label><i class="fa fa-info-circle"></i>
   <%= text_field_tag(name_to_param("#{name_prefix}period"), orbit_parameters['Period'], class: 'half-width validate mmt-number') %>
 
 
   <!-- InclinationAngle -->
-  <label for="<%= remove_pipes(name_prefix) %>inclination_angle">Inclination Angle</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>inclination_angle" class="icon-required">Inclination Angle</label><i class="fa fa-info-circle"></i>
   <%= text_field_tag(name_to_param("#{name_prefix}|inclination_angle|"), orbit_parameters['InclinationAngle'], class: 'half-width validate mmt-number') %>
 
 
   <!-- NumberOfOrbits -->
-  <label for="<%= remove_pipes(name_prefix) %>number_of_orbits">Number Of Orbits</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>number_of_orbits" class="icon-required">Number Of Orbits</label><i class="fa fa-info-circle"></i>
   <%= text_field_tag(name_to_param("#{name_prefix}|number_of_orbits|"), orbit_parameters['NumberOfOrbits'], class: 'half-width validate mmt-number') %>
 
 

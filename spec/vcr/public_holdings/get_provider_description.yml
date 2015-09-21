@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.echo.nasa.gov/echo-rest/providers/SEDAC.json
+    uri: https://testbed.echo.nasa.gov/echo-rest/providers/SEDAC.json
     body:
       encoding: US-ASCII
       string: ''
@@ -16,43 +16,33 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       server:
       - Apache-Coyote/1.1
       etag:
-      - '"e8990b935f21d2b6fa2604ded8047390"'
+      - '"3eec09d3ce8683432ab794f6aa3fb94b"'
       cache-control:
       - max-age=0, private, must-revalidate
       x-ua-compatible:
       - IE=Edge,chrome=1
       x-runtime:
-      - '0.147000'
+      - '0.161000'
       content-type:
       - application/json;charset=utf-8
       vary:
       - Accept-Encoding
       date:
-      - Fri, 10 Jul 2015 14:30:03 GMT
+      - Fri, 18 Sep 2015 03:40:04 GMT
       connection:
       - close
       transfer-encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: '{"provider":{"additional_information":" http://sedac.ciesin.columbia.edu/","contacts":[{"address":{"address_name":"work","city":"Palisades","country":"UNITED
-        STATES","state":"NY","street1":"CIESIN, 61 Route 9W","street2":"P.O. Box 1000","us_format":false,"zip":"10964"},"email":"ciesin.info@ciesin.columbia.edu","first_name":"SEDAC","last_name":"User
-        Services","organization":"SEDAC","phones":[{"number":"(845) 365-8920","phone_number_type":"BUSINESS"},{"number":"(845)
-        365-8922","phone_number_type":"BUSINESS_FAX"}],"role":"user services"}],"description_of_holdings":"The
-        Socioeconomic Data and Applications Center (SEDAC) mission is to develop and
-        operate applications that support the integration of socioeconomic and Earth
-        science data and to serve as an \"Information Gateway\" between the Earth
-        and social sciences. SEDAC data holdings cover Administrative Boundaries,
-        Biodiversity, Climate Change, Economic Activity, Environment & Health, Environmental
-        Governance, Hazard Vulnerability, Population, Poverty & Food Security, and
-        Sustainability Indicators at country, continent, and global scales.","description_of_services":"
-        ","discovery_urls":["http://sedac.ciesin.columbia.edu/"],"id":"1217","organization_name":"Socioeconomic
-        Data and Applications Center (SEDAC)","provider_id":"SEDAC","provider_types":["CATALOG_REST","DATA"],"rest_only":false}}'
-    http_version: 
-  recorded_at: Fri, 10 Jul 2015 14:30:04 GMT
+      string: '{"provider":{"contacts":[{"address":{"address_name":"work","city":"Riverdale","country":"United
+        States","state":"MD","street1":"5700 Rivertech Ct","us_format":true,"zip":"20737"},"email":"alai@echo.nasa.gov","first_name":"Alex","last_name":"Lai","phones":[{"number":"3018518034","phone_number_type":"BUSINESS"}],"role":"Tester"}],"description_of_holdings":"TEST","discovery_urls":["http://sedac.ciesin.columbia.edu"],"id":"1DF04AE8-59BF-C0FD-3189-18043002A682","organization_name":"Socioeconomic
+        Data and Applications Data Center","provider_id":"SEDAC","provider_types":["CATALOG_REST","DATA"],"rest_only":false}}'
+    http_version:
+  recorded_at: Fri, 18 Sep 2015 03:40:04 GMT
 recorded_with: VCR 2.9.3

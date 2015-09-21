@@ -15,15 +15,13 @@
 
 
   <!-- Resolution -->
-  <!-- TODO I think this needs to be [Resolution][Resolutions][] -->
-  <% top_resolution = vertical_system_definition['Resolution'] || {} %>
-  <% resolutions = top_resolution['Resolutions'] || [nil] %>
+  <% resolutions = vertical_system_definition['Resolutions'] || [nil] %>
   <div class="multiple simple-multiple resolutions">
-    <label for="<%= remove_pipes(name_prefix) %>resolution_resolutions_">Resolution</label><i class="fa fa-info-circle"></i>
+    <label for="<%= remove_pipes(name_prefix) %>resolutions_">Resolution</label><i class="fa fa-info-circle"></i>
 
   <% resolutions.each do |resolution| %>
     <div class="multiple-item">
-      <%= text_field_tag(name_to_param("#{name_prefix}resolution_resolutions_index"), resolution, class: 'half-width validate mmt-number') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}resolutions_index"), resolution, class: 'half-width validate mmt-number') %>
       <a class="remove"><i class="fa fa-times-circle"></i></a>
       <div class="actions">
         <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Resolution</button>

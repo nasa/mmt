@@ -210,7 +210,9 @@ describe 'Data validation for a form', js: true do
 
   context 'when there are Lat Lon type fields' do
     before do
-      click_on 'Spatial Extent'
+      within '.metadata' do
+        click_on first('Spatial Extent')
+      end
     end
 
     it 'simple Latitude field validation works' do

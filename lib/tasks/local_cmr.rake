@@ -32,4 +32,10 @@ namespace :cmr do
   task :stop do
     `kill $(ps aux | grep '[c]mr-dev-system' | awk '{print $2}')`
   end
+
+  desc "Delete provider used in tests"
+  task :reset_test_provider => ['tmp:cache:clear'] do
+    cmr = Cmr::Local.new
+    cmr.reset_provider('MMT_2')
+  end
 end

@@ -8,7 +8,7 @@ describe 'Search drafts results', js: true do
 
   before :each do
     login
-    visit "/search"
+    visit '/search'
     create(:draft, entry_title: entry_title, entry_id: entry_id)
     click_on 'Full Metadata Record Search'
   end
@@ -22,14 +22,13 @@ describe 'Search drafts results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", "Record State: Draft Records")
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", 'Record State: Draft Records')
     end
 
     it 'displays expected data' do
       expect(page.find('table#search-results')).to have_content(entry_id)
       expect(page.find('table#search-results')).to have_content(entry_title)
     end
-
   end
 
   context 'when searching drafts by entry title' do
@@ -41,14 +40,13 @@ describe 'Search drafts results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Title: #{entry_title}", "Record State: Draft Records")
+      expect(page).to have_search_query(1, "Entry Title: #{entry_title}", 'Record State: Draft Records')
     end
 
     it 'displays expected data' do
       expect(page.find('table#search-results')).to have_content(entry_id)
       expect(page.find('table#search-results')).to have_content(entry_title)
     end
-
   end
 
   context 'when searching drafts by entry id' do # is actually searching published and drafts for a draft by entry id
@@ -60,14 +58,12 @@ describe 'Search drafts results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", "Record State: Published And Draft Records")
+      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", 'Record State: Published And Draft Records')
     end
 
     it 'displays expected data' do
       expect(page.find('table#search-results')).to have_content(entry_id)
       expect(page.find('table#search-results')).to have_content(entry_title)
     end
-
   end
-
 end

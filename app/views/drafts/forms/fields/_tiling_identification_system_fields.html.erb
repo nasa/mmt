@@ -1,11 +1,11 @@
 <div class="row sub-fields">
   <!-- TilingIdentificationSystemName -->
-  <label for="<%= remove_pipes(name_prefix) %>tiling_identification_system_name">Tiling Identification System Name</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>tiling_identification_system_name" class="icon-required">Tiling Identification System Name</label><i class="fa fa-info-circle"></i>
   <%= text_field_tag(name_to_param("#{name_prefix}|tiling_identification_system_name|"), tiling_identification_system['TilingIdentificationSystemName'], class: 'half-width validate') %>
 
 
   <!-- Coordinate1 -->
-  <label>Coordinate 1</label><i class="fa fa-info-circle"></i>
+  <label class="icon-required">Coordinate 1</label><i class="fa fa-info-circle"></i>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'tiling_coordinate',
       values: tiling_identification_system['Coordinate1'] || {},
@@ -15,7 +15,7 @@
 
 
   <!-- Coordinate2 -->
-  <label>Coordinate 2</label><i class="fa fa-info-circle"></i>
+  <label class="icon-required">Coordinate 2</label><i class="fa fa-info-circle"></i>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'tiling_coordinate',
       values: tiling_identification_system['Coordinate2'] || {},

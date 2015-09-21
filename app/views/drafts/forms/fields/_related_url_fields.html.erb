@@ -1,7 +1,7 @@
 <div class="row sub-fields">
   <% urls = related_url['URLs'] || [nil] # [nil] creates at least one URL field %>
   <div class="multiple simple-multiple related-url-url">
-    <label for="<%= remove_pipes(name_prefix) %>urls_" class="icon-required">URL</label><i class="fa fa-info-circle"></i>
+    <label for="<%= remove_pipes(name_prefix) %>urls_" class="icon-required">URLs</label><i class="fa fa-info-circle"></i>
   <% urls.each do |url| %>
     <div class="multiple-item">
       <%= text_field_tag(name_to_param("#{name_prefix}urls_index"), url, class: 'half-width validate') %>
@@ -38,7 +38,7 @@
     <% file_size = related_url['FileSize'] || {} %>
     <h4>File Size</h4>
     <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>file_size_size">Size</label><i class="fa fa-info-circle"></i>
+      <label for="<%= remove_pipes(name_prefix) %>file_size_size" class="icon-required">Size</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}|file_size|_size"), file_size['Size'], class: 'full-width validate mmt-number') %>
     </div>
     <div class="col-6">
@@ -51,7 +51,7 @@
     <% content_type = related_url['ContentType'] || {} %>
     <h4>Content Type</h4>
     <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>content_type_type">Type</label><i class="fa fa-info-circle"></i>
+      <label for="<%= remove_pipes(name_prefix) %>content_type_type" class="icon-required">Type</label><i class="fa fa-info-circle"></i>
       <%= text_field_tag(name_to_param("#{name_prefix}|content_type|_type"), content_type['Type'], class: 'full-width validate') %>
     </div>
     <div class="col-6">

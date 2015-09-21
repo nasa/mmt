@@ -11,6 +11,9 @@ require 'capybara-screenshot/rspec'
 require "rack_session_access/capybara"
 require 'database_cleaner'
 
+require 'rake'
+require 'rails/tasks'
+
 Capybara.javascript_driver = :poltergeist
 
 Capybara.register_driver :poltergeist do |app|
@@ -59,13 +62,23 @@ RSpec.configure do |config|
 
   # Catch all requests, specific examples are still caught using their specific cassettes
   config.around :each do |spec|
-    VCR.use_cassette('global', :record => :once) do
+    VCR.use_cassette('global', record: :once) do
       VCR.use_cassette('provider_context/single_provider', record: :none) do
         spec.run
       end
     end
   end
 
+  # Clear the test provider, MMT_2, before running tests
+  # only if the test is tagged with reset_provider: true
+  config.before :each do |spec|
+    if spec.metadata[:reset_provider]
+      Rake.application.rake_require 'tasks/local_cmr'
+      Rake::Task.define_task(:environment)
+      Rake::Task['cmr:reset_test_provider'].reenable
+      Rake.application.invoke_task 'cmr:reset_test_provider'
+    end
+  end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
