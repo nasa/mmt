@@ -31,6 +31,10 @@ describe 'Revision list', reset_provider: true do
         expect(page).to have_content('Revision History')
       end
 
+      it 'displays the collection entry title' do
+        expect(page).to have_content('Draft Title')
+      end
+
       it 'displays when the revision was made' do
         expect(page).to have_content('mock-admin', count: 2)
       end
