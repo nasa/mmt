@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Revision list', reset_provider: true do
+describe 'Revision list', js: true, reset_provider: true do
   context 'when viewing a published collection' do
     before :each do
       login
