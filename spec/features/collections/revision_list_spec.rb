@@ -24,7 +24,7 @@ describe 'Revision list', reset_provider: true do
 
     context 'when clicking on the revision link' do
       before do
-        click_on 'Revisions (2)'
+        click_on 'Revisions'
       end
 
       it 'displays the revision page' do
