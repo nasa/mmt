@@ -1,85 +1,125 @@
+function compactAllArrays(obj) {
+
+  var k;
+  if (!Array.isArray(obj) && obj instanceof Object) {
+    for (k in obj){
+      compactAllArrays( obj[k] );
+    }
+  }
+  else {
+    if (Array.isArray(obj)) {
+      for (var i=0; i < obj.length; i++) {
+        if (obj[i] === null || obj[i] === undefined) {
+          obj.splice(i,1);
+          i--;
+        }
+      }
+      for (var i=0; i < obj.length; i++) {
+        compactAllArrays(obj[i]);
+      }
+    }
+  }
+  return obj;
+}
+
+// Arrays containing simple objects require a bit of special handling...
+var SIMPLE_ARRAY_FIELDS = [
+  'StreetAddresses',
+  'Urls',
+  'IsotropicCategories',
+  'AncillaryKeywords',
+  'SingleDateTimes',
+  'TemporalKeywords',
+  'Resolutions',
+  'SpatialKeywords',
+  'OperationalModes',
+  'Campaigns'
+];
+
+function pathFragmentIsSimpleArray(pathFragment) {
+  for (var i=0; i< SIMPLE_ARRAY_FIELDS.length; i++) {
+    if (pathFragment === SIMPLE_ARRAY_FIELDS[i])
+    return true;
+  }
+  return false;
+}
 
 function buildJsonForPage() {
-  var rootSchema = {};
-  var arrayToBeCompacted = [];
-  $('.validate').each(function( index ) {
+  // Build and return the json to be validated, using only all the information on this form.
+  var rootJson = {};
+
+  $('.validate').each(function(  ) {
     if ($(this).val().length !== 0) { // skip fields that are empty
       // Get the path of this
       var thisPathArray = getObjPathArray($(this));
 
       // Loop down through the path. Add missing elements to JsonForPage
-      var schema = rootSchema;
-      // Skip first element
+      var jsonFragment = rootJson;
+      // Skip first element of "Draft"
       for (var i=1; i < thisPathArray.length; i++) {
-        var newElement = thisPathArray[i];
+        var pathFragment = thisPathArray[i];
 
-        if (newElement.match(/^[0-9]+$/) == null) {
-          // Not an array subscript. Is it already there?
-          if (schema[newElement]) {
+        if (pathFragment.match(/^[0-9]+$/) == null) {
+          // Not an array subscript. Is it already in the json at this level?
+          if (jsonFragment[pathFragment]) {
             // found, continue down path
-            schema = schema[newElement];
+            jsonFragment = jsonFragment[pathFragment]; // Prepare for the next iteration of the for loop.
+            if (pathFragmentIsSimpleArray(pathFragment)) {
+              jsonFragment.push(convertObj($(this))); // add object value to simple array
+            }
+            continue;
           }
           else {
-            // need to add this and everything following it on the path.
-            schema[newElement] = createJsonFragment(thisPathArray.slice(i+1).reverse(), $(this));
+            // Not yet present. Need to insert this and everything following it in thisPathArray.
+            var returnedJson = createJsonFragment(thisPathArray.slice(i+1).reverse(), $(this));
+            jsonFragment[pathFragment] = pathFragmentIsSimpleArray(pathFragment) ? [returnedJson] : returnedJson;
             break;
           }
         }
-        else {
-          var index = parseInt(newElement);
-          // If this index will be new then insert this and everything following it on the path.
-          if (schema[index] == undefined) {
-            if (index > schema.length) { // Be careful of holes in the array screwing up minItems validations
-              // Save a reference to this array for later compaction - Cannot compact just yet because of still incoming data.
-              arrayToBeCompacted.push(schema);
-            }
-            schema[index] = createJsonFragment(thisPathArray.slice(i + 1).reverse(), $(this));
+        else { // pathFragment is an array index
+          var index = parseInt(pathFragment);
+          // If this index will be new then insert this and everything following it in thisPathArray.
+          if (jsonFragment[index] == undefined) {
+            jsonFragment[index] = createJsonFragment(thisPathArray.slice(i + 1).reverse(), $(this));
             break;
           }
           else {
-            schema = schema [index];
+            // This array member already exists. Prepare for the next iteration of the for loop.
+            jsonFragment = jsonFragment [index];
           }
         }
       }
     }
   });
 
-  // Make sure all arrays are compacted
-  for (var i=0; i< arrayToBeCompacted.length; i++) {
-    var target = arrayToBeCompacted[i];
-    target = target.filter(function() {return true;});
-  }
+  rootJson = compactAllArrays(rootJson);
 
-  return rootSchema;
+  return rootJson;
 }
 
 function createJsonFragment(objPathArray, obj) {
-  var schema = {};
+  var json = {};
   var objValue = convertObj(obj);
 
   if (objPathArray.length == 0)
     return objValue;
 
-  schema[objPathArray[0]] = objValue;
+  json[objPathArray[0]] = objValue;
 
   for (var i=1; i<objPathArray.length; i++) {
     // TODO - find more efficient way of adding outer layers of json to a json object
-    var oldSchema = JSON.parse(JSON.stringify(schema)); // clone the json before adding it
-    schema = {};
+    var oldJson = JSON.parse(JSON.stringify(json)); // clone the json before adding it
+    json = {};
     if (objPathArray[i].match(/^[0-9]+$/) == null) {
-      schema[objPathArray[i]] = oldSchema;
+      json[objPathArray[i]] = oldJson;
     }
     else { // handle arrays, including out of order insertions
-//      var index = parseInt(objPathArray[i]);
-//      var elementHoldingArray = objPathArray[++i];
-//      schema[elementHoldingArray] = [];
-//      schema[elementHoldingArray][index] = oldSchema;
-//
-////      schema[index] = oldSchema;
-      schema = [oldSchema];
+      var newArray = [];
+      newArray[parseInt(objPathArray[i])] = oldJson;
+      json = newArray;
     }
   }
-  return schema;
+  return json;
 }
 
 
@@ -174,6 +214,9 @@ function createUserValidationMessage(error, messageType) {
     }
     else if (errorObj.hasClass('mmt-date-time')) {
       option = 'date-time';
+    }
+    else if (errorObj.hasClass('mmt-uuid')) {
+      option = 'uuid';
     }
   }
 
@@ -274,17 +317,32 @@ function convertObj(obj) {
 // Return an array of all the path element strings
 function getObjPathArray(obj) {
   var objPathArray = obj.attr('name').replace(/]/g, '').split('[');
-
+  var newArray = [];
   for (var i=0; i<objPathArray.length; i++) {
     if (objPathArray[i].length > 0) {
-      objPathArray[i] = snakeToCamel(objPathArray[i]);
+      newArray.push(snakeToCamel(objPathArray[i]));
     }
   }
-  return objPathArray;
+  return newArray;
+}
+
+function fixJsenPathProblem(path) {
+  var pathSegments = path.split('.');
+  for (var i=0; i < pathSegments.length; i++) {
+    if (pathSegments[i] === pathSegments[i+1]) {
+      pathSegments = pathSegments.slice(0, i) + pathSegments.slice(i+1);
+      i--;
+    }
+  }
+  path = pathSegments.join('.');
+
+  return path;
 }
 
 // Given an error path value (i.e. 'X.Y.1.CamelCase'), figure out what the obj id should be
 function pathToObjId(path) {
+  // Address an error in JSEN by first splitting the path & recombining.
+  path = fixJsenPathProblem(path);
   var objId = 'draft.' + path;
   // Camel to snake
   objId = objId.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();});
@@ -316,6 +374,8 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
   var validate = jsen(globalJsonSchema, {greedy: true});
   var valid = validate(jsonForPage);
 
+  console.log(JSON.stringify(jsonForPage));
+
   // Because our required fields are spread over multiple pages and we only validate data from this one, there will always be errors
 
   // Ignore errors for objects that are not on this page
@@ -325,10 +385,22 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
   for(i=0; i<validate.errors.length; i++) {
     var error = validate.errors[i];
     if (errorAppliesToThisPage(formName, error)) {
-      var obj = $('#' + pathToObjId(error['path']));
-      // If due to JSEN problem path is not correct, add a '_' & try again.
-      if (!obj[0])
-        obj = $('#' + pathToObjId(error['path']) + '_');
+      console.log('error["path"] = ' + error["path"] + ', ' + 'error["keyword"] = ' + error["keyword"]);
+      var objId = pathToObjId(error['path']);
+      var obj = $('#' + objId);
+      // If due to JSEN problem path is not correct, modify the path & try again.
+      if (!obj[0]) {
+        // trim any trailing digits and try again
+        while (objId.length > 0) {
+          var char = objId[objId.length-1];
+          if (/^\d$/.test(char)) {
+            objId = objId.slice(0, -1);
+          }
+          else
+            break;
+        }
+        obj = $('#' + objId);
+      }
       error['obj'] = obj;
       relevantErrors.push(error);
     }
@@ -427,21 +499,28 @@ function updateInlineErrorsForField(obj, errorArray) {
 
 }
 
+function strncmp(a, b, n){
+  return a.substring(0, n) == b.substring(0, n);
+}
+
 // Return just the errors that are relevant to this obj
 function collectRelevantErrors(obj, errors) {
 
   var relevantErrors = [];
   var targetObjId = obj.attr('id');
+  var lengthForCompare = -1;
 
-  // For now, if targetObjId ends in an '_', truncate. TODO - remove need for this so it can handle SingleDateTime/other simple arrays better
-  if (targetObjId[targetObjId.length-1] == '_')
-    targetObjId = targetObjId.slice(0, - 1);
+  // if targetObjId ends in an '_', special handling for simple arrays is required
+  if (targetObjId[targetObjId.length - 1] === '_') {
+    lengthForCompare = targetObjId.length;
+  }
 
   for (var i=0; i<errors.length; i++) {
     var error = errors[i];
     //alert('Checking ' + errors[i].path + ' for ' + objPathArray[0] + ' Finding ' + errors[i].path.indexOf(objPathArray[0]));
     var objId = pathToObjId(error['path']);
-    if (targetObjId === objId) {
+    var lengthToUse = (lengthForCompare < 0) ? objId.length : lengthForCompare;
+    if (strncmp(targetObjId, objId, lengthToUse)) {
       error['obj'] = obj;
       relevantErrors.push(error);
     }
