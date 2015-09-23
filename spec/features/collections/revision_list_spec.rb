@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'Revision list', js: true, reset_provider: true do
   context 'when viewing a published collection' do
-    before :each do
+    before do
       login
 
       draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
@@ -41,6 +41,10 @@ describe 'Revision list', js: true, reset_provider: true do
 
       it 'displays what user made the revision' do
         expect(page).to have_content(today_string, count: 2)
+      end
+
+      it 'displays the correct phrasing for reverting records' do
+        expect(page).to have_content('Revert to this Revision', count: 1)
       end
     end
   end

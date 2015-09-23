@@ -37,7 +37,7 @@
               <tr class='<%= cycle("alt", "") %>'>
                 <td>
                   <%= revision['meta']['revision-id'] %> -
-                  <% if revision['meta']['deleted'] == 'true' %>
+                  <% if revision['meta']['deleted'] == true %>
                     Deleted
                   <% elsif index == 0 %>
                     Published
@@ -65,8 +65,14 @@
                   <!-- Revision notes -->
                 </td>
                 <td>
-                  <% unless revision['meta']['deleted'] == 'true' %>
-                    <a href="#" class="disabled">Revert to this Revision</a>
+                  <% if @revisions.first['meta']['deleted'] == true %>
+                    <% phrase = 'Reinstate' %>
+                  <% else %>
+                    <% phrase = 'Revert to this Revision' %>
+                  <% end %>
+
+                  <% unless index == 0 || revision['meta']['deleted'] == true %>
+                    <%= link_to phrase, '#', class: "disabled" %>
                   <% end %>
                 </td>
               </tr>

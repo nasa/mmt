@@ -72,5 +72,17 @@ module Cmr
       end
       get(url, {}, token_header(token)).body
     end
+
+    def delete_collection(provider_id, native_id, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3002/providers/#{provider_id}/collections/#{native_id}"
+      else
+        url = "/ingest/providers/#{provider_id}/collections/#{native_id}"
+      end
+      headers = {
+        'Accept' => 'application/json'
+      }
+      delete(url, {}, headers.merge(token_header(token)))
+    end
   end
 end
