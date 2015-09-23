@@ -694,6 +694,8 @@ FactoryGirl.define do
                 'Longitude' => -10.0, 'Latitude' => -10.0
               }, {
                 'Longitude' => 10.0, 'Latitude' => -10.0
+              }, {
+                'Longitude' => 10.0, 'Latitude' => 10.0
               }]
             },
             'ExclusiveZone' => {
@@ -706,19 +708,23 @@ FactoryGirl.define do
                   'Longitude' => -5.0, 'Latitude' => -5.0
                 }, {
                   'Longitude' => 5.0, 'Latitude' => -5.0
+                }, {
+                  'Longitude' => 5.0, 'Latitude' => 5.0
                 }]
               }]
             }
           }, {
             'Boundary' => {
               'Points' => [{
-                'Longitude' => 38.98828125, 'Latitude' => -77.044921875
+                'Longitude' => -77.044921875, 'Latitude' => 38.98828125
               }, {
-                'Longitude' => 38.935546875, 'Latitude' => -77.1240234375
+                'Longitude' => -77.1240234375, 'Latitude' => 38.935546875
               }, {
-                'Longitude' => 38.81689453125, 'Latitude' => -77.02734375
+                'Longitude' => -77.02734375, 'Latitude' => 38.81689453125
               }, {
-                'Longitude' => 38.900390625, 'Latitude' => -76.9130859375
+                'Longitude' => -76.9130859375, 'Latitude' => 38.900390625
+              }, {
+                'Longitude' => -77.044921875, 'Latitude' => 38.98828125
               }]
             }
           }],
