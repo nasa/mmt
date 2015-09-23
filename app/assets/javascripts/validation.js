@@ -374,7 +374,7 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
   var validate = jsen(globalJsonSchema, {greedy: true});
   var valid = validate(jsonForPage);
 
-  console.log(JSON.stringify(jsonForPage));
+  //console.log(JSON.stringify(jsonForPage));
 
   // Because our required fields are spread over multiple pages and we only validate data from this one, there will always be errors
 
@@ -385,7 +385,7 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
   for(i=0; i<validate.errors.length; i++) {
     var error = validate.errors[i];
     if (errorAppliesToThisPage(formName, error)) {
-      console.log('error["path"] = ' + error["path"] + ', ' + 'error["keyword"] = ' + error["keyword"]);
+      //console.log('error["path"] = ' + error["path"] + ', ' + 'error["keyword"] = ' + error["keyword"]);
       var objId = pathToObjId(error['path']);
       var obj = $('#' + objId);
       // If due to JSEN problem path is not correct, modify the path & try again.

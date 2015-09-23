@@ -383,4 +383,36 @@ describe 'Data validation for a form', js: true do
     end
   end
 
+  # Test validation of an arry of simple objects
+  context 'when there is an array of simple objects' do
+    before do
+      within 'section.metadata' do
+        click_on 'Spatial Extent'
+      end
+    end
+    it 'validation of a single object in an array of simple objects does work' do
+      fill_in 'Spatial Keyword', with: '#@#$%0'
+      expect(page).to have_content('Value must match the provided pattern')
+      within '.nav-top' do
+        reject_confirm_from do
+          click_on 'Save & Done'
+        end
+      end
+      expect(page).to have_content('Spatial Keywords: Value must match the provided pattern')
+      fill_in 'Spatial Keyword', with: 'de135797-8539-4c3a-bc20-17a83d75aa49'
+      expect(page).to have_content('Spatial Keywords: Value must match the provided pattern') # Err msg still displayed in summary area
+      expect(page).not_to have_selector(validation_element_display_selector_string)
+      within '.nav-top' do
+        reject_confirm_from do
+          click_on 'Save & Done'
+        end
+      end
+      expect(page).not_to have_content('Spatial Keywords: Value must match the provided pattern')
+    end
+
+    it 'validation of subsequent objects in an array of simple objects does work'
+
+    end
+
+
 end
