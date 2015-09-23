@@ -121,6 +121,7 @@ class DraftsController < ApplicationController
 
   def translate_metadata(draft)
     translated_response = cmr_client.translate_collection(draft.to_json, 'application/umm+json', 'application/iso19115+xml').body
+    Rails.logger.error("Translated Metadata Response: #{translated_response.inspect}")
 
     xml = MultiXml.parse(translated_response)
     errors = nil
