@@ -310,7 +310,7 @@ FactoryGirl.define do
           'Country' => 'United States'
         }],
         'RelatedUrls' => [{
-          'URLs' => ['http => //example.com', 'http => //another-example.com'],
+          'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
           'Protocol' => 'FTP',
           'MimeType' => 'text/html',
@@ -325,7 +325,7 @@ FactoryGirl.define do
             'Subtype' => 'Subtype'
           }
         }, {
-          'URLs' => ['http => //example1.com/1']
+          'URLs' => ['http://example1.com/1']
         }]
       }
     }, {
@@ -359,7 +359,7 @@ FactoryGirl.define do
           'Country' => 'United States'
         }],
         'RelatedUrls' => [{
-          'URLs' => ['http => //example.com', 'http => //another-example.com'],
+          'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
           'Protocol' => 'FTP',
           'MimeType' => 'text/html',
@@ -374,7 +374,7 @@ FactoryGirl.define do
             'Subtype' => 'Subtype'
           }
         }, {
-          'URLs' => ['http => //example2.com/1']
+          'URLs' => ['http://example2.com/1']
         }]
       }
     }],
@@ -410,7 +410,7 @@ FactoryGirl.define do
           'Country' => 'United States'
         }],
         'RelatedUrls' => [{
-          'URLs' => ['http => //example.com', 'http => //another-example.com'],
+          'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
           'Protocol' => 'FTP',
           'MimeType' => 'text/html',
@@ -425,7 +425,7 @@ FactoryGirl.define do
             'Subtype' => 'Subtype'
           }
         }, {
-          'URLs' => ['http => //example.com/1']
+          'URLs' => ['http://example.com/1']
         }]
       }
     }, {
@@ -460,7 +460,7 @@ FactoryGirl.define do
           'Country' => 'United States'
         }],
         'RelatedUrls' => [{
-          'URLs' => ['http => //example.com', 'http => //another-example.com'],
+          'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
           'Protocol' => 'FTP',
           'MimeType' => 'text/html',
@@ -475,7 +475,7 @@ FactoryGirl.define do
             'Subtype' => 'Subtype'
           }
         }, {
-          'URLs' => ['http => //example.com/1']
+          'URLs' => ['http://example.com/1']
         }]
       }
     }],
@@ -501,7 +501,7 @@ FactoryGirl.define do
         'Authority' => 'Citation DOI Authority'
       },
       'RelatedUrl' => {
-        'URLs' => ['http => //example.com', 'http => //another-example.com'],
+        'URLs' => ['http://example.com', 'http://another-example.com'],
         'Description' => 'Example Description',
         'Protocol' => 'FTP',
         'MimeType' => 'text/html',
@@ -521,7 +521,7 @@ FactoryGirl.define do
       'Title' => 'Citation title 1',
       'Creator' => 'Citation creator 1',
       'RelatedUrl' => {
-        'URLs' => ['http => //example2.com', 'http => //another-example2.com'],
+        'URLs' => ['http://example2.com', 'http://another-example2.com'],
         'Description' => 'Example 2 Description',
         'Protocol' => 'FTP',
         'MimeType' => 'text/html',
@@ -573,7 +573,7 @@ FactoryGirl.define do
       'ISBN' => '1234567890123',
       'OtherReferenceDetails' => 'Publication reference details',
       'RelatedUrl' => {
-        'URLs' => ['http => //example.com', 'http => //another-example.com'],
+        'URLs' => ['http://example.com', 'http://another-example.com'],
         'Description' => 'Example Description',
         'Protocol' => 'FTP',
         'MimeType' => 'text/html',
