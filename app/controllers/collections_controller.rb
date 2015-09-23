@@ -8,6 +8,9 @@ class CollectionsController < ApplicationController
     redirect_to draft_path(draft)
   end
 
+  def revisions
+  end
+
   private
 
   def set_collection
@@ -16,16 +19,17 @@ class CollectionsController < ApplicationController
 
     attempts = 0
     while attempts < 3
-      concept = cmr_client.get_collections({ concept_id: concept_id }, token).body['items'].first
-      break if concept && !@revision_id
-      break if concept && concept['meta']['revision-id'] == @revision_id
+      @revisions = cmr_client.get_collections({ concept_id: concept_id, all_revisions: true }, token).body['items']
+      latest = @revisions.first
+      break if latest && !@revision_id
+      break if latest && latest['meta']['revision-id'] == @revision_id
       attempts += 1
       sleep 2
     end
 
-    if concept
-      @native_id = concept['meta']['native-id']
-      concept_format = concept['meta']['format']
+    if latest
+      @native_id = latest['meta']['native-id']
+      concept_format = latest['meta']['format']
 
       # retrieve native metadata
       metadata = cmr_client.get_concept(concept_id, @revision_id, token)
