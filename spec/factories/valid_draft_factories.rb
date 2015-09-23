@@ -622,16 +622,16 @@ FactoryGirl.define do
       'DataType' => 'INT'
     }],
     'RelatedUrls' => [{
-      'URLs' => ['test url']
+      'URLs' => ['http://example.com']
     }, {
-      'Description' => 'test 1 Description', 'Protocol' => 'test 1 Protocol', 'URLs' => ['test 1a URL', 'test 1b URL'], 'Title' => 'test 1 Title', 'MimeType' => 'test 1 MimeType',
+      'Description' => 'test 1 Description', 'Protocol' => 'test 1 Protocol', 'URLs' => ['http://example.com/1', 'http://example.com/a'], 'Title' => 'test 1 Title', 'MimeType' => 'test 1 MimeType',
       'Caption' => 'test 1 Caption', 'FileSize' => {
         'Size' => 123, 'Unit' => 'Unt1'
       }, 'ContentType' => {
         'Type' => 'test 1 ContentType Type', 'Subtype' => 'test 1 ContentType Subtype'
       }
     }, {
-      'Description' => 'test 2 Description', 'Protocol' => 'test 2 Protocol', 'URLs' => ['test 2a URL', 'test 2b URL'], 'Title' => 'test 2 Title', 'MimeType' => 'test 2 MimeType',
+      'Description' => 'test 2 Description', 'Protocol' => 'test 2 Protocol', 'URLs' => ['http://example.com/2', 'http://example.com/b'], 'Title' => 'test 2 Title', 'MimeType' => 'test 2 MimeType',
       'Caption' => 'test 2 Caption', 'FileSize' => {
         'Size' => 321, 'Unit' => 'Unt2'
       }, 'ContentType' => {
