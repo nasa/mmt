@@ -30,9 +30,17 @@
 </head>
 
 <body class="<%= (controller.action_name == 'dashboard' ? "home" : "") %>">
+  <div class="wrapper">
 
-<%= render 'shared/header' %>
-<%= yield %>
+    <%= render 'shared/header' %>
+    <%= yield %>
+
+    <div class="push">
+      <!-- For pushing the footer to the bottom of a page with minimal content -->
+    </div>
+  </div>
+
+  <%= render 'shared/footer' %>
 
 </body>
 </html>
