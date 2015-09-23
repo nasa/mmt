@@ -63,6 +63,13 @@ FactoryGirl.define do
       }])
     }
   end
+
+  factory :draft_field_invalid_uri, class: Draft do
+    draft { all_required_fields.merge('RelatedUrls' => [{
+        'URLs' => ['this is invalid']
+      }])
+    }
+  end
 end
 
 def all_required_fields

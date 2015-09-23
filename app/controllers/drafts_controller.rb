@@ -68,7 +68,6 @@ class DraftsController < ApplicationController
 
   def publish
     draft = @draft.draft
-    # puts draft
     # These fields currently break in CMR when trying to ingest
     draft.delete('Distributions')
 
@@ -78,7 +77,6 @@ class DraftsController < ApplicationController
       ingested = cmr_client.ingest_collection(translated_metadata, @current_user.provider_id, @draft.native_id, token)
 
       if ingested.success?
-        Rails.logger.error("Ingest Metadata: #{ingested.inspect}")
         xml = MultiXml.parse(ingested.body)
         concept_id = xml['result']['concept_id']
         revision_id = xml['result']['revision_id']
@@ -96,7 +94,7 @@ class DraftsController < ApplicationController
       end
     else
       # log translated error message
-      Rails.logger.error("Translated Metadata Error: #{@errors.inspect}")
+      Rails.logger.error("Translated Metadata Error: #{translated_metadata.inspect}")
       render :show
     end
   end
@@ -121,11 +119,11 @@ class DraftsController < ApplicationController
 
   def translate_metadata(draft)
     translated_response = cmr_client.translate_collection(draft.to_json, 'application/umm+json', 'application/iso19115+xml').body
-    Rails.logger.error("Translated Metadata Response: #{translated_response.inspect}")
 
     xml = MultiXml.parse(translated_response)
     errors = nil
     if xml['errors']
+      Rails.logger.error("Translated Metadata Response: #{translated_response.inspect}")
       errors = Array.wrap(xml['errors']['error'])
       errors.map! { |error| generate_errors(error, draft) }.flatten!
     end
@@ -175,8 +173,16 @@ class DraftsController < ApplicationController
       end
     # If there error is not about required fields
     else
+      # if the last field is an array index, use the last section of the field path that isn't a number
+      field = fields.split('/').select do |f|
+        begin
+          false if Float(f)
+        rescue
+          true
+        end
+      end
       {
-        field: fields.split('/').last,
+        field: field.last,
         page: get_page(fields.split('/')[1]),
         error: get_error(string)
       }
@@ -261,6 +267,8 @@ class DraftsController < ApplicationController
       'is an invalid date format'
     when /regex/
       'is an invalid format'
+    when /is not a valid URI/
+      'is an invalid URI'
     end
   end
 end
