@@ -1,7 +1,8 @@
 class Draft < ActiveRecord::Base
   belongs_to :user
   serialize :draft, JSON
-  before_save :default_values
+  before_create :default_values
+  after_create :set_native_id
 
   DRAFT_FORMS = [ # array of hashes provide flexibility to add additional fiels
     { form_partial_name: 'data_identification' },
@@ -59,6 +60,17 @@ class Draft < ActiveRecord::Base
     end
     # This keeps an empty form from sending the user back to draft_path when clicking on Save & Next
     true
+  end
+
+  def self.create_from_collection(collection, user, native_id)
+    draft = Draft.find_or_create_by(native_id: native_id)
+    draft.user = user
+    draft.draft = collection
+    draft.entry_id = collection['EntryId'].empty? ? nil : collection['EntryId']
+    draft.entry_title = collection['EntryTitle'].empty? ? nil : collection['EntryTitle']
+    draft.native_id = native_id
+    draft.save
+    draft
   end
 
   private
@@ -179,9 +191,12 @@ class Draft < ActiveRecord::Base
     values
   end
 
-  private
-
   def default_values
     self.draft ||= {}
+  end
+
+  def set_native_id
+    self.native_id ||= "mmt_collection_#{id}"
+    save
   end
 end

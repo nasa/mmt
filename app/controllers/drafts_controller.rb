@@ -75,7 +75,7 @@ class DraftsController < ApplicationController
     translated_metadata, @errors = translate_metadata(draft)
 
     if translated_metadata && !translated_metadata.include?('errors')
-      ingested = cmr_client.ingest_collection(translated_metadata, @current_user.provider_id, @draft.id, token)
+      ingested = cmr_client.ingest_collection(translated_metadata, @current_user.provider_id, @draft.native_id, token)
 
       if ingested.success?
         Rails.logger.error("Ingest Metadata: #{ingested.inspect}")

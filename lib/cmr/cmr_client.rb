@@ -52,24 +52,11 @@ module Cmr
       post(url, draft_metadata, headers)
     end
 
-    def validate_collection(metadata, provider_id, draft_id, token)
+    def ingest_collection(metadata, provider_id, native_id, token)
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3002/providers/#{provider_id}/validate/collection/#{draft_id}"
+        url = "http://localhost:3002/providers/#{provider_id}/collections/#{native_id}"
       else
-        url = "/ingest/providers/#{provider_id}/validate/collection/#{draft_id}"
-      end
-      headers = {
-        'Content-Type' => 'application/iso19115+xml'
-      }
-      post(url, metadata, headers.merge(token_header(token)))
-    end
-
-    def ingest_collection(metadata, provider_id, draft_id, token)
-      draft_id = "mmt_draft_#{draft_id}"
-      if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3002/providers/#{provider_id}/collections/#{draft_id}"
-      else
-        url = "/ingest/providers/#{provider_id}/collections/#{draft_id}"
+        url = "/ingest/providers/#{provider_id}/collections/#{native_id}"
       end
       headers = {
         'Content-Type' => 'application/iso19115+xml'
