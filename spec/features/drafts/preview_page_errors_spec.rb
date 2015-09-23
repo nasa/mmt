@@ -84,4 +84,15 @@ describe 'Preview page validation errors' do
     end
   end
 
+  context 'when a field is an invalid URI' do
+    before do
+      draft = create(:draft_field_invalid_uri, user: User.where(urs_uid: 'testuser').first)
+      visit draft_path(draft)
+    end
+
+    it 'shows an error' do
+      expect(page).to have_content('URLs is an invalid URI')
+    end
+  end
+
 end

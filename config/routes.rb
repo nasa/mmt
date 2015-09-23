@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :collections, only: [:show, :edit]
+  resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
 
   resources :drafts do
