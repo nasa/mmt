@@ -282,6 +282,7 @@
             "description": "The URL to the resource associated with the data set.",
             "type": "array",
             "items": {
+              "format": "uri",
               "type": "string",
               "minLength": 1,
               "maxLength": 1024
@@ -1857,7 +1858,7 @@
       "description": "This class specifies the name of a place on Earth, a location within the Earth, a vertical location, or a location outside of Earth.",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/UuidType"
+        "$ref": "#/definitions/KeywordStringType"
       },
       "minItems": 1
     },
