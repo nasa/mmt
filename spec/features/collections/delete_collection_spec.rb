@@ -14,6 +14,10 @@ describe 'Delete collection', js: true, reset_provider: true do
     end
 
     context 'when the collection has no granules' do
+      it 'displays a delete link' do
+        expect(page).to have_content('Delete Record')
+      end
+
       context 'when clicking the delete link' do
         before do
           accept_confirm_from do
