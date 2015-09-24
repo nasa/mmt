@@ -25,7 +25,7 @@ function compactAllArrays(obj) {
 // Arrays containing simple objects require a bit of special handling...
 var SIMPLE_ARRAY_FIELDS = [
   'StreetAddresses',
-  'Urls',
+  'URLs',
   'IsotropicCategories',
   'AncillaryKeywords',
   'SingleDateTimes',
@@ -72,7 +72,8 @@ function buildJsonForPage() {
           else {
             // Not yet present. Need to insert this and everything following it in thisPathArray.
             var returnedJson = createJsonFragment(thisPathArray.slice(i+1).reverse(), $(this));
-            jsonFragment[pathFragment] = pathFragmentIsSimpleArray(pathFragment) ? [returnedJson] : returnedJson;
+            jsonFragment[pathFragment] = returnedJson;
+            //jsonFragment[pathFragment] = pathFragmentIsSimpleArray(pathFragment) ? [returnedJson] : returnedJson;
             break;
           }
         }
@@ -100,6 +101,9 @@ function buildJsonForPage() {
 function createJsonFragment(objPathArray, obj) {
   var json = {};
   var objValue = convertObj(obj);
+  var objId = obj.attr('id');
+  if (objId[objId.length-1] == '_') // Is a member of a simple array
+    objValue = [objValue];
 
   if (objPathArray.length == 0)
     return objValue;
@@ -196,7 +200,20 @@ function createUserValidationMessage(error, messageType) {
     if (pathArray[pathArray.length - 1].match(/^[0-9]+$/)) {// Is an array index. Don't use for name
       pathArray.pop();
     }
-    objName = pathArray[pathArray.length - 1].replace( /([A-Z])/g, " $1" ) + ': '; // Camel case to title
+    objName = pathArray[pathArray.length - 1].replace( /([A-Z])/g, " $1" ); // Camel case to title
+    switch (objName) {
+      case ' U R Ls':
+        objName = 'URLs';
+        break;
+      case ' D O I':
+        objName = 'DOI';
+        break;
+      case ' I S B N':
+        objName = 'ISBN';
+        break;
+    }
+
+    objName += ': ';
   }
 
   // Create options to pass in depending on error type
@@ -214,6 +231,9 @@ function createUserValidationMessage(error, messageType) {
     }
     else if (errorObj.hasClass('mmt-date-time')) {
       option = 'date-time';
+    }
+    else if (errorObj.hasClass('mmt-uri')) {
+      option = 'URI';
     }
     else if (errorObj.hasClass('mmt-uuid')) {
       option = 'uuid';
@@ -319,14 +339,26 @@ function getObjPathArray(obj) {
   var objPathArray = obj.attr('name').replace(/]/g, '').split('[');
   var newArray = [];
   for (var i=0; i<objPathArray.length; i++) {
-    if (objPathArray[i].length > 0) {
-      newArray.push(snakeToCamel(objPathArray[i]));
+    var pathFragment = objPathArray[i];
+    if (pathFragment.length > 0) {
+      switch (pathFragment) {
+        case 'urls':
+          pathFragment = 'URLs';
+          break;
+        case 'doi':
+          pathFragment = 'DOI';
+          break;
+        case 'isbn':
+          pathFragment = 'ISBN';
+          break;
+      }
+      newArray.push(snakeToCamel(pathFragment));
     }
   }
   return newArray;
 }
 
-function fixJsenPathProblem(path) {
+function fixJsenPathProblem(path) { // get rid of erroneous repetitions
   var pathSegments = path.split('.');
   for (var i=0; i < pathSegments.length; i++) {
     if (pathSegments[i] === pathSegments[i+1]) {
@@ -348,6 +380,10 @@ function pathToObjId(path) {
   objId = objId.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();});
   objId = objId.replace(/\._/g, '_');
   objId = objId.replace(/\./g, '_');
+
+  objId = objId.replace(/u_r_ls/g, 'urls');
+  objId = objId.replace(/d_o_i/g, 'doi');
+  objId = objId.replace(/i_s_b_n/g, 'isbn');
   return objId;
 }
 
@@ -512,7 +548,7 @@ function collectRelevantErrors(obj, errors) {
 
   // if targetObjId ends in an '_', special handling for simple arrays is required
   if (targetObjId[targetObjId.length - 1] === '_') {
-    lengthForCompare = targetObjId.length;
+    lengthForCompare = targetObjId.length-1;
   }
 
   for (var i=0; i<errors.length; i++) {

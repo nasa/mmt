@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :full_draft, class: Draft do
+    native_id 'full_draft_id'
     draft 'Projects' => [{
       'ShortName' => 'test 1 ShortName',
       'LongName' => 'test 1 LongName',
@@ -310,7 +311,7 @@ FactoryGirl.define do
           'Country' => 'United States'
         }],
         'RelatedUrls' => [{
-          'URLs' => ['http => //example.com', 'http => //another-example.com'],
+          'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
           'Protocol' => 'FTP',
           'MimeType' => 'text/html',
@@ -325,7 +326,7 @@ FactoryGirl.define do
             'Subtype' => 'Subtype'
           }
         }, {
-          'URLs' => ['http => //example1.com/1']
+          'URLs' => ['http://example1.com/1']
         }]
       }
     }, {
@@ -359,7 +360,7 @@ FactoryGirl.define do
           'Country' => 'United States'
         }],
         'RelatedUrls' => [{
-          'URLs' => ['http => //example.com', 'http => //another-example.com'],
+          'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
           'Protocol' => 'FTP',
           'MimeType' => 'text/html',
@@ -374,7 +375,7 @@ FactoryGirl.define do
             'Subtype' => 'Subtype'
           }
         }, {
-          'URLs' => ['http => //example2.com/1']
+          'URLs' => ['http://example2.com/1']
         }]
       }
     }],
@@ -410,7 +411,7 @@ FactoryGirl.define do
           'Country' => 'United States'
         }],
         'RelatedUrls' => [{
-          'URLs' => ['http => //example.com', 'http => //another-example.com'],
+          'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
           'Protocol' => 'FTP',
           'MimeType' => 'text/html',
@@ -425,7 +426,7 @@ FactoryGirl.define do
             'Subtype' => 'Subtype'
           }
         }, {
-          'URLs' => ['http => //example.com/1']
+          'URLs' => ['http://example.com/1']
         }]
       }
     }, {
@@ -460,7 +461,7 @@ FactoryGirl.define do
           'Country' => 'United States'
         }],
         'RelatedUrls' => [{
-          'URLs' => ['http => //example.com', 'http => //another-example.com'],
+          'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
           'Protocol' => 'FTP',
           'MimeType' => 'text/html',
@@ -475,7 +476,7 @@ FactoryGirl.define do
             'Subtype' => 'Subtype'
           }
         }, {
-          'URLs' => ['http => //example.com/1']
+          'URLs' => ['http://example.com/1']
         }]
       }
     }],
@@ -501,7 +502,7 @@ FactoryGirl.define do
         'Authority' => 'Citation DOI Authority'
       },
       'RelatedUrl' => {
-        'URLs' => ['http => //example.com', 'http => //another-example.com'],
+        'URLs' => ['http://example.com', 'http://another-example.com'],
         'Description' => 'Example Description',
         'Protocol' => 'FTP',
         'MimeType' => 'text/html',
@@ -521,7 +522,7 @@ FactoryGirl.define do
       'Title' => 'Citation title 1',
       'Creator' => 'Citation creator 1',
       'RelatedUrl' => {
-        'URLs' => ['http => //example2.com', 'http => //another-example2.com'],
+        'URLs' => ['http://example2.com', 'http://another-example2.com'],
         'Description' => 'Example 2 Description',
         'Protocol' => 'FTP',
         'MimeType' => 'text/html',
@@ -573,7 +574,7 @@ FactoryGirl.define do
       'ISBN' => '1234567890123',
       'OtherReferenceDetails' => 'Publication reference details',
       'RelatedUrl' => {
-        'URLs' => ['http => //example.com', 'http => //another-example.com'],
+        'URLs' => ['http://example.com', 'http://another-example.com'],
         'Description' => 'Example Description',
         'Protocol' => 'FTP',
         'MimeType' => 'text/html',
@@ -622,16 +623,16 @@ FactoryGirl.define do
       'DataType' => 'INT'
     }],
     'RelatedUrls' => [{
-      'URLs' => ['test url']
+      'URLs' => ['http://example.com']
     }, {
-      'Description' => 'test 1 Description', 'Protocol' => 'test 1 Protocol', 'URLs' => ['test 1a URL', 'test 1b URL'], 'Title' => 'test 1 Title', 'MimeType' => 'test 1 MimeType',
+      'Description' => 'test 1 Description', 'Protocol' => 'test 1 Protocol', 'URLs' => ['http://example.com/1', 'http://example.com/a'], 'Title' => 'test 1 Title', 'MimeType' => 'test 1 MimeType',
       'Caption' => 'test 1 Caption', 'FileSize' => {
         'Size' => 123, 'Unit' => 'Unt1'
       }, 'ContentType' => {
         'Type' => 'test 1 ContentType Type', 'Subtype' => 'test 1 ContentType Subtype'
       }
     }, {
-      'Description' => 'test 2 Description', 'Protocol' => 'test 2 Protocol', 'URLs' => ['test 2a URL', 'test 2b URL'], 'Title' => 'test 2 Title', 'MimeType' => 'test 2 MimeType',
+      'Description' => 'test 2 Description', 'Protocol' => 'test 2 Protocol', 'URLs' => ['http://example.com/2', 'http://example.com/b'], 'Title' => 'test 2 Title', 'MimeType' => 'test 2 MimeType',
       'Caption' => 'test 2 Caption', 'FileSize' => {
         'Size' => 321, 'Unit' => 'Unt2'
       }, 'ContentType' => {
@@ -693,6 +694,8 @@ FactoryGirl.define do
                 'Longitude' => -10.0, 'Latitude' => -10.0
               }, {
                 'Longitude' => 10.0, 'Latitude' => -10.0
+              }, {
+                'Longitude' => 10.0, 'Latitude' => 10.0
               }]
             },
             'ExclusiveZone' => {
@@ -705,19 +708,23 @@ FactoryGirl.define do
                   'Longitude' => -5.0, 'Latitude' => -5.0
                 }, {
                   'Longitude' => 5.0, 'Latitude' => -5.0
+                }, {
+                  'Longitude' => 5.0, 'Latitude' => 5.0
                 }]
               }]
             }
           }, {
             'Boundary' => {
               'Points' => [{
-                'Longitude' => 38.98828125, 'Latitude' => -77.044921875
+                'Longitude' => -77.044921875, 'Latitude' => 38.98828125
               }, {
-                'Longitude' => 38.935546875, 'Latitude' => -77.1240234375
+                'Longitude' => -77.1240234375, 'Latitude' => 38.935546875
               }, {
-                'Longitude' => 38.81689453125, 'Latitude' => -77.02734375
+                'Longitude' => -77.02734375, 'Latitude' => 38.81689453125
               }, {
-                'Longitude' => 38.900390625, 'Latitude' => -76.9130859375
+                'Longitude' => -76.9130859375, 'Latitude' => 38.900390625
+              }, {
+                'Longitude' => -77.044921875, 'Latitude' => 38.98828125
               }]
             }
           }],

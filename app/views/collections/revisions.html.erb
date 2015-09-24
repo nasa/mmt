@@ -1,0 +1,85 @@
+<main class="internal">
+  <header>
+    <div class="content">
+      <div class="breadcrumb">
+        <ol>
+          <li><%= link_to 'Manage Metadata Dashboard', dashboard_path %></li>
+          <li><%= link_to 'Search Results', '#', class: 'disabled' %></li>
+          <li><%= link_to 'Collection Record', collection_path %></li>
+        </ol>
+      </div>
+      <h2><%= @collection['EntryTitle'] %></h2> <!-- Entry Title should go here -->
+    </div>
+  </header>
+  <div class="row row-content">
+    <section class="heading-group">
+      <h3>Revision History</h3>
+      <p>
+        <button type="button" name="button" class="btn disabled">Compare Revisions</button>
+      </p>
+    </section>
+    <div class="row">
+      <section>
+        <table>
+          <thead>
+          <tr>
+            <th>Description</th>
+            <th>Revision Date</th>
+            <th>Action by</th>
+            <th>Review Status</th>
+            <th>Quality Score</th>
+            <th>Revision Notes</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+            <% @revisions.each_with_index do |revision, index| %>
+              <tr class='<%= cycle("alt", "") %>'>
+                <td>
+                  <%= revision['meta']['revision-id'] %> -
+                  <% if revision['meta']['deleted'] == true %>
+                    Deleted
+                  <% elsif index == 0 %>
+                    Published
+                    <%#= link_to 'View', collection_path(id: revision['meta']['concept-id'], revision_id: revision['meta']['revision-id']) %>
+                    <a href="#" class="disabled">View</a>
+                  <% else %>
+                    Revision
+                    <%#= link_to 'View', collection_path(id: revision['meta']['concept-id'], revision_id: revision['meta']['revision-id']) %>
+                    <a href="#" class="disabled">View</a>
+                  <% end %>
+                </td>
+                <td>
+                  <%= revision['meta']['revision-date'] %>
+                </td>
+                <td>
+                  <%= revision['meta']['user-id'] %>
+                </td>
+                <td>
+                  <span class="disabled">Reviewed</span>
+                </td>
+                <td>
+                  <span class="disabled">82</span>
+                </td>
+                <td>
+                  <!-- Revision notes -->
+                </td>
+                <td>
+                  <% if @revisions.first['meta']['deleted'] == true %>
+                    <% phrase = 'Reinstate' %>
+                  <% else %>
+                    <% phrase = 'Revert to this Revision' %>
+                  <% end %>
+
+                  <% unless index == 0 || revision['meta']['deleted'] == true %>
+                    <%= link_to phrase, '#', class: "disabled" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </div>
+</main>

@@ -11,7 +11,9 @@
       <h2><%= @collection['EntryTitle'] || 'New Collection' %></h2>
       <% unless @error %>
         <p class="subtitle">Published Record</p>
-        <p class="subtitle"><a class="disabled" href="#" alt="Edit Record">Edit Record</a></p>
+        <p class="subtitle">
+          <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id), alt: 'Edit Record' %>
+        </p>
       <% end %>
     </div>
   </header>
@@ -26,15 +28,13 @@
       <section class="action">
         <div class="cta">
           <p>
-            <%#= link_to 'Publish', collection_publish_path(@collection), method: :post, class: 'btn btn-blue', alt: 'Publish Draft' %>
             <a class="disabled" href="#" alt="Save as Template">Save as Template</a> |
             <a class="disabled" href="#" alt="Clone this Record">Clone this Record</a> |
             <a class="disabled" href="#" alt="Download XML">Download XML</a> |
-            <a class="disabled" href="#" alt="Delete Record">Delete Record</a>
-            <%#= link_to 'Delete Record', @collection, method: :delete, data: { confirm: 'Are you sure you want to delete this record?' } %>
+            <%= link_to 'Delete Record', collection_path, method: :delete, alt: 'Delete Record', data: { confirm: 'Are you sure you want to delete this record?' } %>
           </p>
           <p>
-            <a class="disabled" href="#" alt="Revisions">Revisions</a> |
+            <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path, alt: 'Revisions' %> |
             <a class="disabled" href="#" alt="Granules">Granules</a> |
           </p>
         </div>
