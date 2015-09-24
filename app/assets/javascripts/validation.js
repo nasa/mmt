@@ -37,10 +37,10 @@ var SIMPLE_ARRAY_FIELDS = [
 ];
 
 function pathFragmentIsSimpleArray(pathFragment) {
-  for (var i=0; i< SIMPLE_ARRAY_FIELDS.length; i++) {
-    if (pathFragment === SIMPLE_ARRAY_FIELDS[i])
-    return true;
-  }
+  //for (var i=0; i< SIMPLE_ARRAY_FIELDS.length; i++) {
+  //  if (pathFragment === SIMPLE_ARRAY_FIELDS[i])
+  //  return true;
+  //}
   return false;
 }
 
@@ -102,15 +102,16 @@ function createJsonFragment(objPathArray, obj) {
   var json = {};
   var objValue = convertObj(obj);
   var objId = obj.attr('id');
-  if (objId[objId.length-1] == '_') // Is a member of a simple array
-    objValue = [objValue];
+  //if (objPathArray[0].match(/^[0-9]+$/) != null) { // Is a member of a simple array
+  //  objValue = [objValue];
+  //}
 
   if (objPathArray.length == 0)
     return objValue;
 
-  json[objPathArray[0]] = objValue;
+  //json[objPathArray[0]] = objValue;
 
-  for (var i=1; i<objPathArray.length; i++) {
+  for (var i=0; i<objPathArray.length; i++) {
     // TODO - find more efficient way of adding outer layers of json to a json object
     var oldJson = JSON.parse(JSON.stringify(json)); // clone the json before adding it
     json = {};
@@ -119,7 +120,7 @@ function createJsonFragment(objPathArray, obj) {
     }
     else { // handle arrays, including out of order insertions
       var newArray = [];
-      newArray[parseInt(objPathArray[i])] = oldJson;
+      newArray[parseInt(objPathArray[i])] = (i===0) ? objValue : oldJson;
       json = newArray;
     }
   }
@@ -359,14 +360,14 @@ function getObjPathArray(obj) {
 }
 
 function fixJsenPathProblem(path) { // get rid of erroneous repetitions
-  var pathSegments = path.split('.');
-  for (var i=0; i < pathSegments.length; i++) {
-    if (pathSegments[i] === pathSegments[i+1]) {
-      pathSegments = pathSegments.slice(0, i) + pathSegments.slice(i+1);
-      i--;
-    }
-  }
-  path = pathSegments.join('.');
+  //var pathSegments = path.split('.');
+  //for (var i=0; i < pathSegments.length; i++) {
+  //  if (pathSegments[i] === pathSegments[i+1]) {
+  //    pathSegments = pathSegments.slice(0, i) + pathSegments.slice(i+1);
+  //    i--;
+  //  }
+  //}
+  //path = pathSegments.join('.');
 
   return path;
 }
@@ -425,18 +426,18 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
       var objId = pathToObjId(error['path']);
       var obj = $('#' + objId);
       // If due to JSEN problem path is not correct, modify the path & try again.
-      if (!obj[0]) {
-        // trim any trailing digits and try again
-        while (objId.length > 0) {
-          var char = objId[objId.length-1];
-          if (/^\d$/.test(char)) {
-            objId = objId.slice(0, -1);
-          }
-          else
-            break;
-        }
-        obj = $('#' + objId);
-      }
+      //if (!obj[0]) {
+      //  // trim any trailing digits and try again
+      //  while (objId.length > 0) {
+      //    var char = objId[objId.length-1];
+      //    if (/^\d$/.test(char)) {
+      //      objId = objId.slice(0, -1);
+      //    }
+      //    else
+      //      break;
+      //  }
+      //  obj = $('#' + objId);
+      //}
       error['obj'] = obj;
       relevantErrors.push(error);
     }
@@ -546,17 +547,17 @@ function collectRelevantErrors(obj, errors) {
   var targetObjId = obj.attr('id');
   var lengthForCompare = -1;
 
-  // if targetObjId ends in an '_', special handling for simple arrays is required
-  if (targetObjId[targetObjId.length - 1] === '_') {
-    lengthForCompare = targetObjId.length-1;
-  }
+  //// if targetObjId ends in an '_', special handling for simple arrays is required
+  //if (targetObjId[targetObjId.length - 1] === '_') {
+  //  lengthForCompare = targetObjId.length-1;
+  //}
 
   for (var i=0; i<errors.length; i++) {
     var error = errors[i];
     //alert('Checking ' + errors[i].path + ' for ' + objPathArray[0] + ' Finding ' + errors[i].path.indexOf(objPathArray[0]));
     var objId = pathToObjId(error['path']);
     var lengthToUse = (lengthForCompare < 0) ? objId.length : lengthForCompare;
-    if (strncmp(targetObjId, objId, lengthToUse)) {
+    if (targetObjId === objId) {
       error['obj'] = obj;
       relevantErrors.push(error);
     }

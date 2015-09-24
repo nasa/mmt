@@ -31,11 +31,11 @@
 
   <div class="temporal-range-type single-date-time" style="<%= 'display: none;' unless temporal_range_type == 'SingleDateTime' %>">
     <% date_times = temporal_extent['SingleDateTimes'] || [nil] # [nil] creates at least one date_time field %>
-    <div class="multiple simple-multiple single-date-time">
+    <div class="multiple simple-multiple single-date-times">
       <label for="<%= remove_pipes(name_prefix) %>single_date_times_">Single Date Time</label><i class="fa fa-info-circle"></i>
-    <% date_times.each do |date_time| %>
-      <div class="multiple-item">
-        <%= datetime_field_tag(name_to_param("#{name_prefix}|single_date_times|_index"), date_time, class: 'half-width validate mmt-date-time') %>
+    <% date_times.each_with_index do |date_time, index| %>
+      <div class="multiple-item multiple-item-<%= index %>">
+        <%= datetime_field_tag(name_to_param("#{name_prefix}|single_date_times|_#{index}"), date_time, class: 'half-width single-date-time simple-multiple-field validate mmt-date-time') %>
         <a class="remove"><i class="fa fa-times-circle"></i></a>
         <div class="actions">
           <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Date</button>

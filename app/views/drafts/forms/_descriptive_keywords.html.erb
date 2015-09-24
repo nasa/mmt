@@ -57,9 +57,9 @@
         <% ancillary_keywords = draft.draft['AncillaryKeywords'] || [nil] # [nil] creates at least one field %>
         <div class="multiple simple-multiple ancillary-keywords">
           <label for="draft_ancillary_keywords_">Ancillary Keyword</label><i class="fa fa-info-circle"></i>
-          <% ancillary_keywords.each do |ancillary_keyword| %>
-            <div class="multiple-item">
-              <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_index"), ancillary_keyword, class: 'half-width validate') %>
+          <% ancillary_keywords.each_with_index do |ancillary_keyword, index| %>
+            <div class="multiple-item multiple-item-<%= index %>">
+              <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate') %>
               <a class="remove"><i class="fa fa-times-circle"></i></a>
               <div class="actions">
                 <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Keyword</button>

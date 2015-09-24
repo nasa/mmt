@@ -227,10 +227,12 @@ module Helpers
     def add_related_urls(single = nil)
       within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
         within '.multiple.related-url-url' do
-          fill_in 'URL', with: 'http://example.com'
-          click_on 'Add Another URL'
-          within all('.multiple-item').last do
-            fill_in 'URL', with: 'http://another-example.com'
+          within '.multiple-item-0' do
+            find('.url').set 'http://example.com'
+            click_on 'Add Another URL'
+          end
+          within '.multiple-item-1' do
+            find('.url').set 'http://another-example.com'
           end
         end
         fill_in 'Description', with: 'Example Description'
@@ -253,7 +255,9 @@ module Helpers
 
           within '.multiple-item-1' do
             within '.multiple.related-url-url' do
-              fill_in 'URL', with: 'http://example.com/1'
+              within '.multiple-item-0' do
+                find('.url').set 'http://example.com/1'
+              end
             end
           end
         end
@@ -371,10 +375,12 @@ module Helpers
         fill_in "draft_platforms_#{platform}_instruments_0_technique", with: 'Instrument technique'
         fill_in 'Number Of Sensors', with: 2468
         within '.multiple.operational-mode' do
-          fill_in 'Operational Mode', with: 'Instrument mode'
-          click_on 'Add Another Mode'
-          within all('.multiple-item').last do
-            fill_in 'Operational Mode', with: 'Instrument mode 1'
+          within '.multiple-item-0' do
+            find('.operational-mode').set 'Instrument mode 1'
+            click_on 'Add Another Mode'
+          end
+          within '.multiple-item-1' do
+            find('.operational-mode').set 'Instrument mode 2'
           end
         end
 

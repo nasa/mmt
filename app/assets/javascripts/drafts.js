@@ -12,22 +12,24 @@ $(document).ready(function() {
     var multipleItem;
     var newDiv;
 
+    multipleItem = topMultiple.children('.multiple-item:last');
+    newDiv = multipleItem.clone(true);
+
+    var multipleIndex = getIndex(multipleItem);
+    $(newDiv).removeClass('multiple-item-' + multipleIndex).addClass('multiple-item-' + (multipleIndex + 1));
+
     if (simple) {
       // multiple-item is a simple field with no index (just a text field)
       // clone parent and clear field
-      multipleItem = $(this).closest('.multiple-item');
-      newDiv = $(multipleItem).clone(true);
       $.each($(newDiv).find('select, input, textarea'), function(index, field) {
         $(field).val('');
       });
+
+      newDiv = incrementElementIndex(newDiv, multipleIndex, true);
+
       $(newDiv).appendTo(topMultiple);
     } else {
       // multiple-item is a collection of fields
-      multipleItem = topMultiple.children('.multiple-item:last');
-      newDiv = multipleItem.clone(true);
-
-      var multipleIndex = getIndex(multipleItem);
-      $(newDiv).removeClass('multiple-item-' + multipleIndex).addClass('multiple-item-' + (multipleIndex + 1));
 
       // Remove any extra multiple-item, should only be one per .multiple
       $.each($(newDiv).find('.multiple').not('.multiple.addresses-street-addresses'), function(index, multiple) {
@@ -38,38 +40,7 @@ $(document).ready(function() {
         });
       });
 
-      // Find the index that needs to be incremented
-      var firstElement = $(newDiv).find('select, input, textarea')[0];
-      var nameIndex = $(firstElement).attr('name').lastIndexOf(multipleIndex);
-      var idIndex = $(firstElement).attr('id').lastIndexOf(multipleIndex);
-
-      // Loop through newDiv and increment the correct index
-      $.each($(newDiv).find('select, input, textarea, label'), function(index, field) {
-        if ($(field).is('input, textarea, select')) {
-          var name = $(field).attr('name');
-          if (name !== undefined) {
-            name = name.slice(0, nameIndex) + name.slice(nameIndex).replace(multipleIndex, multipleIndex + 1);
-            $(field).attr('name', name);
-          }
-
-          var id = $(field).attr('id');
-          id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1);
-          $(field).attr('id', id);
-
-          // Clear field value
-          if ($(field).attr('type') === 'radio') {
-            $(field).prop('checked', false);
-          } else {
-            $(field).not('input[type="hidden"]').val('');
-          }
-        } else if ($(field).is('label')) {
-          var labelFor = $(field).attr('for');
-          if (labelFor !==  undefined) {
-            labelFor = labelFor.slice(0, idIndex) + labelFor.slice(idIndex).replace(multipleIndex, multipleIndex + 1);
-            $(field).attr('for', labelFor);
-          }
-        }
-      });
+      newDiv = incrementElementIndex(newDiv, multipleIndex, false);
 
       $(newDiv).insertAfter(multipleItem);
       // close last accordion and open all new accordions
@@ -98,6 +69,48 @@ $(document).ready(function() {
     });
     e.stopImmediatePropagation();
   });
+
+  var incrementElementIndex = function(newDiv, multipleIndex, simple) {
+    // Find the index that needs to be incremented
+    var firstElement;
+    if (simple) {
+      firstElement = $(newDiv).find('select, input, textarea').first();
+    } else {
+      firstElement = $(newDiv).find('select, input, textarea').not('.simple-multiple-field').first();
+    }
+
+    var nameIndex = $(firstElement).attr('name').lastIndexOf(multipleIndex);
+    var idIndex = $(firstElement).attr('id').lastIndexOf(multipleIndex);
+
+    // Loop through newDiv and increment the correct index
+    $.each($(newDiv).find('select, input, textarea, label'), function(index, field) {
+      if ($(field).is('input, textarea, select')) {
+        var name = $(field).attr('name');
+        if (name !== undefined) {
+          name = name.slice(0, nameIndex) + name.slice(nameIndex).replace(multipleIndex, multipleIndex + 1);
+          $(field).attr('name', name);
+        }
+
+        var id = $(field).attr('id');
+        id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1);
+        $(field).attr('id', id);
+
+        // Clear field value
+        if ($(field).attr('type') === 'radio') {
+          $(field).prop('checked', false);
+        } else {
+          $(field).not('input[type="hidden"]').val('');
+        }
+      } else if ($(field).is('label')) {
+        var labelFor = $(field).attr('for');
+        if (labelFor !==  undefined) {
+          labelFor = labelFor.slice(0, idIndex) + labelFor.slice(idIndex).replace(multipleIndex, multipleIndex + 1);
+          $(field).attr('for', labelFor);
+        }
+      }
+    });
+    return newDiv;
+  };
 
   $('.multiple').on('click', '.remove', function() {
     var multipleItem = $(this).closest('.multiple-item');

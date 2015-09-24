@@ -24,9 +24,9 @@
         <% keywords = draft.draft['TemporalKeywords'] || [nil] # [nil] creates at least one keyword field %>
         <div class="multiple simple-multiple temporal-keywords">
           <label>Temporal Keyword</label><i class="fa fa-info-circle"></i>
-        <% keywords.each do |keyword| %>
-          <div class="multiple-item">
-            <%= text_field_tag(name_to_param("draft_|temporal_keywords|_index"), keyword, class: 'half-width validate') %>
+        <% keywords.each_with_index do |keyword, index| %>
+          <div class="multiple-item multiple-item-<%= index %>">
+            <%= text_field_tag(name_to_param("draft_|temporal_keywords|_#{index}"), keyword, class: 'half-width temporal-keyword simple-multiple-field validate') %>
             <a class="remove"><i class="fa fa-times-circle"></i></a>
             <div class="actions">
               <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Keyword</button>
