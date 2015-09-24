@@ -47,7 +47,7 @@ describe 'Distribution information form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    it "shows pre-entered values in the draft preview page" do
+    it 'shows pre-entered values in the draft preview page' do
       # Related URL 1
       expect(page).to have_content('http://example.com')
       expect(page).to have_content('http://another-example.com')
@@ -88,28 +88,26 @@ describe 'Distribution information form', js: true do
       end
 
       it 'populates the form with the values' do
-        within '.multiple.related-urls' do
-          within '.multiple-item-0' do
-            expect(page).to have_field('URL', with: 'http://example.com')
-            expect(page).to have_field('URL', with: 'http://another-example.com')
-            expect(page).to have_field('Description', with: 'Example Description')
-            expect(page).to have_field('Protocol', with: 'FTP')
-            expect(page).to have_field('Mime Type', with: 'text/html')
-            expect(page).to have_field('Caption', with: 'Example Caption')
-            expect(page).to have_field('Title', with: 'Example Title')
-            within '.file-size' do
-              expect(page).to have_field('Size', with: '42.0')
-              expect(page).to have_field('Unit', with: 'MB')
-            end
-            within '.content-type' do
-              expect(page).to have_field('Type', with: 'Type')
-              expect(page).to have_field('Subtype', with: 'Subtype')
-            end
+        within '.multiple.related-urls > .multiple-item-0' do
+          expect(page).to have_selector('input.url[value="http://example.com"]')
+          expect(page).to have_selector('input.url[value="http://another-example.com"]')
+          expect(page).to have_field('Description', with: 'Example Description')
+          expect(page).to have_field('Protocol', with: 'FTP')
+          expect(page).to have_field('Mime Type', with: 'text/html')
+          expect(page).to have_field('Caption', with: 'Example Caption')
+          expect(page).to have_field('Title', with: 'Example Title')
+          within '.file-size' do
+            expect(page).to have_field('Size', with: '42.0')
+            expect(page).to have_field('Unit', with: 'MB')
           end
+          within '.content-type' do
+            expect(page).to have_field('Type', with: 'Type')
+            expect(page).to have_field('Subtype', with: 'Subtype')
+          end
+        end
 
-          within '.multiple-item-1' do
-            expect(page).to have_field('URL', with: 'http://example.com/1')
-          end
+        within '.multiple.related-urls> .multiple-item-1' do
+          expect(page).to have_selector('input.url[value="http://example.com/1"]')
         end
 
         within '.multiple.distributions' do
@@ -127,9 +125,7 @@ describe 'Distribution information form', js: true do
             expect(page).to have_field('Fees', with: '12.34')
           end
         end
-
       end
-
     end
   end
 end

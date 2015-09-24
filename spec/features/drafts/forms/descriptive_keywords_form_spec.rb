@@ -19,11 +19,13 @@ describe 'Descriptive keywords form', js: true do
       add_science_keywords
 
       # Ancillary Keywords
-      fill_in 'Ancillary Keyword', with: 'Ancillary keyword 1'
-      click_on 'Add Another Keyword'
       within '.multiple.ancillary-keywords' do
-        within all('.multiple-item').last do
-          fill_in 'Ancillary Keyword', with: 'Ancillary keyword 2'
+        within '.multiple-item-0' do
+          find('.ancillary-keyword').set 'Ancillary keyword 1'
+          click_on 'Add Another Keyword'
+        end
+        within '.multiple-item-1' do
+          find('.ancillary-keyword').set 'Ancillary keyword 2'
         end
       end
 
@@ -103,8 +105,10 @@ describe 'Descriptive keywords form', js: true do
         expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
 
         # Ancillary Keywords
-        expect(page).to have_field('Ancillary Keyword', with: 'Ancillary keyword 1')
-        expect(page).to have_field('Ancillary Keyword', with: 'Ancillary keyword 2')
+        within '.multiple.ancillary-keywords' do
+          expect(page).to have_selector('input.ancillary-keyword[value="Ancillary keyword 1"]')
+          expect(page).to have_selector('input.ancillary-keyword[value="Ancillary keyword 2"]')
+        end
 
         # Additional Attributes
         within '.multiple.additional-attributes' do

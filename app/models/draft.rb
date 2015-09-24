@@ -100,7 +100,6 @@ class Draft < ActiveRecord::Base
     inclination_angle
     number_of_orbits
     start_circular_latitude
-    resolutions
     distribution_size
   )
   BOOLEAN_KEYS = %w(
@@ -125,6 +124,8 @@ class Draft < ActiveRecord::Base
             object[key] = convert_to_number(value)
           elsif BOOLEAN_KEYS.include?(key)
             object[key] = value == 'true' ? true : false unless value.empty?
+          elsif key == 'resolutions'
+            object[key] = value.map { |_key, resolution| convert_to_number(resolution) }
           elsif key == 'science_keywords'
             object[key] = convert_science_keywords(value)
           elsif key == 'access_constraints'
