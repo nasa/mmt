@@ -47,13 +47,14 @@ describe 'Spatial extent form', js: true do
       fill_in 'Latitude Resolution', with: '42.0'
       fill_in 'Longitude Resolution', with: '43.0'
 
-
       # Spatial Keywords
       within '.multiple.spatial-keywords' do
-        fill_in 'Spatial Keyword', with: 'f47ac10b-58cc-4372-a567-0e02b2c3d479'
-        click_on 'Add Another Keyword'
-        within all('.multiple-item').last do
-          fill_in 'Spatial Keyword', with: 'abdf4d5c-55dc-4324-9ae5-5adf41e99da3'
+        within '.multiple-item-0' do
+          find('.spatial-keyword').set 'Keyword 1'
+          click_on 'Add Another Keyword'
+        end
+        within '.multiple-item-1' do
+          find('.spatial-keyword').set 'Keyword 2'
         end
       end
 
@@ -118,7 +119,7 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('Geographic Coordinate Units: Coordinate units')
       expect(page).to have_content('Latitude Resolution: 42.0')
       expect(page).to have_content('Longitude Resolution: 43.0')
-      expect(page).to have_content('Spatial Keywords f47ac10b-58cc-4372-a567-0e02b2c3d479 abdf4d5c-55dc-4324-9ae5-5adf41e99da3')
+      expect(page).to have_content('Spatial Keywords Keyword 1 Keyword 2')
 
       # Also check side bar
       # Note that handling blank spatial extents is tested in other form tests that don't populate spatial extents
@@ -220,7 +221,6 @@ describe 'Spatial extent form', js: true do
                     expect(page).to have_field('Longitude', with: '5.0')
                     expect(page).to have_field('Latitude', with: '-5.0')
                   end
-
                 end
               end
             end
@@ -300,15 +300,12 @@ describe 'Spatial extent form', js: true do
         expect(page).to have_field('Latitude Resolution', with: '42.0')
         expect(page).to have_field('Longitude Resolution', with: '43.0')
 
-
         # Spatial Keywords
         within '.multiple.spatial-keywords' do
-          expect(page).to have_field('Spatial Keyword', with: 'f47ac10b-58cc-4372-a567-0e02b2c3d479')
-          expect(page).to have_field('Spatial Keyword', with: 'abdf4d5c-55dc-4324-9ae5-5adf41e99da3')
+          expect(page).to have_selector('input.spatial-keyword[value="Keyword 1"]')
+          expect(page).to have_selector('input.spatial-keyword[value="Keyword 2"]')
         end
-
       end
-
     end
   end
 
@@ -337,27 +334,35 @@ describe 'Spatial extent form', js: true do
         fill_in 'Datum Name', with: 'datum name'
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method'
-        fill_in 'Resolution', with: '3.0'
-        click_on 'Add Another Resolution'
-        within all('.multiple-item').last do
-          fill_in 'Resolution', with: '4.0'
+        within '.multiple.resolutions' do
+          within '.multiple-item-0' do
+            find('.resolution').set '3.0'
+            click_on 'Add Another Resolution'
+          end
+          within '.multiple-item-1' do
+            find('.resolution').set '4.0'
+          end
         end
       end
       within all('.vertical-system-definition').last do
         fill_in 'Datum Name', with: 'datum name 1'
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method 1'
-        fill_in 'Resolution', with: '5.0'
-        click_on 'Add Another Resolution'
-        within all('.multiple-item').last do
-          fill_in 'Resolution', with: '6.0'
+        within '.multiple.resolutions' do
+          within '.multiple-item-0' do
+            find('.resolution').set '5.0'
+            click_on 'Add Another Resolution'
+          end
+          within '.multiple-item-1' do
+            find('.resolution').set '6.0'
+          end
         end
       end
 
       within '.nav-top' do
         click_on 'Save & Done'
       end
-       # output_schema_validation Draft.first.draft
+      # output_schema_validation Draft.first.draft
       open_accordions
     end
 
@@ -365,11 +370,11 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    it "shows pre-entered values in the draft preview page" do
+    it 'shows pre-entered values in the draft preview page' do
       expect(page).to have_content('Spatial Coverage Type: Vertical')
-      expect(page).to have_content('domain type', :count=>2)
+      expect(page).to have_content('domain type', count: 2)
       expect(page).to have_content('domain type 1')
-      expect(page).to have_content('domain value', :count=>2)
+      expect(page).to have_content('domain value', count: 2)
       expect(page).to have_content('domain value 1')
       expect(page).to have_content('Granule Spatial Representation: Cartesian')
       expect(page).to have_content('Spatial Coverage Type: Vertical')
@@ -382,7 +387,6 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('Encoding Method: encoding method 1')
       expect(page).to have_content('Resolutions 5.0 6.0')
     end
-
 
     context 'when returning to the form with vertical spatial data' do
       before do
@@ -409,7 +413,6 @@ describe 'Spatial extent form', js: true do
           expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
         end
 
-
         # Spatial Representation Information
         expect(page).to have_no_checked_field('Horizontal')
         expect(page).to have_checked_field('Vertical')
@@ -418,19 +421,17 @@ describe 'Spatial extent form', js: true do
           expect(page).to have_field('Datum Name', with: 'datum name')
           expect(page).to have_field('Distance Units', with: 'miles')
           expect(page).to have_field('Encoding Method', with: 'encoding method')
-          expect(page).to have_field('Resolution', with: '3.0')
-          expect(page).to have_field('Resolution', with: '4.0')
+          expect(page).to have_selector('input.resolution[value="3.0"]')
+          expect(page).to have_selector('input.resolution[value="4.0"]')
         end
         within all('.vertical-system-definition').last do
           expect(page).to have_field('Datum Name', with: 'datum name 1')
           expect(page).to have_field('Distance Units', with: 'miles')
           expect(page).to have_field('Encoding Method', with: 'encoding method 1')
-          expect(page).to have_field('Resolution', with: '5.0')
-          expect(page).to have_field('Resolution', with: '6.0')
+          expect(page).to have_selector('input.resolution[value="5.0"]')
+          expect(page).to have_selector('input.resolution[value="6.0"]')
         end
-
       end
-
     end
   end
 
@@ -464,27 +465,35 @@ describe 'Spatial extent form', js: true do
         fill_in 'Datum Name', with: 'datum name'
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method'
-        fill_in 'Resolution', with: '3.0'
-        click_on 'Add Another Resolution'
-        within all('.multiple-item').last do
-          fill_in 'Resolution', with: '4.0'
+        within '.multiple.resolutions' do
+          within '.multiple-item-0' do
+            find('.resolution').set '3.0'
+            click_on 'Add Another Resolution'
+          end
+          within '.multiple-item-1' do
+            find('.resolution').set '4.0'
+          end
         end
       end
       within all('.vertical-system-definition').last do
         fill_in 'Datum Name', with: 'datum name 1'
         fill_in 'Distance Units', with: 'miles'
         fill_in 'Encoding Method', with: 'encoding method 1'
-        fill_in 'Resolution', with: '5.0'
-        click_on 'Add Another Resolution'
-        within all('.multiple-item').last do
-          fill_in 'Resolution', with: '6.0'
+        within '.multiple.resolutions' do
+          within '.multiple-item-0' do
+            find('.resolution').set '5.0'
+            click_on 'Add Another Resolution'
+          end
+          within '.multiple-item-1' do
+            find('.resolution').set '6.0'
+          end
         end
       end
 
       within '.nav-top' do
         click_on 'Save & Done'
       end
-       # output_schema_validation Draft.first.draft
+      # output_schema_validation Draft.first.draft
       open_accordions
     end
 
@@ -492,7 +501,7 @@ describe 'Spatial extent form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    it "shows pre-entered values in the draft preview page including orbital spatial data" do
+    it 'shows pre-entered values in the draft preview page including orbital spatial data' do
       expect(page).to have_content('Spatial Coverage Type: Orbital')
       expect(page).to have_content('Swath Width: 1.0')
       expect(page).to have_content('Period: 2.0')
@@ -555,20 +564,17 @@ describe 'Spatial extent form', js: true do
           expect(page).to have_field('Datum Name', with: 'datum name')
           expect(page).to have_field('Distance Units', with: 'miles')
           expect(page).to have_field('Encoding Method', with: 'encoding method')
-          expect(page).to have_field('Resolution', with: '3.0')
-          expect(page).to have_field('Resolution', with: '4.0')
+          expect(page).to have_selector('input.resolution[value="3.0"]')
+          expect(page).to have_selector('input.resolution[value="4.0"]')
         end
         within all('.vertical-system-definition').last do
           expect(page).to have_field('Datum Name', with: 'datum name 1')
           expect(page).to have_field('Distance Units', with: 'miles')
           expect(page).to have_field('Encoding Method', with: 'encoding method 1')
-          expect(page).to have_field('Resolution', with: '5.0')
-          expect(page).to have_field('Resolution', with: '6.0')
+          expect(page).to have_selector('input.resolution[value="5.0"]')
+          expect(page).to have_selector('input.resolution[value="6.0"]')
         end
-
       end
-
     end
   end
-
 end

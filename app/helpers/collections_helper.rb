@@ -71,19 +71,19 @@ module CollectionsHelper
 
     unless metadata['TemporalExtents'].blank?
       metadata['TemporalExtents'].each do |temporal_extent|
-        if temporal_extent['TemporalRangeType'] == 'SingleDateTime'
+        if temporal_extent['SingleDateTimes']
 
           temporal_extent['SingleDateTimes'].each do |single_date_time|
             single_date_times << single_date_time
           end
 
-        elsif temporal_extent['TemporalRangeType'] == 'RangeDateTime'
+        elsif temporal_extent['RangeDateTimes']
 
           temporal_extent['RangeDateTimes'].each do |range_date_time|
             range_date_times << { 'beginning_date_time' => range_date_time['BeginningDateTime'], 'ending_date_time' => range_date_time['EndingDateTime'] }
           end
 
-        elsif temporal_extent['TemporalRangeType'] == 'PeriodicDateTime'
+        elsif temporal_extent['PeriodicDateTimes']
 
           temporal_extent['PeriodicDateTimes'].each do |periodic_date_time|
             periodic_date_times << { 'start_date' => periodic_date_time['StartDate'], 'end_date' => periodic_date_time['EndDate'] }

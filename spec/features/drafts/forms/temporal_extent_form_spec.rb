@@ -20,7 +20,15 @@ describe 'Temporal extent form', js: true do
         choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
         fill_in 'Precision Of Seconds', with: '1'
         choose 'draft_temporal_extents_0_ends_at_present_flag_false'
-        fill_in 'Single Date Time', with: '2015-07-01T00:00:00Z'
+        within '.multiple.single-date-times' do
+          within '.multiple-item-0' do
+            find('.single-date-time').set '2015-07-01T00:00:00Z'
+            click_on 'Add Another Date'
+          end
+          within '.multiple-item-1' do
+            find('.single-date-time').set '2015-08-01T00:00:00Z'
+          end
+        end
 
         # Add another TemporalExtent
         click_on 'Add another Temporal Extent'
@@ -52,10 +60,12 @@ describe 'Temporal extent form', js: true do
 
       # Complete TemporalKeyword fields
       within '.multiple.temporal-keywords' do
-        fill_in 'draft_temporal_keywords_', with: 'Keyword 1'
-        click_on 'Add Another Keyword'
-        within all('.multiple-item').last do
-          fill_in 'draft_temporal_keywords_', with: 'Keyword 2'
+        within '.multiple-item-0' do
+          find('.temporal-keyword').set 'Keyword 1'
+          click_on 'Add Another Keyword'
+        end
+        within '.multiple-item-1' do
+          find('.temporal-keyword').set 'Keyword 2'
         end
       end
 
@@ -93,11 +103,11 @@ describe 'Temporal extent form', js: true do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
     end
 
-    it "shows pre-entered values in the draft preview page" do
-
+    it 'shows pre-entered values in the draft preview page' do
       # Complete TemporalExtent fields
       expect(page).to have_content('1')
       expect(page).to have_content('2015-07-01T00:00:00Z')
+      expect(page).to have_content('2015-08-01T00:00:00Z')
 
       # Add another TemporalExtent
       expect(page).to have_content('10')
@@ -168,10 +178,13 @@ describe 'Temporal extent form', js: true do
             expect(page).to have_field('Precision Of Seconds', with: '1')
             expect(page).to have_no_checked_field('True')
             expect(page).to have_checked_field('False')
-            expect(page).to have_field('Single Date Time', with: '2015-07-01T00:00:00Z')
+            within '.multiple.single-date-times' do
+              expect(page).to have_selector('input.single-date-time[value="2015-07-01T00:00:00Z"]')
+              expect(page).to have_selector('input.single-date-time[value="2015-08-01T00:00:00Z"]')
+            end
           end
 
-          within '.multiple-item-1' do
+          within all('.multiple-item-1')[1] do
             expect(page).to have_no_checked_field('Single')
             expect(page).to have_checked_field('Range')
             expect(page).to have_no_checked_field('Periodic')
@@ -201,8 +214,8 @@ describe 'Temporal extent form', js: true do
 
         # Complete TemporalKeyword fields
         within '.multiple.temporal-keywords' do
-          expect(page).to have_field('draft_temporal_keywords_', with: 'Keyword 1')
-          expect(page).to have_field('draft_temporal_keywords_', with: 'Keyword 2')
+          expect(page).to have_selector('input.temporal-keyword[value="Keyword 1"]')
+          expect(page).to have_selector('input.temporal-keyword[value="Keyword 2"]')
         end
 
         # Complete PaleoTemporalCoverage fields
@@ -229,7 +242,6 @@ describe 'Temporal extent form', js: true do
           expect(page).to have_field('End Date', with: '2015-08-01T00:00:00Z')
         end
       end
-
     end
   end
 end

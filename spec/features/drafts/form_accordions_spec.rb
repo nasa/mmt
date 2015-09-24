@@ -18,7 +18,7 @@ describe 'Draft form accordions', js: true do
     end
 
     it 'hides the fields' do
-      expect(page).to have_no_field('URL')
+      expect(page).to have_no_field('Description')
     end
 
     context 'when clicking on the header again' do
@@ -31,7 +31,7 @@ describe 'Draft form accordions', js: true do
       end
 
       it 'shows the fields' do
-        expect(page).to have_field('URL')
+        expect(page).to have_field('Description')
       end
     end
   end

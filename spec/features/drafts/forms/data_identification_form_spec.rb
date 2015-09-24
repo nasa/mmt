@@ -1,4 +1,4 @@
-#MMT-53, MMT-293
+# MMT-53, MMT-293
 
 require 'rails_helper'
 
@@ -69,7 +69,7 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('Draft Title')
     end
 
-    it "shows pre-entered values in the draft preview page" do
+    it 'shows pre-entered values in the draft preview page' do
       expect(page).to have_content('10-2, M-W', count: 2)
       expect(page).to have_content('12345', count: 3)
       expect(page).to have_content('1234567890123', count: 1)
@@ -230,25 +230,22 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Country', with: 'United States')
               end
             end
-            within '.multiple.related-urls' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('URL', with: 'http://example.com')
-                expect(page).to have_field('URL', with: 'http://another-example.com')
-                expect(page).to have_field('Description', with: 'Example Description')
-                expect(page).to have_field('Protocol', with: 'FTP')
-                expect(page).to have_field('Mime Type', with: 'text/html')
-                expect(page).to have_field('Caption', with: 'Example Caption')
-                expect(page).to have_field('Title', with: 'Example Title')
-                expect(page).to have_field('Size', with: '42.0')
-                expect(page).to have_field('Unit', with: 'MB')
-                expect(page).to have_field('Type', with: 'Type')
-                expect(page).to have_field('Subtype', with: 'Subtype')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('URL', with: 'http://example.com/1')
-              end
+            within '.multiple.related-urls > .multiple-item-0' do
+              expect(page).to have_selector('input.url[value="http://example.com"]')
+              expect(page).to have_selector('input.url[value="http://another-example.com"]')
+              expect(page).to have_field('Description', with: 'Example Description')
+              expect(page).to have_field('Protocol', with: 'FTP')
+              expect(page).to have_field('Mime Type', with: 'text/html')
+              expect(page).to have_field('Caption', with: 'Example Caption')
+              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('Size', with: '42.0')
+              expect(page).to have_field('Unit', with: 'MB')
+              expect(page).to have_field('Type', with: 'Type')
+              expect(page).to have_field('Subtype', with: 'Subtype')
             end
-
+            within '.multiple.related-urls> .multiple-item-1' do
+              expect(page).to have_selector('input.url[value="http://example.com/1"]')
+            end
           end
           within '.multiple.responsibilities > .multiple-item-1' do
             expect(page).to have_field('Role', with: 'OWNER')
@@ -284,25 +281,22 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Country', with: 'United States')
               end
             end
-            within '.multiple.related-urls' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('URL', with: 'http://example.com')
-                expect(page).to have_field('URL', with: 'http://another-example.com')
-                expect(page).to have_field('Description', with: 'Example Description')
-                expect(page).to have_field('Protocol', with: 'FTP')
-                expect(page).to have_field('Mime Type', with: 'text/html')
-                expect(page).to have_field('Caption', with: 'Example Caption')
-                expect(page).to have_field('Title', with: 'Example Title')
-                expect(page).to have_field('Size', with: '42.0')
-                expect(page).to have_field('Unit', with: 'MB')
-                expect(page).to have_field('Type', with: 'Type')
-                expect(page).to have_field('Subtype', with: 'Subtype')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('URL', with: 'http://example.com/1')
-              end
+            within '.multiple.related-urls > .multiple-item-0' do
+              expect(page).to have_selector('input.url[value="http://example.com"]')
+              expect(page).to have_selector('input.url[value="http://another-example.com"]')
+              expect(page).to have_field('Description', with: 'Example Description')
+              expect(page).to have_field('Protocol', with: 'FTP')
+              expect(page).to have_field('Mime Type', with: 'text/html')
+              expect(page).to have_field('Caption', with: 'Example Caption')
+              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('Size', with: '42.0')
+              expect(page).to have_field('Unit', with: 'MB')
+              expect(page).to have_field('Type', with: 'Type')
+              expect(page).to have_field('Subtype', with: 'Subtype')
             end
-
+            within '.multiple.related-urls> .multiple-item-1' do
+              expect(page).to have_selector('input.url[value="http://example.com/1"]')
+            end
           end
         end
 
@@ -343,25 +337,22 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Country', with: 'United States')
               end
             end
-            within '.multiple.related-urls' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('URL', with: 'http://example.com')
-                expect(page).to have_field('URL', with: 'http://another-example.com')
-                expect(page).to have_field('Description', with: 'Example Description')
-                expect(page).to have_field('Protocol', with: 'FTP')
-                expect(page).to have_field('Mime Type', with: 'text/html')
-                expect(page).to have_field('Caption', with: 'Example Caption')
-                expect(page).to have_field('Title', with: 'Example Title')
-                expect(page).to have_field('Size', with: '42.0')
-                expect(page).to have_field('Unit', with: 'MB')
-                expect(page).to have_field('Type', with: 'Type')
-                expect(page).to have_field('Subtype', with: 'Subtype')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('URL', with: 'http://example.com/1')
-              end
+            within '.multiple.related-urls > .multiple-item-0' do
+              expect(page).to have_selector('input.url[value="http://example.com"]')
+              expect(page).to have_selector('input.url[value="http://another-example.com"]')
+              expect(page).to have_field('Description', with: 'Example Description')
+              expect(page).to have_field('Protocol', with: 'FTP')
+              expect(page).to have_field('Mime Type', with: 'text/html')
+              expect(page).to have_field('Caption', with: 'Example Caption')
+              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('Size', with: '42.0')
+              expect(page).to have_field('Unit', with: 'MB')
+              expect(page).to have_field('Type', with: 'Type')
+              expect(page).to have_field('Subtype', with: 'Subtype')
             end
-
+            within '.multiple.related-urls> .multiple-item-1' do
+              expect(page).to have_selector('input.url[value="http://example.com/1"]')
+            end
           end
           within '.multiple.responsibilities > .multiple-item-1' do
             expect(page).to have_field('Role', with: 'OWNER')
@@ -398,28 +389,24 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Country', with: 'United States')
               end
             end
-            within '.multiple.related-urls' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('URL', with: 'http://example.com')
-                expect(page).to have_field('URL', with: 'http://another-example.com')
-                expect(page).to have_field('Description', with: 'Example Description')
-                expect(page).to have_field('Protocol', with: 'FTP')
-                expect(page).to have_field('Mime Type', with: 'text/html')
-                expect(page).to have_field('Caption', with: 'Example Caption')
-                expect(page).to have_field('Title', with: 'Example Title')
-                expect(page).to have_field('Size', with: '42.0')
-                expect(page).to have_field('Unit', with: 'MB')
-                expect(page).to have_field('Type', with: 'Type')
-                expect(page).to have_field('Subtype', with: 'Subtype')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('URL', with: 'http://example.com/1')
-              end
+            within '.multiple.related-urls > .multiple-item-0' do
+              expect(page).to have_selector('input.url[value="http://example.com"]')
+              expect(page).to have_selector('input.url[value="http://another-example.com"]')
+              expect(page).to have_field('Description', with: 'Example Description')
+              expect(page).to have_field('Protocol', with: 'FTP')
+              expect(page).to have_field('Mime Type', with: 'text/html')
+              expect(page).to have_field('Caption', with: 'Example Caption')
+              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('Size', with: '42.0')
+              expect(page).to have_field('Unit', with: 'MB')
+              expect(page).to have_field('Type', with: 'Type')
+              expect(page).to have_field('Subtype', with: 'Subtype')
             end
-
+            within '.multiple.related-urls> .multiple-item-1' do
+              expect(page).to have_selector('input.url[value="http://example.com/1"]')
+            end
           end
         end
-
 
         within '.processing-level-fields' do
           expect(page).to have_field('ID', with: 'Level 1')
@@ -428,7 +415,7 @@ describe 'Data identification form', js: true do
 
         #### ResourceCitation
         within '.multiple.resource-citations' do
-          within '.multiple-item-0' do
+          within first('.multiple-item-0') do
             expect(page).to have_field('Version', with: 'v1')
             expect(page).to have_field('Title', with: 'Citation title')
             expect(page).to have_field('Creator', with: 'Citation creator')
@@ -444,36 +431,36 @@ describe 'Data identification form', js: true do
             expect(page).to have_field('Authority', with: 'Citation DOI Authority')
 
             within '.related-url' do
-              expect(page).to have_field("URL", with: 'http://example.com')
-              expect(page).to have_field("URL", with: 'http://another-example.com')
-              expect(page).to have_field("Description", with: 'Example Description')
-              expect(page).to have_field("Protocol", with: 'FTP')
-              expect(page).to have_field("Mime Type", with: 'text/html')
-              expect(page).to have_field("Caption", with: 'Example Caption')
-              expect(page).to have_field("Title", with: 'Example Title')
-              expect(page).to have_field("Size", with: '42.0')
-              expect(page).to have_field("Unit", with: 'MB')
-              expect(page).to have_field("Type", with: 'Type')
-              expect(page).to have_field("Subtype", with: 'Subtype')
+              expect(page).to have_selector('input.url[value="http://example.com"]')
+              expect(page).to have_selector('input.url[value="http://another-example.com"]')
+              expect(page).to have_field('Description', with: 'Example Description')
+              expect(page).to have_field('Protocol', with: 'FTP')
+              expect(page).to have_field('Mime Type', with: 'text/html')
+              expect(page).to have_field('Caption', with: 'Example Caption')
+              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('Size', with: '42.0')
+              expect(page).to have_field('Unit', with: 'MB')
+              expect(page).to have_field('Type', with: 'Type')
+              expect(page).to have_field('Subtype', with: 'Subtype')
             end
           end
-          within '.multiple-item-1' do
+          within all('.multiple-item-1')[1] do
             expect(page).to have_field('Version', with: 'v2')
             expect(page).to have_field('Title', with: 'Citation title 1')
             expect(page).to have_field('Creator', with: 'Citation creator 1')
 
             within '.related-url' do
-              expect(page).to have_field("URL", with: 'http://example.com')
-              expect(page).to have_field("URL", with: 'http://another-example.com')
-              expect(page).to have_field("Description", with: 'Example Description')
-              expect(page).to have_field("Protocol", with: 'FTP')
-              expect(page).to have_field("Mime Type", with: 'text/html')
-              expect(page).to have_field("Caption", with: 'Example Caption')
-              expect(page).to have_field("Title", with: 'Example Title')
-              expect(page).to have_field("Size", with: '42.0')
-              expect(page).to have_field("Unit", with: 'MB')
-              expect(page).to have_field("Type", with: 'Type')
-              expect(page).to have_field("Subtype", with: 'Subtype')
+              expect(page).to have_selector('input.url[value="http://example.com"]')
+              expect(page).to have_selector('input.url[value="http://another-example.com"]')
+              expect(page).to have_field('Description', with: 'Example Description')
+              expect(page).to have_field('Protocol', with: 'FTP')
+              expect(page).to have_field('Mime Type', with: 'text/html')
+              expect(page).to have_field('Caption', with: 'Example Caption')
+              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('Size', with: '42.0')
+              expect(page).to have_field('Unit', with: 'MB')
+              expect(page).to have_field('Type', with: 'Type')
+              expect(page).to have_field('Subtype', with: 'Subtype')
             end
           end
         end
@@ -487,7 +474,6 @@ describe 'Data identification form', js: true do
           expect(page).to have_field('Value', with: '42.0')
           expect(page).to have_field('Description', with: 'Access constraint description')
         end
-
 
         ##### Metadata Association
         within '.multiple.metadata-associations' do
@@ -504,11 +490,10 @@ describe 'Data identification form', js: true do
           end
         end
 
-
         #### PublicationReference
         within '.multiple.publication-references' do
-          within '.multiple-item-0' do
-            expect(page).to have_field("draft_publication_references_0_title", with: "Publication reference title") #Title
+          within first('.multiple-item-0') do
+            expect(page).to have_field('draft_publication_references_0_title', with: 'Publication reference title') # Title
             expect(page).to have_field('Publisher', with: 'Publication reference publisher')
             expect(page).to have_field('DOI', with: 'Publication reference DOI')
             expect(page).to have_field('Authority', with: 'Publication reference authority')
@@ -524,25 +509,24 @@ describe 'Data identification form', js: true do
             expect(page).to have_field('ISBN', with: '1234567890123')
             expect(page).to have_field('Other Reference Details', with: 'Publication reference details')
             within '.related-url' do
-              expect(page).to have_field("URL", with: 'http://example.com')
-              expect(page).to have_field("URL", with: 'http://another-example.com')
-              expect(page).to have_field("Description", with: 'Example Description')
-              expect(page).to have_field("Protocol", with: 'FTP')
-              expect(page).to have_field("Mime Type", with: 'text/html')
-              expect(page).to have_field("Caption", with: 'Example Caption')
-              expect(page).to have_field("Title", with: 'Example Title')
-              expect(page).to have_field("Size", with: '42.0')
-              expect(page).to have_field("Unit", with: 'MB')
-              expect(page).to have_field("Type", with: 'Type')
-              expect(page).to have_field("Subtype", with: 'Subtype')
+              expect(page).to have_selector('input.url[value="http://example.com"]')
+              expect(page).to have_selector('input.url[value="http://another-example.com"]')
+              expect(page).to have_field('Description', with: 'Example Description')
+              expect(page).to have_field('Protocol', with: 'FTP')
+              expect(page).to have_field('Mime Type', with: 'text/html')
+              expect(page).to have_field('Caption', with: 'Example Caption')
+              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('Size', with: '42.0')
+              expect(page).to have_field('Unit', with: 'MB')
+              expect(page).to have_field('Type', with: 'Type')
+              expect(page).to have_field('Subtype', with: 'Subtype')
             end
           end
-          within '.multiple-item-1' do
-            expect(page).to have_field("draft_publication_references_1_title", with: "Publication reference title 1") #Title
-            expect(page).to have_field("ISBN", with: '9876543210987')
+          within all('.multiple-item-1').last do
+            expect(page).to have_field('draft_publication_references_1_title', with: 'Publication reference title 1') # Title
+            expect(page).to have_field('ISBN', with: '9876543210987')
           end
         end
-
       end
     end
   end
