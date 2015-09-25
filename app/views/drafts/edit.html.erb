@@ -46,6 +46,11 @@
 
         <%= render :partial => "drafts/forms/#{@draft_form}", :locals => { draft: @draft } %>
 
+        <script>
+          // Load json-schema for field validation
+          var globalJsonSchema = <%= raw @json_schema.to_json %>;
+        </script>
+
         </br>
 
         <%= render :partial => 'drafts/forms/form_navigation', :locals => {
