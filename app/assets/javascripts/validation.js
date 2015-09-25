@@ -100,7 +100,7 @@ function handleDescriptiveKeywordForm(json) {
     for (var i=0; i< fieldNames.length; i++) {
       var fieldName = fieldNames[i];
       var keyword = keywordSegmentArray[i];
-      if (keyword == undefined || keyword === null)
+      if (keyword === undefined || keyword === null)
           break;
       keyword = keyword.trim();
       thisJson[fieldName] = keyword;
@@ -129,7 +129,7 @@ function buildJsonForPage() {
       for (var i=1; i < thisPathArray.length; i++) {
         var pathFragment = thisPathArray[i];
 
-        if (pathFragment.match(/^[0-9]+$/) == null) {
+        if (pathFragment.match(/^[0-9]+$/) === null) {
           // Not an array subscript. Is it already in the json at this level?
           if (jsonFragment[pathFragment]) {
             // found, continue down path
@@ -146,7 +146,7 @@ function buildJsonForPage() {
         else { // pathFragment is an array index
           var index = parseInt(pathFragment);
           // If this index will be new then insert this and everything following it in thisPathArray.
-          if (jsonFragment[index] == undefined) {
+          if (jsonFragment[index] === undefined) {
             jsonFragment[index] = createJsonFragment(thisPathArray.slice(i + 1).reverse(), $(this));
             break;
           }
@@ -168,20 +168,19 @@ function createJsonFragment(objPathArray, obj) {
   // An entire branch of the Json is not yet present. Create and return it.
   var json = {};
   var objValue = convertObj(obj);
-  var objId = obj.attr('id');
 
-  if (objPathArray.length == 0)
+  if (objPathArray.length === 0)
     return objValue;
 
   for (var i=0; i<objPathArray.length; i++) {
     // TODO - find more efficient way of adding outer layers of json to a json object
     var oldJson;
-    if (i==0)
+    if (i===0)
       oldJson = objValue; // Initially set this for innermost value
     else
       oldJson = JSON.parse(JSON.stringify(json)); // clone the json before adding it
     json = {};
-    if (objPathArray[i].match(/^[0-9]+$/) == null) {
+    if (objPathArray[i].match(/^[0-9]+$/) === null) {
       json[objPathArray[i]] = oldJson;
     }
     else { // handle arrays, including out of order insertions
@@ -328,15 +327,12 @@ function convertObj(obj) {
     }
   }
   else if (obj.hasClass('mmt-integer')) {
-    if (!(parseInt(objValue) === Number(objValue))) { // See http://run.plnkr.co/plunks/93FPpacuIcXqqKMecLdk/
-      //objValue = NaN;
-    }
-    else {
+    if (parseInt(objValue) === Number(objValue)) { // See http://run.plnkr.co/plunks/93FPpacuIcXqqKMecLdk/
       objValue = parseInt(objValue);
     }
   }
   else if (obj.hasClass('mmt-boolean')) {
-    objValue = objValue == 'true';
+    objValue = objValue === 'true';
   }
   return objValue;
 }
@@ -430,8 +426,8 @@ function updateInlineErrorsForField(obj, errorArray) {
   var inlineErrorDisplayId = getInlineErrorDisplayId(obj);
   if (errorArray.length > 0) {
     var newObj = '<div id="' + inlineErrorDisplayId + '" class="banner banner-danger validation-error-display"><i class="fa fa-exclamation-triangle"></i>';
-    for(i=0; i<errorArray.length; i++) {
-      error = errorArray[i];
+    for(var i=0; i<errorArray.length; i++) {
+      var error = errorArray[i];
       var userMessage = createUserValidationMessage(error, 'inline');
       newObj += userMessage + '.</br>';
     }
@@ -446,13 +442,11 @@ function collectRelevantErrors(obj, errors) {
 
   var relevantErrors = [];
   var targetObjId = obj.attr('id');
-  var lengthForCompare = -1;
 
   for (var i=0; i<errors.length; i++) {
     var error = errors[i];
     //alert('Checking ' + errors[i].path + ' for ' + objPathArray[0] + ' Finding ' + errors[i].path.indexOf(objPathArray[0]));
     var objId = pathToObjId(error['path']);
-    var lengthToUse = (lengthForCompare < 0) ? objId.length : lengthForCompare;
     if (targetObjId === objId) {
       error['obj'] = obj;
       relevantErrors.push(error);
@@ -536,7 +530,7 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
     if (updateSummaryErrors) {
       // Make sure the errors are sorted by path for display. THis will group them.
       relevantErrors = relevantErrors.sort(function (a, b) {
-        return a.path == b.path ? 0 : +(a.path > b.path) || -1;
+        return a.path === b.path ? 0 : +(a.path > b.path) || -1;
       });
 
       var newElement = '<div id="' + summaryErrorDisplayId + '" class="banner banner-danger"><i class="fa fa-exclamation-triangle"></i>' +
@@ -606,7 +600,7 @@ function handleFieldValidation(obj) {
 $(document).ready(function() {
 
   // set up validation call
-  $('.validate').blur(function(e) {
+  $('.validate').blur(function() {
     handleFieldValidation ($(this));
   });
   
