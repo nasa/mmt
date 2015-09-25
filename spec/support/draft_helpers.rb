@@ -148,7 +148,7 @@ module Helpers
         add_related_urls
 
         click_on "Add another #{(type || 'responsibility').titleize}"
-        within '.multiple-item-1' do
+        within '.multiple-item.accordion.multiple-item-1' do
           select 'Owner', from: 'Role'
           case type
           when 'organization'
@@ -210,7 +210,7 @@ module Helpers
         fill_in 'Postal Code', with: '20546'
         fill_in 'Country', with: 'United States'
         click_on 'Add another Address'
-        within '.multiple-item-1' do
+        within '.multiple-item.accordion.multiple-item-1' do
           within '.multiple.addresses-street-addresses' do
             within first('.multiple-item') do
               find('input').set '8800 Greenbelt Road'

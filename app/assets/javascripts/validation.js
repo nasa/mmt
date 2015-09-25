@@ -1,133 +1,6 @@
-function compactAllArrays(obj) {
+// Error messages to the user can be improved by extracting & displaying data from the schema regarding things like field length, minItems, etc.
 
-  var k;
-  if (!Array.isArray(obj) && obj instanceof Object) {
-    for (k in obj){
-      compactAllArrays( obj[k] );
-    }
-  }
-  else {
-    if (Array.isArray(obj)) {
-      for (var i=0; i < obj.length; i++) {
-        if (obj[i] === null || obj[i] === undefined) {
-          obj.splice(i,1);
-          i--;
-        }
-      }
-      for (var i=0; i < obj.length; i++) {
-        compactAllArrays(obj[i]);
-      }
-    }
-  }
-  return obj;
-}
-
-// Arrays containing simple objects require a bit of special handling...
-var SIMPLE_ARRAY_FIELDS = [
-  'StreetAddresses',
-  'URLs',
-  'IsotropicCategories',
-  'AncillaryKeywords',
-  'SingleDateTimes',
-  'TemporalKeywords',
-  'Resolutions',
-  'SpatialKeywords',
-  'OperationalModes',
-  'Campaigns'
-];
-
-function pathFragmentIsSimpleArray(pathFragment) {
-  //for (var i=0; i< SIMPLE_ARRAY_FIELDS.length; i++) {
-  //  if (pathFragment === SIMPLE_ARRAY_FIELDS[i])
-  //  return true;
-  //}
-  return false;
-}
-
-function buildJsonForPage() {
-  // Build and return the json to be validated, using only all the information on this form.
-  var rootJson = {};
-
-  $('.validate').each(function(  ) {
-    if ($(this).val().length !== 0) { // skip fields that are empty
-      // Get the path of this
-      var thisPathArray = getObjPathArray($(this));
-
-      // Loop down through the path. Add missing elements to JsonForPage
-      var jsonFragment = rootJson;
-      // Skip first element of "Draft"
-      for (var i=1; i < thisPathArray.length; i++) {
-        var pathFragment = thisPathArray[i];
-
-        if (pathFragment.match(/^[0-9]+$/) == null) {
-          // Not an array subscript. Is it already in the json at this level?
-          if (jsonFragment[pathFragment]) {
-            // found, continue down path
-            jsonFragment = jsonFragment[pathFragment]; // Prepare for the next iteration of the for loop.
-            if (pathFragmentIsSimpleArray(pathFragment)) {
-              jsonFragment.push(convertObj($(this))); // add object value to simple array
-            }
-            continue;
-          }
-          else {
-            // Not yet present. Need to insert this and everything following it in thisPathArray.
-            var returnedJson = createJsonFragment(thisPathArray.slice(i+1).reverse(), $(this));
-            jsonFragment[pathFragment] = returnedJson;
-            //jsonFragment[pathFragment] = pathFragmentIsSimpleArray(pathFragment) ? [returnedJson] : returnedJson;
-            break;
-          }
-        }
-        else { // pathFragment is an array index
-          var index = parseInt(pathFragment);
-          // If this index will be new then insert this and everything following it in thisPathArray.
-          if (jsonFragment[index] == undefined) {
-            jsonFragment[index] = createJsonFragment(thisPathArray.slice(i + 1).reverse(), $(this));
-            break;
-          }
-          else {
-            // This array member already exists. Prepare for the next iteration of the for loop.
-            jsonFragment = jsonFragment [index];
-          }
-        }
-      }
-    }
-  });
-
-  rootJson = compactAllArrays(rootJson);
-
-  return rootJson;
-}
-
-function createJsonFragment(objPathArray, obj) {
-  var json = {};
-  var objValue = convertObj(obj);
-  var objId = obj.attr('id');
-  //if (objPathArray[0].match(/^[0-9]+$/) != null) { // Is a member of a simple array
-  //  objValue = [objValue];
-  //}
-
-  if (objPathArray.length == 0)
-    return objValue;
-
-  //json[objPathArray[0]] = objValue;
-
-  for (var i=0; i<objPathArray.length; i++) {
-    // TODO - find more efficient way of adding outer layers of json to a json object
-    var oldJson = JSON.parse(JSON.stringify(json)); // clone the json before adding it
-    json = {};
-    if (objPathArray[i].match(/^[0-9]+$/) == null) {
-      json[objPathArray[i]] = oldJson;
-    }
-    else { // handle arrays, including out of order insertions
-      var newArray = [];
-      newArray[parseInt(objPathArray[i])] = (i===0) ? objValue : oldJson;
-      json = newArray;
-    }
-  }
-  return json;
-}
-
-
+// These arrays should probably be eliminated and the Rails ones accessed instead.
 var ACQUISITION_INFORMATION_FIELDS = [
   'Platforms',
   'Projects'
@@ -189,7 +62,140 @@ var FORM_FIELDS = [
 ];
 
 
+function compactAllArrays(obj) {
+  // After the page's Json is built, get rid of empty elements in arrays.
+  var k;
+  if (!Array.isArray(obj) && obj instanceof Object) {
+    for (k in obj){
+      compactAllArrays( obj[k] );
+    }
+  }
+  else {
+    if (Array.isArray(obj)) {
+      for (var i=0; i < obj.length; i++) {
+        if (obj[i] === null || obj[i] === undefined) {
+          obj.splice(i,1);
+          i--;
+        }
+      }
+      for (var i=0; i < obj.length; i++) {
+        compactAllArrays(obj[i]);
+      }
+    }
+  }
+  return obj;
+}
+
+function handleDescriptiveKeywordForm(json) {
+  // Science Keywords are not created or represented like other data, and so require special handling
+  var fieldNames = ['Category', 'Topic', 'Term', 'VariableLevel1', 'VariableLevel2', 'VariableLevel3', 'DetailedVariable'];
+  var keywordArray = [];
+  var keywordCount = 0;
+
+  // Find each keyword on page
+  $('.hidden-science-keywords').each (function( ) {
+    // Parse the keyword value and insert it into Json for validation
+    var keywordSegmentArray = $(this).val().split('>');
+    var thisJson = {};
+    for (var i=0; i< fieldNames.length; i++) {
+      var fieldName = fieldNames[i];
+      var keyword = keywordSegmentArray[i];
+      if (keyword == undefined || keyword === null)
+          break;
+      keyword = keyword.trim();
+      thisJson[fieldName] = keyword;
+    }
+    keywordArray[keywordCount] = JSON.parse(JSON.stringify(thisJson)); // clone the json before adding it
+    keywordCount += 1;
+  });
+
+  if (keywordArray.length > 0)
+    json['ScienceKeywords'] = JSON.parse(JSON.stringify(keywordArray)); // clone the json before adding it
+
+}
+
+function buildJsonForPage() {
+  // Build and return the json to be validated, using only all the information on this form.
+  var rootJson = {};
+
+  $('.validate').each(function(  ) {
+    if ($(this).val().length !== 0) { // skip fields that are empty
+      // Get the path of this
+      var thisPathArray = getObjPathArray($(this));
+
+      // Loop down through the path. Add missing elements to JsonForPage
+      var jsonFragment = rootJson;
+      // Skip first element of "Draft"
+      for (var i=1; i < thisPathArray.length; i++) {
+        var pathFragment = thisPathArray[i];
+
+        if (pathFragment.match(/^[0-9]+$/) == null) {
+          // Not an array subscript. Is it already in the json at this level?
+          if (jsonFragment[pathFragment]) {
+            // found, continue down path
+            jsonFragment = jsonFragment[pathFragment]; // Prepare for the next iteration of the for loop.
+            continue;
+          }
+          else {
+            // Not yet present. Need to insert this and everything following it in thisPathArray.
+            var returnedJson = createJsonFragment(thisPathArray.slice(i+1).reverse(), $(this));
+            jsonFragment[pathFragment] = returnedJson;
+            break;
+          }
+        }
+        else { // pathFragment is an array index
+          var index = parseInt(pathFragment);
+          // If this index will be new then insert this and everything following it in thisPathArray.
+          if (jsonFragment[index] == undefined) {
+            jsonFragment[index] = createJsonFragment(thisPathArray.slice(i + 1).reverse(), $(this));
+            break;
+          }
+          else {
+            // This array member already exists. Prepare for the next iteration of the for loop.
+            jsonFragment = jsonFragment [index];
+          }
+        }
+      }
+    }
+  });
+
+  rootJson = compactAllArrays(rootJson);
+
+  return rootJson;
+}
+
+function createJsonFragment(objPathArray, obj) {
+  // An entire branch of the Json is not yet present. Create and return it.
+  var json = {};
+  var objValue = convertObj(obj);
+  var objId = obj.attr('id');
+
+  if (objPathArray.length == 0)
+    return objValue;
+
+  for (var i=0; i<objPathArray.length; i++) {
+    // TODO - find more efficient way of adding outer layers of json to a json object
+    var oldJson;
+    if (i==0)
+      oldJson = objValue; // Initially set this for innermost value
+    else
+      oldJson = JSON.parse(JSON.stringify(json)); // clone the json before adding it
+    json = {};
+    if (objPathArray[i].match(/^[0-9]+$/) == null) {
+      json[objPathArray[i]] = oldJson;
+    }
+    else { // handle arrays, including out of order insertions
+      var newArray = [];
+      newArray[parseInt(objPathArray[i])] = oldJson;
+      json = newArray;
+    }
+  }
+  return json;
+}
+
+
 function createUserValidationMessage(error, messageType) {
+  // Create a user-friendly error message
   var errorKeyword = error['keyword'];
   var errorPath = error['path'];
   var errorObj = error['obj'];
@@ -213,7 +219,6 @@ function createUserValidationMessage(error, messageType) {
         objName = 'ISBN';
         break;
     }
-
     objName += ': ';
   }
 
@@ -312,6 +317,7 @@ var englishValidationMessages = {
 };
 
 function convertObj(obj) {
+  // Convert the string value of an object into its Json value type.
   var objValue = obj.val();
   if (obj.hasClass('mmt-number')) {
     if (isNaN(parseFloat(objValue)) || !isFinite(objValue)) { // See http://run.plnkr.co/plunks/93FPpacuIcXqqKMecLdk/
@@ -335,7 +341,7 @@ function convertObj(obj) {
   return objValue;
 }
 
-// Return an array of all the path element strings
+// Return an array of all the path element fragments for an object
 function getObjPathArray(obj) {
   var objPathArray = obj.attr('name').replace(/]/g, '').split('[');
   var newArray = [];
@@ -359,7 +365,7 @@ function getObjPathArray(obj) {
   return newArray;
 }
 
-function fixJsenPathProblem(path) { // get rid of erroneous repetitions
+//function fixJsenPathProblem(path) { // get rid of erroneous repetitions in Jsen path
   //var pathSegments = path.split('.');
   //for (var i=0; i < pathSegments.length; i++) {
   //  if (pathSegments[i] === pathSegments[i+1]) {
@@ -369,13 +375,13 @@ function fixJsenPathProblem(path) { // get rid of erroneous repetitions
   //}
   //path = pathSegments.join('.');
 
-  return path;
-}
+//  return path;
+//}
 
 // Given an error path value (i.e. 'X.Y.1.CamelCase'), figure out what the obj id should be
 function pathToObjId(path) {
   // Address an error in JSEN by first splitting the path & recombining.
-  path = fixJsenPathProblem(path);
+  //path = fixJsenPathProblem(path);
   var objId = 'draft.' + path;
   // Camel to snake
   objId = objId.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();});
@@ -389,6 +395,7 @@ function pathToObjId(path) {
 }
 
 function errorAppliesToThisPage(formName, error) {
+  // Does this error apply to this page?
   var errorLocation = error['path'].split('.')[0];
 
   for (var i=0; i< FORM_FIELDS.length; i++) {
@@ -405,39 +412,106 @@ function errorAppliesToThisPage(formName, error) {
   return false;
 }
 
+function getInlineErrorDisplayId (obj) {
+  // Return a consisten id for an object's error message display object
+  var objId = obj.attr('id');
+  return objId + '_errors';
+}
+
+function updateInlineErrorsForField(obj, errorArray) {
+  // Erase & redraw the inline error message(s) for this object
+
+  if (obj.is(':hidden'))
+    return;
+
+  removeDisplayedInlineErrorsForField(obj);
+
+  // Display new error element under field
+  var inlineErrorDisplayId = getInlineErrorDisplayId(obj);
+  if (errorArray.length > 0) {
+    var newObj = '<div id="' + inlineErrorDisplayId + '" class="banner banner-danger validation-error-display"><i class="fa fa-exclamation-triangle"></i>';
+    for(i=0; i<errorArray.length; i++) {
+      error = errorArray[i];
+      var userMessage = createUserValidationMessage(error, 'inline');
+      newObj += userMessage + '.</br>';
+    }
+    newObj += '</div>';
+    $(newObj).insertAfter('#' + obj.attr('id'));
+  }
+
+}
+
+// Return just the errors that are relevant to this obj
+function collectRelevantErrors(obj, errors) {
+
+  var relevantErrors = [];
+  var targetObjId = obj.attr('id');
+  var lengthForCompare = -1;
+
+  for (var i=0; i<errors.length; i++) {
+    var error = errors[i];
+    //alert('Checking ' + errors[i].path + ' for ' + objPathArray[0] + ' Finding ' + errors[i].path.indexOf(objPathArray[0]));
+    var objId = pathToObjId(error['path']);
+    var lengthToUse = (lengthForCompare < 0) ? objId.length : lengthForCompare;
+    if (targetObjId === objId) {
+      error['obj'] = obj;
+      relevantErrors.push(error);
+    }
+  }
+  return relevantErrors;
+}
+
+function removeDisplayedInlineErrorsForField(obj) {
+  // Remove previous inline error display element (if any)
+  var inlineErrorDisplayId = getInlineErrorDisplayId(obj);
+  var errorDisplay = document.getElementById(inlineErrorDisplayId);
+  if (errorDisplay) {
+    errorDisplay.parentNode.removeChild(errorDisplay);
+  }
+}
+
+function scrollToLabel(target) {
+  // Find the label for this target & scroll it into view. If no label, scroll to the field itself
+  var label = $("label[for='" + target + "']")[0];
+  if (label)
+    label.scrollIntoView( true );
+  else
+    $('#' + target)[0].scrollIntoView( true );
+}
+
+function snakeToCamel(str){
+  var newStr = str.replace(/(\_\w)/g, function(m){return m[1].toUpperCase();});
+  newStr = newStr[0].toUpperCase() + newStr.slice(1);
+  return newStr;
+}
+
 function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
+  // Do the validation for the entire page
 
   var jsonForPage = buildJsonForPage();
   var validate = jsen(globalJsonSchema, {greedy: true});
+
+  // Prepare to ignore errors for objects that are not on this page
+  var formName = document.getElementById('mmt-form-name').value;
+
+  // If on Descriptive Keywords page need to apply special handling to extract & add keywords
+  if (formName === 'descriptive_keywords') {
+    handleDescriptiveKeywordForm (jsonForPage);
+  }
+
   var valid = validate(jsonForPage);
 
   //console.log(JSON.stringify(jsonForPage));
 
   // Because our required fields are spread over multiple pages and we only validate data from this one, there will always be errors
 
-  // Ignore errors for objects that are not on this page
-  var formName = document.getElementById('mmt-form-name').value;
-
   var relevantErrors = [];
   for(i=0; i<validate.errors.length; i++) {
     var error = validate.errors[i];
     if (errorAppliesToThisPage(formName, error)) {
-      //console.log('error["path"] = ' + error["path"] + ', ' + 'error["keyword"] = ' + error["keyword"]);
+      //console.log(JSON.stringify(error));
       var objId = pathToObjId(error['path']);
       var obj = $('#' + objId);
-      // If due to JSEN problem path is not correct, modify the path & try again.
-      //if (!obj[0]) {
-      //  // trim any trailing digits and try again
-      //  while (objId.length > 0) {
-      //    var char = objId[objId.length-1];
-      //    if (/^\d$/.test(char)) {
-      //      objId = objId.slice(0, -1);
-      //    }
-      //    else
-      //      break;
-      //  }
-      //  obj = $('#' + objId);
-      //}
       error['obj'] = obj;
       relevantErrors.push(error);
     }
@@ -450,7 +524,7 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
 
   if (updateSummaryErrors) {
     // Remove previous Summary error display element (if any)
-    var summaryErrorDisplayId = 'summary_error_display';
+    var summaryErrorDisplayId = 'summary-error-display';
     var errorDisplay = document.getElementById(summaryErrorDisplayId);
     if (errorDisplay) {
       errorDisplay.parentNode.removeChild(errorDisplay);
@@ -512,69 +586,8 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
   return true;
 }
 
-function getInlineErrorDisplayId (obj) {
-  var objId = obj.attr('id');
-  return objId + '_errors';
-}
-
-function updateInlineErrorsForField(obj, errorArray) {
-
-  removeDisplayedInlineErrorsForField(obj);
-
-  // Display new error element under field
-  var inlineErrorDisplayId = getInlineErrorDisplayId(obj);
-  if (errorArray.length > 0) {
-    var newObj = '<div id="' + inlineErrorDisplayId + '" class="banner banner-danger validation-error-display"><i class="fa fa-exclamation-triangle"></i>';
-    for(i=0; i<errorArray.length; i++) {
-      error = errorArray[i];
-      var userMessage = createUserValidationMessage(error, 'inline');
-      newObj += userMessage + '.</br>';
-    }
-    newObj += '</div>';
-    $(newObj).insertAfter('#' + obj.attr('id'));
-  }
-
-}
-
-function strncmp(a, b, n){
-  return a.substring(0, n) == b.substring(0, n);
-}
-
-// Return just the errors that are relevant to this obj
-function collectRelevantErrors(obj, errors) {
-
-  var relevantErrors = [];
-  var targetObjId = obj.attr('id');
-  var lengthForCompare = -1;
-
-  //// if targetObjId ends in an '_', special handling for simple arrays is required
-  //if (targetObjId[targetObjId.length - 1] === '_') {
-  //  lengthForCompare = targetObjId.length-1;
-  //}
-
-  for (var i=0; i<errors.length; i++) {
-    var error = errors[i];
-    //alert('Checking ' + errors[i].path + ' for ' + objPathArray[0] + ' Finding ' + errors[i].path.indexOf(objPathArray[0]));
-    var objId = pathToObjId(error['path']);
-    var lengthToUse = (lengthForCompare < 0) ? objId.length : lengthForCompare;
-    if (targetObjId === objId) {
-      error['obj'] = obj;
-      relevantErrors.push(error);
-    }
-  }
-  return relevantErrors;
-}
-
-function removeDisplayedInlineErrorsForField(obj) {
-  // Remove previous inline error display element (if any)
-  var inlineErrorDisplayId = getInlineErrorDisplayId(obj);
-  var errorDisplay = document.getElementById(inlineErrorDisplayId);
-  if (errorDisplay) {
-    errorDisplay.parentNode.removeChild(errorDisplay);
-  }
-}
-
 function handleFieldValidation(obj) {
+  // Validate this field
 
   var jsonForPage = buildJsonForPage();
 
@@ -588,21 +601,6 @@ function handleFieldValidation(obj) {
   updateInlineErrorsForField(obj, errorArray);
 
   return errorArray;
-}
-
-function scrollToLabel(target) {
-  // Find the label for this target & scroll it into view. If no label, scroll to the field itself
-  var label = $("label[for='" + target + "']")[0];
-  if (label)
-    label.scrollIntoView( true );
-  else
-    $('#' + target)[0].scrollIntoView( true );
-}
-
-function snakeToCamel(str){
-  var newStr = str.replace(/(\_\w)/g, function(m){return m[1].toUpperCase();});
-  newStr = newStr[0].toUpperCase() + newStr.slice(1);
-  return newStr;
 }
 
 $(document).ready(function() {

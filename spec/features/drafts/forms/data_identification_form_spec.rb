@@ -214,15 +214,17 @@ describe 'Data identification form', js: true do
               end
             end
             within '.multiple.addresses' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Street Address', with: '300 E Street Southwest')
-                expect(page).to have_field('Street Address', with: 'Room 203')
-                expect(page).to have_field('City', with: 'Washington')
-                expect(page).to have_field('State / Province', with: 'DC')
-                expect(page).to have_field('Postal Code', with: '20546')
-                expect(page).to have_field('Country', with: 'United States')
+              within first('.multiple.addresses-street-addresses') do
+                within first('.multiple-item') do
+                  expect(page).to have_field('Street Address', with: '300 E Street Southwest')
+                end
+                  expect(page).to have_field('Street Address', with: 'Room 203')
+                  expect(page).to have_field('City', with: 'Washington')
+                  expect(page).to have_field('State / Province', with: 'DC')
+                  expect(page).to have_field('Postal Code', with: '20546')
+                  expect(page).to have_field('Country', with: 'United States')
               end
-              within '.multiple-item-1' do
+              within '.multiple-item.accordion.multiple-item-1' do
                 expect(page).to have_field('Street Address', with: '8800 Greenbelt Road')
                 expect(page).to have_field('City', with: 'Greenbelt')
                 expect(page).to have_field('State / Province', with: 'MD')

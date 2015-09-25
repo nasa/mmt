@@ -8,7 +8,7 @@ require 'rails_helper'
 debug = true
 
 required_error_string = 'Value required.'
-validation_element_display_selector_string = '#validation-element-display'
+validation_element_display_selector_string = '#validation-error-display'
 
 empty_string = ''
 very_long_string = '0' * 1000
@@ -151,7 +151,7 @@ describe 'Data validation for a form', js: true do
       within '.row.organization' do
         within '.multiple.responsibilities > .multiple-item-0' do
           within '.multiple.related-urls' do
-            within '.multiple-item-0' do
+            within '.file-size' do
 
               good_number_values.each do |test|
                 fill_in 'Size', with: test
@@ -297,7 +297,9 @@ describe 'Data validation for a form', js: true do
       expect(page).not_to have_selector(validation_element_display_selector_string)
       expect(page).to have_content('Value must validate against exactly one of the provided schemas')
       choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
-      fill_in 'Single Date Time', with: '2015-07-01T00:00:00Z'
+      within '.single-date-times' do
+        fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-07-01T00:00:00Z'
+      end
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
@@ -391,28 +393,46 @@ describe 'Data validation for a form', js: true do
       end
     end
     it 'validation of a single object in an array of simple objects does work' do
-      fill_in 'Spatial Keyword', with: '#@#$%0'
-      expect(page).to have_content('Value must match the provided pattern')
+      fill_in 'draft_spatial_keywords_0', with: very_long_string
+      expect(page).to have_content('Value is too long')
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).to have_content('Spatial Keywords: Value must match the provided pattern')
-      fill_in 'Spatial Keyword', with: 'de135797-8539-4c3a-bc20-17a83d75aa49'
-      expect(page).to have_content('Spatial Keywords: Value must match the provided pattern') # Err msg still displayed in summary area
+      expect(page).to have_content('Spatial Keywords: Value is too long')
+      fill_in 'draft_spatial_keywords_0', with: 'acceptable string'
+      expect(page).to have_content('Spatial Keywords: Value is too long') # Err msg still displayed in summary area
       expect(page).not_to have_selector(validation_element_display_selector_string)
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).not_to have_content('Spatial Keywords: Value must match the provided pattern')
+      expect(page).not_to have_content('Spatial Keywords: Value is too long')
     end
 
-    it 'validation of subsequent objects in an array of simple objects does work'
-
+    it 'validation of subsequent objects in an array of simple objects does work' do
+      fill_in 'draft_spatial_keywords_0', with: 'acceptable string'
+      click_on 'Add Another Keyword'
+      fill_in 'draft_spatial_keywords_1', with: very_long_string
+      expect(page).to have_content('Value is too long')
+      within '.nav-top' do
+        reject_confirm_from do
+          click_on 'Save & Done'
+        end
+      end
+      expect(page).to have_content('Spatial Keywords: Value is too long')
+      fill_in 'draft_spatial_keywords_1', with: 'acceptable string'
+      expect(page).not_to have_selector(validation_element_display_selector_string)
+      within '.nav-top' do
+        reject_confirm_from do
+          click_on 'Save & Done'
+        end
+      end
+      expect(page).not_to have_content('Spatial Keywords: Value is too long')
     end
+  end
 
 
 end

@@ -25,7 +25,7 @@
               <li>
                 <%= keyword_string(science_keyword) %>
                 <a class="remove"><i class="fa fa-times-circle"></i></a>
-                <%= hidden_field_tag("draft[science_keywords][]", keyword_string(science_keyword)) %>
+                <%= hidden_field_tag("draft[science_keywords][]", keyword_string(science_keyword), class:'hidden-science-keywords') %>
               </li>
             <% end %>
           </ul>
