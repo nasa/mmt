@@ -540,7 +540,7 @@ function handleFormValidation(updateSummaryErrors, updateInlineErrors) {
       });
 
       var newElement = '<div id="' + summaryErrorDisplayId + '" class="banner banner-danger"><i class="fa fa-exclamation-triangle"></i>' +
-        'Click on a blue error message to go directly to that field:</br>';
+        'Click on any blue error message to go directly to that field:</br>';
 
       for (i = 0; i < relevantErrors.length; i++) {
         var error = relevantErrors[i];
