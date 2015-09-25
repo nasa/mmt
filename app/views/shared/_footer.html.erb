@@ -10,7 +10,17 @@
 </footer>
 
 <!-- Scripts that should be loaded in the footer to allow for faster page loads -->
-<script src="https://fbm.earthdata.nasa.gov/for/MMT/feedback.js"></script>
+<script id="feedback-tag" src="https://fbm.earthdata.nasa.gov/for/MMT/feedback.js"></script>
 <script type="text/javascript">
-  feedback.init({showIcon: false});
+  (function() {
+    var initFeedback = function() {
+      window.feedback.init({showIcon: false});
+    }
+    if (window.feedback) {
+      initFeedback();
+    }
+    else {
+      document.getElementById('feedback-tag').onload = initFeedback;
+    }
+  })();
 </script>
