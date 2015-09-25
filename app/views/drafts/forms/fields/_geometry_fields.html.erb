@@ -16,6 +16,9 @@
         <li>GeoRSS (.rss, .georss, or .xml)</li>
       </ul>
       <p>
+        Shape files can only contain one type of shape.
+      </p>
+      <p>
         Polygons must contain less than 50 points.
       </p>
   </div>
@@ -23,45 +26,77 @@
 
 
   <!-- CoordinateSystem -->
-  <% coordinate_system = geometry['CoordinateSystem'] || "CARTESIAN" %>
-  <label>Coordinate System</label><i class="fa fa-info-circle"></i>
+  <% coordinate_system = geometry['CoordinateSystem'] || "" %>
+  <label class="icon-required">Coordinate System</label><i class="fa fa-info-circle"></i>
   <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label></p>
   <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select validate') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label></p>
-
-  <!-- Bad </br>, take out design team! -->
   </br>
 
+  <!-- GeometryType (not an actual field) -->
+  <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
+  <% points_checked = !geometry['Points'].nil? %>
+  <% bounding_rectangles_checked = !geometry['BoundingRectangles'].nil? %>
+  <% g_polygons_checked = !geometry['GPolygons'].nil? %>
+  <% lines_checked = !geometry['Lines'].nil? %>
+  <div class="geometry-type">
+    <label class="icon-required">Geometry Type</label><i class="fa fa-info-circle"></i>
+    <p class="radio-group">
+      <input type="radio" id="<%= remove_pipes(name_prefix) %>geometry-points" value="points" class="geometry-picker points" <%= 'checked="checked"' if points_checked %>>
+      <label for="<%= remove_pipes(name_prefix) %>geometry-points">Points</label>
+    </p>
+    <p class="radio-group">
+      <input type="radio" id="<%= remove_pipes(name_prefix) %>geometry-bounding-rectangles" value="bounding-rectangles" class="geometry-picker bounding-rectangles" <%= 'checked="checked"' if bounding_rectangles_checked %>>
+      <label for="<%= remove_pipes(name_prefix) %>geometry-bounding-rectangles">Bounding Rectangles</label>
+    </p>
+    <p class="radio-group">
+      <input type="radio" id="<%= remove_pipes(name_prefix) %>geometry-g-polygons" value="g-polygons" class="geometry-picker g-polygons" <%= 'checked="checked"' if g_polygons_checked %>>
+      <label for="<%= remove_pipes(name_prefix) %>geometry-g-polygons">G Polygons</label>
+    </p>
+    <p class="radio-group">
+      <input type="radio" id="<%= remove_pipes(name_prefix) %>geometry-lines" value="lines" class="geometry-picker lines" <%= 'checked="checked"' if lines_checked %>>
+      <label for="<%= remove_pipes(name_prefix) %>geometry-lines">Lines</label>
+    </p>
+  </div>
+
+
   <!-- Points -->
-  <label>Points</label><i class="fa fa-info-circle"></i>
-  <%= render partial: 'drafts/forms/type', locals: {
-      type: 'point',
-      values: geometry['Points'] || [{}],
-      name_prefix: "#{name_prefix}points_",
-      multiple: true,
-      options: {show_preview: true} } %>
+  <div class="points-fields" style="<%= 'display: none;' unless points_checked %>">
+    <label>Points</label><i class="fa fa-info-circle"></i>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'point',
+        values: geometry['Points'] || [{}],
+        name_prefix: "#{name_prefix}points_",
+        multiple: true,
+        options: { show_preview: true } } %>
+  </div>
 
 
   <!-- BoundingRectangles -->
+  <div class="bounding-rectangles-fields" style="<%= 'display: none;' unless bounding_rectangles_checked %>">
   <label>Bounding Rectangles</label><i class="fa fa-info-circle"></i>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'bounding_rectangle',
       values: geometry['BoundingRectangles'] || [{}],
       name_prefix: "#{name_prefix}|bounding_rectangles|_",
       multiple: true,
-      options: {show_preview: true} } %>
+      options: { show_preview: true } } %>
+  </div>
 
 
   <!-- GPolygons -->
+  <div class="g-polygons-fields" style="<%= 'display: none;' unless g_polygons_checked %>">
   <label>GPolygons</label><i class="fa fa-info-circle"></i>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'g_polygon',
       values: geometry['GPolygons'] || [{}],
       name_prefix: "#{name_prefix}|g_polygons|_",
       multiple: true,
-      options: {show_preview: true} } %>
+      options: { show_preview: true } } %>
+  </div>
 
 
   <!-- Lines -->
+  <div class="lines-fields" style="<%= 'display: none;' unless lines_checked %>">
   <label>Lines</label><i class="fa fa-info-circle"></i>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'line',
@@ -69,5 +104,6 @@
       name_prefix: "#{name_prefix}lines_",
       multiple: true,
       options: {} } %>
+  </div>
 
 </div>

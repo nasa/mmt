@@ -10,7 +10,7 @@
 
   <% geographic_checked = !horizontal_coordinate_system['GeographicCoordinateSystem'].nil? %>
   <% local_checked = !horizontal_coordinate_system['LocalCoordinateSystem'].nil? %>
-  <div class="party-type" style="<%= 'display: none;' if options[:limit_type] %>">
+  <div class="coordinate-system-type" style="<%= 'display: none;' if options[:limit_type] %>">
     <input type="radio" id="<%= remove_pipes(name_prefix) %>geographic_coordinate_system" value="geographic" class="coordinate-system-picker geographic" <%= 'checked="checked"' if geographic_checked %>>
     <label for="<%= remove_pipes(name_prefix) %>geographic_coordinate_system">Geographic Coordinate System</label>
     <input type="radio" id="<%= remove_pipes(name_prefix) %>local_coordinate_system" value="local" class="coordinate-system-picker local" <%= 'checked="checked"' if local_checked %>>

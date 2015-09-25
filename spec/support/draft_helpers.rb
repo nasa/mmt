@@ -408,8 +408,10 @@ module Helpers
       end
     end
 
-    def add_geometry
-      # Points
+    def add_points
+      script = '$(".geometry-picker.points").click();'
+      page.execute_script script
+
       within first('.multiple.points') do
         fill_in 'Longitude', with: '-77.047878'
         fill_in 'Latitude', with: '38.805407'
@@ -419,7 +421,12 @@ module Helpers
           fill_in 'Latitude', with: '38.968602'
         end
       end
-      # BoundingRectangles
+    end
+
+    def add_bounding_rectangles
+      script = '$(".geometry-picker.bounding-rectangles").click();'
+      page.execute_script script
+
       within first('.multiple.bounding-rectangles') do
         fill_in 'Longitude', with: '0.0'
         fill_in 'Latitude', with: '0.0'
@@ -435,7 +442,12 @@ module Helpers
           fill_in 'South Bounding Coordinate', with: '18.968602'
         end
       end
-      # GPolygons
+    end
+
+    def add_g_polygons
+      script = '$(".geometry-picker.g-polygons").click();'
+      page.execute_script script
+
       within first('.multiple.g-polygons') do
         within '.point' do
           fill_in 'Longitude', with: '0.0'
@@ -505,7 +517,12 @@ module Helpers
           end
         end
       end
-      # Lines
+    end
+
+    def add_lines
+      script = '$(".geometry-picker.lines").click();'
+      page.execute_script script
+
       within first('.multiple.lines') do
         within '.point' do
           fill_in 'Longitude', with: '25.0'

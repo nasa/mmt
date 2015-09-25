@@ -223,6 +223,8 @@ describe 'Data validation for a form', js: true do
 
     it 'simple Latitude field validation works' do
       choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+      script = '$(".geometry-picker.points").click();'
+      page.execute_script script
 
       within '.spatial-extent' do
         within '.geometry' do
@@ -319,6 +321,9 @@ describe 'Data validation for a form', js: true do
     it 'validation of minItems does work' do
       # Partially populate a boundary's list of points
       choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+      script = '$(".geometry-picker.g-polygons").click();'
+      page.execute_script script
+
       within '.geometry' do
         choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
         within first('.multiple.g-polygons') do
@@ -353,6 +358,11 @@ describe 'Data validation for a form', js: true do
             within '.multiple-item-2' do
               fill_in 'Longitude', with: '10.0'
               fill_in 'Latitude', with: '-10.0'
+            end
+            click_on 'Add another Point'
+            within '.multiple-item-3' do
+              fill_in 'Longitude', with: '10.0'
+              fill_in 'Latitude', with: '10.0'
             end
           end
         end
