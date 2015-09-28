@@ -11,6 +11,12 @@
           name: 'ISOTopicCategories',
           type: TypesHelper::ISOTopicCategoriesType
       } %>
+      <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
+          key_name: 'ISOTopicCategories',
+          hash_for_key: metadata,
+          title_override: 'ISO Topic Categories',
+          options: DraftsHelper::ISOTopicCategoriesOptions
+      } %>
 
       <% keywords = metadata['ScienceKeywords'] || [] %>
       <% if keywords.size > 0 %>

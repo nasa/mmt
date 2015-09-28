@@ -1,4 +1,5 @@
 <% title_override = false if title_override.nil? %>
+<% options = false if options.nil? %>
 
 <% if !hash_for_key.nil? %>
   <% data_array = hash_for_key[key_name] %>
@@ -11,7 +12,7 @@
         </li>
         <% data_array.each_with_index do |element_of_array, index| %>
           <li class="<%= html_class_name %>-<%= index %>">
-            <%= element_of_array %>
+            <%= options ? map_value_onto_display_string(element_of_array, options) : element_of_array %>
           </li>
         <% end %>
       </ul>
