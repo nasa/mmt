@@ -1,5 +1,5 @@
 class CollectionsController < ApplicationController
-  before_action :set_collection, except: [:revert]
+  before_action :set_collection
 
   def show
   end
@@ -23,26 +23,18 @@ class CollectionsController < ApplicationController
   end
 
   def revert
-    concept_id = params[:id]
-    revision_id = params[:revision_id]
-
-    # get native_id
-    revisions = cmr_client.get_collections({ concept_id: concept_id, all_revisions: true }, token).body['items']
-    native_id = revisions.first['meta']['native-id']
-    provider_id = revisions.first['meta']['provider-id']
-    latest_revision_id = revisions.first['meta']['revision-id']
-
-    # Retrieve previous revision
-    metadata = cmr_client.get_concept(concept_id, revision_id, token)
-
     # Ingest revision
-    ingested = cmr_client.ingest_collection(metadata, provider_id, native_id, token)
+    ingested = cmr_client.ingest_collection(@metadata, @provider_id, @native_id, token)
 
-    unless ingested.success?
+    if ingested.success?
+      redirect_to collection_revisions_path(revision_id: latest_revision_id.to_i + 1)
+    else
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
-    end
 
-    redirect_to collection_revisions_path(revision_id: latest_revision_id.to_i + 1)
+      @error = 'This collection could not be updated due to an unknown error.'
+
+      render action: 'revisions'
+    end
   end
 
   private
@@ -57,13 +49,14 @@ class CollectionsController < ApplicationController
 
     if latest
       @native_id = latest['meta']['native-id']
+      @provider_id = latest['meta']['provider-id']
       concept_format = latest['meta']['format']
 
       # retrieve native metadata
-      metadata = cmr_client.get_concept(concept_id, revision_id, token)
+      @metadata = cmr_client.get_concept(concept_id, revision_id, token)
 
       # translate to umm-json metadata
-      @collection = cmr_client.translate_collection(metadata, concept_format, 'application/umm+json').body
+      @collection = cmr_client.translate_collection(@metadata, concept_format, 'application/umm+json').body
     else
       # concept wasn't found, CMR might be a little slow
       # Take the user to a blank page with a message the collection doesn't exist yet,

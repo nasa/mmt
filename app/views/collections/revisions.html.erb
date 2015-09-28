@@ -18,6 +18,13 @@
         <button type="button" name="button" class="btn disabled">Compare Revisions</button>
       </p>
     </section>
+    <% if @error %>
+      <section class="errors">
+        <div class="banner banner-danger">
+          <i class="fa fa-exclamation-triangle"></i> <%= @error %>
+        </div>
+      </section>
+    <% end %>
     <div class="row">
       <section>
         <table>
@@ -29,7 +36,7 @@
             <th>Review Status</th>
             <th>Quality Score</th>
             <th>Revision Notes</th>
-            <th></th>
+            <th>Actions</th>
           </tr>
           </thead>
           <tbody>
