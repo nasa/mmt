@@ -20,6 +20,8 @@ describe 'Preview on Map link', js: true do
 
   context 'when adding a new point to the form' do
     before do
+      script = '$(".geometry-picker.points").click();'
+      page.execute_script script
       within first('.multiple.points') do
         fill_in 'Latitude', with: '38.789'
         fill_in 'Longitude', with: '-77.123'
@@ -64,6 +66,9 @@ describe 'Preview on Map link', js: true do
 
   context 'when adding a new rectangle to the form' do
     before do
+      script = '$(".geometry-picker.bounding-rectangles").click();'
+      page.execute_script script
+
       within first('.multiple.bounding-rectangles') do
         fill_in 'West Bounding Coordinate', with: '-50.1'
         fill_in 'North Bounding Coordinate', with: '50.4'
@@ -110,6 +115,9 @@ describe 'Preview on Map link', js: true do
 
   context 'when adding a new polygon to the form' do
     before do
+      script = '$(".geometry-picker.g-polygons").click();'
+      page.execute_script script
+
       within first('.multiple.g-polygons .boundary .multiple.points') do
         fill_in 'Latitude', with: '0.1'
         fill_in 'Longitude', with: '0.1'
