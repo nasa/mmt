@@ -109,8 +109,7 @@ describe 'Descriptive keywords form', js: true do
 
       it 'populates the form with the values' do
         # ISO Topic Categories
-        expect(page).to have_field('draft_iso_topic_categories_', with: 'farming')
-        expect(page).to have_field('draft_iso_topic_categories_', with: 'boundaries')
+        expect(page).to have_select('ISO Topic Categories', selected: %w(Farming Boundaries))
 
         # Science keywords
         expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')

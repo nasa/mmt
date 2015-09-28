@@ -35,9 +35,6 @@ module Helpers
       when String, Fixnum, FalseClass, TrueClass
         new_path = path
 
-        puts "key: #{key}"
-        puts "key.to_sym: #{key.to_sym}"
-
         parent_key_special_handling = special_handling[key.to_sym]
         if parent_key_special_handling == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
           draft = number_to_currency(draft.to_f)
@@ -68,8 +65,7 @@ module Helpers
         elsif parent_key_special_handling == :handle_as_coordinate_system_type
           # Map value stored in json to what is actually supposed to be displayed
           draft = map_value_onto_display_string(draft, DraftsHelper::CoordinateSystemOptions)
-        elsif parent_key_special_handling == :handle_as_iso_topic_categories
-          puts "draft: #{draft}"
+        elsif key.include?('iso-topic-categories-')
           draft = map_value_onto_display_string(draft, DraftsHelper::ISOTopicCategoriesOptions)
         elsif parent_key_special_handling == :handle_as_not_shown
           # This field is present in json, but intentionally not displayed
