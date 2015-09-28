@@ -1,6 +1,6 @@
 <div class="row sub-fields">
   <!-- MinimumValue -->
-  <label for="<%= remove_pipes(name_prefix) %>minimum_value">Minimum Value</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>minimum_value" class="icon-required">Minimum Value</label><i class="fa fa-info-circle"></i>
   <%= text_field_tag(name_to_param("#{name_prefix}|minimum_value|"), tiling_coordinate['MinimumValue'], class: 'half-width validate mmt-number') %>
 
 

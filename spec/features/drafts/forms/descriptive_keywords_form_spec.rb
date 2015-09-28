@@ -15,6 +15,10 @@ describe 'Descriptive keywords form', js: true do
         click_on 'Descriptive Keywords'
       end
 
+      # ISO Topic Categories
+      select('Farming', from: 'ISO Topic Categories')
+      select('Boundaries', from: 'ISO Topic Categories')
+
       # Science keywords
       add_science_keywords
 
@@ -64,6 +68,11 @@ describe 'Descriptive keywords form', js: true do
     end
 
     it 'shows pre-entered values in the draft preview page' do
+      # ISO Topic Categories
+      expect(page).to have_content('Farming')
+      expect(page).to have_content('Boundaries')
+
+      # Science Keywords
       expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
       expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
       expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
@@ -99,6 +108,9 @@ describe 'Descriptive keywords form', js: true do
       end
 
       it 'populates the form with the values' do
+        # ISO Topic Categories
+        expect(page).to have_select('ISO Topic Categories', selected: %w(Farming Boundaries))
+
         # Science keywords
         expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
         expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > MOBILE GEOGRAPHIC INFORMATION SYSTEMS')

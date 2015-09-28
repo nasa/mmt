@@ -47,6 +47,27 @@ module DraftsHelper
     ['Orbit', 'ORBIT'],
     ['No Spatial', 'NO_SPATIAL'],
   ]
+  ISOTopicCategoriesOptions = [
+    ['Farming', 'farming'],
+    ['Biota', 'biota'],
+    ['Boundaries', 'boundaries'],
+    ['Climatology / Meteorology / Atmosphere', 'climatologyMeteorologyAtmosphere'],
+    ['Economy', 'economy'],
+    ['Elevation', 'elevation'],
+    ['Environment', 'environment'],
+    ['Geoscientific Information', 'geoscientificInformation'],
+    ['Health', 'health'],
+    ['Imagery / Base Maps / Earth Cover', 'imageryBaseMapsEarthCover'],
+    ['Intelligence / Military', 'intelligenceMilitary'],
+    ['Inland Waters', 'inlandWaters'],
+    ['Location', 'location'],
+    ['Oceans', 'oceans'],
+    ['Planning / Cadastre', 'planningCadastre'],
+    ['Society', 'society'],
+    ['Structure', 'structure'],
+    ['Transportation', 'transportation'],
+    ['Utilities / Communication', 'utilitiesCommunication']
+  ]
   RoleOptions = [
     ['Select Role', ''],
     ['Resource Provider', 'RESOURCEPROVIDER'],
@@ -71,10 +92,10 @@ module DraftsHelper
     ['Stakeholder', 'STAKEHOLDER']
   ]
   SpatialCoverageTypeOptions = [
-      ['Horizontal', 'HORIZONTAL'],
-      ['Vertical', 'VERTICAL'],
-      ['Orbital', 'ORBITAL'],
-      ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
+    ['Horizontal', 'HORIZONTAL'],
+    ['Vertical', 'VERTICAL'],
+    ['Orbital', 'ORBITAL'],
+    ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
   ]
 
   def construct_keyword_string(hash_obj, str)

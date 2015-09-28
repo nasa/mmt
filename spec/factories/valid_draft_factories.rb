@@ -744,6 +744,7 @@ FactoryGirl.define do
       }, {
         'Eon' => 'test 3 Eon text 1'
       }]
-    }
+    },
+    "ISOTopicCategories" => ["farming", "climatologyMeteorologyAtmosphere", "health"]
   end
 end
