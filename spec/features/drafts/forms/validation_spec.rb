@@ -5,7 +5,7 @@ require 'rails_helper'
 # R = Required fied
 # NR = Not Required field
 
-debug = true
+debug = false
 
 required_error_string = 'Value required.'
 validation_element_display_selector_string = '#validation-error-display'
