@@ -23,6 +23,8 @@ class CollectionsController < ApplicationController
   end
 
   def revert
+    latest_revision_id = @revisions.first['meta']['revision-id']
+
     # Ingest revision
     ingested = cmr_client.ingest_collection(@metadata, @provider_id, @native_id, token)
 
