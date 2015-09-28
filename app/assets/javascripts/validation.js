@@ -92,7 +92,7 @@ function handleDescriptiveKeywordForm(json) {
   var keywordCount = 0;
 
   // Find each keyword on page
-  $('.hidden-science-keywords').each(function() {
+  $('.selected-science-keywords input').each(function() {
     // Parse the keyword value and insert it into Json for validation
     var keywordSegmentArray = $(this).val().split('>');
     var thisJson = {};
