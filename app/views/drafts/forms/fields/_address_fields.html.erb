@@ -4,23 +4,23 @@
     <label for="<%= remove_pipes(name_prefix) %>street_addresses_">Street Address</label><i class="fa fa-info-circle"></i>
 
     <% street_addresses += [nil, nil] # always display two street address fields %>
-    <% street_addresses[0..1].each do |street_address| %>
-      <div class="multiple-item">
-        <%= text_field_tag(name_to_param("#{name_prefix}|street_addresses|_index"), street_address, class: 'half-width') %>
+    <% street_addresses[0..1].each_with_index do |street_address, index| %>
+      <div class="multiple-item multiple-item-<%= index %>">
+        <%= text_field_tag(name_to_param("#{name_prefix}|street_addresses|_#{index}"), street_address, class: 'half-width street-address simple-multiple-field validate') %>
       </div>
     <% end %>
   </div>
 
   <label for="<%= remove_pipes(name_prefix) %>city">City</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}city"), address['City'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}city"), address['City'], class: 'half-width validate') %>
 
   <label for="<%= remove_pipes(name_prefix) %>state_province">State / Province</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|state_province|"), address['StateProvince'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|state_province|"), address['StateProvince'], class: 'half-width validate') %>
 
   <label for="<%= remove_pipes(name_prefix) %>postal_code">Postal Code</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|postal_code|"), address['PostalCode'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|postal_code|"), address['PostalCode'], class: 'half-width validate') %>
 
   <label for="<%= remove_pipes(name_prefix) %>country">Country</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}country"), address['Country'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}country"), address['Country'], class: 'half-width validate') %>
 
 </div>

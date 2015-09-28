@@ -1,25 +1,25 @@
 <div class="row sub-fields">
   <!-- Name [r] -->
   <label for="<%= remove_pipes(name_prefix) %>name" class="icon-required">Name</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}name"), characteristics['Name'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}name"), characteristics['Name'], class: 'half-width validate') %>
 
 
   <!-- Description [r] -->
   <label for="<%= remove_pipes(name_prefix) %>description" class="icon-required">Description</label><i class="fa fa-info-circle"></i>
-  <%= text_area_tag(name_to_param("#{name_prefix}description"), characteristics['Description'], rows: 8) %>
+  <%= text_area_tag(name_to_param("#{name_prefix}description"), characteristics['Description'], rows: 8, class: 'validate') %>
 
 
   <!-- Value [r] -->
   <label for="<%= remove_pipes(name_prefix) %>value" class="icon-required">Value</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}value"), characteristics['Value'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}value"), characteristics['Value'], class: 'half-width validate') %>
 
 
   <!-- Unit [r] -->
   <label for="<%= remove_pipes(name_prefix) %>unit" class="icon-required">Unit</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}unit"), characteristics['Unit'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}unit"), characteristics['Unit'], class: 'half-width validate') %>
 
 
   <!-- Data Type [r] -->
   <label for="<%= remove_pipes(name_prefix) %>data_type" class="icon-required">Data Type</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|data_type|"), characteristics['DataType'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|data_type|"), characteristics['DataType'], class: 'half-width validate') %>
 </div>

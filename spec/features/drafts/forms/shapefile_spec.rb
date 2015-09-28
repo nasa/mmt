@@ -56,10 +56,11 @@ describe 'Shapefile upload', js: true do
     end
 
     it 'populates the form fields with the shapefile values' do
-      within first('.multiple.points') do
-        expect(page).to have_field('Longitude', with: '102')
-        expect(page).to have_field('Latitude', with: '0.5')
-      end
+      # We only take the last geometry type in the shape file
+      # within first('.multiple.points') do
+      #   expect(page).to have_field('Longitude', with: '102')
+      #   expect(page).to have_field('Latitude', with: '0.5')
+      # end
 
       within '.multiple.g-polygons > .multiple-item-0' do
         within '.boundary .multiple.points' do

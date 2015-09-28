@@ -2,15 +2,15 @@
   <!-- TemporalRangeType -->
   <% temporal_range_type = temporal_extent['TemporalRangeType'] || "" %>
   <label class="icon-required">Temporal Range Type</label><i class="fa fa-info-circle"></i>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'SingleDateTime', temporal_range_type == 'SingleDateTime', class: 'temporal-range-type-select') %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_SingleDateTime">Single</label></p>
+  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'SingleDateTime', temporal_range_type == 'SingleDateTime', class: 'temporal-range-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_SingleDateTime">Single</label></p>
 
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'RangeDateTime', temporal_range_type == 'RangeDateTime', class: 'temporal-range-type-select') %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_RangeDateTime">Range</label></p>
+  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'RangeDateTime', temporal_range_type == 'RangeDateTime', class: 'temporal-range-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_RangeDateTime">Range</label></p>
 
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'PeriodicDateTime', temporal_range_type == 'PeriodicDateTime', class: 'temporal-range-type-select') %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_PeriodicDateTime">Periodic</label></p>
+  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'PeriodicDateTime', temporal_range_type == 'PeriodicDateTime', class: 'temporal-range-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_PeriodicDateTime">Periodic</label></p>
 
   <!-- PrecisionOfSeconds -->
   <label for="<%= remove_pipes(name_prefix) %>precision_of_seconds">Precision Of Seconds</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|precision_of_seconds|"), temporal_extent['PrecisionOfSeconds'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|precision_of_seconds|"), temporal_extent['PrecisionOfSeconds'], class: 'half-width validate mmt-integer') %>
 
   <!-- EndsAtPresentFlag -->
   <label class="icon-required">Ends At Present Flag</label><i class="fa fa-info-circle"></i>
@@ -35,7 +35,7 @@
       <label for="<%= remove_pipes(name_prefix) %>single_date_times_">Single Date Time</label><i class="fa fa-info-circle"></i>
     <% date_times.each_with_index do |date_time, index| %>
       <div class="multiple-item multiple-item-<%= index %>">
-        <%= datetime_field_tag(name_to_param("#{name_prefix}|single_date_times|_#{index}"), date_time, class: 'half-width single-date-time simple-multiple-field') %>
+        <%= datetime_field_tag(name_to_param("#{name_prefix}|single_date_times|_#{index}"), date_time, class: 'half-width single-date-time simple-multiple-field validate mmt-date-time') %>
         <a class="remove"><i class="fa fa-times-circle"></i></a>
         <div class="actions">
           <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Date</button>

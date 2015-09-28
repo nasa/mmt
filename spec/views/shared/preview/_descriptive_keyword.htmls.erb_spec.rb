@@ -25,6 +25,7 @@ describe template_path, type: :view do
       before do
         full_draft = build(:full_draft).draft
 
+        draft_json['ISOTopicCategories'] = full_draft['ISOTopicCategories']
         draft_json['ScienceKeywords'] = full_draft['ScienceKeywords']
         draft_json['AncillaryKeywords'] = full_draft['AncillaryKeywords']
         draft_json['AdditionalAttributes'] = full_draft['AdditionalAttributes']
@@ -37,7 +38,7 @@ describe template_path, type: :view do
         rendered_node = Capybara.string(rendered)
         root_css_path = 'ul.descriptive-keywords-preview'
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, { DataType: :handle_as_data_type }, true)
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, { ISOTopicCategories: :handle_as_iso_topic_categories, DataType: :handle_as_data_type }, true)
         end
       end
     end

@@ -8,24 +8,23 @@
       multiple: false,
       options: {} } %>
 
-
   <!-- WestBoundingCoordinate -->
   <label for="<%= remove_pipes(name_prefix) %>west_bounding_coordinate" class="icon-required">West Bounding Coordinate</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|west_bounding_coordinate|"), bounding_rectangle['WestBoundingCoordinate'], class: 'half-width bounding-rectangle-point west') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|west_bounding_coordinate|"), bounding_rectangle['WestBoundingCoordinate'], class: 'half-width bounding-rectangle-point west validate mmt-number') %>
 
 
   <!-- NorthBoundingCoordinate -->
   <label for="<%= remove_pipes(name_prefix) %>north_bounding_coordinate" class="icon-required">North Bounding Coordinate</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|north_bounding_coordinate|"), bounding_rectangle['NorthBoundingCoordinate'], class: 'half-width bounding-rectangle-point north') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|north_bounding_coordinate|"), bounding_rectangle['NorthBoundingCoordinate'], class: 'half-width bounding-rectangle-point north validate mmt-number') %>
 
 
   <!-- EastBoundingCoordinate -->
   <label for="<%= remove_pipes(name_prefix) %>east_bounding_coordinate" class="icon-required">East Bounding Coordinate</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|east_bounding_coordinate|"), bounding_rectangle['EastBoundingCoordinate'], class: 'half-width bounding-rectangle-point east') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|east_bounding_coordinate|"), bounding_rectangle['EastBoundingCoordinate'], class: 'half-width bounding-rectangle-point east validate mmt-number') %>
 
 
   <!-- SouthBoundingCoordinate -->
   <label for="<%= remove_pipes(name_prefix) %>south_bounding_coordinate" class="icon-required">South Bounding Coordinate</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|south_bounding_coordinate|"), bounding_rectangle['SouthBoundingCoordinate'], class: 'half-width bounding-rectangle-point south') %>
+  <%= number_field_tag(name_to_param("#{name_prefix}|south_bounding_coordinate|"), bounding_rectangle['SouthBoundingCoordinate'], class: 'half-width bounding-rectangle-point south validate mmt-number') %>
 
 </div>

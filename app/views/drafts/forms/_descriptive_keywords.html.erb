@@ -1,16 +1,13 @@
-<!-- ISOTopicCategory -->
-<!-- waiting for more information -->
-<!-- <fieldset>
+<!-- ISOTopicCategories -->
+<fieldset>
   <h3>ISO Topic Category</h3>
   <div class="row taller">
     <div class="col-12">
-      <label for="iso_topic_category">ISO Topic Category</label><i class="fa fa-info-circle"></i>
-      <div class="row">
-
-      </div>
+      <label for="draft_iso_topic_categories_">ISO Topic Categories</label><i class="fa fa-info-circle"></i>
+      <%= select_tag "#{name_to_param('draft_|iso_topic_categories|')}[]", options_for_select(DraftsHelper::ISOTopicCategoriesOptions, draft.draft['ISOTopicCategories']), class: 'multi-select', size: 4, multiple: 'true' %>
     </div>
   </div>
-</fieldset> -->
+</fieldset>
 
 <!-- ScienceKeyword [r] -->
 <fieldset>
@@ -59,7 +56,7 @@
           <label for="draft_ancillary_keywords_">Ancillary Keyword</label><i class="fa fa-info-circle"></i>
           <% ancillary_keywords.each_with_index do |ancillary_keyword, index| %>
             <div class="multiple-item multiple-item-<%= index %>">
-              <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field') %>
+              <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate') %>
               <a class="remove"><i class="fa fa-times-circle"></i></a>
               <div class="actions">
                 <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Keyword</button>

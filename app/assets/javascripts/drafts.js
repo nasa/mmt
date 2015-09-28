@@ -5,11 +5,6 @@ var setupScienceKeywords = function(data) {
 };
 
 $(document).ready(function() {
-  // Handle form navigation
-  $('.next-section').change(function() {
-    $('#new_form_name').val(this.value);
-    this.form.submit();
-  });
 
   $('.multiple').on('click', '.add-new', function(e) {
     var simple = $(this).hasClass('new-simple');
@@ -147,23 +142,56 @@ $(document).ready(function() {
     $(this).prop('checked', true);
   });
 
+  // Handle geometry-picker (points/rectangles/polygons/lines)
+  $('.geometry-picker').change(function() {
+    var geometryType = $(this).parents('.geometry-type');
+      $(geometryType).siblings('.points-fields').hide();
+      $(geometryType).siblings('.bounding-rectangles-fields').hide();
+      $(geometryType).siblings('.g-polygons-fields').hide();
+      $(geometryType).siblings('.lines-fields').hide();
+
+    switch ($(this).val()) {
+      case 'points':
+        $(geometryType).siblings('.points-fields').show();
+        break;
+      case 'bounding-rectangles':
+        $(geometryType).siblings('.bounding-rectangles-fields').show();
+        break;
+      case 'g-polygons':
+        $(geometryType).siblings('.g-polygons-fields').show();
+        break;
+      case 'lines':
+        $(geometryType).siblings('.lines-fields').show();
+        break;
+      default:
+    }
+    // Clear all fields
+    $.each($(geometryType).siblings('.points-fields, .bounding-rectangles-fields, .g-polygons-fields, .lines-fields').find('input'), function(index, field) {
+      $(field).val('');
+    });
+
+    // Toggle checkboxes
+    $(geometryType).find('.geometry-picker').prop('checked', false);
+    $(this).prop('checked', true);
+  });
+
   // Handle coordinate-system-picker (geographic/local)
   $('.coordinate-system-picker').change(function() {
-    var partyType = $(this).parents('.party-type');
+    var coordinateSystemType = $(this).parents('.coordinate-system-type');
     switch ($(this).val()) {
       case 'geographic':
-        $(partyType).siblings('.geographic-coordinate-system-fields').show();
-        $(partyType).siblings('.local-coordinate-system-fields').hide();
+        $(coordinateSystemType).siblings('.geographic-coordinate-system-fields').show();
+        $(coordinateSystemType).siblings('.local-coordinate-system-fields').hide();
         break;
       case 'local':
-        $(partyType).siblings('.geographic-coordinate-system-fields').hide();
-        $(partyType).siblings('.local-coordinate-system-fields').show();
+        $(coordinateSystemType).siblings('.geographic-coordinate-system-fields').hide();
+        $(coordinateSystemType).siblings('.local-coordinate-system-fields').show();
         break;
       default:
 
     }
-    // Clear all org and person fields
-    $.each($(partyType).siblings('.geographic-coordinate-system-fields, .local-coordinate-system-fields')
+    // Clear all fields
+    $.each($(coordinateSystemType).siblings('.geographic-coordinate-system-fields, .local-coordinate-system-fields')
     .find('input'), function(index, field) {
       $(field).val('');
     });
@@ -274,6 +302,9 @@ $(document).ready(function() {
       var hasPoints;
       $.each(response.features, function(index, feature) {
         if (feature.geometry.type === 'Point') {
+          // click point radio button
+          $('.geometry-picker.points').click();
+
           hasPoints = false;
           var lastPoint = $('.multiple.points').first().find('.multiple-item').last();
           $.each($(lastPoint).find('input'), function(index, element) {
@@ -295,6 +326,9 @@ $(document).ready(function() {
           $(lastPoint).find('.longitude').trigger('change');
 
         } else if (feature.geometry.type === 'Polygon') {
+          // click polygon radio button
+          $('.geometry-picker.g-polygons').click();
+
           if (feature.geometry.coordinates[0].length > 50) {
             $(file.previewElement).addClass('dz-error');
             $(file.previewElement).find('.dz-error-message > span').text('Too many points in polygon');

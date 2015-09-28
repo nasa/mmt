@@ -1,16 +1,16 @@
 <div class="row sub-fields">
   <!-- GeographicCoordinateUnits -->
   <label for="<%= remove_pipes(name_prefix) %>geographic_coordinate_units">Geographic Coordinate Units</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|geographic_coordinate_units|"), geographic_coordinate_system['GeographicCoordinateUnits'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|geographic_coordinate_units|"), geographic_coordinate_system['GeographicCoordinateUnits'], class: 'half-width validate') %>
 
 
   <!-- LatitudeResolution -->
   <label for="<%= remove_pipes(name_prefix) %>latitude_resolution">Latitude Resolution</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|latitude_resolution|"), geographic_coordinate_system['LatitudeResolution'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|latitude_resolution|"), geographic_coordinate_system['LatitudeResolution'], class: 'half-width validate mmt-number') %>
 
 
   <!-- LongitudeResolution -->
   <label for="<%= remove_pipes(name_prefix) %>longitude_resolution">Longitude Resolution</label><i class="fa fa-info-circle"></i>
-  <%= number_field_tag(name_to_param("#{name_prefix}|longitude_resolution|"), geographic_coordinate_system['LongitudeResolution'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|longitude_resolution|"), geographic_coordinate_system['LongitudeResolution'], class: 'half-width validate mmt-number') %>
 
 </div>

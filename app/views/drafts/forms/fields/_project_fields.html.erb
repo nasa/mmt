@@ -1,21 +1,22 @@
 <div class="row sub-fields">
   <!-- Short Name [r] -->
   <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), project['ShortName'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), project['ShortName'], class: 'half-width validate') %>
 
 
   <!-- Long Name -->
   <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><i class="fa fa-info-circle"></i>
-  <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), project['LongName'], class: 'half-width') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), project['LongName'], class: 'half-width validate') %>
 
 
   <!-- Campaign -->
   <% campaigns = project['Campaigns'] || [nil] # [nil] creates at least one field %>
   <div class="multiple simple-multiple campaigns">
     <label for="<%= remove_pipes(name_prefix) %>campaigns_">Campaign</label><i class="fa fa-info-circle"></i>
+
   <% campaigns.each_with_index do |campaign, index| %>
     <div class="multiple-item multiple-item-<%= index %>">
-      <%= text_field_tag(name_to_param("#{name_prefix}campaigns_#{index}"), campaign, class: 'half-width campaign simple-multiple-field') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}campaigns_#{index}"), campaign, class: 'half-width campaign simple-multiple-field validate') %>
       <a class="remove"><i class="fa fa-times-circle"></i></a>
       <div class="actions">
         <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Campaign</button>
@@ -28,11 +29,11 @@
   <!-- StartDate -->
   <div class="col-6">
     <label for="<%= remove_pipes(name_prefix) %>start_date">Start Date</label><i class="fa fa-info-circle"></i>
-    <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), project['StartDate'], class: 'full-width') %>
+    <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), project['StartDate'], class: 'full-width validate mmt-date-time') %>
   </div>
   <div class="col-6">
     <!-- EndDate -->
     <label for="<%= remove_pipes(name_prefix) %>end_date">End Date</label><i class="fa fa-info-circle"></i>
-    <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), project['EndDate'], class: 'full-width') %>
+    <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), project['EndDate'], class: 'full-width validate mmt-date-time') %>
   </div>
 </div>

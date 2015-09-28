@@ -213,22 +213,20 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Value', with: 'example2@example.com')
               end
             end
-            within '.multiple.addresses' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Street Address', with: '300 E Street Southwest')
-                expect(page).to have_field('Street Address', with: 'Room 203')
-                expect(page).to have_field('City', with: 'Washington')
-                expect(page).to have_field('State / Province', with: 'DC')
-                expect(page).to have_field('Postal Code', with: '20546')
-                expect(page).to have_field('Country', with: 'United States')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('Street Address', with: '8800 Greenbelt Road')
-                expect(page).to have_field('City', with: 'Greenbelt')
-                expect(page).to have_field('State / Province', with: 'MD')
-                expect(page).to have_field('Postal Code', with: '20771')
-                expect(page).to have_field('Country', with: 'United States')
-              end
+            within '.multiple.addresses > .multiple-item-0' do
+              expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
+              expect(page).to have_selector('input.street-address[value="Room 203"]')
+              expect(page).to have_field('City', with: 'Washington')
+              expect(page).to have_field('State / Province', with: 'DC')
+              expect(page).to have_field('Postal Code', with: '20546')
+              expect(page).to have_field('Country', with: 'United States')
+            end
+            within '.multiple.addresses > .multiple-item-1' do
+              expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
+              expect(page).to have_field('City', with: 'Greenbelt')
+              expect(page).to have_field('State / Province', with: 'MD')
+              expect(page).to have_field('Postal Code', with: '20771')
+              expect(page).to have_field('Country', with: 'United States')
             end
             within '.multiple.related-urls > .multiple-item-0' do
               expect(page).to have_selector('input.url[value="http://example.com"]')
@@ -264,22 +262,20 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Value', with: 'example2@example.com')
               end
             end
-            within '.multiple.addresses' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Street Address', with: '300 E Street Southwest')
-                expect(page).to have_field('Street Address', with: 'Room 203')
-                expect(page).to have_field('City', with: 'Washington')
-                expect(page).to have_field('State / Province', with: 'DC')
-                expect(page).to have_field('Postal Code', with: '20546')
-                expect(page).to have_field('Country', with: 'United States')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('Street Address', with: '8800 Greenbelt Road')
-                expect(page).to have_field('City', with: 'Greenbelt')
-                expect(page).to have_field('State / Province', with: 'MD')
-                expect(page).to have_field('Postal Code', with: '20771')
-                expect(page).to have_field('Country', with: 'United States')
-              end
+            within '.multiple.addresses > .multiple-item-0' do
+              expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
+              expect(page).to have_selector('input.street-address[value="Room 203"]')
+              expect(page).to have_field('City', with: 'Washington')
+              expect(page).to have_field('State / Province', with: 'DC')
+              expect(page).to have_field('Postal Code', with: '20546')
+              expect(page).to have_field('Country', with: 'United States')
+            end
+            within '.multiple.addresses > .multiple-item-1' do
+              expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
+              expect(page).to have_field('City', with: 'Greenbelt')
+              expect(page).to have_field('State / Province', with: 'MD')
+              expect(page).to have_field('Postal Code', with: '20771')
+              expect(page).to have_field('Country', with: 'United States')
             end
             within '.multiple.related-urls > .multiple-item-0' do
               expect(page).to have_selector('input.url[value="http://example.com"]')
@@ -320,22 +316,20 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Value', with: 'example2@example.com')
               end
             end
-            within '.multiple.addresses' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Street Address', with: '300 E Street Southwest')
-                expect(page).to have_field('Street Address', with: 'Room 203')
-                expect(page).to have_field('City', with: 'Washington')
-                expect(page).to have_field('State / Province', with: 'DC')
-                expect(page).to have_field('Postal Code', with: '20546')
-                expect(page).to have_field('Country', with: 'United States')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('Street Address', with: '8800 Greenbelt Road')
-                expect(page).to have_field('City', with: 'Greenbelt')
-                expect(page).to have_field('State / Province', with: 'MD')
-                expect(page).to have_field('Postal Code', with: '20771')
-                expect(page).to have_field('Country', with: 'United States')
-              end
+            within '.multiple.addresses > .multiple-item-0' do
+              expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
+              expect(page).to have_selector('input.street-address[value="Room 203"]')
+              expect(page).to have_field('City', with: 'Washington')
+              expect(page).to have_field('State / Province', with: 'DC')
+              expect(page).to have_field('Postal Code', with: '20546')
+              expect(page).to have_field('Country', with: 'United States')
+            end
+            within '.multiple.addresses > .multiple-item-1' do
+              expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
+              expect(page).to have_field('City', with: 'Greenbelt')
+              expect(page).to have_field('State / Province', with: 'MD')
+              expect(page).to have_field('Postal Code', with: '20771')
+              expect(page).to have_field('Country', with: 'United States')
             end
             within '.multiple.related-urls > .multiple-item-0' do
               expect(page).to have_selector('input.url[value="http://example.com"]')
@@ -372,22 +366,20 @@ describe 'Data identification form', js: true do
                 expect(page).to have_field('Value', with: 'example2@example.com')
               end
             end
-            within '.multiple.addresses' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Street Address', with: '300 E Street Southwest')
-                expect(page).to have_field('Street Address', with: 'Room 203')
-                expect(page).to have_field('City', with: 'Washington')
-                expect(page).to have_field('State / Province', with: 'DC')
-                expect(page).to have_field('Postal Code', with: '20546')
-                expect(page).to have_field('Country', with: 'United States')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('Street Address', with: '8800 Greenbelt Road')
-                expect(page).to have_field('City', with: 'Greenbelt')
-                expect(page).to have_field('State / Province', with: 'MD')
-                expect(page).to have_field('Postal Code', with: '20771')
-                expect(page).to have_field('Country', with: 'United States')
-              end
+            within '.multiple.addresses > .multiple-item-0' do
+              expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
+              expect(page).to have_selector('input.street-address[value="Room 203"]')
+              expect(page).to have_field('City', with: 'Washington')
+              expect(page).to have_field('State / Province', with: 'DC')
+              expect(page).to have_field('Postal Code', with: '20546')
+              expect(page).to have_field('Country', with: 'United States')
+            end
+            within '.multiple.addresses > .multiple-item-1' do
+              expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
+              expect(page).to have_field('City', with: 'Greenbelt')
+              expect(page).to have_field('State / Province', with: 'MD')
+              expect(page).to have_field('Postal Code', with: '20771')
+              expect(page).to have_field('Country', with: 'United States')
             end
             within '.multiple.related-urls > .multiple-item-0' do
               expect(page).to have_selector('input.url[value="http://example.com"]')
