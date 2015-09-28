@@ -27,7 +27,10 @@ module Cmr
       else
         url = '/search/provider_holdings.json'
       end
-      get(url, options, token_header(token))
+      response = Rails.cache.fetch('get_provider_holdings', expires_in: 1.hours) do
+        get(url, options, token_header(token))
+      end
+      response
     end
 
     def get_science_keywords
