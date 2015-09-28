@@ -119,6 +119,7 @@ function handleDescriptiveKeywordForm(json) {
 
 function buildJsonForPage() {
   // Build and return the json to be validated, using only all the information on this form.
+  // TODO - Enhance code to handle processing the data coming back from a multi-select into json for validation. Then add "validate" class to all such fields, like draft_iso_topic_categories
   var rootJson = {};
 
   $('.validate').each(function() {
