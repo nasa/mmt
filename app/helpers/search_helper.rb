@@ -1,6 +1,7 @@
 module SearchHelper
   def results_query_label(query)
     query.delete('page')
+    query.delete('page_size')
     query.delete('latest') # at least right now we added this, so don't show it
     pruned = prune_query(query.clone)
 

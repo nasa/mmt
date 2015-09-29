@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
   include SearchHelper
 
-  RESULTS_PER_PAGE = 25
+  RESULTS_PER_PAGE = 8 #25
   DEFAULT_SORT_ORDER = 'entry_title'
 
   def index
@@ -43,10 +43,14 @@ class SearchController < ApplicationController
       end
     end
 
+    @query['page'] = page
+    @query['page_size'] = @results_per_page
+
     good_query_params = prune_query(@query.clone)
 
     @errors = []
     @collections = []
+    @total_hit_count = 0
     case @query['record_state']
     when 'published_records'
       @collections = get_published(good_query_params)
@@ -60,14 +64,12 @@ class SearchController < ApplicationController
   private
 
   def get_published(query)
-    # TODO Fix paging
-    query['page_size'] = 25
-    query['page_num'] = 1
-
     query['all_revisions'] = true
 
     query.delete('record_state')
+
     published_collections = cmr_client.get_collections(query, token).body
+    @total_hit_count = @total_hit_count + published_collections['hits'].to_i
     if published_collections['errors']
       @errors = published_collections['errors']
       published_collections = []
@@ -82,6 +84,8 @@ class SearchController < ApplicationController
     query.delete('record_state')
 
     draft_collections = Draft.where(query.permit!)
+
+    @total_hit_count = @total_hit_count + draft_collections.size
 
     # Map drafts to same structure we get from CMR
     draft_collections.map do |draft|
