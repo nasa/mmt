@@ -33,7 +33,7 @@ class CollectionsController < ApplicationController
     else
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
 
-      @error = 'This collection could not be updated due to an unknown error.'
+      @error = true
 
       render action: 'revisions'
     end
@@ -75,6 +75,7 @@ class CollectionsController < ApplicationController
     attempts = 0
     while attempts < 3
       @revisions = cmr_client.get_collections({ concept_id: concept_id, all_revisions: true }, token).body['items']
+      @revisions.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
       latest = @revisions.first
       break if latest && !@revision_id
       break if latest && latest['meta']['revision-id'] >= @revision_id.to_i
