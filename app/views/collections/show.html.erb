@@ -31,11 +31,11 @@
             <a class="disabled" href="#" alt="Save as Template">Save as Template</a> |
             <a class="disabled" href="#" alt="Clone this Record">Clone this Record</a> |
             <a class="disabled" href="#" alt="Download XML">Download XML</a> |
-            <%= link_to 'Delete Record', collection_path, method: :delete, alt: 'Delete Record', data: { confirm: 'Are you sure you want to delete this record?' } %>
+            <%= link_to 'Delete Record', collection_path, method: :delete, alt: 'Delete Record', data: { confirm: 'Are you sure you want to delete this record?' }, class: 'delete-collection' %>
           </p>
           <p>
             <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path, alt: 'Revisions' %> |
-            <a class="disabled" href="#" alt="Granules">Granules</a> |
+            <a class="collection-granule-count disabled" href="#" alt="Granules">Granules (<%= @num_granules %>)</a> |
           </p>
         </div>
         <div class="quality-score disabled">
