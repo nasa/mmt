@@ -191,17 +191,15 @@ module Cmr
           req.headers['Echo-token'] = 'mock-echo-system-token'
           req.body = metadata
         end
-        # sleep 5
-        # Ingest a granule to each collection in one provider
-        if index < 24
-          if obj[:granule]
-            granule_metadata = connection.get(obj[:granule].first).body
-            response = connection.put do |req|
-              req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
-              req.headers['Content-Type'] = 'application/echo10+xml'
-              req.headers['Echo-token'] = 'mock-echo-system-token'
-              req.body = granule_metadata
-            end
+
+        # Ingest a granules if available
+        if obj[:granule]
+          granule_metadata = connection.get(obj[:granule].first).body
+          response = connection.put do |req|
+            req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
+            req.headers['Content-Type'] = 'application/echo10+xml'
+            req.headers['Echo-token'] = 'mock-echo-system-token'
+            req.body = granule_metadata
           end
         end
 
