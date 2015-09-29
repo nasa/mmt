@@ -18,6 +18,13 @@
         <button type="button" name="button" class="btn disabled">Compare Revisions</button>
       </p>
     </section>
+    <% if @error %>
+      <section class="errors">
+        <div class="banner banner-danger">
+          <i class="fa fa-exclamation-triangle"></i> This collection could not be updated. You may <%= link_to 'edit', edit_collection_path(revision_id: @revision_id) %> the collection to resolve these issues.
+        </div>
+      </section>
+    <% end %>
     <div class="row">
       <section>
         <table>
@@ -29,7 +36,7 @@
             <th>Review Status</th>
             <th>Quality Score</th>
             <th>Revision Notes</th>
-            <th></th>
+            <th>Actions</th>
           </tr>
           </thead>
           <tbody>
@@ -41,12 +48,10 @@
                     Deleted
                   <% elsif index == 0 %>
                     Published
-                    <%#= link_to 'View', collection_path(id: revision['meta']['concept-id'], revision_id: revision['meta']['revision-id']) %>
-                    <a href="#" class="disabled">View</a>
+                    <%= link_to 'View', collection_path(revision_id: revision['meta']['revision-id']) %>
                   <% else %>
                     Revision
-                    <%#= link_to 'View', collection_path(id: revision['meta']['concept-id'], revision_id: revision['meta']['revision-id']) %>
-                    <a href="#" class="disabled">View</a>
+                    <%= link_to 'View', collection_path(revision_id: revision['meta']['revision-id']) %>
                   <% end %>
                 </td>
                 <td>
@@ -67,12 +72,14 @@
                 <td>
                   <% if @revisions.first['meta']['deleted'] == true %>
                     <% phrase = 'Reinstate' %>
+                    <% confirm_phrase = 'Are you sure you want to reinstate this record?' %>
                   <% else %>
                     <% phrase = 'Revert to this Revision' %>
+                    <% confirm_phrase = 'Are you sure you want to revert to this revision?' %>
                   <% end %>
 
                   <% unless index == 0 || revision['meta']['deleted'] == true %>
-                    <%= link_to phrase, '#', class: "disabled" %>
+                    <%= link_to phrase, revert_collection_path(revision_id: revision['meta']['revision-id']), data: { confirm: confirm_phrase } %>
                   <% end %>
                 </td>
               </tr>
