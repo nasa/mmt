@@ -1,13 +1,13 @@
 class SearchController < ApplicationController
   include SearchHelper
 
-  RESULTS_PER_PAGE = 8 #25
+  RESULTS_PER_PAGE = 25
   DEFAULT_SORT_ORDER = 'entry_title'
 
   def index
     page = params[:page].to_i || 1
     page = 1 if page < 1
-    sort = params[:sort] || DEFAULT_SORT_ORDER
+    #sort = params[:sort] || DEFAULT_SORT_ORDER
 
     @results_per_page = RESULTS_PER_PAGE
 
@@ -44,6 +44,7 @@ class SearchController < ApplicationController
     end
 
     @query['page'] = page
+    @query['page_num'] = page # TODO - get rid of page and use page_num exclusively ?
     @query['page_size'] = @results_per_page
 
     good_query_params = prune_query(@query.clone)
@@ -83,7 +84,15 @@ class SearchController < ApplicationController
   def get_drafts(query)
     query.delete('record_state')
 
-    draft_collections = Draft.where(query.permit!)
+    offset = RESULTS_PER_PAGE * (query['page_num']-1)
+    query.delete('page')
+    query.delete('page_num')
+    query.delete('page_size')
+    query.delete('_')
+
+    #query['offset'] = offset
+
+    draft_collections = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE
 
     @total_hit_count = @total_hit_count + draft_collections.size
 

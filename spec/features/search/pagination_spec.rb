@@ -6,6 +6,7 @@ describe 'Search Result Pagination', js: true do
   before do
     login
     visit '/search'
+    click_on 'Find'
   end
 
   context 'when viewing search results with multiple pages' do
@@ -66,8 +67,7 @@ describe 'Search Result Pagination', js: true do
       end
 
       it 'displays the last page' do
-        # FIXME We shouldn't hardcode 89 into this test, but it will change pretty soon when we start using the local CMR
-        expect(page).to have_css('.active-page', :text => "89")
+        expect(page).to have_css('.active-page', :text => "3")
       end
     end
 

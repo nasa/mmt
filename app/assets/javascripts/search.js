@@ -37,10 +37,26 @@ $('.js-enabled-object').css({'visibility': 'visible'});
 
 function updateCollectionSearchInput(entryId, sort, page, pushUrl) {
   var targetUrl = 'search';
+  var paramString = window.location.search;
+  var paramArray = paramString.slice(1).split('&');
+  var newParamArray = [];
+
+  for (var i = 0; i< paramArray.length; i++) {
+    var param = paramArray[i];
+    var parts = param.split('=');
+    if (parts[0].length > 0 && parts[0] != 'page' && parts[0] != 'sort' && parts[0] != entry_id) {
+      newParamArray.push(param);
+    }
+  }
+  newParamArray.push('page=' + page);
+  //newParamArray.push('sort=' + sort);
   var queryParams = 'page=' + page + '&sort=' + sort;
   if (entryId && entryId.length !== 0) {
-    queryParams += '&entry_id=' + entryId;
+    newParamArray.push('entry_id=' + entryId);
   }
+
+  var queryParams = newParamArray.join('&');
+
   if (history.pushState) {
     if (pushUrl) {
       var newurl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?' + queryParams;
