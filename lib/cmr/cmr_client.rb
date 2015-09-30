@@ -67,7 +67,7 @@ module Cmr
       put(url, metadata, headers.merge(token_header(token)))
     end
 
-    def get_concept(concept_id, revision_id = nil, token)
+    def get_concept(concept_id, token, revision_id = nil)
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       else
@@ -86,6 +86,20 @@ module Cmr
         'Accept' => 'application/json'
       }
       delete(url, {}, headers.merge(token_header(token)))
+    end
+
+    # This method will be replaced by the work from CMR-2053, including granule counts in umm-json searches
+    def get_granule_count(collection_id, token)
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/collections.json'
+      else
+        url = '/search/collections.json'
+      end
+      options = {
+        concept_id: collection_id,
+        include_granule_counts: true
+      }
+      get(url, options, token_header(token)).body['feed']['entry'].first
     end
   end
 end

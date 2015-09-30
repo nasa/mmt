@@ -48,5 +48,4 @@ describe 'Revision list', js: true, reset_provider: true do
       end
     end
   end
-
 end

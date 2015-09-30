@@ -45,6 +45,10 @@ class CollectionsController < ApplicationController
     concept_id = params[:id]
     revision_id = params[:revision_id]
 
+    # Get granule count, will be replaced once CMR-2053 is complete
+    granule_result = cmr_client.get_granule_count(concept_id, token)
+    @num_granules = granule_result.nil? ? 0 : granule_result['granule_count']
+
     get_revisions
 
     latest = @revisions.first
@@ -55,7 +59,7 @@ class CollectionsController < ApplicationController
       concept_format = latest['meta']['format']
 
       # retrieve native metadata
-      @metadata = cmr_client.get_concept(concept_id, revision_id, token)
+      @metadata = cmr_client.get_concept(concept_id, token, revision_id)
 
       # translate to umm-json metadata
       @collection = cmr_client.translate_collection(@metadata, concept_format, 'application/umm+json').body
