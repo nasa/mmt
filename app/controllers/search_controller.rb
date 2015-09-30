@@ -92,7 +92,7 @@ class SearchController < ApplicationController
 
     #query['offset'] = offset
 
-    draft_collections = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE
+    draft_collections = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
 
     @total_hit_count = @total_hit_count + draft_collections.size
 
