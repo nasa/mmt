@@ -1,0 +1,30 @@
+<div class="row sub-fields">
+  <!-- Eon -->
+  <label for="<%= remove_pipes(name_prefix) %>eon" class="icon-required">Eon</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}eon"), chronostratigraphic_unit['Eon'], rows: 8, class: 'validate') %>
+
+  <!-- Era -->
+  <label for="<%= remove_pipes(name_prefix) %>era">Era</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}era"), chronostratigraphic_unit['Era'], rows: 8, class: 'validate') %>
+
+
+  <!-- Epoch -->
+  <label for="<%= remove_pipes(name_prefix) %>epoch">Epoch</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}epoch"), chronostratigraphic_unit['Epoch'], rows: 8, class: 'validate') %>
+
+
+  <!-- Stage -->
+  <label for="<%= remove_pipes(name_prefix) %>stage">Stage</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}stage"), chronostratigraphic_unit['Stage'], rows: 8, class: 'validate') %>
+
+
+  <!-- Detailed_Classification -->
+  <!-- TODO Detailed_Classification needs to have an underscore -->
+  <label for="<%= remove_pipes(name_prefix) %>detailed_classification">Detailed Classification</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}|detailed_classification|"), chronostratigraphic_unit['DetailedClassification'], rows: 8, class: 'validate') %>
+
+
+  <!-- Period -->
+  <label for="<%= remove_pipes(name_prefix) %>period">Period</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}period"), chronostratigraphic_unit['Period'], rows: 8, class: 'validate') %>
+</div>

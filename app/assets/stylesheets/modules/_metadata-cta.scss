@@ -1,0 +1,29 @@
+/* Metadata Call To Action (CTA)
+------------------------------------------*/
+
+.metadata-cta {
+  padding: 1.2em;
+  border-bottom: 1px solid darken($light-grey, 10%);
+  @include linear-gradient(#fff, $light-grey);
+
+  select {
+    width: 70% !important;
+    margin-right: 0.8em;
+    display: inline-block;
+  }
+
+  input[type="submit"] {
+    display: inline-block;
+  }
+
+  .cancel {
+    display: block;
+    margin-top: 0.8em;
+  }
+}
+
+.form-nav {
+  border-left: 1px solid darken($light-grey, 10%);
+  border-right: 1px solid  darken($light-grey, 10%);
+  padding-left: 2em;
+}

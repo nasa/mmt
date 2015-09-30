@@ -1,0 +1,87 @@
+<div class="row sub-fields">
+  <!-- Title -->
+  <label for="<%= remove_pipes(name_prefix) %>title">Title</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}title"), publication_reference['Title'], rows: 8, class: 'validate') %>
+
+
+  <!-- Publisher -->
+  <label for="<%= remove_pipes(name_prefix) %>publisher">Publisher</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}publisher"), publication_reference['Publisher'], rows: 8, class: 'validate') %>
+
+
+  <!-- DOI -->
+  <label>DOI</label><i class="fa fa-info-circle"></i>
+  <div class="row sub-fields">
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'doi',
+        values: publication_reference['DOI'] || {},
+        name_prefix: "#{name_prefix}doi_",
+        multiple: false,
+        options: {} } %>
+  </div>
+
+
+  <!-- Author -->
+  <label for="<%= remove_pipes(name_prefix) %>author">Author</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}author"), publication_reference['Author'], rows: 8, class: 'validate') %>
+
+
+  <!-- PublicationDate -->
+  <label for="<%= remove_pipes(name_prefix) %>publication_date">Publication Date</label><i class="fa fa-info-circle"></i>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|publication_date|"), publication_reference['PublicationDate'], class: 'half-width validate mmt-date-time') %>
+
+
+  <!-- Series -->
+  <label for="<%= remove_pipes(name_prefix) %>series">Series</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}series"), publication_reference['Series'], rows: 8, class: 'validate') %>
+
+
+  <!-- Edition -->
+  <label for="<%= remove_pipes(name_prefix) %>edition">Edition</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}edition"), publication_reference['Edition'], rows: 8, class: 'validate') %>
+
+
+  <!-- Volume -->
+  <label for="<%= remove_pipes(name_prefix) %>volume">Volume</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}volume"), publication_reference['Volume'], class: 'half-width validate') %>
+
+
+  <!-- Issue -->
+  <label for="<%= remove_pipes(name_prefix) %>issue">Issue</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}issue"), publication_reference['Issue'], class: 'half-width validate') %>
+
+
+  <!-- ReportNumber -->
+  <label for="<%= remove_pipes(name_prefix) %>report_number">Report Number</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|report_number|"), publication_reference['ReportNumber'], class: 'half-width validate') %>
+
+
+  <!-- PublicationPlace -->
+  <label for="<%= remove_pipes(name_prefix) %>publication_place">Publication Place</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}|publication_place|"), publication_reference['PublicationPlace'], rows: 8, class: 'validate') %>
+
+
+  <!-- Pages -->
+  <label for="<%= remove_pipes(name_prefix) %>pages">Pages</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}pages"), publication_reference['Pages'], class: 'half-width validate') %>
+
+
+  <!-- ISBN -->
+  <label for="<%= remove_pipes(name_prefix) %>isbn">ISBN</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}isbn"), publication_reference['ISBN'], class: 'half-width validate') %>
+
+
+  <!-- OtherReferenceDetails -->
+  <label for="<%= remove_pipes(name_prefix) %>other_reference_details">Other Reference Details</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}|other_reference_details|"), publication_reference['OtherReferenceDetails'], rows: 8, class: 'validate') %>
+
+
+  <!-- RelatedUrl - only one -->
+  <label>Related URL</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'related_url',
+      values: publication_reference['RelatedUrl'] || {},
+      name_prefix: "#{name_prefix}|related_url|_",
+      multiple: false,
+      options: {} } %>
+</div>

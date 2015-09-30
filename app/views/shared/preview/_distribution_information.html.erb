@@ -1,0 +1,23 @@
+<div class="preview-collection accordion is-closed">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    <h4>Distribution Information Fields:</h4>
+  </div>
+  <div class="accordion-body">
+    <ul class="distribution-information-preview">
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['RelatedUrls'],
+          name: 'RelatedUrls',
+          type: TypesHelper::RelatedUrlsType
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['Distributions'],
+          name: 'Distributions',
+          type: TypesHelper::DistributionsType
+      } %>
+
+    </ul>
+  </div>
+</div>

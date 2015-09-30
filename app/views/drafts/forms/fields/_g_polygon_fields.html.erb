@@ -1,0 +1,32 @@
+<div class="row sub-fields">
+  <!-- CenterPoint -->
+  <label>Center Point</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'point',
+      values: g_polygon['CenterPoint'] || {},
+      name_prefix: "#{name_prefix}|center_point|_",
+      multiple: false,
+      options: {} } %>
+
+
+  <!-- Boundary -->
+  <label class="icon-required">Boundary</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'boundary',
+      values: g_polygon['Boundary'] || {},
+      name_prefix: "#{name_prefix}boundary_",
+      multiple: false,
+      options: {minimum_points: 3} } %>
+
+
+
+  <!-- ExclusiveZone -->
+  <label>Exclusive Zone</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'exclusive_zone',
+      values: g_polygon['ExclusiveZone'] || {},
+      name_prefix: "#{name_prefix}|exclusive_zone|_",
+      multiple: false,
+      options: {minimum_points: 3} } %>
+
+</div>

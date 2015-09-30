@@ -1,0 +1,16 @@
+<div class="row sub-fields">
+  <!-- Type -->
+  <div class="col-6">
+
+    <label for="<%= remove_pipes(name_prefix) %>type" class="icon-required">Type</label><i class="fa fa-info-circle"></i>
+    <%= text_field_tag(name_to_param("#{name_prefix}type"), vertical_spatial_domain['Type'], class: 'full-width validate') %>
+  </div>
+
+
+  <!-- Value -->
+  <div class="col-6">
+
+    <label for="<%= remove_pipes(name_prefix) %>value" class="icon-required">Value</label><i class="fa fa-info-circle"></i>
+    <%= text_field_tag(name_to_param("#{name_prefix}value"), vertical_spatial_domain['Value'], class: 'full-width validate') %>
+  </div>
+</div>

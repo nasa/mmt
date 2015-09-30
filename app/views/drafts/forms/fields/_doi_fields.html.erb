@@ -1,0 +1,7 @@
+<!-- DOI -->
+<label for="<%= remove_pipes(name_prefix) %>doi" class="icon-required">DOI</label><i class="fa fa-info-circle"></i>
+<%= text_area_tag name_to_param("#{name_prefix}doi"), doi['DOI'], rows: 8, class: 'validate' %>
+
+<!-- Authority -->
+<label for="<%= remove_pipes(name_prefix) %>authority">Authority</label><i class="fa fa-info-circle"></i>
+<%= text_field_tag name_to_param("#{name_prefix}authority"), doi['Authority'], class: 'half-width validate' %>

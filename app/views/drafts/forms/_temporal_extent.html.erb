@@ -1,0 +1,59 @@
+<fieldset>
+  <!-- Temporal Extent [r] -->
+  <h3 class="icon-required">Temporal Extent</h3>
+  <div class="row">
+    <div class="col-12">
+      <div class="row sub-fields">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'temporal_extent',
+            values: draft.draft['TemporalExtents'] || [{}],
+            name_prefix: 'draft_|temporal_extents|_',
+            multiple: true,
+            options: {} } %>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset>
+  <!-- Temporal Keywords -->
+  <h3>Temporal Keywords</h3>
+  <div class="row">
+    <div class="col-12">
+      <div class="row sub-fields">
+        <% keywords = draft.draft['TemporalKeywords'] || [nil] # [nil] creates at least one keyword field %>
+        <div class="multiple simple-multiple temporal-keywords">
+          <label>Temporal Keyword</label><i class="fa fa-info-circle"></i>
+        <% keywords.each_with_index do |keyword, index| %>
+          <div class="multiple-item multiple-item-<%= index %>">
+            <%= text_field_tag(name_to_param("draft_|temporal_keywords|_#{index}"), keyword, class: 'half-width temporal-keyword simple-multiple-field validate') %>
+            <a class="remove"><i class="fa fa-times-circle"></i></a>
+            <div class="actions">
+              <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Keyword</button>
+            </div>
+          </div>
+        <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset>
+  <h3>Paleo Temporal Coverage</h3>
+  <!-- Paleo Temporal Coverage -->
+  <!-- PaleoTemporalCoverageType -->
+  <div class="row">
+    <div class="col-12">
+      <div class="row sub-fields">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'paleo_temporal_coverage',
+            values: draft.draft['PaleoTemporalCoverage'] || {},
+            name_prefix: 'draft_|paleo_temporal_coverage|_',
+            multiple: false,
+            options: {} } %>
+      </div>
+    </div>
+  </div>
+</fieldset>

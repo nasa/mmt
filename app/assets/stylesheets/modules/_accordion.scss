@@ -1,0 +1,38 @@
+.accordion-header {
+  padding: 0.1em;
+  background-color: $light-grey;
+  cursor: pointer;
+  margin-bottom: .5em;
+  font-weight: bold;
+  color: $dolphin-grey;
+
+  .actions {
+    display: inline-block;
+    margin: 0 1em;
+  }
+
+  &:hover {
+    background-color: lighten($light-grey,2%);
+  }
+
+  .toggle {
+    @include transition(all 0.1s ease-in-out);
+    margin-right: .5em;
+  }
+
+  .remove {
+    color: $red;
+  }
+}
+
+.accordion-body {
+  padding: 0;
+}
+
+.accordion.is-closed > .accordion-body {
+  display: none;
+}
+
+.accordion.is-closed > .accordion-header .toggle {
+  @include transform(rotate(-90deg));
+}

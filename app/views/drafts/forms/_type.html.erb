@@ -1,0 +1,37 @@
+<% options = {} unless options %>
+<% show_preview = options[:show_preview] ? true : false %>
+
+<% if multiple %>
+  <div class="multiple <%= (options[:type] || type).pluralize.dasherize %>">
+    <% values.each_with_index do |value, index| %>
+      <div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless value == values.last %>">
+        <div class="accordion-header">
+          <i class="fa fa-angle-down toggle"></i>
+          <%= options[:title] || type.titleize %> <%= index + 1 %>
+          <div class="actions">
+            <a class="remove"><i class="fa fa-times-circle"></i></a>
+          </div>
+        </div>
+        <div class="accordion-body">
+          <%= render partial: "drafts/forms/fields/#{type}_fields", locals: {
+              type.to_sym => value,
+              name_prefix: "#{name_prefix}#{index}_",
+              options: options.clone } %>
+          <% if show_preview %>
+            <%= link_to 'Preview on Map', edsc_map_path, class: 'spatial-preview-link', target: '_blank' %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <div class="actions">
+      <button type="button" class="btn btn-blue add-new"><i class="fa fa-plus-circle"></i> Add another <%= options[:title] || type.titleize.singularize %></button>
+    </div>
+  </div>
+<% else %>
+  <div class="<%= (options[:type] || type).dasherize %>">
+    <%= render partial: "drafts/forms/fields/#{type}_fields", locals: {
+        type.to_sym => values,
+        name_prefix: "#{name_prefix}",
+        options: options.clone } %>
+  </div>
+<% end %>

@@ -1,0 +1,7 @@
+<div class="row sub-fields">
+  <label for="<%= remove_pipes(name_prefix) %>type">Type</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}type"), contact['Type'], class: 'half-width validate') %>
+
+  <label for="<%= remove_pipes(name_prefix) %>value">Value</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}value"), contact['Value'], class: 'half-width validate') %>
+</div>

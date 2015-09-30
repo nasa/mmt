@@ -1,0 +1,47 @@
+<div class="preview-collection accordion is-closed">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    <h4>Descriptive Keyword Fields:</h4>
+  </div>
+  <div class="accordion-body">
+    <ul class="descriptive-keywords-preview">
+      <%# ISOTopicCategories implemented yet %>
+      <%#= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['ISOTopicCategories'],
+          name: 'ISOTopicCategories',
+          type: TypesHelper::ISOTopicCategoriesType
+      } %>
+      <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
+          key_name: 'ISOTopicCategories',
+          hash_for_key: metadata,
+          title_override: 'ISO Topic Categories',
+          options: DraftsHelper::ISOTopicCategoriesOptions
+      } %>
+
+      <% keywords = metadata['ScienceKeywords'] || [] %>
+      <% if keywords.size > 0 %>
+        <li class="top_field science-keywords">
+          <h4>Science Keywords</h4>
+          <ul class="sub-field">
+            <% keywords.each_with_index do |keyword, index| %>
+              <li class="science-keywords-<%= index %>">
+                <%= keyword_string(keyword) %>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
+          key_name: 'AncillaryKeywords',
+          hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['AdditionalAttributes'],
+          name: 'AdditionalAttributes',
+          type: TypesHelper::AdditionalAttributesType
+      } %>
+    </ul>
+  </div>
+</div>

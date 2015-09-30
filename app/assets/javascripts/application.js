@@ -12,5 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+//= require eui-0.3.5/eui
+//= require dropzone-4.0.1/dropzone
+//= require leanModal-1.1/jquery.leanModal.min
+//= require netinsight_2.3/ntpagetag
 //= require_tree .

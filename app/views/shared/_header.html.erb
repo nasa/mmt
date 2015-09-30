@@ -1,39 +1,71 @@
 <header>
-
-  <noscript>JAVASCRIPT MUST BE ENABLED FOR ADVANCED FUNCTIONS TO WORK</noscript>
   <div class="content">
     <div class="col-6">
       <div class="masthead-logo" id="masthead-logo">
-        <%= link_to root_url do %>
+        <%= link_to root_path do %>
             <h1>Metadata Management Tool (MMT)</h1>
-            <span class="badge badge-sm daac">GESDISC</span>
+            <% if logged_in? && @current_user.provider_id %>
+              <span class="badge badge-sm daac"><%= @current_user.provider_id %></span>
+            <% end %>
         <% end %>
       </div>
       <section id="user-info">
-        <p><strong>Rob Flores</strong></p>
-        <a href="#">Logout</a>
-        <a href="#">Account Settings</a>
+        <% if logged_in? %>
+          <p><strong><%= session[:name] %></strong></p>
+          <a href="#provider-context" id="change-context">Change Provider</a>
+          <%= link_to 'Logout', logout_path %>
+          <!-- <a href="#">Account Settings</a> -->
+        <% end %>
       </section>
     </div>
     <div class="col-6 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <% if controller_name.include? 'welcome'%>
-          <button type="button" class="btn btn-blue">Earthdata Login</button>
+        <%= link_to 'Earthdata Login', login_path, class: 'btn btn-blue' %>
       <% else %>
-          <section id="search">
-
-            <% remote = controller_name == 'search' %>
-            <%= form_tag(search_path, method: "get", remote: remote) do %>
-                <%= label_tag(:entry_id, "Quick Find") %>
-                <%= text_field_tag(:entry_id, nil, placeholder: 'Enter Entry Id') %>
-                <%= button_tag(type: 'submit', class: 'btn btn-blue') do %>
-                    <i class="fa fa-search"></i>Find
-                <% end %>
-            <% end %>
-
-            <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
-          </section>
+        <section id="search" class="full-width">
+          <%= render 'shared/search_form' %>
+        </section>
       <% end %>
     </div>
   </div>
 </header>
+
+<noscript>
+  <div id='javascript_warning' class="banner banner-danger">
+    <strong> JavaScript is disabled! </strong> JavaScript must be enabled for some features to work.
+  </div>
+</noscript>
+
+<% if logged_in? && @current_user.provider_id.nil? %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#change-context').click();
+    });
+  </script>
+<% end %>
+
+<div id="provider-context">
+  <% if logged_in? && @current_user.available_providers %>
+    <div>
+      <% if @current_user.available_providers.size > 1 %>
+        <p>
+          Please select your provider context. You can change your context at any point.
+        </p>
+
+        <p>
+          <%= select_tag 'select-provider', options_for_select(@current_user.available_providers.unshift(['Select Provider', '']), @current_user.provider_id), class: 'single-select' %>
+        </p>
+      <% else %>
+        <p>
+          You only have one available provider, <%= @current_user.provider_id %>
+        </p>
+      <% end %>
+
+      <p>
+        <%= link_to 'Refresh your available providers', refresh_user_providers_path, class: 'refresh-providers' %>
+        <span class='loading' style="display: none;"><i class="fa fa-circle-o-notch fa-spin"></i> Loading</span>
+      </p>
+    </div>
+  <% end %>
+</div>

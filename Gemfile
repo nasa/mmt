@@ -4,6 +4,9 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 
+# deployment support
+gem 'sprockets', '~> 2.8'
+
 gem 'faraday'
 gem 'faraday_middleware', '<= 0.9.0'
 gem 'multi_xml'
@@ -15,12 +18,10 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -51,11 +52,17 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'vcr'
+  gem 'factory_girl_rails'
+  gem 'jshint'
 end
 
 group :test do
   gem 'capybara'
-  gem 'capybara-webkit'
+  gem 'poltergeist'
+  gem 'launchy'
+  gem 'capybara-screenshot'
+  gem 'rack_session_access'
+  gem 'rspec_junit_formatter'
 end
 
 group :production do
@@ -63,3 +70,8 @@ group :production do
 end
 
 gem 'figaro'
+
+gem 'json-schema'
+gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
+
+gem 'database_cleaner' # added to provide a solution to Capybara's problems with js=>true

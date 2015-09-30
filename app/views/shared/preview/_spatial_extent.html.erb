@@ -1,0 +1,34 @@
+<div class="preview-collection accordion is-closed">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    <h4>Spatial Extent Fields:</h4>
+  </div>
+  <div class="accordion-body">
+    <ul class="spatial-extent-preview">
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['SpatialExtent'],
+          name: 'SpatialExtent',
+          type: TypesHelper::SpatialExtentType
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['TilingIdentificationSystem'],
+          name: 'TilingIdentificationSystem',
+          type: TypesHelper::TilingIdentificationSystemType
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['SpatialInformation'],
+          name: 'SpatialInformation',
+          type: TypesHelper::SpatialInformationType
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
+          key_name: 'SpatialKeywords',
+          hash_for_key: metadata
+      } %>
+
+    </ul>
+  </div>
+</div>

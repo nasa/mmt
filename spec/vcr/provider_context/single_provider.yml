@@ -1,0 +1,181 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://testbed.echo.nasa.gov/echo-rest/users/current.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.9
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Echo-Token:
+      - access_token
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      server:
+      - Apache-Coyote/1.1
+      etag:
+      - '"85386ce3ac20fd36229ca56286f4e844"'
+      cache-control:
+      - max-age=0, private, must-revalidate
+      x-ua-compatible:
+      - IE=Edge,chrome=1
+      x-runtime:
+      - '0.301000'
+      content-type:
+      - application/json;charset=utf-8
+      vary:
+      - Accept-Encoding
+      date:
+      - Thu, 17 Sep 2015 01:48:15 GMT
+      connection:
+      - close
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"user":{"addresses":[{"country":"United States","id":"A99B2A49-8B8D-B339-777C-255B0827F356","us_format":false}],"creation_date":"2014-09-15T22:19:15Z","email":"email@email.com","first_name":"Matthew","id":"user-echo-token","last_name":"LastName","opt_in":false,"primary_study_area":"UNSPECIFIED","user_domain":"OTHER","user_region":"USA","user_type":"UNSPECIFIED","username":"test_user"}}'
+    http_version:
+  recorded_at: Thu, 17 Sep 2015 01:48:15 GMT
+- request:
+    method: get
+    uri: https://testbed.echo.nasa.gov/echo-rest/groups.json?member_id=user-echo-token
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.9
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Echo-Token:
+      - echo-system-token
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      server:
+      - Apache-Coyote/1.1
+      etag:
+      - '"4c192abbda873f7069e80969eb602bf1"'
+      cache-control:
+      - max-age=0, private, must-revalidate
+      x-ua-compatible:
+      - IE=Edge,chrome=1
+      x-runtime:
+      - '0.855000'
+      content-type:
+      - application/json;charset=utf-8
+      vary:
+      - Accept-Encoding
+      date:
+      - Thu, 17 Sep 2015 01:48:16 GMT
+      connection:
+      - close
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"group": {"description": "Local admin group for provider MMT_2","id": "group-guid-2","member_guids": ["user-echo-token"],"name": "Administrator Group","new_user_guid": "","owner_provider_guid": "owner-provider-guid"}}]'
+    http_version:
+  recorded_at: Thu, 17 Sep 2015 01:48:16 GMT
+- request:
+    method: get
+    uri: https://testbed.echo.nasa.gov/echo-rest/acls.json?object_identity_type=PROVIDER_OBJECT&reference=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.9
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Echo-Token:
+      - echo-system-token
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      server:
+      - Apache-Coyote/1.1
+      etag:
+      - '"46d49d7fcd0f60c80032a02e09e2f377"'
+      cache-control:
+      - max-age=0, private, must-revalidate
+      x-ua-compatible:
+      - IE=Edge,chrome=1
+      x-runtime:
+      - '7.153000'
+      content-type:
+      - application/json;charset=utf-8
+      vary:
+      - Accept-Encoding
+      date:
+      - Thu, 17 Sep 2015 01:48:24 GMT
+      connection:
+      - close
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"acl": {"access_control_entries": [{"permissions": ["UPDATE", "READ"],"sid": {"group_sid": {"group_guid": "group-guid-2"}}}],"id": "acl-guid-2","provider_object_identity": {"provider_guid": "provider-guid-2","target": "INGEST_MANAGEMENT_ACL"}}}]'
+    http_version:
+  recorded_at: Thu, 17 Sep 2015 01:48:24 GMT
+- request:
+    method: get
+    uri: https://testbed.echo.nasa.gov/echo-rest/providers.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.9
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      server:
+      - Apache-Coyote/1.1
+      etag:
+      - '"d46cfd42dd6915fd27a33b52a52b9f14"'
+      cache-control:
+      - max-age=0, private, must-revalidate
+      x-ua-compatible:
+      - IE=Edge,chrome=1
+      x-runtime:
+      - '1.085000'
+      content-type:
+      - application/json;charset=utf-8
+      vary:
+      - Accept-Encoding
+      date:
+      - Thu, 17 Sep 2015 01:48:25 GMT
+      connection:
+      - close
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"provider":{"additional_information":"Additional info...","contacts":[{"address":{"address_name":"Business","city":"Riverdale","country":"United States","state":"MD","street1":"5700 Rivertech Ct","us_format":true,"zip":"20774"},"email":"email@email.com","first_name":"Mathew","last_name":"LastName","middle_initial":"A","phones":[{"number":"555-555-5555","phone_number_type":"BUSINESS"}],"role":"Admin role","title":"Mr."}],"description_of_holdings":"If I were a holding description, I would be here","description_of_services":"description of services...","discovery_urls":["http://discoverurl.com"],"id":"provider-guid-2","organization_name":"MMT","provider_id":"MMT_2","provider_types":["CMR"],"rest_only":true}},{"provider":{"additional_information":"Additional info...","contacts":[{"address":{"address_name":"Business","city":"Riverdale","country":"United States","state":"MD","street1":"5700 Rivertech Ct","us_format":true,"zip":"20774"},"email":"email@email.com","first_name":"Mathew","last_name":"LastName","middle_initial":"A","phones":[{"number":"555-555-5555","phone_number_type":"BUSINESS"}],"role":"Admin role","title":"Mr."}],"description_of_holdings":"If I were a holding description, I would be here","description_of_services":"description of services...","discovery_urls":["http://discoverurl.com"],"id":"provider-guid-1","organization_name":"MMT","provider_id":"MMT_1","provider_types":["CMR"],"rest_only":true}}]'
+    http_version:
+  recorded_at: Thu, 17 Sep 2015 01:48:26 GMT
+recorded_with: VCR 2.9.3

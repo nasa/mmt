@@ -1,11 +1,6 @@
-<% #= @table_rows %>
-<input type="hidden" id="entry_id" value="<%= @entry_id %>" />
-<input type="hidden" id="sort" value="<%= @sort %>" />
+<%#= render :partial=>"shared/pagination", :locals => {:table_rows=> @collections} %>
 
-
-<%= render :partial=>"pagination"  %>
-
-<table>
+<table id="search-results">
   <thead>
   <tr>
     <!-- Temporarily commented out because this is not a part of the MVP %-->
@@ -16,32 +11,47 @@
   </tr>
   </thead>
   <tbody>
-  <% if @table_rows.blank? %>
+
+    <% @errors.each do |error| %>
+      <tr>
+        <td colspan="4">
+          <strong>Error:</strong> <%= error %>
+        </td>
+      </tr>
+    <% end %>
+
+    <% if @collections.blank? %>
       <tr>
         <td colspan="4">
           No collections found
         </td>
       </tr>
-  <% else %>
-      <% @table_rows.each do |row| %>
-          <tr class='<%= cycle("alt", "") %>'>
-            <!-- Temporarily commented out because this is not a part of the MVP %-->
-            <!--td>
-              <input type="checkbox" name="name" value="">
-            </td-->
-            <td>
-              <%= row['id']%>
-            </td>
-            <td>
-              <%= row['title']%>
-            </td>
-            <td>
-              <% fragments = row['updated'].split('T')
-                 date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
-              <%= date %>
-            </td>
-          </tr>
+    <% else %>
+
+      <% @collections.each do |collection| %>
+        <tr class='<%= cycle("alt", "") %>'>
+          <!-- Temporarily commented out because this is not a part of the MVP %-->
+          <!--td>
+            <input type="checkbox" name="name" value="">
+          </td-->
+          <td>
+            <% if collection['meta']['draft_id'] %>
+              <%= link_to "#{collection['umm']['entry-id']} (Draft)", draft_path(collection['meta']['draft_id'])%>
+            <% else %>
+              <%= link_to collection['umm']['entry-id'], collection_path(collection['meta']['concept-id'])%>
+            <% end %>
+          </td>
+          <td>
+            <%= collection['umm']['entry-title']%>
+          </td>
+          <td>
+            <% fragments = collection['meta']['revision-date'].split('T')
+               date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
+            <%= date %>
+          </td>
+        </tr>
       <% end %>
-  <% end %>
+
+    <% end %>
   </tbody>
 </table>

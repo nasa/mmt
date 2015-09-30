@@ -1,40 +1,84 @@
-<aside class="banner banner-warn">
+<% if !@notification.nil? %>
+  <aside class="banner banner-warn">
+    <div class="content">
+      <p>
+          <%= raw(@notification) %>
+      </p>
+    </div>
+  </aside>
+<% end %>
+<nav>
   <div class="content">
-    <p><strong>CMR Outage (Apr 26 2015 10:00EDT to Apr 26 2015 22:00 EDT):</strong> User may experience connectivity issues with EOSDIS.</p>
-  </div>
-</aside>
-<main class="dashboard">
-  <nav>
     <h2 class="current">Manage Metadata</h2>
-    <h2><a href="#">Manage CMR</a></h2>
-  </nav>
-  <article id="metadata">
+    <!-- <h2><a href="#">Manage CMR</a></h2> -->
+  </div>
+</nav>
+<main class="dashboard">
+  <article id="metadata" class="row-content">
     <section class="callout-box col-left">
       <div class="callout-content">
+        <h3>Create New Record</h3>
+        <%= form_tag(new_record_path, method: 'get', enforce_utf8: false) do %>
+          <div class="question-group">
+            <div class="row">
+              <%= radio_button_tag(:type, "new_collection") %>
+              <%= image_tag "collection.png" %>
+              <label for="type_new_collection">
+                New Collection Record
+              </label>
+            </div>
+            <div class="row">
+              <%= radio_button_tag(:type, "new_service", nil, disabled: true) %>
+              <!-- <%= image_tag "services.png" %> -->
+              <label class="disabled" for="new-service">New Service Record</label><span class="coming-soon">Coming Soon</span>
+            </div>
+          </div>
+          <div class="question-group">
+            <div class="row">
+              <%= radio_button_tag(:type, "from_template", nil, disabled: true) %>
+              <label class="disabled" for="from-template">From Template</label><span class="coming-soon">Coming Soon</span>
+              <!-- <select name="select-template" class="single-select">
+                <option value="Select Template">Select Template</option>
+              </select> -->
+            </div>
+            <div class="row">
+              <%= radio_button_tag(:type, "blank_record", nil, disabled: true) %>
+              <label class="disabled" for="blank-record">From Blank Record</label><span class="coming-soon">Coming Soon</span>
+            </div>
+            <div class="row">
+              <p><strong>OR</strong> use search to find an existing record to use as a basis for a new record</p>
+            </div>
+          </div>
+          <div class="row">
+            <input type="submit" class="btn btn-blue submit" value="Create Record">
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="callout-box col-left">
+      <div class="callout-content open-drafts">
         <h3>Your Open Drafts</h2>
         <ul>
-          <li>
-            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-          </li>
-          <li>
-            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-          </li>
-          <li>
-            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-          </li>
-          <li>
-            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-          </li>
-          <li>
-            <p><time datetime="2015-04-23">2014-04-23</time> | ASF57FR15<br>Global Cyclone Lorem Ipsum</p>
-          </li>
-          <li>
-            <a href="#">More</a>
-          </li>
+          <% @drafts[0..@draft_display_max_count-1].each do |draft| %>
+            <li>
+              <p>
+                <%= time_tag draft.updated_at, draft.updated_at.strftime("%Y-%m-%d") %> |
+                <%= link_to draft.display_entry_id, draft_path(draft) %> </br>
+                &nbsp;<%= draft.display_entry_title.truncate(32) %>
+              </p>
+            </li>
+          <% end %>
+          <% if @drafts.size > @draft_display_max_count %>
+            <li>
+              <%= link_to 'More', open_drafts_path %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </section>
-    <section class="callout-box col-left">
+
+    <!-- <section class="callout-box col-left">
       <div class="callout-content">
         <h3>Comments Received</h3>
         <ul>
@@ -84,8 +128,9 @@
           </li>
         </ul>
       </div>
-    </section>
-    <section class="callout-box col-left">
+    </section> -->
+
+    <!-- <section class="callout-box col-left">
       <div class="callout-content">
         <h3>Your Recently Published Collections</h3>
         <ul>
@@ -109,51 +154,16 @@
           </li>
         </ul>
       </div>
-    </section>
-    <section class="callout-box col-left">
-      <div class="callout-content">
-        <h3>Create New Record</h3>
-        <form action="">
-          <div class="question-group">
-            <div class="row">
-              <input type="radio" name="new-collection">
-              <%= image_tag "collection.png" %>
-              <label for="new-collection">
-                New Collection Record
-              </label>
-            </div>
-            <div class="row">
-              <input type="radio" name="new-service">
-              <%= image_tag "services.png" %>
-              <label for="new-service">New Service Record</label>
-            </div>
-          </div>
-          <div class="question-group">
-            <div class="row">
-              <input type="radio" name="from-template">
-              <label for="from-template">From Template</label>
-              <select name="select-template" class="single-select">
-                <option value="Select Template">Select Template</option>
-              </select>
-            </div>
-            <div class="row">
-              <input type="radio" name="blank-record">
-              <label for="blank-record">From Blank Record<br><strong>OR</strong> use <a href="#">search</a> to find an existing record to use as a basis for a new record</label>
-            </div>
-          </div>
-          <div class="row">
-            <input type="submit" class="btn submit" value="Create Record">
-          </div>
-        </form>
-      </div>
-    </section>
+    </section> -->
+
     <section class="callout-box col-left">
       <div class="callout-content">
         <h3>Upload XML Files</h3>
-        <a href="#">Select files</a>
+        <a class="btn btn-default btn-sm disabled" href="javascript:void(0);">Select files</a><span class="coming-soon">Coming Soon</span>
       </div>
     </section>
-    <section class="callout-box col-left">
+
+    <!-- <section class="callout-box col-left">
       <div class="callout-content">
         <h3>Collection Templates</h3>
         <div class="row">
@@ -162,8 +172,9 @@
         <div class="row">
           <a href="#">New Template</a>
         </div>
-
       </div>
-    </section>
+    </section> -->
   </article>
 </main>
+<div class="push">
+</div>

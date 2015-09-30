@@ -1,0 +1,27 @@
+<!-- Metadata language -->
+<fieldset>
+  <h3>Metadata Language</h3>
+  <div class="row taller">
+    <div class="col-12">
+      <label for="draft_metadata_language" class="main-field">Metadata Language</label><i class="fa fa-info-circle"></i>
+      <%= text_field_tag('draft[metadata_language]', draft.draft['MetadataLanguage'], placeholder: 'English', class: 'half-width validate') %>
+    </div>
+  </div>
+</fieldset>
+
+<!-- Metadata Dates -->
+<fieldset>
+  <h3>Metadata Dates</h3>
+  <div class="row">
+    <div class="col-12">
+      <div class="row sub-fields">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'date',
+            values: draft.draft['MetadataDates'] || [{}],
+            name_prefix: 'draft_|metadata_dates|_',
+            multiple: true,
+            options: {} } %>
+      </div>
+    </div>
+  </div>
+</fieldset>

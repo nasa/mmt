@@ -1,0 +1,59 @@
+<div class="row sub-fields">
+  <!-- Short Name [r] -->
+  <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), instruments['ShortName'], class: 'half-width validate') %>
+
+
+  <!-- Long Name -->
+  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), instruments['LongName'], class: 'half-width validate') %>
+
+
+  <!-- Characteristics -->
+  <label>Characteristics</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'characteristics',
+      values: instruments['Characteristics'] || [{}],
+      name_prefix: "#{name_prefix}characteristics_",
+      multiple: true,
+      options: {} } %>
+
+
+  <!-- Technique -->
+  <label for="<%= remove_pipes(name_prefix) %>technique">Technique</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}technique"), instruments['Technique'], rows: 8, class: 'validate') %>
+
+
+  <!-- NumberOfSensors -->
+  <label for="<%= remove_pipes(name_prefix) %>number_of_sensors">Number Of Sensors</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|number_of_sensors|"), instruments['NumberOfSensors'], class: 'half-width validate mmt-integer') %>
+
+
+  <!-- OperationalMode -->
+  <% modes = instruments['OperationalModes'] || [nil] # [nil] creates at least one field %>
+  <div class="multiple simple-multiple operational-mode">
+    <label for="<%= remove_pipes(name_prefix) %>operational_modes_">Operational Mode</label><i class="fa fa-info-circle"></i>
+
+
+  <% modes.each_with_index do |mode, index| %>
+    <div class="multiple-item multiple-item-<%= index %>">
+      <%= text_field_tag(name_to_param("#{name_prefix}|operational_modes|_#{index}"), mode, class: 'half-width operational-mode simple-multiple-field validate') %>
+      <a class="remove"><i class="fa fa-times-circle"></i></a>
+      <div class="actions">
+        <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Mode</button>
+      </div>
+    </div>
+  <% end %>
+  </div>
+
+
+  <!-- Sensors -->
+  <label>Sensors</label><i class="fa fa-info-circle"></i>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'sensors',
+      values: instruments['Sensors'] || [{}],
+      name_prefix: "#{name_prefix}sensors_",
+      multiple: true,
+      options: {} } %>
+
+</div>

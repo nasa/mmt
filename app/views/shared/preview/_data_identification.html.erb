@@ -1,0 +1,109 @@
+<div class="preview-collection accordion is-closed">
+  <div class="accordion-header">
+    <i class="fa fa-angle-down toggle"></i>
+    <h4>Data Identification Fields:</h4>
+  </div>
+  <div class="accordion-body">
+    <ul class="data-identification-preview">
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'EntryId',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'Version',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'EntryTitle',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'Abstract',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'Purpose',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'DataLanguage',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['DataDates'],
+          name: 'DataDates',
+          type: TypesHelper::DateType
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['Organizations'],
+          name: 'Organizations',
+          type: TypesHelper::ResponsibilityType
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['Personnel'],
+          name: 'Personnel',
+          type: TypesHelper::ResponsibilityType
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_single_select_field_line', locals: {
+          key_name: 'CollectionDataType',
+          hash_for_key: metadata,
+          options: DraftsHelper::CollectionDataTypeOptions
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['ProcessingLevel'],
+          name: 'ProcessingLevel',
+          type: TypesHelper::ProcessingLevelType
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['CollectionCitations'],
+          name: 'CollectionCitations',
+          type: TypesHelper::ResourceCitationType
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_single_select_field_line', locals: {
+          key_name: 'CollectionProgress',
+          hash_for_key: metadata,
+          options: DraftsHelper::CollectionProgressOptions
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'Quality', hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'UseConstraints', hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['AccessConstraints'],
+          name: 'AccessConstraints',
+          type: TypesHelper::AccessConstraintsType
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['MetadataAssociations'],
+          name: 'MetadataAssociations',
+          type: TypesHelper::MetadataAssociationsType
+      } %>
+
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['PublicationReferences'],
+          name: 'PublicationReferences',
+          type: TypesHelper::PublicationReferencesType
+      } %>
+
+    </ul>
+  </div>
+</div>

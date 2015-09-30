@@ -1,0 +1,70 @@
+<div class="row sub-fields">
+  <!-- Name -->
+  <label for="<%= remove_pipes(name_prefix) %>name" class="icon-required">Name</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}name"), additional_attribute['Name'], class: 'half-width validate') %>
+
+
+  <!-- Description -->
+  <label for="<%= remove_pipes(name_prefix) %>description">Description</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}description"), additional_attribute['Description'], rows: 8, class: 'validate') %>
+
+
+
+  <!-- Value -->
+  <label for="<%= remove_pipes(name_prefix) %>value">Value</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}value"), additional_attribute['Value'], rows: 8, class: 'validate') %>
+
+
+
+  <!-- DataType -->
+  <label for="<%= remove_pipes(name_prefix) %>data_type" class="icon-required">Data Type</label><i class="fa fa-info-circle"></i>
+  <%= select_tag name_to_param("#{name_prefix}|data_type|"), options_for_select(DraftsHelper::DataTypeOptions, additional_attribute['DataType']), class: 'single-select validate' %>
+
+
+
+  <!-- MeasurementResolution -->
+  <label for="<%= remove_pipes(name_prefix) %>measurement_resolution">Measurement Resolution</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|measurement_resolution|"), additional_attribute['MeasurementResolution'], class: 'half-width validate') %>
+
+
+
+  <!-- ParameterRangeBegin -->
+  <label for="<%= remove_pipes(name_prefix) %>parameter_range_begin">Parameter Range Begin</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_begin|"), additional_attribute['ParameterRangeBegin'], class: 'half-width validate') %>
+
+
+
+  <!-- ParameterRangeEnd -->
+  <label for="<%= remove_pipes(name_prefix) %>parameter_range_end">Parameter Range End</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_end|"), additional_attribute['ParameterRangeEnd'], class: 'half-width validate') %>
+
+
+
+  <!-- ParameterUnitsOfMeasure -->
+  <label for="<%= remove_pipes(name_prefix) %>parameter_units_of_measure">Parameter Units Of Measure</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|parameter_units_of_measure|"), additional_attribute['ParameterUnitsOfMeasure'], class: 'half-width validate') %>
+
+
+
+  <!-- ParameterValueAccuracy -->
+  <label for="<%= remove_pipes(name_prefix) %>parameter_value_accuracy">Parameter Value Accuracy</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}|parameter_value_accuracy|"), additional_attribute['ParameterValueAccuracy'], class: 'half-width validate') %>
+
+
+
+  <!-- ValueAccuracyExplanation -->
+  <label for="<%= remove_pipes(name_prefix) %>value_accuracy_explanation">Value Accuracy Explanation</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}|value_accuracy_explanation|"), additional_attribute['ValueAccuracyExplanation'], rows: 8, class: 'validate') %>
+
+
+
+  <!-- Group -->
+  <label for="<%= remove_pipes(name_prefix) %>group">Group</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}group"), additional_attribute['Group'], class: 'half-width validate') %>
+
+
+
+  <!-- UpdateDate -->
+  <label for="<%= remove_pipes(name_prefix) %>update_date">Update Date</label><i class="fa fa-info-circle"></i>
+  <%= datetime_field_tag(name_to_param("#{name_prefix}|update_date|"), additional_attribute['UpdateDate'], class: 'full-width validate mmt-date-time') %>
+</div>

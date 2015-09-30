@@ -1,0 +1,59 @@
+<main class="internal record">
+  <header>
+    <div class="content">
+      <div class="breadcrumb">
+        <ol>
+          <li><%= link_to 'Manage Metadata Dashboard', dashboard_path %></li>
+          <li><%= link_to 'Search Results', '#', class: 'disabled' %></li>
+          <li><%= @collection['EntryTitle'] || 'New Collection' %></li>
+        </ol>
+      </div>
+      <h2><%= @collection['EntryTitle'] || 'New Collection' %></h2>
+      <% unless @error %>
+        <p class="subtitle">Published Record</p>
+        <p class="subtitle">
+          <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id), alt: 'Edit Record' %>
+        </p>
+      <% end %>
+    </div>
+  </header>
+  <div class="row row-content">
+    <% if @error %>
+      <div class="banner banner-info">
+        <p>
+          <%= @error %>
+        </p>
+      </div>
+    <% else %>
+      <section class="action">
+        <div class="cta">
+          <p>
+            <a class="disabled" href="#" alt="Save as Template">Save as Template</a> |
+            <a class="disabled" href="#" alt="Clone this Record">Clone this Record</a> |
+            <a class="disabled" href="#" alt="Download XML">Download XML</a> |
+            <%= link_to 'Delete Record', collection_path, method: :delete, alt: 'Delete Record', data: { confirm: 'Are you sure you want to delete this record?' }, class: 'delete-collection' %>
+          </p>
+          <p>
+            <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path, alt: 'Revisions' %> |
+            <a class="collection-granule-count disabled" href="#" alt="Granules">Granules (<%= @num_granules %>)</a> |
+          </p>
+        </div>
+        <div class="quality-score disabled">
+          <div class="badges">
+            <i class="fa fa-star fa-lg"></i>
+            <i class="fa fa-star fa-lg"></i>
+            <i class="fa fa-star fa-lg"></i>
+            <i class="fa fa-star fa-lg"></i>
+            <i class="fa fa-star-o fa-lg"></i>
+          </div>
+          <div class="score-info">
+            <p>Quality Score: <strong>20</strong></p>
+            <p>Required fields not complete</p>
+          </div>
+        </div>
+      </section>
+
+      <%= render partial: 'shared/preview/metadata_preview', locals: { metadata: @collection } %>
+    <% end %>
+  </div>
+</main>

@@ -1,0 +1,68 @@
+<% options.delete(:title) %>
+<div class="row sub-fields">
+  <label for="<%= remove_pipes(name_prefix) %>role" class="icon-required">Role</label><i class="fa fa-info-circle"></i>
+  <%= select_tag name_to_param("#{name_prefix}role"), options_for_select(DraftsHelper::RoleOptions, responsibility['Role']), class: 'single-select validate' %>
+
+  <% party = responsibility['Party'] || {} %>
+  <!-- Person or Org radio buttons -->
+  <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
+  <% person_checked = !party['Person'].nil? %>
+  <% organization_checked = !party['OrganizationName'].nil? %>
+  <div class="party-type" style="<%= 'display: none;' if options[:limit_type] %>">
+    <input type="radio" id="<%= remove_pipes(name_prefix) %>responsibility_organization" value="organization" class="responsibility-picker organization" <%= 'checked="checked"' if organization_checked || options[:limit_type] == 'organization' %>>
+    <label for="<%= remove_pipes(name_prefix) %>responsibility_organization">Organization</label>
+    <input type="radio" id="<%= remove_pipes(name_prefix) %>responsibility_person" value="person" class="responsibility-picker person" <%= 'checked="checked"' if person_checked || options[:limit_type] == 'personnel' %>>
+    <label for="<%= remove_pipes(name_prefix) %>responsibility_person">Person</label>
+  </div>
+
+  <!-- org fields -->
+  <div class="organization-fields" style="<%= 'display: none;' if person_checked || options[:limit_type] == 'personnel' %>">
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'organization_name',
+        values: party['OrganizationName'] || {},
+        name_prefix: "#{name_prefix}party_",
+        multiple: false,
+        options: options.clone } %>
+  </div>
+
+  <!-- person fields -->
+  <div class="person-fields" style="<%= 'display: none;' if organization_checked || options[:limit_type] == 'organization' %>">
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'person',
+        values: party['Person'] || {},
+        name_prefix: "#{name_prefix}party_",
+        multiple: false,
+        options: options.clone } %>
+  </div>
+
+  <!-- all party fields -->
+  <label for="<%= remove_pipes(name_prefix) %>party_service_hours">Service Hours</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}party_|service_hours|"), party['ServiceHours'], class: 'half-width validate') %>
+
+  <label for="<%= remove_pipes(name_prefix) %>party_contact_instructions">Contact Instructions</label><i class="fa fa-info-circle"></i>
+  <%= text_field_tag(name_to_param("#{name_prefix}party_|contact_instructions|"), party['ContactInstructions'], class: 'half-width validate') %>
+
+  <!-- Contact - multiple -->
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'contact',
+      values: party['Contacts'] || [{}],
+      name_prefix: "#{name_prefix}party_contacts_",
+      multiple: true,
+      options: options.clone } %>
+
+  <!-- Address - multiple -->
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'address',
+      values: party['Addresses'] || [{}],
+      name_prefix: "#{name_prefix}party_addresses_",
+      multiple: true,
+      options: options.clone } %>
+
+  <!-- RelatedUrl - multiple -->
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'related_url',
+      values: party['RelatedUrls'] || [{}],
+      name_prefix: "#{name_prefix}party_|related_urls|_",
+      multiple: true,
+      options: options.clone } %>
+</div>

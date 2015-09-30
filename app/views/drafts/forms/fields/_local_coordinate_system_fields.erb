@@ -1,0 +1,11 @@
+<div class="row sub-fields">
+  <!-- GeoReferenceInformation -->
+  <label for="<%= remove_pipes(name_prefix) %>geo_reference_information">Geo Reference Information</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}|geo_reference_information|"), local_coordinate_system['GeoReferenceInformation'], rows: 8, class: 'validate') %>
+
+
+  <!-- Description -->
+  <label for="<%= remove_pipes(name_prefix) %>description">Description</label><i class="fa fa-info-circle"></i>
+  <%= text_area_tag(name_to_param("#{name_prefix}description"), local_coordinate_system['Description'], rows: 8, class: 'validate') %>
+
+</div>
