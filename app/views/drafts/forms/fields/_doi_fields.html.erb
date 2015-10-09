@@ -1,7 +1,7 @@
 <!-- DOI -->
-<label for="<%= remove_pipes(name_prefix) %>doi" class="icon-required">DOI</label><i class="fa fa-info-circle"></i>
+<label for="<%= remove_pipes(name_prefix) %>doi" class="icon-required">DOI</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/DoiType/properties/DOI"></i></a>
 <%= text_area_tag name_to_param("#{name_prefix}doi"), doi['DOI'], rows: 8, class: 'validate' %>
 
 <!-- Authority -->
-<label for="<%= remove_pipes(name_prefix) %>authority">Authority</label><i class="fa fa-info-circle"></i>
+<label for="<%= remove_pipes(name_prefix) %>authority">Authority</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/DoiType/properties/Authority"></i></a>
 <%= text_field_tag name_to_param("#{name_prefix}authority"), doi['Authority'], class: 'half-width validate' %>

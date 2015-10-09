@@ -3,7 +3,7 @@
   <h3>ISO Topic Category</h3>
   <div class="row taller">
     <div class="col-12">
-      <label for="draft_iso_topic_categories_">ISO Topic Categories</label><i class="fa fa-info-circle"></i>
+      <label for="draft_iso_topic_categories_">ISO Topic Categories</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i></a>
       <%= select_tag "#{name_to_param('draft_|iso_topic_categories|')}[]", options_for_select(DraftsHelper::ISOTopicCategoriesOptions, draft.draft['ISOTopicCategories']), class: 'multi-select', size: 4, multiple: 'true' %>
     </div>
   </div>
@@ -49,11 +49,11 @@
   <!-- AncillaryKeyword -->
   <div class="row taller">
     <div class="col-12">
-      <label for="ancillary_keyword">Ancillary Keywords</label><i class="fa fa-info-circle"></i>
+      <label for="ancillary_keyword">Ancillary Keywords</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="properties/AncillaryKeywords"></i></a>
       <div class="row">
         <% ancillary_keywords = draft.draft['AncillaryKeywords'] || [nil] # [nil] creates at least one field %>
         <div class="multiple simple-multiple ancillary-keywords">
-          <label for="draft_ancillary_keywords_">Ancillary Keyword</label><i class="fa fa-info-circle"></i>
+          <label for="draft_ancillary_keywords_">Ancillary Keyword</label>
           <% ancillary_keywords.each_with_index do |ancillary_keyword, index| %>
             <div class="multiple-item multiple-item-<%= index %>">
               <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate') %>
