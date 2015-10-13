@@ -16,6 +16,7 @@ $(document).ready ->
     maxLength = getMaxLength(helpPath)
     pattern = getPattern(helpPath)
     description = getDescription(helpPath)
+    format = getFormat(helpPath)
 
     # Set the field title and description
     $('#help-modal .title').text(title)
@@ -25,11 +26,12 @@ $(document).ready ->
     # Display or hide validation hints
     validations = $('#help-modal .validations')
     $(validations).parent().show()
+    $("<li>Format: #{format}</li>").appendTo(validations) if format?
     $("<li>Minimum Items: #{minItems}</li>").appendTo(validations) if minItems?
     $("<li>Minimum Length: #{minLength}</li>").appendTo(validations) if minLength?
     $("<li>Maximum Length: #{maxLength}</li>").appendTo(validations) if maxLength?
     $("<li>Pattern: #{pattern}</li>").appendTo(validations) if pattern?
-    if !minItems? and !minLength? and !maxLength? and !pattern?
+    if !format? and !minItems? and !minLength? and !maxLength? and !pattern?
       $(validations).parent().hide()
 
     # FIXME URLs title turns into U R Ls
@@ -83,3 +85,14 @@ $(document).ready ->
       pattern = getPattern(ref)
 
     pattern
+
+  getFormat = (path) ->
+    schema = getSchemaProperties(path)
+    format = schema.format
+    if !format? and schema['$ref']?
+      ref = schema['$ref'].split('/')
+      ref.shift()
+      format = getFormat(ref)
+
+    format = "date-time (yyyy-MM-dd'T'HH:mm:ssZ)" if format == 'date-time'
+    format
