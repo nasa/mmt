@@ -7,7 +7,7 @@ class SearchController < ApplicationController
   def index
     page = params[:page].to_i || 1
     page = 1 if page < 1
-    #sort = params[:sort] || DEFAULT_SORT_ORDER
+    # sort = params[:sort] || DEFAULT_SORT_ORDER
 
     @results_per_page = RESULTS_PER_PAGE
 
@@ -43,8 +43,7 @@ class SearchController < ApplicationController
       end
     end
 
-    @query['page'] = page
-    @query['page_num'] = page # TODO - get rid of page and use page_num exclusively ?
+    @query['page_num'] = page
     @query['page_size'] = @results_per_page
 
     good_query_params = prune_query(@query.clone)
@@ -70,7 +69,7 @@ class SearchController < ApplicationController
     query.delete('record_state')
 
     published_collections = cmr_client.get_collections(query, token).body
-    @total_hit_count = @total_hit_count + published_collections['hits'].to_i
+    @total_hit_count += published_collections['hits'].to_i
     if published_collections['errors']
       @errors = published_collections['errors']
       published_collections = []
@@ -84,17 +83,16 @@ class SearchController < ApplicationController
   def get_drafts(query)
     query.delete('record_state')
 
-    offset = RESULTS_PER_PAGE * (query['page_num']-1)
-    query.delete('page')
+    # offset = RESULTS_PER_PAGE * (query['page_num']-1)
     query.delete('page_num')
     query.delete('page_size')
     query.delete('_')
 
-    #query['offset'] = offset
+    # query['offset'] = offset
 
     draft_collections = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
 
-    @total_hit_count = @total_hit_count + draft_collections.size
+    @total_hit_count += draft_collections.size
 
     # Map drafts to same structure we get from CMR
     draft_collections.map do |draft|
@@ -115,8 +113,8 @@ class SearchController < ApplicationController
     published_collections = get_published(query.clone)
     draft_collections = get_drafts(query)
 
-    published_collections.concat(draft_collections).sort { |x, y|
+    published_collections.concat(draft_collections).sort do |x, y|
       x['umm']['entry-title'] <=> y['umm']['entry-title']
-    }
+    end
   end
 end

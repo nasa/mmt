@@ -11,12 +11,12 @@ describe 'Search Result Pagination', js: true do
 
   context 'when viewing search results with multiple pages' do
     it 'displays pagination links' do
-      expect(page).to have_css('a', :text => "First")
-      expect(page).to have_css('a', :text => "1")
-      expect(page).to have_css('a', :text => "2")
-      expect(page).to have_css('a', :text => "3")
-      expect(page).to have_css('a', :text => "4")
-      expect(page).to have_css('a', :text => "Last")
+      expect(page).to have_css('a', text: 'First')
+      expect(page).to have_css('a', text: '1')
+      expect(page).to have_css('a', text: '2')
+      expect(page).to have_css('a', text: '3')
+      expect(page).to have_css('a', text: '4')
+      expect(page).to have_css('a', text: 'Last')
     end
 
     context 'when clicking on the next link' do
@@ -26,7 +26,7 @@ describe 'Search Result Pagination', js: true do
       end
 
       it 'displays the next page' do
-        expect(page).to have_css('.active-page', :text => "2")
+        expect(page).to have_css('.active-page', text: '2')
       end
     end
 
@@ -35,13 +35,13 @@ describe 'Search Result Pagination', js: true do
         # click next link
         click_on 'Next Page'
         # assert page 2 visible
-        expect(page).to have_css('.active-page', :text => "2")
+        expect(page).to have_css('.active-page', text: '2')
         # click previous link
         click_on 'Previous Page'
       end
 
       it 'displays the previous page' do
-        expect(page).to have_css('.active-page', :text => "1")
+        expect(page).to have_css('.active-page', text: '1')
       end
     end
 
@@ -50,13 +50,13 @@ describe 'Search Result Pagination', js: true do
         # click next link
         click_on 'Next Page'
         # assert page 2 visible
-        expect(page).to have_css('.active-page', :text => "2")
+        expect(page).to have_css('.active-page', text: '2')
         # click first page link
         click_on 'First Page'
       end
 
       it 'displays the first page' do
-        expect(page).to have_css('.active-page', :text => "1")
+        expect(page).to have_css('.active-page', text: '1')
       end
     end
 
@@ -67,7 +67,7 @@ describe 'Search Result Pagination', js: true do
       end
 
       it 'displays the last page' do
-        expect(page).to have_css('.active-page', :text => "3")
+        expect(page).to have_css('.active-page', text: '3')
       end
     end
 
@@ -78,7 +78,7 @@ describe 'Search Result Pagination', js: true do
       end
 
       it 'displays the new page' do
-        expect(page).to have_css('.active-page', :text => "3")
+        expect(page).to have_css('.active-page', text: '3')
       end
     end
   end
@@ -90,8 +90,8 @@ describe 'Search Result Pagination', js: true do
     end
 
     it 'does not display pagination links' do
-      expect(page).to have_no_css('a', :text => "First")
-      expect(page).to have_no_css('a', :text => "1")
+      expect(page).to have_no_css('a', text: 'First')
+      expect(page).to have_no_css('a', text: '1')
     end
   end
 end
