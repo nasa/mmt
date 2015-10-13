@@ -71,7 +71,7 @@
   <!-- AdditionalAttribute -->
   <div class="row taller">
     <div class="col-12">
-      <label>Additional Attributes</label><i class="fa fa-info-circle"></i>
+      <label>Additional Attributes</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="properties/AdditionalAttributes"></i></a>
       <%= render partial: 'drafts/forms/type', locals: {
           type: 'additional_attribute',
           values: draft.draft['AdditionalAttributes'] || [{}],

@@ -10,7 +10,7 @@ $(document).ready ->
     # properties/EntryId
     # definitions/ProcessingLevelType/properties/ProcessingLevelDescription
     helpPath = element.target.dataset.helpPath.split('/')
-    title = helpPath[..].pop().replace( /([A-Z])/g, " $1" )
+    title = fixTitle(helpPath[..].pop())
     minItems = getMinItems(helpPath)
     minLength = getMinLength(helpPath)
     maxLength = getMaxLength(helpPath)
@@ -34,8 +34,13 @@ $(document).ready ->
     if !format? and !minItems? and !minLength? and !maxLength? and !pattern?
       $(validations).parent().hide()
 
-    # FIXME URLs title turns into U R Ls
-    # FIXME State / Province title turns into State Province
+  fixTitle = (title) ->
+    newTitle = switch title
+      when 'URLs' then 'URLs'
+      when 'StateProvince' then 'State / Province'
+      else title.replace( /([A-Z])/g, " $1" )
+
+    newTitle
 
   getSchemaProperties = (path) ->
     schema = globalJsonSchema
