@@ -6,8 +6,6 @@
 #   retrieve metadata
 #   insert metadata into local CMR
 
-# TODO: Need to ingest some granule metadata
-
 require 'multi_xml'
 
 module Cmr
@@ -159,13 +157,30 @@ module Cmr
     def retrieve_metadata_uris
       response = connection.get("https://cmr.earthdata.nasa.gov/search/collections.xml?page_size=#{@num}&page_num=1")
       xml = MultiXml.parse(response.body)
-      xml['results']['references']['reference'].map { |r| r['location'] }
+      collection_uris = xml['results']['references']['reference'].map { |r| r['location'] }
+      collection_ids = xml['results']['references']['reference'].map { |r| r['id'] }
+
+      results = []
+      collection_ids.each_with_index do |id, index|
+        # This is a giant pain, only load one collection with granules
+        if index == 0
+          response = connection.get("https://cmr.earthdata.nasa.gov/search/granules.xml?page_size=#{2}&page_num=1&concept_id=#{id}")
+          xml = MultiXml.parse(response.body)
+          granule_uri = Array.wrap(xml['results']['references']['reference']).map { |r| r['location'] } if xml['results']['hits'].to_i > 0
+        end
+
+        results << {
+          collection: collection_uris[index],
+          granule: granule_uri || nil
+        }
+      end
+      results
     end
 
     def insert_metadata(uri_list)
       added = 0
-      uri_list.each_with_index do |uri, index|
-        metadata = connection.get(uri).body
+      uri_list.each_with_index do |obj, index|
+        metadata = connection.get(obj[:collection]).body
         response = connection.put do |req|
           if index > 24
             req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
@@ -177,9 +192,22 @@ module Cmr
           req.body = metadata
         end
 
+        # Ingest a granules if available
+        if obj[:granule]
+          granule_metadata = connection.get(obj[:granule].first).body
+          response = connection.put do |req|
+            req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
+            req.headers['Content-Type'] = 'application/echo10+xml'
+            req.headers['Echo-token'] = 'mock-echo-system-token'
+            req.body = granule_metadata
+          end
+        end
+
         if response.success?
           added += 1
           puts "Loaded #{added} collections"
+        else
+          puts response.inspect
         end
       end
       puts 'Done!'

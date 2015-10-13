@@ -1,6 +1,6 @@
 <div class="row sub-fields">
   <!-- CenterPoint -->
-  <label>Center Point</label><i class="fa fa-info-circle"></i>
+  <label>Center Point</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'point',
       values: line['CenterPoint'] || {},
@@ -10,7 +10,7 @@
 
 
   <!-- Points -->
-  <label>Points</label><i class="fa fa-info-circle"></i>
+  <label>Points</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'point',
       values: line['Points'] || [{}],

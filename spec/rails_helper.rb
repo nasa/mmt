@@ -8,7 +8,7 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'capybara-screenshot/rspec'
-require "rack_session_access/capybara"
+require 'rack_session_access/capybara'
 require 'database_cleaner'
 
 require 'rake'
