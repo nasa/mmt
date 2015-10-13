@@ -471,12 +471,10 @@ describe 'Data identification form', js: true do
             expect(page).to have_field('Type', with: 'SCIENCE ASSOCIATED')
             expect(page).to have_field('Description', with: 'Metadata association description')
             expect(page).to have_field('Entry Id', with: '12345')
-            expect(page).to have_field('Provider ID', with: 'LPDAAC_ECS')
           end
           within '.multiple-item-1' do
             expect(page).to have_field('Type', with: 'LARGER CITATION WORKS')
             expect(page).to have_field('Entry Id', with: '123abc')
-            expect(page).to have_field('Provider ID', with: 'ORNL_DAAC')
           end
         end
 
