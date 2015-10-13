@@ -34,8 +34,16 @@ section {
   @include span-columns(4);
 }
 
+.col-5 {
+  @include span-columns(5);
+}
+
 .col-6 {
   @include span-columns(6);
+}
+
+.col-7 {
+  @include span-columns(7);
 }
 
 .col-8 {
