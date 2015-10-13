@@ -146,7 +146,7 @@ module TypesHelper
     { name: 'Description' }
 ]
   MetadataAssociationsType = [
-    { name: 'Type' },
+    { name: 'Type', options: [:select_type], select_type: 'MetadataAssociationTypeOptions' },
     { name: 'Description' },
     { name: 'EntryId' },
     { name: 'ProviderId' }

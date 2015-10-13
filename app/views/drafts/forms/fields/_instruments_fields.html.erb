@@ -1,16 +1,16 @@
 <div class="row sub-fields">
   <!-- Short Name [r] -->
-  <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ShortNameType"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), instruments['ShortName'], class: 'half-width validate') %>
 
 
   <!-- Long Name -->
-  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/LongNameType"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), instruments['LongName'], class: 'half-width validate') %>
 
 
   <!-- Characteristics -->
-  <label>Characteristics</label><i class="fa fa-info-circle"></i>
+  <label>Characteristics</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/Characteristics"></i></a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'characteristics',
       values: instruments['Characteristics'] || [{}],
@@ -20,20 +20,19 @@
 
 
   <!-- Technique -->
-  <label for="<%= remove_pipes(name_prefix) %>technique">Technique</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>technique">Technique</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/Technique"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}technique"), instruments['Technique'], rows: 8, class: 'validate') %>
 
 
   <!-- NumberOfSensors -->
-  <label for="<%= remove_pipes(name_prefix) %>number_of_sensors">Number Of Sensors</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>number_of_sensors">Number Of Sensors</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/NumberOfSensors"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|number_of_sensors|"), instruments['NumberOfSensors'], class: 'half-width validate mmt-integer') %>
 
 
-  <!-- OperationalMode -->
+  <!-- OperationalModes -->
   <% modes = instruments['OperationalModes'] || [nil] # [nil] creates at least one field %>
   <div class="multiple simple-multiple operational-mode">
-    <label for="<%= remove_pipes(name_prefix) %>operational_modes_">Operational Mode</label><i class="fa fa-info-circle"></i>
-
+    <label for="<%= remove_pipes(name_prefix) %>operational_modes_">Operational Mode</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/OperationalModes"></i></a>
 
   <% modes.each_with_index do |mode, index| %>
     <div class="multiple-item multiple-item-<%= index %>">
@@ -48,7 +47,7 @@
 
 
   <!-- Sensors -->
-  <label>Sensors</label><i class="fa fa-info-circle"></i>
+  <label>Sensors</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'sensors',
       values: instruments['Sensors'] || [{}],

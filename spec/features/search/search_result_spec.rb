@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe 'Search published results', js: true do
-  entry_id = 'doi:10.3334/ORNLDAAC/7_1'
-  entry_title = 'Aircraft Flux-Filtered: U of Wy. (FIFE)'
+  entry_id = 'doi:10.3334/ORNLDAAC/6_1'
+  entry_title = 'Aircraft Flux-Filtered: NRCC (FIFE)'
   concept_id = 'C1200000036-SEDAC'
 
   before :each do

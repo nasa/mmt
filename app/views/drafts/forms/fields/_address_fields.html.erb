@@ -1,7 +1,7 @@
 <div class="row sub-fields">
   <% street_addresses = address['StreetAddresses'] || [nil, nil] # [nil] creates at least one Street Address field %>
   <div class="multiple addresses-street-addresses">
-    <label for="<%= remove_pipes(name_prefix) %>street_addresses_">Street Address</label><i class="fa fa-info-circle"></i>
+    <label for="<%= remove_pipes(name_prefix) %>street_addresses_">Street Address</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/StreetAddresses"></i></a>
 
     <% street_addresses += [nil, nil] # always display two street address fields %>
     <% street_addresses[0..1].each_with_index do |street_address, index| %>
@@ -11,16 +11,16 @@
     <% end %>
   </div>
 
-  <label for="<%= remove_pipes(name_prefix) %>city">City</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>city">City</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/City"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}city"), address['City'], class: 'half-width validate') %>
 
-  <label for="<%= remove_pipes(name_prefix) %>state_province">State / Province</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>state_province">State / Province</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/StateProvince"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|state_province|"), address['StateProvince'], class: 'half-width validate') %>
 
-  <label for="<%= remove_pipes(name_prefix) %>postal_code">Postal Code</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>postal_code">Postal Code</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/PostalCode"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|postal_code|"), address['PostalCode'], class: 'half-width validate') %>
 
-  <label for="<%= remove_pipes(name_prefix) %>country">Country</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>country">Country</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/Country"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}country"), address['Country'], class: 'half-width validate') %>
 
 </div>

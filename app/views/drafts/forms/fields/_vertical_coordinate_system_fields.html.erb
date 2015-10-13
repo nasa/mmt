@@ -1,6 +1,6 @@
 <div class="row sub-fields">
   <!-- AltitudeSystemDefinition -->
-  <label>Altitude System Definition</label><i class="fa fa-info-circle"></i>
+  <label>Altitude System Definition</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'vertical_system_definition',
       values: vertical_coordinate_system['AltitudeSystemDefinition'] || {},
@@ -10,13 +10,12 @@
 
 
   <!-- DepthSystemDefinition -->
-  <label>Depth System Definition</label><i class="fa fa-info-circle"></i>
+  <label>Depth System Definition</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'vertical_system_definition',
       values: vertical_coordinate_system['DepthSystemDefinition'] || {},
       name_prefix: "#{name_prefix}|depth_system_definition|_",
       multiple: false,
       options: {} } %>
-
 
 </div>
