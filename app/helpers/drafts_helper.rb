@@ -68,6 +68,13 @@ module DraftsHelper
     ['Transportation', 'transportation'],
     ['Utilities / Communication', 'utilitiesCommunication']
   ]
+  MetadataAssociationTypeOptions = [
+    ['Select Type', ''],
+    ['Science Associated', 'SCIENCE ASSOCIATED'],
+    ['Dependent', 'DEPENDENT'],
+    ['Input', 'INPUT'],
+    ['Larger Citation Works', 'LARGER CITATION WORKS']
+  ]
   RoleOptions = [
     ['Select Role', ''],
     ['Resource Provider', 'RESOURCEPROVIDER'],
