@@ -1,4 +1,6 @@
-<%#= render :partial=>"shared/pagination", :locals => {:table_rows=> @collections} %>
+<div class="pagination-summary">
+  <%= page_entries_info @collections, entry_name: 'record' %>
+</div>
 
 <table id="search-results">
   <thead>
@@ -55,3 +57,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= paginate @collections, params: { search_type: @search_type } %>

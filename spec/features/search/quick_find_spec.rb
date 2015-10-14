@@ -16,9 +16,11 @@ describe 'Quick find search', js: true do
         fill_in 'entry_id', with: entry_id
         click_on 'Find'
       end
+
       it 'redirects the user to the search page' do
         expect(page).to have_content('Search Result')
       end
+
       it 'displays collection results' do
         expect(page).to have_search_query(1, "Entry Id: #{entry_id}")
       end
@@ -31,9 +33,11 @@ describe 'Quick find search', js: true do
       fill_in 'entry_id', with: entry_id
       click_on 'Find'
     end
+
     it 'keeps the user on the search page' do
       expect(page).to have_content('Search Result')
     end
+
     it 'displays collection results' do
       expect(page).to have_search_query(1, "Entry Id: #{entry_id}")
     end
@@ -43,6 +47,7 @@ describe 'Quick find search', js: true do
     before do
       visit '/'
     end
+
     it 'there is no Quick Find option' do
       expect(page).not_to have_button('quick_find_button')
     end
