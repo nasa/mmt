@@ -282,6 +282,7 @@ module TypesHelper
   # SpatialKeywordsType = [ # Is a simple array, handled at the hierarchy top
   # ]
   TemporalExtentsType = [
+    { name: 'TemporalRangeType' },
     { name: 'PrecisionOfSeconds' },
     { name: 'EndsAtPresentFlag' },
     { name: 'RangeDateTimes', options: [:sub_type] },

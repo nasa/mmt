@@ -105,17 +105,20 @@ describe 'Temporal extent form', js: true do
 
     it 'shows pre-entered values in the draft preview page' do
       # Complete TemporalExtent fields
+      expect(page).to have_content('SingleDateTime')
       expect(page).to have_content('1')
       expect(page).to have_content('2015-07-01T00:00:00Z')
       expect(page).to have_content('2015-08-01T00:00:00Z')
 
       # Add another TemporalExtent
+      expect(page).to have_content('RangeDateTime')
       expect(page).to have_content('10')
       expect(page).to have_content('false')
       expect(page).to have_content('2015-07-01T00:00:00Z')
       expect(page).to have_content('2015-08-01T00:00:00Z')
 
       # Add another TemporalExtent
+      expect(page).to have_content('PeriodicDateTime')
       expect(page).to have_content('30')
       expect(page).to have_content('false')
       expect(page).to have_content('Periodic Extent')

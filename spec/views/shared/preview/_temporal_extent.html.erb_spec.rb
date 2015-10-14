@@ -39,7 +39,7 @@ describe template_path, type: :view do
         rendered_node = Capybara.string(rendered)
         root_css_path = 'ul.temporal-extent-preview'
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, { DurationUnit: :handle_as_duration, PeriodCycleDurationUnit: :handle_as_duration, TemporalRangeType: :handle_as_not_shown }, true)
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, { DurationUnit: :handle_as_duration, PeriodCycleDurationUnit: :handle_as_duration }, true)
         end
       end
     end
