@@ -73,5 +73,5 @@ gem 'figaro'
 
 gem 'json-schema'
 gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
-
 gem 'database_cleaner' # added to provide a solution to Capybara's problems with js=>true
+gem 'kaminari'

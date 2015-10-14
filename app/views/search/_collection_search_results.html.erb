@@ -1,11 +1,5 @@
-<%
-  page_number = @query['page_num']
-  record_num = ((page_number-1) * @results_per_page) + 1
-  max_record_on_page = record_num + (@results_per_page) - 1
-  max_record_on_page = (max_record_on_page > @total_hit_count) ? @total_hit_count : max_record_on_page
-%>
 <div class="pagination-summary">
-  Showing records <%= record_num %> - <%= max_record_on_page %> of <%= @total_hit_count %>
+  <%= page_entries_info @collections, entry_name: 'record' %>
 </div>
 
 <table id="search-results">
@@ -64,4 +58,4 @@
   </tbody>
 </table>
 
-<%= render partial: "shared/pagination", locals:  { table_rows: @collections } %>
+<%= paginate @collections, params: { search_type: @search_type } %>

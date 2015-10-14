@@ -9,7 +9,9 @@ class SearchController < ApplicationController
     page = 1 if page < 1
     # sort = params[:sort] || DEFAULT_SORT_ORDER
 
-    @results_per_page = RESULTS_PER_PAGE
+    results_per_page = RESULTS_PER_PAGE
+
+    @search_type = params['search_type']
 
     # Did the search come from quick_find or full_search
     if params['search_type'] == 'quick_find'
@@ -44,45 +46,53 @@ class SearchController < ApplicationController
     end
 
     @query['page_num'] = page
-    @query['page_size'] = @results_per_page
+    @query['page_size'] = results_per_page
 
     good_query_params = prune_query(@query.clone)
 
-    @errors = []
-    @collections = []
-    @total_hit_count = 0
-    case @query['record_state']
-    when 'published_records'
-      @collections = get_published(good_query_params)
-    when 'draft_records'
-      @collections = get_drafts(good_query_params)
-    when 'published_and_draft_records'
-      @collections = get_published_and_drafts(good_query_params)
-    end
+    collections, @errors, hits = get_search_results(good_query_params)
+
+    @collections = Kaminari.paginate_array(collections, total_count: hits).page(page).per(results_per_page)
   end
 
   private
 
+  def get_search_results(query)
+    record_state = query.delete('record_state')
+
+    collections, errors, hits =
+      case record_state
+      when 'published_records'
+        get_published(query)
+      when 'draft_records'
+        get_drafts(query)
+      when 'published_and_draft_records'
+        get_published_and_drafts(query)
+      else
+        [[], [], 0]
+      end
+
+    [collections, errors, hits]
+  end
+
   def get_published(query)
     query['all_revisions'] = true
 
-    query.delete('record_state')
+    errors = []
 
-    published_collections = cmr_client.get_collections(query, token).body
-    @total_hit_count += published_collections['hits'].to_i
-    if published_collections['errors']
-      @errors = published_collections['errors']
-      published_collections = []
+    collections = cmr_client.get_collections(query, token).body
+    hits = collections['hits'].to_i
+    if collections['errors']
+      errors = collections['errors']
+      collections = []
     end
-    if published_collections['items']
-      published_collections = published_collections['items']
-    end
-    published_collections
+
+    collections = collections['items'] if collections['items']
+
+    [collections, errors, hits]
   end
 
   def get_drafts(query)
-    query.delete('record_state')
-
     # offset = RESULTS_PER_PAGE * (query['page_num']-1)
     query.delete('page_num')
     query.delete('page_size')
@@ -90,12 +100,10 @@ class SearchController < ApplicationController
 
     # query['offset'] = offset
 
-    draft_collections = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
-
-    @total_hit_count += draft_collections.size
+    drafts = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
 
     # Map drafts to same structure we get from CMR
-    draft_collections.map do |draft|
+    drafts = drafts.map do |draft|
       {
         'meta' => {
           'revision-date' => draft['updated_at'].to_s[0..9],
@@ -107,14 +115,18 @@ class SearchController < ApplicationController
         }
       }
     end
+
+    [drafts, [], drafts.size]
   end
 
   def get_published_and_drafts(query)
-    published_collections = get_published(query.clone)
-    draft_collections = get_drafts(query)
+    published_collections, published_errors, published_hits = get_published(query.clone)
+    drafts, _draft_errors, draft_hits = get_drafts(query)
 
-    published_collections.concat(draft_collections).sort do |x, y|
+    collections = published_collections.concat(drafts).sort do |x, y|
       x['umm']['entry-title'] <=> y['umm']['entry-title']
     end
+
+    [collections, published_errors, published_hits + draft_hits]
   end
 end
