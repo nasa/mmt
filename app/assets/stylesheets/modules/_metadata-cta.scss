@@ -18,12 +18,19 @@
 
   .cancel {
     display: block;
-    margin-top: 0.8em;
+    padding-top: 0.8em;
+  }
+
+  div {
+    height: 50px;
+    border-right: 1px solid  darken($light-grey, 10%);
+
+    &:last-child {
+      border-right: none;
+    }
   }
 }
 
 .form-nav {
-  border-left: 1px solid darken($light-grey, 10%);
-  border-right: 1px solid  darken($light-grey, 10%);
-  padding-left: 2em;
+  padding-top: 5px;
 }
