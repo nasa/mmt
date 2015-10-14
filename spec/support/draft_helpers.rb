@@ -298,12 +298,10 @@ module Helpers
         select 'Science Associated', from: 'Type'
         fill_in 'Description', with: 'Metadata association description'
         fill_in 'Entry Id', with: '12345'
-        select 'LPDAAC_ECS', from: 'Provider ID'
         click_on 'Add another Metadata Association'
         within '.multiple-item-1' do
           select 'Larger Citation Works', from: 'Type'
           fill_in 'Entry Id', with: '123abc'
-          select 'ORNL_DAAC', from: 'Provider ID'
         end
       end
     end

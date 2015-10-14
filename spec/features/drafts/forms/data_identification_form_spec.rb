@@ -111,8 +111,7 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('First Name', count: 4)
       expect(page).to have_content('Greenbelt', count: 8)
       expect(page).to have_content('In work', count: 1)
-      expect(page).to have_content('LARGER CITATION WORKS', count: 1)
-      expect(page).to have_content('LPDAAC_ECS', count: 1)
+      expect(page).to have_content('Larger Citation Works', count: 1)
       expect(page).to have_content('Last Name', count: 4)
       expect(page).to have_content('Level 1 Description')
       expect(page).to have_content('Level 1', count: 2)
@@ -122,7 +121,6 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('Metadata quality summary', count: 1)
       expect(page).to have_content('Middle Name', count: 4)
       expect(page).to have_content('ORG_SHORT', count: 2)
-      expect(page).to have_content('ORNL_DAAC', count: 1)
       expect(page).to have_content('Owner', count: 2)
       expect(page).to have_content('Organization Long Name', count: 2)
       expect(page).to have_content('Publication reference DOI', count: 1)
@@ -142,7 +140,7 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('Resource Provider', count: 2)
       expect(page).to have_content('Review', count: 1)
       expect(page).to have_content('Room 203', count: 4)
-      expect(page).to have_content('SCIENCE ASSOCIATED', count: 1)
+      expect(page).to have_content('Science Associated', count: 1)
       expect(page).to have_content('Subtype', count: 14)
       expect(page).to have_content('These are some use constraints', count: 1)
       expect(page).to have_content('This is a long description of the collection', count: 1)
@@ -473,12 +471,10 @@ describe 'Data identification form', js: true do
             expect(page).to have_field('Type', with: 'SCIENCE ASSOCIATED')
             expect(page).to have_field('Description', with: 'Metadata association description')
             expect(page).to have_field('Entry Id', with: '12345')
-            expect(page).to have_field('Provider ID', with: 'LPDAAC_ECS')
           end
           within '.multiple-item-1' do
             expect(page).to have_field('Type', with: 'LARGER CITATION WORKS')
             expect(page).to have_field('Entry Id', with: '123abc')
-            expect(page).to have_field('Provider ID', with: 'ORNL_DAAC')
           end
         end
 

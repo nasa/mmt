@@ -1,21 +1,21 @@
 <div class="row sub-fields">
   <!-- Type -->
-  <label for="<%= remove_pipes(name_prefix) %>type">Type</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>type">Type</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/PlatformType/properties/Type"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}type"), platform['Type'], class: 'half-width validate') %>
 
 
   <!-- Short Name [r] -->
-  <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/PlatformShortNameType"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), platform['ShortName'], class: 'half-width validate') %>
 
 
   <!-- Long Name -->
-  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/PlatformLongNameType"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), platform['LongName'], class: 'half-width validate') %>
 
 
   <!-- Characteristics -->
-  <label>Characteristics</label><i class="fa fa-info-circle"></i>
+  <label>Characteristics</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/PlatformType/properties/Characteristics"></i></a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'characteristics',
       values: platform['Characteristics'] || [{}],
@@ -25,7 +25,7 @@
 
 
   <!-- Instruments -->
-  <label>Instruments</label><i class="fa fa-info-circle"></i>
+  <label>Instruments</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'instruments',
       values: platform['Instruments'] || [{}],

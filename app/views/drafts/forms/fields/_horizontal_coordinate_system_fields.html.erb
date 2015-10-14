@@ -1,6 +1,6 @@
 <div class="row sub-fields">
   <!-- GeodeticModel -->
-  <label>Geodetic Model</label><i class="fa fa-info-circle"></i>
+  <label>Geodetic Model</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'geodetic_model',
       values: horizontal_coordinate_system['GeodeticModel'] || {},
@@ -19,7 +19,7 @@
 
   <div class="geographic-coordinate-system-fields" style="<%= 'display: none;' if local_checked %>">
     <!-- GeographicCoordinateSystem -->
-    <label>Geographic Coordinate System</label><i class="fa fa-info-circle"></i>
+    <label>Geographic Coordinate System</label>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'geographic_coordinate_system',
         values: horizontal_coordinate_system['GeographicCoordinateSystem'] || {},
@@ -30,7 +30,7 @@
 
   <div class="local-coordinate-system-fields" style="<%= 'display: none;' if geographic_checked %>">
   <!-- LocalCoordinateSystem -->
-    <label>Local Coordinate System</label><i class="fa fa-info-circle"></i>
+    <label>Local Coordinate System</label>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'local_coordinate_system',
         values: horizontal_coordinate_system['LocalCoordinateSystem'] || {},

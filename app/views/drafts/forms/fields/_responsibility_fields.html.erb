@@ -1,6 +1,6 @@
 <% options.delete(:title) %>
 <div class="row sub-fields">
-  <label for="<%= remove_pipes(name_prefix) %>role" class="icon-required">Role</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>role" class="icon-required">Role</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResponsibilityType/properties/Role"></i></a>
   <%= select_tag name_to_param("#{name_prefix}role"), options_for_select(DraftsHelper::RoleOptions, responsibility['Role']), class: 'single-select validate' %>
 
   <% party = responsibility['Party'] || {} %>
@@ -36,10 +36,10 @@
   </div>
 
   <!-- all party fields -->
-  <label for="<%= remove_pipes(name_prefix) %>party_service_hours">Service Hours</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>party_service_hours">Service Hours</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ServiceHours"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}party_|service_hours|"), party['ServiceHours'], class: 'half-width validate') %>
 
-  <label for="<%= remove_pipes(name_prefix) %>party_contact_instructions">Contact Instructions</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>party_contact_instructions">Contact Instructions</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ContactInstructions"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}party_|contact_instructions|"), party['ContactInstructions'], class: 'half-width validate') %>
 
   <!-- Contact - multiple -->

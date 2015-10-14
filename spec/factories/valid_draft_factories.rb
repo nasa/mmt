@@ -548,12 +548,10 @@ FactoryGirl.define do
     'MetadataAssociations' => [{
       'Type' => 'SCIENCE ASSOCIATED',
       'Description' => 'Metadata association description',
-      'EntryId' => '12345',
-      'ProviderId' => 'LPDAAC_ECS'
+      'EntryId' => '12345'
     }, {
       'Type' => 'LARGER CITATION WORKS',
-      'EntryId' => '123abc',
-      'ProviderId' => 'ORNL_DAAC'
+      'EntryId' => '123abc'
     }],
     'PublicationReferences' => [{
       'Title' => 'Publication reference title',
