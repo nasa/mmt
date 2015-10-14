@@ -1,6 +1,6 @@
 <div class="row sub-fields">
   <!-- CenterPoint -->
-  <label>Center Point</label><i class="fa fa-info-circle"></i>
+  <label>Center Point</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'point',
       values: g_polygon['CenterPoint'] || {},
@@ -10,7 +10,7 @@
 
 
   <!-- Boundary -->
-  <label class="icon-required">Boundary</label><i class="fa fa-info-circle"></i>
+  <label class="icon-required">Boundary</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/BoundaryType"></i></a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'boundary',
       values: g_polygon['Boundary'] || {},
@@ -21,7 +21,7 @@
 
 
   <!-- ExclusiveZone -->
-  <label>Exclusive Zone</label><i class="fa fa-info-circle"></i>
+  <label>Exclusive Zone</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ExclusiveZoneType"></i></a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'exclusive_zone',
       values: g_polygon['ExclusiveZone'] || {},

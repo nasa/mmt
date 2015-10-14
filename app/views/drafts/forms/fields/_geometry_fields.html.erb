@@ -27,7 +27,7 @@
 
   <!-- CoordinateSystem -->
   <% coordinate_system = geometry['CoordinateSystem'] || "" %>
-  <label class="icon-required">Coordinate System</label><i class="fa fa-info-circle"></i>
+  <label class="icon-required">Coordinate System</label>
   <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label></p>
   <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select validate') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label></p>
   </br>
@@ -39,7 +39,7 @@
   <% g_polygons_checked = !geometry['GPolygons'].nil? %>
   <% lines_checked = !geometry['Lines'].nil? %>
   <div class="geometry-type">
-    <label class="icon-required">Geometry Type</label><i class="fa fa-info-circle"></i>
+    <label class="icon-required">Geometry Type</label>
     <p class="radio-group">
       <input type="radio" id="<%= remove_pipes(name_prefix) %>geometry-points" value="points" class="geometry-picker points" <%= 'checked="checked"' if points_checked %>>
       <label for="<%= remove_pipes(name_prefix) %>geometry-points">Points</label>
@@ -61,7 +61,7 @@
 
   <!-- Points -->
   <div class="points-fields" style="<%= 'display: none;' unless points_checked %>">
-    <label>Points</label><i class="fa fa-info-circle"></i>
+    <label>Points</label>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'point',
         values: geometry['Points'] || [{}],
@@ -73,7 +73,7 @@
 
   <!-- BoundingRectangles -->
   <div class="bounding-rectangles-fields" style="<%= 'display: none;' unless bounding_rectangles_checked %>">
-  <label>Bounding Rectangles</label><i class="fa fa-info-circle"></i>
+  <label>Bounding Rectangles</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'bounding_rectangle',
       values: geometry['BoundingRectangles'] || [{}],
@@ -85,7 +85,7 @@
 
   <!-- GPolygons -->
   <div class="g-polygons-fields" style="<%= 'display: none;' unless g_polygons_checked %>">
-  <label>GPolygons</label><i class="fa fa-info-circle"></i>
+  <label>GPolygons</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'g_polygon',
       values: geometry['GPolygons'] || [{}],
@@ -97,7 +97,7 @@
 
   <!-- Lines -->
   <div class="lines-fields" style="<%= 'display: none;' unless lines_checked %>">
-  <label>Lines</label><i class="fa fa-info-circle"></i>
+  <label>Lines</label>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'line',
       values: geometry['Lines'] || [{}],

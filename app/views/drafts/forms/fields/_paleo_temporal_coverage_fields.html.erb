@@ -3,19 +3,19 @@
   <div class="row">
     <div class="col-6">
       <!-- StartDate -->
-      <label for="<%= remove_pipes(name_prefix) %>start_date">Start Date</label><i class="fa fa-info-circle"></i>
+      <label for="<%= remove_pipes(name_prefix) %>start_date">Start Date</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/PaleoTemporalCoverageType/properties/StartDate"></i></a>
       <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), paleo_temporal_coverage['StartDate'], class: 'full-width validate mmt-date-time') %>
     </div>
 
     <div class="col-6">
       <!-- EndDate -->
-      <label for="<%= remove_pipes(name_prefix) %>end_date">End Date</label><i class="fa fa-info-circle"></i>
+      <label for="<%= remove_pipes(name_prefix) %>end_date">End Date</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/PaleoTemporalCoverageType/properties/EndDate"></i></a>
       <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), paleo_temporal_coverage['EndDate'], class: 'full-width validate mmt-date-time') %>
     </div>
   </div>
 
   <!-- ChronostratigraphicUnit -->
-  <label for="<%= remove_pipes(name_prefix) %>chronostratigraphic_unit">Chronostratigraphic Unit</label><i class="fa fa-info-circle"></i>
+  <label for="<%= remove_pipes(name_prefix) %>chronostratigraphic_unit">Chronostratigraphic Unit</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/PaleoTemporalCoverageType/properties/ChronostratigraphicUnits"></i></a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'chronostratigraphic_unit',
       values: paleo_temporal_coverage['ChronostratigraphicUnits'] || [{}],
