@@ -27,4 +27,12 @@
 
 .pagination {
   text-align: center;
+
+  ul {
+    padding: 0;
+  }
+}
+
+.pagination-summary {
+  margin-bottom: 1em;
 }

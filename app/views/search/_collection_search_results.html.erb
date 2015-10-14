@@ -1,3 +1,13 @@
+<%
+  page_number = @query['page_num']
+  record_num = ((page_number-1) * @results_per_page) + 1
+  max_record_on_page = record_num + (@results_per_page) - 1
+  max_record_on_page = (max_record_on_page > @total_hit_count) ? @total_hit_count : max_record_on_page
+%>
+<div class="pagination-summary">
+  Showing records <%= record_num %> - <%= max_record_on_page %> of <%= @total_hit_count %>
+</div>
+
 <table id="search-results">
   <thead>
   <tr>

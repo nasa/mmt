@@ -14,10 +14,6 @@
   <input type="hidden" id="page_count" value="<%= page_count %>" />
 
   <% if page_count > 1 %>
-      <div class="ps-summary">
-        Showing records <%= record_num %> - <%= max_record_on_page %> of <%= @total_hit_count %>
-      </div>
-
       <ul>
         <li><a href="#" onclick="goToPage(1);return false;" title="First Page">
           First
