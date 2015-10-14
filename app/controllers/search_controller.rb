@@ -76,8 +76,6 @@ class SearchController < ApplicationController
   end
 
   def get_published(query)
-    query['all_revisions'] = true
-
     errors = []
 
     collections = cmr_client.get_collections(query, token).body
