@@ -5,7 +5,6 @@ require 'rails_helper'
 describe 'Search Result Pagination', js: true do
   before do
     login
-    visit '/search'
     click_on 'Find'
   end
 
@@ -67,18 +66,18 @@ describe 'Search Result Pagination', js: true do
       end
 
       it 'displays the last page' do
-        expect(page).to have_css('.active-page', text: '3')
+        expect(page).to have_css('.active-page', text: '2')
       end
     end
 
     context 'when clicking on a specific page link' do
       before do
-        # click page 3 link
-        click_on 'Page 3'
+        # click page 2 link
+        click_on 'Page 2'
       end
 
       it 'displays the new page' do
-        expect(page).to have_css('.active-page', text: '3')
+        expect(page).to have_css('.active-page', text: '2')
       end
     end
   end
