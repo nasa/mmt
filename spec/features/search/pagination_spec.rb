@@ -66,7 +66,7 @@ describe 'Search Result Pagination', js: true do
       end
 
       it 'displays the last page' do
-        expect(page).to have_css('.active-page', text: '2')
+        expect(page).to have_css('.active-page', text: '3')
       end
     end
 
