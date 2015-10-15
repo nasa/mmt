@@ -1,4 +1,4 @@
-# MMT-87, MMT-88
+# MMT-87, MMT-88, MMT-21
 
 require 'rails_helper'
 
@@ -45,6 +45,22 @@ describe 'Revision list', js: true, reset_provider: true do
 
       it 'displays the correct phrasing for reverting records' do
         expect(page).to have_content('Revert to this Revision', count: 1)
+      end
+    end
+
+    context 'when searching for the collection' do
+      before do
+        click_on 'Full Metadata Record Search'
+        select 'MMT_2', from: 'provider_id'
+        select 'Entry ID', from: 'search_term_type'
+        fill_in 'search_term', with: '12345'
+        click_on 'Submit'
+      end
+
+      it 'only displays the latest revision' do
+        within '#collection_search_results' do
+          expect(page).to have_content('12345', count: 1)
+        end
       end
     end
   end
