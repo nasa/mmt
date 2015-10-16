@@ -14,6 +14,7 @@ module SearchHelper
 
     pruned.each do |key, value|
       if key == 'sort_key'
+        value = value.gsub('revision_date', 'last_modified')
         descending = value.starts_with?('-')
         usable_value = value.tr('-', ' ').tr('_', ' ').titleize
         usable_value += descending ? ' Desc' : ' Asc'
@@ -46,7 +47,7 @@ module SearchHelper
     query
   end
 
-  def sort_by_link(sort_key, query)
+  def sort_by_link(title, sort_key, query)
     params = query.clone
     link_type = nil
     if query['sort_key'] && query['sort_key'].include?(sort_key)
@@ -61,6 +62,6 @@ module SearchHelper
 
     url = "/search?#{params.to_query}"
 
-    link_to "<i class='fa fa-sort#{'-' + link_type if link_type}'></i>".html_safe, url, title: "Sort by #{sort_key.tr('_', ' ').titleize} #{link_type == 'asc' ? 'Desc' : 'Asc'}"
+    link_to "#{title} <i class='fa fa-sort#{'-' + link_type if link_type}'></i>".html_safe, url, title: "Sort by #{title} #{link_type == 'asc' ? 'Desc' : 'Asc'}"
   end
 end

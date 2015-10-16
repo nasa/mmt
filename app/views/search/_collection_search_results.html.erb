@@ -7,18 +7,9 @@
   <tr>
     <!-- Temporarily commented out because this is not a part of the MVP %-->
     <!--th><input type="checkbox" name="name" value=""></th-->
-    <th>
-      Entry ID
-      <%= sort_by_link('entry_id', @query) %>
-    </th>
-    <th>
-      Entry Title
-      <%= sort_by_link('entry_title', @query) %>
-    </th>
-    <th>
-      Last Modified
-      <%= sort_by_link('revision_date', @query) %>
-    </th>
+    <th><%= sort_by_link('Entry Id', 'entry_id', @query) %></th>
+    <th><%= sort_by_link('Entry Title', 'entry_title', @query) %></th>
+    <th><%= sort_by_link('Last Modified', 'revision_date', @query) %></th>
   </tr>
   </thead>
   <tbody>

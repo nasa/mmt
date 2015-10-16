@@ -15,7 +15,7 @@ describe 'Search sorting', js: true do
       end
 
       it 'displays the correct search param' do
-        expect(page).to have_search_query(55, 'Sort Key: Entry Id Asc')
+        expect(page).to have_search_query(nil, 'Sort Key: Entry Id Asc')
       end
 
       it 'sorts the results by Entry Id Asc' do
@@ -29,7 +29,7 @@ describe 'Search sorting', js: true do
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(55, 'Sort Key: Entry Id Desc')
+          expect(page).to have_search_query(nil, 'Sort Key: Entry Id Desc')
         end
 
         it 'sorts the results by Entry Id Desc' do
@@ -45,7 +45,7 @@ describe 'Search sorting', js: true do
       end
 
       it 'displays the correct search param' do
-        expect(page).to have_search_query(55, 'Sort Key: Entry Title Asc')
+        expect(page).to have_search_query(nil, 'Sort Key: Entry Title Asc')
       end
 
       it 'sorts the results by Entry Title Asc' do
@@ -59,7 +59,7 @@ describe 'Search sorting', js: true do
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(55, 'Sort Key: Entry Title Desc')
+          expect(page).to have_search_query(nil, 'Sort Key: Entry Title Desc')
         end
 
         it 'sorts the results by Entry Title Desc' do
@@ -69,30 +69,30 @@ describe 'Search sorting', js: true do
       end
     end
 
-    context 'by Revision Date' do
+    context 'by Last Modified' do
       before do
-        click_on 'Sort by Revision Date Asc'
+        click_on 'Sort by Last Modified Asc'
       end
 
       it 'displays the correct search param' do
-        expect(page).to have_search_query(55, 'Sort Key: Revision Date Asc')
+        expect(page).to have_search_query(nil, 'Sort Key: Last Modified Asc')
       end
 
-      it 'sorts the results by Revision Date Asc' do
+      it 'sorts the results by Last Modified Asc' do
         expect(page).to have_content('doi:10.3334/ORNLDAAC/1_1')
         expect(page).to have_no_content('AIRMISR_SNOW_ICE_2001_1')
       end
 
       context 'when sorting again' do
         before do
-          click_on 'Sort by Revision Date Desc'
+          click_on 'Sort by Last Modified Desc'
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(55, 'Sort Key: Revision Date Desc')
+          expect(page).to have_search_query(nil, 'Sort Key: Last Modified Desc')
         end
 
-        it 'sorts the results by Revision Date Desc' do
+        it 'sorts the results by Last Modified Desc' do
           expect(page).to have_content('AIRMISR_SNOW_ICE_2001_1')
           expect(page).to have_no_content('doi:10.3334/ORNLDAAC/1_1')
         end
