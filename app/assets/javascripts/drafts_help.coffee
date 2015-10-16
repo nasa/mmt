@@ -9,7 +9,7 @@ $(document).ready ->
     # get path from data-help-path attribute
     # properties/EntryId
     # definitions/ProcessingLevelType/properties/ProcessingLevelDescription
-    helpPath = element.target.dataset.helpPath.split('/')
+    helpPath = $(element.target).data('helpPath').split('/')
     title = fixTitle(helpPath[..].pop())
     minItems = getMinItems(helpPath)
     minLength = getMinLength(helpPath)
