@@ -25,6 +25,8 @@
   margin-left: 0.625em;
 }
 
+/* Search Results Page Styles */
+
 .pagination {
   text-align: center;
 
@@ -35,4 +37,35 @@
 
 .pagination-summary {
   margin-bottom: 1em;
+}
+
+#search-results {
+  table-layout: fixed;
+
+  thead {
+    a:link, a:visited {
+      color: $black
+    }
+
+    .fa {
+      padding-left: .25em;
+      color: rgba($black,0.65);
+    }
+  }
+
+  td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #col-entry-id {
+    width: 25%;
+  }
+  #col-entry-title {
+    width: 60%;
+  }
+  #col-last-modified {
+    width: 15%;
+  }
 }
