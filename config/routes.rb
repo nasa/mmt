@@ -13,11 +13,10 @@ Rails.application.routes.draw do
   get 'search' => 'search#index', as: 'search'
 
   get 'dashboard' => 'pages#dashboard', as: 'dashboard'
-  get 'open_drafts' => 'drafts#open_drafts', as: 'open_drafts'
   get 'new_record' => 'pages#new_record', as: 'new_record'
 
-  get "login" => 'users#login'
-  get "logout" => 'users#logout'
+  get 'login' => 'users#login'
+  get 'logout' => 'users#logout'
   get 'urs_callback' => 'oauth_tokens#urs_callback'
 
   post 'convert' => 'conversions#convert'
