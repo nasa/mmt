@@ -3,12 +3,12 @@
     <div class="content">
       <div class="breadcrumb">
         <ol>
-          <li><%= link_to 'Manage Metadata Dashboard', dashboard_path %></li>
-          <li><%= link_to 'Search Results', '#', class: 'disabled' %></li>
-          <li><%= link_to 'Collection Record', collection_path %></li>
+          <li><%= link_to 'Dashboard', dashboard_path %></li>
+          <li><%= link_to @collection['EntryTitle'] || 'New Collection', collection_path %></li>
+          <li>Revision History</li>
         </ol>
       </div>
-      <h2><%= @collection['EntryTitle'] %></h2> <!-- Entry Title should go here -->
+      <h2><%= @collection['EntryTitle'] || 'New Collection' %></h2>
     </div>
   </header>
   <div class="row row-content">

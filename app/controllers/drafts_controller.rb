@@ -62,10 +62,6 @@ class DraftsController < ApplicationController
     end
   end
 
-  def open_drafts
-    @drafts = @current_user.drafts.order('updated_at DESC')
-  end
-
   def publish
     draft = @draft.draft
     # These fields currently break in CMR when trying to ingest
