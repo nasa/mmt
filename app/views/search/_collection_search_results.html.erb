@@ -7,9 +7,18 @@
   <tr>
     <!-- Temporarily commented out because this is not a part of the MVP %-->
     <!--th><input type="checkbox" name="name" value=""></th-->
-    <th>Entry ID</th>
-    <th>Entry Title</th>
-    <th>Last Modified</th>
+    <th>
+      Entry ID
+      <%= sort_by_link('entry_id', @query) %>
+    </th>
+    <th>
+      Entry Title
+      <%= sort_by_link('entry_title', @query) %>
+    </th>
+    <th>
+      Last Modified
+      <%= sort_by_link('revision_date', @query) %>
+    </th>
   </tr>
   </thead>
   <tbody>
@@ -58,4 +67,4 @@
   </tbody>
 </table>
 
-<%= paginate @collections, params: { search_type: @search_type } %>
+<%= paginate @collections, params: { search_type: @query['search_type'] } %>

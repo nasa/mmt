@@ -2,21 +2,18 @@ class SearchController < ApplicationController
   include SearchHelper
 
   RESULTS_PER_PAGE = 25
-  DEFAULT_SORT_ORDER = 'entry_title'
 
   def index
-    page = params[:page].to_i || 1
+    page = params['page'].to_i || 1
     page = 1 if page < 1
-    # sort = params[:sort] || DEFAULT_SORT_ORDER
 
     results_per_page = RESULTS_PER_PAGE
 
-    @search_type = params['search_type']
+    search_type = params.delete('search_type')
 
     # Did the search come from quick_find or full_search
-    if params['search_type'] == 'quick_find'
+    if search_type == 'quick_find'
       # If search came from quick find, only use the quick find input
-      params.delete('search_type')
       params.delete('search_term_type')
       params.delete('search_term')
       @query = {}
@@ -25,9 +22,9 @@ class SearchController < ApplicationController
         @query['search_term_type'] = 'entry_id'
       end
       @query['record_state'] = 'published_records'
-    elsif params['search_type'] == 'full_search'
+      @query['sort_key'] = params['sort_key'] if params['sort_key']
+    elsif search_type == 'full_search'
       # If search came from full search, ignore whatever was in quick find
-      params.delete('search_type')
       params.delete('entry_id')
       @query = params.clone
       @query.delete('provider_id') if @query['provider_id'].blank?
@@ -49,6 +46,7 @@ class SearchController < ApplicationController
     @query['page_size'] = results_per_page
 
     good_query_params = prune_query(@query.clone)
+    @query['search_type'] = search_type
 
     collections, @errors, hits = get_search_results(good_query_params)
 
@@ -91,12 +89,9 @@ class SearchController < ApplicationController
   end
 
   def get_drafts(query)
-    # offset = RESULTS_PER_PAGE * (query['page_num']-1)
     query.delete('page_num')
     query.delete('page_size')
     query.delete('_')
-
-    # query['offset'] = offset
 
     drafts = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
 
