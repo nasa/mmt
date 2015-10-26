@@ -4,7 +4,6 @@ $(document).ready ->
     json = JSON.parse($('.metadata-form').find('input, textarea, select').filter ->
       return this.value
     .serializeJSON()).Draft
-    console.log json
 
     fixNumbers(json)
     fixIntegers(json)
@@ -111,9 +110,6 @@ $(document).ready ->
     for error in errors
       $element = $("##{error.id}")
 
-      # Remove old error
-      $("#{error.id}_error").remove()
-
       message = '<i class="fa fa-exclamation-triangle"></i>'
       message += validationMessages(error)
 
@@ -163,13 +159,6 @@ $(document).ready ->
     error
 
   validatePage = (opts) ->
-    console.log 'Doing validation'
-    if opts.element?
-      # delete just this element's error
-      id = "##{$(opts.element).attr('id')}_error"
-      $(id).remove()
-    else
-      # delete all inline errors
     $('.validation-error').remove()
     $('.summary-errors').remove()
     json = getPageJson()
@@ -181,7 +170,6 @@ $(document).ready ->
       formErrors.push(error) for error in errors
 
     newErrors = getNewErrors(formErrors, errors)
-    console.log "New Errors: #{JSON.stringify(newErrors)}"
 
     inlineErrors = []
     summaryErrors = []
@@ -196,17 +184,18 @@ $(document).ready ->
         inlineErrors.push error if $("##{error.id}").length > 0
         summaryErrors.push error if $("##{error.id}").length > 0
 
-    # Display any regular errors
+    # Display 'old' errors, from visited fields
     for error, index in errors
       error = getErrorDetails error
 
-      if visitedFields.indexOf(error.id) != -1
-        # if opts.element? and $(opts.element).attr('id') == error.id
-        #   inlineErrors.push error
-        # else unless opts.element?
-        if inlineErrors.indexOf(error) == -1 # don't duplicate errors
-          inlineErrors.push error if $("##{error.id}").length > 0
-          summaryErrors.push error if $("##{error.id}").length > 0
+      # does the error id match the visitedFields
+      visited = visitedFields.filter (e) ->
+        return e.match(error.id)
+      .length > 0
+
+      if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1 # don't duplicate errors
+        inlineErrors.push error if $("##{error.id}").length > 0
+        summaryErrors.push error if $("##{error.id}").length > 0
 
     displayInlineErrors inlineErrors if inlineErrors.length > 0 and opts.showInline
     displaySummary summaryErrors if summaryErrors.length > 0 and opts.showSummary
@@ -223,6 +212,12 @@ $(document).ready ->
 
   # Validate the whole page on page load
   if $('.metadata-form').length > 0
+    # "visit" each field with a value on page load
+    $('.validate').filter ->
+      return this.value
+    .each (index, element) ->
+      visitedFields.push $(element).attr('id')
+
     validatePage
       pageLoad: true
       showInline: true
@@ -260,7 +255,3 @@ $(document).ready ->
       showInline: true
       showSummary: true
       showConfirm: true
-
-
-
-# TODO minItems doesn't show because of visitedFields check
