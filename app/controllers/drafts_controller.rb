@@ -5,7 +5,7 @@ class DraftsController < ApplicationController
   # GET /drafts
   # GET /drafts.json
   def index
-    @drafts = Draft.all
+    @drafts = @current_user.drafts.order('updated_at DESC')
   end
 
   # GET /drafts/1

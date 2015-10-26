@@ -1,7 +1,7 @@
 <div class="row sub-fields">
-  <label for="<%= remove_pipes(name_prefix) %>type">Type</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ContactType/properties/Type"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>type">Type</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ContactType/properties/Type"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}type"), contact['Type'], class: 'half-width validate') %>
 
-  <label for="<%= remove_pipes(name_prefix) %>value">Value</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ContactType/properties/Value"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>value">Value</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ContactType/properties/Value"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}value"), contact['Value'], class: 'half-width validate') %>
 </div>

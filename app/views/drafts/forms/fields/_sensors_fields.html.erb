@@ -1,16 +1,16 @@
 <div class="row sub-fields">
   <!-- Short Name [r] -->
-  <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ShortNameType"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ShortNameType"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), sensors['ShortName'], class: 'half-width validate') %>
 
 
   <!-- Long Name -->
-  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/LongNameType"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LongNameType"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), sensors['LongName'], class: 'half-width validate') %>
 
 
   <!-- Characteristics -->
-  <label>Characteristics</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/SensorType/properties/Characteristics"></i></a>
+  <label>Characteristics</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/SensorType/properties/Characteristics"></i></a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'characteristics',
       values: sensors['Characteristics'] || [{}],
@@ -20,6 +20,6 @@
 
 
   <!-- Technique -->
-  <label for="<%= remove_pipes(name_prefix) %>technique">Technique</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/SensorType/properties/Technique"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>technique">Technique</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/SensorType/properties/Technique"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}technique"), sensors['Technique'], rows: 8, class: 'validate') %>
 </div>

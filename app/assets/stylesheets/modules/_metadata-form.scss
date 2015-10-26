@@ -63,7 +63,6 @@
 .simple-multiple {
   .multiple-item input[type="text"], .multiple-item input[type="datetime"], .multiple-item input[type="number"] {
     float: left;
-    clear: both;
   }
 }
 
@@ -104,4 +103,8 @@
 // This needs to move to EUI!
 .item-list-pane {
   overflow-y: scroll;
+}
+
+.validation-error {
+  clear: both;
 }

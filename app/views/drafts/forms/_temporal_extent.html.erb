@@ -23,7 +23,7 @@
       <div class="row sub-fields">
         <% keywords = draft.draft['TemporalKeywords'] || [nil] # [nil] creates at least one keyword field %>
         <div class="multiple simple-multiple temporal-keywords">
-          <label>Temporal Keyword</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="properties/TemporalKeywords"></i></a>
+          <label>Temporal Keyword</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/TemporalKeywords"></i></a>
         <% keywords.each_with_index do |keyword, index| %>
           <div class="multiple-item multiple-item-<%= index %>">
             <%= text_field_tag(name_to_param("draft_|temporal_keywords|_#{index}"), keyword, class: 'half-width temporal-keyword simple-multiple-field validate') %>

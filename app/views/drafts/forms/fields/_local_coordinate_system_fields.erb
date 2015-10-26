@@ -1,11 +1,11 @@
 <div class="row sub-fields">
   <!-- GeoReferenceInformation -->
-  <label for="<%= remove_pipes(name_prefix) %>geo_reference_information">Geo Reference Information</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/LocalCoordinateSystemType/properties/GeoReferenceInformation"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>geo_reference_information">Geo Reference Information</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LocalCoordinateSystemType/properties/GeoReferenceInformation"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}|geo_reference_information|"), local_coordinate_system['GeoReferenceInformation'], rows: 8, class: 'validate') %>
 
 
   <!-- Description -->
-  <label for="<%= remove_pipes(name_prefix) %>description">Description</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/LocalCoordinateSystemType/properties/Description"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>description">Description</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LocalCoordinateSystemType/properties/Description"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}description"), local_coordinate_system['Description'], rows: 8, class: 'validate') %>
 
 </div>

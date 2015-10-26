@@ -3,7 +3,7 @@
   <h3>ISO Topic Category</h3>
   <div class="row taller">
     <div class="col-12">
-      <label for="draft_iso_topic_categories_">ISO Topic Categories</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i></a>
+      <label for="draft_iso_topic_categories_">ISO Topic Categories</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i></a>
       <%= select_tag "#{name_to_param('draft_|iso_topic_categories|')}[]", options_for_select(DraftsHelper::ISOTopicCategoriesOptions, draft.draft['ISOTopicCategories']), class: 'multi-select', size: 4, multiple: 'true' %>
     </div>
   </div>
@@ -49,7 +49,7 @@
   <!-- AncillaryKeyword -->
   <div class="row taller">
     <div class="col-12">
-      <label for="ancillary_keyword">Ancillary Keywords</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="properties/AncillaryKeywords"></i></a>
+      <label for="ancillary_keyword">Ancillary Keywords</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/AncillaryKeywords"></i></a>
       <div class="row">
         <% ancillary_keywords = draft.draft['AncillaryKeywords'] || [nil] # [nil] creates at least one field %>
         <div class="multiple simple-multiple ancillary-keywords">
@@ -71,7 +71,7 @@
   <!-- AdditionalAttribute -->
   <div class="row taller">
     <div class="col-12">
-      <label>Additional Attributes</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="properties/AdditionalAttributes"></i></a>
+      <label>Additional Attributes</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/AdditionalAttributes"></i></a>
       <%= render partial: 'drafts/forms/type', locals: {
           type: 'additional_attribute',
           values: draft.draft['AdditionalAttributes'] || [{}],
