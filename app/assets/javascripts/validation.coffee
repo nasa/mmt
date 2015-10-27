@@ -238,13 +238,13 @@ $(document).ready ->
     validatePage
       element: this
       showInline: true
-      showSummary: false
+      showSummary: true
       showConfirm: false
 
   $('.metadata-form').on 'click', '.remove', ->
     validatePage
       showInline: true
-      showSummary: false
+      showSummary: true
       showConfirm: false
 
   $('.next-section').on 'change', ->
