@@ -89,6 +89,9 @@ $(document).ready ->
       when 'type' then "#{field} must be of type #{type}"
       when 'maximum' then "#{field} is too high"
       when 'minimum' then "#{field} is too low"
+      when 'oneOf'
+        field = path[path.length - 2]
+        "#{field} should have one type completed"
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -149,6 +152,9 @@ $(document).ready ->
       .length == 0
 
   getErrorDetails = (error) ->
+    if error.keyword == 'additionalProperties'
+      error = null
+      return
     path = for p in error.path.split('.')
       humps.decamelize(p)
     id = "draft_#{path.join('_')}"
@@ -178,24 +184,24 @@ $(document).ready ->
 
     # Display any new errors created by a form change
     for error, index in newErrors
-      error = getErrorDetails error
+      if error = getErrorDetails error
 
-      unless opts.element? and $(opts.element).attr('id') == error.id
-        inlineErrors.push error if $("##{error.id}:visible").length > 0
-        summaryErrors.push error if $("##{error.id}:visible").length > 0
+        unless opts.element? and $(opts.element).attr('id') == error.id
+          inlineErrors.push error if $("##{error.id}:visible").length > 0
+          summaryErrors.push error if $("##{error.id}:visible").length > 0
 
     # Display 'old' errors, from visited fields
     for error, index in errors
-      error = getErrorDetails error
+      if error = getErrorDetails error
 
-      # does the error id match the visitedFields
-      visited = visitedFields.filter (e) ->
-        return e.match(error.id)
-      .length > 0
+        # does the error id match the visitedFields
+        visited = visitedFields.filter (e) ->
+          return e.match(error.id)
+        .length > 0
 
-      if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1 # don't duplicate errors
-        inlineErrors.push error if $("##{error.id}:visible").length > 0
-        summaryErrors.push error if $("##{error.id}:visible").length > 0
+        if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1 # don't duplicate errors
+          inlineErrors.push error if $("##{error.id}:visible").length > 0
+          summaryErrors.push error if $("##{error.id}:visible").length > 0
 
     displayInlineErrors inlineErrors if inlineErrors.length > 0 and opts.showInline
     displaySummary summaryErrors if summaryErrors.length > 0 and opts.showSummary

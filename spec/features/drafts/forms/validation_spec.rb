@@ -172,6 +172,9 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'simple integer field validation works' do
+      choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
+      fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-10-27T00:00:00Z'
+
       good_integer_values.each do |test|
         fill_in 'Precision Of Seconds', with: test
         puts "Integer: #{test}" if debug
@@ -273,14 +276,16 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'validation of oneOf does work' do
+      choose 'draft_temporal_extents_0_ends_at_present_flag_true'
+
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
 
-      expect(page).to have_no_selector(validation_error)
-      expect(page).to have_content('Value must validate against exactly one of the provided schemas')
+      expect(page).to have_selector(validation_error)
+      expect(page).to have_content('TemporalExtents should have one type completed')
       choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
 
       within '.single-date-times' do
