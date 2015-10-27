@@ -181,8 +181,8 @@ $(document).ready ->
       error = getErrorDetails error
 
       unless opts.element? and $(opts.element).attr('id') == error.id
-        inlineErrors.push error if $("##{error.id}").length > 0
-        summaryErrors.push error if $("##{error.id}").length > 0
+        inlineErrors.push error if $("##{error.id}:visible").length > 0
+        summaryErrors.push error if $("##{error.id}:visible").length > 0
 
     # Display 'old' errors, from visited fields
     for error, index in errors
@@ -194,8 +194,8 @@ $(document).ready ->
       .length > 0
 
       if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1 # don't duplicate errors
-        inlineErrors.push error if $("##{error.id}").length > 0
-        summaryErrors.push error if $("##{error.id}").length > 0
+        inlineErrors.push error if $("##{error.id}:visible").length > 0
+        summaryErrors.push error if $("##{error.id}:visible").length > 0
 
     displayInlineErrors inlineErrors if inlineErrors.length > 0 and opts.showInline
     displaySummary summaryErrors if summaryErrors.length > 0 and opts.showSummary
@@ -232,13 +232,13 @@ $(document).ready ->
     validatePage
       element: this
       showInline: true
-      showSummary: true
+      showSummary: false
       showConfirm: false
 
   $('.metadata-form').on 'click', '.remove', ->
     validatePage
       showInline: true
-      showSummary: true
+      showSummary: false
       showConfirm: false
 
   $('.next-section').on 'change', ->
