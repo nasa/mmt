@@ -157,7 +157,15 @@ $(document).ready ->
       return
     path = for p in error.path.split('.')
       humps.decamelize(p)
-    id = "draft_#{path.join('_')}"
+    path = path.join('_')
+
+    # Fix the path for special case keys
+    path = path.replace('u_r_ls', 'urls')
+    path = path.replace('d_o_i', 'doi')
+    path = path.replace('i_s_b_n', 'isbn')
+    path = path.replace('i_s_o_topic_categories', 'iso_topic_categories')
+
+    id = "draft_#{path}"
     error.id = id
     error.element = $("##{id}")
     labelFor = id.replace(/\d+$/, "")

@@ -60,6 +60,9 @@ $(document).ready(function() {
       });
     }
 
+    // remove validation errors
+    $(newDiv).find('.validation-error').remove();
+
     $(newDiv).find('select, input, textarea').removeAttr('disabled');
     $(newDiv).find('select, input, textarea').not('input[type="hidden"]')[0].focus();
     // Remove points from preview link
