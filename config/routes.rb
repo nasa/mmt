@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :drafts do
     get 'edit/:form' => 'drafts#edit', as: 'edit_form'
     post 'publish' => 'drafts#publish', as: 'publish'
+    get 'download' => 'drafts#download_xml', as: 'download'
   end
   get 'welcome/index'
   get 'welcome/collections'
