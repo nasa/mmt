@@ -12,6 +12,10 @@ describe 'Publishing draft records', js: true, reset_provider: true do
       open_accordions
     end
 
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully published')
+    end
+
     it 'displays the published record page' do
       expect(page).to have_content 'PUBLISHED RECORD'
     end

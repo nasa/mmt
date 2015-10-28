@@ -27,6 +27,10 @@ describe 'Delete collection', js: true, reset_provider: true do
           end
         end
 
+        it 'displays a confirmation message' do
+          expect(page).to have_content('Collection was successfully deleted')
+        end
+
         it 'displays the revision page' do
           expect(page).to have_content('Revision History')
         end

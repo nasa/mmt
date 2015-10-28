@@ -17,6 +17,10 @@ describe 'Create new draft from collection', js: true do
       click_on 'Edit Record'
     end
 
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully created')
+    end
+
     it 'creates a new draft' do
       expect(Draft.count).to eq(1)
     end

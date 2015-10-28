@@ -6,6 +6,7 @@ class CollectionsController < ApplicationController
 
   def edit
     draft = Draft.create_from_collection(@collection, @current_user, @native_id)
+    flash[:success] = 'Draft was successfully created'
     redirect_to draft_path(draft)
   end
 
@@ -13,8 +14,10 @@ class CollectionsController < ApplicationController
     provider_id = @revisions.first['meta']['provider-id']
     delete = cmr_client.delete_collection(provider_id, @native_id, token)
     if delete.success?
+      flash[:success] = 'Collection was successfully deleted'
       redirect_to collection_revisions_path(id: delete.body['concept-id'], revision_id: delete.body['revision-id'])
     else
+      flash[:error] = 'Collection was not successfully deleted'
       render :show
     end
   end
@@ -29,12 +32,14 @@ class CollectionsController < ApplicationController
     ingested = cmr_client.ingest_collection(@metadata, @provider_id, @native_id, token)
 
     if ingested.success?
+      flash[:success] = 'Revision was successfully created'
       redirect_to collection_revisions_path(revision_id: latest_revision_id.to_i + 1)
     else
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
 
       @error = true
 
+      flash[:error] = 'Revision was not successfully created'
       render action: 'revisions'
     end
   end

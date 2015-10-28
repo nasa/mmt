@@ -1,4 +1,4 @@
-#MMT-58
+# MMT-58
 
 require 'rails_helper'
 
@@ -21,6 +21,10 @@ describe 'Draft deletion', js: true do
       end
     end
 
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully deleted')
+    end
+
     it 'leaves the draft table in the database empty' do
       expect(Draft.count).to eq(0)
     end
@@ -28,7 +32,6 @@ describe 'Draft deletion', js: true do
     it 'returns to the dashboard page' do
       expect(page).to have_content('Your Open Drafts')
     end
-
   end
 
   context 'when cancelling the deletion of a single draft' do
@@ -47,7 +50,5 @@ describe 'Draft deletion', js: true do
     it 'does NOT return to the dashboard page' do
       expect(page).to_not have_content('Your Open Drafts')
     end
-
   end
-
 end
