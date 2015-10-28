@@ -1,6 +1,6 @@
 <div class="row sub-fields">
   <!-- SpatialCoverageType -->
-  <% spatial_coverage_type = spatial_extent['SpatialCoverageType'] || "" %>
+  <% spatial_coverage_type = spatial_extent['SpatialCoverageType'] || '' %>
   <label>Spatial Coverage Type</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/SpatialExtentType/properties/SpatialCoverageType"></i></a>
   <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label></p>
   <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label></p>

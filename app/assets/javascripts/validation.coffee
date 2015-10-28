@@ -195,6 +195,9 @@ $(document).ready ->
       if error = getErrorDetails error
 
         unless opts.element? and $(opts.element).attr('id') == error.id
+          # 'visit' the new error field
+          visitedFields.push error.id unless visitedFields.indexOf(error.id) != -1
+
           inlineErrors.push error if $("##{error.id}:visible").length > 0
           summaryErrors.push error if $("##{error.id}:visible").length > 0
 
@@ -242,14 +245,15 @@ $(document).ready ->
   $('.metadata-form').on 'blur', '.validate', ->
     id = $(this).attr('id')
     visitedFields.push id unless visitedFields.indexOf(id) != -1
-
-    validatePage
-      element: this
-      showInline: true
-      showSummary: true
-      showConfirm: false
+    validateFromFormChange()
 
   $('.metadata-form').on 'click', '.remove', ->
+    validateFromFormChange()
+
+  $('.metadata-form').on 'change', 'input[type="radio"], select', ->
+    validateFromFormChange()
+
+  validateFromFormChange = ->
     validatePage
       showInline: true
       showSummary: true
