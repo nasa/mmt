@@ -62,7 +62,7 @@ class CollectionsController < ApplicationController
       @metadata = cmr_client.get_concept(concept_id, token, revision_id)
 
       # translate to umm-json metadata
-      @collection = cmr_client.translate_collection(@metadata, concept_format, 'application/umm+json').body
+      @collection = cmr_client.translate_collection(@metadata, concept_format, 'application/umm+json', true).body
     else
       # concept wasn't found, CMR might be a little slow
       # Take the user to a blank page with a message the collection doesn't exist yet,

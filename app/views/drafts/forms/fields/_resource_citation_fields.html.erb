@@ -1,60 +1,60 @@
 <div class="row sub-fields">
   <!-- Version -->
-  <label for="<%= remove_pipes(name_prefix) %>version">Version</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Version"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>version">Version</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Version"></i></a>
   <%= text_field_tag name_to_param("#{name_prefix}version"), resource_citation['Version'], class: 'half-width validate' %>
 
   <!-- Title -->
-  <label for="<%= remove_pipes(name_prefix) %>title">Title</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Title"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>title">Title</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Title"></i></a>
   <%= text_area_tag name_to_param("#{name_prefix}title"), resource_citation['Title'], rows: 8, class: 'validate' %>
 
 
   <!-- Creator -->
-  <label for="<%= remove_pipes(name_prefix) %>creator">Creator</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Creator"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>creator">Creator</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Creator"></i></a>
   <%= text_area_tag name_to_param("#{name_prefix}creator"), resource_citation['Creator'], rows: 8, class: 'validate' %>
 
 
   <!-- Editor -->
-  <label for="<%= remove_pipes(name_prefix) %>editor">Editor</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Editor"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>editor">Editor</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Editor"></i></a>
   <%= text_area_tag name_to_param("#{name_prefix}editor"), resource_citation['Editor'], rows: 8, class: 'validate' %>
 
 
   <!-- SeriesName -->
-  <label for="<%= remove_pipes(name_prefix) %>series_name">Series Name</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/SeriesName"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>series_name">Series Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/SeriesName"></i></a>
   <%= text_area_tag name_to_param("#{name_prefix}|series_name|"), resource_citation['SeriesName'], rows: 8, class: 'validate' %>
 
 
   <!-- ReleaseDate -->
-  <label for="<%= remove_pipes(name_prefix) %>release_date">Release Date</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/ReleaseDate"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>release_date">Release Date</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/ReleaseDate"></i></a>
   <%= datetime_field_tag name_to_param("#{name_prefix}|release_date|"), resource_citation['ReleaseDate'], class: 'half-width validate mmt-date-time' %>
 
 
   <!-- ReleasePlace -->
-  <label for="<%= remove_pipes(name_prefix) %>release_place">Release Place</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/ReleasePlace"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>release_place">Release Place</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/ReleasePlace"></i></a>
   <%= text_area_tag name_to_param("#{name_prefix}|release_place|"), resource_citation['ReleasePlace'], rows: 8, class: 'validate' %>
 
 
   <!-- Publisher -->
-  <label for="<%= remove_pipes(name_prefix) %>publisher">Publisher</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Publisher"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>publisher">Publisher</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Publisher"></i></a>
   <%= text_area_tag name_to_param("#{name_prefix}publisher"), resource_citation['Publisher'], rows: 8, class: 'validate' %>
 
 
   <!-- IssueIdentification -->
-  <label for="<%= remove_pipes(name_prefix) %>issue_identification">Issue Identification</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/IssueIdentification"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>issue_identification">Issue Identification</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/IssueIdentification"></i></a>
   <%= text_field_tag name_to_param("#{name_prefix}|issue_identification|"), resource_citation['IssueIdentification'], class: 'half-width validate' %>
 
 
   <!-- DataPresentationForm -->
-  <label for="<%= remove_pipes(name_prefix) %>data_presentation_form">Data Presentation Form</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DataPresentationForm"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>data_presentation_form">Data Presentation Form</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DataPresentationForm"></i></a>
   <%= text_field_tag name_to_param("#{name_prefix}|data_presentation_form|"), resource_citation['DataPresentationForm'], class: 'half-width validate' %>
 
 
   <!-- OtherCitationDetails -->
-  <label for="<%= remove_pipes(name_prefix) %>other_citation_details">Other Citation Details</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/OtherCitationDetails"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>other_citation_details">Other Citation Details</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/OtherCitationDetails"></i></a>
   <%= text_area_tag name_to_param("#{name_prefix}|other_citation_details|"), resource_citation['OtherCitationDetails'], rows: 8, class: 'validate' %>
 
 
   <!-- DOI -->
-  <label>DOI</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DOI"></i></a>
+  <label>DOI</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DOI"></i></a>
   <div class="row sub-fields">
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'doi',
@@ -66,7 +66,7 @@
 
 
   <!-- RelatedUrl - only one -->
-  <label>Related URL</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/RelatedUrl"></i></a>
+  <label>Related URL</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/RelatedUrl"></i></a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'related_url',
       values: resource_citation['RelatedUrl'] || {},

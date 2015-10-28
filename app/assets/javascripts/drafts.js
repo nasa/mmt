@@ -60,6 +60,9 @@ $(document).ready(function() {
       });
     }
 
+    // remove validation errors
+    $(newDiv).find('.validation-error').remove();
+
     $(newDiv).find('select, input, textarea').removeAttr('disabled');
     $(newDiv).find('select, input, textarea').not('input[type="hidden"]')[0].focus();
     // Remove points from preview link
@@ -145,10 +148,10 @@ $(document).ready(function() {
   // Handle geometry-picker (points/rectangles/polygons/lines)
   $('.geometry-picker').change(function() {
     var geometryType = $(this).parents('.geometry-type');
-      $(geometryType).siblings('.points-fields').hide();
-      $(geometryType).siblings('.bounding-rectangles-fields').hide();
-      $(geometryType).siblings('.g-polygons-fields').hide();
-      $(geometryType).siblings('.lines-fields').hide();
+    $(geometryType).siblings('.points-fields').hide();
+    $(geometryType).siblings('.bounding-rectangles-fields').hide();
+    $(geometryType).siblings('.g-polygons-fields').hide();
+    $(geometryType).siblings('.lines-fields').hide();
 
     switch ($(this).val()) {
       case 'points':

@@ -7,21 +7,17 @@ require 'rails_helper'
 
 debug = false
 
-required_error_string = 'Value required.'
-validation_element_display_selector_string = '#validation-error-display'
+validation_error = '.validation-error'
 
 empty_string = ''
 very_long_string = '0' * 1000
-# very_short_string = '0'
 
 good_string_values = ['good string']
-# good_string_value = good_string_values[0]
 bad_string_values = [
-  # {value: very_short_string, error: 'Value is too short'}, There are no minLengths > 1 in the schema
-  { value: very_long_string, error: 'Value is too long' }
+  { value: very_long_string, error: 'Entry Id is too long' }
 ]
 
-integer_error_string = 'Value must be of type integer'
+integer_error_string = 'Precision Of Seconds must be of type integer'
 good_integer_values = ['0', '1234', '-123', '+123', '0123', '+0123', '-0']
 bad_integer_values = [
   { value: '--123', error: integer_error_string },
@@ -37,7 +33,7 @@ bad_integer_values = [
 ]
 
 # numbers are floats
-number_error_string = 'Value must be of type number'
+number_error_string = 'Size must be of type number'
 good_number_values = ['0', '0.0', '12.34', '-12.34', '+12.45', '012.45', '+012.45', '-0', '6.022E1', '-6.022E1']
 bad_number_values = [
   { value: 'a123', error: number_error_string },
@@ -51,19 +47,15 @@ bad_number_values = [
   { value: '6.022E23E', error: number_error_string }
 ]
 
-date_error_string = 'Value must match the provided pattern'
+date_error_string = 'Beginning Date Time must match the provided pattern'
 good_date_values = ['2015-07-01T00:00:00Z', '2004-02-29T00:00:00Z']
 bad_date_values = [
-  # { value: '2015-99-01T00:00:00Z', error: date_error_string }, # Validator does not identify erroneous date!
-  # { value: '2015-07-41T00:00:00Z', error: date_error_string },
-  # { value: '2015-00-01T00:00:00Z', error: date_error_string },
-  # { value: '2015-02-29T00:00:00Z', error: date_error_string },
   { value: '123', error: date_error_string },
   { value: 'abc', error: date_error_string },
   { value: '2015-00-01', error: date_error_string }
 ]
 
-uuid_error_string = 'Value must match the provided pattern'
+uuid_error_string = 'Uuid must match the provided pattern'
 good_uuid_values = ['de135797-8539-4c3a-bc20-17a83d75aa49']
 bad_uuid_values = [
   { value: '#$%^&', error: uuid_error_string }
@@ -72,10 +64,10 @@ bad_uuid_values = [
 # Lat and Lon are floats with range restrictions
 good_lat_values = ['0.0', '90']
 bad_lat_values = [
-  { value: '100A', error: number_error_string },
-  { value: '1#{0}$0', error: number_error_string },
-  { value: '100', error: 'Value is too high' },
-  { value: '-100', error: 'Value is too low' }
+  { value: '100A', error: 'Latitude must be of type number' },
+  { value: '1#{0}$0', error: 'Latitude must be of type number' },
+  { value: '100', error: 'Latitude is too high' },
+  { value: '-100', error: 'Latitude is too low' }
 ]
 
 describe 'Data validation for a form', js: true do
@@ -94,32 +86,38 @@ describe 'Data validation for a form', js: true do
 
     it 'simple mandatory string field validation works' do
       fill_in 'draft_entry_id', with: empty_string
-      expect(page).to have_content(required_error_string)
+      expect(page).to have_content('Entry Id is required')
 
       good_string_values.each do |test|
         fill_in 'draft_entry_id', with: test
         puts "#{test}" if debug
-        expect(page).not_to have_selector(validation_element_display_selector_string)
+        expect(page).to have_no_selector(validation_error)
       end
 
       bad_string_values.each do |test|
         fill_in 'draft_entry_id', with: test[:value]
-        # puts "String: #{test[:value]}: #{test[:error]}" if debug
+        puts "String: #{test[:value]}: #{test[:error]}" if debug
         expect(page).to have_content(test[:error])
       end
     end
 
     it 'validation between related R and NR fields works' do
-      fill_in 'Short Name', with: empty_string
-      expect(page).not_to have_selector(validation_element_display_selector_string)
-      fill_in 'Long Name', with: 'Long Name'
-      expect(page).not_to have_selector(validation_element_display_selector_string)
-      fill_in 'Short Name', with: empty_string
-      expect(page).to have_content(required_error_string)
-      fill_in 'Long Name', with: empty_string
-      expect(page).to have_content(required_error_string)
-      fill_in 'Short Name', with: empty_string
-      expect(page).not_to have_selector(validation_element_display_selector_string)
+      within '.organization' do
+        select 'Owner', from: 'Role'
+        fill_in 'Short Name', with: empty_string
+        expect(page).to have_no_selector(validation_error)
+
+        fill_in 'Long Name', with: 'long name'
+        expect(page).to have_content('Short Name is required')
+        expect(page).to have_selector(validation_error)
+
+        fill_in 'Short Name', with: 'Short name'
+        expect(page).to have_no_selector(validation_error)
+
+        fill_in 'Short Name', with: empty_string
+        expect(page).to have_content('Short Name is required')
+        expect(page).to have_selector(validation_error)
+      end
     end
 
     context 'full page validation works' do
@@ -132,7 +130,7 @@ describe 'Data validation for a form', js: true do
       end
 
       it 'full page validation works' do
-        expect(page).to have_content('Entry Id: Value required.')
+        expect(page).to have_content('Entry Id is required')
       end
     end
   end
@@ -151,7 +149,7 @@ describe 'Data validation for a form', js: true do
               good_number_values.each do |test|
                 fill_in 'Size', with: test
                 puts "Number: #{test}" if debug
-                expect(page).not_to have_selector(validation_element_display_selector_string)
+                expect(page).to have_no_selector(validation_error)
               end
 
               bad_number_values.each do |test|
@@ -174,10 +172,13 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'simple integer field validation works' do
+      choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
+      fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-10-27T00:00:00Z'
+
       good_integer_values.each do |test|
         fill_in 'Precision Of Seconds', with: test
         puts "Integer: #{test}" if debug
-        expect(page).not_to have_selector(validation_element_display_selector_string)
+        expect(page).to have_no_selector(validation_error)
       end
 
       bad_integer_values.each do |test|
@@ -193,7 +194,7 @@ describe 'Data validation for a form', js: true do
       good_date_values.each do |test|
         fill_in 'Beginning Date Time', with: test
         puts "Date: #{test}" if debug
-        expect(page).not_to have_selector(validation_element_display_selector_string)
+        expect(page).to have_no_selector(validation_error)
       end
 
       bad_date_values.each do |test|
@@ -220,13 +221,14 @@ describe 'Data validation for a form', js: true do
         within '.geometry' do
           within first('.multiple.points') do
             good_lat_values.each do |test|
+              fill_in 'Longitude', with: '0'
               fill_in 'Latitude', with: test
               puts "Latitude #{test}" if debug
-              # expect(page).to_not have_content(integer_error_string)
-              expect(page).not_to have_selector(validation_element_display_selector_string)
+              expect(page).to have_no_selector(validation_error)
             end
 
             bad_lat_values.each do |test|
+              fill_in 'Longitude', with: '0'
               fill_in 'Latitude', with: test[:value]
               puts "Latitude #{test[:value]}: #{test[:error]}" if debug
               expect(page).to have_content(test[:error])
@@ -246,12 +248,13 @@ describe 'Data validation for a form', js: true do
 
     it 'simple Uuid field validation works' do
       within '.row.organization' do
-        within '.multiple.responsibilities > .multiple-item-0' do
+        within '.multiple.responsibilities > .multiple-item-0 .organization-fields' do
+          fill_in 'Short Name', with: 'short name'
+
           good_uuid_values.each do |test|
             fill_in 'Uuid', with: test
             puts "Uuid #{test}" if debug
-            # expect(page).to_not have_content(integer_error_string)
-            expect(page).not_to have_selector(validation_element_display_selector_string)
+            expect(page).to have_no_selector(validation_error)
           end
 
           bad_uuid_values.each do |test|
@@ -271,24 +274,31 @@ describe 'Data validation for a form', js: true do
         click_on 'Temporal Extent'
       end
     end
+
     it 'validation of oneOf does work' do
+      choose 'draft_temporal_extents_0_ends_at_present_flag_true'
+
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).not_to have_selector(validation_element_display_selector_string)
-      expect(page).to have_content('Value must validate against exactly one of the provided schemas')
+
+      expect(page).to have_selector(validation_error)
+      expect(page).to have_content('TemporalExtents should have one type completed')
       choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
+
       within '.single-date-times' do
         fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-07-01T00:00:00Z'
       end
+
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).not_to have_selector(validation_element_display_selector_string)
+
+      expect(page).to have_no_selector(validation_error)
     end
   end
 
@@ -298,6 +308,7 @@ describe 'Data validation for a form', js: true do
         click_on 'Spatial Extent'
       end
     end
+
     it 'validation of minItems does work' do
       # Partially populate a boundary's list of points
       choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
@@ -317,13 +328,15 @@ describe 'Data validation for a form', js: true do
           end
         end
       end
+
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).not_to have_selector(validation_element_display_selector_string)
-      expect(page).to have_content('Points: Value has too few items')
+
+      expect(page).to have_selector(validation_error)
+      expect(page).to have_content('Points has too few items')
 
       # Fully populate a boundary's list of points
       within '.geometry' do
@@ -347,31 +360,33 @@ describe 'Data validation for a form', js: true do
           end
         end
       end
+
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).not_to have_content('Points: Value has too few items')
+
+      expect(page).to have_no_content('Points has too few items')
 
       # Delete a point and the error should reappear
       within '.geometry' do
         within '.multiple.g-polygons > .multiple-item-0' do
           within '.boundary .multiple.points' do
             within '.multiple-item-1' do
-              within '.remove' do
-                find('.fa').click
-              end
+              find('.remove').click
             end
           end
         end
       end
+
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).to have_content('Points: Value has too few items')
+
+      expect(page).to have_content('Points has too few items')
     end
   end
 
@@ -382,45 +397,54 @@ describe 'Data validation for a form', js: true do
         click_on 'Spatial Extent'
       end
     end
+
     it 'validation of a single object in an array of simple objects does work' do
       fill_in 'draft_spatial_keywords_0', with: very_long_string
-      expect(page).to have_content('Value is too long')
+      expect(page).to have_content('Spatial Keyword is too long')
+
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).to have_content('Spatial Keywords: Value is too long')
+
+      expect(page).to have_content('Spatial Keyword is too long')
       fill_in 'draft_spatial_keywords_0', with: 'acceptable string'
-      expect(page).to have_content('Spatial Keywords: Value is too long') # Err msg still displayed in summary area
-      expect(page).not_to have_selector(validation_element_display_selector_string)
+      expect(page).to have_no_content('Spatial Keyword is too long')
+      expect(page).to have_no_selector(validation_error)
+
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).not_to have_content('Spatial Keywords: Value is too long')
+
+      expect(page).to have_no_content('Spatial Keyword is too long')
     end
 
     it 'validation of subsequent objects in an array of simple objects does work' do
       fill_in 'draft_spatial_keywords_0', with: 'acceptable string'
       click_on 'Add Another Keyword'
       fill_in 'draft_spatial_keywords_1', with: very_long_string
-      expect(page).to have_content('Value is too long')
+      expect(page).to have_content('Spatial Keyword is too long')
+
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).to have_content('Spatial Keywords: Value is too long')
+
+      expect(page).to have_content('Spatial Keyword is too long')
       fill_in 'draft_spatial_keywords_1', with: 'acceptable string'
-      expect(page).not_to have_selector(validation_element_display_selector_string)
+      expect(page).to have_no_selector(validation_error)
+
       within '.nav-top' do
         reject_confirm_from do
           click_on 'Save & Done'
         end
       end
-      expect(page).not_to have_content('Spatial Keywords: Value is too long')
+
+      expect(page).to have_no_content('Spatial Keyword is too long')
     end
   end
 end

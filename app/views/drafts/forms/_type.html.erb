@@ -2,9 +2,9 @@
 <% show_preview = options[:show_preview] ? true : false %>
 
 <% if multiple %>
-  <div class="multiple <%= (options[:type] || type).pluralize.dasherize %>">
+  <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') %>" class="multiple <%= (options[:type] || type).pluralize.dasherize %>">
     <% values.each_with_index do |value, index| %>
-      <div class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless value == values.last %>">
+      <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') + "_#{index}" %>" class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless value == values.last %>">
         <div class="accordion-header">
           <i class="fa fa-angle-down toggle"></i>
           <%= options[:title] || type.titleize %> <%= index + 1 %>

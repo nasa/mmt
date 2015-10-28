@@ -26,8 +26,8 @@ $(document).ready ->
     # Display or hide validation hints
     validations = $('#help-modal .validations')
     $(validations).parent().show()
-    $("<li>Format: #{format}</li>").appendTo(validations) if format?
     $("<li>Minimum Items: #{minItems}</li>").appendTo(validations) if minItems?
+    $("<li>Format: #{format}</li>").appendTo(validations) if format?
     $("<li>Minimum Length: #{minLength}</li>").appendTo(validations) if minLength?
     $("<li>Maximum Length: #{maxLength}</li>").appendTo(validations) if maxLength?
     $("<li>Pattern: #{pattern}</li>").appendTo(validations) if pattern?
@@ -94,6 +94,9 @@ $(document).ready ->
   getFormat = (path) ->
     schema = getSchemaProperties(path)
     format = schema.format
+    items = schema.items
+    if !format? and items?
+      format = items.format
     if !format? and schema['$ref']?
       ref = schema['$ref'].split('/')
       ref.shift()

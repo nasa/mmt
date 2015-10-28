@@ -1,14 +1,14 @@
 <div class="row sub-fields">
   <!-- Type -->
   <div class="col-6">
-    <label for="<%= remove_pipes(name_prefix) %>type" class="icon-required">Type</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSpatialDomainType/properties/Type"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>type" class="icon-required">Type</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSpatialDomainType/properties/Type"></i></a>
     <%= text_field_tag(name_to_param("#{name_prefix}type"), vertical_spatial_domain['Type'], class: 'full-width validate') %>
   </div>
 
 
   <!-- Value -->
   <div class="col-6">
-    <label for="<%= remove_pipes(name_prefix) %>value" class="icon-required">Value</label><a href="#help-modal" class="display-help-modal"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSpatialDomainType/properties/Value"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>value" class="icon-required">Value</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSpatialDomainType/properties/Value"></i></a>
     <%= text_field_tag(name_to_param("#{name_prefix}value"), vertical_spatial_domain['Value'], class: 'full-width validate') %>
   </div>
 </div>

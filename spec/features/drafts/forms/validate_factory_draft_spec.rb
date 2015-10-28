@@ -4,9 +4,8 @@ require 'rails_helper'
 
 debug = false
 
-validation_element_display_selector_string = '#validation-error-display'
-validation_summary_display_selector_string = '#summary-error-display'
-
+validation_element_display_selector_string = '.validation-error'
+validation_summary_display_selector_string = '#summary-errors'
 
 describe 'Data validation on each form for the factory draft', js: true do
   before do
@@ -14,7 +13,6 @@ describe 'Data validation on each form for the factory draft', js: true do
     draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
     visit draft_path(draft)
   end
-
 
   Draft::DRAFT_FORMS.each do |form|
     form_name = form[:form_partial_name].titleize
@@ -28,7 +26,6 @@ describe 'Data validation on each form for the factory draft', js: true do
       end
 
       it 'validation produces no false positives' do
-
         # Loop through each validate field...
         if debug
           # This probably is not as efficient (39 seconds vs 6 on my machine) but gives you more information
@@ -50,13 +47,10 @@ describe 'Data validation on each form for the factory draft', js: true do
             click_on 'Save & Done'
           end
         end
+
         expect(page).not_to have_selector(validation_element_display_selector_string)
         expect(page).not_to have_selector(validation_summary_display_selector_string)
-
       end
-
     end
   end
-
-
 end

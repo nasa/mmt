@@ -42,12 +42,14 @@ module Cmr
       get(url).body
     end
 
-    def translate_collection(draft_metadata, from_format, to_format)
+    def translate_collection(draft_metadata, from_format, to_format, skip_validation = false)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3002/translate/collection'
       else
         url = '/ingest/translate/collection'
       end
+      url += '?skip_umm_validation=true' if skip_validation
+
       headers = {
         'Content-Type' => from_format,
         'Accept' => to_format
