@@ -45,6 +45,16 @@ class CollectionsController < ApplicationController
     concept_id = params[:id]
     revision_id = params[:revision_id]
 
+    base_url = 'http://localhost:3003'
+    if Rails.env.sit?
+      base_url = 'https://cmr.sit.earthdata.nasa.gov/search'
+    elsif Rails.env.uat?
+      base_url = 'https://cmr.uat.earthdata.nasa.gov/search'
+    elsif Rails.env.production?
+      base_url = 'https://cmr.earthdata.nasa.gov/search'
+    end
+    @collection_link = "#{base_url}/concepts/#{concept_id}"
+
     # Get granule count, will be replaced once CMR-2053 is complete
     granule_result = cmr_client.get_granule_count(concept_id, token)
     @num_granules = granule_result.nil? ? 0 : granule_result['granule_count']
