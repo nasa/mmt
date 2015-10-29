@@ -21,16 +21,16 @@
     margin: 25px;
   }
 
-  #provider-context, #help-modal {
-    width: 500px;
-  }
-
-  #download-xml-modal {
-    width: 600px;
-  }
-
   .modal-close {
     float: right;
     margin: 1em;
   }
+}
+
+#provider-context, #help-modal {
+  width: 500px;
+}
+
+#download-xml-modal {
+  width: 700px;
 }
