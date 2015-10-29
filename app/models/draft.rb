@@ -63,15 +63,17 @@ class Draft < ActiveRecord::Base
   end
 
   def self.create_from_collection(collection, user, native_id)
+    new_entry_title = collection['EntryTitle'].empty? ? nil : collection['EntryTitle']
     if native_id
       draft = Draft.find_or_create_by(native_id: native_id)
+      draft.entry_title = new_entry_title
     else
       draft = Draft.create
+      draft.entry_title = "#{new_entry_title} - Cloned"
     end
     draft.user = user
     draft.draft = collection
     draft.entry_id = collection['EntryId'].empty? ? nil : collection['EntryId']
-    draft.entry_title = collection['EntryTitle'].empty? ? nil : collection['EntryTitle']
     draft.save
     draft
   end

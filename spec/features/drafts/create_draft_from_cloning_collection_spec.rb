@@ -28,7 +28,7 @@ describe 'Create new draft from cloning a collection', js: true do
 
     it 'displays the draft preview page' do
       expect(page).to have_content('DRAFT RECORD')
-      expect(page).to have_content(entry_title)
+      expect(page).to have_content("#{entry_title} - Cloned")
     end
   end
 end
