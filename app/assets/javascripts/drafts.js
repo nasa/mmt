@@ -435,17 +435,25 @@ $(document).ready(function() {
   });
 
   // Handle add keyword button
-  $('.add-keyword').on('click', function() {
+  $('.add-science-keyword').on('click', function() {
+    addKeyword('science');
+  });
+
+  $('.add-spatial-keyword').on('click', function() {
+    addKeyword('spatial');
+  });
+
+  var addKeyword = function(type) {
     // Add selected value to keyword list
     var values = picker.getValues();
-    var keywordList = $('.selected-science-keywords ul');
+    var keywordList = $('.selected-' + type + '-keywords ul');
     var li;
     $.each(values, function(index, value) {
       li = $('<li>' + value + "<a class='remove'><i class='fa fa-times-circle'></i></a></li>");
       $('<input/>', {
         type: 'hidden',
-        name: 'draft[science_keywords][]',
-        id: 'draft_science_keywords_',
+        name: 'draft[' + type + '_keywords][]',
+        id: 'draft_' + type + '_keywords_',
         value: value
       }).appendTo(li);
       $(li).appendTo(keywordList);
@@ -453,9 +461,9 @@ $(document).ready(function() {
 
     // Reset picker to top level
     picker.resetPicker();
-  });
+  };
 
-  $('.selected-science-keywords').on('click', '.remove', function() {
+  $('.selected-science-keywords, .selected-spatial-keywords').on('click', '.remove', function() {
     $(this).parent().remove();
   });
 
