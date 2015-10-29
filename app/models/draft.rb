@@ -63,12 +63,15 @@ class Draft < ActiveRecord::Base
   end
 
   def self.create_from_collection(collection, user, native_id)
-    draft = Draft.find_or_create_by(native_id: native_id)
+    if native_id
+      draft = Draft.find_or_create_by(native_id: native_id)
+    else
+      draft = Draft.create
+    end
     draft.user = user
     draft.draft = collection
     draft.entry_id = collection['EntryId'].empty? ? nil : collection['EntryId']
     draft.entry_title = collection['EntryTitle'].empty? ? nil : collection['EntryTitle']
-    draft.native_id = native_id
     draft.save
     draft
   end

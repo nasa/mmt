@@ -9,6 +9,11 @@ class CollectionsController < ApplicationController
     redirect_to draft_path(draft)
   end
 
+  def clone
+    draft = Draft.create_from_collection(@collection, @current_user, nil)
+    redirect_to draft_path(draft)
+  end
+
   def destroy
     provider_id = @revisions.first['meta']['provider-id']
     delete = cmr_client.delete_collection(provider_id, @native_id, token)
