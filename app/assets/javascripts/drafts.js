@@ -230,6 +230,8 @@ $(document).ready(function() {
     $(this).parent().siblings('.spatial-coverage-type').hide();
     // Clear all fields
     $(this).parent().siblings('.spatial-coverage-type').find('input, select').not('input[type="radio"]').val('');
+    // Clear radio buttons
+    $(this).parent().siblings('.spatial-coverage-type').find('input[type="radio"]').prop('checked', false);
 
     switch ($(this).val()) {
       case 'HORIZONTAL':
