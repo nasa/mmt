@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
+  get '/collections/:id/clone' => 'collections#clone', as: 'clone_collection'
 
   resources :drafts do
     get 'edit/:form' => 'drafts#edit', as: 'edit_form'
