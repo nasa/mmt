@@ -21,7 +21,7 @@ describe 'Downloading Collection XML', js: true do
         expect(page).to have_link('Native', href: link)
         expect(page).to have_link('ATOM', href: "#{link}.atom")
         expect(page).to have_link('ECHO 10', href: "#{link}.echo10")
-        expect(page).to have_link('ISO 19115 (MENDS)', href: "#{link}.iso_mends")
+        expect(page).to have_link('ISO 19115 (MENDS)', href: "#{link}.iso")
         expect(page).to have_link('ISO 19115 (SMAP)', href: "#{link}.iso_smap")
         expect(page).to have_link('DIF 9', href: "#{link}.dif")
         expect(page).to have_link('DIF 10', href: "#{link}.dif10")
