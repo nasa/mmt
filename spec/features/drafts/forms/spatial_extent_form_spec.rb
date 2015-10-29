@@ -49,15 +49,7 @@ describe 'Spatial extent form', js: true do
         fill_in 'Longitude Resolution', with: '43.0'
 
         # Spatial Keywords
-        within '.multiple.spatial-keywords' do
-          within '.multiple-item-0' do
-            find('.spatial-keyword').set 'Keyword 1'
-            click_on 'Add Another Keyword'
-          end
-          within '.multiple-item-1' do
-            find('.spatial-keyword').set 'Keyword 2'
-          end
-        end
+        add_spatial_keywords
 
         within '.nav-top' do
           click_on 'Save & Done'
@@ -93,7 +85,7 @@ describe 'Spatial extent form', js: true do
         expect(page).to have_content('Geographic Coordinate Units: Coordinate units')
         expect(page).to have_content('Latitude Resolution: 42.0')
         expect(page).to have_content('Longitude Resolution: 43.0')
-        expect(page).to have_content('Spatial Keywords Keyword 1 Keyword 2')
+        expect(page).to have_content('Spatial Keywords GEOGRAPHIC REGION > ARCTIC OCEAN > ATLANTIC OCEAN')
 
         # Also check side bar
         # Note that handling blank spatial extents is tested in other form tests that don't populate spatial extents
@@ -103,7 +95,11 @@ describe 'Spatial extent form', js: true do
         expect(page).to have_content('Lon: -76.9284587')
 
         expect(page).to have_content('No Temporal Coverages found')
-        expect(page).to_not have_content('No Spatial Coverages found')
+        expect(page).to have_no_content('No Spatial Coverages found')
+        expect(page).to have_no_content('No Spatial Keywords found')
+
+        expect(page).to have_content('Location Keywords GEOGRAPHIC REGION > ARCTIC
+OCEAN > ATLANTIC OCEAN')
       end
 
       context 'when returning to the form' do
@@ -164,10 +160,8 @@ describe 'Spatial extent form', js: true do
           expect(page).to have_field('Longitude Resolution', with: '43.0')
 
           # Spatial Keywords
-          within '.multiple.spatial-keywords' do
-            expect(page).to have_selector('input.spatial-keyword[value="Keyword 1"]')
-            expect(page).to have_selector('input.spatial-keyword[value="Keyword 2"]')
-          end
+          expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
+          expect(page).to have_content('OCEAN > ATLANTIC OCEAN')
         end
       end
     end
@@ -214,7 +208,6 @@ describe 'Spatial extent form', js: true do
         expect(page).to have_content('East Bounding Coordinate: -56.9284587')
         expect(page).to have_content('South Bounding Coordinate: 18.968602')
 
-
         expect(page).to have_content('Granule Spatial Representation: Cartesian')
 
         # Also check side bar
@@ -228,7 +221,8 @@ describe 'Spatial extent form', js: true do
         expect(page).to have_content('W: -96.9284587')
 
         expect(page).to have_content('No Temporal Coverages found')
-        expect(page).to_not have_content('No Spatial Coverages found')
+        expect(page).to have_content('No Spatial Keywords found')
+        expect(page).to have_no_content('No Spatial Coverages found')
       end
 
       context 'when returning to the form' do
