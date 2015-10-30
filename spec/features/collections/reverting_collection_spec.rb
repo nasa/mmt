@@ -32,6 +32,10 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
         end
       end
 
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Revision was successfully created')
+      end
+
       it 'displays the new latest revision' do
         expect(page).to have_content('Published', count: 1)
         expect(page).to have_content('Revision View', count: 2)
@@ -56,6 +60,10 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
         accept_confirm_from do
           click_on 'Reinstate'
         end
+      end
+
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Revision was successfully created')
       end
 
       it 'displays the new latest revision' do

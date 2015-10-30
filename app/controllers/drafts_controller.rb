@@ -17,6 +17,7 @@ class DraftsController < ApplicationController
   # GET /drafts/new
   def new
     draft = Draft.create(user: @current_user, draft: {})
+    flash[:success] = 'Draft was successfully created'
     redirect_to draft_path(draft)
   end
 
@@ -41,9 +42,11 @@ class DraftsController < ApplicationController
   def update
     @draft = Draft.find(params[:id])
     if @draft.update_draft(params[:draft])
+      flash[:success] = 'Draft was successfully updated'
+
       case params[:commit]
       when 'Save & Done'
-        redirect_to @draft, notice: 'Draft was successfully updated.'
+        redirect_to @draft
       when 'Save & Next'
         # Determine next form to go to
         next_form_name = Draft.get_next_form(params['next_section'])
@@ -55,6 +58,7 @@ class DraftsController < ApplicationController
     else # record update failed
       # render 'edit' # this should get @draft_form
       # Remove
+      flash[:error] = 'Draft was not updated successfully'
       redirect_to @draft
     end
   end
@@ -64,7 +68,8 @@ class DraftsController < ApplicationController
   def destroy
     @draft.destroy
     respond_to do |format|
-      format.html { redirect_to dashboard_url } # Retain this for later use?, notice: "Draft \"#{@draft.entry_id}\"was successfully deleted." }
+      flash[:success] = 'Draft was successfully deleted'
+      format.html { redirect_to dashboard_url }
     end
   end
 
@@ -82,6 +87,7 @@ class DraftsController < ApplicationController
         xml = MultiXml.parse(ingested.body)
         concept_id = xml['result']['concept_id']
         revision_id = xml['result']['revision_id']
+        flash[:success] = 'Draft was successfully published'
         redirect_to collection_path(concept_id, revision_id: revision_id)
       else
         # Log error message
@@ -92,11 +98,13 @@ class DraftsController < ApplicationController
           field: nil,
           error: 'An unknown error caused publishing to fail.'
         }]
+        flash[:error] = 'Draft was not published successfully'
         render :show
       end
     else
       # log translated error message
       Rails.logger.error("Translated Metadata Error: #{translated_metadata.inspect}")
+      flash[:error] = 'Draft was not published successfully'
       render :show
     end
   end
