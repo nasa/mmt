@@ -35,13 +35,17 @@
         options: options.clone } %>
   </div>
 
-  <!-- all party fields -->
-  <label for="<%= remove_pipes(name_prefix) %>party_service_hours">Service Hours</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ServiceHours"></i></a>
-  <%= text_field_tag(name_to_param("#{name_prefix}party_|service_hours|"), party['ServiceHours'], class: 'half-width validate') %>
-
-  <label for="<%= remove_pipes(name_prefix) %>party_contact_instructions">Contact Instructions</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ContactInstructions"></i></a>
-  <%= text_field_tag(name_to_param("#{name_prefix}party_|contact_instructions|"), party['ContactInstructions'], class: 'half-width validate') %>
-
+  <div class="row">
+    <div class="col-6">
+      <!-- all party fields -->
+      <label for="<%= remove_pipes(name_prefix) %>party_service_hours">Service Hours</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ServiceHours"></i></a>
+      <%= text_field_tag(name_to_param("#{name_prefix}party_|service_hours|"), party['ServiceHours'], class: 'full-width validate') %>
+    </div>
+    <div class="col-6">
+      <label for="<%= remove_pipes(name_prefix) %>party_contact_instructions">Contact Instructions</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ContactInstructions"></i></a>
+      <%= text_field_tag(name_to_param("#{name_prefix}party_|contact_instructions|"), party['ContactInstructions'], class: 'full-width validate') %>
+    </div>
+  </div>
   <!-- Contact - multiple -->
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'contact',
