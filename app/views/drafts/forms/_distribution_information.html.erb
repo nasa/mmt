@@ -1,29 +1,33 @@
 <!-- Related URL [r] -->
-<fieldset>
-  <h3 class="icon-required">Related URL</h3>
-  <div class="row">
-    <div class="col-12">
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'related_url',
-          values: draft.draft['RelatedUrls'] || [{}],
-          name_prefix: 'draft_|related_urls|_',
-          multiple: true,
-          options: {} } %>
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3 class="icon-required">Related URL</h3></div>
+  <div class="accordion-body">
+    <div class="row">
+      <div class="col-12">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'related_url',
+            values: draft.draft['RelatedUrls'] || [{}],
+            name_prefix: 'draft_|related_urls|_',
+            multiple: true,
+            options: {} } %>
+      </div>
     </div>
   </div>
 </fieldset>
 
 <!-- Distribution -->
-<fieldset>
-  <h3>Distribution</h3>
-  <div class="row taller">
-    <div class="col-12">
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'distribution',
-          values: draft.draft['Distributions'] || [{}],
-          name_prefix: 'draft_distributions_',
-          multiple: true,
-          options: {} } %>
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3>Distribution</h3></div>
+  <div class="accordion-body">
+    <div class="row taller">
+      <div class="col-12">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'distribution',
+            values: draft.draft['Distributions'] || [{}],
+            name_prefix: 'draft_distributions_',
+            multiple: true,
+            options: {} } %>
+      </div>
     </div>
   </div>
 </fieldset>
