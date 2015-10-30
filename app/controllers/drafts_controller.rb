@@ -26,6 +26,12 @@ class DraftsController < ApplicationController
     if params[:form]
       @draft_form = params[:form]
       @science_keywords = cmr_client.get_science_keywords if params[:form] == 'descriptive_keywords'
+      @spatial_keywords = cmr_client.get_spatial_keywords if params[:form] == 'spatial_extent'
+
+      if params[:form] == 'temporal_extent'
+        keywords = cmr_client.get_temporal_keywords['temporal_resolution_range']
+        @temporal_keywords = keywords.map { |keyword| keyword['value'] }
+      end
     else
       render action: 'show'
     end
@@ -100,6 +106,21 @@ class DraftsController < ApplicationController
       Rails.logger.error("Translated Metadata Error: #{translated_metadata.inspect}")
       flash[:error] = 'Draft was not published successfully'
       render :show
+    end
+  end
+
+  def download_xml
+    draft = Draft.find(params[:draft_id])
+    xml_format = params[:format]
+    xml_format = 'iso:smap' if xml_format == 'iso_smap'
+    metadata = cmr_client.translate_collection(draft.draft.to_json, 'application/umm+json', "application/#{xml_format}+xml", true).body
+
+    respond_to do |format|
+      format.dif10 { render xml: metadata }
+      format.dif { render xml: metadata }
+      format.echo10 { render xml: metadata }
+      format.iso19115 { render xml: metadata }
+      format.iso_smap { render xml: metadata }
     end
   end
 

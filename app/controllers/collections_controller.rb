@@ -10,6 +10,11 @@ class CollectionsController < ApplicationController
     redirect_to draft_path(draft)
   end
 
+  def clone
+    draft = Draft.create_from_collection(@collection, @current_user, nil)
+    redirect_to draft_path(draft)
+  end
+
   def destroy
     provider_id = @revisions.first['meta']['provider-id']
     delete = cmr_client.delete_collection(provider_id, @native_id, token)
@@ -49,6 +54,16 @@ class CollectionsController < ApplicationController
   def set_collection
     concept_id = params[:id]
     revision_id = params[:revision_id]
+
+    base_url = 'http://localhost:3003'
+    if Rails.env.sit?
+      base_url = 'https://cmr.sit.earthdata.nasa.gov/search'
+    elsif Rails.env.uat?
+      base_url = 'https://cmr.uat.earthdata.nasa.gov/search'
+    elsif Rails.env.production?
+      base_url = 'https://cmr.earthdata.nasa.gov/search'
+    end
+    @collection_link = "#{base_url}/concepts/#{concept_id}"
 
     # Get granule count, will be replaced once CMR-2053 is complete
     granule_result = cmr_client.get_granule_count(concept_id, token)

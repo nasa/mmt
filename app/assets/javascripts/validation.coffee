@@ -123,7 +123,14 @@ $(document).ready ->
         id: "#{error.id}_error"
         class: classes
         html: message
-      ).insertAfter($element)
+      )
+
+      if $element.parent().hasClass('multiple-item')
+        afterElement = $element.parent().children('.remove')
+      else
+        afterElement = $element
+
+      $(errorElement).insertAfter(afterElement)
 
   displaySummary = (errors) ->
     summary = $('<div/>',
