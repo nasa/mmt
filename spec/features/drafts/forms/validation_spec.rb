@@ -434,18 +434,11 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'validation of subsequent objects in an array of simple objects does work' do
-<<<<<<< HEAD
       open_accordions
-      fill_in 'draft_spatial_keywords_0', with: 'acceptable string'
-      click_on 'Add Another Keyword'
-      fill_in 'draft_spatial_keywords_1', with: very_long_string
-      expect(page).to have_content('Spatial Keyword is too long')
-=======
       fill_in 'draft_related_urls_0_urls_0', with: 'http://nasa.gov'
       click_on 'Add Another URL'
       fill_in 'draft_related_urls_0_urls_1', with: 'abc'
       expect(page).to have_content('URLs must match the provided pattern')
->>>>>>> master
 
       within '.nav-top' do
         reject_confirm_from do
