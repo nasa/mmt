@@ -15,6 +15,7 @@ describe 'Metadata Information form', js: true do
         click_on 'Metadata Information'
       end
 
+      open_accordions
       fill_in 'Metadata Language', with: 'English'
 
       add_dates

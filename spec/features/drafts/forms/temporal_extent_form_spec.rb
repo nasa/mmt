@@ -15,6 +15,7 @@ describe 'Temporal extent form', js: true do
         click_on 'Temporal Extent'
       end
 
+      open_accordions
       # Complete TemporalExtent fields
       within '.multiple.temporal-extents' do
         choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'

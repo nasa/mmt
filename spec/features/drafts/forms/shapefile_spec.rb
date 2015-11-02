@@ -10,6 +10,7 @@ describe 'Shapefile upload', js: true do
     within '.metadata' do
       click_on 'Spatial Extent'
     end
+    open_accordions
     choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
   end
 

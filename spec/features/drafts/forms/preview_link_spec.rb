@@ -15,6 +15,7 @@ describe 'Preview on Map link', js: true do
     within '.metadata' do
       click_on 'Spatial Extent'
     end
+    open_accordions
     choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
   end
 
@@ -58,6 +59,7 @@ describe 'Preview on Map link', js: true do
         end
 
         it 'generates the link to Earthdata Search' do
+          open_accordions
           expect(page).to have_link('Preview on Map', href: point_link)
         end
       end
@@ -107,6 +109,7 @@ describe 'Preview on Map link', js: true do
         end
 
         it 'generates the link to Earthdata Search' do
+          open_accordions
           expect(page).to have_link('Preview on Map', href: rectangle_link)
         end
       end
@@ -172,6 +175,7 @@ describe 'Preview on Map link', js: true do
         end
 
         it 'generates the link to Earthdata Search' do
+          open_accordions
           expect(page).to have_link('Preview on Map', href: polygon_link)
         end
       end
