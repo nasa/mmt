@@ -580,6 +580,16 @@ module Helpers
       click_on 'Add Keyword'
     end
 
+    def add_spatial_keywords
+      choose_keyword 'GEOGRAPHIC REGION'
+      choose_keyword 'ARCTIC'
+      click_on 'Add Keyword'
+
+      choose_keyword 'OCEAN'
+      choose_keyword 'ATLANTIC OCEAN'
+      click_on 'Add Keyword'
+    end
+
     def choose_keyword(text)
       script = "$('.item-list-pane li:contains(#{text}) > a').click()"
       page.execute_script(script)

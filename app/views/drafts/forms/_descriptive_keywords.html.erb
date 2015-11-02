@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="actions">
-            <button type="button" class="btn btn-blue add-keyword"><i class="fa fa-plus-circle"></i> Add Keyword</button>
+            <button type="button" class="btn btn-blue add-science-keyword"><i class="fa fa-plus-circle"></i> Add Keyword</button>
           </div>
         </div>
       </div>
@@ -90,5 +90,5 @@
 
 <!-- Setup Science Keywords -->
 <script type="text/javascript">
-  setupScienceKeywords(JSON.parse('<%= raw @science_keywords.to_json %>'));
+  setupScienceKeywords(<%= raw @science_keywords.to_json %>);
 </script>

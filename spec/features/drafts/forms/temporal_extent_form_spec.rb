@@ -60,15 +60,8 @@ describe 'Temporal extent form', js: true do
       end
 
       # Complete TemporalKeyword fields
-      within '.multiple.temporal-keywords' do
-        within '.multiple-item-0' do
-          find('.temporal-keyword').set 'Keyword 1'
-          click_on 'Add Another Keyword'
-        end
-        within '.multiple-item-1' do
-          find('.temporal-keyword').set 'Keyword 2'
-        end
-      end
+      select('Annual Climatology', from: 'Temporal Keywords')
+      select('Annual', from: 'Temporal Keywords')
 
       # Complete PaleoTemporalCoverage fields
       within '.paleo-temporal-coverage-fields' do
@@ -130,8 +123,8 @@ describe 'Temporal extent form', js: true do
       expect(page).to have_content('1')
 
       # Complete TemporalKeyword fields
-      expect(page).to have_content('Keyword 1')
-      expect(page).to have_content('Keyword 2')
+      expect(page).to have_content('Annual Climatology')
+      expect(page).to have_content('Annual')
 
       # Complete PaleoTemporalCoverage fields
       expect(page).to have_content('Eon text')
@@ -217,10 +210,7 @@ describe 'Temporal extent form', js: true do
         end
 
         # Complete TemporalKeyword fields
-        within '.multiple.temporal-keywords' do
-          expect(page).to have_selector('input.temporal-keyword[value="Keyword 1"]')
-          expect(page).to have_selector('input.temporal-keyword[value="Keyword 2"]')
-        end
+        expect(page).to have_select('Temporal Keywords', selected: ['Annual Climatology', 'Annual'])
 
         # Complete PaleoTemporalCoverage fields
         within '.paleo-temporal-coverage-fields' do

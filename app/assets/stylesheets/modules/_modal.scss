@@ -12,11 +12,10 @@
     display: none;
 }
 
-#provider-context, #help-modal {
+#provider-context, #help-modal, #download-xml-modal {
   border-radius: 5px;
   -webkit-border-radius: 5px;
   background-color: #fff;
-  width: 500px;
   display: none;
   div {
     margin: 25px;
@@ -26,4 +25,12 @@
     float: right;
     margin: 1em;
   }
+}
+
+#provider-context, #help-modal {
+  width: 500px;
+}
+
+#download-xml-modal {
+  width: 700px;
 }

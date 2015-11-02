@@ -403,14 +403,15 @@ describe 'Data validation for a form', js: true do
   context 'when there is an array of simple objects' do
     before do
       within 'section.metadata' do
-        click_on 'Spatial Extent'
+        click_on 'Distribution Information'
       end
     end
 
     it 'validation of a single object in an array of simple objects does work' do
       open_accordions
-      fill_in 'draft_spatial_keywords_0', with: very_long_string
-      expect(page).to have_content('Spatial Keyword is too long')
+      # FIXME can't use spatial keywords for this anymore
+      fill_in 'draft_related_urls_0_urls_0', with: 'abc'
+      expect(page).to have_content('URLs must match the provided pattern')
 
       within '.nav-top' do
         reject_confirm_from do
@@ -418,9 +419,9 @@ describe 'Data validation for a form', js: true do
         end
       end
 
-      expect(page).to have_content('Spatial Keyword is too long')
-      fill_in 'draft_spatial_keywords_0', with: 'acceptable string'
-      expect(page).to have_no_content('Spatial Keyword is too long')
+      expect(page).to have_content('URLs must match the provided pattern')
+      fill_in 'draft_related_urls_0_urls_0', with: 'http://nasa.gov'
+      expect(page).to have_no_content('URLs must match the provided pattern')
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do
@@ -429,15 +430,22 @@ describe 'Data validation for a form', js: true do
         end
       end
 
-      expect(page).to have_no_content('Spatial Keyword is too long')
+      expect(page).to have_no_content('URLs must match the provided pattern')
     end
 
     it 'validation of subsequent objects in an array of simple objects does work' do
+<<<<<<< HEAD
       open_accordions
       fill_in 'draft_spatial_keywords_0', with: 'acceptable string'
       click_on 'Add Another Keyword'
       fill_in 'draft_spatial_keywords_1', with: very_long_string
       expect(page).to have_content('Spatial Keyword is too long')
+=======
+      fill_in 'draft_related_urls_0_urls_0', with: 'http://nasa.gov'
+      click_on 'Add Another URL'
+      fill_in 'draft_related_urls_0_urls_1', with: 'abc'
+      expect(page).to have_content('URLs must match the provided pattern')
+>>>>>>> master
 
       within '.nav-top' do
         reject_confirm_from do
@@ -445,8 +453,8 @@ describe 'Data validation for a form', js: true do
         end
       end
 
-      expect(page).to have_content('Spatial Keyword is too long')
-      fill_in 'draft_spatial_keywords_1', with: 'acceptable string'
+      expect(page).to have_content('URLs must match the provided pattern')
+      fill_in 'draft_related_urls_0_urls_1', with: 'http://nasa.gov'
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do
@@ -455,7 +463,7 @@ describe 'Data validation for a form', js: true do
         end
       end
 
-      expect(page).to have_no_content('Spatial Keyword is too long')
+      expect(page).to have_no_content('URLs must match the provided pattern')
     end
   end
 end

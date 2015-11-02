@@ -16,6 +16,9 @@
       <% end %>
     </div>
   </header>
+
+  <%= render 'shared/flash_messages' %>
+
   <div class="row row-content">
     <% if @error %>
       <div class="banner banner-info">
@@ -28,8 +31,8 @@
         <div class="cta">
           <p>
             <a class="disabled" href="#" alt="Save as Template">Save as Template</a> |
-            <a class="disabled" href="#" alt="Clone this Record">Clone this Record</a> |
-            <a class="disabled" href="#" alt="Download XML">Download XML</a> |
+            <%= link_to 'Clone this Record', clone_collection_path, alt: 'Clone this Record' %> |
+            <a class="download-xml-link" href="#download-xml-modal" data-path="<%= @collection_link %>" alt="Download XML">Download XML</a> |
             <%= link_to 'Delete Record', collection_path, method: :delete, alt: 'Delete Record', data: { confirm: 'Are you sure you want to delete this record?' }, class: 'delete-collection' %>
           </p>
           <p>
@@ -50,6 +53,8 @@
             <p>Required fields not complete</p>
           </div>
         </div>
+        <%= render partial: 'shared/download_xml', locals: { collection: true } %>
+
       </section>
 
       <%= render partial: 'shared/preview/metadata_preview', locals: { metadata: @collection } %>

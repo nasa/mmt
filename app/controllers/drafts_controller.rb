@@ -17,6 +17,7 @@ class DraftsController < ApplicationController
   # GET /drafts/new
   def new
     draft = Draft.create(user: @current_user, draft: {})
+    flash[:success] = 'Draft was successfully created'
     redirect_to draft_path(draft)
   end
 
@@ -25,6 +26,12 @@ class DraftsController < ApplicationController
     if params[:form]
       @draft_form = params[:form]
       @science_keywords = cmr_client.get_science_keywords if params[:form] == 'descriptive_keywords'
+      @spatial_keywords = cmr_client.get_spatial_keywords if params[:form] == 'spatial_extent'
+
+      if params[:form] == 'temporal_extent'
+        keywords = cmr_client.get_temporal_keywords['temporal_resolution_range']
+        @temporal_keywords = keywords.map { |keyword| keyword['value'] }
+      end
     else
       render action: 'show'
     end
@@ -35,9 +42,11 @@ class DraftsController < ApplicationController
   def update
     @draft = Draft.find(params[:id])
     if @draft.update_draft(params[:draft])
+      flash[:success] = 'Draft was successfully updated'
+
       case params[:commit]
       when 'Save & Done'
-        redirect_to @draft, notice: 'Draft was successfully updated.'
+        redirect_to @draft
       when 'Save & Next'
         # Determine next form to go to
         next_form_name = Draft.get_next_form(params['next_section'])
@@ -49,6 +58,7 @@ class DraftsController < ApplicationController
     else # record update failed
       # render 'edit' # this should get @draft_form
       # Remove
+      flash[:error] = 'Draft was not updated successfully'
       redirect_to @draft
     end
   end
@@ -58,7 +68,8 @@ class DraftsController < ApplicationController
   def destroy
     @draft.destroy
     respond_to do |format|
-      format.html { redirect_to dashboard_url } # Retain this for later use?, notice: "Draft \"#{@draft.entry_id}\"was successfully deleted." }
+      flash[:success] = 'Draft was successfully deleted'
+      format.html { redirect_to dashboard_url }
     end
   end
 
@@ -76,6 +87,7 @@ class DraftsController < ApplicationController
         xml = MultiXml.parse(ingested.body)
         concept_id = xml['result']['concept_id']
         revision_id = xml['result']['revision_id']
+        flash[:success] = 'Draft was successfully published'
         redirect_to collection_path(concept_id, revision_id: revision_id)
       else
         # Log error message
@@ -86,12 +98,29 @@ class DraftsController < ApplicationController
           field: nil,
           error: 'An unknown error caused publishing to fail.'
         }]
+        flash[:error] = 'Draft was not published successfully'
         render :show
       end
     else
       # log translated error message
       Rails.logger.error("Translated Metadata Error: #{translated_metadata.inspect}")
+      flash[:error] = 'Draft was not published successfully'
       render :show
+    end
+  end
+
+  def download_xml
+    draft = Draft.find(params[:draft_id])
+    xml_format = params[:format]
+    xml_format = 'iso:smap' if xml_format == 'iso_smap'
+    metadata = cmr_client.translate_collection(draft.draft.to_json, 'application/umm+json', "application/#{xml_format}+xml", true).body
+
+    respond_to do |format|
+      format.dif10 { render xml: metadata }
+      format.dif { render xml: metadata }
+      format.echo10 { render xml: metadata }
+      format.iso19115 { render xml: metadata }
+      format.iso_smap { render xml: metadata }
     end
   end
 

@@ -11,6 +11,9 @@
       <h2><%= @collection['EntryTitle'] || 'New Collection' %></h2>
     </div>
   </header>
+
+  <%= render 'shared/flash_messages' %>
+
   <div class="row row-content">
     <section class="heading-group">
       <h3>Revision History</h3>

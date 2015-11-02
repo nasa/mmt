@@ -18,6 +18,8 @@
       </div>
     </section>
 
+    <%= render 'shared/flash_messages' %>
+
     <% if @draft.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@draft.errors.count, 'error') %>) prohibit this draft from being saved:</h2>

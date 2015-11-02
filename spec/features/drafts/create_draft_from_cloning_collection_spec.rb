@@ -1,8 +1,8 @@
-# MMT-26
+# MMT-45
 
 require 'rails_helper'
 
-describe 'Create new draft from collection', js: true do
+describe 'Create new draft from cloning a collection', js: true do
   entry_id = 'doi:10.3334/ORNLDAAC/1_1'
   entry_title = '15 Minute Stream Flow Data: USGS (FIFE)'
 
@@ -14,25 +14,21 @@ describe 'Create new draft from collection', js: true do
 
       click_on entry_id
 
-      click_on 'Edit Record'
-    end
-
-    it 'displays a confirmation message' do
-      expect(page).to have_content('Draft was successfully created')
+      click_on 'Clone this Record'
     end
 
     it 'creates a new draft' do
       expect(Draft.count).to eq(1)
     end
 
-    it 'saves the native_id from the published collection' do
+    it 'creates a new native id for the draft' do
       draft = Draft.first
-      expect(draft.native_id).to eq('collection0')
+      expect(draft.native_id).to eq('mmt_collection_1')
     end
 
     it 'displays the draft preview page' do
       expect(page).to have_content('DRAFT RECORD')
-      expect(page).to have_content(entry_title)
+      expect(page).to have_content("#{entry_title} - Cloned")
     end
   end
 end

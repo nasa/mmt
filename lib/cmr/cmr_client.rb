@@ -42,6 +42,24 @@ module Cmr
       get(url).body
     end
 
+    def get_temporal_keywords
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/keywords/temporal_keywords'
+      else
+        url = '/search/keywords/temporal_keywords'
+      end
+      get(url).body
+    end
+
+    def get_spatial_keywords
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/keywords/spatial_keywords'
+      else
+        url = '/search/keywords/spatial_keywords'
+      end
+      get(url).body
+    end
+
     def translate_collection(draft_metadata, from_format, to_format, skip_validation = false)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3002/translate/collection'
