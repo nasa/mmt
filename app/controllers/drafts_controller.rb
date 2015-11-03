@@ -71,8 +71,8 @@ class DraftsController < ApplicationController
   # DELETE /drafts/1
   # DELETE /drafts/1.json
   def destroy
-    # if id == 0 it is a new draft, no need to delete
-    @draft.destroy unless @draft.id == 0
+    # if new_record?, no need to destroy
+    @draft.destroy unless @draft.new_record?
     respond_to do |format|
       flash[:success] = 'Draft was successfully deleted'
       format.html { redirect_to dashboard_url }
