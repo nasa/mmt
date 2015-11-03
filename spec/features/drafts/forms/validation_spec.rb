@@ -82,10 +82,11 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Data Identification'
       end
+
+      open_accordions
     end
 
     it 'simple mandatory string field validation works' do
-      open_accordions
       fill_in 'draft_entry_id', with: empty_string
       expect(page).to have_content('Entry Id is required')
 
@@ -103,7 +104,6 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'validation between related R and NR fields works' do
-      open_accordions
       within '.organization' do
         select 'Owner', from: 'Role'
         fill_in 'Short Name', with: empty_string
@@ -142,9 +142,11 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Data Identification'
       end
-    end
-    it 'general floating point validation works' do
+
       open_accordions
+    end
+
+    it 'general floating point validation works' do
       within '.row.organization' do
         within '.multiple.responsibilities > .multiple-item-0' do
           within '.multiple.related-urls' do
@@ -172,10 +174,11 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Temporal Extent'
       end
+
+      open_accordions
     end
 
     it 'simple integer field validation works' do
-      open_accordions
       choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
       fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-10-27T00:00:00Z'
 
@@ -193,7 +196,6 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'simple date field validation works' do
-      open_accordions
       choose 'draft_temporal_extents_0_temporal_range_type_RangeDateTime'
 
       good_date_values.each do |test|
@@ -215,10 +217,11 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Spatial Extent'
       end
+
+      open_accordions
     end
 
     it 'simple Latitude field validation works' do
-      open_accordions
       choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
       script = '$(".geometry-picker.points").click();'
       page.execute_script script
@@ -250,10 +253,11 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Data Identification'
       end
+
+      open_accordions
     end
 
     it 'simple Uuid field validation works' do
-      open_accordions
       within '.row.organization' do
         within '.multiple.responsibilities > .multiple-item-0 .organization-fields' do
           fill_in 'Short Name', with: 'short name'
@@ -280,10 +284,11 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Temporal Extent'
       end
+
+      open_accordions
     end
 
     it 'validation of oneOf does work' do
-      open_accordions
       choose 'draft_temporal_extents_0_ends_at_present_flag_true'
 
       within '.nav-top' do
@@ -315,10 +320,11 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Spatial Extent'
       end
+
+      open_accordions
     end
 
     it 'validation of minItems does work' do
-      open_accordions
       # Partially populate a boundary's list of points
       choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
       script = '$(".geometry-picker.g-polygons").click();'
@@ -405,11 +411,11 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Distribution Information'
       end
+
+      open_accordions
     end
 
     it 'validation of a single object in an array of simple objects does work' do
-      open_accordions
-      # FIXME can't use spatial keywords for this anymore
       fill_in 'draft_related_urls_0_urls_0', with: 'abc'
       expect(page).to have_content('URLs must match the provided pattern')
 
@@ -434,7 +440,6 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'validation of subsequent objects in an array of simple objects does work' do
-      open_accordions
       fill_in 'draft_related_urls_0_urls_0', with: 'http://nasa.gov'
       click_on 'Add Another URL'
       fill_in 'draft_related_urls_0_urls_1', with: 'abc'

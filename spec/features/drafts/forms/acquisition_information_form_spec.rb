@@ -15,6 +15,8 @@ describe 'Acquisition information form', js: true do
         click_on 'Acquisition Information'
       end
 
+      open_accordions
+
       add_platforms
 
       # Project
@@ -38,15 +40,14 @@ describe 'Acquisition information form', js: true do
         click_on 'Save & Done'
       end
       # output_schema_validation Draft.first.draft
+      open_accordions
     end
 
     it 'shows the draft preview page' do
       expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-      open_accordions
     end
 
     it 'shows pre-entered values in the draft preview page' do
-      open_accordions
       expect(page).to have_content('Project campaign 1')
       expect(page).to have_content('Project campaign 2')
       expect(page).to have_content('Characteristics data type 1', count: 5)

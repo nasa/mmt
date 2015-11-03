@@ -14,8 +14,9 @@ describe 'Data identification form', js: true do
       within '.metadata' do
         click_on 'Data Identification'
       end
-      
+
       open_accordions
+
       fill_in 'draft_entry_id', with: '12345'
       fill_in 'Entry Title', with: 'Draft Title'
       fill_in 'Abstract', with: 'This is a long description of the collection'

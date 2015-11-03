@@ -7,10 +7,13 @@ describe 'Shapefile upload', js: true do
     login
     draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
     visit draft_path(draft)
+
     within '.metadata' do
       click_on 'Spatial Extent'
     end
+
     open_accordions
+
     choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
   end
 
@@ -19,6 +22,7 @@ describe 'Shapefile upload', js: true do
       VCR.use_cassette('shapefiles/simple') do
         upload_shapefile('doc/example-data/shapefiles/simple.geojson')
       end
+
       open_accordions
     end
 
@@ -53,6 +57,7 @@ describe 'Shapefile upload', js: true do
       VCR.use_cassette('shapefiles/complex') do
         upload_shapefile('doc/example-data/shapefiles/complex.geojson')
       end
+
       open_accordions
     end
 
