@@ -1,6 +1,7 @@
 class WelcomeController < ApplicationController
   skip_before_filter :is_logged_in, :setup_query
   before_filter :redirect_if_logged_in
+
   def index
     providers = Hash[cmr_client.get_providers.body.map { |p| [p['provider-id'], { 'provider_id' => p['provider-id'], 'short_name' => p['short-name'] }] }]
 
@@ -25,7 +26,7 @@ class WelcomeController < ApplicationController
       # rescue statement required, but no action needed
     end
 
-    @collections = cmr_client.get_provider_holdings('provider-id' => provider_id).body.map { |q| { id: q['concept-id'], title: q['entry-title'], granules: q['granule-count'] } }.sort { |x, y| x['entry-title'] <=> y['entry-title'] }
+    @collections = cmr_client.get_provider_holdings(provider_id).body.map { |q| { id: q['concept-id'], title: q['entry-title'], granules: q['granule-count'] } }.sort { |x, y| x['entry-title'] <=> y['entry-title'] }
   end
 
   protected

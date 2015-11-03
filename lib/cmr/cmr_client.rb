@@ -21,13 +21,17 @@ module Cmr
       response
     end
 
-    def get_provider_holdings(options={}, token=nil)
+    def get_provider_holdings(provider_id = nil, token=nil)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3003/provider_holdings.json'
       else
         url = '/search/provider_holdings.json'
       end
-      response = Rails.cache.fetch('get_provider_holdings', expires_in: 1.hours) do
+
+      options = {}
+      options[:provider_id] = provider_id if provider_id
+
+      response = Rails.cache.fetch("get_provider_holdings_#{provider_id || 'all'}", expires_in: 1.hours) do
         get(url, options, token_header(token))
       end
       response
