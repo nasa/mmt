@@ -20,7 +20,7 @@
       <div class="cta">
         <%= link_to 'Publish', draft_publish_path(@draft), method: :post, class: 'btn btn-blue', alt: 'Publish Draft' %>
         <a class="download-xml-link" href="#download-xml-modal" data-path="<%= draft_download_path(@draft) %>" alt="Download XML">Download XML</a> |
-        <%= link_to 'Delete Draft', @draft, method: :delete, data: { confirm: 'Are you sure you want to delete this record?' } %>
+        <%= link_to 'Delete Draft', "/drafts/#{@draft.id}", method: :delete, data: { confirm: 'Are you sure you want to delete this record?' } %>
       </div>
       <div class="quality-score disabled">
         <div class="badges">
