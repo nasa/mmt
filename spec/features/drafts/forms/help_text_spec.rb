@@ -14,11 +14,12 @@ describe 'Draft form help text', js: true do
       within '.metadata' do
         click_on 'Data Identification'
       end
+
+      open_accordions
     end
 
     context 'when clicking on the help icon with a description' do
       before do
-        open_accordions
         find(:xpath, "//a/i[@data-help-path='properties/EntryId']/..").click # EntryId
       end
 
@@ -33,7 +34,6 @@ describe 'Draft form help text', js: true do
 
     context 'when clicking on the help icon with minItems' do
       before do
-        open_accordions
         find(:xpath, "(//a/i[@data-help-path='definitions/RelatedUrlType/properties/URLs'])[1]/..").click # URLs
       end
 
@@ -44,7 +44,6 @@ describe 'Draft form help text', js: true do
 
     context 'when clicking on the help icon with minLength' do
       before do
-        open_accordions
         find(:xpath, "//a/i[@data-help-path='properties/EntryId']/..").click # EntryId
       end
 
@@ -55,7 +54,6 @@ describe 'Draft form help text', js: true do
 
     context 'when clicking on the help icon with maxLength' do
       before do
-        open_accordions
         find(:xpath, "//a/i[@data-help-path='properties/EntryId']/..").click # EntryId
       end
 
@@ -66,7 +64,6 @@ describe 'Draft form help text', js: true do
 
     context 'when clicking on the help icon with a pattern' do
       before do
-        open_accordions
         find(:xpath, "//a/i[@data-help-path='definitions/OrganizationNameType/properties/Uuid']/..").click # Uuid
       end
 
@@ -77,7 +74,6 @@ describe 'Draft form help text', js: true do
 
     context 'when clicking on the help icon with a format' do
       before do
-        open_accordions
         find(:xpath, "//a/i[@data-help-path='definitions/DateType/properties/Date']/..").click # Date
       end
 
