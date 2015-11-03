@@ -3,16 +3,18 @@
   <label for="<%= remove_pipes(name_prefix) %>type">Type</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PlatformType/properties/Type"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}type"), platform['Type'], class: 'half-width validate') %>
 
-
-  <!-- Short Name [r] -->
-  <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PlatformShortNameType"></i></a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), platform['ShortName'], class: 'half-width validate') %>
-
-
-  <!-- Long Name -->
-  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PlatformLongNameType"></i></a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), platform['LongName'], class: 'half-width validate') %>
-
+  <div class="row">
+    <div class="col-6">
+      <!-- Short Name [r] -->
+      <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PlatformShortNameType"></i></a>
+      <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), platform['ShortName'], class: 'full-width validate') %>
+    </div>
+    <div class="col-6">
+      <!-- Long Name -->
+      <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PlatformLongNameType"></i></a>
+      <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), platform['LongName'], class: 'full-width validate') %>
+    </div>
+  </div>
 
   <!-- Characteristics -->
   <label>Characteristics</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PlatformType/properties/Characteristics"></i></a>

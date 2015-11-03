@@ -1,44 +1,50 @@
-<fieldset>
+<fieldset class="accordion is-closed">
   <!-- Temporal Extent [r] -->
-  <h3 class="icon-required">Temporal Extent</h3>
-  <div class="row">
-    <div class="col-12">
-      <div class="row sub-fields">
-        <%= render partial: 'drafts/forms/type', locals: {
-            type: 'temporal_extent',
-            values: draft.draft['TemporalExtents'] || [{}],
-            name_prefix: 'draft_|temporal_extents|_',
-            multiple: true,
-            options: {} } %>
+  <div class="accordion-header"><h3 class="icon-required">Temporal Extent</h3></div>
+  <div class="accordion-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="row sub-fields">
+          <%= render partial: 'drafts/forms/type', locals: {
+              type: 'temporal_extent',
+              values: draft.draft['TemporalExtents'] || [{}],
+              name_prefix: 'draft_|temporal_extents|_',
+              multiple: true,
+              options: {} } %>
+        </div>
       </div>
     </div>
   </div>
 </fieldset>
 
-<fieldset>
+<fieldset class="accordion is-closed">
   <!-- Temporal Keywords -->
-  <h3>Temporal Keywords</h3>
-  <div class="row">
-    <div class="col-12">
-      <label for="draft_temporal_keywords_">Temporal Keywords</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i></a>
-      <%= select_tag "#{name_to_param('draft_|temporal_keywords|')}[]", options_for_select(@temporal_keywords, draft.draft['TemporalKeywords']), class: 'multi-select', size: 4, multiple: 'true' %>
+  <div class="accordion-header"><h3>Temporal Keywords</h3></div>
+  <div class="accordion-body">
+    <div class="row">
+      <div class="col-12">
+        <label for="draft_temporal_keywords_">Temporal Keywords</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i></a>
+        <%= select_tag "#{name_to_param('draft_|temporal_keywords|')}[]", options_for_select(@temporal_keywords, draft.draft['TemporalKeywords']), class: 'multi-select', size: 4, multiple: 'true' %>
+      </div>
     </div>
   </div>
 </fieldset>
 
-<fieldset>
-  <h3>Paleo Temporal Coverage</h3>
-  <!-- Paleo Temporal Coverage -->
-  <!-- PaleoTemporalCoverageType -->
-  <div class="row">
-    <div class="col-12">
-      <div class="row sub-fields">
-        <%= render partial: 'drafts/forms/type', locals: {
-            type: 'paleo_temporal_coverage',
-            values: draft.draft['PaleoTemporalCoverage'] || {},
-            name_prefix: 'draft_|paleo_temporal_coverage|_',
-            multiple: false,
-            options: {} } %>
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3>Paleo Temporal Coverage</h3></div>
+  <div class="accordion-body">
+    <!-- Paleo Temporal Coverage -->
+    <!-- PaleoTemporalCoverageType -->
+    <div class="row">
+      <div class="col-12">
+        <div class="row sub-fields">
+          <%= render partial: 'drafts/forms/type', locals: {
+              type: 'paleo_temporal_coverage',
+              values: draft.draft['PaleoTemporalCoverage'] || {},
+              name_prefix: 'draft_|paleo_temporal_coverage|_',
+              multiple: false,
+              options: {} } %>
+        </div>
       </div>
     </div>
   </div>

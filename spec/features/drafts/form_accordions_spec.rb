@@ -10,6 +10,11 @@ describe 'Draft form accordions', js: true do
   context 'when clicking on the header' do
     before do
       click_on 'Distribution Information'
+
+      # Open the RelatedUrl fieldset accordion
+      all('fieldset.accordion > div.accordion-header').first.click
+
+      # Collapse the Related Url 1 accordion
       find('.multiple.related-urls > .multiple-item-0 > .accordion-header').click
     end
 
@@ -23,6 +28,7 @@ describe 'Draft form accordions', js: true do
 
     context 'when clicking on the header again' do
       before do
+        # Open the Related Url 1 accordion
         find('.multiple.related-urls > .multiple-item-0.is-closed > .accordion-header').click
       end
 

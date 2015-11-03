@@ -15,6 +15,8 @@ describe 'Acquisition information form', js: true do
         click_on 'Acquisition Information'
       end
 
+      open_accordions
+
       add_platforms
 
       # Project

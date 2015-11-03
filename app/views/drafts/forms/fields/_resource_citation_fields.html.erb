@@ -37,16 +37,18 @@
   <label for="<%= remove_pipes(name_prefix) %>publisher">Publisher</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Publisher"></i></a>
   <%= text_area_tag name_to_param("#{name_prefix}publisher"), resource_citation['Publisher'], rows: 8, class: 'validate' %>
 
-
-  <!-- IssueIdentification -->
-  <label for="<%= remove_pipes(name_prefix) %>issue_identification">Issue Identification</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/IssueIdentification"></i></a>
-  <%= text_field_tag name_to_param("#{name_prefix}|issue_identification|"), resource_citation['IssueIdentification'], class: 'half-width validate' %>
-
-
-  <!-- DataPresentationForm -->
-  <label for="<%= remove_pipes(name_prefix) %>data_presentation_form">Data Presentation Form</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DataPresentationForm"></i></a>
-  <%= text_field_tag name_to_param("#{name_prefix}|data_presentation_form|"), resource_citation['DataPresentationForm'], class: 'half-width validate' %>
-
+  <div class="row">
+    <div class="col-6">
+      <!-- IssueIdentification -->
+      <label for="<%= remove_pipes(name_prefix) %>issue_identification">Issue Identification</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/IssueIdentification"></i></a>
+      <%= text_field_tag name_to_param("#{name_prefix}|issue_identification|"), resource_citation['IssueIdentification'], class: 'full-width validate' %>
+    </div>
+    <div class="col-6">
+      <!-- DataPresentationForm -->
+      <label for="<%= remove_pipes(name_prefix) %>data_presentation_form">Data Presentation Form</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DataPresentationForm"></i></a>
+      <%= text_field_tag name_to_param("#{name_prefix}|data_presentation_form|"), resource_citation['DataPresentationForm'], class: 'full-width validate' %>
+    </div>
+  </div>
 
   <!-- OtherCitationDetails -->
   <label for="<%= remove_pipes(name_prefix) %>other_citation_details">Other Citation Details</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/OtherCitationDetails"></i></a>

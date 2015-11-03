@@ -14,6 +14,8 @@ describe 'Draft form help text', js: true do
       within '.metadata' do
         click_on 'Data Identification'
       end
+
+      open_accordions
     end
 
     context 'when clicking on the help icon with a description' do

@@ -1,78 +1,86 @@
 <!-- Spatial Extent [r] -->
-<fieldset>
-  <h3 class="icon-required">Spatial Extent</h3>
-  <div class="row">
-    <div class="col-12">
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'spatial_extent',
-          values: draft.draft['SpatialExtent'] || {},
-          name_prefix: 'draft_|spatial_extent|_',
-          multiple: false,
-          options: {} } %>
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3 class="icon-required">Spatial Extent</h3></div>
+  <div class="accordion-body">
+    <div class="row">
+      <div class="col-12">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'spatial_extent',
+            values: draft.draft['SpatialExtent'] || {},
+            name_prefix: 'draft_|spatial_extent|_',
+            multiple: false,
+            options: {} } %>
+      </div>
     </div>
   </div>
 </fieldset>
 
 <!-- Tiling Identification System -->
-<fieldset>
-  <h3>Tiling Identification System</h3>
-  <div class="row">
-    <div class="col-12">
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'tiling_identification_system',
-          values: draft.draft['TilingIdentificationSystem'] || {},
-          name_prefix: 'draft_|tiling_identification_system|_',
-          multiple: false,
-          options: {} } %>
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3>Tiling Identification System</h3></div>
+  <div class="accordion-body">
+    <div class="row">
+      <div class="col-12">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'tiling_identification_system',
+            values: draft.draft['TilingIdentificationSystem'] || {},
+            name_prefix: 'draft_|tiling_identification_system|_',
+            multiple: false,
+            options: {} } %>
+      </div>
     </div>
   </div>
 </fieldset>
 
 <!-- Spatial Representation Information -->
-<fieldset>
-  <h3>Spatial Representation Information</h3>
-  <div class="row">
-    <div class="col-12">
-      <label class="main-field">Spatial Representation Information</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/SpatialInformation"></i></a>
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'spatial_information',
-          values: draft.draft['SpatialInformation'] || {},
-          name_prefix: 'draft_|spatial_information|_',
-          multiple: false,
-          options: {} } %>
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3>Spatial Representation Information</h3></div>
+  <div class="accordion-body">
+    <div class="row">
+      <div class="col-12">
+        <label class="main-field">Spatial Representation Information</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/SpatialInformation"></i></a>
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'spatial_information',
+            values: draft.draft['SpatialInformation'] || {},
+            name_prefix: 'draft_|spatial_information|_',
+            multiple: false,
+            options: {} } %>
+      </div>
     </div>
   </div>
 </fieldset>
 
 <!-- Spatial Keywords -->
-<fieldset>
-  <h3>Spatial Keywords</h3>
-  <div class="row">
-    <div class="col-12">
-      <div class="row sub-fields">
-        <div class="selected-spatial-keywords spatial-keywords">
-          <ul>
-            <% spatial_keywords = draft.draft['SpatialKeywords'] || [] %>
-            <% spatial_keywords.each do |spatial_keyword| %>
-              <li>
-                <%= spatial_keyword %>
-                <a class="remove"><i class="fa fa-times-circle"></i></a>
-                <%= hidden_field_tag("draft[spatial_keywords][]", spatial_keyword) %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="nested-item-picker">
-          <ul class="item-path">
-            <li class="list-title"><a href="javascript:void(0);">Spatial Keyword</a></li>
-          </ul>
-          <div class="item-list-pane">
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3>Spatial Keywords</h3></div>
+  <div class="accordion-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="row sub-fields">
+          <div class="selected-spatial-keywords spatial-keywords">
             <ul>
+              <% spatial_keywords = draft.draft['SpatialKeywords'] || [] %>
+              <% spatial_keywords.each do |spatial_keyword| %>
+                <li>
+                  <%= spatial_keyword %>
+                  <a class="remove"><i class="fa fa-times-circle"></i></a>
+                  <%= hidden_field_tag("draft[spatial_keywords][]", spatial_keyword) %>
+                </li>
+              <% end %>
             </ul>
           </div>
-        </div>
-        <div class="actions">
-          <button type="button" class="btn btn-blue add-spatial-keyword"><i class="fa fa-plus-circle"></i> Add Keyword</button>
+          <div class="nested-item-picker">
+            <ul class="item-path">
+              <li class="list-title"><a href="javascript:void(0);">Spatial Keyword</a></li>
+            </ul>
+            <div class="item-list-pane">
+              <ul>
+              </ul>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="button" class="btn btn-blue add-spatial-keyword"><i class="fa fa-plus-circle"></i> Add Keyword</button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,83 +1,89 @@
 <!-- ISOTopicCategories -->
-<fieldset>
-  <h3>ISO Topic Category</h3>
-  <div class="row taller">
-    <div class="col-12">
-      <label for="draft_iso_topic_categories_">ISO Topic Categories</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i></a>
-      <%= select_tag "#{name_to_param('draft_|iso_topic_categories|')}[]", options_for_select(DraftsHelper::ISOTopicCategoriesOptions, draft.draft['ISOTopicCategories']), class: 'multi-select', size: 4, multiple: 'true' %>
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3>ISO Topic Category</h3></div>
+  <div class="accordion-body">
+    <div class="row taller">
+      <div class="col-12">
+        <label for="draft_iso_topic_categories_">ISO Topic Categories</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i></a>
+        <%= select_tag "#{name_to_param('draft_|iso_topic_categories|')}[]", options_for_select(DraftsHelper::ISOTopicCategoriesOptions, draft.draft['ISOTopicCategories']), class: 'multi-select', size: 4, multiple: 'true' %>
+      </div>
     </div>
   </div>
 </fieldset>
 
 <!-- ScienceKeyword [r] -->
-<fieldset>
-  <h3 class="icon-required">Science Keywords</h3>
-  <div class="row taller">
-    <div class="col-12">
-      <div class="row sub-fields">
-        <div class="selected-science-keywords science-keywords">
-          <ul>
-            <% science_keywords = draft.draft['ScienceKeywords'] || [] %>
-            <% science_keywords.each do |science_keyword| %>
-              <li>
-                <%= keyword_string(science_keyword) %>
-                <a class="remove"><i class="fa fa-times-circle"></i></a>
-                <%= hidden_field_tag("draft[science_keywords][]", keyword_string(science_keyword)) %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="nested-item-picker">
-          <ul class="item-path">
-            <li class="list-title"><a href="javascript:void(0);">Science Keyword</a></li>
-          </ul>
-          <div class="item-list-pane">
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3 class="icon-required">Science Keywords</h3></div>
+  <div class="accordion-body">
+    <div class="row taller">
+      <div class="col-12">
+        <div class="row sub-fields">
+          <div class="selected-science-keywords science-keywords">
             <ul>
+              <% science_keywords = draft.draft['ScienceKeywords'] || [] %>
+              <% science_keywords.each do |science_keyword| %>
+                <li>
+                  <%= keyword_string(science_keyword) %>
+                  <a class="remove"><i class="fa fa-times-circle"></i></a>
+                  <%= hidden_field_tag("draft[science_keywords][]", keyword_string(science_keyword)) %>
+                </li>
+              <% end %>
             </ul>
           </div>
-        </div>
-        <div class="actions">
-          <button type="button" class="btn btn-blue add-science-keyword"><i class="fa fa-plus-circle"></i> Add Keyword</button>
+          <div class="nested-item-picker">
+            <ul class="item-path">
+              <li class="list-title"><a href="javascript:void(0);">Science Keyword</a></li>
+            </ul>
+            <div class="item-list-pane">
+              <ul>
+              </ul>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="button" class="btn btn-blue add-science-keyword"><i class="fa fa-plus-circle"></i> Add Keyword</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </fieldset>
 
-<fieldset>
-  <h3>Additional Information</h3>
-  <!-- AncillaryKeyword -->
-  <div class="row taller">
-    <div class="col-12">
-      <label for="ancillary_keyword">Ancillary Keywords</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/AncillaryKeywords"></i></a>
-      <div class="row">
-        <% ancillary_keywords = draft.draft['AncillaryKeywords'] || [nil] # [nil] creates at least one field %>
-        <div class="multiple simple-multiple ancillary-keywords">
-          <label for="draft_ancillary_keywords_">Ancillary Keyword</label>
-          <% ancillary_keywords.each_with_index do |ancillary_keyword, index| %>
-            <div class="multiple-item multiple-item-<%= index %>">
-              <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate') %>
-              <a class="remove"><i class="fa fa-times-circle"></i></a>
-              <div class="actions">
-                <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Keyword</button>
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3>Additional Information</h3></div>
+  <div class="accordion-body">
+    <!-- AncillaryKeyword -->
+    <div class="row taller">
+      <div class="col-12">
+        <label for="ancillary_keyword">Ancillary Keywords</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/AncillaryKeywords"></i></a>
+        <div class="row">
+          <% ancillary_keywords = draft.draft['AncillaryKeywords'] || [nil] # [nil] creates at least one field %>
+          <div class="multiple simple-multiple ancillary-keywords">
+            <label for="draft_ancillary_keywords_">Ancillary Keyword</label>
+            <% ancillary_keywords.each_with_index do |ancillary_keyword, index| %>
+              <div class="multiple-item multiple-item-<%= index %>">
+                <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate') %>
+                <a class="remove"><i class="fa fa-times-circle"></i></a>
+                <div class="actions">
+                  <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add Another Keyword</button>
+                </div>
               </div>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- AdditionalAttribute -->
-  <div class="row taller">
-    <div class="col-12">
-      <label>Additional Attributes</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/AdditionalAttributes"></i></a>
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'additional_attribute',
-          values: draft.draft['AdditionalAttributes'] || [{}],
-          name_prefix: 'draft_|additional_attributes|_',
-          multiple: true,
-          options: {} } %>
+    <!-- AdditionalAttribute -->
+    <div class="row taller">
+      <div class="col-12">
+        <label>Additional Attributes</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/AdditionalAttributes"></i></a>
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'additional_attribute',
+            values: draft.draft['AdditionalAttributes'] || [{}],
+            name_prefix: 'draft_|additional_attributes|_',
+            multiple: true,
+            options: {} } %>
+      </div>
     </div>
   </div>
 </fieldset>

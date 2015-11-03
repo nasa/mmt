@@ -82,6 +82,8 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Data Identification'
       end
+
+      open_accordions
     end
 
     it 'simple mandatory string field validation works' do
@@ -140,7 +142,10 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Data Identification'
       end
+
+      open_accordions
     end
+
     it 'general floating point validation works' do
       within '.row.organization' do
         within '.multiple.responsibilities > .multiple-item-0' do
@@ -169,6 +174,8 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Temporal Extent'
       end
+
+      open_accordions
     end
 
     it 'simple integer field validation works' do
@@ -210,6 +217,8 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Spatial Extent'
       end
+
+      open_accordions
     end
 
     it 'simple Latitude field validation works' do
@@ -244,6 +253,8 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Data Identification'
       end
+
+      open_accordions
     end
 
     it 'simple Uuid field validation works' do
@@ -273,6 +284,8 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Temporal Extent'
       end
+
+      open_accordions
     end
 
     it 'validation of oneOf does work' do
@@ -307,6 +320,8 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Spatial Extent'
       end
+
+      open_accordions
     end
 
     it 'validation of minItems does work' do
@@ -396,10 +411,11 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Distribution Information'
       end
+
+      open_accordions
     end
 
     it 'validation of a single object in an array of simple objects does work' do
-      # FIXME can't use spatial keywords for this anymore
       fill_in 'draft_related_urls_0_urls_0', with: 'abc'
       expect(page).to have_content('URLs must match the provided pattern')
 

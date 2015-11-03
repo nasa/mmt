@@ -1,29 +1,33 @@
 <!-- Platforms [r] -->
-<fieldset>
-  <h3 class="icon-required">Platforms</h3>
-  <div class="row taller">
-    <div class="col-12">
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'platform',
-          values: draft.draft['Platforms'] || [{}],
-          name_prefix: "draft_platforms_",
-          multiple: true,
-          options: {} } %>
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3 class="icon-required">Platforms</h3></div>
+  <div class="accordion-body">
+    <div class="row taller">
+      <div class="col-12">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'platform',
+            values: draft.draft['Platforms'] || [{}],
+            name_prefix: "draft_platforms_",
+            multiple: true,
+            options: {} } %>
+      </div>
     </div>
   </div>
 </fieldset>
 
 <!-- Projects -->
-<fieldset>
-  <h3>Projects</h3>
-  <div class="row taller">
-    <div class="col-12">
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'project',
-          values: draft.draft['Projects'] || [{}],
-          name_prefix: "draft_projects_",
-          multiple: true,
-          options: {} } %>
+<fieldset class="accordion is-closed">
+  <div class="accordion-header"><h3>Projects</h3></div>
+  <div class="accordion-body">
+    <div class="row taller">
+      <div class="col-12">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'project',
+            values: draft.draft['Projects'] || [{}],
+            name_prefix: "draft_projects_",
+            multiple: true,
+            options: {} } %>
+      </div>
     </div>
   </div>
 </fieldset>

@@ -15,6 +15,8 @@ describe 'Descriptive keywords form', js: true do
         click_on 'Descriptive Keywords'
       end
 
+      open_accordions
+
       # ISO Topic Categories
       select('Farming', from: 'ISO Topic Categories')
       select('Boundaries', from: 'ISO Topic Categories')

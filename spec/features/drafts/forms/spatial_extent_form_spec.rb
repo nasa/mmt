@@ -16,6 +16,8 @@ describe 'Spatial extent form', js: true do
           click_on 'Spatial Extent'
         end
 
+        open_accordions
+
         # Spatial Extent
         choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
         fill_in 'Zone Identifier', with: 'Zone ID'
@@ -172,6 +174,8 @@ OCEAN > ATLANTIC OCEAN')
           click_on 'Spatial Extent'
         end
 
+        open_accordions
+
         # Spatial Extent
         choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
         fill_in 'Zone Identifier', with: 'Zone ID'
@@ -271,6 +275,8 @@ OCEAN > ATLANTIC OCEAN')
         within '.metadata' do
           click_on 'Spatial Extent'
         end
+
+        open_accordions
 
         # Spatial Extent
         choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
@@ -405,6 +411,8 @@ OCEAN > ATLANTIC OCEAN')
           click_on 'Spatial Extent'
         end
 
+        open_accordions
+
         # Spatial Extent
         choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
         fill_in 'Zone Identifier', with: 'Zone ID'
@@ -502,6 +510,8 @@ OCEAN > ATLANTIC OCEAN')
       within '.metadata' do
         click_on 'Spatial Extent'
       end
+
+      open_accordions
 
       # Spatial Extent
       choose 'draft_spatial_extent_spatial_coverage_type_VERTICAL'
@@ -628,6 +638,8 @@ OCEAN > ATLANTIC OCEAN')
       within '.metadata' do
         click_on 'Spatial Extent'
       end
+
+      open_accordions
 
       # Spatial Extent
       choose 'draft_spatial_extent_spatial_coverage_type_ORBITAL'

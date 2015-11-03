@@ -40,36 +40,40 @@
   <label for="<%= remove_pipes(name_prefix) %>edition">Edition</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Edition"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}edition"), publication_reference['Edition'], rows: 8, class: 'validate') %>
 
-
-  <!-- Volume -->
-  <label for="<%= remove_pipes(name_prefix) %>volume">Volume</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Volume"></i></a>
-  <%= text_field_tag(name_to_param("#{name_prefix}volume"), publication_reference['Volume'], class: 'half-width validate') %>
-
-
-  <!-- Issue -->
-  <label for="<%= remove_pipes(name_prefix) %>issue">Issue</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Issue"></i></a>
-  <%= text_field_tag(name_to_param("#{name_prefix}issue"), publication_reference['Issue'], class: 'half-width validate') %>
-
-
-  <!-- ReportNumber -->
-  <label for="<%= remove_pipes(name_prefix) %>report_number">Report Number</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/ReportNumber"></i></a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|report_number|"), publication_reference['ReportNumber'], class: 'half-width validate') %>
-
+  <div class="row">
+    <div class="col-4">
+      <!-- Volume -->
+      <label for="<%= remove_pipes(name_prefix) %>volume">Volume</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Volume"></i></a>
+      <%= text_field_tag(name_to_param("#{name_prefix}volume"), publication_reference['Volume'], class: 'full-width validate') %>
+    </div>
+    <div class="col-4">
+      <!-- Issue -->
+      <label for="<%= remove_pipes(name_prefix) %>issue">Issue</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Issue"></i></a>
+      <%= text_field_tag(name_to_param("#{name_prefix}issue"), publication_reference['Issue'], class: 'full-width validate') %>
+    </div>
+    <div class="col-4">
+      <!-- ReportNumber -->
+      <label for="<%= remove_pipes(name_prefix) %>report_number">Report Number</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/ReportNumber"></i></a>
+      <%= text_field_tag(name_to_param("#{name_prefix}|report_number|"), publication_reference['ReportNumber'], class: 'full-width validate') %>
+    </div>
+  </div>
 
   <!-- PublicationPlace -->
   <label for="<%= remove_pipes(name_prefix) %>publication_place">Publication Place</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/PublicationPlace"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}|publication_place|"), publication_reference['PublicationPlace'], rows: 8, class: 'validate') %>
 
-
-  <!-- Pages -->
-  <label for="<%= remove_pipes(name_prefix) %>pages">Pages</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Pages"></i></a>
-  <%= text_field_tag(name_to_param("#{name_prefix}pages"), publication_reference['Pages'], class: 'half-width validate') %>
-
-
-  <!-- ISBN -->
-  <label for="<%= remove_pipes(name_prefix) %>isbn">ISBN</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/ISBN"></i></a>
-  <%= text_field_tag(name_to_param("#{name_prefix}isbn"), publication_reference['ISBN'], class: 'half-width validate') %>
-
+  <div class="row">
+    <div class="col-6">
+      <!-- Pages -->
+      <label for="<%= remove_pipes(name_prefix) %>pages">Pages</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Pages"></i></a>
+      <%= text_field_tag(name_to_param("#{name_prefix}pages"), publication_reference['Pages'], class: 'full-width validate') %>
+    </div>
+    <div class="col-6">
+      <!-- ISBN -->
+      <label for="<%= remove_pipes(name_prefix) %>isbn">ISBN</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/ISBN"></i></a>
+      <%= text_field_tag(name_to_param("#{name_prefix}isbn"), publication_reference['ISBN'], class: 'full-width validate') %>
+    </div>
+  </div>
 
   <!-- OtherReferenceDetails -->
   <label for="<%= remove_pipes(name_prefix) %>other_reference_details">Other Reference Details</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/OtherReferenceDetails"></i></a>

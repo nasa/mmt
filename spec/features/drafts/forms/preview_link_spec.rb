@@ -12,9 +12,13 @@ describe 'Preview on Map link', js: true do
     login
     draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
     visit draft_path(draft)
+
     within '.metadata' do
       click_on 'Spatial Extent'
     end
+
+    open_accordions
+
     choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
   end
 
@@ -22,6 +26,7 @@ describe 'Preview on Map link', js: true do
     before do
       script = '$(".geometry-picker.points").click();'
       page.execute_script script
+
       within first('.multiple.points') do
         fill_in 'Latitude', with: '38.789'
         fill_in 'Longitude', with: '-77.123'
@@ -55,6 +60,8 @@ describe 'Preview on Map link', js: true do
           within '.metadata' do
             click_on 'Spatial Extent'
           end
+
+          open_accordions
         end
 
         it 'generates the link to Earthdata Search' do
@@ -104,6 +111,8 @@ describe 'Preview on Map link', js: true do
           within '.metadata' do
             click_on 'Spatial Extent'
           end
+
+          open_accordions
         end
 
         it 'generates the link to Earthdata Search' do
@@ -169,6 +178,8 @@ describe 'Preview on Map link', js: true do
           within '.metadata' do
             click_on 'Spatial Extent'
           end
+
+          open_accordions
         end
 
         it 'generates the link to Earthdata Search' do
