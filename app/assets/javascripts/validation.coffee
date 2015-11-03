@@ -260,6 +260,9 @@ $(document).ready ->
   $('.metadata-form').on 'change', 'input[type="radio"], select', ->
     validateFromFormChange()
 
+  $(document).on 'mmtValidate', ->
+    validateFromFormChange()
+
   validateFromFormChange = ->
     validatePage
       showInline: true
