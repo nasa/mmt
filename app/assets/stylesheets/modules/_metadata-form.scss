@@ -35,6 +35,7 @@
 
 .multiple > .actions .add-new {
   display: inline-block;
+  margin: 0 0 1em 0;
 }
 
 .multiple > :last-child > .actions .add-new {
@@ -78,8 +79,24 @@
   display: none;
 }
 
-.sub-fields {
-  margin-left: 1em;
+.multiple .sub-fields {
+  padding: 1.8em;
+  background: darken($light-grey, 5%);
+  border-left: 2px solid darken($light-grey, 12%);
+  @include transition(all 0.25s ease-in-out);
+
+  &:hover {
+    border-color: $ocean-blue;
+  }
+}
+
+.multiple .sub-fields .multiple .sub-fields {
+  padding: 1.8em;
+  background: $light-grey;
+}
+
+.multiple .sub-fields .sub-fields {
+  background: $light-grey;
 }
 
 .radio-group {
