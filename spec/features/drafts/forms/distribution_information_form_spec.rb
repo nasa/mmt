@@ -15,6 +15,8 @@ describe 'Distribution information form', js: true do
         click_on 'Distribution Information'
       end
 
+      open_accordions
+
       # Complete RelatedUrl fields
       add_related_urls
 

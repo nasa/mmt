@@ -227,7 +227,6 @@ module Helpers
     end
 
     def add_related_urls(single = nil)
-      open_accordions
       within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
         within '.multiple.related-url-url' do
           within '.multiple-item-0' do
@@ -335,7 +334,6 @@ module Helpers
     end
 
     def add_platforms
-      open_accordions
       within '.multiple.platforms' do
         fill_in 'Type', with: 'Platform type'
         fill_in 'draft_platforms_0_short_name', with: 'Platform short name'
