@@ -8,6 +8,11 @@
   <%= text_area_tag(name_to_param("#{name_prefix}era"), chronostratigraphic_unit['Era'], rows: 8, class: 'validate') %>
 
 
+  <!-- Period -->
+  <label for="<%= remove_pipes(name_prefix) %>period">Period</label>
+  <%= text_area_tag(name_to_param("#{name_prefix}period"), chronostratigraphic_unit['Period'], rows: 8, class: 'validate') %>
+
+
   <!-- Epoch -->
   <label for="<%= remove_pipes(name_prefix) %>epoch">Epoch</label>
   <%= text_area_tag(name_to_param("#{name_prefix}epoch"), chronostratigraphic_unit['Epoch'], rows: 8, class: 'validate') %>
@@ -21,9 +26,4 @@
   <!-- DetailedClassification -->
   <label for="<%= remove_pipes(name_prefix) %>detailed_classification">Detailed Classification</label>
   <%= text_area_tag(name_to_param("#{name_prefix}|detailed_classification|"), chronostratigraphic_unit['DetailedClassification'], rows: 8, class: 'validate') %>
-
-
-  <!-- Period -->
-  <label for="<%= remove_pipes(name_prefix) %>period">Period</label>
-  <%= text_area_tag(name_to_param("#{name_prefix}period"), chronostratigraphic_unit['Period'], rows: 8, class: 'validate') %>
 </div>
