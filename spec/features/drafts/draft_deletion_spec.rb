@@ -5,11 +5,8 @@ require 'rails_helper'
 describe 'Draft deletion', js: true do
   before do
     login
-    create_new_draft
-    visit '/dashboard'
-    within('.open-drafts') do
-      click_on '<Blank Entry Id>'
-    end
+    draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
+    visit draft_path(draft)
   end
 
   context 'when adding and deleting a single draft' do

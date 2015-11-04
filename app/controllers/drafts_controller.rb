@@ -16,9 +16,8 @@ class DraftsController < ApplicationController
 
   # GET /drafts/new
   def new
-    draft = Draft.create(user: @current_user, draft: {})
-    flash[:success] = 'Draft was successfully created'
-    redirect_to draft_path(draft)
+    @draft = Draft.new(user: @current_user, draft: {}, id: 0)
+    render :show
   end
 
   # GET /drafts/1/edit
@@ -40,7 +39,13 @@ class DraftsController < ApplicationController
   # PATCH/PUT /drafts/1
   # PATCH/PUT /drafts/1.json
   def update
-    @draft = Draft.find(params[:id])
+    if params[:id] == '0'
+      @draft = Draft.create(user: @current_user, draft: {})
+      params[:id] = @draft.id
+    else
+      @draft = Draft.find(params[:id])
+    end
+
     if @draft.update_draft(params[:draft])
       flash[:success] = 'Draft was successfully updated'
 
@@ -66,7 +71,8 @@ class DraftsController < ApplicationController
   # DELETE /drafts/1
   # DELETE /drafts/1.json
   def destroy
-    @draft.destroy
+    # if new_record?, no need to destroy
+    @draft.destroy unless @draft.new_record?
     respond_to do |format|
       flash[:success] = 'Draft was successfully deleted'
       format.html { redirect_to dashboard_url }
@@ -129,7 +135,11 @@ class DraftsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_draft
     id = params[:draft_id] || params[:id]
-    @draft = Draft.find(id)
+    if id == '0'
+      @draft = Draft.new(user: @current_user, draft: {}, id: 0)
+    else
+      @draft = Draft.find(id)
+    end
     @draft_forms = Draft::DRAFT_FORMS
   end
 
