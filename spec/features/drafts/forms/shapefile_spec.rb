@@ -9,7 +9,7 @@ describe 'Shapefile upload', js: true do
     visit draft_path(draft)
 
     within '.metadata' do
-      click_on 'Spatial Extent'
+      click_on 'Spatial Information'
     end
 
     open_accordions

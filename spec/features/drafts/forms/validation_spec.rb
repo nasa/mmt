@@ -172,7 +172,7 @@ describe 'Data validation for a form', js: true do
   context 'when there are integer and date fields' do
     before do
       within 'section.metadata' do
-        click_on 'Temporal Extent'
+        click_on 'Temporal Information'
       end
 
       open_accordions
@@ -215,7 +215,7 @@ describe 'Data validation for a form', js: true do
   context 'when there are Lat Lon type fields' do
     before do
       within 'section.metadata' do
-        click_on 'Spatial Extent'
+        click_on 'Spatial Information'
       end
 
       open_accordions
@@ -282,7 +282,7 @@ describe 'Data validation for a form', js: true do
   context 'when there is a oneOf constraint' do
     before do
       within 'section.metadata' do
-        click_on 'Temporal Extent'
+        click_on 'Temporal Information'
       end
 
       open_accordions
@@ -318,7 +318,7 @@ describe 'Data validation for a form', js: true do
   context 'when there is a minItems constraint' do
     before do
       within 'section.metadata' do
-        click_on 'Spatial Extent'
+        click_on 'Spatial Information'
       end
 
       open_accordions

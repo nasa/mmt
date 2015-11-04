@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 SUMMARY_PAGE_STRING = 'Quality Score:'
-TEST_TITLE_STRING = 'test title'
 
 describe 'Draft form navigation' do
   before :each do
@@ -63,7 +62,7 @@ describe 'Draft form navigation' do
       end
 
       # Only test one form from the second navigation drop down
-      this_form_title = 'Spatial Extent'
+      this_form_title = 'Spatial Information'
 
       context "#{this_form_title} from the second form selection drop down" do
         before do
@@ -103,7 +102,7 @@ describe 'Draft form navigation' do
 
     context 'Clicking Save & Done' do
       before do
-        fill_in 'Entry Title', with: TEST_TITLE_STRING
+        fill_in 'Metadata Language', with: 'English'
         click_button('Save & Done', match: :first)
       end
 
@@ -113,20 +112,18 @@ describe 'Draft form navigation' do
 
       it 'returns you to the Summary page with edits saved' do
         expect(page).to have_content(SUMMARY_PAGE_STRING)
-        expect(page).to have_content(TEST_TITLE_STRING)
       end
     end
 
     context 'Clicking Cancel' do
       before do
-        fill_in 'Entry Title', with: TEST_TITLE_STRING
+        fill_in 'Metadata Language', with: 'English'
         # There are multiple "cancel" links
         click_link('discard_changes', match: :first)
       end
 
       it 'returns you to the Summary page with edits discarded' do
         expect(page).to have_content(SUMMARY_PAGE_STRING)
-        expect(page).to_not have_content(TEST_TITLE_STRING)
       end
     end
   end

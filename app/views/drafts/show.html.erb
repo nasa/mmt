@@ -61,6 +61,17 @@
             <i class="fa fa-circle-thin"></i>
           </div>
           <div class="meta-info">
+            <%= link_to 'Metadata Information', draft_edit_form_path(@draft, 'metadata_information') %>
+            <div class="progress-indicators disabled">
+              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="status disabled">
+            <i class="fa fa-circle-thin"></i>
+          </div>
+          <div class="meta-info">
             <%= link_to 'Data Identification', draft_edit_form_path(@draft, 'data_identification') %>
             <div class="progress-indicators disabled">
               <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
@@ -80,21 +91,10 @@
         </li>
         <li>
           <div class="status disabled">
-            <i class="fa fa-circle-thin"></i>
-          </div>
-          <div class="meta-info">
-            <%= link_to 'Metadata Information', draft_edit_form_path(@draft, 'metadata_information') %>
-            <div class="progress-indicators disabled">
-              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="status disabled">
             <i class="fa fa-check-circle"></i>
           </div>
           <div class="meta-info">
-            <%= link_to 'Temporal Extent', draft_edit_form_path(@draft, 'temporal_extent') %>
+            <%= link_to 'Temporal Information', draft_edit_form_path(@draft, 'temporal_information') %>
             <div class="progress-indicators disabled">
               <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
             </div>
@@ -105,7 +105,7 @@
             <i class="fa fa-circle-thin"></i>
           </div>
           <div class="meta-info">
-            <%= link_to 'Spatial Extent', draft_edit_form_path(@draft, 'spatial_extent') %>
+            <%= link_to 'Spatial Information', draft_edit_form_path(@draft, 'spatial_information') %>
             <div class="progress-indicators disabled">
               <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
             </div>
