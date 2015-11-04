@@ -1,17 +1,17 @@
 <div class="row sub-fields">
   <!-- Distribution Media -->
-  <label for="<%= remove_pipes(name_prefix) %>distribution_media">Distribution Media</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DistributionType/DistributionMedia"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>distribution_media">Distribution Media</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/DistributionMedia"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}|distribution_media|"), distribution['DistributionMedia'], rows: 8, class: 'validate') %>
 
   <!-- Distribution Size -->
-  <label for="<%= remove_pipes(name_prefix) %>distribution_size">Distribution Size</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DistributionType/DistributionSize"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>distribution_size">Distribution Size</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/DistributionSize"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|distribution_size|"), distribution['DistributionSize'], class: 'half-width validate mmt-number') %>
 
   <!-- Distribution Format -->
-  <label for="<%= remove_pipes(name_prefix) %>distribution_format">Distribution Format</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DistributionType/DistributionFormat"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>distribution_format">Distribution Format</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/DistributionFormat"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|distribution_format|"), distribution['DistributionFormat'], class: 'half-width validate') %>
 
   <!-- Fees -->
-  <label for="<%= remove_pipes(name_prefix) %>fees">Fees (in US Dollars)</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DistributionType/Fees"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>fees">Fees (in US Dollars)</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/Fees"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}fees"), distribution['Fees'], class: 'half-width validate mmt-number') %>
 </div>
