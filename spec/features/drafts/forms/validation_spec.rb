@@ -104,20 +104,18 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'validation between related R and NR fields works' do
-      within '.organization' do
-        select 'Owner', from: 'Role'
-        fill_in 'Short Name', with: empty_string
+      within '.access-constraints' do
         expect(page).to have_no_selector(validation_error)
 
-        fill_in 'Long Name', with: 'long name'
-        expect(page).to have_content('Short Name is required')
+        fill_in 'Value', with: '42'
+        expect(page).to have_content('Description is required')
         expect(page).to have_selector(validation_error)
 
-        fill_in 'Short Name', with: 'Short name'
+        fill_in 'Description', with: 'description'
         expect(page).to have_no_selector(validation_error)
 
-        fill_in 'Short Name', with: empty_string
-        expect(page).to have_content('Short Name is required')
+        fill_in 'Description', with: empty_string
+        expect(page).to have_content('Description is required')
         expect(page).to have_selector(validation_error)
       end
     end
