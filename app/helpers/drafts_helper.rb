@@ -73,6 +73,9 @@ module DraftsHelper
     ['Science Associated', 'SCIENCE ASSOCIATED'],
     ['Dependent', 'DEPENDENT'],
     ['Input', 'INPUT'],
+    ['Parent', 'PARENT'],
+    ['Child', 'CHILD'],
+    ['Related', 'RELATED'],
     ['Larger Citation Works', 'LARGER CITATION WORKS']
   ]
   RoleOptions = [

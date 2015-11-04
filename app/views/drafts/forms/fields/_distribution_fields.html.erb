@@ -13,5 +13,5 @@
 
   <!-- Fees -->
   <label for="<%= remove_pipes(name_prefix) %>fees">Fees (in US Dollars)</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/Fees"></i></a>
-  <%= text_field_tag(name_to_param("#{name_prefix}fees"), distribution['Fees'], class: 'half-width validate mmt-number') %>
+  <%= text_field_tag(name_to_param("#{name_prefix}fees"), distribution['Fees'], class: 'half-width validate') %>
 </div>

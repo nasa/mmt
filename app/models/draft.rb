@@ -88,7 +88,6 @@ class Draft < ActiveRecord::Base
   )
   NUMBER_KEYS = %w(
     size
-    fees
     longitude
     latitude
     minimum_value

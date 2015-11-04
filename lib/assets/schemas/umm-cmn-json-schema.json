@@ -705,7 +705,9 @@
         },
         "Fees": {
           "description": "The fee for ordering the data or service.",
-          "$ref": "#/definitions/DollarAmountType"
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
         }
       }
     },
@@ -789,10 +791,10 @@
       "description": "This entity registers the device used to measure or record data, including direct human observation. In cases where instruments have a single sensor or the instrument and sensor are used synonymously (e.g. AVHRR) the both Instrument and Sensor should be recorded. The Sensor information is represented by some other entities.",
       "properties": {
         "ShortName": {
-          "$ref": "#/definitions/ShortNameType"
+          "$ref": "#/definitions/PlatformShortNameType"
         },
         "LongName": {
-          "$ref": "#/definitions/LongNameType"
+          "$ref": "#/definitions/PlatformLongNameType"
         },
         "Characteristics": {
           "description": "The characteristics of this instrument expressed as custom attributes. The characteristic names must be unique on this instrument; however the names do not have to be unique across instruments.",
@@ -1103,7 +1105,7 @@
     "PointType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "The longitude and latitude value of a spatially referenced pointer in degree.",
+      "description": "The longitude and latitude value of a spatially referenced point in degrees.",
       "properties": {
         "Longitude": {
           "$ref": "#/definitions/LongitudeType"
@@ -1252,7 +1254,8 @@
       "description": "This element describes the relevant platforms used to acquire the data related to the service. Platform types are controlled and include Spacecraft, Aircraft, Vessel, Buoy, Platform, Station, Network, Human, etc. This platform includes zero or more instruments",
       "properties": {
         "TilingIdentificationSystemName": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "Coordinate1": {
           "$ref": "#/definitions/TilingCoordinateType"
@@ -1380,9 +1383,9 @@
       "maxLength": 12000
     },
     "MetadataAssociateTypeEnum": {
-      "description": "The name of supported lineage date types",
+      "description": "The set of supported values for MetadataAssociationType.Type.",
       "type": "string",
-      "enum": ["SCIENCE ASSOCIATED", "DEPENDENT", "INPUT", "LARGER CITATION WORKS"]
+      "enum": ["SCIENCE ASSOCIATED", "DEPENDENT", "INPUT", "PARENT", "CHILD", "RELATED", "LARGER CITATION WORKS"]
     },
     "KeywordStringType": {
       "type": "string",
