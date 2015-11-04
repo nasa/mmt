@@ -732,7 +732,7 @@ FactoryGirl.define do
     ],
     'TemporalKeywords' => ['test 1 Keyword', 'test 2 Keyword'],
     'PaleoTemporalCoverage' => {
-      'StartDate' => '2015-07-01', 'EndDate' => '2015-08-01',
+      'StartDate' => '50 Ga', 'EndDate' => '25 Ga',
       'ChronostratigraphicUnits' => [{
         'Eon' => 'test 1 Eon', 'Era' => 'test 1 Era', 'Epoch' => 'test 1 Epoch', 'Stage' => 'test 1 Stage',
         'DetailedClassification' => 'test 1 Detailed Classification', 'Period' => 'test 1 Period'
