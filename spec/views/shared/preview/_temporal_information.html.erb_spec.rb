@@ -5,7 +5,7 @@
 require 'rails_helper'
 include DraftsHelper
 
-template_path = 'shared/preview/_temporal_extent.html.erb'
+template_path = 'shared/preview/_temporal_information.html.erb'
 
 describe template_path, type: :view do
   context 'when the temporal extent data' do
@@ -16,9 +16,10 @@ describe template_path, type: :view do
       end
 
       it 'does not crash or have temporal extent data' do
-        expect(rendered).to have_content('Temporal Extent')
-        expect(rendered).to_not have_content('Temporal Keyword')
-        expect(rendered).to_not have_content('Paleo Temporal Coverage')
+        rendered_node = Capybara.string(rendered)
+        expect(rendered_node).to have_no_content('Temporal Extent')
+        expect(rendered_node).to have_no_content('Temporal Keyword')
+        expect(rendered_node).to have_no_content('Paleo Temporal Coverage')
       end
     end
 

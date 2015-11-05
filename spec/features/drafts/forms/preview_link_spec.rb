@@ -14,7 +14,7 @@ describe 'Preview on Map link', js: true do
     visit draft_path(draft)
 
     within '.metadata' do
-      click_on 'Spatial Extent'
+      click_on 'Spatial Information'
     end
 
     open_accordions
@@ -58,7 +58,7 @@ describe 'Preview on Map link', js: true do
           end
 
           within '.metadata' do
-            click_on 'Spatial Extent'
+            click_on 'Spatial Information'
           end
 
           open_accordions
@@ -109,7 +109,7 @@ describe 'Preview on Map link', js: true do
           end
 
           within '.metadata' do
-            click_on 'Spatial Extent'
+            click_on 'Spatial Information'
           end
 
           open_accordions
@@ -176,7 +176,7 @@ describe 'Preview on Map link', js: true do
           end
 
           within '.metadata' do
-            click_on 'Spatial Extent'
+            click_on 'Spatial Information'
           end
 
           open_accordions

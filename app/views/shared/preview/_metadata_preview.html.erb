@@ -7,13 +7,13 @@
       <label for="markdown">Show as markdown</label>
     </p> -->
 
+    <%= render partial: 'shared/preview/metadata_information', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/data_identification', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/descriptive_keywords', locals: { metadata: metadata } %>
-    <%= render partial: 'shared/preview/metadata_information', locals: { metadata: metadata } %>
-    <%= render partial: 'shared/preview/temporal_extent', locals: { metadata: metadata } %>
-    <%= render partial: 'shared/preview/spatial_extent', locals: { metadata: metadata } %>
-    <%= render partial: 'shared/preview/acquisition_information', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/distribution_information', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/temporal_information', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/spatial_information', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/acquisition_information', locals: { metadata: metadata } %>
 
   </section>
   <aside class="geographic-coverage">

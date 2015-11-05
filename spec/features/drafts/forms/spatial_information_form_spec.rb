@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Spatial extent form', js: true do
+describe 'Spatial information form', js: true do
   before do
     login
     draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
@@ -13,7 +13,7 @@ describe 'Spatial extent form', js: true do
     context 'when submitting points geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Extent'
+          click_on 'Spatial Information'
         end
 
         open_accordions
@@ -107,7 +107,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Extent'
+            click_on 'Spatial Information'
           end
 
           open_accordions
@@ -171,7 +171,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when submitting bounding rectangles geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Extent'
+          click_on 'Spatial Information'
         end
 
         open_accordions
@@ -232,7 +232,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Extent'
+            click_on 'Spatial Information'
           end
 
           open_accordions
@@ -273,7 +273,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when submitting g polygons geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Extent'
+          click_on 'Spatial Information'
         end
 
         open_accordions
@@ -323,7 +323,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Extent'
+            click_on 'Spatial Information'
           end
 
           open_accordions
@@ -408,7 +408,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when submitting lines geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Extent'
+          click_on 'Spatial Information'
         end
 
         open_accordions
@@ -452,7 +452,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Extent'
+            click_on 'Spatial Information'
           end
 
           open_accordions
@@ -508,7 +508,7 @@ OCEAN > ATLANTIC OCEAN')
   context 'when submitting the form with vertical spatial' do
     before do
       within '.metadata' do
-        click_on 'Spatial Extent'
+        click_on 'Spatial Information'
       end
 
       open_accordions
@@ -589,7 +589,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when returning to the form with vertical spatial data' do
       before do
         within '.metadata' do
-          click_on 'Spatial Extent'
+          click_on 'Spatial Information'
         end
 
         open_accordions
@@ -636,7 +636,7 @@ OCEAN > ATLANTIC OCEAN')
   context 'when submitting the form with orbital spatial' do
     before do
       within '.metadata' do
-        click_on 'Spatial Extent'
+        click_on 'Spatial Information'
       end
 
       open_accordions
@@ -727,7 +727,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when returning to the form for orbital spatial data' do
       before do
         within '.metadata' do
-          click_on 'Spatial Extent'
+          click_on 'Spatial Information'
         end
 
         open_accordions

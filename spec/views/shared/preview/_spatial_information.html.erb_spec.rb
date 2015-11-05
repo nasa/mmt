@@ -5,7 +5,7 @@
 require 'rails_helper'
 include DraftsHelper
 
-template_path = 'shared/preview/_spatial_extent.html.erb'
+template_path = 'shared/preview/_spatial_information.html.erb'
 
 describe template_path, type: :view do
   context 'when the spatial extent data' do
@@ -16,9 +16,10 @@ describe template_path, type: :view do
       end
 
       it 'does not crash or have spatial extent data' do
-        expect(rendered).to have_content('Spatial Extent')
-        expect(rendered).to_not have_content('Spatial Keyword')
-        expect(rendered).to_not have_content('Tiling Identification')
+        rendered_node = Capybara.string(rendered)
+        expect(rendered_node).to have_no_content('Spatial Extent')
+        expect(rendered_node).to have_no_content('Spatial Keyword')
+        expect(rendered_node).to have_no_content('Tiling Identification')
       end
     end
 

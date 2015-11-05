@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Temporal extent form', js: true do
+describe 'Temporal information form', js: true do
   before do
     login
     draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
@@ -12,7 +12,7 @@ describe 'Temporal extent form', js: true do
   context 'when submitting the form' do
     before do
       within '.metadata' do
-        click_on 'Temporal Extent'
+        click_on 'Temporal Information'
       end
 
       open_accordions
@@ -160,7 +160,7 @@ describe 'Temporal extent form', js: true do
     context 'when returning to the form' do
       before do
         within '.metadata' do
-          click_on 'Temporal Extent'
+          click_on 'Temporal Information'
         end
 
         open_accordions

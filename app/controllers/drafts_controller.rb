@@ -25,9 +25,9 @@ class DraftsController < ApplicationController
     if params[:form]
       @draft_form = params[:form]
       @science_keywords = cmr_client.get_science_keywords if params[:form] == 'descriptive_keywords'
-      @spatial_keywords = cmr_client.get_spatial_keywords if params[:form] == 'spatial_extent'
+      @spatial_keywords = cmr_client.get_spatial_keywords if params[:form] == 'spatial_information'
 
-      if params[:form] == 'temporal_extent'
+      if params[:form] == 'temporal_information'
         keywords = cmr_client.get_temporal_keywords['temporal_resolution_range']
         @temporal_keywords = keywords.map { |keyword| keyword['value'] }
       end
