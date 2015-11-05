@@ -56,10 +56,10 @@ module TypesHelper
   ChronostratigraphicUnitsType = [
     { name: 'Eon' },
     { name: 'Era' },
+    { name: 'Period' },
     { name: 'Epoch' },
     { name: 'Stage' },
-    { name: 'DetailedClassification' },
-    { name: 'Period' }
+    { name: 'DetailedClassification' }
   ]
   ContactsType = [
     { name: 'Type' },
