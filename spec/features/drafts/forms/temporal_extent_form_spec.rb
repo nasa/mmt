@@ -25,7 +25,7 @@ describe 'Temporal extent form', js: true do
         within '.multiple.single-date-times' do
           within '.multiple-item-0' do
             find('.single-date-time').set '2015-07-01T00:00:00Z'
-            click_on 'Add Another Date'
+            click_on 'Add Another Single Date Time'
           end
           within '.multiple-item-1' do
             find('.single-date-time').set '2015-08-01T00:00:00Z'

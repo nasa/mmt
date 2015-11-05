@@ -28,7 +28,7 @@ describe 'Descriptive keywords form', js: true do
       within '.multiple.ancillary-keywords' do
         within '.multiple-item-0' do
           find('.ancillary-keyword').set 'Ancillary keyword 1'
-          click_on 'Add Another Keyword'
+          click_on 'Add Another Ancillary Keyword'
         end
         within '.multiple-item-1' do
           find('.ancillary-keyword').set 'Ancillary keyword 2'
