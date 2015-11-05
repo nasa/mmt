@@ -377,7 +377,7 @@ module Helpers
         within '.multiple.operational-mode' do
           within '.multiple-item-0' do
             find('.operational-mode').set 'Instrument mode 1'
-            click_on 'Add Another Mode'
+            click_on 'Add Another Operational Mode'
           end
           within '.multiple-item-1' do
             find('.operational-mode').set 'Instrument mode 2'
