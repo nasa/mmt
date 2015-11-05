@@ -69,7 +69,7 @@ describe 'Distribution information form', js: true do
       expect(page).to have_content('Online Download')
       expect(page).to have_content('4.2')
       expect(page).to have_content('HDF')
-      expect(page).to have_content('0.0')
+      expect(page).to have_content('0')
       # Distribution 2
       expect(page).to have_content('Floppy disc')
       expect(page).to have_content('7.5')
@@ -117,7 +117,7 @@ describe 'Distribution information form', js: true do
             expect(page).to have_field('Distribution Media', with: 'Online Download')
             expect(page).to have_field('Distribution Size', with: '4.2')
             expect(page).to have_field('Distribution Format', with: 'HDF')
-            expect(page).to have_field('Fees', with: '0.0')
+            expect(page).to have_field('Fees', with: '0')
           end
 
           within '.multiple-item-1' do
