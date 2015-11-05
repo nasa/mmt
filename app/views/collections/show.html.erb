@@ -19,6 +19,12 @@
 
   <%= render 'shared/flash_messages' %>
 
+  <% if @old_revision %>
+    <div class="banner banner-info">
+      <%= link_to 'You are viewing an older revision of this collection. Click here to view the latest published version.', collection_path %>
+    </div>
+  <% end %>
+
   <div class="row row-content">
     <% if @error %>
       <div class="banner banner-info">
