@@ -103,6 +103,10 @@
     background: darken($light-grey, 5%);
     border-left: 2px solid darken($light-grey, 12%);
     @include transition(all 0.25s ease-in-out);
+
+    &:hover {
+      border-color: $ocean-blue;
+    }
   }
 }
 
