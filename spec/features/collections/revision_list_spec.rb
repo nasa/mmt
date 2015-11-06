@@ -48,12 +48,23 @@ describe 'Revision list', js: true, reset_provider: true do
       end
 
       context 'when viewing an old revision' do
+        link_text = 'You are viewing an older revision of this collection. Click here to view the latest published version.'
         before do
           all('a', text: 'View').last.click
         end
 
         it 'displays a message that the revision is old' do
-          expect(page).to have_link('You are viewing an older revision of this collection. Click here to view the latest published version.')
+          expect(page).to have_link(link_text)
+        end
+
+        context 'when clicking the message' do
+          before do
+            click_on link_text
+          end
+
+          it 'displays the latest revision to the user' do
+            expect(page).to have_no_link(link_text)
+          end
         end
       end
     end
