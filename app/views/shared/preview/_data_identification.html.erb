@@ -5,7 +5,7 @@
   </div>
   <div class="accordion-body">
     <ul class="data-identification-preview">
-
+      <h4>Collection Information <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-information'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'EntryId',
         hash_for_key: metadata
@@ -38,6 +38,7 @@
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['DataDates'],
+          form: 'data_identification',
           name: 'DataDates',
           type: TypesHelper::DateType
       } %>
