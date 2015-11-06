@@ -46,15 +46,16 @@
             <% @revisions.each_with_index do |revision, index| %>
               <tr class='<%= cycle("alt", "") %>'>
                 <td>
+                  <% title = "View revision #{revision['meta']['revision-id']}" %>
                   <%= revision['meta']['revision-id'] %> -
                   <% if revision['meta']['deleted'] == true %>
                     Deleted
                   <% elsif index == 0 %>
                     Published
-                    <%= link_to 'View', collection_path(revision_id: revision['meta']['revision-id']) %>
+                    <%= link_to 'View', collection_path(revision_id: revision['meta']['revision-id']), title: title %>
                   <% else %>
                     Revision
-                    <%= link_to 'View', collection_path(revision_id: revision['meta']['revision-id']) %>
+                    <%= link_to 'View', collection_path(revision_id: revision['meta']['revision-id']), title: title %>
                   <% end %>
                 </td>
                 <td>

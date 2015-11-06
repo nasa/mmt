@@ -46,6 +46,27 @@ describe 'Revision list', js: true, reset_provider: true do
       it 'displays the correct phrasing for reverting records' do
         expect(page).to have_content('Revert to this Revision', count: 1)
       end
+
+      context 'when viewing an old revision' do
+        link_text = 'You are viewing an older revision of this collection. Click here to view the latest published version.'
+        before do
+          all('a', text: 'View').last.click
+        end
+
+        it 'displays a message that the revision is old' do
+          expect(page).to have_link(link_text)
+        end
+
+        context 'when clicking the message' do
+          before do
+            click_on link_text
+          end
+
+          it 'displays the latest revision to the user' do
+            expect(page).to have_no_link(link_text)
+          end
+        end
+      end
     end
 
     context 'when searching for the collection' do
