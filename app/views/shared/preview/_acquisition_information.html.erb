@@ -9,13 +9,15 @@
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Platforms'],
           name: 'Platforms',
-          type: TypesHelper::PlatformsType
+          type: TypesHelper::PlatformsType,
+          form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Projects'],
           name: 'Projects',
-          type: TypesHelper::ProjectsType
+          type: TypesHelper::ProjectsType,
+          form_parent: 'data_identification'
       } %>
 
     </ul>

@@ -8,101 +8,118 @@
       <h4>Collection Information <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-information'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'EntryId',
-        hash_for_key: metadata
+        hash_for_key: metadata,
+        form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'Version',
-        hash_for_key: metadata
+        hash_for_key: metadata,
+        form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'EntryTitle',
-        hash_for_key: metadata
+        hash_for_key: metadata,
+        form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'Abstract',
-        hash_for_key: metadata
+        hash_for_key: metadata,
+        form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'Purpose',
-        hash_for_key: metadata
+        hash_for_key: metadata,
+        form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'DataLanguage',
-        hash_for_key: metadata
+        hash_for_key: metadata,
+        form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['DataDates'],
-          form: 'data_identification',
           name: 'DataDates',
-          type: TypesHelper::DateType
+          type: TypesHelper::DateType,
+          form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Organizations'],
           name: 'Organizations',
-          type: TypesHelper::ResponsibilityType
+          type: TypesHelper::ResponsibilityType,
+          form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Personnel'],
           name: 'Personnel',
-          type: TypesHelper::ResponsibilityType
+          type: TypesHelper::ResponsibilityType,
+          form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/fields/display_single_select_field_line', locals: {
           key_name: 'CollectionDataType',
           hash_for_key: metadata,
-          options: DraftsHelper::CollectionDataTypeOptions
+          options: DraftsHelper::CollectionDataTypeOptions,
+          form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['ProcessingLevel'],
           name: 'ProcessingLevel',
-          type: TypesHelper::ProcessingLevelType
+          type: TypesHelper::ProcessingLevelType,
+          form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['CollectionCitations'],
           name: 'CollectionCitations',
-          type: TypesHelper::ResourceCitationType
+          type: TypesHelper::ResourceCitationType,
+          form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/fields/display_single_select_field_line', locals: {
           key_name: 'CollectionProgress',
           hash_for_key: metadata,
-          options: DraftsHelper::CollectionProgressOptions
+          options: DraftsHelper::CollectionProgressOptions,
+          form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
-        key_name: 'Quality', hash_for_key: metadata
+        key_name: 'Quality', hash_for_key: metadata,
+        form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
-        key_name: 'UseConstraints', hash_for_key: metadata
+        key_name: 'UseConstraints', hash_for_key: metadata,
+        form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['AccessConstraints'],
           name: 'AccessConstraints',
-          type: TypesHelper::AccessConstraintsType
+          type: TypesHelper::AccessConstraintsType,
+          form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['MetadataAssociations'],
           name: 'MetadataAssociations',
-          type: TypesHelper::MetadataAssociationsType
+          type: TypesHelper::MetadataAssociationsType,
+          form_parent: 'data_identification'
       } %>
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['PublicationReferences'],
           name: 'PublicationReferences',
-          type: TypesHelper::PublicationReferencesType
+          type: TypesHelper::PublicationReferencesType,
+          form_parent: 'data_identification'
       } %>
 
     </ul>

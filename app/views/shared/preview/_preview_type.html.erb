@@ -10,7 +10,7 @@
 <% if data %>
   <li class="<%= 'top_field ' if top_field %><%= name_to_class(name) %>">
     <% if top_field %>
-      <h4><%= name_to_title(name) %> <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'form', {anchor: name}), {class: 'hash-link'} %></h4>
+      <h4><%= name_to_title(name) %> <% if defined?(form_parent) %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, form_parent, {anchor: name.underscore.dasherize}), {class: 'hash-link'} %><% end %></h4>
     <% end %>
     <% data.each_with_index do |data_value, index| %>
       <h5><%= name_to_title(name) %><%= " #{index + 1}" if is_array %></h5>
