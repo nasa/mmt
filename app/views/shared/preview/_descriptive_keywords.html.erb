@@ -15,13 +15,14 @@
           key_name: 'ISOTopicCategories',
           hash_for_key: metadata,
           title_override: 'ISO Topic Categories',
-          options: DraftsHelper::ISOTopicCategoriesOptions
+          options: DraftsHelper::ISOTopicCategoriesOptions,
+          form_parent: 'descriptive_keywords'
       } %>
 
       <% keywords = metadata['ScienceKeywords'] || [] %>
       <% if keywords.size > 0 %>
         <li class="top_field science-keywords">
-          <h4>Science Keywords</h4>
+          <h4>Science Keywords <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'science-keywords'}), {class: 'hash-link'} %></h4>
           <ul class="sub-field">
             <% keywords.each_with_index do |keyword, index| %>
               <li class="science-keywords-<%= index %>">
@@ -34,13 +35,15 @@
 
       <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'AncillaryKeywords',
-          hash_for_key: metadata
+          hash_for_key: metadata,
+          form_parent: 'descriptive_keywords'
       } %>
 
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['AdditionalAttributes'],
           name: 'AdditionalAttributes',
-          type: TypesHelper::AdditionalAttributesType
+          type: TypesHelper::AdditionalAttributesType,
+          form_parent: 'descriptive_keywords'
       } %>
     </ul>
   </div>
