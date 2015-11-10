@@ -6,18 +6,18 @@
   <div class="accordion-body">
     <ul class="acquisition-information-preview">
 
+      <h4>Platforms <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'acquisition_information', {anchor: 'platforms'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Platforms'],
           name: 'Platforms',
-          type: TypesHelper::PlatformsType,
-          form_parent: 'data_identification'
+          type: TypesHelper::PlatformsType
       } %>
 
+      <h4>Projects <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'acquisition_information', {anchor: 'projects'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Projects'],
           name: 'Projects',
-          type: TypesHelper::ProjectsType,
-          form_parent: 'data_identification'
+          type: TypesHelper::ProjectsType
       } %>
 
     </ul>

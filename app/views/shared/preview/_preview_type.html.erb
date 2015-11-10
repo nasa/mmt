@@ -10,7 +10,7 @@
 <% if data %>
   <li class="<%= 'top_field ' if top_field %><%= name_to_class(name) %>">
     <% if top_field %>
-      <h4><%= name_to_title(name) %> <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, form_parent, {anchor: name.underscore.dasherize}), {class: 'hash-link'} %></h4>
+      <%= name_to_title(name) %>
     <% end %>
     <% data.each_with_index do |data_value, index| %>
       <h5><%= name_to_title(name) %><%= " #{index + 1}" if is_array %></h5>
@@ -20,8 +20,7 @@
           <% if options.include?(:array_field) %>
             <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
                 key_name: key[:name],
-                hash_for_key: data_value,
-                form_parent: 'descriptive_keywords' } %>
+                hash_for_key: data_value } %>
           <% elsif options.include?(:sub_type) %>
             <% new_type = "TypesHelper::#{options.include?(:lineage_date) ? 'LineageDate' : key[:name]}Type".constantize %>
             <%= render partial: 'shared/preview/preview_type', locals: {

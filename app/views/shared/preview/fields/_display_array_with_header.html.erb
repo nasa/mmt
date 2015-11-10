@@ -6,7 +6,6 @@
   <% if !data_array.nil? %>
     <% html_class_name = name_to_class(key_name) %>
     <li class="<%= html_class_name %>">
-      <h4><%= key_name %> <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, form_parent, {anchor: key_name.underscore.dasherize}), {class: 'hash-link'} %></h4>
       <ul class="sub-field">
         <li class="field-name">
           <h6><%= title_override || name_to_title(key_name) %></h6>

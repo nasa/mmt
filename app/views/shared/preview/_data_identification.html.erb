@@ -14,107 +14,103 @@
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'Version',
-        hash_for_key: metadata,
-        form_parent: 'data_identification'
+        hash_for_key: metadata
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'EntryTitle',
-        hash_for_key: metadata,
-        form_parent: 'data_identification'
+        hash_for_key: metadata
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'Abstract',
-        hash_for_key: metadata,
-        form_parent: 'data_identification'
+        hash_for_key: metadata
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'Purpose',
-        hash_for_key: metadata,
-        form_parent: 'data_identification'
+        hash_for_key: metadata
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'DataLanguage',
-        hash_for_key: metadata,
-        form_parent: 'data_identification'
+        hash_for_key: metadata
       } %>
 
+      <h4>Data Dates <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'data-dates'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['DataDates'],
           name: 'DataDates',
-          type: TypesHelper::DateType,
-          form_parent: 'data_identification'
+          type: TypesHelper::DateType
       } %>
 
+      <h4>Organizations <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'organizations'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Organizations'],
           name: 'Organizations',
-          type: TypesHelper::ResponsibilityType,
-          form_parent: 'data_identification'
+          type: TypesHelper::ResponsibilityType
       } %>
 
+      <h4>Personnel <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'personnel'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Personnel'],
           name: 'Personnel',
-          type: TypesHelper::ResponsibilityType,
-          form_parent: 'data_identification'
+          type: TypesHelper::ResponsibilityType
       } %>
 
+      <h4>Collection Data Type <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-data-type'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/fields/display_single_select_field_line', locals: {
           key_name: 'CollectionDataType',
           hash_for_key: metadata,
-          options: DraftsHelper::CollectionDataTypeOptions,
-          form_parent: 'data_identification'
+          options: DraftsHelper::CollectionDataTypeOptions
       } %>
 
+      <h4>Processing Level <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'processing-level'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['ProcessingLevel'],
           name: 'ProcessingLevel',
-          type: TypesHelper::ProcessingLevelType,
-          form_parent: 'data_identification'
+          type: TypesHelper::ProcessingLevelType
       } %>
 
+      <h4>Collection Citations <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-citations'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['CollectionCitations'],
           name: 'CollectionCitations',
-          type: TypesHelper::ResourceCitationType,
-          form_parent: 'data_identification'
+          type: TypesHelper::ResourceCitationType
       } %>
 
+      <h4>Collection Progress <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-progress'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/fields/display_single_select_field_line', locals: {
           key_name: 'CollectionProgress',
           hash_for_key: metadata,
-          options: DraftsHelper::CollectionProgressOptions,
-          form_parent: 'data_identification'
+          options: DraftsHelper::CollectionProgressOptions
       } %>
 
+      <h4>Quality <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'quality'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
-        key_name: 'Quality', hash_for_key: metadata,
-        form_parent: 'data_identification'
+        key_name: 'Quality', hash_for_key: metadata
       } %>
 
+      <h4>Use Constraints <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'use-constraints'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
-        key_name: 'UseConstraints', hash_for_key: metadata,
-        form_parent: 'data_identification'
+        key_name: 'UseConstraints', hash_for_key: metadata
       } %>
 
+      <h4>Access Constraints <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'access-constraints'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['AccessConstraints'],
           name: 'AccessConstraints',
-          type: TypesHelper::AccessConstraintsType,
-          form_parent: 'data_identification'
+          type: TypesHelper::AccessConstraintsType
       } %>
 
+      <h4>Metadata Associations <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'metadata-associations'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['MetadataAssociations'],
           name: 'MetadataAssociations',
-          type: TypesHelper::MetadataAssociationsType,
-          form_parent: 'data_identification'
+          type: TypesHelper::MetadataAssociationsType
       } %>
 
+      <h4>Publication References <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'publication-reference'}), {class: 'hash-link'} %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['PublicationReferences'],
           name: 'PublicationReferences',
