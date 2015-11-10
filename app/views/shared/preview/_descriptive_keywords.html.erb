@@ -19,10 +19,10 @@
           options: DraftsHelper::ISOTopicCategoriesOptions
       } %>
 
+      <h4>Ancillary Keywords <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'ancillary-keywords'}), {class: 'hash-link'} %></h4>
       <% keywords = metadata['ScienceKeywords'] || [] %>
       <% if keywords.size > 0 %>
         <li class="top_field science-keywords">
-          <h4>Science Keywords <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'science-keywords'}), {class: 'hash-link'} %></h4>
           <ul class="sub-field">
             <% keywords.each_with_index do |keyword, index| %>
               <li class="science-keywords-<%= index %>">
