@@ -18,7 +18,7 @@ describe template_path, type: :view do
 
       it 'does not crash or have data identification data' do
         expect(rendered).to have_content('Data Identification')
-        expect(rendered).to_not have_content('Processing Level')
+        expect(rendered).to have_content('Processing Level')
         expect(rendered).to_not have_content('Abstract')
       end
     end

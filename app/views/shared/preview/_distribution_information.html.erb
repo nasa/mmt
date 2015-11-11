@@ -5,14 +5,14 @@
   </div>
   <div class="accordion-body">
     <ul class="distribution-information-preview">
-      <h4>Related URLs <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'distribution_information', {anchor: 'related-urls'}), {class: 'hash-link'} %></h4>
+      <h4>Related URLs <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'distribution_information', {anchor: 'related-urls'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['RelatedUrls'],
           name: 'RelatedUrls',
           type: TypesHelper::RelatedUrlsType
       } %>
 
-      <h4>Distributions <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'distribution_information', {anchor: 'distributions'}), {class: 'hash-link'} %></h4>
+      <h4>Distributions <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'distribution_information', {anchor: 'distributions'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Distributions'],
           name: 'Distributions',

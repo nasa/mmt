@@ -17,8 +17,8 @@ describe template_path, type: :view do
 
       it 'does not crash or have Metadata Information' do
         expect(rendered).to have_content('Metadata Information')
-        expect(rendered).to_not have_content('Metadata Language')
-        expect(rendered).to_not have_content('Metadata Dates')
+        expect(rendered).to have_content('Metadata Language')
+        expect(rendered).to have_content('Metadata Dates')
       end
     end
 

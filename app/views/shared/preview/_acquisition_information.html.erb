@@ -6,14 +6,14 @@
   <div class="accordion-body">
     <ul class="acquisition-information-preview">
 
-      <h4>Platforms <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'acquisition_information', {anchor: 'platforms'}), {class: 'hash-link'} %></h4>
+      <h4>Platforms <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'acquisition_information', {anchor: 'platforms'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Platforms'],
           name: 'Platforms',
           type: TypesHelper::PlatformsType
       } %>
 
-      <h4>Projects <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'acquisition_information', {anchor: 'projects'}), {class: 'hash-link'} %></h4>
+      <h4>Projects <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'acquisition_information', {anchor: 'projects'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Projects'],
           name: 'Projects',

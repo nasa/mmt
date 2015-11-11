@@ -6,20 +6,20 @@
   <div class="accordion-body">
     <ul class="temporal-extent-preview">
 
-      <h4>Temporal Extents <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'temporal-extents'}), {class: 'hash-link'} %></h4>
+      <h4>Temporal Extents <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'temporal-extents'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['TemporalExtents'],
           name: 'TemporalExtents',
           type: TypesHelper::TemporalExtentsType
       } %>
 
-      <h4>Temporal Keywords <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'temporal-keywords'}), {class: 'hash-link'} %></h4>
+      <h4>Temporal Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'temporal-keywords'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'TemporalKeywords',
           hash_for_key: metadata
       } %>
 
-      <h4>Paleo Temporal Coverage <%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'paleo-temporal-coverage'}), {class: 'hash-link'} %></h4>
+      <h4>Paleo Temporal Coverage <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'paleo-temporal-coverage'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['PaleoTemporalCoverage'],
           name: 'PaleoTemporalCoverage',

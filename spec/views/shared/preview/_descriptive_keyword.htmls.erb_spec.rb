@@ -16,7 +16,7 @@ describe template_path, type: :view do
       it 'does not crash or have acquisition information data' do
         expect(rendered).to have_content('Descriptive Keyword')
         expect(rendered).to_not have_content('Science Keywords')
-        expect(rendered).to_not have_content('Additional Attributes')
+        expect(rendered).to have_content('Additional Attributes')
       end
     end
 
