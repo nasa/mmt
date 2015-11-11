@@ -12,7 +12,10 @@
     display: none;
 }
 
-#provider-context, #help-modal, #download-xml-modal {
+#provider-context,
+#help-modal,
+#download-xml-modal,
+#progress-legend {
   border-radius: 5px;
   -webkit-border-radius: 5px;
   background-color: #fff;
@@ -27,7 +30,24 @@
   }
 }
 
-#provider-context, #help-modal {
+#progress-legend {
+  padding: 0.5em 1.5em;
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    clear: both;
+    width: 100%;
+  }
+  .fa {
+    font-size: 1em;
+  }
+}
+
+#provider-context,
+#help-modal,
+#progress-legend {
   width: 500px;
 }
 

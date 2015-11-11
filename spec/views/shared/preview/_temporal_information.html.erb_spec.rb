@@ -17,9 +17,9 @@ describe template_path, type: :view do
 
       it 'does not crash or have temporal extent data' do
         rendered_node = Capybara.string(rendered)
-        expect(rendered_node).to have_no_content('Temporal Extent')
-        expect(rendered_node).to have_no_content('Temporal Keyword')
-        expect(rendered_node).to have_no_content('Paleo Temporal Coverage')
+        expect(rendered_node).to have_content('Temporal Extent')
+        expect(rendered_node).to have_content('Temporal Keyword')
+        expect(rendered_node).to have_content('Paleo Temporal Coverage')
       end
     end
 
