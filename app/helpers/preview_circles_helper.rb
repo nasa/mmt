@@ -94,11 +94,13 @@ module PreviewCirclesHelper
   end
 
   def empty_circle(field, draft, form_name, required)
-    link_to "<i class=\"fa fa-circle-o #{'icon-grey' unless required}\"></i>".html_safe, draft_edit_form_path(draft, form_name), title: field
+    icon = required ? 'icon-green' : 'icon-grey'
+    link_to "<i class=\"fa fa-circle-o #{icon}\"></i>".html_safe, draft_edit_form_path(draft, form_name), title: field
   end
 
   def complete_circle(field, draft, form_name, required)
-    link_to "<i class=\"fa fa-circle #{'icon-grey' unless required}\"></i>".html_safe, draft_edit_form_path(draft, form_name), title: field
+    icon = required ? 'icon-green' : 'icon-grey'
+    link_to "<i class=\"fa fa-circle #{icon}\"></i>".html_safe, draft_edit_form_path(draft, form_name), title: field
   end
 
   def invalid_circle(field, draft, form_name)
