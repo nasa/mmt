@@ -11,7 +11,13 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
-    _response, @errors = translate_metadata(@draft.draft)
+    # _response, @errors = translate_metadata(@draft.draft)
+    schema = 'lib/assets/schemas/umm-c-json-schema.json'
+
+    errors = JSON::Validator.fully_validate(schema, @draft.draft)
+    errors = Array.wrap(errors)
+    errors.map! { |error| generate_errors(error, @draft.draft) }.flatten!
+    @errors = errors
   end
 
   # GET /drafts/new
@@ -167,45 +173,52 @@ class DraftsController < ApplicationController
   end
 
   def generate_errors(string, draft)
-    fields = string.split(' ')[0]
+    # puts "string: #{string.inspect}"
+    fields = string.match(/'#\/(.*?)'/).captures.first
+    # fields = string.split(' ')[0]
+    # puts "fields: #{fields.inspect}"
 
-    if string.include? 'has missing required properties'
-      required_fields = string.delete('"').match(/\(\[(.*)\]\)/)[1].split(',')
+    if string.include? 'did not contain a required property'
+      required_field = string.match(/contain a required property of '(.*)'/).captures.first
+      # required_fields = string.delete('"').match(/\(\[(.*)\]\)/)[1].split(',')
+      top_field = fields.split('/')[0] || required_field
 
       # If the error is for top level required fields
-      if string.start_with? 'object'
-        # if none of the fields from a page are completed, don't display errors for that page
-        [
-          ACQUISITION_INFORMATION_FIELDS,
-          DATA_IDENTIFICATION_FIELDS,
-          DESCRIPTIVE_KEYWORDS_FIELDS,
-          DISTRIBUTION_INFORMATION_FIELDS,
-          METADATA_INFORMATION_FIELDS,
-          SPATIAL_EXTENT_FIELDS,
-          TEMPORAL_EXTENT_FIELDS
-        ].each do |all_fields|
-          # Display all missing required fields to make it easier for the user to find problems
-          # This code might still be usefule for the dots/checkboxes on the preview page
-          # required_fields.delete_if { |field| all_fields.include?(field) } if (all_fields & draft.keys).empty?
-        end
-
-        required_fields.map! do |field|
+      # if string.start_with? 'object'
+      #   # if none of the fields from a page are completed, don't display errors for that page
+      #   [
+      #     ACQUISITION_INFORMATION_FIELDS,
+      #     DATA_IDENTIFICATION_FIELDS,
+      #     DESCRIPTIVE_KEYWORDS_FIELDS,
+      #     DISTRIBUTION_INFORMATION_FIELDS,
+      #     METADATA_INFORMATION_FIELDS,
+      #     SPATIAL_INFORMATION_FIELDS,
+      #     TEMPORAL_INFORMATION_FIELDS
+      #   ].each do |all_fields|
+      #     # Display all missing required fields to make it easier for the user to find problems
+      #     # This code might still be usefule for the dots/checkboxes on the preview page
+      #     # required_fields.delete_if { |field| all_fields.include?(field) } if (all_fields & draft.keys).empty?
+      #   end
+      #
+      #   required_fields.map! do |field|
+      #     {
+      #       field: field,
+      #       top_field: top_field,
+      #       page: get_page(field),
+      #       error: 'is required'
+      #     }
+      #   end
+      # # if the error is for nested required fields
+      # else
+        # required_fields.map! do |field|
           {
-            field: field,
-            page: get_page(field),
+            field: required_field,
+            top_field: top_field,
+            page: get_page(top_field),
             error: 'is required'
           }
-        end
-      # if the error is for nested required fields
-      else
-        required_fields.map! do |field|
-          {
-            field: field,
-            page: get_page(fields.split('/')[1]),
-            error: 'is required'
-          }
-        end
-      end
+        # end
+      # end
     # If there error is not about required fields
     else
       # if the last field is an array index, use the last section of the field path that isn't a number
@@ -216,9 +229,11 @@ class DraftsController < ApplicationController
           true
         end
       end
+      puts "FIELD: #{field.inspect}"
       {
         field: field.last,
-        page: get_page(fields.split('/')[1]),
+        top_field: field[0],
+        page: get_page(field[0]),
         error: get_error(string)
       }
     end
@@ -262,13 +277,13 @@ class DraftsController < ApplicationController
     MetadataLanguage
     MetadataDates
   )
-  SPATIAL_EXTENT_FIELDS = %w(
+  SPATIAL_INFORMATION_FIELDS = %w(
     SpatialExtent
     TilingIdentificationSystem
     SpatialInformation
     SpatialKeywords
   )
-  TEMPORAL_EXTENT_FIELDS = %w(
+  TEMPORAL_INFORMATION_FIELDS = %w(
     TemporalExtents
     TemporalKeywords
     PaleoTemporalCoverage
@@ -285,22 +300,22 @@ class DraftsController < ApplicationController
       'distribution_information'
     elsif METADATA_INFORMATION_FIELDS.include? field_name
       'metadata_information'
-    elsif SPATIAL_EXTENT_FIELDS.include? field_name
-      'spatial_extent'
-    elsif TEMPORAL_EXTENT_FIELDS.include? field_name
-      'temporal_extent'
+    elsif SPATIAL_INFORMATION_FIELDS.include? field_name
+      'spatial_information'
+    elsif TEMPORAL_INFORMATION_FIELDS.include? field_name
+      'temporal_information'
     end
   end
 
   def get_error(error)
     case error
-    when /is too long/
+    when /maximum string length/
       'is too long'
-    when /greater than the required maximum/
+    when /maximum value/
       'is too high'
-    when /invalid against requested date format/
+    when /must be a valid RFC3339 date\/time string/
       'is an invalid date format'
-    when /regex/
+    when /did not match the regex/
       'is an invalid format'
     when /is not a valid URI/
       'is an invalid URI'

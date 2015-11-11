@@ -103,8 +103,12 @@ module CollectionsHelper
 
   # Do a simple transformation to map lat/lon onto y/x of map image
   def convert_lat_lon_to_image_x_y(lat, lon, map_width, map_height)
-    y = ((-1 * lat) + 90) * (map_height / 180.0)
-    x = (180 + lon) * (map_width / 360.0)
-    [x, y]
+    begin
+      y = ((-1 * lat) + 90) * (map_height / 180.0)
+      x = (180 + lon) * (map_width / 360.0)
+      [x, y]
+    rescue
+      nil
+    end
   end
 end

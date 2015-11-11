@@ -1,0 +1,10 @@
+<section class="metadata">
+  <h3>Metadata Fields</h3>
+  <ul>
+    <% Draft::DRAFT_FORMS.each do |form_name| %>
+      <li>
+        <%= render partial: 'drafts/progress/form_progress', locals: { draft: draft, form_name: form_name[:form_partial_name], metadata_errors: metadata_errors } %>
+      </li>
+    <% end %>
+  </ul>
+</section>
