@@ -17,9 +17,9 @@ describe template_path, type: :view do
 
       it 'does not crash or have spatial extent data' do
         rendered_node = Capybara.string(rendered)
-        expect(rendered_node).to have_no_content('Spatial Extent')
-        expect(rendered_node).to have_no_content('Spatial Keyword')
-        expect(rendered_node).to have_no_content('Tiling Identification')
+        expect(rendered_node).to have_content('Spatial Extent')
+        expect(rendered_node).to have_content('Spatial Keyword')
+        expect(rendered_node).to have_content('Tiling Identification')
       end
     end
 

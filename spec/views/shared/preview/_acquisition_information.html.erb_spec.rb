@@ -17,8 +17,8 @@ describe template_path, type: :view do
 
       it 'does not crash or have acquisition information data' do
         expect(rendered).to have_content('Acquisition Information')
-        expect(rendered).to_not have_content('Platform')
-        expect(rendered).to_not have_content('Project')
+        expect(rendered).to have_content('Platforms')
+        expect(rendered).to have_content('Projects')
       end
     end
 

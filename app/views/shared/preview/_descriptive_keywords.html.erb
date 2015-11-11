@@ -11,6 +11,7 @@
           name: 'ISOTopicCategories',
           type: TypesHelper::ISOTopicCategoriesType
       } %>
+      <h4>ISO Topic Categories <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'iso-topic-categories'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'ISOTopicCategories',
           hash_for_key: metadata,
@@ -18,10 +19,10 @@
           options: DraftsHelper::ISOTopicCategoriesOptions
       } %>
 
+      <h4>Ancillary Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'ancillary-keywords'}), {class: 'hash-link'} %><% end %></h4>
       <% keywords = metadata['ScienceKeywords'] || [] %>
       <% if keywords.size > 0 %>
         <li class="top_field science-keywords">
-          <h4>Science Keywords</h4>
           <ul class="sub-field">
             <% keywords.each_with_index do |keyword, index| %>
               <li class="science-keywords-<%= index %>">
@@ -32,11 +33,13 @@
         </li>
       <% end %>
 
+      <h4>Ancillary Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'ancillary-keywords'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'AncillaryKeywords',
           hash_for_key: metadata
       } %>
 
+      <h4>Additional Attributes <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'additional-attributes'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['AdditionalAttributes'],
           name: 'AdditionalAttributes',
