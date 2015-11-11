@@ -8,8 +8,7 @@
       <h4>Collection Information <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-information'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'EntryId',
-        hash_for_key: metadata,
-        form_parent: 'data_identification'
+        hash_for_key: metadata
       } %>
 
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
@@ -114,8 +113,7 @@
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['PublicationReferences'],
           name: 'PublicationReferences',
-          type: TypesHelper::PublicationReferencesType,
-          form_parent: 'data_identification'
+          type: TypesHelper::PublicationReferencesType
       } %>
 
     </ul>
