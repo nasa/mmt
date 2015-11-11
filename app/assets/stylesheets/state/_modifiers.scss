@@ -9,7 +9,24 @@
   text-align: right;
 }
 
-//Disabled functionality
+.inline-header {
+  display: inline-block;
+}
+
+// Icon color modifiers
+.icon-green {
+  color: $dark-green;
+}
+
+.icon-grey {
+  color: $dolphin-grey;
+}
+
+.icon-red {
+  color: $red;
+}
+
+// Disabled functionality
 .disabled {
   opacity: 0.4;
 }

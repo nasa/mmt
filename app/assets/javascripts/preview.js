@@ -1,3 +1,11 @@
+$(document).ready(function() {
+
+  $('#legend').leanModal({
+    top: 200,
+    overlay: 0.6,
+  });
+
+});
 
 // Functions used for drawing on the preview page's map image
 

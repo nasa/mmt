@@ -8,6 +8,10 @@
   padding-top: 1em !important;
   border-bottom: 1px solid $dolphin-grey !important;
   margin-bottom: 1em;
+  #legend {
+    margin-left: .5em;
+    color: $ocean-blue;
+  }
   ul {
     list-style: none;
     padding-left: 0;
@@ -16,9 +20,6 @@
     @include span-columns(4);
     margin-right: 0;
     margin-bottom: 0.625em;
-  }
-  .fa {
-    color: $dark-green;
   }
   .status {
     width: 1.3125em;
@@ -35,9 +36,6 @@
   .fa-circle-o {
     margin-right: 0.3125em;
     font-size: 0.8em;
-  }
-  .icon-grey {
-    color: $dolphin-grey;
   }
 }
 
