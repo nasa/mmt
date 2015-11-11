@@ -52,7 +52,7 @@ module PreviewCirclesHelper
   }
 
   def form_circle(form_name, metadata, errors)
-    circle = '<i class="fa fa-circle-thin"></i>'
+    circle = '<i class="fa fa-circle-thin icon-green"></i>'
 
     if errors
       page_errors = errors.select { |error| error[:page] == form_name }
@@ -67,7 +67,7 @@ module PreviewCirclesHelper
         end
       end
 
-      circle = '<i class="fa fa-check-circle"></i>' if valid
+      circle = '<i class="fa fa-check-circle icon-green"></i>' if valid
     end
 
     circle
