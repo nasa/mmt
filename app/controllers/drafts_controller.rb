@@ -11,8 +11,13 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
-    # _response, @errors = translate_metadata(@draft.draft)
     schema = 'lib/assets/schemas/umm-c-json-schema.json'
+
+    # Setup URI validation correctly
+    format_proc = lambda do |value|
+      raise JSON::Schema::CustomFormatError.new('must be a valid URI') unless value.match URI_REGEX
+    end
+    JSON::Validator.register_format_validator('uri', format_proc)
 
     errors = JSON::Validator.fully_validate(schema, @draft.draft)
     errors = Array.wrap(errors)
@@ -173,10 +178,7 @@ class DraftsController < ApplicationController
   end
 
   def generate_errors(string, draft)
-    # puts "string: #{string.inspect}"
     fields = string.match(/'#\/(.*?)'/).captures.first
-    # fields = string.split(' ')[0]
-    # puts "fields: #{fields.inspect}"
 
     if string.include? 'did not contain a required property'
       required_field = string.match(/contain a required property of '(.*)'/).captures.first
@@ -229,7 +231,6 @@ class DraftsController < ApplicationController
           true
         end
       end
-      puts "FIELD: #{field.inspect}"
       {
         field: field.last,
         top_field: field[0],
@@ -317,7 +318,7 @@ class DraftsController < ApplicationController
       'is an invalid date format'
     when /did not match the regex/
       'is an invalid format'
-    when /is not a valid URI/
+    when /must be a valid URI/
       'is an invalid URI'
     end
   end

@@ -47,7 +47,7 @@ bad_number_values = [
   { value: '6.022E23E', error: number_error_string }
 ]
 
-date_error_string = 'Beginning Date Time must match the provided pattern'
+date_error_string = 'Beginning Date Time is an incorrect format'
 good_date_values = ['2015-07-01T00:00:00Z', '2004-02-29T00:00:00Z']
 bad_date_values = [
   { value: '123', error: date_error_string },
@@ -414,8 +414,8 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'validation of a single object in an array of simple objects does work' do
-      fill_in 'draft_related_urls_0_urls_0', with: 'abc'
-      expect(page).to have_content('URLs must match the provided pattern')
+      fill_in 'draft_related_urls_0_urls_0', with: '::abc'
+      expect(page).to have_content('URLs is an invalid URI')
 
       within '.nav-top' do
         reject_confirm_from do
@@ -423,9 +423,9 @@ describe 'Data validation for a form', js: true do
         end
       end
 
-      expect(page).to have_content('URLs must match the provided pattern')
+      expect(page).to have_content('URLs is an invalid URI')
       fill_in 'draft_related_urls_0_urls_0', with: 'http://nasa.gov'
-      expect(page).to have_no_content('URLs must match the provided pattern')
+      expect(page).to have_no_content('URLs is an invalid URI')
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do
@@ -434,14 +434,14 @@ describe 'Data validation for a form', js: true do
         end
       end
 
-      expect(page).to have_no_content('URLs must match the provided pattern')
+      expect(page).to have_no_content('URLs is an invalid URI')
     end
 
     it 'validation of subsequent objects in an array of simple objects does work' do
       fill_in 'draft_related_urls_0_urls_0', with: 'http://nasa.gov'
       click_on 'Add Another URL'
-      fill_in 'draft_related_urls_0_urls_1', with: 'abc'
-      expect(page).to have_content('URLs must match the provided pattern')
+      fill_in 'draft_related_urls_0_urls_1', with: '::abc'
+      expect(page).to have_content('URLs is an invalid URI')
 
       within '.nav-top' do
         reject_confirm_from do
@@ -449,7 +449,7 @@ describe 'Data validation for a form', js: true do
         end
       end
 
-      expect(page).to have_content('URLs must match the provided pattern')
+      expect(page).to have_content('URLs is an invalid URI')
       fill_in 'draft_related_urls_0_urls_1', with: 'http://nasa.gov'
       expect(page).to have_no_selector(validation_error)
 
@@ -459,7 +459,7 @@ describe 'Data validation for a form', js: true do
         end
       end
 
-      expect(page).to have_no_content('URLs must match the provided pattern')
+      expect(page).to have_no_content('URLs is an invalid URI')
     end
   end
 end

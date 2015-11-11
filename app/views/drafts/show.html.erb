@@ -46,8 +46,7 @@
           <ul class="no-bullet">
             <% @errors.each do |error| %>
               <li>
-                <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) if error[:field] && error[:page] %>
-                <%= error[:error] %>
+                <%= link_to "#{name_to_title(error[:field])} #{error[:error]}", draft_edit_form_path(@draft, error[:page]) if error[:field] && error[:page] %>
               </li>
             <% end %>
           </ul>

@@ -55,7 +55,6 @@ module PreviewCirclesHelper
     circle = '<i class="fa fa-circle-thin"></i>'
 
     if errors
-      puts "form_name: #{form_name.inspect}"
       page_errors = errors.select { |error| error[:page] == form_name }
       error_fields = page_errors.map { |error| error[:top_field] }
 
@@ -75,13 +74,9 @@ module PreviewCirclesHelper
   end
 
   def preview_circles(form_name, draft, errors)
-    # puts "form_name: #{form_name.inspect}"
-    # puts "errors: #{errors.inspect}"
     circles = []
     page_errors = Array.wrap(errors).select { |error| error[:page] == form_name }
     error_fields = page_errors.map { |error| error[:top_field] }
-    # puts "page_errors: #{page_errors.inspect}"
-    # puts "error_fields: #{error_fields.inspect}"
 
     FORM_FIELDS[form_name].each do |field, options|
       circle = complete_circle(field, draft, form_name, options[:required])
@@ -89,7 +84,7 @@ module PreviewCirclesHelper
       if draft.draft[field].nil?
         circle = empty_circle(field, draft, form_name, options[:required])
       elsif error_fields.include?(field)
-        circle = invalid_circle(field, draft, form_name, options[:required])
+        circle = invalid_circle(field, draft, form_name)
       end
 
       circles << circle
@@ -106,7 +101,7 @@ module PreviewCirclesHelper
     link_to "<i class=\"fa fa-circle #{'icon-grey' unless required}\"></i>".html_safe, draft_edit_form_path(draft, form_name), title: field
   end
 
-  def invalid_circle(field, draft, form_name, required)
-    link_to "<i class=\"fa fa-minus-circle #{'icon-grey' unless required}\"></i>".html_safe, draft_edit_form_path(draft, form_name), title: field
+  def invalid_circle(field, draft, form_name)
+    link_to '<i class="fa fa-minus-circle icon-red"></i>'.html_safe, draft_edit_form_path(draft, form_name), title: field
   end
 end
