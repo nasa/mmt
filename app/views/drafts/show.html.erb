@@ -54,7 +54,7 @@
       </section>
     <% end %>
     <section class="metadata">
-      <h3>Metadata Fields</h3>
+      <h3 class="inline-header">Metadata Fields</h3><a href="#progress-legend" id="legend"><i class="fa fa-info-circle"></i></a>
       <ul>
         <li>
           <div class="status disabled">
@@ -134,6 +134,19 @@
           </div>
         </li>
       </ul>
+
+      <div id="progress-legend">
+        <p>
+          The icons below each form name inddicate progress toward completion. See below for information on what each icon represents.
+        </p>
+        <ul>
+          <li><i class="fa fa-circle-o icon-green"></i> Required but not complete</li>
+          <li><i class="fa fa-circle icon-green"></i> Required and complete</li>
+          <li><i class="fa fa-circle-o icon-grey"></i> Not required and not complete</li>
+          <li><i class="fa fa-circle icon-grey"></i> Not required and complete</li>
+          <li><i class="fa fa-minus-circle icon-red"></i> Does not pass validation</li>
+        </ul>
+      </div>
     </section>
 
     <%= render partial: 'shared/preview/metadata_preview', locals: { metadata: @draft.draft } %>
