@@ -23,7 +23,7 @@ describe 'Create new draft from cloning a collection', js: true do
 
     it 'creates a new native id for the draft' do
       draft = Draft.first
-      expect(draft.native_id).to eq('mmt_collection_1')
+      expect(draft.native_id).to include('mmt_collection_')
     end
 
     it 'displays the draft preview page' do
