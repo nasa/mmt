@@ -83,7 +83,11 @@ $(document).ready ->
       when 'maxLength' then "#{field} is too long"
       when 'minLength' then "#{field} is too short"
       when 'pattern' then "#{field} must match the provided pattern"
-      when 'format' then "#{field} must match the provided pattern"
+      when 'format'
+        if type == 'URI'
+          "#{field} is an invalid URI"
+        else
+          "#{field} is an incorrect format"
       when 'minItems' then "#{field} has too few items"
       when 'maxItems' then "#{field} has too many items"
       when 'type' then "#{field} must be of type #{type}"

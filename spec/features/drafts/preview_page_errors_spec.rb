@@ -94,5 +94,4 @@ describe 'Preview page validation errors' do
       expect(page).to have_content('URLs is an invalid URI')
     end
   end
-
 end

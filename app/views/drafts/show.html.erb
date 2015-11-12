@@ -35,9 +35,10 @@
           <p>Required fields not complete</p>
         </div>
       </div>
-      <%= render partial: 'shared/download_xml', locals: { collection: false } %>
 
+      <%= render partial: 'shared/download_xml', locals: { collection: false } %>
     </section>
+
     <% if @errors && !@errors.empty? %>
       <section class="errors">
         <div class="banner banner-danger">
@@ -45,112 +46,17 @@
           <ul class="no-bullet">
             <% @errors.each do |error| %>
               <li>
-                <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) if error[:field] && error[:page] %>
-                <%= error[:error] %>
+                <%= link_to "#{name_to_title(error[:field])} #{error[:error]}", draft_edit_form_path(@draft, error[:page]) if error[:field] && error[:page] %>
               </li>
             <% end %>
           </ul>
         </div>
       </section>
     <% end %>
-    <section class="metadata">
-      <h3 class="inline-header">Metadata Fields</h3><a href="#progress-legend" id="legend"><i class="fa fa-info-circle"></i></a>
-      <ul>
-        <li>
-          <div class="status disabled">
-            <i class="fa fa-circle-thin"></i>
-          </div>
-          <div class="meta-info">
-            <%= link_to 'Metadata Information', draft_edit_form_path(@draft, 'metadata_information') %>
-            <div class="progress-indicators disabled">
-              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="status disabled">
-            <i class="fa fa-circle-thin"></i>
-          </div>
-          <div class="meta-info">
-            <%= link_to 'Data Identification', draft_edit_form_path(@draft, 'data_identification') %>
-            <div class="progress-indicators disabled">
-              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="status disabled">
-            <i class="fa fa-circle-thin"></i>
-          </div>
-          <div class="meta-info">
-            <%= link_to 'Descriptive Keywords', draft_edit_form_path(@draft, 'descriptive_keywords') %>
-            <div class="progress-indicators disabled">
-              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="status disabled">
-            <i class="fa fa-check-circle"></i>
-          </div>
-          <div class="meta-info">
-            <%= link_to 'Distribution Information', draft_edit_form_path(@draft, 'distribution_information') %>
-            <div class="progress-indicators disabled">
-              <i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="status disabled">
-            <i class="fa fa-check-circle"></i>
-          </div>
-          <div class="meta-info">
-            <%= link_to 'Temporal Information', draft_edit_form_path(@draft, 'temporal_information') %>
-            <div class="progress-indicators disabled">
-              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="status disabled">
-            <i class="fa fa-circle-thin"></i>
-          </div>
-          <div class="meta-info">
-            <%= link_to 'Spatial Information', draft_edit_form_path(@draft, 'spatial_information') %>
-            <div class="progress-indicators disabled">
-              <i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle icon-grey"></i><i class="fa fa-circle-o icon-grey"></i>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="status disabled">
-            <i class="fa fa-circle-thin"></i>
-          </div>
-          <div class="meta-info">
-            <%= link_to 'Acquisition Information', draft_edit_form_path(@draft, 'acquisition_information') %>
-            <div class="progress-indicators disabled">
-              <i class="fa fa-circle"></i><i class="fa fa-circle-o icon-grey"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i><i class="fa fa-circle- icon-grey"></i>
-            </div>
-          </div>
-        </li>
-      </ul>
 
-      <div id="progress-legend">
-        <p>
-          The icons below each form name indicate progress toward completion. See below for information on what each icon represents.
-        </p>
-        <ul>
-          <li><i class="fa fa-circle-o icon-green"></i> Required but not complete</li>
-          <li><i class="fa fa-circle icon-green"></i> Required and complete</li>
-          <li><i class="fa fa-circle-o icon-grey"></i> Not required and not complete</li>
-          <li><i class="fa fa-circle icon-grey"></i> Not required and complete</li>
-          <li><i class="fa fa-minus-circle icon-red"></i> Does not pass validation</li>
-        </ul>
-      </div>
-    </section>
+    <%= render partial: 'drafts/progress/preview_progress', locals: { draft: @draft, metadata_errors: @errors } %>
 
     <%= render partial: 'shared/preview/metadata_preview', locals: { metadata: @draft.draft } %>
 
   </div>
-
 </main>

@@ -16,10 +16,14 @@
     list-style: none;
     padding-left: 0;
   }
+}
+
+.progress-indicator {
   li {
     @include span-columns(4);
     margin-right: 0;
     margin-bottom: 0.625em;
+    min-height: 4.2em;
   }
   .status {
     width: 1.3125em;
@@ -33,7 +37,8 @@
     float: left;
   }
   .fa-circle,
-  .fa-circle-o {
+  .fa-circle-o,
+  .fa-minus-circle {
     margin-right: 0.3125em;
     font-size: 0.8em;
   }

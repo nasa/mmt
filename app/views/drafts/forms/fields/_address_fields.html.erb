@@ -15,11 +15,11 @@
       <label for="<%= remove_pipes(name_prefix) %>city">City</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/City"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}city"), address['City'], class: 'full-width validate') %>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <label for="<%= remove_pipes(name_prefix) %>state_province">State / Province</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/StateProvince"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|state_province|"), address['StateProvince'], class: 'full-width validate') %>
     </div>
-    <div class="col-2">
+    <div class="col-3">
       <label for="<%= remove_pipes(name_prefix) %>postal_code">Postal Code</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/PostalCode"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|postal_code|"), address['PostalCode'], class: 'full-width validate') %>
     </div>
