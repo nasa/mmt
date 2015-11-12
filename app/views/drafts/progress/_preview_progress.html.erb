@@ -1,6 +1,6 @@
 <section class="metadata">
   <h3 class="inline-header">Metadata Fields</h3><a href="#progress-legend" id="legend"><i class="fa fa-info-circle"></i></a>
-  <ul>
+  <ul class="progress-indicator">
     <% Draft::DRAFT_FORMS.each do |form_name| %>
       <li>
         <%= render partial: 'drafts/progress/form_progress', locals: { draft: draft, form_name: form_name[:form_partial_name], metadata_errors: metadata_errors } %>

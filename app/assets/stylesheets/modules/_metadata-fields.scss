@@ -16,6 +16,9 @@
     list-style: none;
     padding-left: 0;
   }
+}
+
+.progress-indicator {
   li {
     @include span-columns(4);
     margin-right: 0;
