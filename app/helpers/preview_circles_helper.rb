@@ -1,53 +1,158 @@
 module PreviewCirclesHelper
   FORM_FIELDS = {
     'metadata_information' => {
-      'MetadataLanguage' => { required: false },
-      'MetadataDates' => { required: false }
+      'MetadataLanguage' => {
+        required: false,
+        anchor: 'metadata-language'
+      },
+      'MetadataDates' => {
+        required: false,
+        anchor: 'metadata-dates'
+      }
     },
     'data_identification' => {
-      'EntryId' => { required: true },
-      'Version' => { required: false },
-      'EntryTitle' => { required: true },
-      'Abstract' => { required: true },
-      'Purpose' => { required: false },
-      'DataLanguage' => { required: false },
-      'DataDates' => { required: true },
-      'Organizations' => { required: true },
-      'Personnel' => { required: false },
-      'CollectionDataType' => { required: false },
-      'ProcessingLevel' => { required: true },
-      'CollectionCitations' => { required: false },
-      'CollectionProgress' => { required: false },
-      'Quality' => { required: false },
-      'UseConstraints' => { required: false },
-      'AccessConstraints' => { required: false },
-      'MetadataAssociations' => { required: false },
-      'PublicationReferences' => { required: false }
+      'EntryId' => {
+        required: true,
+        anchor: 'collection-information'
+      },
+      'Version' => {
+        required: false,
+        anchor: 'collection-information'
+      },
+      'EntryTitle' => {
+        required: true,
+        anchor: 'collection-information'
+      },
+      'Abstract' => {
+        required: true,
+        anchor: 'collection-information'
+      },
+      'Purpose' => {
+        required: false,
+        anchor: 'collection-information'
+      },
+      'DataLanguage' => {
+        required: false,
+        anchor: 'collection-information'
+      },
+      'DataDates' => {
+        required: true,
+        anchor: 'data-dates'
+      },
+      'Organizations' => {
+        required: true,
+        anchor: 'organizations'
+      },
+      'Personnel' => {
+        required: false,
+        anchor: 'personnel'
+      },
+      'CollectionDataType' => {
+        required: false,
+        anchor: 'collection-data-type'
+      },
+      'ProcessingLevel' => {
+        required: true,
+        anchor: 'processing-level'
+      },
+      'CollectionCitations' => {
+        required: false,
+        anchor: 'resource-citation'
+      },
+      'CollectionProgress' => {
+        required: false,
+        anchor: 'collection-progress'
+      },
+      'Quality' => {
+        required: false,
+        anchor: 'quality'
+      },
+      'UseConstraints' => {
+        required: false,
+        anchor: 'use-constraints'
+      },
+      'AccessConstraints' => {
+        required: false,
+        anchor: 'access-constraints'
+      },
+      'MetadataAssociations' => {
+        required: false,
+        anchor: 'metadata-associations'
+      },
+      'PublicationReferences' => {
+        required: false,
+        anchor: 'publication-references'
+      }
     },
     'descriptive_keywords' => {
-      'ISOTopicCategories' => { required: false },
-      'ScienceKeywords' => { required: true },
-      'AncillaryKeywords' => { required: false },
-      'AdditionalAttributes' => { required: false }
+      'ISOTopicCategories' => {
+        required: false,
+        anchor: 'iso-topic-categories'
+      },
+      'ScienceKeywords' => {
+        required: true,
+        anchor: 'science-keywords'
+      },
+      'AncillaryKeywords' => {
+        required: false,
+        anchor: 'ancillary-keywords'
+      },
+      'AdditionalAttributes' => {
+        required: false,
+        anchor: 'additional-attributes'
+      }
     },
     'distribution_information' => {
-      'RelatedUrls' => { required: true },
-      'Distributions' => { required: false }
+      'RelatedUrls' => {
+        required: true,
+        anchor: 'related-urls'
+      },
+      'Distributions' => {
+        required: false,
+        anchor: 'distributions'
+      }
     },
     'temporal_information' => {
-      'TemporalExtents' => { required: true },
-      'TemporalKeywords' => { required: false },
-      'PaleoTemporalCoverage' => { required: false }
+      'TemporalExtents' => {
+        required: true,
+        anchor: 'temporal-extents'
+      },
+      'TemporalKeywords' => {
+        required: false,
+        anchor: 'temporal-keywords'
+      },
+      'PaleoTemporalCoverage' => {
+        required: false,
+        anchor: 'paleo-temporal-coverage'
+      }
     },
     'spatial_information' => {
-      'SpatialExtent' => { required: true },
-      'TilingIdentificationSystem' => { required: false },
-      'SpatialInformation' => { required: false },
-      'SpatialKeywords' => { required: false }
+      'SpatialExtent' => {
+        required: true,
+        anchor: 'spatial-extent'
+      },
+      'TilingIdentificationSystem' => {
+        required: false,
+        anchor: 'tiling-identification-system'
+      },
+      'SpatialInformation' => {
+        required: false,
+        anchor: 'spatial-representation-information'
+      },
+      'SpatialKeywords' => {
+        required: false,
+        anchor: 'spatial-keywords'
+      }
     },
     'acquisition_information' => {
-      'Platforms' => { required: true },
-      'Projects' => { required: false }
+      'Platforms' => {
+        required: true,
+        anchor: 'platforms'
+      },
+      'Projects' => {
+        required: false,
+        anchor: 'projects'
+      }
     }
   }
 
@@ -79,12 +184,12 @@ module PreviewCirclesHelper
     error_fields = page_errors.map { |error| error[:top_field] }
 
     FORM_FIELDS[form_name].each do |field, options|
-      circle = complete_circle(field, draft, form_name, options[:required])
+      circle = complete_circle(field, draft, form_name, options[:anchor], options[:required])
 
       if draft.draft[field].nil?
-        circle = empty_circle(field, draft, form_name, options[:required])
+        circle = empty_circle(field, draft, form_name, options[:anchor], options[:required])
       elsif error_fields.include?(field)
-        circle = invalid_circle(field, draft, form_name)
+        circle = invalid_circle(field, draft, form_name, options[:anchor])
       end
 
       circles << circle
@@ -93,17 +198,17 @@ module PreviewCirclesHelper
     circles
   end
 
-  def empty_circle(field, draft, form_name, required)
+  def empty_circle(field, draft, form_name, anchor, required)
     icon = required ? 'icon-green' : 'icon-grey'
-    link_to "<i class=\"fa fa-circle-o #{icon}\"></i>".html_safe, draft_edit_form_path(draft, form_name), title: field
+    link_to "<i class=\"fa fa-circle-o #{icon}\"></i>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
   end
 
-  def complete_circle(field, draft, form_name, required)
+  def complete_circle(field, draft, form_name, anchor, required)
     icon = required ? 'icon-green' : 'icon-grey'
-    link_to "<i class=\"fa fa-circle #{icon}\"></i>".html_safe, draft_edit_form_path(draft, form_name), title: field
+    link_to "<i class=\"fa fa-circle #{icon}\"></i>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
   end
 
-  def invalid_circle(field, draft, form_name)
-    link_to '<i class="fa fa-minus-circle icon-red"></i>'.html_safe, draft_edit_form_path(draft, form_name), title: field
+  def invalid_circle(field, draft, form_name, anchor)
+    link_to '<i class="fa fa-minus-circle icon-red"></i>'.html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
   end
 end
