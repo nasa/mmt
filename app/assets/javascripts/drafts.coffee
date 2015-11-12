@@ -377,19 +377,22 @@ $(document).ready ->
   $('.selected-science-keywords, .selected-spatial-keywords').on 'click', '.remove', ->
     $(this).parent().remove()
 
-  # setup datetimepickers
-  $('input[type="datetime"]').datepicker(
-    startView: 2
-    format: 'yyyy-mm-dd'
-    todayBtn: 'linked'
-    clearBtn: true
-    autoclose: true
-    todayHighlight: true
-    forceParse: false
-    keyboardNavigation: false
-    toggleActive: true
-  ).on 'changeDate', (e) ->
-    $(document).trigger 'mmtValidate'
+  $('input[type="datetime"]').focus ->
+    pickerOpts =
+      startView: 2
+      format: 'yyyy-mm-dd'
+      todayBtn: 'linked'
+      clearBtn: true
+      autoclose: true
+      todayHighlight: true
+      forceParse: false
+      keyboardNavigation: false
+    $(this).datepicker(pickerOpts)
+    $(this).datepicker('show')
+    .on 'changeDate', ->
+      $(document).trigger 'mmtValidate'
+    .on 'hide', ->
+      $(this).datepicker('remove')
 
 $.extend $.fn.datepicker.DPGlobal,
   formatDate: (date, format, language) ->
