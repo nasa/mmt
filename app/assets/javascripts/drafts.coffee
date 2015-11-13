@@ -331,7 +331,7 @@ $(document).ready ->
     previewLink = $(this).parents('.accordion-body').find('.spatial-preview-link')
     url = $(previewLink).attr('href').split('map')[0]
 
-    parent = $(this).parent().parent()
+    parent = $(this).parents()
     west = $(parent).find('.bounding-rectangle-point.west').val()
     south = $(parent).find('.bounding-rectangle-point.south').val()
     east = $(parent).find('.bounding-rectangle-point.east').val()
