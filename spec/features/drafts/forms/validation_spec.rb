@@ -439,7 +439,7 @@ describe 'Data validation for a form', js: true do
 
     it 'validation of subsequent objects in an array of simple objects does work' do
       fill_in 'draft_related_urls_0_urls_0', with: 'http://nasa.gov'
-      click_on 'Add Another URL'
+      click_on 'Add another URL'
       fill_in 'draft_related_urls_0_urls_1', with: '::abc'
       expect(page).to have_content('URLs is an invalid URI')
 
