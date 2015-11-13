@@ -27,6 +27,22 @@ input[type="text"] {
   }
 }
 
+.compass-coordinates {
+  .icon-completed,
+  .icon-required {
+    &:before {
+      content: "\f10c";
+      font-family: "FontAwesome";
+      font-size: 0.7em;
+      color: $dark-green;
+      display: inline-block;
+      margin: 0;
+      padding: 0 0.8em 0 0;
+      float: none;
+    }
+  }
+}
+
 .icon-completed {
   &:before {
     content: "\f111";
