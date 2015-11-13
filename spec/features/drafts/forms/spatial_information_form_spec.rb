@@ -252,15 +252,15 @@ OCEAN > ATLANTIC OCEAN')
               within '.multiple.bounding-rectangles' do
                 expect(page).to have_field('Longitude', with: '0.0')
                 expect(page).to have_field('Latitude', with: '0.0')
-                expect(page).to have_field('West Bounding Coordinate', with: '-180.0')
-                expect(page).to have_field('North Bounding Coordinate', with: '90.0')
-                expect(page).to have_field('East Bounding Coordinate', with: '180.0')
-                expect(page).to have_field('South Bounding Coordinate', with: '-90.0')
+                expect(page).to have_field('W', with: '-180.0')
+                expect(page).to have_field('N', with: '90.0')
+                expect(page).to have_field('E', with: '180.0')
+                expect(page).to have_field('S', with: '-90.0')
                 within '.multiple-item-1' do
-                  expect(page).to have_field('West Bounding Coordinate', with: '-96.9284587')
-                  expect(page).to have_field('North Bounding Coordinate', with: '58.968602')
-                  expect(page).to have_field('East Bounding Coordinate', with: '-56.9284587')
-                  expect(page).to have_field('South Bounding Coordinate', with: '18.968602')
+                  expect(page).to have_field('W', with: '-96.9284587')
+                  expect(page).to have_field('N', with: '58.968602')
+                  expect(page).to have_field('E', with: '-56.9284587')
+                  expect(page).to have_field('S', with: '18.968602')
                 end
               end
             end
