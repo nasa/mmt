@@ -26,7 +26,7 @@ describe 'Acquisition information form', js: true do
         within '.multiple.campaigns' do
           within '.multiple-item-0' do
             find('.campaign').set 'Project campaign 1'
-            click_on 'Add Another Campaign'
+            click_on 'Add another Campaign'
           end
           within '.multiple-item-1' do
             find('.campaign').set 'Project campaign 2'
