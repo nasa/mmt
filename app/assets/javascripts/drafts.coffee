@@ -310,9 +310,9 @@ $(document).ready ->
       else
         if $(this).hasClass('latitude')
           latitude = $(this).val()
-          longitude = $(this).siblings('.longitude').val()
+          longitude = $(this).parent().siblings().find('.longitude').val()
         else
-          latitude = $(this).siblings('.latitude').val()
+          latitude = $(this).parent().siblings().find('.latitude').val()
           longitude = $(this).val()
 
         if latitude != '' and longitude != ''
