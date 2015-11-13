@@ -129,10 +129,15 @@ $(document).ready ->
         html: message
       )
 
+      # if the error needs to be shown after the remove button
       if $element.parent().hasClass('multiple-item')
         afterElement = $element.parent().children('.remove')
       else
         afterElement = $element
+
+      # if the error needs to be shows after the help icon
+      if $element.next().hasClass('display-help-modal')
+        afterElement = $element.next()
 
       $(errorElement).insertAfter(afterElement)
 

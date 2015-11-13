@@ -14,7 +14,7 @@
       <fieldset>
         <legend>Find</legend>
         <div class="row">
-          <input type="radio" name="find" id="find-1">
+          <input type="radio" name="find" id="find-1" checked>
           <label for="find-1">Collections</label>
           <input type="radio" name="find" id="find-2" disabled>
           <label class="disabled" for="find-2">Services</label>
@@ -32,10 +32,10 @@
             <%= select_tag "record_state", options_for_select({ 'Published Records' => 'published_records', 'Draft Records' => 'draft_records', 'Published & Draft Records' => 'published_and_draft_records' }, @query['record_state']), class: 'single-select', 'aria-label' => 'Select Record State' %>
           </div>
           <div class="col-4">
-            <%= select_tag "review_status", options_for_select({ 'Any Review Status' => 'any_review_status', 'Reviewed' => 'reviewed', 'Not Reviewed' => 'not_reviewed' }, @query['review_status']), class: 'single-select', 'aria-label' => 'Select Review Status' %>
+            <%= select_tag "review_status", options_for_select({ 'Any Review Status' => 'any_review_status', 'Reviewed' => 'reviewed', 'Not Reviewed' => 'not_reviewed' }, @query['review_status']), class: 'single-select disabled', 'aria-label' => 'Select Review Status', disabled: true %>
           </div>
           <div class="col-4">
-            <%= select_tag "record_type", options_for_select({ 'Active Records ONLY' => 'active_only', 'Deleted Records ONLY' => 'deleted_only', 'Active & Deleted Records' => 'active_and_deleted_records' }, @query['record_type']), class: 'single-select', 'aria-label' => 'Select Record Type' %>
+            <%= select_tag "record_type", options_for_select({ 'Active Records ONLY' => 'active_only', 'Deleted Records ONLY' => 'deleted_only', 'Active & Deleted Records' => 'active_and_deleted_records' }, @query['record_type']), class: 'single-select disabled', 'aria-label' => 'Select Record Type', disabled: true %>
           </div>
         </div>
       </fieldset>
@@ -44,21 +44,21 @@
       <fieldset>
         <div class="row">
           <div class="col-4">
-            <%= select_tag "date_filter", options_for_select({ 'Last Modified Date' => 'last-modified-date', 'Published Date' => 'published_date', 'Deleted Date' => 'deleted_date' }, @query['date_filter']), class: 'single-select', 'aria-label' => 'Select Date' %>
+            <%= select_tag "date_filter", options_for_select({ 'Last Modified Date' => 'last-modified-date', 'Published Date' => 'published_date', 'Deleted Date' => 'deleted_date' }, @query['date_filter']), class: 'single-select disabled', 'aria-label' => 'Select Date', disabled: true %>
           </div>
           <div class="col-4">
-            <%= select_tag "on_or_after", options_for_select({'On or After' => 'on_or_after', 'On or Before' => 'on_or_before', 'On' => 'on', 'After' => 'after', 'Before' => 'before' }, @query['on_or_after']), class: 'single-select', 'aria-label' => 'On or After' %>
+            <%= select_tag "on_or_after", options_for_select({'On or After' => 'on_or_after', 'On or Before' => 'on_or_before', 'On' => 'on', 'After' => 'after', 'Before' => 'before' }, @query['on_or_after']), class: 'single-select disabled', 'aria-label' => 'On or After', disabled: true %>
           </div>
           <div class="col-4">
-            <input type="date"></input>
+            <input type="date" class="disabled" disabled></input>
           </div>
         </div>
         <div class="row">
           <div class="col-4">
-            <%= select_tag "author_type", options_for_select({ 'Created by' => '', 'Modified by' => 'modified_by', 'Deleted by' => 'deleted_by' }, @query['author_type']), class: 'single-select', 'aria-label' => 'Author Type' %>
+            <%= select_tag "author_type", options_for_select({ 'Created by' => '', 'Modified by' => 'modified_by', 'Deleted by' => 'deleted_by' }, @query['author_type']), class: 'single-select disabled', 'aria-label' => 'Author Type', disabled: true %>
           </div>
           <div class="col-8">
-            <input type="text">
+            <input type="text" class="disabled" disabled></input>
           </div>
         </div>
       </fieldset>

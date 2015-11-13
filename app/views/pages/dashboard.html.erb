@@ -24,7 +24,7 @@
         <%= form_tag(new_record_path, method: 'get', enforce_utf8: false) do %>
           <div class="question-group">
             <div class="row">
-              <%= radio_button_tag(:type, "new_collection") %>
+              <%= radio_button_tag(:type, "new_collection", true) %>
               <%= image_tag "collection.png" %>
               <label for="type_new_collection">
                 New Collection Record
