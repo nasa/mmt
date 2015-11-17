@@ -7,8 +7,6 @@ $(document).ready ->
   $('.multiple').on 'click', '.add-new', (e) ->
     simple = $(this).hasClass('new-simple')
     topMultiple = $(this).closest('.multiple')
-    multipleItem = undefined
-    newDiv = undefined
 
     multipleItem = topMultiple.children('.multiple-item:last')
     newDiv = multipleItem.clone(true)
@@ -65,7 +63,6 @@ $(document).ready ->
 
   incrementElementIndex = (newDiv, multipleIndex, simple) ->
     # Find the index that needs to be incremented
-    firstElement = undefined
     if simple
       firstElement = $(newDiv).find('select, input, textarea').first()
     else
@@ -73,6 +70,12 @@ $(document).ready ->
 
     nameIndex = $(firstElement).attr('name').lastIndexOf(multipleIndex)
     idIndex = $(firstElement).attr('id').lastIndexOf(multipleIndex)
+
+    # Update newDiv's id
+    id = $(newDiv).attr('id')
+    if id?
+      id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
+      $(newDiv).attr 'id', id
 
     # Loop through newDiv and increment the correct index
     $.each $(newDiv).find('select, input, textarea, label'), (index, field) ->
@@ -203,6 +206,15 @@ $(document).ready ->
         $(this).parent().siblings('.spatial-coverage-type.horizontal').show()
         $(this).parent().siblings('.spatial-coverage-type.vertical').show()
 
+  # Handle global spatial checkbox
+  $('.spatial-coverage-type.horizontal').on 'click', 'a.global-coverage', ->
+    $fields = $(this).parent().siblings('.compass-coordinates')
+    $fields.find('.bounding-rectangle-point.west').val('-180')
+    $fields.find('.bounding-rectangle-point.east').val('180')
+    $fields.find('.bounding-rectangle-point.north').val('90')
+    $fields.find('.bounding-rectangle-point.south').val('-90')
+    $fields.find('.bounding-rectangle-point.south').trigger('change')
+
   getIndex = (multipleItem) ->
     classMatch = $(multipleItem).attr('class').match(/multiple-item-(\d+)/)
     if classMatch == null
@@ -242,7 +254,6 @@ $(document).ready ->
     createImageThumbnails: false
     dictDefaultMessage: ''
     success: (file, response) ->
-      hasPoints = undefined
       $.each response.features, (index, feature) ->
         if feature.geometry.type == 'Point'
           # click point radio button
@@ -293,8 +304,6 @@ $(document).ready ->
             $(lastPolygonPoint).find('.longitude').trigger 'change'
 
   $('.latitude, .longitude').on 'change', ->
-    latitude = undefined
-    longitude = undefined
     coordinates = []
     previewLink = $(this).parents('.accordion-body').find('.spatial-preview-link')
     if previewLink.length > 0
@@ -323,10 +332,6 @@ $(document).ready ->
           $(previewLink).attr 'href', url + 'map?sp=' + encodeURIComponent(coordinates.join(','))
 
   $('.bounding-rectangle-point').on 'change', ->
-    west = undefined
-    south = undefined
-    east = undefined
-    north = undefined
     coordinates = []
     previewLink = $(this).parents('.accordion-body').find('.spatial-preview-link')
     url = $(previewLink).attr('href').split('map')[0]
@@ -360,7 +365,6 @@ $(document).ready ->
     # Add selected value to keyword list
     values = picker.getValues()
     keywordList = $('.selected-' + type + '-keywords ul')
-    li = undefined
     $.each values, (index, value) ->
       li = $('<li>' + value + '<a class=\'remove\'><i class=\'fa fa-times-circle\'></i></a></li>')
       $('<input/>',
