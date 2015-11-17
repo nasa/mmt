@@ -310,9 +310,9 @@ $(document).ready ->
       else
         if $(this).hasClass('latitude')
           latitude = $(this).val()
-          longitude = $(this).siblings('.longitude').val()
+          longitude = $(this).parent().siblings().find('.longitude').val()
         else
-          latitude = $(this).siblings('.latitude').val()
+          latitude = $(this).parent().siblings().find('.latitude').val()
           longitude = $(this).val()
 
         if latitude != '' and longitude != ''
@@ -331,12 +331,11 @@ $(document).ready ->
     previewLink = $(this).parents('.accordion-body').find('.spatial-preview-link')
     url = $(previewLink).attr('href').split('map')[0]
 
-    parent = $(this).parent()
+    parent = $(this).parents()
     west = $(parent).find('.bounding-rectangle-point.west').val()
     south = $(parent).find('.bounding-rectangle-point.south').val()
     east = $(parent).find('.bounding-rectangle-point.east').val()
     north = $(parent).find('.bounding-rectangle-point.north').val()
-
     if west.length > 0 and south.length > 0 and east.length > 0 and north.length > 0
       coordinates = [
         west

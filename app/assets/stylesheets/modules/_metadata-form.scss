@@ -10,7 +10,7 @@
     display: block;
   }
 
-  input[type="radio"] {
+  input[type="radio"], input[type="checkbox"] {
     display: inline-block;
     margin: 0 0.5em 0 0;
     line-height: 1em;
@@ -101,7 +101,7 @@
   }
 }
 
-.radio-group {
+.radio-group, .checkbox-group {
   margin: 0.5em 0;
 
   label {
@@ -130,4 +130,10 @@
 
 .validation-error {
   clear: both;
+}
+
+.spatial-preview-link {
+  padding: 1em;
+  background: inherit;
+  display: block;
 }

@@ -77,10 +77,10 @@ describe 'Preview on Map link', js: true do
       page.execute_script script
 
       within first('.multiple.bounding-rectangles') do
-        fill_in 'West Bounding Coordinate', with: '-50.1'
-        fill_in 'North Bounding Coordinate', with: '50.4'
-        fill_in 'East Bounding Coordinate', with: '-45.3'
-        fill_in 'South Bounding Coordinate', with: '-45.2'
+        fill_in 'W', with: '-50.1'
+        fill_in 'N', with: '50.4'
+        fill_in 'E', with: '-45.3'
+        fill_in 'S', with: '-45.2'
       end
     end
 

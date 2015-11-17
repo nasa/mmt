@@ -52,3 +52,15 @@
     list-style: none;
   }
 }
+
+// Compass Coordinates
+.compass-coordinates {
+  .north, .south, .east, .west {
+    text-align: center;
+  }
+
+  .north, .south {
+    margin: 0 auto;
+    width: 70%;
+  }
+}

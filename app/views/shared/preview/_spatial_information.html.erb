@@ -20,7 +20,7 @@
           type: TypesHelper::TilingIdentificationSystemType
       } %>
 
-      <h4>Spatial Information <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-information'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Spatial Information <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-representation-information'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['SpatialInformation'],
           name: 'SpatialInformation',

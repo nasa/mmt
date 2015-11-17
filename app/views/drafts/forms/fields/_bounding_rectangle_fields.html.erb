@@ -1,4 +1,5 @@
 <div class="row sub-fields">
+  <p><a class="btn btn-blue btn-sm">Apply global spatial coverage</a></p>
   <!-- CenterPoint -->
   <label for="<%= remove_pipes(name_prefix) %>center_point">Center Point</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PointType"></i></a>
   <%= render partial: 'drafts/forms/type', locals: {
@@ -7,24 +8,29 @@
       name_prefix: "#{name_prefix}|center_point|_",
       multiple: false,
       options: {} } %>
-
-  <!-- WestBoundingCoordinate -->
-  <label for="<%= remove_pipes(name_prefix) %>west_bounding_coordinate" class="icon-required">West Bounding Coordinate</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LongitudeType"></i></a>
-  <%= number_field_tag(name_to_param("#{name_prefix}|west_bounding_coordinate|"), bounding_rectangle['WestBoundingCoordinate'], class: 'half-width bounding-rectangle-point west validate mmt-number') %>
-
-
-  <!-- NorthBoundingCoordinate -->
-  <label for="<%= remove_pipes(name_prefix) %>north_bounding_coordinate" class="icon-required">North Bounding Coordinate</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LatitudeType"></i></a>
-  <%= number_field_tag(name_to_param("#{name_prefix}|north_bounding_coordinate|"), bounding_rectangle['NorthBoundingCoordinate'], class: 'half-width bounding-rectangle-point north validate mmt-number') %>
-
-
-  <!-- EastBoundingCoordinate -->
-  <label for="<%= remove_pipes(name_prefix) %>east_bounding_coordinate" class="icon-required">East Bounding Coordinate</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LongitudeType"></i></a>
-  <%= number_field_tag(name_to_param("#{name_prefix}|east_bounding_coordinate|"), bounding_rectangle['EastBoundingCoordinate'], class: 'half-width bounding-rectangle-point east validate mmt-number') %>
-
-
-  <!-- SouthBoundingCoordinate -->
-  <label for="<%= remove_pipes(name_prefix) %>south_bounding_coordinate" class="icon-required">South Bounding Coordinate</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LatitudeType"></i></a>
-  <%= number_field_tag(name_to_param("#{name_prefix}|south_bounding_coordinate|"), bounding_rectangle['SouthBoundingCoordinate'], class: 'half-width bounding-rectangle-point south validate mmt-number') %>
-
+  <label class="icon-required">Bounding Coordinates</label>
+  <div class="compass-coordinates">
+    <!-- NorthBoundingCoordinate -->
+    <div class="north">
+      <label for="<%= remove_pipes(name_prefix) %>north_bounding_coordinate" class="icon-required">N</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LatitudeType"></i></a>
+      <%= number_field_tag(name_to_param("#{name_prefix}|north_bounding_coordinate|"), bounding_rectangle['NorthBoundingCoordinate'], class: 'full-width bounding-rectangle-point north validate mmt-number') %>
+    </div>
+    <div class="row">
+      <div class="col-6 west">
+        <!-- WestBoundingCoordinate -->
+        <label for="<%= remove_pipes(name_prefix) %>west_bounding_coordinate" class="icon-required">W</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LongitudeType"></i></a>
+        <%= number_field_tag(name_to_param("#{name_prefix}|west_bounding_coordinate|"), bounding_rectangle['WestBoundingCoordinate'], class: 'full-width bounding-rectangle-point west validate mmt-number') %>
+      </div>
+      <div class="col-6 east">
+        <!-- EastBoundingCoordinate -->
+        <label for="<%= remove_pipes(name_prefix) %>east_bounding_coordinate" class="icon-required">E</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LongitudeType"></i></a>
+        <%= number_field_tag(name_to_param("#{name_prefix}|east_bounding_coordinate|"), bounding_rectangle['EastBoundingCoordinate'], class: 'full-width bounding-rectangle-point east validate mmt-number') %>
+      </div>
+    </div>
+    <div class="south">
+      <!-- SouthBoundingCoordinate -->
+      <label for="<%= remove_pipes(name_prefix) %>south_bounding_coordinate" class="icon-required">S</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LatitudeType"></i></a>
+      <%= number_field_tag(name_to_param("#{name_prefix}|south_bounding_coordinate|"), bounding_rectangle['SouthBoundingCoordinate'], class: 'full-width bounding-rectangle-point south validate mmt-number') %>
+    </div>
+  </div>
 </div>

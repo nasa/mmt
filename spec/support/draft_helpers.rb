@@ -430,16 +430,16 @@ module Helpers
       within first('.multiple.bounding-rectangles') do
         fill_in 'Longitude', with: '0.0'
         fill_in 'Latitude', with: '0.0'
-        fill_in 'West Bounding Coordinate', with: '-180.0'
-        fill_in 'North Bounding Coordinate', with: '90.0'
-        fill_in 'East Bounding Coordinate', with: '180.0'
-        fill_in 'South Bounding Coordinate', with: '-90.0'
+        fill_in 'W', with: '-180.0'
+        fill_in 'N', with: '90.0'
+        fill_in 'E', with: '180.0'
+        fill_in 'S', with: '-90.0'
         click_on 'Add another Bounding Rectangle'
         within '.multiple-item-1' do
-          fill_in 'West Bounding Coordinate', with: '-96.9284587'
-          fill_in 'North Bounding Coordinate', with: '58.968602'
-          fill_in 'East Bounding Coordinate', with: '-56.9284587'
-          fill_in 'South Bounding Coordinate', with: '18.968602'
+          fill_in 'W', with: '-96.9284587'
+          fill_in 'N', with: '58.968602'
+          fill_in 'E', with: '-56.9284587'
+          fill_in 'S', with: '18.968602'
         end
       end
     end
