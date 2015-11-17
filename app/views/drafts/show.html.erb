@@ -39,21 +39,6 @@
       <%= render partial: 'shared/download_xml', locals: { collection: false } %>
     </section>
 
-    <% if @errors && !@errors.empty? %>
-      <section class="errors">
-        <div class="banner banner-danger">
-          <i class="fa fa-exclamation-triangle"></i> This draft has the following errors:
-          <ul class="no-bullet">
-            <% @errors.each do |error| %>
-              <li>
-                <%= link_to "#{name_to_title(error[:field])} #{error[:error]}", draft_edit_form_path(@draft, error[:page]) if error[:field] && error[:page] %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      </section>
-    <% end %>
-
     <%= render partial: 'drafts/progress/preview_progress', locals: { draft: @draft, metadata_errors: @errors } %>
 
     <%= render partial: 'shared/preview/metadata_preview', locals: { metadata: @draft.draft } %>

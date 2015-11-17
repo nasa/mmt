@@ -26,5 +26,8 @@ Rails.application.routes.draw do
   get 'set_provider' => 'users#set_provider'
   get 'refresh_providers' => 'users#refresh_providers', as: 'refresh_user_providers'
 
+  # Small, light weight check if the app is running
+  get 'status' => 'welcome#status'
+
   root 'welcome#index'
 end

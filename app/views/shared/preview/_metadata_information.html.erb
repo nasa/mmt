@@ -5,7 +5,7 @@
   </div>
   <div class="accordion-body">
     <ul class="metadata-information-preview">
-      <h4>Metadata Language <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, metadata, 'metadata_information', {anchor: 'metadata-language'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Metadata Language <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'metadata_information', {anchor: 'metadata-language'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/fields/display_field_line', locals: { key_name: 'MetadataLanguage', hash_for_key: metadata } %>
 
       <h4>Metadata Dates <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'metadata_information', {anchor: 'metadata-dates'}), {class: 'hash-link'} %><% end %></h4>

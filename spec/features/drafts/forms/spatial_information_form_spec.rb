@@ -535,7 +535,7 @@ OCEAN > ATLANTIC OCEAN')
         within '.multiple.resolutions' do
           within '.multiple-item-0' do
             find('.resolution').set '3.0'
-            click_on 'Add Another Resolution'
+            click_on 'Add another Resolution'
           end
           within '.multiple-item-1' do
             find('.resolution').set '4.0'
@@ -549,7 +549,7 @@ OCEAN > ATLANTIC OCEAN')
         within '.multiple.resolutions' do
           within '.multiple-item-0' do
             find('.resolution').set '5.0'
-            click_on 'Add Another Resolution'
+            click_on 'Add another Resolution'
           end
           within '.multiple-item-1' do
             find('.resolution').set '6.0'
@@ -668,7 +668,7 @@ OCEAN > ATLANTIC OCEAN')
         within '.multiple.resolutions' do
           within '.multiple-item-0' do
             find('.resolution').set '3.0'
-            click_on 'Add Another Resolution'
+            click_on 'Add another Resolution'
           end
           within '.multiple-item-1' do
             find('.resolution').set '4.0'
@@ -682,7 +682,7 @@ OCEAN > ATLANTIC OCEAN')
         within '.multiple.resolutions' do
           within '.multiple-item-0' do
             find('.resolution').set '5.0'
-            click_on 'Add Another Resolution'
+            click_on 'Add another Resolution'
           end
           within '.multiple-item-1' do
             find('.resolution').set '6.0'
