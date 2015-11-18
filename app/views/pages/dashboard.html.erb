@@ -1,11 +1,10 @@
-<% if !@notification.nil? %>
-  <aside class="banner banner-warn">
-    <div class="content">
-      <p>
-          <%= raw(@notification) %>
-      </p>
-    </div>
-  </aside>
+<% if @notification %>
+  <div class="banner banner-warn banner-dismissible">
+    <%= raw(@notification[:message]) %>
+    <%= link_to hide_notification_path(id: @notification[:id]), remote: true, class: 'dismiss', title: 'Dismiss banner' do %>
+      <i class="ed-icon ed-fa-times-circle"></i>
+    <% end %>
+  </div>
 <% end %>
 <nav>
   <div class="content">

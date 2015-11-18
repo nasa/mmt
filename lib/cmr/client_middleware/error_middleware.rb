@@ -5,7 +5,7 @@ module Cmr
     class ErrorMiddleware < FaradayMiddleware::ResponseMiddleware
 
       def process_response(env)
-        env[:body] = "System availability notifications may be unavailable for a brief period due to planned maintenance. We apologize for the inconvenience."
+        env[:body] = { id: nil, message: 'System availability notifications may be unavailable for a brief period due to planned maintenance. We apologize for the inconvenience.' }
       end
 
       def parse_response?(env)

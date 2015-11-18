@@ -16,7 +16,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       server:
       - Apache-Coyote/1.1
@@ -44,7 +44,17 @@ http_interactions:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: '[]'
-    http_version: 
+      string: '[{
+        "calendar_event": {
+            "end_date": "2011-07-27T21:00:00Z",
+            "id": "C4F4241B-5495-92DA-C600-3282025E1F0A",
+            "message": "<p>Regularly scheduled maintenance of the systems at NSIDC will prevent the distribution of AMSR-E, <span class=\"wikiword\">IceBridge</span>, <span class=\"wikiword\">ICESat</span>/GLAS,   MODIS, and NISE data holdings.  During this downtime period,  retrieving  data will not be possible.  We apologize for any  inconvenience that  this may cause.  Please contact NSIDC User Services  at nsidc@nsidc.org if you  have any questions.</p>",
+            "owner_provider_id": "248ED694-06AA-7DF0-E269-640DE00B628E",
+            "severity": "ALERT",
+            "start_date": "2011-07-27T15:00:00Z",
+            "title": "NSIDC scheduled downtime"
+        }
+    }]'
+    http_version:
   recorded_at: Mon, 06 Jul 2015 00:27:47 GMT
 recorded_with: VCR 2.9.3

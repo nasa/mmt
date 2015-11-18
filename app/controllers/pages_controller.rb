@@ -1,9 +1,15 @@
 class PagesController < ApplicationController
-
   def dashboard
-    reply = cmr_client.get_calendar_events
-    @notification = reply.body
-    @draft_display_max_count = 5 # If you change this number you must also change it in the corresponding test file - features/drafts/open_drafts_spec.rb.
+    response = cmr_client.get_calendar_events.body
+    if response[:message] && !session[:hidden_notifications].include?(response[:id])
+      @notification = response
+    else
+      @notification = nil
+    end
+
+    # If you change this number you must also change it in the corresponding test file - features/drafts/open_drafts_spec.rb.
+    @draft_display_max_count = 5
+
     @drafts = @current_user.drafts.order('updated_at DESC').limit(@draft_display_max_count + 1)
   end
 
@@ -14,5 +20,12 @@ class PagesController < ApplicationController
     else
       redirect_to dashboard_path
     end
+  end
+
+  def hide_notification
+    notification_id = params[:id]
+    session[:hidden_notifications] << notification_id
+
+    render nothing: true
   end
 end
