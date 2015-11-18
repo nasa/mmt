@@ -109,6 +109,18 @@ describe 'Calendar Event Query' do
         it 'does not display the notification' do
           expect(page).to have_no_content(BASE_STRING)
         end
+
+        context 'when a new notification is present' do
+          before do
+            VCR.use_cassette('notifications/multi_day_notification', record: :none) do
+              visit '/'
+            end
+          end
+
+          it 'displays the non-dismissed notification' do
+            expect(page).to have_content("#{BASE_STRING} between Monday, 7/12/2021 at 5 am and Tuesday, 7/13/2021 at 4 pm ET")
+          end
+        end
       end
     end
   end
