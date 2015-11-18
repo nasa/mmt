@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   get 'dashboard' => 'pages#dashboard', as: 'dashboard'
   get 'new_record' => 'pages#new_record', as: 'new_record'
+  get 'hide_notification' => 'pages#hide_notification', as: 'hide_notification'
 
   get 'login' => 'users#login'
   get 'logout' => 'users#logout'

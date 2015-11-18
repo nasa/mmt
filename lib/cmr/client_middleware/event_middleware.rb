@@ -7,14 +7,16 @@ module Cmr
         current_time = DateTime.current.to_s
 
         # Uncomment the line below when developing so you might actually see a notification
-        #current_time = (DateTime.current-(1.year)).to_s
+        # current_time = (DateTime.current - (1.year)).to_s
 
-        events = env[:body].delete_if {|event| event['calendar_event']['end_date'] < current_time }
+        events = env[:body].delete_if { |event| event['calendar_event']['end_date'] < current_time }
 
-        events.sort! {|x, y| x['calendar_event']['start_date'] <=> y['calendar_event']['start_date']}
+        events.sort! { |x, y| x['calendar_event']['start_date'] <=> y['calendar_event']['start_date'] }
 
         if !events.nil? && !events.empty?
           event = events[0]
+
+          event_id = event['calendar_event']['id']
 
           # Construct time range string. Adjust to Eastern Time
           start_date_obj = DateTime.parse(event['calendar_event']['start_date']).in_time_zone('Eastern Time (US & Canada)')
@@ -30,7 +32,8 @@ module Cmr
           end_time = '12 Midnight' if end_time == '12 am'
           end_time = '12 Noon' if end_time == '12 pm'
 
-          if start_date == end_date # Outage does not span multiple days
+          # Outage does not span multiple days
+          if start_date == end_date
             time_range_string = "on <strong>#{start_day_of_week}, #{start_date} between #{start_time} - #{end_time} ET</strong>"
           else
             end_day_of_week = end_date_obj.strftime('%A')
@@ -42,8 +45,7 @@ module Cmr
           notification = nil
         end
 
-        env[:body] = notification
-
+        env[:body] = { id: event_id, message: notification }
       end
 
       def parse_response?(env)

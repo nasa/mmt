@@ -11,6 +11,9 @@ class ApplicationController < ActionController::Base
   def setup_query
     @query ||= {}
     @provider_ids = cmr_client.get_providers.body.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
+
+    # setup hidden_notifications
+    session[:hidden_notifications] ||= []
   end
 
   def setup_current_user
