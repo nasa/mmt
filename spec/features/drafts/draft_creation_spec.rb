@@ -37,6 +37,8 @@ describe 'Draft creation', js: true do
         within '.nav-top' do
           click_on 'Save & Done'
         end
+        # Accept
+        click_on 'Yes'
       end
 
       it 'displays a confirmation message' do

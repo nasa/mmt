@@ -54,6 +54,8 @@ describe 'Progress circles', js: true do
         within '.nav-top' do
           click_on 'Save & Done'
         end
+        # Accept modal
+        click_on 'Yes'
       end
 
       it 'fills in that correct circle in grey' do

@@ -236,7 +236,9 @@ $(document).ready ->
     valid = summaryErrors.length == 0
 
     if !valid and opts.showConfirm
-      return confirm 'This page has invalid data. Are you sure you want to save it and proceed?'
+      # click on link to open modal
+      $('#display-invalid-draft-modal').click()
+      return false
 
     valid
 
@@ -279,16 +281,21 @@ $(document).ready ->
       showConfirm: false
 
   $('.next-section').on 'change', ->
-    if validatePage
-      showInline: true
-      showSummary: true
-      showConfirm: true
+    $('#new_form_name').val(this.value)
 
-      $('#new_form_name').val(this.value)
-      this.form.submit()
-
-  $('.save-form').on 'click', (e) ->
     return validatePage
       showInline: true
       showSummary: true
       showConfirm: true
+
+  $('.save-form').on 'click', (e) ->
+    $('#commit').val($(this).val())
+
+    return validatePage
+      showInline: true
+      showSummary: true
+      showConfirm: true
+
+  # Handle modal 'Yes', submit form
+  $('#invalid-draft-accept').on 'click', ->
+    $('.metadata-form').submit()

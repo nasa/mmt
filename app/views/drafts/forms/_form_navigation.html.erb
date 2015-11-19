@@ -1,22 +1,29 @@
 <div class="row metadata-cta nav-<%= location %>">
   <div class="col-2">
-    <%= submit_tag "Save & Done", class: "btn btn-blue save-form" %>
+    <%= submit_tag 'Save & Done', class: 'btn btn-blue save-form' %>
   </div>
-
 
   <div class="col-7 form-nav">
     <label for="next-section">Save &amp; Jump To: </label>
 
-    <%= select_tag "next_section", options_for_select(draft_forms.map{|form| [form[:form_partial_name].titleize, form[:form_partial_name]]}, draft_form), class: 'next-section' %>
-
+    <%= select_tag 'next_section', options_for_select(draft_forms.map{|form| [form[:form_partial_name].titleize, form[:form_partial_name]]}, draft_form), class: 'next-section' %>
   </div>
 
   <div class="col-2">
-    <%= submit_tag "Save & Next", class: "btn btn-green save-form" %>
+    <%= submit_tag 'Save & Next', class: 'btn btn-green save-form' %>
   </div>
 
   <div class="col-1">
-    <%= link_to 'Cancel', draft_path(draft), {:class=>"cancel", :id=>'discard_changes'} %>
+    <%= link_to 'Cancel', draft_path(draft), class: 'cancel', id: 'discard_changes' %>
   </div>
+</div>
 
+<!-- Hidden link to allow modal to be shown -->
+<a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal" style="display: none;"></a>
+<div id="invalid-draft-modal" class="modal-content">
+  <p>This page has invalid data. Are you sure you want to save it and proceed?</p>
+  <p>
+    <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
+    <a href="javascript:void(0)" id="invalid-draft-accept" class="btn btn-blue">Yes</a>
+  </p>
 </div>

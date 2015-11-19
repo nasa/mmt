@@ -56,6 +56,8 @@ describe 'Preview on Map link', js: true do
           within '.nav-top' do
             click_on 'Save & Done'
           end
+          # Accept
+          click_on 'Yes'
 
           within '.metadata' do
             click_on 'Spatial Information'
@@ -107,6 +109,8 @@ describe 'Preview on Map link', js: true do
           within '.nav-top' do
             click_on 'Save & Done'
           end
+          # Accept
+          click_on 'Yes'
 
           within '.metadata' do
             click_on 'Spatial Information'
@@ -174,6 +178,8 @@ describe 'Preview on Map link', js: true do
           within '.nav-top' do
             click_on 'Save & Done'
           end
+          # Accept
+          click_on 'Yes'
 
           within '.metadata' do
             click_on 'Spatial Information'
