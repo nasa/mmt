@@ -4,4 +4,4 @@ $(document).ready ->
     if count != 'Granules (0)'
       e.stopImmediatePropagation()
 
-      alert('Collections with granules cannot be deleted')
+      $('#display-granules-modal').click()
