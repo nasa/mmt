@@ -22,9 +22,9 @@ describe 'Delete collection', js: true, reset_provider: true do
 
       context 'when clicking the delete link' do
         before do
-          accept_confirm_from do
-            click_on 'Delete Record'
-          end
+          click_on 'Delete Record'
+          # Accept
+          click_on 'Yes'
         end
 
         it 'displays a confirmation message' do

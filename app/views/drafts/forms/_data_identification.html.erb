@@ -4,12 +4,12 @@
     <div class="row">
       <!-- Entry ID [r] -->
       <div class="col-6">
-        <label for="draft_entry_id" class="main-field icon-required">Entry Id</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/EntryId"></i></a>
+        <label for="draft_entry_id" class="main-field icon-required">Entry Id</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/EntryId"></i></a>
         <%= text_field_tag('draft[entry_id]', draft.draft['EntryId'], class: 'full-width validate') %>
       </div>
       <!-- Version -->
       <div class="col-6">
-        <label for="draft_version" class="main-field">Version</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/Version"></i></a>
+        <label for="draft_version" class="main-field">Version</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/Version"></i></a>
         <%= text_field_tag('draft[version]', draft.draft['Version'], class: 'full-width validate') %>
       </div>
     </div>
@@ -18,7 +18,7 @@
     <!-- Entry Title [r] -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_entry_title" class="main-field icon-required">Entry Title</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/EntryTitle"></i></a>
+        <label for="draft_entry_title" class="main-field icon-required">Entry Title</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/EntryTitle"></i></a>
         <%= text_field_tag('draft[entry_title]', draft.draft['EntryTitle'], class: 'full-width validate') %>
       </div>
     </div>
@@ -27,7 +27,7 @@
     <!-- Abstract [r] -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_abstract" class="icon-required">Abstract</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/Abstract"></i></a>
+        <label for="draft_abstract" class="icon-required">Abstract</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/Abstract"></i></a>
         <%= text_area_tag('draft[abstract]', draft.draft['Abstract'], rows: 8, class: 'validate') %>
       </div>
     </div>
@@ -36,7 +36,7 @@
     <!-- Purpose -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_purpose">Purpose</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/Purpose"></i></a>
+        <label for="draft_purpose">Purpose</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/Purpose"></i></a>
         <%= text_area_tag('draft[purpose]', draft.draft['Purpose'], rows: 8, class: 'validate') %>
       </div>
     </div>
@@ -45,7 +45,7 @@
     <!-- Data language -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_data_language">Data Language</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/DataLanguage"></i></a>
+        <label for="draft_data_language">Data Language</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/DataLanguage"></i></a>
         <%= text_field_tag('draft[data_language]', draft.draft['DataLanguage'], placeholder: 'English', class: 'half-width validate') %>
       </div>
     </div>
@@ -119,7 +119,7 @@
     <!-- Collection Data Type -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_collection_data_type">Collection Data Type</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/CollectionDataType"></i></a>
+        <label for="draft_collection_data_type">Collection Data Type</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/CollectionDataType"></i></a>
         <%= select_tag "draft[collection_data_type]", options_for_select(DraftsHelper::CollectionDataTypeOptions, draft.draft['CollectionDataType']), class: 'half-width validate' %>
       </div>
     </div>
@@ -135,12 +135,12 @@
         <div class="processing-level-fields">
           <div class="col-6">
             <% processing_level = draft.draft['ProcessingLevel'] || {} %>
-            <label for="draft_processing_level_id">ID</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/Id"></i></a>
+            <label for="draft_processing_level_id">ID</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/Id"></i></a>
             <%= text_field_tag('draft[processing_level][id]', processing_level['Id'], class: 'full-width validate') %>
             <!-- ID should be dropdown with level 0, level 1a, etc. -->
           </div>
           <div class="col-6">
-            <label for="draft_processing_level_processing_level_description">Processing Level Description</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/ProcessingLevelDescription"></i></a>
+            <label for="draft_processing_level_processing_level_description">Processing Level Description</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/ProcessingLevelDescription"></i></a>
             <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'full-width validate') %>
             <!-- TODO description needs stuff from Mark -->
           </div>
@@ -176,7 +176,7 @@
     <!-- Collection Progress -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_collection_progress">Collection Progress</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/CollectionProgress"></i></a>
+        <label for="draft_collection_progress">Collection Progress</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/CollectionProgress"></i></a>
         <%= select_tag "draft[collection_progress]", options_for_select(DraftsHelper::CollectionProgressOptions, draft.draft['CollectionProgress']), class: 'half-width validate' %>
       </div>
     </div>
@@ -189,7 +189,7 @@
     <!-- Quality -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_quality">Quality</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/Quality"></i></a>
+        <label for="draft_quality">Quality</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/Quality"></i></a>
         <%= text_area_tag('draft[quality]', draft.draft['Quality'], rows: 8, class: 'validate') %>
       </div>
     </div>
@@ -202,7 +202,7 @@
     <!-- Use Constraints -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_use_constraints">Use Constraints</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/UseConstraints"></i></a>
+        <label for="draft_use_constraints">Use Constraints</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/UseConstraints"></i></a>
         <%= text_area_tag('draft[use_constraints]', draft.draft['UseConstraints'], rows: 8, class: 'validate') %>
       </div>
     </div>
@@ -218,12 +218,12 @@
         <div class="row sub-fields">
           <% access_constraints = draft.draft['AccessConstraints'] || {} %>
           <!-- Value -->
-          <label for="draft_access_constraints_value">Value</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AccessConstraintsType/properties/Value"></i></a>
+          <label for="draft_access_constraints_value">Value</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AccessConstraintsType/properties/Value"></i></a>
           <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width validate mmt-number') %>
 
 
           <!-- Description -->
-          <label for="draft_access_constraints_description" class="icon-required">Description</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AccessConstraintsType/properties/Description"></i></a>
+          <label for="draft_access_constraints_description" class="icon-required">Description</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AccessConstraintsType/properties/Description"></i></a>
           <%= text_area_tag(name_to_param("draft_|access_constraints|_description"), access_constraints['Description'], rows: 8, class: 'validate') %>
         </div>
       </div>

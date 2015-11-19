@@ -136,7 +136,7 @@ $(document).ready ->
         afterElement = $element
 
       # if the error needs to be shows after the help icon
-      if $element.next().hasClass('display-help-modal')
+      if $element.next().hasClass('display-modal')
         afterElement = $element.next()
 
       $(errorElement).insertAfter(afterElement)

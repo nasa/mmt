@@ -1,23 +1,23 @@
 <div class="row sub-fields">
   <!-- DatumName -->
-  <label for="<%= remove_pipes(name_prefix) %>datum_name">Datum Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/DatumName"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>datum_name">Datum Name</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/DatumName"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|datum_name|"), vertical_system_definition['DatumName'], class: 'half-width validate') %>
 
 
   <!-- DistanceUnits -->
-  <label for="<%= remove_pipes(name_prefix) %>distance_units">Distance Units</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/DistanceUnits"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>distance_units">Distance Units</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/DistanceUnits"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|distance_units|"), vertical_system_definition['DistanceUnits'], class: 'half-width validate') %>
 
 
   <!-- EncodingMethod -->
-  <label for="<%= remove_pipes(name_prefix) %>encoding_method">Encoding Method</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/EncodingMethod"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>encoding_method">Encoding Method</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/EncodingMethod"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}|encoding_method|"), vertical_system_definition['EncodingMethod'], rows: 8, class: 'validate') %>
 
 
   <!-- Resolutions -->
   <% resolutions = vertical_system_definition['Resolutions'] || [nil] %>
   <div class="multiple simple-multiple resolutions">
-    <label for="<%= remove_pipes(name_prefix) %>resolutions_">Resolution</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/Resolutions"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>resolutions_">Resolution</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/Resolutions"></i></a>
 
   <% resolutions.each_with_index do |resolution, index| %>
     <div class="multiple-item multiple-item-<%= index %>">

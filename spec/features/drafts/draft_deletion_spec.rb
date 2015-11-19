@@ -11,10 +11,10 @@ describe 'Draft deletion', js: true do
 
   context 'when adding and deleting a single draft' do
     before do
-      accept_confirm_from do
-        within('.cta') do
-          click_on 'Delete Draft'
-        end
+      within('.cta') do
+        click_on 'Delete Draft'
+        # Accept
+        click_on 'Yes'
       end
     end
 
@@ -33,10 +33,10 @@ describe 'Draft deletion', js: true do
 
   context 'when cancelling the deletion of a single draft' do
     before do
-      reject_confirm_from do
-        within('.cta') do
-          click_on 'Delete Draft'
-        end
+      within('.cta') do
+        click_on 'Delete Draft'
+        # Reject
+        click_on 'No'
       end
     end
 

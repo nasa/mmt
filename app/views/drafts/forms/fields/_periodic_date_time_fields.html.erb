@@ -1,26 +1,26 @@
 <div class="row sub-fields">
   <!-- Name -->
-  <label for="<%= remove_pipes(name_prefix) %>name" class="icon-required">Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/Name"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>name" class="icon-required">Name</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/Name"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}name"), periodic_date_time['Name'], class: 'half-width validate') %>
 
   <!-- StartDate -->
-  <label for="<%= remove_pipes(name_prefix) %>start_date" class="icon-required">Start Date</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/StartDate"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>start_date" class="icon-required">Start Date</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/StartDate"></i></a>
   <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), periodic_date_time['StartDate'], class: 'half-width validate mmt-date-time') %>
 
   <!-- EndDate -->
-  <label for="<%= remove_pipes(name_prefix) %>end_date" class="icon-required">End Date</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/EndDate"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>end_date" class="icon-required">End Date</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/EndDate"></i></a>
   <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), periodic_date_time['EndDate'], class: 'half-width validate mmt-date-time') %>
 
   <!-- DurationUnit -->
-  <label for="<%= remove_pipes(name_prefix) %>duration_unit" class="icon-required">Duration Unit</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/DurationUnit"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>duration_unit" class="icon-required">Duration Unit</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/DurationUnit"></i></a>
   <%= select_tag(name_to_param("#{name_prefix}|duration_unit|"), options_for_select(DraftsHelper::DurationOptions, periodic_date_time['DurationUnit']), class: 'half-width validate') %>
 
   <!-- DurationValue -->
-  <label for="<%= remove_pipes(name_prefix) %>duration_value" class="icon-required">Duration Value</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/DurationValue"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>duration_value" class="icon-required">Duration Value</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/DurationValue"></i></a>
   <%= text_field_tag(name_to_param("#{name_prefix}|duration_value|"), periodic_date_time['DurationValue'], class: 'half-width validate mmt-integer') %>
 
   <!-- PeriodCycleDurationUnit -->
-  <label for="<%= remove_pipes(name_prefix) %>period_cycle_duration_unit" class="icon-required">Period Cycle Duration Unit</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/PeriodCycleDurationUnit"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>period_cycle_duration_unit" class="icon-required">Period Cycle Duration Unit</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PeriodicDateTimeType/properties/PeriodCycleDurationUnit"></i></a>
   <%= select_tag(name_to_param("#{name_prefix}|period_cycle_duration_unit|"), options_for_select(DraftsHelper::DurationOptions, periodic_date_time['PeriodCycleDurationUnit']), class: 'half-width validate') %>
 
   <!-- PeriodCycleDurationValue -->

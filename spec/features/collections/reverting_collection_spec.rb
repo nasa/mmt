@@ -27,9 +27,9 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
 
     context 'when reverting the collection' do
       before do
-        accept_confirm_from do
-          click_on 'Revert to this Revision'
-        end
+        click_on 'Revert to this Revision'
+        # Accept
+        click_on 'Yes'
       end
 
       it 'displays a confirmation message' do
@@ -46,9 +46,9 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
 
   context 'when the latest revision is a deleted collection' do
     before do
-      accept_confirm_from do
-        click_on 'Delete Record'
-      end
+      click_on 'Delete Record'
+      # Accept
+      click_on 'Yes'
     end
 
     it 'displays the correct phrasing for reverting records' do
@@ -57,9 +57,9 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
 
     context 'when reverting the collection' do
       before do
-        accept_confirm_from do
-          click_on 'Reinstate'
-        end
+        click_on 'Reinstate'
+        # Accept
+        click_on 'Yes'
       end
 
       it 'displays a confirmation message' do
