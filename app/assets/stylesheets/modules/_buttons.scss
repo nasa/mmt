@@ -4,3 +4,7 @@
 input[type="submit"] {
   color: #fff;
 }
+
+.btn-default:link, .btn-default:visited {
+  color: $black;
+}
