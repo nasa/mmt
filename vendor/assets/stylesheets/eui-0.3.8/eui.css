@@ -772,17 +772,34 @@ html {
 .ed-sd-badge-humans:before {
   content: "\e605"; }
 
+/*
+ * Colors
+ * ========================================
+ * Organized from light to dark (top to bottom)
+ **/
+.bright-red {
+  background: #e74c3c; }
+
+.dark-green {
+  background: #189c54; }
+
 .default-black {
   background: #323232; }
 
 .dolphin-grey {
   background: #95a5a6; }
 
+.light-blue {
+  background: #ecf1f5; }
+
+.light-green {
+  background: #20ce6f; }
+
 .light-grey {
   background: #ecf0f1; }
 
-.royal-purple {
-  background: #673285; }
+.medium-blue {
+  background: #b5cede; }
 
 .midnight-blue {
   background: #2c3e50; }
@@ -790,23 +807,11 @@ html {
 .ocean-blue {
   background: #2276ac; }
 
+.royal-purple {
+  background: #673285; }
+
 .sky-blue {
   background: #7ab5da; }
-
-.medium-blue {
-  background: #b5cede; }
-
-.light-blue {
-  background: #ecf1f5; }
-
-.dark-green {
-  background: #189c54; }
-
-.light-green {
-  background: #20ce6f; }
-
-.bright-red {
-  background: #e74c3c; }
 
 body {
   color: #323232;
@@ -1393,23 +1398,23 @@ form label {
   line-height: 2em; }
 
 button {
-  color: #fff; }
+  color: white; }
 
 .btn {
   display: inline-block;
   padding: 0.5em 1em;
   text-align: center;
   vertical-align: middle;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  color: #fff;
+  border: 1px solid rgba(50, 50, 50, 0.2);
+  color: white;
   transition: background 0.15s ease-in-out; }
-  .btn:visited {
-    color: #fff; }
+  .btn:link, .btn:visited {
+    color: white; }
 
 .btn-default {
   color: #323232;
   background: #ecf0f1;
-  border: 1px solid rgba(0, 0, 0, 0.15); }
+  border: 1px solid rgba(50, 50, 50, 0.15); }
   .btn-default:visited {
     color: #323232; }
   .btn-default:hover {
@@ -3025,3 +3030,20 @@ img.img-middle {
 .typeahead {
   z-index: 1051;
   margin-top: 2px; }
+
+#lean_overlay {
+  position: fixed;
+  z-index: 100;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background: #323232;
+  display: none; }
+
+.modal-content {
+  width: 800px;
+  display: none;
+  padding: 30px;
+  background: white;
+  border-radius: 8px; }
