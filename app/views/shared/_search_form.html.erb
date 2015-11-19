@@ -3,7 +3,7 @@
   <div class="quick-search">
     <%= label_tag('entry_id', "Quick Find") %>
     <%= text_field_tag('entry_id', @query['entry_id'], placeholder: 'Enter Entry Id') %>
-    <button type="button" name="quick_find" class="btn btn-blue"><i class="fa fa-search"></i>Find</button>
+    <button type="button" name="quick_find" class="btn btn-blue spinner"><i class="fa fa-search"></i>Find</button>
   </div>
 
   <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
@@ -76,7 +76,7 @@
         </div>
         <hr> -->
         <div class="row search-form-actions">
-          <button type="button" name="full_search" class="btn btn-blue">Submit</button>
+          <button type="button" name="full_search" class="btn btn-blue spinner">Submit</button>
           <a href="#" class="cancel">Cancel</a>
         </div>
       </fieldset>
