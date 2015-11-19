@@ -9,7 +9,7 @@ earthdata:
     urs_root: "https://urs.earthdata.nasa.gov" # Does not work.  Workload mocks URS
     echo_root: "http://wlapp4.dev.echo.nasa.gov:42000" # Requires VPN, no URS support
     cmr_root: "http://cmr-wl-app1.dev.echo.nasa.gov:3003" # Runs on cmr-wl-app1, cmr-wl-app2, and cmr-wl-app3.  Requires VPN
-  partnertest:
+  uat:
     urs_root: "https://uat.urs.earthdata.nasa.gov"
     echo_root: "https://api-test.echo.nasa.gov"
     cmr_root: "https://cmr.uat.earthdata.nasa.gov" # Does not exist yet
@@ -23,19 +23,13 @@ earthdata:
 # Every (MMT, URS) environment pair has a different client id.
 # TODO: These are the EDSC Client Ids, we will need to create our own client.
 urs:
-  # production:
-  #   "https://urs.earthdata.nasa.gov": "6VThsdWMcfrKzLEP_A5xCQ"
-  # uat:
-  #   "https://urs.earthdata.nasa.gov": "HoOcKmts_X6VtUtDYxNmbQ"
-  #   "https://uat.urs.earthdata.nasa.gov": "f9SNO2nTTMVzG9uLa3vxqA"
-  #   "https://sit.urs.earthdata.nasa.gov": "2wWD3U2YiF3-h2PwehP0CQ"
-  sit:
-    "https://urs.earthdata.nasa.gov": "OGJ9qB7YYDaVwfmGpZJY6g"
+  production:
+    "https://urs.earthdata.nasa.gov": "QCuabaWMrGyq0OvCj0X-pg"
+  uat:
     "https://uat.urs.earthdata.nasa.gov": "zFb4tV63ET-V6-oRnDKmJg"
+  sit:
     "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
   development:
-    "https://urs.earthdata.nasa.gov": "OGJ9qB7YYDaVwfmGpZJY6g"
-    "https://uat.urs.earthdata.nasa.gov": "zFb4tV63ET-V6-oRnDKmJg"
     "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
   test:
     "https://urs.earthdata.nasa.gov": "OGJ9qB7YYDaVwfmGpZJY6g"
