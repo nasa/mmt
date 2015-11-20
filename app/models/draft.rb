@@ -64,17 +64,22 @@ class Draft < ActiveRecord::Base
 
   def self.create_from_collection(collection, user, native_id)
     new_entry_title = collection['EntryTitle'].empty? ? nil : collection['EntryTitle']
+
     if native_id
+      # Edited record
       draft = Draft.find_or_create_by(native_id: native_id)
       draft.entry_title = new_entry_title
+      draft.entry_id = collection['EntryId'].empty? ? nil : collection['EntryId']
     else
+      # Cloned record
       draft = Draft.create
       draft.entry_title = "#{new_entry_title} - Cloned"
       collection['EntryTitle'] = "#{new_entry_title} - Cloned"
+      draft.entry_id = nil
+      collection.delete('EntryId')
     end
     draft.user = user
     draft.draft = collection
-    draft.entry_id = collection['EntryId'].empty? ? nil : collection['EntryId']
     draft.save
     draft
   end

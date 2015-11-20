@@ -38,5 +38,15 @@ describe 'Create new draft from cloning a collection', js: true do
         expect(page).to have_content("Entry Title: #{entry_title} - Cloned")
       end
     end
+
+    it 'removes Entry Id from the metadata' do
+      within '.data-identification-preview' do
+        expect(page).to have_no_content('Entry Id')
+      end
+    end
+
+    it 'displays a message that the draft needs a unique Entry Id' do
+      expect(page).to have_content('Please enter new unique Entry Id for this cloned record')
+    end
   end
 end

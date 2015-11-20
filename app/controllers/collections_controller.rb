@@ -12,6 +12,7 @@ class CollectionsController < ApplicationController
 
   def clone
     draft = Draft.create_from_collection(@collection, @current_user, nil)
+    flash[:notice] = 'Please enter new unique Entry Id for this cloned record'
     redirect_to draft_path(draft)
   end
 
