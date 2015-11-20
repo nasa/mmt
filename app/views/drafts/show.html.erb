@@ -18,14 +18,14 @@
   <div class="row row-content">
     <section class="action">
       <div class="cta">
-        <%= link_to 'Publish', draft_publish_path(@draft), method: :post, class: 'btn btn-blue', alt: 'Publish Draft' %>
+        <%= link_to 'Publish', draft_publish_path(@draft), method: :post, class: 'btn btn-blue spinner', alt: 'Publish Draft' %>
         <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= draft_download_path(@draft) %>" alt="Download XML">Download XML</a> |
         <%= link_to 'Delete Draft', "#delete-draft-modal", class: 'display-modal' %>
         <div id="delete-draft-modal" class="modal-content">
           <p>Are you sure you want to delete this draft?</p>
           <p>
             <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
-            <%= link_to 'Yes', "/drafts/#{@draft.id}", method: :delete, class: 'btn btn-blue' %>
+            <%= link_to 'Yes', "/drafts/#{@draft.id}", method: :delete, class: 'btn btn-blue spinner' %>
           </p>
         </div>
       </div>

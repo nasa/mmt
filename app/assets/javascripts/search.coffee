@@ -1,7 +1,7 @@
 $(document).ready ->
 
   # Toggles advanced search in header
-  $('.full-search, .search-form-actions button, .search-form-actions a').click ->
+  $('.full-search, .search-form-actions a').click ->
     $(document).trigger 'toggleSearch'
 
   $(document).on 'toggleSearch', ->
