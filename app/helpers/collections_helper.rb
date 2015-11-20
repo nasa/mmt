@@ -57,8 +57,8 @@ module CollectionsHelper
     end
 
     preview_spatial_hash = {}
-    preview_spatial_hash['point_coordinate_array'] = point_coordinate_array unless point_coordinate_array.blank?
-    preview_spatial_hash['rectangle_coordinate_array'] = rectangle_coordinate_array unless rectangle_coordinate_array.blank?
+    preview_spatial_hash['point_coordinate_array'] = point_coordinate_array
+    preview_spatial_hash['rectangle_coordinate_array'] = rectangle_coordinate_array
 
     preview_spatial_hash
   end
