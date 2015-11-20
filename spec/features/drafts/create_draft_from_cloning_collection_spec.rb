@@ -46,7 +46,7 @@ describe 'Create new draft from cloning a collection', js: true do
     end
 
     it 'displays a message that the draft needs a unique Entry Id' do
-      expect(page).to have_content('Please enter new unique Entry Id for this cloned record')
+      expect(page).to have_link('Records must have a unique Entry ID. Click here to enter a new Entry ID.')
     end
   end
 end
