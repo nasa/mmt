@@ -70,6 +70,7 @@ class Draft < ActiveRecord::Base
     else
       draft = Draft.create
       draft.entry_title = "#{new_entry_title} - Cloned"
+      collection['EntryTitle'] = "#{new_entry_title} - Cloned"
     end
     draft.user = user
     draft.draft = collection
