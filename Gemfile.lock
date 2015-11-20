@@ -68,6 +68,7 @@ GEM
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
+    docile (1.1.5)
     erubis (2.7.0)
     execjs (2.5.2)
     factory_girl (4.5.0)
@@ -192,6 +193,11 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    simplecov (0.10.0)
+      docile (~> 1.1.0)
+      json (~> 1.8)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -260,6 +266,7 @@ DEPENDENCIES
   rspec_junit_formatter
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  simplecov
   sprockets (~> 2.8)
   sqlite3
   therubyracer

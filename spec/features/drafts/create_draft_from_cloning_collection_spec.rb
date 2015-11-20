@@ -15,6 +15,8 @@ describe 'Create new draft from cloning a collection', js: true do
       click_on entry_id
 
       click_on 'Clone this Record'
+
+      open_accordions
     end
 
     it 'creates a new draft' do
@@ -29,6 +31,22 @@ describe 'Create new draft from cloning a collection', js: true do
     it 'displays the draft preview page' do
       expect(page).to have_content('DRAFT RECORD')
       expect(page).to have_content("#{entry_title} - Cloned")
+    end
+
+    it 'appends " - Cloned" to the metadata' do
+      within '.data-identification-preview' do
+        expect(page).to have_content("Entry Title: #{entry_title} - Cloned")
+      end
+    end
+
+    it 'removes Entry Id from the metadata' do
+      within '.data-identification-preview' do
+        expect(page).to have_no_content('Entry Id')
+      end
+    end
+
+    it 'displays a message that the draft needs a unique Entry Id' do
+      expect(page).to have_link('Records must have a unique Entry ID. Click here to enter a new Entry ID.')
     end
   end
 end
