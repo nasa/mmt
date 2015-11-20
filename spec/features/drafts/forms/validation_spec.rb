@@ -123,10 +123,10 @@ describe 'Data validation for a form', js: true do
     context 'full page validation works' do
       before do
         within '.nav-top' do
-          reject_confirm_from do
-            click_on 'Save & Done'
-          end
+          click_on 'Save & Done'
         end
+        # Reject
+        click_on 'No'
       end
 
       it 'full page validation works' do
@@ -290,10 +290,10 @@ describe 'Data validation for a form', js: true do
       choose 'draft_temporal_extents_0_ends_at_present_flag_true'
 
       within '.nav-top' do
-        reject_confirm_from do
-          click_on 'Save & Done'
-        end
+        click_on 'Save & Done'
       end
+      # Reject
+      click_on 'No'
 
       expect(page).to have_selector(validation_error)
       expect(page).to have_content('TemporalExtents should have one type completed')
@@ -304,12 +304,10 @@ describe 'Data validation for a form', js: true do
       end
 
       within '.nav-top' do
-        reject_confirm_from do
-          click_on 'Save & Done'
-        end
+        click_on 'Save & Done'
       end
 
-      expect(page).to have_no_selector(validation_error)
+      expect(page).to have_content('Draft was successfully updated')
     end
   end
 
@@ -343,10 +341,10 @@ describe 'Data validation for a form', js: true do
       end
 
       within '.nav-top' do
-        reject_confirm_from do
-          click_on 'Save & Done'
-        end
+        click_on 'Save & Done'
       end
+      # Reject
+      click_on 'No'
 
       expect(page).to have_selector(validation_error)
       expect(page).to have_content('Points has too few items')
@@ -375,10 +373,10 @@ describe 'Data validation for a form', js: true do
       end
 
       within '.nav-top' do
-        reject_confirm_from do
-          click_on 'Save & Done'
-        end
+        click_on 'Save & Done'
       end
+      # Reject
+      click_on 'No'
 
       expect(page).to have_no_content('Points has too few items')
 
@@ -394,10 +392,10 @@ describe 'Data validation for a form', js: true do
       end
 
       within '.nav-top' do
-        reject_confirm_from do
-          click_on 'Save & Done'
-        end
+        click_on 'Save & Done'
       end
+      # Reject
+      click_on 'No'
 
       expect(page).to have_content('Points has too few items')
     end
@@ -418,10 +416,10 @@ describe 'Data validation for a form', js: true do
       expect(page).to have_content('URLs is an invalid URI')
 
       within '.nav-top' do
-        reject_confirm_from do
-          click_on 'Save & Done'
-        end
+        click_on 'Save & Done'
       end
+      # Reject
+      click_on 'No'
 
       expect(page).to have_content('URLs is an invalid URI')
       fill_in 'draft_related_urls_0_urls_0', with: 'http://nasa.gov'
@@ -429,12 +427,10 @@ describe 'Data validation for a form', js: true do
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do
-        reject_confirm_from do
-          click_on 'Save & Done'
-        end
+        click_on 'Save & Done'
       end
 
-      expect(page).to have_no_content('URLs is an invalid URI')
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     it 'validation of subsequent objects in an array of simple objects does work' do
@@ -444,22 +440,20 @@ describe 'Data validation for a form', js: true do
       expect(page).to have_content('URLs is an invalid URI')
 
       within '.nav-top' do
-        reject_confirm_from do
-          click_on 'Save & Done'
-        end
+        click_on 'Save & Done'
       end
+      # Reject
+      click_on 'No'
 
       expect(page).to have_content('URLs is an invalid URI')
       fill_in 'draft_related_urls_0_urls_1', with: 'http://nasa.gov'
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do
-        reject_confirm_from do
-          click_on 'Save & Done'
-        end
+        click_on 'Save & Done'
       end
 
-      expect(page).to have_no_content('URLs is an invalid URI')
+      expect(page).to have_content('Draft was successfully updated')
     end
   end
 end

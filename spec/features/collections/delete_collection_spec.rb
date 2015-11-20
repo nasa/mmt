@@ -22,9 +22,9 @@ describe 'Delete collection', js: true, reset_provider: true do
 
       context 'when clicking the delete link' do
         before do
-          accept_confirm_from do
-            click_on 'Delete Record'
-          end
+          click_on 'Delete Record'
+          # Accept
+          click_on 'Yes'
         end
 
         it 'displays a confirmation message' do
@@ -68,14 +68,11 @@ describe 'Delete collection', js: true, reset_provider: true do
 
     context 'when clicking the delete link' do
       before do
-        accept_alert_from do
-          click_on 'Delete Record'
-        end
+        click_on 'Delete Record'
       end
 
       it 'does not allow the user to delete the collection' do
-        expect(page).to have_content('PUBLISHED RECORD')
-        expect(page).to have_content('Granules (1)')
+        expect(page).to have_content('Collections with granules cannot be deleted')
       end
     end
   end

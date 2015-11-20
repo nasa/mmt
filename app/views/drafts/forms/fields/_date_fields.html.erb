@@ -1,13 +1,13 @@
 <div class="row sub-fields">
   <div class="col-6">
     <!-- Type - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
-    <label for="<%= remove_pipes(name_prefix) %>type" class="icon-required">Type</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DateType/properties/Type"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>type" class="icon-required">Type</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DateType/properties/Type"></i></a>
     <%= select_tag name_to_param("#{name_prefix}type"), options_for_select(DraftsHelper::DateTypeOptions, date['Type']), class: 'single-select validate' %>
   </div>
 
   <div class="col-6">
     <!-- Date -->
-    <label for="<%= remove_pipes(name_prefix) %>date" class="icon-required">Date</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DateType/properties/Date"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>date" class="icon-required">Date</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DateType/properties/Date"></i></a>
     <%= datetime_field_tag(name_to_param("#{name_prefix}date"), date['Date'], class: 'full-width validate mmt-date-time') %>
   </div>
 </div>

@@ -1,10 +1,5 @@
 $(document).ready ->
 
-  $('.display-help-modal').leanModal
-    top: 200
-    overlay: 0.6
-    closeButton: '.modal-close'
-
   $('i.fa-info-circle').on 'click', (element) ->
     # get path from data-help-path attribute
     # properties/EntryId

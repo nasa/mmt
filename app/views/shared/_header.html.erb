@@ -12,7 +12,7 @@
       <section id="user-info">
         <% if logged_in? %>
           <p><strong><%= session[:name] %></strong></p>
-          <a href="#provider-context" id="change-context">Change Provider</a>
+          <a href="#provider-context" id="change-context" class="display-modal">Change Provider</a>
           <%= link_to 'Logout', logout_path %>
           <!-- <a href="#">Account Settings</a> -->
         <% end %>

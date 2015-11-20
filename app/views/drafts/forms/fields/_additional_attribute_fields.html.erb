@@ -5,24 +5,24 @@
 
 
   <!-- Description -->
-  <label for="<%= remove_pipes(name_prefix) %>description">Description</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Description"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>description">Description</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Description"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}description"), additional_attribute['Description'], rows: 8, class: 'validate') %>
 
 
 
   <!-- Value -->
-  <label for="<%= remove_pipes(name_prefix) %>value">Value</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Value"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>value">Value</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Value"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}value"), additional_attribute['Value'], rows: 8, class: 'validate') %>
 
   <div class="row">
     <div class="col-6">
       <!-- DataType -->
-      <label for="<%= remove_pipes(name_prefix) %>data_type" class="icon-required">Data Type</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/DataType"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>data_type" class="icon-required">Data Type</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/DataType"></i></a>
       <%= select_tag name_to_param("#{name_prefix}|data_type|"), options_for_select(DraftsHelper::DataTypeOptions, additional_attribute['DataType']), class: 'single-select validate' %>
     </div>
     <div class="col-6">
       <!-- MeasurementResolution -->
-      <label for="<%= remove_pipes(name_prefix) %>measurement_resolution">Measurement Resolution</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/MeasurementResolution"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>measurement_resolution">Measurement Resolution</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/MeasurementResolution"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|measurement_resolution|"), additional_attribute['MeasurementResolution'], class: 'full-width validate') %>
     </div>
   </div>
@@ -30,12 +30,12 @@
   <div class="row">
     <div class="col-6">
       <!-- ParameterRangeBegin -->
-      <label for="<%= remove_pipes(name_prefix) %>parameter_range_begin">Parameter Range Begin</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterRangeBegin"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>parameter_range_begin">Parameter Range Begin</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterRangeBegin"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_begin|"), additional_attribute['ParameterRangeBegin'], class: 'full-width validate') %>
     </div>
     <div class="col-6">
       <!-- ParameterRangeEnd -->
-      <label for="<%= remove_pipes(name_prefix) %>parameter_range_end">Parameter Range End</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterRangeEnd"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>parameter_range_end">Parameter Range End</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterRangeEnd"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_end|"), additional_attribute['ParameterRangeEnd'], class: 'full-width validate') %>
     </div>
   </div>
@@ -43,12 +43,12 @@
   <div class="row">
     <div class="col-6">
       <!-- ParameterUnitsOfMeasure -->
-      <label for="<%= remove_pipes(name_prefix) %>parameter_units_of_measure">Parameter Units Of Measure</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterUnitsOfMeasure"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>parameter_units_of_measure">Parameter Units Of Measure</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterUnitsOfMeasure"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|parameter_units_of_measure|"), additional_attribute['ParameterUnitsOfMeasure'], class: 'full-width validate') %>
     </div>
     <div class="col-6">
       <!-- ParameterValueAccuracy -->
-      <label for="<%= remove_pipes(name_prefix) %>parameter_value_accuracy">Parameter Value Accuracy</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterValueAccuracy"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>parameter_value_accuracy">Parameter Value Accuracy</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterValueAccuracy"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|parameter_value_accuracy|"), additional_attribute['ParameterValueAccuracy'], class: 'full-width validate') %>
     </div>
   </div>
@@ -56,18 +56,18 @@
 
 
   <!-- ValueAccuracyExplanation -->
-  <label for="<%= remove_pipes(name_prefix) %>value_accuracy_explanation">Value Accuracy Explanation</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ValueAccuracyExplanation"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>value_accuracy_explanation">Value Accuracy Explanation</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ValueAccuracyExplanation"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}|value_accuracy_explanation|"), additional_attribute['ValueAccuracyExplanation'], rows: 8, class: 'validate') %>
 
   <div class="row">
     <div class="col-6">
       <!-- Group -->
-      <label for="<%= remove_pipes(name_prefix) %>group">Group</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Group"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>group">Group</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Group"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}group"), additional_attribute['Group'], class: 'full-width validate') %>
     </div>
     <div class="col-6">
       <!-- UpdateDate -->
-      <label for="<%= remove_pipes(name_prefix) %>update_date">Update Date</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/UpdateDate"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>update_date">Update Date</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/UpdateDate"></i></a>
       <%= datetime_field_tag(name_to_param("#{name_prefix}|update_date|"), additional_attribute['UpdateDate'], class: 'full-width validate mmt-date-time') %>
     </div>
   </div>

@@ -2,18 +2,18 @@
   <div class="row">
     <div class="col-6">
       <!-- Type -->
-      <label for="<%= remove_pipes(name_prefix) %>type">Type</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/MetadataAssociationType/properties/Type"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>type">Type</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/MetadataAssociationType/properties/Type"></i></a>
       <%= select_tag name_to_param("#{name_prefix}type"), options_for_select(DraftsHelper::MetadataAssociationTypeOptions, metadata_association['Type']), class: 'single-select validate' %>
     </div>
     <div class="col-6">
       <!-- EntryId [r] -->
-      <label for="<%= remove_pipes(name_prefix) %>entry_id" class="icon-required">Entry Id</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/MetadataAssociationType/properties/EntryId"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>entry_id" class="icon-required">Entry Id</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/MetadataAssociationType/properties/EntryId"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|entry_id|"), metadata_association['EntryId'], class: 'full-width validate') %>
     </div>
   </div>
 
   <!-- Description -->
-  <label for="<%= remove_pipes(name_prefix) %>description">Description</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/MetadataAssociationType/properties/Description"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>description">Description</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/MetadataAssociationType/properties/Description"></i></a>
   <%= text_area_tag(name_to_param("#{name_prefix}description"), metadata_association['Description'], rows: 8, class: 'validate') %>
 
 </div>

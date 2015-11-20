@@ -2,19 +2,19 @@
   <!-- Short Name [r] -->
   <div class="row">
     <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/ShortName"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/ShortName"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), project['ShortName'], class: 'full-width validate') %>
     </div>
     <div class="col-6">
       <!-- Long Name -->
-      <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/LongName"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/LongName"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), project['LongName'], class: 'full-width validate') %>
     </div>
   </div>
   <!-- Campaign -->
   <% campaigns = project['Campaigns'] || [nil] # [nil] creates at least one field %>
   <div class="multiple simple-multiple campaigns">
-    <label for="<%= remove_pipes(name_prefix) %>campaigns_">Campaign</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/Campaigns"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>campaigns_">Campaign</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/Campaigns"></i></a>
 
   <% campaigns.each_with_index do |campaign, index| %>
     <div class="multiple-item multiple-item-<%= index %>">
@@ -30,13 +30,13 @@
 
   <!-- StartDate -->
   <div class="col-6">
-    <label for="<%= remove_pipes(name_prefix) %>start_date">Start Date</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/StartDate"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>start_date">Start Date</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/StartDate"></i></a>
     <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), project['StartDate'], class: 'full-width validate mmt-date-time') %>
   </div>
 
   <div class="col-6">
     <!-- EndDate -->
-    <label for="<%= remove_pipes(name_prefix) %>end_date">End Date</label><a href="#help-modal" class="display-help-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/EndDate"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>end_date">End Date</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/EndDate"></i></a>
     <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), project['EndDate'], class: 'full-width validate mmt-date-time') %>
   </div>
 </div>

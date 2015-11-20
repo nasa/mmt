@@ -40,8 +40,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  config.include AlertConfirmer, type: :feature
-
   # Lines below taken from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
   config.use_transactional_fixtures = false
 

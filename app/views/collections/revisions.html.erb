@@ -44,18 +44,19 @@
           </thead>
           <tbody>
             <% @revisions.each_with_index do |revision, index| %>
+              <% revision_id = revision['meta']['revision-id'] %>
               <tr class='<%= cycle("alt", "") %>'>
                 <td>
-                  <% title = "View revision #{revision['meta']['revision-id']}" %>
-                  <%= revision['meta']['revision-id'] %> -
+                  <% title = "View revision #{revision_id}" %>
+                  <%= revision_id %> -
                   <% if revision['meta']['deleted'] == true %>
                     Deleted
                   <% elsif index == 0 %>
                     Published
-                    <%= link_to 'View', collection_path(revision_id: revision['meta']['revision-id']), title: title %>
+                    <%= link_to 'View', collection_path(revision_id: revision_id), title: title %>
                   <% else %>
                     Revision
-                    <%= link_to 'View', collection_path(revision_id: revision['meta']['revision-id']), title: title %>
+                    <%= link_to 'View', collection_path(revision_id: revision_id), title: title %>
                   <% end %>
                 </td>
                 <td>
@@ -83,7 +84,14 @@
                   <% end %>
 
                   <% unless index == 0 || revision['meta']['deleted'] == true %>
-                    <%= link_to phrase, revert_collection_path(revision_id: revision['meta']['revision-id']), data: { confirm: confirm_phrase } %>
+                    <%= link_to phrase, "#delete-revisions-modal-#{revision_id}", class: 'display-modal' %>
+                    <div id="delete-revisions-modal-<%= revision_id %>" class="modal-content">
+                      <p><%= confirm_phrase %></p>
+                      <p>
+                        <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
+                        <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'btn btn-blue' %>
+                      </p>
+                    </div>
                   <% end %>
                 </td>
               </tr>

@@ -1,8 +1,4 @@
 $(document).ready(function() {
-  $('#change-context').leanModal({
-    top: 200,
-    overlay: 0.6
-  });
 
   $('#select-provider').on('change', function() {
     if (this.value !== '') {

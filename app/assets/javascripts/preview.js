@@ -1,13 +1,3 @@
-$(document).ready(function() {
-
-  $('#legend').leanModal({
-    top: 200,
-    overlay: 0.6,
-    closeButton: '.modal-close'
-  });
-
-});
-
 // Functions used for drawing on the preview page's map image
 
 function drawPoint(x, y, dotSize, highlightColor) {
