@@ -9,7 +9,10 @@
           <i class="fa fa-angle-down toggle"></i>
           <%= options[:title] || type.titleize %> <%= index + 1 %>
           <div class="actions">
-            <a class="remove"><i class="fa fa-times-circle"></i></a>
+            <a class="remove">
+              <i class="fa fa-times-circle"></i>
+              <span class="hidden">Remove <%= options[:title] || type.titleize %></span>
+            </a>
           </div>
         </div>
         <div class="accordion-body">

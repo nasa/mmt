@@ -1,7 +1,15 @@
 <!-- DOI -->
-<label for="<%= remove_pipes(name_prefix) %>doi" class="icon-required">DOI</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DoiType/properties/DOI"></i></a>
+<label for="<%= remove_pipes(name_prefix) %>doi" class="icon-required">DOI</label>
+<a href="#help-modal" class="display-modal" tabindex="-1">
+  <i class="fa fa-info-circle" data-help-path="definitions/DoiType/properties/DOI"></i>
+  <span class="hidden">Help modal for DOI</span>
+</a>
 <%= text_area_tag name_to_param("#{name_prefix}doi"), doi['DOI'], rows: 8, class: 'validate' %>
 
 <!-- Authority -->
-<label for="<%= remove_pipes(name_prefix) %>authority">Authority</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/DoiType/properties/Authority"></i></a>
+<label for="<%= remove_pipes(name_prefix) %>authority">Authority</label>
+<a href="#help-modal" class="display-modal" tabindex="-1">
+  <i class="fa fa-info-circle" data-help-path="definitions/DoiType/properties/Authority"></i>
+  <span class="hidden">Help modal for authority</span>
+</a>
 <%= text_field_tag name_to_param("#{name_prefix}authority"), doi['Authority'], class: 'half-width validate' %>

@@ -6,28 +6,28 @@
   <div class="accordion-body">
     <ul class="spatial-extent-preview">
 
-      <h4>Spatial Extent <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-extent'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Spatial Extent <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="hidden">Edit Spatial Extent</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-extent'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['SpatialExtent'],
           name: 'SpatialExtent',
           type: TypesHelper::SpatialExtentType
       } %>
 
-      <h4>Tiling Identification System <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'tiling-identification-system'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Tiling Identification System <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="hidden">Edit Tiling Identification System</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'tiling-identification-system'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['TilingIdentificationSystem'],
           name: 'TilingIdentificationSystem',
           type: TypesHelper::TilingIdentificationSystemType
       } %>
 
-      <h4>Spatial Information <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-representation-information'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Spatial Information <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="hidden">Edit Spatial Information</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-representation-information'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['SpatialInformation'],
           name: 'SpatialInformation',
           type: TypesHelper::SpatialInformationType
       } %>
 
-      <h4>Spatial Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-keywords'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Spatial Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="hidden">Edit Spatial Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-keywords'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'SpatialKeywords',
           hash_for_key: metadata

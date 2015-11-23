@@ -4,7 +4,11 @@
   <div class="accordion-body">
     <div class="row taller">
       <div class="col-12">
-        <label for="draft_iso_topic_categories_">ISO Topic Categories</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i></a>
+        <label for="draft_iso_topic_categories_">ISO Topic Categories</label>
+        <a href="#help-modal" class="display-modal" tabindex="-1">
+          <i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i>
+          <span class="hidden">Help modal for ISO topic categories</span>
+        </a>
         <%= select_tag "#{name_to_param('draft_|iso_topic_categories|')}[]", options_for_select(DraftsHelper::ISOTopicCategoriesOptions, draft.draft['ISOTopicCategories']), class: 'multi-select', size: 4, multiple: 'true' %>
       </div>
     </div>
@@ -24,7 +28,10 @@
               <% science_keywords.each do |science_keyword| %>
                 <li>
                   <%= keyword_string(science_keyword) %>
-                  <a class="remove"><i class="fa fa-times-circle"></i></a>
+                  <a class="remove">
+                    <i class="fa fa-times-circle"></i>
+                    <span class="hidden">Remove <%= keyword_string(science_keyword) %></span>
+                  </a>
                   <%= hidden_field_tag("draft[science_keywords][]", keyword_string(science_keyword)) %>
                 </li>
               <% end %>
@@ -54,7 +61,11 @@
     <!-- AncillaryKeyword -->
     <div class="row taller">
       <div class="col-12">
-        <label for="ancillary_keyword">Ancillary Keywords</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/AncillaryKeywords"></i></a>
+        <label for="ancillary_keyword">Ancillary Keywords</label>
+        <a href="#help-modal" class="display-modal" tabindex="-1">
+          <i class="fa fa-info-circle" data-help-path="properties/AncillaryKeywords"></i>
+          <span class="hidden">Help modal for ancillay keywords</span>
+        </a>
         <div class="row">
           <% ancillary_keywords = draft.draft['AncillaryKeywords'] || [nil] # [nil] creates at least one field %>
           <div class="multiple simple-multiple ancillary-keywords">
@@ -62,7 +73,10 @@
             <% ancillary_keywords.each_with_index do |ancillary_keyword, index| %>
               <div class="multiple-item multiple-item-<%= index %>">
                 <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate') %>
-                <a class="remove"><i class="fa fa-times-circle"></i></a>
+                <a class="remove">
+                  <i class="fa fa-times-circle"></i>
+                  <span class="hidden">Remove <%= keyword_string(ancillary_keyword) %></span>
+                </a>
                 <div class="actions">
                   <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another Ancillary Keyword</button>
                 </div>
@@ -81,7 +95,11 @@
     <!-- AdditionalAttribute -->
     <div class="row taller">
       <div class="col-12">
-        <label>Additional Attributes</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/AdditionalAttributes"></i></a>
+        <label>Additional Attributes</label>
+        <a href="#help-modal" class="display-modal" tabindex="-1">
+          <i class="fa fa-info-circle" data-help-path="properties/AdditionalAttributes"></i>
+          <span class="hidden">Help modal for additional attributes</span>
+        </a>
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'additional_attribute',
             values: draft.draft['AdditionalAttributes'] || [{}],

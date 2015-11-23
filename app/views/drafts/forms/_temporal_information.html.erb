@@ -23,7 +23,11 @@
   <div class="accordion-body">
     <div class="row">
       <div class="col-12">
-        <label for="draft_temporal_keywords_">Temporal Keywords</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i></a>
+        <label for="draft_temporal_keywords_">Temporal Keywords</label>
+        <a href="#help-modal" class="display-modal" tabindex="-1">
+          <i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i>
+          <span class="hidden">Help modal for temporal keywords</span>
+        </a>
         <%= select_tag "#{name_to_param('draft_|temporal_keywords|')}[]", options_for_select(@temporal_keywords, draft.draft['TemporalKeywords']), class: 'multi-select', size: 4, multiple: 'true' %>
       </div>
     </div>

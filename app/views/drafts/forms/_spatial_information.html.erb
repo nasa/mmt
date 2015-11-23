@@ -38,7 +38,11 @@
   <div class="accordion-body">
     <div class="row">
       <div class="col-12">
-        <label class="main-field">Spatial Representation Information</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/SpatialInformation"></i></a>
+        <label class="main-field">Spatial Representation Information</label>
+        <a href="#help-modal" class="display-modal" tabindex="-1">
+          <i class="fa fa-info-circle" data-help-path="properties/SpatialInformation"></i>
+          <span class="hidden">Help modal for spatial representation information</span>
+        </a>
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'spatial_information',
             values: draft.draft['SpatialInformation'] || {},
@@ -63,7 +67,10 @@
               <% spatial_keywords.each do |spatial_keyword| %>
                 <li>
                   <%= spatial_keyword %>
-                  <a class="remove"><i class="fa fa-times-circle"></i></a>
+                  <a class="remove">
+                    <i class="fa fa-times-circle"></i>
+                    <span class="hidden">Remove <%= spatial_keyword %></span>
+                  </a>
                   <%= hidden_field_tag("draft[spatial_keywords][]", spatial_keyword) %>
                 </li>
               <% end %>
