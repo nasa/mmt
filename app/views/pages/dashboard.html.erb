@@ -24,14 +24,14 @@
           <div class="question-group">
             <div class="row">
               <%= radio_button_tag(:type, "new-collection", true) %>
-              <%= image_tag "collection.png" %>
+              <%= image_tag "collection.png", alt: "" %>
               <label for="type_new-collection">
                 New Collection Record
               </label>
             </div>
             <div class="row">
               <%= radio_button_tag(:type, "new-service", nil, disabled: true) %>
-              <!-- <%= image_tag "services.png" %> -->
+              <!-- <%= image_tag "services.png", alt: "" %> -->
               <label class="disabled" for="type_new-service">New Service Record</label><span class="coming-soon">Coming Soon</span>
             </div>
           </div>
