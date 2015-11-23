@@ -50,7 +50,8 @@
             <%= select_tag "on_or_after", options_for_select({'On or After' => 'on_or_after', 'On or Before' => 'on_or_before', 'On' => 'on', 'After' => 'after', 'Before' => 'before' }, @query['on_or_after']), class: 'single-select disabled', 'aria-label' => 'On or After', disabled: true %>
           </div>
           <div class="col-4">
-            <input type="date" class="disabled" disabled></input>
+            <input type="date" id="modified-date" class="disabled" disabled></input>
+            <label class="hidden" for="modified-date">Modified Date</label>
           </div>
         </div>
         <div class="row">
@@ -58,7 +59,8 @@
             <%= select_tag "author_type", options_for_select({ 'Created by' => '', 'Modified by' => 'modified_by', 'Deleted by' => 'deleted_by' }, @query['author_type']), class: 'single-select disabled', 'aria-label' => 'Author Type', disabled: true %>
           </div>
           <div class="col-8">
-            <input type="text" class="disabled" disabled></input>
+            <input id="author-name" type="text" class="disabled" disabled></input>
+            <label for="author-name" class="hidden">Created By</label>
           </div>
         </div>
       </fieldset>
@@ -66,9 +68,11 @@
       <fieldset>
         <legend>Search Term</legend>
         <div class="col-4">
-          <%= select_tag "search_term_type", options_for_select([ ['Select an option', ''], ['Entry ID', 'entry_id'], ['CMR Concept ID', 'concept_id'], ['Entry Title', 'entry_title'] ], @query['search_term_type']) %>
+          <%= select_tag "search-term-type", options_for_select([ ['Select an option', ''], ['Entry ID', 'entry_id'], ['CMR Concept ID', 'concept_id'], ['Entry Title', 'entry_title'] ], @query['search_term_type']) %>
+          <label for="search-term-type" class="hidden">Search Term Type</label>
         </div>
         <%= text_field_tag('search_term', @query['search_term'], 'aria-label' => 'Search Term') %>
+
         <p class="form-description">Enter an Entry ID, CMR Concept ID, or Entry Title</p>
         <hr>
         <!-- <div class="row">
