@@ -13,11 +13,15 @@ class DraftsController < ApplicationController
   def show
     schema = 'lib/assets/schemas/umm-c-json-schema.json'
 
-    # Setup URI validation correctly
-    format_proc = lambda do |value|
+    # Setup URI and date-time validation correctly
+    uri_format_proc = lambda do |value|
       raise JSON::Schema::CustomFormatError.new('must be a valid URI') unless value.match URI_REGEX
     end
-    JSON::Validator.register_format_validator('uri', format_proc)
+    JSON::Validator.register_format_validator('uri', uri_format_proc)
+    date_time_format_proc = lambda do |value|
+      raise JSON::Schema::CustomFormatError.new('must be a valid RFC3339 date/time string') unless value.match DATE_TIME_REGEX
+    end
+    JSON::Validator.register_format_validator('date-time', date_time_format_proc)
 
     errors = JSON::Validator.fully_validate(schema, @draft.draft)
     errors = Array.wrap(errors)
@@ -95,7 +99,7 @@ class DraftsController < ApplicationController
     # These fields currently break in CMR when trying to ingest
     draft.delete('Distributions')
 
-    translated_metadata, @errors = translate_metadata(draft)
+    translated_metadata, _errors = translate_metadata(draft)
 
     if translated_metadata && !translated_metadata.include?('errors')
       ingested = cmr_client.ingest_collection(translated_metadata, @current_user.provider_id, @draft.native_id, token)
