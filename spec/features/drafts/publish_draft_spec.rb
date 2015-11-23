@@ -73,4 +73,18 @@ describe 'Publishing draft records', js: true, reset_provider: true do
       end
     end
   end
+
+  context 'when publishing an incomplete record' do
+    before do
+      login
+      draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
+      visit draft_path(draft)
+      click_on 'Publish'
+    end
+
+    it 'displays a message to the user' do
+      message = 'This draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.'
+      expect(page).to have_content(message)
+    end
+  end
 end

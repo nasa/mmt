@@ -18,7 +18,17 @@
   <div class="row row-content">
     <section class="action">
       <div class="cta">
-        <%= link_to 'Publish', draft_publish_path(@draft), method: :post, class: 'btn btn-blue spinner', alt: 'Publish Draft' %>
+        <% if @draft.new_record? || (@errors && @errors.size > 0) %>
+          <%= link_to 'Publish', '#invalid-draft-modal', class: 'btn btn-blue display-modal', alt: 'Publish Draft' %>
+          <div id="invalid-draft-modal" class="modal-content">
+            <p>This draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
+            <p>
+              <a href="javascript:void(0)" class="btn btn-default modal-close">Ok</a>
+            </p>
+          </div>
+        <% else %>
+          <%= link_to 'Publish', draft_publish_path(@draft), method: :post, class: 'btn btn-blue spinner', alt: 'Publish Draft' %>
+        <% end %>
         <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= draft_download_path(@draft) %>" alt="Download XML">Download XML</a> |
         <%= link_to 'Delete Draft', "#delete-draft-modal", class: 'display-modal' %>
         <div id="delete-draft-modal" class="modal-content">
