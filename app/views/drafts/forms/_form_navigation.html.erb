@@ -6,7 +6,7 @@
   <div class="col-7 form-nav">
     <label for="next-section">Save &amp; Jump To: </label>
 
-    <%= select_tag 'next_section', options_for_select(draft_forms.map{|form| [form[:form_partial_name].titleize, form[:form_partial_name]]}, draft_form), class: 'next-section' %>
+    <%= select_tag 'next-section', options_for_select(draft_forms.map{|form| [form[:form_partial_name].titleize, form[:form_partial_name]]}, draft_form), class: 'next-section' %>
   </div>
 
   <div class="col-2">
