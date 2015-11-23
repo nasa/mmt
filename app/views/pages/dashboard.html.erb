@@ -23,29 +23,29 @@
         <%= form_tag(new_record_path, method: 'get', enforce_utf8: false) do %>
           <div class="question-group">
             <div class="row">
-              <%= radio_button_tag(:type, "new_collection", true) %>
+              <%= radio_button_tag(:type, "new-collection", true) %>
               <%= image_tag "collection.png" %>
-              <label for="type_new_collection">
+              <label for="type_new-collection">
                 New Collection Record
               </label>
             </div>
             <div class="row">
-              <%= radio_button_tag(:type, "new_service", nil, disabled: true) %>
+              <%= radio_button_tag(:type, "new-service", nil, disabled: true) %>
               <!-- <%= image_tag "services.png" %> -->
-              <label class="disabled" for="new-service">New Service Record</label><span class="coming-soon">Coming Soon</span>
+              <label class="disabled" for="type_new-service">New Service Record</label><span class="coming-soon">Coming Soon</span>
             </div>
           </div>
           <div class="question-group">
             <div class="row">
-              <%= radio_button_tag(:type, "from_template", nil, disabled: true) %>
-              <label class="disabled" for="from-template">From Template</label><span class="coming-soon">Coming Soon</span>
+              <%= radio_button_tag(:type, "from-template", nil, disabled: true) %>
+              <label class="disabled" for="type_from-template">From Template</label><span class="coming-soon">Coming Soon</span>
               <!-- <select name="select-template" class="single-select">
                 <option value="Select Template">Select Template</option>
               </select> -->
             </div>
             <div class="row">
-              <%= radio_button_tag(:type, "blank_record", nil, disabled: true) %>
-              <label class="disabled" for="blank-record">From Blank Record</label><span class="coming-soon">Coming Soon</span>
+              <%= radio_button_tag(:type, "blank-record", nil, disabled: true) %>
+              <label class="disabled" for="type_blank-record">From Blank Record</label><span class="coming-soon">Coming Soon</span>
             </div>
             <div class="row">
               <p><strong>OR</strong> use search to find an existing record to use as a basis for a new record</p>
