@@ -15,7 +15,7 @@ class PagesController < ApplicationController
 
   def new_record
     case params[:type]
-    when 'new_collection'
+    when 'new-collection'
       redirect_to new_draft_path
     else
       redirect_to dashboard_path

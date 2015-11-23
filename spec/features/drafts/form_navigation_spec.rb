@@ -8,7 +8,7 @@ describe 'Draft form navigation' do
   before :each do
     login
     visit '/dashboard'
-    choose 'type_new_collection'
+    choose 'type_new-collection'
     click_button 'Create Record'
   end
 
