@@ -119,27 +119,22 @@ module Helpers
     def add_organization
       fill_in 'Short Name', with: 'ORG_SHORT'
       fill_in 'Long Name', with: 'Organization Long Name'
-      fill_in 'Uuid', with: 'de135797-8539-4c3a-bc20-17a83d75aa49'
     end
 
     def add_person
       fill_in 'First Name', with: 'First Name'
       fill_in 'Middle Name', with: 'Middle Name'
       fill_in 'Last Name', with: 'Last Name'
-      fill_in 'Uuid', with: '351bb40b-0287-44ce-ba73-83e47f4945f8'
     end
 
     def add_responsibilities(type = nil)
-      within '.multiple.responsibilities' do
+      within ".multiple.#{type}" do
         select 'Resource Provider', from: 'Role'
         case type
-        when 'organization'
+        when 'organizations'
           add_organization
         when 'personnel'
           add_person
-        else
-          find('.responsibility-picker.organization').click
-          add_organization
         end
 
         fill_in 'Service Hours', with: '9-5, M-F'
@@ -149,11 +144,11 @@ module Helpers
         add_addresses
         add_related_urls
 
-        click_on "Add another #{(type || 'responsibility').titleize}"
+        click_on "Add another #{(type || 'responsibility').singularize.titleize}"
         within '.multiple-item.accordion.multiple-item-1' do
           select 'Owner', from: 'Role'
           case type
-          when 'organization'
+          when 'organizations'
             add_organization
           when 'personnel'
             add_person
@@ -228,7 +223,7 @@ module Helpers
 
     def add_related_urls(single = nil)
       within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
-        within '.multiple.related-url-url' do
+        within '.multiple.urls' do
           within '.multiple-item-0' do
             find('.url').set 'http://example.com'
             click_on 'Add another URL'
@@ -256,7 +251,7 @@ module Helpers
           click_on 'Add another Related Url'
 
           within '.multiple-item-1' do
-            within '.multiple.related-url-url' do
+            within '.multiple.urls' do
               within '.multiple-item-0' do
                 find('.url').set 'http://example.com/1'
               end
@@ -267,7 +262,7 @@ module Helpers
     end
 
     def add_resource_citation
-      within '.multiple.resource-citations' do
+      within '.multiple.collection-citations' do
         fill_in 'Version', with: 'v1'
         fill_in 'draft_collection_citations_0_title', with: 'Citation title' # Title
         fill_in 'Creator', with: 'Citation creator'
@@ -283,7 +278,7 @@ module Helpers
         fill_in 'Authority', with: 'Citation DOI Authority'
         add_related_urls(true)
 
-        click_on 'Add another Resource Citation'
+        click_on 'Add another Collection Citation'
         within '.multiple-item-1' do
           fill_in 'Version', with: 'v2'
           fill_in 'draft_collection_citations_1_title', with: 'Citation title 1' # Title
@@ -374,7 +369,7 @@ module Helpers
         fill_in "draft_platforms_#{platform}_instruments_0_long_name", with: 'Instrument long name'
         fill_in "draft_platforms_#{platform}_instruments_0_technique", with: 'Instrument technique'
         fill_in 'Number Of Sensors', with: 2468
-        within '.multiple.operational-mode' do
+        within '.multiple.operational-modes' do
           within '.multiple-item-0' do
             find('.operational-mode').set 'Instrument mode 1'
             click_on 'Add another Operational Mode'
@@ -428,8 +423,6 @@ module Helpers
       page.execute_script script
 
       within first('.multiple.bounding-rectangles') do
-        fill_in 'Longitude', with: '0.0'
-        fill_in 'Latitude', with: '0.0'
         fill_in 'W', with: '-180.0'
         fill_in 'N', with: '90.0'
         fill_in 'E', with: '180.0'
@@ -449,10 +442,6 @@ module Helpers
       page.execute_script script
 
       within first('.multiple.g-polygons') do
-        within '.point' do
-          fill_in 'Longitude', with: '0.0'
-          fill_in 'Latitude', with: '0.0'
-        end
         within '.boundary .multiple.points' do
           fill_in 'Longitude', with: '10.0'
           fill_in 'Latitude', with: '10.0'
@@ -524,10 +513,6 @@ module Helpers
       page.execute_script script
 
       within first('.multiple.lines') do
-        within '.point' do
-          fill_in 'Longitude', with: '25.0'
-          fill_in 'Latitude', with: '25.0'
-        end
         within '.multiple.points' do
           fill_in 'Longitude', with: '24.0'
           fill_in 'Latitude', with: '24.0'
@@ -539,10 +524,6 @@ module Helpers
         end
         click_on 'Add another Line'
         within all('.multiple-item-1').last do
-          within '.point' do
-            fill_in 'Longitude', with: '25.0'
-            fill_in 'Latitude', with: '25.0'
-          end
           within '.multiple.points' do
             fill_in 'Longitude', with: '24.0'
             fill_in 'Latitude', with: '26.0'

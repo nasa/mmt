@@ -1,14 +1,4 @@
 <div class="row sub-fields">
-  <!-- CenterPoint -->
-  <label>Center Point</label>
-  <%= render partial: 'drafts/forms/type', locals: {
-      type: 'point',
-      values: g_polygon['CenterPoint'] || {},
-      name_prefix: "#{name_prefix}|center_point|_",
-      multiple: false,
-      options: {} } %>
-
-
   <!-- Boundary -->
   <label class="icon-required">Boundary</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/BoundaryType"></i></a>
   <%= render partial: 'drafts/forms/type', locals: {

@@ -201,8 +201,6 @@ OCEAN > ATLANTIC OCEAN')
         expect(page).to have_content('Zone Identifier: Zone ID')
         expect(page).to have_content('Coordinate System: Cartesian')
 
-        expect(page).to have_content('Longitude: 0.0')
-        expect(page).to have_content('Latitude: 0.0')
         expect(page).to have_content('West Bounding Coordinate: -180.0')
         expect(page).to have_content('North Bounding Coordinate: 90.0')
         expect(page).to have_content('East Bounding Coordinate: 180.0')
@@ -250,8 +248,6 @@ OCEAN > ATLANTIC OCEAN')
               expect(page).to have_no_checked_field('Geodetic')
               # BoundingRectangles
               within '.multiple.bounding-rectangles' do
-                expect(page).to have_field('Longitude', with: '0.0')
-                expect(page).to have_field('Latitude', with: '0.0')
                 expect(page).to have_field('W', with: '-180.0')
                 expect(page).to have_field('N', with: '90.0')
                 expect(page).to have_field('E', with: '180.0')
@@ -341,10 +337,10 @@ OCEAN > ATLANTIC OCEAN')
               expect(page).to have_no_checked_field('Geodetic')
               # GPolygons
               within '.multiple.g-polygons > .multiple-item-0' do
-                within '.point' do
-                  expect(page).to have_field('Longitude', with: '0.0')
-                  expect(page).to have_field('Latitude', with: '0.0')
-                end
+                # within '.point' do
+                #   expect(page).to have_field('Longitude', with: '0.0')
+                #   expect(page).to have_field('Latitude', with: '0.0')
+                # end
                 within '.boundary .multiple.points' do
                   expect(page).to have_field('Longitude', with: '10.0')
                   expect(page).to have_field('Latitude', with: '10.0')
@@ -439,8 +435,6 @@ OCEAN > ATLANTIC OCEAN')
         expect(page).to have_content('Coordinate System: Cartesian')
 
         # lines
-        expect(page).to have_content('Longitude: 25.0')
-        expect(page).to have_content('Latitude: 25.0')
         expect(page).to have_content('Longitude: 24.0')
         expect(page).to have_content('Latitude: 24.0')
         expect(page).to have_content('Longitude: 26.0')
@@ -470,10 +464,6 @@ OCEAN > ATLANTIC OCEAN')
               expect(page).to have_no_checked_field('Geodetic')
               # Lines
               within '.multiple.lines > .multiple-item-0' do
-                within '.point' do
-                  expect(page).to have_field('Longitude', with: '25.0')
-                  expect(page).to have_field('Latitude', with: '25.0')
-                end
                 within '.multiple.points > .multiple-item-0' do
                   expect(page).to have_field('Longitude', with: '24.0')
                   expect(page).to have_field('Latitude', with: '24.0')
@@ -484,10 +474,6 @@ OCEAN > ATLANTIC OCEAN')
                 end
               end
               within '.multiple.lines > .multiple-item-1' do
-                within '.point' do
-                  expect(page).to have_field('Longitude', with: '25.0')
-                  expect(page).to have_field('Latitude', with: '25.0')
-                end
                 within '.multiple.points > .multiple-item-0' do
                   expect(page).to have_field('Longitude', with: '24.0')
                   expect(page).to have_field('Latitude', with: '26.0')

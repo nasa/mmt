@@ -27,12 +27,17 @@ describe 'Data identification form', js: true do
       add_dates
 
       # Organization
-      within '.organization' do
-        add_responsibilities('organization')
+      within '#organizations' do
+        add_responsibilities('organizations')
       end
       # Personnel
-      within '.personnel' do
+      within '#personnel' do
         add_responsibilities('personnel')
+      end
+
+      # CollectionDataType
+      within '#collection-data-type' do
+        select 'Other', from: 'Collection Data Type'
       end
 
       # Processing level
@@ -162,9 +167,6 @@ describe 'Data identification form', js: true do
 
       expect(page).to have_content('No Temporal Coverages found')
       expect(page).to have_content('No Spatial Coordinates found')
-
-      expect(page).to have_content('de135797-8539-4c3a-bc20-17a83d75aa49')
-      expect(page).to have_content('351bb40b-0287-44ce-ba73-83e47f4945f8')
     end
 
     context 'when returning to the form' do
@@ -195,210 +197,205 @@ describe 'Data identification form', js: true do
         end
 
         #### Organization
-        within '.row.organization' do
-          within '.multiple.responsibilities > .multiple-item-0' do
-            expect(page).to have_field('Role', with: 'RESOURCEPROVIDER')
-            expect(page).to have_field('Short Name', with: 'ORG_SHORT')
-            expect(page).to have_field('Long Name', with: 'Organization Long Name')
-            expect(page).to have_field('Uuid', with: 'de135797-8539-4c3a-bc20-17a83d75aa49')
-            expect(page).to have_field('Service Hours', with: '9-5, M-F')
-            expect(page).to have_field('Contact Instructions', with: 'Email only')
-            within '.multiple.contacts' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example@example.com')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example2@example.com')
-              end
+        within '.multiple.organizations > .multiple-item-0' do
+          expect(page).to have_field('Role', with: 'RESOURCEPROVIDER')
+          expect(page).to have_field('Short Name', with: 'ORG_SHORT')
+          expect(page).to have_field('Long Name', with: 'Organization Long Name')
+          expect(page).to have_field('Service Hours', with: '9-5, M-F')
+          expect(page).to have_field('Contact Instructions', with: 'Email only')
+          within '.multiple.contacts' do
+            within '.multiple-item-0' do
+              expect(page).to have_field('Type', with: 'Email')
+              expect(page).to have_field('Value', with: 'example@example.com')
             end
-            within '.multiple.addresses > .multiple-item-0' do
-              expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
-              expect(page).to have_selector('input.street-address[value="Room 203"]')
-              expect(page).to have_field('City', with: 'Washington')
-              expect(page).to have_field('State / Province', with: 'DC')
-              expect(page).to have_field('Postal Code', with: '20546')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.addresses > .multiple-item-1' do
-              expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
-              expect(page).to have_field('City', with: 'Greenbelt')
-              expect(page).to have_field('State / Province', with: 'MD')
-              expect(page).to have_field('Postal Code', with: '20771')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.related-urls > .multiple-item-0' do
-              expect(page).to have_selector('input.url[value="http://example.com"]')
-              expect(page).to have_selector('input.url[value="http://another-example.com"]')
-              expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Protocol', with: 'FTP')
-              expect(page).to have_field('Mime Type', with: 'text/html')
-              expect(page).to have_field('Caption', with: 'Example Caption')
-              expect(page).to have_field('Title', with: 'Example Title')
-              expect(page).to have_field('Size', with: '42.0')
-              expect(page).to have_field('Unit', with: 'MB')
-              expect(page).to have_field('Type', with: 'Type')
-              expect(page).to have_field('Subtype', with: 'Subtype')
-            end
-            within '.multiple.related-urls> .multiple-item-1' do
-              expect(page).to have_selector('input.url[value="http://example.com/1"]')
+            within '.multiple-item-1' do
+              expect(page).to have_field('Type', with: 'Email')
+              expect(page).to have_field('Value', with: 'example2@example.com')
             end
           end
-          within '.multiple.responsibilities > .multiple-item-1' do
-            expect(page).to have_field('Role', with: 'OWNER')
-            expect(page).to have_field('Short Name', with: 'ORG_SHORT')
-            expect(page).to have_field('Long Name', with: 'Organization Long Name')
-            expect(page).to have_field('Uuid', with: 'de135797-8539-4c3a-bc20-17a83d75aa49')
-            expect(page).to have_field('Service Hours', with: '10-2, M-W')
-            expect(page).to have_field('Contact Instructions', with: 'Email only')
-            within '.multiple.contacts' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example@example.com')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example2@example.com')
-              end
+          within '.multiple.addresses > .multiple-item-0' do
+            expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
+            expect(page).to have_selector('input.street-address[value="Room 203"]')
+            expect(page).to have_field('City', with: 'Washington')
+            expect(page).to have_field('State / Province', with: 'DC')
+            expect(page).to have_field('Postal Code', with: '20546')
+            expect(page).to have_field('Country', with: 'United States')
+          end
+          within '.multiple.addresses > .multiple-item-1' do
+            expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
+            expect(page).to have_field('City', with: 'Greenbelt')
+            expect(page).to have_field('State / Province', with: 'MD')
+            expect(page).to have_field('Postal Code', with: '20771')
+            expect(page).to have_field('Country', with: 'United States')
+          end
+          within '.multiple.related-urls > .multiple-item-0' do
+            expect(page).to have_selector('input.url[value="http://example.com"]')
+            expect(page).to have_selector('input.url[value="http://another-example.com"]')
+            expect(page).to have_field('Description', with: 'Example Description')
+            expect(page).to have_field('Protocol', with: 'FTP')
+            expect(page).to have_field('Mime Type', with: 'text/html')
+            expect(page).to have_field('Caption', with: 'Example Caption')
+            expect(page).to have_field('Title', with: 'Example Title')
+            expect(page).to have_field('Size', with: '42.0')
+            expect(page).to have_field('Unit', with: 'MB')
+            expect(page).to have_field('Type', with: 'Type')
+            expect(page).to have_field('Subtype', with: 'Subtype')
+          end
+          within '.multiple.related-urls> .multiple-item-1' do
+            expect(page).to have_selector('input.url[value="http://example.com/1"]')
+          end
+        end
+        within '.multiple.organizations > .multiple-item-1' do
+          expect(page).to have_field('Role', with: 'OWNER')
+          expect(page).to have_field('Short Name', with: 'ORG_SHORT')
+          expect(page).to have_field('Long Name', with: 'Organization Long Name')
+          expect(page).to have_field('Service Hours', with: '10-2, M-W')
+          expect(page).to have_field('Contact Instructions', with: 'Email only')
+          within '.multiple.contacts' do
+            within '.multiple-item-0' do
+              expect(page).to have_field('Type', with: 'Email')
+              expect(page).to have_field('Value', with: 'example@example.com')
             end
-            within '.multiple.addresses > .multiple-item-0' do
-              expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
-              expect(page).to have_selector('input.street-address[value="Room 203"]')
-              expect(page).to have_field('City', with: 'Washington')
-              expect(page).to have_field('State / Province', with: 'DC')
-              expect(page).to have_field('Postal Code', with: '20546')
-              expect(page).to have_field('Country', with: 'United States')
+            within '.multiple-item-1' do
+              expect(page).to have_field('Type', with: 'Email')
+              expect(page).to have_field('Value', with: 'example2@example.com')
             end
-            within '.multiple.addresses > .multiple-item-1' do
-              expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
-              expect(page).to have_field('City', with: 'Greenbelt')
-              expect(page).to have_field('State / Province', with: 'MD')
-              expect(page).to have_field('Postal Code', with: '20771')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.related-urls > .multiple-item-0' do
-              expect(page).to have_selector('input.url[value="http://example.com"]')
-              expect(page).to have_selector('input.url[value="http://another-example.com"]')
-              expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Protocol', with: 'FTP')
-              expect(page).to have_field('Mime Type', with: 'text/html')
-              expect(page).to have_field('Caption', with: 'Example Caption')
-              expect(page).to have_field('Title', with: 'Example Title')
-              expect(page).to have_field('Size', with: '42.0')
-              expect(page).to have_field('Unit', with: 'MB')
-              expect(page).to have_field('Type', with: 'Type')
-              expect(page).to have_field('Subtype', with: 'Subtype')
-            end
-            within '.multiple.related-urls> .multiple-item-1' do
-              expect(page).to have_selector('input.url[value="http://example.com/1"]')
-            end
+          end
+          within '.multiple.addresses > .multiple-item-0' do
+            expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
+            expect(page).to have_selector('input.street-address[value="Room 203"]')
+            expect(page).to have_field('City', with: 'Washington')
+            expect(page).to have_field('State / Province', with: 'DC')
+            expect(page).to have_field('Postal Code', with: '20546')
+            expect(page).to have_field('Country', with: 'United States')
+          end
+          within '.multiple.addresses > .multiple-item-1' do
+            expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
+            expect(page).to have_field('City', with: 'Greenbelt')
+            expect(page).to have_field('State / Province', with: 'MD')
+            expect(page).to have_field('Postal Code', with: '20771')
+            expect(page).to have_field('Country', with: 'United States')
+          end
+          within '.multiple.related-urls > .multiple-item-0' do
+            expect(page).to have_selector('input.url[value="http://example.com"]')
+            expect(page).to have_selector('input.url[value="http://another-example.com"]')
+            expect(page).to have_field('Description', with: 'Example Description')
+            expect(page).to have_field('Protocol', with: 'FTP')
+            expect(page).to have_field('Mime Type', with: 'text/html')
+            expect(page).to have_field('Caption', with: 'Example Caption')
+            expect(page).to have_field('Title', with: 'Example Title')
+            expect(page).to have_field('Size', with: '42.0')
+            expect(page).to have_field('Unit', with: 'MB')
+            expect(page).to have_field('Type', with: 'Type')
+            expect(page).to have_field('Subtype', with: 'Subtype')
+          end
+          within '.multiple.related-urls> .multiple-item-1' do
+            expect(page).to have_selector('input.url[value="http://example.com/1"]')
           end
         end
 
         #### Personnel
-        within '.row.personnel' do
-          within '.multiple.responsibilities > .multiple-item-0' do
-            expect(page).to have_field('Role', with: 'RESOURCEPROVIDER')
-            expect(page).to have_field('First Name', with: 'First Name')
-            expect(page).to have_field('Middle Name', with: 'Middle Name')
-            expect(page).to have_field('Last Name', with: 'Last Name')
-            expect(page).to have_field('Uuid', with: '351bb40b-0287-44ce-ba73-83e47f4945f8')
-            expect(page).to have_field('Service Hours', with: '9-5, M-F')
-            expect(page).to have_field('Contact Instructions', with: 'Email only')
-            within '.multiple.contacts' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example@example.com')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example2@example.com')
-              end
+        within '.multiple.personnel > .multiple-item-0' do
+          expect(page).to have_field('Role', with: 'RESOURCEPROVIDER')
+          expect(page).to have_field('First Name', with: 'First Name')
+          expect(page).to have_field('Middle Name', with: 'Middle Name')
+          expect(page).to have_field('Last Name', with: 'Last Name')
+          expect(page).to have_field('Service Hours', with: '9-5, M-F')
+          expect(page).to have_field('Contact Instructions', with: 'Email only')
+          within '.multiple.contacts' do
+            within '.multiple-item-0' do
+              expect(page).to have_field('Type', with: 'Email')
+              expect(page).to have_field('Value', with: 'example@example.com')
             end
-            within '.multiple.addresses > .multiple-item-0' do
-              expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
-              expect(page).to have_selector('input.street-address[value="Room 203"]')
-              expect(page).to have_field('City', with: 'Washington')
-              expect(page).to have_field('State / Province', with: 'DC')
-              expect(page).to have_field('Postal Code', with: '20546')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.addresses > .multiple-item-1' do
-              expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
-              expect(page).to have_field('City', with: 'Greenbelt')
-              expect(page).to have_field('State / Province', with: 'MD')
-              expect(page).to have_field('Postal Code', with: '20771')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.related-urls > .multiple-item-0' do
-              expect(page).to have_selector('input.url[value="http://example.com"]')
-              expect(page).to have_selector('input.url[value="http://another-example.com"]')
-              expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Protocol', with: 'FTP')
-              expect(page).to have_field('Mime Type', with: 'text/html')
-              expect(page).to have_field('Caption', with: 'Example Caption')
-              expect(page).to have_field('Title', with: 'Example Title')
-              expect(page).to have_field('Size', with: '42.0')
-              expect(page).to have_field('Unit', with: 'MB')
-              expect(page).to have_field('Type', with: 'Type')
-              expect(page).to have_field('Subtype', with: 'Subtype')
-            end
-            within '.multiple.related-urls> .multiple-item-1' do
-              expect(page).to have_selector('input.url[value="http://example.com/1"]')
+            within '.multiple-item-1' do
+              expect(page).to have_field('Type', with: 'Email')
+              expect(page).to have_field('Value', with: 'example2@example.com')
             end
           end
-          within '.multiple.responsibilities > .multiple-item-1' do
-            expect(page).to have_field('Role', with: 'OWNER')
-            expect(page).to have_field('First Name', with: 'First Name')
-            expect(page).to have_field('Middle Name', with: 'Middle Name')
-            expect(page).to have_field('Last Name', with: 'Last Name')
-            expect(page).to have_field('Uuid', with: '351bb40b-0287-44ce-ba73-83e47f4945f8')
-            expect(page).to have_field('Service Hours', with: '10-2, M-W')
-            expect(page).to have_field('Contact Instructions', with: 'Email only')
-            within '.multiple.contacts' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example@example.com')
-              end
-              within '.multiple-item-1' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example2@example.com')
-              end
-            end
-            within '.multiple.addresses > .multiple-item-0' do
-              expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
-              expect(page).to have_selector('input.street-address[value="Room 203"]')
-              expect(page).to have_field('City', with: 'Washington')
-              expect(page).to have_field('State / Province', with: 'DC')
-              expect(page).to have_field('Postal Code', with: '20546')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.addresses > .multiple-item-1' do
-              expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
-              expect(page).to have_field('City', with: 'Greenbelt')
-              expect(page).to have_field('State / Province', with: 'MD')
-              expect(page).to have_field('Postal Code', with: '20771')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.related-urls > .multiple-item-0' do
-              expect(page).to have_selector('input.url[value="http://example.com"]')
-              expect(page).to have_selector('input.url[value="http://another-example.com"]')
-              expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Protocol', with: 'FTP')
-              expect(page).to have_field('Mime Type', with: 'text/html')
-              expect(page).to have_field('Caption', with: 'Example Caption')
-              expect(page).to have_field('Title', with: 'Example Title')
-              expect(page).to have_field('Size', with: '42.0')
-              expect(page).to have_field('Unit', with: 'MB')
-              expect(page).to have_field('Type', with: 'Type')
-              expect(page).to have_field('Subtype', with: 'Subtype')
-            end
-            within '.multiple.related-urls> .multiple-item-1' do
-              expect(page).to have_selector('input.url[value="http://example.com/1"]')
-            end
+          within '.multiple.addresses > .multiple-item-0' do
+            expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
+            expect(page).to have_selector('input.street-address[value="Room 203"]')
+            expect(page).to have_field('City', with: 'Washington')
+            expect(page).to have_field('State / Province', with: 'DC')
+            expect(page).to have_field('Postal Code', with: '20546')
+            expect(page).to have_field('Country', with: 'United States')
+          end
+          within '.multiple.addresses > .multiple-item-1' do
+            expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
+            expect(page).to have_field('City', with: 'Greenbelt')
+            expect(page).to have_field('State / Province', with: 'MD')
+            expect(page).to have_field('Postal Code', with: '20771')
+            expect(page).to have_field('Country', with: 'United States')
+          end
+          within '.multiple.related-urls > .multiple-item-0' do
+            expect(page).to have_selector('input.url[value="http://example.com"]')
+            expect(page).to have_selector('input.url[value="http://another-example.com"]')
+            expect(page).to have_field('Description', with: 'Example Description')
+            expect(page).to have_field('Protocol', with: 'FTP')
+            expect(page).to have_field('Mime Type', with: 'text/html')
+            expect(page).to have_field('Caption', with: 'Example Caption')
+            expect(page).to have_field('Title', with: 'Example Title')
+            expect(page).to have_field('Size', with: '42.0')
+            expect(page).to have_field('Unit', with: 'MB')
+            expect(page).to have_field('Type', with: 'Type')
+            expect(page).to have_field('Subtype', with: 'Subtype')
+          end
+          within '.multiple.related-urls> .multiple-item-1' do
+            expect(page).to have_selector('input.url[value="http://example.com/1"]')
           end
         end
+        within '.multiple.personnel > .multiple-item-1' do
+          expect(page).to have_field('Role', with: 'OWNER')
+          expect(page).to have_field('First Name', with: 'First Name')
+          expect(page).to have_field('Middle Name', with: 'Middle Name')
+          expect(page).to have_field('Last Name', with: 'Last Name')
+          expect(page).to have_field('Service Hours', with: '10-2, M-W')
+          expect(page).to have_field('Contact Instructions', with: 'Email only')
+          within '.multiple.contacts' do
+            within '.multiple-item-0' do
+              expect(page).to have_field('Type', with: 'Email')
+              expect(page).to have_field('Value', with: 'example@example.com')
+            end
+            within '.multiple-item-1' do
+              expect(page).to have_field('Type', with: 'Email')
+              expect(page).to have_field('Value', with: 'example2@example.com')
+            end
+          end
+          within '.multiple.addresses > .multiple-item-0' do
+            expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
+            expect(page).to have_selector('input.street-address[value="Room 203"]')
+            expect(page).to have_field('City', with: 'Washington')
+            expect(page).to have_field('State / Province', with: 'DC')
+            expect(page).to have_field('Postal Code', with: '20546')
+            expect(page).to have_field('Country', with: 'United States')
+          end
+          within '.multiple.addresses > .multiple-item-1' do
+            expect(page).to have_selector('input.street-address[value="8800 Greenbelt Road"]')
+            expect(page).to have_field('City', with: 'Greenbelt')
+            expect(page).to have_field('State / Province', with: 'MD')
+            expect(page).to have_field('Postal Code', with: '20771')
+            expect(page).to have_field('Country', with: 'United States')
+          end
+          within '.multiple.related-urls > .multiple-item-0' do
+            expect(page).to have_selector('input.url[value="http://example.com"]')
+            expect(page).to have_selector('input.url[value="http://another-example.com"]')
+            expect(page).to have_field('Description', with: 'Example Description')
+            expect(page).to have_field('Protocol', with: 'FTP')
+            expect(page).to have_field('Mime Type', with: 'text/html')
+            expect(page).to have_field('Caption', with: 'Example Caption')
+            expect(page).to have_field('Title', with: 'Example Title')
+            expect(page).to have_field('Size', with: '42.0')
+            expect(page).to have_field('Unit', with: 'MB')
+            expect(page).to have_field('Type', with: 'Type')
+            expect(page).to have_field('Subtype', with: 'Subtype')
+          end
+          within '.multiple.related-urls> .multiple-item-1' do
+            expect(page).to have_selector('input.url[value="http://example.com/1"]')
+          end
+        end
+
+        # CollectionDataType
+        expect(page).to have_field('Collection Data Type', with: 'OTHER')
 
         within '.processing-level-fields' do
           expect(page).to have_field('ID', with: 'Level 1')
@@ -406,7 +403,7 @@ describe 'Data identification form', js: true do
         end
 
         #### ResourceCitation
-        within '.multiple.resource-citations' do
+        within '.multiple.collection-citations' do
           within first('.multiple-item-0') do
             expect(page).to have_field('Version', with: 'v1')
             expect(page).to have_field('Title', with: 'Citation title')

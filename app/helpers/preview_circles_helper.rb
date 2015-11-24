@@ -57,7 +57,7 @@ module PreviewCirclesHelper
       },
       'CollectionCitations' => {
         required: false,
-        anchor: 'resource-citation'
+        anchor: 'collection-citation'
       },
       'CollectionProgress' => {
         required: false,

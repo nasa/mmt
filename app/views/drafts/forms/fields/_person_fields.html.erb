@@ -15,7 +15,3 @@
     <%= text_field_tag(name_to_param("#{name_prefix}person_|last_name|"), person['LastName'], class: 'full-width validate') %>
   </div>
 </div>
-
-<!-- Uuid -->
-<label for="<%= remove_pipes(name_prefix) %>person_uuid">Uuid</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/PersonType/properties/Uuid"></i></a>
-<%= text_field_tag(name_to_param("#{name_prefix}person_uuid"), person['Uuid'], class: 'half-width validate') %>

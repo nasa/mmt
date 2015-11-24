@@ -285,8 +285,7 @@ FactoryGirl.define do
       'Party' => {
         'OrganizationName' => {
           'ShortName' => 'ORG_SHORT 2',
-          'LongName' => 'Organization Long Name 2',
-          'Uuid' => 'de135797-8539-4c3a-bc20-17a83d75aa49'
+          'LongName' => 'Organization Long Name 2'
         },
         'ServiceHours' => '9-6, M-F',
         'ContactInstructions' => 'Email only',
@@ -334,8 +333,7 @@ FactoryGirl.define do
       'Party' => {
         'OrganizationName' => {
           'ShortName' => 'ORG_SHORT 3',
-          'LongName' => 'Organization Long Name 3',
-          'Uuid' => 'de135797-8539-4c3a-bc20-17a83d75aa49'
+          'LongName' => 'Organization Long Name 3'
         },
         'ServiceHours' => '10-2, M-W',
         'ContactInstructions' => 'Email only',
@@ -385,8 +383,7 @@ FactoryGirl.define do
         'Person' => {
           'FirstName' => 'First Name',
           'MiddleName' => 'Middle Name',
-          'LastName' => 'Last Name',
-          'Uuid' => '351bb40b-0287-44ce-ba73-83e47f4945f8'
+          'LastName' => 'Last Name'
         },
         'ServiceHours' => '9-5, M-F',
         'ContactInstructions' => 'Email only',
@@ -435,8 +432,7 @@ FactoryGirl.define do
         'Person' => {
           'FirstName' => 'First Name 2',
           'MiddleName' => 'Middle Name 2',
-          'LastName' => 'Last Name 2',
-          'Uuid' => '351bb40b-0287-44ce-ba73-83e47f4945f8'
+          'LastName' => 'Last Name 2'
         },
         'ServiceHours' => '10-2, M-W',
         'ContactInstructions' => 'Email only',
@@ -655,17 +651,11 @@ FactoryGirl.define do
         'Geometry' => {
           'CoordinateSystem' => 'CARTESIAN',
           'BoundingRectangles' => [{
-            'CenterPoint' => {
-              'Longitude' => 0.0, 'Latitude' => 0.0
-            },
             'WestBoundingCoordinate' => -180.0,
             'NorthBoundingCoordinate' => 90.0,
             'EastBoundingCoordinate' => 180.0,
             'SouthBoundingCoordinate' => -90.0
           }, {
-            'CenterPoint' => {
-              'Longitude' => 20.0, 'Latitude' => 10.0
-            },
             'WestBoundingCoordinate' => -96.9284587,
             'NorthBoundingCoordinate' => 58.968602,
             'EastBoundingCoordinate' => -56.9284587,

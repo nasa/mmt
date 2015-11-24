@@ -7,7 +7,6 @@ include DraftsHelper
 
 template_path = 'shared/preview/_data_identification.html.erb'
 
-
 describe template_path, type: :view do
   context 'when the data identification data' do
     context 'is empty' do

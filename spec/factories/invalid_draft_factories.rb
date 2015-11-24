@@ -56,8 +56,7 @@ FactoryGirl.define do
         'Party' => {
           'OrganizationName' => {
             'ShortName' => 'ORG_SHORT 2',
-            'LongName' => 'Organization Long Name 2',
-            'Uuid' => 'de135797-8539-'
+            'LongName' => 'Organization Long Name 2'
           }
         }
       }])
@@ -91,8 +90,7 @@ def all_required_fields
       'Party' => {
         'OrganizationName' => {
           'ShortName' => 'ORG_SHORT 2',
-          'LongName' => 'Organization Long Name 2',
-          'Uuid' => 'de135797-8539-4c3a-bc20-17a83d75aa49'
+          'LongName' => 'Organization Long Name 2'
         }
       }
     }],

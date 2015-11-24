@@ -8,6 +8,8 @@ $(document).ready ->
     simple = $(this).hasClass('new-simple')
     topMultiple = $(this).closest('.multiple')
 
+    type = $(topMultiple).attr('class').split(' ').pop().replace(/-/g, '_')
+
     multipleItem = topMultiple.children('.multiple-item:last')
     newDiv = multipleItem.clone(true)
 
@@ -20,7 +22,7 @@ $(document).ready ->
       $.each $(newDiv).find('select, input, textarea'), (index, field) ->
         $(field).val ''
 
-      newDiv = incrementElementIndex(newDiv, multipleIndex, true)
+      newDiv = incrementElementIndex(newDiv, multipleIndex, true, type)
       $(newDiv).appendTo topMultiple
     else
       # multiple-item is a collection of fields
@@ -31,7 +33,7 @@ $(document).ready ->
           if index2 > 0
             $(this).remove()
 
-      newDiv = incrementElementIndex(newDiv, multipleIndex, false)
+      newDiv = incrementElementIndex(newDiv, multipleIndex, false, type)
       $(newDiv).insertAfter multipleItem
 
       # close last accordion and open all new accordions
@@ -61,15 +63,15 @@ $(document).ready ->
 
     e.stopImmediatePropagation()
 
-  incrementElementIndex = (newDiv, multipleIndex, simple) ->
+  incrementElementIndex = (newDiv, multipleIndex, simple, type) ->
     # Find the index that needs to be incremented
     if simple
       firstElement = $(newDiv).find('select, input, textarea').first()
     else
       firstElement = $(newDiv).find('select, input, textarea').not('.simple-multiple-field').first()
 
-    nameIndex = $(firstElement).attr('name').lastIndexOf(multipleIndex)
-    idIndex = $(firstElement).attr('id').lastIndexOf(multipleIndex)
+    nameIndex = $(firstElement).attr('name').lastIndexOf("#{type}][#{multipleIndex}]")
+    idIndex = $(firstElement).attr('id').lastIndexOf("#{type}_#{multipleIndex}")
 
     # Update newDiv's id
     id = $(newDiv).attr('id')
