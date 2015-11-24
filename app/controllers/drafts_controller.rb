@@ -196,7 +196,7 @@ class DraftsController < ApplicationController
         error: 'is required'
       }
 
-    # If there error is not about required fields
+    # If the error is not about required fields
     else
       # if the last field is an array index, use the last section of the field path that isn't a number
       field = fields.split('/').select do |f|
