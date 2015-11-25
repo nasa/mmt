@@ -65,6 +65,8 @@ module Helpers
         elsif parent_key_special_handling == :handle_as_coordinate_system_type
           # Map value stored in json to what is actually supposed to be displayed
           draft = map_value_onto_display_string(draft, DraftsHelper::CoordinateSystemOptions)
+        elsif parent_key_special_handling == :handle_as_language_code
+          draft = { 'English' => 'eng' }.key('eng')
         elsif key.include?('iso-topic-categories-')
           draft = map_value_onto_display_string(draft, DraftsHelper::ISOTopicCategoriesOptions)
         elsif parent_key_special_handling == :handle_as_not_shown

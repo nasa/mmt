@@ -2,6 +2,7 @@ class CollectionsController < ApplicationController
   before_action :set_collection
 
   def show
+    @language_codes = cmr_client.get_language_codes
   end
 
   def edit

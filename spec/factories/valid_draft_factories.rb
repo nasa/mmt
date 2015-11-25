@@ -272,7 +272,7 @@ FactoryGirl.define do
     'Version' => '1',
     'EntryTitle' => 'Draft Title',
     'Purpose' => 'This is the purpose field',
-    'DataLanguage' => 'English',
+    'DataLanguage' => 'eng',
     'DataDates' => [{
       'Type' => 'CREATE',
       'Date' => '2015-07-01T00:00:00Z'
@@ -638,7 +638,7 @@ FactoryGirl.define do
     }, {
       'DistributionMedia' => 'test 1 DistributionMedia', 'DistributionSize' => 43, 'DistributionFormat' => 'test 1 DistributionFormat', 'Fees' => '1234.56'
     }],
-    'MetadataLanguage' => 'English',
+    'MetadataLanguage' => 'eng',
     'MetadataDates' => [{
       'Type' => 'CREATE',
       'Date' => '2010-12-25T00:00:00Z'

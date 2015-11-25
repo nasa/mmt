@@ -31,9 +31,11 @@
         hash_for_key: metadata
       } %>
 
-      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
-        key_name: 'DataLanguage',
-        hash_for_key: metadata
+
+      <%= render partial: 'shared/preview/fields/display_select_field', locals: {
+        name: 'DataLanguage',
+        options: @language_codes,
+        data: metadata['DataLanguage']
       } %>
 
       <h4>Data Dates <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'data-dates'}), {class: 'hash-link'} %><% end %></h4>

@@ -11,6 +11,8 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
+    @language_codes = cmr_client.get_language_codes
+
     schema = 'lib/assets/schemas/umm-c-json-schema.json'
 
     # Setup URI validation correctly
@@ -37,6 +39,10 @@ class DraftsController < ApplicationController
       @draft_form = params[:form]
       @science_keywords = cmr_client.get_science_keywords if params[:form] == 'descriptive_keywords'
       @spatial_keywords = cmr_client.get_spatial_keywords if params[:form] == 'spatial_information'
+      if params[:form] == 'metadata_information' || params[:form] == 'data_identification'
+        codes = cmr_client.get_language_codes
+        @language_codes = { 'Select Language' => '' }.merge(codes)
+      end
 
       if params[:form] == 'temporal_information'
         keywords = cmr_client.get_temporal_keywords['temporal_resolution_range']

@@ -9,6 +9,10 @@ template_path = 'shared/preview/_metadata_information.html.erb'
 
 describe template_path, type: :view do
   context 'when the metadata information' do
+    before do
+      assign :language_codes, 'English' => 'eng'
+    end
+
     context 'is empty' do
       before do
         assign :draft, build(:draft, draft: {}).draft
@@ -38,7 +42,7 @@ describe template_path, type: :view do
         rendered_node = Capybara.string(rendered)
         root_css_path = 'ul.metadata-information-preview'
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, { Type: :handle_as_date_type }, true)
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, { Type: :handle_as_date_type, MetadataLanguage: :handle_as_language_code }, true)
         end
       end
     end

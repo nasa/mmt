@@ -46,7 +46,7 @@
     <div class="row">
       <div class="col-12">
         <label for="draft_data_language">Data Language</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/DataLanguage"></i></a>
-        <%= text_field_tag('draft[data_language]', draft.draft['DataLanguage'], placeholder: 'English', class: 'half-width validate') %>
+        <%= select_tag 'draft[data_language]', options_for_select(@language_codes, draft.draft['DataLanguage']), class: 'half-width' %>
       </div>
     </div>
   </div>

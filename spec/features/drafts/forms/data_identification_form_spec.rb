@@ -21,7 +21,7 @@ describe 'Data identification form', js: true do
       fill_in 'Entry Title', with: 'Draft Title'
       fill_in 'Abstract', with: 'This is a long description of the collection'
       fill_in 'Purpose', with: 'This is the purpose field'
-      fill_in 'Data Language', with: 'English'
+      select 'English', from: 'Data Language'
 
       # Data Dates
       add_dates
@@ -183,7 +183,7 @@ describe 'Data identification form', js: true do
         expect(page).to have_field('Entry Title', with: 'Draft Title')
         expect(page).to have_field('Abstract', with: 'This is a long description of the collection')
         expect(page).to have_field('Purpose', with: 'This is the purpose field')
-        expect(page).to have_field('Data Language', with: 'English')
+        expect(page).to have_field('Data Language', with: 'eng')
 
         within '.multiple.dates' do
           within '.multiple-item-0' do

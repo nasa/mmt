@@ -17,7 +17,7 @@ describe 'Metadata Information form', js: true do
 
       open_accordions
 
-      fill_in 'Metadata Language', with: 'English'
+      select 'English', from: 'Metadata Language'
 
       add_dates
 
@@ -74,7 +74,7 @@ describe 'Metadata Information form', js: true do
       end
 
       it 'populates the form with the values' do
-        expect(page).to have_field('Metadata Language', with: 'English')
+        expect(page).to have_field('Metadata Language', with: 'eng')
 
         within '.multiple.dates' do
           within '.multiple-item-0' do
