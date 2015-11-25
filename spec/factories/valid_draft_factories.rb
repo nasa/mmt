@@ -640,9 +640,18 @@ FactoryGirl.define do
     }],
     'MetadataLanguage' => 'English',
     'MetadataDates' => [{
-      'Type' => 'CREATE', 'Date' => '2010-12-25T00:00:00Z'
+      'Type' => 'CREATE',
+      'Date' => '2010-12-25T00:00:00Z'
     }, {
-      'Type' => 'REVIEW', 'Date' => '2010-12-30T00:00:00Z'
+      'Type' => 'REVIEW',
+      'Date' => '2010-12-30T00:00:00Z'
+    }],
+    'DirectoryNames' => [{
+      'ShortName' => 'Short Directory 1',
+      'LongName' => 'Long Directory 1'
+    }, {
+      'ShortName' => 'Short Directory 2',
+      'LongName' => 'Long Directory 2'
     }],
     'SpatialExtent' => {
       'SpatialCoverageType' => 'HORIZONTAL',

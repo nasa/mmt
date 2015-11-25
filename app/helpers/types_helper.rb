@@ -77,6 +77,10 @@ module TypesHelper
     { name: 'Date' }
   ]
   DepthSystemDefinitionType = AltitudeSystemDefinitionType
+  DirectoryNameType = [
+    { name: 'ShortName' },
+    { name: 'LongName' }
+  ]
   DistributionsType = [
     { name: 'DistributionMedia' },
     { name: 'DistributionSize' },

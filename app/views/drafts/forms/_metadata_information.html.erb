@@ -29,3 +29,22 @@
     </div>
   </div>
 </fieldset>
+
+<!-- DirectoryNames -->
+<fieldset class="accordion is-closed" id="directory-names">
+  <div class="accordion-header"><h3>Directory Names</h3></div>
+  <div class="accordion-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="row sub-fields">
+          <%= render partial: 'drafts/forms/type', locals: {
+              type: 'directory_name',
+              values: draft.draft['DirectoryNames'] || [{}],
+              name_prefix: 'draft_|directory_names|_',
+              multiple: true,
+              options: {} } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>

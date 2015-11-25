@@ -8,6 +8,10 @@ module PreviewCirclesHelper
       'MetadataDates' => {
         required: false,
         anchor: 'metadata-dates'
+      },
+      'DirectoryNames' => {
+        required: false,
+        anchor: 'directory-names'
       }
     },
     'data_identification' => {
