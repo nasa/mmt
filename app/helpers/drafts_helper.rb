@@ -15,6 +15,13 @@ module DraftsHelper
     ['Cartesian', 'CARTESIAN'],
     ['Geodetic', 'GEODETIC']
   ]
+  ContactTypeOptions = [
+    ['Select Contact Type', ''],
+    ['Phone'],
+    ['Email'],
+    ['Facebook'],
+    ['Twitter']
+  ]
   DataTypeOptions = [
     ['Select Data Type', ''],
     ['String', 'STRING'],

@@ -182,11 +182,11 @@ module Helpers
 
     def add_contacts
       within '.multiple.contacts' do
-        fill_in 'Type', with: 'Email'
+        select 'Email', from: 'Type'
         fill_in 'Value', with: 'example@example.com'
         click_on 'Add another Contact'
         within '.multiple-item-1' do
-          fill_in 'Type', with: 'Email'
+          select 'Email', from: 'Type'
           fill_in 'Value', with: 'example2@example.com'
         end
       end
