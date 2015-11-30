@@ -137,7 +137,7 @@
         <div class="processing-level-fields">
           <div class="col-6">
             <% processing_level = draft.draft['ProcessingLevel'] || {} %>
-            <label for="draft_processing_level_id">ID</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/Id"></i></a>
+            <label for="draft_processing_level_id" class="icon-required">ID</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/Id"></i></a>
             <%= text_field_tag('draft[processing_level][id]', processing_level['Id'], class: 'full-width validate') %>
             <!-- ID should be dropdown with level 0, level 1a, etc. -->
           </div>
