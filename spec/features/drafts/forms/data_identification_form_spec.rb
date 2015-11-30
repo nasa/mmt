@@ -42,7 +42,7 @@ describe 'Data identification form', js: true do
 
       # Processing level
       within '.processing-level-fields' do
-        fill_in 'ID', with: 'Level 1'
+        select 'Level 1A', from: 'ID'
         fill_in 'Description', with: 'Level 1 Description'
       end
 
@@ -121,7 +121,7 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('Larger Citation Works', count: 1)
       expect(page).to have_content('Last Name', count: 4)
       expect(page).to have_content('Level 1 Description')
-      expect(page).to have_content('Level 1', count: 2)
+      expect(page).to have_content('Level 1A', count: 1)
       expect(page).to have_content('MB', count: 7)
       expect(page).to have_content('MD', count: 4)
       expect(page).to have_content('Metadata association description', count: 1)
@@ -397,8 +397,9 @@ describe 'Data identification form', js: true do
         # CollectionDataType
         expect(page).to have_field('Collection Data Type', with: 'OTHER')
 
+        # Processing Level
         within '.processing-level-fields' do
-          expect(page).to have_field('ID', with: 'Level 1')
+          expect(page).to have_field('ID', with: 'Level 1A')
           expect(page).to have_field('Description', with: 'Level 1 Description')
         end
 

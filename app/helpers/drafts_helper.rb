@@ -85,6 +85,15 @@ module DraftsHelper
     ['Related', 'RELATED'],
     ['Larger Citation Works', 'LARGER CITATION WORKS']
   ]
+  ProcessingLevelIdOptions = [
+    ['Select Id', ''],
+    ['Level 0'],
+    ['Level 1A'],
+    ['Level 1B'],
+    ['Level 2'],
+    ['Level 3'],
+    ['Level 4']
+  ]
   RoleOptions = [
     ['Select Role', ''],
     ['Resource Provider', 'RESOURCEPROVIDER'],
