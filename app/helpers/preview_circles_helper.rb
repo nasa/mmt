@@ -89,13 +89,13 @@ module PreviewCirclesHelper
       }
     },
     'descriptive_keywords' => {
-      'ISOTopicCategories' => {
-        required: false,
-        anchor: 'iso-topic-categories'
-      },
       'ScienceKeywords' => {
         required: true,
         anchor: 'science-keywords'
+      },
+      'ISOTopicCategories' => {
+        required: false,
+        anchor: 'iso-topic-categories'
       },
       'AncillaryKeywords' => {
         required: false,
