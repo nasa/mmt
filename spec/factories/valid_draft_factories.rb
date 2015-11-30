@@ -301,13 +301,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -349,13 +349,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -399,13 +399,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -448,13 +448,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],

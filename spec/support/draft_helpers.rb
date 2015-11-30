@@ -207,7 +207,7 @@ module Helpers
         fill_in 'City', with: 'Washington'
         fill_in 'State / Province', with: 'DC'
         fill_in 'Postal Code', with: '20546'
-        fill_in 'Country', with: 'United States'
+        select 'United States of America', from: 'Country'
         click_on 'Add another Address'
         within '.multiple-item.accordion.multiple-item-1' do
           within '.multiple.addresses-street-addresses' do
@@ -218,7 +218,7 @@ module Helpers
           fill_in 'City', with: 'Greenbelt'
           fill_in 'State / Province', with: 'MD'
           fill_in 'Postal Code', with: '20771'
-          fill_in 'Country', with: 'United States'
+          select 'United States of America', from: 'Country'
         end
       end
     end

@@ -127,12 +127,22 @@ module Cmr
     end
 
     def get_language_codes
+      # Will be replaced by CMR at some point
       codes = File.readlines(File.join(Rails.root, 'lib', 'assets', 'language_codes')).map do |line|
         parts = line.split('|')
         { parts[3] => parts[0] }
       end
 
       codes.reduce({}, :merge)
+    end
+
+    def get_country_codes
+      # Will be replaced by CMR at some point
+
+      # File from https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes/blob/master/all/all.json
+      codes = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'country_codes.json')))
+
+      codes.map { |code| code['name'] }
     end
   end
 end

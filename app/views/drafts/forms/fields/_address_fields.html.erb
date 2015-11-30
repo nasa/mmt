@@ -27,7 +27,7 @@
   <div class="row">
     <div class="col-6">
       <label for="<%= remove_pipes(name_prefix) %>country">Country</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/Country"></i></a>
-      <%= text_field_tag(name_to_param("#{name_prefix}country"), address['Country'], class: 'full-width validate') %>
+      <%= select_tag name_to_param("#{name_prefix}country"), options_for_select(@country_codes, address['Country']), class: 'half-width' %>
     </div>
   </div>
 </div>
