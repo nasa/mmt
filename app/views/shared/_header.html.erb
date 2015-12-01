@@ -47,6 +47,7 @@
 
 <div id="provider-context">
   <% if logged_in? && @current_user.available_providers %>
+    <a href="#" class="modal-close fl-right"><i class="fa fa-times"></i><span class="hidden">Close</span></a>
     <div>
       <% if @current_user.available_providers.size > 1 %>
         <p>
