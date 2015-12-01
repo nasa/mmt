@@ -1,4 +1,11 @@
 <div class="row sub-fields">
+  <div class="row">
+    <div class="col-6">
+      <label for="<%= remove_pipes(name_prefix) %>country">Country</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/Country"></i></a>
+      <%= select_tag name_to_param("#{name_prefix}country"), options_for_select(@country_codes, address['Country']), class: 'half-width' %>
+    </div>
+  </div>
+
   <% street_addresses = address['StreetAddresses'] || [nil, nil] # [nil] creates at least one Street Address field %>
   <div class="multiple addresses-street-addresses">
     <label for="<%= remove_pipes(name_prefix) %>street_addresses_">Street Address</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/StreetAddresses"></i></a>
@@ -22,12 +29,6 @@
     <div class="col-3">
       <label for="<%= remove_pipes(name_prefix) %>postal_code">Postal Code</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/PostalCode"></i></a>
       <%= text_field_tag(name_to_param("#{name_prefix}|postal_code|"), address['PostalCode'], class: 'full-width validate') %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>country">Country</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/Country"></i></a>
-      <%= select_tag name_to_param("#{name_prefix}country"), options_for_select(@country_codes, address['Country']), class: 'half-width' %>
     </div>
   </div>
 </div>
