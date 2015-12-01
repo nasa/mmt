@@ -1,6 +1,6 @@
 class DraftsController < ApplicationController
   before_action :set_draft, only: [:show, :edit, :update, :destroy, :publish]
-  before_action :load_umm_schema
+  before_action :load_umm_schema, except: [:subregion_options]
 
   # GET /drafts
   # GET /drafts.json
@@ -12,7 +12,6 @@ class DraftsController < ApplicationController
   # GET /drafts/1.json
   def show
     @language_codes = cmr_client.get_language_codes
-    @country_codes = cmr_client.get_country_codes
 
     schema = 'lib/assets/schemas/umm-c-json-schema.json'
 
@@ -43,10 +42,6 @@ class DraftsController < ApplicationController
       if params[:form] == 'metadata_information' || params[:form] == 'data_identification'
         codes = cmr_client.get_language_codes
         @language_codes = { 'Select Language' => '' }.merge(codes)
-      end
-      if params[:form] == 'data_identification'
-        codes = cmr_client.get_country_codes
-        @country_codes = codes.unshift(['Select Country', ''])
       end
 
       if params[:form] == 'temporal_information'
@@ -150,6 +145,10 @@ class DraftsController < ApplicationController
       format.iso19115 { render xml: metadata }
       format.iso_smap { render xml: metadata }
     end
+  end
+
+  def subregion_options
+    render partial: 'drafts/forms/fields/subregion_select'
   end
 
   private

@@ -135,14 +135,5 @@ module Cmr
 
       codes.reduce({}, :merge)
     end
-
-    def get_country_codes
-      # Will be replaced by CMR at some point
-
-      # File from https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes/blob/master/all/all.json
-      codes = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'country_codes.json')))
-
-      codes.map { |code| code['name'] }
-    end
   end
 end

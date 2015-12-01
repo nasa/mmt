@@ -204,10 +204,10 @@ module Helpers
             find('input').set 'Room 203'
           end
         end
+        select 'United States', from: 'Country'
         fill_in 'City', with: 'Washington'
-        fill_in 'State / Province', with: 'DC'
+        select 'District of Columbia', from: 'State / Province'
         fill_in 'Postal Code', with: '20546'
-        select 'United States of America', from: 'Country'
         click_on 'Add another Address'
         within '.multiple-item.accordion.multiple-item-1' do
           within '.multiple.addresses-street-addresses' do
@@ -215,10 +215,10 @@ module Helpers
               find('input').set '8800 Greenbelt Road'
             end
           end
+          select 'United States', from: 'Country'
           fill_in 'City', with: 'Greenbelt'
-          fill_in 'State / Province', with: 'MD'
+          select 'Maryland', from: 'State / Province'
           fill_in 'Postal Code', with: '20771'
-          select 'United States of America', from: 'Country'
         end
       end
     end

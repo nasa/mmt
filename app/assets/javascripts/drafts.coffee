@@ -399,6 +399,33 @@ $(document).ready ->
     .on 'hide', ->
       $(this).datepicker('remove')
 
+  # Load State/Province field on Country select
+  $('select.country-select').change ->
+    $parent = $(this).closest('.multiple-item')
+    $select = $parent.find('.state-province-select')
+    $text = $parent.find('.state-province-text-field')
+
+    countryCode = encodeURIComponent($(this).val())
+    $select.val('')
+    $text.val('')
+
+    # If a country was selected, refresh the options
+    if countryCode != ''
+      $text.hide()
+      $text.prop 'disabled', true
+      $select.show()
+      $select.prop 'disabled', false
+
+      url = "/subregion_options?parent_region=#{countryCode}"
+      $select.load(url)
+    else
+      # No country selected, show the text field
+      $select.hide()
+      $select.prop 'disabled', true
+      $text.show()
+      $text.prop 'disabled', false
+
+
 $.extend $.fn.datepicker.DPGlobal,
   formatDate: (date, format, language) ->
     if !date
