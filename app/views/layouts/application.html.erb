@@ -25,10 +25,14 @@
 </head>
 
 <body class="<%= (controller.action_name == 'dashboard' ? "home" : "") %>">
-  <div class="wrapper">
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
 
+  <div class="wrapper">
     <%= render 'shared/header' %>
-    <%= yield %>
+
+    <div id="main-content">
+      <%= yield %>
+    </div>
 
     <div class="push">
       <!-- For pushing the footer to the bottom of a page with minimal content -->
