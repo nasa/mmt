@@ -94,8 +94,14 @@ $(document).ready ->
       when 'maximum' then "#{field} is too high"
       when 'minimum' then "#{field} is too low"
       when 'oneOf'
-        field = path[path.length - 2]
-        "#{field} should have one type completed"
+        # oneOf Party means it wants oneOf OrganizationName or Person
+        # Those errors don't matter to a user because they don't see
+        # that difference in the forms
+        if field == 'Party'
+          "Party is incomplete"
+        else
+          field = path[path.length - 2]
+          "#{field} should have one type completed"
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)

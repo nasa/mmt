@@ -311,6 +311,25 @@ describe 'Data validation for a form', js: true do
     end
   end
 
+  context 'when triggering the oneOf error for Party' do
+    before do
+      within 'section.metadata' do
+        click_on 'Data Identification'
+      end
+
+      open_accordions
+
+      within '#organizations' do
+        fill_in 'Service Hours', with: 'test'
+      end
+    end
+
+    it 'shows a helpful error' do
+      expect(page).to have_selector(validation_error)
+      expect(page).to have_content('Party is incomplete')
+    end
+  end
+
   context 'when there is a minItems constraint' do
     before do
       within 'section.metadata' do
@@ -346,6 +365,7 @@ describe 'Data validation for a form', js: true do
       # Reject
       click_on 'No'
 
+      expect(page).to have_selector(validation_error)
       expect(page).to have_selector(validation_error)
       expect(page).to have_content('Points has too few items')
 
