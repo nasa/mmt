@@ -43,6 +43,7 @@ class SearchController < ApplicationController
     end
 
     @query['page_num'] = page
+    @query.delete('page')
     @query['page_size'] = results_per_page
 
     good_query_params = prune_query(@query.clone)
