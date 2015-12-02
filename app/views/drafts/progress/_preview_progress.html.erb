@@ -2,8 +2,8 @@
   <h3 class="inline-header">Metadata Fields</h3><a href="#progress-legend" id="legend" class="display-modal"><i class="fa fa-info-circle"></i></a>
   <ul class="progress-indicator">
     <% Draft::DRAFT_FORMS.each do |form_name| %>
-      <li id="<%= form_name[:form_partial_name].dasherize %>">
-        <%= render partial: 'drafts/progress/form_progress', locals: { draft: draft, form_name: form_name[:form_partial_name], metadata_errors: metadata_errors } %>
+      <li id="<%= form_name.dasherize %>">
+        <%= render partial: 'drafts/progress/form_progress', locals: { draft: draft, form_name: form_name, metadata_errors: metadata_errors } %>
       </li>
     <% end %>
   </ul>

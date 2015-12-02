@@ -4,12 +4,12 @@ require 'rails_helper'
 
 SUMMARY_PAGE_STRING = 'Quality Score:'
 
-describe 'Draft form navigation' do
+describe 'Draft form navigation', js: true do
   before :each do
     login
     visit '/dashboard'
     choose 'type_new_collection'
-    click_button 'Create Record'
+    click_on 'Create Record'
   end
 
   context 'when viewing the Summary page' do
@@ -20,90 +20,88 @@ describe 'Draft form navigation' do
   end
 
   context 'when drilling down from the summary page' do
-    Draft::DRAFT_FORMS.each do |f|
-      form_title = f[:form_partial_name].titleize
+    Draft::DRAFT_FORMS.each do |form|
+      form_title = form.titleize
       context "when clicking on #{form_title}" do
         before do
           within '.metadata' do
-            click_link form_title
+            click_on form_title
           end
         end
 
         it "displays the #{form_title} form" do
-          expect(page).to have_content(form_title)
+          within '.breadcrumb' do
+            expect(page).to have_content(form_title)
+          end
           expect(page).to_not have_content(SUMMARY_PAGE_STRING)
         end
       end
     end
   end
 
+  Draft::DRAFT_FORMS.each do |form|
+    next_form = Draft.get_next_form(form).titleize
+
+    context "when choosing #{next_form} from the form selection drop down" do
+      before do
+        if next_form == 'Metadata Information'
+          click_on 'Data Identification'
+        else
+          click_on 'Metadata Information'
+        end
+
+        within('.nav-top') do
+          select next_form, from: 'next_section'
+        end
+      end
+
+      # Note - randomization causes test result order to not agree with DRAFT_FORMS order.
+      it "displays the #{next_form} form" do
+        expect(page).to have_content(next_form)
+        expect(page).to_not have_content(SUMMARY_PAGE_STRING)
+      end
+    end
+  end
+
+  Draft::DRAFT_FORMS.size.times do |index|
+    current_form = Draft::DRAFT_FORMS[index].titleize
+    next_form = Draft.get_next_form(current_form.parameterize.underscore).titleize
+
+    context 'when pressing the Save & Next button' do
+      before do
+        click_on current_form
+
+        within '.nav-top' do
+          click_on 'Save & Next'
+        end
+
+        next_form = Draft.get_next_form(current_form.parameterize.underscore).titleize
+        current_form = next_form
+      end
+
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Draft was successfully updated')
+      end
+
+      it "displays the correct page (#{next_form})" do
+        within '.breadcrumb' do
+          expect(page).to have_content(next_form)
+        end
+        expect(page).to_not have_content(SUMMARY_PAGE_STRING)
+      end
+    end
+  end
+
   context 'when on the first form page' do
-    # Get to the first form
     before do
-      click_link Draft::DRAFT_FORMS[0][:form_partial_name].titleize
-    end
-
-    context 'when choosing ' do
-      Draft::DRAFT_FORMS.each do |f|
-        next_form_title = Draft.get_next_form(f[:form_partial_name]).titleize
-        context "#{next_form_title} from the first form selection drop down" do
-          before do
-            within('.nav-top') do
-              select next_form_title, from: 'next_section'
-            end
-          end
-
-          # Note - randomization causes test result order to not agree with DRAFT_FORMS order.
-          it "displays the #{next_form_title} form" do
-            expect(page).to have_content(next_form_title)
-            expect(page).to_not have_content(SUMMARY_PAGE_STRING)
-          end
-        end
-      end
-
-      # Only test one form from the second navigation drop down
-      this_form_title = 'Spatial Information'
-
-      context "#{this_form_title} from the second form selection drop down" do
-        before do
-          within('.nav-bottom') do
-            select this_form_title, from: 'next_section'
-          end
-        end
-
-        it "displays the #{this_form_title} form" do
-          expect(page).to have_content(this_form_title)
-          expect(page).to_not have_content(SUMMARY_PAGE_STRING)
-        end
-      end
-    end
-
-    context 'when repeatedly pressing the "Save & Next" button' do
-      Draft::DRAFT_FORMS.each do |f|
-        next_form_title = Draft.get_next_form(f[:form_partial_name]).titleize
-
-        context 'each press cycles you' do
-          before do
-            click_button('Save & Next', match: :first)
-          end
-
-          it 'displays a confirmation message' do
-            expect(page).to have_content('Draft was successfully updated')
-          end
-
-          # Note - randomization causes test result order to not agree with DRAFT_FORMS order.
-          it "to the correct page (#{next_form_title})" do
-            expect(page).to have_content(next_form_title)
-            expect(page).to_not have_content(SUMMARY_PAGE_STRING)
-          end
-        end
-      end
+      click_on 'Metadata Information'
     end
 
     context 'Clicking Save & Done' do
       before do
-        select 'English', from: 'Metadata Language'
-        click_button('Save & Done', match: :first)
+        within '.nav-top' do
+          click_on 'Save & Done'
+        end
       end
 
       it 'displays a confirmation message' do
@@ -117,9 +115,10 @@ describe 'Draft form navigation' do
 
     context 'Clicking Cancel' do
       before do
-        select 'English', from: 'Metadata Language'
-        # There are multiple "cancel" links
-        click_link('discard_changes', match: :first)
+        within '.nav-top' do
+          # click_on 'Cancel' doesn't work
+          find('.cancel').trigger('click')
+        end
       end
 
       it 'returns you to the Summary page with edits discarded' do
