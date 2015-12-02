@@ -1,5 +1,11 @@
 <fieldset class="accordion is-closed" id="collection-information">
-  <div class="accordion-header"><h3 class="icon-required">Collection Information</h3></div>
+  <div class="accordion-header">
+    <h3 class="icon-required">Collection Information</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Collection Information</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <div class="row">
       <!-- Entry ID [r] -->
@@ -77,7 +83,13 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="data-dates">
-  <div class="accordion-header"><h3 class="icon-required">Data Dates</h3></div>
+  <div class="accordion-header">
+    <h3 class="icon-required">Data Dates</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Data Dates</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- DataDates [r] -->
     <div class="row">
@@ -94,7 +106,13 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="organizations">
-  <div class="accordion-header"><h3 class="icon-required">Organizations</h3></div>
+  <div class="accordion-header">
+    <h3 class="icon-required">Organizations</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Organizations</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- Organization [r] -->
     <div class="row taller organization">
@@ -116,29 +134,41 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="personnel">
-  <div class="accordion-header"><h3>Personnel</h3></div>
-    <div class="accordion-body">
-      <!-- Personnel -->
-      <div class="row taller personnel">
-        <div class="col-12">
-          <div class="row sub-fields">
-            <%= render partial: 'drafts/forms/type', locals: {
-                type: 'responsibility',
-                values: draft.draft['Personnel'] || [{}],
-                name_prefix: "draft_|personnel|_",
-                multiple: true,
-                options: {
-                  limit_type: 'personnel',
-                  title: 'Personnel'
-                } } %>
-          </div>
+  <div class="accordion-header">
+    <h3>Personnel</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Personnel</span>
+    </a>
+  </div>
+  <div class="accordion-body">
+    <!-- Personnel -->
+    <div class="row taller personnel">
+      <div class="col-12">
+        <div class="row sub-fields">
+          <%= render partial: 'drafts/forms/type', locals: {
+              type: 'responsibility',
+              values: draft.draft['Personnel'] || [{}],
+              name_prefix: "draft_|personnel|_",
+              multiple: true,
+              options: {
+                limit_type: 'personnel',
+                title: 'Personnel'
+              } } %>
         </div>
       </div>
     </div>
+  </div>
 </fieldset>
 
 <fieldset class="accordion is-closed" id="collection-data-type">
-  <div class="accordion-header"><h3>Collection Data Type</h3></div>
+  <div class="accordion-header">
+    <h3>Collection Data Type</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Collection Data Type</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- Collection Data Type -->
     <div class="row">
@@ -155,7 +185,13 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="processing-level">
-  <div class="accordion-header"><h3 class="icon-required">Processing Level</h3></div>
+  <div class="accordion-header">
+    <h3 class="icon-required">Processing Level</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Processing Level</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- Processing Level [r] -->
     <div class="row">
@@ -187,7 +223,13 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="resource-citation">
-  <div class="accordion-header"><h3>Resource Citation</h3></div>
+  <div class="accordion-header">
+    <h3>Resource Citation</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Resource Citation</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- Resource Citation -->
       <!-- CollectionCitation -->
@@ -207,7 +249,13 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="collection-progress">
-  <div class="accordion-header"><h3>Collection Progress</h3></div>
+  <div class="accordion-header">
+    <h3>Collection Progress</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Collection Progress</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- Collection Progress -->
     <div class="row">
@@ -224,7 +272,13 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="quality">
-  <div class="accordion-header"><h3>Quality</h3></div>
+  <div class="accordion-header">
+    <h3>Quality</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Quality</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- Quality -->
     <div class="row">
@@ -241,7 +295,13 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="use-constraints">
-  <div class="accordion-header"><h3>Use Constraints</h3></div>
+  <div class="accordion-header">
+    <h3>Use Constraints</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Use Constraints</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- Use Constraints -->
     <div class="row">
@@ -258,7 +318,13 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="access-constraints">
-  <div class="accordion-header"><h3>Access Constraints</h3></div>
+  <div class="accordion-header">
+    <h3>Access Constraints</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Access Constraints</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- Access Constraints -->
     <div class="row access-constraints">
@@ -284,7 +350,13 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="metadata-associations">
-  <div class="accordion-header"><h3>Metadata Associations</h3></div>
+  <div class="accordion-header">
+    <h3>Metadata Associations</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Metadata Associations</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- Metadata Association -->
     <div class="row">
@@ -303,7 +375,13 @@
 </fieldset>
 
 <fieldset class="accordion is-closed" id="publication-references">
-  <div class="accordion-header"><h3>Publication References</h3></div>
+  <div class="accordion-header">
+    <h3>Publication References</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Publication References</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <!-- Publication Reference -->
     <div class="row">

@@ -6,7 +6,10 @@
     <% values.each_with_index do |value, index| %>
       <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') + "_#{index}" %>" class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless value == values.last %>">
         <div class="accordion-header">
-          <i class="fa fa-angle-down toggle"></i>
+          <a href="#">
+            <i class="fa fa-angle-down toggle"></i>
+            <span class="hidden">Toggle <%= options[:title] || type.titleize %> <%= index + 1 %></span>
+          </a>
           <%= options[:title] || type.titleize %> <%= index + 1 %>
           <div class="actions">
             <a class="remove">
