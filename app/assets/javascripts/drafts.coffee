@@ -408,6 +408,7 @@ $(document).ready ->
     countryCode = encodeURIComponent($(this).val())
     $select.val('')
     $text.val('')
+    $text.removeClass('disabled')
 
     # If a country was selected, refresh the options
     if countryCode != ''
@@ -417,7 +418,14 @@ $(document).ready ->
       $select.prop 'disabled', false
 
       url = "/subregion_options?parent_region=#{countryCode}"
-      $select.load(url)
+      $select.load url, (e) ->
+        # if 'Select State/Province is only option
+        if $(e).length < 2
+          # show disabled text field
+          $text.show()
+          $text.addClass('disabled')
+          $select.hide()
+          $select.prop 'disabled', true
     else
       # No country selected, show the text field
       $select.hide()
