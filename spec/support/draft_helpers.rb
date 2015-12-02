@@ -200,8 +200,11 @@ module Helpers
           within first('.multiple-item') do
             find('input').set '300 E Street Southwest'
           end
-          within all('.multiple-item').last do
+          within all('.multiple-item')[1] do
             find('input').set 'Room 203'
+          end
+          within all('.multiple-item')[2] do
+            find('input').set 'Address line 3'
           end
         end
         select 'United States', from: 'Country'
