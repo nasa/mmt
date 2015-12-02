@@ -62,15 +62,15 @@ describe 'Draft form help text', js: true do
       end
     end
 
-    context 'when clicking on the help icon with a pattern' do
-      before do
-        find(:xpath, "//a/i[@data-help-path='definitions/OrganizationNameType/properties/Uuid']/..").click # Uuid
-      end
-
-      it 'displays the validation clue in the modal' do
-        expect(page).to have_content('Pattern: [0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89abAB][0-9a-f]{3}-[0-9a-f]{12}')
-      end
-    end
+    # context 'when clicking on the help icon with a pattern' do
+    #   before do
+    #     find(:xpath, "//a/i[@data-help-path='definitions/OrganizationNameType/properties/Uuid']/..").click # Uuid
+    #   end
+    #
+    #   it 'displays the validation clue in the modal' do
+    #     expect(page).to have_content('Pattern: [0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89abAB][0-9a-f]{3}-[0-9a-f]{12}')
+    #   end
+    # end
 
     context 'when clicking on the help icon with a format' do
       before do

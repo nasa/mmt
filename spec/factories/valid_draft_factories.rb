@@ -272,7 +272,7 @@ FactoryGirl.define do
     'Version' => '1',
     'EntryTitle' => 'Draft Title',
     'Purpose' => 'This is the purpose field',
-    'DataLanguage' => 'English',
+    'DataLanguage' => 'eng',
     'DataDates' => [{
       'Type' => 'CREATE',
       'Date' => '2015-07-01T00:00:00Z'
@@ -285,8 +285,7 @@ FactoryGirl.define do
       'Party' => {
         'OrganizationName' => {
           'ShortName' => 'ORG_SHORT 2',
-          'LongName' => 'Organization Long Name 2',
-          'Uuid' => 'de135797-8539-4c3a-bc20-17a83d75aa49'
+          'LongName' => 'Organization Long Name 2'
         },
         'ServiceHours' => '9-6, M-F',
         'ContactInstructions' => 'Email only',
@@ -302,13 +301,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -334,8 +333,7 @@ FactoryGirl.define do
       'Party' => {
         'OrganizationName' => {
           'ShortName' => 'ORG_SHORT 3',
-          'LongName' => 'Organization Long Name 3',
-          'Uuid' => 'de135797-8539-4c3a-bc20-17a83d75aa49'
+          'LongName' => 'Organization Long Name 3'
         },
         'ServiceHours' => '10-2, M-W',
         'ContactInstructions' => 'Email only',
@@ -351,13 +349,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -385,8 +383,7 @@ FactoryGirl.define do
         'Person' => {
           'FirstName' => 'First Name',
           'MiddleName' => 'Middle Name',
-          'LastName' => 'Last Name',
-          'Uuid' => '351bb40b-0287-44ce-ba73-83e47f4945f8'
+          'LastName' => 'Last Name'
         },
         'ServiceHours' => '9-5, M-F',
         'ContactInstructions' => 'Email only',
@@ -402,13 +399,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -435,8 +432,7 @@ FactoryGirl.define do
         'Person' => {
           'FirstName' => 'First Name 2',
           'MiddleName' => 'Middle Name 2',
-          'LastName' => 'Last Name 2',
-          'Uuid' => '351bb40b-0287-44ce-ba73-83e47f4945f8'
+          'LastName' => 'Last Name 2'
         },
         'ServiceHours' => '10-2, M-W',
         'ContactInstructions' => 'Email only',
@@ -452,13 +448,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States'
+          'Country' => 'United States of America'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -482,7 +478,7 @@ FactoryGirl.define do
     }],
     'CollectionDataType' => 'SCIENCE_QUALITY',
     'ProcessingLevel' => {
-      'Id' => 'Level 1',
+      'Id' => 'Level 1A',
       'ProcessingLevelDescription' => 'Level 1 Description'
     },
     'CollectionCitations' => [{
@@ -642,11 +638,20 @@ FactoryGirl.define do
     }, {
       'DistributionMedia' => 'test 1 DistributionMedia', 'DistributionSize' => 43, 'DistributionFormat' => 'test 1 DistributionFormat', 'Fees' => '1234.56'
     }],
-    'MetadataLanguage' => 'English',
+    'MetadataLanguage' => 'eng',
     'MetadataDates' => [{
-      'Type' => 'CREATE', 'Date' => '2010-12-25T00:00:00Z'
+      'Type' => 'CREATE',
+      'Date' => '2010-12-25T00:00:00Z'
     }, {
-      'Type' => 'REVIEW', 'Date' => '2010-12-30T00:00:00Z'
+      'Type' => 'REVIEW',
+      'Date' => '2010-12-30T00:00:00Z'
+    }],
+    'DirectoryNames' => [{
+      'ShortName' => 'Short Directory 1',
+      'LongName' => 'Long Directory 1'
+    }, {
+      'ShortName' => 'Short Directory 2',
+      'LongName' => 'Long Directory 2'
     }],
     'SpatialExtent' => {
       'SpatialCoverageType' => 'HORIZONTAL',
@@ -655,17 +660,11 @@ FactoryGirl.define do
         'Geometry' => {
           'CoordinateSystem' => 'CARTESIAN',
           'BoundingRectangles' => [{
-            'CenterPoint' => {
-              'Longitude' => 0.0, 'Latitude' => 0.0
-            },
             'WestBoundingCoordinate' => -180.0,
             'NorthBoundingCoordinate' => 90.0,
             'EastBoundingCoordinate' => 180.0,
             'SouthBoundingCoordinate' => -90.0
           }, {
-            'CenterPoint' => {
-              'Longitude' => 20.0, 'Latitude' => 10.0
-            },
             'WestBoundingCoordinate' => -96.9284587,
             'NorthBoundingCoordinate' => 58.968602,
             'EastBoundingCoordinate' => -56.9284587,

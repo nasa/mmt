@@ -125,5 +125,15 @@ module Cmr
       }
       get(url, options, token_header(token)).body['feed']['entry'].first
     end
+
+    def get_language_codes
+      # Will be replaced by CMR at some point
+      codes = File.readlines(File.join(Rails.root, 'lib', 'assets', 'language_codes')).map do |line|
+        parts = line.split('|')
+        { parts[3] => parts[0] }
+      end
+
+      codes.reduce({}, :merge)
+    end
   end
 end

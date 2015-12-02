@@ -8,6 +8,8 @@ $(document).ready ->
     simple = $(this).hasClass('new-simple')
     topMultiple = $(this).closest('.multiple')
 
+    type = $(topMultiple).attr('class').split(' ').pop().replace(/-/g, '_')
+
     multipleItem = topMultiple.children('.multiple-item:last')
     newDiv = multipleItem.clone(true)
 
@@ -20,7 +22,7 @@ $(document).ready ->
       $.each $(newDiv).find('select, input, textarea'), (index, field) ->
         $(field).val ''
 
-      newDiv = incrementElementIndex(newDiv, multipleIndex, true)
+      newDiv = incrementElementIndex(newDiv, multipleIndex, true, type)
       $(newDiv).appendTo topMultiple
     else
       # multiple-item is a collection of fields
@@ -31,7 +33,7 @@ $(document).ready ->
           if index2 > 0
             $(this).remove()
 
-      newDiv = incrementElementIndex(newDiv, multipleIndex, false)
+      newDiv = incrementElementIndex(newDiv, multipleIndex, false, type)
       $(newDiv).insertAfter multipleItem
 
       # close last accordion and open all new accordions
@@ -61,15 +63,15 @@ $(document).ready ->
 
     e.stopImmediatePropagation()
 
-  incrementElementIndex = (newDiv, multipleIndex, simple) ->
+  incrementElementIndex = (newDiv, multipleIndex, simple, type) ->
     # Find the index that needs to be incremented
     if simple
       firstElement = $(newDiv).find('select, input, textarea').first()
     else
       firstElement = $(newDiv).find('select, input, textarea').not('.simple-multiple-field').first()
 
-    nameIndex = $(firstElement).attr('name').lastIndexOf(multipleIndex)
-    idIndex = $(firstElement).attr('id').lastIndexOf(multipleIndex)
+    nameIndex = $(firstElement).attr('name').lastIndexOf("#{type}][#{multipleIndex}]")
+    idIndex = $(firstElement).attr('id').lastIndexOf("#{type}_#{multipleIndex}")
 
     # Update newDiv's id
     id = $(newDiv).attr('id')
@@ -396,6 +398,41 @@ $(document).ready ->
       $(document).trigger 'mmtValidate'
     .on 'hide', ->
       $(this).datepicker('remove')
+
+  # Load State/Province field on Country select
+  $('select.country-select').change ->
+    $parent = $(this).closest('.multiple-item')
+    $select = $parent.find('.state-province-select')
+    $text = $parent.find('.state-province-text-field')
+
+    countryCode = encodeURIComponent($(this).val())
+    $select.val('')
+    $text.val('')
+    $text.removeClass('disabled')
+
+    # If a country was selected, refresh the options
+    if countryCode != ''
+      $text.hide()
+      $text.prop 'disabled', true
+      $select.show()
+      $select.prop 'disabled', false
+
+      url = "/subregion_options?parent_region=#{countryCode}"
+      $select.load url, (e) ->
+        # if 'Select State/Province is only option
+        if $(e).length < 2
+          # show disabled text field
+          $text.show()
+          $text.addClass('disabled')
+          $select.hide()
+          $select.prop 'disabled', true
+    else
+      # No country selected, show the text field
+      $select.hide()
+      $select.prop 'disabled', true
+      $text.show()
+      $text.prop 'disabled', false
+
 
 $.extend $.fn.datepicker.DPGlobal,
   formatDate: (date, format, language) ->

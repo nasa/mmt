@@ -5,21 +5,7 @@
   </div>
   <div class="accordion-body">
     <ul class="descriptive-keywords-preview">
-      <%# ISOTopicCategories implemented yet %>
-      <%#= render partial: 'shared/preview/preview_type', locals: {
-          data: metadata['ISOTopicCategories'],
-          name: 'ISOTopicCategories',
-          type: TypesHelper::ISOTopicCategoriesType
-      } %>
-      <h4>ISO Topic Categories <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'iso-topic-categories'}), {class: 'hash-link'} %><% end %></h4>
-      <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
-          key_name: 'ISOTopicCategories',
-          hash_for_key: metadata,
-          title_override: 'ISO Topic Categories',
-          options: DraftsHelper::ISOTopicCategoriesOptions
-      } %>
-
-      <h4>Ancillary Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'ancillary-keywords'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Science Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'ancillary-keywords'}), {class: 'hash-link'} %><% end %></h4>
       <% keywords = metadata['ScienceKeywords'] || [] %>
       <% if keywords.size > 0 %>
         <li class="top_field science-keywords">
@@ -32,6 +18,14 @@
           </ul>
         </li>
       <% end %>
+
+      <h4>ISO Topic Categories <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'iso-topic-categories'}), {class: 'hash-link'} %><% end %></h4>
+      <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
+          key_name: 'ISOTopicCategories',
+          hash_for_key: metadata,
+          title_override: 'ISO Topic Categories',
+          options: DraftsHelper::ISOTopicCategoriesOptions
+      } %>
 
       <h4>Ancillary Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'ancillary-keywords'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {

@@ -56,6 +56,8 @@ GEM
     capybara-screenshot (1.0.9)
       capybara (>= 1.0, < 3)
       launchy
+    carmen (1.0.2)
+      activesupport (>= 3.0.0)
     cliver (0.3.2)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -244,6 +246,7 @@ DEPENDENCIES
   byebug
   capybara
   capybara-screenshot
+  carmen
   coffee-rails (~> 4.1.0)
   database_cleaner
   factory_girl_rails

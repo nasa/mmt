@@ -7,9 +7,12 @@ include DraftsHelper
 
 template_path = 'shared/preview/_data_identification.html.erb'
 
-
 describe template_path, type: :view do
   context 'when the data identification data' do
+    before do
+      assign :language_codes, 'English' => 'eng'
+    end
+
     context 'is empty' do
       before do
         assign :draft, build(:draft, draft: {}).draft
@@ -55,7 +58,7 @@ describe template_path, type: :view do
         rendered_node = Capybara.string(rendered)
         root_css_path = 'ul.data-identification-preview'
         draft_json.each do |key, value|
-          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, { Scope: :handle_as_not_shown, Type: :handle_as_date_type, Role: :handle_as_role, CollectionDataType: :handle_as_collection_data_type, CollectionProgress: :handle_as_collection_progress }, true)
+          check_css_path_for_display_of_values(rendered_node, value, key, root_css_path, { Scope: :handle_as_not_shown, Type: :handle_as_date_type, Role: :handle_as_role, CollectionDataType: :handle_as_collection_data_type, CollectionProgress: :handle_as_collection_progress, DataLanguage: :handle_as_language_code }, true)
         end
 
         # Example of how to test a section directly

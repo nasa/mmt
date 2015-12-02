@@ -1,4 +1,5 @@
 <% options.delete(:title) %>
+<% options.delete(:type) %>
 <div class="row sub-fields">
   <label for="<%= remove_pipes(name_prefix) %>role" class="icon-required">Role</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ResponsibilityType/properties/Role"></i></a>
   <%= select_tag name_to_param("#{name_prefix}role"), options_for_select(DraftsHelper::RoleOptions, responsibility['Role']), class: 'single-select validate' %>

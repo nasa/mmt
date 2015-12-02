@@ -55,12 +55,6 @@ bad_date_values = [
   { value: '2015-00-01', error: date_error_string }
 ]
 
-uuid_error_string = 'Uuid must match the provided pattern'
-good_uuid_values = ['de135797-8539-4c3a-bc20-17a83d75aa49']
-bad_uuid_values = [
-  { value: '#$%^&', error: uuid_error_string }
-]
-
 # Lat and Lon are floats with range restrictions
 good_lat_values = ['0.0', '90']
 bad_lat_values = [
@@ -145,21 +139,19 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'general floating point validation works' do
-      within '.row.organization' do
-        within '.multiple.responsibilities > .multiple-item-0' do
-          within '.multiple.related-urls' do
-            within '.file-size' do
-              good_number_values.each do |test|
-                fill_in 'Size', with: test
-                puts "Number: #{test}" if debug
-                expect(page).to have_no_selector(validation_error)
-              end
+      within '.multiple.organizations > .multiple-item-0' do
+        within '.multiple.related-urls' do
+          within '.file-size' do
+            good_number_values.each do |test|
+              fill_in 'Size', with: test
+              puts "Number: #{test}" if debug
+              expect(page).to have_no_selector(validation_error)
+            end
 
-              bad_number_values.each do |test|
-                fill_in 'Size', with: test[:value]
-                puts "Number: #{test[:value]}: #{test[:error]}" if debug
-                expect(page).to have_content(test[:error])
-              end
+            bad_number_values.each do |test|
+              fill_in 'Size', with: test[:value]
+              puts "Number: #{test[:value]}: #{test[:error]}" if debug
+              expect(page).to have_content(test[:error])
             end
           end
         end
@@ -246,36 +238,6 @@ describe 'Data validation for a form', js: true do
     end
   end
 
-  context 'when there are Uuid type fields' do
-    before do
-      within 'section.metadata' do
-        click_on 'Data Identification'
-      end
-
-      open_accordions
-    end
-
-    it 'simple Uuid field validation works' do
-      within '.row.organization' do
-        within '.multiple.responsibilities > .multiple-item-0 .organization-fields' do
-          fill_in 'Short Name', with: 'short name'
-
-          good_uuid_values.each do |test|
-            fill_in 'Uuid', with: test
-            puts "Uuid #{test}" if debug
-            expect(page).to have_no_selector(validation_error)
-          end
-
-          bad_uuid_values.each do |test|
-            fill_in 'Uuid', with: test[:value]
-            puts "Uuid #{test[:value]}: #{test[:error]}" if debug
-            expect(page).to have_content(test[:error])
-          end
-        end
-      end
-    end
-  end
-
   # Now for more complex testing
   context 'when there is a oneOf constraint' do
     before do
@@ -329,10 +291,6 @@ describe 'Data validation for a form', js: true do
       within '.geometry' do
         choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
         within first('.multiple.g-polygons') do
-          within '.point' do
-            fill_in 'Longitude', with: '0.0'
-            fill_in 'Latitude', with: '0.0'
-          end
           within '.boundary .multiple.points' do
             fill_in 'Longitude', with: '10.0'
             fill_in 'Latitude', with: '10.0'
