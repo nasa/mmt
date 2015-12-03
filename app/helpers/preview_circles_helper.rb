@@ -8,6 +8,10 @@ module PreviewCirclesHelper
       'MetadataDates' => {
         required: false,
         anchor: 'metadata-dates'
+      },
+      'DirectoryNames' => {
+        required: false,
+        anchor: 'directory-names'
       }
     },
     'data_identification' => {
@@ -57,7 +61,7 @@ module PreviewCirclesHelper
       },
       'CollectionCitations' => {
         required: false,
-        anchor: 'resource-citation'
+        anchor: 'collection-citation'
       },
       'CollectionProgress' => {
         required: false,
@@ -85,13 +89,13 @@ module PreviewCirclesHelper
       }
     },
     'descriptive_keywords' => {
-      'ISOTopicCategories' => {
-        required: false,
-        anchor: 'iso-topic-categories'
-      },
       'ScienceKeywords' => {
         required: true,
         anchor: 'science-keywords'
+      },
+      'ISOTopicCategories' => {
+        required: false,
+        anchor: 'iso-topic-categories'
       },
       'AncillaryKeywords' => {
         required: false,

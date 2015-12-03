@@ -102,7 +102,7 @@ describe 'Draft form navigation' do
 
     context 'Clicking Save & Done' do
       before do
-        fill_in 'Metadata Language', with: 'English'
+        select 'English', from: 'Metadata Language'
         click_button('Save & Done', match: :first)
       end
 
@@ -117,7 +117,7 @@ describe 'Draft form navigation' do
 
     context 'Clicking Cancel' do
       before do
-        fill_in 'Metadata Language', with: 'English'
+        select 'English', from: 'Metadata Language'
         # There are multiple "cancel" links
         click_link('discard_changes', match: :first)
       end

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     post 'publish' => 'drafts#publish', as: 'publish'
     get 'download' => 'drafts#download_xml', as: 'download'
   end
+  get 'subregion_options' => 'drafts#subregion_options'
+
   get 'welcome/index'
   get 'welcome/collections'
 

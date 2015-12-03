@@ -35,17 +35,15 @@ module TypesHelper
     { name: 'Resolutions', options: [:array_field] }
   ]
   BoundingRectanglesType = [
-    { name: 'CenterPoint', options: [:sub_type] },
     { name: 'WestBoundingCoordinate' },
     { name: 'NorthBoundingCoordinate' },
     { name: 'EastBoundingCoordinate' },
     { name: 'SouthBoundingCoordinate' }
   ]
   BoundaryType = [
-    { name: 'Points', options: [:sub_type]  }
+    { name: 'Points', options: [:sub_type] }
   ]
   BoundariesType = BoundaryType
-  CenterPointType = PointsType
   CharacteristicsType = [
     { name: 'Name' },
     { name: 'Description' },
@@ -79,6 +77,10 @@ module TypesHelper
     { name: 'Date' }
   ]
   DepthSystemDefinitionType = AltitudeSystemDefinitionType
+  DirectoryNameType = [
+    { name: 'ShortName' },
+    { name: 'LongName' }
+  ]
   DistributionsType = [
     { name: 'DistributionMedia' },
     { name: 'DistributionSize' },
@@ -115,7 +117,6 @@ module TypesHelper
     { name: 'Lines', options: [:sub_type] }
   ]
   GPolygonsType = [
-    { name: 'CenterPoint', options: [:sub_type] },
     { name: 'Boundary', options: [:sub_type] },
     { name: 'ExclusionZone', options: [:sub_type] }
   ]
@@ -138,7 +139,6 @@ module TypesHelper
     { name: 'Sensors', options: [:sub_type] }
   ]
   LinesType = [
-    { name: 'CenterPoint', options: [:sub_type] },
     { name: 'Points', options: [:sub_type] }
   ]
   LocalCoordinateSystemType = [
@@ -160,8 +160,7 @@ module TypesHelper
   ]
   OrganizationNameType = [
     { name: 'ShortName' },
-    { name: 'LongName' },
-    { name: 'Uuid' }
+    { name: 'LongName' }
   ]
   PaleoTemporalCoverageType = [
     { name: 'ChronostratigraphicUnits', options: [:sub_type] },
@@ -189,8 +188,7 @@ module TypesHelper
   PersonType = [
     { name: 'FirstName' },
     { name: 'MiddleName' },
-    { name: 'LastName' },
-    { name: 'Uuid' }
+    { name: 'LastName' }
   ]
   PlatformsType = [
     { name: 'Type' },

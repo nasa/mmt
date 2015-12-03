@@ -76,7 +76,7 @@
           <i class="fa fa-info-circle" data-help-path="properties/DataLanguage"></i>
           <span class="hidden">Help modal for data language</span>
         </a>
-        <%= text_field_tag('draft[data_language]', draft.draft['DataLanguage'], placeholder: 'English', class: 'half-width validate') %>
+        <%= select_tag 'draft[data_language]', options_for_select(@language_codes, draft.draft['DataLanguage']), class: 'half-width' %>
       </div>
     </div>
   </div>
@@ -115,7 +115,7 @@
   </div>
   <div class="accordion-body">
     <!-- Organization [r] -->
-    <div class="row taller organization">
+    <div class="row taller">
       <div class="col-12">
         <div class="row sub-fields">
           <%= render partial: 'drafts/forms/type', locals: {
@@ -124,6 +124,7 @@
               name_prefix: "draft_|organizations|_",
               multiple: true,
               options: {
+                type: 'organizations',
                 limit_type: 'organization',
                 title: 'Organization'
               } } %>
@@ -143,7 +144,7 @@
   </div>
   <div class="accordion-body">
     <!-- Personnel -->
-    <div class="row taller personnel">
+    <div class="row taller">
       <div class="col-12">
         <div class="row sub-fields">
           <%= render partial: 'drafts/forms/type', locals: {
@@ -152,6 +153,7 @@
               name_prefix: "draft_|personnel|_",
               multiple: true,
               options: {
+                type: 'personnel',
                 limit_type: 'personnel',
                 title: 'Personnel'
               } } %>
@@ -178,7 +180,7 @@
           <i class="fa fa-info-circle" data-help-path="properties/CollectionDataType"></i>
           <span class="hidden">Help modal for collection data type</span>
         </a>
-        <%= select_tag "draft[collection_data_type]", options_for_select(DraftsHelper::CollectionDataTypeOptions, draft.draft['CollectionDataType']), class: 'half-width validate' %>
+        <%= select_tag 'draft[collection_data_type]', options_for_select(DraftsHelper::CollectionDataTypeOptions, draft.draft['CollectionDataType']), class: 'half-width validate' %>
       </div>
     </div>
   </div>
@@ -199,13 +201,12 @@
         <div class="processing-level-fields">
           <div class="col-6">
             <% processing_level = draft.draft['ProcessingLevel'] || {} %>
-            <label for="draft_processing_level_id">ID</label>
+            <label for="draft_processing_level_id" class="icon-required">ID</label>
             <a href="#help-modal" class="display-modal" tabindex="-1">
               <i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/Id"></i>
               <span class="hidden">Help modal for ID</span>
             </a>
-            <%= text_field_tag('draft[processing_level][id]', processing_level['Id'], class: 'full-width validate') %>
-            <!-- ID should be dropdown with level 0, level 1a, etc. -->
+            <%= select_tag 'draft[processing_level][id]', options_for_select(DraftsHelper::ProcessingLevelIdOptions, processing_level['Id']), class: 'half-width' %>
           </div>
           <div class="col-6">
             <label for="draft_processing_level_processing_level_description">Processing Level Description</label>
@@ -214,7 +215,6 @@
               <span class="hidden">Help modal for processing level description</span>
             </a>
             <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'full-width validate') %>
-            <!-- TODO description needs stuff from Mark -->
           </div>
         </div>
       </div>
@@ -222,7 +222,7 @@
   </div>
 </fieldset>
 
-<fieldset class="accordion is-closed" id="resource-citation">
+<fieldset class="accordion is-closed" id="collection-citation">
   <div class="accordion-header">
     <h3>Resource Citation</h3>
     <a href="#" class="fl-right">
@@ -237,7 +237,7 @@
       <div class="col-12">
         <div class="row">
           <%= render partial: 'drafts/forms/type', locals: {
-              type: 'resource_citation',
+              type: 'collection_citation',
               values: draft.draft['CollectionCitations'] || [{}],
               name_prefix: "draft_|collection_citations|_",
               multiple: true,

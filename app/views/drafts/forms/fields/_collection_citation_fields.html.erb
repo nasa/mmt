@@ -5,7 +5,7 @@
     <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Version"></i>
     <span class="hidden">Help modal for version</span>
   </a>
-  <%= text_field_tag name_to_param("#{name_prefix}version"), resource_citation['Version'], class: 'half-width validate' %>
+  <%= text_field_tag name_to_param("#{name_prefix}version"), collection_citation['Version'], class: 'half-width validate' %>
 
   <!-- Title -->
   <label for="<%= remove_pipes(name_prefix) %>title">Title</label>
@@ -13,7 +13,7 @@
     <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Title"></i>
     <span class="hidden">Help modal for title</span>
   </a>
-  <%= text_area_tag name_to_param("#{name_prefix}title"), resource_citation['Title'], rows: 8, class: 'validate' %>
+  <%= text_area_tag name_to_param("#{name_prefix}title"), collection_citation['Title'], rows: 8, class: 'validate' %>
 
 
   <!-- Creator -->
@@ -22,7 +22,7 @@
     <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Creator"></i>
     <span class="hidden">Help modal for creator</span>
   </a>
-  <%= text_area_tag name_to_param("#{name_prefix}creator"), resource_citation['Creator'], rows: 8, class: 'validate' %>
+  <%= text_area_tag name_to_param("#{name_prefix}creator"), collection_citation['Creator'], rows: 8, class: 'validate' %>
 
 
   <!-- Editor -->
@@ -31,7 +31,7 @@
     <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Editor"></i>
     <span class="hidden">Help modal for editor</span>
   </a>
-  <%= text_area_tag name_to_param("#{name_prefix}editor"), resource_citation['Editor'], rows: 8, class: 'validate' %>
+  <%= text_area_tag name_to_param("#{name_prefix}editor"), collection_citation['Editor'], rows: 8, class: 'validate' %>
 
 
   <!-- SeriesName -->
@@ -40,7 +40,7 @@
     <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/SeriesName"></i>
     <span class="hidden">Help modal for series name</span>
   </a>
-  <%= text_area_tag name_to_param("#{name_prefix}|series_name|"), resource_citation['SeriesName'], rows: 8, class: 'validate' %>
+  <%= text_area_tag name_to_param("#{name_prefix}|series_name|"), collection_citation['SeriesName'], rows: 8, class: 'validate' %>
 
 
   <!-- ReleaseDate -->
@@ -49,7 +49,7 @@
     <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/ReleaseDate"></i>
     <span class="hidden">Help modal for release date</span>
   </a>
-  <%= datetime_field_tag name_to_param("#{name_prefix}|release_date|"), resource_citation['ReleaseDate'], class: 'half-width validate mmt-date-time' %>
+  <%= datetime_field_tag name_to_param("#{name_prefix}|release_date|"), collection_citation['ReleaseDate'], class: 'half-width validate mmt-date-time' %>
 
 
   <!-- ReleasePlace -->
@@ -58,7 +58,7 @@
     <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/ReleasePlace"></i>
     <span class="hidden">Help modal for release place</span>
   </a>
-  <%= text_area_tag name_to_param("#{name_prefix}|release_place|"), resource_citation['ReleasePlace'], rows: 8, class: 'validate' %>
+  <%= text_area_tag name_to_param("#{name_prefix}|release_place|"), collection_citation['ReleasePlace'], rows: 8, class: 'validate' %>
 
 
   <!-- Publisher -->
@@ -67,17 +67,18 @@
     <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Publisher"></i>
     <span class="hidden">Help modal for publisher</span>
   </a>
-  <%= text_area_tag name_to_param("#{name_prefix}publisher"), resource_citation['Publisher'], rows: 8, class: 'validate' %>
+  <%= text_area_tag name_to_param("#{name_prefix}publisher"), collection_citation['Publisher'], rows: 8, class: 'validate' %>
+
 
   <div class="row">
     <div class="col-6">
       <!-- IssueIdentification -->
       <label for="<%= remove_pipes(name_prefix) %>issue_identification">Issue Identification</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/IssueIdentification"></i>
+        <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DataPresentationForm"></i>
         <span class="hidden">Help modal for issue identification</span>
       </a>
-      <%= text_field_tag name_to_param("#{name_prefix}|issue_identification|"), resource_citation['IssueIdentification'], class: 'full-width validate' %>
+      <%= text_field_tag name_to_param("#{name_prefix}|issue_identification|"), collection_citation['IssueIdentification'], class: 'full-width validate' %>
     </div>
     <div class="col-6">
       <!-- DataPresentationForm -->
@@ -86,7 +87,7 @@
         <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DataPresentationForm"></i>
         <span class="hidden">Help modal for data presentation</span>
       </a>
-      <%= text_field_tag name_to_param("#{name_prefix}|data_presentation_form|"), resource_citation['DataPresentationForm'], class: 'full-width validate' %>
+      <%= text_field_tag name_to_param("#{name_prefix}|data_presentation_form|"), collection_citation['DataPresentationForm'], class: 'full-width validate' %>
     </div>
   </div>
 
@@ -96,8 +97,7 @@
     <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/OtherCitationDetails"></i>
     <span class="hidden">Help modal for other citation details</span>
   </a>
-  <%= text_area_tag name_to_param("#{name_prefix}|other_citation_details|"), resource_citation['OtherCitationDetails'], rows: 8, class: 'validate' %>
-
+  <%= text_area_tag name_to_param("#{name_prefix}|other_citation_details|"), collection_citation['OtherCitationDetails'], rows: 8, class: 'validate' %>
 
   <!-- DOI -->
   <label>DOI</label>
@@ -108,7 +108,7 @@
   <div class="row sub-fields">
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'doi',
-        values: resource_citation['DOI'] || {},
+        values: collection_citation['DOI'] || {},
         name_prefix: "#{name_prefix}doi_",
         multiple: false,
         options: {} } %>
@@ -123,7 +123,7 @@
   </a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'related_url',
-      values: resource_citation['RelatedUrl'] || {},
+      values: collection_citation['RelatedUrl'] || {},
       name_prefix: "#{name_prefix}|related_url|_",
       multiple: false,
       options: {} } %>

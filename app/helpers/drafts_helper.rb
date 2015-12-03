@@ -15,6 +15,13 @@ module DraftsHelper
     ['Cartesian', 'CARTESIAN'],
     ['Geodetic', 'GEODETIC']
   ]
+  ContactTypeOptions = [
+    ['Select Contact Type', ''],
+    ['Phone'],
+    ['Email'],
+    ['Facebook'],
+    ['Twitter']
+  ]
   DataTypeOptions = [
     ['Select Data Type', ''],
     ['String', 'STRING'],
@@ -77,6 +84,15 @@ module DraftsHelper
     ['Child', 'CHILD'],
     ['Related', 'RELATED'],
     ['Larger Citation Works', 'LARGER CITATION WORKS']
+  ]
+  ProcessingLevelIdOptions = [
+    ['Select Id', ''],
+    ['Level 0'],
+    ['Level 1A'],
+    ['Level 1B'],
+    ['Level 2'],
+    ['Level 3'],
+    ['Level 4']
   ]
   RoleOptions = [
     ['Select Role', ''],
@@ -173,5 +189,13 @@ module DraftsHelper
 
   def keyword_string(keywords)
     keywords.map { |_key, value| value }.join(' > ')
+  end
+
+  def options_for_subregion_select(country, value = nil)
+    return nil unless country
+
+    options = country.subregions.map(&:name)
+    options.unshift ['Select State/Province', '']
+    options_for_select(options, selected: value)
   end
 end

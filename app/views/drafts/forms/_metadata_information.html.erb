@@ -15,7 +15,7 @@
           <i class="fa fa-info-circle" data-help-path="properties/MetadataLanguage"></i>
           <span class="hidden">Help modal for metadata language</span>
         </a>
-        <%= text_field_tag('draft[metadata_language]', draft.draft['MetadataLanguage'], placeholder: 'English', class: 'half-width validate') %>
+        <%= select_tag 'draft[metadata_language]', options_for_select(@language_codes, draft.draft['MetadataLanguage']), class: 'half-width' %>
       </div>
     </div>
   </div>
@@ -38,6 +38,25 @@
               type: 'date',
               values: draft.draft['MetadataDates'] || [{}],
               name_prefix: 'draft_|metadata_dates|_',
+              multiple: true,
+              options: {} } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<!-- DirectoryNames -->
+<fieldset class="accordion is-closed" id="directory-names">
+  <div class="accordion-header"><h3>Directory Names</h3></div>
+  <div class="accordion-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="row sub-fields">
+          <%= render partial: 'drafts/forms/type', locals: {
+              type: 'directory_name',
+              values: draft.draft['DirectoryNames'] || [{}],
+              name_prefix: 'draft_|directory_names|_',
               multiple: true,
               options: {} } %>
         </div>

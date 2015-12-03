@@ -1,4 +1,16 @@
 <div class="row sub-fields">
+  <div class="row">
+    <div class="col-6">
+      <label for="<%= remove_pipes(name_prefix) %>country">Country</label>
+      <a href="#help-modal" class="display-modal" tabindex="-1">
+        <i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/Country"></i>
+        <span class="hidden">Help modal for country</span>
+      </a>
+      <%= select_tag name_to_param("#{name_prefix}country"), options_for_select(Carmen::Country.all.sort, address['Country']), class: 'half-width country-select', prompt: 'Select Country' %>
+      <%#= subregion_select_tag name_to_param("#{name_prefix}country"), address['Country'], Carmen::World.instance, {}, { prompt: 'Select Country', class: 'half-width country-select' } %>
+    </div>
+  </div>
+
   <% street_addresses = address['StreetAddresses'] || [nil, nil] # [nil] creates at least one Street Address field %>
   <div class="multiple addresses-street-addresses">
     <label for="<%= remove_pipes(name_prefix) %>street_addresses_">Street Address</label
@@ -29,7 +41,11 @@
         <i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/StateProvince"></i>
         <span class="hidden">Help modal for State / Province</span>
       </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|state_province|"), address['StateProvince'], class: 'full-width validate') %>
+      <% country = Carmen::Country.named(address['Country']) %>
+
+      <% use_text_field = country.nil? || !country.subregions? ? true : false %>
+      <%= text_field_tag name_to_param("#{name_prefix}|state_province|"), address['StateProvince'], class: 'full-width validate state-province-text-field', disabled: !use_text_field, style: "#{'display: none;' if !use_text_field}" %>
+      <%= select_tag name_to_param("#{name_prefix}|state_province|"), options_for_subregion_select(country, address['StateProvince']), class: 'half-width state-province-select', disabled: use_text_field, style: "#{'display: none;' if use_text_field}" %>
     </div>
     <div class="col-3">
       <label for="<%= remove_pipes(name_prefix) %>postal_code">Postal Code</label>
@@ -38,16 +54,6 @@
         <span class="hidden">Help modal for postal code</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|postal_code|"), address['PostalCode'], class: 'full-width validate') %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>country">Country</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/Country"></i>
-        <span class="hidden">Help modal for country</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}country"), address['Country'], class: 'full-width validate') %>
     </div>
   </div>
 </div>

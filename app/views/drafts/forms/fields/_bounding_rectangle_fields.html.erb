@@ -1,17 +1,5 @@
 <div class="row sub-fields">
   <p><a href="javascript:void(0)" class="btn btn-blue btn-sm global-coverage">Apply global spatial coverage</a></p>
-  <!-- CenterPoint -->
-  <label for="<%= remove_pipes(name_prefix) %>center_point">Center Point</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PointType"></i>
-    <span class="hidden">Help modal for center point</span>
-  </a>
-  <%= render partial: 'drafts/forms/type', locals: {
-      type: 'point',
-      values: bounding_rectangle['CenterPoint'] || {},
-      name_prefix: "#{name_prefix}|center_point|_",
-      multiple: false,
-      options: {} } %>
   <label class="icon-required">Bounding Coordinates</label>
   <div class="compass-coordinates">
     <!-- NorthBoundingCoordinate -->

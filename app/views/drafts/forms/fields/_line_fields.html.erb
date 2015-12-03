@@ -1,14 +1,4 @@
 <div class="row sub-fields">
-  <!-- CenterPoint -->
-  <label>Center Point</label>
-  <%= render partial: 'drafts/forms/type', locals: {
-      type: 'point',
-      values: line['CenterPoint'] || {},
-      name_prefix: "#{name_prefix}|center_point|_",
-      multiple: false,
-      options: {} } %>
-
-
   <!-- Points -->
   <label>Points</label>
   <%= render partial: 'drafts/forms/type', locals: {

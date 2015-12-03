@@ -5,7 +5,7 @@
       <i class="fa fa-info-circle" data-help-path="definitions/ContactType/properties/Type"></i>
       <span class="hidden">Help modal for type</span>
     </a>
-    <%= text_field_tag(name_to_param("#{name_prefix}type"), contact['Type'], class: 'full-width validate') %>
+    <%= select_tag(name_to_param("#{name_prefix}type"), options_for_select(DraftsHelper::ContactTypeOptions, contact['Type']), class: 'full-width validate') %>
   </div>
   <div class="col-6">
     <label for="<%= remove_pipes(name_prefix) %>value">Value</label>
