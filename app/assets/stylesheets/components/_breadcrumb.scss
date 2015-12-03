@@ -2,8 +2,13 @@
 ------------------------------------------*/
 
 .breadcrumb {
-  a:link, a:visited {
-    color: $white;
+
+  a {
+
+    &:link,
+    &:visited {
+      color: $white;
+    }
 
     &:hover {
       opacity: 0.9;

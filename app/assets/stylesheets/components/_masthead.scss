@@ -4,9 +4,6 @@ body {
   background: $white asset-url('ed-images/yellow-sea-swirls.jpg') no-repeat center top;
 }
 
-main.content {
-}
-
 .highlight {
   background: rgba($black, 0.8);
   color: $white;
@@ -39,7 +36,8 @@ main.content {
   border-left: 5px solid $red;
 
   h2 {
-    margin: 0 0 0.2em 0;
+    margin: 0;
+    margin-bottom: 0.2em;
     border: none;
     font-weight: bold;
   }

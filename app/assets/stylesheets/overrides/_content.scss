@@ -5,6 +5,8 @@
   color: lighten($black, 30%);
 }
 
+// todo: refactor to individual component
+
 .is-collapsed {
   &:before {
     content: "\f0da";

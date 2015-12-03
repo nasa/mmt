@@ -8,10 +8,12 @@
   padding-top: 1em !important;
   border-bottom: 1px solid $dolphin-grey !important;
   margin-bottom: 1em;
+
   #legend {
     margin-left: .5em;
     color: $ocean-blue;
   }
+
   ul {
     list-style: none;
     padding-left: 0;
@@ -19,12 +21,14 @@
 }
 
 .progress-indicator {
+
   li {
     @include span-columns(4);
     margin-right: 0;
     margin-bottom: 0.625em;
     min-height: 4.2em;
   }
+
   .status {
     width: 1.3125em;
     height: 0.9375em;
@@ -32,10 +36,12 @@
     font-size: 2em;
     margin-top: 0.1875em;
   }
+
   .meta-info {
     width: 16.25em;
     float: left;
   }
+
   .fa-circle,
   .fa-circle-o,
   .fa-minus-circle {
@@ -47,6 +53,7 @@
 .preview {
   @include span-columns(8);
   padding-top: 0 !important;
+
   ul {
     padding-left: 0;
     list-style: none;
@@ -55,11 +62,16 @@
 
 // Compass Coordinates
 .compass-coordinates {
-  .north, .south, .east, .west {
+
+  .north,
+  .south,
+  .east,
+  .west {
     text-align: center;
   }
 
-  .north, .south {
+  .north,
+  .south {
     margin: 0 auto;
     width: 70%;
   }

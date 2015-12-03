@@ -4,6 +4,7 @@
 .coordinates {
   list-style-type: none;
   padding-left: 0;
+
   li {
     display: inline-block;
     margin-right: 0.3125em;
@@ -14,17 +15,20 @@
   @include span-columns(4);
   @include linear-gradient(darken($light-blue, 3%), $light-blue);
   border-top: 5px solid $pale-blue;
-  padding: 1.25em 1.25em;
+  padding: 1.25em;
+
   img {
     padding: 0;
     margin-bottom: 0.625em;
   }
-  h3:before {
-    content: "";
-    margin: 0;
-    padding-bottom: 10.3125em;
-  }
+
   h3 {
     margin-bottom: 1em;
+
+    &:before {
+      content: "";
+      margin: 0;
+      padding-bottom: 10.3125em;
+    }
   }
 }

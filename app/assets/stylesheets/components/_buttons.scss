@@ -5,6 +5,10 @@ input[type="submit"] {
   color: $white;
 }
 
-.btn-default:link, .btn-default:visited {
-  color: $black;
+.btn-default {
+
+  &:link,
+  &:visited {
+    color: $black;
+  }
 }

@@ -1,5 +1,4 @@
 .grid-list {
-
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -9,7 +8,9 @@
     box-shadow: 5px 5px 0 $light-blue;
     @include linear-gradient(145deg, lighten($light-blue, 3%), $white);
     width: 23.3%;
-    margin: 0 2% 2% 0;
+    margin: 0;
+    margin-right: 2%;
+    margin-bottom: 2%;
     float: left;
 
     &:nth-child(4n+0) {

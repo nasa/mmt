@@ -1,7 +1,7 @@
 /* Header
 ------------------------------------------*/
 
-// Note: Needs refactoring.
+// todo: needs heavy refactoring.
 
 header {
   @include row();
@@ -10,7 +10,8 @@ header {
   padding: 0.5em 3.75em;
   box-shadow: 0 3px 3px rgba($true-black, 0.15);
 
-  a:link, a:visited {
+  a:link,
+  a:visited {
     color: $sky-blue;
   }
 
@@ -21,7 +22,8 @@ header {
 
   p {
     display: inline-block;
-    margin: 0 0.8em 0 0;
+    margin: 0;
+    margin-right: 0.8em;
   }
 
   .fa {
@@ -37,16 +39,17 @@ header {
 
     #help {
       display: none; // Change to display: block when help feature is added and remove margin-top on #search
-      margin: 0.5em 0 0 0;
+      margin: 0;
+      margin-top: 0.5em;
       font-size: 0.8em;
     }
 
     .btn-blue {
       background-color: lighten($ocean-blue,4%);
-    }
 
-    .btn-blue:hover {
-      background-color: lighten($ocean-blue,6%);
+      &:hover {
+        background-color: lighten($ocean-blue,6%);
+      }
     }
   }
 
@@ -62,12 +65,14 @@ header {
       background: $midnight-blue;
     }
 
-    a:link, a:visited {
+    a:link,
+    a:visited {
       background: asset-url("nasa-meatball.png") no-repeat left;
       min-height: 64px;
       color: $white;
       display: block;
-      padding: 10px 0 10px 70px;
+      padding: 10px 0;
+      padding-left: 70px;
       @include transition(background-image 0.1s linear);
 
       @include hidpi(1.3) {

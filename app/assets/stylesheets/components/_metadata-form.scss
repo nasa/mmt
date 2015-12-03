@@ -1,6 +1,8 @@
 /* Metadata Form
 ------------------------------------------*/
 
+// todo: requires heavy refactoring
+
 .metadata-form {
   textarea {
     height: 6em;
@@ -10,9 +12,11 @@
     display: block;
   }
 
-  input[type="radio"], input[type="checkbox"] {
+  input[type="radio"],
+  input[type="checkbox"] {
     display: inline-block;
-    margin: 0 0.5em 0 0;
+    margin: 0;
+    margin-right: 0.5em;
     line-height: 1em;
   }
 
@@ -35,7 +39,8 @@
 
 .multiple > .actions .add-new {
   display: inline-block;
-  margin: 0 0 1em 0;
+  margin: 0;
+  margin-bottom: 1em;
 }
 
 .multiple > :last-child > .actions .add-new {

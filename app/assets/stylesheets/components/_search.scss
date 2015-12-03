@@ -1,8 +1,10 @@
 /* Search Module in Header
 ------------------------------------------*/
 
+// todo: requires refactoring
+
 .search-module {
-  background-color: rgba($black,1);
+  background-color: $true-black;
   width: 800px;
   z-index: 10;
   position: absolute;
