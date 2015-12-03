@@ -1,12 +1,11 @@
-require 'cmr/load_data.rb'
+require 'test_cmr/load_data.rb'
 
 namespace :cmr do
   include Cmr
 
   desc 'Load collection metadata into locally running CMR'
   task load: [:reset] do
-    cmr = Cmr::Local.new(55) # might not actually add 50 collections, there are some errors
-    # TODO find a set of good collection metadata to load
+    cmr = Cmr::Local.new
     cmr.load_data
   end
 

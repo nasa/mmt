@@ -68,7 +68,7 @@
       <fieldset>
         <legend>Search Term</legend>
         <div class="col-4">
-          <%= select_tag "search-term-type", options_for_select([ ['Select an option', ''], ['Entry ID', 'entry_id'], ['CMR Concept ID', 'concept_id'], ['Entry Title', 'entry_title'] ], @query['search_term_type']) %>
+          <%= select_tag 'search_term_type', options_for_select([ ['Select an option', ''], ['Entry ID', 'entry_id'], ['CMR Concept ID', 'concept_id'], ['Entry Title', 'entry_title'] ], @query['search_term_type']), id: 'search-term-type' %>
           <label for="search-term-type" class="hidden">Search Term Type</label>
         </div>
         <%= text_field_tag('search_term', @query['search_term'], 'aria-label' => 'Search Term') %>
