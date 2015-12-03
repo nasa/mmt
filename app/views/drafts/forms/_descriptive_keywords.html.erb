@@ -93,7 +93,7 @@
                 <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate') %>
                 <a class="remove">
                   <i class="fa fa-times-circle"></i>
-                  <span class="hidden">Remove <%= keyword_string(ancillary_keyword) %></span>
+                  <span class="hidden">Remove <%= ancillary_keyword %></span>
                 </a>
                 <div class="actions">
                   <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another Ancillary Keyword</button>

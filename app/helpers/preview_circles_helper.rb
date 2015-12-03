@@ -213,6 +213,6 @@ module PreviewCirclesHelper
   end
 
   def invalid_circle(field, draft, form_name, anchor)
-    link_to '<i class="fa fa-minus-circle icon-red"></i> <span class=\"hidden\">#{field}</span>'.html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
+    link_to "<i class=\"fa fa-minus-circle icon-red\"></i> <span class=\"hidden\">#{field}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
   end
 end

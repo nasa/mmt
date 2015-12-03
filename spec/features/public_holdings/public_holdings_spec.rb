@@ -31,7 +31,7 @@ describe 'Public Holdings Display' do
         expect(page).to have_css('table#collections')
 
         within 'table#collections' do
-          expect(page).to have_content('ACRIM III Level 2 Shutter Cycle Data V001')
+          expect(page).to have_content('2000 Pilot Environmental Sustainability Index (ESI)')
           expect(page).to have_content('0')
         end
       end
@@ -50,7 +50,7 @@ describe 'Public Holdings Display' do
         expect(page).to have_css('table#collections')
 
         within 'table#collections' do
-          expect(page).to have_content('ACRIM III Level 2 Shutter Cycle Data V001')
+          expect(page).to have_content('2000 Pilot Environmental Sustainability Index (ESI)')
           expect(page).to have_content('0')
         end
       end
