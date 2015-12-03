@@ -13,10 +13,45 @@
  *= require dropzone-4.0.1/dropzone
  */
 
+@import "config/colors";
+
+@import "vendor/vendor";
 @import "bourbon";
 @import "neat";
-@import "themes";
-@import "base";
-@import "layout";
-@import "modules";
-@import "state";
+
+@import "base/global";
+@import "base/typography";
+
+@import "layout/grid";
+@import "layout/spacing";
+
+@import "components/action";
+@import "components/alert-banner";
+@import "components/banner";
+@import "components/buttons";
+@import "components/callout-box";
+@import "components/geographic-coverage";
+@import "components/grid-list";
+@import "components/header";
+@import "components/icons";
+@import "components/internal";
+@import "components/lightbox";
+@import "components/masthead";
+@import "components/metadata-cta";
+@import "components/metadata-fields";
+@import "components/metadata-form";
+@import "components/modal";
+@import "components/navigation";
+@import "components/search";
+@import "components/accordion";
+@import "components/metadata-preview";
+@import "components/coming-soon";
+@import "components/science-keywords";
+@import "components/breadcrumb";
+@import "components/footer";
+
+@import "pages/pages";
+
+@import "overrides/content";
+@import "overrides/modifiers";
+@import "overrides/visibility";
