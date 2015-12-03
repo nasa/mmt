@@ -5,8 +5,8 @@
   header,
   .content-header {
     min-width: 100%;
-    background: rgba(0,0,0,0.3);
-    color: #fff;
+    background: rgba($true-black, 0.3);
+    color: $white;
     padding: 0;
     h2 {
       margin-bottom: 0.5em;
