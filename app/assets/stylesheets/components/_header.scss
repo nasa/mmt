@@ -37,7 +37,7 @@ header {
 
     #help {
       display: none; // Change to display: block when help feature is added and remove margin-top on #search
-      margin: .5em 0 0 0;
+      margin: 0.5em 0 0 0;
       font-size: 0.8em;
     }
 
@@ -68,7 +68,7 @@ header {
       color: $white;
       display: block;
       padding: 10px 0 10px 70px;
-      @include transition(background-image .1s linear);
+      @include transition(background-image 0.1s linear);
 
       @include hidpi(1.3) {
         background-image: asset-url("nasa-meatball_2x.png");

@@ -5,10 +5,10 @@ $footer-height: 54px;
 
 footer {
   padding: 1em 2em;
-  font-size: .8em;
+  font-size: 0.8em;
 
   ul {
-    margin: .25em 0;
+    margin: 0.25em 0;
     padding: 0;
 
     li {
@@ -16,7 +16,7 @@ footer {
 
       &:not(:first-child):before {
         content: "\b7";
-        margin: 0 .5em;
+        margin: 0 0.5em;
       }
     }
   }
