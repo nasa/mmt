@@ -289,10 +289,12 @@ $(document).ready ->
   $('.next-section').on 'change', ->
     $('#new_form_name').val(this.value)
 
-    return validatePage
+    if validatePage
       showInline: true
       showSummary: true
       showConfirm: true
+
+      $('.metadata-form').submit()
 
   $('.save-form').on 'click', (e) ->
     $('#commit').val($(this).val())
