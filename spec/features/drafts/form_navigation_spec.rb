@@ -8,7 +8,7 @@ describe 'Draft form navigation', js: true do
   before :each do
     login
     visit '/dashboard'
-    choose 'type_new_collection'
+    choose 'new-collection'
     click_on 'Create Record'
   end
 
@@ -50,9 +50,7 @@ describe 'Draft form navigation', js: true do
           click_on 'Metadata Information'
         end
 
-        within('.nav-top') do
-          select next_form, from: 'next_section'
-        end
+        select next_form, from: 'next-section-top'
       end
 
       # Note - randomization causes test result order to not agree with DRAFT_FORMS order.

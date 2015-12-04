@@ -19,8 +19,8 @@ describe 'Search sorting', js: true do
       end
 
       it 'sorts the results by Entry Id Asc' do
-        expect(page).to have_content('aces1cont_1')
-        expect(page).to have_no_content('NSIDC-0212_1')
+        expect(page).to have_content('ACR3L2DM_1')
+        expect(page).to have_no_content('SAMMIGEO_2')
       end
 
       context 'when sorting again' do
@@ -33,8 +33,8 @@ describe 'Search sorting', js: true do
         end
 
         it 'sorts the results by Entry Id Desc' do
-          expect(page).to have_content('NSIDC-0212_1')
-          expect(page).to have_no_content('aces1cont_1')
+          expect(page).to have_content('SAMMIGEO_2')
+          expect(page).to have_no_content('ACR3L2DM_1')
         end
       end
     end
@@ -49,8 +49,8 @@ describe 'Search sorting', js: true do
       end
 
       it 'sorts the results by Entry Title Asc' do
-        expect(page).to have_content('15 Minute Stream Flow Data: USGS (FIFE)')
-        expect(page).to have_no_content('AIRMISR_SNOW_ICE_2001')
+        expect(page).to have_content('2000 Pilot Environmental Sustainability Index (ESI)')
+        expect(page).to have_no_content('MISR Level 1B1 Radiance Data V002')
       end
 
       context 'when sorting again' do
@@ -63,8 +63,8 @@ describe 'Search sorting', js: true do
         end
 
         it 'sorts the results by Entry Title Desc' do
-          expect(page).to have_content('AIRMISR_SNOW_ICE_2001')
-          expect(page).to have_no_content('15 Minute Stream Flow Data: USGS (FIFE)')
+          expect(page).to have_content('MISR Level 1B1 Radiance Data V002')
+          expect(page).to have_no_content('2000 Pilot Environmental Sustainability Index (ESI)')
         end
       end
     end
@@ -79,8 +79,8 @@ describe 'Search sorting', js: true do
       end
 
       it 'sorts the results by Last Modified Asc' do
-        expect(page).to have_content('doi:10.3334/ORNLDAAC/1_1')
-        expect(page).to have_no_content('AIRMISR_SNOW_ICE_2001_1')
+        expect(page).to have_content('2000 Pilot Environmental Sustainability Index (ESI)')
+        expect(page).to have_no_content('MISR Level 1B1 Radiance Data V002')
       end
 
       context 'when sorting again' do
@@ -93,8 +93,8 @@ describe 'Search sorting', js: true do
         end
 
         it 'sorts the results by Last Modified Desc' do
-          expect(page).to have_content('AIRMISR_SNOW_ICE_2001_1')
-          expect(page).to have_no_content('doi:10.3334/ORNLDAAC/1_1')
+          expect(page).to have_content('MISR Level 1B1 Radiance Data V002')
+          expect(page).to have_no_content('2000 Pilot Environmental Sustainability Index (ESI)')
         end
       end
     end

@@ -1,19 +1,31 @@
 <div class="row sub-fields">
   <div class="row">
-    <div class="col-6"
+    <div class="col-6">
       <!-- Short Name [r] -->
-      <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ShortNameType"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label>
+      <a href="#help-modal" class="display-modal" tabindex="-1">
+        <i class="fa fa-info-circle" data-help-path="definitions/ShortNameType"></i>
+        <span class="hidden">Help modal for short name</span>
+      </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), instruments['ShortName'], class: 'full-width validate') %>
     </div>
     <div class="col-6">
       <!-- Long Name -->
-      <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/LongNameType"></i></a>
+      <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label>
+      <a href="#help-modal" class="display-modal" tabindex="-1">
+        <i class="fa fa-info-circle" data-help-path="definitions/LongNameType"></i>
+        <span class="hidden">Help modal for long name</span>
+      </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), instruments['LongName'], class: 'full-width validate') %>
     </div>
   </div>
 
   <!-- Characteristics -->
-  <label>Characteristics</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/Characteristics"></i></a>
+  <label>Characteristics</label>
+  <a href="#help-modal" class="display-modal" tabindex="-1">
+    <i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/Characteristics"></i>
+    <span class="hidden">Help modal for charateristics</span>
+  </a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'characteristics',
       values: instruments['Characteristics'] || [{}],
@@ -23,24 +35,39 @@
 
 
   <!-- Technique -->
-  <label for="<%= remove_pipes(name_prefix) %>technique">Technique</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/Technique"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>technique">Technique</label>
+  <a href="#help-modal" class="display-modal" tabindex="-1">
+    <i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/Technique"></i>
+    <span class="hidden">Help modal for technique</span>
+  </a>
   <%= text_area_tag(name_to_param("#{name_prefix}technique"), instruments['Technique'], rows: 8, class: 'validate') %>
 
 
   <!-- NumberOfSensors -->
-  <label for="<%= remove_pipes(name_prefix) %>number_of_sensors">Number Of Sensors</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/NumberOfSensors"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>number_of_sensors">Number Of Sensors</label>
+  <a href="#help-modal" class="display-modal" tabindex="-1">
+    <i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/NumberOfSensors"></i>
+    <span class="hidden">Help modal for number of sensors</span>
+  </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|number_of_sensors|"), instruments['NumberOfSensors'], class: 'half-width validate mmt-integer') %>
 
 
   <!-- OperationalModes -->
   <% modes = instruments['OperationalModes'] || [nil] # [nil] creates at least one field %>
   <div class="multiple simple-multiple operational-modes">
-    <label for="<%= remove_pipes(name_prefix) %>operational_modes_">Operational Mode</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/OperationalModes"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>operational_modes_">Operational Mode</label>
+    <a href="#help-modal" class="display-modal" tabindex="-1">
+      <i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/OperationalModes"></i>
+      <span class="hidden">Help modal for operational mode</span>
+    </a>
 
   <% modes.each_with_index do |mode, index| %>
     <div class="multiple-item multiple-item-<%= index %>">
       <%= text_field_tag(name_to_param("#{name_prefix}|operational_modes|_#{index}"), mode, class: 'half-width operational-mode simple-multiple-field validate') %>
-      <a class="remove"><i class="fa fa-times-circle"></i></a>
+      <a class="remove">
+        <i class="fa fa-times-circle"></i>
+        <span class="hidden">Remove <%= index %></span>
+      </a>
       <div class="actions">
         <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another Operational Mode</button>
       </div>

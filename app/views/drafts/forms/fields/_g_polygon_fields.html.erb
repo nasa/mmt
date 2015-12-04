@@ -1,6 +1,10 @@
 <div class="row sub-fields">
   <!-- Boundary -->
-  <label class="icon-required">Boundary</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/BoundaryType"></i></a>
+  <label class="icon-required">Boundary</label>
+  <a href="#help-modal" class="display-modal" tabindex="-1">
+    <i class="fa fa-info-circle" data-help-path="definitions/BoundaryType"></i>
+    <span class="hidden">Help modal for boundary</span>
+  </a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'boundary',
       values: g_polygon['Boundary'] || {},
@@ -11,7 +15,11 @@
 
 
   <!-- ExclusiveZone -->
-  <label>Exclusive Zone</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ExclusiveZoneType"></i></a>
+  <label>Exclusive Zone</label>
+  <a href="#help-modal" class="display-modal" tabindex="-1">
+    <i class="fa fa-info-circle" data-help-path="definitions/ExclusiveZoneType"></i>
+    <span class="hidden">Help modal for exclusive zone</span>
+  </a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'exclusive_zone',
       values: g_polygon['ExclusiveZone'] || {},

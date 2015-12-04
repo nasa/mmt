@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Quick find search', js: true do
-  entry_id = 'doi:10.3334/ORNLDAAC/8_1'
+  entry_id = 'ACR3L2DM_1'
 
   before do
     login

@@ -1,4 +1,4 @@
-<header>
+<header role="banner">
   <div class="content">
     <div class="col-6">
       <div class="masthead-logo" id="masthead-logo">
@@ -9,7 +9,7 @@
             <% end %>
         <% end %>
       </div>
-      <section id="user-info">
+      <section id="user-info" role="navigation">
         <% if logged_in? %>
           <p><strong><%= session[:name] %></strong></p>
           <a href="#provider-context" id="change-context" class="display-modal">Change Provider</a>
@@ -47,6 +47,7 @@
 
 <div id="provider-context">
   <% if logged_in? && @current_user.available_providers %>
+    <a href="#" class="modal-close fl-right"><i class="fa fa-times"></i><span class="hidden">Close</span></a>
     <div>
       <% if @current_user.available_providers.size > 1 %>
         <p>

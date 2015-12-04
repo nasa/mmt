@@ -1,6 +1,10 @@
 <div class="row sub-fields">
   <!-- ZoneIdentifier -->
-  <label for="<%= remove_pipes(name_prefix) %>zone_identifier">Zone Identifier</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/HorizontalSpatialDomainType/properties/ZoneIdentifier"></i></a>
+  <label for="<%= remove_pipes(name_prefix) %>zone_identifier">Zone Identifier</label>
+  <a href="#help-modal" class="display-modal" tabindex="-1">
+    <i class="fa fa-info-circle" data-help-path="definitions/HorizontalSpatialDomainType/properties/ZoneIdentifier"></i>
+    <span class="hidden">Help modal for zone identifier</span>
+  </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|zone_identifier|"), horizontal_spatial_domain['ZoneIdentifier'], class: 'half-width validate') %>
 
   <!-- Geometry -->

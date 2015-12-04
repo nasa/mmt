@@ -1,5 +1,10 @@
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  # Filter out files that aren't part of the actual app code
+  # Local CMR files
+  add_filter '/lib/test_cmr/'
+  add_filter '/lib/tasks/local_cmr.rake'
+end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
