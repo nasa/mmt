@@ -98,7 +98,7 @@ describe 'Search Result Pagination', js: true do
     context 'when clicking on a pagination link' do
       before do
         click_on 'Full Metadata Record Search'
-        select 'SEDAC', from: 'provider_id'
+        select 'LARC', from: 'provider_id'
         click_on 'Submit'
 
         click_on 'Page 2'
