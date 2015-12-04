@@ -1,10 +1,18 @@
 <div class="row sub-fields">
   <div class="col-6">
-    <label for="<%= remove_pipes(name_prefix) %>type">Type</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ContactType/properties/Type"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>type">Type</label>
+    <a href="#help-modal" class="display-modal" tabindex="-1">
+      <i class="fa fa-info-circle" data-help-path="definitions/ContactType/properties/Type"></i>
+      <span class="hidden">Help modal for type</span>
+    </a>
     <%= select_tag(name_to_param("#{name_prefix}type"), options_for_select(DraftsHelper::ContactTypeOptions, contact['Type']), class: 'full-width validate') %>
   </div>
   <div class="col-6">
-    <label for="<%= remove_pipes(name_prefix) %>value">Value</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/ContactType/properties/Value"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>value">Value</label>
+    <a href="#help-modal" class="display-modal" tabindex="-1">
+      <i class="fa fa-info-circle" data-help-path="definitions/ContactType/properties/Value"></i>
+      <span class="hidden">Help modal for value</span>
+    </a>
     <%= text_field_tag(name_to_param("#{name_prefix}value"), contact['Value'], class: 'full-width validate') %>
   </div>
 </div>

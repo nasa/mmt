@@ -10,8 +10,7 @@ require 'multi_xml'
 
 module Cmr
   class Local
-    def initialize(num_collections = nil)
-      @num = num_collections
+    def initialize
     end
 
     def load_data
@@ -155,36 +154,18 @@ module Cmr
     end
 
     def retrieve_metadata_uris
-      response = connection.get("https://cmr.earthdata.nasa.gov/search/collections.xml?page_size=#{@num}&page_num=1")
-      xml = MultiXml.parse(response.body)
-      collection_uris = xml['results']['references']['reference'].map { |r| r['location'] }
-      collection_ids = xml['results']['references']['reference'].map { |r| r['id'] }
-
-      results = []
-      collection_ids.each_with_index do |id, index|
-        # This is a giant pain, only load one collection with granules
-        if index == 0
-          response = connection.get("https://cmr.earthdata.nasa.gov/search/granules.xml?page_size=#{2}&page_num=1&concept_id=#{id}")
-          xml = MultiXml.parse(response.body)
-          granule_uri = Array.wrap(xml['results']['references']['reference']).map { |r| r['location'] } if xml['results']['hits'].to_i > 0
-        end
-
-        results << {
-          collection: collection_uris[index],
-          granule: granule_uri || nil
-        }
-      end
-      results
+      data = JSON.parse(File.read(File.join(Rails.root, 'lib', 'test_cmr', 'test_data.json')), symbolize_names: true)
     end
 
     def insert_metadata(uri_list)
       added = 0
       uri_list.each_with_index do |obj, index|
-        metadata = connection.get(obj[:collection]).body
+        collection_uri = obj[:collection]
+        metadata = connection.get(collection_uri).body
         response = connection.put do |req|
-          if index > 24
+          if collection_uri.include? 'SEDAC'
             req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
-          else
+          elsif collection_uri.include? 'LARC'
             req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
           end
           req.headers['Content-Type'] = 'application/echo10+xml'
