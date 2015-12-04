@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe 'Search published results', js: true do
-  entry_id = 'doi:10.3334/ORNLDAAC/1_1'
-  entry_title = '15 Minute Stream Flow Data: USGS (FIFE)'
-  concept_id = 'C1200000000-LARC'
+  entry_id = 'CIESIN_SEDAC_ESI_2000_2000.00'
+  entry_title = '2000 Pilot Environmental Sustainability Index (ESI)'
+  concept_id = 'C1200000000-SEDAC'
 
   before :each do
     login
@@ -40,7 +40,6 @@ describe 'Search published results', js: true do
         expect(page).to have_field('search_term', with: entry_id)
       end
     end
-    # We could add a test to actually examine the results table contents more specifically
   end
 
   context 'when searching by entry id' do
@@ -77,7 +76,8 @@ describe 'Search published results', js: true do
     end
   end
 
-  context 'when searching published records by entry id' do # Is actually searching published and drafts for a published by entry id
+  # Is actually searching published and drafts for a published by entry id
+  context 'when searching published records by entry id' do
     before do
       click_on 'Full Metadata Record Search'
       select 'Published & Draft Records', from: 'record_state'
@@ -139,12 +139,12 @@ describe 'Search published results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_content('25 Results for: Provider Id: LARC')
+      expect(page).to have_content('30 Results for: Provider Id: LARC')
     end
 
     it 'displays expected data' do
-      expect(page).to have_content('aces1efm_1')
-      expect(page).to have_content('ACES ELECTRIC FIELD MILL V1')
+      expect(page).to have_content('ACR3L2DM_1')
+      expect(page).to have_content('ACRIM III Level 2 Daily Mean Data V001')
       expect(page).to have_content(today_string)
     end
 
@@ -205,6 +205,5 @@ describe 'Search published results', js: true do
     it 'displays collection results' do
       expect(page).to have_content(' Results')
     end
-    # We could add a test to actually examine the results table contents more specifically
   end
 end

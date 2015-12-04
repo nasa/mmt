@@ -3,7 +3,7 @@
   background-color: $light-grey;
   cursor: pointer;
   font-weight: bold;
-  color: $dolphin-grey;
+  color: darken($dolphin-grey, 20%);
   @include transition(all 0.25s ease-in-out);
 
   .actions {

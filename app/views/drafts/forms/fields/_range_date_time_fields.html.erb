@@ -2,13 +2,21 @@
 
   <div class="col-6">
     <!-- BeginningDateTime -->
-    <label for="<%= remove_pipes(name_prefix) %>beginning_date_time" class="icon-required">Beginning Date Time</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/RangeDateTimeType/properties/BeginningDateTime"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>beginning_date_time" class="icon-required">Beginning Date Time</label>
+    <a href="#help-modal" class="display-modal" tabindex="-1">
+      <i class="fa fa-info-circle" data-help-path="definitions/RangeDateTimeType/properties/BeginningDateTime"></i>
+      <span class="hidden">Help modal for beginning date time</span>
+    </a>
     <%= datetime_field_tag(name_to_param("#{name_prefix}|beginning_date_time|"), range_date_time['BeginningDateTime'], class: 'full-width validate mmt-date-time') %>
   </div>
 
   <div class="col-6">
     <!-- EndingDateTime -->
-    <label for="<%= remove_pipes(name_prefix) %>ending_date_time">Ending Date Time</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/RangeDateTimeType/properties/EndingDateTime"></i></a>
+    <label for="<%= remove_pipes(name_prefix) %>ending_date_time">Ending Date Time</label>
+    <a href="#help-modal" class="display-modal" tabindex="-1">
+      <i class="fa fa-info-circle" data-help-path="definitions/RangeDateTimeType/properties/EndingDateTime"></i>
+      <span class="hidden">Help modal for ending date time</span>
+    </a>
     <%= datetime_field_tag(name_to_param("#{name_prefix}|ending_date_time|"), range_date_time['EndingDateTime'], class: 'full-width validate mmt-date-time') %>
   </div>
 

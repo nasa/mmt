@@ -54,7 +54,7 @@ describe 'Delete collection', js: true, reset_provider: true do
 
   context 'when viewing a published collection with granules' do
     before do
-      entry_id = 'doi:10.3334/ORNLDAAC/1_1'
+      entry_id = 'ACR3L2DM_1'
 
       fill_in 'entry_id', with: entry_id
       click_on 'Find'

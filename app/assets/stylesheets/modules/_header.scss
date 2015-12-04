@@ -11,7 +11,7 @@ header {
   box-shadow: 0 3px 3px rgba(0,0,0,0.15);
 
   a:link, a:visited {
-    color: $sky-blue;
+    color: lighten($sky-blue, 30%);
   }
 
   h1 {
@@ -110,7 +110,7 @@ header {
     label {
       width: 7em;
       margin: 0.55em 0.8em 0 0;
-      color: $light-grey;
+      color: lighten($light-grey, 10%);
     }
 
     input[type="text"] {
