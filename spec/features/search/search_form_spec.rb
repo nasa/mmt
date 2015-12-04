@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe 'Search Form', js: true do
-  entry_id = 'doi:10.3334/ORNLDAAC/8_1'
-  entry_title = '15 Minute Stream Flow Data: USGS (FIFE)'
+  entry_id = 'ACR3L2DM_1'
+  entry_title = 'ACRIM III Level 2 Daily Mean Data V001'
 
   before do
     login

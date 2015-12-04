@@ -22,7 +22,7 @@
 
   label {
     font-weight: bold;
-    color: $dolphin-grey;
+    color: darken($dolphin-grey, 20%);
   }
 
   .fa-info-circle {

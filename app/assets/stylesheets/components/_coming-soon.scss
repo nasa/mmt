@@ -2,14 +2,14 @@
 ------------------------------------------*/
 
 .coming-soon {
-  margin: 0 0.5em;
-  padding: 0 0.4em;
-  background-color: $red;
-  color: $white;
-  font-size: 0.75em;
-  font-weight: bold;
+  display: inline-block;
   position: relative;
   top: -2px;
   border-radius: 3px;
-  display: inline-block;
+  margin: 0 0.5em;
+  padding: 0 0.4em;
+  background-color: darken($red, 10%);
+  color: $white;
+  font-size: 0.75em;
+  font-weight: bold;
 }

@@ -15,36 +15,36 @@
 
 <%= render 'shared/flash_messages' %>
 
-<main class="dashboard">
-  <article id="metadata" class="row-content">
+<main class="dashboard" role="main">
+  <article id="metadata" class="row-content" role="article">
     <section class="callout-box col-left">
       <div class="callout-content">
         <h3>Create New Record</h3>
         <%= form_tag(new_record_path, method: 'get', enforce_utf8: false) do %>
           <div class="question-group">
             <div class="row">
-              <%= radio_button_tag(:type, "new_collection", true) %>
-              <%= image_tag "collection.png" %>
-              <label for="type_new_collection">
+              <%= radio_button_tag(:type, "new_collection", true, id: 'new-collection') %>
+              <%= image_tag "collection.png", alt: "" %>
+              <label for="new-collection">
                 New Collection Record
               </label>
             </div>
             <div class="row">
-              <%= radio_button_tag(:type, "new_service", nil, disabled: true) %>
-              <!-- <%= image_tag "services.png" %> -->
+              <%= radio_button_tag(:type, "new_service", nil, disabled: true, id: 'new-service') %>
+              <!-- <%= image_tag "services.png", alt: "" %> -->
               <label class="disabled" for="new-service">New Service Record</label><span class="coming-soon">Coming Soon</span>
             </div>
           </div>
           <div class="question-group">
             <div class="row">
-              <%= radio_button_tag(:type, "from_template", nil, disabled: true) %>
+              <%= radio_button_tag(:type, "from_template", nil, disabled: true, id: 'from-template') %>
               <label class="disabled" for="from-template">From Template</label><span class="coming-soon">Coming Soon</span>
               <!-- <select name="select-template" class="single-select">
                 <option value="Select Template">Select Template</option>
               </select> -->
             </div>
             <div class="row">
-              <%= radio_button_tag(:type, "blank_record", nil, disabled: true) %>
+              <%= radio_button_tag(:type, "blank_record", nil, disabled: true, id: 'blank-record') %>
               <label class="disabled" for="blank-record">From Blank Record</label><span class="coming-soon">Coming Soon</span>
             </div>
             <div class="row">

@@ -8,7 +8,7 @@ describe 'Draft form navigation' do
   before :each do
     login
     visit '/dashboard'
-    choose 'type_new_collection'
+    choose 'new-collection'
     click_button 'Create Record'
   end
 
@@ -48,9 +48,7 @@ describe 'Draft form navigation' do
         next_form_title = Draft.get_next_form(f[:form_partial_name]).titleize
         context "#{next_form_title} from the first form selection drop down" do
           before do
-            within('.nav-top') do
-              select next_form_title, from: 'next_section'
-            end
+            select next_form_title, from: 'next-section-top'
           end
 
           # Note - randomization causes test result order to not agree with DRAFT_FORMS order.
@@ -66,9 +64,7 @@ describe 'Draft form navigation' do
 
       context "#{this_form_title} from the second form selection drop down" do
         before do
-          within('.nav-bottom') do
-            select this_form_title, from: 'next_section'
-          end
+          select this_form_title, from: 'next-section-bottom'
         end
 
         it "displays the #{this_form_title} form" do

@@ -1,4 +1,4 @@
-<main class="internal">
+<main class="internal" role="main">
   <header>
     <div class="content">
       <div class="breadcrumb">
@@ -86,6 +86,7 @@
                   <% unless index == 0 || revision['meta']['deleted'] == true %>
                     <%= link_to phrase, "#delete-revisions-modal-#{revision_id}", class: 'display-modal' %>
                     <div id="delete-revisions-modal-<%= revision_id %>" class="modal-content">
+                      <a href="#" class="modal-close fl-right"><i class="fa fa-times"></i><span class="hidden">Close</span></a>
                       <p><%= confirm_phrase %></p>
                       <p>
                         <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>

@@ -1,6 +1,12 @@
 <!-- Spatial Extent [r] -->
 <fieldset class="accordion is-closed" id="spatial-extent">
-  <div class="accordion-header"><h3 class="icon-required">Spatial Extent</h3></div>
+  <div class="accordion-header">
+    <h3 class="icon-required">Spatial Extent</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Spatial Extent</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <div class="row">
       <div class="col-12">
@@ -17,7 +23,13 @@
 
 <!-- Tiling Identification System -->
 <fieldset class="accordion is-closed" id="tiling-identification-system">
-  <div class="accordion-header"><h3>Tiling Identification System</h3></div>
+  <div class="accordion-header">
+    <h3>Tiling Identification System</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Tiling Identification System</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <div class="row">
       <div class="col-12">
@@ -34,11 +46,21 @@
 
 <!-- Spatial Representation Information -->
 <fieldset class="accordion is-closed" id="spatial-representation-information">
-  <div class="accordion-header"><h3>Spatial Representation Information</h3></div>
+  <div class="accordion-header">
+    <h3>Spatial Representation Information</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Spatial Representation Information</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <div class="row">
       <div class="col-12">
-        <label class="main-field">Spatial Representation Information</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="properties/SpatialInformation"></i></a>
+        <label class="main-field">Spatial Representation Information</label>
+        <a href="#help-modal" class="display-modal" tabindex="-1">
+          <i class="fa fa-info-circle" data-help-path="properties/SpatialInformation"></i>
+          <span class="hidden">Help modal for spatial representation information</span>
+        </a>
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'spatial_information',
             values: draft.draft['SpatialInformation'] || {},
@@ -52,7 +74,13 @@
 
 <!-- Spatial Keywords -->
 <fieldset class="accordion is-closed" id="spatial-keywords">
-  <div class="accordion-header"><h3>Spatial Keywords</h3></div>
+  <div class="accordion-header">
+    <h3>Spatial Keywords</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Spatial Keywords</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <div class="row">
       <div class="col-12">
@@ -63,7 +91,10 @@
               <% spatial_keywords.each do |spatial_keyword| %>
                 <li>
                   <%= spatial_keyword %>
-                  <a class="remove"><i class="fa fa-times-circle"></i></a>
+                  <a class="remove">
+                    <i class="fa fa-times-circle"></i>
+                    <span class="hidden">Remove <%= spatial_keyword %></span>
+                  </a>
                   <%= hidden_field_tag("draft[spatial_keywords][]", spatial_keyword) %>
                 </li>
               <% end %>
