@@ -1,0 +1,28 @@
+<fieldset class="accordion is-closed" id="organizations">
+  <div class="accordion-header">
+    <h3 class="icon-required">Organizations</h3>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Organizations</span>
+    </a>
+  </div>
+  <div class="accordion-body">
+    <!-- Organization [r] -->
+    <div class="row taller">
+      <div class="col-12">
+        <div class="row sub-fields">
+          <%= render partial: 'drafts/forms/type', locals: {
+              type: 'responsibility',
+              values: draft.draft['Organizations'] || [{}],
+              name_prefix: "draft_|organizations|_",
+              multiple: true,
+              options: {
+                type: 'organizations',
+                limit_type: 'organization',
+                title: 'Organization'
+              } } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>

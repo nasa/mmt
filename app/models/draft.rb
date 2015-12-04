@@ -6,7 +6,11 @@ class Draft < ActiveRecord::Base
 
   DRAFT_FORMS = %w(
     metadata_information
+    collection_information
+    organizations
+    personnel
     data_identification
+    resource_citations
     descriptive_keywords
     distribution_information
     temporal_information

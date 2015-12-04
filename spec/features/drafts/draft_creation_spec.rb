@@ -27,7 +27,7 @@ describe 'Draft creation', js: true do
     context 'when saving data into the draft' do
       before do
         within '.metadata' do
-          click_on 'Data Identification'
+          click_on 'Collection Information'
         end
 
         open_accordions

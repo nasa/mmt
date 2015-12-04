@@ -266,7 +266,7 @@ module Helpers
       end
     end
 
-    def add_resource_citation
+    def add_resource_citations
       within '.multiple.collection-citations' do
         fill_in 'Version', with: 'v1'
         fill_in 'draft_collection_citations_0_title', with: 'Citation title' # Title

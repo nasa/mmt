@@ -14,7 +14,7 @@ module PreviewCirclesHelper
         anchor: 'directory-names'
       }
     },
-    'data_identification' => {
+    'collection_information' => {
       'EntryId' => {
         required: true,
         anchor: 'collection-information'
@@ -38,18 +38,24 @@ module PreviewCirclesHelper
       'DataLanguage' => {
         required: false,
         anchor: 'collection-information'
-      },
-      'DataDates' => {
-        required: true,
-        anchor: 'data-dates'
-      },
+      }
+    },
+    'organizations' => {
       'Organizations' => {
         required: true,
         anchor: 'organizations'
-      },
+      }
+    },
+    'personnel' => {
       'Personnel' => {
         required: false,
         anchor: 'personnel'
+      }
+    },
+    'data_identification' => {
+      'DataDates' => {
+        required: true,
+        anchor: 'data-dates'
       },
       'CollectionDataType' => {
         required: false,
@@ -58,10 +64,6 @@ module PreviewCirclesHelper
       'ProcessingLevel' => {
         required: true,
         anchor: 'processing-level'
-      },
-      'CollectionCitations' => {
-        required: false,
-        anchor: 'collection-citation'
       },
       'CollectionProgress' => {
         required: false,
@@ -86,6 +88,12 @@ module PreviewCirclesHelper
       'PublicationReferences' => {
         required: false,
         anchor: 'publication-references'
+      }
+    },
+    'resource_citations' => {
+      'CollectionCitations' => {
+        required: false,
+        anchor: 'collection-citation'
       }
     },
     'descriptive_keywords' => {

@@ -1,0 +1,45 @@
+<div class="preview-collection accordion is-closed">
+  <div class="accordion-header">
+    <h4>Collection Information Fields:</h4>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Collection Information Fields</span>
+    </a>
+  </div>
+  <div class="accordion-body">
+    <ul class="collection-information-preview">
+      <h4>Collection Information <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="hidden">Edit Collection Information</span>'.html_safe, draft_edit_form_path(@draft, 'collection_information', {anchor: 'collection-information'}), {class: 'hash-link'} %><% end %></h4>
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'EntryId',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'Version',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'EntryTitle',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'Abstract',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+        key_name: 'Purpose',
+        hash_for_key: metadata
+      } %>
+
+      <%= render partial: 'shared/preview/fields/display_select_field', locals: {
+        name: 'DataLanguage',
+        options: @language_codes,
+        data: metadata['DataLanguage']
+      } %>
+
+    </ul>
+  </div>
+</div>

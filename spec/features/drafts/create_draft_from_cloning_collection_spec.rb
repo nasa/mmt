@@ -34,13 +34,13 @@ describe 'Create new draft from cloning a collection', js: true do
     end
 
     it 'appends " - Cloned" to the metadata' do
-      within '.data-identification-preview' do
+      within '.collection-information-preview' do
         expect(page).to have_content("Entry Title: #{entry_title} - Cloned")
       end
     end
 
     it 'removes Entry Id from the metadata' do
-      within '.data-identification-preview' do
+      within '.collection-information-preview' do
         expect(page).to have_no_content('Entry Id')
       end
     end

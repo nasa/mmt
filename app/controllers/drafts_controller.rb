@@ -43,7 +43,7 @@ class DraftsController < ApplicationController
       @draft_form = params[:form]
       @science_keywords = cmr_client.get_science_keywords if params[:form] == 'descriptive_keywords'
       @spatial_keywords = cmr_client.get_spatial_keywords if params[:form] == 'spatial_information'
-      if params[:form] == 'metadata_information' || params[:form] == 'data_identification'
+      if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
         codes = cmr_client.get_language_codes
         @language_codes = { 'Select Language' => '' }.merge(codes)
       end

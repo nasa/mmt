@@ -8,7 +8,11 @@
     </p> -->
 
     <%= render partial: 'shared/preview/metadata_information', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/collection_information', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/organizations', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/personnel', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/data_identification', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/resource_citations', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/descriptive_keywords', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/distribution_information', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/temporal_information', locals: { metadata: metadata } %>

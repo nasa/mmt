@@ -74,7 +74,7 @@ describe 'Data validation for a form', js: true do
   context 'when the form is empty' do
     before do
       within 'section.metadata' do
-        click_on 'Data Identification'
+        click_on 'Collection Information'
       end
 
       open_accordions
@@ -97,6 +97,30 @@ describe 'Data validation for a form', js: true do
       end
     end
 
+    context 'full page validation works' do
+      before do
+        within '.nav-top' do
+          click_on 'Save & Done'
+        end
+        # Reject
+        click_on 'No'
+      end
+
+      it 'full page validation works' do
+        expect(page).to have_content('Entry Id is required')
+      end
+    end
+  end
+
+  context 'when conditionally required fields are present' do
+    before do
+      within 'section.metadata' do
+        click_on 'Data Identification'
+      end
+
+      open_accordions
+    end
+
     it 'validation between related R and NR fields works' do
       within '.access-constraints' do
         expect(page).to have_no_selector(validation_error)
@@ -113,26 +137,12 @@ describe 'Data validation for a form', js: true do
         expect(page).to have_selector(validation_error)
       end
     end
-
-    context 'full page validation works' do
-      before do
-        within '.nav-top' do
-          click_on 'Save & Done'
-        end
-        # Reject
-        click_on 'No'
-      end
-
-      it 'full page validation works' do
-        expect(page).to have_content('Entry Id is required')
-      end
-    end
   end
 
   context 'when there is a floating point field' do
     before do
       within 'section.metadata' do
-        click_on 'Data Identification'
+        click_on 'Organizations', match: :first
       end
 
       open_accordions
@@ -276,7 +286,7 @@ describe 'Data validation for a form', js: true do
   context 'when triggering the oneOf error for Party' do
     before do
       within 'section.metadata' do
-        click_on 'Data Identification'
+        click_on 'Organizations', match: :first
       end
 
       open_accordions
