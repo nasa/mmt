@@ -90,6 +90,7 @@ describe 'Data identification form', js: true do
       expect(page).to have_content('9-5, M-F', count: 2)
       expect(page).to have_content('9876543210987', count: 1)
       expect(page).to have_content('Access constraint description', count: 1)
+      expect(page).to have_content('Address line 3', count: 4)
       expect(page).to have_content('Authority', count: 3)
       expect(page).to have_content('Create', count: 1)
       expect(page).to have_content('Citation DOI Authority', count: 2)
@@ -216,6 +217,7 @@ describe 'Data identification form', js: true do
           within '.multiple.addresses > .multiple-item-0' do
             expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
             expect(page).to have_selector('input.street-address[value="Room 203"]')
+            expect(page).to have_selector('input.street-address[value="Address line 3"]')
             expect(page).to have_field('City', with: 'Washington')
             expect(page).to have_field('State / Province', with: 'District of Columbia')
             expect(page).to have_field('Postal Code', with: '20546')
@@ -264,6 +266,7 @@ describe 'Data identification form', js: true do
           within '.multiple.addresses > .multiple-item-0' do
             expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
             expect(page).to have_selector('input.street-address[value="Room 203"]')
+            expect(page).to have_selector('input.street-address[value="Address line 3"]')
             expect(page).to have_field('City', with: 'Washington')
             expect(page).to have_field('State / Province', with: 'District of Columbia')
             expect(page).to have_field('Postal Code', with: '20546')
@@ -315,6 +318,7 @@ describe 'Data identification form', js: true do
           within '.multiple.addresses > .multiple-item-0' do
             expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
             expect(page).to have_selector('input.street-address[value="Room 203"]')
+            expect(page).to have_selector('input.street-address[value="Address line 3"]')
             expect(page).to have_field('City', with: 'Washington')
             expect(page).to have_field('State / Province', with: 'District of Columbia')
             expect(page).to have_field('Postal Code', with: '20546')
@@ -364,6 +368,7 @@ describe 'Data identification form', js: true do
           within '.multiple.addresses > .multiple-item-0' do
             expect(page).to have_selector('input.street-address[value="300 E Street Southwest"]')
             expect(page).to have_selector('input.street-address[value="Room 203"]')
+            expect(page).to have_selector('input.street-address[value="Address line 3"]')
             expect(page).to have_field('City', with: 'Washington')
             expect(page).to have_field('State / Province', with: 'District of Columbia')
             expect(page).to have_field('Postal Code', with: '20546')
