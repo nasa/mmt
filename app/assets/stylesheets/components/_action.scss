@@ -1,14 +1,14 @@
-/* Action Row
-------------------------------------------*/
+/* ===================================================== *\
+   Action Row
+\* ===================================================== */
 
 .action {
   border-bottom: 1px solid $dolphin-grey;
-  // todo: re-evaluate !important rule
-  padding: 0 !important;
-  padding-top: 0.9375em !important;
-  padding-bottom: 0.625em !important;
+  padding: 0;
+  padding-top: 0.9375em;
+  padding-bottom: 0.625em;
 
-  .btn {
+  a:first-child {
     margin-right: 0.625em;
   }
 }

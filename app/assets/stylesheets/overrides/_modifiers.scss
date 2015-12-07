@@ -1,5 +1,6 @@
-/* Modifiers
-----------------------------------------*/
+/* ===================================================== *\
+   Override Modifiers
+\* ===================================================== */
 
 .home {
   background-color: $light-grey;
@@ -30,7 +31,11 @@
   color: $red;
 }
 
-// Disabled functionality
+// Content States
 .disabled {
   opacity: 0.4;
+}
+
+.is-hidden {
+  display: none;
 }
