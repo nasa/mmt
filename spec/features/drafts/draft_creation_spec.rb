@@ -32,7 +32,7 @@ describe 'Draft creation', js: true do
 
         open_accordions
 
-        fill_in 'draft_entry_id', with: '123'
+        fill_in 'Short Name', with: '123'
 
         within '.nav-top' do
           click_on 'Save & Done'

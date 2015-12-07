@@ -28,7 +28,7 @@ describe template_path, type: :view do
       before do
         full_draft = build(:full_draft).draft
 
-        draft_json['EntryId'] = full_draft['EntryId']
+        draft_json['ShortName'] = full_draft['ShortName']
         draft_json['Version'] = full_draft['Version']
         draft_json['EntryTitle'] = full_draft['EntryTitle']
         draft_json['Abstract'] = full_draft['Abstract']

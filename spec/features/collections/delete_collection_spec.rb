@@ -54,12 +54,12 @@ describe 'Delete collection', js: true, reset_provider: true do
 
   context 'when viewing a published collection with granules' do
     before do
-      entry_id = 'ACR3L2DM_1'
+      short_name = 'ACR3L2DM'
 
-      fill_in 'entry_id', with: entry_id
+      fill_in 'short_name', with: short_name
       click_on 'Find'
 
-      click_on entry_id
+      click_on short_name
     end
 
     it 'displays the number of granules' do

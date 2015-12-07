@@ -7,7 +7,11 @@
   <tr>
     <!-- Temporarily commented out because this is not a part of the MVP %-->
     <!--th><input type="checkbox" name="name" value=""></th-->
-    <th id="col-entry-id"><%= sort_by_link('Entry Id', 'entry_id', @query) %></th>
+    <th id="col-short-name">
+      <%# Uncomment after CMR-2111 %>
+      <%#= sort_by_link('Short Name', 'short_name', @query) %>
+      Short Name
+    </th>
     <th id="col-entry-title"><%= sort_by_link('Entry Title', 'entry_title', @query) %></th>
     <th id="col-last-modified"><%= sort_by_link('Last Modified', 'revision_date', @query) %></th>
   </tr>
@@ -38,9 +42,9 @@
           </td-->
           <td>
             <% if collection['meta']['draft_id'] %>
-              <%= link_to "#{collection['umm']['entry-id']} (Draft)", draft_path(collection['meta']['draft_id'])%>
+              <%= link_to "#{collection['umm']['short-name']} (Draft)", draft_path(collection['meta']['draft_id'])%>
             <% else %>
-              <%= link_to collection['umm']['entry-id'], collection_path(collection['meta']['concept-id'])%>
+              <%= link_to collection['umm']['short-name'], collection_path(collection['meta']['concept-id'])%>
             <% end %>
           </td>
           <td>

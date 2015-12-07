@@ -14,7 +14,7 @@ very_long_string = '0' * 1000
 
 good_string_values = ['good string']
 bad_string_values = [
-  { value: very_long_string, error: 'Entry Id is too long' }
+  { value: very_long_string, error: 'Short Name is too long' }
 ]
 
 integer_error_string = 'Precision Of Seconds must be of type integer'
@@ -81,17 +81,17 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'simple mandatory string field validation works' do
-      fill_in 'draft_entry_id', with: empty_string
-      expect(page).to have_content('Entry Id is required')
+      fill_in 'Short Name', with: empty_string
+      expect(page).to have_content('Short Name is required')
 
       good_string_values.each do |test|
-        fill_in 'draft_entry_id', with: test
+        fill_in 'Short Name', with: test
         puts "#{test}" if debug
         expect(page).to have_no_selector(validation_error)
       end
 
       bad_string_values.each do |test|
-        fill_in 'draft_entry_id', with: test[:value]
+        fill_in 'Short Name', with: test[:value]
         puts "String: #{test[:value]}: #{test[:error]}" if debug
         expect(page).to have_content(test[:error])
       end
@@ -107,7 +107,7 @@ describe 'Data validation for a form', js: true do
       end
 
       it 'full page validation works' do
-        expect(page).to have_content('Entry Id is required')
+        expect(page).to have_content('Short Name is required')
       end
     end
   end

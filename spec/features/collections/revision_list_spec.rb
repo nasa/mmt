@@ -73,7 +73,7 @@ describe 'Revision list', js: true, reset_provider: true do
       before do
         click_on 'Full Metadata Record Search'
         select 'MMT_2', from: 'provider_id'
-        select 'Entry ID', from: 'search_term_type'
+        select 'Short Name', from: 'search_term_type'
         fill_in 'search_term', with: '12345'
         click_on 'Submit'
       end

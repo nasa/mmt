@@ -1,8 +1,8 @@
 <%= form_tag(search_path, method: "get", enforce_utf8: false, id: 'search-form', role: 'search') do %>
   <input type="hidden" name="search_type" id="search_type" value="">
   <div class="quick-search">
-    <%= label_tag('entry_id', "Quick Find") %>
-    <%= text_field_tag('entry_id', @query['entry_id'], placeholder: 'Enter Entry Id') %>
+    <%= label_tag('short_name', "Quick Find") %>
+    <%= text_field_tag('short_name', @query['short_name'], placeholder: 'Enter Short Name') %>
     <button type="button" name="quick_find" class="btn btn-blue"><i class="fa fa-search"></i>Find</button>
   </div>
 
@@ -68,7 +68,7 @@
       <fieldset>
         <legend>Search Term</legend>
         <div class="col-4">
-          <%= select_tag 'search_term_type', options_for_select([ ['Select an option', ''], ['Entry ID', 'entry_id'], ['CMR Concept ID', 'concept_id'], ['Entry Title', 'entry_title'] ], @query['search_term_type']), id: 'search-term-type' %>
+          <%= select_tag 'search_term_type', options_for_select([ ['Select an option', ''], ['Short Name', 'short_name'], ['CMR Concept ID', 'concept_id'], ['Entry Title', 'entry_title'] ], @query['search_term_type']), id: 'search-term-type' %>
           <label for="search-term-type" class="hidden">Search Term Type</label>
         </div>
         <%= text_field_tag('search_term', @query['search_term'], 'aria-label' => 'Search Term') %>

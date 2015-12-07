@@ -1448,7 +1448,7 @@
     "ProcessingLevelType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "This element contains the level identifier as described here: https://earthdata.nasa.gov/data/standards-and-references/processing-levels",
+      "description": "This element contains the level identifier as described here: http://science.nasa.gov/earth-science/earth-science-data/data-processing-levels-for-eosdis-data-products/",
       "properties": {
         "ProcessingLevelDescription": {
           "description": "Description of Processing Level.",
@@ -1908,14 +1908,14 @@
       },
       "minItems": 1
     },
-    "EntryId": {
-      "description": "The entry ID of the service described by the metadata.",
-      "$ref": "#/definitions/EntryIdType"
+    "ShortName": {
+      "description": "The short name associated with the collection.",
+      "$ref": "#/definitions/ShortNameType"
     },
     "Version": {
       "description": "The Version of the metadata record.",
       "$ref": "#/definitions/VersionType"
     }
   },
-  "required": ["EntryId", "EntryTitle", "Abstract", "DataDates", "Organizations", "RelatedUrls", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms"]
+  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DataDates", "Organizations", "RelatedUrls", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms"]
 }

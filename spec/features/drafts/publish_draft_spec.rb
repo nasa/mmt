@@ -22,7 +22,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
 
     it 'displays the published metadata' do
       # Data Identification
-      expect(page).to have_content('Entry Id: 12345')
+      expect(page).to have_content('Short Name: 12345')
       expect(page).to have_content('Entry Title: Draft Title')
       expect(page).to have_content('Title: Publication reference title')
       expect(page).to have_content('Publisher: Publication reference publisher')
@@ -62,7 +62,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
 
     context 'when searching for the published record' do
       before do
-        fill_in 'entry_id', with: '12345'
+        fill_in 'short_name', with: '12345'
         click_on 'Find'
       end
 

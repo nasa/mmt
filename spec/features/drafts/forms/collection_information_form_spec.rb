@@ -17,7 +17,7 @@ describe 'Collection Information form', js: true do
 
       open_accordions
 
-      fill_in 'draft_entry_id', with: '12345'
+      fill_in 'Short Name', with: '12345'
       fill_in 'Version', with: 'v2'
       fill_in 'Entry Title', with: 'Draft Title'
       fill_in 'Abstract', with: 'This is a long description of the collection'
@@ -58,7 +58,8 @@ describe 'Collection Information form', js: true do
       end
 
       it 'populates the form with the values' do
-        expect(page).to have_field('Entry Id', with: '12345')
+        expect(page).to have_field('Short Name', with: '12345')
+        expect(page).to have_field('Version', with: 'v2')
         expect(page).to have_field('Entry Title', with: 'Draft Title')
         expect(page).to have_field('Abstract', with: 'This is a long description of the collection')
         expect(page).to have_field('Purpose', with: 'This is the purpose field')

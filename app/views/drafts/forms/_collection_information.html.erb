@@ -4,18 +4,18 @@
   </div>
   <div class="accordion-body">
     <div class="row">
-      <!-- Entry ID [r] -->
+      <!-- Short Name [r] -->
       <div class="col-6">
-        <label for="draft_entry_id" class="main-field icon-required">Entry Id</label>
+        <label for="draft_short_name" class="main-field icon-required">Short Name</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/EntryId"></i>
-          <span class="hidden">Help modal for Entry Id</span>
+          <i class="fa fa-info-circle" data-help-path="properties/ShortName"></i>
+          <span class="hidden">Help modal for Short Name</span>
         </a>
-        <%= text_field_tag('draft[entry_id]', draft.draft['EntryId'], class: 'full-width validate') %>
+        <%= text_field_tag('draft[short_name]', draft.draft['ShortName'], class: 'full-width validate') %>
       </div>
-      <!-- Version -->
+      <!-- Version [r] -->
       <div class="col-6">
-        <label for="draft_version" class="main-field">Version</label>
+        <label for="draft_version" class="main-field icon-required">Version</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/Version"></i>
           <span class="hidden">Help modal for version</span>

@@ -18,15 +18,15 @@ describe 'Draft form help text', js: true do
 
         open_accordions
 
-        find(:xpath, "//a/i[@data-help-path='properties/EntryId']/..").click # EntryId
+        find(:xpath, "//a/i[@data-help-path='properties/ShortName']/..").click # ShortName
       end
 
       it 'displays the field name in a modal' do
-        expect(page).to have_content('Entry Id')
+        expect(page).to have_content('Short Name')
       end
 
       it 'displays the description in a modal' do
-        expect(page).to have_content('The entry ID of the service described by the metadata')
+        expect(page).to have_content('The short name associated with the collection.')
       end
     end
 
@@ -54,7 +54,7 @@ describe 'Draft form help text', js: true do
 
         open_accordions
 
-        find(:xpath, "//a/i[@data-help-path='properties/EntryId']/..").click # EntryId
+        find(:xpath, "//a/i[@data-help-path='properties/ShortName']/..").click # ShortName
       end
 
       it 'displays the validation clue in the modal' do
@@ -70,7 +70,7 @@ describe 'Draft form help text', js: true do
 
         open_accordions
 
-        find(:xpath, "//a/i[@data-help-path='properties/EntryId']/..").click # EntryId
+        find(:xpath, "//a/i[@data-help-path='properties/ShortName']/..").click # ShortName
       end
 
       it 'displays the validation clue in the modal' do

@@ -15,7 +15,7 @@ module PreviewCirclesHelper
       }
     },
     'collection_information' => {
-      'EntryId' => {
+      'ShortName' => {
         required: true,
         anchor: 'collection-information'
       },
