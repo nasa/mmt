@@ -204,15 +204,15 @@ module PreviewCirclesHelper
 
   def empty_circle(field, draft, form_name, anchor, required)
     icon = required ? 'icon-green' : 'icon-grey'
-    link_to "<i class=\"fa fa-circle-o #{icon}\"></i> <span class=\"hidden\">#{field}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
+    link_to "<i class=\"fa fa-circle-o #{icon}\"></i> <span class=\"is-hidden\">#{field}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
   end
 
   def complete_circle(field, draft, form_name, anchor, required)
     icon = required ? 'icon-green' : 'icon-grey'
-    link_to "<i class=\"fa fa-circle #{icon}\"></i> <span class=\"hidden\">#{field}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
+    link_to "<i class=\"fa fa-circle #{icon}\"></i> <span class=\"is-hidden\">#{field}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
   end
 
   def invalid_circle(field, draft, form_name, anchor)
-    link_to "<i class=\"fa fa-minus-circle icon-red\"></i> <span class=\"hidden\">#{field}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
+    link_to "<i class=\"fa fa-minus-circle icon-red\"></i> <span class=\"is-hidden\">#{field}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
   end
 end
