@@ -186,7 +186,7 @@ module Helpers
       within '.multiple.contacts' do
         select 'Email', from: 'Type'
         fill_in 'Value', with: 'example@example.com'
-        click_on 'Add another Contact'
+        click_on 'Add another Contact Method'
         within '.multiple-item-1' do
           select 'Email', from: 'Type'
           fill_in 'Value', with: 'example2@example.com'
