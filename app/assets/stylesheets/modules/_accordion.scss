@@ -1,5 +1,5 @@
 .accordion-header {
-  padding: 1.8em;
+  padding: 1em 1.5em;
   background-color: $light-grey;
   cursor: pointer;
   font-weight: bold;
@@ -27,7 +27,7 @@
 
 .accordion-body {
   margin: 0;
-  padding: 1.8em;
+  padding: 1em 1.5em;
 
   .accordion-header {
     padding: 0;
