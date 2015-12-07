@@ -3,16 +3,6 @@
 
 // Note: Needs improved naming convention
 
-.search-meta {
-  padding: 1.5em 0;
-  margin: 0;
-  color: lighten($steel-blue, 20%);
-}
-
-input[type="text"] {
-  color: lighten($black, 10%);
-}
-
 .icon-completed,
 .icon-required {
   &:before {

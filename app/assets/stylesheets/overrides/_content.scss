@@ -5,6 +5,12 @@
   color: lighten($black, 30%);
 }
 
+.search-meta {
+  padding: 1.5em 0;
+  margin: 0;
+  color: lighten($steel-blue, 20%);
+}
+
 // todo: refactor to individual component
 
 .is-collapsed {
