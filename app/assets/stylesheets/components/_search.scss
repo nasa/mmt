@@ -45,7 +45,9 @@
   table-layout: fixed;
 
   thead {
-    a:link, a:visited {
+
+    a:link,
+    a:visited {
       color: $black
     }
 
@@ -61,13 +63,7 @@
     text-overflow: ellipsis;
   }
 
-  #col-entry-id {
-    width: 25%;
-  }
-  #col-entry-title {
-    width: 60%;
-  }
-  #col-last-modified {
-    width: 15%;
-  }
+  #col-entry-id      { width: 25%; }
+  #col-entry-title   { width: 60%; }
+  #col-last-modified { width: 15%; }
 }

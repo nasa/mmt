@@ -4,14 +4,14 @@
 // todo: requires refactoring
 
 #lean_overlay {
-    position: fixed;
-    z-index:100;
-    top: 0px;
-    left: 0px;
-    height:100%;
-    width:100%;
-    background: $true-black;
-    display: none;
+  position: fixed;
+  z-index:100;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background: $true-black;
+  display: none;
 }
 
 #provider-context,
@@ -22,6 +22,7 @@
   -webkit-border-radius: 5px;
   background-color: $white;
   display: none;
+
   div {
     margin: 25px;
   }
@@ -34,14 +35,17 @@
 
 #progress-legend {
   padding: 0.5em 1.5em;
+
   ul {
     list-style: none;
     padding: 0;
   }
+
   li {
     clear: both;
     width: 100%;
   }
+
   .fa {
     font-size: 1em;
   }
