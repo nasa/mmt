@@ -3,7 +3,7 @@
     <h3 class="icon-required">Collection Information</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Collection Information</span>
+      <span class="is-hidden">Toggle Collection Information</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -13,7 +13,7 @@
         <label for="draft_entry_id" class="main-field icon-required">Entry Id</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/EntryId"></i>
-          <span class="hidden">Help modal for Entry Id</span>
+          <span class="is-hidden">Help modal for Entry Id</span>
         </a>
         <%= text_field_tag('draft[entry_id]', draft.draft['EntryId'], class: 'full-width validate') %>
       </div>
@@ -22,7 +22,7 @@
         <label for="draft_version" class="main-field">Version</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/Version"></i>
-          <span class="hidden">Help modal for version</span>
+          <span class="is-hidden">Help modal for version</span>
         </a>
         <%= text_field_tag('draft[version]', draft.draft['Version'], class: 'full-width validate') %>
       </div>
@@ -35,7 +35,7 @@
         <label for="draft_entry_title" class="main-field icon-required">Entry Title</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/EntryTitle"></i>
-          <span class="hidden">Help modal for entry title</span>
+          <span class="is-hidden">Help modal for entry title</span>
         </a>
         <%= text_field_tag('draft[entry_title]', draft.draft['EntryTitle'], class: 'full-width validate') %>
       </div>
@@ -48,7 +48,7 @@
         <label for="draft_abstract" class="icon-required">Abstract</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/Abstract"></i>
-          <span class="hidden">Help modal for abstract</span>
+          <span class="is-hidden">Help modal for abstract</span>
         </a>
         <%= text_area_tag('draft[abstract]', draft.draft['Abstract'], rows: 8, class: 'validate') %>
       </div>
@@ -61,7 +61,7 @@
         <label for="draft_purpose">Purpose</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/Purpose"></i>
-          <span class="hidden">Help modal for purpose</span>
+          <span class="is-hidden">Help modal for purpose</span>
         </a>
         <%= text_area_tag('draft[purpose]', draft.draft['Purpose'], rows: 8, class: 'validate') %>
       </div>
@@ -74,7 +74,7 @@
         <label for="draft_data_language">Data Language</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/DataLanguage"></i>
-          <span class="hidden">Help modal for data language</span>
+          <span class="is-hidden">Help modal for data language</span>
         </a>
         <%= select_tag 'draft[data_language]', options_for_select(@language_codes, draft.draft['DataLanguage']), class: 'half-width' %>
       </div>
@@ -87,7 +87,7 @@
     <h3 class="icon-required">Data Dates</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Data Dates</span>
+      <span class="is-hidden">Toggle Data Dates</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -110,7 +110,7 @@
     <h3 class="icon-required">Organizations</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Organizations</span>
+      <span class="is-hidden">Toggle Organizations</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -139,7 +139,7 @@
     <h3>Personnel</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Personnel</span>
+      <span class="is-hidden">Toggle Personnel</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -168,7 +168,7 @@
     <h3>Collection Data Type</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Collection Data Type</span>
+      <span class="is-hidden">Toggle Collection Data Type</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -178,7 +178,7 @@
         <label for="draft_collection_data_type">Collection Data Type</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/CollectionDataType"></i>
-          <span class="hidden">Help modal for collection data type</span>
+          <span class="is-hidden">Help modal for collection data type</span>
         </a>
         <%= select_tag 'draft[collection_data_type]', options_for_select(DraftsHelper::CollectionDataTypeOptions, draft.draft['CollectionDataType']), class: 'half-width validate' %>
       </div>
@@ -191,7 +191,7 @@
     <h3 class="icon-required">Processing Level</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Processing Level</span>
+      <span class="is-hidden">Toggle Processing Level</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -204,7 +204,7 @@
             <label for="draft_processing_level_id" class="icon-required">ID</label>
             <a href="#help-modal" class="display-modal" tabindex="-1">
               <i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/Id"></i>
-              <span class="hidden">Help modal for ID</span>
+              <span class="is-hidden">Help modal for ID</span>
             </a>
             <%= select_tag 'draft[processing_level][id]', options_for_select(DraftsHelper::ProcessingLevelIdOptions, processing_level['Id']), class: 'half-width' %>
           </div>
@@ -212,7 +212,7 @@
             <label for="draft_processing_level_processing_level_description">Processing Level Description</label>
             <a href="#help-modal" class="display-modal" tabindex="-1">
               <i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/ProcessingLevelDescription"></i>
-              <span class="hidden">Help modal for processing level description</span>
+              <span class="is-hidden">Help modal for processing level description</span>
             </a>
             <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'full-width validate') %>
           </div>
@@ -227,7 +227,7 @@
     <h3>Resource Citation</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Resource Citation</span>
+      <span class="is-hidden">Toggle Resource Citation</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -253,7 +253,7 @@
     <h3>Collection Progress</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Collection Progress</span>
+      <span class="is-hidden">Toggle Collection Progress</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -263,7 +263,7 @@
         <label for="draft_collection_progress">Collection Progress</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/CollectionProgress"></i>
-          <span class="hidden">Help modal for collection progress</span>
+          <span class="is-hidden">Help modal for collection progress</span>
         </a>
         <%= select_tag "draft[collection_progress]", options_for_select(DraftsHelper::CollectionProgressOptions, draft.draft['CollectionProgress']), class: 'half-width validate' %>
       </div>
@@ -276,7 +276,7 @@
     <h3>Quality</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Quality</span>
+      <span class="is-hidden">Toggle Quality</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -286,7 +286,7 @@
         <label for="draft_quality">Quality</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/Quality"></i>
-          <span class="hidden">Help modal for quality</span>
+          <span class="is-hidden">Help modal for quality</span>
         </a>
         <%= text_area_tag('draft[quality]', draft.draft['Quality'], rows: 8, class: 'validate') %>
       </div>
@@ -299,7 +299,7 @@
     <h3>Use Constraints</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Use Constraints</span>
+      <span class="is-hidden">Toggle Use Constraints</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -309,7 +309,7 @@
         <label for="draft_use_constraints">Use Constraints</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/UseConstraints"></i>
-          <span class="hidden">Help modal for use constraints</span>
+          <span class="is-hidden">Help modal for use constraints</span>
         </a>
         <%= text_area_tag('draft[use_constraints]', draft.draft['UseConstraints'], rows: 8, class: 'validate') %>
       </div>
@@ -322,7 +322,7 @@
     <h3>Access Constraints</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Access Constraints</span>
+      <span class="is-hidden">Toggle Access Constraints</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -335,7 +335,7 @@
           <label for="draft_access_constraints_value">Value</label>
           <a href="#help-modal" class="display-modal" tabindex="-1">
             <i class="fa fa-info-circle" data-help-path="definitions/AccessConstraintsType/properties/Value"></i>
-            <span class="hidden">Help modal for value</span>
+            <span class="is-hidden">Help modal for value</span>
           </a>
           <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width validate mmt-number') %>
 
@@ -354,7 +354,7 @@
     <h3>Metadata Associations</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Metadata Associations</span>
+      <span class="is-hidden">Toggle Metadata Associations</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -379,7 +379,7 @@
     <h3>Publication References</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Publication References</span>
+      <span class="is-hidden">Toggle Publication References</span>
     </a>
   </div>
   <div class="accordion-body">

@@ -4,7 +4,7 @@
     <label for="<%= remove_pipes(name_prefix) %>organization_name_short_name" class="icon-required">Short Name</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/OrganizationNameType/properties/ShortName"></i>
-      <span class="hidden">Help modal for short name</span>
+      <span class="is-hidden">Help modal for short name</span>
     </a>
     <%= text_field_tag(name_to_param("#{name_prefix}|organization_name|_|short_name|"), organization_name['ShortName'], class: 'full-width validate') %>
   </div>
@@ -13,7 +13,7 @@
     <label for="<%= remove_pipes(name_prefix) %>organization_name_long_name">Long Name</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/OrganizationNameType/properties/LongName"></i>
-      <span class="hidden">Help modal for long name</span>
+      <span class="is-hidden">Help modal for long name</span>
     </a>
     <%= text_field_tag(name_to_param("#{name_prefix}|organization_name|_|long_name|"), organization_name['LongName'], class: 'full-width validate') %>
   </div>

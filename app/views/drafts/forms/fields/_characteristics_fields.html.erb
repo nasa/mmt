@@ -3,7 +3,7 @@
   <label for="<%= remove_pipes(name_prefix) %>name" class="icon-required">Name</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/CharacteristicType/properties/Name"></i>
-    <span class="hidden">Help modal for name</span>
+    <span class="is-hidden">Help modal for name</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}name"), characteristics['Name'], class: 'half-width validate') %>
 
@@ -12,7 +12,7 @@
   <label for="<%= remove_pipes(name_prefix) %>description" class="icon-required">Description</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/CharacteristicType/properties/Description"></i>
-    <span class="hidden">Help modal for description</span>
+    <span class="is-hidden">Help modal for description</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}description"), characteristics['Description'], rows: 8, class: 'validate') %>
 
@@ -22,7 +22,7 @@
       <label for="<%= remove_pipes(name_prefix) %>value" class="icon-required">Value</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/CharacteristicType/properties/Value"></i>
-        <span class="hidden">Help modal for value</span>
+        <span class="is-hidden">Help modal for value</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}value"), characteristics['Value'], class: 'full-width validate') %>
     </div>
@@ -31,7 +31,7 @@
       <label for="<%= remove_pipes(name_prefix) %>unit" class="icon-required">Unit</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/CharacteristicType/properties/Unit"></i>
-        <span class="hidden">Help modal for unit</span>
+        <span class="is-hidden">Help modal for unit</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}unit"), characteristics['Unit'], class: 'full-width validate') %>
     </div>
@@ -40,7 +40,7 @@
       <label for="<%= remove_pipes(name_prefix) %>data_type" class="icon-required">Data Type</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/CharacteristicType/properties/DataType"></i>
-        <span class="hidden">Help modal for data type</span>
+        <span class="is-hidden">Help modal for data type</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|data_type|"), characteristics['DataType'], class: 'full-width validate') %>
     </div>

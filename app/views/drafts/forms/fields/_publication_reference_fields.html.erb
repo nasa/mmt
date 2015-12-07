@@ -3,7 +3,7 @@
   <label for="<%= remove_pipes(name_prefix) %>title">Title</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Title"></i>
-    <span class="hidden">Help modal for title</span>
+    <span class="is-hidden">Help modal for title</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}title"), publication_reference['Title'], rows: 8, class: 'validate') %>
 
@@ -12,7 +12,7 @@
   <label for="<%= remove_pipes(name_prefix) %>publisher">Publisher</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Publisher"></i>
-    <span class="hidden">Help modal for publisher</span>
+    <span class="is-hidden">Help modal for publisher</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}publisher"), publication_reference['Publisher'], rows: 8, class: 'validate') %>
 
@@ -21,7 +21,7 @@
   <label>DOI</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/DOI"></i>
-    <span class="hidden">Help modal for DOI</span>
+    <span class="is-hidden">Help modal for DOI</span>
   </a>
   <div class="row sub-fields">
     <%= render partial: 'drafts/forms/type', locals: {
@@ -37,7 +37,7 @@
   <label for="<%= remove_pipes(name_prefix) %>author">Author</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Author"></i>
-    <span class="hidden">Help modal for author</span>
+    <span class="is-hidden">Help modal for author</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}author"), publication_reference['Author'], rows: 8, class: 'validate') %>
 
@@ -46,7 +46,7 @@
   <label for="<%= remove_pipes(name_prefix) %>publication_date">Publication Date</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/PublicationDate"></i>
-    <span class="hidden">Help modal for publication date</span>
+    <span class="is-hidden">Help modal for publication date</span>
   </a>
   <%= datetime_field_tag(name_to_param("#{name_prefix}|publication_date|"), publication_reference['PublicationDate'], class: 'half-width validate mmt-date-time') %>
 
@@ -55,7 +55,7 @@
   <label for="<%= remove_pipes(name_prefix) %>series">Series</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Series"></i>
-    <span class="hidden">Help modal for series</span>
+    <span class="is-hidden">Help modal for series</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}series"), publication_reference['Series'], rows: 8, class: 'validate') %>
 
@@ -64,7 +64,7 @@
   <label for="<%= remove_pipes(name_prefix) %>edition">Edition</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Edition"></i>
-    <span class="hidden">Help modal for edition</span>
+    <span class="is-hidden">Help modal for edition</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}edition"), publication_reference['Edition'], rows: 8, class: 'validate') %>
 
@@ -74,7 +74,7 @@
       <label for="<%= remove_pipes(name_prefix) %>volume">Volume</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Volume"></i>
-        <span class="hidden">Help modal for volume</span>
+        <span class="is-hidden">Help modal for volume</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}volume"), publication_reference['Volume'], class: 'full-width validate') %>
     </div>
@@ -83,7 +83,7 @@
       <label for="<%= remove_pipes(name_prefix) %>issue">Issue</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Issue"></i>
-        <span class="hidden">Help modal for issue</span>
+        <span class="is-hidden">Help modal for issue</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}issue"), publication_reference['Issue'], class: 'full-width validate') %>
     </div>
@@ -92,7 +92,7 @@
       <label for="<%= remove_pipes(name_prefix) %>report_number">Report Number</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/ReportNumber"></i>
-        <span class="hidden">Help modal for report number</span>
+        <span class="is-hidden">Help modal for report number</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|report_number|"), publication_reference['ReportNumber'], class: 'full-width validate') %>
     </div>
@@ -102,7 +102,7 @@
   <label for="<%= remove_pipes(name_prefix) %>publication_place">Publication Place</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/PublicationPlace"></i>
-    <span class="hidden">Help modal for publication place</span>
+    <span class="is-hidden">Help modal for publication place</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}|publication_place|"), publication_reference['PublicationPlace'], rows: 8, class: 'validate') %>
 
@@ -112,7 +112,7 @@
       <label for="<%= remove_pipes(name_prefix) %>pages">Pages</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Pages"></i>
-        <span class="hidden">Help modal for pages</span>
+        <span class="is-hidden">Help modal for pages</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}pages"), publication_reference['Pages'], class: 'full-width validate') %>
     </div>
@@ -121,7 +121,7 @@
       <label for="<%= remove_pipes(name_prefix) %>isbn">ISBN</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/ISBN"></i>
-        <span class="hidden">Help modal for ISBN</span>
+        <span class="is-hidden">Help modal for ISBN</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}isbn"), publication_reference['ISBN'], class: 'full-width validate') %>
     </div>
@@ -131,7 +131,7 @@
   <label for="<%= remove_pipes(name_prefix) %>other_reference_details">Other Reference Details</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/OtherReferenceDetails"></i>
-    <span class="hidden">Help modal for other reference details</span>
+    <span class="is-hidden">Help modal for other reference details</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}|other_reference_details|"), publication_reference['OtherReferenceDetails'], rows: 8, class: 'validate') %>
 
@@ -140,7 +140,7 @@
   <label>Related URL</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/RelatedUrl"></i>
-    <span class="hidden">Help modal for related URL</span>
+    <span class="is-hidden">Help modal for related URL</span>
   </a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'related_url',

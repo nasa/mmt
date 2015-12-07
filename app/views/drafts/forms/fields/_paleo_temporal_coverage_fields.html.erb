@@ -6,7 +6,7 @@
       <label for="<%= remove_pipes(name_prefix) %>start_date">Start Date</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/PaleoTemporalCoverageType/properties/StartDate"></i>
-        <span class="hidden">Help modal for start date</span>
+        <span class="is-hidden">Help modal for start date</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|start_date|"), paleo_temporal_coverage['StartDate'], class: 'full-width') %>
     </div>
@@ -16,7 +16,7 @@
       <label for="<%= remove_pipes(name_prefix) %>end_date">End Date</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/PaleoTemporalCoverageType/properties/EndDate"></i>
-        <span class="hidden">Help modal for end date</span>
+        <span class="is-hidden">Help modal for end date</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|end_date|"), paleo_temporal_coverage['EndDate'], class: 'full-width') %>
     </div>
@@ -26,7 +26,7 @@
   <label for="<%= remove_pipes(name_prefix) %>chronostratigraphic_unit">Chronostratigraphic Unit</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/PaleoTemporalCoverageType/properties/ChronostratigraphicUnits"></i>
-    <span class="hidden">Help modal for chronostratigraphic unit</span>
+    <span class="is-hidden">Help modal for chronostratigraphic unit</span>
   </a>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'chronostratigraphic_unit',

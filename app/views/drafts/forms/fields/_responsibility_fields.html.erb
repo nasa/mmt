@@ -4,7 +4,7 @@
   <label for="<%= remove_pipes(name_prefix) %>role" class="icon-required">Role</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/ResponsibilityType/properties/Role"></i>
-    <span class="hidden">Help modal for role</span>
+    <span class="is-hidden">Help modal for role</span>
   </a>
   <%= select_tag name_to_param("#{name_prefix}role"), options_for_select(DraftsHelper::RoleOptions, responsibility['Role']), class: 'single-select validate' %>
 
@@ -12,7 +12,7 @@
   <label id="<%= remove_pipes("#{name_prefix}party").gsub(/_$/, '') %>" class="icon-required">Party</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/ResponsibilityType/properties/Party"></i>
-    <span class="hidden">Help modal for party</span>
+    <span class="is-hidden">Help modal for party</span>
   </a>
   <div class="row sub-fields">
     <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
@@ -51,7 +51,7 @@
         <label for="<%= remove_pipes(name_prefix) %>party_service_hours">Service Hours</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ServiceHours"></i>
-          <span class="hidden">Help modal for service hours</span>
+          <span class="is-hidden">Help modal for service hours</span>
         </a>
         <%= text_field_tag(name_to_param("#{name_prefix}party_|service_hours|"), party['ServiceHours'], class: 'full-width validate') %>
       </div>
@@ -59,7 +59,7 @@
         <label for="<%= remove_pipes(name_prefix) %>party_contact_instructions">Contact Instructions</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ContactInstructions"></i>
-          <span class="hidden">Help modal for contact instructions</span>
+          <span class="is-hidden">Help modal for contact instructions</span>
         </a>
         <%= text_field_tag(name_to_param("#{name_prefix}party_|contact_instructions|"), party['ContactInstructions'], class: 'full-width validate') %>
       </div>

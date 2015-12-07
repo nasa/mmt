@@ -4,7 +4,7 @@
     <h3>Metadata Language</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Metadata Language</span>
+      <span class="is-hidden">Toggle Metadata Language</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -13,7 +13,7 @@
         <label for="draft_metadata_language" class="main-field">Metadata Language</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/MetadataLanguage"></i>
-          <span class="hidden">Help modal for metadata language</span>
+          <span class="is-hidden">Help modal for metadata language</span>
         </a>
         <%= select_tag 'draft[metadata_language]', options_for_select(@language_codes, draft.draft['MetadataLanguage']), class: 'half-width' %>
       </div>
@@ -27,7 +27,7 @@
     <h3>Metadata Dates</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Metadata Dates</span>
+      <span class="is-hidden">Toggle Metadata Dates</span>
     </a>
   </div>
   <div class="accordion-body">

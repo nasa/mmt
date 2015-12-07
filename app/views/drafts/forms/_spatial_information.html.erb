@@ -4,7 +4,7 @@
     <h3 class="icon-required">Spatial Extent</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Spatial Extent</span>
+      <span class="is-hidden">Toggle Spatial Extent</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -27,7 +27,7 @@
     <h3>Tiling Identification System</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Tiling Identification System</span>
+      <span class="is-hidden">Toggle Tiling Identification System</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -50,7 +50,7 @@
     <h3>Spatial Representation Information</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Spatial Representation Information</span>
+      <span class="is-hidden">Toggle Spatial Representation Information</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -59,7 +59,7 @@
         <label class="main-field">Spatial Representation Information</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/SpatialInformation"></i>
-          <span class="hidden">Help modal for spatial representation information</span>
+          <span class="is-hidden">Help modal for spatial representation information</span>
         </a>
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'spatial_information',
@@ -78,7 +78,7 @@
     <h3>Spatial Keywords</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Spatial Keywords</span>
+      <span class="is-hidden">Toggle Spatial Keywords</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -93,7 +93,7 @@
                   <%= spatial_keyword %>
                   <a class="remove">
                     <i class="fa fa-times-circle"></i>
-                    <span class="hidden">Remove <%= spatial_keyword %></span>
+                    <span class="is-hidden">Remove <%= spatial_keyword %></span>
                   </a>
                   <%= hidden_field_tag("draft[spatial_keywords][]", spatial_keyword) %>
                 </li>

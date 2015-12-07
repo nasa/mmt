@@ -3,7 +3,7 @@
   <label for="<%= remove_pipes(name_prefix) %>horizontal_datum_name">Horizontal Datum Name</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/GeodeticModelType/properties/HorizontalDatumName"></i>
-    <span class="hidden">Help modal for horizontal datum name</span>
+    <span class="is-hidden">Help modal for horizontal datum name</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|horizontal_datum_name|"), geodetic_model['HorizontalDatumName'], class: 'half-width validate') %>
 
@@ -12,7 +12,7 @@
   <label for="<%= remove_pipes(name_prefix) %>ellipsoid_name">Ellipsoid Name</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/GeodeticModelType/properties/EllipsoidName"></i>
-    <span class="hidden">Help modal for ellipsoid name</span>
+    <span class="is-hidden">Help modal for ellipsoid name</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|ellipsoid_name|"), geodetic_model['EllipsoidName'], class: 'half-width validate') %>
 
@@ -21,7 +21,7 @@
   <label for="<%= remove_pipes(name_prefix) %>semi_major_axis">Semi Major Axis</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/GeodeticModelType/properties/SemiMajorAxis"></i>
-    <span class="hidden">Help modal for semi major axis</span>
+    <span class="is-hidden">Help modal for semi major axis</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|semi_major_axis|"), geodetic_model['SemiMajorAxis'], class: 'half-width validate mmt-number') %>
 
@@ -30,7 +30,7 @@
   <label for="<%= remove_pipes(name_prefix) %>denominator_of_flattening_ratio">Denominator Of Flattening Ratio</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/GeodeticModelType/properties/DenominatorOfFlatteningRatio"></i>
-    <span class="hidden">Help modal for denominator of flattening ratio</span>
+    <span class="is-hidden">Help modal for denominator of flattening ratio</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|denominator_of_flattening_ratio|"), geodetic_model['DenominatorOfFlatteningRatio'], class: 'half-width validate mmt-number') %>
 

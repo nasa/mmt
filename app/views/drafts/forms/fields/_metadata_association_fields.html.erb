@@ -5,7 +5,7 @@
       <label for="<%= remove_pipes(name_prefix) %>type">Type</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/MetadataAssociationType/properties/Type"></i>
-        <span class="hidden">Help modal for type</span>
+        <span class="is-hidden">Help modal for type</span>
       </a>
       <%= select_tag name_to_param("#{name_prefix}type"), options_for_select(DraftsHelper::MetadataAssociationTypeOptions, metadata_association['Type']), class: 'single-select validate' %>
     </div>
@@ -14,7 +14,7 @@
       <label for="<%= remove_pipes(name_prefix) %>entry_id" class="icon-required">Entry Id</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/MetadataAssociationType/properties/EntryId"></i>
-        <span class="hidden">Help modal for entry ID</span>
+        <span class="is-hidden">Help modal for entry ID</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|entry_id|"), metadata_association['EntryId'], class: 'full-width validate') %>
     </div>
@@ -24,7 +24,7 @@
   <label for="<%= remove_pipes(name_prefix) %>description">Description</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/MetadataAssociationType/properties/Description"></i>
-    <span class="hidden">Help modal for description</span>
+    <span class="is-hidden">Help modal for description</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}description"), metadata_association['Description'], rows: 8, class: 'validate') %>
 

@@ -4,7 +4,7 @@
     <label for="<%= remove_pipes(name_prefix) %>person_first_name">First Name</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/PersonType/properties/FirstName"></i>
-      <span class="hidden">Help modal for first name</span>
+      <span class="is-hidden">Help modal for first name</span>
     </a>
     <%= text_field_tag(name_to_param("#{name_prefix}person_|first_name|"), person['FirstName'], class: 'full-width validate') %>
   </div>
@@ -13,7 +13,7 @@
     <label for="<%= remove_pipes(name_prefix) %>person_middle_name">Middle Name</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/PersonType/properties/MiddleName"></i>
-      <span class="hidden">Help modal for middle name</span>
+      <span class="is-hidden">Help modal for middle name</span>
     </a>
     <%= text_field_tag(name_to_param("#{name_prefix}person_|middle_name|"), person['MiddleName'], class: 'full-width validate') %>
   </div>
@@ -22,7 +22,7 @@
     <label for="<%= remove_pipes(name_prefix) %>person_last_name" class="icon-required">Last Name</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/PersonType/properties/LastName"></i>
-      <span class="hidden">Help modal for last name</span>
+      <span class="is-hidden">Help modal for last name</span>
     </a>
     <%= text_field_tag(name_to_param("#{name_prefix}person_|last_name|"), person['LastName'], class: 'full-width validate') %>
   </div>

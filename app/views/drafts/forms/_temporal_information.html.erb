@@ -4,7 +4,7 @@
     <h3 class="icon-required">Temporal Extents</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Temporal Extents</span>
+      <span class="is-hidden">Toggle Temporal Extents</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -29,7 +29,7 @@
     <h3>Temporal Keywords</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Temporal Keywords</span>
+      <span class="is-hidden">Toggle Temporal Keywords</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -38,7 +38,7 @@
         <label for="draft_temporal_keywords_">Temporal Keywords</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i>
-          <span class="hidden">Help modal for temporal keywords</span>
+          <span class="is-hidden">Help modal for temporal keywords</span>
         </a>
         <%= select_tag "#{name_to_param('draft_|temporal_keywords|')}[]", options_for_select(@temporal_keywords, draft.draft['TemporalKeywords']), class: 'multi-select', size: 4, multiple: 'true' %>
       </div>
@@ -51,7 +51,7 @@
     <h3>Paleo Temporal Coverage</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Paleo Temporal Coverage</span>
+      <span class="is-hidden">Toggle Paleo Temporal Coverage</span>
     </a>
   </div>
   <div class="accordion-body">

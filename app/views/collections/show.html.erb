@@ -41,7 +41,7 @@
             <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= @collection_link %>" alt="Download XML">Download XML</a> |
             <%= link_to 'Delete Record', "#delete-record-modal", class: 'display-modal delete-collection' %>
             <div id="delete-record-modal" class="modal-content">
-              <a href="#" class="modal-close fl-right"><i class="fa fa-times"></i><span class="hidden">Close</span></a>
+              <a href="#" class="modal-close fl-right"><i class="fa fa-times"></i><span class="is-hidden">Close</span></a>
               <p>Are you sure you want to delete this record?</p>
               <p>
                 <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
@@ -52,7 +52,7 @@
             <!-- Hidden link to allow modal to be shown -->
             <a href="#granules-modal" id="display-granules-modal" class="display-modal" style="display: none;"></a>
             <div id="granules-modal" class="modal-content">
-              <a href="#" class="modal-close fl-right"><i class="fa fa-times"></i><span class="hidden">Close</span></a>
+              <a href="#" class="modal-close fl-right"><i class="fa fa-times"></i><span class="is-hidden">Close</span></a>
               <p>Collections with granules cannot be deleted</p>
               <p>
                 <a href="javascript:void(0)" class="btn btn-default modal-close">Ok</a>

@@ -4,7 +4,7 @@
     <h3 class="icon-required">Science Keywords</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Science Keywords</span>
+      <span class="is-hidden">Toggle Science Keywords</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -19,7 +19,7 @@
                   <%= keyword_string(science_keyword) %>
                   <a class="remove">
                     <i class="fa fa-times-circle"></i>
-                    <span class="hidden">Remove <%= keyword_string(science_keyword) %></span>
+                    <span class="is-hidden">Remove <%= keyword_string(science_keyword) %></span>
                   </a>
                   <%= hidden_field_tag("draft[science_keywords][]", keyword_string(science_keyword)) %>
                 </li>
@@ -50,7 +50,7 @@
     <h3>ISO Topic Category</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle ISO Topic Category</span>
+      <span class="is-hidden">Toggle ISO Topic Category</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -59,7 +59,7 @@
         <label for="draft_iso_topic_categories_">ISO Topic Categories</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i>
-          <span class="hidden">Help modal for ISO topic categories</span>
+          <span class="is-hidden">Help modal for ISO topic categories</span>
         </a>
         <%= select_tag "#{name_to_param('draft_|iso_topic_categories|')}[]", options_for_select(DraftsHelper::ISOTopicCategoriesOptions, draft.draft['ISOTopicCategories']), class: 'multi-select', size: 4, multiple: 'true' %>
       </div>
@@ -72,7 +72,7 @@
     <h3>Ancillary Keywords</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Ancillary Keywords</span>
+      <span class="is-hidden">Toggle Ancillary Keywords</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -82,7 +82,7 @@
         <label for="ancillary_keyword">Ancillary Keywords</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/AncillaryKeywords"></i>
-          <span class="hidden">Help modal for ancillary keywords</span>
+          <span class="is-hidden">Help modal for ancillary keywords</span>
         </a>
         <div class="row">
           <% ancillary_keywords = draft.draft['AncillaryKeywords'] || [nil] # [nil] creates at least one field %>
@@ -93,7 +93,7 @@
                 <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate') %>
                 <a class="remove">
                   <i class="fa fa-times-circle"></i>
-                  <span class="hidden">Remove <%= ancillary_keyword %></span>
+                  <span class="is-hidden">Remove <%= ancillary_keyword %></span>
                 </a>
                 <div class="actions">
                   <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another Ancillary Keyword</button>
@@ -112,7 +112,7 @@
     <h3>Additional Attributes</h3>
     <a href="#" class="fl-right">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Additional Attributes</span>
+      <span class="is-hidden">Toggle Additional Attributes</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -122,7 +122,7 @@
         <label>Additional Attributes</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/AdditionalAttributes"></i>
-          <span class="hidden">Help modal for additional attributes</span>
+          <span class="is-hidden">Help modal for additional attributes</span>
         </a>
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'additional_attribute',

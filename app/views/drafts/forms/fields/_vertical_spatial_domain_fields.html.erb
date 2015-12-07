@@ -4,7 +4,7 @@
     <label for="<%= remove_pipes(name_prefix) %>type" class="icon-required">Type</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/VerticalSpatialDomainType/properties/Type"></i>
-      <span class="hidden">Help modal for type</span>
+      <span class="is-hidden">Help modal for type</span>
     </a>
     <%= text_field_tag(name_to_param("#{name_prefix}type"), vertical_spatial_domain['Type'], class: 'full-width validate') %>
   </div>
@@ -15,7 +15,7 @@
     <label for="<%= remove_pipes(name_prefix) %>value" class="icon-required">Value</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/VerticalSpatialDomainType/properties/Value"></i>
-      <span class="hidden">Help modal for value</span>
+      <span class="is-hidden">Help modal for value</span>
     </a>
     <%= text_field_tag(name_to_param("#{name_prefix}value"), vertical_spatial_domain['Value'], class: 'full-width validate') %>
   </div>
