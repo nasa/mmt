@@ -18,8 +18,8 @@
       <span class="hidden">Help modal for street address</span>
     </a>
 
-    <% street_addresses += [nil, nil] # always display two street address fields %>
-    <% street_addresses[0..1].each_with_index do |street_address, index| %>
+    <% street_addresses += Array.new(3) # always display two street address fields %>
+    <% street_addresses[0..2].each_with_index do |street_address, index| %>
       <div class="multiple-item multiple-item-<%= index %>">
         <%= text_field_tag(name_to_param("#{name_prefix}|street_addresses|_#{index}"), street_address, class: 'full-width street-address simple-multiple-field validate') %>
       </div>

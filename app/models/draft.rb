@@ -4,25 +4,19 @@ class Draft < ActiveRecord::Base
   before_create :default_values
   after_create :set_native_id
 
-  DRAFT_FORMS = [ # array of hashes provide flexibility to add additional fiels
-    { form_partial_name: 'metadata_information' },
-    { form_partial_name: 'data_identification' },
-    { form_partial_name: 'descriptive_keywords' },
-    { form_partial_name: 'distribution_information' },
-    { form_partial_name: 'temporal_information' },
-    { form_partial_name: 'spatial_information' },
-    { form_partial_name: 'acquisition_information' }
-  ]
+  DRAFT_FORMS = %w(
+    metadata_information
+    data_identification
+    descriptive_keywords
+    distribution_information
+    temporal_information
+    spatial_information
+    acquisition_information
+  )
 
-  def self.get_next_form(cur_form_name)
-    DRAFT_FORMS.each_with_index do |f, i|
-      if f[:form_partial_name] == cur_form_name
-        next_index = i + 1
-        next_index = 0 if next_index == DRAFT_FORMS.size
-        return DRAFT_FORMS[next_index][:form_partial_name]
-      end
-    end
-    nil
+  def self.get_next_form(name)
+    index = DRAFT_FORMS.index(name)
+    DRAFT_FORMS[index + 1] || DRAFT_FORMS.first
   end
 
   def display_entry_title

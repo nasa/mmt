@@ -297,7 +297,7 @@ FactoryGirl.define do
           'Value' => 'example2@example.com'
         }],
         'Addresses' => [{
-          'StreetAddresses' => ['300 E Street Southwest', 'Room 203'],
+          'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
@@ -345,7 +345,7 @@ FactoryGirl.define do
           'Value' => 'example2@example.com'
         }],
         'Addresses' => [{
-          'StreetAddresses' => ['300 E Street Southwest', 'Room 203'],
+          'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
@@ -395,7 +395,7 @@ FactoryGirl.define do
           'Value' => 'example2@example.com'
         }],
         'Addresses' => [{
-          'StreetAddresses' => ['300 E Street Southwest', 'Room 203'],
+          'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
@@ -444,7 +444,7 @@ FactoryGirl.define do
           'Value' => 'example2@example.com'
         }],
         'Addresses' => [{
-          'StreetAddresses' => ['300 E Street Southwest', 'Room 203'],
+          'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
