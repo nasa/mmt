@@ -35,10 +35,10 @@
               <td>
                 <%= link_to row['short_name'], :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] %>
               </td>
-              <td class="justify-right">
+              <td class="align-r">
                 <%= number_with_delimiter(row['collection_count']) %>
               </td>
-              <td class="justify-right">
+              <td class="align-r">
                 <%= number_with_delimiter(row['granule_count']) %>
               </td>
             </tr>
