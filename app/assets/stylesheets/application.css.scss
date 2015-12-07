@@ -22,17 +22,21 @@
 @import "base/global";
 @import "base/typography";
 
+@import "layout/footer";
 @import "layout/grid";
+@import "layout/header";
 @import "layout/spacing";
 
+@import "components/accordion";
 @import "components/action";
 @import "components/alert-banner";
 @import "components/banner";
+@import "components/breadcrumb";
 @import "components/buttons";
 @import "components/callout-box";
+@import "components/coming-soon";
 @import "components/geographic-coverage";
 @import "components/grid-list";
-@import "components/header";
 @import "components/icons";
 @import "components/internal";
 @import "components/lightbox";
@@ -40,15 +44,12 @@
 @import "components/metadata-cta";
 @import "components/metadata-fields";
 @import "components/metadata-form";
+@import "components/metadata-preview";
 @import "components/modal";
 @import "components/navigation";
-@import "components/search";
-@import "components/accordion";
-@import "components/metadata-preview";
-@import "components/coming-soon";
 @import "components/science-keywords";
-@import "components/breadcrumb";
-@import "components/footer";
+@import "components/search";
+@import "components/skip-nav";
 
 @import "pages/pages";
 
