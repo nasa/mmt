@@ -2,7 +2,7 @@ class ChangeEntryIdToShortName < ActiveRecord::Migration
   def up
     Draft.find_each do |d|
       draft = d.draft
-      if draft['EntryId']
+      if draft && draft['EntryId']
         entry_id = draft.delete('EntryId')
         draft['ShortName'] = entry_id
         d.draft = draft
@@ -16,7 +16,7 @@ class ChangeEntryIdToShortName < ActiveRecord::Migration
   def down
     Draft.find_each do |d|
       draft = d.draft
-      if draft['ShortName']
+      if draft && draft['ShortName']
         short_name = draft.delete('ShortName')
         draft['EntryId'] = short_name
         d.draft = draft
