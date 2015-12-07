@@ -44,12 +44,12 @@ describe 'Open Drafts listings' do
       end
 
       it 'the Your Open Drafts Page is displayed with all the open drafts' do
-        expect(page).to have_content('<Blank Entry Id>', count: draft_display_max_count + 1)
+        expect(page).to have_content('<Blank Short Name>', count: draft_display_max_count + 1)
       end
 
-      context 'when "<Blank Entry Id>" is clicked on' do
+      context 'when "<Blank Short Name>" is clicked on' do
         before do
-          click_on '<Blank Entry Id>', match: :first
+          click_on '<Blank Short Name>', match: :first
         end
 
         it 'the record is opened for view/edit' do

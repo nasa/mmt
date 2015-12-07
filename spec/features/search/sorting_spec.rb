@@ -9,35 +9,36 @@ describe 'Search sorting', js: true do
       click_on 'Find'
     end
 
-    context 'by Entry Id' do
-      before do
-        click_on 'Sort by Entry Id Asc'
-      end
-
-      it 'displays the correct search param' do
-        expect(page).to have_search_query(nil, 'Sort Key: Entry Id Asc')
-      end
-
-      it 'sorts the results by Entry Id Asc' do
-        expect(page).to have_content('ACR3L2DM_1')
-        expect(page).to have_no_content('SAMMIGEO_2')
-      end
-
-      context 'when sorting again' do
-        before do
-          click_on 'Sort by Entry Id Desc'
-        end
-
-        it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Entry Id Desc')
-        end
-
-        it 'sorts the results by Entry Id Desc' do
-          expect(page).to have_content('SAMMIGEO_2')
-          expect(page).to have_no_content('ACR3L2DM_1')
-        end
-      end
-    end
+    # Waiting for CMR-2111
+    # context 'by Short Name' do
+    #   before do
+    #     click_on 'Sort by Short Name Asc'
+    #   end
+    #
+    #   it 'displays the correct search param' do
+    #     expect(page).to have_search_query(nil, 'Sort Key: Short Name Asc')
+    #   end
+    #
+    #   it 'sorts the results by Short Name Asc' do
+    #     expect(page).to have_content('ACR3L2DM')
+    #     expect(page).to have_no_content('SAMMIGEO_2')
+    #   end
+    #
+    #   context 'when sorting again' do
+    #     before do
+    #       click_on 'Sort by Short Name Desc'
+    #     end
+    #
+    #     it 'displays the correct search param' do
+    #       expect(page).to have_search_query(nil, 'Sort Key: Short Name Desc')
+    #     end
+    #
+    #     it 'sorts the results by Short Name Desc' do
+    #       expect(page).to have_content('SAMMIGEO_2')
+    #       expect(page).to have_no_content('ACR3L2DM')
+    #     end
+    #   end
+    # end
 
     context 'by Entry Title' do
       before do

@@ -38,7 +38,7 @@ form fieldset {
   background: $light-grey;
   border-left: 2px solid darken($light-grey, 10%);
   padding: 0;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   @include transition(all 0.25s ease-in-out);
 
   &:hover {

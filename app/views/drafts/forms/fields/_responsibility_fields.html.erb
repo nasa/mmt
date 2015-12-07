@@ -70,7 +70,7 @@
         values: party['Contacts'] || [{}],
         name_prefix: "#{name_prefix}party_contacts_",
         multiple: true,
-        options: options.clone } %>
+        options: options.clone.merge(title: 'Contact Method') } %>
 
     <!-- Address - multiple -->
     <%= render partial: 'drafts/forms/type', locals: {

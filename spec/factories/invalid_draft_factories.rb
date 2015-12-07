@@ -11,7 +11,7 @@ FactoryGirl.define do
 
   # Will trigger required fields error for data identification required fields
   factory :draft_missing_required_fields, class: Draft do
-    draft 'EntryId' => '12345'
+    draft 'ShortName' => '12345'
   end
 
   factory :draft_nested_required_field, class: Draft do
@@ -22,7 +22,7 @@ FactoryGirl.define do
   end
 
   factory :draft_field_too_long, class: Draft do
-    draft { all_required_fields.merge('EntryId' => "#{'a' * 81}") }
+    draft { all_required_fields.merge('ShortName' => "#{'a' * 81}") }
   end
 
   factory :draft_field_too_high, class: Draft do
@@ -83,7 +83,8 @@ def all_required_fields
       'Type' => 'CREATE',
       'Date' => '2015-07-01T00:00:00Z'
     }],
-    'EntryId' => '12345',
+    'ShortName' => '12345',
+    'Version' => '1',
     'EntryTitle' => 'Entry Title',
     'Organizations' => [{
       'Role' => 'RESOURCEPROVIDER',

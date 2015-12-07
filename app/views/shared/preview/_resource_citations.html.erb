@@ -1,0 +1,20 @@
+<div class="preview-collection accordion is-closed">
+  <div class="accordion-header">
+    <h4>Resource Citations Fields:</h4>
+    <a href="#" class="fl-right">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="hidden">Toggle Resource Citations Fields</span>
+    </a>
+  </div>
+  <div class="accordion-body">
+    <ul class="resource-citations-preview">
+      <h4>Collection Citations <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="hidden">Edit Collection Citations</span>'.html_safe, draft_edit_form_path(@draft, 'resource_citations', {anchor: 'collection-citations'}), {class: 'hash-link'} %><% end %></h4>
+      <%= render partial: 'shared/preview/preview_type', locals: {
+          data: metadata['CollectionCitations'],
+          name: 'CollectionCitations',
+          type: TypesHelper::ResourceCitationType
+      } %>
+
+    </ul>
+  </div>
+</div>

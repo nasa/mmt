@@ -17,15 +17,15 @@ class SearchController < ApplicationController
       params.delete('search_term_type')
       params.delete('search_term')
       @query = {}
-      unless params['entry_id'].blank?
-        @query['entry_id'] = @query['search_term'] = params['entry_id']
-        @query['search_term_type'] = 'entry_id'
+      unless params['short_name'].blank?
+        @query['short_name'] = @query['search_term'] = params['short_name']
+        @query['search_term_type'] = 'short_name'
       end
       @query['record_state'] = 'published_records'
       @query['sort_key'] = params['sort_key'] if params['sort_key']
     elsif search_type == 'full_search'
       # If search came from full search, ignore whatever was in quick find
-      params.delete('entry_id')
+      params.delete('short_name')
       @query = params.clone
       @query.delete('provider_id') if @query['provider_id'].blank?
 
@@ -33,8 +33,8 @@ class SearchController < ApplicationController
       # if no search term exists, reset the type
       params.delete('search_term_type') if params['search_term'].empty?
       case params['search_term_type']
-      when 'entry_id'
-        @query['entry_id'] = params['search_term']
+      when 'short_name'
+        @query['short_name'] = params['search_term']
       when 'entry_title'
         @query['entry_title'] = params['search_term']
       when 'concept_id'
@@ -104,7 +104,7 @@ class SearchController < ApplicationController
           'draft_id' => draft.id
         },
         'umm' => {
-          'entry-id' => draft.display_entry_id,
+          'short-name' => draft.display_short_name,
           'entry-title' => draft.display_entry_title
         }
       }

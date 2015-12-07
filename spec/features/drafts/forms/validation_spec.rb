@@ -14,7 +14,7 @@ very_long_string = '0' * 1000
 
 good_string_values = ['good string']
 bad_string_values = [
-  { value: very_long_string, error: 'Entry Id is too long' }
+  { value: very_long_string, error: 'Short Name is too long' }
 ]
 
 integer_error_string = 'Precision Of Seconds must be of type integer'
@@ -74,27 +74,51 @@ describe 'Data validation for a form', js: true do
   context 'when the form is empty' do
     before do
       within 'section.metadata' do
-        click_on 'Data Identification'
+        click_on 'Collection Information'
       end
 
       open_accordions
     end
 
     it 'simple mandatory string field validation works' do
-      fill_in 'draft_entry_id', with: empty_string
-      expect(page).to have_content('Entry Id is required')
+      fill_in 'Short Name', with: empty_string
+      expect(page).to have_content('Short Name is required')
 
       good_string_values.each do |test|
-        fill_in 'draft_entry_id', with: test
+        fill_in 'Short Name', with: test
         puts "#{test}" if debug
         expect(page).to have_no_selector(validation_error)
       end
 
       bad_string_values.each do |test|
-        fill_in 'draft_entry_id', with: test[:value]
+        fill_in 'Short Name', with: test[:value]
         puts "String: #{test[:value]}: #{test[:error]}" if debug
         expect(page).to have_content(test[:error])
       end
+    end
+
+    context 'full page validation works' do
+      before do
+        within '.nav-top' do
+          click_on 'Save & Done'
+        end
+        # Reject
+        click_on 'No'
+      end
+
+      it 'full page validation works' do
+        expect(page).to have_content('Short Name is required')
+      end
+    end
+  end
+
+  context 'when conditionally required fields are present' do
+    before do
+      within 'section.metadata' do
+        click_on 'Data Identification'
+      end
+
+      open_accordions
     end
 
     it 'validation between related R and NR fields works' do
@@ -113,26 +137,12 @@ describe 'Data validation for a form', js: true do
         expect(page).to have_selector(validation_error)
       end
     end
-
-    context 'full page validation works' do
-      before do
-        within '.nav-top' do
-          click_on 'Save & Done'
-        end
-        # Reject
-        click_on 'No'
-      end
-
-      it 'full page validation works' do
-        expect(page).to have_content('Entry Id is required')
-      end
-    end
   end
 
   context 'when there is a floating point field' do
     before do
       within 'section.metadata' do
-        click_on 'Data Identification'
+        click_on 'Organizations', match: :first
       end
 
       open_accordions
@@ -276,7 +286,7 @@ describe 'Data validation for a form', js: true do
   context 'when triggering the oneOf error for Party' do
     before do
       within 'section.metadata' do
-        click_on 'Data Identification'
+        click_on 'Organizations', match: :first
       end
 
       open_accordions

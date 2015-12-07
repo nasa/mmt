@@ -3,16 +3,16 @@
 require 'rails_helper'
 
 describe 'Create new draft from cloning a collection', js: true do
-  entry_id = 'ACR3L2DM_1'
+  short_name = 'ACR3L2DM'
   entry_title = 'ACRIM III Level 2 Daily Mean Data V001'
 
   context 'when editing a CMR collection' do
     before do
       login
-      fill_in 'entry_id', with: entry_id
+      fill_in 'short_name', with: short_name
       click_on 'Find'
 
-      click_on entry_id
+      click_on short_name
 
       click_on 'Clone this Record'
 
@@ -34,19 +34,19 @@ describe 'Create new draft from cloning a collection', js: true do
     end
 
     it 'appends " - Cloned" to the metadata' do
-      within '.data-identification-preview' do
+      within '.collection-information-preview' do
         expect(page).to have_content("Entry Title: #{entry_title} - Cloned")
       end
     end
 
     it 'removes Entry Id from the metadata' do
-      within '.data-identification-preview' do
+      within '.collection-information-preview' do
         expect(page).to have_no_content('Entry Id')
       end
     end
 
     it 'displays a message that the draft needs a unique Entry Id' do
-      expect(page).to have_link('Records must have a unique Entry ID. Click here to enter a new Entry ID.')
+      expect(page).to have_link('Records must have a unique Short Name. Click here to enter a new Short Name.')
     end
   end
 end

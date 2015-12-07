@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Search Form', js: true do
-  entry_id = 'ACR3L2DM_1'
+  short_name = 'ACR3L2DM'
   entry_title = 'ACRIM III Level 2 Daily Mean Data V001'
 
   before do
@@ -13,15 +13,15 @@ describe 'Search Form', js: true do
 
   context 'when searching with quick find' do
     before do
-      fill_in 'Quick Find', with: entry_id
+      fill_in 'Quick Find', with: short_name
       click_on 'Find'
       wait_for_ajax
     end
 
     it 'fills in the full search box with the entry id' do
       click_on 'Full Metadata Record Search'
-      expect(page).to have_field('search_term_type', with: 'entry_id')
-      expect(page).to have_field('search_term', with: entry_id)
+      expect(page).to have_field('search_term_type', with: 'short_name')
+      expect(page).to have_field('search_term', with: short_name)
 
       click_on 'Full Metadata Record Search'
     end
@@ -35,8 +35,8 @@ describe 'Search Form', js: true do
 
       it 'clears the entry id from the full search' do
         click_on 'Full Metadata Record Search'
-        expect(page).to have_no_field('search_term_type', with: 'entry_id')
-        expect(page).to have_no_field('search_term', with: entry_id)
+        expect(page).to have_no_field('search_term_type', with: 'short_name')
+        expect(page).to have_no_field('search_term', with: short_name)
 
         click_on 'Full Metadata Record Search'
       end
@@ -46,14 +46,14 @@ describe 'Search Form', js: true do
   context 'when searching with the full form' do
     before do
       click_on 'Full Metadata Record Search'
-      select 'Entry ID', from: 'search_term_type'
-      fill_in 'search_term', with: entry_id
+      select 'Short Name', from: 'search_term_type'
+      fill_in 'search_term', with: short_name
       click_on 'Submit'
       wait_for_ajax
     end
 
     it 'populates the quick find with the entry id' do
-      expect(page).to have_field('Quick Find', with: entry_id)
+      expect(page).to have_field('Quick Find', with: short_name)
     end
 
     context 'when clearing the search term' do
@@ -65,7 +65,7 @@ describe 'Search Form', js: true do
       end
 
       it 'clears the quick find field' do
-        expect(page).to have_no_field('Quick Find', with: entry_id)
+        expect(page).to have_no_field('Quick Find', with: short_name)
       end
     end
   end
@@ -74,13 +74,13 @@ describe 'Search Form', js: true do
   context 'when pressing enter to submit a search' do
     context 'when using quick find' do
       before do
-        fill_in 'Quick Find', with: entry_id
-        element = find('input#entry_id')
+        fill_in 'Quick Find', with: short_name
+        element = find('input#short_name')
         element.native.send_key(:Enter)
       end
 
       it 'performs the search' do
-        expect(page).to have_search_query(1, "Entry Id: #{entry_id}")
+        expect(page).to have_search_query(1, "Short Name: #{short_name}")
       end
     end
     context 'when using full search' do
@@ -97,5 +97,4 @@ describe 'Search Form', js: true do
       end
     end
   end
-
 end

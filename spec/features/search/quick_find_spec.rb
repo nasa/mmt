@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Quick find search', js: true do
-  entry_id = 'ACR3L2DM_1'
+  short_name = 'ACR3L2DM'
 
   before do
     login
@@ -13,7 +13,7 @@ describe 'Quick find search', js: true do
     context 'and performing a quick find search' do
       before do
         visit '/dashboard'
-        fill_in 'entry_id', with: entry_id
+        fill_in 'short_name', with: short_name
         click_on 'Find'
       end
 
@@ -22,7 +22,7 @@ describe 'Quick find search', js: true do
       end
 
       it 'displays collection results' do
-        expect(page).to have_search_query(1, "Entry Id: #{entry_id}")
+        expect(page).to have_search_query(1, "Short Name: #{short_name}")
       end
     end
   end
@@ -30,7 +30,7 @@ describe 'Quick find search', js: true do
   context 'when viewing the search page' do
     before do
       visit '/search'
-      fill_in 'entry_id', with: entry_id
+      fill_in 'short_name', with: short_name
       click_on 'Find'
     end
 
@@ -39,7 +39,7 @@ describe 'Quick find search', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Id: #{entry_id}")
+      expect(page).to have_search_query(1, "Short Name: #{short_name}")
     end
   end
 

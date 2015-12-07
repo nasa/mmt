@@ -3,14 +3,14 @@
 require 'rails_helper'
 
 describe 'Viewing search results', js: true do
-  entry_id = 'CIESIN_SEDAC_ESI_2000_2000.00'
+  short_name = 'CIESIN_SEDAC_ESI_2000'
 
   context 'when selecting a collection from search results' do
     before :each do
       login
-      fill_in 'entry_id', with: entry_id
+      fill_in 'short_name', with: short_name
       click_on 'Find'
-      click_on entry_id
+      click_on short_name
       open_accordions
     end
 
@@ -20,7 +20,7 @@ describe 'Viewing search results', js: true do
 
     it 'displays the published record metadata' do
       # Data Identification
-      expect(page).to have_content('Entry Id: CIESIN_SEDAC_ESI_2000')
+      expect(page).to have_content("Short Name: #{short_name}")
       expect(page).to have_content('Entry Title: 2000 Pilot Environmental Sustainability Index (ESI)')
 
       # Temporal Extent

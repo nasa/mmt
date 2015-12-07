@@ -268,7 +268,7 @@ FactoryGirl.define do
       }]
     }],
     'Abstract' => 'This is a long description of the collection',
-    'EntryId' => '12345',
+    'ShortName' => '12345',
     'Version' => '1',
     'EntryTitle' => 'Draft Title',
     'Purpose' => 'This is the purpose field',

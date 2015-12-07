@@ -3,16 +3,16 @@
 require 'rails_helper'
 
 describe 'Create new draft from collection', js: true do
-  entry_id = 'ACR3L2DM_1'
+  short_name = 'ACR3L2DM'
   entry_title = 'ACRIM III Level 2 Daily Mean Data V001'
 
   context 'when editing a CMR collection' do
     before do
       login
-      fill_in 'entry_id', with: entry_id
+      fill_in 'short_name', with: short_name
       click_on 'Find'
 
-      click_on entry_id
+      click_on short_name
 
       click_on 'Edit Record'
     end
