@@ -124,9 +124,43 @@ describe 'Search published results', js: true do
         click_on 'Cancel'
       end
 
-      it 'displays the entry id in the full search form' do
+      it 'displays the entry title in the full search form' do
         expect(page).to have_field('search_term_type', with: 'entry_title')
         expect(page).to have_field('search_term', with: entry_title)
+      end
+    end
+  end
+
+  context 'when searching by partial entry title' do
+    before do
+      click_on 'Full Metadata Record Search'
+      select 'Entry Title', from: 'search_term_type'
+      fill_in 'search_term', with: entry_title[5..25]
+      click_on 'Submit'
+    end
+
+    it 'displays collection results' do
+      expect(page).to have_search_query(1, "Entry Title: #{entry_title[5..25]}", 'Record State: Published Records')
+    end
+
+    it 'displays expected data' do
+      expect(page).to have_content(short_name)
+      expect(page).to have_content(entry_title)
+      expect(page).to have_content(today_string)
+    end
+
+    context 'when viewing the full search form' do
+      before do
+        click_on 'Full Metadata Record Search'
+      end
+
+      after do
+        click_on 'Cancel'
+      end
+
+      it 'displays the entry title in the full search form' do
+        expect(page).to have_field('search_term_type', with: 'entry_title')
+        expect(page).to have_field('search_term', with: entry_title[5..25])
       end
     end
   end
@@ -157,7 +191,7 @@ describe 'Search published results', js: true do
         click_on 'Cancel'
       end
 
-      it 'displays the entry id in the full search form' do
+      it 'displays the provider in the full search form' do
         expect(page).to have_field('provider_id', with: 'LARC')
       end
     end
@@ -190,7 +224,7 @@ describe 'Search published results', js: true do
         click_on 'Cancel'
       end
 
-      it 'displays the entry id in the full search form' do
+      it 'displays the concept id in the full search form' do
         expect(page).to have_field('search_term_type', with: 'concept_id')
         expect(page).to have_field('search_term', with: concept_id)
       end

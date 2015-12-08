@@ -36,7 +36,8 @@ class SearchController < ApplicationController
       when 'short_name'
         @query['short_name'] = params['search_term']
       when 'entry_title'
-        @query['entry_title'] = params['search_term']
+        @query['entry_title'] = "*#{params['search_term']}*"
+        @query['options[entry_title][pattern]'] = true
       when 'concept_id'
         @query['concept_id'] = params['search_term']
       end
