@@ -20,7 +20,7 @@ module PreviewCirclesHelper
         anchor: 'collection-information'
       },
       'Version' => {
-        required: false,
+        required: true,
         anchor: 'collection-information'
       },
       'EntryTitle' => {

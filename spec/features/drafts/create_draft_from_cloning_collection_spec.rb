@@ -49,4 +49,25 @@ describe 'Create new draft from cloning a collection', js: true do
       expect(page).to have_link('Records must have a unique Short Name. Click here to enter a new Short Name.')
     end
   end
+
+  context 'when cloning a CMR collection that was originally published by MMT' do
+    before do
+      login
+      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
+      visit draft_path(draft)
+      click_on 'Publish'
+      click_on 'Clone this Record'
+    end
+
+    it 'copies all data from the published record into the draft' do
+      draft = Draft.order('updated_at desc').first.draft
+      metadata = build(:full_draft).draft
+
+      # EntryTitle and ShortName should be different
+      metadata['EntryTitle'] = "#{metadata['EntryTitle']} - Cloned"
+      metadata.delete('ShortName')
+
+      expect(draft).to eq(metadata)
+    end
+  end
 end

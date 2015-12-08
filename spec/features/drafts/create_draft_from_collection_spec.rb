@@ -35,4 +35,21 @@ describe 'Create new draft from collection', js: true do
       expect(page).to have_content(entry_title)
     end
   end
+
+  context 'when editing a CMR collection that was originally published by MMT' do
+    before do
+      login
+      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
+      visit draft_path(draft)
+      click_on 'Publish'
+      click_on 'Edit Record'
+    end
+
+    it 'copies all data from the published record into the draft' do
+      draft = Draft.order('updated_at desc').first.draft
+      metadata = build(:full_draft).draft
+
+      expect(draft).to eq(metadata)
+    end
+  end
 end

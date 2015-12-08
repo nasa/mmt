@@ -33,6 +33,7 @@ describe template_path, type: :view do
 
         draft_json['MetadataLanguage'] = full_draft['MetadataLanguage']
         draft_json['MetadataDates'] = full_draft['MetadataDates']
+        draft_json['DirectoryNames'] = full_draft['DirectoryNames']
 
         assign :metadata, draft_json
         render template: template_path, locals: { metadata: draft_json }

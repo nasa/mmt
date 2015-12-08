@@ -603,18 +603,18 @@ FactoryGirl.define do
     }], 'AncillaryKeywords' => ['Ancillary keyword 1', 'Ancillary keyword 2'], 'AdditionalAttributes' => [{
       'Name' => 'Attribute 1',
       'Description' => 'Description',
-      'DataType' => 'STRING',
+      'DataType' => 'INT',
       'MeasurementResolution' => 'Measurement Resolution',
-      'ParameterRangeBegin' => 'Parameter Range Begin',
-      'ParameterRangeEnd' => 'Parameter Range End',
+      'ParameterRangeBegin' => '1',
+      'ParameterRangeEnd' => '5',
       'ParameterUnitsOfMeasure' => 'Parameter Units Of Measure',
       'ParameterValueAccuracy' => 'Parameter Value Accuracy',
       'ValueAccuracyExplanation' => 'Value Accuracy Explanation',
       'Group' => 'Group',
       'UpdateDate' => '2015-09-14T00:00:00Z'
     }, {
-      'Name' => 'Attribute 1',
-      'DataType' => 'INT'
+      'Name' => 'Attribute 2',
+      'DataType' => 'STRING'
     }],
     'RelatedUrls' => [{
       'URLs' => ['http://example.com']
@@ -707,7 +707,7 @@ FactoryGirl.define do
         }
       }
     },
-    'SpatialKeywords' => ['f47ac10b-58cc-4372-a567-0e02b2c3d479', 'abdf4d5c-55dc-4324-9ae5-5adf41e99da3'],
+    'SpatialKeywords' => ['GEOGRAPHIC REGION > ARCTIC', 'OCEAN > ATLANTIC OCEAN'],
     'TemporalExtents' => [{
         'TemporalRangeType' => 'SingleDateTime', 'PrecisionOfSeconds' => 1, 'EndsAtPresentFlag' => false, 'SingleDateTimes' => ['2015-07-01T00:00:00Z', '2015-12-25T00:00:00Z']
       },

@@ -102,35 +102,24 @@ class DraftsController < ApplicationController
 
   def publish
     draft = @draft.draft
-    # These fields currently break in CMR when trying to ingest
-    draft.delete('Distributions')
 
-    translated_metadata, _errors = translate_metadata(draft)
+    ingested = cmr_client.ingest_collection(draft.to_json, @current_user.provider_id, @draft.native_id, token)
 
-    if translated_metadata && !translated_metadata.include?('errors')
-      ingested = cmr_client.ingest_collection(translated_metadata, @current_user.provider_id, @draft.native_id, token)
-
-      if ingested.success?
-        xml = MultiXml.parse(ingested.body)
-        concept_id = xml['result']['concept_id']
-        revision_id = xml['result']['revision_id']
-        flash[:success] = 'Draft was successfully published'
-        redirect_to collection_path(concept_id, revision_id: revision_id)
-      else
-        # Log error message
-        Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
-
-        @errors = [{
-          page: nil,
-          field: nil,
-          error: 'An unknown error caused publishing to fail.'
-        }]
-        flash[:error] = 'Draft was not published successfully'
-        render :show
-      end
+    if ingested.success?
+      xml = MultiXml.parse(ingested.body)
+      concept_id = xml['result']['concept_id']
+      revision_id = xml['result']['revision_id']
+      flash[:success] = 'Draft was successfully published'
+      redirect_to collection_path(concept_id, revision_id: revision_id)
     else
-      # log translated error message
-      Rails.logger.error("Translated Metadata Error: #{translated_metadata.inspect}")
+      # Log error message
+      Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
+
+      @errors = [{
+        page: nil,
+        field: nil,
+        error: 'An unknown error caused publishing to fail.'
+      }]
       flash[:error] = 'Draft was not published successfully'
       render :show
     end
@@ -230,7 +219,7 @@ class DraftsController < ApplicationController
     Projects
   )
   DATA_IDENTIFICATION_FIELDS = %w(
-    EntryId
+    ShortName
     Version
     EntryTitle
     Abstract
