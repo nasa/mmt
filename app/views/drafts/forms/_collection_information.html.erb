@@ -9,7 +9,7 @@
         <label for="draft_short_name" class="main-field icon-required">Short Name</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/ShortName"></i>
-          <span class="hidden">Help modal for Short Name</span>
+          <span class="is-hidden">Help modal for Short Name</span>
         </a>
         <%= text_field_tag('draft[short_name]', draft.draft['ShortName'], class: 'full-width validate') %>
       </div>
@@ -18,7 +18,7 @@
         <label for="draft_version" class="main-field icon-required">Version</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/Version"></i>
-          <span class="hidden">Help modal for version</span>
+          <span class="is-hidden">Help modal for version</span>
         </a>
         <%= text_field_tag('draft[version]', draft.draft['Version'], class: 'full-width validate') %>
       </div>
@@ -31,7 +31,7 @@
         <label for="draft_entry_title" class="main-field icon-required">Entry Title</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/EntryTitle"></i>
-          <span class="hidden">Help modal for entry title</span>
+          <span class="is-hidden">Help modal for entry title</span>
         </a>
         <%= text_field_tag('draft[entry_title]', draft.draft['EntryTitle'], class: 'full-width validate') %>
       </div>
@@ -44,7 +44,7 @@
         <label for="draft_abstract" class="icon-required">Abstract</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/Abstract"></i>
-          <span class="hidden">Help modal for abstract</span>
+          <span class="is-hidden">Help modal for abstract</span>
         </a>
         <%= text_area_tag('draft[abstract]', draft.draft['Abstract'], rows: 8, class: 'validate') %>
       </div>
@@ -57,7 +57,7 @@
         <label for="draft_purpose">Purpose</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/Purpose"></i>
-          <span class="hidden">Help modal for purpose</span>
+          <span class="is-hidden">Help modal for purpose</span>
         </a>
         <%= text_area_tag('draft[purpose]', draft.draft['Purpose'], rows: 8, class: 'validate') %>
       </div>
@@ -70,7 +70,7 @@
         <label for="draft_data_language">Data Language</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/DataLanguage"></i>
-          <span class="hidden">Help modal for data language</span>
+          <span class="is-hidden">Help modal for data language</span>
         </a>
         <%= select_tag 'draft[data_language]', options_for_select(@language_codes, draft.draft['DataLanguage']), class: 'half-width' %>
       </div>

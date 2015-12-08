@@ -13,7 +13,7 @@ describe 'Search drafts results', js: true do
     click_on 'Full Metadata Record Search'
   end
 
-  context 'when searching drafts by entry id' do
+  context 'when searching drafts by short name' do
     before do
       select 'Draft Records', from: 'record_state'
       select 'Short Name', from: 'search_term_type'
@@ -49,7 +49,7 @@ describe 'Search drafts results', js: true do
     end
   end
 
-  context 'when searching drafts by entry id' do # is actually searching published and drafts for a draft by entry id
+  context 'when searching published and drafts by short name' do
     before do
       select 'Published & Draft Records', from: 'record_state'
       select 'Short Name', from: 'search_term_type'
