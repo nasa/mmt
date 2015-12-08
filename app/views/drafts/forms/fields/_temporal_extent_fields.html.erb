@@ -4,7 +4,7 @@
   <label class="icon-required">Temporal Range Type</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/TemporalExtentType/properties/TemporalRangeType"></i>
-    <span class="hidden">Help modal for temporal range type</span>
+    <span class="is-hidden">Help modal for temporal range type</span>
   </a>
   <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'SingleDateTime', temporal_range_type == 'SingleDateTime', class: 'temporal-range-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_SingleDateTime">Single</label></p>
 
@@ -16,7 +16,7 @@
   <label for="<%= remove_pipes(name_prefix) %>precision_of_seconds">Precision Of Seconds</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/TemporalExtentType/properties/PrecisionOfSeconds"></i>
-    <span class="hidden">Help modal for precision of seconds</span>
+    <span class="is-hidden">Help modal for precision of seconds</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|precision_of_seconds|"), temporal_extent['PrecisionOfSeconds'], class: 'half-width validate mmt-integer') %>
 
@@ -24,7 +24,7 @@
   <label class="icon-required">Ends At Present Flag</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/TemporalExtentType/properties/EndsAtPresentFlag"></i>
-    <span class="hidden">Help modal for ends at present flag</span>
+    <span class="is-hidden">Help modal for ends at present flag</span>
   </a>
   <% ends_at_present_flag = temporal_extent['EndsAtPresentFlag'] %>
   <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|ends_at_present_flag|"), 'true', ends_at_present_flag.to_s == 'true') %><label for="<%= remove_pipes(name_prefix) %>ends_at_present_flag_true">True</label></p>
@@ -35,7 +35,7 @@
     <label>Range Date Time</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/TemporalExtentType/properties/RangeDateTimes"></i>
-      <span class="hidden">Help modal for range date time</span>
+      <span class="is-hidden">Help modal for range date time</span>
     </a>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'range_date_time',
@@ -51,14 +51,14 @@
       <label for="<%= remove_pipes(name_prefix) %>single_date_times_">Single Date Time</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/TemporalExtentType/properties/SingleDateTimes"></i>
-        <span class="hidden">Help modal for single date time</span>
+        <span class="is-hidden">Help modal for single date time</span>
       </a>
     <% date_times.each_with_index do |date_time, index| %>
       <div class="multiple-item multiple-item-<%= index %>">
         <%= datetime_field_tag(name_to_param("#{name_prefix}|single_date_times|_#{index}"), date_time, class: 'half-width single-date-time simple-multiple-field validate mmt-date-time') %>
         <a class="remove">
           <i class="fa fa-times-circle"></i>
-          <span class="hidden">Remove <%= index %></span>
+          <span class="is-hidden">Remove <%= index %></span>
         </a>
         <div class="actions">
           <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another Single Date Time</button>
@@ -73,7 +73,7 @@
     <label>Periodic Date Time</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/TemporalExtentType/properties/PeriodicDateTimes"></i>
-      <span class="hidden">Help modal for periodic date time</span>
+      <span class="is-hidden">Help modal for periodic date time</span>
     </a>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'periodic_date_time',

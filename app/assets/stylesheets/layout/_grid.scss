@@ -1,5 +1,7 @@
-/* Grid
-------------------------------------------*/
+/* ===================================================== *\
+   Grid
+\* ===================================================== */
+
 
 article {
   @include row();
@@ -13,7 +15,7 @@ article {
 
 main.dashboard {
   background: $light-grey;
-  box-shadow: 0 -3px 3px rgba(0,0,0,0.15);
+  box-shadow: 0 -3px 3px rgba($true-black, 0.15);
 }
 
 section {
@@ -22,37 +24,14 @@ section {
 
 // END NOTE
 
-.col-2 {
-  @include span-columns(2);
-}
-
-.col-3 {
-  @include span-columns(3);
-}
-
-.col-4 {
-  @include span-columns(4);
-}
-
-.col-5 {
-  @include span-columns(5);
-}
-
-.col-6 {
-  @include span-columns(6);
-}
-
-.col-7 {
-  @include span-columns(7);
-}
-
-.col-8 {
-  @include span-columns(8);
-}
-
-.col-9 {
-  @include span-columns(9);
-}
+.col-2 { @include span-columns(2); }
+.col-3 { @include span-columns(3); }
+.col-4 { @include span-columns(4); }
+.col-5 { @include span-columns(5); }
+.col-6 { @include span-columns(6); }
+.col-7 { @include span-columns(7); }
+.col-8 { @include span-columns(8); }
+.col-9 { @include span-columns(9); }
 
 .content {
   @include outer-container;
@@ -63,8 +42,8 @@ section {
   padding: 0;
 
   &.row-content {
-    background: #fff;
-    box-shadow: 0 -3px 3px rgba(0,0,0,0.15);
+    background: $white;
+    box-shadow: 0 -3px 3px rgba($true-black, 0.15);
     min-height: 300px;
   }
 }

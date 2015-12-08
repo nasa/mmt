@@ -5,7 +5,7 @@
       <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/ShortName"></i>
-        <span class="hidden">Help modal for short name</span>
+        <span class="is-hidden">Help modal for short name</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), project['ShortName'], class: 'full-width validate') %>
     </div>
@@ -14,7 +14,7 @@
       <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/LongName"></i>
-        <span class="hidden">Help modal for long name</span>
+        <span class="is-hidden">Help modal for long name</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), project['LongName'], class: 'full-width validate') %>
     </div>
@@ -25,7 +25,7 @@
     <label for="<%= remove_pipes(name_prefix) %>campaigns_">Campaign</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/Campaigns"></i>
-      <span class="hidden">Help modal for campaign</span>
+      <span class="is-hidden">Help modal for campaign</span>
     </a>
 
   <% campaigns.each_with_index do |campaign, index| %>
@@ -33,7 +33,7 @@
       <%= text_field_tag(name_to_param("#{name_prefix}campaigns_#{index}"), campaign, class: 'half-width campaign simple-multiple-field validate') %>
       <a class="remove">
         <i class="fa fa-times-circle"></i>
-        <span class="hidden">Remove <%= index %></span>
+        <span class="is-hidden">Remove <%= index %></span>
       </a>
       <div class="actions">
         <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another Campaign</button>
@@ -48,7 +48,7 @@
     <label for="<%= remove_pipes(name_prefix) %>start_date">Start Date</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/StartDate"></i>
-      <span class="hidden">Help modal for start date</span>
+      <span class="is-hidden">Help modal for start date</span>
     </a>
     <%= datetime_field_tag(name_to_param("#{name_prefix}|start_date|"), project['StartDate'], class: 'full-width validate mmt-date-time') %>
   </div>
@@ -58,7 +58,7 @@
     <label for="<%= remove_pipes(name_prefix) %>end_date">End Date</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/ProjectType/properties/EndDate"></i>
-      <span class="hidden">Help modal for end date</span>
+      <span class="is-hidden">Help modal for end date</span>
     </a>
     <%= datetime_field_tag(name_to_param("#{name_prefix}|end_date|"), project['EndDate'], class: 'full-width validate mmt-date-time') %>
   </div>

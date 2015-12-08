@@ -1,0 +1,20 @@
+/* ===================================================== *\
+   Science Keywords
+\* ===================================================== */
+
+// todo: require refactoring
+
+div.science-keywords,
+div.spatial-keywords {
+  margin: 0 0 2em 0;
+
+  ul {
+    padding: 0;
+    list-style-type: none;
+  }
+
+  li {
+    padding-right: 0.5em;
+    font-weight: lighter;
+  }
+}

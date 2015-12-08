@@ -19,7 +19,7 @@
     <section class="action">
       <div class="cta">
         <% if @draft.new_record? || (@errors && @errors.size > 0) %>
-          <%= link_to 'Publish Draft', '#invalid-draft-modal', class: 'btn btn-blue display-modal', alt: 'Publish Draft' %>
+          <%= link_to 'Publish Draft', '#invalid-draft-modal', class: 'btn btn-blue display-modal' %>
           <div id="invalid-draft-modal" class="modal-content">
             <p>This draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
             <p>
@@ -27,12 +27,12 @@
             </p>
           </div>
         <% else %>
-          <%= link_to 'Publish Draft', draft_publish_path(@draft), method: :post, class: 'btn btn-blue spinner', alt: 'Publish Draft' %>
+          <%= link_to 'Publish Draft', draft_publish_path(@draft), method: :post, class: 'btn btn-blue spinner' %>
         <% end %>
-        <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= draft_download_path(@draft) %>" alt="Download XML">Download XML</a> |
+        <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= draft_download_path(@draft) %>">Download XML</a> |
         <%= link_to 'Delete Draft', "#delete-draft-modal", class: 'display-modal' %>
         <div id="delete-draft-modal" class="modal-content">
-          <a href="#" class="modal-close fl-right"><i class="fa fa-times"></i><span class="hidden">Close</span></a>
+          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-hidden">Close</span></a>
           <p>Are you sure you want to delete this draft?</p>
           <p>
             <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>

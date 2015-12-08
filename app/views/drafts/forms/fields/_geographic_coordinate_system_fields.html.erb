@@ -3,7 +3,7 @@
   <label for="<%= remove_pipes(name_prefix) %>geographic_coordinate_units">Geographic Coordinate Units</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/GeographicCoordinateSystemType/properties/GeographicCoordinateUnits"></i>
-    <span class="hidden">Help modal for geographic coordinate units</span>
+    <span class="is-hidden">Help modal for geographic coordinate units</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|geographic_coordinate_units|"), geographic_coordinate_system['GeographicCoordinateUnits'], class: 'half-width validate') %>
 
@@ -12,7 +12,7 @@
   <label for="<%= remove_pipes(name_prefix) %>latitude_resolution">Latitude Resolution</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/GeographicCoordinateSystemType/properties/LatitudeResolution"></i>
-    <span class="hidden">Help modal for latitude resolution</span>
+    <span class="is-hidden">Help modal for latitude resolution</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|latitude_resolution|"), geographic_coordinate_system['LatitudeResolution'], class: 'half-width validate mmt-number') %>
 
@@ -21,7 +21,7 @@
   <label for="<%= remove_pipes(name_prefix) %>longitude_resolution">Longitude Resolution</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/GeographicCoordinateSystemType/properties/LongitudeResolution"></i>
-    <span class="hidden">Help modal for longitude resolution</span>
+    <span class="is-hidden">Help modal for longitude resolution</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|longitude_resolution|"), geographic_coordinate_system['LongitudeResolution'], class: 'half-width validate mmt-number') %>
 

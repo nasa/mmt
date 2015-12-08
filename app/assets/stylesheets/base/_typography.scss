@@ -1,3 +1,9 @@
+/* ===================================================== *\
+   Typography
+\* ===================================================== */
+
+// todo: refactor and improve naming class for styles below
+
 /* Headings
 ------------------------------------------*/
 
@@ -22,8 +28,9 @@ h4 {
     border-bottom: 3px solid $red;
   }
 
-  a:link, a:visited {
-    color: #fff;
+  a:link,
+  a:visited {
+    color: $white;
     padding-bottom: 0.625em;
 
     &:hover {

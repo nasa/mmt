@@ -1,0 +1,70 @@
+/* ===================================================== *\
+   Search Modules in Header
+\* ===================================================== */
+
+// todo: requires refactoring
+
+.search-module {
+  background-color: $true-black;
+  width: 800px;
+  z-index: 10;
+  position: absolute;
+  top: 118px;
+  text-align: left;
+  margin-left: -265px;
+  padding: 25px;
+
+  input {
+    color: $black;
+    &[type="text"] {
+      width: 100% !important;
+      padding: 0.15em !important;
+    }
+  }
+}
+
+.cancel {
+  vertical-align: middle;
+  margin-left: 0.625em;
+}
+
+/* Search Results Page Styles */
+
+.pagination {
+  text-align: center;
+
+  ul {
+    padding: 0;
+  }
+}
+
+.pagination-summary {
+  margin-bottom: 1em;
+}
+
+#search-results {
+  table-layout: fixed;
+
+  thead {
+
+    a:link,
+    a:visited {
+      color: $black
+    }
+
+    .fa {
+      padding-left: 0.25em;
+      color: rgba($true-black, 0.65);
+    }
+  }
+
+  td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #col-short-name    { width: 25%; }
+  #col-entry-title   { width: 60%; }
+  #col-last-modified { width: 15%; }
+}

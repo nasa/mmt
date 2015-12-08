@@ -3,7 +3,7 @@
   <label for="<%= remove_pipes(name_prefix) %>datum_name">Datum Name</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/DatumName"></i>
-    <span class="hidden">Help modal for datum name</span>
+    <span class="is-hidden">Help modal for datum name</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|datum_name|"), vertical_system_definition['DatumName'], class: 'half-width validate') %>
 
@@ -12,7 +12,7 @@
   <label for="<%= remove_pipes(name_prefix) %>distance_units">Distance Units</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/DistanceUnits"></i>
-    <span class="hidden">Help modal for distance units</span>
+    <span class="is-hidden">Help modal for distance units</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|distance_units|"), vertical_system_definition['DistanceUnits'], class: 'half-width validate') %>
 
@@ -21,7 +21,7 @@
   <label for="<%= remove_pipes(name_prefix) %>encoding_method">Encoding Method</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/EncodingMethod"></i>
-    <span class="hidden">Help modal for enoding method</span>
+    <span class="is-hidden">Help modal for enoding method</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}|encoding_method|"), vertical_system_definition['EncodingMethod'], rows: 8, class: 'validate') %>
 
@@ -32,7 +32,7 @@
     <label for="<%= remove_pipes(name_prefix) %>resolutions_">Resolution</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/Resolutions"></i>
-      <span class="hidden">Help modal for resolution</span>
+      <span class="is-hidden">Help modal for resolution</span>
     </a>
 
   <% resolutions.each_with_index do |resolution, index| %>
@@ -40,7 +40,7 @@
       <%= text_field_tag(name_to_param("#{name_prefix}resolutions_#{index}"), resolution, class: 'half-width resolution simple-multiple-field validate mmt-number') %>
       <a class="remove">
         <i class="fa fa-times-circle"></i>
-        <span class="hidden">Remove <%= index %></span>
+        <span class="is-hidden">Remove <%= index %></span>
       </a>
       <div class="actions">
         <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another Resolution</button>

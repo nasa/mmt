@@ -3,7 +3,7 @@
   <label for="<%= remove_pipes(name_prefix) %>distribution_media">Distribution Media</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/DistributionMedia"></i>
-    <span class="hidden">Help modal for distribution media</span>
+    <span class="is-hidden">Help modal for distribution media</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}|distribution_media|"), distribution['DistributionMedia'], rows: 8, class: 'validate') %>
 
@@ -11,7 +11,7 @@
   <label for="<%= remove_pipes(name_prefix) %>distribution_size">Distribution Size</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/DistributionSize"></i>
-    <span class="hidden">Help modal for distribution size</span>
+    <span class="is-hidden">Help modal for distribution size</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|distribution_size|"), distribution['DistributionSize'], class: 'half-width validate mmt-number') %>
 
@@ -19,7 +19,7 @@
   <label for="<%= remove_pipes(name_prefix) %>distribution_format">Distribution Format</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/DistributionFormat"></i>
-    <span class="hidden">Help modal for distribution format</span>
+    <span class="is-hidden">Help modal for distribution format</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}|distribution_format|"), distribution['DistributionFormat'], class: 'half-width validate') %>
 
@@ -27,7 +27,7 @@
   <label for="<%= remove_pipes(name_prefix) %>fees">Fees (in US Dollars)</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/Fees"></i>
-    <span class="hidden">Help modal for fees (in US dollars)</span>
+    <span class="is-hidden">Help modal for fees (in US dollars)</span>
   </a>
   <%= text_field_tag(name_to_param("#{name_prefix}fees"), distribution['Fees'], class: 'half-width validate') %>
 </div>

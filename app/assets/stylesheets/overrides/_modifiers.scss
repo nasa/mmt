@@ -1,0 +1,41 @@
+/* ===================================================== *\
+   Override Modifiers
+\* ===================================================== */
+
+.home {
+  background-color: $light-grey;
+}
+
+.float-r {
+  float: right;
+}
+
+.align-r {
+  text-align: right;
+}
+
+.inline-header {
+  display: inline-block;
+}
+
+// Icon color modifiers
+.icon-green {
+  color: $dark-green;
+}
+
+.icon-grey {
+  color: $dolphin-grey;
+}
+
+.icon-red {
+  color: $red;
+}
+
+// Content States
+.disabled {
+  opacity: 0.4;
+}
+
+.is-hidden {
+  display: none;
+}

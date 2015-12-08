@@ -1,9 +1,9 @@
 <fieldset class="accordion is-closed" id="data-dates">
   <div class="accordion-header">
     <h3 class="icon-required">Data Dates</h3>
-    <a href="#" class="fl-right">
+    <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Data Dates</span>
+      <span class="is-hidden">Toggle Data Dates</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -24,9 +24,9 @@
 <fieldset class="accordion is-closed" id="collection-data-type">
   <div class="accordion-header">
     <h3>Collection Data Type</h3>
-    <a href="#" class="fl-right">
+    <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Collection Data Type</span>
+      <span class="is-hidden">Toggle Collection Data Type</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -36,7 +36,7 @@
         <label for="draft_collection_data_type">Collection Data Type</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/CollectionDataType"></i>
-          <span class="hidden">Help modal for collection data type</span>
+          <span class="is-hidden">Help modal for collection data type</span>
         </a>
         <%= select_tag 'draft[collection_data_type]', options_for_select(DraftsHelper::CollectionDataTypeOptions, draft.draft['CollectionDataType']), class: 'half-width validate' %>
       </div>
@@ -47,9 +47,9 @@
 <fieldset class="accordion is-closed" id="processing-level">
   <div class="accordion-header">
     <h3 class="icon-required">Processing Level</h3>
-    <a href="#" class="fl-right">
+    <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Processing Level</span>
+      <span class="is-hidden">Toggle Processing Level</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -62,7 +62,7 @@
             <label for="draft_processing_level_id" class="icon-required">ID</label>
             <a href="#help-modal" class="display-modal" tabindex="-1">
               <i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/Id"></i>
-              <span class="hidden">Help modal for ID</span>
+              <span class="is-hidden">Help modal for ID</span>
             </a>
             <%= select_tag 'draft[processing_level][id]', options_for_select(DraftsHelper::ProcessingLevelIdOptions, processing_level['Id']), class: 'half-width' %>
           </div>
@@ -70,7 +70,7 @@
             <label for="draft_processing_level_processing_level_description">Processing Level Description</label>
             <a href="#help-modal" class="display-modal" tabindex="-1">
               <i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/ProcessingLevelDescription"></i>
-              <span class="hidden">Help modal for processing level description</span>
+              <span class="is-hidden">Help modal for processing level description</span>
             </a>
             <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'full-width validate') %>
           </div>
@@ -83,9 +83,9 @@
 <fieldset class="accordion is-closed" id="collection-progress">
   <div class="accordion-header">
     <h3>Collection Progress</h3>
-    <a href="#" class="fl-right">
+    <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Collection Progress</span>
+      <span class="is-hidden">Toggle Collection Progress</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -95,7 +95,7 @@
         <label for="draft_collection_progress">Collection Progress</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/CollectionProgress"></i>
-          <span class="hidden">Help modal for collection progress</span>
+          <span class="is-hidden">Help modal for collection progress</span>
         </a>
         <%= select_tag "draft[collection_progress]", options_for_select(DraftsHelper::CollectionProgressOptions, draft.draft['CollectionProgress']), class: 'half-width validate' %>
       </div>
@@ -106,9 +106,9 @@
 <fieldset class="accordion is-closed" id="quality">
   <div class="accordion-header">
     <h3>Quality</h3>
-    <a href="#" class="fl-right">
+    <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Quality</span>
+      <span class="is-hidden">Toggle Quality</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -118,7 +118,7 @@
         <label for="draft_quality">Quality</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/Quality"></i>
-          <span class="hidden">Help modal for quality</span>
+          <span class="is-hidden">Help modal for quality</span>
         </a>
         <%= text_area_tag('draft[quality]', draft.draft['Quality'], rows: 8, class: 'validate') %>
       </div>
@@ -129,9 +129,9 @@
 <fieldset class="accordion is-closed" id="use-constraints">
   <div class="accordion-header">
     <h3>Use Constraints</h3>
-    <a href="#" class="fl-right">
+    <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Use Constraints</span>
+      <span class="is-hidden">Toggle Use Constraints</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -141,7 +141,7 @@
         <label for="draft_use_constraints">Use Constraints</label>
         <a href="#help-modal" class="display-modal" tabindex="-1">
           <i class="fa fa-info-circle" data-help-path="properties/UseConstraints"></i>
-          <span class="hidden">Help modal for use constraints</span>
+          <span class="is-hidden">Help modal for use constraints</span>
         </a>
         <%= text_area_tag('draft[use_constraints]', draft.draft['UseConstraints'], rows: 8, class: 'validate') %>
       </div>
@@ -152,9 +152,9 @@
 <fieldset class="accordion is-closed" id="access-constraints">
   <div class="accordion-header">
     <h3>Access Constraints</h3>
-    <a href="#" class="fl-right">
+    <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Access Constraints</span>
+      <span class="is-hidden">Toggle Access Constraints</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -163,14 +163,14 @@
       <div class="col-12">
         <div class="row sub-fields">
           <% access_constraints = draft.draft['AccessConstraints'] || {} %>
+
           <!-- Value -->
           <label for="draft_access_constraints_value">Value</label>
           <a href="#help-modal" class="display-modal" tabindex="-1">
             <i class="fa fa-info-circle" data-help-path="definitions/AccessConstraintsType/properties/Value"></i>
-            <span class="hidden">Help modal for value</span>
+            <span class="is-hidden">Help modal for value</span>
           </a>
           <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width validate mmt-number') %>
-
 
           <!-- Description -->
           <label for="draft_access_constraints_description" class="icon-required">Description</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AccessConstraintsType/properties/Description"></i></a>
@@ -184,9 +184,9 @@
 <fieldset class="accordion is-closed" id="metadata-associations">
   <div class="accordion-header">
     <h3>Metadata Associations</h3>
-    <a href="#" class="fl-right">
+    <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Metadata Associations</span>
+      <span class="is-hidden">Toggle Metadata Associations</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -209,9 +209,9 @@
 <fieldset class="accordion is-closed" id="publication-references">
   <div class="accordion-header">
     <h3>Publication References</h3>
-    <a href="#" class="fl-right">
+    <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Publication References</span>
+      <span class="is-hidden">Toggle Publication References</span>
     </a>
   </div>
   <div class="accordion-body">

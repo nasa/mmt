@@ -1,28 +1,28 @@
 <div class="preview-collection accordion is-closed">
   <div class="accordion-header">
     <h4>Temporal Information Fields:</h4>
-    <a href="#" class="fl-right">
+    <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="hidden">Toggle Temporal Information Fields</span>
+      <span class="is-hidden">Toggle Temporal Information Fields</span>
     </a>
   </div>
   <div class="accordion-body">
     <ul class="temporal-extent-preview">
 
-      <h4>Temporal Extents <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="hidden">Edit Temporal Extents</span>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'temporal-extents'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Temporal Extents <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Temporal Extents</span>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'temporal-extents'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['TemporalExtents'],
           name: 'TemporalExtents',
           type: TypesHelper::TemporalExtentsType
       } %>
 
-      <h4>Temporal Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="hidden">Edit Temporal Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'temporal-keywords'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Temporal Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Temporal Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'temporal-keywords'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'TemporalKeywords',
           hash_for_key: metadata
       } %>
 
-      <h4>Paleo Temporal Coverage <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="hidden">Edit Paleo Temporal Coverage</span>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'paleo-temporal-coverage'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Paleo Temporal Coverage <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Paleo Temporal Coverage</span>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', {anchor: 'paleo-temporal-coverage'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['PaleoTemporalCoverage'],
           name: 'PaleoTemporalCoverage',

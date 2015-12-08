@@ -1,0 +1,36 @@
+/* ===================================================== *\
+   Form
+\* ===================================================== */
+
+input {
+
+  &[type="date"] {
+    padding: 0;
+    width: 100%;
+  }
+
+  &[type="text"] {
+    color: lighten($black, 10%);
+  }
+
+  &[type="submit"] {
+    color: $white;
+  }
+}
+
+fieldset {
+  background: $light-grey;
+  border-left: 2px solid darken($light-grey, 10%);
+  padding: 0;
+  margin-bottom: 0.5em;
+  @include transition(all 0.25s ease-in-out);
+
+  &:hover {
+    border-color: $ocean-blue;
+  }
+}
+
+select {
+  color: $black;
+  width: 100% !important;
+}

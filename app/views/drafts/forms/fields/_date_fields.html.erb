@@ -4,7 +4,7 @@
     <label for="<%= remove_pipes(name_prefix) %>type" class="icon-required">Type</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/DateType/properties/Type"></i>
-      <span class="hidden">Help modal for type</span>
+      <span class="is-hidden">Help modal for type</span>
     </a>
     <%= select_tag name_to_param("#{name_prefix}type"), options_for_select(DraftsHelper::DateTypeOptions, date['Type']), class: 'single-select validate' %>
   </div>
@@ -14,7 +14,7 @@
     <label for="<%= remove_pipes(name_prefix) %>date" class="icon-required">Date</label>
     <a href="#help-modal" class="display-modal" tabindex="-1">
       <i class="fa fa-info-circle" data-help-path="definitions/DateType/properties/Date"></i>
-      <span class="hidden">Help modal for date</span>
+      <span class="is-hidden">Help modal for date</span>
     </a>
     <%= datetime_field_tag(name_to_param("#{name_prefix}date"), date['Date'], class: 'full-width validate mmt-date-time') %>
   </div>

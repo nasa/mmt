@@ -1,0 +1,75 @@
+/* ===================================================== *\
+   Metadata Preview
+\* ===================================================== */
+
+// todo: requires heavy refactoring
+
+.preview {
+
+  .accordion-header {
+    h4 {
+      display: inline;
+    }
+  }
+}
+
+ul.sub-field {
+
+  li {
+    margin-left: 1.5em;
+  }
+
+
+  .field-name {
+    margin-left: 0;
+  }
+}
+
+.field-name {
+  font-weight: bold;
+}
+
+.preview-collection {
+
+  .accordion-body {
+
+    h4 {
+      border-bottom: 1px dotted $dolphin-grey;
+      padding: 0.5em 0;
+      margin: 0 0 0.5em 0;
+    }
+
+    h4, h5 {
+      margin: 0.5em 0 0 0;
+    }
+
+    h6 {
+      margin: 0.3em 0;
+      font-weight: bold;
+    }
+
+    ul {
+      margin: 0;
+
+      li {
+        margin-top: 0.4em;
+      }
+    }
+  }
+
+  .sub-field {
+    li {
+      margin: 0 0.75em;
+    }
+  }
+}
+
+.hash-link {
+  float: right;
+  opacity: 0.5;
+  @include transition(all 0.15s ease-in-out);
+
+  &:hover {
+    opacity: 1;
+  }
+}

@@ -8,7 +8,7 @@
   <label for="<%= remove_pipes(name_prefix) %>description">Description</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Description"></i>
-    <span class="hidden">Help modal for description</span>
+    <span class="is-hidden">Help modal for description</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}description"), additional_attribute['Description'], rows: 8, class: 'validate') %>
 
@@ -18,7 +18,7 @@
   <label for="<%= remove_pipes(name_prefix) %>value">Value</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Value"></i>
-    <span class="hidden">Help modal for value</span>
+    <span class="is-hidden">Help modal for value</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}value"), additional_attribute['Value'], rows: 8, class: 'validate') %>
 
@@ -28,7 +28,7 @@
       <label for="<%= remove_pipes(name_prefix) %>data_type" class="icon-required">Data Type</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/DataType"></i>
-        <span class="hidden">Help modal for data type</span>
+        <span class="is-hidden">Help modal for data type</span>
       </a>
       <%= select_tag name_to_param("#{name_prefix}|data_type|"), options_for_select(DraftsHelper::DataTypeOptions, additional_attribute['DataType']), class: 'single-select validate' %>
     </div>
@@ -37,7 +37,7 @@
       <label for="<%= remove_pipes(name_prefix) %>measurement_resolution">Measurement Resolution</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/MeasurementResolution"></i>
-        <span class="hidden">Help modal for measurement resolution</span>
+        <span class="is-hidden">Help modal for measurement resolution</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|measurement_resolution|"), additional_attribute['MeasurementResolution'], class: 'full-width validate') %>
     </div>
@@ -49,7 +49,7 @@
       <label for="<%= remove_pipes(name_prefix) %>parameter_range_begin">Parameter Range Begin</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterRangeBegin"></i>
-        <span class="hidden">Help modal for parameter range begin</span>
+        <span class="is-hidden">Help modal for parameter range begin</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_begin|"), additional_attribute['ParameterRangeBegin'], class: 'full-width validate') %>
     </div>
@@ -58,7 +58,7 @@
       <label for="<%= remove_pipes(name_prefix) %>parameter_range_end">Parameter Range End</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterRangeEnd"></i>
-        <span class="hidden">Help modal for parameter range end</span>
+        <span class="is-hidden">Help modal for parameter range end</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_end|"), additional_attribute['ParameterRangeEnd'], class: 'full-width validate') %>
     </div>
@@ -70,7 +70,7 @@
       <label for="<%= remove_pipes(name_prefix) %>parameter_units_of_measure">Parameter Units Of Measure</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterUnitsOfMeasure"></i>
-        <span class="hidden">Help modal for parameter units of measure</span>
+        <span class="is-hidden">Help modal for parameter units of measure</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|parameter_units_of_measure|"), additional_attribute['ParameterUnitsOfMeasure'], class: 'full-width validate') %>
     </div>
@@ -79,7 +79,7 @@
       <label for="<%= remove_pipes(name_prefix) %>parameter_value_accuracy">Parameter Value Accuracy</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterValueAccuracy"></i>
-        <span class="hidden">Help modal for parameter value accuracy</span>
+        <span class="is-hidden">Help modal for parameter value accuracy</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}|parameter_value_accuracy|"), additional_attribute['ParameterValueAccuracy'], class: 'full-width validate') %>
     </div>
@@ -91,7 +91,7 @@
   <label for="<%= remove_pipes(name_prefix) %>value_accuracy_explanation">Value Accuracy Explanation</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ValueAccuracyExplanation"></i>
-    <span class="hidden">Help modal for value accuracy explanation</span>
+    <span class="is-hidden">Help modal for value accuracy explanation</span>
   </a>
   <%= text_area_tag(name_to_param("#{name_prefix}|value_accuracy_explanation|"), additional_attribute['ValueAccuracyExplanation'], rows: 8, class: 'validate') %>
 
@@ -101,7 +101,7 @@
       <label for="<%= remove_pipes(name_prefix) %>group">Group</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Group"></i>
-        <span class="hidden">Help modal for group</span>
+        <span class="is-hidden">Help modal for group</span>
       </a>
       <%= text_field_tag(name_to_param("#{name_prefix}group"), additional_attribute['Group'], class: 'full-width validate') %>
     </div>
@@ -110,7 +110,7 @@
       <label for="<%= remove_pipes(name_prefix) %>update_date">Update Date</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/UpdateDate"></i>
-        <span class="hidden">Help modal for update date</span>
+        <span class="is-hidden">Help modal for update date</span>
       </a>
       <%= datetime_field_tag(name_to_param("#{name_prefix}|update_date|"), additional_attribute['UpdateDate'], class: 'full-width validate mmt-date-time') %>
     </div>
