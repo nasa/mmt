@@ -27,12 +27,12 @@ describe 'Draft creation', js: true do
     context 'when saving data into the draft' do
       before do
         within '.metadata' do
-          click_on 'Data Identification'
+          click_on 'Collection Information'
         end
 
         open_accordions
 
-        fill_in 'draft_entry_id', with: '123'
+        fill_in 'Short Name', with: '123'
 
         within '.nav-top' do
           click_on 'Save & Done'

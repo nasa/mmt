@@ -6,7 +6,11 @@ class Draft < ActiveRecord::Base
 
   DRAFT_FORMS = %w(
     metadata_information
+    collection_information
+    organizations
+    personnel
     data_identification
+    resource_citations
     descriptive_keywords
     distribution_information
     temporal_information
@@ -23,16 +27,16 @@ class Draft < ActiveRecord::Base
     entry_title || '<Untitled Collection Record>'
   end
 
-  def display_entry_id
-    entry_id || '<Blank Entry Id>'
+  def display_short_name
+    short_name || '<Blank Short Name>'
   end
 
   def update_draft(params)
     if params
       # pull out searchable fields if provided
-      if params['entry_id']
+      if params['short_name']
         self.entry_title = params['entry_title'].empty? ? nil : params['entry_title']
-        self.entry_id = params['entry_id'].empty? ? nil : params['entry_id']
+        self.short_name = params['short_name'].empty? ? nil : params['short_name']
       end
 
       # The provider_id isn't actually part of the metadata. You can think of that as the owner of the metadata. It's meta-metadata.
@@ -63,13 +67,13 @@ class Draft < ActiveRecord::Base
       # Edited record
       draft = Draft.find_or_create_by(native_id: native_id)
       draft.entry_title = new_entry_title
-      draft.entry_id = (collection['EntryId'] && collection['EntryId'].empty?) ? nil : collection['EntryId']
+      draft.short_name = (collection['EntryId'] && collection['EntryId'].empty?) ? nil : collection['EntryId']
     else
       # Cloned record
       draft = Draft.create
       draft.entry_title = "#{new_entry_title} - Cloned"
       collection['EntryTitle'] = "#{new_entry_title} - Cloned"
-      draft.entry_id = nil
+      draft.short_name = nil
       collection.delete('EntryId')
     end
     draft.user = user

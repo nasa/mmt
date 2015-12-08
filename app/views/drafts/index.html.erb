@@ -15,7 +15,7 @@
       <table id="open_drafts">
         <thead>
           <tr>
-            <th>Entry ID</th>
+            <th>Short Name</th>
             <th>Entry Title</th>
             <th>Last Modified</th>
           </tr>
@@ -29,11 +29,10 @@
             </td>
           </tr>
         <% else %>
-
           <% @drafts.each do |draft| %>
             <tr class='<%= cycle("alt", "") %>'>
               <td>
-                <%= link_to draft.display_entry_id, draft_path(draft) %>
+                <%= link_to draft.display_short_name, draft_path(draft) %>
               </td>
               <td>
                 <%= draft.display_entry_title %>
@@ -43,12 +42,9 @@
               </td>
             </tr>
           <% end %>
-
         <% end %>
         </tbody>
       </table>
-
-
     </section>
   </div>
 </main>

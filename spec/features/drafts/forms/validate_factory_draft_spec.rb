@@ -20,7 +20,7 @@ describe 'Data validation on each form for the factory draft', js: true do
     context "when on the #{form_name} Form" do
       before do
         within 'section.metadata' do
-          click_on form_name
+          click_on form_name, match: :first
         end
         open_accordions
       end

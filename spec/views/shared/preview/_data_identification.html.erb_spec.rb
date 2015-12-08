@@ -31,18 +31,9 @@ describe template_path, type: :view do
       before do
         full_draft = build(:full_draft).draft
 
-        draft_json['EntryId'] = full_draft['EntryId']
-        draft_json['Version'] = full_draft['Version']
-        draft_json['EntryTitle'] = full_draft['EntryTitle']
-        draft_json['Abstract'] = full_draft['Abstract']
-        draft_json['Purpose'] = full_draft['Purpose']
-        draft_json['DataLanguage'] = full_draft['DataLanguage']
         draft_json['DataDates'] = full_draft['DataDates']
-        draft_json['Organizations'] = full_draft['Organizations']
-        draft_json['Personnel'] = full_draft['Personnel']
         draft_json['CollectionDataType'] = full_draft['CollectionDataType']
         draft_json['ProcessingLevel'] = full_draft['ProcessingLevel']
-        draft_json['CollectionCitations'] = full_draft['CollectionCitations']
         draft_json['CollectionProgress'] = full_draft['CollectionProgress']
         draft_json['Quality'] = full_draft['Quality']
         draft_json['UseConstraints'] = full_draft['UseConstraints']

@@ -7,7 +7,7 @@ describe 'Country selection', js: true do
     visit draft_path(draft)
 
     within '.metadata' do
-      click_on 'Data Identification'
+      click_on 'Organizations', match: :first
     end
 
     open_accordions

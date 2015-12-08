@@ -66,7 +66,7 @@
             <li>
               <p>
                 <%= time_tag draft.updated_at, draft.updated_at.strftime("%Y-%m-%d") %> |
-                <%= link_to draft.display_entry_id, draft_path(draft) %> </br>
+                <%= link_to draft.display_short_name, draft_path(draft) %> </br>
                 &nbsp;<%= draft.display_entry_title.truncate(32) %>
               </p>
             </li>

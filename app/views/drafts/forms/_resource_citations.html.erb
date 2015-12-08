@@ -1,0 +1,21 @@
+<fieldset id="collection-citation">
+  <div class="accordion-header">
+    <h3>Resource Citations</h3>
+  </div>
+  <div class="accordion-body">
+    <!-- Resource Citation -->
+      <!-- CollectionCitation -->
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <%= render partial: 'drafts/forms/type', locals: {
+              type: 'collection_citation',
+              values: draft.draft['CollectionCitations'] || [{}],
+              name_prefix: "draft_|collection_citations|_",
+              multiple: true,
+              options: {} } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>

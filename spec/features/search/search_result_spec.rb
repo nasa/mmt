@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Search published results', js: true do
-  entry_id = 'CIESIN_SEDAC_ESI_2000_2000.00'
+  short_name = 'CIESIN_SEDAC_ESI_2000'
   entry_title = '2000 Pilot Environmental Sustainability Index (ESI)'
   concept_id = 'C1200000000-SEDAC'
 
@@ -14,14 +14,14 @@ describe 'Search published results', js: true do
 
   context 'when performing a collection search by quick find entry id' do
     before do
-      fill_in 'entry_id', with: entry_id
+      fill_in 'short_name', with: short_name
       click_on 'Find'
     end
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", 'Record State: Published Records')
+      expect(page).to have_search_query(1, "Short Name: #{short_name}", 'Record State: Published Records')
     end
-    it 'displays expected Entry ID, Entry Title and Last Modified values' do
-      expect(page).to have_content(entry_id)
+    it 'displays expected Short Name, Entry Title and Last Modified values' do
+      expect(page).to have_content(short_name)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(today_string)
     end
@@ -36,8 +36,8 @@ describe 'Search published results', js: true do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search_term_type', with: 'entry_id')
-        expect(page).to have_field('search_term', with: entry_id)
+        expect(page).to have_field('search_term_type', with: 'short_name')
+        expect(page).to have_field('search_term', with: short_name)
       end
     end
   end
@@ -45,17 +45,17 @@ describe 'Search published results', js: true do
   context 'when searching by entry id' do
     before do
       click_on 'Full Metadata Record Search'
-      select 'Entry ID', from: 'search_term_type'
-      fill_in 'search_term', with: entry_id
+      select 'Short Name', from: 'search_term_type'
+      fill_in 'search_term', with: short_name
       click_on 'Submit'
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", 'Record State: Published Records')
+      expect(page).to have_search_query(1, "Short Name: #{short_name}", 'Record State: Published Records')
     end
 
     it 'displays expected data' do
-      expect(page).to have_content(entry_id)
+      expect(page).to have_content(short_name)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(today_string)
     end
@@ -70,8 +70,8 @@ describe 'Search published results', js: true do
       end
 
       it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search_term_type', with: 'entry_id')
-        expect(page).to have_field('search_term', with: entry_id)
+        expect(page).to have_field('search_term_type', with: 'short_name')
+        expect(page).to have_field('search_term', with: short_name)
       end
     end
   end
@@ -81,17 +81,17 @@ describe 'Search published results', js: true do
     before do
       click_on 'Full Metadata Record Search'
       select 'Published & Draft Records', from: 'record_state'
-      select 'Entry ID', from: 'search_term_type'
-      fill_in 'search_term', with: entry_id
+      select 'Short Name', from: 'search_term_type'
+      fill_in 'search_term', with: short_name
       click_on 'Submit'
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Id: #{entry_id}", 'Record State: Published And Draft Records')
+      expect(page).to have_search_query(1, "Short Name: #{short_name}", 'Record State: Published And Draft Records')
     end
 
     it 'displays expected data' do
-      expect(page).to have_content(entry_id)
+      expect(page).to have_content(short_name)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(today_string)
     end
@@ -110,7 +110,7 @@ describe 'Search published results', js: true do
     end
 
     it 'displays expected data' do
-      expect(page).to have_content(entry_id)
+      expect(page).to have_content(short_name)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(today_string)
     end
@@ -143,7 +143,7 @@ describe 'Search published results', js: true do
     end
 
     it 'displays expected data' do
-      expect(page).to have_content('ACR3L2DM_1')
+      expect(page).to have_content('ACR3L2DM')
       expect(page).to have_content('ACRIM III Level 2 Daily Mean Data V001')
       expect(page).to have_content(today_string)
     end
@@ -176,7 +176,7 @@ describe 'Search published results', js: true do
     end
 
     it 'displays expected data' do
-      expect(page).to have_content(entry_id)
+      expect(page).to have_content(short_name)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(today_string)
     end
@@ -199,7 +199,7 @@ describe 'Search published results', js: true do
 
   context 'when performing a search that has no results' do
     before do
-      fill_in 'entry_id', with: 'NO HITS'
+      fill_in 'short_name', with: 'NO HITS'
       click_on 'Find'
     end
     it 'displays collection results' do

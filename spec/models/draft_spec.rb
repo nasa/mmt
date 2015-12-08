@@ -11,28 +11,28 @@ describe Draft do
     expect(draft.display_entry_title).to eq('<Untitled Collection Record>')
   end
 
-  # display_entry_id method
-  it '"display_entry_id" returns a drafts entry_id if available' do
-    draft = build(:draft, entry_id: 'ID Example')
-    expect(draft.display_entry_id).to eq('ID Example')
+  # display_short_name method
+  it '"display_short_name" returns a drafts short_name if available' do
+    draft = build(:draft, short_name: 'ID Example')
+    expect(draft.display_short_name).to eq('ID Example')
   end
-  it '"display_entry_id" returns <Blank Entry Id> if there is no entry id' do
+  it '"display_short_name" returns <Blank Short Name> if there is no entry id' do
     draft = build(:draft)
-    expect(draft.display_entry_id).to eq('<Blank Entry Id>')
+    expect(draft.display_short_name).to eq('<Blank Short Name>')
   end
 
   # update_draft method
-  it '"update_draft" saves entry_id on update' do
+  it '"update_draft" saves short_name on update' do
     draft = create(:draft)
-    params = { 'entry_id' => '12345', 'entry_title' => 'new title' }
+    params = { 'short_name' => '12345', 'entry_title' => 'new title' }
 
     draft.update_draft(params)
 
-    expect(draft.display_entry_id).to eq('12345')
+    expect(draft.display_short_name).to eq('12345')
   end
   it '"update_draft" saves entry_title on update' do
     draft = create(:draft)
-    params = { 'entry_id' => '12345', 'entry_title' => 'new title' }
+    params = { 'short_name' => '12345', 'entry_title' => 'new title' }
 
     draft.update_draft(params)
 
@@ -48,11 +48,11 @@ describe Draft do
   end
   it '"update_draft" deletes empty values' do
     draft = create(:draft, draft: { 'EntryTitle' => 'test title' })
-    params = { 'entry_id' => '12345', 'entry_title' => '' }
+    params = { 'short_name' => '12345', 'entry_title' => '' }
 
     draft.update_draft(params)
 
-    expect(draft.draft).to eq('EntryId' => '12345')
+    expect(draft.draft).to eq('ShortName' => '12345')
   end
   it '"update_draft" converts number fields to numbers' do
     draft = create(:draft, draft: {})
@@ -95,7 +95,7 @@ describe Draft do
 
   # create_from_collection method
   it '"create_from_collection" saves a native_id' do
-    collection = { 'EntryId' => '12345', 'EntryTitle' => 'test title' }
+    collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
     user = User.create(urs_uid: 'testuser')
     native_id = 'test_id'
     draft = Draft.create_from_collection(collection, user, native_id)
@@ -103,7 +103,7 @@ describe Draft do
     expect(draft.native_id).to eq(native_id)
   end
   it '"create_from_collection" saves a user' do
-    collection = { 'EntryId' => '12345', 'EntryTitle' => 'test title' }
+    collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
     user = User.create(urs_uid: 'testuser')
     native_id = 'test_id'
     draft = Draft.create_from_collection(collection, user, native_id)
@@ -111,7 +111,7 @@ describe Draft do
     expect(draft.user).to eq(user)
   end
   it '"create_from_collection" saves the draft' do
-    collection = { 'EntryId' => '12345', 'EntryTitle' => 'test title' }
+    collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
     user = User.create(urs_uid: 'testuser')
     native_id = 'test_id'
     draft = Draft.create_from_collection(collection, user, native_id)

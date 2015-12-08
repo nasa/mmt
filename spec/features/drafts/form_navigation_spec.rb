@@ -25,7 +25,7 @@ describe 'Draft form navigation', js: true do
       context "when clicking on #{form_title}" do
         before do
           within '.metadata' do
-            click_on form_title
+            click_on form_title, match: :first
           end
         end
 
@@ -67,11 +67,15 @@ describe 'Draft form navigation', js: true do
 
     context 'when pressing the Save & Next button' do
       before do
-        click_on current_form
+        click_on current_form, match: :first
 
         within '.nav-top' do
           click_on 'Save & Next'
         end
+
+        # These forms are invalid, and need to click 'Yes' to get to the next form
+        invalid_forms = ['Collection Information', 'Organizations']
+        click_on 'Yes' if invalid_forms.include?(current_form)
 
         next_form = Draft.get_next_form(current_form.parameterize.underscore).titleize
         current_form = next_form

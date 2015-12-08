@@ -86,7 +86,7 @@
 }
 
 .sub-fields {
-  padding: 1.8em;
+  padding: 1em 1.5em;
   background: darken($light-grey, 5%);
   border-left: 2px solid darken($light-grey, 12%);
   @include transition(all 0.25s ease-in-out);

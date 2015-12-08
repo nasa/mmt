@@ -41,4 +41,26 @@ describe 'Draft form accordions', js: true do
       end
     end
   end
+
+  context 'when viewing a form with only one accordion' do
+    before do
+      within '.metadata' do
+        click_on 'Organization', match: :first
+      end
+    end
+
+    it 'shows the accordion open by default' do
+      expect(page).to have_no_css('.accordion.is-closed')
+    end
+
+    context 'when clicking on the accordion header' do
+      before do
+        first('.accordion-header').click
+      end
+
+      it 'does not allow the user to collapse the accordion' do
+        expect(page).to have_no_css('.is-closed')
+      end
+    end
+  end
 end
