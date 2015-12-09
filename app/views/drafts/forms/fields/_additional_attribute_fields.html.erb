@@ -13,7 +13,6 @@
   <%= text_area_tag(name_to_param("#{name_prefix}description"), additional_attribute['Description'], rows: 8, class: 'validate') %>
 
 
-
   <!-- Value -->
   <label for="<%= remove_pipes(name_prefix) %>value">Value</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
@@ -30,7 +29,7 @@
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/DataType"></i>
         <span class="is-hidden">Help modal for data type</span>
       </a>
-      <%= select_tag name_to_param("#{name_prefix}|data_type|"), options_for_select(DraftsHelper::DataTypeOptions, additional_attribute['DataType']), class: 'single-select validate' %>
+      <%= select_tag name_to_param("#{name_prefix}|data_type|"), options_for_select(DraftsHelper::DataTypeOptions, additional_attribute['DataType']), class: 'additional-attribute-type-select single-select validate' %>
     </div>
     <div class="col-6">
       <!-- MeasurementResolution -->
@@ -51,7 +50,7 @@
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterRangeBegin"></i>
         <span class="is-hidden">Help modal for parameter range begin</span>
       </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_begin|"), additional_attribute['ParameterRangeBegin'], class: 'full-width validate') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_begin|"), additional_attribute['ParameterRangeBegin'], class: 'full-width validate parameter-range-begin') %>
     </div>
     <div class="col-6">
       <!-- ParameterRangeEnd -->
@@ -60,7 +59,7 @@
         <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterRangeEnd"></i>
         <span class="is-hidden">Help modal for parameter range end</span>
       </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_end|"), additional_attribute['ParameterRangeEnd'], class: 'full-width validate') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_end|"), additional_attribute['ParameterRangeEnd'], class: 'full-width validate parameter-range-end') %>
     </div>
   </div>
 

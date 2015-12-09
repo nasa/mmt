@@ -27,6 +27,7 @@ class DraftsController < ApplicationController
 
     errors = JSON::Validator.fully_validate(schema, @draft.draft)
     errors = Array.wrap(errors)
+    errors = validate_parameter_ranges(errors, @draft.draft)
     errors.map! { |error| generate_show_errors(error) }.flatten!
     @errors = errors
   end
@@ -218,19 +219,21 @@ class DraftsController < ApplicationController
     Platforms
     Projects
   )
-  DATA_IDENTIFICATION_FIELDS = %w(
+  COLLECTION_INFORMATION_FIELDS = %w(
     ShortName
     Version
     EntryTitle
     Abstract
     Purpose
     DataLanguage
+  )
+  COLLECTION_CITATIONS_FIELDS = %w(
+    CollectionCitations
+  )
+  DATA_IDENTIFICATION_FIELDS = %w(
     DataDates
-    Organizations
-    Personnel
     CollectionDataType
     ProcessingLevel
-    CollectionCitations
     CollectionProgress
     Quality
     UseConstraints
@@ -252,6 +255,12 @@ class DraftsController < ApplicationController
     MetadataLanguage
     MetadataDates
   )
+  ORGANIZATIONS_FIELDS = %w(
+    Organizations
+  )
+  PERSONNEL_FIELDS = %w(
+    Personnel
+  )
   SPATIAL_INFORMATION_FIELDS = %w(
     SpatialExtent
     TilingIdentificationSystem
@@ -267,6 +276,10 @@ class DraftsController < ApplicationController
   def get_page(field_name)
     if ACQUISITION_INFORMATION_FIELDS.include? field_name
       'acquisition_information'
+    elsif COLLECTION_INFORMATION_FIELDS.include? field_name
+      'collection_information'
+    elsif COLLECTION_CITATIONS_FIELDS.include? field_name
+      'resource_citations'
     elsif DATA_IDENTIFICATION_FIELDS.include? field_name
       'data_identification'
     elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? field_name
@@ -275,6 +288,10 @@ class DraftsController < ApplicationController
       'distribution_information'
     elsif METADATA_INFORMATION_FIELDS.include? field_name
       'metadata_information'
+    elsif ORGANIZATIONS_FIELDS.include? field_name
+      'organizations'
+    elsif PERSONNEL_FIELDS.include? field_name
+      'personnel'
     elsif SPATIAL_INFORMATION_FIELDS.include? field_name
       'spatial_information'
     elsif TEMPORAL_INFORMATION_FIELDS.include? field_name
@@ -294,6 +311,27 @@ class DraftsController < ApplicationController
       'is an invalid format'
     when /must be a valid URI/
       'is an invalid URI'
+    when /larger than/
+      'is larger than ParameterRangeBegin'
     end
+  end
+
+  def validate_parameter_ranges(errors, metadata)
+    if metadata['AdditionalAttributes']
+      metadata['AdditionalAttributes'].each do |attribute|
+        non_range_types = %w(STRING BOOLEAN)
+        unless non_range_types.include?(attribute['DataType'])
+          range_begin = attribute['ParameterRangeBegin']
+          range_end = attribute['ParameterRangeEnd']
+
+          if range_begin && range_end && range_begin >= range_end
+            error = "The property '#/AdditionalAttributes/0/ParameterRangeBegin' was larger than ParameterRangeEnd"
+            errors << error
+          end
+        end
+      end
+    end
+
+    errors
   end
 end
