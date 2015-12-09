@@ -36,7 +36,8 @@ class SearchController < ApplicationController
       when 'short_name'
         @query['short_name'] = params['search_term']
       when 'entry_title'
-        @query['entry_title'] = params['search_term']
+        @query['entry_title'] = "*#{params['search_term']}*"
+        @query['options[entry_title][pattern]'] = true
       when 'concept_id'
         @query['concept_id'] = params['search_term']
       end
@@ -93,6 +94,8 @@ class SearchController < ApplicationController
     query.delete('page_num')
     query.delete('page_size')
     query.delete('_')
+    query.delete('options[entry_title][pattern]')
+    query['entry_title'] = query['entry_title'][1..-2] if query['entry_title']
 
     drafts = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
 
