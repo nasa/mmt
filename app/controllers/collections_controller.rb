@@ -38,7 +38,7 @@ class CollectionsController < ApplicationController
     latest_revision_id = @revisions.first['meta']['revision-id']
 
     # Ingest revision
-    ingested = cmr_client.ingest_collection(@metadata, @provider_id, @native_id, token)
+    ingested = cmr_client.ingest_collection(@metadata.to_json, @provider_id, @native_id, token)
 
     if ingested.success?
       flash[:success] = 'Revision was successfully created'
@@ -79,8 +79,12 @@ class CollectionsController < ApplicationController
       # retrieve native metadata
       @metadata = cmr_client.get_concept(concept_id, token, revision_id)
 
-      # translate to umm-json metadata
-      @collection = cmr_client.translate_collection(@metadata, concept_format, 'application/umm+json', true).body
+      # translate to umm-json metadata if needed
+      if concept_format == 'application/umm+json'
+        @collection = @metadata
+      else
+        @collection = cmr_client.translate_collection(@metadata, concept_format, 'application/umm+json', true).body
+      end
     else
       # concept wasn't found, CMR might be a little slow
       # Take the user to a blank page with a message the collection doesn't exist yet,

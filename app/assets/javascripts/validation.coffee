@@ -93,6 +93,8 @@ $(document).ready ->
       when 'type' then "#{field} must be of type #{type}"
       when 'maximum' then "#{field} is too high"
       when 'minimum' then "#{field} is too low"
+      when 'parameter-range-later' then "#{field} must be later than Parameter Range Begin"
+      when 'parameter-range-larger' then "#{field} must be larger than Parameter Range Begin"
       when 'oneOf'
         # oneOf Party means it wants oneOf OrganizationName or Person
         # Those errors don't matter to a user because they don't see
@@ -194,6 +196,25 @@ $(document).ready ->
     error.title = $("label[for='#{labelFor}']").text()
     error
 
+  validateParameterRanges = (errors) ->
+    if $('#additional-attributes').length > 0
+      $('.multiple.additional-attributes > .multiple-item').each (index, element) ->
+        type = $(element).find('.additional-attribute-type-select').val()
+        if type.length > 0
+          $begin = $(element).find('.parameter-range-begin')
+          $end = $(element).find('.parameter-range-end')
+          beginValue = $begin.val()
+          endValue = $end.val()
+
+          if beginValue.length > 0 && endValue.length > 0 && beginValue >= endValue
+            largerTypes = ['INT', 'FLOAT']
+            keyword = 'parameter-range-later'
+            keyword = 'parameter-range-larger' if largerTypes.indexOf(type) != -1
+            newError =
+              keyword: keyword,
+              path: "AdditionalAttributes.#{index}.ParameterRangeEnd"
+            errors.push newError
+
   validatePage = (opts) ->
     $('.validation-error').remove()
     $('.summary-errors').remove()
@@ -201,6 +222,8 @@ $(document).ready ->
     validate = jsen(globalJsonSchema, {greedy: true})
     validate(json)
     errors = validate.errors
+
+    validateParameterRanges(errors)
 
     if opts.pageLoad?
       formErrors.push(error) for error in errors

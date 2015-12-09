@@ -86,7 +86,7 @@ module Cmr
         url = "/ingest/providers/#{provider_id}/collections/#{native_id}"
       end
       headers = {
-        'Content-Type' => 'application/iso19115+xml'
+        'Content-Type' => 'application/umm+json'
       }
       put(url, metadata, headers.merge(token_header(token)))
     end

@@ -67,14 +67,14 @@ class Draft < ActiveRecord::Base
       # Edited record
       draft = Draft.find_or_create_by(native_id: native_id)
       draft.entry_title = new_entry_title
-      draft.short_name = (collection['EntryId'] && collection['EntryId'].empty?) ? nil : collection['EntryId']
+      draft.short_name = (collection['ShortName'] && collection['ShortName'].empty?) ? nil : collection['ShortName']
     else
       # Cloned record
       draft = Draft.create
       draft.entry_title = "#{new_entry_title} - Cloned"
       collection['EntryTitle'] = "#{new_entry_title} - Cloned"
       draft.short_name = nil
-      collection.delete('EntryId')
+      collection.delete('ShortName')
     end
     draft.user = user
     draft.draft = collection

@@ -77,7 +77,7 @@ module TypesHelper
     { name: 'Date' }
   ]
   DepthSystemDefinitionType = AltitudeSystemDefinitionType
-  DirectoryNameType = [
+  DirectoryNamesType = [
     { name: 'ShortName' },
     { name: 'LongName' }
   ]
