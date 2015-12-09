@@ -75,11 +75,29 @@ class Draft < ActiveRecord::Base
       collection['EntryTitle'] = "#{new_entry_title} - Cloned"
       draft.short_name = nil
       collection.delete('ShortName')
+      collection.delete('MetadataDates')
     end
     draft.user = user
     draft.draft = collection
     draft.save
     draft
+  end
+
+  def add_metadata_dates
+    current_datetime = Time.now.utc.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+    dates = draft['MetadataDates'] || []
+
+    # If create date exists, add an update date
+    if dates.count { |date| date['Type'] == 'CREATE' } > 0
+      new_date = { 'Type' => 'UPDATE', 'Date' => current_datetime }
+    else
+      # else add create date
+      new_date = { 'Type' => 'CREATE', 'Date' => current_datetime }
+    end
+
+    dates << new_date
+    draft['MetadataDates'] = dates
+    save
   end
 
   private

@@ -102,6 +102,8 @@ class DraftsController < ApplicationController
   end
 
   def publish
+    @draft.add_metadata_dates
+
     draft = @draft.draft
 
     ingested = cmr_client.ingest_collection(draft.to_json, @current_user.provider_id, @draft.native_id, token)

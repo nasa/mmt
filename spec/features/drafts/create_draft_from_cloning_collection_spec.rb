@@ -67,6 +67,9 @@ describe 'Create new draft from cloning a collection', js: true do
       metadata['EntryTitle'] = "#{metadata['EntryTitle']} - Cloned"
       metadata.delete('ShortName')
 
+      # Remove MetadataDates
+      metadata.delete('MetadataDates')
+
       expect(draft).to eq(metadata)
     end
   end
