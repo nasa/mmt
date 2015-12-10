@@ -122,7 +122,7 @@ describe 'Provider context', js: true do
     end
 
     it 'displays a message' do
-      expect(page).to have_content('You do not have any available providers.')
+      expect(page).to have_content('You do not have any available providers. Please contact your provider to have your permissions granted.')
     end
   end
 end
