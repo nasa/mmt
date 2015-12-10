@@ -57,9 +57,13 @@
         <p>
           <%= select_tag 'select-provider', options_for_select(@current_user.available_providers.unshift(['Select Provider', '']), @current_user.provider_id), class: 'single-select' %>
         </p>
-      <% else %>
+      <% elsif @current_user.available_providers.size == 1 %>
         <p>
           You only have one available provider, <%= @current_user.provider_id %>
+        </p>
+      <% else %>
+        <p>
+          You do not have any available providers.
         </p>
       <% end %>
 
