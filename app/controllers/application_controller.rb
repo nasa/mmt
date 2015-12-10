@@ -130,6 +130,15 @@ class ApplicationController < ActionController::Base
     session[:access_token]
   end
 
+  def token_with_client_id
+    services = Rails.configuration.services
+    config = services['earthdata'][cmr_env]
+    client_id = services['urs'][Rails.env.to_s][config['urs_root']]
+
+    "#{token}:#{client_id}"
+  end
+  helper_method :token_with_client_id
+
   def logged_in?
     logged_in = session[:access_token].present? &&
                 session[:refresh_token].present? &&
