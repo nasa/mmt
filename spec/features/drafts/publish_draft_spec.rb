@@ -24,7 +24,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
 
     it 'displays the published metadata' do
       # runs through entire draft and makes sure all data is present on page
-      draft = build(:full_draft).draft
+      draft = Draft.first.draft
       root_css_path = 'div.preview-collection > div.accordion-body > ul'
       options = {
         DataLanguage: :handle_as_language_code,

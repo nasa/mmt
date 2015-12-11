@@ -277,7 +277,7 @@ FactoryGirl.define do
       'Type' => 'CREATE',
       'Date' => '2015-07-01T00:00:00Z'
     }, {
-      'Type' => 'REVIEW',
+      'Type' => 'UPDATE',
       'Date' => '2015-07-05T00:00:00Z'
     }],
     'Organizations' => [{
@@ -643,7 +643,7 @@ FactoryGirl.define do
       'Type' => 'CREATE',
       'Date' => '2010-12-25T00:00:00Z'
     }, {
-      'Type' => 'REVIEW',
+      'Type' => 'UPDATE',
       'Date' => '2010-12-30T00:00:00Z'
     }],
     'DirectoryNames' => [{
