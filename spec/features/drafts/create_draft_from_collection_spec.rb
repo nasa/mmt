@@ -49,6 +49,12 @@ describe 'Create new draft from collection', js: true do
       draft = Draft.order('updated_at desc').first.draft
       metadata = build(:full_draft).draft
 
+      # Remove the auto-populated metadata update date
+      dates = draft['MetadataDates']
+      date = dates.find { |d| d['Type'] == 'UPDATE' }
+      dates.delete(date)
+      draft['MetadataDates'] = dates
+
       expect(draft).to eq(metadata)
     end
   end
