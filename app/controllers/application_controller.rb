@@ -82,29 +82,35 @@ class ApplicationController < ActionController::Base
 
   # TODO I really want to move this to user.rb but cmr_client doesn't want to work there
   def available_providers(echo_id)
+    providers = []
+
     # Get groups the user belongs to
     groups = cmr_client.get_groups(echo_id).body
     group_ids = groups.map { |group| group['group']['id'] }
 
-    # Get all ACLs
-    acls = cmr_client.get_provider_acls.body
-    good_acls = acls.select do |acl|
-      # If the ACL is an ingest ACL
-      acl['acl']['provider_object_identity']['target'] == 'INGEST_MANAGEMENT_ACL' &&
+    if group_ids && group_ids.size > 0
+      # Get all ACLs
+      acls = cmr_client.get_provider_acls.body
+      good_acls = acls.select do |acl|
+        # If the ACL is an ingest ACL
+        acl['acl']['provider_object_identity']['target'] == 'INGEST_MANAGEMENT_ACL' &&
 
-      # if access_control_entries includes at least one of the users group_ids
-      # and the UPDATE permission is found
-      acl['acl']['access_control_entries'].count { |entry| group_ids.include?(entry['sid']['group_sid']['group_guid']) && entry['permissions'].include?('UPDATE') } > 0
+        # if access_control_entries includes at least one of the users group_ids
+        # and the UPDATE permission is found
+        acl['acl']['access_control_entries'].count { |entry| group_ids.include?(entry['sid']['group_sid']['group_guid']) && entry['permissions'].include?('UPDATE') } > 0
+      end
+
+      # Get the provider_guids
+      provider_guids = good_acls.map { |acl| acl['acl']['provider_object_identity']['provider_guid'] }
+
+      # Get all providers
+      all_providers = cmr_client.get_all_providers.body
+
+      # Find provider_ids for provider_guids and sort
+      providers = all_providers.select { |provider| provider_guids.include? provider['provider']['id'] }.map { |provider| provider['provider']['provider_id'] }.sort
     end
 
-    # Get the provider_guids
-    provider_guids = good_acls.map { |acl| acl['acl']['provider_object_identity']['provider_guid'] }
-
-    # Get all providers
-    all_providers = cmr_client.get_all_providers.body
-
-    # Find provider_ids for provider_guids and sort
-    all_providers.select { |provider| provider_guids.include? provider['provider']['id'] }.map { |provider| provider['provider']['provider_id'] }.sort
+    providers
   end
 
   def refresh_urs_if_needed
@@ -129,6 +135,15 @@ class ApplicationController < ActionController::Base
   def token
     session[:access_token]
   end
+
+  def token_with_client_id
+    services = Rails.configuration.services
+    config = services['earthdata'][cmr_env]
+    client_id = services['urs'][Rails.env.to_s][config['urs_root']]
+
+    "#{token}:#{client_id}"
+  end
+  helper_method :token_with_client_id
 
   def logged_in?
     logged_in = session[:access_token].present? &&

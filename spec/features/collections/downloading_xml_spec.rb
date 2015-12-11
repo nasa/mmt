@@ -18,13 +18,15 @@ describe 'Downloading Collection XML', js: true do
 
       it 'shows the download selections' do
         link = "http://localhost:3003/concepts/#{concept_id}"
-        expect(page).to have_link('Native', href: link)
-        expect(page).to have_link('ATOM', href: "#{link}.atom")
-        expect(page).to have_link('ECHO 10', href: "#{link}.echo10")
-        expect(page).to have_link('ISO 19115 (MENDS)', href: "#{link}.iso")
-        expect(page).to have_link('ISO 19115 (SMAP)', href: "#{link}.iso_smap")
-        expect(page).to have_link('DIF 9', href: "#{link}.dif")
-        expect(page).to have_link('DIF 10', href: "#{link}.dif10")
+        token = 'access_token:81FEem91NlTQreWv2UgtXQ'
+
+        expect(page).to have_link('Native', href: "#{link}?token=#{token}")
+        expect(page).to have_link('ATOM', href: "#{link}.atom?token=#{token}")
+        expect(page).to have_link('ECHO 10', href: "#{link}.echo10?token=#{token}")
+        expect(page).to have_link('ISO 19115 (MENDS)', href: "#{link}.iso?token=#{token}")
+        expect(page).to have_link('ISO 19115 (SMAP)', href: "#{link}.iso_smap?token=#{token}")
+        expect(page).to have_link('DIF 9', href: "#{link}.dif?token=#{token}")
+        expect(page).to have_link('DIF 10', href: "#{link}.dif10?token=#{token}")
       end
     end
   end

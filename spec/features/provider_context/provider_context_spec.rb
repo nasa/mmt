@@ -113,4 +113,16 @@ describe 'Provider context', js: true do
       end
     end
   end
+
+  context 'when the user has no providers' do
+    before do
+      VCR.use_cassette('provider_context/no_providers', record: :none) do
+        login
+      end
+    end
+
+    it 'displays a message' do
+      expect(page).to have_content('You do not have any available providers. Please contact your provider to have your permissions granted.')
+    end
+  end
 end
