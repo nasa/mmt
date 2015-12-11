@@ -90,7 +90,7 @@ class Draft < ActiveRecord::Base
     create_datetime = dates.find { |date| date['Type'] == 'CREATE' }
     if create_datetime
       new_dates = [
-        { 'Type' => 'CREATE', 'Date' => create_datetime },
+        { 'Type' => 'CREATE', 'Date' => create_datetime['Date'] },
         { 'Type' => 'UPDATE', 'Date' => current_datetime }
       ]
     else
