@@ -37,10 +37,12 @@ describe 'Create new draft from collection', js: true do
   end
 
   context 'when editing a CMR collection that was originally published by MMT' do
+    current_datetime = nil
     before do
       login
       draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
       visit draft_path(draft)
+      current_datetime = Time.now.utc.strftime('%Y-%m-%dT%H:%M:%S.000Z')
       click_on 'Publish'
       click_on 'Edit Record'
     end
@@ -49,11 +51,13 @@ describe 'Create new draft from collection', js: true do
       draft = Draft.order('updated_at desc').first.draft
       metadata = build(:full_draft).draft
 
-      # Remove the auto-populated metadata update date
-      dates = draft['MetadataDates']
+      # set the metadata update date to the autopopulated date
+      dates = metadata['MetadataDates']
       date = dates.find { |d| d['Type'] == 'UPDATE' }
       dates.delete(date)
-      draft['MetadataDates'] = dates
+      date['Date'] = current_datetime
+      dates << date
+      metadata['MetadataDates'] = dates
 
       expect(draft).to eq(metadata)
     end
