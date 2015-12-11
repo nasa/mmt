@@ -84,7 +84,7 @@ class Draft < ActiveRecord::Base
   end
 
   def add_metadata_dates
-    current_datetime = Time.now.utc.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+    current_datetime = Time.now.utc.strftime('%Y-%m-%dT%H:%M:00.000Z')
     dates = draft['MetadataDates'] || []
 
     create_datetime = dates.find { |date| date['Type'] == 'CREATE' }
