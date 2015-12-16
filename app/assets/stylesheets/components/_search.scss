@@ -4,6 +4,54 @@
 
 // todo: requires refactoring
 
+
+/* Search Form
+------------------------------------------*/
+
+#search {
+  float: right;
+
+  .full-search-form {
+    margin: 0.5em 0;
+
+    fieldset {
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .quick-search {
+    margin: 0;
+  }
+
+  label {
+    width: 7em;
+    margin: 0.55em 0.8em 0 0;
+    color: lighten($light-grey, 10%);
+  }
+
+  input[type="text"] {
+    width: 10em;
+    padding: 0.5em;
+    border: none;
+    vertical-align: middle;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    display: inline-block;
+  }
+
+  button {
+    border-left: none;
+    display: inline-block;
+  }
+
+  .full-search {
+    font-size: 0.8em;
+  }
+}
+
 .search-module {
   background-color: $true-black;
   width: 800px;

@@ -2,6 +2,13 @@
    Override: Content Styles
 \* ===================================================== */
 
+.earthdata {
+  text-transform: uppercase;
+  font-size: 1.1em;
+  line-height: 1.5;
+  letter-spacing: -0.1px;
+}
+
 .form-description {
   color: lighten($black, 30%);
 }

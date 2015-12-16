@@ -1,9 +1,10 @@
 <header role="banner">
-  <div class="content">
+  <div class="content flex-center">
     <div class="col-6">
-      <div class="masthead-logo" id="masthead-logo">
+      <div class="masthead-logo application-logo" id="masthead-logo">
         <%= link_to root_path do %>
-            <h1>Metadata Management Tool (MMT)</h1>
+            <h1><span class="earthdata">Earthdata</span> <br> Metadata Management Tool <span class="badge badge-sm">BETA</span></h1>
+
             <% if logged_in? && @current_user.provider_id %>
               <span class="badge badge-sm daac"><%= @current_user.provider_id %></span>
             <% end %>
