@@ -6,7 +6,7 @@
       <i class="fa fa-info-circle" data-help-path="definitions/OrganizationNameType/properties/ShortName"></i>
       <span class="is-hidden">Help modal for short name</span>
     </a>
-    <%= text_field_tag(name_to_param("#{name_prefix}|organization_name|_|short_name|"), organization_name['ShortName'], class: 'full-width validate') %>
+    <%= text_field_tag(name_to_param("#{name_prefix}|organization_name|_|short_name|"), organization_name['ShortName'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}organization_name") }) %>
   </div>
   <div class="col-6">
     <!-- LongName -->
@@ -15,6 +15,6 @@
       <i class="fa fa-info-circle" data-help-path="definitions/OrganizationNameType/properties/LongName"></i>
       <span class="is-hidden">Help modal for long name</span>
     </a>
-    <%= text_field_tag(name_to_param("#{name_prefix}|organization_name|_|long_name|"), organization_name['LongName'], class: 'full-width validate') %>
+    <%= text_field_tag(name_to_param("#{name_prefix}|organization_name|_|long_name|"), organization_name['LongName'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}organization_name") }) %>
   </div>
 </div>

@@ -1,21 +1,22 @@
 <% options.delete(:title) %>
 <% options.delete(:type) %>
 <div class="row sub-fields">
-  <label for="<%= remove_pipes(name_prefix) %>role" class="icon-required">Role</label>
+  <label for="<%= remove_pipes(name_prefix) %>role" class="required">Role</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/ResponsibilityType/properties/Role"></i>
     <span class="is-hidden">Help modal for role</span>
   </a>
-  <%= select_tag name_to_param("#{name_prefix}role"), options_for_select(DraftsHelper::RoleOptions, responsibility['Role']), class: 'single-select validate' %>
+  <%= select_tag name_to_param("#{name_prefix}role"), options_for_select(DraftsHelper::RoleOptions, responsibility['Role']), class: 'single-select validate', data: { level: remove_pipes(name_prefix) } %>
 
   <% party = responsibility['Party'] || {} %>
-  <label id="<%= remove_pipes("#{name_prefix}party").gsub(/_$/, '') %>" class="icon-required">Party</label>
+  <label id="<%= remove_pipes("#{name_prefix}party").gsub(/_$/, '') %>" class="required">Party</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
     <i class="fa fa-info-circle" data-help-path="definitions/ResponsibilityType/properties/Party"></i>
     <span class="is-hidden">Help modal for party</span>
   </a>
   <div class="row sub-fields">
     <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
+    <!-- TODO: There is no longer a checkbox for org or person -->
     <% person_checked = !party['Person'].nil? %>
     <% organization_checked = !party['OrganizationName'].nil? %>
     <div class="party-type" style="<%= 'display: none;' if options[:limit_type] %>">
@@ -53,7 +54,7 @@
           <i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ServiceHours"></i>
           <span class="is-hidden">Help modal for service hours</span>
         </a>
-        <%= text_field_tag(name_to_param("#{name_prefix}party_|service_hours|"), party['ServiceHours'], class: 'full-width validate') %>
+        <%= text_field_tag(name_to_param("#{name_prefix}party_|service_hours|"), party['ServiceHours'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}party") }) %>
       </div>
       <div class="col-6">
         <label for="<%= remove_pipes(name_prefix) %>party_contact_instructions">Contact Instructions</label>
@@ -61,7 +62,7 @@
           <i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ContactInstructions"></i>
           <span class="is-hidden">Help modal for contact instructions</span>
         </a>
-        <%= text_field_tag(name_to_param("#{name_prefix}party_|contact_instructions|"), party['ContactInstructions'], class: 'full-width validate') %>
+        <%= text_field_tag(name_to_param("#{name_prefix}party_|contact_instructions|"), party['ContactInstructions'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}party") }) %>
       </div>
     </div>
     <!-- Contact - multiple -->
