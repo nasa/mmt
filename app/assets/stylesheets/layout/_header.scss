@@ -84,6 +84,12 @@ header {
       }
     }
 
+    // EUI Candidate
+    // Temporary nesting due to specificity battle with EUI
+    h1 {
+      font-weight: 100;
+    }
+
     // Temporary nesting due to specificity battle with EUI
     &.application-logo {
 
