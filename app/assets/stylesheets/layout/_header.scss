@@ -64,23 +64,23 @@ header {
 
     a:link,
     a:visited {
-      background: asset-url("nasa-meatball.png") no-repeat left;
+      background: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo.png") no-repeat left;
       min-height: 64px;
       color: $white;
       display: block;
       @include transition(background-image 0.1s linear);
 
       @include hidpi(1.3) {
-        background-image: asset-url("nasa-meatball_2x.png");
+        background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_2x.png");
         background-size: auto 50px;
       }
     }
 
     a:hover {
-      background-image: asset-url("nasa-meatball_hover.png");
+      background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover.png");
 
       @include hidpi(1.3) {
-        background-image: asset-url("nasa-meatball_hover_2x.png");
+        background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover_2x.png");
       }
     }
 
@@ -88,7 +88,8 @@ header {
     &.application-logo {
 
       a:link {
-        padding-top: 10px;
+        padding-top: 31px;
+        font-size: 1em;
       }
     }
   }
