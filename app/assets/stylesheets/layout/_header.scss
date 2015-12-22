@@ -95,13 +95,14 @@ header {
 
       // EUI Candidate - Future Discussion
       h1 {
-        font-family: "Helvetica Neue", Helvetica, sans-serif;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 300;
+        font-size: 2em;
       }
 
       a:link {
         padding-top: 28px;
-        padding-left: 73px;
-        font-size: 1em;
+        padding-left: 72px;
       }
     }
   }
