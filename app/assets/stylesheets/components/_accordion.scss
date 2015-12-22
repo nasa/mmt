@@ -2,6 +2,10 @@
    Accordion
 \* ===================================================== */
 
+.accordion {
+  margin-bottom: 0.2em;
+}
+
 .accordion-header {
   padding: 1em 1.5em;
   background-color: $light-grey;
@@ -60,7 +64,6 @@
   .accordion-header {
     padding: 1em;
     margin: 0;
-    margin-bottom: 0.2em;
     border-left: 1px solid darken($light-grey, 10%);
   }
 

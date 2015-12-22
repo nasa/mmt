@@ -59,3 +59,20 @@ section {
           align-items: center;
 }
 
+// Flexbox Grid Classes
+
+// Space Between Two Elements
+.flex-row--sb {
+  display: flex;
+  justify-content: space-between;
+
+  // Fallback support
+  > *:first-child,
+  > *:last-child {
+    display: inline-block;
+  }
+
+  > *:last-child {
+    float: right;
+  }
+}
