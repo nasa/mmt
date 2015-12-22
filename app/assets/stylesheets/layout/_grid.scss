@@ -49,6 +49,7 @@ section {
 }
 
 .flex-center {
+  // Temporarily disable flexbox features due to PhantomJS incompatibility
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

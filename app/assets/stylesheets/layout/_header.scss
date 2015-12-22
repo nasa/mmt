@@ -37,6 +37,7 @@ header {
   .header-tools {
     @include row();
     text-align: right;
+    margin-top: 17px;
 
     #help {
       display: none; // Change to display: block when help feature is added and remove margin-top on #search
