@@ -37,6 +37,7 @@ header {
   .header-tools {
     @include row();
     text-align: right;
+    margin-top: 17px;
 
     #help {
       display: none; // Change to display: block when help feature is added and remove margin-top on #search
@@ -46,10 +47,10 @@ header {
     }
 
     .btn-blue {
-      background-color: lighten($ocean-blue,4%);
+      background-color: lighten($ocean-blue, 4%);
 
       &:hover {
-        background-color: lighten($ocean-blue,6%);
+        background-color: lighten($ocean-blue, 6%);
       }
     }
   }
@@ -57,85 +58,53 @@ header {
   /* Primary Logo
   ------------------------------------------*/
 
-  #masthead-logo {
+  .masthead-logo {
     @include row();
     display: block;
     width: 100%;
 
-    .badge {
-      background: $midnight-blue;
-    }
-
     a:link,
     a:visited {
-      background: asset-url("nasa-meatball.png") no-repeat left;
+      background: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo.png") no-repeat left;
       min-height: 64px;
       color: $white;
       display: block;
-      padding: 10px 0;
-      padding-left: 70px;
       @include transition(background-image 0.1s linear);
 
       @include hidpi(1.3) {
-        background-image: asset-url("nasa-meatball_2x.png");
+        background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_2x.png");
         background-size: auto 50px;
       }
     }
 
     a:hover {
-      background-image: asset-url("nasa-meatball_hover.png");
+      background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover.png");
 
       @include hidpi(1.3) {
-        background-image: asset-url("nasa-meatball_hover_2x.png");
-      }
-    }
-  }
-
-  /* Search Form
-  ------------------------------------------*/
-
-  #search {
-    float: right;
-    margin-top: 1.9em; // Remove this line once the help link actually works
-
-    .full-search-form {
-      margin: 0.5em 0;
-
-      fieldset {
-        background: none;
-        border: none;
-        padding: 0;
-        margin: 0;
+        background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover_2x.png");
       }
     }
 
-    .quick-search {
-      margin: 0;
+    // EUI Candidate
+    // Temporary nesting due to specificity battle with EUI
+    h1 {
+      font-weight: 100;
     }
 
-    label {
-      width: 7em;
-      margin: 0.55em 0.8em 0 0;
-      color: lighten($light-grey, 10%);
-    }
+    // Temporary nesting due to specificity battle with EUI
+    &.application-logo {
 
-    input[type="text"] {
-      width: 10em;
-      padding: 0.5em;
-      border: none;
-      vertical-align: middle;
-      border-top-left-radius: 3px;
-      border-bottom-left-radius: 3px;
-      display: inline-block;
-    }
+      // EUI Candidate - Future Discussion
+      h1 {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 2em;
+        letter-spacing: 1px;
+      }
 
-    button {
-      border-left: none;
-      display: inline-block;
-    }
-
-    .full-search {
-      font-size: 0.8em;
+      a:link {
+        padding-top: 28px;
+        padding-left: 72px;
+      }
     }
   }
 
