@@ -18,8 +18,9 @@ describe 'Calendar Event Query' do
 
   context 'when ECHO is down' do
     before do
+      login
+
       VCR.use_cassette('notifications/echo_down', record: :none) do
-        login
         visit '/'
       end
     end
@@ -55,8 +56,19 @@ describe 'Calendar Event Query' do
       end
 
       it 'shows the proper upcoming notification' do
-        expect(page).to have_content("#{BASE_STRING} on Sunday, 7/18/2021 between 8 am - 9 am ET")
-        expect(page).to have_no_content(ECHO_DOWN_STRING)
+        expect(page).to have_content('Multiple calendar events have been found. Click here to see all messages.')
+      end
+    end
+
+    context 'when there is a notification with no end date' do
+      before do
+        VCR.use_cassette('notifications/no_end_date', record: :none) do
+          visit '/'
+        end
+      end
+
+      it 'displays the notification' do
+        expect(page).to have_content('No GPM GMI data between 2014-10-22 and 2014-10-24 (2014-10-22 04:14:00 - ongoing)')
       end
     end
 
@@ -68,7 +80,35 @@ describe 'Calendar Event Query' do
       end
 
       it 'shows the multi-day outage correctly' do
-        expect(page).to have_content("#{BASE_STRING} between Monday, 7/12/2021 at 5 am and Tuesday, 7/13/2021 at 4 pm ET")
+        expect(page).to have_content('testing ncr (2021-07-12 05:00:00 - 2021-07-12 05:00:00)')
+      end
+
+      context 'when hiding the notification and reloading the page', js: true do
+        before do
+          click_on 'Dismiss banner'
+          # Give the test some time to hide the notification
+          sleep 0.1
+
+          VCR.use_cassette('notifications/multi_day_notification', record: :none) do
+            visit '/'
+          end
+        end
+
+        it 'does not display the notification' do
+          expect(page).to have_no_content(BASE_STRING)
+        end
+
+        context 'when a new notification is present' do
+          before do
+            VCR.use_cassette('notifications/several_future_notifications', record: :none) do
+              visit '/'
+            end
+          end
+
+          it 'displays the non-dismissed notification' do
+            expect(page).to have_css('.banner-message')
+          end
+        end
       end
     end
 
@@ -80,47 +120,7 @@ describe 'Calendar Event Query' do
       end
 
       it 'no notifications are shown' do
-        expect(page).to have_no_content(BASE_STRING)
-      end
-    end
-
-    context 'when Noon and Midnight should be shown' do
-      before do
-        VCR.use_cassette('notifications/noon_midnight_notifications', record: :none) do
-          visit '/'
-        end
-      end
-
-      it 'shows Noon and Midnight times properly' do
-        expect(page).to have_content("#{BASE_STRING} on Tuesday, 6/17/2025 between 12 Midnight - 12 Noon ET")
-      end
-
-      context 'when hiding the notification and reloading the page', js: true do
-        before do
-          click_on 'Dismiss banner'
-          # Give the test some time to hide the notification
-          sleep 0.1
-
-          VCR.use_cassette('notifications/noon_midnight_notifications', record: :none) do
-            visit '/'
-          end
-        end
-
-        it 'does not display the notification' do
-          expect(page).to have_no_content(BASE_STRING)
-        end
-
-        context 'when a new notification is present' do
-          before do
-            VCR.use_cassette('notifications/multi_day_notification', record: :none) do
-              visit '/'
-            end
-          end
-
-          it 'displays the non-dismissed notification' do
-            expect(page).to have_content("#{BASE_STRING} between Monday, 7/12/2021 at 5 am and Tuesday, 7/13/2021 at 4 pm ET")
-          end
-        end
+        expect(page).to have_no_css('.banner-message')
       end
     end
   end
