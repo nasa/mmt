@@ -138,7 +138,7 @@
 
 	euiga('create', 'UA-62340125-3', 'auto', {'name': 'eui_tracker'});
 	euiga('eui_tracker.send', 'pageview');
-	euiga('eui_tracker.send', 'event', 'eui', 'loaded', '0.3.9');
+	euiga('eui_tracker.send', 'event', 'eui', 'loaded', '0.3.10');
 })();;// leanModal v1.1 by Ray Stone - http://finelysliced.com.au
 // Dual licensed under the MIT and GPL
 
