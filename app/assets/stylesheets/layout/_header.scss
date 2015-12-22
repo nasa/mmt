@@ -93,8 +93,14 @@ header {
     // Temporary nesting due to specificity battle with EUI
     &.application-logo {
 
+      // EUI Candidate - Future Discussion
+      h1 {
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
+      }
+
       a:link {
-        padding-top: 31px;
+        padding-top: 28px;
+        padding-left: 73px;
         font-size: 1em;
       }
     }
