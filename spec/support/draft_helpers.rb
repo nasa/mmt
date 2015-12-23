@@ -105,8 +105,6 @@ module Helpers
             new_path = path
 
             class_name = "#{name_to_class(key)}-#{index}"
-            type = "TypesHelper::#{key}Type".safe_constantize
-            type = "TypesHelper::FileSizeType".safe_constantize if key == 'Sizes'
             if type = "TypesHelper::#{key}Type".safe_constantize
               new_path += "#{' > ul' if top_level}.#{class_name}"
             elsif MISMATCHED_KEYS.include?(key)
