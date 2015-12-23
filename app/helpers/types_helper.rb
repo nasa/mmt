@@ -83,7 +83,7 @@ module TypesHelper
   ]
   DistributionsType = [
     { name: 'DistributionMedia' },
-    { name: 'DistributionSize' },
+    { name: 'Sizes', options: [:sub_type] },
     { name: 'DistributionFormat' },
     { name: 'Fees', options: [:handle_as_currency] }
   ]
@@ -230,14 +230,11 @@ module TypesHelper
     { name: 'EndingDateTime' }
   ]
   RelatedUrlType = [
-    { name: 'URLs', options: [:array_field] },
-    { name: 'Description' },
-    { name: 'Protocol' },
-    { name: 'MimeType' },
-    { name: 'Caption' },
     { name: 'Title' },
-    { name: 'FileSize', options: [:sub_type] },
-    { name: 'ContentType', options: [:sub_type] }
+    { name: 'Description' },
+    { name: 'URLs', options: [:array_field] },
+    { name: 'MimeType' },
+    { name: 'FileSize', options: [:sub_type] }
   ]
   RelatedUrlsType = RelatedUrlType
   ResourceCitationType = [
