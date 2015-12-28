@@ -7,9 +7,9 @@
 .icon-completed,
 .icon-required {
   &:before {
-    content: "\f10c";
-    font-family: "FontAwesome";
-    font-size: 0.7em;
+    content:"\f122";
+    font-family: "Earthdata-Icon-Library";
+    font-size: 0.85em;
     color: $dark-green;
     margin-right: 0.5em;
     display: block;
@@ -21,9 +21,9 @@
   .icon-completed,
   .icon-required {
     &:before {
-      content: "\f10c";
-      font-family: "FontAwesome";
-      font-size: 0.7em;
+      content:"\f122";
+      font-family: "Earthdata-Icon-Library";
+      font-size: 0.85em;
       color: $dark-green;
       display: inline-block;
       margin: 0;
