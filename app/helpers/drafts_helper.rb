@@ -101,7 +101,6 @@ module DraftsHelper
     ['Level 4']
   ]
   RoleOptions = [
-    ['Select Role', ''],
     ['Resource Provider', 'RESOURCEPROVIDER'],
     ['Custodian', 'CUSTODIAN'],
     ['Owner', 'OWNER'],

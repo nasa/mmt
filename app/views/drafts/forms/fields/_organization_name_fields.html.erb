@@ -1,20 +1,26 @@
+<% name_prefix += '|organization_name|_' %>
 <div class="row">
   <div class="col-6">
     <!-- ShortName -->
-    <label for="<%= remove_pipes(name_prefix) %>organization_name_short_name" class="icon-required">Short Name</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/OrganizationNameType/properties/ShortName"></i>
-      <span class="is-hidden">Help modal for short name</span>
-    </a>
-    <%= text_field_tag(name_to_param("#{name_prefix}|organization_name|_|short_name|"), organization_name['ShortName'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}organization_name") }) %>
+    <%= mmt_text_field(
+      name: 'short_name',
+      title: 'Short Name',
+      prefix: name_prefix,
+      value: organization_name['ShortName'],
+      help: 'definitions/OrganizationNameType/properties/ShortName',
+      validate: true,
+      required: true
+     ) %>
   </div>
   <div class="col-6">
     <!-- LongName -->
-    <label for="<%= remove_pipes(name_prefix) %>organization_name_long_name">Long Name</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/OrganizationNameType/properties/LongName"></i>
-      <span class="is-hidden">Help modal for long name</span>
-    </a>
-    <%= text_field_tag(name_to_param("#{name_prefix}|organization_name|_|long_name|"), organization_name['LongName'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}organization_name") }) %>
+    <%= mmt_text_field(
+      name: 'long_name',
+      title: 'Long Name',
+      prefix: name_prefix,
+      value: organization_name['LongName'],
+      help: 'definitions/OrganizationNameType/properties/LongName',
+      validate: true
+     ) %>
   </div>
 </div>
