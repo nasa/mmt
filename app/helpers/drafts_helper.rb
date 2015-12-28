@@ -16,7 +16,6 @@ module DraftsHelper
     ['Geodetic', 'GEODETIC']
   ]
   ContactTypeOptions = [
-    ['Select Contact Type', ''],
     ['Phone'],
     ['Email'],
     ['Facebook'],
@@ -48,7 +47,6 @@ module DraftsHelper
     ['Delete', 'DELETE'], ['Review', 'REVIEW']
   ]
   FileSizeUnitTypeOptions = [
-    ['Select Unit', ''],
     ['KB'],
     ['MB'],
     ['GB'],

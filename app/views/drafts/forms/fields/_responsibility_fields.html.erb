@@ -1,19 +1,30 @@
 <% options.delete(:title) %>
 <% options.delete(:type) %>
+
 <div class="row sub-fields">
-  <label for="<%= remove_pipes(name_prefix) %>role" class="required">Role</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResponsibilityType/properties/Role"></i>
-    <span class="is-hidden">Help modal for role</span>
-  </a>
-  <%= select_tag name_to_param("#{name_prefix}role"), options_for_select(DraftsHelper::RoleOptions, responsibility['Role']), class: 'single-select validate', data: { level: remove_pipes(name_prefix) } %>
+  <%= mmt_select(
+    name: 'role',
+    title: 'Role',
+    prefix: name_prefix,
+    value: responsibility['Role'],
+    options: DraftsHelper::RoleOptions,
+    help: 'definitions/ResponsibilityType/properties/Role',
+    required: true
+  ) %>
 
   <% party = responsibility['Party'] || {} %>
-  <label id="<%= remove_pipes("#{name_prefix}party").gsub(/_$/, '') %>" class="required">Party</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResponsibilityType/properties/Party"></i>
-    <span class="is-hidden">Help modal for party</span>
-  </a>
+  <%= label(
+    name: 'party',
+    title: 'Party',
+    prefix: name_prefix,
+    required: true,
+    set_id: true
+  ) %>
+  <%= help_icon(
+    title: 'Party',
+    help: 'definitions/ResponsibilityType/properties/Party'
+  ) %>
+  <% name_prefix += 'party_' %>
   <div class="row sub-fields">
     <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
     <!-- TODO: There is no longer a checkbox for org or person -->
@@ -31,7 +42,7 @@
       <%= render partial: 'drafts/forms/type', locals: {
           type: 'organization_name',
           values: party['OrganizationName'] || {},
-          name_prefix: "#{name_prefix}party_",
+          name_prefix: name_prefix,
           multiple: false,
           options: options.clone } %>
     </div>
@@ -41,7 +52,7 @@
       <%= render partial: 'drafts/forms/type', locals: {
           type: 'person',
           values: party['Person'] || {},
-          name_prefix: "#{name_prefix}party_",
+          name_prefix: name_prefix,
           multiple: false,
           options: options.clone } %>
     </div>
@@ -49,27 +60,31 @@
     <div class="row">
       <div class="col-6">
         <!-- all party fields -->
-        <label for="<%= remove_pipes(name_prefix) %>party_service_hours">Service Hours</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ServiceHours"></i>
-          <span class="is-hidden">Help modal for service hours</span>
-        </a>
-        <%= text_field_tag(name_to_param("#{name_prefix}party_|service_hours|"), party['ServiceHours'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}party") }) %>
+        <%= mmt_text_field(
+          name: 'service_hours',
+          title: 'Service Hours',
+          prefix: name_prefix,
+          value: party['ServiceHours'],
+          help: 'definitions/PartyType/properties/ServiceHours',
+          validate: true
+         ) %>
       </div>
       <div class="col-6">
-        <label for="<%= remove_pipes(name_prefix) %>party_contact_instructions">Contact Instructions</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="definitions/PartyType/properties/ContactInstructions"></i>
-          <span class="is-hidden">Help modal for contact instructions</span>
-        </a>
-        <%= text_field_tag(name_to_param("#{name_prefix}party_|contact_instructions|"), party['ContactInstructions'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}party") }) %>
+        <%= mmt_text_field(
+          name: 'contact_instructions',
+          title: 'Contact Instructions',
+          prefix: name_prefix,
+          value: party['ContactInstructions'],
+          help: 'definitions/PartyType/properties/ContactInstructions',
+          validate: true
+         ) %>
       </div>
     </div>
     <!-- Contact - multiple -->
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'contact',
         values: party['Contacts'] || [{}],
-        name_prefix: "#{name_prefix}party_contacts_",
+        name_prefix: "#{name_prefix}contacts_",
         multiple: true,
         options: options.clone.merge(title: 'Contact Method') } %>
 
@@ -77,7 +92,7 @@
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'address',
         values: party['Addresses'] || [{}],
-        name_prefix: "#{name_prefix}party_addresses_",
+        name_prefix: "#{name_prefix}addresses_",
         multiple: true,
         options: options.clone } %>
 
@@ -85,7 +100,7 @@
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'related_url',
         values: party['RelatedUrls'] || [{}],
-        name_prefix: "#{name_prefix}party_|related_urls|_",
+        name_prefix: "#{name_prefix}|related_urls|_",
         multiple: true,
         options: options.clone } %>
   </div>

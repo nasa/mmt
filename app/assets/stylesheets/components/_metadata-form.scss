@@ -105,6 +105,10 @@
   .sub-fields .sub-fields {
       background: $light-grey;
   }
+
+  .sub-fields .sub-fields .sub-fields {
+      background: darken($light-grey, 5%);
+  }
 }
 
 .radio-group, .checkbox-group {

@@ -87,7 +87,7 @@ $(document).ready ->
       $fields = $("[data-level='#{dataLevel}']")
       if $fields.length > 0
         addRequiredFields($fields)
-        addRequiredLabels(dataLevel)
+      addRequiredLabels(dataLevel)
 
   # add icon-required to labels of required fields
   addRequiredFields = (fields) ->

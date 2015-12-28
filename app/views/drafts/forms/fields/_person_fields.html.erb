@@ -1,29 +1,37 @@
+<% name_prefix += 'person_' %>
 <div class="row">
   <div class="col-4">
     <!-- FirstName -->
-    <label for="<%= remove_pipes(name_prefix) %>person_first_name">First Name</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/PersonType/properties/FirstName"></i>
-      <span class="is-hidden">Help modal for first name</span>
-    </a>
-    <%= text_field_tag(name_to_param("#{name_prefix}person_|first_name|"), person['FirstName'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}person") }) %>
+    <%= mmt_text_field(
+      name: 'first_name',
+      title: 'First Name',
+      prefix: name_prefix,
+      value: person['FirstName'],
+      help: 'definitions/PersonType/properties/FirstName',
+      validate: true
+     ) %>
   </div>
   <div class="col-4">
     <!-- MiddleName -->
-    <label for="<%= remove_pipes(name_prefix) %>person_middle_name">Middle Name</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/PersonType/properties/MiddleName"></i>
-      <span class="is-hidden">Help modal for middle name</span>
-    </a>
-    <%= text_field_tag(name_to_param("#{name_prefix}person_|middle_name|"), person['MiddleName'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}person") }) %>
+    <%= mmt_text_field(
+      name: 'middle_name',
+      title: 'Middle Name',
+      prefix: name_prefix,
+      value: person['MiddleName'],
+      help: 'definitions/PersonType/properties/MiddleName',
+      validate: true
+     ) %>
   </div>
   <div class="col-4">
     <!-- LastName -->
-    <label for="<%= remove_pipes(name_prefix) %>person_last_name" class="required">Last Name</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/PersonType/properties/LastName"></i>
-      <span class="is-hidden">Help modal for last name</span>
-    </a>
-    <%= text_field_tag(name_to_param("#{name_prefix}person_|last_name|"), person['LastName'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}person") }) %>
+    <%= mmt_text_field(
+      name: 'last_name',
+      title: 'Last Name',
+      prefix: name_prefix,
+      value: person['LastName'],
+      help: 'definitions/PersonType/properties/LastName',
+      validate: true,
+      required: true
+     ) %>
   </div>
 </div>
