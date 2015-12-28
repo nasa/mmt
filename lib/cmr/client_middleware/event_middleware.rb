@@ -4,48 +4,32 @@ module Cmr
   module ClientMiddleware
     class EventMiddleware < FaradayMiddleware::ResponseMiddleware
       def process_response(env)
-        current_time = DateTime.current.to_s
+        body = env[:body]
 
-        # Uncomment the line below when developing so you might actually see a notification
-        # current_time = (DateTime.current - (1.year)).to_s
+        sanitizer = ActionView::Base.full_sanitizer
+        now = DateTime.now
 
-        events = env[:body].delete_if { |event| event['calendar_event']['end_date'] < current_time }
+        # For testing uncomment this line
+        # now = now - 5.years
 
-        events.sort! { |x, y| x['calendar_event']['start_date'] <=> y['calendar_event']['start_date'] }
+        # Filter events that are not current and the ASTER GDEM V2 Tutorial hack event which shows
+        # a Reverb tutorial.  NCRS have been filed to make this unnecessary.
+        events = Array.wrap(body).reject do |event|
+          calendar_event = event['calendar_event']
+          title = calendar_event['title']
+          end_date = calendar_event['end_date']
 
-        if !events.nil? && !events.empty?
-          event = events[0]
-
-          event_id = event['calendar_event']['id']
-
-          # Construct time range string. Adjust to Eastern Time
-          start_date_obj = DateTime.parse(event['calendar_event']['start_date']).in_time_zone('Eastern Time (US & Canada)')
-          start_date = start_date_obj.strftime('%-m/%-d/%Y')
-          start_day_of_week = start_date_obj.strftime('%A')
-          start_time = start_date_obj.strftime('%l %P')
-          start_time = '12 Midnight' if start_time == '12 am'
-          start_time = '12 Noon' if start_time == '12 pm'
-
-          end_date_obj = DateTime.parse(event['calendar_event']['end_date']).in_time_zone('Eastern Time (US & Canada)')
-          end_date = end_date_obj.strftime('%-m/%-d/%Y')
-          end_time = end_date_obj.strftime('%l %P')
-          end_time = '12 Midnight' if end_time == '12 am'
-          end_time = '12 Noon' if end_time == '12 pm'
-
-          # Outage does not span multiple days
-          if start_date == end_date
-            time_range_string = "on <strong>#{start_day_of_week}, #{start_date} between #{start_time} - #{end_time} ET</strong>"
-          else
-            end_day_of_week = end_date_obj.strftime('%A')
-            time_range_string = "between <strong>#{start_day_of_week}, #{start_date} at #{start_time} and #{end_day_of_week}, #{end_date} at #{end_time} ET</strong>"
-          end
-
-          notification = "This site may be unavailable for a brief period due to planned maintenance #{time_range_string}. We apologize for the inconvenience."
-        else
-          notification = nil
+          title == 'ASTER GDEM V2 Tutorial' || (end_date.present? && end_date < now)
         end
 
-        env[:body] = { id: event_id, message: notification }
+        events.map! do |event|
+          calendar_event = event['calendar_event']
+          calendar_event['message'] = sanitizer.sanitize(calendar_event['message']).gsub('&nbsp;', ' ').gsub(/\s+/, ' ')
+
+          calendar_event
+        end
+
+        env[:body] = events
       end
 
       def parse_response?(env)
