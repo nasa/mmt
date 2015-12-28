@@ -2,43 +2,59 @@
   <p><a href="javascript:void(0)" class="btn btn-blue btn-sm global-coverage">Apply global spatial coverage</a></p>
   <label class="icon-required">Bounding Coordinates</label>
   <div class="compass-coordinates">
-    <!-- NorthBoundingCoordinate -->
     <div class="north">
-      <label for="<%= remove_pipes(name_prefix) %>north_bounding_coordinate" class="icon-required">N</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/LatitudeType"></i>
-        <span class="is-hidden">Help modal for N</span>
-      </a>
-      <%= number_field_tag(name_to_param("#{name_prefix}|north_bounding_coordinate|"), bounding_rectangle['NorthBoundingCoordinate'], class: 'full-width bounding-rectangle-point north validate mmt-number') %>
+      <!-- NorthBoundingCoordinate -->
+      <%= mmt_number(
+        name: 'north_bounding_coordinate',
+        title: 'N',
+        prefix: name_prefix,
+        value: bounding_rectangle['NorthBoundingCoordinate'],
+        help: 'definitions/LatitudeType',
+        validate: true,
+        required: true,
+        classes: 'mmt-number bounding-rectangle-point north'
+      ) %>
     </div>
     <div class="row">
       <div class="col-6 west">
         <!-- WestBoundingCoordinate -->
-        <label for="<%= remove_pipes(name_prefix) %>west_bounding_coordinate" class="icon-required">W</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="definitions/LongitudeType"></i>
-          <span class="is-hidden">Help modal for W</span>
-        </a>
-        <%= number_field_tag(name_to_param("#{name_prefix}|west_bounding_coordinate|"), bounding_rectangle['WestBoundingCoordinate'], class: 'full-width bounding-rectangle-point west validate mmt-number') %>
+        <%= mmt_number(
+          name: 'west_bounding_coordinate',
+          title: 'W',
+          prefix: name_prefix,
+          value: bounding_rectangle['WestBoundingCoordinate'],
+          help: 'definitions/LongitudeType',
+          validate: true,
+          required: true,
+          classes: 'mmt-number bounding-rectangle-point west full-width'
+        ) %>
       </div>
       <div class="col-6 east">
         <!-- EastBoundingCoordinate -->
-        <label for="<%= remove_pipes(name_prefix) %>east_bounding_coordinate" class="icon-required">E</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="definitions/LongitudeType"></i>
-          <span class="is-hidden">Help modal for E</span>
-        </a>
-        <%= number_field_tag(name_to_param("#{name_prefix}|east_bounding_coordinate|"), bounding_rectangle['EastBoundingCoordinate'], class: 'full-width bounding-rectangle-point east validate mmt-number') %>
+        <%= mmt_number(
+          name: 'east_bounding_coordinate',
+          title: 'E',
+          prefix: name_prefix,
+          value: bounding_rectangle['EastBoundingCoordinate'],
+          help: 'definitions/LongitudeType',
+          validate: true,
+          required: true,
+          classes: 'mmt-number bounding-rectangle-point east full-width'
+        ) %>
       </div>
     </div>
     <div class="south">
       <!-- SouthBoundingCoordinate -->
-      <label for="<%= remove_pipes(name_prefix) %>south_bounding_coordinate" class="icon-required">S</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/LatitudeType"></i>
-        <span class="is-hidden">Help modal for S</span>
-      </a>
-      <%= number_field_tag(name_to_param("#{name_prefix}|south_bounding_coordinate|"), bounding_rectangle['SouthBoundingCoordinate'], class: 'full-width bounding-rectangle-point south validate mmt-number') %>
+      <%= mmt_number(
+        name: 'south_bounding_coordinate',
+        title: 'S',
+        prefix: name_prefix,
+        value: bounding_rectangle['SouthBoundingCoordinate'],
+        help: 'definitions/LatitudeType',
+        validate: true,
+        required: true,
+        classes: 'mmt-number bounding-rectangle-point south'
+      ) %>
     </div>
   </div>
 </div>

@@ -68,6 +68,23 @@ module FormHelper
     label(options) + help_icon(options) + datetime_html
   end
 
+  def mmt_number(options)
+    options[:name] = add_pipes(options[:name])
+
+    classes = []
+    classes << 'validate' if options[:validate]
+    classes << options[:classes]
+
+    number_html = number_field_tag(
+      name_to_param(options[:prefix] + options[:name]),
+      options[:value],
+      class: classes.join(' '),
+      data: { level: remove_pipes(options[:prefix]) }
+    )
+
+    label(options) + help_icon(options) + number_html
+  end
+
   def label(options)
     options[:name] = add_pipes(options[:name])
     id = remove_pipes(options[:prefix] + options[:name]) if options[:set_id]

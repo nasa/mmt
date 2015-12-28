@@ -1,14 +1,27 @@
 <div class="row sub-fields">
   <!-- SpatialCoverageType -->
   <% spatial_coverage_type = spatial_extent['SpatialCoverageType'] || '' %>
-  <label>Spatial Coverage Type</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/SpatialExtentType/properties/SpatialCoverageType"></i>
-    <span class="is-hidden">Help modal for spatial coverage type</span>
-  </a>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label></p>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label></p>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'ORBITAL', spatial_coverage_type == 'ORBITAL', class: 'spatial-coverage-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_ORBITAL">Orbit</label></p>
+  <%= label(
+    name: 'spatial_coverage_type',
+    title: 'Spatial Coverage Type',
+    prefix: name_prefix
+  ) %>
+  <%= help_icon(
+    title: 'Spatial Coverage Type',
+    help: 'definitions/SpatialExtentType/properties/SpatialCoverageType'
+  ) %>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label>
+  </p>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label>
+  </p>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'ORBITAL', spatial_coverage_type == 'ORBITAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_ORBITAL">Orbit</label>
+  </p>
 
 
   <!-- HorizontalSpatialDomain -->
@@ -47,7 +60,13 @@
 
 
   <!-- GranuleSpatialRepresentation -->
-  <label for="<%= remove_pipes(name_prefix) %>granule_spatial_representation" class="icon-required">Granule Spatial Representation</label>
-  <%= select_tag name_to_param("#{name_prefix}|granule_spatial_representation|"), options_for_select(DraftsHelper::GranuleSpatialRepresentationOptions, spatial_extent['GranuleSpatialRepresentation']), class: 'single-select validate' %>
+  <%= mmt_select(
+    name: 'granule_spatial_representation',
+    title: 'Granule Spatial Representation',
+    prefix: name_prefix,
+    value: spatial_extent['GranuleSpatialRepresentation'],
+    options: DraftsHelper::GranuleSpatialRepresentationOptions,
+    required: true
+  ) %>
 
 </div>

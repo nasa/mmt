@@ -1,14 +1,28 @@
 <div class="row sub-fields">
   <!-- SpatialCoverageType -->
   <% spatial_coverage_type = spatial_information['SpatialCoverageType'] || '' %>
-  <label class="icon-required">Spatial Coverage Type</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/SpatialInformationType/properties/SpatialCoverageType"></i>
-    <span class="is-hidden">Help modal for spatial coverage type</span>
-  </a>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label></p>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label></p>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'BOTH', spatial_coverage_type == 'BOTH', class: 'spatial-coverage-type-select validate') %><label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_BOTH">Both</label></p>
+  <%= label(
+    name: 'spatial_coverage_type',
+    title: 'Spatial Coverage Type',
+    prefix: name_prefix,
+    required: true
+  ) %>
+  <%= help_icon(
+    title: 'Spatial Coverage Type',
+    help: 'definitions/SpatialInformationType/properties/SpatialCoverageType'
+  ) %>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label>
+  </p>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label>
+  </p>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'BOTH', spatial_coverage_type == 'BOTH', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_BOTH">Both</label>
+  </p>
   </br>
 
 
