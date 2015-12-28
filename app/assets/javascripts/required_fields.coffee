@@ -24,6 +24,7 @@ $(document).ready ->
   requiredDataLevels = []
 
   $('.metadata-form').on 'blur', 'input, select, textarea', ->
+    return if $(this).attr('type') == 'submit'
     # get current fields data-level value
     dataLevels = $(this).data('level').split('_')
 
@@ -72,7 +73,7 @@ $(document).ready ->
             requiredDataLevels.splice(index, 1)
 
     # console.log "requiredDataLevelsSize: #{requiredDataLevels.length}"
-    console.log "requiredDataLevels: #{JSON.stringify(requiredDataLevels)}"
+    # console.log "requiredDataLevels: #{JSON.stringify(requiredDataLevels)}"
 
     # Get unique required data levels
     levels = requiredDataLevels.map (obj) ->
