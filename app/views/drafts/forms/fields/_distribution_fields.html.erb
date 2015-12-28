@@ -1,18 +1,24 @@
 <div class="row sub-fields">
   <!-- Distribution Media -->
-  <label for="<%= remove_pipes(name_prefix) %>distribution_media">Distribution Media</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/DistributionMedia"></i>
-    <span class="is-hidden">Help modal for distribution media</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}|distribution_media|"), distribution['DistributionMedia'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'distribution_media',
+    title: 'Distribution Media',
+    prefix: name_prefix,
+    value: distribution['DistributionMedia'],
+    help: 'definitions/DistributionType/properties/DistributionMedia',
+    validate: true
+   ) %>
 
   <!-- Sizes -->
-  <label for="<%= remove_pipes(name_prefix) %>distribution_size">Sizes</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/Sizes"></i>
-    <span class="is-hidden">Help modal for distribution size</span>
-  </a>
+  <%= label(
+    name: 'sizes',
+    title: 'Sizes',
+    prefix: name_prefix
+  ) %>
+  <%= help_icon(
+    title: 'Sizes',
+    help: 'definitions/DistributionType/properties/Sizes'
+  ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'file_size',
       values: distribution['Sizes'] || [{}],
@@ -24,18 +30,22 @@
       } } %>
 
   <!-- Distribution Format -->
-  <label for="<%= remove_pipes(name_prefix) %>distribution_format">Distribution Format</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/DistributionFormat"></i>
-    <span class="is-hidden">Help modal for distribution format</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|distribution_format|"), distribution['DistributionFormat'], class: 'half-width validate') %>
+  <%= mmt_text_field(
+    name: 'distribution_format',
+    title: 'Distribution Format',
+    prefix: name_prefix,
+    value: distribution['DistributionFormat'],
+    help: 'definitions/DistributionType/properties/DistributionFormat',
+    validate: true
+   ) %>
 
   <!-- Fees -->
-  <label for="<%= remove_pipes(name_prefix) %>fees">Fees (in US Dollars)</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/DistributionType/properties/Fees"></i>
-    <span class="is-hidden">Help modal for fees (in US dollars)</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}fees"), distribution['Fees'], class: 'half-width validate') %>
+  <%= mmt_text_field(
+    name: 'fees',
+    title: 'Fees',
+    prefix: name_prefix,
+    value: distribution['Fees'],
+    help: 'definitions/DistributionType/properties/Fees',
+    validate: true
+   ) %>
 </div>
