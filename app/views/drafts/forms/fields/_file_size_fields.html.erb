@@ -1,0 +1,19 @@
+<div class="row sub-fields">
+  <div class="col-6">
+    <label for="<%= remove_pipes(name_prefix) %>size" class="icon-required">Size</label>
+    <a href="#help-modal" class="display-modal" tabindex="-1">
+      <i class="fa fa-info-circle" data-help-path="definitions/FileSizeType/properties/Size"></i>
+      <span class="is-hidden">Help modal for size</span>
+    </a>
+    <%= text_field_tag(name_to_param("#{name_prefix}size"), file_size['Size'], class: 'full-width validate mmt-number') %>
+  </div>
+
+  <div class="col-6">
+    <label for="<%= remove_pipes(name_prefix) %>unit" class="icon-required">Unit</label>
+    <a href="#help-modal" class="display-modal" tabindex="-1">
+      <i class="fa fa-info-circle" data-help-path="definitions/FileSizeType/properties/Unit"></i>
+      <span class="is-hidden">Help modal for unit</span>
+    </a>
+    <%= select_tag name_to_param("#{name_prefix}unit"), options_for_select(DraftsHelper::FileSizeUnitTypeOptions, file_size['Unit']), class: 'half-width validate' %>
+  </div>
+</div>
