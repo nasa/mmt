@@ -1,30 +1,37 @@
 <div class="row sub-fields">
   <!-- Type -->
-  <label for="<%= remove_pipes(name_prefix) %>type">Type</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PlatformType/properties/Type"></i>
-    <span class="is-hidden">Help modal for type</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}type"), platform['Type'], class: 'half-width validate') %>
+  <%= mmt_text_area(
+    name: 'type',
+    title: 'Type',
+    prefix: name_prefix,
+    value: platform['Type'],
+    help: 'definitions/PlatformType/properties/Type',
+    validate: true
+   ) %>
 
   <div class="row">
     <div class="col-6">
       <!-- Short Name [r] -->
-      <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/PlatformShortNameType"></i>
-        <span class="is-hidden">Help modal for short name</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), platform['ShortName'], class: 'full-width validate') %>
+      <%= mmt_text_area(
+        name: 'short_name',
+        title: 'ShortName',
+        prefix: name_prefix,
+        value: platform['ShortName'],
+        help: 'definitions/PlatformShortNameType',
+        validate: true,
+        required: true
+       ) %>
     </div>
     <div class="col-6">
       <!-- Long Name -->
-      <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/PlatformLongNameType"></i>
-        <span class="is-hidden">Help modal for long name</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), platform['LongName'], class: 'full-width validate') %>
+      <%= mmt_text_area(
+        name: 'long_name',
+        title: 'LongName',
+        prefix: name_prefix,
+        value: platform['LongName'],
+        help: 'definitions/PlatformLongNameType',
+        validate: true
+       ) %>
     </div>
   </div>
 
