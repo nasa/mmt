@@ -79,18 +79,21 @@
     <!-- AncillaryKeyword -->
     <div class="row taller">
       <div class="col-12">
-        <label for="ancillary_keyword">Ancillary Keywords</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/AncillaryKeywords"></i>
-          <span class="is-hidden">Help modal for ancillary keywords</span>
-        </a>
+        <%= label(
+          name: 'ancillary_keywords_',
+          title: 'Ancillary Keywords',
+          prefix: 'draft_'
+        ) %>
+        <%= help_icon(
+          title: 'Ancillary Keywords',
+          help: 'properties/AncillaryKeywords'
+        ) %>
         <div class="row">
           <% ancillary_keywords = draft.draft['AncillaryKeywords'] || [nil] # [nil] creates at least one field %>
           <div class="multiple simple-multiple ancillary-keywords">
-            <label for="draft_ancillary_keywords_">Ancillary Keyword</label>
             <% ancillary_keywords.each_with_index do |ancillary_keyword, index| %>
               <div class="multiple-item multiple-item-<%= index %>">
-                <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate') %>
+                <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate', data: { level: 'draft_' }) %>
                 <a class="remove">
                   <i class="fa fa-times-circle"></i>
                   <span class="is-hidden">Remove <%= ancillary_keyword %></span>

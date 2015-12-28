@@ -37,7 +37,9 @@ module FormHelper
   def mmt_select(options)
     options[:name] = add_pipes(options[:name])
 
-    classes = "half-width #{remove_pipes(options[:name])}-select"
+    classes = ["half-width #{remove_pipes(options[:name])}-select"]
+    classes << options[:classes]
+
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
       options_for_select(options[:options], options[:value]),
