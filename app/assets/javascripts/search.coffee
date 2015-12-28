@@ -7,7 +7,7 @@ $(document).ready ->
   $(document).on 'toggleSearch', ->
     $('.search-module').toggleClass 'is-hidden'
     # Header height;
-    pageHeight = $(document).height() - 164
+    pageHeight = $(document).height() - 140
     lightbox pageHeight
 
   $('#search').submit ->

@@ -120,6 +120,20 @@ header {
       margin-right: 0.8em;
     }
   }
+
+  /* Provider context badge below main app logo/title
+  ------------------------------------------*/
+  .daac {
+    position: relative;
+    left: 7em;
+    top: -1em;
+    background-color: $midnight-blue;
+
+    &:hover {
+      background-color: lighten($midnight-blue, 5%);
+      cursor: default;
+    }
+  }
 }
 
 /* Subheader
