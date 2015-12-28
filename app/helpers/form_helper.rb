@@ -16,14 +16,31 @@ module FormHelper
     label(options) + help_icon(options) + text_field_html
   end
 
+  def mmt_text_area(options)
+    options[:name] = add_pipes(options[:name])
+
+    classes = []
+    classes << 'validate' if options[:validate]
+    classes << options[:classes]
+
+    text_area_html = text_area_tag(
+      name_to_param(options[:prefix] + options[:name]),
+      options[:value],
+      rows: 8,
+      class: classes.join(' '),
+      data: { level: remove_pipes(options[:prefix]) }
+    )
+
+    label(options) + help_icon(options) + text_area_html
+  end
+
   def mmt_select(options)
     options[:name] = add_pipes(options[:name])
 
     classes = "half-width #{remove_pipes(options[:name])}-select"
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
-      options_for_select(options[:options],
-      options[:value]),
+      options_for_select(options[:options], options[:value]),
       class: classes,
       prompt: "Select #{options[:title]}",
       data: { level: remove_pipes(options[:prefix]) }
