@@ -22,13 +22,31 @@ module FormHelper
     classes = "half-width #{remove_pipes(options[:name])}-select"
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
-      options_for_select(options[:options], options[:value]),
+      options_for_select(options[:options],
+      options[:value]),
       class: classes,
       prompt: "Select #{options[:title]}",
       data: { level: remove_pipes(options[:prefix]) }
     )
 
     label(options) + help_icon(options) + select_html
+  end
+
+  def mmt_datetime(options)
+    options[:name] = add_pipes(options[:name])
+
+    classes = ['full-width']
+    classes << 'validate' if options[:validate]
+    classes << options[:classes]
+
+    datetime_html = datetime_field_tag(
+      name_to_param(options[:prefix] + options[:name]),
+      options[:value],
+      class: classes.join(' '),
+      data: { level: remove_pipes(options[:prefix]) }
+    )
+
+    label(options) + help_icon(options) + datetime_html
   end
 
   def label(options)

@@ -41,7 +41,6 @@ module DraftsHelper
     ['Year', 'YEAR']
   ]
   DateTypeOptions = [
-    ['Select Date Type', ''],
     ['Create', 'CREATE'],
     ['Update', 'UPDATE'],
     ['Delete', 'DELETE'], ['Review', 'REVIEW']
