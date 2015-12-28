@@ -155,7 +155,9 @@ describe 'Data validation for a form', js: true do
             good_number_values.each do |test|
               fill_in 'Size', with: test
               puts "Number: #{test}" if debug
-              expect(page).to have_no_selector(validation_error)
+              within all('.col-6').first do
+                expect(page).to have_no_selector(validation_error)
+              end
             end
 
             bad_number_values.each do |test|

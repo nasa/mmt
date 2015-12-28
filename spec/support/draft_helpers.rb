@@ -24,6 +24,7 @@ module Helpers
       Organizations
       Personnel
       CollectionCitations
+      Sizes
     )
 
     def check_css_path_for_display_of_values(rendered, draft, key, path, special_handling = {}, top_level = false)
@@ -104,7 +105,7 @@ module Helpers
             new_path = path
 
             class_name = "#{name_to_class(key)}-#{index}"
-            if "TypesHelper::#{key}Type".safe_constantize
+            if type = "TypesHelper::#{key}Type".safe_constantize
               new_path += "#{' > ul' if top_level}.#{class_name}"
             elsif MISMATCHED_KEYS.include?(key)
               new_path += " > ul.#{class_name}"
@@ -228,6 +229,12 @@ module Helpers
 
     def add_related_urls(single = nil)
       within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
+        fill_in 'Title', with: 'Example Title'
+        fill_in 'Description', with: 'Example Description'
+
+        fill_in 'Relation', with: 'Example Relation'
+        all('input.relation').last.set('Example Relation 2')
+
         within '.multiple.urls' do
           within '.multiple-item-0' do
             find('.url').set 'http://example.com'
@@ -237,18 +244,10 @@ module Helpers
             find('.url').set 'http://another-example.com'
           end
         end
-        fill_in 'Description', with: 'Example Description'
-        select 'FTP', from: 'Protocol'
         fill_in 'Mime Type', with: 'text/html'
-        fill_in 'Caption', with: 'Example Caption'
-        fill_in 'Title', with: 'Example Title'
         within '.file-size' do
           fill_in 'Size', with: '42'
-          fill_in 'Unit', with: 'MB'
-        end
-        within '.content-type' do
-          fill_in 'Type', with: 'Type'
-          fill_in 'Subtype', with: 'Subtype'
+          select 'MB', from: 'Unit'
         end
 
         unless single

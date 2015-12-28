@@ -22,7 +22,7 @@
                 key_name: key[:name],
                 hash_for_key: data_value } %>
           <% elsif options.include?(:sub_type) %>
-            <% new_type = "TypesHelper::#{options.include?(:lineage_date) ? 'LineageDate' : key[:name]}Type".constantize %>
+            <% new_type = "TypesHelper::#{key[:name] == 'Sizes' ? 'FileSize' : key[:name]}Type".constantize %>
             <%= render partial: 'shared/preview/preview_type', locals: {
                 data: data_value[key[:name]],
                 name: key[:name],

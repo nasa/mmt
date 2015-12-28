@@ -312,17 +312,11 @@ FactoryGirl.define do
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
-          'Protocol' => 'FTP',
           'MimeType' => 'text/html',
-          'Caption' => 'Example Caption 2',
           'Title' => 'Example Title',
           'FileSize' => {
             'Size' => 42,
             'Unit' => 'MB'
-          },
-          'ContentType' => {
-            'Type' => 'Type',
-            'Subtype' => 'Subtype'
           }
         }, {
           'URLs' => ['http://example1.com/1']
@@ -360,17 +354,11 @@ FactoryGirl.define do
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
-          'Protocol' => 'FTP',
           'MimeType' => 'text/html',
-          'Caption' => 'Example Caption 3',
           'Title' => 'Example Title',
           'FileSize' => {
             'Size' => 42,
             'Unit' => 'MB'
-          },
-          'ContentType' => {
-            'Type' => 'Type',
-            'Subtype' => 'Subtype'
           }
         }, {
           'URLs' => ['http://example2.com/1']
@@ -410,17 +398,11 @@ FactoryGirl.define do
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
-          'Protocol' => 'FTP',
           'MimeType' => 'text/html',
-          'Caption' => 'Example Caption',
           'Title' => 'Example Title',
           'FileSize' => {
             'Size' => 42,
             'Unit' => 'MB'
-          },
-          'ContentType' => {
-            'Type' => 'Type',
-            'Subtype' => 'Subtype'
           }
         }, {
           'URLs' => ['http://example.com/1']
@@ -459,17 +441,11 @@ FactoryGirl.define do
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
-          'Protocol' => 'FTP',
           'MimeType' => 'text/html',
-          'Caption' => 'Example Caption',
           'Title' => 'Example Title',
           'FileSize' => {
             'Size' => 42,
             'Unit' => 'MB'
-          },
-          'ContentType' => {
-            'Type' => 'Type',
-            'Subtype' => 'Subtype'
           }
         }, {
           'URLs' => ['http://example.com/1']
@@ -500,17 +476,11 @@ FactoryGirl.define do
       'RelatedUrl' => {
         'URLs' => ['http://example.com', 'http://another-example.com'],
         'Description' => 'Example Description',
-        'Protocol' => 'FTP',
         'MimeType' => 'text/html',
-        'Caption' => 'Example Caption',
         'Title' => 'Example related URL Title 1',
         'FileSize' => {
           'Size' => 42,
           'Unit' => 'MB'
-        },
-        'ContentType' => {
-          'Type' => 'Type',
-          'Subtype' => 'Subtype'
         }
       }
     }, {
@@ -520,17 +490,11 @@ FactoryGirl.define do
       'RelatedUrl' => {
         'URLs' => ['http://example2.com', 'http://another-example2.com'],
         'Description' => 'Example 2 Description',
-        'Protocol' => 'FTP',
         'MimeType' => 'text/html',
-        'Caption' => 'Example 2 Caption',
         'Title' => 'Example 2 related URL Title',
         'FileSize' => {
           'Size' => 42,
           'Unit' => 'MB'
-        },
-        'ContentType' => {
-          'Type' => 'Type',
-          'Subtype' => 'Subtype'
         }
       }
     }],
@@ -570,17 +534,11 @@ FactoryGirl.define do
       'RelatedUrl' => {
         'URLs' => ['http://example.com', 'http://another-example.com'],
         'Description' => 'Example Description',
-        'Protocol' => 'FTP',
         'MimeType' => 'text/html',
-        'Caption' => 'Example Caption',
         'Title' => 'Example URL Title',
         'FileSize' => {
           'Size' => 42,
           'Unit' => 'MB'
-        },
-        'ContentType' => {
-          'Type' => 'Type',
-          'Subtype' => 'Subtype'
         }
       }
     }, {
@@ -619,24 +577,44 @@ FactoryGirl.define do
     'RelatedUrls' => [{
       'URLs' => ['http://example.com']
     }, {
-      'Description' => 'test 1 Description', 'Protocol' => 'test 1 Protocol', 'URLs' => ['http://example.com/1', 'http://example.com/a'], 'Title' => 'test 1 Title', 'MimeType' => 'test 1 MimeType',
-      'Caption' => 'test 1 Caption', 'FileSize' => {
-        'Size' => 123, 'Unit' => 'Unt1'
-      }, 'ContentType' => {
-        'Type' => 'test 1 ContentType Type', 'Subtype' => 'test 1 ContentType Subtype'
+      'Description' => 'test 1 Description',
+      'URLs' => ['http://example.com/1', 'http://example.com/a'],
+      'Title' => 'test 1 Title',
+      'MimeType' => 'test 1 MimeType',
+      'FileSize' => {
+        'Size' => 123,
+        'Unit' => 'MB'
       }
     }, {
-      'Description' => 'test 2 Description', 'Protocol' => 'test 2 Protocol', 'URLs' => ['http://example.com/2', 'http://example.com/b'], 'Title' => 'test 2 Title', 'MimeType' => 'test 2 MimeType',
-      'Caption' => 'test 2 Caption', 'FileSize' => {
-        'Size' => 321, 'Unit' => 'Unt2'
-      }, 'ContentType' => {
-        'Type' => 'test 2 ContentType Type', 'Subtype' => 'test 2 ContentType Subtype'
+      'Description' => 'test 2 Description',
+      'URLs' => ['http://example.com/2', 'http://example.com/b'],
+      'Title' => 'test 2 Title',
+      'MimeType' => 'test 2 MimeType',
+      'FileSize' => {
+        'Size' => 321,
+        'Unit' => 'PB'
       }
     }],
-    'Distributions' => [{}, {
-      'DistributionMedia' => 'test 2 DistributionMedia', 'DistributionSize' => 42, 'DistributionFormat' => 'test 2 DistributionFormat', 'Fees' => '1234.56'
+    'Distributions' => [{},
+    {
+      'DistributionMedia' => 'test 2 DistributionMedia',
+      'Sizes' => [{
+        'Size' => 42,
+        'Unit' => 'KB'
+      }, {
+        'Size' => 9001,
+        'Unit' => 'MB'
+      }],
+      'DistributionFormat' => 'test 2 DistributionFormat',
+      'Fees' => '1234.56'
     }, {
-      'DistributionMedia' => 'test 1 DistributionMedia', 'DistributionSize' => 43, 'DistributionFormat' => 'test 1 DistributionFormat', 'Fees' => '1234.56'
+      'DistributionMedia' => 'test 1 DistributionMedia',
+      'Sizes' => [{
+        'Size' => 25,
+        'Unit' => 'TB'
+      }],
+      'DistributionFormat' => 'test 1 DistributionFormat',
+      'Fees' => '1234.56'
     }],
     'MetadataLanguage' => 'eng',
     'MetadataDates' => [{

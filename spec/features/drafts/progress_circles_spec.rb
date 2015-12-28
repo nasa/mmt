@@ -46,7 +46,10 @@ describe 'Progress circles', js: true do
 
         within '.multiple.distributions' do
           fill_in 'Distribution Media', with: 'Online Download'
-          fill_in 'Distribution Size', with: 4.2
+          within '.multiple.sizes' do
+            fill_in 'Size', with: '42'
+            select 'KB', from: 'Unit'
+          end
           fill_in 'Distribution Format', with: 'HDF'
           fill_in 'Fees', with: '0'
         end
