@@ -1,4 +1,32 @@
 <div class="row sub-fields">
+  <label for="<%= remove_pipes(name_prefix) %>title">Title</label>
+  <a href="#help-modal" class="display-modal" tabindex="-1">
+    <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/Title"></i>
+    <span class="is-hidden">Help modal for title</span>
+  </a>
+  <%= text_field_tag(name_to_param("#{name_prefix}title"), related_url['Title'], class: 'full-width validate') %>
+
+  <label for="<%= remove_pipes(name_prefix) %>description">Description</label>
+  <a href="#help-modal" class="display-modal" tabindex="-1">
+    <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/Description"></i>
+    <span class="is-hidden">Help modal for description</span>
+  </a>
+  <%= text_field_tag(name_to_param("#{name_prefix}description"), related_url['Description'], class: 'full-width validate') %>
+
+  <!-- Relation -->
+  <% relations = related_url['Relation'] || Array.new(2) %>
+  <div class="row">
+    <label for="<%= remove_pipes(name_prefix) %>relation_0">Relation</label>
+    <a href="#help-modal" class="display-modal" tabindex="-1">
+      <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/Relation"></i>
+      <span class="is-hidden">Help modal for relation</span>
+    </a>
+
+    <% relations[0..1].each_with_index do |relation, index| %>
+      <%= text_field_tag(name_to_param("#{name_prefix}relation_#{index}"), relation, class: 'full-width relation validate') %>
+    <% end %>
+  </div>
+
   <% urls = related_url['URLs'] || [nil] # [nil] creates at least one URL field %>
   <div class="multiple simple-multiple urls">
     <label for="<%= remove_pipes(name_prefix) %>urls_" class="required">URLs</label>
@@ -21,23 +49,7 @@
   <% end %>
   </div>
 
-  <label for="<%= remove_pipes(name_prefix) %>description">Description</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/Description"></i>
-    <span class="is-hidden">Help modal for description</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}description"), related_url['Description'], class: 'full-width validate', data: { level: remove_pipes(name_prefix) }) %>
-
   <div class="row">
-    <div class="col-6">
-      <!-- dropdown [http, https, ftp, ssh] -->
-      <label for="<%= remove_pipes(name_prefix) %>protocol">Protocol</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/Protocol"></i>
-        <span class="is-hidden">Help modal for protocol</span>
-      </a>
-      <%= select_tag(name_to_param("#{name_prefix}protocol"), options_for_select([['Select Protocol', ''],'HTTP', 'HTTPS', 'FTP', 'SSH'], related_url['Protocol']), class: 'single-select validate', data: { level: remove_pipes(name_prefix) }) %>
-    </div>
     <div class="col-6">
       <label for="<%= remove_pipes(name_prefix) %>mime_type">Mime Type</label>
       <a href="#help-modal" class="display-modal" tabindex="-1">
@@ -48,59 +60,16 @@
     </div>
   </div>
 
-  <label for="<%= remove_pipes(name_prefix) %>caption">Caption</label>
+  <label>File Size</label>
   <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/Caption"></i>
-    <span class="is-hidden">Help modal for caption</span>
+    <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/FileSize"></i>
+    <span class="is-hidden">Help modal for distribution size</span>
   </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}caption"), related_url['Caption'], class: 'full-width validate', data: { level: remove_pipes(name_prefix) }) %>
+  <%= render partial: 'drafts/forms/type', locals: {
+      type: 'file_size',
+      values: related_url['FileSize'] || {},
+      name_prefix: "#{name_prefix}|file_size|_",
+      multiple: false,
+      options: {} } %>
 
-  <label for="<%= remove_pipes(name_prefix) %>title">Title</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/Title"></i>
-    <span class="is-hidden">Help modal for title</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}title"), related_url['Title'], class: 'full-width validate', data: { level: remove_pipes(name_prefix) }) %>
-
-  <div class="file-size row">
-    <% file_size = related_url['FileSize'] || {} %>
-    <h4>File Size</h4>
-    <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>file_size_size" class="required">Size</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/FileSizeType/properties/Size"></i>
-        <span class="is-hidden">Help modal for size</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|file_size|_size"), file_size['Size'], class: 'full-width validate mmt-number', data: { level: remove_pipes("#{name_prefix}file_size") }) %>
-    </div>
-    <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>file_size_unit">Unit</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/FileSizeType/properties/Unit"></i>
-        <span class="is-hidden">Help modal for unit</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|file_size|_unit"), file_size['Unit'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}file_size") }) %>
-    </div>
-  </div>
-
-  <div class="content-type row">
-    <% content_type = related_url['ContentType'] || {} %>
-    <h4>Content Type</h4>
-    <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>content_type_type" class="required">Type</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/ContentTypeType/properties/Type"></i>
-        <span class="is-hidden">Help modal for type</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|content_type|_type"), content_type['Type'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}content_type") }) %>
-    </div>
-    <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>content_type_subtype">Subtype</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/ContentTypeType/properties/Subtype"></i>
-        <span class="is-hidden">Help modal for subtype</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|content_type|_subtype"), content_type['Subtype'], class: 'full-width validate', data: { level: remove_pipes("#{name_prefix}content_type") }) %>
-    </div>
-  </div>
 </div>

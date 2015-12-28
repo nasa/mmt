@@ -21,7 +21,7 @@ describe template_path, type: :view do
       it 'does not crash or have Distribution Information' do
         expect(rendered).to have_content('Distribution Information')
         expect(rendered).to_not have_content('MimeType')
-        expect(rendered).to_not have_content('DistributionSize')
+        expect(rendered).to_not have_content('Sizes')
       end
     end
 

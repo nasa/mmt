@@ -47,6 +47,14 @@ module DraftsHelper
     ['Update', 'UPDATE'],
     ['Delete', 'DELETE'], ['Review', 'REVIEW']
   ]
+  FileSizeUnitTypeOptions = [
+    ['Select Unit', ''],
+    ['KB'],
+    ['MB'],
+    ['GB'],
+    ['TB'],
+    ['PB']
+  ]
   GranuleSpatialRepresentationOptions = [
     ['Select Granule Spatial Representation', ''],
     ['Cartesian', 'CARTESIAN'],
