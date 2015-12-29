@@ -15,8 +15,11 @@
   <div class="row row-content">
     <section>
       <form>
-        <label for="name">Name</label>
-        <input type="text" id="name">
+        <div class="row">
+          <label for="name">Name</label>
+          <br>
+          <input type="text" id="name" class="half-width">
+        </div>
         <label for="permission-type">Permission Type</label>
         <select name="permission-type" id="permission-type">
           <option value="Select">- Select -</option>
@@ -38,29 +41,31 @@
         <select name="granules" id="granules">
           <option value="Select">- Select -</option>
         </select>
-        <table>
+        <table class="space-top align-c">
           <thead>
             <tr>
-              <th>Groups</th>
-              <th>Search</th>
-              <th>Order</th>
+              <th class="align-l">Groups</th>
+              <th class="align-c">Search</th>
+              <th class="align-c">Order</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><button class="btn btn-blue">Add Group</button></td>
+              <td class="align-l"><button class="btn btn-default">Add Group</button></td>
               <td>X</td>
               <td>X</td>
             </tr>
             <tr>
-              <td><button class="btn btn-blue">Add Group</button></td>
+              <td class="align-l"><button class="btn btn-default">Add Group</button></td>
               <td>X</td>
               <td></td>
             </tr>
           </tbody>
         </table>
-        <input type="submit" class="btn btn-blue" value="Save">
-        <a href="#">Cancel</a>
+        <div class="row space-top">
+          <input type="submit" class="btn btn-blue space-right" value="Save">
+          <a href="#">Cancel</a>
+        </div>
       </form>
     </section>
   </div>

@@ -14,6 +14,14 @@
   text-align: right;
 }
 
+.align-c {
+  text-align: center;
+}
+
+.align-l {
+  text-align: left;
+}
+
 .inline-header {
   display: inline-block;
 }
@@ -46,8 +54,16 @@
   margin-bottom: 15px;
 }
 
-.space-top {
+.space-top-5 {
   margin-top: 5px;
+}
+
+.space-top {
+  margin-top: 15px;
+}
+
+.space-right {
+  margin-right: 15px;
 }
 
 .no-padding {
