@@ -16,7 +16,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       server:
       - Apache-Coyote/1.1
@@ -60,6 +60,6 @@ http_interactions:
         ncr"}},{"calendar_event":{"end_date":"2015-06-17T16:00:00Z","id":"3FB16900-5025-24CE-CD3B-79F1530D0443","message":"<p>OS
         patching will cause an outage of Test Bed.</p>","severity":"ALERT","start_date":"2015-06-17T12:00:00Z","title":"ECHO
         Outage"}}]'
-    http_version: 
+    http_version:
   recorded_at: Mon, 06 Jul 2015 00:40:27 GMT
 recorded_with: VCR 2.9.3

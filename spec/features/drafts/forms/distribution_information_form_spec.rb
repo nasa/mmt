@@ -23,7 +23,16 @@ describe 'Distribution information form', js: true do
       # Complete Distribution fields
       within '.multiple.distributions' do
         fill_in 'Distribution Media', with: 'Online Download'
-        fill_in 'Distribution Size', with: 4.2
+        within '.multiple.sizes' do
+          fill_in 'Size', with: '42'
+          select 'KB', from: 'Unit'
+
+          click_on 'Add another Size'
+          within '.multiple-item-1' do
+            fill_in 'Size', with: '9001'
+            select 'MB', from: 'Unit'
+          end
+        end
         fill_in 'Distribution Format', with: 'HDF'
         fill_in 'Fees', with: '0'
 
@@ -32,7 +41,10 @@ describe 'Distribution information form', js: true do
 
         within '.multiple-item-1' do
           fill_in 'Distribution Media', with: 'Floppy disc'
-          fill_in 'Distribution Size', with: 7.5
+          within '.multiple.sizes' do
+            fill_in 'Size', with: '25'
+            select 'TB', from: 'Unit'
+          end
           fill_in 'Distribution Format', with: '.txt'
           fill_in 'Fees', with: '12.34'
         end
@@ -54,25 +66,25 @@ describe 'Distribution information form', js: true do
       expect(page).to have_content('http://example.com')
       expect(page).to have_content('http://another-example.com')
       expect(page).to have_content('Example Description')
-      expect(page).to have_content('FTP')
       expect(page).to have_content('text/html')
-      expect(page).to have_content('Example Caption')
       expect(page).to have_content('Example Title')
       expect(page).to have_content('42')
       expect(page).to have_content('MB')
-      expect(page).to have_content('Type')
-      expect(page).to have_content('Subtype')
       # Related Url 2
       expect(page).to have_content('http://example.com/1')
 
       # Distribution 1
       expect(page).to have_content('Online Download')
-      expect(page).to have_content('4.2')
+      expect(page).to have_content('42')
+      expect(page).to have_content('KB')
+      expect(page).to have_content('9001')
+      expect(page).to have_content('MB')
       expect(page).to have_content('HDF')
       expect(page).to have_content('0')
       # Distribution 2
       expect(page).to have_content('Floppy disc')
-      expect(page).to have_content('7.5')
+      expect(page).to have_content('25')
+      expect(page).to have_content('TB')
       expect(page).to have_content('.txt')
       expect(page).to have_content('12.34')
 
@@ -94,17 +106,11 @@ describe 'Distribution information form', js: true do
           expect(page).to have_selector('input.url[value="http://example.com"]')
           expect(page).to have_selector('input.url[value="http://another-example.com"]')
           expect(page).to have_field('Description', with: 'Example Description')
-          expect(page).to have_field('Protocol', with: 'FTP')
           expect(page).to have_field('Mime Type', with: 'text/html')
-          expect(page).to have_field('Caption', with: 'Example Caption')
           expect(page).to have_field('Title', with: 'Example Title')
           within '.file-size' do
             expect(page).to have_field('Size', with: '42.0')
             expect(page).to have_field('Unit', with: 'MB')
-          end
-          within '.content-type' do
-            expect(page).to have_field('Type', with: 'Type')
-            expect(page).to have_field('Subtype', with: 'Subtype')
           end
         end
 
@@ -112,20 +118,28 @@ describe 'Distribution information form', js: true do
           expect(page).to have_selector('input.url[value="http://example.com/1"]')
         end
 
-        within '.multiple.distributions' do
-          within '.multiple-item-0' do
-            expect(page).to have_field('Distribution Media', with: 'Online Download')
-            expect(page).to have_field('Distribution Size', with: '4.2')
-            expect(page).to have_field('Distribution Format', with: 'HDF')
-            expect(page).to have_field('Fees', with: '0')
+        within '.multiple.distributions > .multiple-item-0' do
+          expect(page).to have_field('Distribution Media', with: 'Online Download')
+          within '.multiple.sizes > .multiple-item-0' do
+            expect(page).to have_field('Size', with: '42.0')
+            expect(page).to have_field('Unit', with: 'KB')
           end
+          within '.multiple.sizes > .multiple-item-1' do
+            expect(page).to have_field('Size', with: '9001.0')
+            expect(page).to have_field('Unit', with: 'MB')
+          end
+          expect(page).to have_field('Distribution Format', with: 'HDF')
+          expect(page).to have_field('Fees', with: '0')
+        end
 
-          within '.multiple-item-1' do
-            expect(page).to have_field('Distribution Media', with: 'Floppy disc')
-            expect(page).to have_field('Distribution Size', with: '7.5')
-            expect(page).to have_field('Distribution Format', with: '.txt')
-            expect(page).to have_field('Fees', with: '12.34')
+        within '.multiple.distributions > .multiple-item-1' do
+          expect(page).to have_field('Distribution Media', with: 'Floppy disc')
+          within '.multiple.sizes > .multiple-item-0' do
+            expect(page).to have_field('Size', with: '25.0')
+            expect(page).to have_field('Unit', with: 'TB')
           end
+          expect(page).to have_field('Distribution Format', with: '.txt')
+          expect(page).to have_field('Fees', with: '12.34')
         end
       end
     end

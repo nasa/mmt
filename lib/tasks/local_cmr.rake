@@ -13,7 +13,6 @@ namespace :cmr do
   task start: [:stop] do
     Process.spawn('cd cmr; java -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr_logs.log &')
     puts 'Cmr is starting up'
-    puts 'You will see some log4j warning messages, wait about 20 seconds then press enter to get a prompt back'
   end
 
   desc 'Reset data in CMR'

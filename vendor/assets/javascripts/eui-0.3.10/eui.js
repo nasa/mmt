@@ -73,7 +73,14 @@
 
     // Dismisses banners
     $('.banner-dismissible').on('click', 'a.dismiss', function () {
-      $(this).parents('.banner').remove();
+      var totalMessages = $(this).parents('.banner').find('p.banner-message').length
+      var thisMessage = $(this).parents('p.banner-message')
+
+      if ($(thisMessage).length > 0 && totalMessages > 1) {
+        $(thisMessage).remove();
+      } else {
+        $(this).parents('.banner').remove();
+      }
     });
 
     // Accordion
@@ -131,7 +138,7 @@
 
 	euiga('create', 'UA-62340125-3', 'auto', {'name': 'eui_tracker'});
 	euiga('eui_tracker.send', 'pageview');
-	euiga('eui_tracker.send', 'event', 'eui', 'loaded');
+	euiga('eui_tracker.send', 'event', 'eui', 'loaded', '0.3.10');
 })();;// leanModal v1.1 by Ray Stone - http://finelysliced.com.au
 // Dual licensed under the MIT and GPL
 
