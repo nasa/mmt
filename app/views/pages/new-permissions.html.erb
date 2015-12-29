@@ -23,6 +23,8 @@
         <label for="permission-type">Permission Type</label>
         <select name="permission-type" id="permission-type">
           <option value="Select">- Select -</option>
+          <option value="search-and-order">Search & Order</option>
+          <option value="search">Search</option>
         </select>
         <p><b>Provider</b></p>
         <select name="provier" id="provider" multiple>
@@ -36,10 +38,16 @@
         <label for="collections">Collections</label>
         <select name="collections" id="collections">
           <option value="Select">- Select -</option>
+          <option value="all-collections">All Collections</option>
+          <option value="selected-ids-collections">Selected Collection Entry IDs</option>
+          <option value="access-constraint-collections">Collections with an Access Constraint Value</option>
         </select>
         <label for="granules">Granules</label>
         <select name="granules" id="granules">
           <option value="Select">- Select -</option>
+          <option value="no-access">No Access to Granules</option>
+          <option value="all-granules">All Granules</option>
+          <option value="access-constraint-granule">Granules with an Access Constrant Value</option>
         </select>
         <table class="space-top align-c">
           <thead>
