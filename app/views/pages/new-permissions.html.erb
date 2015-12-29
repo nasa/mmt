@@ -14,16 +14,54 @@
   </header>
   <div class="row row-content">
     <section>
-      <label for="name">Name</label>
-      <input type="text" id="name">
-      <label for="permission-type">Permission Type</label>
-      <select name="permission-type" id="permission-type">
-        <option value="Select">- Select -</option>
-      </select>
-      <p><b>Provider</b></p>
-      <p>GESDISC</p>
-      <label for="collections">Collections</label>
-      <select name="collections" id="collections"></select>
+      <form>
+        <label for="name">Name</label>
+        <input type="text" id="name">
+        <label for="permission-type">Permission Type</label>
+        <select name="permission-type" id="permission-type">
+          <option value="Select">- Select -</option>
+        </select>
+        <p><b>Provider</b></p>
+        <select name="provier" id="provider" multiple>
+          <option value="Organization A">Organization A</option>
+          <option value="Organization B">Organization B</option>
+          <option value="Organization C">Organization C</option>
+          <option value="Organization D">Organization D</option>
+          <option value="Organization E">Organization E</option>
+          <option value="Organization F">Organization F</option>
+        </select>
+        <label for="collections">Collections</label>
+        <select name="collections" id="collections">
+          <option value="Select">- Select -</option>
+        </select>
+        <label for="granules">Granules</label>
+        <select name="granules" id="granules">
+          <option value="Select">- Select -</option>
+        </select>
+        <table>
+          <thead>
+            <tr>
+              <th>Groups</th>
+              <th>Search</th>
+              <th>Order</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><button class="btn btn-blue">Add Group</button></td>
+              <td>X</td>
+              <td>X</td>
+            </tr>
+            <tr>
+              <td><button class="btn btn-blue">Add Group</button></td>
+              <td>X</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <input type="submit" class="btn btn-blue" value="Save">
+        <a href="#">Cancel</a>
+      </form>
     </section>
   </div>
 </main>
