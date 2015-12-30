@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require eui-0.3.10/eui
+//= require eui-0.3.11/eui
 //= require dropzone-4.0.1/dropzone
 //= require jquery-serialize-object/jquery.serialize-object.min
 //= require humps/humps
