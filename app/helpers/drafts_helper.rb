@@ -95,12 +95,19 @@ module DraftsHelper
   ]
   ProcessingLevelIdOptions = [
     ['Select Id', ''],
+    ['Not Provided'],
     ['Level 0'],
+    ['Level 1'],
     ['Level 1A'],
     ['Level 1B'],
+    ['Level 1C'],
+    ['Level 1T'],
     ['Level 2'],
+    ['Level 2G'],
+    ['Level 2P'],
     ['Level 3'],
-    ['Level 4']
+    ['Level 4'],
+    ['NA']
   ]
   RoleOptions = [
     ['Select Role', ''],
