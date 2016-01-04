@@ -1,0 +1,80 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="breadcrumb">
+        <ol>
+          <!-- todo: wire the following links -->
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Permissions & Groups</a></li>
+          <!-- end todo -->
+        </ol>
+      </div>
+      <h2>New Permissions</h2>
+    </div>
+  </header>
+  <div class="row row-content">
+    <section>
+      <form>
+        <div class="row">
+          <label for="name">Name</label>
+          <br>
+          <input type="text" id="name" class="half-width">
+        </div>
+        <label for="permission-type">Permission Type</label>
+        <select name="permission-type" id="permission-type">
+          <option value="Select">- Select -</option>
+          <option value="search-and-order">Search & Order</option>
+          <option value="search">Search</option>
+        </select>
+        <label for="provider"><b>Provider</b></label>
+        <select name="provier" id="provider" multiple>
+          <option value="Organization A">Organization A</option>
+          <option value="Organization B">Organization B</option>
+          <option value="Organization C">Organization C</option>
+          <option value="Organization D">Organization D</option>
+          <option value="Organization E">Organization E</option>
+          <option value="Organization F">Organization F</option>
+        </select>
+        <label for="collections">Collections</label>
+        <select name="collections" id="collections">
+          <option value="Select">- Select -</option>
+          <option value="all-collections">All Collections</option>
+          <option value="selected-ids-collections">Selected Collection Entry IDs</option>
+          <option value="access-constraint-collections">Collections with an Access Constraint Value</option>
+        </select>
+        <label for="granules">Granules</label>
+        <select name="granules" id="granules">
+          <option value="Select">- Select -</option>
+          <option value="no-access">No Access to Granules</option>
+          <option value="all-granules">All Granules</option>
+          <option value="access-constraint-granule">Granules with an Access Constrant Value</option>
+        </select>
+        <table class="space-top align-c">
+          <thead>
+            <tr>
+              <th class="align-l">Groups</th>
+              <th class="align-c">Search</th>
+              <th class="align-c">Order</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="align-l"><button class="btn btn-default">Add Group</button></td>
+              <td><i class="ed-icon ed-check-o icon-green icon--md"><span class="is-invisible">Search allowed for this group</span></i></td>
+              <td><i class="ed-icon ed-check-o icon-green icon--md"><span class="is-invisible">Order is also allowed for this group</span></i></td>
+            </tr>
+            <tr>
+              <td class="align-l"><button class="btn btn-default">Add Group</button></td>
+              <td><i class="ed-icon ed-check-o icon-green icon--md"><span class="is-invisible">Only search is allowed for this group</span></i></td>
+              <td><span class="is-invisible">Order is not allowed for this group</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row space-top">
+          <input type="submit" class="btn btn-blue space-right" value="Save">
+          <a href="#">Cancel</a>
+        </div>
+      </form>
+    </section>
+  </div>
+</main>
