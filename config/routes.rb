@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   # Temporary route for Permission and Groups pages
   get 'permissions' => 'pages#permissions', as: 'permissions'
   get 'groups' => 'pages#groups', as: 'groups'
+  get 'new-permissions' => 'pages#new-permissions', as: 'new-permissions'
 
   root 'welcome#index'
 end
