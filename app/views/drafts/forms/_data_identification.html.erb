@@ -15,7 +15,7 @@
             values: draft.draft['DataDates'] || [{}],
             name_prefix: 'draft_|data_dates|_',
             multiple: true,
-            options: {} } %>
+            options: { always_required: true } } %>
       </div>
     </div>
   </div>
@@ -68,7 +68,7 @@
               value: processing_level['Id'],
               options: DraftsHelper::ProcessingLevelIdOptions,
               help: 'definitions/ProcessingLevelType/properties/Id',
-              required: true
+              always_required: true
             ) %>
           </div>
           <div class="col-6">

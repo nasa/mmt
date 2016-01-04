@@ -7,7 +7,7 @@
     value: periodic_date_time['Name'],
     help: 'definitions/PeriodicDateTimeType/properties/Name',
     validate: true,
-    required: true
+    always_required: true
    ) %>
 
   <!-- StartDate -->
@@ -18,7 +18,7 @@
     value: periodic_date_time['StartDate'],
     help: 'definitions/PeriodicDateTimeType/properties/StartDate',
     validate: true,
-    required: true,
+    always_required: true,
     classes: 'mmt-date-time'
   ) %>
 
@@ -30,7 +30,7 @@
     value: periodic_date_time['EndDate'],
     help: 'definitions/PeriodicDateTimeType/properties/EndDate',
     validate: true,
-    required: true,
+    always_required: true,
     classes: 'mmt-date-time'
   ) %>
 
@@ -43,7 +43,7 @@
     options: DraftsHelper::DurationOptions,
     help: 'definitions/PeriodicDateTimeType/properties/DurationUnit',
     validate: true,
-    required: true
+    always_required: true
   ) %>
 
   <!-- DurationValue -->
@@ -54,7 +54,7 @@
     value: periodic_date_time['DurationValue'],
     help: 'definitions/PeriodicDateTimeType/properties/DurationValue',
     validate: true,
-    required: true,
+    always_required: true,
     classes: 'mmt-integer'
    ) %>
 
@@ -67,7 +67,7 @@
     options: DraftsHelper::DurationOptions,
     help: 'definitions/PeriodicDateTimeType/properties/PeriodCycleDurationUnit',
     validate: true,
-    required: true
+    always_required: true
   ) %>
 
   <!-- PeriodCycleDurationValue -->
@@ -78,7 +78,7 @@
     value: periodic_date_time['PeriodCycleDurationValue'],
     help: 'definitions/PeriodicDateTimeType/properties/PeriodCycleDurationValue',
     validate: true,
-    required: true,
+    always_required: true,
     classes: 'mmt-integer'
    ) %>
 

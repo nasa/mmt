@@ -90,7 +90,9 @@ module FormHelper
     id = remove_pipes(options[:prefix] + options[:name]) if options[:set_id]
     label_for = id.nil? ? remove_pipes(options[:prefix] + options[:name]) : nil
 
-    classes = 'required' if options[:required]
+    classes = []
+    classes << 'required' if options[:required]
+    classes << 'always-required icon-required' if options[:always_required]
     label_tag(
       label_for,
       options[:title],

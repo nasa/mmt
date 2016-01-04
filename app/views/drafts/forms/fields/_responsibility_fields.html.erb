@@ -1,3 +1,5 @@
+<% always_required = options[:always_required] || false %>
+<% options.delete(:always_required) %>
 <% options.delete(:title) %>
 <% options.delete(:type) %>
 
@@ -9,7 +11,8 @@
     value: responsibility['Role'],
     options: DraftsHelper::RoleOptions,
     help: 'definitions/ResponsibilityType/properties/Role',
-    required: true
+    required: !always_required,
+    always_required: always_required
   ) %>
 
   <% party = responsibility['Party'] || {} %>
@@ -17,7 +20,8 @@
     name: 'party',
     title: 'Party',
     prefix: name_prefix,
-    required: true,
+    required: !always_required,
+    always_required: always_required,
     set_id: true
   ) %>
   <%= help_icon(

@@ -25,6 +25,7 @@ $(document).ready ->
 
   $('.metadata-form').on 'blur', 'input, select, textarea', ->
     return if $(this).attr('type') == 'submit'
+
     # get current fields data-level value
     dataLevels = $(this).data('level').split('_')
 
@@ -81,7 +82,7 @@ $(document).ready ->
     .unique()
 
     # Remove all required icons
-    $('label.icon-required').removeClass('icon-required')
+    $('label.icon-required').not('label.always-required').removeClass('icon-required')
 
     # Add required icons to required fields within required data levels
     for dataLevel in levels

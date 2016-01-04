@@ -1,3 +1,4 @@
+<% always_required = options[:always_required] || false %>
 <div class="row sub-fields">
   <div class="col-6">
     <!-- Type - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
@@ -8,7 +9,8 @@
       value: date['Type'],
       options: DraftsHelper::DateTypeOptions,
       help: 'definitions/DateType/properties/Type',
-      required: true
+      required: !always_required,
+      always_required: always_required
     ) %>
   </div>
 
@@ -21,7 +23,8 @@
       value: date['Date'],
       help: 'definitions/DateType/properties/Date',
       validate: true,
-      required: true,
+      required: !always_required,
+      always_required: always_required,
       classes: 'mmt-date-time'
     ) %>
   </div>

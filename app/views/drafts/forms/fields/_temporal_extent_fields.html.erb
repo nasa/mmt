@@ -5,7 +5,7 @@
     name: 'temporal_range_type',
     title: 'Temporal Range Type',
     prefix: name_prefix,
-    required: true
+    always_required: true
   ) %>
   <%= help_icon(
     title: 'Temporal Range Type',
@@ -33,7 +33,7 @@
     name: 'ends_at_present_flag',
     title: 'Ends At Present Flag',
     prefix: name_prefix,
-    required: true
+    always_required: true
   ) %>
   <%= help_icon(
     title: 'Ends At Present Flag',
@@ -48,7 +48,8 @@
     <%= label(
       name: 'range_date_times',
       title: 'Range Date Times',
-      prefix: name_prefix
+      prefix: name_prefix,
+      always_required: true
     ) %>
     <%= help_icon(
       title: 'Range Date Times',
@@ -68,7 +69,8 @@
       <%= label(
         name: 'single_date_times',
         title: 'Single Date Times',
-        prefix: name_prefix
+        prefix: name_prefix,
+        always_required: true
       ) %>
       <%= help_icon(
         title: 'Single Date Times',
@@ -94,7 +96,8 @@
     <%= label(
       name: 'periodic_date_times',
       title: 'Periodic Date Time',
-      prefix: name_prefix
+      prefix: name_prefix,
+      always_required: true
     ) %>
     <%= help_icon(
       title: 'Periodic Date Time',

@@ -1,3 +1,4 @@
+<% always_required = options[:always_required] || false %>
 <div class="row sub-fields">
   <%= mmt_text_field(
     name: 'title',
@@ -41,7 +42,8 @@
       name: 'urls_',
       title: 'URLs',
       prefix: name_prefix,
-      required: true
+      required: !always_required,
+      always_required: always_required
     ) %>
     <%= help_icon(
       title: 'URLs',
