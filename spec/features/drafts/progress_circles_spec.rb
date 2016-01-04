@@ -31,7 +31,7 @@ describe 'Progress circles', js: true do
 
       it 'fills in that correct circle in green' do
         within '#distribution-information a[title="RelatedUrls"]' do
-          expect(page).to have_css('.fa-circle.icon-green')
+          expect(page).to have_css('.ed-required.icon-green')
         end
       end
     end
