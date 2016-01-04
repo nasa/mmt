@@ -1,9 +1,17 @@
 $(document).ready(function() {
   // Enable jQuery Chosen on field
   $('#collection-ids').chosen();
+  $('#search-order-groups').chosen({
+    placeholder_text_multiple: "Select groups for Search and Order permissions"
+  });
+  $('#search-groups').chosen({
+    placeholder_text_multiple: "Select groups for Search permissions"
+  });
 
   // Hide field by default
   $('#collection_ids_chosen').addClass('is-hidden');
+  $('#search_order_groups_chosen').addClass('is-hidden');
+  $('#search_groups_chosen').addClass('is-hidden');
 
   // Show respective field based on selection
   $('#collections').on('change', function() {
@@ -28,5 +36,14 @@ $(document).ready(function() {
     } else {
       $('#granules-constraint-values').addClass('is-hidden');
     }
+  });
+
+  // Toggle group input field
+  $('#groups-table button').on('click', function(e) {
+    e.preventDefault();
+    $(this).addClass('is-hidden');
+    $(this).siblings('#search_order_groups_chosen').removeClass('is-hidden');
+    $(this).siblings('#search_groups_chosen').removeClass('is-hidden');
+
   });
 });
