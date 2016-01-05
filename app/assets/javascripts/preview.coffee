@@ -1,12 +1,28 @@
 # Functions used for drawing on the preview page's map image
 
 drawPoint = (x, y, dotSize, highlightColor) ->
-  style = "position:absolute;width:#{dotSize}px;height:#{dotSize}px;top:#{y}px;left:#{x}px;background:#{highlightColor}"
-  $('<div />', class: 'preview-spatial', style: style).appendTo($('body'))
+  pointStyle = "position:absolute;"
+  pointStyle += "width:#{dotSize}px;"
+  pointStyle += "height:#{dotSize}px;"
+  pointStyle += "top:#{y}px;"
+  pointStyle += "left:#{x}px;"
+  pointStyle += "background:#{highlightColor}"
+  $('<div />',
+    class: 'preview-spatial',
+    style: pointStyle).appendTo($('body')
+  )
 
 drawRectangle = (minX, minY, maxX, maxY, highlightColor) ->
-  style = "position:absolute;width:#{maxX - minX}px;height:#{maxY - minY}px;top:#{minY}px;left:#{minX}px;background:#{highlightColor}"
-  $('<div />', class: 'preview-spatial', style: style).appendTo($('body'))
+  rectangleStyle = "position:absolute;"
+  rectangleStyle += "width:#{maxX - minX}px;"
+  rectangleStyle += "height:#{maxY - minY}px;"
+  rectangleStyle += "top:#{minY}px;"
+  rectangleStyle += "left:#{minX}px;"
+  rectangleStyle += "background:#{highlightColor}"
+  $('<div />',
+    class: 'preview-spatial',
+    style: rectangleStyle).appendTo($('body')
+  )
 
 previewSpatial = {}
 
@@ -14,11 +30,10 @@ previewSpatial = {}
   previewSpatial = previewSpatialHash
   $('.preview-spatial').remove()
 
-  mapPosition = $('#preview_map').offset()
+  mapPosition = $('#preview-map').offset()
   mapX1 = mapPosition.left
   mapY1 = mapPosition.top
   highlightColor = 'rgba(250,0,0,0.25)'
-  $coordinates = $('#coordinates')
 
   for point in previewSpatialHash.point_coordinate_array
     dotSize = 5
@@ -33,4 +48,11 @@ previewSpatial = {}
 
 # on window resize, redraw the spatial preview
 $(window).resize ->
-  drawSpatialExtent(previewSpatial)
+  drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
+
+$(document).ready ->
+  # Sometimes (ugh), this gets drawn too soon and the spatial area is drawn
+  # too low. setTimeout keeps it from happening
+  setTimeout ->
+    drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
+  , 0
