@@ -49,6 +49,11 @@ class DraftsController < ApplicationController
         @language_codes = { 'Select Language' => '' }.merge(codes)
       end
 
+      # put the US at the top of the country list
+      country_codes = Carmen::Country.all.sort
+      united_states = country_codes.delete(Carmen::Country.named('United States'))
+      @country_codes = country_codes.unshift(united_states)
+
       if params[:form] == 'temporal_information'
         keywords = cmr_client.get_temporal_keywords['temporal_resolution_range']
         @temporal_keywords = keywords.map { |keyword| keyword['value'] }
