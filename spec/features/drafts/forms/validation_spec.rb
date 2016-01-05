@@ -126,6 +126,13 @@ describe 'Data validation for a form', js: true do
         expect(page).to have_no_selector(validation_error)
 
         fill_in 'Value', with: '42'
+      end
+      within '.nav-top' do
+        click_on 'Save & Done'
+      end
+      # Reject
+      click_on 'No'
+      within '.access-constraints' do
         expect(page).to have_content('Description is required')
         expect(page).to have_selector(validation_error)
 
@@ -133,6 +140,13 @@ describe 'Data validation for a form', js: true do
         expect(page).to have_no_selector(validation_error)
 
         fill_in 'Description', with: empty_string
+      end
+      within '.nav-top' do
+        click_on 'Save & Done'
+      end
+      # Reject
+      click_on 'No'
+      within '.access-constraints' do
         expect(page).to have_content('Description is required')
         expect(page).to have_selector(validation_error)
       end
