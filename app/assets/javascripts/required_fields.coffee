@@ -131,3 +131,6 @@ $(document).ready ->
   # Add required icons on page load
   $('.metadata-form').find('input, select, textarea').each (index, field) ->
     addRequiredIcons(field)
+
+  $('.metadata-form').on 'change', 'input[type="radio"], select', ->
+    addRequiredIcons(this)
