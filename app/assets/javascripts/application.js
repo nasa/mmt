@@ -18,5 +18,5 @@
 //= require humps/humps
 //= require jsen/jsen.min
 //= require netinsight_2.3/ntpagetag
-//= require chosen_1.4.2/chosen.jquery.min
+//= require chosen-1.4.2/chosen.jquery.min
 //= require_tree .

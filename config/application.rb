@@ -37,5 +37,8 @@ module Mmt
     config.eager_load_paths += Dir["#{config.root}/lib", "#{config.root}/lib/**/"]
 
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
+
+    # Compiles all images
+    config.assets.paths << Rails.root.join("vendor", "assets", "images")
   end
 end
