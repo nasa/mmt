@@ -2,13 +2,18 @@
 
 drawPoint = (x, y, dotSize, highlightColor) ->
   style = "position:absolute;width:#{dotSize}px;height:#{dotSize}px;top:#{y}px;left:#{x}px;background:#{highlightColor}"
-  $('<div />', style: style).appendTo($('body'))
+  $('<div />', class: 'preview-spatial', style: style).appendTo($('body'))
 
 drawRectangle = (minX, minY, maxX, maxY, highlightColor) ->
   style = "position:absolute;width:#{maxX - minX}px;height:#{maxY - minY}px;top:#{minY}px;left:#{minX}px;background:#{highlightColor}"
-  $('<div />', style: style).appendTo($('body'))
+  $('<div />', class: 'preview-spatial', style: style).appendTo($('body'))
+
+previewSpatial = {}
 
 @drawSpatialExtent = (previewSpatialHash) ->
+  previewSpatial = previewSpatialHash
+  $('.preview-spatial').remove()
+
   mapPosition = $('#preview_map').offset()
   mapX1 = mapPosition.left
   mapY1 = mapPosition.top
@@ -19,13 +24,6 @@ drawRectangle = (minX, minY, maxX, maxY, highlightColor) ->
     dotSize = 5
     drawPoint point.x + mapX1, point.y + mapY1, dotSize, highlightColor
 
-    $('<li />',
-      text: "Lat: #{point.lat}"
-    ).appendTo($coordinates)
-    $('<li />',
-      text: "Lon: #{point.lon}"
-    ).appendTo($coordinates)
-
   for rectangle in previewSpatialHash.rectangle_coordinate_array
     minX = rectangle.min_x + mapX1
     minY = rectangle.min_y + mapY1
@@ -33,20 +31,6 @@ drawRectangle = (minX, minY, maxX, maxY, highlightColor) ->
     maxY = rectangle.max_y + mapY1
     drawRectangle minX, minY, maxX, maxY, highlightColor
 
-    $('<li />',
-      text: "N: #{rectangle.north_bounding_coordinate}"
-    ).appendTo($coordinates)
-    $('<li />',
-      text: "S: #{rectangle.south_bounding_coordinate}"
-    ).appendTo($coordinates)
-    $('<li />',
-      text: "E: #{rectangle.east_bounding_coordinate}"
-    ).appendTo($coordinates)
-    $('<li />',
-      text: "W: #{rectangle.west_bounding_coordinate}"
-    ).appendTo($coordinates)
-
-
-  $('<li />',
-    text: "No Spatial Coordinates found"
-  ).appendTo($coordinates) if $coordinates.text() == ''
+# on window resize, redraw the spatial preview
+$(window).resize ->
+  drawSpatialExtent(previewSpatial)

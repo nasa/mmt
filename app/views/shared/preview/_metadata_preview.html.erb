@@ -25,7 +25,22 @@
     <%= image_tag("plate_carree_earth.png", alt: "Map of Earth", id:'preview_map') %>
 
     <caption>Spatial Coordinates</caption>
-    <ol class="coordinates" id="coordinates"></ol>
+    <% preview_spatial = get_preview_spatial(metadata) %>
+    <ol class="coordinates" id="coordinates">
+      <% preview_spatial['point_coordinate_array'].each do |point| %>
+        <li>Lat: <%= point['lat'] %></li>
+        <li>Lon: <%= point['lon'] %></li>
+      <% end %>
+      <% preview_spatial['rectangle_coordinate_array'].each do |rectangle| %>
+        <li>N: <%= rectangle['north_bounding_coordinate'] %></li>
+        <li>S: <%= rectangle['south_bounding_coordinate'] %></li>
+        <li>E: <%= rectangle['east_bounding_coordinate'] %></li>
+        <li>W: <%= rectangle['west_bounding_coordinate'] %></li>
+      <% end %>
+      <% if preview_spatial['point_coordinate_array'].size == 0 && preview_spatial['rectangle_coordinate_array'].size == 0 %>
+        <li>No Spatial Coordinates found</li>
+      <% end %>
+    </ol>
 
     <% spatial_keywords = metadata['SpatialKeywords'] || [] %>
     <h4>Location Keywords</h4>
@@ -69,5 +84,5 @@
 </div>
 
 <script>
-  drawSpatialExtent(<%= raw get_preview_spatial(metadata).to_json %>);
+  drawSpatialExtent(<%= raw preview_spatial.to_json %>);
 </script>
