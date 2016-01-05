@@ -6,7 +6,7 @@
         <i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/Country"></i>
         <span class="is-hidden">Help modal for country</span>
       </a>
-      <%= select_tag name_to_param("#{name_prefix}country"), options_for_select(Carmen::Country.all.sort, address['Country']), class: 'half-width country-select', prompt: 'Select Country' %>
+      <%= select_tag name_to_param("#{name_prefix}country"), options_for_select(@country_codes, address['Country']), class: 'half-width country-select', prompt: 'Select Country' %>
     </div>
   </div>
 
