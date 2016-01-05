@@ -23,11 +23,11 @@ $(document).ready ->
   # Stores the pages required fields
   requiredDataLevels = []
 
-  $('.metadata-form').on 'blur', 'input, select, textarea', ->
-    return if $(this).attr('type') == 'submit'
-
+  # Add required icons
+  addRequiredIcons = (field) ->
     # get current fields data-level value
-    dataLevels = $(this).data('level').split('_')
+    return unless $(field).data('level')?
+    dataLevels = $(field).data('level').split('_')
 
     isRequired = false
     topDataLevel = dataLevels.join('_')
@@ -121,3 +121,13 @@ $(document).ready ->
       labels.push(label[0]) if label.length > 0
 
     $(labels)
+
+
+  # Add required icons when a form field is updated
+  $('.metadata-form').on 'blur', 'input, select, textarea', ->
+    return if $(this).attr('type') == 'submit'
+    addRequiredIcons(this)
+
+  # Add required icons on page load
+  $('.metadata-form').find('input, select, textarea').each (index, field) ->
+    addRequiredIcons(field)
