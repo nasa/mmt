@@ -56,7 +56,7 @@
         <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/MimeType"></i>
         <span class="is-hidden">Help modal for Mime Type</span>
       </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|mime_type|"), related_url['MimeType'], class: 'full-width validate') %>
+      <%= select_tag name_to_param("#{name_prefix}|mime_type|"), options_for_select(DraftsHelper::MimeTypeOptions, related_url['MimeType']), class: 'half-width validate' %>
     </div>
   </div>
 
