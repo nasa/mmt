@@ -1,6 +1,5 @@
 <div class="row content">
   <section class="preview">
-
     <h3>Preview</h3>
     <!-- <p>
       <input type="checkbox" name="markdown"></input>
@@ -18,14 +17,31 @@
     <%= render partial: 'shared/preview/temporal_information', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/spatial_information', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/acquisition_information', locals: { metadata: metadata } %>
-
   </section>
+
   <aside class="geographic-coverage" role="complementary">
     <h3>Geographic Coverage</h3>
-    <%= image_tag("plate_carree_earth.png", alt: "Map of Earth", id:'preview_map') %>
+    <%= image_tag("plate_carree_earth.png", alt: "Map of Earth", id: 'preview-map') %>
 
-    <caption>Spatial Coordinates</caption>
-    <ol class="coordinates" id="coordinates"></ol>
+    <h4>Spatial Coordinates</h4>
+    <% preview_spatial = get_preview_spatial(metadata) %>
+    <ol class="coordinates" id="coordinates">
+      <% preview_spatial['point_coordinate_array'].each do |point| %>
+        <li>Lat: <%= point['lat'] %></li>
+        <li>Lon: <%= point['lon'] %></li>
+      <% end %>
+
+      <% preview_spatial['rectangle_coordinate_array'].each do |rectangle| %>
+        <li>N: <%= rectangle['north_bounding_coordinate'] %></li>
+        <li>S: <%= rectangle['south_bounding_coordinate'] %></li>
+        <li>E: <%= rectangle['east_bounding_coordinate'] %></li>
+        <li>W: <%= rectangle['west_bounding_coordinate'] %></li>
+      <% end %>
+
+      <% if preview_spatial['point_coordinate_array'].size == 0 && preview_spatial['rectangle_coordinate_array'].size == 0 %>
+        <li>No Spatial Coordinates found</li>
+      <% end %>
+    </ol>
 
     <% spatial_keywords = metadata['SpatialKeywords'] || [] %>
     <h4>Location Keywords</h4>
@@ -39,35 +55,32 @@
       <% end %>
     </ul>
 
-    <% preview_temporal_hash = get_preview_temporal(metadata) %>
+    <% preview_temporal = get_preview_temporal(metadata) %>
 
     <h4>Temporal Coverage</h4>
     <ul>
-
-      <% single_date_times = preview_temporal_hash['single_date_times']%>
+      <% single_date_times = preview_temporal['single_date_times'] || [] %>
       <% single_date_times.each do |single_date_time| %>
         <li>Date: <%= single_date_time %></li></br>
-      <% end if single_date_times.present? %>
+      <% end %>
 
-      <% range_date_times = preview_temporal_hash['range_date_times']%>
+      <% range_date_times = preview_temporal['range_date_times'] || [] %>
       <% range_date_times.each do |range_date_time| %>
         <li>Start Date: <%= range_date_time['beginning_date_time']%> </li> <li>Stop Date: <%= range_date_time['ending_date_time']%> </li></br>
-      <% end if range_date_times.present? %>
+      <% end %>
 
-      <% periodic_date_times = preview_temporal_hash['periodic_date_times']%>
+      <% periodic_date_times = preview_temporal['periodic_date_times'] || [] %>
       <% periodic_date_times.each do |periodic_date_time| %>
         <li>Start Date: <%= periodic_date_time['start_date']%> </li> <li>Stop Date: <%= periodic_date_time['end_date']%> </li></br>
-      <% end if periodic_date_times.present?%>
+      <% end %>
 
       <% if single_date_times.blank? && range_date_times.blank? && periodic_date_times.blank? %>
         <li>No Temporal Coverages found</li>
       <% end  %>
-
     </ul>
   </aside>
-
 </div>
 
 <script>
-  drawSpatialExtent(<%= raw get_preview_spatial(metadata).to_json %>);
+  window.previewSpatial = <%= raw preview_spatial.to_json %>
 </script>

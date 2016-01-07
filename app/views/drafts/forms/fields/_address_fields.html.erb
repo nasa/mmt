@@ -6,7 +6,7 @@
         title: 'Country',
         prefix: name_prefix,
         value: address['Country'],
-        options: Carmen::Country.all.sort,
+        options: @country_codes,
         help: 'definitions/AddressType/properties/Country',
         required: false,
         classes: 'country-select'
