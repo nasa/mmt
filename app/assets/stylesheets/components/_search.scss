@@ -112,7 +112,9 @@
     text-overflow: ellipsis;
   }
 
-  #col-short-name    { width: 25%; }
-  #col-entry-title   { width: 60%; }
+  #col-short-name    { width: 20%; }
+  #col-version       { width: 10%; }
+  #col-entry-title   { width: 40%; }
+  #col-provider      { width: 15%; }
   #col-last-modified { width: 15%; }
 }

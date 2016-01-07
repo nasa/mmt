@@ -12,7 +12,12 @@
       <%#= sort_by_link('Short Name', 'short_name', @query) %>
       Short Name
     </th>
+    <th id="col-version">
+      <%#= sort_by_link('Version', 'version_id', @query) %>
+      Version
+    </th>
     <th id="col-entry-title"><%= sort_by_link('Entry Title', 'entry_title', @query) %></th>
+    <th id="col-provider"><%= sort_by_link('Provider', 'provider_id', @query) %></th>
     <th id="col-last-modified"><%= sort_by_link('Last Modified', 'revision_date', @query) %></th>
   </tr>
   </thead>
@@ -48,7 +53,13 @@
             <% end %>
           </td>
           <td>
+            <%= collection['umm']['version-id']%>
+          </td>
+          <td>
             <%= collection['umm']['entry-title']%>
+          </td>
+          <td>
+            <%= collection['meta']['provider-id']%>
           </td>
           <td>
             <% fragments = collection['meta']['revision-date'].split('T')

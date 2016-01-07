@@ -4,7 +4,9 @@ require 'rails_helper'
 
 describe 'Search published results', js: true do
   short_name = 'CIESIN_SEDAC_ESI_2000'
+  version = '2000.00'
   entry_title = '2000 Pilot Environmental Sustainability Index (ESI)'
+  provider = 'SEDAC'
   concept_id = 'C1200000000-SEDAC'
 
   before :each do
@@ -22,7 +24,9 @@ describe 'Search published results', js: true do
     end
     it 'displays expected Short Name, Entry Title and Last Modified values' do
       expect(page).to have_content(short_name)
+      expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
+      expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
     end
 
@@ -56,7 +60,9 @@ describe 'Search published results', js: true do
 
     it 'displays expected data' do
       expect(page).to have_content(short_name)
+      expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
+      expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
     end
 
@@ -92,7 +98,9 @@ describe 'Search published results', js: true do
 
     it 'displays expected data' do
       expect(page).to have_content(short_name)
+      expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
+      expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
     end
   end
@@ -111,7 +119,9 @@ describe 'Search published results', js: true do
 
     it 'displays expected data' do
       expect(page).to have_content(short_name)
+      expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
+      expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
     end
 
@@ -145,7 +155,9 @@ describe 'Search published results', js: true do
 
     it 'displays expected data' do
       expect(page).to have_content(short_name)
+      expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
+      expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
     end
 
@@ -178,7 +190,9 @@ describe 'Search published results', js: true do
 
     it 'displays expected data' do
       expect(page).to have_content('ACR3L2DM')
+      expect(page).to have_content('1')
       expect(page).to have_content('ACRIM III Level 2 Daily Mean Data V001')
+      expect(page).to have_content('LARC')
       expect(page).to have_content(today_string)
     end
 
@@ -211,7 +225,9 @@ describe 'Search published results', js: true do
 
     it 'displays expected data' do
       expect(page).to have_content(short_name)
+      expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
+      expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
     end
 
