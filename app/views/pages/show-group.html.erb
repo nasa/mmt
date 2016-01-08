@@ -1,0 +1,83 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="breadcrumb">
+        <ol>
+          <!-- todo: wire the following links -->
+          <li><a href="#">Manage CMR Dashboard</a></li>
+          <li><a href="#">Groups</a></li>
+          <!-- end todo -->
+        </ol>
+      </div>
+      <div class="row space-bot">
+        <h2>Ice Data Scientists</h2>
+        <p>This is the description for the group of Ice Data Scientists.</p>
+      </div>
+      <div class="row">
+        <p class="subtitle">Permissions</p>
+        <!-- todo: wire this link -->
+        <p class="subtitle current"><a href="#">Groups</a></p>
+        <!-- end todo -->
+      </div>
+    </div>
+  </header>
+  <div class="row row-content">
+    <section>
+      <div class="flex-center">
+        <div class="row">
+          <a href="#">Send Email to All Members (0)</a> |
+          <a href="#">Edit Name & Description</a> |
+          <a href="#">Delete Group</a>
+        </div>
+      </div>
+      <hr>
+      <p>
+        <b>Associated Permissions</b>
+        <br>
+        -
+      </p>
+      <hr>
+      <p>
+        <b>Group Members</b>
+      </p>
+      <div class="row space-bot">
+        <label for="group-filter">
+          Filter
+          <input type="text" placeholder="Enter member name">
+        </label>
+      </div>
+      <div class="row">
+        <a href="#" class="btn btn-default">Remove Selected</a>
+        <a href="#" class="btn btn-default">+ Add Members</a>
+      </div>
+      <table class="space-top align-c" id="groups-table">
+        <thead>
+          <tr>
+            <th class="align-c"><input type="checkbox" disabled><span class="is-invisible">Column to select members</span></th>
+            <th>Member Name</th>
+            <th>Email</th>
+            <th>Last Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td class="align-l">John Smith</td>
+            <td class="align-l">john.smith@email.com</td>
+            <td class="align-l">January 3rd, 2016 08:00:32 EST</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td class="align-l">Jane Doe</td>
+            <td class="align-l">jane.doe@email.com</td>
+            <td class="align-l">January 8rd, 2016 23:54:17 EST</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row space-top">
+        <input type="submit" class="btn btn-blue space-right" value="Save">
+        <a href="#">Cancel</a>
+      </div>
+    </section>
+  </div>
+</main>
