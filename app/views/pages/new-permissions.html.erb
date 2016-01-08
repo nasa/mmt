@@ -9,7 +9,11 @@
           <!-- end todo -->
         </ol>
       </div>
-      <h2>New Permissions</h2>
+      <h2>New Permission</h2>
+      <p class="subtitle current">Permissions</p>
+      <!-- todo: wire this link -->
+      <p class="subtitle"><a href="#">Groups</a></p>
+      <!-- end todo -->
     </div>
   </header>
   <div class="row row-content">
@@ -20,6 +24,7 @@
           <br>
           <input type="text" id="name" class="half-width">
         </div>
+        <hr>
         <label for="permission-type">Permission Type</label>
         <select name="permission-type" id="permission-type">
           <option value="Select">- Select -</option>
@@ -35,6 +40,7 @@
           <option value="Organization E">Organization E</option>
           <option value="Organization F">Organization F</option>
         </select>
+        <hr>
         <label for="collections">Collections</label>
         <select name="collections" id="collections">
           <option value="Select">- Select -</option>
@@ -42,14 +48,49 @@
           <option value="selected-ids-collections">Selected Collection Entry IDs</option>
           <option value="access-constraint-collections">Collections with an Access Constraint Value</option>
         </select>
+        <label for="collection-ids" class="is-invisible">Selected Collection Entry IDs</label>
+        <select name="collection-ids" id="collection-ids" multiple>
+          <option value="ASF20CD03">ASF20CD03</option>
+          <option value="ASF20CD04">ASF20CD04</option>
+          <option value="ASF20CD05">ASF20CD05</option>
+        </select>
+        <fieldset id="collections-constraint-values" class="is-hidden is-white">
+          <div class="row">
+            <label for="collections-constraint-min">Min</label>
+            <input type="number" id="collections-constraint-min" class="space-right">
+            <label for="collections-constraint-Max">Max</label>
+            <input type="number" id="collections-constraint-max">
+            <span>(Inclusive)</span>
+          </div>
+          <div class="row">
+            <input type="checkbox" name="undefined-val" id="undefind-val">
+            <label for="undefined-val">Include undefined value</label>
+          </div>
+        </fieldset>
+        <hr>
         <label for="granules">Granules</label>
         <select name="granules" id="granules">
           <option value="Select">- Select -</option>
           <option value="no-access">No Access to Granules</option>
           <option value="all-granules">All Granules</option>
+          <option value="all-granules-in-collections" class="is-hidden" id="all-granules-in-collections">All Granules in Selected Collections</option>
           <option value="access-constraint-granule">Granules with an Access Constrant Value</option>
         </select>
-        <table class="space-top align-c">
+        <fieldset id="granules-constraint-values" class="is-hidden is-white">
+          <div class="row">
+            <label for="granules-constraint-min">Min</label>
+            <input type="number" id="granules-constraint-min" class="space-right">
+            <label for="granules-constraint-Max">Max</label>
+            <input type="number" id="granules-constraint-max">
+            <span>(Inclusive)</span>
+          </div>
+          <div class="row">
+            <input type="checkbox" name="undefined-val" id="undefind-val">
+            <label for="undefined-val">Include undefined value</label>
+          </div>
+        </fieldset>
+        <hr>
+        <table class="space-top align-c" id="groups-table">
           <thead>
             <tr>
               <th class="align-l">Groups</th>
@@ -59,12 +100,36 @@
           </thead>
           <tbody>
             <tr>
-              <td class="align-l"><button class="btn btn-default">Add Group</button></td>
+              <td class="cell-primary-cta">
+                <button class="btn btn-default">Add Group</button>
+                <label for="search-order-groups" class="is-invisible">Add Groups to Search and Order Permissions</label>
+                <select name="search-order-groups" id="search-order-groups"  multiple>
+                  <option value="curators"><a href="http://www.google.com">Curators</a> (5)</option>
+                  <option value="ice-data-scientists">Ice Data Scientists (12)</option>
+                  <option value="ice-data-supervisors">Ice Data Supervisors (2)</option>
+                  <option value="interns">Interns (3)</option>
+                  <option value="metadata-supervisors">Metadata Supervisors (3)</option>
+                  <option value="science-coordinators">Science Coordinators (15)</option>
+                  <option value="science-curators">Science Curators (7)</option>
+                </select>
+              </td>
               <td><i class="ed-icon ed-check-o icon-green icon--md"><span class="is-invisible">Search allowed for this group</span></i></td>
               <td><i class="ed-icon ed-check-o icon-green icon--md"><span class="is-invisible">Order is also allowed for this group</span></i></td>
             </tr>
             <tr>
-              <td class="align-l"><button class="btn btn-default">Add Group</button></td>
+              <td class="cell-primary-cta">
+                <button class="btn btn-default">Add Group</button>
+                <label for="search-groups" class="is-invisible">Add Groups to Search and Order Permissions</label>
+                <select name="search-groups" id="search-groups"  multiple>
+                  <option value="curators"><a href="http://www.google.com">Curators</a> (5)</option>
+                  <option value="ice-data-scientists">Ice Data Scientists (12)</option>
+                  <option value="ice-data-supervisors">Ice Data Supervisors (2)</option>
+                  <option value="interns">Interns (3)</option>
+                  <option value="metadata-supervisors">Metadata Supervisors (3)</option>
+                  <option value="science-coordinators">Science Coordinators (15)</option>
+                  <option value="science-curators">Science Curators (7)</option>
+                </select>
+              </td>
               <td><i class="ed-icon ed-check-o icon-green icon--md"><span class="is-invisible">Only search is allowed for this group</span></i></td>
               <td><span class="is-invisible">Order is not allowed for this group</span></td>
             </tr>
@@ -78,3 +143,5 @@
     </section>
   </div>
 </main>
+
+

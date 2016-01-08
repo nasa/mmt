@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   get 'permissions' => 'pages#permissions', as: 'permissions'
   get 'groups' => 'pages#groups', as: 'groups'
   get 'new-permissions' => 'pages#new-permissions', as: 'new-permissions'
+  get 'show-permissions' => 'pages#show-permissions', as: 'show-permissions'
 
   root 'welcome#index'
 end

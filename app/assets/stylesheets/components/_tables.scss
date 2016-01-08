@@ -1,0 +1,28 @@
+/* ===================================================== *\
+   Tables
+\* ===================================================== */
+
+table {
+  // Override jQuery Chosen styles in tables
+  .chosen-container-multi {
+    width: 100% !important;
+  }
+
+
+  .chosen-container-multi .chosen-choices {
+    border: 0;
+    background-image: none;
+  }
+
+  tr:nth-child(2n+2) {
+    .chosen-container-multi .chosen-choices {
+      border: 0;
+      background: $light-grey;
+    }
+  }
+}
+
+.cell-primary-cta {
+  width: 80%;
+  text-align: left;
+}
