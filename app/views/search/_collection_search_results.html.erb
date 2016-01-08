@@ -7,18 +7,18 @@
   <tr>
     <!-- Temporarily commented out because this is not a part of the MVP %-->
     <!--th><input type="checkbox" name="name" value=""></th-->
-    <th id="col-short-name">
+    <th class="w20">
       <%# Uncomment after CMR-2111 %>
       <%#= sort_by_link('Short Name', 'short_name', @query) %>
       Short Name
     </th>
-    <th id="col-version">
+    <th class="w10">
       <%#= sort_by_link('Version', 'version_id', @query) %>
       Version
     </th>
-    <th id="col-entry-title"><%= sort_by_link('Entry Title', 'entry_title', @query) %></th>
-    <th id="col-provider"><%= sort_by_link('Provider', 'provider_id', @query) %></th>
-    <th id="col-last-modified"><%= sort_by_link('Last Modified', 'revision_date', @query) %></th>
+    <th class="w40"><%= sort_by_link('Entry Title', 'entry_title', @query) %></th>
+    <th class="w15"><%= sort_by_link('Provider', 'provider_id', @query) %></th>
+    <th class="w15"><%= sort_by_link('Last Modified', 'revision_date', @query) %></th>
   </tr>
   </thead>
   <tbody>
