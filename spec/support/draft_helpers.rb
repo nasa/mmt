@@ -244,7 +244,7 @@ module Helpers
             find('.url').set 'http://another-example.com'
           end
         end
-        fill_in 'Mime Type', with: 'text/html'
+        select 'text/html', from: 'Mime Type'
         within '.file-size' do
           fill_in 'Size', with: '42'
           select 'MB', from: 'Unit'
