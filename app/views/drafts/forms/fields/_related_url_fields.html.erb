@@ -66,14 +66,15 @@
 
   <div class="row">
     <div class="col-6">
-      <%= mmt_text_field(
+      <%= mmt_select(
         name: 'mime_type',
         title: 'Mime Type',
         prefix: name_prefix,
         value: related_url['MimeType'],
+        options: DraftsHelper::MimeTypeOptions,
         help: 'definitions/RelatedUrlType/properties/MimeType',
         validate: true
-       ) %>
+      ) %>
     </div>
   </div>
 

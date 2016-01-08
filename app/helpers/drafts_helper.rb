@@ -84,6 +84,15 @@ module DraftsHelper
     ['Related', 'RELATED'],
     ['Larger Citation Works', 'LARGER CITATION WORKS']
   ]
+  MimeTypeOptions = [
+    ['Select Mime Type', ''],
+    ['application/msword'],
+    ['application/pdf'],
+    ['application/xml'],
+    ['image/jpeg'],
+    ['text/html'],
+    ['text/plain']
+  ]
   ProcessingLevelIdOptions = [
     ['Not Provided'],
     ['Level 0'],
