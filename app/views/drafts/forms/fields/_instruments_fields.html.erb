@@ -2,21 +2,26 @@
   <div class="row">
     <div class="col-6">
       <!-- Short Name [r] -->
-      <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/ShortNameType"></i>
-        <span class="is-hidden">Help modal for short name</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), instruments['ShortName'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'short_name',
+        title: 'Short Name',
+        prefix: name_prefix,
+        value: instruments['ShortName'],
+        help: 'definitions/ShortNameType',
+        validate: true,
+        required: true
+       ) %>
     </div>
     <div class="col-6">
       <!-- Long Name -->
-      <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/LongNameType"></i>
-        <span class="is-hidden">Help modal for long name</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), instruments['LongName'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'long_name',
+        title: 'Long Name',
+        prefix: name_prefix,
+        value: instruments['LongName'],
+        help: 'definitions/LongNameType',
+        validate: true
+       ) %>
     </div>
   </div>
 
@@ -35,35 +40,44 @@
 
 
   <!-- Technique -->
-  <label for="<%= remove_pipes(name_prefix) %>technique">Technique</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/Technique"></i>
-    <span class="is-hidden">Help modal for technique</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}technique"), instruments['Technique'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'technique',
+    title: 'Technique',
+    prefix: name_prefix,
+    value: instruments['Technique'],
+    help: 'definitions/InstrumentType/properties/Technique',
+    validate: true
+   ) %>
 
 
   <!-- NumberOfSensors -->
-  <label for="<%= remove_pipes(name_prefix) %>number_of_sensors">Number Of Sensors</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/NumberOfSensors"></i>
-    <span class="is-hidden">Help modal for number of sensors</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|number_of_sensors|"), instruments['NumberOfSensors'], class: 'half-width validate mmt-integer') %>
+  <%= mmt_text_field(
+    name: 'number_of_sensors',
+    title: 'Number Of Sensors',
+    prefix: name_prefix,
+    value: instruments['NumberOfSensors'],
+    help: 'definitions/InstrumentType/properties/NumberOfSensors',
+    validate: true,
+    classes: 'mmt-integer'
+   ) %>
 
 
   <!-- OperationalModes -->
   <% modes = instruments['OperationalModes'] || [nil] # [nil] creates at least one field %>
   <div class="multiple simple-multiple operational-modes">
-    <label for="<%= remove_pipes(name_prefix) %>operational_modes_">Operational Mode</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/InstrumentType/properties/OperationalModes"></i>
-      <span class="is-hidden">Help modal for operational mode</span>
-    </a>
+    <%= label(
+      name: 'operational_modes_0',
+      title: 'Operational Modes',
+      prefix: name_prefix
+    ) %>
+    <%= help_icon(
+      title: 'Operational Modes',
+      help: 'definitions/InstrumentType/properties/OperationalModes'
+    ) %>
 
   <% modes.each_with_index do |mode, index| %>
     <div class="multiple-item multiple-item-<%= index %>">
-      <%= text_field_tag(name_to_param("#{name_prefix}|operational_modes|_#{index}"), mode, class: 'half-width operational-mode simple-multiple-field validate') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}|operational_modes|_#{index}"), mode, class: 'half-width operational-mode simple-multiple-field validate', data: { level: remove_pipes(name_prefix) }) %>
       <a class="remove">
         <i class="fa fa-times-circle"></i>
         <span class="is-hidden">Remove <%= index %></span>

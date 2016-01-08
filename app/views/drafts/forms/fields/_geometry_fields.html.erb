@@ -28,8 +28,14 @@
   <!-- CoordinateSystem -->
   <% coordinate_system = geometry['CoordinateSystem'] || "" %>
   <label class="icon-required">Coordinate System</label>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label></p>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select validate') %><label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label></p>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label>
+  </p>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label>
+  </p>
   </br>
 
   <!-- GeometryType (not an actual field) -->
@@ -41,20 +47,20 @@
   <div class="geometry-type">
     <label class="icon-required">Geometry Type</label>
     <p class="radio-group">
-      <input type="radio" id="<%= remove_pipes(name_prefix) %>geometry-points" value="points" class="geometry-picker points" <%= 'checked="checked"' if points_checked %>>
-      <label for="<%= remove_pipes(name_prefix) %>geometry-points">Points</label>
+      <%= radio_button_tag(name_to_param("#{name_prefix}"), 'points', points_checked, class: 'geometry-picker points', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>points">Points</label>
     </p>
     <p class="radio-group">
-      <input type="radio" id="<%= remove_pipes(name_prefix) %>geometry-bounding-rectangles" value="bounding-rectangles" class="geometry-picker bounding-rectangles" <%= 'checked="checked"' if bounding_rectangles_checked %>>
-      <label for="<%= remove_pipes(name_prefix) %>geometry-bounding-rectangles">Bounding Rectangles</label>
+      <%= radio_button_tag(name_to_param("#{name_prefix}"), 'bounding-rectangles', bounding_rectangles_checked, class: 'geometry-picker bounding-rectangles', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>bounding-rectangles">Bounding Rectangles</label>
     </p>
     <p class="radio-group">
-      <input type="radio" id="<%= remove_pipes(name_prefix) %>geometry-g-polygons" value="g-polygons" class="geometry-picker g-polygons" <%= 'checked="checked"' if g_polygons_checked %>>
-      <label for="<%= remove_pipes(name_prefix) %>geometry-g-polygons">G Polygons</label>
+      <%= radio_button_tag(name_to_param("#{name_prefix}"), 'g-polygons', g_polygons_checked, class: 'geometry-picker g-polygons', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>g-polygons">G Polygons</label>
     </p>
     <p class="radio-group">
-      <input type="radio" id="<%= remove_pipes(name_prefix) %>geometry-lines" value="lines" class="geometry-picker lines" <%= 'checked="checked"' if lines_checked %>>
-      <label for="<%= remove_pipes(name_prefix) %>geometry-lines">Lines</label>
+      <%= radio_button_tag(name_to_param("#{name_prefix}"), 'lines', lines_checked, class: 'geometry-picker lines', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>lines">Lines</label>
     </p>
   </div>
 

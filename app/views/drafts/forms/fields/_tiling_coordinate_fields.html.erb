@@ -1,12 +1,26 @@
 <div class="row sub-fields">
   <div class="col-6">
     <!-- MinimumValue -->
-    <label for="<%= remove_pipes(name_prefix) %>minimum_value" class="icon-required">Minimum Value</label>
-    <%= text_field_tag(name_to_param("#{name_prefix}|minimum_value|"), tiling_coordinate['MinimumValue'], class: 'full-width validate mmt-number') %>
+    <%= mmt_text_field(
+      name: 'minimum_value',
+      title: 'Minimum Value',
+      prefix: name_prefix,
+      value: tiling_coordinate['MinimumValue'],
+      validate: true,
+      required: true,
+      classes: 'mmt-number'
+     ) %>
   </div>
   <div class="col-6">
     <!-- MaximumValue -->
-    <label for="<%= remove_pipes(name_prefix) %>maximum_value">Maximum Value</label>
-    <%= text_field_tag(name_to_param("#{name_prefix}|maximum_value|"), tiling_coordinate['MaximumValue'], class: 'full-width validate mmt-number') %>
+    <%= mmt_text_field(
+      name: 'maximum_value',
+      title: 'Maximum Value',
+      prefix: name_prefix,
+      value: tiling_coordinate['MaximumValue'],
+      validate: true,
+      required: true,
+      classes: 'mmt-number'
+     ) %>
   </div>
 </div>

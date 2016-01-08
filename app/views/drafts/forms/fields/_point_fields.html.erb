@@ -2,21 +2,29 @@
 
   <div class="col-6">
     <!-- Longitude -->
-    <label for="<%= remove_pipes(name_prefix) %>longitude" class="icon-required">Longitude</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/LongitudeType"></i>
-      <span class="is-hidden">Help modal for longitude</span>
-    </a>
-    <%= text_field_tag(name_to_param("#{name_prefix}longitude"), point['Longitude'], class: 'full-width longitude validate mmt-number') %>
+    <%= mmt_text_field(
+      name: 'longitude',
+      title: 'Longitude',
+      prefix: name_prefix,
+      value: point['Longitude'],
+      help: 'definitions/LongitudeType',
+      validate: true,
+      required: true,
+      classes: 'mmt-number longitude'
+     ) %>
   </div>
   <div class="col-6">
     <!-- Latitude -->
-    <label for="<%= remove_pipes(name_prefix) %>latitude" class="icon-required">Latitude</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/LatitudeType"></i>
-      <span class="is-hidden">Help modal for latitude</span>
-    </a>
-    <%= text_field_tag(name_to_param("#{name_prefix}latitude"), point['Latitude'], class: 'full-width latitude validate mmt-number') %>
+    <%= mmt_text_field(
+      name: 'latitude',
+      title: 'Latitude',
+      prefix: name_prefix,
+      value: point['Latitude'],
+      help: 'definitions/LatitudeType',
+      validate: true,
+      required: true,
+      classes: 'mmt-number latitude'
+     ) %>
   </div>
 
 </div>

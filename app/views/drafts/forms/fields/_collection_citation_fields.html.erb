@@ -1,103 +1,125 @@
 <div class="row sub-fields">
   <!-- Version -->
-  <label for="<%= remove_pipes(name_prefix) %>version">Version</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Version"></i>
-    <span class="is-hidden">Help modal for version</span>
-  </a>
-  <%= text_field_tag name_to_param("#{name_prefix}version"), collection_citation['Version'], class: 'half-width validate' %>
+  <%= mmt_text_field(
+    name: 'version',
+    title: 'Version',
+    prefix: name_prefix,
+    value: collection_citation['Version'],
+    help: 'definitions/ResourceCitationType/properties/Version',
+    validate: true
+   ) %>
 
   <!-- Title -->
-  <label for="<%= remove_pipes(name_prefix) %>title">Title</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Title"></i>
-    <span class="is-hidden">Help modal for title</span>
-  </a>
-  <%= text_area_tag name_to_param("#{name_prefix}title"), collection_citation['Title'], rows: 8, class: 'validate' %>
+  <%= mmt_text_area(
+    name: 'title',
+    title: 'Title',
+    prefix: name_prefix,
+    value: collection_citation['Title'],
+    help: 'definitions/ResourceCitationType/properties/Title',
+    validate: true
+   ) %>
 
 
   <!-- Creator -->
-  <label for="<%= remove_pipes(name_prefix) %>creator">Creator</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Creator"></i>
-    <span class="is-hidden">Help modal for creator</span>
-  </a>
-  <%= text_area_tag name_to_param("#{name_prefix}creator"), collection_citation['Creator'], rows: 8, class: 'validate' %>
+  <%= mmt_text_area(
+    name: 'creator',
+    title: 'Creator',
+    prefix: name_prefix,
+    value: collection_citation['Creator'],
+    help: 'definitions/ResourceCitationType/properties/Creator',
+    validate: true
+   ) %>
 
 
   <!-- Editor -->
-  <label for="<%= remove_pipes(name_prefix) %>editor">Editor</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Editor"></i>
-    <span class="is-hidden">Help modal for editor</span>
-  </a>
-  <%= text_area_tag name_to_param("#{name_prefix}editor"), collection_citation['Editor'], rows: 8, class: 'validate' %>
+  <%= mmt_text_area(
+    name: 'editor',
+    title: 'Editor',
+    prefix: name_prefix,
+    value: collection_citation['Editor'],
+    help: 'definitions/ResourceCitationType/properties/Editor',
+    validate: true
+   ) %>
 
 
   <!-- SeriesName -->
-  <label for="<%= remove_pipes(name_prefix) %>series_name">Series Name</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/SeriesName"></i>
-    <span class="is-hidden">Help modal for series name</span>
-  </a>
-  <%= text_area_tag name_to_param("#{name_prefix}|series_name|"), collection_citation['SeriesName'], rows: 8, class: 'validate' %>
+  <%= mmt_text_area(
+    name: 'series_name',
+    title: 'Series Name',
+    prefix: name_prefix,
+    value: collection_citation['SeriesName'],
+    help: 'definitions/ResourceCitationType/properties/SeriesName',
+    validate: true
+   ) %>
 
 
   <!-- ReleaseDate -->
-  <label for="<%= remove_pipes(name_prefix) %>release_date">Release Date</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/ReleaseDate"></i>
-    <span class="is-hidden">Help modal for release date</span>
-  </a>
-  <%= datetime_field_tag name_to_param("#{name_prefix}|release_date|"), collection_citation['ReleaseDate'], class: 'half-width validate mmt-date-time' %>
+  <%= mmt_datetime(
+    name: 'release_date',
+    title: 'Release Date',
+    prefix: name_prefix,
+    value: collection_citation['ReleaseDate'],
+    help: 'definitions/ResourceCitationType/properties/ReleaseDate',
+    validate: true
+  ) %>
 
 
   <!-- ReleasePlace -->
-  <label for="<%= remove_pipes(name_prefix) %>release_place">Release Place</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/ReleasePlace"></i>
-    <span class="is-hidden">Help modal for release place</span>
-  </a>
-  <%= text_area_tag name_to_param("#{name_prefix}|release_place|"), collection_citation['ReleasePlace'], rows: 8, class: 'validate' %>
+  <%= mmt_text_area(
+    name: 'release_place',
+    title: 'Release Place',
+    prefix: name_prefix,
+    value: collection_citation['ReleasePlace'],
+    help: 'definitions/ResourceCitationType/properties/ReleasePlace',
+    validate: true
+   ) %>
 
 
   <!-- Publisher -->
-  <label for="<%= remove_pipes(name_prefix) %>publisher">Publisher</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/Publisher"></i>
-    <span class="is-hidden">Help modal for publisher</span>
-  </a>
-  <%= text_area_tag name_to_param("#{name_prefix}publisher"), collection_citation['Publisher'], rows: 8, class: 'validate' %>
+  <%= mmt_text_area(
+    name: 'publisher',
+    title: 'Publisher',
+    prefix: name_prefix,
+    value: collection_citation['Publisher'],
+    help: 'definitions/ResourceCitationType/properties/Publisher',
+    validate: true
+   ) %>
 
 
   <div class="row">
     <div class="col-6">
       <!-- IssueIdentification -->
-      <label for="<%= remove_pipes(name_prefix) %>issue_identification">Issue Identification</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DataPresentationForm"></i>
-        <span class="is-hidden">Help modal for issue identification</span>
-      </a>
-      <%= text_field_tag name_to_param("#{name_prefix}|issue_identification|"), collection_citation['IssueIdentification'], class: 'full-width validate' %>
+      <%= mmt_text_field(
+        name: 'issue_identification',
+        title: 'Issue Identification',
+        prefix: name_prefix,
+        value: collection_citation['IssueIdentification'],
+        help: 'definitions/ResourceCitationType/properties/IssueIdentification',
+        validate: true
+       ) %>
     </div>
     <div class="col-6">
       <!-- DataPresentationForm -->
-      <label for="<%= remove_pipes(name_prefix) %>data_presentation_form">Data Presentation Form</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DataPresentationForm"></i>
-        <span class="is-hidden">Help modal for data presentation</span>
-      </a>
-      <%= text_field_tag name_to_param("#{name_prefix}|data_presentation_form|"), collection_citation['DataPresentationForm'], class: 'full-width validate' %>
+      <%= mmt_text_field(
+        name: 'data_presentation_form',
+        title: 'Data Presentation Form',
+        prefix: name_prefix,
+        value: collection_citation['DataPresentationForm'],
+        help: 'definitions/ResourceCitationType/properties/DataPresentationForm',
+        validate: true
+       ) %>
     </div>
   </div>
 
   <!-- OtherCitationDetails -->
-  <label for="<%= remove_pipes(name_prefix) %>other_citation_details">Other Citation Details</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/OtherCitationDetails"></i>
-    <span class="is-hidden">Help modal for other citation details</span>
-  </a>
-  <%= text_area_tag name_to_param("#{name_prefix}|other_citation_details|"), collection_citation['OtherCitationDetails'], rows: 8, class: 'validate' %>
+  <%= mmt_text_area(
+    name: 'other_citation_details',
+    title: 'Other Citation Details',
+    prefix: name_prefix,
+    value: collection_citation['OtherCitationDetails'],
+    help: 'definitions/ResourceCitationType/properties/OtherCitationDetails',
+    validate: true
+   ) %>
 
   <!-- DOI -->
   <label>DOI</label>

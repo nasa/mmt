@@ -1,43 +1,58 @@
+<% always_required = options[:always_required] || false %>
 <div class="row sub-fields">
-  <label for="<%= remove_pipes(name_prefix) %>title">Title</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/Title"></i>
-    <span class="is-hidden">Help modal for title</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}title"), related_url['Title'], class: 'full-width validate') %>
+  <%= mmt_text_field(
+    name: 'title',
+    title: 'Title',
+    prefix: name_prefix,
+    value: related_url['Title'],
+    help: 'definitions/RelatedUrlType/properties/Title',
+    validate: true
+   ) %>
 
-  <label for="<%= remove_pipes(name_prefix) %>description">Description</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/Description"></i>
-    <span class="is-hidden">Help modal for description</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}description"), related_url['Description'], class: 'full-width validate') %>
+ <%= mmt_text_field(
+   name: 'description',
+   title: 'Description',
+   prefix: name_prefix,
+   value: related_url['Description'],
+   help: 'definitions/RelatedUrlType/properties/Description',
+   validate: true
+  ) %>
 
   <!-- Relation -->
   <% relations = related_url['Relation'] || Array.new(2) %>
   <div class="row">
-    <label for="<%= remove_pipes(name_prefix) %>relation_0">Relation</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/Relation"></i>
-      <span class="is-hidden">Help modal for relation</span>
-    </a>
+    <%= label(
+      name: 'relation_0',
+      title: 'Relation',
+      prefix: name_prefix
+    ) %>
+    <%= help_icon(
+      title: 'Relation',
+      help: 'definitions/RelatedUrlType/properties/Relation'
+    ) %>
 
     <% relations[0..1].each_with_index do |relation, index| %>
-      <%= text_field_tag(name_to_param("#{name_prefix}relation_#{index}"), relation, class: 'full-width relation validate') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}relation_#{index}"), relation, class: 'full-width relation validate', data: { level: remove_pipes(name_prefix) }) %>
     <% end %>
   </div>
 
   <% urls = related_url['URLs'] || [nil] # [nil] creates at least one URL field %>
   <div class="multiple simple-multiple urls">
-    <label for="<%= remove_pipes(name_prefix) %>urls_" class="icon-required">URLs</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/URLs"></i>
-      <span class="is-hidden">Help modal for URLs</span>
-    </a>
+    <%= label(
+      name: 'urls_',
+      title: 'URLs',
+      prefix: name_prefix,
+      required: !always_required,
+      always_required: always_required
+    ) %>
+    <%= help_icon(
+      title: 'URLs',
+      help: 'definitions/RelatedUrlType/properties/URLs'
+    ) %>
 
   <% urls.each_with_index do |url, index| %>
     <div class="multiple-item multiple-item-<%= index %>">
-      <%= text_field_tag(name_to_param("#{name_prefix}urls_#{index}"), url, class: 'half-width url simple-multiple-field validate mmt-uri') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}urls_#{index}"), url, class: 'half-width url simple-multiple-field validate mmt-uri', data: { level: remove_pipes(name_prefix) }) %>
       <a class="remove">
         <i class="fa fa-times-circle"></i>
         <span class="is-hidden">Remove <%= index %></span>
@@ -51,12 +66,15 @@
 
   <div class="row">
     <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>mime_type">Mime Type</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/MimeType"></i>
-        <span class="is-hidden">Help modal for Mime Type</span>
-      </a>
-      <%= select_tag name_to_param("#{name_prefix}|mime_type|"), options_for_select(DraftsHelper::MimeTypeOptions, related_url['MimeType']), class: 'half-width validate' %>
+      <%= mmt_select(
+        name: 'mime_type',
+        title: 'Mime Type',
+        prefix: name_prefix,
+        value: related_url['MimeType'],
+        options: DraftsHelper::MimeTypeOptions,
+        help: 'definitions/RelatedUrlType/properties/MimeType',
+        validate: true
+      ) %>
     </div>
   </div>
 

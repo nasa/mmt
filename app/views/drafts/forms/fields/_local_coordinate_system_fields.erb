@@ -1,19 +1,23 @@
 <div class="row sub-fields">
   <!-- GeoReferenceInformation -->
-  <label for="<%= remove_pipes(name_prefix) %>geo_reference_information">Geo Reference Information</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/LocalCoordinateSystemType/properties/GeoReferenceInformation"></i>
-    <span class="is-hidden">Help modal for geo reference information</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}|geo_reference_information|"), local_coordinate_system['GeoReferenceInformation'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'geo_reference_information',
+    title: 'Geo Reference Information',
+    prefix: name_prefix,
+    value: local_coordinate_system['GeoReferenceInformation'],
+    help: 'definitions/LocalCoordinateSystemType/properties/GeoReferenceInformation',
+    validate: true
+   ) %>
 
 
   <!-- Description -->
-  <label for="<%= remove_pipes(name_prefix) %>description">Description</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/LocalCoordinateSystemType/properties/Description"></i>
-    <span class="is-hidden">Help modal for description</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}description"), local_coordinate_system['Description'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'description',
+    title: 'Description',
+    prefix: name_prefix,
+    value: local_coordinate_system['Description'],
+    help: 'definitions/LocalCoordinateSystemType/properties/Description',
+    validate: true
+   ) %>
 
 </div>

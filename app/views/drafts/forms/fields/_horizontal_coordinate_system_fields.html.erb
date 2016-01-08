@@ -11,10 +11,11 @@
   <% geographic_checked = !horizontal_coordinate_system['GeographicCoordinateSystem'].nil? %>
   <% local_checked = !horizontal_coordinate_system['LocalCoordinateSystem'].nil? %>
   <div class="coordinate-system-type" style="<%= 'display: none;' if options[:limit_type] %>">
-    <input type="radio" id="<%= remove_pipes(name_prefix) %>geographic_coordinate_system" value="geographic" class="coordinate-system-picker geographic" <%= 'checked="checked"' if geographic_checked %>>
-    <label for="<%= remove_pipes(name_prefix) %>geographic_coordinate_system">Geographic Coordinate System</label>
-    <input type="radio" id="<%= remove_pipes(name_prefix) %>local_coordinate_system" value="local" class="coordinate-system-picker local" <%= 'checked="checked"' if local_checked %>>
-    <label for="<%= remove_pipes(name_prefix) %>local_coordinate_system">Local Coordinate System</label>
+    <%= radio_button_tag(name_to_param("#{name_prefix}"), 'geographic', geographic_checked, class: 'coordinate-system-picker geographic', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>geographic">Geographic Coordinate System</label>
+
+    <%= radio_button_tag(name_to_param("#{name_prefix}"), 'local', local_checked, class: 'coordinate-system-picker local', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>local">Local Coordinate System</label>
   </div>
 
   <div class="geographic-coordinate-system-fields" style="<%= 'display: none;' if local_checked %>">

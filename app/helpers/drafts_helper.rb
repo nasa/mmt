@@ -1,12 +1,10 @@
 module DraftsHelper
   CollectionDataTypeOptions = [
-    ['Select Data Type', ''],
     ['Science Quality', 'SCIENCE_QUALITY'],
     ['Near Real Time', 'NEAR_REAL_TIME'],
     ['Other', 'OTHER']
   ]
   CollectionProgressOptions = [
-    ['Select Progress', ''],
     ['Planned', 'PLANNED'],
     ['In work', 'IN WORK'],
     ['Complete', 'COMPLETE']
@@ -16,14 +14,12 @@ module DraftsHelper
     ['Geodetic', 'GEODETIC']
   ]
   ContactTypeOptions = [
-    ['Select Contact Type', ''],
     ['Phone'],
     ['Email'],
     ['Facebook'],
     ['Twitter']
   ]
   DataTypeOptions = [
-    ['Select Data Type', ''],
     ['String', 'STRING'],
     ['Float', 'FLOAT'],
     ['Integer', 'INT'],
@@ -36,19 +32,16 @@ module DraftsHelper
     ['Date Time String', 'DATETIMESTRING']
   ]
   DurationOptions = [
-    ['Select Duration', ''],
     ['Day', 'DAY'],
     ['Month', 'MONTH'],
     ['Year', 'YEAR']
   ]
   DateTypeOptions = [
-    ['Select Date Type', ''],
     ['Create', 'CREATE'],
     ['Update', 'UPDATE'],
     ['Delete', 'DELETE'], ['Review', 'REVIEW']
   ]
   FileSizeUnitTypeOptions = [
-    ['Select Unit', ''],
     ['KB'],
     ['MB'],
     ['GB'],
@@ -56,7 +49,6 @@ module DraftsHelper
     ['PB']
   ]
   GranuleSpatialRepresentationOptions = [
-    ['Select Granule Spatial Representation', ''],
     ['Cartesian', 'CARTESIAN'],
     ['Geodetic', 'GEODETIC'],
     ['Orbit', 'ORBIT'],
@@ -84,7 +76,6 @@ module DraftsHelper
     ['Utilities / Communication', 'utilitiesCommunication']
   ]
   MetadataAssociationTypeOptions = [
-    ['Select Type', ''],
     ['Science Associated', 'SCIENCE ASSOCIATED'],
     ['Dependent', 'DEPENDENT'],
     ['Input', 'INPUT'],
@@ -103,7 +94,6 @@ module DraftsHelper
     ['text/plain']
   ]
   ProcessingLevelIdOptions = [
-    ['Select Id', ''],
     ['Not Provided'],
     ['Level 0'],
     ['Level 1'],
@@ -119,7 +109,6 @@ module DraftsHelper
     ['NA']
   ]
   RoleOptions = [
-    ['Select Role', ''],
     ['Resource Provider', 'RESOURCEPROVIDER'],
     ['Custodian', 'CUSTODIAN'],
     ['Owner', 'OWNER'],

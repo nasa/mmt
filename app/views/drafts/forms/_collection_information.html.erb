@@ -6,21 +6,27 @@
     <div class="row">
       <!-- Short Name [r] -->
       <div class="col-6">
-        <label for="draft_short_name" class="main-field icon-required">Short Name</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/ShortName"></i>
-          <span class="is-hidden">Help modal for Short Name</span>
-        </a>
-        <%= text_field_tag('draft[short_name]', draft.draft['ShortName'], class: 'full-width validate') %>
+        <%= mmt_text_field(
+          name: 'short_name',
+          title: 'Short Name',
+          prefix: 'draft_',
+          value: draft.draft['ShortName'],
+          help: 'properties/ShortName',
+          validate: true,
+          always_required: true
+         ) %>
       </div>
       <!-- Version [r] -->
       <div class="col-6">
-        <label for="draft_version" class="main-field icon-required">Version</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/Version"></i>
-          <span class="is-hidden">Help modal for version</span>
-        </a>
-        <%= text_field_tag('draft[version]', draft.draft['Version'], class: 'full-width validate') %>
+        <%= mmt_text_field(
+          name: 'version',
+          title: 'Version',
+          prefix: 'draft_',
+          value: draft.draft['Version'],
+          help: 'properties/Version',
+          validate: true,
+          always_required: true
+         ) %>
       </div>
     </div>
 
@@ -28,12 +34,15 @@
     <!-- Entry Title [r] -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_entry_title" class="main-field icon-required">Entry Title</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/EntryTitle"></i>
-          <span class="is-hidden">Help modal for entry title</span>
-        </a>
-        <%= text_field_tag('draft[entry_title]', draft.draft['EntryTitle'], class: 'full-width validate') %>
+        <%= mmt_text_field(
+          name: 'entry_title',
+          title: 'Entry Title',
+          prefix: 'draft_',
+          value: draft.draft['EntryTitle'],
+          help: 'properties/EntryTitle',
+          validate: true,
+          always_required: true
+         ) %>
       </div>
     </div>
 
@@ -41,12 +50,15 @@
     <!-- Abstract [r] -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_abstract" class="icon-required">Abstract</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/Abstract"></i>
-          <span class="is-hidden">Help modal for abstract</span>
-        </a>
-        <%= text_area_tag('draft[abstract]', draft.draft['Abstract'], rows: 8, class: 'validate') %>
+        <%= mmt_text_area(
+          name: 'abstract',
+          title: 'Abstract',
+          prefix: 'draft_',
+          value: draft.draft['Abstract'],
+          help: 'properties/Abstract',
+          validate: true,
+          always_required: true
+         ) %>
       </div>
     </div>
 
@@ -54,12 +66,14 @@
     <!-- Purpose -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_purpose">Purpose</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/Purpose"></i>
-          <span class="is-hidden">Help modal for purpose</span>
-        </a>
-        <%= text_area_tag('draft[purpose]', draft.draft['Purpose'], rows: 8, class: 'validate') %>
+        <%= mmt_text_area(
+          name: 'purpose',
+          title: 'Purpose',
+          prefix: 'draft_',
+          value: draft.draft['Purpose'],
+          help: 'properties/Purpose',
+          validate: true
+         ) %>
       </div>
     </div>
 
@@ -67,12 +81,14 @@
     <!-- Data language -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_data_language">Data Language</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/DataLanguage"></i>
-          <span class="is-hidden">Help modal for data language</span>
-        </a>
-        <%= select_tag 'draft[data_language]', options_for_select(@language_codes, draft.draft['DataLanguage']), class: 'half-width' %>
+        <%= mmt_select(
+          name: 'data_language',
+          title: 'Data Language',
+          prefix: 'draft_',
+          value: draft.draft['DataLanguage'],
+          options: @language_codes,
+          help: 'properties/DataLanguage'
+        ) %>
       </div>
     </div>
   </div>

@@ -40,7 +40,7 @@
           <i class="fa fa-info-circle" data-help-path="properties/ISOTopicCategories"></i>
           <span class="is-hidden">Help modal for temporal keywords</span>
         </a>
-        <%= select_tag "#{name_to_param('draft_|temporal_keywords|')}[]", options_for_select(@temporal_keywords, draft.draft['TemporalKeywords']), class: 'multi-select', size: 4, multiple: 'true' %>
+        <%= select_tag "#{name_to_param('draft_|temporal_keywords|')}[]", options_for_select(@temporal_keywords, draft.draft['TemporalKeywords']), class: 'multi-select', size: 4, multiple: 'true', data: { level: 'draft_' } %>
       </div>
     </div>
   </div>

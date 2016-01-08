@@ -1,46 +1,66 @@
 <div class="row sub-fields">
   <!-- SwathWidth -->
-  <label for="<%= remove_pipes(name_prefix) %>swath_width" class="icon-required">Swath Width</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/OrbitParametersType/properties/SwathWidth"></i>
-    <span class="is-hidden">Help modal for swath width</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|swath_width|"), orbit_parameters['SwathWidth'], class: 'half-width validate mmt-number') %>
+  <%= mmt_text_field(
+    name: 'swath_width',
+    title: 'Swath Width',
+    prefix: name_prefix,
+    value: orbit_parameters['SwathWidth'],
+    help: 'definitions/OrbitParametersType/properties/SwathWidth',
+    validate: true,
+    required: true,
+    classes: 'mmt-number'
+   ) %>
 
 
   <!-- Period -->
-  <label for="<%= remove_pipes(name_prefix) %>period" class="icon-required">Period</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/OrbitParametersType/properties/Period"></i>
-    <span class="is-hidden">Help modal for period</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}period"), orbit_parameters['Period'], class: 'half-width validate mmt-number') %>
+  <%= mmt_text_field(
+    name: 'period',
+    title: 'Period',
+    prefix: name_prefix,
+    value: orbit_parameters['Period'],
+    help: 'definitions/OrbitParametersType/properties/Period',
+    validate: true,
+    required: true,
+    classes: 'mmt-number'
+   ) %>
 
 
   <!-- InclinationAngle -->
-  <label for="<%= remove_pipes(name_prefix) %>inclination_angle" class="icon-required">Inclination Angle</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/OrbitParametersType/properties/InclinationAngle"></i>
-    <span class="is-hidden">Help modal for inclination angle</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|inclination_angle|"), orbit_parameters['InclinationAngle'], class: 'half-width validate mmt-number') %>
+  <%= mmt_text_field(
+    name: 'inclination_angle',
+    title: 'Inclination Angle',
+    prefix: name_prefix,
+    value: orbit_parameters['InclinationAngle'],
+    help: 'definitions/OrbitParametersType/properties/InclinationAngle',
+    validate: true,
+    required: true,
+    classes: 'mmt-number'
+   ) %>
 
 
   <!-- NumberOfOrbits -->
-  <label for="<%= remove_pipes(name_prefix) %>number_of_orbits" class="icon-required">Number Of Orbits</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/OrbitParametersType/properties/NumberOfOrbits"></i>
-    <span class="is-hidden">Help modal for number of orbits</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|number_of_orbits|"), orbit_parameters['NumberOfOrbits'], class: 'half-width validate mmt-number') %>
+  <%= mmt_text_field(
+    name: 'number_of_orbits',
+    title: 'Number Of Orbits',
+    prefix: name_prefix,
+    value: orbit_parameters['NumberOfOrbits'],
+    help: 'definitions/OrbitParametersType/properties/NumberOfOrbits',
+    validate: true,
+    required: true,
+    classes: 'mmt-number'
+   ) %>
 
 
   <!-- StartCircularLatitude -->
-  <label for="<%= remove_pipes(name_prefix) %>start_circular_latitude">Start Circular Latitude</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/OrbitParametersType/properties/StartCircularLatitude"></i>
-    <span class="is-hidden">Help modal for start circular latitude</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|start_circular_latitude|"), orbit_parameters['StartCircularLatitude'], class: 'half-width validate mmt-number') %>
+  <%= mmt_text_field(
+    name: 'start_circular_latitude',
+    title: 'Start Circular Latitude',
+    prefix: name_prefix,
+    value: orbit_parameters['StartCircularLatitude'],
+    help: 'definitions/OrbitParametersType/properties/StartCircularLatitude',
+    validate: true,
+    required: true,
+    classes: 'mmt-number'
+   ) %>
 
 </div>

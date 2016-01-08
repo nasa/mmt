@@ -1,28 +1,36 @@
 <div class="row sub-fields">
   <!-- Title -->
-  <label for="<%= remove_pipes(name_prefix) %>title">Title</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Title"></i>
-    <span class="is-hidden">Help modal for title</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}title"), publication_reference['Title'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'title',
+    title: 'Title',
+    prefix: name_prefix,
+    value: publication_reference['Title'],
+    help: 'definitions/PublicationReferenceType/properties/Title',
+    validate: true
+   ) %>
 
 
   <!-- Publisher -->
-  <label for="<%= remove_pipes(name_prefix) %>publisher">Publisher</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Publisher"></i>
-    <span class="is-hidden">Help modal for publisher</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}publisher"), publication_reference['Publisher'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'publisher',
+    title: 'Publisher',
+    prefix: name_prefix,
+    value: publication_reference['Publisher'],
+    help: 'definitions/PublicationReferenceType/properties/Publisher',
+    validate: true
+   ) %>
 
 
   <!-- DOI -->
-  <label>DOI</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/DOI"></i>
-    <span class="is-hidden">Help modal for DOI</span>
-  </a>
+  <%= label(
+    name: 'doi',
+    title: 'DOI',
+    prefix: name_prefix
+  ) %>
+  <%= help_icon(
+    title: 'DOI',
+    help: 'definitions/PublicationReferenceType/properties/DOI'
+  ) %>
   <div class="row sub-fields">
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'doi',
@@ -34,114 +42,141 @@
 
 
   <!-- Author -->
-  <label for="<%= remove_pipes(name_prefix) %>author">Author</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Author"></i>
-    <span class="is-hidden">Help modal for author</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}author"), publication_reference['Author'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'author',
+    title: 'Author',
+    prefix: name_prefix,
+    value: publication_reference['Author'],
+    help: 'definitions/PublicationReferenceType/properties/Author',
+    validate: true
+   ) %>
 
 
   <!-- PublicationDate -->
-  <label for="<%= remove_pipes(name_prefix) %>publication_date">Publication Date</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/PublicationDate"></i>
-    <span class="is-hidden">Help modal for publication date</span>
-  </a>
-  <%= datetime_field_tag(name_to_param("#{name_prefix}|publication_date|"), publication_reference['PublicationDate'], class: 'half-width validate mmt-date-time') %>
+  <%= mmt_datetime(
+    name: 'publication_date',
+    title: 'Publication Date',
+    prefix: name_prefix,
+    value: publication_reference['PublicationDate'],
+    help: 'definitions/PublicationReferenceType/properties/PublicationDate',
+    validate: true,
+    classes: 'mmt-date-time'
+  ) %>
 
 
   <!-- Series -->
-  <label for="<%= remove_pipes(name_prefix) %>series">Series</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Series"></i>
-    <span class="is-hidden">Help modal for series</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}series"), publication_reference['Series'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'series',
+    title: 'Series',
+    prefix: name_prefix,
+    value: publication_reference['Series'],
+    help: 'definitions/PublicationReferenceType/properties/Series',
+    validate: true
+   ) %>
 
 
   <!-- Edition -->
-  <label for="<%= remove_pipes(name_prefix) %>edition">Edition</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Edition"></i>
-    <span class="is-hidden">Help modal for edition</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}edition"), publication_reference['Edition'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'edition',
+    title: 'Edition',
+    prefix: name_prefix,
+    value: publication_reference['Edition'],
+    help: 'definitions/PublicationReferenceType/properties/Edition',
+    validate: true
+   ) %>
 
   <div class="row">
     <div class="col-4">
       <!-- Volume -->
-      <label for="<%= remove_pipes(name_prefix) %>volume">Volume</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Volume"></i>
-        <span class="is-hidden">Help modal for volume</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}volume"), publication_reference['Volume'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'volume',
+        title: 'Volume',
+        prefix: name_prefix,
+        value: publication_reference['Volume'],
+        help: 'definitions/PublicationReferenceType/properties/Volume',
+        validate: true
+       ) %>
     </div>
     <div class="col-4">
       <!-- Issue -->
-      <label for="<%= remove_pipes(name_prefix) %>issue">Issue</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Issue"></i>
-        <span class="is-hidden">Help modal for issue</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}issue"), publication_reference['Issue'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'issue',
+        title: 'Issue',
+        prefix: name_prefix,
+        value: publication_reference['Issue'],
+        help: 'definitions/PublicationReferenceType/properties/Issue',
+        validate: true
+       ) %>
     </div>
     <div class="col-4">
       <!-- ReportNumber -->
-      <label for="<%= remove_pipes(name_prefix) %>report_number">Report Number</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/ReportNumber"></i>
-        <span class="is-hidden">Help modal for report number</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|report_number|"), publication_reference['ReportNumber'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'report_number',
+        title: 'Report Number',
+        prefix: name_prefix,
+        value: publication_reference['ReportNumber'],
+        help: 'definitions/PublicationReferenceType/properties/ReportNumber',
+        validate: true
+       ) %>
     </div>
   </div>
 
   <!-- PublicationPlace -->
-  <label for="<%= remove_pipes(name_prefix) %>publication_place">Publication Place</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/PublicationPlace"></i>
-    <span class="is-hidden">Help modal for publication place</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}|publication_place|"), publication_reference['PublicationPlace'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'publication_place',
+    title: 'Publication Place',
+    prefix: name_prefix,
+    value: publication_reference['PublicationPlace'],
+    help: 'definitions/PublicationReferenceType/properties/PublicationPlace',
+    validate: true
+   ) %>
 
   <div class="row">
     <div class="col-6">
       <!-- Pages -->
-      <label for="<%= remove_pipes(name_prefix) %>pages">Pages</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/Pages"></i>
-        <span class="is-hidden">Help modal for pages</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}pages"), publication_reference['Pages'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'pages',
+        title: 'Pages',
+        prefix: name_prefix,
+        value: publication_reference['Pages'],
+        help: 'definitions/PublicationReferenceType/properties/Pages',
+        validate: true
+       ) %>
     </div>
     <div class="col-6">
       <!-- ISBN -->
-      <label for="<%= remove_pipes(name_prefix) %>isbn">ISBN</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/ISBN"></i>
-        <span class="is-hidden">Help modal for ISBN</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}isbn"), publication_reference['ISBN'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'isbn',
+        title: 'ISBN',
+        prefix: name_prefix,
+        value: publication_reference['ISBN'],
+        help: 'definitions/PublicationReferenceType/properties/ISBN',
+        validate: true
+       ) %>
     </div>
   </div>
 
   <!-- OtherReferenceDetails -->
-  <label for="<%= remove_pipes(name_prefix) %>other_reference_details">Other Reference Details</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/OtherReferenceDetails"></i>
-    <span class="is-hidden">Help modal for other reference details</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}|other_reference_details|"), publication_reference['OtherReferenceDetails'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'other_reference_details',
+    title: 'Other Reference Details',
+    prefix: name_prefix,
+    value: publication_reference['OtherReferenceDetails'],
+    help: 'definitions/PublicationReferenceType/properties/OtherReferenceDetails',
+    validate: true
+   ) %>
 
 
   <!-- RelatedUrl - only one -->
-  <label>Related URL</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/PublicationReferenceType/properties/RelatedUrl"></i>
-    <span class="is-hidden">Help modal for related URL</span>
-  </a>
+  <%= label(
+    name: 'related_url',
+    title: 'Related URL',
+    prefix: name_prefix
+  ) %>
+  <%= help_icon(
+    title: 'Related URL',
+    help: 'definitions/PublicationReferenceType/properties/RelatedUrl'
+  ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'related_url',
       values: publication_reference['RelatedUrl'] || {},
