@@ -169,12 +169,6 @@ $(document).ready ->
 
     $(summary).insertAfter('.nav-top')
 
-  getNewErrors = (newErrors, oldErrors) ->
-    oldErrors.filter (currentOld) ->
-      newErrors.filter (currentNew) ->
-        currentNew.path == currentOld.path
-      .length == 0
-
   getErrorDetails = (error) ->
     if error.keyword == 'additionalProperties'
       error = null
@@ -228,25 +222,12 @@ $(document).ready ->
     if opts.pageLoad?
       formErrors.push(error) for error in errors
 
-    newErrors = getNewErrors(formErrors, errors)
-
     inlineErrors = []
     summaryErrors = []
     formErrors.length = 0
     formErrors.push(error) for error in errors
 
-    # Display any new errors created by a form change
-    for error, index in newErrors
-      if error = getErrorDetails error
-
-        unless opts.element? and $(opts.element).attr('id') == error.id
-          # 'visit' the new error field
-          visitedFields.push error.id unless visitedFields.indexOf(error.id) != -1
-
-          inlineErrors.push error if $("##{error.id}:visible").length > 0
-          summaryErrors.push error if $("##{error.id}:visible").length > 0
-
-    # Display 'old' errors, from visited fields
+    # Display errors, from visited fields
     for error, index in errors
       if error = getErrorDetails error
 
