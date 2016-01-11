@@ -132,21 +132,6 @@ class DraftsController < ApplicationController
     end
   end
 
-  def download_xml
-    draft = Draft.find(params[:draft_id])
-    xml_format = params[:format]
-    xml_format = 'iso:smap' if xml_format == 'iso_smap'
-    metadata = cmr_client.translate_collection(draft.draft.to_json, 'application/umm+json', "application/#{xml_format}+xml", true).body
-
-    respond_to do |format|
-      format.dif10 { render xml: metadata }
-      format.dif { render xml: metadata }
-      format.echo10 { render xml: metadata }
-      format.iso19115 { render xml: metadata }
-      format.iso_smap { render xml: metadata }
-    end
-  end
-
   def subregion_options
     render partial: 'drafts/forms/fields/subregion_select'
   end
