@@ -22,7 +22,7 @@
         </li>
       <% end %>
 
-      <h4>ISO Topic Categories <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>  <span class="is-hidden">Edit ISO Topic Categories</span>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'iso-topic-categories'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>ISO Topic Categories</h4>
       <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'ISOTopicCategories',
           hash_for_key: metadata,
