@@ -8,7 +8,7 @@ describe 'Viewing search results', js: true do
   context 'when selecting a collection from search results' do
     before :each do
       login
-      fill_in 'short_name', with: short_name
+      fill_in 'Quick Find', with: short_name
       click_on 'Find'
       click_on short_name
       open_accordions

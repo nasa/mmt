@@ -17,15 +17,12 @@ class SearchController < ApplicationController
       params.delete('search_term_type')
       params.delete('search_term')
       @query = {}
-      unless params['short_name'].blank?
-        @query['short_name'] = @query['search_term'] = params['short_name']
-        @query['search_term_type'] = 'short_name'
-      end
+      @query['keyword'] = params['keyword'] if params['keyword']
       @query['record_state'] = 'published_records'
       @query['sort_key'] = params['sort_key'] if params['sort_key']
     elsif search_type == 'full_search'
       # If search came from full search, ignore whatever was in quick find
-      params.delete('short_name')
+      params.delete('keyword')
       @query = params.clone
       @query.delete('provider_id') if @query['provider_id'].blank?
 

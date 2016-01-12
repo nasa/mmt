@@ -14,14 +14,16 @@ describe 'Search published results', js: true do
     visit '/search'
   end
 
-  context 'when performing a collection search by quick find entry id' do
+  context 'when performing a collection search by short name with quick find' do
     before do
-      fill_in 'short_name', with: short_name
+      fill_in 'Quick Find', with: short_name
       click_on 'Find'
     end
+
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Short Name: #{short_name}", 'Record State: Published Records')
+      expect(page).to have_search_query(1, "Keyword: #{short_name}", 'Record State: Published Records')
     end
+
     it 'displays expected Short Name, Entry Title and Last Modified values' do
       expect(page).to have_content(short_name)
       expect(page).to have_content(version)
@@ -29,24 +31,66 @@ describe 'Search published results', js: true do
       expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
     end
+  end
 
-    context 'when viewing the full search form' do
-      before do
-        click_on 'Full Metadata Record Search'
-      end
+  context 'when performing a collection search by partial entry title with quick find' do
+    before do
+      fill_in 'Quick Find', with: entry_title[0..9]
+      click_on 'Find'
+    end
 
-      after do
-        click_on 'Cancel'
-      end
+    it 'displays collection results' do
+      expect(page).to have_search_query(2, "Keyword: #{entry_title[0..9]}", 'Record State: Published Records')
+    end
 
-      it 'displays the entry id in the full search form' do
-        expect(page).to have_field('search_term_type', with: 'short_name')
-        expect(page).to have_field('search_term', with: short_name)
-      end
+    it 'displays expected Short Name, Entry Title and Last Modified values' do
+      expect(page).to have_content(short_name)
+      expect(page).to have_content(version)
+      expect(page).to have_content(entry_title)
+      expect(page).to have_content(provider)
+      expect(page).to have_content(today_string)
     end
   end
 
-  context 'when searching by entry id' do
+  context 'when performing a collection search by short name with concept id' do
+    before do
+      fill_in 'Quick Find', with: concept_id
+      click_on 'Find'
+    end
+
+    it 'displays collection results' do
+      expect(page).to have_search_query(1, "Keyword: #{concept_id}", 'Record State: Published Records')
+    end
+
+    it 'displays expected Short Name, Entry Title and Last Modified values' do
+      expect(page).to have_content(short_name)
+      expect(page).to have_content(version)
+      expect(page).to have_content(entry_title)
+      expect(page).to have_content(provider)
+      expect(page).to have_content(today_string)
+    end
+  end
+
+  context 'when performing a collection search by short name with provider' do
+    before do
+      fill_in 'Quick Find', with: provider
+      click_on 'Find'
+    end
+
+    it 'displays collection results' do
+      expect(page).to have_search_query(25, "Keyword: #{provider}", 'Record State: Published Records')
+    end
+
+    it 'displays expected Short Name, Entry Title and Last Modified values' do
+      expect(page).to have_content(short_name)
+      expect(page).to have_content(version)
+      expect(page).to have_content(entry_title)
+      expect(page).to have_content(provider)
+      expect(page).to have_content(today_string)
+    end
+  end
+
+  context 'when searching by short name' do
     before do
       click_on 'Full Metadata Record Search'
       select 'Short Name', from: 'search_term_type'
@@ -249,7 +293,7 @@ describe 'Search published results', js: true do
 
   context 'when performing a search that has no results' do
     before do
-      fill_in 'short_name', with: 'NO HITS'
+      fill_in 'Quick Find', with: 'NO HITS'
       click_on 'Find'
     end
     it 'displays collection results' do
