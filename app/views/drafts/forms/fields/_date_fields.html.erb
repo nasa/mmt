@@ -1,21 +1,31 @@
+<% always_required = options[:always_required] || false %>
 <div class="row sub-fields">
   <div class="col-6">
     <!-- Type - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
-    <label for="<%= remove_pipes(name_prefix) %>type" class="icon-required">Type</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/DateType/properties/Type"></i>
-      <span class="is-hidden">Help modal for type</span>
-    </a>
-    <%= select_tag name_to_param("#{name_prefix}type"), options_for_select(DraftsHelper::DateTypeOptions, date['Type']), class: 'single-select validate' %>
+    <%= mmt_select(
+      name: 'type',
+      title: 'Type',
+      prefix: name_prefix,
+      value: date['Type'],
+      options: DraftsHelper::DateTypeOptions,
+      help: 'definitions/DateType/properties/Type',
+      required: !always_required,
+      always_required: always_required
+    ) %>
   </div>
 
   <div class="col-6">
     <!-- Date -->
-    <label for="<%= remove_pipes(name_prefix) %>date" class="icon-required">Date</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/DateType/properties/Date"></i>
-      <span class="is-hidden">Help modal for date</span>
-    </a>
-    <%= datetime_field_tag(name_to_param("#{name_prefix}date"), date['Date'], class: 'full-width validate mmt-date-time') %>
+    <%= mmt_datetime(
+      name: 'date',
+      title: 'Date',
+      prefix: name_prefix,
+      value: date['Date'],
+      help: 'definitions/DateType/properties/Date',
+      validate: true,
+      required: !always_required,
+      always_required: always_required,
+      classes: 'mmt-date-time'
+    ) %>
   </div>
 </div>

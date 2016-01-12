@@ -10,12 +10,14 @@
   <div class="accordion-body">
     <div class="row taller">
       <div class="col-12">
-        <label for="draft_metadata_language" class="main-field">Metadata Language</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/MetadataLanguage"></i>
-          <span class="is-hidden">Help modal for metadata language</span>
-        </a>
-        <%= select_tag 'draft[metadata_language]', options_for_select(@language_codes, draft.draft['MetadataLanguage']), class: 'half-width' %>
+        <%= mmt_select(
+          name: 'metadata_language',
+          title: 'Metadata Language',
+          prefix: 'draft_',
+          value: draft.draft['MetadataLanguage'],
+          options: @language_codes,
+          help: 'properties/MetadataLanguage'
+        ) %>
       </div>
     </div>
   </div>

@@ -1,43 +1,53 @@
 <div class="row sub-fields">
   <!-- DatumName -->
-  <label for="<%= remove_pipes(name_prefix) %>datum_name">Datum Name</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/DatumName"></i>
-    <span class="is-hidden">Help modal for datum name</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|datum_name|"), vertical_system_definition['DatumName'], class: 'half-width validate') %>
+  <%= mmt_text_field(
+    name: 'datum_name',
+    title: 'Datum Name',
+    prefix: name_prefix,
+    value: vertical_system_definition['DatumName'],
+    help: 'definitions/VerticalSystemDefinitionType/properties/DatumName',
+    validate: true
+   ) %>
 
 
   <!-- DistanceUnits -->
-  <label for="<%= remove_pipes(name_prefix) %>distance_units">Distance Units</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/DistanceUnits"></i>
-    <span class="is-hidden">Help modal for distance units</span>
-  </a>
-  <%= text_field_tag(name_to_param("#{name_prefix}|distance_units|"), vertical_system_definition['DistanceUnits'], class: 'half-width validate') %>
+  <%= mmt_text_field(
+    name: 'distance_units',
+    title: 'Distance Units',
+    prefix: name_prefix,
+    value: vertical_system_definition['DistanceUnits'],
+    help: 'definitions/VerticalSystemDefinitionType/properties/DistanceUnits',
+    validate: true
+   ) %>
 
 
   <!-- EncodingMethod -->
-  <label for="<%= remove_pipes(name_prefix) %>encoding_method">Encoding Method</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/EncodingMethod"></i>
-    <span class="is-hidden">Help modal for enoding method</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}|encoding_method|"), vertical_system_definition['EncodingMethod'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'encoding_method',
+    title: 'Encoding Method',
+    prefix: name_prefix,
+    value: vertical_system_definition['EncodingMethod'],
+    help: 'definitions/VerticalSystemDefinitionType/properties/EncodingMethod',
+    validate: true
+   ) %>
 
 
   <!-- Resolutions -->
   <% resolutions = vertical_system_definition['Resolutions'] || [nil] %>
   <div class="multiple simple-multiple resolutions">
-    <label for="<%= remove_pipes(name_prefix) %>resolutions_">Resolution</label>
-    <a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/VerticalSystemDefinitionType/properties/Resolutions"></i>
-      <span class="is-hidden">Help modal for resolution</span>
-    </a>
+    <%= label(
+      name: 'resolutions_',
+      title: 'Resolutions',
+      prefix: name_prefix
+    ) %>
+    <%= help_icon(
+      title: 'Resolutions',
+      help: 'definitions/VerticalSystemDefinitionType/properties/Resolutions'
+    ) %>
 
   <% resolutions.each_with_index do |resolution, index| %>
     <div class="multiple-item multiple-item-<%= index %>">
-      <%= text_field_tag(name_to_param("#{name_prefix}resolutions_#{index}"), resolution, class: 'half-width resolution simple-multiple-field validate mmt-number') %>
+      <%= text_field_tag(name_to_param("#{name_prefix}resolutions_#{index}"), resolution, class: 'half-width resolution simple-multiple-field validate mmt-number', data: { level: remove_pipes(name_prefix) }) %>
       <a class="remove">
         <i class="fa fa-times-circle"></i>
         <span class="is-hidden">Remove <%= index %></span>

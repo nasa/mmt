@@ -1,12 +1,23 @@
 <div class="row">
   <div class="col-6">
     <!-- ShortName -->
-    <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label>
-    <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), directory_name['ShortName'], class: 'full-width validate') %>
+    <%= mmt_text_field(
+      name: 'short_name',
+      title: 'Short Name',
+      prefix: name_prefix,
+      value: directory_name['ShortName'],
+      validate: true,
+      required: true
+     ) %>
   </div>
 </div>
 <div class="row">
   <!-- LongName -->
-  <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label>
-  <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), directory_name['LongName'], class: 'full-width validate') %>
+  <%= mmt_text_field(
+    name: 'long_name',
+    title: 'Long Name',
+    prefix: name_prefix,
+    value: directory_name['LongName'],
+    validate: true
+   ) %>
 </div>

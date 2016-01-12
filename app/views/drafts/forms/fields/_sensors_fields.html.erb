@@ -2,21 +2,26 @@
   <div class="row">
     <div class="col-6">
       <!-- Short Name [r] -->
-      <label for="<%= remove_pipes(name_prefix) %>short_name" class="icon-required">Short Name</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/ShortNameType"></i>
-        <span class="is-hidden">Help modal for short name</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|short_name|"), sensors['ShortName'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'short_name',
+        title: 'ShortName',
+        prefix: name_prefix,
+        value: sensors['ShortName'],
+        help: 'definitions/ShortNameType',
+        validate: true,
+        required: true
+       ) %>
     </div>
     <div class="col-6">
       <!-- Long Name -->
-      <label for="<%= remove_pipes(name_prefix) %>long_name">Long Name</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/LongNameType"></i>
-        <span class="is-hidden">Help modal for long name</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|long_name|"), sensors['LongName'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'long_name',
+        title: 'LongName',
+        prefix: name_prefix,
+        value: sensors['LongName'],
+        help: 'definitions/LongNameType',
+        validate: true
+       ) %>
     </div>
   </div>
 
@@ -35,10 +40,12 @@
 
 
   <!-- Technique -->
-  <label for="<%= remove_pipes(name_prefix) %>technique">Technique</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/SensorType/properties/Technique"></i>
-    <span class="is-hidden">Help modal for technique</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}technique"), sensors['Technique'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'technique',
+    title: 'Technique',
+    prefix: name_prefix,
+    value: sensors['Technique'],
+    help: 'definitions/SensorType/properties/Technique',
+    validate: true
+   ) %>
 </div>

@@ -1,58 +1,75 @@
 <div class="row sub-fields">
   <div class="row">
     <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>country">Country</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/Country"></i>
-        <span class="is-hidden">Help modal for country</span>
-      </a>
-      <%= select_tag name_to_param("#{name_prefix}country"), options_for_select(@country_codes, address['Country']), class: 'half-width country-select', prompt: 'Select Country' %>
+      <%= mmt_select(
+        name: 'country',
+        title: 'Country',
+        prefix: name_prefix,
+        value: address['Country'],
+        options: @country_codes,
+        help: 'definitions/AddressType/properties/Country',
+        required: false,
+        classes: 'country-select'
+      ) %>
     </div>
   </div>
 
   <% street_addresses = address['StreetAddresses'] || [nil, nil] # [nil] creates at least one Street Address field %>
   <div class="multiple addresses-street-addresses">
-    <label for="<%= remove_pipes(name_prefix) %>street_addresses_">Street Address</label
-    a href="#help-modal" class="display-modal" tabindex="-1">
-      <i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/StreetAddresses"></i>
-      <span class="is-hidden">Help modal for street address</span>
-    </a>
+    <%= label(
+      name: 'street_addresses_',
+      title: 'Street Address',
+      prefix: name_prefix
+    ) %>
+    <%= help_icon(
+      title: 'Street Address',
+      help: 'definitions/AddressType/properties/StreetAddresses'
+    ) %>
 
     <% street_addresses += Array.new(3) # always display two street address fields %>
     <% street_addresses[0..2].each_with_index do |street_address, index| %>
       <div class="multiple-item multiple-item-<%= index %>">
-        <%= text_field_tag(name_to_param("#{name_prefix}|street_addresses|_#{index}"), street_address, class: 'full-width street-address simple-multiple-field validate') %>
+        <%= text_field_tag(name_to_param("#{name_prefix}|street_addresses|_#{index}"), street_address, class: 'full-width street-address simple-multiple-field validate', data: { level: remove_pipes(name_prefix) }) %>
       </div>
     <% end %>
   </div>
   <div class="row">
     <div class="col-6">
-      <label for="<%= remove_pipes(name_prefix) %>city">City</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/City"></i>
-        <span class="is-hidden">Help modal for city</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}city"), address['City'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'city',
+        title: 'City',
+        prefix: name_prefix,
+        value: address['City'],
+        help: 'definitions/AddressType/properties/City',
+        validate: true
+       ) %>
     </div>
     <div class="col-3">
-      <label for="<%= remove_pipes(name_prefix) %>state_province">State / Province</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/StateProvince"></i>
-        <span class="is-hidden">Help modal for State / Province</span>
-      </a>
+      <%= label(
+        name: 'state_province',
+        title: 'State / Province',
+        prefix: name_prefix
+      ) %>
+      <%= help_icon(
+        title: 'State / Province',
+        help: 'definitions/AddressType/properties/StateProvince'
+      ) %>
+
       <% country = Carmen::Country.named(address['Country']) %>
 
       <% use_text_field = country.nil? || !country.subregions? ? true : false %>
-      <%= text_field_tag name_to_param("#{name_prefix}|state_province|"), address['StateProvince'], class: 'full-width validate state-province-text-field', disabled: !use_text_field, style: "#{'display: none;' if !use_text_field}" %>
-      <%= select_tag name_to_param("#{name_prefix}|state_province|"), options_for_subregion_select(country, address['StateProvince']), class: 'half-width state-province-select', disabled: use_text_field, style: "#{'display: none;' if use_text_field}" %>
+      <%= text_field_tag name_to_param("#{name_prefix}|state_province|"), address['StateProvince'], class: 'full-width validate state-province-text-field', disabled: !use_text_field, style: "#{'display: none;' if !use_text_field}", data: { level: remove_pipes(name_prefix) } %>
+      <%= select_tag name_to_param("#{name_prefix}|state_province|"), options_for_subregion_select(country, address['StateProvince']), class: 'half-width state-province-select', disabled: use_text_field, style: "#{'display: none;' if use_text_field}", data: { level: remove_pipes(name_prefix) } %>
     </div>
     <div class="col-3">
-      <label for="<%= remove_pipes(name_prefix) %>postal_code">Postal Code</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AddressType/properties/PostalCode"></i>
-        <span class="is-hidden">Help modal for postal code</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|postal_code|"), address['PostalCode'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'postal_code',
+        title: 'Postal Code',
+        prefix: name_prefix,
+        value: address['PostalCode'],
+        help: 'definitions/AddressType/properties/PostalCode',
+        validate: true
+       ) %>
     </div>
   </div>
 </div>

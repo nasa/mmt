@@ -15,7 +15,7 @@
             values: draft.draft['DataDates'] || [{}],
             name_prefix: 'draft_|data_dates|_',
             multiple: true,
-            options: {} } %>
+            options: { always_required: true } } %>
       </div>
     </div>
   </div>
@@ -30,15 +30,17 @@
     </a>
   </div>
   <div class="accordion-body">
-    <!-- Collection Data Type -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_collection_data_type">Collection Data Type</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/CollectionDataType"></i>
-          <span class="is-hidden">Help modal for collection data type</span>
-        </a>
-        <%= select_tag 'draft[collection_data_type]', options_for_select(DraftsHelper::CollectionDataTypeOptions, draft.draft['CollectionDataType']), class: 'half-width validate' %>
+        <!-- Collection Data Type -->
+        <%= mmt_select(
+          name: 'collection_data_type',
+          title: 'Collection Data Type',
+          prefix: 'draft_',
+          value: draft.draft['CollectionDataType'],
+          options: DraftsHelper::CollectionDataTypeOptions,
+          help: 'properties/CollectionDataType'
+        ) %>
       </div>
     </div>
   </div>
@@ -59,20 +61,25 @@
         <div class="processing-level-fields">
           <div class="col-6">
             <% processing_level = draft.draft['ProcessingLevel'] || {} %>
-            <label for="draft_processing_level_id" class="icon-required">ID</label>
-            <a href="#help-modal" class="display-modal" tabindex="-1">
-              <i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/Id"></i>
-              <span class="is-hidden">Help modal for ID</span>
-            </a>
-            <%= select_tag 'draft[processing_level][id]', options_for_select(DraftsHelper::ProcessingLevelIdOptions, processing_level['Id']), class: 'half-width' %>
+            <%= mmt_select(
+              name: 'id',
+              title: 'ID',
+              prefix: 'draft_|processing_level|_',
+              value: processing_level['Id'],
+              options: DraftsHelper::ProcessingLevelIdOptions,
+              help: 'definitions/ProcessingLevelType/properties/Id',
+              always_required: true
+            ) %>
           </div>
           <div class="col-6">
-            <label for="draft_processing_level_processing_level_description">Processing Level Description</label>
-            <a href="#help-modal" class="display-modal" tabindex="-1">
-              <i class="fa fa-info-circle" data-help-path="definitions/ProcessingLevelType/properties/ProcessingLevelDescription"></i>
-              <span class="is-hidden">Help modal for processing level description</span>
-            </a>
-            <%= text_field_tag('draft[processing_level][processing_level_description]', processing_level['ProcessingLevelDescription'], class: 'full-width validate') %>
+            <%= mmt_text_field(
+              name: 'processing_level_description',
+              title: 'Processing Level Description',
+              prefix: 'draft_|processing_level|_',
+              value: processing_level['ProcessingLevelDescription'],
+              help: 'definitions/ResourceCitationType/properties/ProcessingLevelDescription',
+              validate: true
+             ) %>
           </div>
         </div>
       </div>
@@ -92,12 +99,14 @@
     <!-- Collection Progress -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_collection_progress">Collection Progress</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/CollectionProgress"></i>
-          <span class="is-hidden">Help modal for collection progress</span>
-        </a>
-        <%= select_tag "draft[collection_progress]", options_for_select(DraftsHelper::CollectionProgressOptions, draft.draft['CollectionProgress']), class: 'half-width validate' %>
+        <%= mmt_select(
+          name: 'collection_progress',
+          title: 'Collection Progress',
+          prefix: 'draft_',
+          value: draft.draft['CollectionProgress'],
+          options: DraftsHelper::CollectionProgressOptions,
+          help: 'properties/CollectionProgress'
+        ) %>
       </div>
     </div>
   </div>
@@ -115,12 +124,14 @@
     <!-- Quality -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_quality">Quality</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/Quality"></i>
-          <span class="is-hidden">Help modal for quality</span>
-        </a>
-        <%= text_area_tag('draft[quality]', draft.draft['Quality'], rows: 8, class: 'validate') %>
+        <%= mmt_text_area(
+          name: 'quality',
+          title: 'Quality',
+          prefix: 'draft_',
+          value: draft.draft['Quality'],
+          help: 'properties/Quality',
+          validate: true
+         ) %>
       </div>
     </div>
   </div>
@@ -138,12 +149,14 @@
     <!-- Use Constraints -->
     <div class="row">
       <div class="col-12">
-        <label for="draft_use_constraints">Use Constraints</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/UseConstraints"></i>
-          <span class="is-hidden">Help modal for use constraints</span>
-        </a>
-        <%= text_area_tag('draft[use_constraints]', draft.draft['UseConstraints'], rows: 8, class: 'validate') %>
+        <%= mmt_text_area(
+          name: 'use_constraints',
+          title: 'Use Constraints',
+          prefix: 'draft_',
+          value: draft.draft['UseConstraints'],
+          help: 'properties/UseConstraints',
+          validate: true
+         ) %>
       </div>
     </div>
   </div>
@@ -165,16 +178,25 @@
           <% access_constraints = draft.draft['AccessConstraints'] || {} %>
 
           <!-- Value -->
-          <label for="draft_access_constraints_value">Value</label>
-          <a href="#help-modal" class="display-modal" tabindex="-1">
-            <i class="fa fa-info-circle" data-help-path="definitions/AccessConstraintsType/properties/Value"></i>
-            <span class="is-hidden">Help modal for value</span>
-          </a>
-          <%= text_field_tag(name_to_param("draft_|access_constraints|_value"), access_constraints['Value'], class: 'half-width validate mmt-number') %>
+          <%= mmt_text_field(
+            name: 'value',
+            title: 'Value',
+            prefix: 'draft_|access_constraints|_',
+            value: access_constraints['Value'],
+            help: 'definitions/ResourceCitationType/properties/Value',
+            validate: true,
+            classes: 'mmt-number'
+           ) %>
 
           <!-- Description -->
-          <label for="draft_access_constraints_description" class="icon-required">Description</label><a href="#help-modal" class="display-modal" tabindex="-1"><i class="fa fa-info-circle" data-help-path="definitions/AccessConstraintsType/properties/Description"></i></a>
-          <%= text_area_tag(name_to_param("draft_|access_constraints|_description"), access_constraints['Description'], rows: 8, class: 'validate') %>
+          <%= mmt_text_area(
+            name: 'description',
+            title: 'Description',
+            prefix: 'draft_|access_constraints|_',
+            value: access_constraints['Description'],
+            help: 'definitions/AccessConstraintsType/properties/Description',
+            validate: true
+           ) %>
         </div>
       </div>
     </div>

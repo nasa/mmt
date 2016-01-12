@@ -1,117 +1,149 @@
 <div class="row sub-fields">
   <!-- Name -->
-  <label for="<%= remove_pipes(name_prefix) %>name" class="icon-required">Name</label>
-  <%= text_field_tag(name_to_param("#{name_prefix}name"), additional_attribute['Name'], class: 'half-width validate') %>
+  <%= mmt_text_field(
+    name: 'name',
+    title: 'Name',
+    prefix: name_prefix,
+    value: additional_attribute['Name'],
+    validate: true,
+    require: true
+   ) %>
 
 
   <!-- Description -->
-  <label for="<%= remove_pipes(name_prefix) %>description">Description</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Description"></i>
-    <span class="is-hidden">Help modal for description</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}description"), additional_attribute['Description'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'description',
+    title: 'Description',
+    prefix: name_prefix,
+    value: additional_attribute['Description'],
+    help: 'definitions/AdditionalAttributeType/properties/Description',
+    validate: true
+   ) %>
 
 
   <!-- Value -->
-  <label for="<%= remove_pipes(name_prefix) %>value">Value</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Value"></i>
-    <span class="is-hidden">Help modal for value</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}value"), additional_attribute['Value'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'value',
+    title: 'Value',
+    prefix: name_prefix,
+    value: additional_attribute['Value'],
+    help: 'definitions/AdditionalAttributeType/properties/Value',
+    validate: true
+   ) %>
 
   <div class="row">
     <div class="col-6">
       <!-- DataType -->
-      <label for="<%= remove_pipes(name_prefix) %>data_type" class="icon-required">Data Type</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/DataType"></i>
-        <span class="is-hidden">Help modal for data type</span>
-      </a>
-      <%= select_tag name_to_param("#{name_prefix}|data_type|"), options_for_select(DraftsHelper::DataTypeOptions, additional_attribute['DataType']), class: 'additional-attribute-type-select single-select validate' %>
+        <%= mmt_select(
+          name: 'data_type',
+          title: 'Data Type',
+          prefix: name_prefix,
+          value: additional_attribute['DataType'],
+          options: DraftsHelper::DataTypeOptions,
+          help: 'definitions/AdditionalAttributeType/properties/DataType',
+          required: true,
+          classes: 'additional-attribute-type-select'
+        ) %>
     </div>
     <div class="col-6">
       <!-- MeasurementResolution -->
-      <label for="<%= remove_pipes(name_prefix) %>measurement_resolution">Measurement Resolution</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/MeasurementResolution"></i>
-        <span class="is-hidden">Help modal for measurement resolution</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|measurement_resolution|"), additional_attribute['MeasurementResolution'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'measurement_resolution',
+        title: 'Measurement Resolution',
+        prefix: name_prefix,
+        value: additional_attribute['MeasurementResolution'],
+        help: 'definitions/AdditionalAttributeType/properties/MeasurementResolution',
+        validate: true
+       ) %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-6">
       <!-- ParameterRangeBegin -->
-      <label for="<%= remove_pipes(name_prefix) %>parameter_range_begin">Parameter Range Begin</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterRangeBegin"></i>
-        <span class="is-hidden">Help modal for parameter range begin</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_begin|"), additional_attribute['ParameterRangeBegin'], class: 'full-width validate parameter-range-begin') %>
+      <%= mmt_text_field(
+        name: 'parameter_range_begin',
+        title: 'Parameter Range Begin',
+        prefix: name_prefix,
+        value: additional_attribute['ParameterRangeBegin'],
+        help: 'definitions/AdditionalAttributeType/properties/ParameterRangeBegin',
+        validate: true,
+        classes: 'parameter-range-begin'
+       ) %>
     </div>
     <div class="col-6">
       <!-- ParameterRangeEnd -->
-      <label for="<%= remove_pipes(name_prefix) %>parameter_range_end">Parameter Range End</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterRangeEnd"></i>
-        <span class="is-hidden">Help modal for parameter range end</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|parameter_range_end|"), additional_attribute['ParameterRangeEnd'], class: 'full-width validate parameter-range-end') %>
+      <%= mmt_text_field(
+        name: 'parameter_range_end',
+        title: 'Parameter Range End',
+        prefix: name_prefix,
+        value: additional_attribute['ParameterRangeEnd'],
+        help: 'definitions/AdditionalAttributeType/properties/ParameterRangeEnd',
+        validate: true,
+        classes: 'parameter-range-end'
+       ) %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-6">
       <!-- ParameterUnitsOfMeasure -->
-      <label for="<%= remove_pipes(name_prefix) %>parameter_units_of_measure">Parameter Units Of Measure</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterUnitsOfMeasure"></i>
-        <span class="is-hidden">Help modal for parameter units of measure</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|parameter_units_of_measure|"), additional_attribute['ParameterUnitsOfMeasure'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'parameter_units_of_measure',
+        title: 'Parameter Units Of Measure',
+        prefix: name_prefix,
+        value: additional_attribute['ParameterUnitsOfMeasure'],
+        help: 'definitions/AdditionalAttributeType/properties/ParameterUnitsOfMeasure',
+        validate: true
+       ) %>
     </div>
     <div class="col-6">
       <!-- ParameterValueAccuracy -->
-      <label for="<%= remove_pipes(name_prefix) %>parameter_value_accuracy">Parameter Value Accuracy</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ParameterValueAccuracy"></i>
-        <span class="is-hidden">Help modal for parameter value accuracy</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}|parameter_value_accuracy|"), additional_attribute['ParameterValueAccuracy'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'parameter_value_accuracy',
+        title: 'Parameter Value Accuracy',
+        prefix: name_prefix,
+        value: additional_attribute['ParameterValueAccuracy'],
+        help: 'definitions/AdditionalAttributeType/properties/ParameterValueAccuracy',
+        validate: true
+       ) %>
     </div>
   </div>
 
 
-
   <!-- ValueAccuracyExplanation -->
-  <label for="<%= remove_pipes(name_prefix) %>value_accuracy_explanation">Value Accuracy Explanation</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/ValueAccuracyExplanation"></i>
-    <span class="is-hidden">Help modal for value accuracy explanation</span>
-  </a>
-  <%= text_area_tag(name_to_param("#{name_prefix}|value_accuracy_explanation|"), additional_attribute['ValueAccuracyExplanation'], rows: 8, class: 'validate') %>
+  <%= mmt_text_area(
+    name: 'value_accuracy_explanation',
+    title: 'Value Accuracy Explanation',
+    prefix: name_prefix,
+    value: additional_attribute['ValueAccuracyExplanation'],
+    help: 'definitions/AdditionalAttributeType/properties/ValueAccuracyExplanation',
+    validate: true
+   ) %>
 
   <div class="row">
     <div class="col-6">
       <!-- Group -->
-      <label for="<%= remove_pipes(name_prefix) %>group">Group</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/Group"></i>
-        <span class="is-hidden">Help modal for group</span>
-      </a>
-      <%= text_field_tag(name_to_param("#{name_prefix}group"), additional_attribute['Group'], class: 'full-width validate') %>
+      <%= mmt_text_field(
+        name: 'group',
+        title: 'Group',
+        prefix: name_prefix,
+        value: additional_attribute['Group'],
+        help: 'definitions/AdditionalAttributeType/properties/Group',
+        validate: true
+       ) %>
     </div>
     <div class="col-6">
       <!-- UpdateDate -->
-      <label for="<%= remove_pipes(name_prefix) %>update_date">Update Date</label>
-      <a href="#help-modal" class="display-modal" tabindex="-1">
-        <i class="fa fa-info-circle" data-help-path="definitions/AdditionalAttributeType/properties/UpdateDate"></i>
-        <span class="is-hidden">Help modal for update date</span>
-      </a>
-      <%= datetime_field_tag(name_to_param("#{name_prefix}|update_date|"), additional_attribute['UpdateDate'], class: 'full-width validate mmt-date-time') %>
+      <%= mmt_datetime(
+        name: 'update_date',
+        title: 'Update Date',
+        prefix: name_prefix,
+        value: additional_attribute['UpdateDate'],
+        help: 'definitions/AdditionalAttributeType/properties/UpdateDate',
+        validate: true,
+        classes: 'mmt-date-time'
+      ) %>
     </div>
   </div>
 </div>
