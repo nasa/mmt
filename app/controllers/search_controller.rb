@@ -52,9 +52,7 @@ class SearchController < ApplicationController
 
     collections, @errors, hits = get_search_results(good_query_params)
 
-
     @collections = Kaminari.paginate_array(collections, total_count: hits).page(page).per(results_per_page)
-    # fail
   end
 
   private
