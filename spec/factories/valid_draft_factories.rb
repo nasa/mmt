@@ -650,14 +650,6 @@ FactoryGirl.define do
           }]
         }
       },
-      'VerticalSpatialDomains' => [{
-        'Type' => 'test Type 1', 'Value' => 'test Value 1'
-      }, {
-        'Type' => 'test Type 2', 'Value' => 'test Value 2'
-      }],
-      'OrbitParameters' => {
-        'SwathWidth' => 40, 'Period' => 50, 'InclinationAngle' => 60, 'NumberOfOrbits' => 70, 'StartCircularLatitude' => 0.0
-      },
       'GranuleSpatialRepresentation' => 'CARTESIAN'
     },
     'TilingIdentificationSystems' => [{
