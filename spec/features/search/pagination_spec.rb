@@ -59,7 +59,7 @@ describe 'Search Result Pagination', js: true do
       end
 
       it 'does not display the previous page link' do
-        expect(page).to_not have_css('a', text: 'Previous')
+        expect(page).to have_no_css('a', text: 'Previous')
       end
     end
 
@@ -74,7 +74,7 @@ describe 'Search Result Pagination', js: true do
       end
 
       it 'does not display the next page link' do
-        expect(page).to_not have_css('a', text: 'Next')
+        expect(page).to have_no_css('a', text: 'Next')
       end
     end
 
