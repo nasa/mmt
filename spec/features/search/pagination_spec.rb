@@ -57,6 +57,10 @@ describe 'Search Result Pagination', js: true do
       it 'displays the first page' do
         expect(page).to have_css('.active-page', text: '1')
       end
+
+      it 'does not display the previous page link' do
+        expect(page).to_not have_css('a', text: 'Previous')
+      end
     end
 
     context 'when clicking on the last page link' do
@@ -67,6 +71,10 @@ describe 'Search Result Pagination', js: true do
 
       it 'displays the last page' do
         expect(page).to have_css('.active-page', text: '3')
+      end
+
+      it 'does not display the next page link' do
+        expect(page).to_not have_css('a', text: 'Next')
       end
     end
 
