@@ -101,10 +101,6 @@ module PreviewCirclesHelper
         required: true,
         anchor: 'science-keywords'
       },
-      'ISOTopicCategories' => {
-        required: false,
-        anchor: 'iso-topic-categories'
-      },
       'AncillaryKeywords' => {
         required: false,
         anchor: 'ancillary-keywords'
@@ -143,7 +139,7 @@ module PreviewCirclesHelper
         required: true,
         anchor: 'spatial-extent'
       },
-      'TilingIdentificationSystems' => {
+      'TilingIdentificationSystem' => {
         required: false,
         anchor: 'tiling-identification-system'
       },
