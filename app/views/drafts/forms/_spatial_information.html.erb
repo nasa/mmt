@@ -21,13 +21,13 @@
   </div>
 </fieldset>
 
-<!-- Tiling Identification Systems -->
+<!-- Tiling Identification System -->
 <fieldset class="accordion is-closed" id="tiling-identification-system">
   <div class="accordion-header">
-    <h3>Tiling Identification Systems</h3>
+    <h3>Tiling Identification System</h3>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Tiling Identification Systems</span>
+      <span class="is-hidden">Toggle Tiling Identification System</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -35,9 +35,9 @@
       <div class="col-12">
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'tiling_identification_system',
-            values: draft.draft['TilingIdentificationSystems'] || [{}],
-            name_prefix: 'draft_|tiling_identification_systems|_',
-            multiple: true,
+            values: draft.draft['TilingIdentificationSystem'] || {},
+            name_prefix: 'draft_|tiling_identification_system|_',
+            multiple: false,
             options: {} } %>
       </div>
     </div>

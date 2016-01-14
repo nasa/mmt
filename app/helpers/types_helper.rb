@@ -284,7 +284,7 @@ module TypesHelper
     { name: 'SingleDateTimes', options: [:array_field] },
     { name: 'PeriodicDateTimes', options: [:sub_type] }
   ]
-  TilingIdentificationSystemsType = [
+  TilingIdentificationSystemType = [
     { name: 'TilingIdentificationSystemName' },
     { name: 'Coordinate1', options: [:sub_type]  },
     { name: 'Coordinate2', options: [:sub_type]  }
