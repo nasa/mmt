@@ -660,7 +660,7 @@ FactoryGirl.define do
       },
       'GranuleSpatialRepresentation' => 'CARTESIAN'
     },
-    'TilingIdentificationSystems' => [{
+    'TilingIdentificationSystem' => {
       'TilingIdentificationSystemName' => 'System name',
       'Coordinate1' => {
         'MinimumValue' => -50, 'MaximumValue' => 50
@@ -668,15 +668,7 @@ FactoryGirl.define do
       'Coordinate2' => {
         'MinimumValue' => -30, 'MaximumValue' => 30
       }
-    }, {
-      'TilingIdentificationSystemName' => 'System name 1',
-      'Coordinate1' => {
-        'MinimumValue' => -25, 'MaximumValue' => 25
-      },
-      'Coordinate2' => {
-        'MinimumValue' => -15, 'MaximumValue' => 15
-      }
-    }],
+    },
     'SpatialInformation' => {
       'SpatialCoverageType' => 'BOTH',
       'HorizontalCoordinateSystem' => {
