@@ -6,12 +6,32 @@ describe 'Progress circles', js: true do
   context 'when viewing the preview page of an empty draft' do
     before do
       login
-      draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
+      create_new_draft
     end
 
     it 'displays all circles as empty' do
       expect(page).to have_no_css('.fa.fa-circle')
+      expect(page).to have_no_css('.ed-icon.ed-check.icon-green')
+      expect(page).to have_no_css('.ed-icon.ed-required.icon-green')
+    end
+
+    context 'when viewing a form and clicking Cancel' do
+      before do
+        within '.metadata' do
+          click_on 'Collection Information'
+        end
+
+        within '.nav-top' do
+          find('a.cancel').trigger('click')
+          sleep 0.1
+        end
+      end
+
+      it 'displays all circles as empty' do
+        expect(page).to have_no_css('.fa.fa-circle')
+        expect(page).to have_no_css('.ed-icon.ed-check.icon-green')
+        expect(page).to have_no_css('.ed-icon.ed-required.icon-green')
+      end
     end
 
     context 'when completing a required field' do
