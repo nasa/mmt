@@ -14,6 +14,10 @@
   </div>
 
   <div class="col-1">
-    <%= link_to 'Cancel', draft_path(draft), class: 'cancel' %>
+    <% if draft.new_record? %>
+      <%= link_to 'Cancel', new_draft_path, class: 'cancel' %>
+    <% else %>
+      <%= link_to 'Cancel', draft_path(draft), class: 'cancel' %>
+    <% end %>
   </div>
 </div>
