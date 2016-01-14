@@ -46,7 +46,7 @@ class CollectionsController < ApplicationController
     else
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
 
-      @error = true
+      @errors = generate_ingest_errors(ingested.body['errors'])
 
       flash[:error] = 'Revision was not successfully created'
       render action: 'revisions'

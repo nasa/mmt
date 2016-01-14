@@ -181,4 +181,111 @@ class ApplicationController < ActionController::Base
   URI_REGEX = %r{^(?:[A-Za-z][A-Za-z0-9+\-.]*:(?:\/\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\.[A-Za-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\?(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?(?:\#(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?|(?:\/\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\.[A-Za-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\-._~!$&'()*+,;=@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\?(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?(?:\#(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?)$}
 
   DATE_TIME_REGEX = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{2,3}([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/
+
+  def generate_ingest_errors(errors)
+    if errors.size > 0
+      ingest_errors = errors.map do |error|
+        path = error['path'].nil? ? nil : error['path'].first
+        error = error['errors'].nil? ? error : error['errors'].first
+        {
+          field: path,
+          top_field: path,
+          page: get_page(path),
+          error: error
+        }
+      end
+    else
+      ingest_errors = [{
+        page: nil,
+        field: nil,
+        error: 'An unknown error caused publishing to fail.'
+      }]
+    end
+
+    ingest_errors
+  end
+
+  ACQUISITION_INFORMATION_FIELDS = %w(
+    Platforms
+    Projects
+  )
+  COLLECTION_INFORMATION_FIELDS = %w(
+    ShortName
+    Version
+    EntryTitle
+    Abstract
+    Purpose
+    DataLanguage
+  )
+  COLLECTION_CITATIONS_FIELDS = %w(
+    CollectionCitations
+  )
+  DATA_IDENTIFICATION_FIELDS = %w(
+    DataDates
+    CollectionDataType
+    ProcessingLevel
+    CollectionProgress
+    Quality
+    UseConstraints
+    AccessConstraints
+    MetadataAssociations
+    PublicationReferences
+  )
+  DESCRIPTIVE_KEYWORDS_FIELDS = %w(
+    ISOTopicCategories
+    ScienceKeywords
+    AncillaryKeywords
+    AdditionalAttributes
+  )
+  DISTRIBUTION_INFORMATION_FIELDS = %w(
+    RelatedUrls
+    Distributions
+  )
+  METADATA_INFORMATION_FIELDS = %w(
+    MetadataLanguage
+    MetadataDates
+  )
+  ORGANIZATIONS_FIELDS = %w(
+    Organizations
+  )
+  PERSONNEL_FIELDS = %w(
+    Personnel
+  )
+  SPATIAL_INFORMATION_FIELDS = %w(
+    SpatialExtent
+    TilingIdentificationSystem
+    SpatialInformation
+    SpatialKeywords
+  )
+  TEMPORAL_INFORMATION_FIELDS = %w(
+    TemporalExtents
+    TemporalKeywords
+    PaleoTemporalCoverage
+  )
+
+  def get_page(field_name)
+    if ACQUISITION_INFORMATION_FIELDS.include? field_name
+      'acquisition_information'
+    elsif COLLECTION_INFORMATION_FIELDS.include? field_name
+      'collection_information'
+    elsif COLLECTION_CITATIONS_FIELDS.include? field_name
+      'resource_citations'
+    elsif DATA_IDENTIFICATION_FIELDS.include? field_name
+      'data_identification'
+    elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? field_name
+      'descriptive_keywords'
+    elsif DISTRIBUTION_INFORMATION_FIELDS.include? field_name
+      'distribution_information'
+    elsif METADATA_INFORMATION_FIELDS.include? field_name
+      'metadata_information'
+    elsif ORGANIZATIONS_FIELDS.include? field_name
+      'organizations'
+    elsif PERSONNEL_FIELDS.include? field_name
+      'personnel'
+    elsif SPATIAL_INFORMATION_FIELDS.include? field_name
+      'spatial_information'
+    elsif TEMPORAL_INFORMATION_FIELDS.include? field_name
+      'temporal_information'
+    end
+  end
 end

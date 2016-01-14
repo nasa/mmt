@@ -42,6 +42,25 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
         expect(page).to have_content('Revert to this Revision', count: 2)
       end
     end
+
+    context 'when reverting the collection fails ingestion into CMR' do
+      before do
+        # Do something to the revision so it fails
+        # Add a new field to the metadata, similar to a field name changing
+        # and old metadata still having the old field name
+        new_metadata = build(:full_draft).draft
+        new_metadata['BadField'] = 'Not going to work'
+
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_concept).and_return(new_metadata)
+
+        click_on 'Revert to this Revision'
+        click_on 'Yes'
+      end
+
+      it 'displays an error message' do
+        expect(page).to have_content('object instance has properties which are not allowed by the schema: ["BadField"]')
+      end
+    end
   end
 
   context 'when the latest revision is a deleted collection' do
