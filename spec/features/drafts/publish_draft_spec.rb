@@ -50,7 +50,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
 
     context 'when searching for the published record' do
       before do
-        fill_in 'short_name', with: '12345'
+        fill_in 'Quick Find', with: '12345'
         click_on 'Find'
       end
 

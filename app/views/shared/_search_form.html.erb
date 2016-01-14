@@ -1,12 +1,12 @@
 <%= form_tag(search_path, method: "get", enforce_utf8: false, id: 'search-form', role: 'search') do %>
   <input type="hidden" name="search_type" id="search_type" value="">
   <div class="quick-search">
-    <%= label_tag('short_name', "Quick Find") %>
-    <%= text_field_tag('short_name', @query['short_name'], placeholder: 'Enter Short Name') %>
-    <button type="button" name="quick_find" class="btn btn-blue"><i class="fa fa-search"></i>Find</button>
+    <%= label_tag('keyword', "Quick Find") %>
+    <%= text_field_tag('keyword', @query['keyword'], placeholder: 'Enter Search Term') %>
+    <button type="button" name="quick_find" class="btn btn-blue"><i class="ed-icon ed-fa-search"></i>Find</button>
   </div>
 
-  <a href="#" class="full-search"><i class="fa fa-search"></i>Full Metadata Record Search</a>
+  <a href="#" class="full-search"><i class="ed-icon ed-fa-search"></i>Full Metadata Record Search</a>
 
   <div class="search-module is-hidden">
       <!-- Type of Record -->

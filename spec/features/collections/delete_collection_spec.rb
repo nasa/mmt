@@ -56,7 +56,7 @@ describe 'Delete collection', js: true, reset_provider: true do
     before do
       short_name = 'ACR3L2DM'
 
-      fill_in 'short_name', with: short_name
+      fill_in 'Quick Find', with: short_name
       click_on 'Find'
 
       click_on short_name

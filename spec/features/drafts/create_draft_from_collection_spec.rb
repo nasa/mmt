@@ -9,7 +9,7 @@ describe 'Create new draft from collection', js: true do
   context 'when editing a CMR collection' do
     before do
       login
-      fill_in 'short_name', with: short_name
+      fill_in 'Quick Find', with: short_name
       click_on 'Find'
 
       click_on short_name
