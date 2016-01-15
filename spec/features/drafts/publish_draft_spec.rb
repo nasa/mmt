@@ -75,4 +75,34 @@ describe 'Publishing draft records', js: true, reset_provider: true do
       expect(page).to have_content(message)
     end
   end
+
+  context 'when publishing a draft that passes schema validation but CMR rejects with errors' do
+    before do
+      login
+      draft = create(:full_draft)
+      visit draft_path(draft)
+
+      # Cause some errors that CMR will reject
+      within '.metadata' do
+        click_on 'Spatial Information'
+      end
+      open_accordions
+
+      select 'Orbit', from: 'Granule Spatial Representation'
+
+      within '.nav-top' do
+        click_on 'Save & Done'
+      end
+
+      click_on 'Publish'
+    end
+
+    it 'does not publish the draft' do
+      expect(page).to have_content('Draft was not published successfully')
+    end
+
+    it 'displays the error received from CMR' do
+      expect(page).to have_content('SpatialCoverage, Orbit Parameters must be defined for a collection whose granule spatial representation is ORBIT.')
+    end
+  end
 end

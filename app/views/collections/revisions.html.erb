@@ -14,6 +14,22 @@
 
   <%= render 'shared/flash_messages' %>
 
+  <% if @errors && !@errors.empty? %>
+    <section class="errors">
+      <div class="banner banner-danger">
+        <!-- <i class="fa fa-exclamation-triangle"></i> This revision could not be reverted successfully: -->
+        <ul class="no-bullet">
+          <% @errors.each do |error| %>
+            <li>
+              <%= "#{error[:field]}, " if error[:field] %>
+              <%= error[:error] %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </section>
+  <% end %>
+
   <div class="row row-content">
     <section class="heading-group">
       <h3>Revision History</h3>

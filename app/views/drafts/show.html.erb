@@ -55,7 +55,27 @@
 
     </section>
 
-    <%= render partial: 'drafts/progress/preview_progress', locals: { draft: @draft, metadata_errors: @errors } %>
+    <% if @ingest_errors && !@ingest_errors.empty? %>
+      <section class="errors">
+        <div class="banner banner-danger">
+          <i class="fa fa-exclamation-triangle"></i> This draft has the following errors:
+          <ul class="no-bullet">
+            <% @ingest_errors.each do |error| %>
+              <li>
+                <% if error[:field] && error[:page] %>
+                  <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) %>
+                <% else %>
+                  <%= error[:field] %>,
+                <% end %>
+                <%= error[:error] %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </section>
+    <% end %>
+
+    <%= render partial: 'drafts/progress/preview_progress', locals: { draft: @draft, metadata_errors: @errors || @ingest_errors } %>
 
     <%= render partial: 'shared/preview/metadata_preview', locals: { metadata: @draft.draft } %>
 
