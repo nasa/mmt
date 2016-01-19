@@ -18,7 +18,7 @@
     <label for="<%= remove_pipes(name_prefix) %>local">Local Coordinate System</label>
   </div>
 
-  <div class="geographic-coordinate-system-fields" style="<%= 'display: none;' if local_checked %>">
+  <div class="geographic-coordinate-system-fields" style="<%= 'display: none;' unless geographic_checked %>">
     <!-- GeographicCoordinateSystem -->
     <label>Geographic Coordinate System</label>
     <%= render partial: 'drafts/forms/type', locals: {
@@ -29,7 +29,7 @@
         options: {} } %>
   </div>
 
-  <div class="local-coordinate-system-fields" style="<%= 'display: none;' if geographic_checked %>">
+  <div class="local-coordinate-system-fields" style="<%= 'display: none;' unless local_checked %>">
   <!-- LocalCoordinateSystem -->
     <label>Local Coordinate System</label>
     <%= render partial: 'drafts/forms/type', locals: {
