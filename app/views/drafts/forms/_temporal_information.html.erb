@@ -35,12 +35,16 @@
   <div class="accordion-body">
     <div class="row">
       <div class="col-12">
-        <label for="draft_temporal_keywords_">Temporal Keywords</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/TemporalKeywords"></i>
-          <span class="is-hidden">Help modal for temporal keywords</span>
-        </a>
-        <%= select_tag "#{name_to_param('draft_|temporal_keywords|')}[]", options_for_select(@temporal_keywords, draft.draft['TemporalKeywords']), class: 'multi-select', size: 4, multiple: 'true', data: { level: 'draft_' } %>
+        <%= mmt_select(
+          name: 'temporal_keywords',
+          title: 'Temporal Keywords',
+          prefix: 'draft_',
+          value: draft.draft['TemporalKeywords'],
+          options: @temporal_keywords,
+          help: 'properties/TemporalKeywords',
+          multiple: true,
+          classes: 'multi-select'
+        ) %>
       </div>
     </div>
   </div>
