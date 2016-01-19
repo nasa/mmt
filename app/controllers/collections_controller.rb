@@ -14,7 +14,7 @@ class CollectionsController < ApplicationController
   def clone
     draft = Draft.create_from_collection(@collection, @current_user, nil)
 
-    flash[:notice] = view_context.link_to 'Records must have a unique Short Name. Click here to enter a new Short Name.', draft_edit_form_path(draft, 'data_identification', anchor: 'collection-information')
+    flash[:notice] = view_context.link_to 'Records must have a unique Short Name. Click here to enter a new Short Name.', draft_edit_form_path(draft, 'collection_information', anchor: 'collection-information')
 
     redirect_to draft_path(draft)
   end

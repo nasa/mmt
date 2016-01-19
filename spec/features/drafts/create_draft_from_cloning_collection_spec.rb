@@ -39,14 +39,24 @@ describe 'Create new draft from cloning a collection', js: true do
       end
     end
 
-    it 'removes Entry Id from the metadata' do
+    it 'removes Short Name from the metadata' do
       within '.collection-information-preview' do
-        expect(page).to have_no_content('Entry Id')
+        expect(page).to have_no_content('Short Name')
       end
     end
 
-    it 'displays a message that the draft needs a unique Entry Id' do
+    it 'displays a message that the draft needs a unique Short Name' do
       expect(page).to have_link('Records must have a unique Short Name. Click here to enter a new Short Name.')
+    end
+
+    context 'when clicking the message' do
+      before do
+        click_on 'Click here to enter a new Short Name.'
+      end
+
+      it 'displays the empty short name field' do
+        expect(page).to have_field('Short Name', with: '')
+      end
     end
   end
 
