@@ -42,7 +42,7 @@ $(document).ready ->
 
       # Increment index on first accordion header, set all others to 1
       # FIXME This is now changing the index of the Toggle link
-      $.each $(newDiv).find('.accordion-header'), (index, field) ->
+      $.each $(newDiv).find('.accordion-header .header-title'), (index, field) ->
         headerHtml = $(field).html()
         headerIndex = headerHtml.match(/\d+/)
         if headerIndex != undefined
