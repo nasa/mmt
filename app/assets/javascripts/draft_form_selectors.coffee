@@ -78,24 +78,29 @@ $(document).ready ->
 
   # Handle SpatialCoverageType selector
   $('.spatial-coverage-type-select').change ->
-    $(this).parent().siblings('.spatial-coverage-type').hide()
+    $parent = $(this).parent()
+
+    $parent.siblings('.spatial-coverage-type').hide()
 
     # Clear all fields
-    $(this).parent().siblings('.spatial-coverage-type').find('input, select').not('input[type="radio"]').val ''
+    $parent.siblings('.spatial-coverage-type').find('input, select').not('input[type="radio"]').val ''
 
     # Clear radio buttons
-    $(this).parent().siblings('.spatial-coverage-type').find('input[type="radio"]').prop 'checked', false
+    $parent.siblings('.spatial-coverage-type').find('input[type="radio"]').prop 'checked', false
+
+    # Hide geographic-coordinate-system-fields
+    $parent.siblings().find('.geographic-coordinate-system-fields').hide()
 
     switch $(this).val()
       when 'HORIZONTAL'
-        $(this).parent().siblings('.spatial-coverage-type.horizontal').show()
+        $parent.siblings('.spatial-coverage-type.horizontal').show()
       when 'VERTICAL'
-        $(this).parent().siblings('.spatial-coverage-type.vertical').show()
+        $parent.siblings('.spatial-coverage-type.vertical').show()
       when 'ORBITAL'
-        $(this).parent().siblings('.spatial-coverage-type.orbit').show()
+        $parent.siblings('.spatial-coverage-type.orbit').show()
       when 'BOTH'
-        $(this).parent().siblings('.spatial-coverage-type.horizontal').show()
-        $(this).parent().siblings('.spatial-coverage-type.vertical').show()
+        $parent.siblings('.spatial-coverage-type.horizontal').show()
+        $parent.siblings('.spatial-coverage-type.vertical').show()
 
   # Handle global spatial checkbox
   $('.spatial-coverage-type.horizontal').on 'click', 'a.global-coverage', ->
