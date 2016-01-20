@@ -24,7 +24,7 @@ describe 'Add another button behavior', js: true do
 
     context 'when clicking the add another button' do
       before do
-        click_on 'Add another Distribution'
+        find('button', text: 'Add another Distribution').trigger('click')
       end
 
       it 'increments the header index' do
@@ -37,7 +37,7 @@ describe 'Add another button behavior', js: true do
 
       context 'when clicking the add another button again' do
         before do
-          click_on 'Add another Distribution'
+          find('button', text: 'Add another Distribution').trigger('click')
         end
 
         it 'increments the header index again' do
