@@ -40,11 +40,25 @@ module FormHelper
     classes = ["half-width #{remove_pipes(options[:name])}-select"]
     classes << options[:classes]
 
+    # default values when not multi-select
+    is_multi_select = false
+    prompt = "Select #{options[:title]}"
+    size = nil
+
+    is_multi_select = true if options[:multiple]
+
+    if is_multi_select
+      prompt = nil
+      size = 4
+    end
+
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
       options_for_select(options[:options], options[:value]),
+      multiple: is_multi_select,
+      size: size,
       class: classes,
-      prompt: "Select #{options[:title]}",
+      prompt: prompt,
       data: { level: remove_pipes(options[:prefix]) }
     )
 
