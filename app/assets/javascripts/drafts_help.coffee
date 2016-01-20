@@ -5,7 +5,7 @@ $(document).ready ->
     # properties/EntryId
     # definitions/ProcessingLevelType/properties/ProcessingLevelDescription
     helpPath = $(element.target).data('helpPath').split('/')
-    title = fixTitle(helpPath[..].pop())
+    title = fixTitle(helpPath[helpPath.length - 1])
     minItems = getMinItems(helpPath)
     minLength = getMinLength(helpPath)
     maxLength = getMaxLength(helpPath)
@@ -30,10 +30,14 @@ $(document).ready ->
       $(validations).parent().hide()
 
   fixTitle = (title) ->
-    newTitle = switch title
-      when 'URLs' then 'URLs'
-      when 'StateProvince' then 'State / Province'
-      else title.replace( /([A-Z])/g, " $1" )
+    typeInTitle = ['Type', 'CollectionDataType', 'DataType', 'MimeType'
+      'SpatialCoverageType', 'TemporalRangeType']
+      
+    newTitle = switch
+      when title == 'URLs' then 'URLs'
+      when title == 'StateProvince' then 'State / Province'
+      when title in typeInTitle then title.replace( /([A-Z])/g, " $1" )
+      else title.replace( /Type$/, '' ).replace( /([A-Z])/g, " $1" )
 
     newTitle
 
