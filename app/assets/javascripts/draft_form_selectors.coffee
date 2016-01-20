@@ -88,8 +88,9 @@ $(document).ready ->
     # Clear radio buttons
     $parent.siblings('.spatial-coverage-type').find('input[type="radio"]').prop 'checked', false
 
-    # Hide geographic-coordinate-system-fields
+    # Hide geographic and local coordinate system fields
     $parent.siblings().find('.geographic-coordinate-system-fields').hide()
+    $parent.siblings().find('.local-coordinate-system-fields').hide()
 
     switch $(this).val()
       when 'HORIZONTAL'
