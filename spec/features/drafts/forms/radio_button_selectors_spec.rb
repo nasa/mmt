@@ -19,7 +19,9 @@ describe 'Radio button form selectors', js: true do
 
       open_accordions
 
-      choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+      within '#spatial-extent' do
+        choose 'Horizontal'
+      end
     end
 
     it 'does not show any geometry fields' do
@@ -31,8 +33,7 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting points' do
       before do
-        script = '$(".geometry-picker.points").click();'
-        page.execute_script script
+        choose 'Points'
       end
 
       it 'displays the points fields' do
@@ -48,8 +49,7 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting bounding rectangles' do
       before do
-        script = '$(".geometry-picker.bounding-rectangles").click();'
-        page.execute_script script
+        choose 'Bounding Rectangles'
       end
 
       it 'displays the bounding rectangles fields' do
@@ -65,8 +65,7 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting g polygons' do
       before do
-        script = '$(".geometry-picker.g-polygons").click();'
-        page.execute_script script
+        choose 'G Polygons'
       end
 
       it 'displays the g polygons fields' do
@@ -82,8 +81,7 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting lines' do
       before do
-        script = '$(".geometry-picker.lines").click();'
-        page.execute_script script
+        choose 'Lines'
       end
 
       it 'displays the lines fields' do
@@ -100,12 +98,8 @@ describe 'Radio button form selectors', js: true do
     context 'when switching between options after filling in form data' do
       before do
         add_points
-
-        script = '$(".geometry-picker.lines").click();'
-        page.execute_script script
-
-        script = '$(".geometry-picker.points").click();'
-        page.execute_script script
+        choose 'Lines'
+        choose 'Points'
       end
 
       it 'clears the form data' do
@@ -131,7 +125,9 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting horizontal spatial coverage' do
       before do
-        choose 'draft_spatial_information_spatial_coverage_type_HORIZONTAL'
+        within '#spatial-representation-information' do
+          choose 'Horizontal'
+        end
       end
 
       it 'displays the horizontal coordinate system fields' do
@@ -145,7 +141,9 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting vertical spatial coverage' do
       before do
-        choose 'draft_spatial_information_spatial_coverage_type_VERTICAL'
+        within '#spatial-representation-information' do
+          choose 'Vertical'
+        end
       end
 
       it 'displays the vertical coordinate system fields' do
@@ -159,7 +157,9 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting both spatial coverage' do
       before do
-        choose 'draft_spatial_information_spatial_coverage_type_BOTH'
+        within '#spatial-representation-information' do
+          choose 'Both'
+        end
       end
 
       it 'displays the horizontal and vertical coordinate system fields' do
@@ -170,20 +170,21 @@ describe 'Radio button form selectors', js: true do
 
     context 'when switching between options after filling in form data' do
       before do
-        choose 'draft_spatial_information_spatial_coverage_type_HORIZONTAL'
-        fill_in 'Horizontal Datum Name', with: 'Datum name'
-        fill_in 'Ellipsoid Name', with: 'Ellipsoid name'
-        fill_in 'Semi Major Axis', with: '3.0'
-        fill_in 'Denominator Of Flattening Ratio', with: '4.0'
+        within '#spatial-representation-information' do
+          choose 'Horizontal'
+          fill_in 'Horizontal Datum Name', with: 'Datum name'
+          fill_in 'Ellipsoid Name', with: 'Ellipsoid name'
+          fill_in 'Semi Major Axis', with: '3.0'
+          fill_in 'Denominator Of Flattening Ratio', with: '4.0'
 
-        find('.coordinate-system-picker.geographic').click
-        fill_in 'Geographic Coordinate Units', with: 'Coordinate units'
-        fill_in 'Latitude Resolution', with: '42.0'
-        fill_in 'Longitude Resolution', with: '43.0'
+          choose 'Geographic'
+          fill_in 'Geographic Coordinate Units', with: 'Coordinate units'
+          fill_in 'Latitude Resolution', with: '42.0'
+          fill_in 'Longitude Resolution', with: '43.0'
 
-        choose 'draft_spatial_information_spatial_coverage_type_VERTICAL'
-
-        choose 'draft_spatial_information_spatial_coverage_type_HORIZONTAL'
+          choose 'Vertical'
+          choose 'Horizontal'
+        end
       end
 
       it 'clears the form data' do
@@ -210,7 +211,9 @@ describe 'Radio button form selectors', js: true do
 
       open_accordions
 
-      choose 'draft_spatial_information_spatial_coverage_type_HORIZONTAL'
+      within '#spatial-representation-information' do
+        choose 'Horizontal'
+      end
     end
 
     it 'does not show any coordinate system fields' do
@@ -220,7 +223,7 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting geographic coordinate system' do
       before do
-        find('.coordinate-system-picker.geographic').click
+        choose 'Geographic'
       end
 
       it 'displays the geographic coordinate system fields' do
@@ -234,7 +237,7 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting local coordinate system' do
       before do
-        find('.coordinate-system-picker.local').click
+        choose 'Local'
       end
 
       it 'displays the local coordinate system fields' do
@@ -248,14 +251,13 @@ describe 'Radio button form selectors', js: true do
 
     context 'when switching between options after filling in form data' do
       before do
-        find('.coordinate-system-picker.geographic').click
+        choose 'Geographic'
         fill_in 'Geographic Coordinate Units', with: 'Coordinate units'
         fill_in 'Latitude Resolution', with: '42.0'
         fill_in 'Longitude Resolution', with: '43.0'
 
-        find('.coordinate-system-picker.local').click
-
-        find('.coordinate-system-picker.geographic').click
+        choose 'Local'
+        choose 'Geographic'
       end
 
       it 'clears the form data' do
@@ -283,7 +285,7 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting single date time' do
       before do
-        choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
+        choose 'Single'
       end
 
       it 'displays the single date time fields' do
@@ -298,7 +300,7 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting range date time' do
       before do
-        choose 'draft_temporal_extents_0_temporal_range_type_RangeDateTime'
+        choose 'Range'
       end
 
       it 'displays the range date time fields' do
@@ -313,7 +315,7 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting periodic date time' do
       before do
-        choose 'draft_temporal_extents_0_temporal_range_type_PeriodicDateTime'
+        choose 'Periodic'
       end
 
       it 'displays the periodic date time fields' do
@@ -328,13 +330,12 @@ describe 'Radio button form selectors', js: true do
 
     context 'when switching between options after filling in form data' do
       before do
-        choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
+        choose 'Single'
 
         fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-07-01T00:00:00Z'
 
-        choose 'draft_temporal_extents_0_temporal_range_type_RangeDateTime'
-
-        choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
+        choose 'Range'
+        choose 'Single'
       end
 
       it 'clears the form data' do
