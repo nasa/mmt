@@ -50,6 +50,16 @@ $(document).ready ->
           else
             $(field).html headerHtml.replace(headerIndex, 1)
 
+      # Increment index on toggle link in accordion header, set all others to 1
+      $.each $(newDiv).find('.accordion-header a span'), (index, field) ->
+        headerHtml = $(field).html()
+        headerIndex = headerHtml.match(/\d+/)
+        if headerIndex != undefined
+          if index == 0
+            $(field).html headerHtml.replace(headerIndex, parseInt(headerIndex) + 1)
+          else
+            $(field).html headerHtml.replace(headerIndex, 1)
+
     # remove validation errors
     $(newDiv).find('.validation-error').remove()
 
