@@ -105,4 +105,36 @@ describe 'Publishing draft records', js: true, reset_provider: true do
       expect(page).to have_content('SpatialCoverage, Orbit Parameters must be defined for a collection whose granule spatial representation is ORBIT.')
     end
   end
+
+  context 'when publishing a draft and CMR returns a 500 error' do
+    before do
+      login
+      draft = create(:full_draft)
+      visit draft_path(draft)
+
+      # Adding question marks to token causes a 500 error for now
+      bad_response = { 'Echo-Token' => '???' }
+      allow_any_instance_of(Cmr::BaseClient).to receive(:token_header).and_return(bad_response)
+
+      # Record the request so we can keep testing for 500 errors
+      VCR.configure do |c|
+        c.ignore_localhost = false
+      end
+
+      VCR.use_cassette('ingest/500_error', record: :none) do
+        click_on 'Publish'
+      end
+
+      VCR.configure do |c|
+        c.ignore_localhost = true
+      end
+    end
+
+    it 'displays a link to submit feedback' do
+      recorded_request_id = 'a037669d-c94e-45d1-838c-707b884245ab'
+
+      expect(page).to have_link('Click here to submit feedback')
+      expect(page).to have_xpath("//a[contains(@href,'#{recorded_request_id}')]")
+    end
+  end
 end

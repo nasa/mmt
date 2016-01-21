@@ -184,25 +184,28 @@ class ApplicationController < ActionController::Base
 
   def generate_ingest_errors(response)
     errors = response.body['errors']
-    # request_id = response.headers['CMR-Request-Id']
+    request_id = response.headers['CMR-Request-Id']
     if errors.size > 0
       ingest_errors = errors.map do |error|
         path = error['path'].nil? ? nil : error['path'].first
         error = error['errors'].nil? ? error : error['errors'].first
-        # request_id = nil if path.size > 0
+
+        # only show the feedback module link if the error is 500
+        request_id = nil unless response.status == 500
         {
           field: path,
           top_field: path,
           page: get_page(path),
-          error: error #,
-          # request_id: request_id
+          error: error,
+          request_id: request_id
         }
       end
     else
       ingest_errors = [{
         page: nil,
         field: nil,
-        error: 'An unknown error caused publishing to fail.'
+        error: 'An unknown error caused publishing to fail.',
+        request_id: request_id
       }]
     end
 
