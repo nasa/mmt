@@ -41,8 +41,17 @@ $(document).ready ->
       $(newDiv).find('.accordion').removeClass 'is-closed'
 
       # Increment index on first accordion header, set all others to 1
-      # FIXME This is now changing the index of the Toggle link
-      $.each $(newDiv).find('.accordion-header'), (index, field) ->
+      $.each $(newDiv).find('.accordion-header .header-title'), (index, field) ->
+        headerHtml = $(field).html()
+        headerIndex = headerHtml.match(/\d+/)
+        if headerIndex != undefined
+          if index == 0
+            $(field).html headerHtml.replace(headerIndex, parseInt(headerIndex) + 1)
+          else
+            $(field).html headerHtml.replace(headerIndex, 1)
+
+      # Increment index on toggle link in accordion header, set all others to 1
+      $.each $(newDiv).find('.accordion-header a span'), (index, field) ->
         headerHtml = $(field).html()
         headerIndex = headerHtml.match(/\d+/)
         if headerIndex != undefined
