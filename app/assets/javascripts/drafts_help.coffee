@@ -32,12 +32,13 @@ $(document).ready ->
   fixTitle = (title) ->
     typeInTitle = ['Type', 'CollectionDataType', 'DataType', 'MimeType'
       'SpatialCoverageType', 'TemporalRangeType']
-      
-    newTitle = switch
-      when title == 'URLs' then 'URLs'
-      when title == 'StateProvince' then 'State / Province'
-      when title in typeInTitle then title.replace( /([A-Z])/g, " $1" )
-      else title.replace( /Type$/, '' ).replace( /([A-Z])/g, " $1" )
+
+    title = title.replace( /Type$/, '' ) unless title in typeInTitle
+
+    newTitle = switch title
+      when 'URLs' then 'URLs'
+      when 'StateProvince' then 'State / Province'
+      else title.replace( /([A-Z])/g, " $1" )
 
     newTitle
 
