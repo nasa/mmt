@@ -110,7 +110,7 @@ class DraftsController < ApplicationController
 
     draft = @draft.draft
 
-    ingested = cmr_client.ingest_collection(draft.to_json, draft.provider_id, @draft.native_id, token)
+    ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, @draft.native_id, token)
 
     if ingested.success?
       xml = MultiXml.parse(ingested.body)
