@@ -7,6 +7,9 @@ module SearchHelper
     query['entry_title'] = query['entry_title'][1..-2] if query['entry_title']
     query.delete('options[entry_title][pattern]')
 
+    # Remove keyword if blank
+    query.delete('keyword') if query['keyword'].blank?
+
     pruned = prune_query(query.clone)
 
     # We might want to worry about how we order this at some point

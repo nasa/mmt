@@ -23,6 +23,9 @@
             <li>
               <%= "#{error[:field]}, " if error[:field] %>
               <%= error[:error] %>
+              <% if error[:request_id] %>
+                <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
+              <% end %>
             </li>
           <% end %>
         </ul>

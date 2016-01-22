@@ -122,7 +122,7 @@ class DraftsController < ApplicationController
       # Log error message
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
 
-      @ingest_errors = generate_ingest_errors(ingested.body['errors'])
+      @ingest_errors = generate_ingest_errors(ingested)
 
       flash[:error] = 'Draft was not published successfully'
       render :show
