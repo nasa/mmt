@@ -68,6 +68,7 @@
   this.NestedItemPicker.prototype.resetPicker = function() {
     this.$element.find('.item-path > li.list-title').click();
     this.updateList();
+    $('.add-science-keyword').attr('disabled', 'true');
   };
 
   this.NestedItemPicker.prototype.updateList = function() {
@@ -126,5 +127,39 @@
       $(li).appendTo(itemList);
     });
   };
+
+  // Functions to validate user's ability to add keywords
+  $(document).ready(function() {
+    function checkSelectionLevel() {
+      var selectionLevel = $(".item-path li").length;
+
+      if (selectionLevel > 3) {
+        $(".add-science-keyword").removeAttr("disabled");
+      } else {
+        $(".add-science-keyword").attr("disabled", true);
+      }
+    }
+
+    // Validate when user clicks on on item selection
+    $('div.nested-item-picker').on('click', '.item-parent', function () {
+      checkSelectionLevel();
+    });
+
+    // Validate when user uses side navigation
+    $('.item-path').on('click', 'li', function() {
+      checkSelectionLevel();
+    });
+
+    // Validate if user select final option
+    $('.nested-item-picker').on('click', '.final-option', function () {
+      var $this = $(this);
+
+      if ($this.hasClass("final-option-selected")) {
+        $(".add-science-keyword").removeAttr("disabled");
+      } else if ($(".item-path li").length < 4) {
+        $(".add-science-keyword").attr("disabled", true);
+      }
+    });
+  });
 
 }(jQuery));
