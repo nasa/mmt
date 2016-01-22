@@ -25,6 +25,10 @@ describe 'Create new draft from collection', js: true do
       expect(Draft.count).to eq(1)
     end
 
+    it 'saves the provider id into the draft' do
+      expect(Draft.first.provider_id).to eq('MMT_2')
+    end
+
     it 'saves the native_id from the published collection' do
       draft = Draft.first
       expect(draft.native_id).to eq('collection25')

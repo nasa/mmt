@@ -66,7 +66,7 @@ class DraftsController < ApplicationController
   # PATCH/PUT /drafts/1.json
   def update
     if params[:id] == '0'
-      @draft = Draft.create(user: @current_user, draft: {})
+      @draft = Draft.create(user: @current_user, provider_id: @current_user.provider_id, draft: {})
       params[:id] = @draft.id
     else
       @draft = Draft.find(params[:id])
@@ -110,7 +110,7 @@ class DraftsController < ApplicationController
 
     draft = @draft.draft
 
-    ingested = cmr_client.ingest_collection(draft.to_json, @current_user.provider_id, @draft.native_id, token)
+    ingested = cmr_client.ingest_collection(draft.to_json, draft.provider_id, @draft.native_id, token)
 
     if ingested.success?
       xml = MultiXml.parse(ingested.body)

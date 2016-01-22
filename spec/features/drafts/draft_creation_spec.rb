@@ -49,6 +49,10 @@ describe 'Draft creation', js: true do
         expect(Draft.count).to eq(1)
       end
 
+      it 'saves the provider id into the draft' do
+        expect(Draft.first.provider_id).to eq('MMT_2')
+      end
+
       context 'when viewing the dashboard page' do
         before do
           visit '/dashboard'
