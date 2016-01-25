@@ -5,10 +5,11 @@
         <ol>
           <li><%= link_to 'Dashboard', dashboard_path %></li>
           <li><%= link_to 'Drafts', drafts_path %></li>
-          <li><%= @draft.display_entry_title %></li>
+          <li><%= "#{@draft.display_short_name} #{@draft.draft['Version']}" %></li>
         </ol>
       </div>
-      <h2><%= @draft.display_entry_title %></h2>
+      <h2><%= "#{@draft.display_short_name} #{@draft.draft['Version']}" %></h2>
+      <p><%= @draft.display_entry_title %></p>
       <p class="subtitle current">Draft Record</p>
     </div>
   </header>

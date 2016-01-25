@@ -4,16 +4,18 @@
       <div class="breadcrumb">
         <ol>
           <li><%= link_to 'Dashboard', dashboard_path %></li>
-          <li><%= @collection['EntryTitle'] || 'New Collection' %></li>
+          <li><%= "#{@collection['ShortName'] || 'New Collection'} #{@collection['Version']}" %></li>
         </ol>
       </div>
-      <h2><%= @collection['EntryTitle'] || 'New Collection' %></h2>
+      <h2><%= "#{@collection['ShortName'] || 'New Collection'} #{@collection['Version']}" %></h2>
+      <p><%= @collection['EntryTitle'] || 'New Collection' %></p>
       <% unless @error %>
         <p class="subtitle">Published Record</p>
         <p class="subtitle">
           <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
         </p>
       <% end %>
+      <%= console %>
     </div>
   </header>
 
