@@ -8,10 +8,10 @@
         </ol>
       </div>
       <h2><%= "#{@collection['ShortName'] || 'New Collection'} #{@collection['Version']}" %></h2>
-      <p><%= @collection['EntryTitle'] || 'New Collection' %></p>
+      <p class="subtitle"><%= @collection['EntryTitle'] || 'New Collection' %></p>
       <% unless @error %>
-        <p class="subtitle">Published Record</p>
-        <p class="subtitle">
+        <p class="subnav">Published Record</p>
+        <p class="subnav">
           <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
         </p>
       <% end %>
