@@ -162,33 +162,35 @@ module Cmr
       uri_list.each_with_index do |obj, index|
         collection_uri = obj[:collection]
         metadata = connection.get(collection_uri).body
-        response = connection.put do |req|
-          if collection_uri.include? 'SEDAC'
-            req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
-          elsif collection_uri.include? 'LARC'
-            req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
-          end
-          req.headers['Content-Type'] = 'application/echo10+xml'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
-          req.body = metadata
-        end
-
-        # Ingest a granules if available
-        if obj[:granule]
-          granule_metadata = connection.get(obj[:granule].first).body
+        obj[:ingest_count].times do |count|
           response = connection.put do |req|
-            req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
+            if collection_uri.include? 'SEDAC'
+              req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
+            elsif collection_uri.include? 'LARC'
+              req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
+            end
             req.headers['Content-Type'] = 'application/echo10+xml'
             req.headers['Echo-token'] = 'mock-echo-system-token'
-            req.body = granule_metadata
+            req.body = metadata
           end
-        end
 
-        if response.success?
-          added += 1
-          puts "Loaded #{added} collections"
-        else
-          puts response.inspect
+          # Ingest a granules if available
+          if obj[:granule]
+            granule_metadata = connection.get(obj[:granule].first).body
+            response = connection.put do |req|
+              req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
+              req.headers['Content-Type'] = 'application/echo10+xml'
+              req.headers['Echo-token'] = 'mock-echo-system-token'
+              req.body = granule_metadata
+            end
+          end
+
+          if response.success?
+            added += 1
+            puts "Loaded #{added} collections"
+          else
+            puts response.inspect
+          end
         end
       end
       puts 'Done!'

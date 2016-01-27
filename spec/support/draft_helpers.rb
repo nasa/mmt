@@ -13,10 +13,12 @@ module Helpers
       click_on 'Create Record'
     end
 
-    def publish_draft
+    def publish_draft(count = 1)
       draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
-      click_on 'Publish'
+      count.times do
+        visit draft_path(draft)
+        click_on 'Publish'
+      end
     end
 
     def open_accordions
