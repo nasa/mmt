@@ -49,7 +49,7 @@
 
   <!-- OrbitParameters -->
   <div class="spatial-coverage-type orbit" style="<%= 'display: none;' unless spatial_coverage_type == 'ORBITAL'%>">
-    <label>Orbit Parameters</label><i class="fa fa-info-circle"></i>
+    <label>Orbit Parameters</label><i class="ed-icon ed-fa-info-circle"></i>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'orbit_parameters',
         values: spatial_extent['OrbitParameters'] || {},
