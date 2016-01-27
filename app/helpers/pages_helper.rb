@@ -11,16 +11,13 @@ module PagesHelper
     "(#{start_date} - #{end_date})"
   end
 
-  def display_entry_id(draft_or_collection)
-    # empty collection ShortName should display 'New Collection'
-    if draft_or_collection.is_a?(Draft)
-      entry_id = draft_or_collection.display_short_name
-      entry_id += ' ' + draft_or_collection.draft['Version'] unless draft_or_collection.draft['Version'].nil?
-    else
-      entry_id = draft_or_collection['ShortName'] || 'New Collection'
-      entry_id += ' ' + draft_or_collection['Version'] unless draft_or_collection['Version'].nil?
-    end
+  def display_entry_id(metadata, type)
+    blank_short_name = type == 'draft' ? '<Blank Short Name>' : 'New Collection'
+    short_name = metadata['ShortName'] || blank_short_name
 
+    version = metadata['Version'].nil? ? '' : " #{metadata['Version']}"
+
+    entry_id = short_name + version
     entry_id
   end
 end
