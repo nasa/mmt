@@ -28,6 +28,8 @@ module Helpers
 
       # after the user authenticates with URS
       visit '/urs_callback?code=auth_code_here'
+
+      visit '/dashboard'
     end
 
     def visit_with_expiring_token(path)
