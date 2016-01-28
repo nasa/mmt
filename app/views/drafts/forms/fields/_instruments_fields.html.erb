@@ -65,12 +65,12 @@
   <!-- OperationalModes -->
   <% modes = instruments['OperationalModes'] || [nil] # [nil] creates at least one field %>
   <div class="multiple simple-multiple operational-modes">
-    <%= label(
+    <%= mmt_label(
       name: 'operational_modes_0',
       title: 'Operational Modes',
       prefix: name_prefix
     ) %>
-    <%= help_icon(
+    <%= mmt_help_icon(
       title: 'Operational Modes',
       help: 'definitions/InstrumentType/properties/OperationalModes'
     ) %>

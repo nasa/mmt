@@ -21,12 +21,12 @@
   <!-- Relation -->
   <% relations = related_url['Relation'] || Array.new(2) %>
   <div class="row">
-    <%= label(
+    <%= mmt_label(
       name: 'relation_0',
       title: 'Relation',
       prefix: name_prefix
     ) %>
-    <%= help_icon(
+    <%= mmt_help_icon(
       title: 'Relation',
       help: 'definitions/RelatedUrlType/properties/Relation'
     ) %>
@@ -38,14 +38,14 @@
 
   <% urls = related_url['URLs'] || [nil] # [nil] creates at least one URL field %>
   <div class="multiple simple-multiple urls">
-    <%= label(
+    <%= mmt_label(
       name: 'urls_',
       title: 'URLs',
       prefix: name_prefix,
       required: !always_required,
       always_required: always_required
     ) %>
-    <%= help_icon(
+    <%= mmt_help_icon(
       title: 'URLs',
       help: 'definitions/RelatedUrlType/properties/URLs'
     ) %>
