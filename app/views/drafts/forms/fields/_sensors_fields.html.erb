@@ -26,11 +26,15 @@
   </div>
 
   <!-- Characteristics -->
-  <label>Characteristics</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="ed-icon ed-fa-info-circle" data-help-path="definitions/SensorType/properties/Characteristics"></i>
-    <span class="is-hidden">Help modal for characteristics</span>
-  </a>
+  <%= mmt_label(
+    name: 'characteristics',
+    title: 'Characteristics',
+    prefix: name_prefix
+  ) %>
+  <%= mmt_help_icon(
+    title: 'Characteristics',
+    help: 'definitions/InstrumentType/properties/Characteristics'
+  ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'characteristics',
       values: sensors['Characteristics'] || [{}],

@@ -122,11 +122,15 @@
    ) %>
 
   <!-- DOI -->
-  <label>DOI</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="ed-icon ed-fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/DOI"></i>
-    <span class="is-hidden">Help modal for DOI</span>
-  </a>
+  <%= mmt_label(
+    name: 'doi',
+    title: 'DOI',
+    prefix: name_prefix
+  ) %>
+  <%= mmt_help_icon(
+    title: 'DOI',
+    help: 'definitions/ResourceCitationType/properties/DOI'
+  ) %>
   <div class="row sub-fields">
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'doi',
@@ -138,11 +142,15 @@
 
 
   <!-- RelatedUrl - only one -->
-  <label>Related URL</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="ed-icon ed-fa-info-circle" data-help-path="definitions/ResourceCitationType/properties/RelatedUrl"></i>
-    <span class="is-hidden">Help modal for related URL</span>
-  </a>
+  <%= mmt_label(
+    name: 'related_url',
+    title: 'Related URL',
+    prefix: name_prefix
+  ) %>
+  <%= mmt_help_icon(
+    title: 'Related URL',
+    help: 'definitions/ResourceCitationType/properties/RelatedUrl'
+  ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'related_url',
       values: collection_citation['RelatedUrl'] || {},

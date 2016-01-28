@@ -56,11 +56,16 @@
   <div class="accordion-body">
     <div class="row">
       <div class="col-12">
-        <label class="main-field">Spatial Representation Information</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="ed-icon ed-fa-info-circle" data-help-path="properties/SpatialInformation"></i>
-          <span class="is-hidden">Help modal for spatial representation information</span>
-        </a>
+        <%= mmt_label(
+          name: 'spatial_information',
+          title: 'Spatial Representation Information',
+          classes: ['main-field'],
+          prefix: 'draft_'
+        ) %>
+        <%= mmt_help_icon(
+          title: 'Spatial Representation Information',
+          help: 'properties/SpatialInformation'
+        ) %>
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'spatial_information',
             values: draft.draft['SpatialInformation'] || {},

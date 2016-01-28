@@ -26,7 +26,15 @@
 
   <!-- HorizontalSpatialDomain -->
   <div class="spatial-coverage-type horizontal" style="<%= 'display: none;' unless spatial_coverage_type == 'HORIZONTAL' %>">
-    <label>Horizontal Spatial Domain</label>
+    <%= mmt_label(
+      name: 'horizontal_spatial_domain',
+      title: 'Horizontal Spatial Domain',
+      prefix: name_prefix
+    ) %>
+    <%= mmt_help_icon(
+      title: 'Horizontal Spatial Domain',
+      help: 'definitions/HorizontalSpatialDomainType'
+    ) %>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'horizontal_spatial_domain',
         values: spatial_extent['HorizontalSpatialDomain'] || {},
@@ -49,7 +57,15 @@
 
   <!-- OrbitParameters -->
   <div class="spatial-coverage-type orbit" style="<%= 'display: none;' unless spatial_coverage_type == 'ORBITAL'%>">
-    <label>Orbit Parameters</label><i class="ed-icon ed-fa-info-circle"></i>
+    <%= mmt_label(
+      name: 'orbit_parameters',
+      title: 'Orbit Parameters',
+      prefix: name_prefix
+    ) %>
+    <%= mmt_help_icon(
+      title: 'Orbit Parameters',
+      help: 'definitions/OrbitParametersType'
+    ) %>
     <%= render partial: 'drafts/forms/type', locals: {
         type: 'orbit_parameters',
         values: spatial_extent['OrbitParameters'] || {},
