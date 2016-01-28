@@ -9,7 +9,7 @@ $(document).ready ->
   # Handle not-current-provider-modal
   $('a.not-current-provider').on 'click', (element) ->
     provider = $(element.target).data('provider')
-    action = $(element.target).data('action')
+    action = $(element.target).data('collectionAction')
 
     $modal = $('#not-current-provider-modal')
     $link = $modal.find('a.not-current-provider-link')
@@ -31,7 +31,7 @@ $(document).ready ->
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
-    $modal.find('span.action').text(textAction)
+    $modal.find('span.collection-action').text(textAction)
 
   $('a.not-current-provider-link').on 'click', (element) ->
     provider = $(element.target).data('provider')

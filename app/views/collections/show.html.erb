@@ -14,7 +14,7 @@
           <% if @current_user.provider_id == @provider_id %>
             <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
           <% elsif @current_user.available_providers.include?(@provider_id) %>
-            <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, action: 'edit' } %>
+            <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: 'edit' } %>
           <% end %>
         </p>
       <% end %>
@@ -44,13 +44,13 @@
             <% if @current_user.provider_id == @provider_id %>
               <%= link_to 'Clone this Record', clone_collection_path %> |
             <% elsif @current_user.available_providers.include?(@provider_id) %>
-              <%= link_to 'Clone this Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, action: 'clone' } %> |
+              <%= link_to 'Clone this Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: 'clone' } %> |
             <% end %>
             <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= @collection_link %>" data-token="<%= token_with_client_id %>">Download XML</a>
             <% if @current_user.provider_id == @provider_id %>
               | <%= link_to 'Delete Record', "#delete-record-modal", class: 'display-modal delete-collection' %>
             <% elsif @current_user.available_providers.include?(@provider_id) %>
-              | <%= link_to 'Delete Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, action: 'delete' } %>
+              | <%= link_to 'Delete Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: 'delete' } %>
             <% end %>
             <div id="delete-record-modal" class="modal-content">
               <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-hidden">Close</span></a>
@@ -63,7 +63,7 @@
             <div id="not-current-provider-modal" class="modal-content">
               <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-hidden">Close</span></a>
               <p>
-                <span class="action"></span> requires you change your provider context to <span class="provider"></span>. Would you like to change your provider context and perform this action?
+                <span class="collection-action"></span> requires you change your provider context to <span class="provider"></span>. Would you like to change your provider context and perform this action?
               </p>
               <p>
                 <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
