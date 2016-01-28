@@ -57,4 +57,20 @@
   }
 }
 
+.icon-circle-left {
+  &:before {
+    font-family: "Earthdata-Icon-Library";
+    content: "\f10d";
+    font-size: 1em;
+  }
+}
+
+.icon-circle-right {
+  &:before {
+    font-family: "Earthdata-Icon-Library";
+    content: "\f10e";
+    font-size: 1em;
+  }
+}
+
 .icon--md { font-size: 1.25em; }
