@@ -1,8 +1,3 @@
-# Setup NestedItemPicker for Science Keywords
-picker = undefined
-@setupScienceKeywords = (data) ->
-  picker = new NestedItemPicker('.nested-item-picker', data: data)
-
 $(document).ready ->
   $('.multiple').on 'click', '.add-new', (e) ->
     simple = $(this).hasClass('new-simple')
@@ -259,31 +254,6 @@ $(document).ready ->
   $.each $('.multiple.points .longitude, .bounding-rectangle-point.west').not('.multiple.lines .longitude, .exclusive-zone .longitude'), (index, element) ->
     if $(element).val().length > 0
       $(element).trigger 'change'
-
-  # Handle add keyword button
-  $('.add-science-keyword').on 'click', ->
-    addKeyword 'science'
-  $('.add-spatial-keyword').on 'click', ->
-    addKeyword 'spatial'
-
-  addKeyword = (type) ->
-    # Add selected value to keyword list
-    values = picker.getValues()
-    keywordList = $('.selected-' + type + '-keywords ul')
-    $.each values, (index, value) ->
-      li = $('<li>' + value + '<a class=\'remove\'><i class=\'fa fa-times-circle\'></i></a></li>')
-      $('<input/>',
-        type: 'hidden'
-        name: 'draft[' + type + '_keywords][]'
-        id: 'draft_' + type + '_keywords_'
-        value: value).appendTo li
-      $(li).appendTo keywordList
-
-    # Reset picker to top level
-    picker.resetPicker()
-
-  $('.selected-science-keywords, .selected-spatial-keywords').on 'click', '.remove', ->
-    $(this).parent().remove()
 
   # Load State/Province field on Country select
   $('select.country-select').change ->
