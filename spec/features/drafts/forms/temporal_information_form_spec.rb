@@ -22,15 +22,9 @@ describe 'Temporal information form', js: true do
         choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
         fill_in 'Precision Of Seconds', with: '1'
         choose 'draft_temporal_extents_0_ends_at_present_flag_false'
-        within '.multiple.single-date-times' do
-          within '.multiple-item-0' do
-            find('.single-date-time').set '2015-07-01T00:00:00Z'
-            click_on 'Add another Single Date Time'
-          end
-          within '.multiple-item-1' do
-            find('.single-date-time').set '2015-08-01T00:00:00Z'
-          end
-        end
+        fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-07-01T00:00:00Z'
+        click_on 'Add another Single Date Time'
+        fill_in 'draft_temporal_extents_0_single_date_times_1', with: '2015-08-01T00:00:00Z'
 
         # Add another TemporalExtent
         click_on 'Add another Temporal Extent'
@@ -39,8 +33,8 @@ describe 'Temporal information form', js: true do
           choose 'draft_temporal_extents_1_temporal_range_type_RangeDateTime'
           fill_in 'Precision Of Seconds', with: '10'
           choose 'draft_temporal_extents_1_ends_at_present_flag_false'
-          fill_in 'Beginning Date Time', with: '2015-07-01T00:00:00Z'
-          fill_in 'Ending Date Time', with: '2015-08-01T00:00:00Z'
+          fill_in 'Beginning Date Time', with: '2015-07-02T00:00:00Z'
+          fill_in 'Ending Date Time', with: '2015-08-02T00:00:00Z'
         end
 
         # Add another TemporalExtent
@@ -83,8 +77,8 @@ describe 'Temporal information form', js: true do
             fill_in 'Period', with: 'Period text 1'
           end
         end
-        fill_in 'Start Date', with: '2015-07-01T00:00:00Z'
-        fill_in 'End Date', with: '2015-08-01T00:00:00Z'
+        fill_in 'Start Date', with: '2015-05-01T00:00:00Z'
+        fill_in 'End Date', with: '2015-06-01T00:00:00Z'
       end
 
       within '.nav-top' do
@@ -109,16 +103,16 @@ describe 'Temporal information form', js: true do
       expect(page).to have_content('RangeDateTime')
       expect(page).to have_content('10')
       expect(page).to have_content('false')
-      expect(page).to have_content('2015-07-01T00:00:00Z')
-      expect(page).to have_content('2015-08-01T00:00:00Z')
+      expect(page).to have_content('2015-07-02T00:00:00Z')
+      expect(page).to have_content('2015-08-02T00:00:00Z')
 
       # Add another TemporalExtent
       expect(page).to have_content('PeriodicDateTime')
       expect(page).to have_content('30')
       expect(page).to have_content('false')
       expect(page).to have_content('Periodic Extent')
-      expect(page).to have_content('2015-07-01T00:00:00Z')
-      expect(page).to have_content('2015-08-01T00:00:00Z')
+      expect(page).to have_content('2015-09-01T00:00:00Z')
+      expect(page).to have_content('2015-10-01T00:00:00Z')
       expect(page).to have_content('Duration Unit')
       expect(page).to have_content('Period Cycle Duration Unit')
       expect(page).to have_content('1')
@@ -142,14 +136,15 @@ describe 'Temporal information form', js: true do
       expect(page).to have_content('Detailed Classification text 1')
       expect(page).to have_content('Period text 1')
 
-      expect(page).to have_content('2015-07-01T00:00:00Z')
-      expect(page).to have_content('2015-08-01T00:00:00Z')
+      expect(page).to have_content('2015-05-01T00:00:00Z')
+      expect(page).to have_content('2015-06-01T00:00:00Z')
 
       # Also check side bar
       # Note that handling blank temporal extents is tested in other form tests that don't populate temporal extents
       expect(page).to have_content('Date: 2015-07-01T00:00:00Z')
-      expect(page).to have_content('Start Date: 2015-07-01T00:00:00Z')
-      expect(page).to have_content('Stop Date: 2015-08-01T00:00:00Z')
+      expect(page).to have_content('Date: 2015-08-01T00:00:00Z')
+      expect(page).to have_content('Start Date: 2015-07-02T00:00:00Z')
+      expect(page).to have_content('Stop Date: 2015-08-02T00:00:00Z')
       expect(page).to have_content('Start Date: 2015-09-01T00:00:00Z')
       expect(page).to have_content('Stop Date: 2015-10-01T00:00:00Z')
 
@@ -189,8 +184,8 @@ describe 'Temporal information form', js: true do
             expect(page).to have_field('Precision Of Seconds', with: '10')
             expect(page).to have_no_checked_field('True')
             expect(page).to have_checked_field('False')
-            expect(page).to have_field('Beginning Date Time', with: '2015-07-01T00:00:00Z')
-            expect(page).to have_field('Ending Date Time', with: '2015-08-01T00:00:00Z')
+            expect(page).to have_field('Beginning Date Time', with: '2015-07-02T00:00:00Z')
+            expect(page).to have_field('Ending Date Time', with: '2015-08-02T00:00:00Z')
           end
 
           within '.multiple-item-2' do
@@ -233,8 +228,8 @@ describe 'Temporal information form', js: true do
               expect(page).to have_field('Period', with: 'Period text 1')
             end
           end
-          expect(page).to have_field('Start Date', with: '2015-07-01T00:00:00Z')
-          expect(page).to have_field('End Date', with: '2015-08-01T00:00:00Z')
+          expect(page).to have_field('Start Date', with: '2015-05-01T00:00:00Z')
+          expect(page).to have_field('End Date', with: '2015-06-01T00:00:00Z')
         end
       end
     end
