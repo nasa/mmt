@@ -1,13 +1,13 @@
 <div class="row sub-fields">
   <!-- SpatialCoverageType -->
   <% spatial_coverage_type = spatial_information['SpatialCoverageType'] || '' %>
-  <%= label(
+  <%= mmt_label(
     name: 'spatial_coverage_type',
     title: 'Spatial Coverage Type',
     prefix: name_prefix,
     required: true
   ) %>
-  <%= help_icon(
+  <%= mmt_help_icon(
     title: 'Spatial Coverage Type',
     help: 'definitions/SpatialInformationType/properties/SpatialCoverageType'
   ) %>

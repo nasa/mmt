@@ -10,7 +10,7 @@ describe 'Progress circles', js: true do
     end
 
     it 'displays all circles as empty' do
-      expect(page).to have_no_css('.fa.fa-circle')
+      expect(page).to have_no_css('.ed-icon.ed-fa-circle')
       expect(page).to have_no_css('.ed-icon.ed-check.icon-green')
       expect(page).to have_no_css('.ed-icon.ed-required.icon-green')
     end
@@ -28,7 +28,7 @@ describe 'Progress circles', js: true do
       end
 
       it 'displays all circles as empty' do
-        expect(page).to have_no_css('.fa.fa-circle')
+        expect(page).to have_no_css('.ed-icon.ed-fa-circle')
         expect(page).to have_no_css('.ed-icon.ed-check.icon-green')
         expect(page).to have_no_css('.ed-icon.ed-required.icon-green')
       end
@@ -83,7 +83,7 @@ describe 'Progress circles', js: true do
 
       it 'fills in that correct circle in grey' do
         within '#distribution-information a[title="Distributions"]' do
-          expect(page).to have_css('.fa-circle.icon-grey')
+          expect(page).to have_css('.ed-fa-circle.icon-grey')
         end
       end
     end
@@ -108,7 +108,7 @@ describe 'Progress circles', js: true do
 
       it 'fills in the correct circle in red' do
         within '#distribution-information a[title="RelatedUrls"]' do
-          expect(page).to have_css('.fa-minus-circle.icon-red')
+          expect(page).to have_css('.ed-fa-minus-circle.icon-red')
         end
       end
     end

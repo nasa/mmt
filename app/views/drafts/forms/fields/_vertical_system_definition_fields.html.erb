@@ -35,12 +35,12 @@
   <!-- Resolutions -->
   <% resolutions = vertical_system_definition['Resolutions'] || [nil] %>
   <div class="multiple simple-multiple resolutions">
-    <%= label(
+    <%= mmt_label(
       name: 'resolutions_',
       title: 'Resolutions',
       prefix: name_prefix
     ) %>
-    <%= help_icon(
+    <%= mmt_help_icon(
       title: 'Resolutions',
       help: 'definitions/VerticalSystemDefinitionType/properties/Resolutions'
     ) %>
