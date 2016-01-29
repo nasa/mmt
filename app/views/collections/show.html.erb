@@ -9,8 +9,8 @@
       </div>
       <h2><%= @collection['EntryTitle'] || 'New Collection' %></h2>
       <% unless @error %>
-        <p class="subtitle">Published Record</p>
-        <p class="subtitle">
+        <p class="subnav">Published Record</p>
+        <p class="subnav">
           <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
         </p>
       <% end %>
