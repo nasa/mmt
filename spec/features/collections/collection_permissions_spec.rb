@@ -41,7 +41,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            sleep 0.2
+            wait_for_ajax
           end
 
           it 'switches the provider context' do
@@ -68,7 +68,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            sleep 0.2
+            wait_for_ajax
           end
 
           it 'switches the provider context' do
@@ -95,7 +95,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            sleep 0.2
+            wait_for_ajax
           end
 
           it 'switches the provider context' do
@@ -130,7 +130,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
             before do
               # click_on 'Yes'
               find('.not-current-provider-link').click
-              sleep 0.2
+              wait_for_ajax
             end
 
             it 'switches the provider context' do
