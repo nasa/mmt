@@ -16,12 +16,12 @@
 
   <% street_addresses = address['StreetAddresses'] || [nil, nil] # [nil] creates at least one Street Address field %>
   <div class="multiple addresses-street-addresses">
-    <%= label(
+    <%= mmt_label(
       name: 'street_addresses_',
       title: 'Street Address',
       prefix: name_prefix
     ) %>
-    <%= help_icon(
+    <%= mmt_help_icon(
       title: 'Street Address',
       help: 'definitions/AddressType/properties/StreetAddresses'
     ) %>
@@ -45,12 +45,12 @@
        ) %>
     </div>
     <div class="col-3">
-      <%= label(
+      <%= mmt_label(
         name: 'state_province',
         title: 'State / Province',
         prefix: name_prefix
       ) %>
-      <%= help_icon(
+      <%= mmt_help_icon(
         title: 'State / Province',
         help: 'definitions/AddressType/properties/StateProvince'
       ) %>

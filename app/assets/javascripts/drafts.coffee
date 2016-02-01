@@ -1,8 +1,3 @@
-# Setup NestedItemPicker for Science Keywords
-picker = undefined
-@setupScienceKeywords = (data) ->
-  picker = new NestedItemPicker('.nested-item-picker', data: data)
-
 $(document).ready ->
   $('.multiple').on 'click', '.add-new', (e) ->
     simple = $(this).hasClass('new-simple')
@@ -260,48 +255,6 @@ $(document).ready ->
     if $(element).val().length > 0
       $(element).trigger 'change'
 
-  # Handle add keyword button
-  $('.add-science-keyword').on 'click', ->
-    addKeyword 'science'
-  $('.add-spatial-keyword').on 'click', ->
-    addKeyword 'spatial'
-
-  addKeyword = (type) ->
-    # Add selected value to keyword list
-    values = picker.getValues()
-    keywordList = $('.selected-' + type + '-keywords ul')
-    $.each values, (index, value) ->
-      li = $('<li>' + value + '<a class=\'remove\'><i class=\'fa fa-times-circle\'></i></a></li>')
-      $('<input/>',
-        type: 'hidden'
-        name: 'draft[' + type + '_keywords][]'
-        id: 'draft_' + type + '_keywords_'
-        value: value).appendTo li
-      $(li).appendTo keywordList
-
-    # Reset picker to top level
-    picker.resetPicker()
-
-  $('.selected-science-keywords, .selected-spatial-keywords').on 'click', '.remove', ->
-    $(this).parent().remove()
-
-  $('input[type="datetime"]').focus ->
-    pickerOpts =
-      startView: 2
-      format: 'yyyy-mm-dd'
-      todayBtn: 'linked'
-      clearBtn: true
-      autoclose: true
-      todayHighlight: true
-      forceParse: false
-      keyboardNavigation: false
-    $(this).datepicker(pickerOpts)
-    $(this).datepicker('show')
-    .on 'changeDate', ->
-      $(document).trigger 'mmtValidate'
-    .on 'hide', ->
-      $(this).datepicker('remove')
-
   # Load State/Province field on Country select
   $('select.country-select').change ->
     $parent = $(this).closest('.multiple-item')
@@ -335,16 +288,3 @@ $(document).ready ->
       $select.prop 'disabled', true
       $text.show()
       $text.prop 'disabled', false
-
-$.extend $.fn.datepicker.DPGlobal,
-  formatDate: (date, format, language) ->
-    if !date
-      return ''
-
-    if format == 'yyyy-mm-dd'
-      # Display the correct format with time in the input field
-      date.toISOString()
-    else if format == 'MM yyyy'
-      # Display 'November 2015' when viewing the month instead of the ISOString
-      dates = $.fn.datepicker.dates
-      "#{dates[language].months[date.getUTCMonth()]} #{date.getUTCFullYear()}"

@@ -13,7 +13,7 @@ module FormHelper
       data: { level: remove_pipes(options[:prefix]) }
     )
 
-    label(options) + help_icon(options) + text_field_html
+    mmt_label(options) + mmt_help_icon(options) + text_field_html
   end
 
   def mmt_text_area(options)
@@ -31,7 +31,7 @@ module FormHelper
       data: { level: remove_pipes(options[:prefix]) }
     )
 
-    label(options) + help_icon(options) + text_area_html
+    mmt_label(options) + mmt_help_icon(options) + text_area_html
   end
 
   def mmt_select(options)
@@ -62,7 +62,7 @@ module FormHelper
       data: { level: remove_pipes(options[:prefix]) }
     )
 
-    label(options) + help_icon(options) + select_html
+    mmt_label(options) + mmt_help_icon(options) + select_html
   end
 
   def mmt_datetime(options)
@@ -79,7 +79,7 @@ module FormHelper
       data: { level: remove_pipes(options[:prefix]) }
     )
 
-    label(options) + help_icon(options) + datetime_html
+    mmt_label(options) + mmt_help_icon(options) + datetime_html
   end
 
   def mmt_number(options)
@@ -96,10 +96,10 @@ module FormHelper
       data: { level: remove_pipes(options[:prefix]) }
     )
 
-    label(options) + help_icon(options) + number_html
+    mmt_label(options) + mmt_help_icon(options) + number_html
   end
 
-  def label(options)
+  def mmt_label(options)
     options[:name] = add_pipes(options[:name])
     id = remove_pipes(options[:prefix] + options[:name]) if options[:set_id]
     label_for = id.nil? ? remove_pipes(options[:prefix] + options[:name]) : nil
@@ -115,10 +115,10 @@ module FormHelper
     )
   end
 
-  def help_icon(options)
+  def mmt_help_icon(options)
     return unless options[:help]
     link_to('#help-modal', class: 'display-modal', tabindex: -1) do
-      "<i class=\"fa fa-info-circle\" data-help-path=\"#{options[:help]}\"></i><span class=\"is-hidden\">Help modal for #{options[:title]}</span>".html_safe
+      "<i class=\"ed-icon ed-fa-info-circle\" data-help-path=\"#{options[:help]}\"></i><span class=\"is-hidden\">Help modal for #{options[:title]}</span>".html_safe
     end
   end
 

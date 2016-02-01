@@ -1,13 +1,13 @@
 <div class="row sub-fields">
   <!-- TemporalRangeType -->
   <% temporal_range_type = temporal_extent['TemporalRangeType'] || "" %>
-  <%= label(
+  <%= mmt_label(
     name: 'temporal_range_type',
     title: 'Temporal Range Type',
     prefix: name_prefix,
     always_required: true
   ) %>
-  <%= help_icon(
+  <%= mmt_help_icon(
     title: 'Temporal Range Type',
     help: 'definitions/TemporalExtentType/properties/TemporalRangeType'
   ) %>
@@ -29,13 +29,13 @@
   ) %>
 
   <!-- EndsAtPresentFlag -->
-  <%= label(
+  <%= mmt_label(
     name: 'ends_at_present_flag',
     title: 'Ends At Present Flag',
     prefix: name_prefix,
     always_required: true
   ) %>
-  <%= help_icon(
+  <%= mmt_help_icon(
     title: 'Ends At Present Flag',
     help: 'definitions/TemporalExtentType/properties/EndsAtPresentFlag'
   ) %>
@@ -45,13 +45,13 @@
 
   <!-- RangeDateTimes -->
   <div class="temporal-range-type range-date-time" style="<%= 'display: none;' unless temporal_range_type == 'RangeDateTime' %>">
-    <%= label(
+    <%= mmt_label(
       name: 'range_date_times',
       title: 'Range Date Times',
       prefix: name_prefix,
       always_required: true
     ) %>
-    <%= help_icon(
+    <%= mmt_help_icon(
       title: 'Range Date Times',
       help: 'definitions/TemporalExtentType/properties/RangeDateTimes'
     ) %>
@@ -66,13 +66,13 @@
   <div class="temporal-range-type single-date-time" style="<%= 'display: none;' unless temporal_range_type == 'SingleDateTime' %>">
     <% date_times = temporal_extent['SingleDateTimes'] || [nil] # [nil] creates at least one date_time field %>
     <div class="multiple simple-multiple single-date-times">
-      <%= label(
+      <%= mmt_label(
         name: 'single_date_times',
         title: 'Single Date Times',
         prefix: name_prefix,
         always_required: true
       ) %>
-      <%= help_icon(
+      <%= mmt_help_icon(
         title: 'Single Date Times',
         help: 'definitions/TemporalExtentType/properties/SingleDateTimes'
       ) %>
@@ -93,13 +93,13 @@
 
   <!-- PeriodicDateTimes -->
   <div class="temporal-range-type periodic-date-time" style="<%= 'display: none;' unless temporal_range_type == 'PeriodicDateTime' %>">
-    <%= label(
+    <%= mmt_label(
       name: 'periodic_date_times',
       title: 'Periodic Date Time',
       prefix: name_prefix,
       always_required: true
     ) %>
-    <%= help_icon(
+    <%= mmt_help_icon(
       title: 'Periodic Date Time',
       help: 'definitions/TemporalExtentType/properties/PeriodicDateTimes'
     ) %>

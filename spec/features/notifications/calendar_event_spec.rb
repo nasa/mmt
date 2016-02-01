@@ -87,7 +87,7 @@ describe 'Calendar Event Query' do
         before do
           click_on 'Dismiss banner'
           # Give the test some time to hide the notification
-          sleep 0.1
+          wait_for_ajax
 
           VCR.use_cassette('notifications/multi_day_notification', record: :none) do
             visit '/'
