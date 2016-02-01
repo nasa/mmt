@@ -39,9 +39,6 @@ class Draft < ActiveRecord::Base
         self.short_name = params['short_name'].empty? ? nil : params['short_name']
       end
 
-      # The provider_id isn't actually part of the metadata. You can think of that as the owner of the metadata. It's meta-metadata.
-      # self.provider_id = ?
-
       # Convert {'0' => {'id' => 123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
@@ -78,6 +75,7 @@ class Draft < ActiveRecord::Base
       collection.delete('MetadataDates')
     end
     draft.user = user
+    draft.provider_id = user.provider_id
     draft.draft = collection
     draft.save
     draft

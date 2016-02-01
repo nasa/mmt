@@ -16,7 +16,7 @@
   ) %>
 
   <% party = responsibility['Party'] || {} %>
-  <%= label(
+  <%= mmt_label(
     name: 'party',
     title: 'Party',
     prefix: name_prefix,
@@ -24,7 +24,7 @@
     always_required: always_required,
     set_id: true
   ) %>
-  <%= help_icon(
+  <%= mmt_help_icon(
     title: 'Party',
     help: 'definitions/ResponsibilityType/properties/Party'
   ) %>

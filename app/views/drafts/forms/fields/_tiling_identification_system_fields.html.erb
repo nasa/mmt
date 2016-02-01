@@ -11,11 +11,15 @@
 
 
   <!-- Coordinate1 -->
-  <label class="icon-required">Coordinate 1</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/TilingCoordinateType"></i>
-    <span class="is-hidden">Help modal for coordinate 1</span>
-  </a>
+  <%= mmt_label(
+    name: 'tiling_coordinate_1',
+    title: 'Coordinate 1',
+    prefix: name_prefix
+  ) %>
+  <%= mmt_help_icon(
+    title: 'Coordinate 1',
+    help: 'definitions/TilingCoordinateType'
+  ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'tiling_coordinate',
       values: tiling_identification_system['Coordinate1'] || {},
@@ -25,11 +29,15 @@
 
 
   <!-- Coordinate2 -->
-  <label class="icon-required">Coordinate 2</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/TilingCoordinateType"></i>
-    <span class="is-hidden">Help modal for coordinate 2</span>
-  </a>
+  <%= mmt_label(
+    name: 'tiling_coordinate_2',
+    title: 'Coordinate 2',
+    prefix: name_prefix
+  ) %>
+  <%= mmt_help_icon(
+    title: 'Coordinate 2',
+    help: 'definitions/TilingCoordinateType'
+  ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'tiling_coordinate',
       values: tiling_identification_system['Coordinate2'] || {},

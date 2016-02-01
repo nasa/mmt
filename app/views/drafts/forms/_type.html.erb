@@ -36,7 +36,7 @@
     </div>
   </div>
 <% else %>
-  <div class="<%= (options[:type] || type).dasherize %>">
+  <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') %>" class="<%= (options[:type] || type).dasherize %>">
     <%= render partial: "drafts/forms/fields/#{type}_fields", locals: {
         type.to_sym => values,
         name_prefix: "#{name_prefix}",

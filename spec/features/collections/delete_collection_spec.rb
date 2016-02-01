@@ -54,12 +54,23 @@ describe 'Delete collection', js: true, reset_provider: true do
 
   context 'when viewing a published collection with granules' do
     before do
+      # Set the users provider to be LARC, in order to see collection with granules
+      user = User.first
+      user.provider_id = 'LARC'
+      user.save
+
       short_name = 'ACR3L2DM'
 
       fill_in 'Quick Find', with: short_name
       click_on 'Find'
 
       click_on short_name
+    end
+
+    after do
+      user = User.first
+      user.provider_id = 'MMT_2'
+      user.save
     end
 
     it 'displays the number of granules' do

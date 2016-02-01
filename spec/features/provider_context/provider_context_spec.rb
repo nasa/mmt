@@ -25,8 +25,8 @@ describe 'Provider context', js: true do
 
       context 'when the user selects a provider context' do
         before do
-          select 'MMT_1', from: 'select-provider'
-          sleep 0.2
+          select 'MMT_1', from: 'select_provider'
+          wait_for_ajax
         end
 
         it 'saves the users provider' do
@@ -59,12 +59,12 @@ describe 'Provider context', js: true do
 
     context 'when a user changes their provider context' do
       before do
-        select 'MMT_1', from: 'select-provider'
-        sleep 0.2
+        select 'MMT_1', from: 'select_provider'
+        wait_for_ajax
 
         click_on 'Change Provider'
-        select 'MMT_2', from: 'select-provider'
-        sleep 0.2
+        select 'MMT_2', from: 'select_provider'
+        wait_for_ajax
       end
 
       it 'saves the new provider context' do

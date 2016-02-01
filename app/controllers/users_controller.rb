@@ -18,10 +18,14 @@ class UsersController < ApplicationController
   end
 
   def set_provider
-    provider_id = params[:provider_id]
+    provider_id = params[:provider_id] || params[:select_provider]
     @current_user.provider_id = provider_id
     @current_user.save
-    redirect_to dashboard_path
+
+    respond_to do |format|
+      format.html { redirect_to dashboard_path }
+      format.json { render json: nil, status: :ok }
+    end
   end
 
   def refresh_providers

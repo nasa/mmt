@@ -29,12 +29,12 @@
   <!-- Campaign -->
   <% campaigns = project['Campaigns'] || [nil] # [nil] creates at least one field %>
   <div class="multiple simple-multiple campaigns">
-    <%= label(
+    <%= mmt_label(
       name: 'campaigns_0',
       title: 'Campaigns',
       prefix: name_prefix
     ) %>
-    <%= help_icon(
+    <%= mmt_help_icon(
       title: 'Campaigns',
       help: 'definitions/ProjectType/properties/Campaigns'
     ) %>

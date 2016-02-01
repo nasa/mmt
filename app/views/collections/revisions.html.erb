@@ -4,11 +4,12 @@
       <div class="breadcrumb">
         <ol>
           <li><%= link_to 'Dashboard', dashboard_path %></li>
-          <li><%= link_to @collection['EntryTitle'] || 'New Collection', collection_path %></li>
+          <li><%= link_to display_entry_id(@collection, 'collection'), collection_path %></li>
           <li>Revision History</li>
         </ol>
       </div>
-      <h2><%= @collection['EntryTitle'] || 'New Collection' %></h2>
+      <h2><%= display_entry_id(@collection, 'collection') %></h2>
+      <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
     </div>
   </header>
 
@@ -100,13 +101,28 @@
                   <% end %>
 
                   <% unless index == 0 || revision['meta']['deleted'] == true %>
-                    <%= link_to phrase, "#revert-revisions-modal-#{revision_id}", class: 'display-modal' %>
+                    <% if @current_user.provider_id == @provider_id %>
+                      <%= link_to phrase, "#revert-revisions-modal-#{revision_id}", class: 'display-modal' %>
+                    <% elsif @current_user.available_providers.include?(@provider_id) %>
+                      <%= link_to phrase, '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: phrase } %>
+                    <% end %>
                     <div id="revert-revisions-modal-<%= revision_id %>" class="modal-content">
                       <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-hidden">Close</span></a>
                       <p><%= confirm_phrase %></p>
                       <p>
                         <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
                         <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'btn btn-blue spinner' %>
+                      </p>
+                    </div>
+                    <div id="not-current-provider-modal" class="modal-content">
+                      <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-hidden">Close</span></a>
+                      <p>
+                        <span class="collection-action"></span> requires you change your provider context to <span class="provider"></span>. Would you like to change your provider context and perform this action?
+                      </p>
+                      <p>
+                        <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
+                        <%= link_to 'Yes', '#', class: 'btn btn-blue spinner not-current-provider-link' %>
+                        <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'btn btn-blue spinner is-hidden', id: 'not-current-provider-revert-link' %>
                       </p>
                     </div>
                   <% end %>
