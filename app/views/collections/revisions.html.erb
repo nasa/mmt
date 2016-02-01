@@ -9,7 +9,7 @@
         </ol>
       </div>
       <h2><%= display_entry_id(@collection, 'collection') %></h2>
-      <p class="subtitle"><%= @collection['EntryTitle'] || 'New Collection' %></p>
+      <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
     </div>
   </header>
 
