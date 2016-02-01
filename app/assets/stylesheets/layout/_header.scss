@@ -21,10 +21,20 @@ header {
     line-height: 1.2;
   }
 
-  p {
+  #user-info p {
     display: inline-block;
     margin: 0;
     margin-right: 0.8em;
+  }
+
+  .subtitle {
+    margin: 0;
+    font-size: 0.9em;
+  }
+
+  .subnav {
+    display: inline-block;
+    margin: 1em 1em 0 0;
   }
 
   .fa {

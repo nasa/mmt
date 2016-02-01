@@ -5,11 +5,12 @@
         <ol>
           <li><%= link_to 'Dashboard', dashboard_path %></li>
           <li><%= link_to 'Drafts', drafts_path %></li>
-          <li><%= @draft.display_entry_title %></li>
+          <li><%= display_entry_id(@draft.draft, 'draft') %></li>
         </ol>
       </div>
-      <h2><%= @draft.display_entry_title %></h2>
-      <p class="subtitle current">Draft Record</p>
+      <h2><%= display_entry_id(@draft.draft, 'draft') %></h2>
+      <p class="subtitle"><%= @draft.display_entry_title %></p>
+      <p class="subnav current">Draft Record</p>
     </div>
   </header>
 

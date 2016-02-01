@@ -4,13 +4,14 @@
       <div class="breadcrumb">
         <ol>
           <li><%= link_to 'Dashboard', dashboard_path %></li>
-          <li><%= @collection['EntryTitle'] || 'New Collection' %></li>
+          <li><%= display_entry_id(@collection, 'collection') %></li>
         </ol>
       </div>
-      <h2><%= @collection['EntryTitle'] || 'New Collection' %></h2>
+      <h2><%= display_entry_id(@collection, 'collection') %></h2>
+      <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
       <% unless @error %>
-        <p class="subtitle">Published Record</p>
-        <p class="subtitle">
+        <p class="subnav">Published Record</p>
+        <p class="subnav">
           <% if @current_user.provider_id == @provider_id %>
             <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
           <% elsif @current_user.available_providers.include?(@provider_id) %>
