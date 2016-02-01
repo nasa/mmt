@@ -2,11 +2,13 @@ FactoryGirl.define do
   # This is a valid factory, used to test to make sure all the factories
   # that use all_required_fields will work
   factory :draft_all_required_fields, class: Draft do
+    provider_id 'MMT_2'
     draft { all_required_fields }
   end
 
   factory :draft do
     # Empty draft
+    provider_id 'MMT_2'
   end
 
   # Will trigger required fields error for data identification required fields

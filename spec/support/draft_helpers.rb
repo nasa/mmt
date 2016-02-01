@@ -13,6 +13,14 @@ module Helpers
       click_on 'Create Record'
     end
 
+    def publish_draft(count = 1)
+      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
+      count.times do
+        visit draft_path(draft)
+        click_on 'Publish'
+      end
+    end
+
     def open_accordions
       script = "$('.accordion.is-closed').removeClass('is-closed');"
       page.evaluate_script script

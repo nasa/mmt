@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :full_draft, class: Draft do
     native_id 'full_draft_id'
+    provider_id 'MMT_2'
     draft 'Projects' => [{
       'ShortName' => 'test 1 ShortName',
       'LongName' => 'test 1 LongName',

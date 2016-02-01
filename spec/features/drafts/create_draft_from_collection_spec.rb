@@ -2,13 +2,15 @@
 
 require 'rails_helper'
 
-describe 'Create new draft from collection', js: true do
-  short_name = 'ACR3L2DM'
-  entry_title = 'ACRIM III Level 2 Daily Mean Data V001'
+describe 'Create new draft from collection', js: true, reset_provider: true do
+  short_name = '12345'
+  entry_title = 'Draft Title'
 
   context 'when editing a CMR collection' do
     before do
       login
+      publish_draft
+
       fill_in 'Quick Find', with: short_name
       click_on 'Find'
 
@@ -25,9 +27,13 @@ describe 'Create new draft from collection', js: true do
       expect(Draft.count).to eq(1)
     end
 
+    it 'saves the provider id into the draft' do
+      expect(Draft.last.provider_id).to eq('MMT_2')
+    end
+
     it 'saves the native_id from the published collection' do
-      draft = Draft.first
-      expect(draft.native_id).to eq('collection25')
+      draft = Draft.last
+      expect(draft.native_id).to eq('full_draft_id')
     end
 
     it 'displays the draft preview page' do
