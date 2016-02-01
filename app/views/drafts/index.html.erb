@@ -11,7 +11,7 @@
   </section>
   <div class="row row-content">
     <section>
-      <h2>Open Drafts</h2>
+      <h2><%= @current_user.provider_id %> Drafts</h2>
       <table id="open_drafts">
         <thead>
           <tr>
@@ -25,7 +25,7 @@
         <% if @drafts.blank? %>
           <tr>
             <td colspan="4">
-              No Open Drafts found
+              No <%= @current_user.provider_id %> Drafts found
             </td>
           </tr>
         <% else %>

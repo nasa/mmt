@@ -13,6 +13,14 @@ module Helpers
       click_on 'Create Record'
     end
 
+    def publish_draft(count = 1)
+      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
+      count.times do
+        visit draft_path(draft)
+        click_on 'Publish'
+      end
+    end
+
     def open_accordions
       script = "$('.accordion.is-closed').removeClass('is-closed');"
       page.evaluate_script script
@@ -542,11 +550,16 @@ module Helpers
     end
 
     def upload_shapefile(path)
-      script = "$('.dz-hidden-input').attr('id', 'shapefile');"
+      # Set ID for tests and remove styles that hide the input
+      script = "$('.dz-hidden-input').attr('id', 'shapefile').attr('style', '');"
       page.execute_script(script)
 
-      attach_file('shapefile', Rails.root.join(path))
-      sleep 1
+      begin
+        attach_file('shapefile', Rails.root.join(path))
+        wait_for_ajax
+      rescue Capybara::Poltergeist::ObsoleteNode
+        nil
+      end
     end
 
     def add_science_keywords
