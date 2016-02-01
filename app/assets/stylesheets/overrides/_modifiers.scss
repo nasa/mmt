@@ -63,6 +63,10 @@
 
 // One-off Spacing
 
+.space-bot-sm {
+  margin-bottom: 10px;
+}
+
 .space-bot {
   margin-bottom: 15px;
 }
@@ -81,6 +85,10 @@
 
 .no-padding {
   padding: 0;
+}
+
+.no-bg {
+  background: none;
 }
 
 .w10 { width: 10%; }
