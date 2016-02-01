@@ -21,37 +21,39 @@
   <!-- Relation -->
   <% relations = related_url['Relation'] || Array.new(2) %>
   <div class="row">
-    <%= label(
+    <%= mmt_label(
       name: 'relation_0',
       title: 'Relation',
       prefix: name_prefix
     ) %>
-    <%= help_icon(
+    <%= mmt_help_icon(
       title: 'Relation',
       help: 'definitions/RelatedUrlType/properties/Relation'
     ) %>
 
     <% relations[0..1].each_with_index do |relation, index| %>
+      <!-- does this need to implement mmt_text_field ? -->
       <%= text_field_tag(name_to_param("#{name_prefix}relation_#{index}"), relation, class: 'full-width relation validate', data: { level: remove_pipes(name_prefix) }) %>
     <% end %>
   </div>
 
   <% urls = related_url['URLs'] || [nil] # [nil] creates at least one URL field %>
   <div class="multiple simple-multiple urls">
-    <%= label(
+    <%= mmt_label(
       name: 'urls_',
       title: 'URLs',
       prefix: name_prefix,
       required: !always_required,
       always_required: always_required
     ) %>
-    <%= help_icon(
+    <%= mmt_help_icon(
       title: 'URLs',
       help: 'definitions/RelatedUrlType/properties/URLs'
     ) %>
 
   <% urls.each_with_index do |url, index| %>
     <div class="multiple-item multiple-item-<%= index %>">
+      <!-- does this need to implement mmt_text_field ? -->
       <%= text_field_tag(name_to_param("#{name_prefix}urls_#{index}"), url, class: 'half-width url simple-multiple-field validate mmt-uri', data: { level: remove_pipes(name_prefix) }) %>
       <a class="remove">
         <i class="fa fa-times-circle"></i>
@@ -78,11 +80,15 @@
     </div>
   </div>
 
-  <label>File Size</label>
-  <a href="#help-modal" class="display-modal" tabindex="-1">
-    <i class="fa fa-info-circle" data-help-path="definitions/RelatedUrlType/properties/FileSize"></i>
-    <span class="is-hidden">Help modal for distribution size</span>
-  </a>
+  <%= mmt_label(
+    name: 'file_size',
+    title: 'File Size',
+    prefix: name_prefix
+  ) %>
+  <%= mmt_help_icon(
+    title: 'File Size',
+    help: 'definitions/RelatedUrlType/properties/FileSize'
+  ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'file_size',
       values: related_url['FileSize'] || {},

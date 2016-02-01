@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="actions">
-            <button type="button" class="btn btn-blue add-science-keyword"><i class="fa fa-plus-circle"></i> Add Keyword</button>
+            <button type="button" class="btn btn-blue add-science-keyword" disabled><i class="fa fa-plus-circle"></i> Add Keyword</button>
           </div>
         </div>
       </div>
@@ -56,12 +56,12 @@
     <!-- AncillaryKeyword -->
     <div class="row taller">
       <div class="col-12">
-        <%= label(
+        <%= mmt_label(
           name: 'ancillary_keywords_',
           title: 'Ancillary Keywords',
           prefix: 'draft_'
         ) %>
-        <%= help_icon(
+        <%= mmt_help_icon(
           title: 'Ancillary Keywords',
           help: 'properties/AncillaryKeywords'
         ) %>
@@ -70,6 +70,7 @@
           <div class="multiple simple-multiple ancillary-keywords">
             <% ancillary_keywords.each_with_index do |ancillary_keyword, index| %>
               <div class="multiple-item multiple-item-<%= index %>">
+                <!-- does this need to implement mmt_text_field ? -->
                 <%= text_field_tag(name_to_param("draft_|ancillary_keywords|_#{index}"), ancillary_keyword, class: 'half-width ancillary-keyword simple-multiple-field validate', data: { level: 'draft_' }) %>
                 <a class="remove">
                   <i class="fa fa-times-circle"></i>
@@ -99,11 +100,15 @@
     <!-- AdditionalAttribute -->
     <div class="row taller">
       <div class="col-12">
-        <label>Additional Attributes</label>
-        <a href="#help-modal" class="display-modal" tabindex="-1">
-          <i class="fa fa-info-circle" data-help-path="properties/AdditionalAttributes"></i>
-          <span class="is-hidden">Help modal for additional attributes</span>
-        </a>
+        <%= mmt_label(
+          name: 'additional_attribute',
+          title: 'Additional Attributes',
+          prefix: 'draft_'
+        ) %>
+        <%= mmt_help_icon(
+          title: 'Additional Attributes',
+          help: 'properties/AdditionalAttributes'
+        ) %>
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'additional_attribute',
             values: draft.draft['AdditionalAttributes'] || [{}],

@@ -1,6 +1,6 @@
 $(document).ready ->
 
-  $('i.fa-info-circle').on 'click', (element) ->
+  $('i.ed-fa-info-circle').on 'click', (element) ->
     # get path from data-help-path attribute
     # properties/EntryId
     # definitions/ProcessingLevelType/properties/ProcessingLevelDescription

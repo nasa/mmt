@@ -1,5 +1,5 @@
 <section class="metadata">
-  <h3 class="inline-header">Metadata Fields</h3><a href="#progress-legend" id="legend" class="display-modal"><i class="fa fa-info-circle"></i> <span class="is-hidden">Progress Legend</span></a>
+  <h3 class="inline-header">Metadata Fields</h3><a href="#progress-legend" id="legend" class="display-modal"><i class="ed-icon ed-fa-info-circle"></i> <span class="is-hidden">Progress Legend</span></a>
   <ul class="progress-indicator">
     <% Draft::DRAFT_FORMS.each do |form_name| %>
       <li id="<%= form_name.dasherize %>">
@@ -14,9 +14,9 @@
     <ul>
       <li><i class="ed-icon ed-required-o icon-green"></i> Required but not complete</li>
       <li><i class="ed-icon ed-required icon-green"></i> Required and complete</li>
-      <li><i class="fa fa-circle-o icon-grey"></i> Optional and not complete</li>
-      <li><i class="fa fa-circle icon-grey"></i> Optional and complete</li>
-      <li><i class="fa fa-minus-circle icon-red"></i> Does not pass validation</li>
+      <li><i class="ed-icon ed-fa-circle-o icon-grey"></i> Optional and not complete</li>
+      <li><i class="ed-icon ed-fa-circle icon-grey"></i> Optional and complete</li>
+      <li><i class="ed-icon ed-fa-minus-circle icon-red"></i> Does not pass validation</li>
     </ul>
     <a class="btn btn-blue modal-close" href="javascript:void(0);">Close</a>
   </div>
