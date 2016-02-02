@@ -37,9 +37,10 @@ module DraftsHelper
     ['Year', 'YEAR']
   ]
   DateTypeOptions = [
-    ['Create', 'CREATE'],
-    ['Update', 'UPDATE'],
-    ['Delete', 'DELETE'], ['Review', 'REVIEW']
+    ['Creation', 'CREATE'],
+    ['Last Revision', 'UPDATE'],
+    ['Planned Deletion', 'DELETE'],
+    ['Future Review', 'REVIEW']
   ]
   FileSizeUnitTypeOptions = [
     ['KB'],

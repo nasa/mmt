@@ -47,11 +47,11 @@ describe 'Metadata Information form', js: true do
 
       # Metadata Dates
       # Date 1
-      expect(page).to have_content('Create')
+      expect(page).to have_content('Creation')
       expect(page).to have_content('2015-07-01T00:00:00Z')
 
       # Date 2
-      expect(page).to have_content('Review')
+      expect(page).to have_content('Future Review')
       expect(page).to have_content('2015-07-02T00:00:00Z')
 
       expect(page).to have_content('No Temporal Coverages found')
