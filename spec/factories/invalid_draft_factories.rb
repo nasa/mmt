@@ -2,6 +2,7 @@ FactoryGirl.define do
   # This is a valid factory, used to test to make sure all the factories
   # that use all_required_fields will work
   factory :draft_all_required_fields, class: Draft do
+    native_id 'required_fields_draft_id'
     provider_id 'MMT_2'
     draft { all_required_fields }
   end
@@ -87,7 +88,7 @@ def all_required_fields
     }],
     'ShortName' => '12345',
     'Version' => '1',
-    'EntryTitle' => 'Entry Title',
+    'EntryTitle' => 'Required Fields Only Draft',
     'Organizations' => [{
       'Role' => 'RESOURCEPROVIDER',
       'Party' => {
