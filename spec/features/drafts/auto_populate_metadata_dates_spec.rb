@@ -19,11 +19,6 @@ describe 'Auto populating metadata dates', js: true do
       open_accordions
     end
 
-    it 'populates the metadata create date' do
-      dates = Draft.first.draft['MetadataDates'].count { |date| date['Type'] == 'CREATE' }
-      expect(dates).to eq(1)
-    end
-
     it 'displays the create date on the collection page' do
       within '.preview .metadata-dates .metadata-dates-0' do
         expect(page).to have_content("Type: Create Date: #{today_string}")
@@ -32,18 +27,15 @@ describe 'Auto populating metadata dates', js: true do
 
     context 'when publishing an update to the collection' do
       before do
-        draft = Draft.first
-        visit draft_path(draft)
+        click_on 'Edit Record'
         click_on 'Publish'
         open_accordions
       end
 
-      it 'populates the metadata update date' do
-        dates = Draft.first.draft['MetadataDates'].count { |date| date['Type'] == 'UPDATE' }
-        expect(dates).to eq(1)
-      end
-
       it 'displays the update date on the collection page' do
+        within '.preview .metadata-dates .metadata-dates-0' do
+          expect(page).to have_content("Type: Create Date: #{today_string}")
+        end
         within '.preview .metadata-dates .metadata-dates-1' do
           expect(page).to have_content("Type: Update Date: #{today_string}")
         end

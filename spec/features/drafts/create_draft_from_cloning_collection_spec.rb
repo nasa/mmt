@@ -22,7 +22,7 @@ describe 'Create new draft from cloning a collection', js: true, reset_provider:
     end
 
     it 'creates a new draft' do
-      expect(Draft.count).to eq(2)
+      expect(Draft.count).to eq(1)
     end
 
     it 'saves the provider id into the draft' do
