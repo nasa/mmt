@@ -180,12 +180,12 @@ module Helpers
 
     def add_dates
       within '.multiple.dates' do
-        select 'Create', from: 'Type'
+        select 'Creation', from: 'Type'
         fill_in 'Date', with: '2015-07-01T00:00:00Z'
 
         click_on 'Add another Date'
         within '.multiple-item-1' do
-          select 'Review', from: 'Type'
+          select 'Future Review', from: 'Type'
           fill_in 'Date', with: '2015-07-02T00:00:00Z'
         end
       end
