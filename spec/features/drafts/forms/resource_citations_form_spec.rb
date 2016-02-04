@@ -15,8 +15,6 @@ describe 'Resource citations form', js: true do
         click_on 'Resource Citations'
       end
 
-      open_accordions
-
       # Resource Citations
       add_resource_citations
 
@@ -76,8 +74,6 @@ describe 'Resource citations form', js: true do
         within '.metadata' do
           click_on 'Resource Citations'
         end
-
-        open_accordions
       end
 
       it 'populates the form with the values' do

@@ -76,8 +76,6 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Collection Information'
       end
-
-      open_accordions
     end
 
     it 'simple mandatory string field validation works' do
@@ -158,8 +156,6 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Organizations', match: :first
       end
-
-      open_accordions
     end
 
     it 'general floating point validation works' do
@@ -304,8 +300,6 @@ describe 'Data validation for a form', js: true do
       within 'section.metadata' do
         click_on 'Organizations', match: :first
       end
-
-      open_accordions
 
       within '#organizations' do
         fill_in 'Service Hours', with: 'test'

@@ -30,8 +30,6 @@ describe 'Draft creation', js: true do
           click_on 'Collection Information'
         end
 
-        open_accordions
-
         fill_in 'Short Name', with: '123'
 
         within '.nav-top' do

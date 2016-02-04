@@ -15,8 +15,6 @@ describe 'Organizations form', js: true do
         click_on 'Organizations', match: :first
       end
 
-      open_accordions
-
       # Organization
       within '#organizations' do
         add_responsibilities('organizations')
@@ -117,8 +115,6 @@ describe 'Organizations form', js: true do
         within '.metadata' do
           click_on 'Organizations', match: :first
         end
-
-        open_accordions
       end
 
       it 'populates the form with the values' do
