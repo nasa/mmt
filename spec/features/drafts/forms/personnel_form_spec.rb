@@ -117,6 +117,8 @@ describe 'Personnel form', js: true do
         within '.metadata' do
           click_on 'Personnel', match: :first
         end
+
+        open_accordions
       end
 
       it 'populates the form with the values' do
