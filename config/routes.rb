@@ -32,11 +32,14 @@ Rails.application.routes.draw do
   # Small, light weight check if the app is running
   get 'status' => 'welcome#status'
 
-  # Temporary route for Permission and Groups pages
+  # Temporary routes for Permission pages
   get 'permissions' => 'pages#permissions', as: 'permissions'
-  get 'groups' => 'pages#groups', as: 'groups'
   get 'new-permissions' => 'pages#new-permissions', as: 'new-permissions'
   get 'show-permissions' => 'pages#show-permissions', as: 'show-permissions'
+
+  # Temporary routes for Group pages
+  get 'groups' => 'pages#groups', as: 'groups'
+  get 'new-group' => 'pages#new-group', as: 'new-group'
   get 'show-group' => 'pages#show-group', as: 'show-group'
 
   root 'welcome#index'
