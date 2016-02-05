@@ -1,0 +1,31 @@
+<% always_required = options[:always_required] || false %>
+<div class="row sub-fields">
+  <div class="col-6">
+    <!-- Type - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
+    <%= mmt_select(
+      name: 'type',
+      title: 'Type',
+      prefix: name_prefix,
+      value: metadata_date['Type'],
+      options: DraftsHelper::MetadataDateSelectOptions,
+      help: 'definitions/DateType/properties/Type',
+      required: !always_required,
+      always_required: always_required
+    ) %>
+  </div>
+  
+  <div class="col-6">
+    <!-- Date -->
+    <%= mmt_datetime(
+      name: 'date',
+      title: 'Date',
+      prefix: name_prefix,
+      value: metadata_date['Date'],
+      help: 'definitions/DateType/properties/Date',
+      validate: true,
+      required: !always_required,
+      always_required: always_required,
+      classes: 'mmt-date-time'
+    ) %>
+  </div>
+</div>

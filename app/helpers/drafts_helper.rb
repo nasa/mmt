@@ -137,6 +137,10 @@ module DraftsHelper
     ['Orbital', 'ORBITAL'],
     ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
   ]
+  MetadataDateSelectOptions = [
+    ['Future Review', 'REVIEW'],
+    ['Planned Deletion', 'DELETE']
+  ]
 
   def construct_keyword_string(hash_obj, str)
     # Assumes hash is passed in as ordered
