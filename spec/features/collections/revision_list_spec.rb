@@ -7,15 +7,7 @@ describe 'Revision list', js: true, reset_provider: true do
     before do
       login
 
-      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
-
-      # publish draft
-      click_on 'Publish'
-
-      # go back to the draft and publish it a second time
-      visit draft_path(draft)
-      click_on 'Publish'
+      publish_draft(2)
     end
 
     it 'displays the number of revisions' do
