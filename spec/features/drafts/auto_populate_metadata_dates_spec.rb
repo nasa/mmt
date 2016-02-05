@@ -34,7 +34,7 @@ describe 'Auto populating metadata dates', js: true do
 
       it 'displays the update date on the collection page' do
         within '.preview .metadata-dates .metadata-dates-0' do
-          expect(page).to have_content("Type: Create Date: #{today_string}")
+          expect(page).to have_content("Type: Creation Date: #{today_string}")
         end
         within '.preview .metadata-dates .metadata-dates-1' do
           expect(page).to have_content("Type: Last Revision Date: #{today_string}")
