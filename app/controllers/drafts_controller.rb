@@ -113,6 +113,9 @@ class DraftsController < ApplicationController
     ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, @draft.native_id, token)
 
     if ingested.success?
+      # Delete draft
+      @draft.destroy
+
       xml = MultiXml.parse(ingested.body)
       concept_id = xml['result']['concept_id']
       revision_id = xml['result']['revision_id']

@@ -77,7 +77,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
 
           it 'creates a draft from the collection' do
             expect(page).to have_link('Records must have a unique Short Name. Click here to enter a new Short Name.')
-            expect(Draft.where(provider_id: 'MMT_2').size).to eq(2)
+            expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
           end
         end
       end
