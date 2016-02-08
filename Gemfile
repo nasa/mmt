@@ -51,7 +51,6 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'vcr'
-  gem 'factory_girl_rails'
   gem 'jshint'
 end
 
@@ -81,3 +80,4 @@ gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
 gem 'database_cleaner' # added to provide a solution to Capybara's problems with js=>true
 gem 'kaminari'
 gem 'carmen' # countries and subdivisions
+gem 'factory_girl_rails'
