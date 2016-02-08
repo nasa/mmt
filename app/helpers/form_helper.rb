@@ -125,4 +125,20 @@ module FormHelper
   def add_pipes(name)
     "|#{name}|"
   end
+
+  def hidden_metadata_date_fields(metadata)
+    dates = metadata['MetadataDates']
+    if dates && dates.any? { |date| date['Type'] == 'CREATE' }
+      create_type = hidden_field_tag('draft[metadata_dates][-2][type]',
+        get_metadata_create_date(metadata)['Type'])
+      create_datetime = hidden_field_tag('draft[metadata_dates][-2][date]',
+        get_metadata_create_date(metadata)['Date'])
+      update_type = hidden_field_tag('draft[metadata_dates][-1][type]',
+        get_metadata_update_date(metadata)['Type'])
+      update_datetime = hidden_field_tag('draft[metadata_dates][-1][date]',
+        get_metadata_update_date(metadata)['Date'])
+
+      create_type + create_datetime + update_type + update_datetime
+    end
+  end
 end

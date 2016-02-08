@@ -76,7 +76,7 @@ describe 'Metadata Information form', js: true do
       it 'populates the form with the values' do
         expect(page).to have_field('Metadata Language', with: 'eng')
 
-        within '.multiple.dates' do
+        within '.multiple.metadata-dates' do
           within '.multiple-item-0' do
             expect(page).to have_field('Type', with: 'REVIEW')
             expect(page).to have_field('Date', with: '2015-07-01T00:00:00Z')
