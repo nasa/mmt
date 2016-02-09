@@ -24,7 +24,11 @@ describe 'Publishing draft records', js: true, reset_provider: true do
 
     it 'displays the published metadata' do
       # runs through entire draft and makes sure all data is present on page
-      draft = Draft.first.draft
+      draft = build(:full_draft).draft
+
+      # Update the MetadataDates Update Date
+      draft['MetadataDates'][1]['Date'] = Time.now.utc.strftime('%Y-%m-%dT%H:%M:00.000Z')
+
       root_css_path = 'div.preview-collection > div.accordion-body > ul'
       options = {
         DataLanguage: :handle_as_language_code,

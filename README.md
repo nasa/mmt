@@ -68,6 +68,18 @@ To stop the locally running CMR, run this command:
 
 You will need to stop the CMR before upgrading to a new CMR version. Note: stopping the running CMR for any reason will delete all data from the CMR. You will have to load the data again when you start it.
 
+## Inserting Sample Drafts
+
+You can insert sample drafts into your local database. These commands use the first user in the database (should only be one), and add the drafts to your current provider, so make sure you login to the system and select a provider or the commands will fail.
+
+To insert a sample draft that only has the required fields present:
+
+    rake drafts:load_required
+
+To insert a sample draft with every field completed:
+
+    rake drafts:load_full
+
 ## Troubleshooting
 
 ### OpenSSL Issue

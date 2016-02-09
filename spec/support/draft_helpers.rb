@@ -15,8 +15,10 @@ module Helpers
 
     def publish_draft(count = 1)
       draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
-      count.times do
-        visit draft_path(draft)
+
+      visit draft_path(draft)
+      count.times do |i|
+        click_on 'Edit Record' if i > 0
         click_on 'Publish'
       end
     end

@@ -15,8 +15,7 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
   context 'when the latest revision is a published collection' do
     before do
       # go back to the draft and publish it a second time
-      draft = Draft.first
-      visit draft_path(draft)
+      click_on 'Edit Record'
       click_on 'Publish'
       click_on 'Revisions (2)'
     end

@@ -22,11 +22,10 @@ require 'database_cleaner'
 require 'rake'
 require 'rails/tasks'
 
-Capybara.javascript_driver = :poltergeist
-
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, timeout: 1.minute)
 end
+Capybara.javascript_driver = :poltergeist
 
 Capybara.default_max_wait_time = 5
 
