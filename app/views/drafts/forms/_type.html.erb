@@ -8,13 +8,13 @@
         <div class="accordion-header">
           <a href="#">
             <i class="fa fa-angle-down toggle"></i>
-            <span class="is-hidden">Toggle <%= options[:title] || type.titleize %> <%= index + 1 %></span>
+            <span class="is-invisible">Toggle <%= options[:title] || type.titleize %> <%= index + 1 %></span>
           </a>
           <span class="header-title"><%= options[:title] || type.titleize %> <%= index + 1 %></span>
           <div class="actions">
             <a class="remove">
               <i class="fa fa-times-circle"></i>
-              <span class="is-hidden">Remove <%= options[:title] || type.titleize %></span>
+              <span class="is-invisible">Remove <%= options[:title] || type.titleize %></span>
             </a>
           </div>
         </div>

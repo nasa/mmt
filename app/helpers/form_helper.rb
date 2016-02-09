@@ -118,7 +118,7 @@ module FormHelper
   def mmt_help_icon(options)
     return unless options[:help]
     link_to('#help-modal', class: 'display-modal', tabindex: -1) do
-      "<i class=\"ed-icon ed-fa-info-circle\" data-help-path=\"#{options[:help]}\"></i><span class=\"is-hidden\">Help modal for #{options[:title]}</span>".html_safe
+      "<i class=\"ed-icon ed-fa-info-circle\" data-help-path=\"#{options[:help]}\"></i><span class=\"is-invisible\">Help modal for #{options[:title]}</span>".html_safe
     end
   end
 
