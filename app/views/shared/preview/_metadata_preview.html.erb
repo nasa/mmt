@@ -1,13 +1,11 @@
 <div class="row content">
   <section class="preview">
-    <h3>Preview</h3>
     <!-- <p>
       <input type="checkbox" name="markdown"></input>
       <label for="markdown">Show as markdown</label>
     </p> -->
-
-    <%= render partial: 'shared/preview/metadata_information', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/collection_information', locals: { metadata: metadata } %>
+    <%= render partial: 'shared/preview/metadata_information', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/organizations', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/personnel', locals: { metadata: metadata } %>
     <%= render partial: 'shared/preview/data_identification', locals: { metadata: metadata } %>

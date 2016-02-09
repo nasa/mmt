@@ -1,24 +1,36 @@
 <main class="internal record" role="main">
   <header>
-    <div class="content">
-      <div class="breadcrumb">
-        <ol>
-          <li><%= link_to 'Dashboard', dashboard_path %></li>
-          <li><%= display_entry_id(@collection, 'collection') %></li>
-        </ol>
+    <div class="row content">
+      <div class="collection-basics">
+        <div class="breadcrumb">
+          <ol>
+            <li><%= link_to 'Dashboard', dashboard_path %></li>
+            <li><%= display_entry_id(@collection, 'collection') %></li>
+          </ol>
+        </div>
+        <h2><%= display_entry_id(@collection, 'collection') %></h2>
+        <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
+        <% unless @error %>
+          <p class="subnav">Published Record</p>
+          <p class="subnav">
+            <% if @current_user.provider_id == @provider_id %>
+              <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
+            <% elsif @current_user.available_providers.include?(@provider_id) %>
+              <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: 'edit' } %>
+            <% end %>
+          </p>
+        <% end %>
       </div>
-      <h2><%= display_entry_id(@collection, 'collection') %></h2>
-      <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
-      <% unless @error %>
-        <p class="subnav">Published Record</p>
-        <p class="subnav">
-          <% if @current_user.provider_id == @provider_id %>
-            <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
-          <% elsif @current_user.available_providers.include?(@provider_id) %>
-            <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: 'edit' } %>
-          <% end %>
-        </p>
-      <% end %>
+      <div class="collection-details">
+        <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+          key_name: 'Version',
+          hash_for_key: @collection
+        } %>
+        <%= render partial: 'shared/preview/fields/display_field_line', locals: {
+          key_name: 'ShortName',
+          hash_for_key: @collection
+        } %>
+      </div>
     </div>
   </header>
 

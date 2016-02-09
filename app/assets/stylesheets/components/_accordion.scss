@@ -7,8 +7,7 @@
 }
 
 .accordion-header {
-  padding: 1em 1.5em;
-  background-color: $light-grey;
+  padding: 1em 0;
   cursor: pointer;
   font-weight: bold;
   color: darken($dolphin-grey, 20%);
@@ -35,7 +34,7 @@
 
 .accordion-body {
   margin: 0;
-  padding: 1em 1.5em;
+  padding: 0;
 
   .accordion-header {
     padding: 0;
@@ -62,12 +61,12 @@
 .preview-collection {
 
   .accordion-header {
-    padding: 1em;
+    padding: 0;
     margin: 0;
-    border-left: 1px solid darken($light-grey, 10%);
   }
 
   .accordion-body {
-    padding: 1em;
+    padding: 0;
+    margin-bottom: 1em;
   }
 }

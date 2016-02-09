@@ -24,6 +24,17 @@
     }
   }
 
+  .collection-basics {
+    @include span-columns(8);
+  }
+
+  .collection-details {
+    @include span-columns(4);
+    padding: 0 1em;
+    height: 185px;
+    background: rgba(0,0,0,0.5);
+  }
+
   .row-content {
     padding: 0.5em 0;
   }
