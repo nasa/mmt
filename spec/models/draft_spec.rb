@@ -132,4 +132,50 @@ describe Draft do
     expect(metadata_dates.second['Type']).to eq('UPDATE')
     expect(metadata_dates.second['Date']).to start_with(today_string)
   end
+
+  it '"add_metadata_dates" keeps other metadata date values unchanged' do
+    draft = create(:draft, draft: { 'MetadataDates' => [
+        { 'Type' => 'REVIEW', 'Date' => '2015-07-01T00:00:00Z' },
+        { 'Type' => 'DELETE', 'Date' => '2015-07-01T00:00:00Z' }
+      ]})
+    draft.add_metadata_dates
+
+    metadata_dates = draft.draft['MetadataDates']
+
+    expect(metadata_dates[0]['Type']).to eq('REVIEW')
+    expect(metadata_dates[0]['Date']).to eq('2015-07-01T00:00:00Z')
+
+    expect(metadata_dates[1]['Type']).to eq('DELETE')
+    expect(metadata_dates[1]['Date']).to eq('2015-07-01T00:00:00Z')
+
+    expect(metadata_dates[2]['Type']).to eq('CREATE')
+    expect(metadata_dates[2]['Date']).to start_with(today_string)
+
+    expect(metadata_dates[3]['Type']).to eq('UPDATE')
+    expect(metadata_dates[3]['Date']).to start_with(today_string)
+  end
+
+  it '"add_metadata_dates" updates UPDATE date but keeps CREATE date' do
+    draft = create(:draft, draft: { 'MetadataDates' => [
+        { 'Type' => 'CREATE', 'Date' => '2015-07-01T00:00:00Z' },
+        { 'Type' => 'UPDATE', 'Date' => '2015-07-01T00:00:00Z' },
+        { 'Type' => 'REVIEW', 'Date' => '2015-07-01T00:00:00Z' },
+        { 'Type' => 'DELETE', 'Date' => '2015-07-01T00:00:00Z' }
+      ]})
+    draft.add_metadata_dates
+
+    metadata_dates = draft.draft['MetadataDates']
+
+    expect(metadata_dates[0]['Type']).to eq('REVIEW')
+    expect(metadata_dates[0]['Date']).to eq('2015-07-01T00:00:00Z')
+
+    expect(metadata_dates[1]['Type']).to eq('DELETE')
+    expect(metadata_dates[1]['Date']).to eq('2015-07-01T00:00:00Z')
+
+    expect(metadata_dates[2]['Type']).to eq('CREATE')
+    expect(metadata_dates[2]['Date']).to eq('2015-07-01T00:00:00Z')
+
+    expect(metadata_dates[3]['Type']).to eq('UPDATE')
+    expect(metadata_dates[3]['Date']).to start_with(today_string)
+  end
 end

@@ -22,7 +22,6 @@
           <%= render partial: "drafts/forms/fields/#{type}_fields", locals: {
               type.to_sym => value,
               name_prefix: "#{name_prefix}#{index}_",
-              metadata_date: metadata_date ||= false,
               options: options.clone } %>
           <% if show_preview %>
             <%= link_to edsc_map_path, class: 'spatial-preview-link', target: '_blank' do %>
