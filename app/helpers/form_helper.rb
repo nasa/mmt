@@ -52,9 +52,13 @@ module FormHelper
       size = 4
     end
 
+    select_options = options[:options].clone
+    # restrict options for drop down if for metadata_date
+    select_options.shift(2) if options[:metadata_date]
+
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
-      options_for_select(options[:options], options[:value]),
+      options_for_select(select_options, options[:value]),
       multiple: is_multi_select,
       size: size,
       class: classes,
@@ -124,5 +128,39 @@ module FormHelper
 
   def add_pipes(name)
     "|#{name}|"
+  end
+
+  def editable_metadata_dates(metadata)
+    dates = metadata['MetadataDates'] || []
+    editable_dates = dates.reject { |date| date['Type'] == 'CREATE' || date['Type'] == 'UPDATE' }
+    editable_dates.empty? ? [{}] : editable_dates
+  end
+
+  def metadata_create_date(metadata)
+    dates = metadata['MetadataDates']
+    create_date = dates.find { |date| date['Type'] == 'CREATE' }
+    create_date
+  end
+
+  def metadata_update_date(metadata)
+    dates = metadata['MetadataDates']
+    update_date = dates.find { |date| date['Type'] == 'UPDATE' }
+    update_date
+  end
+
+  def hidden_metadata_date_fields(metadata)
+    dates = metadata['MetadataDates']
+    return unless dates && dates.any? { |date| date['Type'] == 'CREATE' }
+
+    create_type = hidden_field_tag('draft[metadata_dates][-2][type]',
+                                   metadata_create_date(metadata)['Type'])
+    create_datetime = hidden_field_tag('draft[metadata_dates][-2][date]',
+                                       metadata_create_date(metadata)['Date'])
+    update_type = hidden_field_tag('draft[metadata_dates][-1][type]',
+                                   metadata_update_date(metadata)['Type'])
+    update_datetime = hidden_field_tag('draft[metadata_dates][-1][date]',
+                                       metadata_update_date(metadata)['Date'])
+
+    create_type + create_datetime + update_type + update_datetime
   end
 end
