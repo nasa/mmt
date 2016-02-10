@@ -454,4 +454,47 @@ describe 'Data validation for a form', js: true do
       expect(page).to have_content('Draft was successfully updated')
     end
   end
+
+  context 'when there are errors on the same field within an array of fields' do
+    before do
+      within 'section.metadata' do
+        click_on 'Spatial Information'
+      end
+
+      open_accordions
+
+      choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+      script = '$(".geometry-picker.bounding-rectangles").click();'
+      page.execute_script script
+      click_on 'Add another Bounding Rectangle'
+      open_accordions
+
+      within '#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_0' do
+        fill_in 'North', with: 'asdf'
+        fill_in 'West', with: ''
+        fill_in 'East', with: ''
+        fill_in 'South', with: ''
+      end
+      within '#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_1' do
+        fill_in 'North', with: ''
+        fill_in 'West', with: '0'
+        fill_in 'East', with: ''
+        fill_in 'South', with: ''
+      end
+    end
+
+    it 'displays the errors correctly' do
+      within '#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_0' do
+        expect(page).to have_content('North must be of type number')
+        expect(page).to have_content('West is required')
+        expect(page).to have_content('East is required')
+        expect(page).to have_content('South is required')
+      end
+      within '#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_1' do
+        expect(page).to have_content('North is required')
+        expect(page).to have_content('East is required')
+        expect(page).to have_content('South is required')
+      end
+    end
+  end
 end
