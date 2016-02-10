@@ -38,8 +38,8 @@ module DraftsHelper
   ]
   DateTypeOptions = [
     ['Creation', 'CREATE'],
-    ['Future Review', 'REVIEW'],
     ['Last Revision', 'UPDATE'],
+    ['Future Review', 'REVIEW'],
     ['Planned Deletion', 'DELETE']
   ]
   FileSizeUnitTypeOptions = [
@@ -86,7 +86,6 @@ module DraftsHelper
     ['Larger Citation Works', 'LARGER CITATION WORKS']
   ]
   MimeTypeOptions = [
-    ['Select Mime Type', ''],
     ['application/msword'],
     ['application/pdf'],
     ['application/xml'],
@@ -136,10 +135,6 @@ module DraftsHelper
     ['Vertical', 'VERTICAL'],
     ['Orbital', 'ORBITAL'],
     ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
-  ]
-  MetadataDateSelectOptions = [
-    ['Future Review', 'REVIEW'],
-    ['Planned Deletion', 'DELETE']
   ]
 
   def construct_keyword_string(hash_obj, str)
@@ -215,23 +210,5 @@ module DraftsHelper
     options = country.subregions.map(&:name)
     options.unshift ['Select State/Province', '']
     options_for_select(options, selected: value)
-  end
-
-  def get_editable_metadata_dates(metadata)
-    dates = metadata['MetadataDates'] || []
-    editable_dates = dates.reject { |date| date['Type'] == 'CREATE' || date['Type'] == 'UPDATE' }
-    editable_dates.empty? ? [{}] : editable_dates
-  end
-
-  def get_metadata_create_date(metadata)
-    dates = metadata['MetadataDates']
-    create_date = dates.find { |date| date['Type'] == 'CREATE' }
-    create_date
-  end
-
-  def get_metadata_update_date(metadata)
-    dates = metadata['MetadataDates']
-    update_date = dates.find { |date| date['Type'] == 'UPDATE' }
-    update_date
   end
 end

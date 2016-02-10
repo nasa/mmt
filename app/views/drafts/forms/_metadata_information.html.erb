@@ -37,10 +37,11 @@
       <div class="col-12">
         <div class="row sub-fields">
           <%= render partial: 'drafts/forms/type', locals: {
-              type: 'metadata_date',
-              values: get_editable_metadata_dates(draft.draft) || [{}],
+              type: 'date',
+              values: editable_metadata_dates(draft.draft) || [{}],
               name_prefix: 'draft_|metadata_dates|_',
               multiple: true,
+              metadata_date: true,
               options: {} } %>
           <%= hidden_metadata_date_fields(draft.draft) %>
         </div>

@@ -27,8 +27,6 @@ describe 'Auto populating metadata dates', js: true do
 
     context 'when publishing an update to the collection' do
       before do
-        draft = Draft.first
-
         click_on 'Edit Record'
         within '.metadata' do
           click_on 'Metadata Information'
@@ -46,15 +44,22 @@ describe 'Auto populating metadata dates', js: true do
       end
 
       it 'displays the update date, new metadata dates, and creation date on the collection page' do
-        within '.preview .metadata-information-preview' do
-          expect(page).to have_content("Type: Creation Date: #{today_string}")
-          expect(page).to have_content("Type: Last Revision Date: #{today_string}")
-
+        # within '.preview .metadata-information-preview' do
+        within '.preview .metadata-dates .metadata-dates-0' do
           expect(page).to have_content('Future Review')
           expect(page).to have_content('2015-07-01T00:00:00Z')
+        end
 
+        within '.preview .metadata-dates .metadata-dates-1' do
           expect(page).to have_content('Planned Deletion')
           expect(page).to have_content('2015-07-02T00:00:00Z')
+        end
+
+        within '.preview .metadata-dates .metadata-dates-2' do
+          expect(page).to have_content("Type: Creation Date: #{today_string}")
+        end
+        within '.preview .metadata-dates .metadata-dates-3' do
+          expect(page).to have_content("Type: Last Revision Date: #{today_string}")
         end
       end
     end

@@ -194,11 +194,11 @@ module Helpers
     end
 
     def add_metadata_dates
-      within '.multiple.metadata-dates' do
+      within '.multiple.dates' do
         select 'Future Review', from: 'Type'
         fill_in 'Date', with: '2015-07-01T00:00:00Z'
 
-        click_on 'Add another Metadata Date'
+        click_on 'Add another Date'
         within '.multiple-item-1' do
           select 'Planned Deletion', from: 'Type'
           fill_in 'Date', with: '2015-07-02T00:00:00Z'

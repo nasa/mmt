@@ -118,4 +118,18 @@ describe Draft do
 
     expect(draft.draft).to eq(collection)
   end
+
+  # add_metadata_dates
+  it '"add_metadata_dates" adds create and update dates' do
+    draft = create(:draft)
+    draft.add_metadata_dates
+
+    metadata_dates = draft.draft['MetadataDates']
+
+    expect(metadata_dates.first['Type']).to eq('CREATE')
+    expect(metadata_dates.first['Date']).to start_with(today_string)
+
+    expect(metadata_dates.second['Type']).to eq('UPDATE')
+    expect(metadata_dates.second['Date']).to start_with(today_string)
+  end
 end
