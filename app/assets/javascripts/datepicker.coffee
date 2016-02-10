@@ -10,6 +10,8 @@ $(document).ready ->
       forceParse: false
       keyboardNavigation: false
     $(this).datepicker(pickerOpts)
+    .on 'changeDate', ->
+      $(document).trigger 'mmtValidate'
     .one 'hide', (e) ->
       $(this).datepicker('remove')
       e.stopImmediatePropagation()
