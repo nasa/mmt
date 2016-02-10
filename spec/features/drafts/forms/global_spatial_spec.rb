@@ -38,10 +38,10 @@ describe 'Global spatial coverage', js: true do
 
     context 'when multiple bounding rectangles are present' do
       before do
-        fill_in 'N', with: '5'
-        fill_in 'S', with: '-5'
-        fill_in 'E', with: '5'
-        fill_in 'W', with: '-5'
+        fill_in 'North', with: '5'
+        fill_in 'South', with: '-5'
+        fill_in 'East', with: '5'
+        fill_in 'West', with: '-5'
 
         click_on 'Add another Bounding Rectangle'
         find('#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_0 > .accordion-header').click

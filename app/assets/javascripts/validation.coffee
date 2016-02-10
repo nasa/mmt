@@ -210,7 +210,8 @@ $(document).ready ->
             keyword = 'parameter-range-larger' if largerTypes.indexOf(type) != -1
             newError =
               keyword: keyword,
-              path: "AdditionalAttributes.#{index}.ParameterRangeEnd"
+              dataPath: "/AdditionalAttributes/#{index}/ParameterRangeEnd"
+              params: {}
             errors.push newError
 
   validatePage = (opts) ->
