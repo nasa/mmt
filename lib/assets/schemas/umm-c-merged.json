@@ -1847,9 +1847,12 @@
     "SpatialExtent": {
       "$ref": "#/definitions/SpatialExtentType"
     },
-    "TilingIdentificationSystem": {
+    "TilingIdentificationSystems": {
       "description": "Name of the two-dimensional tiling system for the collection.  Previously called TwoDCoordinateSystem.",
-      "$ref": "#/definitions/TilingIdentificationSystemType"
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/TilingIdentificationSystemType"
+      }
     },
     "SpatialInformation": {
       "description": "The reference frame or system in which altitudes (elevations) are given. The information contains the datum name, distance units and encoding method, which provide the definition for the system. This field also stores the characteristics of the reference frame or system from which depths are measured. The additional information in the field is geometry reference data etc.",
