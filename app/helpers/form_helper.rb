@@ -76,6 +76,7 @@ module FormHelper
       name_to_param(options[:prefix] + options[:name]),
       options[:value],
       class: classes.join(' '),
+      placeholder: "YYYY-MM-DDTHH:MM:SSZ",
       data: { level: remove_pipes(options[:prefix]) }
     )
 
