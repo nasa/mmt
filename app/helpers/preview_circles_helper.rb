@@ -165,7 +165,7 @@ module PreviewCirclesHelper
   }
 
   def form_circle(form_name, metadata, errors)
-    circle = "<i class='ed-icon ed-fa-circle-o icon-green'><span class='is-invisible'>#{form_name} is incomplete</span></i>"
+    circle = "<i class='ed-icon ed-fa-circle-o icon-green'><span class='is-invisible'>#{form_name.titlize} is incomplete</span></i>"
 
     if !metadata.empty? && errors
       page_errors = errors.select { |error| error[:page] == form_name }
