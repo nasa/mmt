@@ -1,6 +1,6 @@
 module FormHelper
   def mmt_text_field(options)
-    options[:name] = add_pipes(options[:name])
+    options[:name] = add_pipes(options[:name]) unless options[:name].include?('|')
 
     classes = ['full-width']
     classes << 'validate' if options[:validate]
