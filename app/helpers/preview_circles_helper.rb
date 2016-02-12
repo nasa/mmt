@@ -214,7 +214,7 @@ module PreviewCirclesHelper
 
   def complete_circle(field, draft, form_name, anchor, required)
     icon = required ? 'ed-icon ed-required icon-green' : 'ed-icon ed-fa-circle icon-grey'
-    text = required ? "#{field} - Required" : "#{field}"
+    text = required ? "#{field} - Required field complete" : "#{field}"
     link_to "<i class=\"#{icon}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
   end
 
