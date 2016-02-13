@@ -139,7 +139,7 @@ module PreviewCirclesHelper
         required: true,
         anchor: 'spatial-extent'
       },
-      'TilingIdentificationSystem' => {
+      'TilingIdentificationSystems' => {
         required: false,
         anchor: 'tiling-identification-system'
       },
