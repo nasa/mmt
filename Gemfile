@@ -51,13 +51,18 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'vcr'
-  gem 'factory_girl_rails'
   gem 'jshint'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+
+  # better error handling
+  gem 'better_errors'
+  gem 'binding_of_caller'
+
+  gem 'pry-rails'
 end
 
 group :test do
@@ -81,3 +86,4 @@ gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
 gem 'database_cleaner' # added to provide a solution to Capybara's problems with js=>true
 gem 'kaminari'
 gem 'carmen' # countries and subdivisions
+gem 'factory_girl_rails'
