@@ -15,8 +15,6 @@ describe 'Personnel form', js: true do
         click_on 'Personnel', match: :first
       end
 
-      open_accordions
-
       # Personnel
       within '#personnel' do
         add_responsibilities('personnel')

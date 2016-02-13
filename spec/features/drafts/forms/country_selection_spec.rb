@@ -9,8 +9,6 @@ describe 'Country selection', js: true do
     within '.metadata' do
       click_on 'Organizations', match: :first
     end
-
-    open_accordions
   end
 
   context 'when selecting a Country with subregions' do

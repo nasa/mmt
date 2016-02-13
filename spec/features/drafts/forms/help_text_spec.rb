@@ -16,8 +16,6 @@ describe 'Draft form help text', js: true do
           click_on 'Collection Information'
         end
 
-        open_accordions
-
         find(:xpath, "//a/i[@data-help-path='properties/ShortName']/..").click # ShortName
       end
 
@@ -52,8 +50,6 @@ describe 'Draft form help text', js: true do
           click_on 'Collection Information'
         end
 
-        open_accordions
-
         find(:xpath, "//a/i[@data-help-path='properties/ShortName']/..").click # ShortName
       end
 
@@ -67,8 +63,6 @@ describe 'Draft form help text', js: true do
         within '.metadata' do
           click_on 'Collection Information'
         end
-
-        open_accordions
 
         find(:xpath, "//a/i[@data-help-path='properties/ShortName']/..").click # ShortName
       end

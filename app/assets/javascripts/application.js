@@ -16,7 +16,7 @@
 //= require dropzone-4.0.1/dropzone
 //= require jquery-serialize-object/jquery.serialize-object.min
 //= require humps/humps
-//= require jsen/jsen.min
+//= require ajv-3.5.3/ajv.min
 //= require netinsight_2.3/ntpagetag
 //= require chosen-1.4.2/chosen.jquery.min
 //= require_tree .

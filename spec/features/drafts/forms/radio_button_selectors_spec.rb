@@ -332,7 +332,9 @@ describe 'Radio button form selectors', js: true do
       before do
         choose 'Single'
 
-        fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-07-01T00:00:00Z'
+        fill_in 'draft_temporal_extents_0_single_date_times_0', with: ''
+        # click Today to close datepicker
+        find('th.today').click
 
         choose 'Range'
         choose 'Single'
