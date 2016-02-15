@@ -88,7 +88,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
 
       # Cause some errors that CMR will reject
       within '.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
       open_accordions
 

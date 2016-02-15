@@ -14,7 +14,7 @@ describe 'Radio button form selectors', js: true do
   context 'when viewing geometry fields' do
     before do
       within '.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions
@@ -112,7 +112,7 @@ describe 'Radio button form selectors', js: true do
   context 'when viewing spatial coverage type fields' do
     before do
       within '.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions
@@ -206,7 +206,7 @@ describe 'Radio button form selectors', js: true do
   context 'when viewing coordinate system type fields' do
     before do
       within '.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions

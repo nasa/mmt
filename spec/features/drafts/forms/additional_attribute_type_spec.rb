@@ -58,7 +58,7 @@ describe 'Additional Attribute data type', js: true do
         end
 
         it 'displays an error circle for AdditionalAttributes' do
-          within 'a[title="AdditionalAttributes"]' do
+          within 'a[title="Additional Attributes - Invalid"]' do
             expect(page).to have_css('.icon-red')
           end
         end
