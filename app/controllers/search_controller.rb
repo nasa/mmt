@@ -60,6 +60,7 @@ class SearchController < ApplicationController
 
     collections, @errors, hits = get_search_results(good_query_params)
 
+    console
     @collections = Kaminari.paginate_array(collections, total_count: hits).page(page).per(results_per_page)
   end
 
@@ -99,22 +100,39 @@ class SearchController < ApplicationController
   def get_drafts(query)
     query.delete('page_num')
     query.delete('page_size')
-    query.delete('_') # what?
-    query.delete('options[entry_title][pattern]') # what is this?
-    query['entry_title'] = query['entry_title'][1..-2] if query['entry_title']
+    # query.delete('_') # what?
+    # query.delete('options[entry_title][pattern]') # what is this?
+    # query['entry_title'] = query['entry_title'][1..-2] if query['entry_title']
 
-    drafts = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
+    draft_search_term = query.delete('draft_search_term')
+    query['entry_title'] = query['short_name'] = draft_search_term #query['draft_search_term']
+
+    # original query command
+    # drafts = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
+
+    if query['provider_id']
+      drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
+                           "%#{draft_search_term.downcase}%", "%#{draft_search_term.downcase}%")
+                    .where(provider_id: query['provider_id'])
+                    .where('provider_id IN (?)', @current_user.available_providers)
+    else
+      drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
+                           "%#{draft_search_term.downcase}%", "%#{draft_search_term.downcase}%")
+                    .where('provider_id IN (?)', @current_user.available_providers)
+    end
 
     # Map drafts to same structure we get from CMR
     drafts = drafts.map do |draft|
       {
         'meta' => {
           'revision-date' => draft['updated_at'].to_s[0..9],
-          'draft_id' => draft.id
+          'draft_id' => draft.id,
+          'provider-id' => draft.provider_id
         },
         'umm' => {
           'short-name' => draft.display_short_name,
-          'entry-title' => draft.display_entry_title
+          'entry-title' => draft.display_entry_title,
+          'version-id' => draft.draft['Version']
         }
       }
     end
