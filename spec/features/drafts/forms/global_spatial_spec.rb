@@ -10,7 +10,7 @@ describe 'Global spatial coverage', js: true do
       visit draft_path(draft)
 
       within '.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions

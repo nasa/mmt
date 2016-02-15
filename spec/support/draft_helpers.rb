@@ -243,28 +243,16 @@ module Helpers
 
     def add_addresses
       within '.multiple.addresses' do
-        within '.multiple.addresses-street-addresses' do
-          within first('.multiple-item') do
-            find('input').set '300 E Street Southwest'
-          end
-          within all('.multiple-item')[1] do
-            find('input').set 'Room 203'
-          end
-          within all('.multiple-item')[2] do
-            find('input').set 'Address line 3'
-          end
-        end
+        fill_in 'Street Address - Line 1', with: '300 E Street Southwest'
+        fill_in 'Street Address - Line 2', with: 'Room 203'
+        fill_in 'Street Address - Line 3', with: 'Address line 3'
         select 'United States', from: 'Country'
         fill_in 'City', with: 'Washington'
         select 'District of Columbia', from: 'State / Province'
         fill_in 'Postal Code', with: '20546'
         click_on 'Add another Address'
         within '.multiple-item.accordion.multiple-item-1' do
-          within '.multiple.addresses-street-addresses' do
-            within first('.multiple-item') do
-              find('input').set '8800 Greenbelt Road'
-            end
-          end
+          fill_in 'Street Address - Line 1', with: '8800 Greenbelt Road'
           select 'United States', from: 'Country'
           fill_in 'City', with: 'Greenbelt'
           select 'Maryland', from: 'State / Province'

@@ -14,7 +14,7 @@ describe 'Preview on Map link', js: true do
     visit draft_path(draft)
 
     within '.metadata' do
-      click_on 'Spatial Information'
+      click_on 'Spatial Information', match: :first
     end
 
     open_accordions
@@ -60,7 +60,7 @@ describe 'Preview on Map link', js: true do
           click_on 'Yes'
 
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions
@@ -113,7 +113,7 @@ describe 'Preview on Map link', js: true do
           click_on 'Yes'
 
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions
@@ -182,7 +182,7 @@ describe 'Preview on Map link', js: true do
           click_on 'Yes'
 
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions

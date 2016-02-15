@@ -227,7 +227,7 @@ describe 'Data validation for a form', js: true do
   context 'when there are Lat Lon type fields' do
     before do
       within 'section.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions
@@ -315,7 +315,7 @@ describe 'Data validation for a form', js: true do
   context 'when there is a minItems constraint' do
     before do
       within 'section.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions
@@ -458,7 +458,7 @@ describe 'Data validation for a form', js: true do
   context 'when there are errors on the same field within an array of fields' do
     before do
       within 'section.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions

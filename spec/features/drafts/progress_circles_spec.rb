@@ -50,7 +50,7 @@ describe 'Progress circles', js: true do
       end
 
       it 'fills in that correct circle in green' do
-        within '#distribution-information a[title="RelatedUrls"]' do
+        within '#distribution-information a[title="Related Urls - Required field complete"]' do
           expect(page).to have_css('.ed-required.icon-green')
         end
       end
@@ -107,7 +107,7 @@ describe 'Progress circles', js: true do
       end
 
       it 'fills in the correct circle in red' do
-        within '#distribution-information a[title="RelatedUrls"]' do
+        within '#distribution-information a[title="Related Urls - Invalid"]' do
           expect(page).to have_css('.ed-fa-minus-circle.icon-red')
         end
       end

@@ -1,6 +1,6 @@
 module FormHelper
   def mmt_text_field(options)
-    options[:name] = add_pipes(options[:name])
+    options[:name] = add_pipes(options[:name]) unless options[:name].include?('|')
 
     classes = ['full-width']
     classes << 'validate' if options[:validate]
@@ -80,6 +80,7 @@ module FormHelper
       name_to_param(options[:prefix] + options[:name]),
       options[:value],
       class: classes.join(' '),
+      placeholder: "YYYY-MM-DDTHH:MM:SSZ",
       data: { level: remove_pipes(options[:prefix]) }
     )
 
@@ -121,8 +122,8 @@ module FormHelper
 
   def mmt_help_icon(options)
     return unless options[:help]
-    link_to('#help-modal', class: 'display-modal', tabindex: -1) do
-      "<i class=\"ed-icon ed-fa-info-circle\" data-help-path=\"#{options[:help]}\"></i><span class=\"is-hidden\">Help modal for #{options[:title]}</span>".html_safe
+    link_to('#help-modal', class: 'display-modal') do
+      "<i class=\"ed-icon ed-fa-info-circle\" data-help-path=\"#{options[:help]}\"></i><span class=\"is-invisible\">Help modal for #{options[:title]}</span>".html_safe
     end
   end
 

@@ -13,7 +13,7 @@ describe 'Spatial information form', js: true do
     context 'when submitting points geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
@@ -127,7 +127,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions
@@ -206,7 +206,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when submitting bounding rectangles geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
@@ -265,7 +265,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions
@@ -304,7 +304,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when submitting g polygons geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
@@ -354,7 +354,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions
@@ -439,7 +439,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when submitting lines geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
@@ -481,7 +481,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions
@@ -529,7 +529,7 @@ OCEAN > ATLANTIC OCEAN')
   context 'when submitting the form with vertical spatial' do
     before do
       within '.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions
@@ -610,7 +610,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when returning to the form with vertical spatial data' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
@@ -657,7 +657,7 @@ OCEAN > ATLANTIC OCEAN')
   context 'when submitting the form with orbital spatial' do
     before do
       within '.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions
@@ -748,7 +748,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when returning to the form for orbital spatial data' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions

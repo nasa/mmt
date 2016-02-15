@@ -81,7 +81,7 @@
         <%= datetime_field_tag(name_to_param("#{name_prefix}|single_date_times|_#{index}"), date_time, class: 'half-width single-date-time simple-multiple-field validate mmt-date-time', data: { level: remove_pipes(name_prefix) }) %>
         <a class="remove">
           <i class="fa fa-times-circle"></i>
-          <span class="is-hidden">Remove <%= index %></span>
+          <span class="is-invisible">Remove <%= index %></span>
         </a>
         <div class="actions">
           <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another Single Date Time</button>
