@@ -5,6 +5,25 @@
 // todo: requires heavy refactoring
 
 .metadata-form {
+  fieldset {
+    legend {
+      padding: 10px 0 5px;
+
+      + .display-modal {
+        display: inline-block;
+        padding: 10px 0 5px;
+      }
+    }
+
+    input {
+      margin-top: 0;
+    }
+
+    label {
+      font-weight: normal;
+    }
+  }
+
   textarea {
     height: 6em;
   }
