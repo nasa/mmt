@@ -1,33 +1,41 @@
 <div class="preview-collection accordion">
   <div class="accordion-header">
-    <h4>Metadata Information Fields:</h4>
+    <h4>Metadata Information <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Metadata Language</span>'.html_safe, draft_edit_form_path(@draft, 'metadata_information'), {class: 'hash-link'} %><% end %></h4>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
       <span class="is-hidden">Toggle Metadata Information Fields</span>
     </a>
   </div>
   <div class="accordion-body">
-    <ul class="metadata-information-preview">
-      <h4>Metadata Language <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Metadata Language</span>'.html_safe, draft_edit_form_path(@draft, 'metadata_information', {anchor: 'metadata-language'}), {class: 'hash-link'} %><% end %></h4>
-      <%= render partial: 'shared/preview/fields/display_select_field', locals: {
-        name: 'MetadataLanguage',
-        options: @language_codes,
-        data: metadata['MetadataLanguage']
-      } %>
-
-      <h4>Metadata Dates <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Metadata Dates</span>'.html_safe, draft_edit_form_path(@draft, 'metadata_information', {anchor: 'metadata-dates'}), {class: 'hash-link'} %><% end %></h4>
-      <%= render partial: 'shared/preview/preview_type', locals: {
-          data: metadata['MetadataDates'],
-          name: 'MetadataDates',
-          type: TypesHelper::DateType
-      } %>
-
-      <h4>Directory Names <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i>'.html_safe, draft_edit_form_path(@draft, 'metadata_information', anchor: 'directory-names'), class: 'hash-link' %><% end %></h4>
-      <%= render partial: 'shared/preview/preview_type', locals: {
-          data: metadata['DirectoryNames'],
-          name: 'DirectoryNames',
-          type: TypesHelper::DirectoryNamesType
-      } %>
-    </ul>
+    <% if (metadata['MetadataLanguage'] && metadata['MetadataDates'] && metadata['DirectoryNames']).blank? %>
+      <p class="empty-section">There is no data for this section.</p>
+    <% else %>
+      <% if metadata['MetadataLanguage'] %>
+        <h5>Language</h5>
+        <p><%= metadata['MetadataLanguage'] %></p>
+      <% end %>
+      <% if metadata['MetadataDates'] %>
+        <h5>Dates</h5>
+        <table>
+          <% metadata['MetadataDates'].each do |data| %>
+            <tr>
+              <td><%= data["Type"] %></td>
+              <td><%= data["Date"] %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
+      <% if metadata['DirectoryNames'] %>
+        <h5>Directory Names</h5>
+        <table>
+          <% metadata['DirectoryNames'].each do |data| %>
+            <tr>
+              <td><%= data["ShortName"] %></td>
+              <td><%= data["LongName"] %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
+    <% end %>
   </div>
 </div>

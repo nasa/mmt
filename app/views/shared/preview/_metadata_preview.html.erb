@@ -18,64 +18,64 @@
   </section>
 
   <aside class="geographic-coverage" role="complementary">
-    <h3>Geographic Coverage</h3>
     <%= image_tag("plate_carree_earth.png", alt: "Map of Earth", id: 'preview-map') %>
-
-    <h4>Spatial Coordinates</h4>
-    <% preview_spatial = get_preview_spatial(metadata) %>
-    <ol class="coordinates" id="coordinates">
-      <% preview_spatial['point_coordinate_array'].each do |point| %>
-        <li>Lat: <%= point['lat'] %></li>
-        <li>Lon: <%= point['lon'] %></li>
-      <% end %>
-
-      <% preview_spatial['rectangle_coordinate_array'].each do |rectangle| %>
-        <li>N: <%= rectangle['north_bounding_coordinate'] %></li>
-        <li>S: <%= rectangle['south_bounding_coordinate'] %></li>
-        <li>E: <%= rectangle['east_bounding_coordinate'] %></li>
-        <li>W: <%= rectangle['west_bounding_coordinate'] %></li>
-      <% end %>
-
-      <% if preview_spatial['point_coordinate_array'].size == 0 && preview_spatial['rectangle_coordinate_array'].size == 0 %>
-        <li>No Spatial Coordinates found</li>
-      <% end %>
-    </ol>
-
-    <% spatial_keywords = metadata['SpatialKeywords'] || [] %>
-    <h4>Location Keywords</h4>
-    <ul>
-      <% if spatial_keywords.size > 0 %>
-        <% spatial_keywords.each do |keyword| %>
-          <li><%= keyword %></li>
+    <section>
+      <h4>Spatial Coordinates</h4>
+      <% preview_spatial = get_preview_spatial(metadata) %>
+      <ol class="coordinates" id="coordinates">
+        <% preview_spatial['point_coordinate_array'].each do |point| %>
+          <li>Lat: <%= point['lat'] %></li>
+          <li>Lon: <%= point['lon'] %></li>
         <% end %>
-      <% else %>
-        <li>No Spatial Keywords found</li>
-      <% end %>
-    </ul>
 
-    <% preview_temporal = get_preview_temporal(metadata) %>
+        <% preview_spatial['rectangle_coordinate_array'].each do |rectangle| %>
+          <li>N: <%= rectangle['north_bounding_coordinate'] %></li>
+          <li>S: <%= rectangle['south_bounding_coordinate'] %></li>
+          <li>E: <%= rectangle['east_bounding_coordinate'] %></li>
+          <li>W: <%= rectangle['west_bounding_coordinate'] %></li>
+        <% end %>
 
-    <h4>Temporal Coverage</h4>
-    <ul>
-      <% single_date_times = preview_temporal['single_date_times'] || [] %>
-      <% single_date_times.each do |single_date_time| %>
-        <li>Date: <%= single_date_time %></li></br>
-      <% end %>
+        <% if preview_spatial['point_coordinate_array'].size == 0 && preview_spatial['rectangle_coordinate_array'].size == 0 %>
+          <li>No Spatial Coordinates found</li>
+        <% end %>
+      </ol>
 
-      <% range_date_times = preview_temporal['range_date_times'] || [] %>
-      <% range_date_times.each do |range_date_time| %>
-        <li>Start Date: <%= range_date_time['beginning_date_time']%> </li> <li>Stop Date: <%= range_date_time['ending_date_time']%> </li></br>
-      <% end %>
+      <% spatial_keywords = metadata['SpatialKeywords'] || [] %>
+      <h4>Location Keywords</h4>
+      <ul>
+        <% if spatial_keywords.size > 0 %>
+          <% spatial_keywords.each do |keyword| %>
+            <li><%= keyword %></li>
+          <% end %>
+        <% else %>
+          <li>No Spatial Keywords found</li>
+        <% end %>
+      </ul>
 
-      <% periodic_date_times = preview_temporal['periodic_date_times'] || [] %>
-      <% periodic_date_times.each do |periodic_date_time| %>
-        <li>Start Date: <%= periodic_date_time['start_date']%> </li> <li>Stop Date: <%= periodic_date_time['end_date']%> </li></br>
-      <% end %>
+      <% preview_temporal = get_preview_temporal(metadata) %>
 
-      <% if single_date_times.blank? && range_date_times.blank? && periodic_date_times.blank? %>
-        <li>No Temporal Coverages found</li>
-      <% end  %>
-    </ul>
+      <h4>Temporal Coverage</h4>
+      <ul>
+        <% single_date_times = preview_temporal['single_date_times'] || [] %>
+        <% single_date_times.each do |single_date_time| %>
+          <li>Date: <%= single_date_time %></li></br>
+        <% end %>
+
+        <% range_date_times = preview_temporal['range_date_times'] || [] %>
+        <% range_date_times.each do |range_date_time| %>
+          <li>Start Date: <%= range_date_time['beginning_date_time']%> </li> <li>Stop Date: <%= range_date_time['ending_date_time']%> </li></br>
+        <% end %>
+
+        <% periodic_date_times = preview_temporal['periodic_date_times'] || [] %>
+        <% periodic_date_times.each do |periodic_date_time| %>
+          <li>Start Date: <%= periodic_date_time['start_date']%> </li> <li>Stop Date: <%= periodic_date_time['end_date']%> </li></br>
+        <% end %>
+
+        <% if single_date_times.blank? && range_date_times.blank? && periodic_date_times.blank? %>
+          <li>No Temporal Coverages found</li>
+        <% end  %>
+      </ul>
+    </section>
   </aside>
 </div>
 

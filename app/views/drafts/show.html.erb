@@ -14,14 +14,9 @@
         <p class="subnav current">Draft Record</p>
       </div>
       <div class="collection-details">
-        <%= render partial: 'shared/preview/fields/display_field_line', locals: {
-          key_name: 'Version',
-          hash_for_key: @collection
-        } %>
-        <%= render partial: 'shared/preview/fields/display_field_line', locals: {
-          key_name: 'ShortName',
-          hash_for_key: @collection
-        } %>
+        <span class="badge"><%= @draft.draft["Version"] %></span>
+        <span class="badge"><%= @draft.draft["DataLanguage"] %></span>
+        <p>Lastest Revision: <% @draft.draft["MetadataDates"] %></p>
       </div>
     </div>
   </header>

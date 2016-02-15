@@ -15,7 +15,11 @@
   @include span-columns(4);
   @include linear-gradient(darken($light-blue, 3%), $light-blue);
   border-top: 5px solid $pale-blue;
-  padding: 1.25em;
+  padding: 0;
+
+  section {
+    padding: 0 1em;
+  }
 
   img {
     padding: 0;

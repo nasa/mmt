@@ -13,10 +13,6 @@
   color: darken($dolphin-grey, 20%);
   @include transition(all 0.25s ease-in-out);
 
-  &:hover {
-    background-color: darken($light-grey, 3%);
-  }
-
   .actions {
     display: inline-block;
     margin: 0 1em;
@@ -61,12 +57,22 @@
 .preview-collection {
 
   .accordion-header {
-    padding: 0;
-    margin: 0;
+    padding: 0.5em 0;
+    margin: 0 0 0.5em 0;
+    border-bottom: 1px solid $light-grey;
   }
 
   .accordion-body {
     padding: 0;
     margin-bottom: 1em;
+
+    p {
+      margin: 0;
+    }
+
+    .empty-section {
+      color: $dolphin-grey;
+      font-style: italic;
+    }
   }
 }

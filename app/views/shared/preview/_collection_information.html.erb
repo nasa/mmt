@@ -1,13 +1,12 @@
 <div class="preview-collection accordion">
   <div class="accordion-header">
-    <h4>Collection Information</h4>
+    <h4>Collection Information <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Information</span>'.html_safe, draft_edit_form_path(@draft, 'collection_information', {anchor: 'collection-information'}), {class: 'hash-link'} %><% end %></h4>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
       <span class="is-hidden">Toggle Collection Information Fields</span>
     </a>
   </div>
   <div class="accordion-body">
-    <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Information</span>'.html_safe, draft_edit_form_path(@draft, 'collection_information', {anchor: 'collection-information'}), {class: 'hash-link'} %><% end %>
     <ul class="collection-information-preview">
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'Abstract',
@@ -17,12 +16,6 @@
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'Purpose',
         hash_for_key: metadata
-      } %>
-
-      <%= render partial: 'shared/preview/fields/display_select_field', locals: {
-        name: 'DataLanguage',
-        options: @language_codes,
-        data: metadata['DataLanguage']
       } %>
 
     </ul>

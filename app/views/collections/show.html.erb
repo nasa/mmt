@@ -11,7 +11,7 @@
         <h2><%= display_entry_id(@collection, 'collection') %></h2>
         <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
         <% unless @error %>
-          <p class="subnav">Published Record</p>
+          <p class="subnav current">Published Record</p>
           <p class="subnav">
             <% if @current_user.provider_id == @provider_id %>
               <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
@@ -22,14 +22,9 @@
         <% end %>
       </div>
       <div class="collection-details">
-        <%= render partial: 'shared/preview/fields/display_field_line', locals: {
-          key_name: 'Version',
-          hash_for_key: @collection
-        } %>
-        <%= render partial: 'shared/preview/fields/display_field_line', locals: {
-          key_name: 'ShortName',
-          hash_for_key: @collection
-        } %>
+        <span class="badge"><%= @collection["Version"]%></span>
+        <% if @collection["DataLanguage"] %><span class="badge"><%= @collection["DataLanguage"]%><% end %></span>
+        <p>Lastest Revision: </p>
       </div>
     </div>
   </header>
