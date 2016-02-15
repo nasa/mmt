@@ -15,8 +15,6 @@ describe 'Collection Information form', js: true do
         click_on 'Collection Information'
       end
 
-      open_accordions
-
       fill_in 'Short Name', with: '12345'
       fill_in 'Version', with: 'v2'
       fill_in 'Entry Title', with: 'Draft Title'
@@ -53,8 +51,6 @@ describe 'Collection Information form', js: true do
         within '.metadata' do
           click_on 'Collection Information'
         end
-
-        open_accordions
       end
 
       it 'populates the form with the values' do

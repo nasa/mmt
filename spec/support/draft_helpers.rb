@@ -23,8 +23,31 @@ module Helpers
       end
     end
 
+    # Open any accordions on the page, but try again if they aren't open
+    # Also try again if there are no accordions on the page (page hasn't loaded yet)
+    # http://stackoverflow.com/a/28174679
     def open_accordions
+      begin
+        Timeout.timeout(Capybara.default_max_wait_time) do
+          loop do
+            do_open_accordions
+            return if accordions_open?
+            sleep 0.1
+          end
+        end
+      rescue Timeout::Error
+        raise 'Failed to open the accordions on the page'
+      end
+    end
+
+    def do_open_accordions
       script = "$('.accordion.is-closed').removeClass('is-closed');"
+      page.execute_script script
+    end
+
+    def accordions_open?
+      # Are there accordions on the page, and are they open?
+      script = "$('.accordion').length > 0 && !$('.accordion').hasClass('is-closed');"
       page.evaluate_script script
     end
 
@@ -438,16 +461,16 @@ module Helpers
       page.execute_script script
 
       within first('.multiple.bounding-rectangles') do
-        fill_in 'W', with: '-180.0'
-        fill_in 'N', with: '90.0'
-        fill_in 'E', with: '180.0'
-        fill_in 'S', with: '-90.0'
+        fill_in 'West', with: '-180.0'
+        fill_in 'North', with: '90.0'
+        fill_in 'East', with: '180.0'
+        fill_in 'South', with: '-90.0'
         click_on 'Add another Bounding Rectangle'
         within '.multiple-item-1' do
-          fill_in 'W', with: '-96.9284587'
-          fill_in 'N', with: '58.968602'
-          fill_in 'E', with: '-56.9284587'
-          fill_in 'S', with: '18.968602'
+          fill_in 'West', with: '-96.9284587'
+          fill_in 'North', with: '58.968602'
+          fill_in 'East', with: '-56.9284587'
+          fill_in 'South', with: '18.968602'
         end
       end
     end

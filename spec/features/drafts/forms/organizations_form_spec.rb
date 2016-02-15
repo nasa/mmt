@@ -15,8 +15,6 @@ describe 'Organizations form', js: true do
         click_on 'Organizations', match: :first
       end
 
-      open_accordions
-
       # Organization
       within '#organizations' do
         add_responsibilities('organizations')

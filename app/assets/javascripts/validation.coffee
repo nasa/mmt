@@ -74,8 +74,9 @@ $(document).ready ->
     if error.title.length > 0
       field =  error.title
     else
-      path = error.path.split('.')
+      path = error.dataPath.split('/')
       field = path[path.length - 1]
+      field = path[path.length - 2] if $.isNumeric(field)
     type = getFieldType(error.element)
 
     switch keyword
@@ -102,7 +103,6 @@ $(document).ready ->
         if field == 'Party'
           "Party is incomplete"
         else
-          field = path[path.length - 2]
           "#{field} should have one type completed"
 
   getFieldType = (element) ->
@@ -173,7 +173,10 @@ $(document).ready ->
     if error.keyword == 'additionalProperties'
       error = null
       return
-    path = for p in error.path.split('.')
+
+    error.dataPath += "/#{error.params.missingProperty}" if error.params.missingProperty?
+
+    path = for p in error.dataPath.replace(/^\//, '').split('/')
       humps.decamelize(p)
     path = path.join('_')
 
@@ -182,6 +185,7 @@ $(document).ready ->
     path = path.replace('d_o_i', 'doi')
     path = path.replace('i_s_b_n', 'isbn')
     path = path.replace('i_s_o_topic_categories', 'iso_topic_categories')
+    error.path = path
 
     id = "draft_#{path}"
     error.id = id
@@ -206,21 +210,24 @@ $(document).ready ->
             keyword = 'parameter-range-larger' if largerTypes.indexOf(type) != -1
             newError =
               keyword: keyword,
-              path: "AdditionalAttributes.#{index}.ParameterRangeEnd"
+              dataPath: "/AdditionalAttributes/#{index}/ParameterRangeEnd"
+              params: {}
             errors.push newError
 
   validatePage = (opts) ->
     $('.validation-error').remove()
     $('.summary-errors').remove()
     json = getPageJson()
-    validate = jsen(globalJsonSchema, {greedy: true})
+
+    ajv = Ajv
+      allErrors: true,
+      jsonPointers: true,
+      formats: 'uri' : URI_REGEX
+    validate = ajv.compile(globalJsonSchema)
     validate(json)
     errors = validate.errors
 
     validateParameterRanges(errors)
-
-    if opts.pageLoad?
-      formErrors.push(error) for error in errors
 
     inlineErrors = []
     summaryErrors = []
@@ -259,12 +266,16 @@ $(document).ready ->
   if $('.metadata-form').length > 0
     # "visit" each field with a value on page load
     $('.validate').filter ->
-      return this.value
+      return switch this.type
+        when 'radio'
+          # don't want to save fields that aren't translated into metadata
+          this.name? and this.checked
+        else
+          this.value
     .each (index, element) ->
       visitedFields.push $(element).attr('id')
 
     validatePage
-      pageLoad: true
       showInline: true
       showSummary: true
       showConfirm: false
@@ -311,3 +322,5 @@ $(document).ready ->
   # Handle modal 'Yes', submit form
   $('#invalid-draft-accept').on 'click', ->
     $('.metadata-form').submit()
+
+  URI_REGEX = /^(?:[A-Za-z][A-Za-z0-9+\-.]*:(?:\/\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\.[A-Za-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\?(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?(?:\#(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?|(?:\/\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\.[A-Za-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\-._~!$&'()*+,;=@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\?(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?(?:\#(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?)$/
