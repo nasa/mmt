@@ -35,20 +35,6 @@ class SearchController < ApplicationController
       end
 
       @query.delete('provider_id') if @query['provider_id'].blank?
-
-      # Handle search term field with selector
-      # if no search term exists, reset the type
-      # TODO need for drafts search? OR DELETE when search works
-      # params.delete('search_term_type') if params['search_term'].empty?
-      # case params['search_term_type']
-      # when 'short_name'
-      #   @query['short_name'] = params['search_term']
-      # when 'entry_title'
-      #   @query['entry_title'] = "*#{params['search_term']}*"
-      #   @query['options[entry_title][pattern]'] = true
-      # when 'concept_id'
-      #   @query['concept_id'] = params['search_term']
-      # end
     end
 
     @query['page_num'] = page
@@ -60,7 +46,6 @@ class SearchController < ApplicationController
 
     collections, @errors, hits = get_search_results(good_query_params)
 
-    console
     @collections = Kaminari.paginate_array(collections, total_count: hits).page(page).per(results_per_page)
   end
 
@@ -100,12 +85,8 @@ class SearchController < ApplicationController
   def get_drafts(query)
     query.delete('page_num')
     query.delete('page_size')
-    # query.delete('_') # what?
-    # query.delete('options[entry_title][pattern]') # what is this?
-    # query['entry_title'] = query['entry_title'][1..-2] if query['entry_title']
 
     draft_search_term = query.delete('draft_search_term')
-    query['entry_title'] = query['short_name'] = draft_search_term #query['draft_search_term']
 
     # original query command
     # drafts = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
@@ -139,15 +120,4 @@ class SearchController < ApplicationController
 
     [drafts, [], drafts.size]
   end
-
-  # def get_published_and_drafts(query)
-  #   published_collections, published_errors, published_hits = get_published(query.clone)
-  #   drafts, _draft_errors, draft_hits = get_drafts(query)
-  #
-  #   collections = published_collections.concat(drafts).sort do |x, y|
-  #     x['umm']['entry-title'] <=> y['umm']['entry-title']
-  #   end
-  #
-  #   [collections, published_errors, published_hits + draft_hits]
-  # end
 end

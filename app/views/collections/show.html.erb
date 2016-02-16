@@ -15,7 +15,7 @@
           <% if @current_user.provider_id == @provider_id %>
             <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
           <% elsif @current_user.available_providers.include?(@provider_id) %>
-            <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: 'edit' } %>
+            <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-collection' } %>
           <% end %>
         </p>
       <% end %>
@@ -45,13 +45,13 @@
             <% if @current_user.provider_id == @provider_id %>
               <%= link_to 'Clone this Record', clone_collection_path %> |
             <% elsif @current_user.available_providers.include?(@provider_id) %>
-              <%= link_to 'Clone this Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: 'clone' } %> |
+              <%= link_to 'Clone this Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'clone' } %> |
             <% end %>
             <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= @collection_link %>" data-token="<%= token_with_client_id %>">Download XML</a>
             <% if @current_user.provider_id == @provider_id %>
               | <%= link_to 'Delete Record', "#delete-record-modal", class: 'display-modal delete-collection' %>
             <% elsif @current_user.available_providers.include?(@provider_id) %>
-              | <%= link_to 'Delete Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: 'delete' } %>
+              | <%= link_to 'Delete Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'delete-collection' } %>
             <% end %>
             <div id="delete-record-modal" class="modal-content">
               <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-hidden">Close</span></a>
@@ -64,14 +64,14 @@
             <div id="not-current-provider-modal" class="modal-content">
               <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-hidden">Close</span></a>
               <p>
-                <span class="collection-action"></span> requires you change your provider context to <span class="provider"></span>. Would you like to change your provider context and perform this action?
+                <span class="record-action"></span> requires you change your provider context to <span class="provider"></span>. Would you like to change your provider context and perform this action?
               </p>
               <p>
                 <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
                 <%= link_to 'Yes', '#', class: 'btn btn-blue spinner not-current-provider-link' %>
-                <%= link_to 'Yes', edit_collection_path(revision_id: @revision_id), class: 'btn btn-blue spinner is-hidden', id: 'not-current-provider-edit-link' %>
+                <%= link_to 'Yes', edit_collection_path(revision_id: @revision_id), class: 'btn btn-blue spinner is-hidden', id: 'not-current-provider-edit-collection-link' %>
                 <%= link_to 'Yes', clone_collection_path, class: 'btn btn-blue spinner is-hidden', id: 'not-current-provider-clone-link' %>
-                <%= link_to 'Yes', collection_path, method: :delete, class: 'btn btn-blue spinner is-hidden', id: 'not-current-provider-delete-link' %>
+                <%= link_to 'Yes', collection_path, method: :delete, class: 'btn btn-blue spinner is-hidden', id: 'not-current-provider-delete-collection-link' %>
               </p>
             </div>
 

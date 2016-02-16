@@ -110,5 +110,9 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    #not-current-provider-modal {
+      white-space: normal;
+    }
   }
 }
