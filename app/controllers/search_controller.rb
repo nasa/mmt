@@ -29,9 +29,9 @@ class SearchController < ApplicationController
 
       if params['record_state'] == 'published_records'
         # if published collection, use cmr keyword search
-        @query['keyword'] = @query.delete('search_term')
+        @query['keyword'] = @query['search_term']
       elsif params['record_state'] == 'draft_records'
-        @query['draft_search_term'] = @query.delete('search_term')
+        @query['drafts_search_term'] = @query['search_term']
       end
 
       @query.delete('provider_id') if @query['provider_id'].blank?
@@ -86,19 +86,17 @@ class SearchController < ApplicationController
     query.delete('page_num')
     query.delete('page_size')
 
-    draft_search_term = query.delete('draft_search_term')
-
     # original query command
     # drafts = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
 
     if query['provider_id']
       drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
-                           "%#{draft_search_term.downcase}%", "%#{draft_search_term.downcase}%")
+                           "%#{query['drafts_search_term'].downcase}%", "%#{query['drafts_search_term'].downcase}%")
                     .where(provider_id: query['provider_id'])
                     .where('provider_id IN (?)', @current_user.available_providers)
     else
       drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
-                           "%#{draft_search_term.downcase}%", "%#{draft_search_term.downcase}%")
+                           "%#{query['drafts_search_term'].downcase}%", "%#{query['drafts_search_term'].downcase}%")
                     .where('provider_id IN (?)', @current_user.available_providers)
     end
 

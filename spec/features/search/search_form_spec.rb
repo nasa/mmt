@@ -16,7 +16,7 @@ describe 'Search Form', js: true do
     context 'when using quick find' do
       before do
         fill_in 'Quick Find', with: short_name
-        element = find('input#keyword')
+        element = find('input#quick_find_keyword')
         element.native.send_key(:Enter)
       end
 
@@ -28,14 +28,13 @@ describe 'Search Form', js: true do
     context 'when using full search' do
       before do
         click_on 'Full Metadata Record Search'
-        select 'Entry Title', from: 'search_term_type'
         fill_in 'search_term', with: entry_title
         element = find('input#search_term')
         element.native.send_key(:Enter)
       end
 
       it 'performs the search' do
-        expect(page).to have_search_query(1, "Entry Title: #{entry_title}")
+        expect(page).to have_search_query(1, "Keyword: #{entry_title}")
       end
     end
   end

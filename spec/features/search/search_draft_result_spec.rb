@@ -15,14 +15,15 @@ describe 'Search drafts results', js: true do
 
   context 'when searching drafts by short name' do
     before do
-      select 'Draft Records', from: 'record_state'
-      select 'Short Name', from: 'search_term_type'
-      fill_in 'search_term', with: short_name
-      click_on 'Submit'
+      within '.full-search-form' do
+        choose 'Drafts'
+        fill_in 'search_term', with: short_name
+        click_on 'Submit'
+      end
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Short Name: #{short_name}", 'Record State: Draft Records')
+      expect(page).to have_search_query(1, "Drafts Search Term: #{short_name}", 'Record State: Draft Records')
     end
 
     it 'displays expected data' do
@@ -33,14 +34,15 @@ describe 'Search drafts results', js: true do
 
   context 'when searching drafts by entry title' do
     before do
-      select 'Draft Records', from: 'record_state'
-      select 'Entry Title', from: 'search_term_type'
-      fill_in 'search_term', with: entry_title
-      click_on 'Submit'
+      within '.full-search-form' do
+        choose 'Drafts'
+        fill_in 'search_term', with: entry_title
+        click_on 'Submit'
+      end
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Entry Title: #{entry_title}", 'Record State: Draft Records')
+      expect(page).to have_search_query(1, "Drafts Search Term: #{entry_title}", 'Record State: Draft Records')
     end
 
     it 'displays expected data' do
@@ -49,21 +51,21 @@ describe 'Search drafts results', js: true do
     end
   end
 
-  context 'when searching published and drafts by short name' do
-    before do
-      select 'Published & Draft Records', from: 'record_state'
-      select 'Short Name', from: 'search_term_type'
-      fill_in 'search_term', with: short_name
-      click_on 'Submit'
-    end
-
-    it 'displays collection results' do
-      expect(page).to have_search_query(1, "Short Name: #{short_name}", 'Record State: Published And Draft Records')
-    end
-
-    it 'displays expected data' do
-      expect(page.find('table#search-results')).to have_content(short_name)
-      expect(page.find('table#search-results')).to have_content(entry_title)
-    end
-  end
+  # context 'when searching published and drafts by short name' do
+  #   before do
+  #     select 'Published & Draft Records', from: 'record_state'
+  #     select 'Short Name', from: 'search_term_type'
+  #     fill_in 'search_term', with: short_name
+  #     click_on 'Submit'
+  #   end
+  #
+  #   it 'displays collection results' do
+  #     expect(page).to have_search_query(1, "Short Name: #{short_name}", 'Record State: Published And Draft Records')
+  #   end
+  #
+  #   it 'displays expected data' do
+  #     expect(page.find('table#search-results')).to have_content(short_name)
+  #     expect(page.find('table#search-results')).to have_content(entry_title)
+  #   end
+  # end
 end

@@ -6,9 +6,7 @@ $(document).ready ->
 
   $(document).on 'toggleSearch', ->
     $('.search-module').toggleClass 'is-hidden'
-    # Header height;
-    pageHeight = $(document).height() - 140
-    lightbox pageHeight
+    lightbox $(document).height()
 
   $('#search').submit ->
     # The full search box might be up when clicking on quick find
