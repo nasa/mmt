@@ -22,6 +22,10 @@
   <%= stylesheet_link_tag 'application', media: 'all' %>
 
   <%= javascript_include_tag 'application' %>
+
+  <% if Rails.configuration.respond_to?(:analytics_id) %>
+    <%= render 'shared/google_analytics' %>
+  <% end %>
 </head>
 
 <body class="<%= (controller.action_name == 'dashboard' ? "home" : "") %>">
