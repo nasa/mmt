@@ -38,13 +38,14 @@ $(document).ready ->
     newTitle = switch title
       when 'URLs' then 'URLs'
       when 'StateProvince' then 'State / Province'
+      when 'StreetAddresses' then 'Street Address'
       else title.replace( /([A-Z])/g, " $1" )
 
     newTitle
 
   getSchemaProperties = (path) ->
     schema = globalJsonSchema
-    schema = schema[x] for x in path
+    schema = (schema[x]) for x in path
     schema
 
   getDescription = (path) ->
