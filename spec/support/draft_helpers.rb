@@ -46,6 +46,7 @@ module Helpers
     end
 
     def accordions_open?
+      expect(page).to have_css('.accordion')
       expect(page).to have_no_css('.accordion.is-closed')
     rescue
       false
