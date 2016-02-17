@@ -28,6 +28,8 @@ $(document).ready ->
       when 'Revert to this Revision'
         action = 'revert'
         'Reverting this collection'
+      when 'view-draft'
+        'Viewing this draft'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
