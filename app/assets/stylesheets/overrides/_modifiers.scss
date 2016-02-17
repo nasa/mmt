@@ -26,6 +26,11 @@
   display: inline-block;
 }
 
+.is-inline {
+  display: inline-block;
+  float: left;
+}
+
 // Icon color modifiers
 .icon-green {
   color: $dark-green;
@@ -59,6 +64,10 @@
 
 .is-white {
   background: $white;
+}
+
+.is-dark-grey {
+  color: darken($dolphin-grey, 20%);
 }
 
 // One-off Spacing

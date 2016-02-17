@@ -139,7 +139,7 @@ module PreviewCirclesHelper
         required: true,
         anchor: 'spatial-extent'
       },
-      'TilingIdentificationSystem' => {
+      'TilingIdentificationSystems' => {
         required: false,
         anchor: 'tiling-identification-system'
       },
@@ -165,7 +165,7 @@ module PreviewCirclesHelper
   }
 
   def form_circle(form_name, metadata, errors)
-    circle = '<i class="ed-icon ed-fa-circle-o icon-green"></i>'
+    circle = "<i class='ed-icon ed-fa-circle-o icon-green'><span class='is-invisible'>#{form_name.titleize} is incomplete</span></i>"
 
     if !metadata.empty? && errors
       page_errors = errors.select { |error| error[:page] == form_name }
@@ -180,7 +180,7 @@ module PreviewCirclesHelper
         end
       end
 
-      circle = '<i class="ed-icon ed-check icon-green"></i>' if valid
+      circle = "<i class='ed-icon ed-check icon-green'><span class='is-invisible'>#{form_name.titleize} is valid</i>" if valid
     end
 
     circle
@@ -208,15 +208,18 @@ module PreviewCirclesHelper
 
   def empty_circle(field, draft, form_name, anchor, required)
     icon = required ? 'ed-icon ed-required-o icon-green' : 'ed-icon ed-fa-circle-o icon-grey'
-    link_to "<i class=\"#{icon}\"></i> <span class=\"is-hidden\">#{field}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
+    text = required ? "#{name_to_title(field)} - Required" : name_to_title(field)
+    link_to "<i class=\"#{icon}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: text
   end
 
   def complete_circle(field, draft, form_name, anchor, required)
     icon = required ? 'ed-icon ed-required icon-green' : 'ed-icon ed-fa-circle icon-grey'
-    link_to "<i class=\"#{icon}\"></i> <span class=\"is-hidden\">#{field}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
+    text = required ? "#{name_to_title(field)} - Required field complete" : name_to_title(field)
+    link_to "<i class=\"#{icon}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: text
   end
 
   def invalid_circle(field, draft, form_name, anchor)
-    link_to "<i class=\"ed-icon ed-fa-minus-circle icon-red\"></i> <span class=\"is-hidden\">#{field}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: field
+    text = "#{name_to_title(field)} - Invalid"
+    link_to "<i class=\"ed-icon ed-fa-minus-circle icon-red\"></i> <span class=\"is-invisible\">#{name_to_title(field)} Invalid</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: text
   end
 end

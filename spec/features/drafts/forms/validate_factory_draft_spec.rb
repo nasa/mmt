@@ -22,7 +22,7 @@ describe 'Data validation on each form for the factory draft', js: true do
         within 'section.metadata' do
           click_on form_name, match: :first
         end
-        open_accordions
+        open_accordions unless form_name == 'Collection Information'
       end
 
       it 'validation produces no false positives' do

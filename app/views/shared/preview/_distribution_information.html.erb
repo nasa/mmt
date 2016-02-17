@@ -3,19 +3,19 @@
     <h4>Distribution Information Fields</h4>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Distribution Information Fields</span>
+      <span class="is-invisible">Toggle Distribution Information Fields</span>
     </a>
   </div>
   <div class="accordion-body">
     <ul class="distribution-information-preview">
-      <h4>Related URLs <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Related URLs</span>'.html_safe, draft_edit_form_path(@draft, 'distribution_information', {anchor: 'related-urls'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Related URLs <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Related URLs</span>'.html_safe, draft_edit_form_path(@draft, 'distribution_information', {anchor: 'related-urls'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['RelatedUrls'],
           name: 'RelatedUrls',
           type: TypesHelper::RelatedUrlsType
       } %>
 
-      <h4>Distributions <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Distributions</span>'.html_safe, draft_edit_form_path(@draft, 'distribution_information', {anchor: 'distributions'}), {class: 'hash-link'} %><% end %></h4>
+      <h4>Distributions <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Distributions</span>'.html_safe, draft_edit_form_path(@draft, 'distribution_information', {anchor: 'distributions'}), {class: 'hash-link'} %><% end %></h4>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['Distributions'],
           name: 'Distributions',

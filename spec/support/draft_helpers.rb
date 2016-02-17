@@ -23,8 +23,31 @@ module Helpers
       end
     end
 
+    # Open any accordions on the page, but try again if they aren't open
+    # Also try again if there are no accordions on the page (page hasn't loaded yet)
+    # http://stackoverflow.com/a/28174679
     def open_accordions
+      begin
+        Timeout.timeout(Capybara.default_max_wait_time) do
+          loop do
+            do_open_accordions
+            return if accordions_open?
+            sleep 0.1
+          end
+        end
+      rescue Timeout::Error
+        raise 'Failed to open the accordions on the page'
+      end
+    end
+
+    def do_open_accordions
       script = "$('.accordion.is-closed').removeClass('is-closed');"
+      page.execute_script script
+    end
+
+    def accordions_open?
+      # Are there accordions on the page, and are they open?
+      script = "$('.accordion').length > 0 && !$('.accordion').hasClass('is-closed');"
       page.evaluate_script script
     end
 
@@ -193,6 +216,19 @@ module Helpers
       end
     end
 
+    def add_metadata_dates
+      within '.multiple.dates' do
+        select 'Future Review', from: 'Type'
+        fill_in 'Date', with: '2015-07-01T00:00:00Z'
+
+        click_on 'Add another Date'
+        within '.multiple-item-1' do
+          select 'Planned Deletion', from: 'Type'
+          fill_in 'Date', with: '2015-07-02T00:00:00Z'
+        end
+      end
+    end
+
     def add_contacts
       within '.multiple.contacts' do
         select 'Email', from: 'Type'
@@ -207,28 +243,16 @@ module Helpers
 
     def add_addresses
       within '.multiple.addresses' do
-        within '.multiple.addresses-street-addresses' do
-          within first('.multiple-item') do
-            find('input').set '300 E Street Southwest'
-          end
-          within all('.multiple-item')[1] do
-            find('input').set 'Room 203'
-          end
-          within all('.multiple-item')[2] do
-            find('input').set 'Address line 3'
-          end
-        end
+        fill_in 'Street Address - Line 1', with: '300 E Street Southwest'
+        fill_in 'Street Address - Line 2', with: 'Room 203'
+        fill_in 'Street Address - Line 3', with: 'Address line 3'
         select 'United States', from: 'Country'
         fill_in 'City', with: 'Washington'
         select 'District of Columbia', from: 'State / Province'
         fill_in 'Postal Code', with: '20546'
         click_on 'Add another Address'
         within '.multiple-item.accordion.multiple-item-1' do
-          within '.multiple.addresses-street-addresses' do
-            within first('.multiple-item') do
-              find('input').set '8800 Greenbelt Road'
-            end
-          end
+          fill_in 'Street Address - Line 1', with: '8800 Greenbelt Road'
           select 'United States', from: 'Country'
           fill_in 'City', with: 'Greenbelt'
           select 'Maryland', from: 'State / Province'
@@ -437,16 +461,16 @@ module Helpers
       page.execute_script script
 
       within first('.multiple.bounding-rectangles') do
-        fill_in 'W', with: '-180.0'
-        fill_in 'N', with: '90.0'
-        fill_in 'E', with: '180.0'
-        fill_in 'S', with: '-90.0'
+        fill_in 'West', with: '-180.0'
+        fill_in 'North', with: '90.0'
+        fill_in 'East', with: '180.0'
+        fill_in 'South', with: '-90.0'
         click_on 'Add another Bounding Rectangle'
         within '.multiple-item-1' do
-          fill_in 'W', with: '-96.9284587'
-          fill_in 'N', with: '58.968602'
-          fill_in 'E', with: '-56.9284587'
-          fill_in 'S', with: '18.968602'
+          fill_in 'West', with: '-96.9284587'
+          fill_in 'North', with: '58.968602'
+          fill_in 'East', with: '-56.9284587'
+          fill_in 'South', with: '18.968602'
         end
       end
     end

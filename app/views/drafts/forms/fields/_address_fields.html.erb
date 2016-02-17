@@ -15,24 +15,28 @@
   </div>
 
   <% street_addresses = address['StreetAddresses'] || [nil, nil] # [nil] creates at least one Street Address field %>
-  <div class="multiple addresses-street-addresses">
-    <%= mmt_label(
-      name: 'street_addresses_',
-      title: 'Street Address',
-      prefix: name_prefix
-    ) %>
-    <%= mmt_help_icon(
-      title: 'Street Address',
-      help: 'definitions/AddressType/properties/StreetAddresses'
-    ) %>
-
+  <fieldset class="multiple addresses-street-addresses">
+    <div class="row">
+      <legend class="is-inline is-dark-grey">Street Address</legend>
+      <%= mmt_help_icon(
+        title: 'Street Address',
+        help: 'definitions/AddressType/properties/StreetAddresses'
+      ) %>
+    </div>
     <% street_addresses += Array.new(3) # always display two street address fields %>
     <% street_addresses[0..2].each_with_index do |street_address, index| %>
       <div class="multiple-item multiple-item-<%= index %>">
-        <%= text_field_tag(name_to_param("#{name_prefix}|street_addresses|_#{index}"), street_address, class: 'full-width street-address simple-multiple-field validate', data: { level: remove_pipes(name_prefix) }) %>
+        <%= mmt_text_field(
+          name: "|street_addresses|_#{index}",
+          title: "Street Address - Line #{index + 1}",
+          prefix: name_prefix,
+          value: street_address,
+          validate: true
+        ) %>
+
       </div>
     <% end %>
-  </div>
+  </fieldset>
   <div class="row">
     <div class="col-6">
       <%= mmt_text_field(

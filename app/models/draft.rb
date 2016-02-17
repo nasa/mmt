@@ -98,7 +98,8 @@ class Draft < ActiveRecord::Base
       ]
     end
 
-    dates = new_dates
+    dates.reject! { |date| date['Type'] == 'CREATE' || date['Type'] == 'UPDATE' }
+    dates += new_dates
     draft['MetadataDates'] = dates
     save
   end

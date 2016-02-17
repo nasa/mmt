@@ -4,7 +4,7 @@
     <h3>Metadata Language</h3>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Metadata Language</span>
+      <span class="is-invisible">Toggle Metadata Language</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -29,7 +29,7 @@
     <h3>Metadata Dates</h3>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Metadata Dates</span>
+      <span class="is-invisible">Toggle Metadata Dates</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -38,10 +38,12 @@
         <div class="row sub-fields">
           <%= render partial: 'drafts/forms/type', locals: {
               type: 'date',
-              values: draft.draft['MetadataDates'] || [{}],
+              values: editable_metadata_dates(draft.draft) || [{}],
               name_prefix: 'draft_|metadata_dates|_',
               multiple: true,
-              options: {} } %>
+              options: { metadata_date: true }
+              } %>
+          <%= hidden_metadata_date_fields(draft.draft) %>
         </div>
       </div>
     </div>
@@ -50,7 +52,13 @@
 
 <!-- DirectoryNames -->
 <fieldset class="accordion is-closed" id="directory-names">
-  <div class="accordion-header"><h3>Directory Names</h3></div>
+  <div class="accordion-header">
+    <h3>Directory Names</h3>
+    <a href="#" class="float-r">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="is-invisible">Toggle Directory Names</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <div class="row">
       <div class="col-12">

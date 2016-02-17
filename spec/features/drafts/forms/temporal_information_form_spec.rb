@@ -77,8 +77,8 @@ describe 'Temporal information form', js: true do
             fill_in 'Period', with: 'Period text 1'
           end
         end
-        fill_in 'Start Date', with: '2015-05-01T00:00:00Z'
-        fill_in 'End Date', with: '2015-06-01T00:00:00Z'
+        fill_in 'Paleo Start Date', with: '2015-05-01T00:00:00Z'
+        fill_in 'Paleo Stop Date', with: '2015-06-01T00:00:00Z'
       end
 
       within '.nav-top' do
@@ -228,8 +228,8 @@ describe 'Temporal information form', js: true do
               expect(page).to have_field('Period', with: 'Period text 1')
             end
           end
-          expect(page).to have_field('Start Date', with: '2015-05-01T00:00:00Z')
-          expect(page).to have_field('End Date', with: '2015-06-01T00:00:00Z')
+          expect(page).to have_field('Paleo Start Date', with: '2015-05-01T00:00:00Z')
+          expect(page).to have_field('Paleo Stop Date', with: '2015-06-01T00:00:00Z')
         end
       end
     end

@@ -13,7 +13,7 @@ describe 'Spatial information form', js: true do
     context 'when submitting points geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
@@ -28,14 +28,29 @@ describe 'Spatial information form', js: true do
         select 'Cartesian', from: 'Granule Spatial Representation'
 
         # Tiling Identification System
-        fill_in 'Tiling Identification System Name', with: 'System name'
-        within first('.tiling-coordinate') do
-          fill_in 'Minimum Value', with: '-50.0'
-          fill_in 'Maximum Value', with: '50.0'
-        end
-        within all('.tiling-coordinate').last do
-          fill_in 'Minimum Value', with: '-30.0'
-          fill_in 'Maximum Value', with: '30.0'
+        within '.multiple.tiling-identification-systems' do
+          fill_in 'Tiling Identification System Name', with: 'System name'
+          within first('.tiling-coordinate') do
+            fill_in 'Minimum Value', with: '-50.0'
+            fill_in 'Maximum Value', with: '50.0'
+          end
+          within all('.tiling-coordinate').last do
+            fill_in 'Minimum Value', with: '-30.0'
+            fill_in 'Maximum Value', with: '30.0'
+          end
+          click_on 'Add another Tiling Identification System'
+
+          within '.multiple-item-1' do
+            fill_in 'Tiling Identification System Name', with: 'System name 1'
+            within first('.tiling-coordinate') do
+              fill_in 'Minimum Value', with: '-25.0'
+              fill_in 'Maximum Value', with: '25.0'
+            end
+            within all('.tiling-coordinate').last do
+              fill_in 'Minimum Value', with: '-15.0'
+              fill_in 'Maximum Value', with: '15.0'
+            end
+          end
         end
 
         # Spatial Representation Information
@@ -79,6 +94,11 @@ describe 'Spatial information form', js: true do
         expect(page).to have_content('Maximum Value: 50.0')
         expect(page).to have_content('Minimum Value: -30.0')
         expect(page).to have_content('Maximum Value: 30.0')
+        expect(page).to have_content('Tiling Identification System Name: System name 1')
+        expect(page).to have_content('Minimum Value: -25.0')
+        expect(page).to have_content('Maximum Value: 25.0')
+        expect(page).to have_content('Minimum Value: -15.0')
+        expect(page).to have_content('Maximum Value: 15.0')
         expect(page).to have_content('Spatial Coverage Type: Horizontal')
         expect(page).to have_content('Horizontal Datum Name: Datum name')
         expect(page).to have_content('Ellipsoid Name: Ellipsoid name')
@@ -107,7 +127,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions
@@ -137,14 +157,29 @@ OCEAN > ATLANTIC OCEAN')
           end
 
           # Tiling Identification System
-          expect(page).to have_field('Tiling Identification System Name', with: 'System name')
-          within first('.tiling-coordinate') do
-            expect(page).to have_field('Minimum Value', with: '-50.0')
-            expect(page).to have_field('Maximum Value', with: '50.0')
-          end
-          within all('.tiling-coordinate').last do
-            expect(page).to have_field('Minimum Value', with: '-30.0')
-            expect(page).to have_field('Maximum Value', with: '30.0')
+          within '.multiple.tiling-identification-systems' do
+            within '.multiple-item-0' do
+              expect(page).to have_field('Tiling Identification System Name', with: 'System name')
+              within first('.tiling-coordinate') do
+                expect(page).to have_field('Minimum Value', with: '-50.0')
+                expect(page).to have_field('Maximum Value', with: '50.0')
+              end
+              within all('.tiling-coordinate').last do
+                expect(page).to have_field('Minimum Value', with: '-30.0')
+                expect(page).to have_field('Maximum Value', with: '30.0')
+              end
+            end
+            within '.multiple-item-1' do
+              expect(page).to have_field('Tiling Identification System Name', with: 'System name 1')
+              within first('.tiling-coordinate') do
+                expect(page).to have_field('Minimum Value', with: '-25.0')
+                expect(page).to have_field('Maximum Value', with: '25.0')
+              end
+              within all('.tiling-coordinate').last do
+                expect(page).to have_field('Minimum Value', with: '-15.0')
+                expect(page).to have_field('Maximum Value', with: '15.0')
+              end
+            end
           end
 
           # Spatial Representation Information
@@ -171,7 +206,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when submitting bounding rectangles geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
@@ -230,7 +265,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions
@@ -269,7 +304,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when submitting g polygons geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
@@ -319,7 +354,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions
@@ -404,7 +439,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when submitting lines geometry' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
@@ -446,7 +481,7 @@ OCEAN > ATLANTIC OCEAN')
       context 'when returning to the form' do
         before do
           within '.metadata' do
-            click_on 'Spatial Information'
+            click_on 'Spatial Information', match: :first
           end
 
           open_accordions
@@ -494,7 +529,7 @@ OCEAN > ATLANTIC OCEAN')
   context 'when submitting the form with vertical spatial' do
     before do
       within '.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions
@@ -575,7 +610,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when returning to the form with vertical spatial data' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
@@ -622,7 +657,7 @@ OCEAN > ATLANTIC OCEAN')
   context 'when submitting the form with orbital spatial' do
     before do
       within '.metadata' do
-        click_on 'Spatial Information'
+        click_on 'Spatial Information', match: :first
       end
 
       open_accordions
@@ -713,7 +748,7 @@ OCEAN > ATLANTIC OCEAN')
     context 'when returning to the form for orbital spatial data' do
       before do
         within '.metadata' do
-          click_on 'Spatial Information'
+          click_on 'Spatial Information', match: :first
         end
 
         open_accordions
