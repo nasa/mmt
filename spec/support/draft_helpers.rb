@@ -27,17 +27,17 @@ module Helpers
     # Also try again if there are no accordions on the page (page hasn't loaded yet)
     # http://stackoverflow.com/a/28174679
     def open_accordions
-      begin
-        Timeout.timeout(Capybara.default_max_wait_time) do
-          loop do
-            do_open_accordions
-            return if accordions_open?
-            sleep 0.1
-          end
+      Timeout.timeout(Capybara.default_max_wait_time) do
+        loop do
+          do_open_accordions
+          return if accordions_open?
+          puts 'sleeping'
+          sleep 0.1
         end
-      rescue Timeout::Error
-        raise 'Failed to open the accordions on the page'
       end
+
+    rescue Timeout::Error
+      raise 'Failed to open the accordions on the page'
     end
 
     def do_open_accordions
@@ -46,9 +46,9 @@ module Helpers
     end
 
     def accordions_open?
-      # Are there accordions on the page, and are they open?
-      script = "$('.accordion').length > 0 && !$('.accordion').hasClass('is-closed');"
-      page.evaluate_script script
+      expect(page).to have_no_css('.accordion.is-closed')
+    rescue
+      false
     end
 
     MISMATCHED_KEYS = %w(
