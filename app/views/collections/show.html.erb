@@ -30,6 +30,16 @@
     </div>
   <% end %>
 
+  <% if @draft %>
+    <div class="banner banner-warn">
+      <% if @current_user.provider_id == @provider_id %>
+        <%= link_to 'This collection has an open draft associated with it. Click here to view it.', @draft %>
+      <% elsif @current_user.available_providers.include?(@provider_id) %>
+        <%= link_to 'This collection has an open draft associated with it. Click here to view it.', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: 'view-draft' } %>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="row row-content">
     <% if @error %>
       <div class="banner banner-info">
@@ -72,6 +82,7 @@
                 <%= link_to 'Yes', edit_collection_path(revision_id: @revision_id), class: 'btn btn-blue spinner is-invisible', id: 'not-current-provider-edit-collection-link' %>
                 <%= link_to 'Yes', clone_collection_path, class: 'btn btn-blue spinner is-invisible', id: 'not-current-provider-clone-link' %>
                 <%= link_to 'Yes', collection_path, method: :delete, class: 'btn btn-blue spinner is-invisible', id: 'not-current-provider-delete-collection-link' %>
+                <%= link_to 'Yes', @draft, class: 'btn btn-blue spinner is-invisible', id: 'not-current-provider-view-draft-link' %>
               </p>
             </div>
 

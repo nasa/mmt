@@ -27,6 +27,8 @@ $(document).ready ->
       when 'Revert to this Revision'
         action = 'revert'
         'Reverting this collection'
+      when 'view-draft'
+        'Viewing this draft'
       when 'edit-draft'
         'Editing this draft'
 
