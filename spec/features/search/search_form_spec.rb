@@ -8,7 +8,6 @@ describe 'Search Form', js: true do
 
   before do
     login
-    visit '/search'
   end
 
   # MMT-300
@@ -36,6 +35,19 @@ describe 'Search Form', js: true do
       it 'performs the search' do
         expect(page).to have_search_query(1, "Keyword: #{entry_title}")
       end
+    end
+  end
+
+  context 'opening the full search form' do
+    before do
+      click_on 'Full Metadata Record Search'
+    end
+
+    it 'has the full search form elements' do
+      expect(page).to have_css("input[type='radio'][value='published_records']")
+      expect(page).to have_css("input[type='radio'][value='draft_records']")
+      expect(page).to have_css('select#provider_id')
+      expect(page).to have_css("input[type='text'][name='search_term']")
     end
   end
 end

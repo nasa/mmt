@@ -31,8 +31,8 @@ module Helpers
         Timeout.timeout(Capybara.default_max_wait_time) do
           loop do
             do_open_accordions
+            sleep 0.2
             return if accordions_open?
-            sleep 0.1
           end
         end
       rescue Timeout::Error
@@ -47,7 +47,8 @@ module Helpers
 
     def accordions_open?
       # Are there accordions on the page, and are they open?
-      script = "$('.accordion').length > 0 && !$('.accordion').hasClass('is-closed');"
+      # script = "$('.accordion').length > 0 && !$('.accordion').hasClass('is-closed');"
+      script = "!$('.accordion').hasClass('is-closed')"
       page.evaluate_script script
     end
 

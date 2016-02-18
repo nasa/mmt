@@ -11,7 +11,7 @@ describe 'Search published results', js: true do
 
   before :each do
     login
-    visit '/search'
+    # visit '/search'
   end
 
   context 'when performing a collection search by short name with quick find' do

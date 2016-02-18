@@ -8,7 +8,6 @@ describe 'Search drafts results', js: true do
 
   before :each do
     login
-    visit '/search'
     create(:draft, entry_title: entry_title, short_name: short_name)
     click_on 'Full Metadata Record Search'
   end
@@ -50,22 +49,4 @@ describe 'Search drafts results', js: true do
       expect(page.find('table#search-results')).to have_content(entry_title)
     end
   end
-
-  # context 'when searching published and drafts by short name' do
-  #   before do
-  #     select 'Published & Draft Records', from: 'record_state'
-  #     select 'Short Name', from: 'search_term_type'
-  #     fill_in 'search_term', with: short_name
-  #     click_on 'Submit'
-  #   end
-  #
-  #   it 'displays collection results' do
-  #     expect(page).to have_search_query(1, "Short Name: #{short_name}", 'Record State: Published And Draft Records')
-  #   end
-  #
-  #   it 'displays expected data' do
-  #     expect(page.find('table#search-results')).to have_content(short_name)
-  #     expect(page.find('table#search-results')).to have_content(entry_title)
-  #   end
-  # end
 end
