@@ -166,8 +166,6 @@ describe 'Search results permissions for drafts', js: true do
     before do
       login
       draft = create(:draft, entry_title: entry_title, short_name: short_name, provider_id: provider)
-      # draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
-      # visit draft_url(draft)
     end
 
     context 'when drafts are from current provider' do

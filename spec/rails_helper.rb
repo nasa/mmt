@@ -22,8 +22,9 @@ require 'database_cleaner'
 require 'rake'
 require 'rails/tasks'
 
+# adding js_errors: false from https://github.com/teampoltergeist/poltergeist#customization and http://stackoverflow.com/questions/25673890/poltergeist-throws-js-errors-when-js-errors-false
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, timeout: 1.minute)
+  Capybara::Poltergeist::Driver.new(app, timeout: 1.minute, js_errors: false)
 end
 Capybara.javascript_driver = :poltergeist
 
