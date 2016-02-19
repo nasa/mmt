@@ -224,7 +224,7 @@ describe 'Search results permissions for drafts', js: true do
         end
 
         it 'displays a modal informing the user they need to switch providers' do
-          expect(page).to have_content("Editing this draft #{modal_text}")
+          expect(page).to have_content("Viewing this draft #{modal_text}")
         end
 
         context 'when clicking Yes' do

@@ -114,16 +114,9 @@
                         <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'btn btn-blue spinner' %>
                       </p>
                     </div>
-                    <div id="not-current-provider-modal" class="modal-content">
-                      <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                      <p>
-                        <span class="record-action"></span> requires you change your provider context to <span class="provider"></span>. Would you like to change your provider context and perform this action?
-                      </p>
-                      <p>
-                        <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
-                        <%= link_to 'Yes', '#', class: 'btn btn-blue spinner not-current-provider-link' %>
-                        <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'btn btn-blue spinner is-invisible', id: 'not-current-provider-revert-link' %>
-                      </p>
+                    <%= render partial: "shared/not_current_provider_modal", locals: {
+                      options: { revisions: true, collection: @collection, revision_id: revision_id }
+                      } %>
                     </div>
                   <% end %>
                 </td>

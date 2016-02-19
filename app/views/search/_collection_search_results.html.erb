@@ -50,18 +50,10 @@
               <% if @current_user.provider_id == collection['meta']['provider-id'] %>
                 <%= link_to "#{collection['umm']['short-name']} (Draft)", draft_path(collection['meta']['draft_id'])%>
               <% elsif @current_user.available_providers.include?(collection['meta']['provider-id']) %>
-                <%= link_to "#{collection['umm']['short-name']} (Draft)", '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': collection['meta']['provider-id'], record_action: 'edit-draft' } %>
-                <div id="not-current-provider-modal" class="modal-content">
-                  <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-hidden">Close</span></a>
-                  <p>
-                    <span class="record-action"></span> requires you change your provider context to <span class="provider"></span>. Would you like to change your provider context and perform this action?
-                  </p>
-                  <p>
-                    <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
-                    <%= link_to 'Yes', '#', class: 'btn btn-blue spinner not-current-provider-link' %>
-                    <%= link_to 'Yes', edit_draft_path(collection['meta']['draft_id']), class: 'btn btn-blue spinner is-hidden', id: 'not-current-provider-edit-draft-link' %>
-                  </p>
-                </div>
+                <%= link_to "#{collection['umm']['short-name']} (Draft)", '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': collection['meta']['provider-id'], record_action: 'view-draft' } %>
+                <%= render partial: "shared/not_current_provider_modal", locals: {
+                  options: { draft: collection, draft_id: collection['meta']['draft_id'] }
+                  } %>
               <% end %>
             <% else %>
               <%= link_to collection['umm']['short-name'], collection_path(collection['meta']['concept-id'])%>
