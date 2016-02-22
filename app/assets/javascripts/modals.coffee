@@ -29,8 +29,6 @@ $(document).ready ->
         'Reverting this collection'
       when 'view-draft'
         'Viewing this draft'
-      when 'edit-draft'
-        'Editing this draft'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
