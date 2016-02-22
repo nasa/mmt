@@ -19,13 +19,17 @@ $(document).ready ->
       keywords = picker.getValues() unless keywords.length > 0
       keywordList = $('.selected-' + type + '-keywords ul')
       $.each keywords, (index, value) ->
-        li = $('<li>' + value + '<a class=\'remove\'><i class=\'fa fa-times-circle\'></i></a></li>')
-        $('<input/>',
-          type: 'hidden'
-          name: 'draft[' + type + '_keywords][]'
-          id: 'draft_' + type + '_keywords_'
-          value: value).appendTo li
-        $(li).appendTo keywordList
+        matchingKeywords = $(keywordList).find('li').filter ->
+          this.childNodes[0].nodeValue.trim() == value
+        if matchingKeywords.length == 0 and (value.split('>').length > 2 or type == 'spatial')
+            span = "<span class='is-invisible'>Remove #{value}</span>"
+            li = $("<li>#{value}<a class='remove'><i class='fa fa-times-circle'></i></a>#{span}</li>")
+            $('<input/>',
+              type: 'hidden'
+              name: 'draft[' + type + '_keywords][]'
+              id: 'draft_' + type + '_keywords_'
+              value: value).appendTo li
+            $(li).appendTo keywordList
 
     resetPicker = ->
       # Reset picker to top level

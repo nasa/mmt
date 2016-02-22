@@ -614,7 +614,7 @@ module Helpers
     end
 
     def choose_keyword(text)
-      script = "$('.item-list-pane li:text(#{text}) > a').click()"
+      script = "$('.item-list-pane li.item:contains(#{text}) > a').click()"
       page.execute_script(script)
     end
   end

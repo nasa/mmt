@@ -65,7 +65,6 @@
     selectedItems = @getValues()[0].split(' > ')
 
   itemList = @$element.find('.item-list-pane > ul')
-  # $(itemList).html ''
   $(itemList).find('li.item').remove()
 
   newItems = []
