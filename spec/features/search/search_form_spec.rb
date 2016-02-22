@@ -27,8 +27,8 @@ describe 'Search Form', js: true do
     context 'when using full search' do
       before do
         click_on 'Full Metadata Record Search'
-        fill_in 'search_term', with: entry_title
-        element = find('input#search_term')
+        fill_in 'full_search_term', with: entry_title
+        element = find('input#full_search_term')
         element.native.send_key(:Enter)
       end
 
@@ -47,7 +47,7 @@ describe 'Search Form', js: true do
       expect(page).to have_css("input[type='radio'][value='published_records']")
       expect(page).to have_css("input[type='radio'][value='draft_records']")
       expect(page).to have_css('select#provider_id')
-      expect(page).to have_css("input[type='text'][name='search_term']")
+      expect(page).to have_css("input[type='text'][name='full_search_term']")
     end
   end
 end

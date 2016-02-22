@@ -63,10 +63,11 @@ describe 'Revision list', js: true, reset_provider: true do
 
     context 'when searching for the collection' do
       before do
-        click_on 'Full Metadata Record Search'
-        select 'MMT_2', from: 'provider_id'
-        fill_in 'search_term', with: '12345'
-        click_on 'Submit'
+        full_search(full_search_term: '12345', provider_id: 'MMT_2')
+        # click_on 'Full Metadata Record Search'
+        # select 'MMT_2', from: 'provider_id'
+        # fill_in 'search_term', with: '12345'
+        # click_on 'Submit'
       end
 
       it 'only displays the latest revision' do

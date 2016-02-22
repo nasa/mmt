@@ -41,7 +41,6 @@ module SearchHelper
     query.delete('controller')
     query.delete('action')
     query.delete('search_type')
-    query.delete('search_term_type')
     query.delete('search_term')
     query.delete('review_status')
     query.delete('date_filter')
@@ -51,6 +50,8 @@ module SearchHelper
     query.delete('quick_find')
     query.delete('full_search')
     query.delete('find')
+    query.delete('full_search_term')
+    query.delete('quick_find_keyword')
     query
   end
 

@@ -14,11 +14,11 @@ class SearchController < ApplicationController
     # Did the search come from quick_find or full_search
     if search_type == 'quick_find'
       # If search came from quick find, only use the quick find input
-      params.delete('search_term')
+      params.delete('full_search_term')
 
       @query = {}
       # use cmr keyword search for quick_find
-      @query['keyword'] = params['quick_find_keyword'] if params['quick_find_keyword']
+      @query['keyword'] = @query['search_term'] = params['quick_find_keyword'] ? params['quick_find_keyword'] : params['search_term']
       @query['record_state'] = 'published_records'
       @query['sort_key'] = params['sort_key'] if params['sort_key']
     elsif search_type == 'full_search'
@@ -27,10 +27,11 @@ class SearchController < ApplicationController
 
       @query = params.clone
 
-      if params['record_state'] == 'published_records'
+      @query['search_term'] = params['full_search_term'] ? params['full_search_term'] : params['search_term']
+      if @query['record_state'] == 'published_records'
         # if published collection, use cmr keyword search
         @query['keyword'] = @query['search_term']
-      elsif params['record_state'] == 'draft_records'
+      elsif @query['record_state'] == 'draft_records'
         @query['drafts_search_term'] = @query['search_term']
       end
 
@@ -89,15 +90,19 @@ class SearchController < ApplicationController
     # original query command
     # drafts = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
 
-    if query['provider_id']
-      drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
-                           "%#{query['drafts_search_term'].downcase}%", "%#{query['drafts_search_term'].downcase}%")
-                    .where(provider_id: query['provider_id'])
-                    .where('provider_id IN (?)', @current_user.available_providers)
-    else
-      drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
-                           "%#{query['drafts_search_term'].downcase}%", "%#{query['drafts_search_term'].downcase}%")
-                    .where('provider_id IN (?)', @current_user.available_providers)
+    drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
+                         "%#{query['drafts_search_term'].downcase}%", "%#{query['drafts_search_term'].downcase}%")
+                  .where('provider_id IN (?)', @current_user.available_providers)
+    drafts = drafts.where(provider_id: query['provider_id']) if query['provider_id']
+    if query['sort_key']
+      if query['sort_key'].starts_with?('-')
+        sort_key = query['sort_key'][1..-1].to_sym
+        sort_order = :desc
+      else
+        sort_key = query['sort_key'].to_sym
+        sort_order = :asc
+      end
+      drafts = drafts.order(sort_key => sort_order)
     end
 
     # Map drafts to same structure we get from CMR
