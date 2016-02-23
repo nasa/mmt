@@ -1,0 +1,85 @@
+/* ===================================================== *\
+   Cards
+\* ===================================================== */
+
+.cards {
+  margin: 0 0 10em 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.card {
+  border: 1px solid darken($light-blue, 8%);
+  border-radius: 4px;
+  width: 350px;
+  margin-bottom: 10px;
+  display: inline-flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+}
+
+.card-header {
+  border-bottom: 1px solid darken($light-blue, 8%);
+  background-color: $light-blue;
+  color: $ocean-blue;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+
+  .role {
+    color: #fff;
+    display: block;
+    padding: 0.8em 1em;
+    background: rgb(32, 206, 111);
+    font-size: 0.65em;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-left: 3px solid darken(rgb(32, 206, 111), 3%);
+    border-top-right-radius: 4px;
+    text-shadow: 1px 1px rgba(0,0,0,0.2);
+  }
+}
+
+.card-body {
+  padding: 0;
+  border-top: 2px solid lighten($light-grey, 2%);
+  display: flex;
+
+  h6 {
+    font-size: 0.8em;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.8em;
+    line-height: 1.4em;
+    color: $dolphin-grey;
+  }
+}
+
+.card-body-details {
+  padding: 0.8em;
+  border-right: 1px solid $light-grey;
+  flex: 0 0 216px;
+}
+
+.card-body-aside {
+  padding: 0.8em;
+  flex: 0 1 auto;
+}
+
+.preview .card-header-title {
+  border-bottom: 1px solid $light-grey;
+  margin: 0;
+  padding-left: 0.8em;
+  flex: 1 1 auto;
+}
+
+.card-navigation {
+  border-top: 1px solid $light-grey;
+  align-self: center;
+  flex: none;
+}

@@ -26,3 +26,11 @@ table {
   width: 80%;
   text-align: left;
 }
+
+.preview table, .preview table td {
+  border: 1px solid darken($light-blue, 8%);
+}
+
+.preview table tr:nth-child(2n+2) {
+  background: $light-blue;
+}

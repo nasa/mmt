@@ -6,6 +6,10 @@
 
 .preview {
 
+  h5 {
+    margin: 1em 0 0.3em 0;
+  }
+
   .accordion-header {
     h4 {
       display: inline;
@@ -39,15 +43,6 @@ ul.sub-field {
       margin: 0.5em 0 0.5em 0;
     }
 
-    h5 {
-      margin: 1em 0 0.2em 0;
-    }
-
-    h6 {
-      margin: 0.3em 0;
-      font-weight: bold;
-    }
-
     ul {
       margin: 0;
 
@@ -65,8 +60,10 @@ ul.sub-field {
 }
 
 .hash-link {
-  opacity: 0.5;
+  opacity: 0.3;
   @include transition(all 0.15s ease-in-out);
+  float: left;
+  margin-left: -30px;
 
   &:hover {
     opacity: 1;

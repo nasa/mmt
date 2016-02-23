@@ -7,13 +7,29 @@
     </a>
   </div>
   <div class="accordion-body">
-    <ul class="organizations-preview">
-      <%= render partial: 'shared/preview/preview_type', locals: {
-          data: metadata['Organizations'],
-          name: 'Organizations',
-          type: TypesHelper::ResponsibilityType
-      } %>
-
+    <ul class="cards">
+      <li class="card">
+        <div class="card-header">
+          <h5 class="card-header-title">COLAB</h5>
+          <span class="role">Originator</span>
+        </div>
+        <div class="card-body">
+          <div class="card-body-details">
+            <h6>The Collaborators</h6>
+            <p>Ministry of Information<br />142 Fairoaks Ct<br />Suite 200<br />East Lansing, MI 48823</p>
+            <p><i class="fa fa-envelope"></i> <i class="fa fa-phone-square"></i> <i class="fa fa-twitter-square"></i> <i class="fa fa-facebook-square"></i></p>
+          </div>
+          <div class="card-body-aside">
+            <h6>8:00AM - 5:00PM</h6>
+            <p>Staff goes to Olive Garden on Fridays from 12-1PM.</p>
+          </div>
+        </div>
+        <div class="card-navigation">
+          <i class="fa fa-circle"></i>
+          <i class="fa fa-circle-o"></i>
+          <i class="fa fa-circle-o"></i>
+        </div>
+      </li>
     </ul>
   </div>
 </div>

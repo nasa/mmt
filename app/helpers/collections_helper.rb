@@ -8,7 +8,7 @@ module CollectionsHelper
        metadata['SpatialExtent']['HorizontalSpatialDomain'] &&
        metadata['SpatialExtent']['HorizontalSpatialDomain']['Geometry']
 
-      map_width = 346
+      map_width = 343
       map_height = 173
 
       geometry = metadata['SpatialExtent']['HorizontalSpatialDomain']['Geometry']

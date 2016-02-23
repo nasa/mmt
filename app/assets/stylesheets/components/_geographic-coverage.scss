@@ -13,9 +13,10 @@
 
 .geographic-coverage {
   @include span-columns(4);
-  @include linear-gradient(darken($light-blue, 3%), $light-blue);
-  border-top: 5px solid $pale-blue;
+  background: $light-blue;
   padding: 0;
+  border-radius: 5px;
+  border: 1px solid darken($light-blue, 8%);
 
   section {
     padding: 0 1em;
@@ -35,4 +36,10 @@
       padding-bottom: 10.3125em;
     }
   }
+}
+
+.preview-spatial, #preview-map {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: 1px solid darken($light-blue, 8%);
 }
