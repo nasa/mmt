@@ -16,13 +16,13 @@ describe 'Searching science keywords', js: true do
 
     context 'when selecting a keyword from the top level' do
       before do
-        find('#science_keyword_search').click
-        fill_in 'science_keyword_search', with: 'geographic'
+        find('#science-keyword-search').click
+        fill_in 'science-keyword-search', with: 'geographic'
 
         script = '$(".tt-suggestion").last().click()'
         page.execute_script(script)
 
-        find('#science_keyword_search').click
+        find('#science-keyword-search').click
       end
 
       it 'adds the science keyword to the selected keywords' do
@@ -52,8 +52,8 @@ describe 'Searching science keywords', js: true do
             find('.remove').click
           end
 
-          find('#science_keyword_search').click
-          fill_in 'science_keyword_search', with: 'earth'
+          find('#science-keyword-search').click
+          fill_in 'science-keyword-search', with: 'earth'
 
           script = '$(".tt-suggestion").first().click()'
           page.execute_script(script)
@@ -72,8 +72,8 @@ describe 'Searching science keywords', js: true do
         choose_keyword 'EARTH SCIENCE SERVICES'
         choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
 
-        find('#science_keyword_search').click
-        fill_in 'science_keyword_search', with: 'geographic'
+        find('#science-keyword-search').click
+        fill_in 'science-keyword-search', with: 'geographic'
 
         script = '$(".tt-suggestion").last().click()'
         page.execute_script(script)
