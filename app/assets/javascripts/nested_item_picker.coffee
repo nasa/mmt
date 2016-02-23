@@ -77,8 +77,15 @@ $(document).ready ->
           for value2 in value
             keywords.push(getKeywords(value2, $.extend([], keyword))) if $.type(value2) == 'object'
 
-      $.map keywords, (keyword) ->
+      keywords = $.map keywords, (keyword) ->
         keyword
+
+      selectedValues = picker.getValues()[0]
+      numberSelectedValues = selectedValues.split('>').filter (value) ->
+        value != ''
+
+      keywords.filter (keyword) ->
+        keyword if keyword.split('>').length > 2 - numberSelectedValues.length
 
     typeaheadSource = new Bloodhound
       datumTokenizer: Bloodhound.tokenizers.nonword,
@@ -100,7 +107,7 @@ $(document).ready ->
 
       this.focus()
 
-    $('li.item, ul.item-path li').on 'click', ->
+    $(document).on 'click', 'li.item a, ul.item-path li', ->
       typeaheadSource.clear()
       # destroy typeahead
       $('#science-keyword-search').val('')

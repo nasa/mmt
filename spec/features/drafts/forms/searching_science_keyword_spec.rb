@@ -53,15 +53,51 @@ describe 'Searching science keywords', js: true do
           end
 
           find('#science-keyword-search').click
-          fill_in 'science-keyword-search', with: 'earth'
+          fill_in 'science-keyword-search', with: 'geographic'
 
-          script = '$(".tt-suggestion").first().click()'
-          page.execute_script(script)
+          find('#science-keyword-search').click
         end
 
-        it 'does not add the keyword' do
+        it 'displays valid keywords' do
+          expect(page).to have_css('.tt-suggestion', text: /EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS$/)
+        end
+
+        it 'does not display the invalid keyword' do
           within '.selected-science-keywords' do
-            expect(page).to have_no_content('EARTH')
+            expect(page).to have_no_css('.tt-suggestion', text: /EARTH SCIENCE SERVICES$/)
+            expect(page).to have_no_css('.tt-suggestion', text: /EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION$/)
+          end
+        end
+
+        context 'when trying to add an invalid keyword from a nested level' do
+          before do
+            choose_keyword 'EARTH SCIENCE SERVICES'
+            find('#science-keyword-search').click
+            fill_in 'science-keyword-search', with: 'geographic'
+
+            find('#science-keyword-search').click
+          end
+
+          it 'displays valid keywords' do
+            expect(page).to have_css('.tt-suggestion', text: /DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS$/)
+          end
+
+          it 'does not display the invalid keyword' do
+            expect(page).to have_no_css('.tt-suggestion', text: /DATA ANALYSIS AND VISUALIZATION$/)
+          end
+        end
+
+        context 'when trying to add a keyword from three levels deep' do
+          before do
+            choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
+            find('#science-keyword-search').click
+            fill_in 'science-keyword-search', with: 'geographic'
+
+            find('#science-keyword-search').click
+          end
+
+          it 'displays valid keywords' do
+            expect(page).to have_css('.tt-suggestion', text: /GEOGRAPHIC INFORMATION SYSTEMS$/)
           end
         end
       end
