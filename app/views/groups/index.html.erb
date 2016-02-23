@@ -16,10 +16,13 @@
       <p class="subnav current">Groups</p>
     </div>
   </header>
+
+  <%= render 'shared/flash_messages' %>
+
   <div class="row row-content">
     <section>
       <!-- todo: wire up this button -->
-      <a href="#" class="btn btn-blue space-bot space-top-5">New Group</a>
+      <a href="<%= new_group_path %>" class="btn btn-blue space-bot space-top-5">New Group</a>
       <!-- end todo -->
 
       <table>

@@ -135,5 +135,26 @@ module Cmr
 
       codes.reduce({}, :merge)
     end
+
+    def create_group(group, token)
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/groups'
+      else
+        url = '/access_control/groups'
+      end
+      headers = {
+        'Content-Type' => 'application/json'
+      }
+      post(url, group, headers.merge(token_header(token)))
+    end
+
+    def get_group(concept_id, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/groups/#{concept_id}"
+      else
+        url = "/access_control/groups/#{concept_id}"
+      end
+      get(url, token_header(token))
+    end
   end
 end

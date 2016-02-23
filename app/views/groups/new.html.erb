@@ -9,39 +9,42 @@
           <!-- end todo -->
         </ol>
       </div>
-      <h2>New Group</h2>
+      <h2>New Group for <%= @current_user.provider_id %></h2>
       <p class="subnav">Permissions</p>
       <!-- todo: wire this link -->
       <p class="subnav current"><a href="#">Groups</a></p>
       <!-- end todo -->
     </div>
   </header>
+
+  <%= render 'shared/flash_messages' %>
+  
   <div class="row row-content">
     <section>
-      <form>
+      <%= form_tag(groups_path(@group), method: 'post') do %>
         <fieldset class="no-bg">
           <legend class="space-bot-sm">General</legend>
           <div class="row">
-            <label for="name">Group Name</label>
-            <br>
-            <input type="text" id="name" class="half-width">
+            <%= label_tag(:name, 'Group Name', class: 'icon-required') %>
+            <br/>
+            <%= text_field_tag(:name, @group[:name], class: 'half-width') %>
           </div>
           <div class="row">
-            <label for="description">Group Description</label>
-            <textarea name="description" id="description" cols="30" rows="3"></textarea>
+            <%= label_tag(:description, 'Group Description', class: 'icon-required') %>
+            <%= text_area_tag(:description, @group[:description], cols: 30, rows: 3) %>
           </div>
         </fieldset>
         <hr>
-        <fieldset class="no-bg">
+        <fieldset class="no-bg disabled">
           <div class="row">
             <legend class="space-bot-sm">Add Members to Group</legend>
           </div>
           <label for="filter-members">Filter Members</label>
-          <input type="text" id="filter-members" class="w30" placeholder="Enter user name"/>
+          <input type="text" id="filter-members" class="w30" placeholder="Enter user name" disabled/>
           <div class="dual-select">
             <div class="dual-select__menu">
               <label for="members-directory">Members Directory</label>
-              <select name="members-directory" id="members-directory" multiple>
+              <select name="members-directory" id="members-directory" multiple disabled>
                 <option value="barbara-gordon">Barbara Gordon | barbara.gordon@nasa.gov</option>
                 <option value="barry-allen">Barry Allen | barry.allen@nasa.gov</option>
                 <option value="bruce-wayne">Bruce Wayne | bruce.wayne@nasa.gov</option>
@@ -52,14 +55,14 @@
               </select>
             </div>
             <div class="dual-select__actions">
-              <button id="add-members" class="btn btn-default">Add Member(s) <span class="icon-circle-right"></span></button>
-              <button id="remove-members" class="btn btn-default"><span class="icon-circle-left"></span> Remove Member(s)</button>
+              <button id="add-members" class="btn btn-default" disabled>Add Member(s) <span class="icon-circle-right"></span></button>
+              <button id="remove-members" class="btn btn-default" disabled><span class="icon-circle-left"></span> Remove Member(s)</button>
             </div>
             <div class="dual-select__menu">
               <div class="row">
                 <label for="selected-members">Selected Members</label>
               </div>
-              <select name="selected-members" id="selected-members" multiple>
+              <select name="selected-members" id="selected-members" multiple disabled>
             </select>
             </div>
           </div>
@@ -68,7 +71,7 @@
           <input type="submit" class="btn btn-blue space-right" value="Save">
           <a href="#">Cancel</a>
         </div>
-      </form>
+      <% end %>
     </section>
   </div>
 </main>

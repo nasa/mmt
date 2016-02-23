@@ -119,7 +119,7 @@ class DraftsController < ApplicationController
       xml = MultiXml.parse(ingested.body)
       concept_id = xml['result']['concept_id']
       revision_id = xml['result']['revision_id']
-      flash[:success] = 'Draft was successfully published'
+      flash[:success] = 'Draft was successfully published.'
       redirect_to collection_path(concept_id, revision_id: revision_id)
     else
       # Log error message
@@ -127,7 +127,7 @@ class DraftsController < ApplicationController
 
       @ingest_errors = generate_ingest_errors(ingested)
 
-      flash[:error] = 'Draft was not published successfully'
+      flash[:error] = 'Draft was not published successfully.'
       render :show
     end
   end

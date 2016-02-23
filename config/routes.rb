@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :groups
+
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
@@ -36,11 +38,6 @@ Rails.application.routes.draw do
   get 'permissions' => 'pages#permissions', as: 'permissions'
   get 'new-permissions' => 'pages#new-permissions', as: 'new-permissions'
   get 'show-permissions' => 'pages#show-permissions', as: 'show-permissions'
-
-  # Temporary routes for Group pages
-  get 'groups' => 'pages#groups', as: 'groups'
-  get 'new-group' => 'pages#new-group', as: 'new-group'
-  get 'show-group' => 'pages#show-group', as: 'show-group'
 
   root 'welcome#index'
 end
