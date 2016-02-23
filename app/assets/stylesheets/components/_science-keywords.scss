@@ -20,19 +20,27 @@ div.spatial-keywords {
 }
 
 #science_keyword_search {
+  margin: 0;
+  border: none;
   width: 100%;
 }
 
 .twitter-typeahead {
   width: 100%;
+  color: $black;
 }
 
 .tt-menu {
-  background-color: #fff;
+  background-color: $white;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
 }
 
 .tt-suggestion {
-  margin: 0.5em;
+  padding: 0.25em 0.5em;
+  @include transition(all 0.25s linear);
+
+  &:hover {
+    background-color: rgba($medium-blue,0.4);
+    cursor: pointer;
+  }
 }
