@@ -17,8 +17,10 @@ class SearchController < ApplicationController
       params.delete('full_search_term')
 
       @query = {}
+
+      @query['search_term'] = params['quick_find_keyword'] || params['search_term']
       # use cmr keyword search for quick_find
-      @query['keyword'] = @query['search_term'] = params['quick_find_keyword'] ? params['quick_find_keyword'] : params['search_term']
+      @query['keyword'] = @query['search_term']
       @query['record_state'] = 'published_records'
       @query['sort_key'] = params['sort_key'] if params['sort_key']
     elsif search_type == 'full_search'
@@ -27,7 +29,7 @@ class SearchController < ApplicationController
 
       @query = params.clone
 
-      @query['search_term'] = params['full_search_term'] ? params['full_search_term'] : params['search_term']
+      @query['search_term'] = params['full_search_term'] if params['full_search_term']
       if @query['record_state'] == 'published_records'
         # if published collection, use cmr keyword search
         @query['keyword'] = @query['search_term']
@@ -76,9 +78,9 @@ class SearchController < ApplicationController
     if collections['errors']
       errors = collections['errors']
       collections = []
+    elsif collections['items']
+      collections = collections['items']
     end
-
-    collections = collections['items'] if collections['items']
 
     [collections, errors, hits]
   end
@@ -86,9 +88,6 @@ class SearchController < ApplicationController
   def get_drafts(query)
     query.delete('page_num')
     query.delete('page_size')
-
-    # original query command
-    # drafts = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
 
     drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
                          "%#{query['drafts_search_term'].downcase}%", "%#{query['drafts_search_term'].downcase}%")
@@ -102,6 +101,7 @@ class SearchController < ApplicationController
         sort_key = query['sort_key'].to_sym
         sort_order = :asc
       end
+      sort_key = :updated_at if sort_key == :revision_date
       drafts = drafts.order(sort_key => sort_order)
     end
 

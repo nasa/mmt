@@ -11,7 +11,7 @@ describe 'Search results permissions for drafts', js: true do
   context 'when searching drafts' do
     before do
       login
-      draft = create(:draft, entry_title: entry_title, short_name: short_name, provider_id: provider)
+      create(:draft, entry_title: entry_title, short_name: short_name, provider_id: provider)
     end
 
     context 'when drafts are from current provider' do
@@ -33,14 +33,18 @@ describe 'Search results permissions for drafts', js: true do
         end
       end
 
-      it 'allows user to view the draft preview page' do
-        within '#collection_search_results' do
-          click_on short_name
+      context 'when trying to view draft preview page' do
+        before do
+          within '#collection_search_results' do
+            click_on short_name
+          end
         end
 
-        expect(page).to have_content("#{entry_title} DRAFT RECORD")
-        expect(page).to have_content("Publish Draft")
-        expect(page).to have_content("Delete Draft")
+        it 'allows user to view the draft preview page' do
+          expect(page).to have_content("#{entry_title} DRAFT RECORD")
+          expect(page).to have_content('Publish Draft')
+          expect(page).to have_content('Delete Draft')
+        end
       end
     end
 
@@ -85,8 +89,8 @@ describe 'Search results permissions for drafts', js: true do
 
           it 'shows the draft preview page' do
             expect(page).to have_content("#{entry_title} DRAFT RECORD")
-            expect(page).to have_content("Publish Draft")
-            expect(page).to have_content("Delete Draft")
+            expect(page).to have_content('Publish Draft')
+            expect(page).to have_content('Delete Draft')
           end
         end
       end
