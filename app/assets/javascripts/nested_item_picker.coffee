@@ -85,7 +85,7 @@ $(document).ready ->
       queryTokenizer: Bloodhound.tokenizers.nonword,
       local: getKeywords(picker.currentData)
 
-    $('#science_keyword_search').on 'click', ->
+    $('#science-keyword-search').on 'click', ->
       typeaheadSource.clear()
       typeaheadSource.local = getKeywords(picker.currentData)
       typeaheadSource.initialize(true)
@@ -103,8 +103,8 @@ $(document).ready ->
     $('li.item, ul.item-path li').on 'click', ->
       typeaheadSource.clear()
       # destroy typeahead
-      $('#science_keyword_search').val('')
-      $('#science_keyword_search').typeahead('destroy')
+      $('#science-keyword-search').val('')
+      $('#science-keyword-search').typeahead('destroy')
 
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
