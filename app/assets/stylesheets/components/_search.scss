@@ -53,14 +53,17 @@
 }
 
 .search-module {
-  background-color: $black;
+  background-color: darken($black, 5%);
   width: 800px;
   z-index: 10;
   position: absolute;
   top: 140px;
   text-align: left;
-  margin-left: -265px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   padding: 25px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 
   input {
     color: $black;
