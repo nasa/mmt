@@ -41,7 +41,6 @@ describe 'Search Form', js: true do
     end
   end
 
-  # the tests on saving/matching search values did not work when sending enter key to submit. Why???
   context 'when using quick find' do
     before do
       fill_in 'Quick Find', with: short_name
