@@ -1,4 +1,7 @@
 class GroupsController < ApplicationController
+
+  before_filter :groups_enabled?
+
   def index
   end
 
@@ -44,5 +47,11 @@ class GroupsController < ApplicationController
         render :new
       end
     end
+  end
+
+  private
+
+  def groups_enabled?
+    redirect_to dashboard_path unless Rails.configuration.groups_enabled
   end
 end

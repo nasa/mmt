@@ -77,6 +77,9 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # Feature Toggle for groups
+  config.groups_enabled = true
+
   config.cmr_env = 'sit'
   config.analytics_id = 'UA-62340125-5'
 end

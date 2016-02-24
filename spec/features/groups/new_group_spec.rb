@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'New Groups' do
+describe 'New Groups', js: true, reset_provider: true do
   group_name = 'Forest People'
   group_description = 'Group for scientists monitoring Forest Cover'
 
@@ -70,29 +70,14 @@ describe 'New Groups' do
         click_on 'Save'
       end
 
-      it 'displays a success message and the group information' do
+      it 'displays a success message' do
         expect(page).to have_content('Group was successfully created.')
+      end
+
+      it 'displays the group information' do
         expect(page).to have_content(group_name)
         expect(page).to have_content(group_description)
       end
-    end
-  end
-
-  context 'when visiting a group page with invalid concept id' do
-    bad_concept_id = 'aabbccddee'
-
-    before do
-      login
-      visit "/groups/#{bad_concept_id}"
-    end
-
-    it 'displays an error message' do
-      expect(page).to have_css('div.banner-danger')
-      expect(page).to have_content("Concept-id [#{bad_concept_id}] is not valid")
-    end
-
-    it 'redirects to groups index page' do
-      expect(page).to have_content("Permissions & Groups") # match groups index.html.erb title
     end
   end
 end
