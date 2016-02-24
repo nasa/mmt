@@ -6,6 +6,7 @@ $(document).ready ->
 
   $(document).on 'toggleSearch', ->
     $('.search-module').toggleClass 'is-hidden'
+    $('#search').toggleClass 'open'
     lightbox $(document).height()
 
   $('#search').submit ->
