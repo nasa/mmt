@@ -18,10 +18,10 @@
   </header>
 
   <%= render 'shared/flash_messages' %>
-  
+
   <div class="row row-content">
     <section>
-      <%= form_tag(groups_path(@group), method: 'post') do %>
+      <%= form_tag(groups_path(@group), method: :post) do %>
         <fieldset class="no-bg">
           <legend class="space-bot-sm">General</legend>
           <div class="row">

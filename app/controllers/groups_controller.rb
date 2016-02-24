@@ -7,7 +7,6 @@ class GroupsController < ApplicationController
     @group = cmr_client.get_group(concept_id, token).body
     if @group['errors']
       flash[:error] = @group['errors'][0]
-      # redirect_to error group page?
       redirect_to groups_path
     end
   end
@@ -17,7 +16,6 @@ class GroupsController < ApplicationController
   end
 
   def create
-    # name, description required
     @group = params.clone
     if params[:name].empty? && params[:description].empty?
       flash[:error] = 'Group Name and Description are required.'
@@ -41,9 +39,7 @@ class GroupsController < ApplicationController
         flash[:success] = 'Group was successfully created.'
         redirect_to group_path(concept_id)
       else
-        # {"errors":["object instance has properties which are not allowed by the schema: [\"provider_id\"]"]}
         group_creation_error = group_creation.body['errors'][0]
-        # Rails.logger.error("")
         flash[:error] = group_creation_error
         render :new
       end
