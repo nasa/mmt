@@ -14,29 +14,15 @@ class SearchController < ApplicationController
     # Did the search come from quick_find or full_search
     if search_type == 'quick_find'
       # If search came from quick find, only use the quick find input
-      params.delete('full_search_term')
-
       @query = {}
 
-      @query['search_term'] = params['quick_find_keyword'] || params['search_term']
-      # use cmr keyword search for quick_find
-      @query['keyword'] = @query['search_term']
+      @query['keyword'] = params['keyword'] || ''
       @query['record_state'] = 'published_records'
       @query['sort_key'] = params['sort_key'] if params['sort_key']
     elsif search_type == 'full_search'
       # If search came from full search, ignore whatever was in quick find
-      params.delete('quick_find_keyword')
-
       @query = params.clone
-
-      @query['search_term'] = params['full_search_term'] if params['full_search_term']
-      if @query['record_state'] == 'published_records'
-        # if published collection, use cmr keyword search
-        @query['keyword'] = @query['search_term']
-      elsif @query['record_state'] == 'draft_records'
-        @query['drafts_search_term'] = @query['search_term']
-      end
-
+      @query['keyword'] ||= ''
       @query.delete('provider_id') if @query['provider_id'].blank?
     end
 
@@ -86,13 +72,11 @@ class SearchController < ApplicationController
   end
 
   def get_drafts(query)
-    query.delete('page_num')
-    query.delete('page_size')
-
+    providers = Array.wrap(query['provider_id'] || @current_user.available_providers)
     drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
-                         "%#{query['drafts_search_term'].downcase}%", "%#{query['drafts_search_term'].downcase}%")
-                  .where('provider_id IN (?)', @current_user.available_providers)
-    drafts = drafts.where(provider_id: query['provider_id']) if query['provider_id']
+                         "%#{query['keyword'].downcase}%", "%#{query['keyword'].downcase}%")
+                  .where('provider_id IN (?)', providers)
+
     if query['sort_key']
       if query['sort_key'].starts_with?('-')
         sort_key = query['sort_key'][1..-1].to_sym

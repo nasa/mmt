@@ -20,11 +20,11 @@ describe 'Search results permissions for drafts', js: true do
         user.provider_id = 'MMT_2'
         user.save
 
-        full_search(full_search_term: entry_title, record_type: 'Drafts')
+        full_search(keyword: entry_title, record_type: 'Drafts')
       end
 
       it 'search results contain the draft' do
-        expect(page).to have_search_query(1, "Drafts Search Term: #{entry_title}", 'Record State: Draft Records')
+        expect(page).to have_search_query(1, "Keyword: #{entry_title}", 'Record State: Draft Records')
         within '#collection_search_results' do
           expect(page).to have_content(short_name)
           expect(page).to have_content(entry_title)
@@ -55,11 +55,11 @@ describe 'Search results permissions for drafts', js: true do
         user.available_providers = %w(MMT_1 MMT_2)
         user.save
 
-        full_search(full_search_term: short_name, record_type: 'Drafts')
+        full_search(keyword: short_name, record_type: 'Drafts')
       end
 
       it 'search results contain the draft' do
-        expect(page).to have_search_query(1, "Drafts Search Term: #{short_name}", 'Record State: Draft Records')
+        expect(page).to have_search_query(1, "Keyword: #{short_name}", 'Record State: Draft Records')
         expect(page).to have_content(short_name)
         expect(page).to have_content(entry_title)
         expect(page).to have_content(provider)
@@ -103,7 +103,7 @@ describe 'Search results permissions for drafts', js: true do
         user.available_providers = ['SEDAC']
         user.save
 
-        full_search(full_search_term: short_name, record_type: 'Drafts')
+        full_search(keyword: short_name, record_type: 'Drafts')
       end
 
       it 'does not find the drafts' do

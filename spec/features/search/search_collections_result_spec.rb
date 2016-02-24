@@ -91,7 +91,7 @@ describe 'Search published results', js: true do
 
   context 'when searching by short name' do
     before do
-      full_search(full_search_term: short_name)
+      full_search(keyword: short_name)
     end
 
     it 'displays collection results' do
@@ -116,14 +116,14 @@ describe 'Search published results', js: true do
       end
 
       it 'displays the short name in the full search form' do
-        expect(page).to have_field('full_search_term', with: short_name)
+        expect(page).to have_field('keyword', with: short_name)
       end
     end
   end
 
   context 'when searching published records by short name' do
     before do
-      full_search(full_search_term: short_name, record_state: 'Collections')
+      full_search(keyword: short_name, record_state: 'Collections')
     end
 
     it 'displays collection results' do
@@ -141,7 +141,7 @@ describe 'Search published results', js: true do
 
   context 'when searching by entry title' do
     before do
-      full_search(full_search_term: entry_title, record_state: 'Collections')
+      full_search(keyword: entry_title, record_state: 'Collections')
     end
 
     it 'displays collection results' do
@@ -166,7 +166,7 @@ describe 'Search published results', js: true do
       end
 
       it 'displays the entry title in the full search form' do
-        expect(page).to have_field('full_search_term', with: entry_title)
+        expect(page).to have_field('keyword', with: entry_title)
       end
     end
   end
@@ -174,7 +174,7 @@ describe 'Search published results', js: true do
   context 'when searching by partial entry title' do
     before do
       click_on 'Full Metadata Record Search'
-      fill_in 'full_search_term', with: entry_title[5..25]
+      fill_in 'keyword', with: entry_title[5..25]
       click_on 'Submit'
     end
 
@@ -200,7 +200,7 @@ describe 'Search published results', js: true do
       end
 
       it 'displays the partial entry title in the full search form' do
-        expect(page).to have_field('full_search_term', with: entry_title[5..25])
+        expect(page).to have_field('keyword', with: entry_title[5..25])
       end
     end
   end
@@ -242,7 +242,7 @@ describe 'Search published results', js: true do
   context 'when searching by CMR Concept Id' do
     before do
       click_on 'Full Metadata Record Search'
-      fill_in 'full_search_term', with: concept_id
+      fill_in 'keyword', with: concept_id
       click_on 'Submit'
     end
 
@@ -268,7 +268,7 @@ describe 'Search published results', js: true do
       end
 
       it 'displays the concept id in the full search form' do
-        expect(page).to have_field('full_search_term', with: concept_id)
+        expect(page).to have_field('keyword', with: concept_id)
       end
     end
   end

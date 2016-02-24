@@ -13,11 +13,11 @@ describe 'Search drafts results', js: true do
 
   context 'when searching drafts by short name' do
     before do
-      full_search(full_search_term: short_name, record_type: 'Drafts')
+      full_search(keyword: short_name, record_type: 'Drafts')
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Drafts Search Term: #{short_name}", 'Record State: Draft Records')
+      expect(page).to have_search_query(1, "Keyword: #{short_name}", 'Record State: Draft Records')
     end
 
     it 'displays expected data' do
@@ -30,11 +30,11 @@ describe 'Search drafts results', js: true do
 
   context 'when searching drafts by entry title' do
     before do
-      full_search(full_search_term: entry_title, record_type: 'Drafts')
+      full_search(keyword: entry_title, record_type: 'Drafts')
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Drafts Search Term: #{entry_title}", 'Record State: Draft Records')
+      expect(page).to have_search_query(1, "Keyword: #{entry_title}", 'Record State: Draft Records')
     end
 
     it 'displays expected data' do

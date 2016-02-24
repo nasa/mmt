@@ -63,7 +63,7 @@ describe 'Revision list', js: true, reset_provider: true do
 
     context 'when searching for the collection' do
       before do
-        full_search(full_search_term: '12345', provider_id: 'MMT_2')
+        full_search(keyword: '12345', provider_id: 'MMT_2')
       end
 
       it 'only displays the latest revision' do

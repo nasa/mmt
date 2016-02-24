@@ -15,7 +15,7 @@ describe 'Search Form', js: true do
     context 'when using quick find' do
       before do
         fill_in 'Quick Find', with: short_name
-        element = find('input#quick_find_keyword')
+        element = find('input#keyword')
         element.native.send_key(:Enter)
       end
 
@@ -28,8 +28,9 @@ describe 'Search Form', js: true do
       context 'when searching published collections' do
         before do
           click_on 'Full Metadata Record Search'
-          fill_in 'full_search_term', with: entry_title
-          element = find('input#full_search_term')
+          fill_in 'keyword', with: entry_title
+          element = find('input#keyword')
+          element.trigger('click')
           element.native.send_key(:Enter)
         end
 
@@ -57,7 +58,7 @@ describe 'Search Form', js: true do
       end
 
       it 'populates the search term field' do
-        expect(page).to have_field('full_search_term', with: short_name)
+        expect(page).to have_field('keyword', with: short_name)
       end
     end
   end
@@ -68,7 +69,7 @@ describe 'Search Form', js: true do
         click_on 'Full Metadata Record Search'
         choose 'Collections'
         select 'LARC', from: 'provider_id'
-        fill_in 'full_search_term', with: entry_title
+        fill_in 'keyword', with: entry_title
         click_on 'Submit'
       end
 
@@ -77,7 +78,7 @@ describe 'Search Form', js: true do
       end
 
       it 'populates the quick find field' do
-        expect(page).to have_field('quick_find_keyword', with: entry_title)
+        expect(page).to have_field('keyword', with: entry_title)
       end
 
       context 'when viewing the full search form' do
@@ -88,7 +89,7 @@ describe 'Search Form', js: true do
         it 'remembers the search values' do
           expect(page).to have_checked_field('Collections')
           expect(page).to have_field('provider_id', with: 'LARC')
-          expect(page).to have_field('full_search_term', with: entry_title)
+          expect(page).to have_field('keyword', with: entry_title)
         end
       end
     end
@@ -104,16 +105,16 @@ describe 'Search Form', js: true do
         click_on 'Full Metadata Record Search'
         choose 'Drafts'
         select 'MMT_2', from: 'provider_id'
-        fill_in 'full_search_term', with: draft_short_name
+        fill_in 'keyword', with: draft_short_name
         click_on 'Submit'
       end
 
       it 'performs the search' do
-        expect(page).to have_search_query(1, "Drafts Search Term: #{draft_short_name}")
+        expect(page).to have_search_query(1, "Keyword: #{draft_short_name}")
       end
 
       it 'populates the quick find field' do
-        expect(page).to have_field('quick_find_keyword', with: draft_short_name)
+        expect(page).to have_field('keyword', with: draft_short_name)
       end
 
       context 'when viewing the full search form' do
@@ -124,7 +125,7 @@ describe 'Search Form', js: true do
         it 'remembers the search values' do
           expect(page).to have_checked_field('Drafts')
           expect(page).to have_field('provider_id', with: 'MMT_2')
-          expect(page).to have_field('full_search_term', with: draft_short_name)
+          expect(page).to have_field('keyword', with: draft_short_name)
         end
       end
     end
