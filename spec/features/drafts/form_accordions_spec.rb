@@ -63,4 +63,21 @@ describe 'Draft form accordions', js: true do
       end
     end
   end
+
+  context 'when clicking a help icon within the accordion header' do
+    before do
+      click_on 'Distribution Information'
+      click_on 'Help modal for Distributions'
+    end
+
+    it 'displays the help text' do
+      within '#help-modal' do
+        expect(page).to have_content('Distributions')
+      end
+    end
+
+    it 'does not open the accordion' do
+      expect(page).to have_no_field('DistributionMedia')
+    end
+  end
 end

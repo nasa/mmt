@@ -16,7 +16,7 @@ describe 'Draft form help text', js: true do
           click_on 'Collection Information'
         end
 
-        find(:xpath, "//a/i[@data-help-path='properties/ShortName']/..").click # ShortName
+        click_on 'Help modal for Short Name'
       end
 
       it 'displays the field name in a modal' do
@@ -36,7 +36,7 @@ describe 'Draft form help text', js: true do
 
         open_accordions
 
-        find(:xpath, "(//a/i[@data-help-path='definitions/RelatedUrlType/properties/URLs'])[1]/..").click # URLs
+        click_on 'Help modal for URLs'
       end
 
       it 'displays the validation clue in the modal' do
@@ -50,7 +50,7 @@ describe 'Draft form help text', js: true do
           click_on 'Collection Information'
         end
 
-        find(:xpath, "//a/i[@data-help-path='properties/ShortName']/..").click # ShortName
+        click_on 'Help modal for Short Name'
       end
 
       it 'displays the validation clue in the modal' do
@@ -64,7 +64,7 @@ describe 'Draft form help text', js: true do
           click_on 'Collection Information'
         end
 
-        find(:xpath, "//a/i[@data-help-path='properties/ShortName']/..").click # ShortName
+        click_on 'Help modal for Short Name'
       end
 
       it 'displays the validation clue in the modal' do
@@ -90,7 +90,7 @@ describe 'Draft form help text', js: true do
 
         open_accordions
 
-        find(:xpath, "//a/i[@data-help-path='definitions/DateType/properties/Date']/..").click # Date
+        click_on 'Help modal for Date'
       end
 
       it 'displays the validation clue in the modal' do
