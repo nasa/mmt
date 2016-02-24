@@ -24,6 +24,17 @@
     margin: 0 auto;
     padding: 25px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+    .quick-search button,
+    .quick-search label,
+    .full-search {
+      display: none;
+    }
+
+    .quick-search input {
+      width: 99%;
+      border-radius: 3px;
+    }
   }
 
   .full-search-form {
@@ -68,6 +79,10 @@
 }
 
 .search-module {
+
+  .form-description {
+    margin: 0;
+  }
 
   input {
     color: $black;

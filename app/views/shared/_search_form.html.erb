@@ -10,6 +10,7 @@
   <a href="#" class="full-search"><i class="ed-icon ed-fa-search"></i>Full Metadata Record Search</a>
 
   <div class="search-module is-hidden">
+    <p class="form-description">Enter a Short Name, CMR Concept ID, Entry Title or other Search Term</p>
       <!-- Type of Record -->
     <div class='full-search-form'>
       <fieldset>
@@ -70,7 +71,7 @@
       </fieldset>
       <hr>
       <fieldset>
-        <!-- @query['full_search_term'] -->
+        <!-- @query['full_search_term']
         <legend>Search Term</legend>
         <%= text_field_tag('full_search_term', @query['search_term'], 'aria-label' => 'Search Term') %>
         <p class="form-description">Enter a Short Name, CMR Concept ID, Entry Title or other Search Term</p>
