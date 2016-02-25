@@ -4,8 +4,9 @@
       <div class="breadcrumb">
         <ol>
           <!-- todo: wire the following links -->
-          <li><a href="#">Manage CMR Dashboard</a></li>
-          <li><a href="#">Groups</a></li>
+          <li><%= link_to 'Manage CMR Dashboard', dashboard_path %></li>
+          <li><%= link_to 'Groups', groups_path %></li>
+          <li><%= @group['name'] %></li>
           <!-- end todo -->
         </ol>
       </div>
