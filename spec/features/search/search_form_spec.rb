@@ -30,6 +30,7 @@ describe 'Search Form', js: true do
           click_on 'Full Metadata Record Search'
           fill_in 'keyword', with: entry_title
           element = find('input#keyword')
+          sleep 1
           element.trigger('click')
           element.native.send_key(:Enter)
         end
