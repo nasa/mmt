@@ -218,6 +218,8 @@ describe 'Data validation for a form', js: true do
 
       bad_date_values.each do |test|
         fill_in 'Beginning Date Time', with: test[:value]
+        # click outside field to close datepicker and trigger validation
+        find('#draft_temporal_extents_0_precision_of_seconds').click
         puts "Date: #{test[:value]}: #{test[:error]}" if debug
         expect(page).to have_content(test[:error])
       end
