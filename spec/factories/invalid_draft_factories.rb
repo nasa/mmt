@@ -77,7 +77,7 @@ end
 def all_required_fields
   {
     'Platforms' => [{
-      'Type' => 'test 1 Type',
+      'Type' => 'Earth Observation Satellites',
       'ShortName' => 'test 1 P ShortName',
       'LongName' => 'test 1 P LongName',
     }],
