@@ -9,27 +9,31 @@
   <a href="#" class="full-search"><i class="ed-icon ed-fa-search"></i>Full Metadata Record Search</a>
 
   <div class="search-module is-hidden">
+    <p class="form-description">Enter a Short Name, CMR Concept ID, Entry Title or other Search Term</p>
       <!-- Type of Record -->
     <div class='full-search-form'>
       <fieldset>
         <legend>Find</legend>
         <div class="row">
-          <input type="radio" name="find" id="find-1" checked>
-          <label for="find-1">Collections</label>
-          <input type="radio" name="find" id="find-2" disabled>
-          <label class="disabled" for="find-2">Services</label>
+          <!-- @query['record_state'] -->
+          <%= radio_button_tag(:record_state, 'published_records', !(@query['record_state'] && @query['record_state'] == 'draft_records')) %>
+          <%= label_tag(:record_state_published_records, 'Collections') %>
+          <%= radio_button_tag(:record_state, 'draft_records', @query['record_state'] && @query['record_state'] == 'draft_records') %>
+          <%= label_tag(:record_state_draft_records, 'Drafts') %>
+          <%= radio_button_tag(:record_state, 'services', false, disabled: true) %>
+          <%= label_tag(:record_state_services, 'Services') %>
         </div>
       </fieldset>
 
       <hr>
       <!-- Record Details -->
       <fieldset>
+        <!-- @query['provider_id'] -->
         <div class="row">
           <%= select_tag "provider_id", options_for_select(@provider_ids.unshift(['Select Provider', '']), @query['provider_id']), class: 'single-select', 'aria-label' => 'Select Provider' %>
         </div>
         <div class="row">
           <div class="col-4">
-            <%= select_tag "record_state", options_for_select({ 'Published Records' => 'published_records', 'Draft Records' => 'draft_records', 'Published & Draft Records' => 'published_and_draft_records' }, @query['record_state']), class: 'single-select', 'aria-label' => 'Select Record State' %>
           </div>
           <div class="col-4">
             <%= select_tag "review_status", options_for_select({ 'Any Review Status' => 'any_review_status', 'Reviewed' => 'reviewed', 'Not Reviewed' => 'not_reviewed' }, @query['review_status']), class: 'single-select disabled', 'aria-label' => 'Select Review Status', disabled: true %>
@@ -66,19 +70,6 @@
       </fieldset>
       <hr>
       <fieldset>
-        <legend>Search Term</legend>
-        <div class="col-4">
-          <%= select_tag 'search_term_type', options_for_select([ ['Select an option', ''], ['Short Name', 'short_name'], ['CMR Concept ID', 'concept_id'], ['Entry Title', 'entry_title'] ], @query['search_term_type']), id: 'search-term-type' %>
-          <label for="search-term-type" class="is-invisible">Search Term Type</label>
-        </div>
-        <%= text_field_tag('search_term', @query['search_term'], 'aria-label' => 'Search Term') %>
-
-        <p class="form-description">Enter a Short Name, CMR Concept ID, or Entry Title</p>
-        <hr>
-        <!-- <div class="row">
-          <a href="#" class="is-collapsed">Has a relationship to</a>
-        </div>
-        <hr> -->
         <div class="row search-form-actions">
           <button type="button" name="full_search" class="btn btn-blue">Submit</button>
           <a href="#" class="cancel">Cancel</a>

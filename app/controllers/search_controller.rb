@@ -14,30 +14,16 @@ class SearchController < ApplicationController
     # Did the search come from quick_find or full_search
     if search_type == 'quick_find'
       # If search came from quick find, only use the quick find input
-      params.delete('search_term_type')
-      params.delete('search_term')
       @query = {}
-      @query['keyword'] = params['keyword'] if params['keyword']
+
+      @query['keyword'] = params['keyword'] || ''
       @query['record_state'] = 'published_records'
       @query['sort_key'] = params['sort_key'] if params['sort_key']
     elsif search_type == 'full_search'
       # If search came from full search, ignore whatever was in quick find
-      params.delete('keyword')
       @query = params.clone
+      @query['keyword'] ||= ''
       @query.delete('provider_id') if @query['provider_id'].blank?
-
-      # Handle search term field with selector
-      # if no search term exists, reset the type
-      params.delete('search_term_type') if params['search_term'].empty?
-      case params['search_term_type']
-      when 'short_name'
-        @query['short_name'] = params['search_term']
-      when 'entry_title'
-        @query['entry_title'] = "*#{params['search_term']}*"
-        @query['options[entry_title][pattern]'] = true
-      when 'concept_id'
-        @query['concept_id'] = params['search_term']
-      end
     end
 
     @query['page_num'] = page
@@ -63,8 +49,6 @@ class SearchController < ApplicationController
         get_published(query)
       when 'draft_records'
         get_drafts(query)
-      when 'published_and_draft_records'
-        get_published_and_drafts(query)
       else
         [[], [], 0]
       end
@@ -80,47 +64,47 @@ class SearchController < ApplicationController
     if collections['errors']
       errors = collections['errors']
       collections = []
+    elsif collections['items']
+      collections = collections['items']
     end
-
-    collections = collections['items'] if collections['items']
 
     [collections, errors, hits]
   end
 
   def get_drafts(query)
-    query.delete('page_num')
-    query.delete('page_size')
-    query.delete('_')
-    query.delete('options[entry_title][pattern]')
-    query['entry_title'] = query['entry_title'][1..-2] if query['entry_title']
+    providers = Array.wrap(query['provider_id'] || @current_user.available_providers)
+    drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
+                         "%#{query['keyword'].downcase}%", "%#{query['keyword'].downcase}%")
+                  .where('provider_id IN (?)', providers)
 
-    drafts = Draft.where(query.permit!) # TODO Modify the query to use offset and RESULTS_PER_PAGE to support pagination
+    if query['sort_key']
+      if query['sort_key'].starts_with?('-')
+        sort_key = query['sort_key'][1..-1].to_sym
+        sort_order = :desc
+      else
+        sort_key = query['sort_key'].to_sym
+        sort_order = :asc
+      end
+      sort_key = :updated_at if sort_key == :revision_date
+      drafts = drafts.order(sort_key => sort_order)
+    end
 
     # Map drafts to same structure we get from CMR
     drafts = drafts.map do |draft|
       {
         'meta' => {
           'revision-date' => draft['updated_at'].to_s[0..9],
-          'draft_id' => draft.id
+          'draft_id' => draft.id,
+          'provider-id' => draft.provider_id
         },
         'umm' => {
           'short-name' => draft.display_short_name,
-          'entry-title' => draft.display_entry_title
+          'entry-title' => draft.display_entry_title,
+          'version-id' => draft.draft['Version']
         }
       }
     end
 
     [drafts, [], drafts.size]
-  end
-
-  def get_published_and_drafts(query)
-    published_collections, published_errors, published_hits = get_published(query.clone)
-    drafts, _draft_errors, draft_hits = get_drafts(query)
-
-    collections = published_collections.concat(drafts).sort do |x, y|
-      x['umm']['entry-title'] <=> y['umm']['entry-title']
-    end
-
-    [collections, published_errors, published_hits + draft_hits]
   end
 end

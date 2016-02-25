@@ -10,6 +10,32 @@
 
 #search {
   float: right;
+  @include transition(z-index 0.25s ease-in-out);
+
+  &.open {
+    background-color: darken($black, 5%);
+    width: 800px;
+    z-index: 10;
+    position: absolute;
+    top: 140px;
+    text-align: left;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+    .quick-search button,
+    .quick-search label,
+    .full-search {
+      display: none;
+    }
+
+    .quick-search input {
+      width: 99%;
+      border-radius: 3px;
+    }
+  }
 
   .full-search-form {
     margin: 0.5em 0;
@@ -53,14 +79,10 @@
 }
 
 .search-module {
-  background-color: $black;
-  width: 800px;
-  z-index: 10;
-  position: absolute;
-  top: 140px;
-  text-align: left;
-  margin-left: -265px;
-  padding: 25px;
+
+  .form-description {
+    margin: 0;
+  }
 
   input {
     color: $black;
@@ -110,5 +132,9 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    #not-current-provider-modal {
+      white-space: normal;
+    }
   }
 }

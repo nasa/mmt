@@ -75,7 +75,7 @@ class Draft < ActiveRecord::Base
       collection.delete('MetadataDates')
     end
     draft.user = user
-    draft.provider_id = user.provider_id
+    draft.provider_id = user.provider_id # TODO is this problematic for collections editing permissions?
     draft.draft = collection
     draft.save
     draft

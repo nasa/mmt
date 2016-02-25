@@ -32,10 +32,9 @@ module Helpers
           do_open_accordions
           return if accordions_open?
           puts 'sleeping'
-          sleep 0.1
+          sleep 0.2
         end
       end
-
     rescue Timeout::Error
       raise 'Failed to open the accordions on the page'
     end
@@ -46,6 +45,7 @@ module Helpers
     end
 
     def accordions_open?
+      # Are there accordions on the page, and are they open?
       expect(page).to have_css('.accordion')
       expect(page).to have_no_css('.accordion.is-closed')
     rescue

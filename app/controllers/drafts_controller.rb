@@ -5,7 +5,8 @@ class DraftsController < ApplicationController
   # GET /drafts
   # GET /drafts.json
   def index
-    @drafts = @current_user.drafts.where(provider_id: @current_user.provider_id).order('updated_at DESC')
+    @drafts = @current_user.drafts.where(provider_id: @current_user.provider_id)
+                                  .order('updated_at DESC')
   end
 
   # GET /drafts/1

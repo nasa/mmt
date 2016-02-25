@@ -17,7 +17,7 @@ module SearchHelper
 
     results = []
 
-    special_keys = %w(record_state review_status record_type date_filter on_or_after author_type search_term_type)
+    special_keys = %w(record_state review_status record_type date_filter on_or_after author_type)
 
     pruned.each do |key, value|
       if key == 'sort_key'
@@ -41,8 +41,6 @@ module SearchHelper
     query.delete('controller')
     query.delete('action')
     query.delete('search_type')
-    query.delete('search_term_type')
-    query.delete('search_term')
     query.delete('review_status')
     query.delete('date_filter')
     query.delete('author_type')
