@@ -15,7 +15,8 @@
   @include span-columns(4);
   background: $light-blue;
   padding: 0;
-  border-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   border: 1px solid darken($light-blue, 8%);
 
   section {
@@ -39,7 +40,5 @@
 }
 
 .preview-spatial, #preview-map {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
   border-bottom: 1px solid darken($light-blue, 8%);
 }

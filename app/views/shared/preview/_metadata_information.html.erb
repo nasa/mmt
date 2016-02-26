@@ -7,7 +7,7 @@
     </a>
   </div>
   <div class="accordion-body">
-    <% if (metadata['MetadataLanguage'] && metadata['MetadataDates'] && metadata['DirectoryNames']).blank? %>
+    <% if (metadata['MetadataLanguage'].blank? && metadata['MetadataDates'].blank? && metadata['DirectoryNames']).blank? %>
       <p class="empty-section">There is no data for this section.</p>
     <% else %>
       <% if metadata['MetadataLanguage'] %>

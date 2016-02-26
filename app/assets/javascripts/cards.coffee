@@ -3,7 +3,6 @@ $(document).ready ->
   # Advance to the next card body
   $('.card-navigation-control-forward').click (event) ->
     currentSlide = $(this).closest('.card').find('.card-body.active')
-    console.log currentSlide
     slide(currentSlide, "next")
     event.preventDefault()
 

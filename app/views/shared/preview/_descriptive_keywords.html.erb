@@ -1,6 +1,6 @@
-<div class="preview-collection accordion is-closed">
+<div class="preview-collection accordion">
   <div class="accordion-header">
-    <h4>Descriptive Keyword Fields:</h4>
+    <h4>Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Science Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords'), {class: 'hash-link'} %><% end %></h4>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
       <span class="is-hidden">Toggle Descriptive Keyword Fields</span>
@@ -8,7 +8,7 @@
   </div>
   <div class="accordion-body">
     <ul class="descriptive-keywords-preview">
-      <h4>Science Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Science Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'ancillary-keywords'}), {class: 'hash-link'} %><% end %></h4>
+      <h5>Science Keywords</h5>
       <% keywords = metadata['ScienceKeywords'] || [] %>
       <% if keywords.size > 0 %>
         <li class="top_field science-keywords">
@@ -22,7 +22,7 @@
         </li>
       <% end %>
 
-      <h4>ISO Topic Categories</h4>
+      <h5>ISO Topic Categories</h5>
       <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'ISOTopicCategories',
           hash_for_key: metadata,
@@ -30,13 +30,13 @@
           options: DraftsHelper::ISOTopicCategoriesOptions
       } %>
 
-      <h4>Ancillary Keywords <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Ancillary Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'ancillary-keywords'}), {class: 'hash-link'} %><% end %></h4>
+      <h5>Ancillary Keywords</h5>
       <%= render partial: 'shared/preview/fields/display_array_with_header', locals: {
           key_name: 'AncillaryKeywords',
           hash_for_key: metadata
       } %>
 
-      <h4>Additional Attributes <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Additional Attributes</span>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', {anchor: 'additional-attributes'}), {class: 'hash-link'} %><% end %></h4>
+      <h5>Additional Attributes</h5>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['AdditionalAttributes'],
           name: 'AdditionalAttributes',
