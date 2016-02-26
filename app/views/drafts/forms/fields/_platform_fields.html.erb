@@ -1,13 +1,13 @@
 <div class="row sub-fields">
   <!-- Type -->
-  <%= mmt_text_area(
+  <%= mmt_select(
     name: 'type',
     title: 'Type',
     prefix: name_prefix,
     value: platform['Type'],
-    help: 'definitions/PlatformType/properties/Type',
-    validate: true
-   ) %>
+    options: @platform_types,
+    help: 'definitions/PlatformType/properties/Type'
+  ) %>
 
   <div class="row">
     <div class="col-6">

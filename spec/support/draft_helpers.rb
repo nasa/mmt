@@ -369,7 +369,7 @@ module Helpers
 
     def add_platforms
       within '.multiple.platforms' do
-        fill_in 'Type', with: 'Platform type'
+        select 'Aircraft', from: 'Type'
         fill_in 'draft_platforms_0_short_name', with: 'Platform short name'
         fill_in 'draft_platforms_0_long_name', with: 'Platform long name'
         add_characteristics

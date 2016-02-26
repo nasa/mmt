@@ -55,11 +55,11 @@ module Cmr
       get(url).body
     end
 
-    def get_spatial_keywords
+    def get_controlled_keywords(type)
       if Rails.env.development? || Rails.env.test?
-        url = 'http://localhost:3003/keywords/spatial_keywords'
+        url = "http://localhost:3003/keywords/#{type}"
       else
-        url = '/search/keywords/spatial_keywords'
+        url = "/search/keywords/#{type}"
       end
       get(url).body
     end
