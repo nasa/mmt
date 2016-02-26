@@ -21,17 +21,17 @@
 
   <div class="row row-content">
     <section>
-      <%= form_tag({controller: :groups, action: :create, method: :post}) do %>
+      <%= form_tag(groups_path, method: :post) do %>
         <fieldset class="no-bg">
           <legend class="space-bot-sm">General</legend>
           <div class="row">
-            <%= label_tag(:name, 'Group Name', class: 'icon-required') %>
+            <%= label_tag('group[name]', 'Group Name', class: 'icon-required') %>
             <br/>
-            <%= text_field_tag(:name, @group[:name], class: 'half-width') %>
+            <%= text_field_tag('group[name]', @group[:name], class: 'half-width') %>
           </div>
           <div class="row">
-            <%= label_tag(:description, 'Group Description', class: 'icon-required') %>
-            <%= text_area_tag(:description, @group[:description], cols: 30, rows: 3) %>
+            <%= label_tag('group[description]', 'Group Description', class: 'icon-required') %>
+            <%= text_area_tag('group[description]', @group[:description], cols: 30, rows: 3) %>
           </div>
         </fieldset>
         <hr>

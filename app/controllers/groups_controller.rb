@@ -19,14 +19,10 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @group = { :name => params.delete(:name),
-               :description => params.delete(:description),
-               'provider-id' => @current_user.provider_id }
-    if @group[:name].empty? || @group[:description].empty?
-      flash[:error] = group_validation_error(@group)
-      render :new
-    else
-      group_creation = cmr_client.create_group(@group.to_json, token)
+    group = params[:group]
+    if valid_group?(group)
+      group['provider-id'] = @current_user.provider_id
+      group_creation = cmr_client.create_group(group.to_json, token)
 
       if group_creation.success?
         concept_id = group_creation.body['concept-id']
@@ -37,23 +33,28 @@ class GroupsController < ApplicationController
         flash[:error] = group_creation_error
         render :new
       end
+    else
+      @group = group
+      render :new
     end
   end
 
   private
-
   def groups_enabled?
     redirect_to dashboard_path unless Rails.configuration.groups_enabled
   end
 
-  def group_validation_error(group)
-    if group[:name].empty? && group[:description].empty?
-      error = 'Group Name and Description are required.'
-    elsif group[:name].empty?
-      error = 'Group Name is required.'
-    elsif group[:description].empty?
-      error = 'Group Description is required.'
+  def valid_group?(group)
+    case
+    when group[:name].empty? && group[:description].empty?
+      flash[:error] = 'Group Name and Description are required.'
+    when group[:name].empty?
+      flash[:error] = 'Group Name is required.'
+    when group[:description].empty?
+      flash[:error] = 'Group Description is required.'
+    else
+      return true
     end
-    error
+    return false
   end
 end
