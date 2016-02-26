@@ -73,10 +73,10 @@
   .accordion-body {
     padding: 0;
     margin-bottom: 1em;
-
-    .empty-section {
-      color: $dolphin-grey;
-      font-style: italic;
-    }
   }
+}
+
+.empty-section {
+  color: $dolphin-grey;
+  font-style: italic;
 }

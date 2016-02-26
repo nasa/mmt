@@ -27,8 +27,12 @@ table {
   text-align: left;
 }
 
-.preview table, .preview table td {
+.preview table, .preview table td, .preview table th {
   border: 1px solid darken($light-blue, 8%);
+}
+
+.preview table th {
+  background: darken($light-blue, 4%);
 }
 
 .preview table tr:nth-child(2n+2) {
