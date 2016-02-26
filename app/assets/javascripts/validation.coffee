@@ -284,6 +284,8 @@ $(document).ready ->
   $('.metadata-form').on 'blur', '.validate', ->
     id = $(this).attr('id')
     visitedFields.push id unless visitedFields.indexOf(id) != -1
+    # if the field is a datepicker, and the datepicker is still open, don't validate yet
+    return if $(this).attr('type') == 'datetime' and $('.datepicker:visible').length > 0
     validateFromFormChange()
 
   $('.metadata-form').on 'click', '.remove', ->

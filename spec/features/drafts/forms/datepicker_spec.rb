@@ -36,5 +36,19 @@ describe 'Datepicker', js: true do
         expect(page).to have_field('draft_metadata_dates_0_date', with: '2015-11-01T12:34:56.000Z')
       end
     end
+
+    context 'when choosing part of the date on a required field' do
+      before do
+        click_on 'Add another Date'
+
+        select 'Future Review', from: 'Type'
+        find('#draft_metadata_dates_1_date').click
+        find('span.year', text: '2015').click
+      end
+
+      it 'does not display a validation error' do
+        expect(page).to have_no_content('Date is required')
+      end
+    end
   end
 end
