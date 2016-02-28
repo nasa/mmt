@@ -1,5 +1,4 @@
 <div class="preview-collection">
-  <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Information</span>'.html_safe, draft_edit_form_path(@draft, 'collection_information', {anchor: 'collection-information'}), {class: 'hash-link'} %><% end %>
   <ul class="collection-information-preview">
     <%= render partial: 'shared/preview/fields/display_field_line', locals: {
       key_name: 'Abstract',

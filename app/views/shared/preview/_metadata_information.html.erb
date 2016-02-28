@@ -1,5 +1,4 @@
 <div class="preview-collection accordion">
-  <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Metadata Language</span>'.html_safe, draft_edit_form_path(@draft, 'metadata_information'), {class: 'hash-link'} %><% end %>
   <% if (metadata['MetadataLanguage'] && metadata['MetadataDates'] && metadata['DirectoryNames']).blank? %>
     <p class="empty-section">There are no metadata details for this collection.</p>
   <% else %>

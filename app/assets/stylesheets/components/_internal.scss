@@ -33,6 +33,14 @@
     padding: 1em;
     height: 175px;
     background: rgba(0,0,0,0.5);
+
+    .version {
+      background: rgb(231,76,60);
+    }
+
+    .language {
+      background: $midnight-blue;
+    }
   }
 
   .row-content {
