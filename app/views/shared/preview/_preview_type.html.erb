@@ -8,12 +8,7 @@
 <% top_field = true if top_field.nil? %>
 
 <% if data %>
-  <li class="<%= 'top_field ' if top_field %><%= name_to_class(name) %>">
-    <% if top_field %>
-      <h5><%= name_to_title(name) %></h5>
-    <% end %>
     <% data.each_with_index do |data_value, index| %>
-      <!-- <h5><%= name_to_title(name) %><%= " #{index + 1}" if is_array %></h5> -->
       <ul class='sub-field <%= name_to_class(name) %><%= "-#{index}" if is_array %>'>
         <% type.each do |key| %>
           <% options = key[:options] || [] %>
@@ -43,6 +38,4 @@
         <% end %>
       </ul>
     <% end %>
-
-  </li>
 <% end %>

@@ -5,7 +5,6 @@
   <% data_array = hash_for_key[key_name] %>
   <% if !data_array.nil? %>
     <% html_class_name = name_to_class(key_name) %>
-    <!-- <li class="<%= html_class_name %>"> -->
       <ul class="sub-field">
         <% data_array.each_with_index do |element_of_array, index| %>
           <li class="<%= html_class_name %>-<%= index %>">
@@ -13,6 +12,5 @@
           </li>
         <% end %>
       </ul>
-    <!-- </li> -->
   <% end %>
 <% end %>
