@@ -1,4 +1,7 @@
 <div class="preview-collection">
+  <% if (metadata['ScienceKeywords']).blank? %>
+    <p class="empty-section">There are no science keywords for this collection.</p>
+  <% end %>
   <% if metadata['ScienceKeywords'] %>
     <ul class="descriptive-keywords-preview">
       <h5>Science Keywords</h5>
