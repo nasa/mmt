@@ -7,117 +7,95 @@
     </a>
   </div>
   <div class="accordion-body">
-    <ul class="cards">
-      <li class="card">
-        <div class="card-header">
-          <h5 class="card-header-title">COLAB</h5>
-          <span class="role">Originator</span>
-        </div>
-        <div class="card-body active">
-          <div class="card-body-details">
-            <h6>The Collaborators</h6>
-            <p>Ministry of Information<br />142 Fairoaks Ct<br />Suite 200<br />East Lansing, MI 48823</p>
+    <% if metadata['Personnel'].blank? %>
+      <p class="empty-section">There are no listed personnel for this collection.</p>
+    <% else %>
+      <ul class="cards">
+      <% metadata['Personnel'].each do |person| %>
+        <li class="card">
+          <div class="card-header">
+            <h5 class="card-header-title"><%= person['Party']['Person']['FirstName'] %></h5>
+            <span class="role"><%= person['Role'] %></span>
           </div>
-          <div class="card-body-aside">
-            <h6>8:00AM - 5:00PM</h6>
+          <div class="card-body active">
+            <div class="card-body-details">
+              <h6><%= person['Party']['Person']['FirstName'] %> <%= person['Party']['Person']['LastName'] %></h6>
+              <p>
+                <%= person['Party']['Addresses'].first['StreetAddresses'][0] %><br />
+                <%= person['Party']['Addresses'].first['StreetAddresses'][1] %><br />
+                <%= person['Party']['Addresses'].first['StreetAddresses'][2] %><br />
+                <%= person['Party']['Addresses'].first['City'] %>, <%= person['Party']['Addresses'].first['StateProvince'] %> <%= person['Party']['Addresses'].first['PostalCode'] %>
+              </p>
+            </div>
+            <div class="card-body-aside">
+              <h6><%= person['Party']['ServiceHours'] %></h6>
+              <ul>
+                <% person['Party']['Contacts'].each do |contact| %>
+                  <li>
+                    <% if contact["Type"] == 'Phone' %><i class="fa fa-phone-square"></i> <%= contact['Value'] %><% end %>
+                    <% if contact["Type"] == 'Email' %><i class="fa fa-envelope"></i> <a href="mailto:<%= contact['Value'] %>" title="<%= contact['Value'] %>">Email</a><% end %>
+                    <% if contact["Type"] == 'Twitter' %><i class="fa fa-twitter-square"></i> <a href="<%= contact['Value'] %>">Twitter</a><% end %>
+                    <% if contact["Type"] == 'Facebook' %><i class="fa fa-facebook-square"></i> <a href="<%= contact['Value'] %>">Facebook</a><% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+          <% if person['Party']['Addresses'].length > 1 %>
+            <% person['Party']['Addresses'].drop(1).each do |address| %>
+              <div class="card-body">
+                <div class="card-body-details-full">
+                  <h6>Additional Address</h6>
+                  <p>
+                    <%= address['StreetAddresses'][0] %><br />
+                    <%= address['StreetAddresses'][1] %><br />
+                    <%= address['StreetAddresses'][2] %><br />
+                    <%= address['City'] %>, <%= address['StateProvince'] %> <%= address['PostalCode'] %>
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+          <% if person['Party']['ContactInstructions'] %>
+            <div class="card-body">
+              <div class="card-body-details-full">
+                <h6>Contact Details</h6>
+                <p><%= person['Party']['ContactInstructions'] %></p>
+              </div>
+            </div>
+          <% end %>
+          <% if person['Party']['RelatedUrls'] %>
+            <div class="card-body">
+              <div class="card-body-details-full">
+                <ul>
+                  <% person['Party']['RelatedUrls'][0]['URLs'].each do |url| %>
+                    <li><i class="fa fa-external-link"></i> <a href="<%= url %>"><%= url %></a></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+          <div class="card-navigation">
             <ul>
-              <li><i class="fa fa-phone-square"></i> (248) 555-NASA</li>
-              <li><i class="fa fa-phone-square"></i> (517) 555-1212</li>
-              <li><i class="fa fa-envelope"></i> Email</li>
-              <li><i class="fa fa-envelope"></i> Other Email</li>
+              <li class="card-navigation-control"><a href="" class="card-navigation-control-back"><i class="fa fa-chevron-left"></i></a></li>
+              <li class="card-navigation-pagination">
+                <i class="fa fa-circle"></i>
+                <% (person['Party']['Addresses'].length - 1).times do %>
+                  <i class="fa fa-circle-o"></i>
+                <% end %>
+                <% if person['Party']['ContactInstructions'] %>
+                  <i class="fa fa-circle-o"></i>
+                <% end %>
+                <% if person['Party']['RelatedUrls'] %>
+                  <i class="fa fa-circle-o"></i>
+                <% end %>
+              </li>
+              <li class="card-navigation-control"><a href="" class="card-navigation-control-forward"><i class="fa fa-chevron-right"></i></a></li>
             </ul>
           </div>
-        </div>
-        <div class="card-body">
-          <div class="card-body-details-full">
-            <h6>Additional Address</h6>
-            <p>Ministry of Information Order of Omega<br />1800 Michigan Ave<br />Lansing, MI 48910</p>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-body-details-full">
-            <h6>Contact Details</h6>
-            <p>Every third Friday the team does lunch at Olive Garden from 12-1:30.</p>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-body-details-full">
-            <ul>
-              <li><i class="fa fa-twitter-square"></i> @test_user</li>
-              <li><i class="fa fa-facebook-square"></i> https://facebook.com/test_user</li>
-              <li><i class="fa fa-external-link"></i> www.testurl.com</li>
-              <li><i class="fa fa-external-link"></i> www.element84.com</li>
-            </ul>
-          </div>
-        </div>
-        <div class="card-navigation">
-          <ul>
-            <li class="card-navigation-control"><a href="" class="card-navigation-control-back"><i class="fa fa-chevron-left"></i></a></li>
-            <li class="card-navigation-pagination">
-              <i class="fa fa-circle"></i>
-              <i class="fa fa-circle-o"></i>
-              <i class="fa fa-circle-o"></i>
-              <i class="fa fa-circle-o"></i>
-            </li>
-            <li class="card-navigation-control"><a href="" class="card-navigation-control-forward"><i class="fa fa-chevron-right"></i></a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="card">
-        <div class="card-header">
-          <h5 class="card-header-title">COLAB</h5>
-          <span class="role">Originator</span>
-        </div>
-        <div class="card-body active">
-          <div class="card-body-details">
-            <h6>The Collaborators</h6>
-            <p>Ministry of Information<br />142 Fairoaks Ct<br />Suite 200<br />East Lansing, MI 48823</p>
-          </div>
-          <div class="card-body-aside">
-            <h6>8:00AM - 5:00PM</h6>
-            <ul>
-              <li><i class="fa fa-phone-square"></i> (248) 555-NASA</li>
-              <li><i class="fa fa-phone-square"></i> (517) 555-1212</li>
-              <li><i class="fa fa-envelope"></i> Email</li>
-              <li><i class="fa fa-envelope"></i> Other Email</li>
-            </ul>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-body-details-full">
-            <h6>Additional Address</h6>
-            <p>Ministry of Information Order of Omega<br />1800 Michigan Ave<br />Lansing, MI 48910</p>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-body-details-full">
-            <h6>Contact Details</h6>
-            <p>Every third Friday the team does lunch at Olive Garden from 12-1:30.</p>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-body-details-full">
-            <ul>
-              <li><i class="fa fa-twitter-square"></i> @test_user</li>
-              <li><i class="fa fa-facebook-square"></i> https://facebook.com/test_user</li>
-              <li><i class="fa fa-external-link"></i> www.testurl.com</li>
-              <li><i class="fa fa-external-link"></i> www.element84.com</li>
-            </ul>
-          </div>
-        </div>
-        <div class="card-navigation">
-          <ul>
-            <li class="card-navigation-control"><a href="" class="card-navigation-control-back"><i class="fa fa-chevron-left"></i></a></li>
-            <li class="card-navigation-pagination">
-              <i class="fa fa-circle"></i>
-              <i class="fa fa-circle-o"></i>
-              <i class="fa fa-circle-o"></i>
-              <i class="fa fa-circle-o"></i>
-            </li>
-            <li class="card-navigation-control"><a href="" class="card-navigation-control-forward"><i class="fa fa-chevron-right"></i></a></li>
-          </ul>
-        </div>
-      </li>
-    </ul>
+        </li>
+      <% end %>
+      </ul>
+    <% end %>
   </div>
 </div>

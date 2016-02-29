@@ -1,52 +1,43 @@
-<div class="preview-collection accordion">
-  <div class="accordion-header">
-    <h4>Distribution Information</h4>
-    <a href="#" class="float-r">
-      <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Distribution Information Fields</span>
-    </a>
-  </div>
-  <div class="accordion-body">
-    <% if (metadata['RelatedUrls'] && metadata['Distributions']).blank? %>
-      <p class="empty-section">There is no data for this section.</p>
-    <% end %>
-    <% if metadata['RelatedUrls'] %>
-      <h5>Related URLs</h5>
-      <ul>
-      <% metadata['RelatedUrls'].each do |url| %>
-        <li>
-          <%= url['Description'] %><br />
-          <% url['URLs'].each do |url| %>
-            <i class="fa fa-globe"></i> <a href="<%= url %>"><%= url %></a>
-          <% end %>
-        </li>
-      <% end %>
-      </ul>
-    <% end %>
-    <% if metadata['Distributions'] %>
-      <h5>Distributions</h5>
-      <table>
+<div class="preview-collection">
+  <% if (metadata['RelatedUrls'] && metadata['Distributions']).blank? %>
+    <p class="empty-section">There is no distribution information for this collection.</p>
+  <% end %>
+  <% if metadata['Distributions'] %>
+    <h5>Distributions</h5>
+    <table>
+      <tr>
+        <th>Media</th>
+        <th>Format</th>
+        <th>Sizes</th>
+        <th>Fees</th>
+      </tr>
+      <% metadata['Distributions'].each do |distribution| %>
         <tr>
-          <th>Media</th>
-          <th>Format</th>
-          <th>Sizes</th>
-          <th>Fees</th>
-        </tr>
-        <% metadata['Distributions'].each do |distribution| %>
-          <tr>
-            <td><%= distribution['DistributionMedia'] %></td>
-            <td><%= distribution['DistributionFormat'] %></td>
-            <td>
-              <% if distribution['Sizes'] %>
-                <% distribution['Sizes'].each do |size| %>
-                  <%= size.size %><%= size.unit %>
-                <% end %>
+          <td><%= distribution['DistributionMedia'] %></td>
+          <td><%= distribution['DistributionFormat'] %></td>
+          <td>
+            <% if distribution['Sizes'] %>
+              <% distribution['Sizes'].each do |size| %>
+                <%= size.size %><%= size.unit %>
               <% end %>
-            </td>
-            <td><%= distribution['Fees'] %></td>
-          </tr>
+            <% end %>
+          </td>
+          <td><%= distribution['Fees'] %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+  <% if metadata['RelatedUrls'] %>
+    <h5>Related URLs</h5>
+    <ul>
+    <% metadata['RelatedUrls'].each do |url| %>
+      <li>
+        <%= url['Description'] %><br />
+        <% url['URLs'].each do |url| %>
+          <i class="fa fa-globe"></i> <a href="<%= url %>"><%= url %></a>
         <% end %>
-      </table>
+      </li>
     <% end %>
-  </div>
+    </ul>
+  <% end %>
 </div>
