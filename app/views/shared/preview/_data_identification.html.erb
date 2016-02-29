@@ -8,59 +8,60 @@
   </div>
   <div class="accordion-body">
     <ul class="data-identification-preview">
-      <h4>Data Dates <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Data Dates</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'data-dates'}), {class: 'hash-link'} %><% end %></h4>
-      <%= render partial: 'shared/preview/preview_type', locals: {
-          data: metadata['DataDates'],
-          name: 'DataDates',
-          type: TypesHelper::DateType
-      } %>
+      <% if metadata['DataDates'] %>
+        <h5>Data Dates<% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Data Dates</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'data-dates'}), {class: 'hash-link'} %><% end %></h5>
+        <table>
+          <% metadata['DataDates'].each do |data| %>
+            <tr>
+              <td><%= data["Type"] %></td>
+              <td><%= data["Date"] %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
 
-      <h4>Collection Data Type <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Data Type</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-data-type'}), {class: 'hash-link'} %><% end %></h4>
-      <%= render partial: 'shared/preview/fields/display_single_select_field_line', locals: {
-          key_name: 'CollectionDataType',
-          hash_for_key: metadata,
-          options: DraftsHelper::CollectionDataTypeOptions
-      } %>
+      <h5>Collection Data Type <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Data Type</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-data-type'}), {class: 'hash-link'} %><% end %></h5>
+      <%= metadata['CollectionDataType'] %>
 
-      <h4>Processing Level <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Processing Level</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'processing-level'}), {class: 'hash-link'} %><% end %></h4>
+      <h5>Processing Level <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Processing Level</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'processing-level'}), {class: 'hash-link'} %><% end %></h5>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['ProcessingLevel'],
           name: 'ProcessingLevel',
           type: TypesHelper::ProcessingLevelType
       } %>
 
-      <h4>Collection Progress <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Progress</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-progress'}), {class: 'hash-link'} %><% end %></h4>
+      <h5>Collection Progress <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Progress</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-progress'}), {class: 'hash-link'} %><% end %></h5>
       <%= render partial: 'shared/preview/fields/display_single_select_field_line', locals: {
           key_name: 'CollectionProgress',
           hash_for_key: metadata,
           options: DraftsHelper::CollectionProgressOptions
       } %>
 
-      <h4>Quality <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Quality</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'quality'}), {class: 'hash-link'} %><% end %></h4>
+      <h5>Quality <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Quality</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'quality'}), {class: 'hash-link'} %><% end %></h5>
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'Quality', hash_for_key: metadata
       } %>
 
-      <h4>Use Constraints <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Use Constraints</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'use-constraints'}), {class: 'hash-link'} %><% end %></h4>
+      <h5>Use Constraints <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Use Constraints</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'use-constraints'}), {class: 'hash-link'} %><% end %></h5>
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'UseConstraints', hash_for_key: metadata
       } %>
 
-      <h4>Access Constraints <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Access Constraints</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'access-constraints'}), {class: 'hash-link'} %><% end %></h4>
+      <h5>Access Constraints <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Access Constraints</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'access-constraints'}), {class: 'hash-link'} %><% end %></h5>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['AccessConstraints'],
           name: 'AccessConstraints',
           type: TypesHelper::AccessConstraintsType
       } %>
 
-      <h4>Metadata Associations <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Metadata Associations</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'metadata-associations'}), {class: 'hash-link'} %><% end %></h4>
+      <h5>Metadata Associations <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Metadata Associations</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'metadata-associations'}), {class: 'hash-link'} %><% end %></h5>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['MetadataAssociations'],
           name: 'MetadataAssociations',
           type: TypesHelper::MetadataAssociationsType
       } %>
 
-      <h4>Publication References <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Publication References</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'publication-reference'}), {class: 'hash-link'} %><% end %></h4>
+      <h5>Publication References <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Publication References</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'publication-reference'}), {class: 'hash-link'} %><% end %></h5>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['PublicationReferences'],
           name: 'PublicationReferences',
