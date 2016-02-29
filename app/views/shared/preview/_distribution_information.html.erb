@@ -32,9 +32,15 @@
     <ul>
     <% metadata['RelatedUrls'].each do |url| %>
       <li>
+        <%= url['Title'] %><br />
         <%= url['Description'] %><br />
+        <% if url['Relation'] %>
+          <% url['Relation'].each do |relation| %>
+            <%= relation %></br>
+          <% end %>
+        <% end %>
         <% url['URLs'].each do |url| %>
-          <i class="fa fa-globe"></i> <a href="<%= url %>"><%= url %></a>
+          <i class="fa fa-globe"></i> <a href="<%= url %>"><%= url %></a></br>
         <% end %>
       </li>
     <% end %>
