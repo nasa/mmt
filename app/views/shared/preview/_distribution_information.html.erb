@@ -18,7 +18,7 @@
           <td>
             <% if distribution['Sizes'] %>
               <% distribution['Sizes'].each do |size| %>
-                <%= size.size %><%= size.unit %>
+                <%= size['Size'] %><%= size['Unit'] %>
               <% end %>
             <% end %>
           </td>
