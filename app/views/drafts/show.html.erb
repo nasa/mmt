@@ -15,7 +15,10 @@
       </div>
       <div class="collection-details">
         <span class="badge version">Version <%= @draft.draft["Version"] %></span>
-        <span class="badge language"><%= @draft.draft["DataLanguage"] %></span>
+        <!-- Only display data language if one exists. -->
+        <% if @draft.draft["DataLanguage"] %>
+          <span class="badge language"><%= @draft.draft["DataLanguage"] %></span>
+        <% end %>
         <div class="quality-score disabled">
           <div class="badges">
             <i class="fa fa-star fa-lg"></i>

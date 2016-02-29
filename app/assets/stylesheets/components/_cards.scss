@@ -3,7 +3,6 @@
 \* ===================================================== */
 
 .cards {
-  margin: 0 0 10em 0;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -26,7 +25,7 @@
   display: flex;
   align-items: center;
 
-  .role {
+  .card-header-badge {
     color: #fff;
     display: block;
     padding: 0.6em 1em;

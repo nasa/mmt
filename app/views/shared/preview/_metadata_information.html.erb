@@ -1,5 +1,5 @@
 <div class="preview-collection accordion">
-  <% if (metadata['MetadataLanguage'] && metadata['MetadataDates'] && metadata['DirectoryNames']).blank? %>
+  <% if (metadata['MetadataLanguage'] or metadata['MetadataDates'] or metadata['DirectoryNames']).blank? %>
     <p class="empty-section">There are no additional metadata details for this collection.</p>
   <% else %>
     <% if metadata['MetadataDates'] %>
