@@ -19,6 +19,11 @@
         <% if @draft.draft["DataLanguage"] %>
           <span class="badge language"><%= @draft.draft["DataLanguage"] %></span>
         <% end %>
+        <!-- TODO: Make this actually check CollectionDataType -->
+        <% if @CollectionDataType = "NEAR_REAL_TIME" %>
+          <span class="badge nrt">NRT</span>
+        <% end %>
+        
         <div class="quality-score disabled">
           <div class="badges">
             <i class="fa fa-star fa-lg"></i>

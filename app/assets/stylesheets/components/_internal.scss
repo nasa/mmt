@@ -32,14 +32,18 @@
     @include span-columns(4);
     padding: 1em;
     height: 175px;
-    background: rgba(0,0,0,0.5);
+    background: rgba($true-black,0.5);
 
     .version {
-      background: rgb(231,76,60);
+      background: $royal-purple;
     }
 
     .language {
       background: $midnight-blue;
+    }
+
+    .nrt {
+      background: $dark-green;
     }
   }
 
