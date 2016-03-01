@@ -1,5 +1,4 @@
 class GroupsController < ApplicationController
-
   before_filter :groups_enabled?
 
   def index
@@ -31,6 +30,7 @@ class GroupsController < ApplicationController
       else
         group_creation_error = group_creation.body['errors'][0]
         flash[:error] = group_creation_error
+        @group = group
         render :new
       end
     else
@@ -40,6 +40,7 @@ class GroupsController < ApplicationController
   end
 
   private
+
   def groups_enabled?
     redirect_to dashboard_path unless Rails.configuration.groups_enabled
   end
@@ -55,6 +56,6 @@ class GroupsController < ApplicationController
     else
       return true
     end
-    return false
+    false
   end
 end

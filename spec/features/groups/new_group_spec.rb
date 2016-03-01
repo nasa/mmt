@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'New Groups', js: true, reset_provider: true do
+describe 'New Groups', reset_provider: true do
   group_name = 'Forest People'
   group_description = 'Group for scientists monitoring Forest Cover'
 
@@ -75,8 +75,10 @@ describe 'New Groups', js: true, reset_provider: true do
       end
 
       it 'displays the group information' do
-        expect(page).to have_content(group_name)
-        expect(page).to have_content(group_description)
+        within '#main-content header' do
+          expect(page).to have_content(group_name)
+          expect(page).to have_content(group_description)
+        end
       end
     end
   end
