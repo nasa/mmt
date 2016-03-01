@@ -4,8 +4,8 @@
       <div class="breadcrumb">
         <ol>
           <!-- todo: wire the following links -->
-          <li><%= link_to 'Dashboard', dashboard_path %></li>
-          <li><%= link_to 'Permissions & Groups', groups_path %></li>
+          <li><%= link_to 'Dashboard', cmr_path %></li>
+          <li><%= link_to 'Groups', cmr_groups_path %></li>
           <!-- end todo -->
         </ol>
       </div>
@@ -21,7 +21,7 @@
 
   <div class="row row-content">
     <section>
-      <%= form_tag(groups_path, method: :post, class: 'group-form') do %>
+      <%= form_tag(cmr_groups_path, method: :post, class: 'group-form') do %>
         <fieldset class="no-bg">
           <legend class="space-bot-sm">General</legend>
           <div class="row">

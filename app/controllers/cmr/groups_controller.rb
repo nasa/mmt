@@ -1,4 +1,4 @@
-class GroupsController < ApplicationController
+class Cmr::GroupsController < Cmr::CmrController
   before_filter :groups_enabled?
 
   def index
@@ -9,7 +9,7 @@ class GroupsController < ApplicationController
     @group = cmr_client.get_group(concept_id, token).body
     if @group['errors']
       flash[:error] = @group['errors'][0]
-      redirect_to groups_path
+      redirect_to cmr_groups_path
     end
   end
 
@@ -26,7 +26,7 @@ class GroupsController < ApplicationController
       if group_creation.success?
         concept_id = group_creation.body['concept-id']
         flash[:success] = 'Group was successfully created.'
-        redirect_to group_path(concept_id)
+        redirect_to cmr_group_path(concept_id)
       else
         group_creation_error = group_creation.body['errors'][0]
         flash[:error] = group_creation_error

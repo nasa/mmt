@@ -9,7 +9,7 @@ describe 'New Groups', reset_provider: true do
   context 'when visiting the new group page' do
     before do
       login
-      visit new_group_path
+      visit new_cmr_group_path
     end
 
     it 'displays the new group information entry fields' do
