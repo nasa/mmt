@@ -20,15 +20,22 @@
           <div class="card-body active">
             <div class="card-body-details">
               <h6><%= org['Party']['OrganizationName']['LongName'] %></h6>
+              <% if org['Party']['Addresses'].blank? %>
+                <p class="empty-section">This organization does not have any addresses listed.</p>
+              <% else %>
               <p>
                 <%= org['Party']['Addresses'].first['StreetAddresses'][0] %><br />
                 <%= org['Party']['Addresses'].first['StreetAddresses'][1] %><br />
                 <%= org['Party']['Addresses'].first['StreetAddresses'][2] %><br />
                 <%= org['Party']['Addresses'].first['City'] %>, <%= org['Party']['Addresses'].first['StateProvince'] %> <%= org['Party']['Addresses'].first['PostalCode'] %>
               </p>
+              <% end %>
             </div>
             <div class="card-body-aside">
               <h6><%= org['Party']['ServiceHours'] %></h6>
+              <% if org['Party']['Contacts'].blank? %>
+                <p class="empty-section">This organization does not have any contacts listed.</p>
+              <% else %>
               <ul>
                 <% org['Party']['Contacts'].each do |contact| %>
                   <li>
@@ -39,9 +46,10 @@
                   </li>
                 <% end %>
               </ul>
+              <% end %>
             </div>
           </div>
-          <% if org['Party']['Addresses'].length > 1 %>
+          <% if org['Party']['Addresses'] && org['Party']['Addresses'].length > 1 %>
             <% org['Party']['Addresses'].drop(1).each do |address| %>
               <div class="card-body">
                 <div class="card-body-details-full">
@@ -80,8 +88,10 @@
               <li class="card-navigation-control"><a href="" class="card-navigation-control-back"><i class="fa fa-chevron-left"></i></a></li>
               <li class="card-navigation-pagination">
                 <i class="fa fa-circle"></i>
-                <% (org['Party']['Addresses'].length - 1).times do %>
-                  <i class="fa fa-circle-o"></i>
+                <% if org['Party']['Addresses'] %>
+                  <% (org['Party']['Addresses'].length - 1).times do %>
+                    <i class="fa fa-circle-o"></i>
+                  <% end %>
                 <% end %>
                 <% if org['Party']['ContactInstructions'] %>
                   <i class="fa fa-circle-o"></i>
