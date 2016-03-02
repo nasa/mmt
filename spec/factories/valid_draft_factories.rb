@@ -285,8 +285,8 @@ FactoryGirl.define do
       'Role' => 'RESOURCEPROVIDER',
       'Party' => {
         'OrganizationName' => {
-          'ShortName' => 'ORG_SHORT 2',
-          'LongName' => 'Organization Long Name 2'
+          'ShortName' => 'AARHUS-HYDRO',
+          'LongName' => 'Hydrogeophysics Group, Aarhus University'
         },
         'ServiceHours' => '9-6, M-F',
         'ContactInstructions' => 'Email only',
@@ -327,8 +327,8 @@ FactoryGirl.define do
       'Role' => 'OWNER',
       'Party' => {
         'OrganizationName' => {
-          'ShortName' => 'ORG_SHORT 3',
-          'LongName' => 'Organization Long Name 3'
+          'ShortName' => 'ESA/ED',
+          'LongName' => 'Educational Office, Ecological Society of America'
         },
         'ServiceHours' => '10-2, M-W',
         'ContactInstructions' => 'Email only',
