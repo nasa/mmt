@@ -38,30 +38,8 @@ describe 'Metadata Information form', js: true do
       open_accordions
     end
 
-    it 'shows the draft preview page' do
-      expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-    end
-
-    it 'shows pre-entered values in the draft preview page' do
-      expect(page).to have_content('English')
-
-      # Metadata Dates
-      # Date 1
-      expect(page).to have_content('Future Review')
-      expect(page).to have_content('2015-07-01T00:00:00Z')
-
-      # Date 2
-      expect(page).to have_content('Planned Deletion')
-      expect(page).to have_content('2015-07-02T00:00:00Z')
-
-      expect(page).to have_content('No Temporal Coverages found')
-      expect(page).to have_content('No Spatial Coordinates found')
-
-      # Directory Names
-      expect(page).to have_content('Short Directory 1')
-      expect(page).to have_content('Long Directory 1')
-      expect(page).to have_content('Short Directory 2')
-      expect(page).to have_content('Long Directory 2')
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     context 'when returning to the form' do

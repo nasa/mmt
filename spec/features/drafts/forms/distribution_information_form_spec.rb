@@ -57,39 +57,8 @@ describe 'Distribution information form', js: true do
       open_accordions
     end
 
-    it 'shows the draft preview page' do
-      expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-    end
-
-    it 'shows pre-entered values in the draft preview page' do
-      # Related URL 1
-      expect(page).to have_content('http://example.com')
-      expect(page).to have_content('http://another-example.com')
-      expect(page).to have_content('Example Description')
-      expect(page).to have_content('text/html')
-      expect(page).to have_content('Example Title')
-      expect(page).to have_content('42')
-      expect(page).to have_content('MB')
-      # Related Url 2
-      expect(page).to have_content('http://example.com/1')
-
-      # Distribution 1
-      expect(page).to have_content('Online Download')
-      expect(page).to have_content('42')
-      expect(page).to have_content('KB')
-      expect(page).to have_content('9001')
-      expect(page).to have_content('MB')
-      expect(page).to have_content('HDF')
-      expect(page).to have_content('0')
-      # Distribution 2
-      expect(page).to have_content('Floppy disc')
-      expect(page).to have_content('25')
-      expect(page).to have_content('TB')
-      expect(page).to have_content('.txt')
-      expect(page).to have_content('12.34')
-
-      expect(page).to have_content('No Temporal Coverages found')
-      expect(page).to have_content('No Spatial Coordinates found')
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     context 'when returning to the form' do

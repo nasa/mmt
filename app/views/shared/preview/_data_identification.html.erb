@@ -92,12 +92,14 @@
           </tr>
         </thead>
         <tbody>
-          <% metadata['MetadataAssociations'].each do |metadata_association| %>
-            <tr>
-              <td><%= map_value_onto_display_string(metadata_association["Type"], DraftsHelper::MetadataAssociationTypeOptions) %></td>
-              <td><%= metadata_association["EntryId"] %></td>
-              <td><%= metadata_association["Description"] %></td>
-            </tr>
+          <% if metadata['MetadataAssociations'] %>
+            <% metadata['MetadataAssociations'].each do |metadata_association| %>
+              <tr>
+                <td><%= map_value_onto_display_string(metadata_association["Type"], DraftsHelper::MetadataAssociationTypeOptions) %></td>
+                <td><%= metadata_association["EntryId"] %></td>
+                <td><%= metadata_association["Description"] %></td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>
