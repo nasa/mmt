@@ -10,6 +10,12 @@
     margin: 1em 0 0.3em 0;
   }
 
+  h6 {
+    font-weight: bold;
+    margin: 0.3em 0;
+    color: $dolphin-grey;
+  }
+
   .accordion-header {
     h4 {
       display: inline;

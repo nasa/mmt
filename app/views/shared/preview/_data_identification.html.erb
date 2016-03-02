@@ -9,21 +9,28 @@
   <div class="accordion-body">
     <ul class="data-identification-preview">
       <% if metadata['DataDates'] %>
-        <h5>Data Dates<% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Data Dates</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'data-dates'}), {class: 'hash-link'} %><% end %></h5>
+        <h5>
+          Data Dates
+          <% if @draft.present? %>
+            <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Data Dates</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'data-dates' }), { class: 'hash-link' } %>
+          <% end %>
+        </h5>
         <table>
           <% metadata['DataDates'].each do |data| %>
             <tr>
-              <td><%= data["Type"] %></td>
+              <td><%= map_value_onto_display_string(data["Type"], DraftsHelper::DateTypeOptions) %></td>
               <td><%= data["Date"] %></td>
             </tr>
           <% end %>
         </table>
       <% end %>
 
-      <h5>Collection Data Type <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Data Type</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-data-type'}), {class: 'hash-link'} %><% end %></h5>
-      <%= map_value_onto_display_string(metadata['CollectionDataType'], DraftsHelper::CollectionDataTypeOptions) %>
-
-      <h5>Processing Level <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Processing Level</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'processing-level'}), {class: 'hash-link'} %><% end %></h5>
+      <h5>
+        Processing Level
+        <% if @draft.present? %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Processing Level</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'processing-level' }), { class: 'hash-link' } %>
+        <% end %>
+      </h5>
       <% if metadata['ProcessingLevel'].blank? %>
         <p class="empty-section">This collection's processing level has not been specified.</p>
       <% else %>
@@ -32,13 +39,28 @@
         <p><%= processing_level['ProcessingLevelDescription'] %></p>
       <% end %>
 
-      <h5>Collection Progress <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Progress</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'collection-progress'}), {class: 'hash-link'} %><% end %></h5>
+      <h5>
+        Collection Progress
+        <% if @draft.present? %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Progress</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-progress' }), { class: 'hash-link' } %>
+        <% end %>
+      </h5>
       <p><%= map_value_onto_display_string(metadata['CollectionProgress'], DraftsHelper::CollectionProgressOptions) %></p>
 
-      <h5>Quality <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Quality</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'quality'}), {class: 'hash-link'} %><% end %></h5>
+      <h5>
+        Quality
+        <% if @draft.present? %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Quality</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'quality' } ), { class: 'hash-link' } %>
+        <% end %>
+      </h5>
       <%= metadata['Quality'] %>
 
-      <h5>Use Constraints <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Use Constraints</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'use-constraints'}), {class: 'hash-link'} %><% end %></h5>
+      <h5>
+        Use Constraints
+        <% if @draft.present? %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Use Constraints</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'use-constraints' }), { class: 'hash-link' } %>
+        <% end %>
+      </h5>
       <%= render partial: 'shared/preview/fields/display_field_line', locals: {
         key_name: 'UseConstraints', hash_for_key: metadata
       } %>
@@ -55,24 +77,42 @@
           type: TypesHelper::AccessConstraintsType
       } %>
 
-      <h5>Metadata Associations <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Metadata Associations</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'metadata-associations'}), {class: 'hash-link'} %><% end %></h5>
-      <table>
-        <% metadata['MetadataAssociations'].each do |metadata_association| %>
-          <tr>
-            <td><%= metadata_association["Type"] %></td>
-            <td><%= metadata_association["EntryId"] %></td>
-            <td><%= metadata_association["Description"] %></td>
-          </tr>
+      <h5>
+        Metadata Associations
+        <% if @draft.present? %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Metadata Associations</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'metadata-associations' }), { class: 'hash-link' } %>
         <% end %>
+      </h5>
+      <table>
+        <thead>
+          <tr>
+            <th>Association Type</th>
+            <th>Entry ID</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% metadata['MetadataAssociations'].each do |metadata_association| %>
+            <tr>
+              <td><%= map_value_onto_display_string(metadata_association["Type"], DraftsHelper::MetadataAssociationTypeOptions) %></td>
+              <td><%= metadata_association["EntryId"] %></td>
+              <td><%= metadata_association["Description"] %></td>
+            </tr>
+          <% end %>
+        </tbody>
       </table>
 
-      <h5>Publication References <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Publication References</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', {anchor: 'publication-reference'}), {class: 'hash-link'} %><% end %></h5>
+      <h5>
+        Publication References
+        <% if @draft.present? %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Publication References</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'publication-reference' }), { class: 'hash-link' } %>
+        <% end %>
+      </h5>
       <%= render partial: 'shared/preview/preview_type', locals: {
           data: metadata['PublicationReferences'],
           name: 'PublicationReferences',
           type: TypesHelper::PublicationReferencesType
       } %>
-
     </ul>
   </div>
 </div>

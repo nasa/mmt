@@ -4,15 +4,22 @@
   <% end %>
   <% if metadata['ScienceKeywords'] %>
     <ul class="descriptive-keywords-preview">
-      <h5>Science Keywords</h5>
+      <h5>
+        Science Keywords
+        <% if @draft.present? %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Science Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', { anchor: 'descriptive_keywords' }), { class: 'hash-link' } %>
+        <% end %>
+      </h5>
       <% keywords = metadata['ScienceKeywords'] || [] %>
       <% if keywords.size > 0 %>
         <li class="top_field science-keywords">
-          <ul class="sub-field">
-            <% keywords.each_with_index do |keyword, index| %>
-              <li class="science-keywords-<%= index %>">
-                <%= keyword_string(keyword) %>
-              </li>
+          <ul class="arrow-tag-group-list">
+            <% keywords.each_with_index do |keyword| %>
+              <% keyword.each do |_key, value| %>
+                <li class="arrow-tag-group-item">
+                  <%= value %>
+                </li>
+              <% end %>
             <% end %>
           </ul>
         </li>
@@ -35,12 +42,59 @@
         hash_for_key: metadata
     } %>
   <% end %>
+
   <% if metadata['AdditionalAttributes'] %>
     <h5>Additional Attributes</h5>
-    <%= render partial: 'shared/preview/preview_type', locals: {
-        data: metadata['AdditionalAttributes'],
-        name: 'AdditionalAttributes',
-        type: TypesHelper::AdditionalAttributesType
-    } %>
+    <ul class="cards">
+    <% metadata['AdditionalAttributes'].each do |additional_attribute| %>
+      <li class="card full">
+        <div class="card-header">
+          <% if additional_attribute['Name'].blank? %>
+            <h6 class="card-header-title">Additional Attribute</h6>
+          <% else %>
+            <h6 class="card-header-title"><%= additional_attribute['Name'] %></h6>
+            <span class="card-header-badge steel-blue"><%= additional_attribute['DataType'] %></span>
+          <% end %>
+        </div>
+        <div class="card-body active fluid-height">
+          <div class="card-body-details-full">
+            <%= additional_attribute['Description'] %>
+            <table class="card-table">
+              <thead>
+                <tr>
+                  <th>Resolution</th>
+                  <th>Range Begin</th>
+                  <th>Range End</th>
+                  <th>Resolution</th>
+                  <th>Resolution</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><%= additional_attribute['MeasurementResolution'] %></td>
+                  <td><%= additional_attribute['ParameterRangeBegin'] %></td>
+                  <td><%= additional_attribute['ParameterRangeEnd'] %></td>
+                  <td><%= additional_attribute['ParameterUnitsOfMeasure'] %></td>
+                  <td><%= additional_attribute['ParameterValueAccuracy'] %></td>
+                </tr>
+              </tbody>
+            </table>
+            <p><%= additional_attribute['ValueAccuracyExplanation'] %></p>
+          </div>
+        </div>
+        <% unless additional_attribute['Group'].blank? && additional_attribute['UpdateDate'].blank? %>
+          <div class="card-footer">
+            <% unless additional_attribute['Group'].blank? %>
+              <p><%= additional_attribute['Group'] %></p>
+            <% end %>
+            <% unless additional_attribute['UpdateDate'].blank? %>
+              <p>Updated <%= additional_attribute['UpdateDate'] %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+    </ul>
   <% end %>
+
 </div>
