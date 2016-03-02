@@ -44,7 +44,12 @@
   <% end %>
 
   <% if metadata['AdditionalAttributes'] %>
-    <h5>Additional Attributes</h5>
+    <h5>
+      Additional Attributes
+      <% if @draft.present? %>
+        <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Additional Attributes</span>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', { anchor: 'additional-attributes' }), { class: 'hash-link' } %>
+      <% end %>
+    </h5>
     <ul class="cards">
     <% metadata['AdditionalAttributes'].each do |additional_attribute| %>
       <li class="card full">
