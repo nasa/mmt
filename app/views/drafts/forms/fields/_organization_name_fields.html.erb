@@ -9,7 +9,6 @@
        value: organization_name['ShortName'],
        help: 'definitions/OrganizationNameType/properties/ShortName',
        options: @organizations.map { |short_name, long_name| [short_name, short_name, { 'data-long-name' => long_name }]},
-       long_names: @organizations.map { |short_name, long_name| long_name},
        classes: 'select2-select',
        always_required: true
       ) %>

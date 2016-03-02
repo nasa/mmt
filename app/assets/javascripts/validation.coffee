@@ -129,7 +129,6 @@ $(document).ready ->
       message += validationMessages(error)
 
       classes = 'banner banner-danger validation-error'
-      classes += ' half-width' if $element.hasClass('half-width')
 
       errorElement = $('<div/>',
         id: "#{error.id}_error"
@@ -143,8 +142,12 @@ $(document).ready ->
       else
         afterElement = $element
 
-      # if the error needs to be shows after the help icon
+      # if the error needs to be shown after the help icon
       if $element.next().hasClass('display-modal')
+        afterElement = $element.next()
+
+      # if the error needs to be shown after the select2
+      if $element.next().hasClass('select2-container')
         afterElement = $element.next()
 
       $(errorElement).insertAfter(afterElement)
