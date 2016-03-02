@@ -15,8 +15,6 @@ describe 'Resource citations form', js: true do
         click_on 'Resource Citations'
       end
 
-      open_accordions
-
       # Resource Citations
       add_resource_citations
 

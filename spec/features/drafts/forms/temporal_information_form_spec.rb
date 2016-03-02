@@ -23,6 +23,9 @@ describe 'Temporal information form', js: true do
         fill_in 'Precision Of Seconds', with: '1'
         choose 'draft_temporal_extents_0_ends_at_present_flag_false'
         fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-07-01T00:00:00Z'
+
+        # click outside field to close datepicker
+        find('#draft_temporal_extents_0_precision_of_seconds').click
         click_on 'Add another Single Date Time'
         fill_in 'draft_temporal_extents_0_single_date_times_1', with: '2015-08-01T00:00:00Z'
 
@@ -36,6 +39,9 @@ describe 'Temporal information form', js: true do
           fill_in 'Beginning Date Time', with: '2015-07-02T00:00:00Z'
           fill_in 'Ending Date Time', with: '2015-08-02T00:00:00Z'
         end
+
+        # click outside field to close datepicker
+        find('#draft_temporal_extents_1_precision_of_seconds').click
 
         # Add another TemporalExtent
         click_on 'Add another Temporal Extent'
@@ -77,8 +83,8 @@ describe 'Temporal information form', js: true do
             fill_in 'Period', with: 'Period text 1'
           end
         end
-        fill_in 'Start Date', with: '2015-05-01T00:00:00Z'
-        fill_in 'End Date', with: '2015-06-01T00:00:00Z'
+        fill_in 'Paleo Start Date', with: '2015-05-01T00:00:00Z'
+        fill_in 'Paleo Stop Date', with: '2015-06-01T00:00:00Z'
       end
 
       within '.nav-top' do
@@ -228,8 +234,8 @@ describe 'Temporal information form', js: true do
               expect(page).to have_field('Period', with: 'Period text 1')
             end
           end
-          expect(page).to have_field('Start Date', with: '2015-05-01T00:00:00Z')
-          expect(page).to have_field('End Date', with: '2015-06-01T00:00:00Z')
+          expect(page).to have_field('Paleo Start Date', with: '2015-05-01T00:00:00Z')
+          expect(page).to have_field('Paleo Stop Date', with: '2015-06-01T00:00:00Z')
         end
       end
     end

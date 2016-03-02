@@ -16,7 +16,7 @@ FactoryGirl.define do
       'EndDate' => '2015-12-25T00:00:00Z'
     }],
     'Platforms' => [{
-      'Type' => 'test 1 Type',
+      'Type' => 'Aircraft',
       'ShortName' => 'test 1 P ShortName',
       'LongName' => 'test 1 P LongName',
       'Characteristics' => [{
@@ -142,7 +142,7 @@ FactoryGirl.define do
         'OperationalModes' => ['test 1da Op', 'test 1db Op']
       }]
     }, {
-      'Type' => 'test a1 Type',
+      'Type' => 'Earth Observation Satellites',
       'ShortName' => 'test a1 P ShortName',
       'LongName' => 'test a1 P LongName',
       'Characteristics' => [{
@@ -653,7 +653,7 @@ FactoryGirl.define do
       },
       'GranuleSpatialRepresentation' => 'CARTESIAN'
     },
-    'TilingIdentificationSystem' => {
+    'TilingIdentificationSystems' => [{
       'TilingIdentificationSystemName' => 'System name',
       'Coordinate1' => {
         'MinimumValue' => -50, 'MaximumValue' => 50
@@ -661,7 +661,15 @@ FactoryGirl.define do
       'Coordinate2' => {
         'MinimumValue' => -30, 'MaximumValue' => 30
       }
-    },
+    }, {
+      'TilingIdentificationSystemName' => 'System name 1',
+      'Coordinate1' => {
+        'MinimumValue' => -25, 'MaximumValue' => 25
+      },
+      'Coordinate2' => {
+        'MinimumValue' => -15, 'MaximumValue' => 15
+      }
+    }],
     'SpatialInformation' => {
       'SpatialCoverageType' => 'BOTH',
       'HorizontalCoordinateSystem' => {

@@ -19,7 +19,7 @@ describe 'Metadata Information form', js: true do
 
       select 'English', from: 'Metadata Language'
 
-      add_dates
+      add_metadata_dates
 
       within '#directory-names' do
         fill_in 'Short Name', with: 'Short Directory 1'
@@ -47,11 +47,11 @@ describe 'Metadata Information form', js: true do
 
       # Metadata Dates
       # Date 1
-      expect(page).to have_content('Creation')
+      expect(page).to have_content('Future Review')
       expect(page).to have_content('2015-07-01T00:00:00Z')
 
       # Date 2
-      expect(page).to have_content('Future Review')
+      expect(page).to have_content('Planned Deletion')
       expect(page).to have_content('2015-07-02T00:00:00Z')
 
       expect(page).to have_content('No Temporal Coverages found')
@@ -78,11 +78,11 @@ describe 'Metadata Information form', js: true do
 
         within '.multiple.dates' do
           within '.multiple-item-0' do
-            expect(page).to have_field('Type', with: 'CREATE')
+            expect(page).to have_field('Type', with: 'REVIEW')
             expect(page).to have_field('Date', with: '2015-07-01T00:00:00Z')
           end
           within '.multiple-item-1' do
-            expect(page).to have_field('Type', with: 'REVIEW')
+            expect(page).to have_field('Type', with: 'DELETE')
             expect(page).to have_field('Date', with: '2015-07-02T00:00:00Z')
           end
         end

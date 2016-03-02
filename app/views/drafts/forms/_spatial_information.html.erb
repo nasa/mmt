@@ -2,9 +2,13 @@
 <fieldset class="accordion is-closed" id="spatial-extent">
   <div class="accordion-header">
     <h3 class="icon-required">Spatial Extent</h3>
+    <%= mmt_help_icon(
+      title: 'Spatial Extent',
+      help: 'properties/SpatialExtent'
+    ) %>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Spatial Extent</span>
+      <span class="is-invisible">Toggle Spatial Extent</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -21,13 +25,17 @@
   </div>
 </fieldset>
 
-<!-- Tiling Identification System -->
+<!-- Tiling Identification Systems -->
 <fieldset class="accordion is-closed" id="tiling-identification-system">
   <div class="accordion-header">
-    <h3>Tiling Identification System</h3>
+    <h3>Tiling Identification Systems</h3>
+    <%= mmt_help_icon(
+      title: 'Tiling Identification Systems',
+      help: 'properties/TilingIdentificationSystems'
+    ) %>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Tiling Identification System</span>
+      <span class="is-invisible">Toggle Tiling Identification Systems</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -35,9 +43,9 @@
       <div class="col-12">
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'tiling_identification_system',
-            values: draft.draft['TilingIdentificationSystem'] || {},
-            name_prefix: 'draft_|tiling_identification_system|_',
-            multiple: false,
+            values: draft.draft['TilingIdentificationSystems'] || [{}],
+            name_prefix: 'draft_|tiling_identification_systems|_',
+            multiple: true,
             options: {} } %>
       </div>
     </div>
@@ -48,9 +56,13 @@
 <fieldset class="accordion is-closed" id="spatial-representation-information">
   <div class="accordion-header">
     <h3>Spatial Representation Information</h3>
+    <%= mmt_help_icon(
+      title: 'Spatial Representation Information',
+      help: 'properties/SpatialInformation'
+    ) %>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Spatial Representation Information</span>
+      <span class="is-invisible">Toggle Spatial Representation Information</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -80,9 +92,13 @@
 <fieldset class="accordion is-closed" id="spatial-keywords">
   <div class="accordion-header">
     <h3>Spatial Keywords</h3>
+    <%= mmt_help_icon(
+      title: 'Spatial Keywords',
+      help: 'properties/SpatialKeywords'
+    ) %>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Spatial Keywords</span>
+      <span class="is-invisible">Toggle Spatial Keywords</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -97,7 +113,7 @@
                   <%= spatial_keyword %>
                   <a class="remove">
                     <i class="fa fa-times-circle"></i>
-                    <span class="is-hidden">Remove <%= spatial_keyword %></span>
+                    <span class="is-invisible">Remove <%= spatial_keyword %></span>
                   </a>
                   <%= hidden_field_tag("draft[spatial_keywords][]", spatial_keyword) %>
                 </li>

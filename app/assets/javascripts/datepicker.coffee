@@ -9,8 +9,8 @@ $(document).ready ->
       todayHighlight: true
       forceParse: false
       keyboardNavigation: false
-    $(this).datepicker(pickerOpts)
-    .one 'hide', (e) ->
+    $(this).datepicker(pickerOpts).one 'hide', (e) ->
+      $(document).trigger 'mmtValidate'
       $(this).datepicker('remove')
       e.stopImmediatePropagation()
 

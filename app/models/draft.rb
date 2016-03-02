@@ -75,7 +75,7 @@ class Draft < ActiveRecord::Base
       collection.delete('MetadataDates')
     end
     draft.user = user
-    draft.provider_id = user.provider_id
+    draft.provider_id = user.provider_id # TODO is this problematic for collections editing permissions?
     draft.draft = collection
     draft.save
     draft
@@ -98,7 +98,8 @@ class Draft < ActiveRecord::Base
       ]
     end
 
-    dates = new_dates
+    dates.reject! { |date| date['Type'] == 'CREATE' || date['Type'] == 'UPDATE' }
+    dates += new_dates
     draft['MetadataDates'] = dates
     save
   end

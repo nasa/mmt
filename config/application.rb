@@ -37,5 +37,7 @@ module Mmt
     config.eager_load_paths += Dir["#{config.root}/lib", "#{config.root}/lib/**/"]
 
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
+
+    config.umm_version = 'vnd.nasa.cmr.umm+json; version=1.1'
   end
 end

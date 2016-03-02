@@ -1,6 +1,6 @@
 module FormHelper
   def mmt_text_field(options)
-    options[:name] = add_pipes(options[:name])
+    options[:name] = add_pipes(options[:name]) unless options[:name].include?('|')
 
     classes = ['full-width']
     classes << 'validate' if options[:validate]
@@ -52,9 +52,13 @@ module FormHelper
       size = 4
     end
 
+    select_options = options[:options].clone
+    # restrict options for drop down if for metadata_date
+    select_options.shift(2) if options[:metadata_date]
+
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
-      options_for_select(options[:options], options[:value]),
+      options_for_select(select_options, options[:value]),
       multiple: is_multi_select,
       size: size,
       class: classes,
@@ -76,6 +80,7 @@ module FormHelper
       name_to_param(options[:prefix] + options[:name]),
       options[:value],
       class: classes.join(' '),
+      placeholder: "YYYY-MM-DDTHH:MM:SSZ",
       data: { level: remove_pipes(options[:prefix]) }
     )
 
@@ -117,12 +122,46 @@ module FormHelper
 
   def mmt_help_icon(options)
     return unless options[:help]
-    link_to('#help-modal', class: 'display-modal', tabindex: -1) do
-      "<i class=\"ed-icon ed-fa-info-circle\" data-help-path=\"#{options[:help]}\"></i><span class=\"is-hidden\">Help modal for #{options[:title]}</span>".html_safe
+    link_to('#help-modal', class: 'display-modal') do
+      "<i class=\"ed-icon ed-fa-info-circle\" data-help-path=\"#{options[:help]}\"></i><span class=\"is-invisible\">Help modal for #{options[:title]}</span>".html_safe
     end
   end
 
   def add_pipes(name)
     "|#{name}|"
+  end
+
+  def editable_metadata_dates(metadata)
+    dates = metadata['MetadataDates'] || []
+    editable_dates = dates.reject { |date| date['Type'] == 'CREATE' || date['Type'] == 'UPDATE' }
+    editable_dates.empty? ? [{}] : editable_dates
+  end
+
+  def metadata_create_date(metadata)
+    dates = metadata['MetadataDates']
+    create_date = dates.find { |date| date['Type'] == 'CREATE' }
+    create_date
+  end
+
+  def metadata_update_date(metadata)
+    dates = metadata['MetadataDates']
+    update_date = dates.find { |date| date['Type'] == 'UPDATE' }
+    update_date
+  end
+
+  def hidden_metadata_date_fields(metadata)
+    dates = metadata['MetadataDates']
+    return unless dates && dates.any? { |date| date['Type'] == 'CREATE' }
+
+    create_type = hidden_field_tag('draft[metadata_dates][-2][type]',
+                                   metadata_create_date(metadata)['Type'])
+    create_datetime = hidden_field_tag('draft[metadata_dates][-2][date]',
+                                       metadata_create_date(metadata)['Date'])
+    update_type = hidden_field_tag('draft[metadata_dates][-1][type]',
+                                   metadata_update_date(metadata)['Type'])
+    update_datetime = hidden_field_tag('draft[metadata_dates][-1][date]',
+                                       metadata_update_date(metadata)['Date'])
+
+    create_type + create_datetime + update_type + update_datetime
   end
 end

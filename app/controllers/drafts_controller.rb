@@ -5,7 +5,8 @@ class DraftsController < ApplicationController
   # GET /drafts
   # GET /drafts.json
   def index
-    @drafts = @current_user.drafts.where(provider_id: @current_user.provider_id).order('updated_at DESC')
+    @drafts = @current_user.drafts.where(provider_id: @current_user.provider_id)
+                                  .order('updated_at DESC')
   end
 
   # GET /drafts/1
@@ -43,10 +44,11 @@ class DraftsController < ApplicationController
     if params[:form]
       @draft_form = params[:form]
       @science_keywords = cmr_client.get_science_keywords if params[:form] == 'descriptive_keywords'
-      @spatial_keywords = cmr_client.get_spatial_keywords if params[:form] == 'spatial_information'
+      @spatial_keywords = cmr_client.get_controlled_keywords('spatial_keywords') if params[:form] == 'spatial_information'
       if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
         @language_codes = cmr_client.get_language_codes
       end
+      @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map {|category| category['value']} if params[:form] == 'acquisition_information'
 
       # put the US at the top of the country list
       country_codes = Carmen::Country.all.sort

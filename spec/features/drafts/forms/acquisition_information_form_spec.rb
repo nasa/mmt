@@ -72,7 +72,7 @@ describe 'Acquisition information form', js: true do
       expect(page).to have_content('Sensor short name', count: 4)
       expect(page).to have_content('Instrument technique', count: 2)
       expect(page).to have_content('Sensor technique', count: 2)
-      expect(page).to have_content('Platform type')
+      expect(page).to have_content('Aircraft')
       expect(page).to have_content('unit 1', count: 5)
       expect(page).to have_content('unit', count: 10)
       expect(page).to have_content('Characteristics value 1', count: 5)
@@ -94,7 +94,7 @@ describe 'Acquisition information form', js: true do
       it 'populates the form with the values' do
         within '.multiple.platforms' do
           within first('.multiple-item-0') do
-            expect(page).to have_field('Type', with: 'Platform type')
+            expect(page).to have_field('Type', with: 'Aircraft')
             expect(page).to have_field('draft_platforms_0_short_name', with: 'Platform short name')
             expect(page).to have_field('draft_platforms_0_long_name', with: 'Platform long name')
 

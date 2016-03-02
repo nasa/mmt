@@ -57,7 +57,7 @@
       <%= text_field_tag(name_to_param("#{name_prefix}urls_#{index}"), url, class: 'half-width url simple-multiple-field validate mmt-uri', data: { level: remove_pipes(name_prefix) }) %>
       <a class="remove">
         <i class="fa fa-times-circle"></i>
-        <span class="is-hidden">Remove <%= index %></span>
+        <span class="is-invisible">Remove <%= index %></span>
       </a>
       <div class="actions">
         <button type="button" class="btn btn-blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another URL</button>

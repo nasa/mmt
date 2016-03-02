@@ -3,6 +3,7 @@ class CollectionsController < ApplicationController
 
   def show
     @language_codes = cmr_client.get_language_codes
+    @draft = Draft.where(provider_id: @provider_id, native_id: @native_id).first
   end
 
   def edit
@@ -80,10 +81,10 @@ class CollectionsController < ApplicationController
       @metadata = cmr_client.get_concept(concept_id, token, revision_id)
 
       # translate to umm-json metadata if needed
-      if concept_format == 'application/umm+json'
+      if concept_format == 'application/vnd.nasa.cmr.umm+json'
         @collection = @metadata
       else
-        @collection = cmr_client.translate_collection(@metadata, concept_format, 'application/umm+json', true).body
+        @collection = cmr_client.translate_collection(@metadata, concept_format, "application/#{Rails.configuration.umm_version}", true).body
       end
     else
       # concept wasn't found, CMR might be a little slow

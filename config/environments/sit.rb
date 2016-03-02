@@ -78,4 +78,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.cmr_env = 'sit'
+  config.analytics_id = 'UA-62340125-5'
 end

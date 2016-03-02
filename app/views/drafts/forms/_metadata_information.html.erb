@@ -2,9 +2,13 @@
 <fieldset class="accordion is-closed" id="metadata-language">
   <div class="accordion-header">
     <h3>Metadata Language</h3>
+    <%= mmt_help_icon(
+      title: 'Metadata Language',
+      help: 'properties/MetadataLanguage'
+    ) %>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Metadata Language</span>
+      <span class="is-invisible">Toggle Metadata Language</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -27,9 +31,13 @@
 <fieldset class="accordion is-closed" id="metadata-dates">
   <div class="accordion-header">
     <h3>Metadata Dates</h3>
+    <%= mmt_help_icon(
+      title: 'Metadata Dates',
+      help: 'properties/MetadataDates'
+    ) %>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-hidden">Toggle Metadata Dates</span>
+      <span class="is-invisible">Toggle Metadata Dates</span>
     </a>
   </div>
   <div class="accordion-body">
@@ -38,10 +46,12 @@
         <div class="row sub-fields">
           <%= render partial: 'drafts/forms/type', locals: {
               type: 'date',
-              values: draft.draft['MetadataDates'] || [{}],
+              values: editable_metadata_dates(draft.draft) || [{}],
               name_prefix: 'draft_|metadata_dates|_',
               multiple: true,
-              options: {} } %>
+              options: { metadata_date: true }
+              } %>
+          <%= hidden_metadata_date_fields(draft.draft) %>
         </div>
       </div>
     </div>
@@ -50,7 +60,17 @@
 
 <!-- DirectoryNames -->
 <fieldset class="accordion is-closed" id="directory-names">
-  <div class="accordion-header"><h3>Directory Names</h3></div>
+  <div class="accordion-header">
+    <h3>Directory Names</h3>
+    <%= mmt_help_icon(
+      title: 'Directory Names',
+      help: 'properties/DirectoryNames'
+    ) %>
+    <a href="#" class="float-r">
+      <i class="fa fa-angle-down toggle"></i>
+      <span class="is-invisible">Toggle Directory Names</span>
+    </a>
+  </div>
   <div class="accordion-body">
     <div class="row">
       <div class="col-12">

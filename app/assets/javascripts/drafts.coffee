@@ -122,24 +122,6 @@ $(document).ready ->
     else
       parseInt classMatch[1]
 
-  # Search form
-  $('#search').on 'click', 'button', ->
-    # Set search_type to whichever button was pressed
-    name = $(this).attr('name')
-    form = $(this).parents('form')
-    $(form).find('#search_type').val name
-    form.submit()
-
-  $('#search input').keypress (event) ->
-    # Set search_type to whichever form the user pressed enter in
-    if event.which == 13
-      name = 'full_search'
-      if $(this).parent('.quick-search').length > 0
-        name = 'quick_find'
-      form = $(this).parents('form')
-      $(form).find('#search_type').val name
-      form.submit()
-
   # Shape file uploads
   csrf = undefined
   if typeof document.querySelector == 'function'

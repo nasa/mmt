@@ -38,8 +38,8 @@ module DraftsHelper
   ]
   DateTypeOptions = [
     ['Creation', 'CREATE'],
-    ['Future Review', 'REVIEW'],
     ['Last Revision', 'UPDATE'],
+    ['Future Review', 'REVIEW'],
     ['Planned Deletion', 'DELETE']
   ]
   FileSizeUnitTypeOptions = [
@@ -86,7 +86,6 @@ module DraftsHelper
     ['Larger Citation Works', 'LARGER CITATION WORKS']
   ]
   MimeTypeOptions = [
-    ['Select Mime Type', ''],
     ['application/msword'],
     ['application/pdf'],
     ['application/xml'],
