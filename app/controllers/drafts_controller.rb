@@ -255,7 +255,7 @@ class DraftsController < ApplicationController
     end
   end
 
-  def get_organizer_short_names_long_names(json, pairs = [])
+  def get_organization_short_names_long_names(json, pairs = [])
     json.each do |k, value|
       if k == 'short_name'
         value.each do |value2|
@@ -266,19 +266,19 @@ class DraftsController < ApplicationController
 
       elsif value.class == Array
         value.each do |value2|
-          get_organizer_short_names_long_names value2, pairs if value2.class == Hash
+          get_organization_short_names_long_names value2, pairs if value2.class == Hash
         end
       elsif value.class == Hash
-        get_organizer_short_names_long_names value, pairs
+        get_organization_short_names_long_names value, pairs
       end
     end
     pairs
   end
 
   def set_organizations
-    if params[:form] == 'organizations'
+    if params[:form] == 'organizations' || params[:form] == 'personnel'
       organizations = cmr_client.get_controlled_keywords('providers')
-      organizations = get_organizer_short_names_long_names(organizations)
+      organizations = get_organization_short_names_long_names(organizations)
       @organizations = organizations.sort
     end
   end
