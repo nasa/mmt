@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-  namespace :cmr do
-    resources :groups
-  end
-  get '/cmr' => 'pages#cmr', as: 'cmr'
+  resources :groups
 
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'

@@ -4,12 +4,12 @@
       <div class="breadcrumb">
         <ol>
           <!-- todo: wire the following links -->
-          <li><%= link_to 'Dashboard', cmr_path %></li>
-          <li>Groups</li>
+          <li><%= link_to 'Dashboard', dashboard_path %></li>
+          <li>Permissions & Groups</li>
           <!-- end todo -->
         </ol>
       </div>
-      <h2>Groups</h2>
+      <h2>Permissions & Groups</h2>
       <!-- todo: wire this link -->
       <p class="subnav"><a href="#">Permissions</a></p>
       <!-- end todo -->
@@ -22,7 +22,7 @@
   <div class="row row-content">
     <section>
       <!-- todo: wire up this button -->
-      <a href="<%= new_cmr_group_path %>" class="btn btn-blue space-bot space-top-5">New Group</a>
+      <a href="<%= new_group_path %>" class="btn btn-blue space-bot space-top-5">New Group</a>
       <!-- end todo -->
 
       <table>

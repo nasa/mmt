@@ -8,7 +8,7 @@ describe 'Groups' do
 
     before do
       login
-      visit "cmr/groups/#{bad_concept_id}"
+      visit "/groups/#{bad_concept_id}"
     end
 
     it 'displays an error message' do
@@ -17,7 +17,7 @@ describe 'Groups' do
     end
 
     it 'redirects to groups index page' do
-      expect(page).to have_content("Groups") # match groups index.html.erb title
+      expect(page).to have_content("Permissions & Groups") # match groups index.html.erb title
     end
   end
 end

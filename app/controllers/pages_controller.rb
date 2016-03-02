@@ -9,9 +9,6 @@ class PagesController < ApplicationController
     @drafts = @current_user.drafts.where(provider_id: @current_user.provider_id).order('updated_at DESC').limit(@draft_display_max_count + 1)
   end
 
-  def cmr
-  end
-
   def new_record
     case params[:type]
     when 'new_collection'
