@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'search' => 'search#index', as: 'search'
 
   get 'dashboard' => 'pages#dashboard', as: 'dashboard'
+  get 'manage_cmr' => 'pages#manage_cmr', as: 'manage_cmr'
   get 'new_record' => 'pages#new_record', as: 'new_record'
   post 'hide_notification' => 'pages#hide_notification', as: 'hide_notification'
 

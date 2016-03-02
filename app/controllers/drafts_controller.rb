@@ -73,7 +73,7 @@ class DraftsController < ApplicationController
     end
 
     if @draft.update_draft(params[:draft])
-      flash[:success] = 'Draft was successfully updated'
+      flash[:success] = 'Draft was successfully updated.'
 
       case params[:commit]
       when 'Save & Done'
@@ -89,7 +89,7 @@ class DraftsController < ApplicationController
     else # record update failed
       # render 'edit' # this should get @draft_form
       # Remove
-      flash[:error] = 'Draft was not updated successfully'
+      flash[:error] = 'Draft was not updated successfully.'
       redirect_to @draft
     end
   end
@@ -100,7 +100,7 @@ class DraftsController < ApplicationController
     # if new_record?, no need to destroy
     @draft.destroy unless @draft.new_record?
     respond_to do |format|
-      flash[:success] = 'Draft was successfully deleted'
+      flash[:success] = 'Draft was successfully deleted.'
       format.html { redirect_to dashboard_url }
     end
   end
