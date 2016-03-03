@@ -25,19 +25,32 @@
         </table>
       <% end %>
 
-      <h5>
-        Processing Level
-        <% if @draft.present? %>
-          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Processing Level</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'processing-level' }), { class: 'hash-link' } %>
-        <% end %>
-      </h5>
-      <% if metadata['ProcessingLevel'].blank? %>
-        <p class="empty-section">This collection's processing level has not been specified.</p>
-      <% else %>
-        <% processing_level = metadata['ProcessingLevel'] %>
-        <p><%= processing_level['Id'] %></p>
-        <p><%= processing_level['ProcessingLevelDescription'] %></p>
-      <% end %>
+      <div class="row">
+        <div class="col-6">
+          <h5>
+            Processing Level
+            <% if @draft.present? %>
+              <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Processing Level</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'processing-level' }), { class: 'hash-link' } %>
+            <% end %>
+          </h5>
+          <% if metadata['ProcessingLevel'].blank? %>
+            <p class="empty-section">This collection's processing level has not been specified.</p>
+          <% else %>
+            <% processing_level = metadata['ProcessingLevel'] %>
+            <p><%= processing_level['Id'] %></p>
+            <p><%= processing_level['ProcessingLevelDescription'] %></p>
+          <% end %>
+        </div>
+        <div class="col-6">
+          <h5>
+            Quality
+            <% if @draft.present? %>
+              <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Quality</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'quality' } ), { class: 'hash-link' } %>
+            <% end %>
+          </h5>
+          <%= metadata['Quality'] %>
+        </div>
+      </div>
 
       <h5>
         Collection Progress

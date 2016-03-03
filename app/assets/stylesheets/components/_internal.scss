@@ -45,6 +45,16 @@
     .nrt {
       background: $dark-green;
     }
+
+    p {
+      color: $dolphin-grey;
+      font-size: 0.9em;
+    }
+
+    a:link,
+    a:visited {
+      color: $dolphin-grey;
+    }
   }
 
   .row-content {

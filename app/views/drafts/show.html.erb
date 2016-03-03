@@ -14,13 +14,25 @@
         <p class="subnav current">Draft Record</p>
       </div>
       <div class="collection-details">
-        <span class="badge version">Version <%= @draft.draft["Version"] %></span>
+        <span class="badge version">
+          <%= link_to @draft.draft['Version'], draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_version' }) %>
+        </span>
         <!-- Only display data language if one exists. -->
         <% if @draft.draft["DataLanguage"] %>
-          <span class="badge language"><%= @draft.draft["DataLanguage"] %></span>
+          <span class="badge language">
+            <%= link_to @draft.draft["DataLanguage"], draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_data_language' } ) %>
+          </span>
         <% end %>
         <% if @draft.draft["CollectionDataType"] == "NEAR_REAL_TIME" %>
-          <span class="badge nrt">NRT</span>
+          <span class="badge nrt">
+            <%= link_to 'NRT', draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-data-type' } ) %>
+          </span>
+        <% end %>
+
+        <% if @draft.draft["CollectionProgress"] %>
+          <p>Collection Progress:
+            <%= link_to map_value_onto_display_string(@draft.draft['CollectionProgress'], DraftsHelper::CollectionProgressOptions), draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-progress' }) %>
+          </p>
         <% end %>
 
         <div class="quality-score disabled">
