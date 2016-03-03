@@ -291,6 +291,11 @@ $(document).ready ->
     return if $(this).attr('type') == 'datetime' and $('.datepicker:visible').length > 0
     validateFromFormChange()
 
+  # 'blur' functionality for select2 fields
+  $('.select2-select').on 'select2:open', (event) ->
+    id = $(this).attr('id')
+    visitedFields.push id unless visitedFields.indexOf(id) != -1
+
   $('.metadata-form').on 'click', '.remove', ->
     validateFromFormChange()
 
