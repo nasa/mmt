@@ -17,7 +17,9 @@ describe 'Groups' do
     end
 
     it 'redirects to groups index page' do
-      expect(page).to have_content("Groups") # match groups index.html.erb title
+      within 'main header' do
+        expect(page).to have_content('Groups') # match groups index.html.erb title
+      end
     end
   end
 end

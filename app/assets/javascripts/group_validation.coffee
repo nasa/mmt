@@ -1,19 +1,18 @@
 $(document).ready ->
   # Validate group form
   if $('.group-form').length > 0
-    # required fields
     $('.required').on 'blur', () ->
-      el = $(this)
-      if el.val() == ''
-        id = el.attr('id')
-        label = $("label[for='" + id + "']")
+      $element = $(this)
+      if $element.val() == ''
+        id = $element.attr('id')
+        label = $("label[for='#{id}']")
         field = label.text()
 
         message = '<i class="fa fa-exclamation-triangle"></i>'
-        message += "#{field} is a required"
+        message += "#{field} is required."
 
         classes = 'banner banner-danger validation-error'
-        classes += ' half-width' if el.hasClass('half-width')
+        classes += ' half-width' if $element.hasClass('half-width')
 
         errorElement = $('<div/>',
           id: "#{id}_error"
@@ -21,8 +20,12 @@ $(document).ready ->
           html: message
         )
 
-        $(errorElement).insertAfter(el)
+        # remove prior error message if it exists before adding current one
+        if $element.next().hasClass('validation-error')
+          $element.next().remove()
+
+        $(errorElement).insertAfter($element)
       else
-        # remove error if field becomes not empty
-        nextEl = $(el).next()
-        nextEl.remove() if nextEl.hasClass('validation-error')
+        # remove error if field is no longer empty
+        $nextElement = $element.next()
+        $nextElement.remove() if $nextElement.hasClass('validation-error')
