@@ -4,22 +4,25 @@
       <div class="breadcrumb">
         <ol>
           <!-- todo: wire the following links -->
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Permissions & Groups</a></li>
+          <li><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li>Groups</li>
           <!-- end todo -->
         </ol>
       </div>
-      <h2>Permissions & Groups</h2>
+      <h2>Groups</h2>
       <!-- todo: wire this link -->
       <p class="subnav"><a href="#">Permissions</a></p>
       <!-- end todo -->
       <p class="subnav current">Groups</p>
     </div>
   </header>
+
+  <%= render 'shared/flash_messages' %>
+
   <div class="row row-content">
     <section>
       <!-- todo: wire up this button -->
-      <a href="#" class="btn btn-blue space-bot space-top-5">New Group</a>
+      <a href="<%= new_group_path %>" class="btn btn-blue space-bot space-top-5">New Group</a>
       <!-- end todo -->
 
       <table>
