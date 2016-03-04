@@ -34,6 +34,13 @@
     height: 175px;
     background: rgba($true-black,0.5);
 
+    .badge {
+      a:link,
+      a:visited {
+        color: $white;
+      }
+    }
+
     .version {
       background: $royal-purple;
     }

@@ -14,21 +14,25 @@
         <p class="subnav current">Draft Record</p>
       </div>
       <div class="collection-details">
-        <span class="badge version">
-          <%= link_to @draft.draft['Version'], draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_version' }) %>
-        </span>
+        <!-- Only display version if one exists. -->
+        <% if @draft.draft["Version"] %>
+          <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_version' }) do %>
+            <%= content_tag :span, "Version #{@draft.draft['Version']}", :class => "badge version" %>
+          <% end %>
+        <% end %>
         <!-- Only display data language if one exists. -->
         <% if @draft.draft["DataLanguage"] %>
-          <span class="badge language">
-            <%= link_to @draft.draft["DataLanguage"], draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_data_language' } ) %>
-          </span>
+          <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_data_language' }) do %>
+            <%= content_tag :span,  @draft.draft['DataLanguage'], :class => "badge language" %>
+          <% end %>
         <% end %>
+        <!-- Only display CollectionDataType if it is NRT. -->
         <% if @draft.draft["CollectionDataType"] == "NEAR_REAL_TIME" %>
-          <span class="badge nrt">
-            <%= link_to 'NRT', draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-data-type' } ) %>
-          </span>
+          <%= link_to draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-data-type' }) do %>
+            <%= content_tag :span, 'NRT' , :class => "badge nrt" %>
+          <% end %>
         <% end %>
-
+        <!-- Only display CollectionProgress if it exists. -->
         <% if @draft.draft["CollectionProgress"] %>
           <p>Collection Progress:
             <%= link_to map_value_onto_display_string(@draft.draft['CollectionProgress'], DraftsHelper::CollectionProgressOptions), draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-progress' }) %>
