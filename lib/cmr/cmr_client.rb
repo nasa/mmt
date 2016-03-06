@@ -122,7 +122,7 @@ module Cmr
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3011/groups'
       else
-        url = '/access_control/groups'
+        url = '/access-control/groups'
       end
       headers = {
         'Content-Type' => 'application/json'
@@ -134,7 +134,7 @@ module Cmr
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3011/groups/#{concept_id}"
       else
-        url = "/access_control/groups/#{concept_id}"
+        url = "/access-control/groups/#{concept_id}"
       end
       get(url, token_header(token))
     end
