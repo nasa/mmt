@@ -13,24 +13,7 @@ class DraftsController < ApplicationController
   # GET /drafts/1.json
   def show
     @language_codes = cmr_client.get_language_codes
-
-    schema = 'lib/assets/schemas/umm-c-json-schema.json'
-
-    # Setup URI and date-time validation correctly
-    uri_format_proc = lambda do |value|
-      raise JSON::Schema::CustomFormatError.new('must be a valid URI') unless value.match URI_REGEX
-    end
-    JSON::Validator.register_format_validator('uri', uri_format_proc)
-    date_time_format_proc = lambda do |value|
-      raise JSON::Schema::CustomFormatError.new('must be a valid RFC3339 date/time string') unless value.match DATE_TIME_REGEX
-    end
-    JSON::Validator.register_format_validator('date-time', date_time_format_proc)
-
-    errors = JSON::Validator.fully_validate(schema, @draft.draft)
-    errors = Array.wrap(errors)
-    errors = validate_parameter_ranges(errors, @draft.draft)
-    errors.map! { |error| generate_show_errors(error) }.flatten!
-    @errors = errors
+    @errors = validate_metadata
   end
 
   # GET /drafts/new
@@ -43,22 +26,13 @@ class DraftsController < ApplicationController
   def edit
     if params[:form]
       @draft_form = params[:form]
-      @science_keywords = cmr_client.get_science_keywords if params[:form] == 'descriptive_keywords'
-      @spatial_keywords = cmr_client.get_controlled_keywords('spatial_keywords') if params[:form] == 'spatial_information'
-      if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
-        @language_codes = cmr_client.get_language_codes
-      end
-      @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map {|category| category['value']} if params[:form] == 'acquisition_information'
-
-      # put the US at the top of the country list
-      country_codes = Carmen::Country.all.sort
-      united_states = country_codes.delete(Carmen::Country.named('United States'))
-      @country_codes = country_codes.unshift(united_states)
-
-      if params[:form] == 'temporal_information'
-        keywords = cmr_client.get_temporal_keywords['temporal_resolution_range']
-        @temporal_keywords = keywords.map { |keyword| keyword['value'] }
-      end
+      set_science_keywords
+      set_spatial_keywords
+      set_platform_types
+      set_language_codes
+      set_country_codes
+      set_temporal_keywords
+      set_organizations
     else
       render action: 'show'
     end
@@ -75,7 +49,7 @@ class DraftsController < ApplicationController
     end
 
     if @draft.update_draft(params[:draft])
-      flash[:success] = 'Draft was successfully updated'
+      flash[:success] = 'Draft was successfully updated.'
 
       case params[:commit]
       when 'Save & Done'
@@ -91,7 +65,7 @@ class DraftsController < ApplicationController
     else # record update failed
       # render 'edit' # this should get @draft_form
       # Remove
-      flash[:error] = 'Draft was not updated successfully'
+      flash[:error] = 'Draft was not updated successfully.'
       redirect_to @draft
     end
   end
@@ -102,7 +76,7 @@ class DraftsController < ApplicationController
     # if new_record?, no need to destroy
     @draft.destroy unless @draft.new_record?
     respond_to do |format|
-      flash[:success] = 'Draft was successfully deleted'
+      flash[:success] = 'Draft was successfully deleted.'
       format.html { redirect_to dashboard_url }
     end
   end
@@ -121,7 +95,7 @@ class DraftsController < ApplicationController
       xml = MultiXml.parse(ingested.body)
       concept_id = xml['result']['concept_id']
       revision_id = xml['result']['revision_id']
-      flash[:success] = 'Draft was successfully published'
+      flash[:success] = 'Draft was successfully published.'
       redirect_to collection_path(concept_id, revision_id: revision_id)
     else
       # Log error message
@@ -129,7 +103,7 @@ class DraftsController < ApplicationController
 
       @ingest_errors = generate_ingest_errors(ingested)
 
-      flash[:error] = 'Draft was not published successfully'
+      flash[:error] = 'Draft was not published successfully.'
       render :show
     end
   end
@@ -229,5 +203,83 @@ class DraftsController < ApplicationController
     end
 
     errors
+  end
+
+  def validate_metadata
+    schema = 'lib/assets/schemas/umm-c-json-schema.json'
+
+    # Setup URI and date-time validation correctly
+    uri_format_proc = lambda do |value|
+      raise JSON::Schema::CustomFormatError.new('must be a valid URI') unless value.match URI_REGEX
+    end
+    JSON::Validator.register_format_validator('uri', uri_format_proc)
+    date_time_format_proc = lambda do |value|
+      raise JSON::Schema::CustomFormatError.new('must be a valid RFC3339 date/time string') unless value.match DATE_TIME_REGEX
+    end
+    JSON::Validator.register_format_validator('date-time', date_time_format_proc)
+
+    errors = Array.wrap(JSON::Validator.fully_validate(schema, @draft.draft))
+    errors = validate_parameter_ranges(errors, @draft.draft)
+    errors.map { |error| generate_show_errors(error) }.flatten
+  end
+
+  def set_science_keywords
+    @science_keywords = cmr_client.get_controlled_keywords('science_keywords') if params[:form] == 'descriptive_keywords'
+  end
+
+  def set_spatial_keywords
+    @spatial_keywords = cmr_client.get_controlled_keywords('spatial_keywords') if params[:form] == 'spatial_information'
+  end
+
+  def set_platform_types
+    @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map { |category| category['value'] }.sort if params[:form] == 'acquisition_information'
+  end
+
+  def set_language_codes
+    if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
+      @language_codes = cmr_client.get_language_codes
+    end
+  end
+
+  def set_country_codes
+    # put the US at the top of the country list
+    country_codes = Carmen::Country.all.sort
+    united_states = country_codes.delete(Carmen::Country.named('United States'))
+    @country_codes = country_codes.unshift(united_states)
+  end
+
+  def set_temporal_keywords
+    if params[:form] == 'temporal_information'
+      keywords = cmr_client.get_controlled_keywords('temporal_keywords')['temporal_resolution_range']
+      @temporal_keywords = keywords.map { |keyword| keyword['value'] }
+    end
+  end
+
+  def get_organization_short_names_long_names(json, pairs = [])
+    json.each do |k, value|
+      if k == 'short_name'
+        value.each do |value2|
+          short_name = value2['value']
+          long_name = value2['long_name'].nil? ? nil : value2['long_name'][0]['value']
+          pairs.push [short_name, long_name]
+        end
+
+      elsif value.class == Array
+        value.each do |value2|
+          get_organization_short_names_long_names value2, pairs if value2.class == Hash
+        end
+      elsif value.class == Hash
+        get_organization_short_names_long_names value, pairs
+      end
+    end
+    pairs
+  end
+
+  def set_organizations
+    if params[:form] == 'organizations' || params[:form] == 'personnel'
+      organizations = cmr_client.get_controlled_keywords('providers')
+      organizations = get_organization_short_names_long_names(organizations)
+      @organizations = organizations.sort
+    end
   end
 end

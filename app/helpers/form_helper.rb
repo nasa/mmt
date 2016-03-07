@@ -56,6 +56,8 @@ module FormHelper
     # restrict options for drop down if for metadata_date
     select_options.shift(2) if options[:metadata_date]
 
+    styles = 'width: 100%;' if classes.include? 'select2-select'
+
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
       options_for_select(select_options, options[:value]),
@@ -63,7 +65,8 @@ module FormHelper
       size: size,
       class: classes,
       prompt: prompt,
-      data: { level: remove_pipes(options[:prefix]) }
+      data: { level: remove_pipes(options[:prefix]) },
+      style: styles
     )
 
     mmt_label(options) + mmt_help_icon(options) + select_html

@@ -1,4 +1,4 @@
-<div class="preview-collection">
+<div class="distribution-information-preview preview-collection">
   <% if (metadata['RelatedUrls'] or metadata['Distributions']).blank? %>
     <p class="empty-section">There is no distribution information for this collection.</p>
   <% end %>
@@ -35,7 +35,7 @@
     <p class="empty-section">There are no related URLs for this collection.</p>
   <% else %>
     <h5>Related URLs</h5>
-    <ul class="cards">
+    <ul class="related-urls-cards cards">
     <% metadata['RelatedUrls'].each do |url| %>
       <li class="card">
         <div class="card-header">

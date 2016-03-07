@@ -40,6 +40,9 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  # Feature Toggle for groups
+  config.groups_enabled = true
+
   config.cmr_env = 'sit'
 
   config.middleware.use RackSessionAccess::Middleware

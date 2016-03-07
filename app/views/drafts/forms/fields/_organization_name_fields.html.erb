@@ -2,15 +2,16 @@
 <div class="row">
   <div class="col-6">
     <!-- ShortName -->
-    <%= mmt_text_field(
-      name: 'short_name',
-      title: 'Short Name',
-      prefix: name_prefix,
-      value: organization_name['ShortName'],
-      help: 'definitions/OrganizationNameType/properties/ShortName',
-      validate: true,
-      always_required: true
-     ) %>
+     <%= mmt_select(
+       name: 'short_name',
+       title: 'Short Name',
+       prefix: name_prefix,
+       value: organization_name['ShortName'],
+       help: 'definitions/OrganizationNameType/properties/ShortName',
+       options: @organizations.map { |short_name, long_name| [short_name, short_name, { 'data-long-name' => long_name }]},
+       classes: 'select2-select',
+       always_required: true
+      ) %>
   </div>
   <div class="col-6">
     <!-- LongName -->
@@ -20,6 +21,7 @@
       prefix: name_prefix,
       value: organization_name['LongName'],
       help: 'definitions/OrganizationNameType/properties/LongName',
+      classes: 'organization-long-name',
       validate: true
      ) %>
   </div>

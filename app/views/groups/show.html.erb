@@ -4,14 +4,15 @@
       <div class="breadcrumb">
         <ol>
           <!-- todo: wire the following links -->
-          <li><a href="#">Manage CMR Dashboard</a></li>
-          <li><a href="#">Groups</a></li>
+          <li><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li><%= link_to 'Groups', groups_path %></li>
+          <li><%= @group['name'] %></li>
           <!-- end todo -->
         </ol>
       </div>
       <div class="row space-bot">
-        <h2>Ice Data Scientists</h2>
-        <p>This is the description for the group of Ice Data Scientists.</p>
+        <h2><%= @group['name'] %></h2>
+        <p><%= @group['description'] %></p>
       </div>
       <div class="row">
         <p class="subnav">Permissions</p>
@@ -21,10 +22,13 @@
       </div>
     </div>
   </header>
+
+  <%= render 'shared/flash_messages' %>
+
   <div class="row row-content">
     <section>
       <div class="flex-center">
-        <div class="row">
+        <div class="row disabled">
           <a href="#">Send Email to All Members (0)</a> |
           <a href="#">Edit Name & Description</a> |
           <a href="#">Delete Group</a>
@@ -43,14 +47,14 @@
       <div class="row space-bot">
         <label for="group-filter">
           Filter
-          <input type="text" placeholder="Enter member name">
+          <input type="text" placeholder="Enter member name" disabled>
         </label>
       </div>
       <div class="row">
-        <a href="#" class="btn btn-default">Remove Selected</a>
-        <a href="#" class="btn btn-default">+ Add Members</a>
+        <a href="#" class="btn btn-default" disabled>Remove Selected</a>
+        <a href="#" class="btn btn-default" disabled>+ Add Members</a>
       </div>
-      <table class="space-top align-c" id="groups-table">
+      <table class="space-top align-c disabled" id="groups-table">
         <thead>
           <tr>
             <th class="align-c"><input type="checkbox" disabled><span class="is-invisible">Column to select members</span></th>
@@ -61,13 +65,13 @@
         </thead>
         <tbody>
           <tr>
-            <td><input type="checkbox"></td>
+            <td><input type="checkbox" disabled></td>
             <td class="align-l">John Smith</td>
             <td class="align-l">john.smith@email.com</td>
             <td class="align-l">January 3rd, 2016 08:00:32 EST</td>
           </tr>
           <tr>
-            <td><input type="checkbox"></td>
+            <td><input type="checkbox" disabled></td>
             <td class="align-l">Jane Doe</td>
             <td class="align-l">jane.doe@email.com</td>
             <td class="align-l">January 8rd, 2016 23:54:17 EST</td>
@@ -75,7 +79,7 @@
         </tbody>
       </table>
       <div class="row space-top">
-        <input type="submit" class="btn btn-blue space-right" value="Save">
+        <input type="submit" class="btn btn-blue space-right" value="Save" disabled>
         <a href="#">Cancel</a>
       </div>
     </section>
