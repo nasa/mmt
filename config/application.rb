@@ -39,5 +39,18 @@ module Mmt
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
 
     config.umm_version = 'vnd.nasa.cmr.umm+json; version=1.1'
+
+    def load_version
+      version_file = "#{config.root}/version.txt"
+      if File.exist?(version_file)
+        return IO.read(version_file)
+      elsif File.exist?('.git/config') && `which git`.size > 0
+        version = `git rev-parse --short HEAD`
+        return version
+      end
+      '(unknown)'
+    end
+
+    config.version = load_version
   end
 end

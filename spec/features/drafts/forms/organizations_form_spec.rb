@@ -44,8 +44,8 @@ describe 'Organizations form', js: true do
         #### Organizations
         within '.multiple.organizations > .multiple-item-0' do
           expect(page).to have_field('Role', with: 'RESOURCEPROVIDER')
-          expect(page).to have_field('Short Name', with: 'ORG_SHORT')
-          expect(page).to have_field('Long Name', with: 'Organization Long Name')
+          expect(page).to have_field('Short Name', with: 'AARHUS-HYDRO')
+          expect(page).to have_field('Long Name', with: 'Hydrogeophysics Group, Aarhus University ', readonly: true)
           expect(page).to have_field('Service Hours', with: '9-5, M-F')
           expect(page).to have_field('Contact Instructions', with: 'Email only')
           within '.multiple.contacts' do
@@ -89,8 +89,8 @@ describe 'Organizations form', js: true do
         end
         within '.multiple.organizations > .multiple-item-1' do
           expect(page).to have_field('Role', with: 'OWNER')
-          expect(page).to have_field('Short Name', with: 'ORG_SHORT')
-          expect(page).to have_field('Long Name', with: 'Organization Long Name')
+          expect(page).to have_field('Short Name', with: 'ESA/ED')
+          expect(page).to have_field('Long Name', with: 'Educational Office, Ecological Society of America', readonly: true)
           expect(page).to have_field('Service Hours', with: '10-2, M-W')
           expect(page).to have_field('Contact Instructions', with: 'Email only')
           within '.multiple.contacts' do

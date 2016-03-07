@@ -153,9 +153,9 @@ module Helpers
       end
     end
 
-    def add_organization
-      fill_in 'Short Name', with: 'ORG_SHORT'
-      fill_in 'Long Name', with: 'Organization Long Name'
+    def add_organization(value)
+      find('.select2-container .select2-selection').click
+      find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: value).click
     end
 
     def add_person
@@ -169,7 +169,7 @@ module Helpers
         select 'Resource Provider', from: 'Role'
         case type
         when 'organizations'
-          add_organization
+          add_organization('AARHUS-HYDRO')
         when 'personnel'
           add_person
         end
@@ -186,7 +186,7 @@ module Helpers
           select 'Owner', from: 'Role'
           case type
           when 'organizations'
-            add_organization
+            add_organization('ESA/ED')
           when 'personnel'
             add_person
           else

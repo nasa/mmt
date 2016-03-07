@@ -1,6 +1,6 @@
 module Cmr
   class CmrClient < BaseClient
-    def get_collections(options={}, token=nil)
+    def get_collections(options = {}, token = nil)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3003/collections.umm-json'
       else
@@ -21,7 +21,7 @@ module Cmr
       response
     end
 
-    def get_provider_holdings(provider_id = nil, token=nil)
+    def get_provider_holdings(provider_id = nil, token = nil)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3003/provider_holdings.json'
       else
@@ -35,24 +35,6 @@ module Cmr
         get(url, options, token_header(token))
       end
       response
-    end
-
-    def get_science_keywords
-      if Rails.env.development? || Rails.env.test?
-        url = 'http://localhost:3003/keywords/science_keywords'
-      else
-        url = '/search/keywords/science_keywords'
-      end
-      get(url).body
-    end
-
-    def get_temporal_keywords
-      if Rails.env.development? || Rails.env.test?
-        url = 'http://localhost:3003/keywords/temporal_keywords'
-      else
-        url = '/search/keywords/temporal_keywords'
-      end
-      get(url).body
     end
 
     def get_controlled_keywords(type)
@@ -134,6 +116,27 @@ module Cmr
       end
 
       codes.reduce({}, :merge)
+    end
+
+    def create_group(group, token)
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/groups'
+      else
+        url = '/access-control/groups'
+      end
+      headers = {
+        'Content-Type' => 'application/json'
+      }
+      post(url, group, headers.merge(token_header(token)))
+    end
+
+    def get_group(concept_id, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/groups/#{concept_id}"
+      else
+        url = "/access-control/groups/#{concept_id}"
+      end
+      get(url, token_header(token))
     end
   end
 end

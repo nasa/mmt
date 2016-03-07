@@ -1,5 +1,7 @@
 $(document).ready ->
   $('.multiple').on 'click', '.add-new', (e) ->
+    $('.select2-select').select2('destroy')
+
     simple = $(this).hasClass('new-simple')
     topMultiple = $(this).closest('.multiple')
 
@@ -65,6 +67,8 @@ $(document).ready ->
     $.each $(newDiv).find('.spatial-preview-link'), ->
       url = $(this).attr('href').split('?')[0]
       $(this).attr 'href', url
+
+    $('.select2-select').select2()
 
     e.stopImmediatePropagation()
 

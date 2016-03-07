@@ -58,8 +58,8 @@ FactoryGirl.define do
         'Role' => 'RESOURCEPROVIDER',
         'Party' => {
           'OrganizationName' => {
-            'ShortName' => 'ORG_SHORT 2',
-            'LongName' => 'Organization Long Name 2'
+            'ShortName' => 'AARHUS-HYDRO',
+            'LongName' => 'Hydrogeophysics Group, Aarhus University'
           }
         }
       }])
@@ -93,8 +93,8 @@ def all_required_fields
       'Role' => 'RESOURCEPROVIDER',
       'Party' => {
         'OrganizationName' => {
-          'ShortName' => 'ORG_SHORT 2',
-          'LongName' => 'Organization Long Name 2'
+          'ShortName' => 'AARHUS-HYDRO',
+          'LongName' => 'Hydrogeophysics Group, Aarhus University'
         }
       }
     }],

@@ -11,6 +11,9 @@ class PagesController < ApplicationController
                                   .limit(@draft_display_max_count + 1)
   end
 
+  def manage_cmr
+  end
+
   def new_record
     case params[:type]
     when 'new_collection'

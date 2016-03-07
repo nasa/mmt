@@ -129,7 +129,6 @@ $(document).ready ->
       message += validationMessages(error)
 
       classes = 'banner banner-danger validation-error'
-      classes += ' half-width' if $element.hasClass('half-width')
 
       errorElement = $('<div/>',
         id: "#{error.id}_error"
@@ -143,8 +142,12 @@ $(document).ready ->
       else
         afterElement = $element
 
-      # if the error needs to be shows after the help icon
+      # if the error needs to be shown after the help icon
       if $element.next().hasClass('display-modal')
+        afterElement = $element.next()
+
+      # if the error needs to be shown after the select2
+      if $element.next().hasClass('select2-container')
         afterElement = $element.next()
 
       $(errorElement).insertAfter(afterElement)
@@ -243,12 +246,19 @@ $(document).ready ->
           return e.match(error.id)
         .length > 0
 
-        if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1 # don't duplicate errors
+        if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1
+          # don't duplicate errors
           inlineErrors.push error if $("##{error.id}:visible").length > 0
           summaryErrors.push error if $("##{error.id}:visible").length > 0
 
-    displayInlineErrors inlineErrors if inlineErrors.length > 0 and opts.showInline
-    displaySummary summaryErrors if summaryErrors.length > 0 and opts.showSummary
+    if inlineErrors.length > 0 and opts.showInline
+      displayInlineErrors inlineErrors
+    if summaryErrors.length > 0 and opts.showSummary
+      displaySummary summaryErrors
+    if opts.showConfirm
+      # 'visit' any invalid fields so they don't forget about their error
+      for error in inlineErrors
+        visitedFields.push error.id unless visitedFields.indexOf(error.id) != -1
 
     valid = summaryErrors.length == 0
 
@@ -287,6 +297,11 @@ $(document).ready ->
     # if the field is a datepicker, and the datepicker is still open, don't validate yet
     return if $(this).attr('type') == 'datetime' and $('.datepicker:visible').length > 0
     validateFromFormChange()
+
+  # 'blur' functionality for select2 fields
+  $('.select2-select').on 'select2:open', (event) ->
+    id = $(this).attr('id')
+    visitedFields.push id unless visitedFields.indexOf(id) != -1
 
   $('.metadata-form').on 'click', '.remove', ->
     validateFromFormChange()
