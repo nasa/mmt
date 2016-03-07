@@ -28,6 +28,9 @@ class GroupsController < ApplicationController
         flash[:success] = 'Group was successfully created.'
         redirect_to group_path(concept_id)
       else
+        # Log error message
+        Rails.logger.error("Group Creation Error: #{group_creation.inspect}")
+
         group_creation_error = group_creation.body['errors'][0]
         flash[:error] = group_creation_error
         @group = group
