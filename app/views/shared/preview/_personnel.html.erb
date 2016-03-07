@@ -21,9 +21,15 @@
             <div class="card-body-details">
               <h6><%= person['Party']['Person']['FirstName'] %> <%= person['Party']['Person']['LastName'] %></h6>
               <p>
-                <%= person['Party']['Addresses'].first['StreetAddresses'][0] %><br />
-                <%= person['Party']['Addresses'].first['StreetAddresses'][1] %><br />
-                <%= person['Party']['Addresses'].first['StreetAddresses'][2] %><br />
+                <% if person['Party']['Addresses'].first['StreetAddresses'][0] %>
+                  <%= person['Party']['Addresses'].first['StreetAddresses'][0] %><br />
+                <% end %>
+                <% if person['Party']['Addresses'].first['StreetAddresses'][1] %>
+                  <%= person['Party']['Addresses'].first['StreetAddresses'][1] %><br />
+                <% end %>
+                <% if person['Party']['Addresses'].first['StreetAddresses'][2] %>
+                  <%= person['Party']['Addresses'].first['StreetAddresses'][2] %><br />
+                <% end %>
                 <%= person['Party']['Addresses'].first['City'] %>, <%= person['Party']['Addresses'].first['StateProvince'] %> <%= person['Party']['Addresses'].first['PostalCode'] %>
               </p>
             </div>
@@ -47,9 +53,15 @@
                 <div class="card-body-details-full">
                   <h6>Additional Address</h6>
                   <p>
-                    <%= address['StreetAddresses'][0] %><br />
-                    <%= address['StreetAddresses'][1] %><br />
-                    <%= address['StreetAddresses'][2] %><br />
+                    <% if address['StreetAddresses'][0] %>
+                      <%= address['StreetAddresses'][0] %><br />
+                    <% end %>
+                    <% if address['StreetAddresses'][1] %>
+                      <%= address['StreetAddresses'][1] %><br />
+                    <% end %>
+                    <% if address['StreetAddresses'][2] %>
+                      <%= address['StreetAddresses'][2] %><br />
+                    <% end %>
                     <%= address['City'] %>, <%= address['StateProvince'] %> <%= address['PostalCode'] %>
                   </p>
                 </div>

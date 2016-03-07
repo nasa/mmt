@@ -23,7 +23,7 @@
       </div>
       <div class="collection-details">
         <!-- Only display version if one exists. -->
-        <% if @draft.draft["Version"] %>
+        <% if @collection["Version"] %>
           <span class="badge version">Version <%= @collection["Version"]%></span>
         <% end %>
         <!-- Only display data language if one exists. -->
