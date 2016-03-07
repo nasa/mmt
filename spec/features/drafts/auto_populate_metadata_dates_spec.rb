@@ -44,7 +44,6 @@ describe 'Auto populating metadata dates', js: true do
       end
 
       it 'displays the update date, new metadata dates, and creation date on the collection page' do
-        # within '.preview .metadata-information-preview' do
         within '.preview .metadata-dates .metadata-dates-0' do
           expect(page).to have_content('Future Review')
           expect(page).to have_content('2015-07-01T00:00:00Z')
