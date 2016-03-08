@@ -22,17 +22,17 @@
     <section>
       <h4>Spatial Coordinates</h4>
       <% preview_spatial = get_preview_spatial(metadata) %>
-      <ol class="coordinates" id="coordinates">
+      <ol class="coordinates no-bullets sidebar-list" id="coordinates">
         <% preview_spatial['point_coordinate_array'].each do |point| %>
-          <li>Lat: <%= point['lat'] %></li>
-          <li>Lon: <%= point['lon'] %></li>
+          <li><span class="preview-sidebar-item">Lat: <%= point['lat'] %></span</li>
+          <li><span class="preview-sidebar-item">Lon: <%= point['lon'] %></span></li>
         <% end %>
 
         <% preview_spatial['rectangle_coordinate_array'].each do |rectangle| %>
-          <li>N: <%= rectangle['north_bounding_coordinate'] %></li>
-          <li>S: <%= rectangle['south_bounding_coordinate'] %></li>
-          <li>E: <%= rectangle['east_bounding_coordinate'] %></li>
-          <li>W: <%= rectangle['west_bounding_coordinate'] %></li>
+          <li><span class="preview-sidebar-item">N: <%= rectangle['north_bounding_coordinate'] %></span></li>
+          <li><span class="preview-sidebar-item">S: <%= rectangle['south_bounding_coordinate'] %></span></li>
+          <li><span class="preview-sidebar-item">E: <%= rectangle['east_bounding_coordinate'] %></span></li>
+          <li><span class="preview-sidebar-item">W: <%= rectangle['west_bounding_coordinate'] %></span></li>
         <% end %>
 
         <% if preview_spatial['point_coordinate_array'].size == 0 && preview_spatial['rectangle_coordinate_array'].size == 0 %>
@@ -42,10 +42,10 @@
 
       <% spatial_keywords = metadata['SpatialKeywords'] || [] %>
       <h4>Location Keywords</h4>
-      <ul>
+      <ul class="no-bullets sidebar-list">
         <% if spatial_keywords.size > 0 %>
           <% spatial_keywords.each do |keyword| %>
-            <li><%= keyword %></li>
+            <li><span class="preview-sidebar-item"><%= keyword %></span></li>
           <% end %>
         <% else %>
           <li>No Spatial Keywords found</li>
@@ -54,21 +54,24 @@
 
       <% preview_temporal = get_preview_temporal(metadata) %>
 
-      <h4>Temporal Coverage</h4>
-      <ul>
+      <h4>Temporal Coverages</h4>
+      <ul class="no-bullets sidebar-list">
+        <li class="label">Single DateTimes</li>
         <% single_date_times = preview_temporal['single_date_times'] || [] %>
         <% single_date_times.each do |single_date_time| %>
-          <li>Date: <%= single_date_time %></li></br>
+          <li><span class="preview-sidebar-item"><%= single_date_time.split('T')[0] %></span></li>
         <% end %>
 
+        <li class="label">DateTime Ranges</li>
         <% range_date_times = preview_temporal['range_date_times'] || [] %>
         <% range_date_times.each do |range_date_time| %>
-          <li>Start Date: <%= range_date_time['beginning_date_time']%> </li> <li>Stop Date: <%= range_date_time['ending_date_time']%> </li></br>
+          <li><span class="preview-sidebar-item"><%= range_date_time['beginning_date_time'].split('T')[0] %> to <%= range_date_time['ending_date_time'].split('T')[0] %></span></li>
         <% end %>
 
+        <li class="label">Periodic Ranges</li>
         <% periodic_date_times = preview_temporal['periodic_date_times'] || [] %>
         <% periodic_date_times.each do |periodic_date_time| %>
-          <li>Start Date: <%= periodic_date_time['start_date']%> </li> <li>Stop Date: <%= periodic_date_time['end_date']%> </li></br>
+          <li><span class="preview-sidebar-item"><%= periodic_date_time['start_date'].split('T')[0] %> to <%= periodic_date_time['end_date'].split('T')[0] %></span></li>
         <% end %>
 
         <% if single_date_times.blank? && range_date_times.blank? && periodic_date_times.blank? %>

@@ -20,6 +20,10 @@ table {
       background: $light-grey;
     }
   }
+
+  th[colspan] {
+    text-align: center;
+  }
 }
 
 .cell-primary-cta {
@@ -33,6 +37,10 @@ table {
 
 .preview table th {
   background: darken($light-blue, 4%);
+
+  &[colspan] {
+    background: darken($light-blue, 8%);
+  }
 }
 
 .preview table tr:nth-child(2n+2) {

@@ -8,13 +8,11 @@
   </div>
   <div class="accordion-body">
     <ul class="resource-citations-preview">
-      <h5>Collection Citations <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Collection Citations</span>'.html_safe, draft_edit_form_path(@draft, 'resource_citations', {anchor: 'collection-citations'}), {class: 'hash-link'} %><% end %></h5>
-
       <% if metadata['PublicationReferences'] %>
         <h5>
-          Publication References
+          Collection Citations
           <% if @draft.present? %>
-            <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Resource Citations</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-citation' }), { class: 'hash-link' } %>
+            <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Resource Citations</span>'.html_safe, draft_edit_form_path(@draft, 'resource_citations', { anchor: 'collection-citation' }), { class: 'hash-link' } %>
           <% end %>
         </h5>
 
@@ -31,7 +29,7 @@
                   <span class="card-header-badge"><%= citation['Version'] %></span>
                 <% end %>
               </div>
-              <div class="card-body fluid-height active">
+              <div class="card-body active">
                 <div class="card-body-details-full">
                   <% if citation['Creator'] %>
                     <p><b>Created by: </b><%= citation['Creator'] %></p>
@@ -73,6 +71,9 @@
                   <li class="card-navigation-pagination">
                     <i class="fa fa-circle"></i>
                     <% if citation['RelatedUrl']%>
+                      <i class="fa fa-circle-o"></i>
+                    <% end %>
+                    <% if citation['OtherCitationDetails']%>
                       <i class="fa fa-circle-o"></i>
                     <% end %>
                   </li>

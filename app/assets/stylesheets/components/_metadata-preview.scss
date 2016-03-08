@@ -71,3 +71,22 @@ ul.sub-field {
     opacity: 1;
   }
 }
+
+.sidebar-list {
+  li {
+    margin: 0.4em 0;
+
+    &.label {
+      color: rgba($black, 0.8);
+    }
+  }
+}
+
+.preview-sidebar-item {
+  color: $white;
+  background: $steel-blue;
+  margin: 0.125em 0;
+  padding: 0.25em 0.7em;
+  font-size: 0.85em;
+  border-radius: 3px;
+}
