@@ -18,28 +18,28 @@ describe 'Adding Members to New Groups', reset_provider: true, js: true do
     context 'when using the dual select box to add members' do
       before do
         # choose one user
-        select('Adam Bobcat', :from => 'Members directory')
+        select('Alien Bobcat', from: 'Members directory')
         click_on 'Add Member(s)'
 
         # choose multiple users
-        select('Marsupial Narwal', :from => 'Members directory')
-        select('Quail Racoon', :from => 'Members directory')
-        select('Ukulele Vulcan', :from => 'Members directory')
+        select('Marsupial Narwal', from: 'Members directory')
+        select('Quail Racoon', from: 'Members directory')
+        select('Ukulele Vulcan', from: 'Members directory')
         click_on 'Add Member(s)'
       end
 
       it 'moves users from member directory to selected members' do
         # members aren't in directory
-        within ('#members_directory') do
-          expect(page).to have_no_content('Adam Bobcat')
+        within '#members_directory' do
+          expect(page).to have_no_content('Alien Bobcat')
           expect(page).to have_no_content('Marsupial Narwal')
           expect(page).to have_no_content('Quail Racoon')
           expect(page).to have_no_content('Ukulele Vulcan')
         end
 
         # members are in selected members
-        within ('#selected_members') do
-          expect(page).to have_content('Adam Bobcat')
+        within '#selected_members' do
+          expect(page).to have_content('Alien Bobcat')
           expect(page).to have_content('Marsupial Narwal')
           expect(page).to have_content('Quail Racoon')
           expect(page).to have_content('Ukulele Vulcan')
@@ -49,28 +49,28 @@ describe 'Adding Members to New Groups', reset_provider: true, js: true do
       context 'when removing members from selected members' do
         before do
           # one user
-          select('Adam Bobcat', :from => 'Selected Members')
+          select('Alien Bobcat', from: 'Selected Members')
           click_on 'Remove Member(s)'
 
           # multiple users
-          select('Marsupial Narwal', :from => 'Selected Members')
-          select('Quail Racoon', :from => 'Selected Members')
-          select('Ukulele Vulcan', :from => 'Selected Members')
+          select('Marsupial Narwal', from: 'Selected Members')
+          select('Quail Racoon', from: 'Selected Members')
+          select('Ukulele Vulcan', from: 'Selected Members')
           click_on 'Remove Member(s)'
         end
 
         it 'removes users from selected members back into member directory' do
           # members aren't in selected members
-          within ('#selected_members') do
-            expect(page).to have_no_content('Adam Bobcat')
+          within '#selected_members' do
+            expect(page).to have_no_content('Alien Bobcat')
             expect(page).to have_no_content('Marsupial Narwal')
             expect(page).to have_no_content('Quail Racoon')
             expect(page).to have_no_content('Ukulele Vulcan')
           end
 
           # members are in directory
-          within ('#members_directory') do
-            expect(page).to have_content('Adam Bobcat')
+          within '#members_directory' do
+            expect(page).to have_content('Alien Bobcat')
             expect(page).to have_content('Marsupial Narwal')
             expect(page).to have_content('Quail Racoon')
             expect(page).to have_content('Ukulele Vulcan')
@@ -83,9 +83,9 @@ describe 'Adding Members to New Groups', reset_provider: true, js: true do
       before do
         fill_in 'Group Name', with: group_name
         fill_in 'Group Description', with: group_description
-        select('Marsupial Narwal', :from => 'Members directory')
-        select('Quail Racoon', :from => 'Members directory')
-        select('Ukulele Vulcan', :from => 'Members directory')
+        select('Marsupial Narwal', from: 'Members directory')
+        select('Quail Racoon', from: 'Members directory')
+        select('Ukulele Vulcan', from: 'Members directory')
         click_on 'Add Member(s)'
         VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
           click_on 'Save'
@@ -103,7 +103,7 @@ describe 'Adding Members to New Groups', reset_provider: true, js: true do
         end
       end
 
-      it 'has members' do
+      it 'displays the group members' do
         within '#groups-table' do
           expect(page).to have_content('Marsupial Narwal')
           expect(page).to have_content('Quail Racoon')

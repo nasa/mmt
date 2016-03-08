@@ -11,7 +11,7 @@ class GroupsController < ApplicationController
       @group = group_request.body
       request_group_members(concept_id, token)
     else
-      flash[:error] = group_request.body['errors'][0]
+      flash[:error] = Array.wrap(group_request.body['errors'])[0]
       redirect_to groups_path
     end
   end
@@ -42,7 +42,7 @@ class GroupsController < ApplicationController
         # Log error message
         Rails.logger.error("Group Creation Error: #{group_creation.inspect}")
 
-        group_creation_error = group_creation.body['errors'][0]
+        group_creation_error = Array.wrap(group_creation.body['errors'])[0]
         flash[:error] = group_creation_error
         @group = group
         render :new
@@ -72,7 +72,7 @@ class GroupsController < ApplicationController
       @sorted_members = group_members.map { |member| [member[:name], member[:email]] }
                                      .sort_by { |option| option.first.downcase }
     else
-      flash[:error] = group_members_request.body['errors'][0]
+      flash[:error] = Array.wrap(group_members_request.body['errors'])[0]
     end
   end
 
@@ -104,7 +104,11 @@ class GroupsController < ApplicationController
       all_users = map_users(users_hash)
       all_users
     else
-      flash.now[:error] = users_request['errors'][0]
+      # Log error message
+      Rails.logger.error("Users Request Error: #{users_request.inspect}")
+
+      users_request_error = Array.wrap(users_request.body['error'])[0]
+      flash[:error] = users_request_error
       []
     end
   end
