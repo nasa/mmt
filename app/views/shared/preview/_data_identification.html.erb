@@ -15,7 +15,7 @@
             <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Data Dates</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'data-dates' }), { class: 'hash-link' } %>
           <% end %>
         </h5>
-        <table>
+        <table class="data-dates-table">
           <% metadata['DataDates'].each do |data| %>
             <tr>
               <td><%= map_value_onto_display_string(data["Type"], DraftsHelper::DateTypeOptions) %></td>
@@ -26,7 +26,7 @@
       <% end %>
 
       <div class="row">
-        <div class="col-6">
+        <div class="processing-level col-6">
           <h5>
             Processing Level
             <% if @draft.present? %>
@@ -41,7 +41,7 @@
             <p><%= processing_level['ProcessingLevelDescription'] %></p>
           <% end %>
         </div>
-        <div class="col-6">
+        <div class="quality col-6">
           <h5>
             Quality
             <% if @draft.present? %>
@@ -80,7 +80,7 @@
           <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Metadata Associations</span>'.html_safe, draft_edit_form_path(@draft, 'data_identification', { anchor: 'metadata-associations' }), { class: 'hash-link' } %>
         <% end %>
       </h5>
-      <table>
+      <table class="metadata-associations-table">
         <thead>
           <tr>
             <th>Association Type</th>
@@ -108,7 +108,7 @@
           <% end %>
         </h5>
 
-        <ul class="cards">
+        <ul class="publication-reference-cards cards">
           <% metadata['PublicationReferences'].each do |publication| %>
             <li class="card">
               <div class="card-header">
@@ -156,7 +156,7 @@
                       <% if publication['Pages'] %>
                         <p><b>Pages: </b><%= publication['Pages'] %></p>
                       <% end %>
-                      <% if publication['DOI']['DOI'] %>
+                      <% if publication['DOI'] && publication['DOI']['DOI'] %>
                         <p><b>DOI: </b><%= publication['DOI']['DOI'] %></p>
                       <% end %>
                     </div>

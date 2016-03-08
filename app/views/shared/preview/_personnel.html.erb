@@ -8,105 +8,165 @@
   </div>
   <div class="accordion-body">
     <% if metadata['Personnel'].blank? %>
-      <p class="empty-section">There are no listed personnel for this collection.</p>
+      <p class="empty-section">
+        There are no listed personnel for this collection.
+      </p>
     <% else %>
-      <ul class="cards">
-      <% metadata['Personnel'].each do |person| %>
-        <li class="card">
-          <div class="card-header">
-            <h5 class="card-header-title"><%= person['Party']['Person']['FirstName'] %></h5>
-            <span class="card-header-badge"><%= person['Role'] %></span>
-          </div>
-          <div class="card-body active">
-            <div class="card-body-details">
-              <h6><%= person['Party']['Person']['FirstName'] %> <%= person['Party']['Person']['LastName'] %></h6>
-              <p>
-                <% if person['Party']['Addresses'].first['StreetAddresses'][0] %>
-                  <%= person['Party']['Addresses'].first['StreetAddresses'][0] %><br />
-                <% end %>
-                <% if person['Party']['Addresses'].first['StreetAddresses'][1] %>
-                  <%= person['Party']['Addresses'].first['StreetAddresses'][1] %><br />
-                <% end %>
-                <% if person['Party']['Addresses'].first['StreetAddresses'][2] %>
-                  <%= person['Party']['Addresses'].first['StreetAddresses'][2] %><br />
-                <% end %>
-                <%= person['Party']['Addresses'].first['City'] %>, <%= person['Party']['Addresses'].first['StateProvince'] %> <%= person['Party']['Addresses'].first['PostalCode'] %>
-              </p>
+      <ul class="personnel-cards cards">
+        <% metadata['Personnel'].each_with_index do |person, person_index| %>
+          <% party = person['Party'] %>
+          <% person_name = party['Person'] %>
+          <li class="card">
+            <div class="card-header">
+              <h5 class="card-header-title">
+                <%= person_name['FirstName'] %>
+              </h5>
+              <% if person['Role'] %>
+                <span class="card-header-badge">
+                  <%= person['Role'] %>
+                </span>
+              <% end %>
             </div>
-            <div class="card-body-aside">
-              <h6><%= person['Party']['ServiceHours'] %></h6>
-              <ul>
-                <% person['Party']['Contacts'].each do |contact| %>
-                  <li>
-                    <% if contact["Type"] == 'Phone' %><i class="fa fa-phone-square"></i> <%= contact['Value'] %><% end %>
-                    <% if contact["Type"] == 'Email' %><i class="fa fa-envelope"></i> <a href="mailto:<%= contact['Value'] %>" title="<%= contact['Value'] %>">Email</a><% end %>
-                    <% if contact["Type"] == 'Twitter' %><i class="fa fa-twitter-square"></i> <a href="<%= contact['Value'] %>">Twitter</a><% end %>
-                    <% if contact["Type"] == 'Facebook' %><i class="fa fa-facebook-square"></i> <a href="<%= contact['Value'] %>">Facebook</a><% end %>
-                  </li>
+            <div class="card-body active">
+              <div class="card-body-details">
+                <h6>
+                  <%= person_name['FirstName'] %>
+                  <%= person_name['LastName'] %>
+                </h6>
+                <% if party['Addresses'].blank? %>
+                  <p class="empty-section">
+                    This person does not have any addresses listed.
+                  </p>
+                <% else %>
+                  <p>
+                    <% address = party['Addresses'].first || {} %>
+                    <% street_address = address['StreetAddresses'] || [] %>
+                    <% if street_address[0] %>
+                      <%= street_address[0] %><br />
+                    <% end %>
+                    <% if street_address[1] %>
+                      <%= street_address[1] %><br />
+                    <% end %>
+                    <% if street_address[2] %>
+                      <%= street_address[2] %><br />
+                    <% end %>
+                    <% if address['City'] %>
+                      <%= address['City'] %>,
+                    <% end %>
+                    <% if address['StateProvince'] %>
+                      <%= address['StateProvince'] %>
+                    <% end %>
+                    <% if address['PostalCode'] %>
+                      <%= address['PostalCode'] %>
+                    <% end %>
+                  </p>
                 <% end %>
-              </ul>
+              </div>
+              <div class="card-body-aside">
+                <h6><%= party['ServiceHours'] %></h6>
+                <% if party['Contacts'].blank? %>
+                  <p class="empty-section">
+                    This person does not have any contacts listed.
+                  </p>
+                <% else %>
+                  <ul>
+                    <% party['Contacts'].each do |contact| %>
+                      <li>
+                        <% if contact["Type"] == 'Phone' %>
+                          <i class="fa fa-phone-square"></i>
+                          <%= contact['Value'] %>
+                        <% end %>
+                        <% if contact["Type"] == 'Email' %>
+                          <i class="fa fa-envelope"></i>
+                          <a href="mailto:<%= contact['Value'] %>" title="<%= contact['Value'] %>">Email</a>
+                        <% end %>
+                        <% if contact["Type"] == 'Twitter' %>
+                          <i class="fa fa-twitter-square"></i>
+                          <a href="<%= contact['Value'] %>">Twitter</a>
+                        <% end %>
+                        <% if contact["Type"] == 'Facebook' %>
+                          <i class="fa fa-facebook-square"></i>
+                          <a href="<%= contact['Value'] %>">Facebook</a>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+              </div>
             </div>
-          </div>
-          <% if person['Party']['Addresses'].length > 1 %>
-            <% person['Party']['Addresses'].drop(1).each do |address| %>
+            <% if party['Addresses'].length > 1 %>
+              <% party['Addresses'].drop(1).each do |address| %>
+                <div class="card-body">
+                  <div class="card-body-details-full">
+                    <h6>Additional Address</h6>
+                    <p>
+                      <% street_address = address['StreetAddresses'] || [] %>
+                      <% if street_address[0] %>
+                        <%= street_address[0] %><br />
+                      <% end %>
+                      <% if street_address[1] %>
+                        <%= street_address[1] %><br />
+                      <% end %>
+                      <% if street_address[2] %>
+                        <%= street_address[2] %><br />
+                      <% end %>
+                      <% if address['City'] %>
+                        <%= address['City'] %>,
+                      <% end %>
+                      <% if address['StateProvince'] %>
+                        <%= address['StateProvince'] %>
+                      <% end %>
+                      <% if address['PostalCode'] %>
+                        <%= address['PostalCode'] %>
+                      <% end %>
+                    </p>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+            <% if party['ContactInstructions'] %>
               <div class="card-body">
                 <div class="card-body-details-full">
-                  <h6>Additional Address</h6>
-                  <p>
-                    <% if address['StreetAddresses'][0] %>
-                      <%= address['StreetAddresses'][0] %><br />
-                    <% end %>
-                    <% if address['StreetAddresses'][1] %>
-                      <%= address['StreetAddresses'][1] %><br />
-                    <% end %>
-                    <% if address['StreetAddresses'][2] %>
-                      <%= address['StreetAddresses'][2] %><br />
-                    <% end %>
-                    <%= address['City'] %>, <%= address['StateProvince'] %> <%= address['PostalCode'] %>
-                  </p>
+                  <h6>Contact Details</h6>
+                  <p><%= party['ContactInstructions'] %></p>
                 </div>
               </div>
             <% end %>
-          <% end %>
-          <% if person['Party']['ContactInstructions'] %>
-            <div class="card-body">
-              <div class="card-body-details-full">
-                <h6>Contact Details</h6>
-                <p><%= person['Party']['ContactInstructions'] %></p>
+            <% if party['RelatedUrls'] %>
+              <div class="card-body">
+                <div class="card-body-details-full">
+                  <ul>
+                    <% party['RelatedUrls'][0]['URLs'].each do |url| %>
+                      <li><i class="fa fa-external-link"></i> <a href="<%= url %>"><%= url %></a></li>
+                    <% end %>
+                  </ul>
+                </div>
               </div>
-            </div>
-          <% end %>
-          <% if person['Party']['RelatedUrls'] %>
-            <div class="card-body">
-              <div class="card-body-details-full">
-                <ul>
-                  <% person['Party']['RelatedUrls'][0]['URLs'].each do |url| %>
-                    <li><i class="fa fa-external-link"></i> <a href="<%= url %>"><%= url %></a></li>
+            <% end %>
+            <div class="card-navigation">
+              <ul>
+                <li class="card-navigation-control"><a href="" class="card-navigation-control-back"><i class="fa fa-chevron-left"></i></a></li>
+                <li class="card-navigation-pagination">
+                  <i class="fa fa-circle"></i>
+                  <% (party['Addresses'].length - 1).times do %>
+                    <i class="fa fa-circle-o"></i>
                   <% end %>
-                </ul>
-              </div>
+                  <% if party['ContactInstructions'] %>
+                    <i class="fa fa-circle-o"></i>
+                  <% end %>
+                  <% if party['RelatedUrls'] %>
+                    <i class="fa fa-circle-o"></i>
+                  <% end %>
+                </li>
+                <li class="card-navigation-control">
+                  <a href="" class="card-navigation-control-forward">
+                    <i class="fa fa-chevron-right"></i>
+                  </a>
+                </li>
+              </ul>
             </div>
-          <% end %>
-          <div class="card-navigation">
-            <ul>
-              <li class="card-navigation-control"><a href="" class="card-navigation-control-back"><i class="fa fa-chevron-left"></i></a></li>
-              <li class="card-navigation-pagination">
-                <i class="fa fa-circle"></i>
-                <% (person['Party']['Addresses'].length - 1).times do %>
-                  <i class="fa fa-circle-o"></i>
-                <% end %>
-                <% if person['Party']['ContactInstructions'] %>
-                  <i class="fa fa-circle-o"></i>
-                <% end %>
-                <% if person['Party']['RelatedUrls'] %>
-                  <i class="fa fa-circle-o"></i>
-                <% end %>
-              </li>
-              <li class="card-navigation-control"><a href="" class="card-navigation-control-forward"><i class="fa fa-chevron-right"></i></a></li>
-            </ul>
-          </div>
-        </li>
-      <% end %>
+          </li>
+        <% end %>
       </ul>
     <% end %>
   </div>
