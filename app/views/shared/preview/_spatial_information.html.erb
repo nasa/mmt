@@ -1,4 +1,4 @@
-<div class="preview-collection accordion is-closed">
+<div class="preview-collection accordion">
   <div class="accordion-header">
     <h4>Spatial Information Fields:</h4>
     <a href="#" class="float-r">
@@ -8,27 +8,202 @@
   </div>
   <div class="accordion-body">
     <ul class="spatial-extent-preview">
+      <table>
+        <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Spatial Extent</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', { anchor: 'spatial-extent' }), { class: 'hash-link' } %>
+        <% end %>
 
-      <h4>Spatial Extent <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Spatial Extent</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-extent'}), {class: 'hash-link'} %><% end %></h4>
-      <%= render partial: 'shared/preview/preview_type', locals: {
-          data: metadata['SpatialExtent'],
-          name: 'SpatialExtent',
-          type: TypesHelper::SpatialExtentType
-      } %>
+        <% if metadata['SpatialExtent']['SpatialCoverageType']['HORIZONTAL'] %>
+          <thead>
+            <tr>
+              <th>Coverage Type</th>
+              <th>Zone Identifier</th>
+              <th>Geometry</th>
+              <th>Granule Representation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= metadata['SpatialExtent']['SpatialCoverageType'] %></td>
+              <td><%= metadata['SpatialExtent']['HorizontalSpatialDomain']['ZoneIdentifier'] %></td>
+              <td><%= metadata['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['CoordinateSystem'] %></td>
+              <td><%= metadata['SpatialExtent']['GranuleSpatialRepresentation'] %></td>
+            </tr>
+          </tbody>
+        <% end %>
 
-      <h4>Tiling Identification Systems <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Tiling Identification Systems</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'tiling-identification-system'}), {class: 'hash-link'} %><% end %></h4>
-      <%= render partial: 'shared/preview/preview_type', locals: {
-          data: metadata['TilingIdentificationSystems'],
-          name: 'TilingIdentificationSystems',
-          type: TypesHelper::TilingIdentificationSystemsType
-      } %>
+        <% if metadata['SpatialExtent']['SpatialCoverageType']['Vertical'] %>
+          <thead>
+            <tr>
+              <th>Coverage Type</th>
+              <th>Vertical Spatial Domains</th>
+              <th>Granule Representation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= metadata['SpatialExtent']['SpatialCoverageType'] %></td>
+              <td>
+                <ul>
+                  <% metadata['SpatialExtent']['VerticalSpatialDomains'].each do |domain| %>
+                    <li>
+                      <b>Type: </b><%= domain['Type'] %> <b>Value: </b><%= domain['Value'] %>
+                    </li>
+                  <% end %>
+                </ul>
+              </td>
+              <td><%= metadata['SpatialExtent']['GranuleSpatialRepresentation'] %></td>
+            </tr>
+          </tbody>
+        <% end %>
 
-      <h4>Spatial Information <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Spatial Information</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-representation-information'}), {class: 'hash-link'} %><% end %></h4>
-      <%= render partial: 'shared/preview/preview_type', locals: {
-          data: metadata['SpatialInformation'],
-          name: 'SpatialInformation',
-          type: TypesHelper::SpatialInformationType
-      } %>
+        <% if metadata['SpatialExtent']['SpatialCoverageType']['ORBITAL'] %>
+          <thead>
+            <tr>
+              <th>Coverage Type</th>
+              <th>Swath Width</th>
+              <th>Period</th>
+              <th>Inclination Angle</th>
+              <th>Number of Orbits</th>
+              <th>Start Circular Latitude</th>
+              <th>Granule Representation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="align-c">
+              <td class="align-l"><%= metadata['SpatialExtent']['SpatialCoverageType'] %></td>
+              <td><%= metadata['SpatialExtent']['OrbitParameters']['SwathWidth'] %></td>
+              <td><%= metadata['SpatialExtent']['OrbitParameters']['Period'] %></td>
+              <td><%= metadata['SpatialExtent']['OrbitParameters']['InclinationAngle'] %></td>
+              <td><%= metadata['SpatialExtent']['OrbitParameters']['NumberOfOrbits'] %></td>
+              <td><%= metadata['SpatialExtent']['OrbitParameters']['StartCircularLatitude'] %></td>
+              <td><%= metadata['SpatialExtent']['GranuleSpatialRepresentation'] %></td>
+            </tr>
+          </tbody>
+        <% end %>
+      </table>
+
+      <% if metadata['TilingIdentificationSystems'] %>
+        <h5>
+          Tiling Identification Systems
+          <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Tiling Identification Systems</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'tiling-identification-system'}), {class: 'hash-link'} %>
+          <% end %>
+        </h5>
+        <table>
+          <thead>
+            <tr>
+              <th>System Name</th>
+              <th>Coordiante 1 Min</th>
+              <th>Coordiante 1 Max</th>
+              <th>Coordiante 2 Min</th>
+              <th>Coordiante 2 Max</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% metadata['TilingIdentificationSystems'].each do |tiling_system| %>
+              <tr class="align-c">
+                <td class="align-l"><%= tiling_system['TilingIdentificationSystemName'] %></td>
+                <td><%= tiling_system['Coordinate1']['MinimumValue'] %></td>
+                <td><%= tiling_system['Coordinate1']['MaximumValue'] %></td>
+                <td><%= tiling_system['Coordinate2']['MinimumValue'] %></td>
+                <td><%= tiling_system['Coordinate2']['MaximumValue'] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+
+      <% if metadata['SpatialInformation'] %>
+
+        <h5>
+          Spatial Information
+          <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Spatial Information</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', {anchor: 'spatial-representation-information'}), {class: 'hash-link'} %>
+          <% end %>
+        </h5>
+
+        <table>
+
+          <% if metadata['SpatialInformation']['SpatialCoverageType']['HORIZONTAL'] %>
+            <thead>
+              <tr>
+                <th>Coverage Type</th>
+                <th>Datum Name</th>
+                <th>Ellipsoid Name</th>
+                <th>Semi Major Axis</th>
+                <th>Flattening Ratio Denominator</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><%= metadata['SpatialInformation']['SpatialCoverageType'] %></td>
+                <td><%= metadata['SpatialInformation']['HorizontalCoordinateSystem']['GeodeticModel']['HorizontalDatumName'] %></td>
+                <td><%= metadata['SpatialInformation']['HorizontalCoordinateSystem']['GeodeticModel']['EllipsoidName'] %></td>
+                <td><%= metadata['SpatialInformation']['HorizontalCoordinateSystem']['GeodeticModel']['SemiMajorAxis'] %></td>
+                <td><%= metadata['SpatialInformation']['HorizontalCoordinateSystem']['GeodeticModel']['DenominatorOfFlatteningRatio'] %></td>
+              </tr>
+            </tbody>
+          <% end %>
+
+          <% if metadata['SpatialInformation']['SpatialCoverageType']['VERTICAL'] %>
+            <thead>
+              <tr>
+                <th>Coverage Type</th>
+                <th>Datum Name</th>
+                <th>Distance Units</th>
+                <th>Encoding Method</th>
+                <th>Resolutions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><%= metadata['SpatialInformation']['SpatialCoverageType'] %></td>
+                <td><%= metadata['SpatialInformation']['VerticalCoordinateSystem']['AltitudeSystemDefinition']['DatumName'] %></td>
+                <td><%= metadata['SpatialInformation']['VerticalCoordinateSystem']['AltitudeSystemDefinition']['DistanceUnits'] %></td>
+                <td><%= metadata['SpatialInformation']['VerticalCoordinateSystem']['AltitudeSystemDefinition']['EncodingMethod'] %></td>
+                <td><%= metadata['SpatialInformation']['VerticalCoordinateSystem']['AltitudeSystemDefinition']['Resolutions'] %></td>
+              </tr>
+            </tbody>
+          <% end %>
+
+          <% if metadata['SpatialInformation']['SpatialCoverageType']['BOTH'] %>
+            <thead>
+              <tr>
+                <th colspan="4" class="table-header-span">Spatial Coverage Type: Vertical &amp; Horizontal</th>
+              </tr>
+              <tr>
+                <th>Hor. Datum Name</th>
+                <th>Ellipsoid Name</th>
+                <th>Semi Major Axis</th>
+                <th>Flattening Ratio Denominator</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><%= metadata['SpatialInformation']['HorizontalCoordinateSystem']['GeodeticModel']['HorizontalDatumName'] %></td>
+                <td><%= metadata['SpatialInformation']['HorizontalCoordinateSystem']['GeodeticModel']['EllipsoidName'] %></td>
+                <td><%= metadata['SpatialInformation']['HorizontalCoordinateSystem']['GeodeticModel']['SemiMajorAxis'] %></td>
+                <td><%= metadata['SpatialInformation']['HorizontalCoordinateSystem']['GeodeticModel']['DenominatorOfFlatteningRatio'] %></td>
+              </tr>
+            </tbody>
+            <thead>
+              <tr>
+                <th>Vert. Datum Name</th>
+                <th>Distance Units</th>
+                <th>Encoding Method</th>
+                <th>Resolutions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><%= metadata['SpatialInformation']['VerticalCoordinateSystem']['AltitudeSystemDefinition']['DatumName'] %></td>
+                <td><%= metadata['SpatialInformation']['VerticalCoordinateSystem']['AltitudeSystemDefinition']['DistanceUnits'] %></td>
+                <td><%= metadata['SpatialInformation']['VerticalCoordinateSystem']['AltitudeSystemDefinition']['EncodingMethod'] %></td>
+                <td><%= metadata['SpatialInformation']['VerticalCoordinateSystem']['AltitudeSystemDefinition']['Resolutions'] %></td>
+              </tr>
+            </tbody>
+          <% end %>
+        </table>
+      <% end %>
+
     </ul>
   </div>
 </div>

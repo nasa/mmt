@@ -37,12 +37,12 @@ table {
 
 .preview table th {
   background: darken($light-blue, 4%);
-
-  &[colspan] {
-    background: darken($light-blue, 8%);
-  }
 }
 
 .preview table tr:nth-child(2n+2) {
   background: $light-blue;
+}
+
+.preview table .table-header-span {
+  background: darken($light-blue, 8%);
 }

@@ -12,7 +12,7 @@
         <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Paleo Temporal Coverage</span>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', { anchor: 'paleo-temporal-coverage' }), { class: 'hash-link' } %><% end %>
         <thead>
           <tr>
-            <th colspan="5">Paleo Temporal Coverage <%= metadata['PaleoTemporalCoverage']['StartDate'] %> to <%= metadata['PaleoTemporalCoverage']['EndDate'] %></th>
+            <th colspan="5" class="table-header-span">Paleo Temporal Coverage <%= metadata['PaleoTemporalCoverage']['StartDate'] %> to <%= metadata['PaleoTemporalCoverage']['EndDate'] %></th>
           </tr>
           <tr>
             <th>Eon</th>

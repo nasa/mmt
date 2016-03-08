@@ -23,16 +23,24 @@
       <h4>Spatial Coordinates</h4>
       <% preview_spatial = get_preview_spatial(metadata) %>
       <ol class="coordinates no-bullets sidebar-list" id="coordinates">
-        <% preview_spatial['point_coordinate_array'].each do |point| %>
-          <li><span class="preview-sidebar-item">Lat: <%= point['lat'] %></span</li>
-          <li><span class="preview-sidebar-item">Lon: <%= point['lon'] %></span></li>
+        <% if preview_spatial['point_coordinate_array'].blank? %>
+          <% else %>
+          <li class="label">Points</li>
+          <% preview_spatial['point_coordinate_array'].each do |point| %>
+            <li><span class="preview-sidebar-item">Lat: <%= point['lat'] %></span</li>
+            <li><span class="preview-sidebar-item">Lon: <%= point['lon'] %></span></li>
+          <% end %>
         <% end %>
 
-        <% preview_spatial['rectangle_coordinate_array'].each do |rectangle| %>
-          <li><span class="preview-sidebar-item">N: <%= rectangle['north_bounding_coordinate'] %></span></li>
-          <li><span class="preview-sidebar-item">S: <%= rectangle['south_bounding_coordinate'] %></span></li>
-          <li><span class="preview-sidebar-item">E: <%= rectangle['east_bounding_coordinate'] %></span></li>
-          <li><span class="preview-sidebar-item">W: <%= rectangle['west_bounding_coordinate'] %></span></li>
+        <% if preview_spatial['rectangle_coordinate_array'].blank? %>
+          <% else %>
+          <li class="label">Bounding Rectangle</li>
+          <% preview_spatial['rectangle_coordinate_array'].each do |rectangle| %>
+            <li><span class="preview-sidebar-item">N: <%= rectangle['north_bounding_coordinate'] %></span></li>
+            <li><span class="preview-sidebar-item">S: <%= rectangle['south_bounding_coordinate'] %></span></li>
+            <li><span class="preview-sidebar-item">E: <%= rectangle['east_bounding_coordinate'] %></span></li>
+            <li><span class="preview-sidebar-item">W: <%= rectangle['west_bounding_coordinate'] %></span></li>
+          <% end %>
         <% end %>
 
         <% if preview_spatial['point_coordinate_array'].size == 0 && preview_spatial['rectangle_coordinate_array'].size == 0 %>
