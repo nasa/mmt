@@ -10,9 +10,13 @@ describe 'Data identification preview' do
       end
 
       it 'does not display metadata' do
-        within 'ul.collection-information-preview' do
-          expect(page).to have_no_content('Abstract')
-          expect(page).to have_no_content('Purpose')
+        within 'ul.data-identification-preview' do
+          expect(page).to have_no_content('Data Dates')
+          expect(page).to have_content('This collection\'s processing level has not been specified.')
+          expect(page).to have_no_content('Use Constraints')
+          expect(page).to have_no_content('Access Constraints')
+          expect(page).to have_no_content('Metadata Associations')
+          expect(page).to have_no_content('Publication References')
         end
       end
     end
