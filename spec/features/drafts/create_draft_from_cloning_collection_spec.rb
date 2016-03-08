@@ -40,8 +40,8 @@ describe 'Create new draft from cloning a collection', js: true, reset_provider:
     end
 
     it 'appends " - Cloned" to the metadata' do
-      within '.collection-information-preview' do
-        expect(page).to have_content("Entry Title: #{entry_title} - Cloned")
+      within '.collection-basics' do
+        expect(page).to have_content("#{entry_title} - Cloned")
       end
     end
 
