@@ -46,7 +46,6 @@ class GroupsController < ApplicationController
     concept_id = params[:id]
     delete_group_request = cmr_client.delete_group(concept_id, token)
     if delete_group_request.success?
-      # success message
       flash[:success] = "Group #{concept_id} successfully deleted."
       redirect_to groups_path
     else

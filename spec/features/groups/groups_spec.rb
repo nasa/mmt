@@ -17,19 +17,9 @@ describe 'Groups' do
     end
 
     it 'redirects to groups index page' do
-      within 'main header' do
+      within 'main header h2' do
         expect(page).to have_content('Groups') # match groups index.html.erb title
       end
     end
-  end
-
-  context 'when deleting a group' do
-    # create a new group
-
-    # delete the group
-
-    it 'redirects to ___ page'
-
-    it 'displays group deletion success message'
   end
 end
