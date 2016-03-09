@@ -9,7 +9,10 @@ describe 'New Groups', reset_provider: true, js: true do
   context 'when visiting the new group page' do
     before do
       login
-      visit new_group_path
+      VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
+        # will raise error about Faraday HTTP adapter, see https://github.com/vcr/vcr/issues/159
+        visit new_group_path
+      end
     end
 
     it 'displays the new group information entry fields' do
@@ -25,7 +28,9 @@ describe 'New Groups', reset_provider: true, js: true do
       context 'when saving without a Group Name' do
         before do
           fill_in 'Group Description', with: group_description
-          click_on 'Save'
+          VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
+            click_on 'Save'
+          end
         end
 
         it 'displays the correct error message' do
@@ -40,7 +45,9 @@ describe 'New Groups', reset_provider: true, js: true do
       context 'when saving without a description' do
         before do
           fill_in 'Group Name', with: group_name
-          click_on 'Save'
+          VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
+            click_on 'Save'
+          end
         end
 
         it 'displays the correct error message' do
@@ -54,7 +61,9 @@ describe 'New Groups', reset_provider: true, js: true do
 
       context 'when saving without name or description' do
         before do
-          click_on 'Save'
+          VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
+            click_on 'Save'
+          end
         end
 
         it 'displays the correct error message' do
@@ -119,17 +128,30 @@ describe 'New Groups', reset_provider: true, js: true do
       before do
         fill_in 'Group Name', with: group_name
         fill_in 'Group Description', with: group_description
-        click_on 'Save'
       end
 
-      it 'displays a success message' do
-        expect(page).to have_content('Group was successfully created.')
-      end
+      context 'when no members are added' do
+        before do
+          VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
+            click_on 'Save'
+          end
+        end
 
-      it 'displays the group information' do
-        within '#main-content header' do
-          expect(page).to have_content(group_name)
-          expect(page).to have_content(group_description)
+        it 'displays the group information' do
+          within '#main-content header' do
+            expect(page).to have_content(group_name)
+            expect(page).to have_content(group_description)
+          end
+        end
+
+        it 'displays a success message' do
+          expect(page).to have_content('Group was successfully created.')
+        end
+
+        it 'does not have any members' do
+          within '#groups-table tbody' do
+            expect(page).to have_no_css('tr td')
+          end
         end
       end
     end

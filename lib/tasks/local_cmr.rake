@@ -11,7 +11,7 @@ namespace :cmr do
 
   desc 'Start local CMR'
   task start: [:stop] do
-    Process.spawn('cd cmr; java -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr_logs.log &')
+    Process.spawn('cd cmr; java -XX:-OmitStackTraceInFastThrow -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr_logs.log &')
     puts 'Cmr is starting up'
   end
 
