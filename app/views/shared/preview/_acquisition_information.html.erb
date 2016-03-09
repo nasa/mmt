@@ -14,29 +14,39 @@
       <% end %>
     </h5>
     <% if metadata['Platforms'].blank? %>
-      <p class="empty-section">No platforms or instruments have been added to this associated with this collection.</p>
-    <% end %>
-
-    <ul class="cards">
-      <% metadata['Platforms'].each do |platform| %>
-        <li class="card">
-          <div class="card-header">
-            <h5 class="card-header-title"><%= platform['Type'] %></h5>
-            <span class="card-header-badge"><%= platform['ShortName'] %></span>
-          </div>
-          <div class="card-body active">
-            <div class="card-body-details">
-              <h6>Instruments</h6>
-              <ul>
-                <% platform['Instruments'].each do |instrument| %>
-                  <li><%= instrument['ShortName'] %></li>
-                <% end %>
-              </ul>
+      <p class="empty-section">
+        No platforms or instruments have been added to this associated with this collection.
+      </p>
+    <% else %>
+      <ul class="platform-cards cards">
+        <% metadata['Platforms'].each do |platform| %>
+          <li class="card">
+            <div class="card-header">
+              <h5 class="card-header-title">
+                <%= platform['Type'] %>
+              </h5>
+              <% if platform['ShortName'] %>
+                <span class="card-header-badge">
+                  <%= platform['ShortName'] %>
+                </span>
+              <% end %>
             </div>
-          </div>
-        </li>
-      <% end %>
-    </ul>
+            <div class="card-body active">
+              <div class="card-body-details">
+                <h6>Instruments</h6>
+                <% if platform['Instruments'] %>
+                  <ul>
+                    <% platform['Instruments'].each do |instrument| %>
+                      <li><%= instrument['ShortName'] %></li>
+                    <% end %>
+                  </ul>
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
 
     <% if metadata['Projects'] %>
       <h5>
@@ -45,7 +55,7 @@
           <%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Projects"'.html_safe, draft_edit_form_path(@draft, 'acquisition_information', { anchor: 'projects' }), { class: 'hash-link' } %>
         <% end %>
       </h5>
-      <table>
+      <table class="projects-table">
         <thead>
           <tr>
             <th>Project Short Name</th>
@@ -58,7 +68,7 @@
             <tr>
               <% if project['ShortName'] %>
                 <td><%= project['ShortName'] %></td>
-                <% else %>
+              <% else %>
                 <td class="empty-section">No short name provided.</td>
               <% end %>
 
@@ -70,7 +80,7 @@
                     <% end %>
                   </ul>
                 </td>
-                <% else %>
+              <% else %>
                 <td class="empty-section">No campaigns listed.</td>
               <% end %>
 
@@ -81,7 +91,7 @@
                     to <%= project['EndDate'].split('T')[0] %>
                   <% end %>
                 </td>
-                <% else %>
+              <% else %>
                 <td class="empty-section">No dates provided.</td>
               <% end %>
             </tr>
@@ -89,6 +99,5 @@
         </tbody>
       </table>
     <% end %>
-
   </div>
 </div>
