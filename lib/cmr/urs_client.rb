@@ -26,7 +26,7 @@ module Cmr
     def get_client_token
       # URS API says that the client token expires in 3600 (1 hr)
       # so cache token for one hour, and if needed will run request again
-      Rails.cache.fetch('client-token', expires_in: 1.hour) do
+      Rails.cache.fetch('client-token', expires_in: 55.minutes) do
         client_access = Cmr::Response.new(connection.post('/oauth/token?grant_type=client_credentials'))
         if client_access.success?
           client_access_token = client_access.body['access_token']
