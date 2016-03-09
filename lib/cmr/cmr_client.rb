@@ -136,7 +136,7 @@ module Cmr
       else
         url = "/access-control/groups/#{concept_id}"
       end
-      get(url, token_header(token))
+      get(url, {}, token_header(token))
     end
   end
 end
