@@ -45,22 +45,27 @@ class GroupsController < ApplicationController
         group_creation_error = Array.wrap(group_creation.body['errors'])[0]
         flash[:error] = group_creation_error
         @group = group
+        set_previously_selected_members(members)
         render :new
       end
     else
       @group = group
-      all_users = request_all_users
-      selected = []
-      not_selected = []
-      all_users.each { |user| members.include?(user[:uid]) ? selected << user : not_selected << user }
-
-      @users_options = map_and_sort_for_select(not_selected)
-      @selected_users = map_and_sort_for_select(selected)
+      set_previously_selected_members(members)
       render :new
     end
   end
 
   private
+
+  def set_previously_selected_members(members)
+    all_users = request_all_users
+    selected = []
+    not_selected = []
+    all_users.each { |user| members.include?(user[:uid]) ? selected << user : not_selected << user }
+
+    @users_options = map_and_sort_for_select(not_selected)
+    @selected_users = map_and_sort_for_select(selected)
+  end
 
   def request_group_members(concept_id, token)
     group_members_request = cmr_client.get_group_members(concept_id, token)
