@@ -7,7 +7,6 @@
     </a>
   </div>
   <div class="accordion-body">
-
     <h5>
       Platforms
       <% if @draft.present? %>
@@ -18,8 +17,6 @@
       <p class="empty-section">No platforms or instruments have been added to this associated with this collection.</p>
     <% end %>
 
-    <%= metadata['Platforms'] %>
-
     <ul class="cards">
       <% metadata['Platforms'].each do |platform| %>
         <li class="card">
@@ -29,26 +26,69 @@
           </div>
           <div class="card-body active">
             <div class="card-body-details">
-              <p>
-                <%= platform['Instruments'] %>
-              </p>
+              <h6>Instruments</h6>
+              <ul>
+                <% platform['Instruments'].each do |instrument| %>
+                  <li><%= instrument['ShortName'] %></li>
+                <% end %>
+              </ul>
             </div>
           </div>
         </li>
       <% end %>
     </ul>
 
-    <h5>
-      Projects
-      <% if @draft.present? %>
-        <%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Projects"'.html_safe, draft_edit_form_path(@draft, 'acquisition_information', { anchor: 'projects' }), { class: 'hash-link' } %>
-      <% end %>
-    </h5>
-    <%= render partial: 'shared/preview/preview_type', locals: {
-        data: metadata['Projects'],
-        name: 'Projects',
-        type: TypesHelper::ProjectsType
-    } %>
+    <% if metadata['Projects'] %>
+      <h5>
+        Projects
+        <% if @draft.present? %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Projects"'.html_safe, draft_edit_form_path(@draft, 'acquisition_information', { anchor: 'projects' }), { class: 'hash-link' } %>
+        <% end %>
+      </h5>
+      <table>
+        <thead>
+          <tr>
+            <th>Project Short Name</th>
+            <th>Campaigns</th>
+            <th>Project Dates</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% metadata['Projects'].each do |project| %>
+            <tr>
+              <% if project['ShortName'] %>
+                <td><%= project['ShortName'] %></td>
+                <% else %>
+                <td class="empty-section">No short name provided.</td>
+              <% end %>
+
+              <% if project['Campaigns'] %>
+                <td>
+                  <ul class="is-condensed">
+                    <% project['Campaigns'].each do |campaign| %>
+                      <li><%= campaign %></li>
+                    <% end %>
+                  </ul>
+                </td>
+                <% else %>
+                <td class="empty-section">No campaigns listed.</td>
+              <% end %>
+
+              <% if project['StartDate'] or project['EndDate'] %>
+                <td>
+                  <%= project['StartDate'].split('T')[0] %>
+                  <% if project['EndDate'] %>
+                    to <%= project['EndDate'].split('T')[0] %>
+                  <% end %>
+                </td>
+                <% else %>
+                <td class="empty-section">No dates provided.</td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
 
   </div>
 </div>
