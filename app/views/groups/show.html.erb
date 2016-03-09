@@ -28,10 +28,12 @@
   <div class="row row-content">
     <section>
       <div class="flex-center">
-        <div class="row disabled">
-          <a href="#">Send Email to All Members (0)</a> |
-          <a href="#">Edit Name & Description</a> |
-          <a href="#">Delete Group</a>
+        <div class="row">
+          <a href="#" class="disabled">Send Email to All Members (0)</a> |
+          <a href="#" class="disabled">Edit Name & Description</a> |
+          <%= link_to 'Delete Group', group_path(@group), method: :delete %>
+          <!-- need concept_id for group_path -->
+          <!-- <a href="#">Delete Group</a> -->
         </div>
       </div>
       <hr>

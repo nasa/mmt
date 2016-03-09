@@ -138,5 +138,14 @@ module Cmr
       end
       get(url, token_header(token))
     end
+
+    def delete_group(concept_id, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/groups/#{concept_id}"
+      else
+        url = "/access-control/groups/#{concept_id}"
+      end
+      delete(url, {}, token_header(token))
+    end
   end
 end

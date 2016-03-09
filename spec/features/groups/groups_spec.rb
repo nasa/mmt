@@ -22,4 +22,14 @@ describe 'Groups' do
       end
     end
   end
+
+  context 'when deleting a group' do
+    # create a new group
+
+    # delete the group
+
+    it 'redirects to ___ page'
+
+    it 'displays group deletion success message'
+  end
 end
