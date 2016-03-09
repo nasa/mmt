@@ -136,7 +136,7 @@ module Cmr
       else
         url = "/access-control/groups/#{concept_id}"
       end
-      get(url, token_header(token))
+      get(url, {}, token_header(token))
     end
 
     def add_users_to_local_cmr(user_uids, token) # need token?
