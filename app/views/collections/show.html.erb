@@ -16,7 +16,7 @@
             <% if @current_user.provider_id == @provider_id %>
               <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
             <% elsif @current_user.available_providers.include?(@provider_id) %>
-              <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, collection_action: 'edit' } %>
+              <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-collection' } %>
             <% end %>
           </p>
         <% end %>

@@ -20,26 +20,24 @@ describe 'Viewing search results', js: true do
 
     it 'displays the published record metadata' do
       # Data Identification
-      expect(page).to have_content("Short Name: #{short_name}")
-      expect(page).to have_content('Entry Title: 2000 Pilot Environmental Sustainability Index (ESI)')
+      expect(page).to have_content(short_name)
+      expect(page).to have_content('2000 Pilot Environmental Sustainability Index (ESI)')
 
       # Temporal Extent
-      expect(page).to have_content('Beginning Date Time: 1978-01-01T00:00:00.000Z')
-      expect(page).to have_content('Ending Date Time: 1999-12-31T00:00:00.000Z')
+      expect(page).to have_content('1978-01-01 to 1999-12-31')
 
       # Spatial Extent
-      expect(page).to have_content('West Bounding Coordinate: -180.0')
-      expect(page).to have_content('North Bounding Coordinate: 90.0')
-      expect(page).to have_content('East Bounding Coordinate: 180.0')
-      expect(page).to have_content('South Bounding Coordinate: -55.0')
+      expect(page).to have_content('W: -180.0')
+      expect(page).to have_content('N: 90.0')
+      expect(page).to have_content('E: 180.0')
+      expect(page).to have_content('S: -55.0')
 
       # Acquisition Information
-      expect(page).to have_content('Short Name: ESI')
-      expect(page).to have_content('Long Name: Environmental Sustainability Index')
+      expect(page).to have_content('ESI')
 
       # Distribution Information
-      expect(page).to have_content('Distribution Format: PDF')
-      expect(page).to have_content('Fees: $0.00')
+      expect(page).to have_content('PDF')
+      expect(page).to have_content('0')
     end
   end
 end
