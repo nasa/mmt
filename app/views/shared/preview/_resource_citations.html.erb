@@ -16,35 +16,55 @@
           <% end %>
         </h5>
 
-        <ul class="cards">
+        <ul class="collection-citation-cards cards">
           <% metadata['CollectionCitations'].each do |citation| %>
             <li class="card">
               <div class="card-header">
                 <% if citation['Title'].blank? %>
-                  <h5 class="card-header-title">Collection citation title not provided</h5>
-                  <% else %>
-                  <h5 class="card-header-title"><%= citation['Title'] %></h5>
+                  <h5 class="card-header-title">
+                    Collection citation title not provided
+                  </h5>
+                <% else %>
+                  <h5 class="card-header-title">
+                    <%= citation['Title'] %>
+                  </h5>
                 <% end %>
                 <% if citation['Version'] %>
-                  <span class="card-header-badge"><%= citation['Version'] %></span>
+                  <span class="card-header-badge">
+                    <%= citation['Version'] %>
+                  </span>
                 <% end %>
               </div>
+
               <div class="card-body active">
                 <div class="card-body-details-full">
                   <% if citation['Creator'] %>
-                    <p><b>Created by: </b><%= citation['Creator'] %></p>
+                    <p>
+                      <b>Created by: </b>
+                      <%= citation['Creator'] %>
+                    </p>
                   <% end %>
                   <% if citation['Editor'] %>
-                    <p><b>Editor: </b><%= citation['Editor'] %></p>
+                    <p>
+                      <b>Editor: </b>
+                      <%= citation['Editor'] %>
+                    </p>
                   <% end %>
                   <% if citation['Publisher'] %>
-                    <p><b>Published by: </b><%= citation['Publisher'] %></p>
+                    <p>
+                      <b>Published by: </b>
+                      <%= citation['Publisher'] %>
+                    </p>
                   <% end %>
                   <% if citation['ReleaseDate'] %>
-                    <p><b>Released: </b><%= citation['ReleaseDate'].split('T')[0] %></p>
+                    <p>
+                      <b>Released: </b>
+                      <%= citation['ReleaseDate'].split('T')[0] %>
+                    </p>
                   <% end %>
                 </div>
               </div>
+
               <% if citation['OtherCitationDetails'] %>
                 <div class="card-body">
                   <div class="card-body-details-full">
@@ -52,6 +72,7 @@
                   </div>
                 </div>
               <% end %>
+
               <% if citation['RelatedUrl'] %>
                 <div class="card-body">
                   <div class="card-body-details-full">
@@ -65,9 +86,14 @@
                   </div>
                 </div>
               <% end %>
+
               <div class="card-navigation">
                 <ul>
-                  <li class="card-navigation-control"><a href="" class="card-navigation-control-back"><i class="fa fa-chevron-left"></i></a></li>
+                  <li class="card-navigation-control">
+                    <a href="" class="card-navigation-control-back">
+                      <i class="fa fa-chevron-left"></i>
+                    </a>
+                  </li>
                   <li class="card-navigation-pagination">
                     <i class="fa fa-circle"></i>
                     <% if citation['RelatedUrl']%>
@@ -77,7 +103,11 @@
                       <i class="fa fa-circle-o"></i>
                     <% end %>
                   </li>
-                  <li class="card-navigation-control"><a href="" class="card-navigation-control-forward"><i class="fa fa-chevron-right"></i></a></li>
+                  <li class="card-navigation-control">
+                    <a href="" class="card-navigation-control-forward">
+                      <i class="fa fa-chevron-right"></i>
+                    </a>
+                  </li>
                 </ul>
               </div>
             </li>
