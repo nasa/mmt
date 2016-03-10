@@ -24,6 +24,46 @@
     }
   }
 
+  .collection-basics {
+    @include span-columns(8);
+  }
+
+  .collection-details {
+    @include span-columns(4);
+    padding: 1em;
+    height: 175px;
+    background: rgba($true-black,0.5);
+
+    .badge {
+      a:link,
+      a:visited {
+        color: $white;
+      }
+    }
+
+    .version {
+      background: $royal-purple;
+    }
+
+    .language {
+      background: $midnight-blue;
+    }
+
+    .nrt {
+      background: $dark-green;
+    }
+
+    p {
+      color: $dolphin-grey;
+      font-size: 0.9em;
+    }
+
+    a:link,
+    a:visited {
+      color: $dolphin-grey;
+    }
+  }
+
   .row-content {
     padding: 0.5em 0;
   }

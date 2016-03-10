@@ -146,6 +146,34 @@ module Cmr
         url = "/access-control/groups/#{concept_id}"
       end
       delete(url, {}, token_header(token))
+
+    def add_users_to_local_cmr(user_uids, token) # need token?
+      # curl -H "Content-Type: application/json" http://localhost:3008/urs/users -d
+      # '[{"username": "user1", "password": "user1pass"}, ...]'
+      # local cmr requires 'username' and 'password' fields
+      users = user_uids.map { |uid| { 'username' => uid, 'password' => 'password'} }
+      url = 'http://localhost:3008/urs/users'
+      post(url, users.to_json, token_header(token))
+    end
+
+    def add_group_members(concept_id, user_uids, token)
+      # if using local cmr, need to add users to it
+      if Rails.env.development? || Rails.env.test?
+        add_users_to_local_cmr(user_uids, token)
+        url = "http://localhost:3011/groups/#{concept_id}/members"
+      else
+        url = "/access-control/groups/#{concept_id}/members"
+      end
+      post(url, user_uids.to_json, token_header(token))
+    end
+
+    def get_group_members(concept_id, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/groups/#{concept_id}/members"
+      else
+        url = "/access-control/groups/#{concept_id}/members"
+      end
+      get(url, {}, token_header(token))
     end
   end
 end

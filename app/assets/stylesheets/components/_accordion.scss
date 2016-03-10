@@ -7,16 +7,11 @@
 }
 
 .accordion-header {
-  padding: 1em 1.5em;
-  background-color: $light-grey;
+  padding: 1em 0;
   cursor: pointer;
   font-weight: bold;
   color: darken($dolphin-grey, 20%);
   @include transition(all 0.25s ease-in-out);
-
-  &:hover {
-    background-color: darken($light-grey, 3%);
-  }
 
   .actions {
     display: inline-block;
@@ -35,7 +30,7 @@
 
 .accordion-body {
   margin: 0;
-  padding: 1em 1.5em;
+  padding: 0;
 
   .accordion-header {
     padding: 0;
@@ -61,13 +56,28 @@
 
 .preview-collection {
 
-  .accordion-header {
-    padding: 1em;
+  p {
     margin: 0;
-    border-left: 1px solid darken($light-grey, 10%);
+  }
+
+  li {
+    margin-bottom: 1em;
+  }
+
+  .accordion-header {
+    padding: 0.5em 0;
+    margin: 0 0 0.5em 0;
+    border-bottom: 1px solid $light-grey;
   }
 
   .accordion-body {
-    padding: 1em;
+    padding: 0;
+    margin-bottom: 1em;
   }
+}
+
+.preview-collection .empty-section {
+  color: $dolphin-grey;
+  font-style: italic;
+  margin: 1em 0;
 }

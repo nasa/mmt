@@ -29,21 +29,8 @@ describe 'Collection Information form', js: true do
       open_accordions
     end
 
-    it 'shows the draft preview page' do
-      expect(page).to have_content('Draft Title')
-    end
-
-    it 'shows pre-entered values in the draft preview page' do
-      within '.preview' do
-        expect(page).to have_content('12345', count: 1)
-        expect(page).to have_content('v2', count: 1)
-        expect(page).to have_content('Draft Title', count: 1)
-        expect(page).to have_content('This is a long description of the collection', count: 1)
-        expect(page).to have_content('This is the purpose field', count: 1)
-      end
-
-      expect(page).to have_content('No Temporal Coverages found')
-      expect(page).to have_content('No Spatial Coordinates found')
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     context 'when returning to the form' do
