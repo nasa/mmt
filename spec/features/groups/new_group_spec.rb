@@ -153,34 +153,34 @@ describe 'New Groups', reset_provider: true, js: true do
             expect(page).to have_no_css('tr td')
           end
         end
-      end
 
-      context 'when then deleting the group' do
-        let(:concept_id) { page.current_path.delete('/groups/') }
+        context 'when then deleting the group' do
+          let(:concept_id) { page.current_path.delete('/groups/') }
 
-        before do
-          concept_id # not sure why, the tests won't use concept_id correctly unless I call it here
-          click_link 'Delete Group'
-        end
-
-        it 'redirects to groups index page' do
-          within 'main header h2' do
-            expect(page).to have_content('Groups')
-          end
-        end
-
-        it 'displays a success message' do
-          expect(page).to have_content("Group #{group_name} successfully deleted.")
-        end
-
-        context 'when then trying to visit the group page with concept id' do
           before do
-            visit "/groups/#{concept_id}"
+            concept_id # not sure why, the tests won't use concept_id correctly unless I call it here
+            click_link 'Delete Group'
           end
 
-          it 'displays an error message' do
-            expect(page).to have_css('div.banner-danger')
-            expect(page).to have_content("Group with concept id [#{concept_id}] was deleted.")
+          it 'redirects to groups index page' do
+            within 'main header h2' do
+              expect(page).to have_content('Groups')
+            end
+          end
+
+          it 'displays a success message' do
+            expect(page).to have_content("Group #{group_name} successfully deleted.")
+          end
+
+          context 'when then trying to visit the group page with concept id' do
+            before do
+              visit "/groups/#{concept_id}"
+            end
+
+            it 'displays an error message' do
+              expect(page).to have_css('div.banner-danger')
+              expect(page).to have_content("Group with concept id [#{concept_id}] was deleted.")
+            end
           end
         end
       end

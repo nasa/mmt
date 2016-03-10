@@ -146,6 +146,7 @@ module Cmr
         url = "/access-control/groups/#{concept_id}"
       end
       delete(url, {}, token_header(token))
+    end
 
     def add_users_to_local_cmr(user_uids, token) # need token?
       # curl -H "Content-Type: application/json" http://localhost:3008/urs/users -d
