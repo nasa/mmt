@@ -243,7 +243,7 @@ $(document).ready ->
 
         # does the error id match the visitedFields
         visited = visitedFields.filter (e) ->
-          return e.match(error.id)
+          return e == error.id
         .length > 0
 
         if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1
