@@ -148,7 +148,7 @@ describe 'New Groups', reset_provider: true, js: true do
         end
 
         it 'displays a success message' do
-          expect(page).to have_content("Group #{concept_id} successfully deleted.")
+          expect(page).to have_content("Group #{group_name} successfully deleted.")
         end
 
         context 'when then trying to visit the group page with concept id' do
