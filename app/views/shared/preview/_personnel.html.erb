@@ -94,7 +94,7 @@
                 <% end %>
               </div>
             </div>
-            <% if party['Addresses'].length > 1 %>
+            <% if party['Addresses'] && party['Addresses'].length > 1 %>
               <% party['Addresses'].drop(1).each do |address| %>
                 <div class="card-body">
                   <div class="card-body-details-full">
@@ -159,8 +159,10 @@
                 </li>
                 <li class="card-navigation-pagination">
                   <i class="fa fa-circle"></i>
-                  <% (party['Addresses'].length - 1).times do %>
-                    <i class="fa fa-circle-o"></i>
+                  <% if party['Addresses'] %>
+                    <% (party['Addresses'].length - 1).times do %>
+                      <i class="fa fa-circle-o"></i>
+                    <% end %>
                   <% end %>
                   <% if party['ContactInstructions'] %>
                     <i class="fa fa-circle-o"></i>
