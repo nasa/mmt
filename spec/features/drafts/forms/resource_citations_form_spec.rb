@@ -25,48 +25,8 @@ describe 'Resource citations form', js: true do
       open_accordions
     end
 
-    it 'shows the draft preview page' do
-      expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-    end
-
-    it 'shows pre-entered values in the draft preview page' do
-      within '.preview' do
-        expect(page).to have_content('v1')
-        expect(page).to have_content('Citation title')
-        expect(page).to have_content('Citation creator')
-        expect(page).to have_content('Citation editor')
-        expect(page).to have_content('Citation series name')
-        expect(page).to have_content('2015-07-01T00:00:00Z')
-        expect(page).to have_content('Citation release place')
-        expect(page).to have_content('Citation publisher')
-        expect(page).to have_content('Citation issue identification')
-        expect(page).to have_content('Citation data presentation form')
-        expect(page).to have_content('Citation other details')
-        expect(page).to have_content('Citation DOI')
-        expect(page).to have_content('Citation DOI Authority')
-
-        expect(page).to have_content('http://example.com')
-        expect(page).to have_content('http://another-example.com')
-        expect(page).to have_content('Example Description')
-        expect(page).to have_content('text/html')
-        expect(page).to have_content('Example Title')
-        expect(page).to have_content('42.0')
-        expect(page).to have_content('MB')
-        expect(page).to have_content('v2')
-        expect(page).to have_content('Citation title 1')
-        expect(page).to have_content('Citation creator 1')
-
-        expect(page).to have_content('http://example.com')
-        expect(page).to have_content('http://another-example.com')
-        expect(page).to have_content('Example Description')
-        expect(page).to have_content('text/html')
-        expect(page).to have_content('Example Title')
-        expect(page).to have_content('42.0')
-        expect(page).to have_content('MB')
-      end
-
-      expect(page).to have_content('No Temporal Coverages found')
-      expect(page).to have_content('No Spatial Coordinates found')
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     context 'when returning to the form' do

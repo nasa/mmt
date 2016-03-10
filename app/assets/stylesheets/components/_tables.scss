@@ -20,9 +20,29 @@ table {
       background: $light-grey;
     }
   }
+
+  th[colspan] {
+    text-align: center;
+  }
 }
 
 .cell-primary-cta {
   width: 80%;
   text-align: left;
+}
+
+.preview table, .preview table td, .preview table th {
+  border: 1px solid darken($light-blue, 8%);
+}
+
+.preview table th {
+  background: darken($light-blue, 4%);
+}
+
+.preview table tr:nth-child(2n+2) {
+  background: $light-blue;
+}
+
+.preview table .table-header-span {
+  background: darken($light-blue, 8%);
 }

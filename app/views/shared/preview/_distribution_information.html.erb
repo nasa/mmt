@@ -1,27 +1,82 @@
-<div class="preview-collection accordion is-closed">
-  <div class="accordion-header">
-    <h4>Distribution Information Fields</h4>
-    <a href="#" class="float-r">
-      <i class="fa fa-angle-down toggle"></i>
-      <span class="is-invisible">Toggle Distribution Information Fields</span>
-    </a>
-  </div>
-  <div class="accordion-body">
-    <ul class="distribution-information-preview">
-      <h4>Related URLs <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Related URLs</span>'.html_safe, draft_edit_form_path(@draft, 'distribution_information', {anchor: 'related-urls'}), {class: 'hash-link'} %><% end %></h4>
-      <%= render partial: 'shared/preview/preview_type', locals: {
-          data: metadata['RelatedUrls'],
-          name: 'RelatedUrls',
-          type: TypesHelper::RelatedUrlsType
-      } %>
+<div class="distribution-information-preview preview-collection">
+  <% if (metadata['RelatedUrls'] || metadata['Distributions']).blank? %>
+    <p class="empty-section">
+      There is no distribution information for this collection.
+    </p>
+  <% end %>
+  <% if metadata['Distributions'] %>
+    <h5>Distributions</h5>
+    <table>
+      <thead>
+        <tr>
+          <th>Media</th>
+          <th>Format</th>
+          <th>Sizes</th>
+          <th>Fees</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% metadata['Distributions'].each do |distribution| %>
+          <tr>
+            <td><%= distribution['DistributionMedia'] %></td>
+            <td><%= distribution['DistributionFormat'] %></td>
+            <td>
+              <% if distribution['Sizes'] %>
+                <% distribution['Sizes'].each do |size| %>
+                  <%= size['Size'] %><%= size['Unit'] %>
+                <% end %>
+              <% end %>
+            </td>
+            <td><%= distribution['Fees'] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 
-      <h4>Distributions <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Distributions</span>'.html_safe, draft_edit_form_path(@draft, 'distribution_information', {anchor: 'distributions'}), {class: 'hash-link'} %><% end %></h4>
-      <%= render partial: 'shared/preview/preview_type', locals: {
-          data: metadata['Distributions'],
-          name: 'Distributions',
-          type: TypesHelper::DistributionsType
-      } %>
-
+  <% if metadata['RelatedUrls'].blank? %>
+    <p class="empty-section">There are no related URLs for this collection.</p>
+  <% else %>
+    <h5>Related URLs</h5>
+    <ul class="related-urls-cards cards">
+      <% metadata['RelatedUrls'].each do |url| %>
+        <li class="card">
+          <div class="card-header">
+            <% if url['Title'].blank? %>
+              <h5 class="card-header-title">Related URL</h5>
+              <span class="card-header-badge ocean-blue">
+                <i class="ed-icon ed-fa-link"></i>
+              </span>
+            <% else %>
+              <h5 class="card-header-title"><%= url['Title'] %></h5>
+              <span class="card-header-badge ocean-blue">
+                <i class="ed-icon ed-fa-link"></i>
+              </span>
+            <% end %>
+          </div>
+          <div class="card-body active">
+            <div class="card-body-details-full">
+              <% if url['Description'] %>
+                <p><%= url['Description'] %></p>
+              <% end %>
+              <% if url['URLs'] %>
+                <% url['URLs'].each do |url| %>
+                  <a href="<%= url %>"><%= url %></a></br>
+                <% end %>
+              <% end %>
+            </div>
+            <% if url['Relation'] %>
+              <div class="card-body-aside">
+                <ul>
+                  <% url['Relation'].each do |relation| %>
+                    <li><%= relation %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        </li>
+      <% end %>
     </ul>
-  </div>
+  <% end %>
 </div>

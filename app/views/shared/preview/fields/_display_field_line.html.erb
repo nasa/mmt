@@ -12,9 +12,7 @@
     <% end %>
 
     <li class="<%= name_to_class(key_name)%>">
-      <span class="field-name">
-        <%= title_override || name_to_title(key_name) %>:
-      </span>
+      <span class="field-name"><%= title_override || name_to_title(key_name) %></span><br />
       <%= value %>
     </li>
 

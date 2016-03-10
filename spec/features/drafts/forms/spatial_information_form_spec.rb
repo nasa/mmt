@@ -75,53 +75,8 @@ describe 'Spatial information form', js: true do
         open_accordions
       end
 
-      it 'shows the draft preview page including horizontal spatial data' do
-        expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-      end
-
-      it 'shows pre-entered values in the draft preview page including horizontal spatial data' do
-        expect(page).to have_content('Spatial Coverage Type: Horizontal')
-        expect(page).to have_content('Zone Identifier: Zone ID')
-        expect(page).to have_content('Coordinate System: Cartesian')
-        expect(page).to have_content('Longitude: -77.047878')
-        expect(page).to have_content('Latitude: 38.805407')
-        expect(page).to have_content('Longitude: -76.9284587')
-        expect(page).to have_content('Latitude: 38.968602')
-
-        expect(page).to have_content('Granule Spatial Representation: Cartesian')
-        expect(page).to have_content('Tiling Identification System Name: System name')
-        expect(page).to have_content('Minimum Value: -50.0')
-        expect(page).to have_content('Maximum Value: 50.0')
-        expect(page).to have_content('Minimum Value: -30.0')
-        expect(page).to have_content('Maximum Value: 30.0')
-        expect(page).to have_content('Tiling Identification System Name: System name 1')
-        expect(page).to have_content('Minimum Value: -25.0')
-        expect(page).to have_content('Maximum Value: 25.0')
-        expect(page).to have_content('Minimum Value: -15.0')
-        expect(page).to have_content('Maximum Value: 15.0')
-        expect(page).to have_content('Spatial Coverage Type: Horizontal')
-        expect(page).to have_content('Horizontal Datum Name: Datum name')
-        expect(page).to have_content('Ellipsoid Name: Ellipsoid name')
-        expect(page).to have_content('Semi Major Axis: 3.0')
-        expect(page).to have_content('Denominator Of Flattening Ratio: 4.0')
-        expect(page).to have_content('Geographic Coordinate Units: Coordinate units')
-        expect(page).to have_content('Latitude Resolution: 42.0')
-        expect(page).to have_content('Longitude Resolution: 43.0')
-        expect(page).to have_content('Spatial Keywords GEOGRAPHIC REGION > ARCTIC OCEAN > ATLANTIC OCEAN')
-
-        # Also check side bar
-        # Note that handling blank spatial extents is tested in other form tests that don't populate spatial extents
-        expect(page).to have_content('Lat: 38.805407')
-        expect(page).to have_content('Lon: -77.047878')
-        expect(page).to have_content('Lat: 38.968602')
-        expect(page).to have_content('Lon: -76.9284587')
-
-        expect(page).to have_content('No Temporal Coverages found')
-        expect(page).to have_no_content('No Spatial Coverages found')
-        expect(page).to have_no_content('No Spatial Keywords found')
-
-        expect(page).to have_content('Location Keywords GEOGRAPHIC REGION > ARCTIC
-OCEAN > ATLANTIC OCEAN')
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Draft was successfully updated')
       end
 
       context 'when returning to the form' do
@@ -227,39 +182,8 @@ OCEAN > ATLANTIC OCEAN')
         open_accordions
       end
 
-      it 'shows the draft preview page including horizontal spatial data' do
-        expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-      end
-
-      it 'shows pre-entered values in the draft preview page including horizontal spatial data' do
-        expect(page).to have_content('Spatial Coverage Type: Horizontal')
-        expect(page).to have_content('Zone Identifier: Zone ID')
-        expect(page).to have_content('Coordinate System: Cartesian')
-
-        expect(page).to have_content('West Bounding Coordinate: -180.0')
-        expect(page).to have_content('North Bounding Coordinate: 90.0')
-        expect(page).to have_content('East Bounding Coordinate: 180.0')
-        expect(page).to have_content('South Bounding Coordinate: -90.0')
-        expect(page).to have_content('West Bounding Coordinate: -96.9284587')
-        expect(page).to have_content('North Bounding Coordinate: 58.968602')
-        expect(page).to have_content('East Bounding Coordinate: -56.9284587')
-        expect(page).to have_content('South Bounding Coordinate: 18.968602')
-
-        expect(page).to have_content('Granule Spatial Representation: Cartesian')
-
-        # Also check side bar
-        expect(page).to have_content('N: 90')
-        expect(page).to have_content('S: -90')
-        expect(page).to have_content('E: 180')
-        expect(page).to have_content('W: -180')
-        expect(page).to have_content('N: 58.968602')
-        expect(page).to have_content('S: 18.968602')
-        expect(page).to have_content('E: -56.9284587')
-        expect(page).to have_content('W: -96.9284587')
-
-        expect(page).to have_content('No Temporal Coverages found')
-        expect(page).to have_content('No Spatial Keywords found')
-        expect(page).to have_no_content('No Spatial Coverages found')
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Draft was successfully updated')
       end
 
       context 'when returning to the form' do
@@ -325,30 +249,8 @@ OCEAN > ATLANTIC OCEAN')
         open_accordions
       end
 
-      it 'shows the draft preview page including horizontal spatial data' do
-        expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-      end
-
-      it 'shows pre-entered values in the draft preview page including horizontal spatial data' do
-        expect(page).to have_content('Spatial Coverage Type: Horizontal')
-        expect(page).to have_content('Zone Identifier: Zone ID')
-        expect(page).to have_content('Coordinate System: Cartesian')
-
-        # polygons
-        expect(page).to have_content('Longitude: 10.0')
-        expect(page).to have_content('Latitude: 10.0')
-        expect(page).to have_content('Longitude: -10.0')
-        expect(page).to have_content('Latitude: -10.0')
-        expect(page).to have_content('Longitude: 38.98828125')
-        expect(page).to have_content('Latitude: -77.044921875')
-        expect(page).to have_content('Longitude: 38.935546875')
-        expect(page).to have_content('Latitude: -77.1240234375')
-        expect(page).to have_content('Longitude: 38.81689453125')
-        expect(page).to have_content('Latitude: -77.02734375')
-        expect(page).to have_content('Longitude: 38.900390625')
-        expect(page).to have_content('Latitude: -76.9130859375')
-
-        expect(page).to have_content('Granule Spatial Representation: Cartesian')
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Draft was successfully updated')
       end
 
       context 'when returning to the form' do
@@ -460,22 +362,8 @@ OCEAN > ATLANTIC OCEAN')
         open_accordions
       end
 
-      it 'shows the draft preview page including horizontal spatial data' do
-        expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-      end
-
-      it 'shows pre-entered values in the draft preview page including horizontal spatial data' do
-        expect(page).to have_content('Spatial Coverage Type: Horizontal')
-        expect(page).to have_content('Zone Identifier: Zone ID')
-        expect(page).to have_content('Coordinate System: Cartesian')
-
-        # lines
-        expect(page).to have_content('Longitude: 24.0')
-        expect(page).to have_content('Latitude: 24.0')
-        expect(page).to have_content('Longitude: 26.0')
-        expect(page).to have_content('Latitude: 26.0')
-
-        expect(page).to have_content('Granule Spatial Representation: Cartesian')
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Draft was successfully updated')
       end
 
       context 'when returning to the form' do
@@ -585,26 +473,8 @@ OCEAN > ATLANTIC OCEAN')
       open_accordions
     end
 
-    it 'shows the draft preview page including vertical spatial data' do
-      expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-    end
-
-    it 'shows pre-entered values in the draft preview page' do
-      expect(page).to have_content('Spatial Coverage Type: Vertical')
-      expect(page).to have_content('domain type', count: 2)
-      expect(page).to have_content('domain type 1')
-      expect(page).to have_content('domain value', count: 2)
-      expect(page).to have_content('domain value 1')
-      expect(page).to have_content('Granule Spatial Representation: Cartesian')
-      expect(page).to have_content('Spatial Coverage Type: Vertical')
-      expect(page).to have_content('Datum Name: datum name')
-      expect(page).to have_content('Distance Units: miles')
-      expect(page).to have_content('Encoding Method: encoding method')
-      expect(page).to have_content('Resolutions 3.0 4.0')
-
-      expect(page).to have_content('Datum Name: datum name 1')
-      expect(page).to have_content('Encoding Method: encoding method 1')
-      expect(page).to have_content('Resolutions 5.0 6.0')
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     context 'when returning to the form with vertical spatial data' do
@@ -718,31 +588,8 @@ OCEAN > ATLANTIC OCEAN')
       open_accordions
     end
 
-    it 'shows the draft preview page including orbital spatial data' do
-      expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-    end
-
-    it 'shows pre-entered values in the draft preview page including orbital spatial data' do
-      expect(page).to have_content('Spatial Coverage Type: Orbital')
-      expect(page).to have_content('Swath Width: 1.0')
-      expect(page).to have_content('Period: 2.0')
-      expect(page).to have_content('Inclination Angle: 3.0')
-      expect(page).to have_content('Number Of Orbits: 4.0')
-      expect(page).to have_content('Start Circular Latitude: 5.0')
-      expect(page).to have_content('Granule Spatial Representation: Cartesian')
-      expect(page).to have_content('Spatial Coverage Type: Both')
-      expect(page).to have_content('Horizontal Datum Name: Datum name')
-      expect(page).to have_content('Ellipsoid Name: Ellipsoid name')
-      expect(page).to have_content('Semi Major Axis: 3.0')
-      expect(page).to have_content('Denominator Of Flattening Ratio: 4.0')
-      expect(page).to have_content('Geo Reference Information: reference information')
-      expect(page).to have_content('Description: local description')
-      expect(page).to have_content('Distance Units: miles')
-      expect(page).to have_content('Encoding Method: encoding method')
-      expect(page).to have_content('Resolutions 3.0 4.0')
-      expect(page).to have_content('Datum Name: datum name 1')
-      expect(page).to have_content('Encoding Method: encoding method 1')
-      expect(page).to have_content('Resolutions 5.0 6.0')
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     context 'when returning to the form for orbital spatial data' do

@@ -20,8 +20,8 @@ describe 'Auto populating metadata dates', js: true do
     end
 
     it 'displays the create date on the collection page' do
-      within '.preview .metadata-dates .metadata-dates-0' do
-        expect(page).to have_content("Type: Creation Date: #{today_string}")
+      within '.metadata-dates-table' do
+        expect(page).to have_content("Creation #{today_string}")
       end
     end
 
@@ -44,22 +44,11 @@ describe 'Auto populating metadata dates', js: true do
       end
 
       it 'displays the update date, new metadata dates, and creation date on the collection page' do
-        # within '.preview .metadata-information-preview' do
-        within '.preview .metadata-dates .metadata-dates-0' do
-          expect(page).to have_content('Future Review')
-          expect(page).to have_content('2015-07-01T00:00:00Z')
-        end
-
-        within '.preview .metadata-dates .metadata-dates-1' do
-          expect(page).to have_content('Planned Deletion')
-          expect(page).to have_content('2015-07-02T00:00:00Z')
-        end
-
-        within '.preview .metadata-dates .metadata-dates-2' do
-          expect(page).to have_content("Type: Creation Date: #{today_string}")
-        end
-        within '.preview .metadata-dates .metadata-dates-3' do
-          expect(page).to have_content("Type: Last Revision Date: #{today_string}")
+        within '.metadata-dates-table' do
+          expect(page).to have_content('Future Review 2015-07-01T00:00:00Z')
+          expect(page).to have_content('Planned Deletion 2015-07-02T00:00:00Z')
+          expect(page).to have_content("Creation #{today_string}")
+          expect(page).to have_content("Last Revision #{today_string}")
         end
       end
     end

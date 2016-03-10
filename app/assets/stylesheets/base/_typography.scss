@@ -48,3 +48,11 @@ fieldset {
     color: $midnight-blue;
   }
 }
+
+/* Fake Label Class
+------------------------------------------*/
+.label {
+  display: block;
+  font-weight: bold;
+  color: $dolphin-grey;
+}

@@ -6,8 +6,18 @@
 
 .preview {
 
+  h5 {
+    margin: 1em 0 0.3em 0;
+  }
+
+  h6 {
+    font-weight: bold;
+    margin: 0.3em 0;
+    color: $dolphin-grey;
+  }
+
   .accordion-header {
-    h4 {
+    h4, h5 {
       display: inline;
     }
   }
@@ -36,40 +46,48 @@ ul.sub-field {
     h4 {
       border-bottom: 1px dotted $dolphin-grey;
       padding: 0.5em 0;
-      margin: 0 0 0.5em 0;
-    }
-
-    h4, h5 {
-      margin: 0.5em 0 0 0;
-    }
-
-    h6 {
-      margin: 0.3em 0;
-      font-weight: bold;
+      margin: 0.5em 0 0.5em 0;
     }
 
     ul {
       margin: 0;
-
-      li {
-        margin-top: 0.4em;
-      }
     }
   }
 
   .sub-field {
     li {
-      margin: 0 0.75em;
+      margin: 0;
     }
   }
 }
 
 .hash-link {
-  float: right;
-  opacity: 0.5;
+  opacity: 0.3;
   @include transition(all 0.15s ease-in-out);
+  float: left;
+  margin-left: -30px;
 
   &:hover {
     opacity: 1;
   }
+}
+
+.sidebar-list {
+  li {
+    margin: 0.4em 0;
+
+    &.label {
+      color: rgba($black, 0.8);
+      display: block;
+    }
+  }
+}
+
+.preview-sidebar-item {
+  color: $white;
+  background: $steel-blue;
+  margin: 0.125em 0;
+  padding: 0.25em 0.7em;
+  font-size: 0.85em;
+  border-radius: 3px;
 }

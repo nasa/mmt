@@ -100,6 +100,15 @@
   background: none;
 }
 
+// Condensing list spacing
+.is-condensed {
+  margin: 0.25em 0;
+
+  li {
+    margin: 0.25em 0;
+  }
+}
+
 .w10 { width: 10%; }
 .w15 { width: 15%; }
 .w20 { width: 20%; }
