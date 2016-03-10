@@ -77,7 +77,11 @@ class GroupsController < ApplicationController
       @sorted_members = group_members.map { |member| [member[:name], member[:email]] }
                                      .sort_by { |option| option.first.downcase }
     else
-      flash[:error] = Array.wrap(group_members_request.body['errors'])[0]
+      # Log error message
+      Rails.logger.error("Get Group Members Error: #{group_members_request.inspect}")
+
+      get_group_members_error = Array.wrap(group_members_request.body['errors'])[0]
+      flash[:error] = get_group_members_error
     end
   end
 
@@ -88,7 +92,11 @@ class GroupsController < ApplicationController
     if add_members.success?
       flash[:success] = 'Group was successfully created and members successfully added.'
     else
-      flash[:error] = Array.wrap(add_members.body['errors'])[0]
+      # Log error message
+      Rails.logger.error("Add Members to Group Error: #{add_members.inspect}")
+
+      add_members_error = Array.wrap(add_members.body['errors'])[0]
+      flash[:error] = add_members_error
     end
   end
 
