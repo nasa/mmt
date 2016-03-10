@@ -44,6 +44,27 @@ describe 'Groups list page', js: true, reset_provider: true do
           end
         end
       end
+
+      context 'when clicking on the group name' do
+        before do
+          VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
+            click_on 'Group 2'
+          end
+        end
+
+        it 'displays the group information' do
+          within '#main-content header' do
+            expect(page).to have_content('Group 2')
+            expect(page).to have_content('test group 2')
+          end
+        end
+
+        it 'displays the group members' do
+          within '#groups-table' do
+            expect(page).to have_content('Alien Bobcat')
+          end
+        end
+      end
     end
 
     context 'when there are no groups' do
