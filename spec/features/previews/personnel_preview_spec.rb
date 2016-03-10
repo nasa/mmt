@@ -55,6 +55,7 @@ describe 'Personnel preview' do
             within all('.card-body')[3] do
               expect(page).to have_link('http://example.com', href: 'http://example.com')
               expect(page).to have_link('http://another-example.com', href: 'http://another-example.com')
+              expect(page).to have_link('http://example.com/1', href: 'http://example.com/1')
             end
           end
           within all('li.card')[1] do
@@ -88,6 +89,7 @@ describe 'Personnel preview' do
             within all('.card-body')[3] do
               expect(page).to have_link('http://example.com', href: 'http://example.com')
               expect(page).to have_link('http://another-example.com', href: 'http://another-example.com')
+              expect(page).to have_link('http://example.com/1', href: 'http://example.com/1')
             end
           end
         end
