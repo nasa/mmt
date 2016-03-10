@@ -154,7 +154,7 @@ describe 'New Groups', reset_provider: true, js: true do
           end
         end
 
-        context 'when then deleting the group' do
+        context 'when deleting the group' do
           let(:concept_id) { page.current_path.delete('/groups/') }
 
           before do
@@ -172,7 +172,7 @@ describe 'New Groups', reset_provider: true, js: true do
             expect(page).to have_content("Group #{group_name} successfully deleted.")
           end
 
-          context 'when then trying to visit the group page with concept id' do
+          context 'when trying to visit the group page with concept id' do
             before do
               visit "/groups/#{concept_id}"
             end
