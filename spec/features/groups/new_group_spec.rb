@@ -160,6 +160,9 @@ describe 'New Groups', reset_provider: true, js: true do
           before do
             concept_id # not sure why, the tests won't use concept_id correctly unless I call it here
             click_link 'Delete Group'
+            # modal
+            sleep 1
+            click_on 'Yes'
           end
 
           it 'redirects to groups index page' do
