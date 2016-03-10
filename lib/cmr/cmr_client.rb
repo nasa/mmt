@@ -118,6 +118,15 @@ module Cmr
       codes.reduce({}, :merge)
     end
 
+    def get_cmr_groups(options, token)
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/groups'
+      else
+        url = '/access-control/groups'
+      end
+      get(url, options, token_header(token))
+    end
+
     def create_group(group, token)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3011/groups'

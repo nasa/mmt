@@ -10,7 +10,6 @@ describe 'Adding Members to New Groups', reset_provider: true, js: true do
     before do
       login
       VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
-        # will raise error about Faraday HTTP adapter, see https://github.com/vcr/vcr/issues/159
         visit new_group_path
       end
     end

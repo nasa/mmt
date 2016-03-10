@@ -2,6 +2,17 @@ class GroupsController < ApplicationController
   before_filter :groups_enabled?
 
   def index
+    query = {}
+    query['provider'] = @current_user.available_providers
+    groups_response = cmr_client.get_cmr_groups(query, token)
+
+    if groups_response.success?
+      @groups = groups_response.body['items']
+    else
+      Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
+      flash[:error] = Array.wrap(group_request.body['errors'])[0]
+      @groups = nil
+    end
   end
 
   def show
