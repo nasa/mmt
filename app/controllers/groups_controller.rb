@@ -88,7 +88,7 @@ class GroupsController < ApplicationController
     if add_members.success?
       flash[:success] = 'Group was successfully created and members successfully added.'
     else
-      flash[:error] = add_members.body['errors'][0]
+      flash[:error] = Array.wrap(add_members.body['errors'])[0]
     end
   end
 

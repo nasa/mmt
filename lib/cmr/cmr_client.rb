@@ -154,7 +154,7 @@ module Cmr
         add_users_to_local_cmr(user_uids, token)
         url = "http://localhost:3011/groups/#{concept_id}/members"
       else
-        url = "/access_control/groups/#{concept_id}/members"
+        url = "/access-control/groups/#{concept_id}/members"
       end
       post(url, user_uids.to_json, token_header(token))
     end
@@ -163,9 +163,9 @@ module Cmr
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3011/groups/#{concept_id}/members"
       else
-        url = "/access_control/groups/#{concept_id}/members"
+        url = "/access-control/groups/#{concept_id}/members"
       end
-      get(url, token_header(token))
+      get(url, {}, token_header(token))
     end
   end
 end
