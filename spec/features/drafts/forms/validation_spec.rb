@@ -306,6 +306,10 @@ describe 'Data validation for a form', js: true do
       within '#organizations' do
         fill_in 'Service Hours', with: 'test'
       end
+
+      within '.nav-top' do
+        click_on 'Save & Done'
+      end
     end
 
     it 'shows a helpful error' do

@@ -77,10 +77,13 @@
                 <div class="card-body">
                   <div class="card-body-details-full">
                     <ul>
-                      <% citation['RelatedUrl']['URLs'].each do |url| %>
-                        <li><i class="fa fa-external-link"></i>
-                          <a href="<%= url %>"><%= url %></a>
-                        </li>
+                      <% if citation['RelatedUrl'] && citation['RelatedUrl']['URLs'] %>
+                        <% citation['RelatedUrl']['URLs'].each do |url| %>
+                          <li>
+                            <i class="fa fa-external-link"></i>
+                            <%= link_to url, url %>
+                          </li>
+                        <% end %>
                       <% end %>
                     </ul>
                   </div>

@@ -167,10 +167,13 @@
                 <div class="card-body">
                   <div class="card-body-details-full">
                     <ul>
-                      <% publication['RelatedUrl']['URLs'].each do |url| %>
-                        <li><i class="fa fa-external-link"></i>
-                          <a href="<%= url %>"><%= url %></a>
-                        </li>
+                      <% if publication['RelatedUrl'] && publication['RelatedUrl']['URLs'] %>
+                        <% publication['RelatedUrl']['URLs'].each do |url| %>
+                          <li>
+                            <i class="fa fa-external-link"></i>
+                            <%= link_to url, url %>
+                          </li>
+                        <% end %>
                       <% end %>
                     </ul>
                   </div>
@@ -178,14 +181,22 @@
               <% end %>
               <div class="card-navigation">
                 <ul>
-                  <li class="card-navigation-control"><a href="" class="card-navigation-control-back"><i class="fa fa-chevron-left"></i></a></li>
+                  <li class="card-navigation-control">
+                    <a href="" class="card-navigation-control-back">
+                      <i class="fa fa-chevron-left"></i>
+                    </a>
+                  </li>
                   <li class="card-navigation-pagination">
                     <i class="fa fa-circle"></i>
                     <% if publication['RelatedUrl']%>
                       <i class="fa fa-circle-o"></i>
                     <% end %>
                   </li>
-                  <li class="card-navigation-control"><a href="" class="card-navigation-control-forward"><i class="fa fa-chevron-right"></i></a></li>
+                  <li class="card-navigation-control">
+                    <a href="" class="card-navigation-control-forward">
+                      <i class="fa fa-chevron-right"></i>
+                    </a>
+                  </li>
                 </ul>
               </div>
             </li>

@@ -133,11 +133,15 @@
               <div class="card-body">
                 <div class="card-body-details-full">
                   <ul>
-                    <% party['RelatedUrls'][0]['URLs'].each do |url| %>
-                      <li>
-                        <i class="fa fa-external-link"></i>
-                        <a href="<%= url %>"><%= url %></a>
-                      </li>
+                    <% party['RelatedUrls'].each do |related_url| %>
+                      <% if related_url['URLs'] %>
+                        <% related_url['URLs'].each do |url| %>
+                          <li>
+                            <i class="fa fa-external-link"></i>
+                            <%= link_to url, url %>
+                          </li>
+                        <% end %>
+                      <% end %>
                     <% end %>
                   </ul>
                 </div>
