@@ -66,6 +66,23 @@ class GroupsController < ApplicationController
     end
   end
 
+  def destroy
+    concept_id = params[:id]
+    delete_group_request = cmr_client.delete_group(concept_id, token)
+    if delete_group_request.success?
+      group_name = params[:name]
+      flash[:success] = "Group #{group_name} successfully deleted."
+      redirect_to groups_path
+    else
+      # Log error message
+      Rails.logger.error("Group Deletion Error: #{delete_group_request.inspect}")
+
+      delete_group_error = Array.wrap(delete_group_request.body['errors'])[0]
+      flash[:error] = delete_group_error
+      render :show
+    end
+  end
+
   private
 
   def set_previously_selected_members(members)

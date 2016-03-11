@@ -148,6 +148,15 @@ module Cmr
       get(url, {}, token_header(token))
     end
 
+    def delete_group(concept_id, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/groups/#{concept_id}"
+      else
+        url = "/access-control/groups/#{concept_id}"
+      end
+      delete(url, {}, token_header(token))
+    end
+
     def add_users_to_local_cmr(user_uids, token) # need token?
       # curl -H "Content-Type: application/json" http://localhost:3008/urs/users -d
       # '[{"username": "user1", "password": "user1pass"}, ...]'
