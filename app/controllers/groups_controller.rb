@@ -68,7 +68,7 @@ class GroupsController < ApplicationController
 
       delete_group_error = Array.wrap(delete_group_request.body['errors'])[0]
       flash[:error] = delete_group_error
-      render :show
+      redirect_to group_path(concept_id)
     end
   end
 
