@@ -9,9 +9,7 @@ describe 'Adding Members to New Groups', reset_provider: true, js: true do
   context 'when visiting new group page' do
     before do
       login
-      VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
-        visit new_group_path
-      end
+      visit new_group_path
     end
 
     context 'when using the dual select box to add members' do
@@ -86,9 +84,7 @@ describe 'Adding Members to New Groups', reset_provider: true, js: true do
         select('Quail Racoon', from: 'Members directory')
         select('Ukulele Vulcan', from: 'Members directory')
         click_on 'Add Member(s)'
-        VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
-          click_on 'Save'
-        end
+        click_on 'Save'
       end
 
       it 'displays a success message' do

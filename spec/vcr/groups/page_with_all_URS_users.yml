@@ -49,7 +49,7 @@ http_interactions:
   recorded_at: Mon, 07 Mar 2016 20:02:38 GMT
 - request:
     method: get
-    uri: https://sit.urs.earthdata.nasa.gov/api/users?client_id=81FEem91NlTQreWv2UgtXQ
+    uri: https://sit.urs.earthdata.nasa.gov/api/users
     body:
       encoding: US-ASCII
       string: ''

@@ -10,27 +10,25 @@ describe 'Groups list page', js: true, reset_provider: true do
     context 'when there are groups' do
       before do
         # Add some groups
-        VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
-          click_on 'New Group'
-          fill_in 'Group Name', with: 'Group 1'
-          fill_in 'Group Description', with: 'test group'
-          click_on 'Save'
+        click_on 'New Group'
+        fill_in 'Group Name', with: 'Group 1'
+        fill_in 'Group Description', with: 'test group'
+        click_on 'Save'
 
-          within '.breadcrumb' do
-            click_on 'Groups'
-          end
+        within '.breadcrumb' do
+          click_on 'Groups'
+        end
 
-          click_on 'New Group'
-          fill_in 'Group Name', with: 'Group 2'
-          fill_in 'Group Description', with: 'test group 2'
-          select('Alien Bobcat', from: 'Members directory')
-          click_on 'Add Member(s)'
-          click_on 'Save'
-          sleep 1
+        click_on 'New Group'
+        fill_in 'Group Name', with: 'Group 2'
+        fill_in 'Group Description', with: 'test group 2'
+        select('Alien Bobcat', from: 'Members directory')
+        click_on 'Add Member(s)'
+        click_on 'Save'
+        sleep 1
 
-          within '.breadcrumb' do
-            click_on 'Groups'
-          end
+        within '.breadcrumb' do
+          click_on 'Groups'
         end
       end
 
@@ -47,9 +45,7 @@ describe 'Groups list page', js: true, reset_provider: true do
 
       context 'when clicking on the group name' do
         before do
-          VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
-            click_on 'Group 2'
-          end
+          click_on 'Group 2'
         end
 
         it 'displays the group information' do

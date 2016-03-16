@@ -30,8 +30,7 @@ class GroupsController < ApplicationController
   def new
     @group = {}
 
-    all_users = request_all_users
-    @users_options = map_and_sort_for_select(all_users)
+    @users_options = urs_users
     @selected_users = []
   end
 
@@ -66,6 +65,41 @@ class GroupsController < ApplicationController
     end
   end
 
+  def edit
+    concept_id = params[:id]
+    group_request = cmr_client.get_group(concept_id, token)
+
+    if group_request.success?
+      @group = group_request.body
+    else
+      flash[:error] = Array.wrap(group_request.body['errors'])[0]
+      redirect_to groups_path
+    end
+  end
+
+  def update
+    concept_id = params[:id]
+    group = params[:group]
+    if valid_group?(group)
+      group['provider-id'] = @current_user.provider_id
+      update_response = cmr_client.update_group(concept_id, group.to_json, token)
+
+      if update_response.success?
+        concept_id = update_response.body['concept-id']
+        redirect_to group_path(concept_id)
+      else
+        Rails.logger.error("Group Update Error: #{update_response.inspect}")
+
+        flash[:error] = Array.wrap(group_request.body['errors'])[0]
+        @group = group
+        render :edit
+      end
+    else
+      @group = group
+      render :edit
+    end
+  end
+
   def destroy
     concept_id = params[:id]
     delete_group_request = cmr_client.delete_group(concept_id, token)
@@ -86,13 +120,13 @@ class GroupsController < ApplicationController
   private
 
   def set_previously_selected_members(members)
-    all_users = request_all_users
+    all_users = urs_users
     selected = []
     not_selected = []
     all_users.each { |user| members.include?(user[:uid]) ? selected << user : not_selected << user }
 
-    @users_options = map_and_sort_for_select(not_selected)
-    @selected_users = map_and_sort_for_select(selected)
+    @users_options = not_selected
+    @selected_users = selected
   end
 
   def request_group_members(concept_id, token)
@@ -100,7 +134,7 @@ class GroupsController < ApplicationController
     if group_members_request.success?
       group_members_uids = group_members_request.body
       # match uids in group from cmr to all users
-      all_users = request_all_users
+      all_users = urs_users
       group_members = all_users.select { |user| group_members_uids.include?(user[:uid]) }
       @sorted_members = group_members.map { |member| [member[:name], member[:email]] }
                                      .sort_by { |option| option.first.downcase }
@@ -128,22 +162,21 @@ class GroupsController < ApplicationController
     end
   end
 
-  def map_users(urs_users_hash)
+  def map_urs_users(urs_users)
     # get users into hash with name, email, uid
-    mapped_users = urs_users_hash.map do |_k, v|
-      { name: "#{v['first_name']} #{v['last_name']}",
-        email: v['email_address'],
-        uid: v['uid'] }
+    urs_users.map do |_uid, user|
+      {
+        name: "#{user['first_name']} #{user['last_name']}",
+        email: user['email_address'],
+        uid: user['uid']
+      }
     end
-    mapped_users
   end
 
-  def request_all_users
-    users_request = cmr_client.get_all_users
+  def urs_users
+    users_request = cmr_client.get_urs_users
     if users_request.success?
-      users_hash = users_request.body
-      all_users = map_users(users_hash)
-      all_users
+      map_urs_users(users_request.body.sort)
     else
       # Log error message
       Rails.logger.error("Users Request Error: #{users_request.inspect}")

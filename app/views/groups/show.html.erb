@@ -3,11 +3,9 @@
     <div class="content">
       <div class="breadcrumb">
         <ol>
-          <!-- todo: wire the following links -->
           <li><%= link_to 'Manage CMR', manage_cmr_path %></li>
           <li><%= link_to 'Groups', groups_path %></li>
           <li><%= @group['name'] %></li>
-          <!-- end todo -->
         </ol>
       </div>
       <div class="row space-bot">
@@ -16,9 +14,9 @@
       </div>
       <div class="row">
         <p class="subnav">Permissions</p>
-        <!-- todo: wire this link -->
-        <p class="subnav current"><a href="#">Groups</a></p>
-        <!-- end todo -->
+        <p class="subnav current">
+          <%= link_to 'Groups', groups_path %>
+        </p>
       </div>
     </div>
   </header>
@@ -29,7 +27,7 @@
     <section>
       <div class="flex-center">
         <div class="row">
-          <a href="#" class="disabled">Edit Name & Description</a> |
+          <%= link_to 'Edit Group', edit_group_path %> |
           <%= link_to 'Delete Group', '#delete-group-modal', class: 'display-modal' %>
           <div id='delete-group-modal' class="modal-content">
             <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
