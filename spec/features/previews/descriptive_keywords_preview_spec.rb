@@ -67,7 +67,7 @@ describe 'Descriptive keywords preview' do
             end
             within '.card-footer' do
               expect(page).to have_content('Group')
-              expect(page).to have_content('Updated 2015-09-14T00:00:00Z')
+              expect(page).to have_content('Updated 2015-09-14')
             end
           end
 
