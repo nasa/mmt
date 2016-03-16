@@ -1,0 +1,28 @@
+<%= render 'notifications' %>
+
+<nav>
+  <div class="content">
+    <h2><%= link_to 'Manage Metadata', dashboard_path %></h2>
+    <h2 class="current">Manage CMR</h2>
+  </div>
+</nav>
+
+<%= render 'shared/flash_messages' %>
+
+<main class="dashboard" role="main">
+  <article id="manage-cmr" class="row-content" role="article">
+    <section class="callout-box col-left">
+      <div class="callout-content">
+        <h3 class="callout-content__title">Provider Information</h3>
+      </div>
+    </section>
+
+    <section class="callout-box col-left">
+      <div class="callout-content">
+        <h3 class="callout-content__title">Permissions &amp; Groups</h3>
+        <p><%= link_to 'Permissions', '#' %></p>
+        <p><%= link_to 'Groups', groups_path %></p>
+      </div>
+    </section>
+  </article>
+</main>

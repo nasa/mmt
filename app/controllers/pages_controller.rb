@@ -1,8 +1,7 @@
 class PagesController < ApplicationController
-  def dashboard
-    @notifications = cmr_client.get_calendar_events.body
-    @notifications.select! { |event| !session[:hidden_notifications].include?(event['id']) }
+  before_filter :set_notifications, only: [:dashboard, :manage_cmr]
 
+  def dashboard
     # If you change this number you must also change it in the corresponding test file - features/drafts/open_drafts_spec.rb.
     @draft_display_max_count = 5
 
@@ -28,5 +27,12 @@ class PagesController < ApplicationController
     session[:hidden_notifications] << notification_id
 
     render nothing: true
+  end
+
+  private
+
+  def set_notifications
+    @notifications = cmr_client.get_calendar_events.body
+    @notifications.select! { |event| !session[:hidden_notifications].include?(event['id']) }
   end
 end
