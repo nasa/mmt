@@ -106,11 +106,13 @@
         <% if range_date_times.size > 0 %>
           <li class="label">DateTime Ranges</li>
           <% range_date_times.each do |range_date_time| %>
+            <% beginning_date_time =  range_date_time['beginning_date_time'] || '' %>
+            <% ending_date_time =  range_date_time['ending_date_time'] || '' %>
             <li>
               <span class="preview-sidebar-item">
-                <%= range_date_time['beginning_date_time'].split('T')[0] %>
+                <%= beginning_date_time.split('T')[0] %>
                 to
-                <%= range_date_time['ending_date_time'].split('T')[0] %>
+                <%= ending_date_time.split('T')[0] %>
               </span>
             </li>
           <% end %>
@@ -120,11 +122,13 @@
         <% if periodic_date_times.size > 0 %>
           <li class="label">Periodic Ranges</li>
           <% periodic_date_times.each do |periodic_date_time| %>
+            <% start_date =  periodic_date_time['start_date'] || '' %>
+            <% end_date =  periodic_date_time['end_date'] || '' %>
             <li>
               <span class="preview-sidebar-item">
-                <%= periodic_date_time['start_date'].split('T')[0] %>
+                <%= start_date.split('T')[0] %>
                 to
-                <%= periodic_date_time['end_date'].split('T')[0] %>
+                <%= end_date.split('T')[0] %>
               </span>
             </li>
           <% end %>
