@@ -86,8 +86,8 @@
                           <th>Resolution</th>
                           <th>Range Begin</th>
                           <th>Range End</th>
-                          <th>Resolution</th>
-                          <th>Resolution</th>
+                          <th>Unit of Measure</th>
+                          <th>Accuracy</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -109,7 +109,7 @@
                       <p><%= additional_attribute['Group'] %></p>
                     <% end %>
                     <% unless additional_attribute['UpdateDate'].blank? %>
-                      <p>Updated <%= additional_attribute['UpdateDate'] %></p>
+                      <p>Updated <%= additional_attribute['UpdateDate'].split('T')[0] %></p>
                     <% end %>
                   </div>
                 <% end %>
