@@ -71,6 +71,21 @@ class GroupsController < ApplicationController
 
     if group_request.success?
       @group = group_request.body
+
+      group_members_request = cmr_client.get_group_members(concept_id, token)
+      if group_members_request.success?
+        group_member_uids = group_members_request.body
+
+        all_users = urs_users
+        selected_users = all_users.select { |user| group_member_uids.include?(user[:uid]) }
+        @users_options = all_users - selected_users
+        @selected_users = []
+      else
+        Rails.logger.error("Group Members Request: #{group_members_request.inspect}")
+
+        error = Array.wrap(group_members_request.body['errors'])[0]
+        flash[:error] = error
+      end
     else
       flash[:error] = Array.wrap(group_request.body['errors'])[0]
       redirect_to groups_path
@@ -80,23 +95,30 @@ class GroupsController < ApplicationController
   def update
     concept_id = params[:id]
     group = params[:group]
-    if valid_group?(group)
-      group['provider-id'] = @current_user.provider_id
-      update_response = cmr_client.update_group(concept_id, group.to_json, token)
+    members = params[:selected_members]
 
-      if update_response.success?
-        concept_id = update_response.body['concept-id']
-        redirect_to group_path(concept_id)
+    if group
+      if valid_group?(group)
+        group['provider-id'] = @current_user.provider_id
+        update_response = cmr_client.update_group(concept_id, group.to_json, token)
+
+        if update_response.success?
+          concept_id = update_response.body['concept-id']
+          redirect_to group_path(concept_id)
+        else
+          Rails.logger.error("Group Update Error: #{update_response.inspect}")
+
+          flash[:error] = Array.wrap(group_request.body['errors'])[0]
+          @group = group
+          render :edit
+        end
       else
-        Rails.logger.error("Group Update Error: #{update_response.inspect}")
-
-        flash[:error] = Array.wrap(group_request.body['errors'])[0]
         @group = group
         render :edit
       end
-    else
-      @group = group
-      render :edit
+    elsif members
+      add_members_to_group(members, concept_id, token)
+      redirect_to group_path(concept_id)
     end
   end
 
@@ -148,11 +170,15 @@ class GroupsController < ApplicationController
   end
 
   def add_members_to_group(members, concept_id, token)
-    return if members.blank?
+    return if members.empty?
 
     add_members = cmr_client.add_group_members(concept_id, members, token)
     if add_members.success?
-      flash[:success] = 'Group was successfully created and members successfully added.'
+      if flash[:success] == 'Group was successfully created.'
+        flash[:success] = 'Group was successfully created and members successfully added.'
+      else
+        flash[:success] = 'Members successfully added.'
+      end
     else
       # Log error message
       Rails.logger.error("Add Members to Group Error: #{add_members.inspect}")

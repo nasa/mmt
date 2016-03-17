@@ -46,13 +46,13 @@ describe 'Adding Members to New Groups', reset_provider: true, js: true do
       context 'when removing members from selected members' do
         before do
           # one user
-          select('Alien Bobcat', from: 'Selected Members')
+          select('Alien Bobcat', from: 'Selected members')
           click_on 'Remove Member(s)'
 
           # multiple users
-          select('Marsupial Narwal', from: 'Selected Members')
-          select('Quail Racoon', from: 'Selected Members')
-          select('Ukulele Vulcan', from: 'Selected Members')
+          select('Marsupial Narwal', from: 'Selected members')
+          select('Quail Racoon', from: 'Selected members')
+          select('Ukulele Vulcan', from: 'Selected members')
           click_on 'Remove Member(s)'
         end
 

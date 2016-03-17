@@ -27,7 +27,7 @@
     <section>
       <div class="flex-center">
         <div class="row">
-          <%= link_to 'Edit Group', edit_group_path %> |
+          <%= link_to 'Edit Group', edit_group_path(group: true) %> |
           <%= link_to 'Delete Group', '#delete-group-modal', class: 'display-modal' %>
           <div id='delete-group-modal' class="modal-content">
             <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
@@ -55,9 +55,9 @@
           <input type="text" placeholder="Enter member name" disabled>
         </label>
       </div>
-      <div class="row disabled">
-        <a href="#" class="btn btn-default" disabled>Remove Selected</a>
-        <a href="#" class="btn btn-default" disabled>+ Add Members</a>
+      <div class="row">
+        <a href="#" class="btn btn-default disabled">Remove Selected</a>
+        <%= link_to '+ Add Members', edit_group_path(add_members: true), class: 'btn btn-default' %>
       </div>
       <table class="space-top align-c" id="groups-table">
         <thead>
