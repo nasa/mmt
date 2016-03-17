@@ -154,22 +154,14 @@ describe 'Collections permissions', js: true, reset_provider: true do
             visit edit_link
           end
 
-          it 'redirects to dashboard page' do
-            within 'nav h2' do
-              expect(page).to have_content('MANAGE METADATA')
-            end
-            expect(page).to have_css('main.dashboard')
-            expect(page.current_path).to have_content('dashboard')
-          end
-
           it 'displays warning message link for change provider modal' do
             expect(page).to have_css('.banner-warn')
-            expect(page).to have_content("You need to change your current provider to edit-collection Draft Title")
+            expect(page).to have_content("You need to change your current provider to edit Draft Title")
           end
 
           context 'when clicking the warning message' do
             before do
-              click_link("You need to change your current provider to edit-collection Draft Title")
+              click_link("You need to change your current provider to edit Draft Title")
               sleep 1
             end
 
@@ -201,14 +193,6 @@ describe 'Collections permissions', js: true, reset_provider: true do
           before do
             clone_link = page.current_path + '/clone'
             visit clone_link
-          end
-
-          it 'redirects to dashboard page' do
-            within 'nav h2' do
-              expect(page).to have_content('MANAGE METADATA')
-            end
-            expect(page).to have_css('main.dashboard')
-            expect(page.current_path).to have_content('dashboard')
           end
 
           it 'displays warning message link for change provider modal' do
@@ -280,14 +264,6 @@ describe 'Collections permissions', js: true, reset_provider: true do
             visit edit_link
           end
 
-          it 'redirects to dashboard page' do
-            within 'nav h2' do
-              expect(page).to have_content('MANAGE METADATA')
-            end
-            expect(page).to have_css('main.dashboard')
-            expect(page.current_path).to have_content('dashboard')
-          end
-
           it 'displays the no permissions warning message' do
             expect(page).to have_css('.banner-warn')
             expect(page).to have_content("You don't have the appropriate permissions to edit ACRIM III Level 2 Daily Mean Data V001")
@@ -298,14 +274,6 @@ describe 'Collections permissions', js: true, reset_provider: true do
           before do
             clone_link = page.current_path + '/clone'
             visit clone_link
-          end
-
-          it 'redirects to dashboard page' do
-            within 'nav h2' do
-              expect(page).to have_content('MANAGE METADATA')
-            end
-            expect(page).to have_css('main.dashboard')
-            expect(page.current_path).to have_content('dashboard')
           end
 
           it 'displays the no permissions warning message' do

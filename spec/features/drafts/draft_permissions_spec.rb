@@ -29,14 +29,6 @@ describe 'Draft permissions', js: true, reset_provider: true do
         visit draft_path(draft)
       end
 
-      it 'redirects to dashboard page' do
-        within 'nav h2' do
-          expect(page).to have_content('MANAGE METADATA')
-        end
-        expect(page).to have_css('main.dashboard')
-        expect(page.current_path).to have_content('dashboard')
-      end
-
       it 'displays warning message link for change provider modal' do
         expect(page).to have_css('.banner-warn')
         expect(page).to have_content("You need to change your current provider to view #{entry_title}")
@@ -76,14 +68,6 @@ describe 'Draft permissions', js: true, reset_provider: true do
     context 'when trying to visit the edit draft collection information page directly' do
       before do
         visit "/drafts/#{draft.id}/edit/collection_information"
-      end
-
-      it 'redirects to dashboard page' do
-        within 'nav h2' do
-          expect(page).to have_content('MANAGE METADATA')
-        end
-        expect(page).to have_css('main.dashboard')
-        expect(page.current_path).to have_content('dashboard')
       end
 
       it 'displays warning message link for change provider modal' do
@@ -141,14 +125,6 @@ describe 'Draft permissions', js: true, reset_provider: true do
         visit draft_path(draft)
       end
 
-      it 'redirects to dashboard page' do
-        within 'nav h2' do
-          expect(page).to have_content('MANAGE METADATA')
-        end
-        expect(page).to have_css('main.dashboard')
-        expect(page.current_path).to have_content('dashboard')
-      end
-
       it 'displays no permissions warning message' do
         expect(page).to have_css('.banner-warn')
         expect(page).to have_content("You don't have the appropriate permissions to view #{entry_title}")
@@ -158,14 +134,6 @@ describe 'Draft permissions', js: true, reset_provider: true do
     context 'when trying to visit the edit draft page directly' do
       before do
         visit edit_draft_path(draft)
-      end
-
-      it 'redirects to dashboard page' do
-        within 'nav h2' do
-          expect(page).to have_content('MANAGE METADATA')
-        end
-        expect(page).to have_css('main.dashboard')
-        expect(page.current_path).to have_content('dashboard')
       end
 
       it 'displays no permisssions warning message' do

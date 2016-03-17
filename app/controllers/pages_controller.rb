@@ -1,5 +1,4 @@
 class PagesController < ApplicationController
-  include CollectionsHelper
 
   def dashboard
     @notifications = cmr_client.get_calendar_events.body
@@ -11,10 +10,6 @@ class PagesController < ApplicationController
     @drafts = @current_user.drafts.where(provider_id: @current_user.provider_id)
                                   .order('updated_at DESC')
                                   .limit(@draft_display_max_count + 1)
-
-    if params[:not_current_provider_draft_id] || params[:concept_id]
-      get_not_current_provider_record(params)
-    end
   end
 
   def manage_cmr
@@ -34,23 +29,5 @@ class PagesController < ApplicationController
     session[:hidden_notifications] << notification_id
 
     render nothing: true
-  end
-
-  private
-
-  def get_not_current_provider_record(params)
-    # get not current provider draft or collection
-    if params[:not_current_provider_draft_id]
-      @not_current_provider_draft = Draft.find(params[:not_current_provider_draft_id])
-      @draft_action = params[:draft_action]
-      @draft_form = params[:draft_form]
-    elsif params[:concept_id]
-      set_collection # CollectionsHelper (moved from CollectionsController) method
-
-      @collection_action = params[:collection_action]
-      if @collection_action == 'delete' || @collection_action == 'edit'
-        @collection_action += '-collection'
-      end
-    end
   end
 end

@@ -138,15 +138,15 @@ class DraftsController < ApplicationController
   def ensure_correct_draft_provider
     return if @draft.provider_id == @current_user.provider_id || !(@draft.provider_id)
 
-    draft_action = request.original_url.include?('edit') ? 'edit' : 'view'
-    draft_form = params[:form] ? params[:form] : nil
+    @draft_action = request.original_url.include?('edit') ? 'edit' : 'view'
+    @draft_form = params[:form] ? params[:form] : nil
 
     if @current_user.available_providers.include?(@draft.provider_id)
-      redirect_to dashboard_path(not_current_provider_draft_id: @draft.id,
-        draft_action: draft_action, draft_form: draft_form)
+      @user_permissions = 'wrong_provider'
+      render :show
     else
-      flash[:alert] = "You don't have the appropriate permissions to #{draft_action} #{@draft.display_entry_title}"
-      redirect_to dashboard_path
+      @user_permissions = 'none'
+      render :show
     end
   end
 
