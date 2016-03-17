@@ -72,7 +72,8 @@
               </p>
             </div>
             <%= render partial: 'shared/not_current_provider_modal', locals: {
-              options: { collection: @collection, revision_id: @revision_id, draft: @draft, draft_id: @draft.try(:id) }
+              options: { collection: @collection, concept_id: @concept_id, revision_id: @revision_id,
+                draft: @draft, draft_id: @draft.try(:id) }
               } %>
             <!-- Hidden link to allow modal to be shown -->
             <a href="#granules-modal" id="display-granules-modal" class="display-modal is-invisible"></a>

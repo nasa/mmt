@@ -34,6 +34,21 @@
 
 <%= render 'shared/flash_messages' %>
 
+<% if @not_current_provider_draft || @collection %>
+  <div class="banner banner-dismissible banner-warn">
+    <% if @not_current_provider_draft %>
+      <%= link_to("You need to change your current provider to #{@draft_action} #{@not_current_provider_draft.display_entry_title}. Click here to change your provider.", "#not-current-provider-modal", class: "display-modal not-current-provider", data: { "provider": @not_current_provider_draft.provider_id, record_action: "#{@draft_action}-draft" }) %>
+    <% elsif @collection %>
+      <%= link_to("You need to change your current provider to #{@collection_action} #{display_collection_entry_title(@collection)}. Click here to change your provider.", "#not-current-provider-modal", class: "display-modal not-current-provider", data: { "provider": @provider_id, record_action: "#{@collection_action}" }) %>
+    <% end %>
+  </div>
+  <%= render partial: 'shared/not_current_provider_modal', locals: {
+    options: { collection: @collection, concept_id: @concept_id, revision_id: @revision_id,
+      draft: @not_current_provider_draft, draft_id: @not_current_provider_draft.try(:id),
+      draft_form: @draft_form}
+    } %>
+<% end %>
+
 <main class="dashboard" role="main">
   <article id="metadata" class="row-content" role="article">
     <section class="callout-box col-left">

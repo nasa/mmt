@@ -211,4 +211,11 @@ module DraftsHelper
     options.unshift ['Select State/Province', '']
     options_for_select(options, selected: value)
   end
+
+  def not_current_provider_modal_in_flash(draft)
+    # need to be able to pass direct link used?
+    # request.original_url
+    # how to determine if view or edit
+    link = link_to("You need to change your current provider to view or edit #{draft.display_short_name}", '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': draft.provider_id, record_action: 'view-draft' })
+  end
 end
