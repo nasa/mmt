@@ -4,7 +4,8 @@ describe 'Groups list page', js: true, reset_provider: true do
   context 'when viewing the groups page' do
     before do
       login
-      visit '/groups'
+      click_on 'Manage CMR'
+      click_on 'Groups'
     end
 
     context 'when there are groups' do
