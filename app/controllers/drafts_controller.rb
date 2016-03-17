@@ -136,7 +136,7 @@ class DraftsController < ApplicationController
   end
 
   def ensure_correct_draft_provider
-    return if @draft.provider_id == @current_user.provider_id
+    return if @draft.provider_id == @current_user.provider_id || !(@draft.provider_id)
 
     draft_action = request.original_url.include?('edit') ? 'edit' : 'view'
     draft_form = params[:form] ? params[:form] : nil
