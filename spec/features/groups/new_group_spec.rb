@@ -9,9 +9,7 @@ describe 'New Groups', reset_provider: true, js: true do
   context 'when visiting the new group page' do
     before do
       login
-      VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
-        visit new_group_path
-      end
+      visit new_group_path
     end
 
     it 'displays the new group information entry fields' do
@@ -27,9 +25,7 @@ describe 'New Groups', reset_provider: true, js: true do
       context 'when saving without a Group Name' do
         before do
           fill_in 'Group Description', with: group_description
-          VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
-            click_on 'Save'
-          end
+          click_on 'Save'
         end
 
         it 'displays the correct error message' do
@@ -44,9 +40,7 @@ describe 'New Groups', reset_provider: true, js: true do
       context 'when saving without a description' do
         before do
           fill_in 'Group Name', with: group_name
-          VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
-            click_on 'Save'
-          end
+          click_on 'Save'
         end
 
         it 'displays the correct error message' do
@@ -60,9 +54,7 @@ describe 'New Groups', reset_provider: true, js: true do
 
       context 'when saving without name or description' do
         before do
-          VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
-            click_on 'Save'
-          end
+          click_on 'Save'
         end
 
         it 'displays the correct error message' do
@@ -131,9 +123,7 @@ describe 'New Groups', reset_provider: true, js: true do
 
       context 'when no members are added' do
         before do
-          VCR.use_cassette('groups/page_with_all_URS_users', record: :none) do
-            click_on 'Save'
-          end
+          click_on 'Save'
         end
 
         it 'displays the group information' do

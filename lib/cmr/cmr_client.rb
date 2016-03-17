@@ -139,6 +139,18 @@ module Cmr
       post(url, group, headers.merge(token_header(token)))
     end
 
+    def update_group(concept_id, group, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/groups/#{concept_id}"
+      else
+        url = "/access-control/groups/#{concept_id}"
+      end
+      headers = {
+        'Content-Type' => 'application/json'
+      }
+      put(url, group, headers.merge(token_header(token)))
+    end
+
     def get_group(concept_id, token)
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3011/groups/#{concept_id}"
@@ -161,7 +173,7 @@ module Cmr
       # curl -H "Content-Type: application/json" http://localhost:3008/urs/users -d
       # '[{"username": "user1", "password": "user1pass"}, ...]'
       # local cmr requires 'username' and 'password' fields
-      users = user_uids.map { |uid| { 'username' => uid, 'password' => 'password'} }
+      users = user_uids.map { |uid| { 'username' => uid, 'password' => 'password' } }
       url = 'http://localhost:3008/urs/users'
       post(url, users.to_json, token_header(token))
     end
