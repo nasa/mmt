@@ -189,6 +189,15 @@ module Cmr
       post(url, user_uids.to_json, token_header(token))
     end
 
+    def remove_group_members(concept_id, user_uids, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/groups/#{concept_id}/members"
+      else
+        url = "/access-control/groups/#{concept_id}/members"
+      end
+      delete(url, {}, token_header(token), user_uids.to_json)
+    end
+
     def get_group_members(concept_id, token)
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3011/groups/#{concept_id}/members"

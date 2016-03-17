@@ -16,11 +16,11 @@ class GroupsController < ApplicationController
   end
 
   def show
-    concept_id = params[:id]
-    group_request = cmr_client.get_group(concept_id, token)
+    @concept_id = params[:id]
+    group_request = cmr_client.get_group(@concept_id, token)
     if group_request.success?
       @group = group_request.body
-      request_group_members(concept_id, token)
+      request_group_members(@concept_id, token)
     else
       flash[:error] = Array.wrap(group_request.body['errors'])[0]
       redirect_to groups_path
@@ -122,6 +122,24 @@ class GroupsController < ApplicationController
     end
   end
 
+  def remove_members
+    members = params[:members]
+
+    unless members.empty?
+      remove_members = cmr_client.remove_group_members(params[:id], members, token)
+
+      if remove_members.success?
+        flash[:success] = 'Members successfully removed.'
+      else
+        Rails.logger.error("Remove Members Error: #{remove_members.inspect}")
+
+        flash[:error] = Array.wrap(remove_members.body['errors'])[0]
+      end
+    end
+
+    redirect_to group_path
+  end
+
   def destroy
     concept_id = params[:id]
     delete_group_request = cmr_client.delete_group(concept_id, token)
@@ -155,11 +173,11 @@ class GroupsController < ApplicationController
     group_members_request = cmr_client.get_group_members(concept_id, token)
     if group_members_request.success?
       group_members_uids = group_members_request.body
+
       # match uids in group from cmr to all users
-      all_users = urs_users
-      group_members = all_users.select { |user| group_members_uids.include?(user[:uid]) }
-      @sorted_members = group_members.map { |member| [member[:name], member[:email]] }
-                                     .sort_by { |option| option.first.downcase }
+      @members = urs_users.select { |user| group_members_uids.include?(user[:uid]) }
+
+      @members.sort_by { |user| user[:name].downcase }
     else
       # Log error message
       Rails.logger.error("Get Group Members Error: #{group_members_request.inspect}")
