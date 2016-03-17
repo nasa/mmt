@@ -176,7 +176,7 @@ class GroupsController < ApplicationController
   def urs_users
     users_request = cmr_client.get_urs_users
     if users_request.success?
-      map_urs_users(users_request.body.sort)
+      map_urs_users(users_request.body.sort_by { |_uid, user| user['first_name'].downcase })
     else
       # Log error message
       Rails.logger.error("Users Request Error: #{users_request.inspect}")
@@ -185,13 +185,6 @@ class GroupsController < ApplicationController
       flash[:error] = users_request_error
       []
     end
-  end
-
-  def map_and_sort_for_select(users)
-    # map users into format for options_for_select for dual select box
-    users_options = users.map { |user| ["#{user[:name]} | #{user[:email]}", user[:uid]] }
-                         .sort_by { |option| option.first.downcase }
-    users_options
   end
 
   def groups_enabled?
