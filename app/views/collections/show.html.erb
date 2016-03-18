@@ -88,7 +88,6 @@
             <%= @error %>
           </p>
         </div>
-<<<<<<< HEAD
       <% else %>
         <section class="action">
           <div class="cta">
@@ -133,23 +132,8 @@
               <a class="collection-granule-count disabled" href="#">Granules (<%= @num_granules %>)</a>
             </p>
           </div>
-          <div class="quality-score disabled">
-            <div class="badges">
-              <i class="fa fa-star fa-lg"></i>
-              <i class="fa fa-star fa-lg"></i>
-              <i class="fa fa-star fa-lg"></i>
-              <i class="fa fa-star fa-lg"></i>
-              <i class="fa fa-star-o fa-lg"></i>
-            </div>
-            <div class="score-info">
-              <p>Quality Score: <strong>20</strong></p>
-              <p>Required fields not complete</p>
-            </div>
-          </div>
+
           <%= render partial: 'shared/download_xml', locals: { collection: true } %>
-=======
-        <%= render partial: 'shared/download_xml', locals: { collection: true } %>
->>>>>>> baa073bc35a6ddc846c63ca431022b8af2e162f6
 
         </section>
 
