@@ -55,7 +55,14 @@
 
   <% if @user_permissions == 'none' %>
     <div class="banner banner-dismissible banner-warn">
-      <p><%= "You don't have the appropriate permissions to #{@collection_action || @record_action} #{display_collection_entry_title(@collection)}" %></p>
+      <p class="banner-message"><%= "You don't have the appropriate permissions to #{@collection_action || @record_action} #{display_collection_entry_title(@collection)}" %></p>
+    </div>
+    <div class="no-access">
+      <h3 class="access-title">Access Denied</h3>
+      <p class="access-message">
+        It appears you do not have access to this content.<br />
+        If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
+      </p>
     </div>
   <% elsif @user_permissions == 'wrong_provider' %>
     <div class="banner banner-dismissible banner-warn">
