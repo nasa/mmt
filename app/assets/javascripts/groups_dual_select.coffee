@@ -1,5 +1,4 @@
 $(document).ready ->
-
   sortList = (optionsList) ->
     sorted = optionsList.sort (a, b) ->
       if a.text.toLowerCase() > b.text.toLowerCase()
@@ -17,9 +16,6 @@ $(document).ready ->
       $('#selected_members').append $('#members_directory option:selected')
       $('#selected_members option:selected').attr 'selected', false
 
-      sortedOptions = sortList($('#members_directory option'))
-      $('#members_directory').empty().append sortedOptions
-
   # removing members from selected_members box, move back to members_directory
   $('#remove-members').on 'click', (e) ->
     e.preventDefault()
@@ -31,9 +27,22 @@ $(document).ready ->
       sortedOptions = sortList($('#members_directory option'))
       $('#members_directory').empty().append sortedOptions
 
-  $('#new-group-submit').one 'click', (e) ->
-    e.preventDefault()
-    if $('#selected_members option').length > 0
-      $('#selected_members option').attr 'selected', true
+  $('#new-group-submit').on 'click', (e) ->
+    $('#selected_members option').prop 'selected', true
 
-    $(this).trigger 'click'
+  # Filtering users
+  $('#filter-members').on 'input', ->
+    $selectListOptions = $('#members_directory option')
+
+    # get filterText
+    filterText = this.value.toLowerCase()
+
+    # for each option, if text or value matches filterText
+    for option in $selectListOptions
+      value = option.value.toLowerCase()
+      text = option.text.toLowerCase()
+
+      if value.match(filterText) || text.match(filterText)
+        $(option).show()
+      else
+        $(option).hide()
