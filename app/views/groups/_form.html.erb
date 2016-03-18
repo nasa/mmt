@@ -3,11 +3,11 @@
 <% method = new_form ? :post : :put %>
 
 <%= form_tag(path, method: method, class: 'group-form') do %>
-  <% if new_form || params[:group] %>
+  <% if new_form || params[:edit_group] %>
     <%= render partial: 'group_form', locals: { new_form: new_form } %>
   <% end %>
 
-  <% if new_form && !params[:group] && !params[:add_members] %>
+  <% if new_form && !params[:edit_group] && !params[:add_members] %>
     <hr>
   <% end %>
 
