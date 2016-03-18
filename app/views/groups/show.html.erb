@@ -27,14 +27,14 @@
     <section>
       <div class="flex-center">
         <div class="row">
-          <%= link_to 'Edit Group', edit_group_path(group: true) %> |
+          <%= link_to 'Edit Group', edit_group_path(edit_group: true) %> |
           <%= link_to 'Delete Group', '#delete-group-modal', class: 'display-modal' %>
           <div id='delete-group-modal' class="modal-content">
             <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
             <p>Are you sure you want to delete this group?</p>
             <p>
               <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
-              <%= link_to 'Yes', group_path(@group), method: :delete, class: 'btn btn-blue spinner' %>
+              <%= link_to 'Yes', group_path(name: @group['name']), method: :delete, class: 'btn btn-blue spinner' %>
             </p>
           </div>
         </div>
@@ -47,7 +47,7 @@
       </p>
       <hr>
       <p>
-        <b class="disabled">Group Members</b>
+        <b>Group Members</b>
       </p>
       <div class="row space-bot disabled">
         <label for="group-filter">

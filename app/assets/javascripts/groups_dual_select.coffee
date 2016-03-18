@@ -1,5 +1,4 @@
 $(document).ready ->
-
   sortList = (optionsList) ->
     sorted = optionsList.sort (a, b) ->
       if a.text.toLowerCase() > b.text.toLowerCase()
@@ -30,3 +29,20 @@ $(document).ready ->
 
   $('#new-group-submit').on 'click', (e) ->
     $('#selected_members option').prop 'selected', true
+
+  # Filtering users
+  $('#filter-members').on 'input', ->
+    $selectListOptions = $('#members_directory option')
+
+    # get filterText
+    filterText = this.value.toLowerCase()
+
+    # for each option, if text or value matches filterText
+    for option in $selectListOptions
+      value = option.value.toLowerCase()
+      text = option.text.toLowerCase()
+
+      if value.match(filterText) || text.match(filterText)
+        $(option).show()
+      else
+        $(option).hide()
