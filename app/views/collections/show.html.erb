@@ -66,7 +66,16 @@
     </div>
   <% elsif @user_permissions == 'wrong_provider' %>
     <div class="banner banner-dismissible banner-warn">
-      <%= link_to("You need to change your current provider to #{@collection_action || @record_action} #{display_collection_entry_title(@collection)}. Click here to change your provider.", "#not-current-provider-modal", class: "display-modal not-current-provider", data: { "provider": @provider_id, record_action: @record_action }) %>
+      <p class="banner-message">
+        <%= link_to("You need to change your current provider to #{@collection_action || @record_action} #{display_collection_entry_title(@collection)}. Click here to change your provider.", "#not-current-provider-modal", class: "display-modal not-current-provider", data: { "provider": @provider_id, record_action: @record_action }) %>
+      </p>
+    </div>
+    <div class="no-access">
+      <h3 class="access-title">Access Denied</h3>
+      <p class="access-message">
+        It appears you do not have access to this content.<br />
+        If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
+      </p>
     </div>
     <%= render partial: 'shared/not_current_provider_modal', locals: {
       options: { collection: @collection, concept_id: @concept_id, revision_id: @revision_id }

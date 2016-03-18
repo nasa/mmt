@@ -60,11 +60,29 @@
 
   <% if @user_permissions == 'none' %>
     <div class="banner banner-dismissible banner-warn">
-      <%= "You don't have the appropriate permissions to #{@draft_action} #{@draft.display_entry_title}" %>
+      <p class="banner-message">
+        <%= "You don't have the appropriate permissions to #{@draft_action} #{@draft.display_entry_title}" %>
+      </p>
+    </div>
+    <div class="no-access">
+      <h3 class="access-title">Access Denied</h3>
+      <p class="access-message">
+        It appears you do not have access to this content.<br />
+        If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
+      </p>
     </div>
   <% elsif @user_permissions == 'wrong_provider' %>
     <div class="banner banner-dismissible banner-warn">
-      <%= link_to("You need to change your current provider to #{@draft_action} #{@draft.display_entry_title}. Click here to change your provider.", "#not-current-provider-modal", class: "display-modal not-current-provider", data: { "provider": @draft.provider_id, record_action: "#{@draft_action}-draft" }) %>
+      <p class="banner-message">
+        <%= link_to("You need to change your current provider to #{@draft_action} #{@draft.display_entry_title}. Click here to change your provider.", "#not-current-provider-modal", class: "display-modal not-current-provider", data: { "provider": @draft.provider_id, record_action: "#{@draft_action}-draft" }) %>
+      </p>
+    </div>
+    <div class="no-access">
+      <h3 class="access-title">Access Denied</h3>
+      <p class="access-message">
+        It appears you do not have access to this content.<br />
+        If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
+      </p>
     </div>
     <%= render partial: 'shared/not_current_provider_modal', locals: {
       options: { draft: @draft, draft_id: @draft.try(:id), draft_form: @draft_form }
