@@ -14,6 +14,7 @@
   <% if new_form || params[:add_members] %>
     <%= render 'add_members_form' %>
   <% end %>
+
   <div class="row space-top">
     <%= submit_tag 'Save', class: 'btn btn-blue space-right', id: 'new-group-submit' %>
     <% if new_form %>

@@ -20,7 +20,7 @@ class GroupsController < ApplicationController
     group_request = cmr_client.get_group(concept_id, token)
     if group_request.success?
       @group = group_request.body
-      request_group_members(concept_id, token)
+      request_group_members(concept_id)
     else
       flash[:error] = Array.wrap(group_request.body['errors'])[0]
       redirect_to groups_path
@@ -46,7 +46,7 @@ class GroupsController < ApplicationController
         concept_id = group_creation.body['concept-id']
         flash[:success] = 'Group was successfully created.'
 
-        add_members_to_group(members, concept_id, token)
+        add_members_to_group(members, concept_id)
         redirect_to group_path(concept_id)
       else
         # Log error message
@@ -117,7 +117,7 @@ class GroupsController < ApplicationController
         render :edit
       end
     elsif members
-      add_members_to_group(members, concept_id, token)
+      add_members_to_group(members, concept_id)
       redirect_to group_path(concept_id)
     end
   end
@@ -151,7 +151,7 @@ class GroupsController < ApplicationController
     @selected_users = selected
   end
 
-  def request_group_members(concept_id, token)
+  def request_group_members(concept_id)
     group_members_request = cmr_client.get_group_members(concept_id, token)
     if group_members_request.success?
       group_members_uids = group_members_request.body
@@ -169,7 +169,7 @@ class GroupsController < ApplicationController
     end
   end
 
-  def add_members_to_group(members, concept_id, token)
+  def add_members_to_group(members, concept_id)
     return if members.empty?
 
     add_members = cmr_client.add_group_members(concept_id, members, token)
