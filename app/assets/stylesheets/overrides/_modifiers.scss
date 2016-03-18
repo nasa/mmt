@@ -2,7 +2,7 @@
    Override Modifiers
 \* ===================================================== */
 
-.home {
+.dashboard {
   background-color: $light-grey;
 }
 
@@ -98,6 +98,15 @@
 
 .no-bg {
   background: none;
+}
+
+// Condensing list spacing
+.is-condensed {
+  margin: 0.25em 0;
+
+  li {
+    margin: 0.25em 0;
+  }
 }
 
 .w10 { width: 10%; }

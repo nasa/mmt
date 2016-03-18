@@ -43,43 +43,8 @@ describe 'Acquisition information form', js: true do
       open_accordions
     end
 
-    it 'shows the draft preview page' do
-      expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-    end
-
-    it 'shows pre-entered values in the draft preview page' do
-      expect(page).to have_content('Project campaign 1')
-      expect(page).to have_content('Project campaign 2')
-      expect(page).to have_content('Characteristics data type 1', count: 5)
-      expect(page).to have_content('Characteristics data type', count: 10)
-      expect(page).to have_content('Characteristics description 1', count: 5)
-      expect(page).to have_content('Characteristics description', count: 10)
-      expect(page).to have_content('Instrument mode 1', count: 2)
-      expect(page).to have_content('Instrument mode 2', count: 2)
-      expect(page).to have_content('Instrument long name', count: 2)
-      expect(page).to have_content('Platform long name')
-      expect(page).to have_content('Project long name')
-      expect(page).to have_content('Sensor long name', count: 2)
-      expect(page).to have_content('Characteristics name 1', count: 5)
-      expect(page).to have_content('Characteristics name', count: 10)
-      expect(page).to have_content('2468', count: 2)
-      expect(page).to have_content('Instrument short name 1', count: 2)
-      expect(page).to have_content('Instrument short name', count: 4)
-      expect(page).to have_content('Platform short name 1')
-      expect(page).to have_content('Platform short name', count: 2)
-      expect(page).to have_content('Project short name')
-      expect(page).to have_content('Sensor short name 1', count: 2)
-      expect(page).to have_content('Sensor short name', count: 4)
-      expect(page).to have_content('Instrument technique', count: 2)
-      expect(page).to have_content('Sensor technique', count: 2)
-      expect(page).to have_content('Aircraft')
-      expect(page).to have_content('unit 1', count: 5)
-      expect(page).to have_content('unit', count: 10)
-      expect(page).to have_content('Characteristics value 1', count: 5)
-      expect(page).to have_content('Characteristics value', count: 10)
-
-      expect(page).to have_content('No Temporal Coverages found')
-      expect(page).to have_content('No Spatial Coordinates found')
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     context 'when returning to the form' do

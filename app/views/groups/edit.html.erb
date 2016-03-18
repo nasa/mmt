@@ -1,0 +1,26 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="breadcrumb">
+        <ol>
+          <li><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li><%= link_to 'Groups', groups_path %></li>
+          <li><%= link_to @group['name'], group_path %></li>
+        </ol>
+      </div>
+      <h2>Edit Group</h2>
+      <p class="subnav">Permissions</p>
+      <p class="subnav current">
+        <%= link_to 'Groups', groups_path %>
+      </p>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+      <%= render 'form' %>
+    </section>
+  </div>
+</main>

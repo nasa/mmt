@@ -94,68 +94,8 @@ describe 'Temporal information form', js: true do
       open_accordions
     end
 
-    it 'shows the draft preview page' do
-      expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-    end
-
-    it 'shows pre-entered values in the draft preview page' do
-      # Complete TemporalExtent fields
-      expect(page).to have_content('SingleDateTime')
-      expect(page).to have_content('1')
-      expect(page).to have_content('2015-07-01T00:00:00Z')
-      expect(page).to have_content('2015-08-01T00:00:00Z')
-
-      # Add another TemporalExtent
-      expect(page).to have_content('RangeDateTime')
-      expect(page).to have_content('10')
-      expect(page).to have_content('false')
-      expect(page).to have_content('2015-07-02T00:00:00Z')
-      expect(page).to have_content('2015-08-02T00:00:00Z')
-
-      # Add another TemporalExtent
-      expect(page).to have_content('PeriodicDateTime')
-      expect(page).to have_content('30')
-      expect(page).to have_content('false')
-      expect(page).to have_content('Periodic Extent')
-      expect(page).to have_content('2015-09-01T00:00:00Z')
-      expect(page).to have_content('2015-10-01T00:00:00Z')
-      expect(page).to have_content('Duration Unit')
-      expect(page).to have_content('Period Cycle Duration Unit')
-      expect(page).to have_content('1')
-
-      # Complete TemporalKeyword fields
-      expect(page).to have_content('Annual Climatology')
-      expect(page).to have_content('Annual')
-
-      # Complete PaleoTemporalCoverage fields
-      expect(page).to have_content('Eon text')
-      expect(page).to have_content('Era text')
-      expect(page).to have_content('Epoch text')
-      expect(page).to have_content('Stage text')
-      expect(page).to have_content('Detailed Classification text')
-      expect(page).to have_content('Period text')
-
-      expect(page).to have_content('Eon text 1')
-      expect(page).to have_content('Era text 1')
-      expect(page).to have_content('Epoch text 1')
-      expect(page).to have_content('Stage text 1')
-      expect(page).to have_content('Detailed Classification text 1')
-      expect(page).to have_content('Period text 1')
-
-      expect(page).to have_content('2015-05-01T00:00:00Z')
-      expect(page).to have_content('2015-06-01T00:00:00Z')
-
-      # Also check side bar
-      # Note that handling blank temporal extents is tested in other form tests that don't populate temporal extents
-      expect(page).to have_content('Date: 2015-07-01T00:00:00Z')
-      expect(page).to have_content('Date: 2015-08-01T00:00:00Z')
-      expect(page).to have_content('Start Date: 2015-07-02T00:00:00Z')
-      expect(page).to have_content('Stop Date: 2015-08-02T00:00:00Z')
-      expect(page).to have_content('Start Date: 2015-09-01T00:00:00Z')
-      expect(page).to have_content('Stop Date: 2015-10-01T00:00:00Z')
-
-      expect(page).to_not have_content('No Temporal Coverages found')
-      expect(page).to have_content('No Spatial Coordinates found')
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     context 'when returning to the form' do

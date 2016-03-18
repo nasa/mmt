@@ -61,35 +61,8 @@ describe 'Descriptive keywords form', js: true do
       open_accordions
     end
 
-    it 'shows the draft preview page' do
-      expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-    end
-
-    it 'shows pre-entered values in the draft preview page' do
-      # Science Keywords
-      expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
-      expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
-      expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
-
-      # Ancillary Keywords
-      expect(page).to have_content('Ancillary keyword 1')
-      expect(page).to have_content('Ancillary keyword 2')
-
-      # Additional Attributes
-      expect(page).to have_content('Attribute 1')
-      expect(page).to have_content('Description')
-      expect(page).to have_content('Integer')
-      expect(page).to have_content('Description')
-      expect(page).to have_content('Measurement Resolution')
-      expect(page).to have_content('1')
-      expect(page).to have_content('5')
-      expect(page).to have_content('Parameter Units Of Measure')
-      expect(page).to have_content('Parameter Value Accuracy')
-      expect(page).to have_content('Value Accuracy Explanation')
-      expect(page).to have_content('Group')
-      expect(page).to have_content('2015-09-14T00:00:00Z')
-      expect(page).to have_content('Attribute 2')
-      expect(page).to have_content('String')
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     context 'when returning to the form' do

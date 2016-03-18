@@ -54,73 +54,8 @@ describe 'Data identification form', js: true do
       open_accordions
     end
 
-    it 'shows the draft preview page' do
-      expect(page).to have_content('<Untitled Collection Record> DRAFT RECORD')
-    end
-
-    it 'shows pre-entered values in the draft preview page' do
-      within '.preview' do
-        # Data Dates
-        expect(page).to have_content('Creation')
-        expect(page).to have_content('2015-07-01T00:00:00Z')
-
-        expect(page).to have_content('Future Review')
-        expect(page).to have_content('2015-07-02T00:00:00Z')
-
-        # CollectionDataType
-        expect(page).to have_content('Other')
-
-        # Processing Level
-        expect(page).to have_content('Level 1A')
-        expect(page).to have_content('Level 1 Description')
-
-        expect(page).to have_content('In work')
-        expect(page).to have_content('Metadata quality summary')
-        expect(page).to have_content('These are some use constraints')
-
-        # Access constraints
-        expect(page).to have_content('42.0')
-        expect(page).to have_content('Access constraint description')
-
-        ##### Metadata Association
-        expect(page).to have_content('Science Associated')
-        expect(page).to have_content('Metadata association description')
-        expect(page).to have_content('12345')
-
-        expect(page).to have_content('Larger Citation Works')
-        expect(page).to have_content('123abc')
-
-        #### PublicationReference
-        expect(page).to have_content('Publication reference title')
-        expect(page).to have_content('Publication reference publisher')
-        expect(page).to have_content('Publication reference DOI')
-        expect(page).to have_content('Publication reference authority')
-        expect(page).to have_content('Publication reference author')
-        expect(page).to have_content('2015-07-01T00:00:00Z')
-        expect(page).to have_content('Publication reference series')
-        expect(page).to have_content('Publication reference edition')
-        expect(page).to have_content('Publication reference volume')
-        expect(page).to have_content('Publication reference issue')
-        expect(page).to have_content('Publication reference report number')
-        expect(page).to have_content('Publication reference publication place')
-        expect(page).to have_content('Publication reference pages')
-        expect(page).to have_content('1234567890123')
-        expect(page).to have_content('Publication reference details')
-
-        expect(page).to have_content('http://example.com')
-        expect(page).to have_content('http://another-example.com')
-        expect(page).to have_content('Example Description')
-        expect(page).to have_content('text/html')
-        expect(page).to have_content('Example Title')
-        expect(page).to have_content('42.0')
-        expect(page).to have_content('MB')
-
-        expect(page).to have_content('Publication reference title 1')
-        expect(page).to have_content('9876543210987')
-      end
-
-      expect(page).to have_content('No Temporal Coverages found')
-      expect(page).to have_content('No Spatial Coordinates found')
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Draft was successfully updated')
     end
 
     context 'when returning to the form' do

@@ -30,6 +30,10 @@ fieldset {
   }
 }
 
+.internal fieldset {
+  padding: 1em;
+}
+
 select {
   color: $black;
   width: 100% !important;

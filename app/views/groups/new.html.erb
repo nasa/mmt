@@ -3,17 +3,15 @@
     <div class="content">
       <div class="breadcrumb">
         <ol>
-          <!-- todo: wire the following links -->
           <li><%= link_to 'Manage CMR', manage_cmr_path %></li>
           <li><%= link_to 'Groups', groups_path %></li>
-          <!-- end todo -->
         </ol>
       </div>
       <h2>New Group for <%= @current_user.provider_id %></h2>
       <p class="subnav">Permissions</p>
-      <!-- todo: wire this link -->
-      <p class="subnav current"><a href="#">Groups</a></p>
-      <!-- end todo -->
+      <p class="subnav current">
+        <%= link_to 'Groups', groups_path %>
+      </p>
     </div>
   </header>
 
@@ -21,104 +19,7 @@
 
   <div class="row row-content">
     <section>
-      <%= form_tag(groups_path, method: :post, class: 'group-form') do %>
-        <fieldset class="no-bg">
-          <legend class="space-bot-sm">General</legend>
-          <div class="row">
-            <%= label_tag('group[name]', 'Group Name', class: 'icon-required') %>
-            <br/>
-            <%= text_field_tag('group[name]', @group[:name], class: 'half-width required') %>
-          </div>
-          <div class="row">
-            <%= label_tag('group[description]', 'Group Description', class: 'icon-required') %>
-            <%= text_area_tag('group[description]', @group[:description], cols: 30, rows: 3, class: 'required') %>
-          </div>
-        </fieldset>
-        <hr>
-        <fieldset class="no-bg disabled">
-          <div class="row">
-            <legend class="space-bot-sm">Add Members to Group</legend>
-          </div>
-          <label for="filter-members">Filter Members</label>
-          <input type="text" id="filter-members" class="w30" placeholder="Enter user name" disabled/>
-          <div class="dual-select">
-            <div class="dual-select__menu">
-              <label for="members-directory">Members Directory</label>
-              <select name="members-directory" id="members-directory" multiple disabled>
-                <option value="barbara-gordon">Barbara Gordon | barbara.gordon@nasa.gov</option>
-                <option value="barry-allen">Barry Allen | barry.allen@nasa.gov</option>
-                <option value="bruce-wayne">Bruce Wayne | bruce.wayne@nasa.gov</option>
-                <option value="diana-price">Diana Prince | diana.price@nasa.gov
-                <option value="natasha-romanoff">Natasha Romanoff | natasha.romanoff@nasa.gov</option>
-                </option>
-                <option value="tony-stark">Tony Stark | tony.stark@nasa.gov</option>
-              </select>
-            </div>
-            <div class="dual-select__actions">
-              <button id="add-members" class="btn btn-default" disabled>Add Member(s) <span class="icon-circle-right"></span></button>
-              <button id="remove-members" class="btn btn-default" disabled><span class="icon-circle-left"></span> Remove Member(s)</button>
-            </div>
-            <div class="dual-select__menu">
-              <div class="row">
-                <label for="selected-members">Selected Members</label>
-              </div>
-              <select name="selected-members" id="selected-members" multiple disabled>
-            </select>
-            </div>
-          </div>
-        </fieldset>
-        <div class="row space-top">
-          <input type="submit" class="btn btn-blue space-right" value="Save">
-          <a href="#">Cancel</a>
-        </div>
-      <% end %>
+      <%= render 'form' %>
     </section>
   </div>
 </main>
-
-<script>
-  $(document).ready(function() {
-
-    $("#add-members").on('click', function(e) {
-      e.preventDefault();
-
-      if ($("#members-directory option:selected").length > 0) {
-        $("#selected-members").append($("#members-directory option:selected"));
-        $("#selected-members option:selected").attr("selected", false);
-
-        var sortedOptions = $("#members-directory option").sort(function(a, b) {
-          if (a.text > b.text) {
-            return 1;
-          } else if (a.text < b.text) {
-            return -1;
-          } else {
-            return 0
-          }
-        });
-
-        $("#members-directory").empty().append(sortedOptions);
-      }
-    });
-
-    $("#remove-members").on('click', function(e) {
-      e.preventDefault();
-
-      if ($("#selected-members option:selected").length > 0) {
-        $("#members-directory").append($("#selected-members option:selected"));
-        $("#members-directory option:selected").attr("selected", false);
-      }
-
-      var sortedOptions = $("#members-directory option").sort(function(a, b) {
-        if (a.text > b.text) {
-          return 1;
-        } else if (a.text < b.text) {
-          return -1;
-        } else {
-          return 0
-        }
-      });
-
-      $("#members-directory").empty().append(sortedOptions);
-    });
-  });
-</script>

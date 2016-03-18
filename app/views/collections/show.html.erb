@@ -1,24 +1,53 @@
 <main class="internal record" role="main">
   <header>
-    <div class="content">
-      <div class="breadcrumb">
-        <ol>
-          <li><%= link_to 'Dashboard', dashboard_path %></li>
-          <li><%= display_entry_id(@collection, 'collection') %></li>
-        </ol>
+    <div class="row content">
+      <div class="collection-basics">
+        <div class="breadcrumb">
+          <ol>
+            <li><%= link_to 'Dashboard', dashboard_path %></li>
+            <li><%= display_entry_id(@collection, 'collection') %></li>
+          </ol>
+        </div>
+        <h2><%= display_entry_id(@collection, 'collection') %></h2>
+        <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
+        <% unless @error %>
+          <p class="subnav current">Published Record</p>
+          <p class="subnav">
+            <% if @current_user.provider_id == @provider_id %>
+              <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
+            <% elsif @current_user.available_providers.include?(@provider_id) %>
+              <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-collection' } %>
+            <% end %>
+          </p>
+        <% end %>
       </div>
-      <h2><%= display_entry_id(@collection, 'collection') %></h2>
-      <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
-      <% unless @error %>
-        <p class="subnav">Published Record</p>
-        <p class="subnav">
-          <% if @current_user.provider_id == @provider_id %>
-            <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id) %>
-          <% elsif @current_user.available_providers.include?(@provider_id) %>
-            <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-collection' } %>
-          <% end %>
-        </p>
-      <% end %>
+      <div class="collection-details">
+        <!-- Only display version if one exists. -->
+        <% if @collection["Version"] %>
+          <span class="badge version">Version <%= @collection["Version"]%></span>
+        <% end %>
+        <!-- Only display data language if one exists. -->
+        <% if @collection["DataLanguage"] %>
+          <span class="badge language"><%= @collection["DataLanguage"]%></span>
+        <% end %>
+        <!-- Only display CollectionDataType if it is NRT. -->
+        <% if @collection["CollectionDataType"] == "NEAR_REAL_TIME" %>
+          <span class="badge nrt">NRT</span>
+        <% end %>
+        <div class="quality-score disabled">
+          <div class="badges">
+            <i class="fa fa-star fa-lg"></i>
+            <i class="fa fa-star fa-lg"></i>
+            <i class="fa fa-star fa-lg"></i>
+            <i class="fa fa-star fa-lg"></i>
+            <i class="fa fa-star-o fa-lg"></i>
+          </div>
+          <div class="score-info">
+            <p>Quality Score: <strong>20</strong></p>
+            <p>Required fields not complete</p>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -59,6 +88,7 @@
             <%= @error %>
           </p>
         </div>
+<<<<<<< HEAD
       <% else %>
         <section class="action">
           <div class="cta">
@@ -117,6 +147,9 @@
             </div>
           </div>
           <%= render partial: 'shared/download_xml', locals: { collection: true } %>
+=======
+        <%= render partial: 'shared/download_xml', locals: { collection: true } %>
+>>>>>>> baa073bc35a6ddc846c63ca431022b8af2e162f6
 
         </section>
 

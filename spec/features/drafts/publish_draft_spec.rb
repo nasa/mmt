@@ -23,33 +23,18 @@ describe 'Publishing draft records', js: true, reset_provider: true do
     end
 
     it 'displays the published metadata' do
-      # runs through entire draft and makes sure all data is present on page
-      draft = build(:full_draft).draft
-
-      # Update the MetadataDates Update Date
-      draft['MetadataDates'][1]['Date'] = Time.now.utc.strftime('%Y-%m-%dT%H:%M:00.000Z')
-
-      root_css_path = 'div.preview-collection > div.accordion-body > ul'
-      options = {
-        DataLanguage: :handle_as_language_code,
-        Scope: :handle_as_not_shown,
-        Type: :handle_as_date_type,
-        Role: :handle_as_role,
-        CollectionDataType: :handle_as_collection_data_type,
-        CollectionProgress: :handle_as_collection_progress,
-        ISOTopicCategories: :handle_as_iso_topic_categories,
-        DataType: :handle_as_data_type,
-        Fees: :handle_as_currency,
-        MetadataLanguage: :handle_as_language_code,
-        CoordinateSystem: :handle_as_coordinate_system_type,
-        SpatialCoverageType: :handle_as_spatial_coverage_type,
-        GranuleSpatialRepresentation: :handle_as_granule_spatial_representation,
-        DurationUnit: :handle_as_duration,
-        PeriodCycleDurationUnit: :handle_as_duration
-      }
-      draft.each do |key, value|
-        check_css_path_for_display_of_values(page, value, key, root_css_path, options, true)
-      end
+      expect(page).to have_no_content('There are no additional metadata details for this collection.')
+      expect(page).to have_no_content('There is no distribution information for this collection.')
+      expect(page).to have_no_content('There are no related URLs for this collection.')
+      expect(page).to have_no_content('There are no science keywords for this collection.')
+      expect(page).to have_no_content('There are no listed organizations for this collection.')
+      expect(page).to have_no_content('There are no listed personnel for this collection.')
+      expect(page).to have_no_content('This collection\'s processing level has not been specified.')
+      expect(page).to have_no_content('There is no spatial information for this collection.')
+      expect(page).to have_no_content('No platforms or instruments have been added to this associated with this collection.')
+      expect(page).to have_no_content('No Spatial Coordinates found')
+      expect(page).to have_no_content('No Spatial Keywords found')
+      expect(page).to have_no_content('No Temporal Coverages found')
     end
 
     context 'when searching for the published record' do

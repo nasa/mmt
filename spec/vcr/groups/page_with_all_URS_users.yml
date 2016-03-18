@@ -1,0 +1,105 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/oauth/token?grant_type=client_credentials
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Authorization:
+      - Basic authorization==
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      server:
+      - nginx/1.8.0
+      date:
+      - Mon, 07 Mar 2016 20:02:38 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - close
+      status:
+      - 200 OK
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      etag:
+      - '"55070640ba17db7ac5b873164c11ba1b"'
+      cache-control:
+      - max-age=0, private, must-revalidate
+      x-request-id:
+      - a74f47a3-0af1-4d9a-bdad-074f430e88f1
+      x-runtime:
+      - '0.022110'
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"access_token","token_type":"Bearer","expires_in":3600}'
+    http_version:
+  recorded_at: Mon, 07 Mar 2016 20:02:38 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/users
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      server:
+      - nginx/1.8.0
+      date:
+      - Mon, 07 Mar 2016 20:02:39 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - close
+      status:
+      - 200 OK
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      etag:
+      - '"d1c9cdd4238b47a1f26d202201f75595"'
+      cache-control:
+      - max-age=0, private, must-revalidate
+      x-request-id:
+      - 17f435d5-fa17-4de2-8344-38e78c5ef435
+      x-runtime:
+      - '0.419510'
+    body:
+      encoding: UTF-8
+      string: '{"abcd":{"uid":"abcd","first_name":"Alien","last_name":"Bobcat","email_address":"aaaa.dddd@nasa.gov","country":"United
+        States","affiliation":"OTHER"},"efgh":{"uid":"efgh","first_name":"Edward","last_name":"Figaro","email_address":"eeee.ffff@nasa.gov","country":"United
+        States","affiliation":"Government"},"ijkl":{"uid":"ijkl","first_name":"Igor","last_name":"Jupiter","middle_initial":"K","email_address":"iiii.k.jjjj@nasa.gov","country":"United
+        States","user_type":"Production User","affiliation":"EED"},"mnop":{"uid":"mnop","first_name":"Marsupial","last_name":"Narwal","email_address":"mmmm.nnnn@nasa.gov","country":"United
+        States","study_area":"Other","user_type":"Production User","affiliation":"COMMERCIAL","organization":"ECHO
+        Development","member_groups":["echo"]},"qrst":{"uid":"qrst","first_name":"Quail","last_name":"Racoon","email_address":"qqqq.rrrr@nasa.gov","country":"United
+        States","affiliation":"Other"},"uvw":{"uid":"uvw","first_name":"Ukulele","last_name":"Vulcan","email_address":"uuuu.vvvv@nasa.gov","country":"United
+        States","study_area":"Global Biosphere","user_type":"Science Team","affiliation":"Government"},"xyz":{"uid":"xyz","first_name":"Xavier","last_name":"Yellow","email_address":"xxxx.yyyy@nasa.gov","country":"United
+        States","affiliation":"GOVERNMENT"}}'
+    http_version:
+  recorded_at: Mon, 07 Mar 2016 20:02:39 GMT
+recorded_with: VCR 3.0.1
