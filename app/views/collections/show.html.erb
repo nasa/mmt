@@ -54,8 +54,8 @@
   <%= render 'shared/flash_messages' %>
 
   <% if @user_permissions == 'none' %>
-    <div class="banner banner-dismissible banner-warn">
-      <p class="banner-message"><%= "You don't have the appropriate permissions to #{@collection_action || @record_action} #{display_collection_entry_title(@collection)}" %></p>
+    <div class="banner banner-danger">
+      <p class="banner-message"><%= "You don't have the appropriate permissions to #{@collection_action} this collection." %></p>
     </div>
     <div class="no-access">
       <h3 class="access-title">Access Denied</h3>
@@ -65,22 +65,17 @@
       </p>
     </div>
   <% elsif @user_permissions == 'wrong_provider' %>
-    <div class="banner banner-dismissible banner-warn">
+    <div class="banner banner-warn">
       <p class="banner-message">
-        <%= link_to("You need to change your current provider to #{@collection_action || @record_action} #{display_collection_entry_title(@collection)}. Click here to change your provider.", "#not-current-provider-modal", class: "display-modal not-current-provider", data: { "provider": @provider_id, record_action: @record_action }) %>
+        <%= link_to("You need to change your current provider to #{@collection_action} this collection. Click here to change your provider.",
+          "#", id: "change-current-provider-banner-link",
+          data: { "provider": @provider_id, action_link: "change-provider-#{@collection_action}-collection" }) %>
       </p>
+      <%= render_change_provider_collection_action_link(@collection_action, @concept_id, @revision_id) %>
     </div>
-    <div class="no-access">
-      <h3 class="access-title">Access Denied</h3>
-      <p class="access-message">
-        It appears you do not have access to this content.<br />
-        If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
-      </p>
-    </div>
-    <%= render partial: 'shared/not_current_provider_modal', locals: {
-      options: { collection: @collection, concept_id: @concept_id, revision_id: @revision_id }
-      } %>
-  <% else %>
+  <% end %>
+
+  <% unless @user_permissions == 'none' %>
     <% if @old_revision %>
       <div class="banner banner-info">
         <%= link_to 'You are viewing an older revision of this collection. Click here to view the latest published version.', collection_path %>

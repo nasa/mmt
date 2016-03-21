@@ -154,37 +154,24 @@ describe 'Collections permissions', js: true, reset_provider: true do
             visit edit_link
           end
 
-          it 'displays warning message link for change provider modal' do
+          it 'displays warning banner link to change provider' do
             expect(page).to have_css('.banner-warn')
-            expect(page).to have_content("You need to change your current provider to edit Draft Title")
+            expect(page).to have_content("You need to change your current provider to edit this collection")
           end
 
-          context 'when clicking the warning message' do
+          context 'when clicking the warning banner link' do
             before do
-              click_link("You need to change your current provider to edit Draft Title")
-              sleep 1
+              click_link("You need to change your current provider to edit this collection")
+              wait_for_ajax
             end
 
-            it 'displays a modal informing user they need to switch providers' do
-              expect(page).to have_content("Editing this collection #{modal_text}")
+            it 'switches the provider context' do
+              expect(User.first.provider_id).to eq('MMT_2')
             end
 
-            context 'when clicking Yes' do
-              before do
-                within '#not-current-provider-modal' do
-                  first('a.not-current-provider-link').click
-                end
-                wait_for_ajax
-              end
-
-              it 'switches the provider context' do
-                expect(User.first.provider_id).to eq('MMT_2')
-              end
-
-              it 'creates a draft from the collection' do
-                expect(page).to have_content('Draft was successfully created')
-                expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
-              end
+            it 'creates a draft from the collection' do
+              expect(page).to have_content('Draft was successfully created')
+              expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
             end
           end
         end
@@ -195,37 +182,24 @@ describe 'Collections permissions', js: true, reset_provider: true do
             visit clone_link
           end
 
-          it 'displays warning message link for change provider modal' do
+          it 'displays warning banner link to change provider' do
             expect(page).to have_css('.banner-warn')
-            expect(page).to have_content("You need to change your current provider to clone Draft Title")
+            expect(page).to have_content("You need to change your current provider to clone this collection")
           end
 
-          context 'when clicking the warning message' do
+          context 'when clicking the warning banner link' do
             before do
-              click_link("You need to change your current provider to clone Draft Title")
-              sleep 1
+              click_link("You need to change your current provider to clone this collection")
+              wait_for_ajax
             end
 
-            it 'displays a modal informing user they need to switch providers' do
-              expect(page).to have_content("Cloning this collection #{modal_text}")
+            it 'switches the provider context' do
+              expect(User.first.provider_id).to eq('MMT_2')
             end
 
-            context 'when clicking Yes' do
-              before do
-                within '#not-current-provider-modal' do
-                  first('a.not-current-provider-link').click
-                end
-                wait_for_ajax
-              end
-
-              it 'switches the provider context' do
-                expect(User.first.provider_id).to eq('MMT_2')
-              end
-
-              it 'creates a draft from the collection' do
-                expect(page).to have_link('Records must have a unique Short Name. Click here to enter a new Short Name.')
-                expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
-              end
+            it 'creates a draft from the collection' do
+              expect(page).to have_link('Records must have a unique Short Name. Click here to enter a new Short Name.')
+              expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
             end
           end
         end
@@ -264,9 +238,14 @@ describe 'Collections permissions', js: true, reset_provider: true do
             visit edit_link
           end
 
-          it 'displays the no permissions warning message' do
-            expect(page).to have_css('.banner-warn')
-            expect(page).to have_content("You don't have the appropriate permissions to edit ACRIM III Level 2 Daily Mean Data V001")
+          it 'displays the no permissions banner message' do
+            expect(page).to have_css('.banner-danger')
+            expect(page).to have_content("You don't have the appropriate permissions to edit this collection")
+          end
+
+          it 'displays the Access Denied message' do
+            expect(page).to have_content('Access Denied')
+            expect(page).to have_content('It appears you do not have access to this content.')
           end
         end
 
@@ -276,9 +255,14 @@ describe 'Collections permissions', js: true, reset_provider: true do
             visit clone_link
           end
 
-          it 'displays the no permissions warning message' do
-            expect(page).to have_css('.banner-warn')
-            expect(page).to have_content("You don't have the appropriate permissions to clone ACRIM III Level 2 Daily Mean Data V001")
+          it 'displays the no permissions banner message' do
+            expect(page).to have_css('.banner-danger')
+            expect(page).to have_content("You don't have the appropriate permissions to clone this collection")
+          end
+
+          it 'displays the Access Denied message' do
+            expect(page).to have_content('Access Denied')
+            expect(page).to have_content('It appears you do not have access to this content.')
           end
         end
       end

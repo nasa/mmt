@@ -63,23 +63,22 @@ class CollectionsController < ApplicationController
     case
     when request.original_url.include?('edit')
       @collection_action = 'edit'
-      @record_action = 'edit-collection'
     when request.original_url.include?('clone')
-      @record_action = 'clone'
+      @collection_action = 'clone'
     when request.original_url.include?('revert')
-      @record_action = 'revert'
+      @collection_action = 'revert'
     when request.original_url.include?('delete')
       @collection_action = 'delete'
-      @record_action = 'delete-collection'
     end
+
+    @revision_id = params[:revision_id]
 
     if @current_user.available_providers.include?(@provider_id)
       @user_permissions = 'wrong_provider'
-      render :show
     else
       @user_permissions = 'none'
-      render :show
     end
+    render :show
   end
 
   def set_collection
