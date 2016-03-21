@@ -91,7 +91,7 @@ module Cmr
       headers = {
         'Accept' => 'application/json'
       }
-      delete(url, {}, headers.merge(token_header(token)))
+      delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
     # This method will be replaced by the work from CMR-2053, including granule counts in umm-json searches
@@ -166,7 +166,7 @@ module Cmr
       else
         url = "/access-control/groups/#{concept_id}"
       end
-      delete(url, {}, token_header(token))
+      delete(url, {}, nil, token_header(token))
     end
 
     def add_users_to_local_cmr(user_uids, token) # need token?
@@ -187,6 +187,15 @@ module Cmr
         url = "/access-control/groups/#{concept_id}/members"
       end
       post(url, user_uids.to_json, token_header(token))
+    end
+
+    def remove_group_members(concept_id, user_uids, token)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/groups/#{concept_id}/members"
+      else
+        url = "/access-control/groups/#{concept_id}/members"
+      end
+      delete(url, {}, user_uids.to_json, token_header(token))
     end
 
     def get_group_members(concept_id, token)

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :groups
+  delete '/groups/:id/remove_members' => 'groups#remove_members', as: 'remove_members'
 
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'

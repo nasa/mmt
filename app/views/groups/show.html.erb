@@ -49,29 +49,47 @@
       <p>
         <b>Group Members</b>
       </p>
-      <div class="row">
-        <a href="#" class="btn btn-default disabled">Remove Selected</a>
-        <%= link_to '+ Add Members', edit_group_path(add_members: true), class: 'btn btn-default' %>
+      <div class="row space-bot disabled">
+        <label for="group-filter">
+          Filter
+          <input type="text" placeholder="Enter member name" disabled>
+        </label>
       </div>
-      <table class="space-top align-c" id="groups-table">
-        <thead>
-          <tr>
-            <th class="align-c"><input type="checkbox" disabled><span class="is-invisible">Column to select members</span></th>
-            <th>Member Name</th>
-            <th>Email</th>
-            <!-- <th>Last Activity</th> -->
-          </tr>
-        </thead>
-        <tbody>
-          <% @sorted_members.each do |member| %>
+      <%= form_tag(remove_members_path(id: @concept_id), method: :delete, class: 'group-form') do %>
+        <div class="row">
+          <%= link_to 'Remove Selected', 'javascript:void(0)', id: 'remove-selected-members', class: 'btn btn-default disabled', disabled: true %>
+
+          <%= link_to '+ Add Members', edit_group_path(add_members: true), class: 'btn btn-default' %>
+        </div>
+        <table class="space-top align-c" id="groups-table">
+          <thead>
             <tr>
-              <td><input type="checkbox" disabled></td>
-              <td class="align-l"><%= member[0] %></td>
-              <td class="align-l"><%= member[1] %></td>
+              <th class="align-c">
+                <%= check_box_tag 'select_all_members' %>
+                <span class="is-invisible">Column to select members</span>
+              </th>
+              <th>Member Name</th>
+              <th>Email</th>
+              <!-- <th>Last Activity</th> -->
             </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% @members.each do |member| %>
+              <tr>
+                <td>
+                  <%= check_box_tag 'members[]', member[:uid], false, class: 'remove-member-checkbox' %>
+                </td>
+                <td class="align-l"><%= member[:name] %></td>
+                <td class="align-l"><%= member[:email] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+      <div class="row space-top disabled">
+        <input type="submit" class="btn btn-blue space-right" value="Save" disabled>
+        <a href="#">Cancel</a>
+      </div>
     </section>
   </div>
 </main>

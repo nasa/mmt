@@ -47,8 +47,8 @@ module Cmr
       request(:get, url, params, nil, headers)
     end
 
-    def delete(url, params = {}, headers = {})
-      request(:delete, url, params, nil, headers)
+    def delete(url, params = {}, body = nil, headers = {})
+      request(:delete, url, params, body, headers)
     end
 
     def post(url, body, headers = {})
