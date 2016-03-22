@@ -63,7 +63,6 @@ module Cmr
       Faraday.new(url: @root) do |conn|
         conn.response :logging
 
-        # TODO these are messing up the response from CMR for translating metadata
         conn.response :events, content_type: /\bjson$/
         conn.response :json, content_type: /\bjson$/
         # conn.response :xml, content_type: /\bxml$/
