@@ -39,7 +39,7 @@
             <% @groups.each do |group| %>
               <tr>
                 <td><%= link_to group['name'], group_path(group['concept-id']) %></td>
-                <td><%= is_system_group?(group) ? 'CMR' : group['provider-id'] %></td>
+                <td><%= group_provider(group) %></td>
                 <td><%= group['member-count'] %></td>
               </tr>
             <% end %>
