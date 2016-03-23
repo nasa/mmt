@@ -20,13 +20,6 @@ module Cmr
       insert_metadata(retrieve_metadata_uris)
     end
 
-    def load_system_groups
-      wait_for_cmr do
-        setup_cmr
-      end
-      insert_system_groups(retrieve_system_groups)
-    end
-
     def wait_for_cmr
       cmr_up = false
       until cmr_up
@@ -40,6 +33,21 @@ module Cmr
     end
 
     def setup_cmr
+      # Create admin user (token ABC-1)
+      connection.post do |req|
+        req.url('http://localhost:3008/tokens')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Accept'] = 'application/json'
+        req.body = '{"token": {"username":"admin", "password":"admin", "client_id":"dev test", "user_ip_address":"127.0.0.1","group_guids":["guidMMTAdmin"]}}'
+      end
+      # Create admin user (token ABC-2)
+      connection.post do |req|
+        req.url('http://localhost:3008/tokens')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Accept'] = 'application/json'
+        req.body = '{"token": {"username":"typical", "password":"user", "client_id":"dev test", "user_ip_address":"127.0.0.1","group_guids":["guidMMTUser"]}}'
+      end
+
       ### Creating a Provider in CMR
       # Provider SEDAC
       connection.post do |req|
@@ -154,27 +162,44 @@ module Cmr
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
 
-      ## ACLs for Groups
-      # System level groups
+      ## ACLs for System level groups
+      # admin user
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token-admin' # mock token for admin for system level users
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"system_object_identity": {"target": "GROUP"}}}'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"system_object_identity": {"target": "GROUP"}}}'
       end
+      # mock-echo-system-token
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "mock-admin-group-guid"}}}],"system_object_identity": {"target": "GROUP"}}}'
+      end
+
+      # Create system level group
+      connection.post do |req|
+        req.url('http://localhost:3011/groups')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"name": "Administrators", "description": "The group of users that manages the CMR."}'
+      end
+
+      # ACLs for provider groups
       # MMT_1
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid3","target": "GROUP"}}}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTUser"}}}],"provider_object_identity": {"provider_guid": "provguid3","target": "GROUP"}}}'
       end
       # MMT_2
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "GROUP"}}}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTUser"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "GROUP"}}}'
       end
 
       ### Clear Cache
@@ -224,36 +249,6 @@ module Cmr
         end
       end
       puts 'Done!'
-    end
-
-    def retrieve_system_groups
-      data = JSON.parse(File.read(File.join(Rails.root, 'lib', 'test_cmr', 'test_system_groups.json')), symbolize_names: true)
-    end
-
-    def insert_system_groups(group_list)
-      added = 0
-      group_list.each_with_index do |group, index|
-        response = connection.post do |req|
-          req.url("http://localhost:3011/groups")
-          req.headers['Content-Type'] = 'application/json'
-          # using admin mock token for system level groups
-          req.headers['Echo-token'] = 'mock-echo-system-token-admin'
-          req.body = group.to_json
-        end
-        # TODO if I use the admin mock token, local cmr rejects with error message
-        # "Token mock-echo-system-token-admin does not exist"
-        # if use the non-admin mock token, the groups will be loaded into local cmr
-        # BUT, does not seem to match admin mock token used in setup_cmr for system groups
-
-        if response.success?
-          added += 1
-          puts "Loaded #{added} system groups"
-        else
-          puts response.inspect
-        end
-      end
-
-      puts 'Done adding system groups'
     end
 
     def reset_data

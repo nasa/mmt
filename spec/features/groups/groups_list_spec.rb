@@ -49,10 +49,9 @@ describe 'Groups list page', js: true, reset_provider: true do
             end
           end
 
-          it 'does not display the system level groups' do
+          it 'does not display the system level group' do
             within '.groups-table' do
-              expect(page).to have_no_content('System Group 01 CMR 0')
-              expect(page).to have_no_content('System Group 02 CMR 0')
+              expect(page).to have_no_content('Administrators CMR 0')
             end
           end
 
@@ -87,10 +86,9 @@ describe 'Groups list page', js: true, reset_provider: true do
                 click_on 'Groups'
               end
 
-              it 'displays the system level groups' do
+              it 'displays the system level group' do
                 within '.groups-table' do
-                  expect(page).to have_content('System Group 01 CMR 0')
-                  expect(page).to have_content('System Group 02 CMR 0')
+                  expect(page).to have_content('Administrators CMR 0')
                 end
               end
 
@@ -128,10 +126,9 @@ describe 'Groups list page', js: true, reset_provider: true do
         click_on 'Groups'
       end
 
-      it 'has displays the system level groups' do
+      it 'displays the system level groups' do
         within '.groups-table' do
-          expect(page).to have_content('System Group 01 CMR 0')
-          expect(page).to have_content('System Group 02 CMR 0')
+          expect(page).to have_content('Administrators CMR 0')
         end
       end
     end
