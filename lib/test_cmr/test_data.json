@@ -218,4 +218,9 @@
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C179031454-LARC/21.echo10",
   "ingest_count": 1,
   "granule": null
+}, {
+  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1200060318-DEMO_PROV",
+  "ingest_count": 1,
+  "granule": null,
+  "type": "dif"
 }]

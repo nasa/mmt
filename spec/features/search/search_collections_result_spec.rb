@@ -213,7 +213,7 @@ describe 'Search published results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(30, 'Provider Id: LARC')
+      expect(page).to have_search_query(31, 'Provider Id: LARC')
     end
 
     it 'displays expected data' do

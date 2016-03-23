@@ -84,7 +84,7 @@ class CollectionsController < ApplicationController
       if concept_format == 'application/vnd.nasa.cmr.umm+json'
         @collection = @metadata
       else
-        @collection = cmr_client.translate_collection(@metadata, concept_format, "application/#{Rails.configuration.umm_version}", true).body
+        @collection = cmr_client.translate_collection(@metadata, concept_format, "application/#{Rails.configuration.umm_version};charset=utf-8", true).body
       end
     else
       # concept wasn't found, CMR might be a little slow
