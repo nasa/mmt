@@ -119,4 +119,5 @@ RSpec.configure do |config|
   config.include Helpers::DraftHelpers
   config.include Helpers::DateHelpers
   config.include Helpers::SearchHelpers
+  config.include Helpers::GroupHelpers
 end

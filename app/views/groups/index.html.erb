@@ -29,20 +29,20 @@
           </tr>
         </thead>
         <tbody>
-          <% @groups.each do |group| %>
-            <tr>
-              <td><%= link_to group['name'], group_path(group['concept-id']) %></td>
-              <td><%= group['provider-id'] %></td>
-              <td><%= group['member-count'] %></td>
-            </tr>
-          <% end %>
-
           <% if @groups.blank? %>
             <tr>
               <td>No groups found at this time.</td>
               <td>-</td>
               <td>-</td>
             </tr>
+          <% else %>
+            <% @groups.each do |group| %>
+              <tr>
+                <td><%= link_to group['name'], group_path(group['concept-id']) %></td>
+                <td><%= is_system_group?(group) ? 'CMR' : group['provider-id'] %></td>
+                <td><%= group['member-count'] %></td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>

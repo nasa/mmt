@@ -20,6 +20,13 @@ module Cmr
       insert_metadata(retrieve_metadata_uris)
     end
 
+    def load_system_groups
+      wait_for_cmr do
+        setup_cmr
+      end
+      insert_system_groups(retrieve_system_groups)
+    end
+
     def wait_for_cmr
       cmr_up = false
       until cmr_up
@@ -147,11 +154,12 @@ module Cmr
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
 
-      # ACLs for Groups
+      ## ACLs for Groups
+      # System level groups
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Echo-token'] = 'mock-echo-system-token-admin' # mock token for admin for system level users
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"system_object_identity": {"target": "GROUP"}}}'
       end
       # MMT_1
@@ -216,6 +224,36 @@ module Cmr
         end
       end
       puts 'Done!'
+    end
+
+    def retrieve_system_groups
+      data = JSON.parse(File.read(File.join(Rails.root, 'lib', 'test_cmr', 'test_system_groups.json')), symbolize_names: true)
+    end
+
+    def insert_system_groups(group_list)
+      added = 0
+      group_list.each_with_index do |group, index|
+        response = connection.post do |req|
+          req.url("http://localhost:3011/groups")
+          req.headers['Content-Type'] = 'application/json'
+          # using admin mock token for system level groups
+          req.headers['Echo-token'] = 'mock-echo-system-token-admin'
+          req.body = group.to_json
+        end
+        # TODO if I use the admin mock token, local cmr rejects with error message
+        # "Token mock-echo-system-token-admin does not exist"
+        # if use the non-admin mock token, the groups will be loaded into local cmr
+        # BUT, does not seem to match admin mock token used in setup_cmr for system groups
+
+        if response.success?
+          added += 1
+          puts "Loaded #{added} system groups"
+        else
+          puts response.inspect
+        end
+      end
+
+      puts 'Done adding system groups'
     end
 
     def reset_data

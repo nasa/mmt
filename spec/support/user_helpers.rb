@@ -32,6 +32,38 @@ module Helpers
       visit '/dashboard'
     end
 
+    def login_admin
+      # Mock calls to URS and login Test User
+      token_body = {
+        'access_token' => 'access_token_admin', # TODO change for admin
+        'token_type' => 'Bearer',
+        'expires_in' => 3600,
+        'refresh_token' => 'refresh_token',
+        'endpoint' => '/api/users/adminadminuser'
+      }
+      token_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: token_body))
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_oauth_tokens).and_return(token_response)
+
+      profile_body = { # TODO change for admin
+        'uid' => 'adminuser',
+        'first_name' => 'Admin',
+        'last_name' => 'User',
+        'email_address' => 'adminuser@example.com',
+        'country' => 'United States',
+        'study_area' => 'Other',
+        'user_type' => 'Public User',
+        'affiliation' => 'OTHER',
+        'organization' => 'Testing'
+      }
+      profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body))
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_profile).and_return(profile_response)
+
+      # after the user authenticates with URS
+      visit '/urs_callback?code=auth_code_here'
+
+      visit '/dashboard'
+    end
+
     def visit_with_expiring_token(path)
       # Mock calls to URS and login Test User
       token_body = {

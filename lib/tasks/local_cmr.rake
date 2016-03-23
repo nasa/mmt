@@ -36,4 +36,16 @@ namespace :cmr do
     cmr = Cmr::Local.new
     cmr.reset_provider('MMT_2')
   end
+
+  desc 'Load system level groups for tests'
+  task :load_system_groups do
+    cmr = Cmr::Local.new
+    cmr.load_system_groups
+  end
+
+  desc 'Load collection metadata AND system level groups'
+  task load_data_and_groups: [:load, :load_system_groups] do
+    cmr = Cmr::Local.new
+    # reset, load metadata, load system groups
+  end
 end
