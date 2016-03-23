@@ -5,7 +5,7 @@
 // Note: Needs improved naming convention
 
 .icon-completed,
-.icon-required {
+.eui-icon eui-required {
   &:before {
     content:"\f125";
     font-family: "Earthdata-Icon-Library";
@@ -19,7 +19,7 @@
 
 .compass-coordinates {
   .icon-completed,
-  .icon-required {
+  .eui-icon eui-required {
     &:before {
       content:"\f125";
       font-family: "Earthdata-Icon-Library";

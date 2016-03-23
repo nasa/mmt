@@ -11,7 +11,7 @@ $(document).ready ->
         message = '<i class="fa fa-exclamation-triangle"></i>'
         message += "#{field} is required."
 
-        classes = 'banner banner-danger validation-error'
+        classes = 'eui-banner eui-banner-danger validation-error'
         classes += ' half-width' if $element.hasClass('half-width')
 
         errorElement = $('<div/>',

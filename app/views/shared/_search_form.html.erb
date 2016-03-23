@@ -3,10 +3,10 @@
   <div class="quick-search">
     <%= label_tag('keyword', "Quick Find") %>
     <%= text_field_tag('keyword', @query['keyword'], placeholder: 'Enter Search Term') %>
-    <button type="button" name="quick_find" class="btn btn-blue"><i class="ed-icon ed-fa-search"></i>Find</button>
+    <button type="button" name="quick_find" class="eui-btn eui-btn--blue"><i class="eui-icon eui-fa-search"></i>Find</button>
   </div>
 
-  <a href="#" class="full-search"><i class="ed-icon ed-fa-search"></i>Full Metadata Record Search</a>
+  <a href="#" class="full-search"><i class="eui-icon eui-fa-search"></i>Full Metadata Record Search</a>
 
   <div class="search-module is-hidden">
     <p class="form-description">Enter a Short Name, CMR Concept ID, Entry Title or other Search Term</p>
@@ -71,7 +71,7 @@
       <hr>
       <fieldset>
         <div class="row search-form-actions">
-          <button type="button" name="full_search" class="btn btn-blue">Submit</button>
+          <button type="button" name="full_search" class="eui-btn eui-btn--blue">Submit</button>
           <a href="#" class="cancel">Cancel</a>
         </div>
       </fieldset>

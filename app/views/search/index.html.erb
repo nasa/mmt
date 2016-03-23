@@ -3,10 +3,12 @@
 <main class="internal" role="main">
   <section class="content-header">
     <div class="content">
-      <div class="breadcrumb">
-        <ol>
-          <li><%= link_to 'Dashboard', dashboard_path %></li>
-          <li>Search Results</li>
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'Dashboard', dashboard_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">Search Results</li>
         </ol>
       </div>
     </div>
@@ -19,7 +21,7 @@
       </div>
 
       <!-- Temporarily commented out because this is not a part of the MVP %-->
-      <!--p class="bulk-record-actions"><a href="#" class="btn btn-md btn-blue">Bulk Edit Records</a> <a href="#" class="btn btn-md btn-blue">Bulk Delete Records</a></p-->
+      <!--p class="bulk-record-actions"><a href="#" class="eui-btn eui-btn-md eui-btn--blue">Bulk Edit Records</a> <a href="#" class="eui-btn eui-btn-md eui-btn--blue">Bulk Delete Records</a></p-->
       <div id="collection_search_criteria">
         <%= render partial: 'collection_search_criteria' %>
       </div>

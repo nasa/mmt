@@ -1,11 +1,17 @@
 <main class="internal" role="main">
   <header>
     <div class="content">
-      <div class="breadcrumb">
-        <ol>
-          <li><%= link_to 'Dashboard', dashboard_path %></li>
-          <li><%= link_to display_entry_id(@collection, 'collection'), collection_path %></li>
-          <li>Revision History</li>
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'Dashboard', dashboard_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">
+            <%= link_to display_entry_id(@collection, 'collection'), collection_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">
+            Revision History
+          </li>
         </ol>
       </div>
       <h2><%= display_entry_id(@collection, 'collection') %></h2>
@@ -17,7 +23,7 @@
 
   <% if @errors && !@errors.empty? %>
     <section class="errors">
-      <div class="banner banner-danger">
+      <div class="eui-banner eui-banner-danger">
         <!-- <i class="fa fa-exclamation-triangle"></i> This revision could not be reverted successfully: -->
         <ul class="no-bullet">
           <% @errors.each do |error| %>
@@ -40,7 +46,7 @@
     </section>
     <% if @error %>
       <section class="errors">
-        <div class="banner banner-danger">
+        <div class="eui-banner eui-banner-danger">
           <i class="fa fa-exclamation-triangle"></i> This collection could not be updated. You may <%= link_to 'edit', edit_collection_path(revision_id: @revision_id) %> the collection to resolve these issues.
         </div>
       </section>
@@ -106,12 +112,12 @@
                     <% elsif @current_user.available_providers.include?(@provider_id) %>
                       <%= link_to phrase, '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: phrase } %>
                     <% end %>
-                    <div id="revert-revisions-modal-<%= revision_id %>" class="modal-content">
+                    <div id="revert-revisions-modal-<%= revision_id %>" class="eui-modal-content">
                       <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
                       <p><%= confirm_phrase %></p>
                       <p>
-                        <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
-                        <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'btn btn-blue spinner' %>
+                        <a href="javascript:void(0)" class="eui-btn eui-btn-default modal-close">No</a>
+                        <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'eui-btn eui-btn--blue spinner' %>
                       </p>
                     </div>
                     <%= render partial: "shared/not_current_provider_modal", locals: {

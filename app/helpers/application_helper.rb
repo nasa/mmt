@@ -2,13 +2,13 @@ module ApplicationHelper
   def flash_class(type)
     case type.to_sym
     when :success
-      'banner-success'
+      'eui-banner--success'
     when :error
-      'banner-danger'
+      'eui-banner-danger'
     when :alert
-      'banner-warn'
+      'eui-banner--warn'
     when :notice
-      'banner-info'
+      'eui-banner--info'
     else
       type.to_s
     end

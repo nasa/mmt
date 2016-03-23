@@ -1,22 +1,22 @@
-<div id="not-current-provider-modal" class="modal-content">
+<div id="not-current-provider-modal" class="eui-modal-content">
   <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
   <p>
     <span class="record-action"></span> requires you change your provider context to <span class="provider"></span>. Would you like to change your provider context and perform this action?
   </p>
   <p>
-    <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
-    <%= link_to 'Yes', '#', class: 'btn btn-blue spinner not-current-provider-link' %>
+    <a href="javascript:void(0)" class="eui-btn eui-btn-default modal-close">No</a>
+    <%= link_to 'Yes', '#', class: 'eui-btn eui-btn--blue spinner not-current-provider-link' %>
 
     <% if options[:revisions] %>
-      <%= link_to 'Yes', revert_collection_path(revision_id: options[:revision_id]), class: 'btn btn-blue spinner is-invisible', id: 'not-current-provider-revert-link' %>
+      <%= link_to 'Yes', revert_collection_path(revision_id: options[:revision_id]), class: 'eui-btn eui-btn--blue spinner is-invisible', id: 'not-current-provider-revert-link' %>
     <% elsif options[:collection] %>
-      <%= link_to 'Yes', edit_collection_path(revision_id: options[:revision_id]), class: 'btn btn-blue spinner is-invisible', id: 'not-current-provider-edit-collection-link' %>
-      <%= link_to 'Yes', clone_collection_path, class: 'btn btn-blue spinner is-invisible', id: 'not-current-provider-clone-link' %>
-      <%= link_to 'Yes', collection_path, method: :delete, class: 'btn btn-blue spinner is-invisible', id: 'not-current-provider-delete-collection-link' %>
+      <%= link_to 'Yes', edit_collection_path(revision_id: options[:revision_id]), class: 'eui-btn eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-collection-link' %>
+      <%= link_to 'Yes', clone_collection_path, class: 'eui-btn eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-link' %>
+      <%= link_to 'Yes', collection_path, method: :delete, class: 'eui-btn eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-collection-link' %>
     <% end %>
 
     <% if options[:draft] %>
-      <%= link_to 'Yes', draft_path(options[:draft_id]), class: 'btn btn-blue spinner is-invisible', id: 'not-current-provider-view-draft-link' %>
+      <%= link_to 'Yes', draft_path(options[:draft_id]), class: 'eui-btn eui-btn--blue spinner is-invisible', id: 'not-current-provider-view-draft-link' %>
     <% end %>
   </p>
 </div>

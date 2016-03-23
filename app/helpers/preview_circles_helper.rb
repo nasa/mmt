@@ -165,7 +165,7 @@ module PreviewCirclesHelper
   }
 
   def form_circle(form_name, metadata, errors)
-    circle = "<i class='ed-icon ed-fa-circle-o icon-green'><span class='is-invisible'>#{form_name.titleize} is incomplete</span></i>"
+    circle = "<i class='eui-icon eui-fa-circle-o icon-green'><span class='is-invisible'>#{form_name.titleize} is incomplete</span></i>"
 
     if !metadata.empty? && errors
       page_errors = errors.select { |error| error[:page] == form_name }
@@ -180,7 +180,7 @@ module PreviewCirclesHelper
         end
       end
 
-      circle = "<i class='ed-icon ed-check icon-green'><span class='is-invisible'>#{form_name.titleize} is valid</i>" if valid
+      circle = "<i class='eui-icon eui-check icon-green'><span class='is-invisible'>#{form_name.titleize} is valid</i>" if valid
     end
 
     circle
@@ -207,13 +207,13 @@ module PreviewCirclesHelper
   end
 
   def empty_circle(field, draft, form_name, anchor, required)
-    icon = required ? 'ed-icon ed-required-o icon-green' : 'ed-icon ed-fa-circle-o icon-grey'
+    icon = required ? 'eui-icon eui-required-o icon-green' : 'eui-icon eui-fa-circle-o icon-grey'
     text = required ? "#{name_to_title(field)} - Required" : name_to_title(field)
     link_to "<i class=\"#{icon}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: text
   end
 
   def complete_circle(field, draft, form_name, anchor, required)
-    icon = required ? 'ed-icon ed-required icon-green' : 'ed-icon ed-fa-circle icon-grey'
+    icon = required ? 'eui-icon eui-required icon-green' : 'ed-icon ed-fa-circle icon-grey'
     text = required ? "#{name_to_title(field)} - Required field complete" : name_to_title(field)
     link_to "<i class=\"#{icon}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: text
   end

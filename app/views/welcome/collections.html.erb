@@ -1,10 +1,14 @@
 <main class="internal" role="main">
   <header>
     <div class="content">
-      <div class="breadcrumb">
-        <ol>
-          <li><%= link_to 'MMT Home', root_path %></li>
-          <li><%= @provider_name %> Collections</li>
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'MMT Home', root_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">
+            <%= @provider_name %> Collections
+          </li>
         </ol>
       </div>
     </div>
