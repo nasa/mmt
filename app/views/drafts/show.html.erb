@@ -1,58 +1,74 @@
 <main class="internal record" role="main">
   <header>
     <div class="content">
-      <div class="collection-basics">
-        <div class="breadcrumb">
-          <ol>
-            <li><%= link_to 'Dashboard', dashboard_path %></li>
-            <li><%= link_to 'Drafts', drafts_path %></li>
-            <li><%= display_entry_id(@draft.draft, 'draft') %></li>
-          </ol>
+      <% if @user_permissions == 'none' %>
+        <div class="collection-basics">
+          <div class="breadcrumb">
+            <ol>
+              <li><%= link_to 'Dashboard', dashboard_path %></li>
+              <li><%= link_to 'Drafts', drafts_path %></li>
+              <li><%= 'Private Draft' %></li>
+            </ol>
+          </div>
+          <h2>Private Draft</h2>
         </div>
-        <h2><%= display_entry_id(@draft.draft, 'draft') %></h2>
-        <p class="subtitle"><%= @draft.display_entry_title %></p>
-        <p class="subnav current">Draft Record</p>
-      </div>
-      <div class="collection-details">
-        <!-- Only display version if one exists. -->
-        <% if @draft.draft["Version"] %>
-          <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_version' }) do %>
-            <%= content_tag :span, "Version #{@draft.draft['Version']}", :class => "badge version" %>
-          <% end %>
-        <% end %>
-        <!-- Only display data language if one exists. -->
-        <% if @draft.draft["DataLanguage"] %>
-          <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_data_language' }) do %>
-            <%= content_tag :span,  @draft.draft['DataLanguage'], :class => "badge language" %>
-          <% end %>
-        <% end %>
-        <!-- Only display CollectionDataType if it is NRT. -->
-        <% if @draft.draft["CollectionDataType"] == "NEAR_REAL_TIME" %>
-          <%= link_to draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-data-type' }) do %>
-            <%= content_tag :span, 'NRT' , :class => "badge nrt" %>
-          <% end %>
-        <% end %>
-        <!-- Only display CollectionProgress if it exists. -->
-        <% if @draft.draft["CollectionProgress"] %>
-          <p>Collection Progress:
-            <%= link_to map_value_onto_display_string(@draft.draft['CollectionProgress'], DraftsHelper::CollectionProgressOptions), draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-progress' }) %>
-          </p>
-        <% end %>
+      <% else %>
+        <div class="collection-basics">
+          <div class="breadcrumb">
+            <ol>
+              <li><%= link_to 'Dashboard', dashboard_path %></li>
+              <li><%= link_to 'Drafts', drafts_path %></li>
+              <li><%= display_entry_id(@draft.draft, 'draft') %></li>
+            </ol>
+          </div>
+          <h2><%= display_entry_id(@draft.draft, 'draft') %></h2>
+          <p class="subtitle"><%= @draft.display_entry_title %></p>
+          <p class="subnav current">Draft Record</p>
+        </div>
+      <% end %>
 
-        <div class="quality-score disabled">
-          <div class="badges">
-            <i class="fa fa-star fa-lg"></i>
-            <i class="fa fa-star fa-lg"></i>
-            <i class="fa fa-star fa-lg"></i>
-            <i class="fa fa-star fa-lg"></i>
-            <i class="fa fa-star-o fa-lg"></i>
-          </div>
-          <div class="score-info">
-            <p>Quality Score: <strong>20</strong></p>
-            <p>Required fields not complete</p>
+      <% unless @user_permissions == 'none' %>
+        <div class="collection-details">
+          <!-- Only display version if one exists. -->
+          <% if @draft.draft["Version"] %>
+            <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_version' }) do %>
+              <%= content_tag :span, "Version #{@draft.draft['Version']}", :class => "badge version" %>
+            <% end %>
+          <% end %>
+          <!-- Only display data language if one exists. -->
+          <% if @draft.draft["DataLanguage"] %>
+            <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_data_language' }) do %>
+              <%= content_tag :span,  @draft.draft['DataLanguage'], :class => "badge language" %>
+            <% end %>
+          <% end %>
+          <!-- Only display CollectionDataType if it is NRT. -->
+          <% if @draft.draft["CollectionDataType"] == "NEAR_REAL_TIME" %>
+            <%= link_to draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-data-type' }) do %>
+              <%= content_tag :span, 'NRT' , :class => "badge nrt" %>
+            <% end %>
+          <% end %>
+          <!-- Only display CollectionProgress if it exists. -->
+          <% if @draft.draft["CollectionProgress"] %>
+            <p>Collection Progress:
+              <%= link_to map_value_onto_display_string(@draft.draft['CollectionProgress'], DraftsHelper::CollectionProgressOptions), draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-progress' }) %>
+            </p>
+          <% end %>
+
+          <div class="quality-score disabled">
+            <div class="badges">
+              <i class="fa fa-star fa-lg"></i>
+              <i class="fa fa-star fa-lg"></i>
+              <i class="fa fa-star fa-lg"></i>
+              <i class="fa fa-star fa-lg"></i>
+              <i class="fa fa-star-o fa-lg"></i>
+            </div>
+            <div class="score-info">
+              <p>Quality Score: <strong>20</strong></p>
+              <p>Required fields not complete</p>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     </div>
   </header>
 
@@ -83,9 +99,16 @@
       <%= link_to 'Edit Draft', edit_draft_path(@draft, form: @draft_form),
       class: 'is-invisible', id: 'change-provider-edit-draft' %>
     </div>
+    <div class="no-access">
+      <h3 class="access-title">Not Current Provider</h3>
+      <p class="access-message">
+        It appears you need to change your current provider to access to this content.<br />
+        Please check the message above to access this content.
+      </p>
+    </div>
   <% end %>
 
-  <% unless @user_permissions == 'none' %>
+  <% unless @user_permissions == 'none' || @user_permissions == 'wrong_provider' %>
     <div class="row row-content">
       <section class="action">
         <div class="cta">
