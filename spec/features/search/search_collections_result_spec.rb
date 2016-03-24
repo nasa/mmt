@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe 'Search published results', js: true do
-  short_name = 'CIESIN_SEDAC_ESI_2000'
-  version = '2000.00'
-  entry_title = '2000 Pilot Environmental Sustainability Index (ESI)'
+  short_name = 'CIESIN_SEDAC_EPI_2008'
+  version = '2008.00'
+  entry_title = '2008 Environmental Performance Index (EPI)'
   provider = 'SEDAC'
-  concept_id = 'C1200000000-SEDAC'
+  concept_id = 'C1200000005-SEDAC'
 
   before :each do
     login
@@ -33,13 +33,16 @@ describe 'Search published results', js: true do
   end
 
   context 'when performing a collection search by partial entry title with quick find' do
+    # 2008 #=> 1 [0..3]
+    # 2008 Environmental #=> 1 [0..17]
+    # Environmental #=> 14 [5..17]
     before do
-      fill_in 'Quick Find', with: entry_title[0..9]
+      fill_in 'Quick Find', with: entry_title[0..17]
       click_on 'Find'
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(2, "Keyword: #{entry_title[0..9]}", 'Record State: Published Records')
+      expect(page).to have_search_query(1, "Keyword: #{entry_title[0..9]}", 'Record State: Published Records')
     end
 
     it 'displays expected Short Name, Entry Title and Last Modified values' do
@@ -145,7 +148,7 @@ describe 'Search published results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(2, "Keyword: #{entry_title}", 'Record State: Published Records')
+      expect(page).to have_search_query(1, "Keyword: #{entry_title}", 'Record State: Published Records')
     end
 
     it 'displays expected data' do
@@ -174,12 +177,12 @@ describe 'Search published results', js: true do
   context 'when searching by partial entry title' do
     before do
       click_on 'Full Metadata Record Search'
-      fill_in 'keyword', with: entry_title[5..25]
+      fill_in 'keyword', with: entry_title[5..17]
       click_on 'Submit'
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(3, "Keyword: #{entry_title[5..25]}", 'Record State: Published Records')
+      expect(page).to have_search_query(14, "Keyword: #{entry_title[5..17]}", 'Record State: Published Records')
     end
 
     it 'displays expected data' do
@@ -200,7 +203,7 @@ describe 'Search published results', js: true do
       end
 
       it 'displays the partial entry title in the full search form' do
-        expect(page).to have_field('keyword', with: entry_title[5..25])
+        expect(page).to have_field('keyword', with: entry_title[5..17])
       end
     end
   end
