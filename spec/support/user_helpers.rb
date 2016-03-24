@@ -28,10 +28,10 @@ module Helpers
 
       if admin
         profile_body = {
-          'uid' => 'testuser',
-          'first_name' => 'Test',
+          'uid' => 'adminuser',
+          'first_name' => 'Admin',
           'last_name' => 'User',
-          'email_address' => 'testuser@example.com',
+          'email_address' => 'adminuser@example.com',
           'country' => 'United States',
           'study_area' => 'Other',
           'user_type' => 'Public User',
@@ -40,10 +40,10 @@ module Helpers
         }
       else
         profile_body = {
-          'uid' => 'adminuser',
-          'first_name' => 'Admin',
+          'uid' => 'testuser',
+          'first_name' => 'Test',
           'last_name' => 'User',
-          'email_address' => 'adminuser@example.com',
+          'email_address' => 'testuser@example.com',
           'country' => 'United States',
           'study_area' => 'Other',
           'user_type' => 'Public User',
