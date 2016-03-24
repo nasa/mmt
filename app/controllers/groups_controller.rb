@@ -3,7 +3,6 @@ class GroupsController < ApplicationController
 
   def index
     query = {}
-    # query['provider'] = @current_user.available_providers
     groups_response = cmr_client.get_cmr_groups(query, token)
 
     if groups_response.success?
