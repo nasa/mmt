@@ -245,7 +245,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
 
           it 'displays the Access Denied message' do
             expect(page).to have_content('Access Denied')
-            expect(page).to have_content('It appears you do not have access to this content.')
+            expect(page).to have_content('It appears you do not have access to edit this content.')
           end
         end
 
@@ -262,7 +262,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
 
           it 'displays the Access Denied message' do
             expect(page).to have_content('Access Denied')
-            expect(page).to have_content('It appears you do not have access to this content.')
+            expect(page).to have_content('It appears you do not have access to clone this content.')
           end
         end
       end

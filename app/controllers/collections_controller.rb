@@ -116,7 +116,7 @@ class CollectionsController < ApplicationController
       # Take the user to a blank page with a message the collection doesn't exist yet,
       # eventually auto refreshing the page would be cool
       @collection = {}
-      @error = 'Your collection is being published. This page will show your published collection once it is ready. Please check back soon.'
+      @error = 'This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.'
     end
   end
 
