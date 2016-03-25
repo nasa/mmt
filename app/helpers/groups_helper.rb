@@ -10,4 +10,9 @@ module GroupsHelper
       group['provider-id']
     end
   end
+
+  def providers_for_groups_filter(provider_ids)
+    provider_ids.unshift
+    providers = provider_ids.map { |provider| provider[1] }
+  end
 end

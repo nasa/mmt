@@ -20,7 +20,11 @@
     <section>
       <%= link_to 'New Group', new_group_path, class: 'btn btn-blue space-bot space-top-5' %>
 
-      <table class="groups-table">
+      <div class="provider-filter">
+        <%= text_field_tag 'provider-filter', nil, class: 'typeahead', placeholder: 'Search for provider...' %>
+      </div>
+
+      <table class="groups-table"
         <thead>
           <tr>
             <th>Group Name</th>
@@ -47,5 +51,10 @@
         </tbody>
       </table>
     </section>
+
+    <!-- Setup Providers -->
+    <script type="text/javascript">
+      var providers = <%= providers_for_groups_filter(@provider_ids)
+    </script>
   </div>
 </main>
