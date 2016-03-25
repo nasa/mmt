@@ -9,6 +9,8 @@ describe 'Filtering groups', reset_provider: true, js: true do
       click_on 'New Group'
       fill_in 'Group Name', with: 'Group 1'
       fill_in 'Group Description', with: 'test group'
+      select('Alien Bobcat', from: 'Members directory')
+      click_on 'Add Member(s)'
       click_on 'Save'
 
       visit groups_path
@@ -16,6 +18,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
       fill_in 'Group Name', with: 'Group 2'
       fill_in 'Group Description', with: 'test group 2'
       select('Alien Bobcat', from: 'Members directory')
+      select('Quail Racoon', from: 'Members directory')
       click_on 'Add Member(s)'
       click_on 'Save'
       sleep 1
@@ -36,10 +39,10 @@ describe 'Filtering groups', reset_provider: true, js: true do
       it 'displays the search results' do
         within '.groups-table' do
           within all('tr')[1] do
-            expect(page).to have_content('Group 1 MMT_2 0')
+            expect(page).to have_content('Group 1 MMT_2 1')
           end
           within all('tr')[2] do
-            expect(page).to have_content('Group 2 MMT_2 1')
+            expect(page).to have_content('Group 2 MMT_2 2')
           end
         end
       end
@@ -47,18 +50,20 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
     context 'when searching by member' do
       before do
-        fill_in 'Member', with: 'abcd'
+        select 'abcd', from: 'Member'
+        select 'qrst', from: 'Member'
         click_on 'Apply Filter'
       end
 
       it 'displays the search params' do
-        expect(page).to have_field('Member', with: 'abcd')
+        expect(page).to have_css('li.select2-selection__choice', text: 'abcd')
+        expect(page).to have_css('li.select2-selection__choice', text: 'qrst')
       end
 
       it 'displays the search results' do
         within '.groups-table' do
           within all('tr')[1] do
-            expect(page).to have_content('Group 2 MMT_2 1')
+            expect(page).to have_content('Group 2 MMT_2 2')
           end
         end
       end

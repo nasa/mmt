@@ -3,6 +3,9 @@ class GroupsController < ApplicationController
 
   def index
     @filters = params[:filters] || {}
+    if @filters['member']
+      @filters['options'] = { 'member' => { 'and' => true } }
+    end
     groups_response = cmr_client.get_cmr_groups(@filters, token)
 
     @users = urs_users

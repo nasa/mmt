@@ -29,6 +29,10 @@ $(document).ready ->
       $longNameElement.attr('readonly', false)
 
   # Set placeholder for group filters
-  $(".provider-filter").select2({
+  $('.provider-filter').select2(
     placeholder: "Filter by provider"
-  });
+  )
+  $('.member-filter').select2(
+    tags: true
+    placeholder: "Filter by member"
+  )

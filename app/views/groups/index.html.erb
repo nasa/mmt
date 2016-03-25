@@ -28,8 +28,8 @@
           <%= select_tag 'filters[provider][]', options_for_select(@provider_ids, @filters['provider']), style: 'width: 30%', class: 'select2-select provider-filter', multiple: 'multiple' %>
 
           <!-- Filter by member -->
-          <%= label_tag 'filters_member', 'Member', class: 'is-invisible' %>
-          <%= text_field_tag 'filters[member]', @filters['member'], placeholder: 'Filter by member' %>
+          <%= label_tag 'filters_member_', 'Member', class: 'is-invisible' %>
+          <%= select_tag 'filters[member][]', options_for_select(@users.map{ |user| user[:uid] }.sort, @filters['member']), style: 'width: 30%', class: 'select2-select member-filter', multiple: 'multiple' %>
 
           <!-- Apply all filters button -->
           <%= submit_tag 'Apply Filter', class: 'btn btn-blue' %>
@@ -65,8 +65,3 @@
     </section>
   </div>
 </main>
-
-<!-- Setup Science Keywords -->
-<script type="text/javascript">
-  saveUsersForGroups(<%= raw @users.map{ |user| user[:uid] }.to_json %>);
-</script>
