@@ -13,6 +13,7 @@ describe 'Groups' do
 
     it 'displays an error message' do
       expect(page).to have_css('div.banner-danger')
+      # TODO make sure this is in line with CMR change
       expect(page).to have_content("Concept-id [#{bad_concept_id}] is not valid")
     end
 
