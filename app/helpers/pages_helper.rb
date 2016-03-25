@@ -20,8 +20,4 @@ module PagesHelper
     entry_id = short_name + version
     entry_id
   end
-
-  def display_collection_entry_title(collection)
-    collection['EntryTitle'] || 'Entry Title Not Provided'
-  end
 end

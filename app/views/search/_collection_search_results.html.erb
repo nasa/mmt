@@ -48,7 +48,7 @@
           <td>
             <% if collection['meta']['draft_id'] %>
               <% if @current_user.provider_id == collection['meta']['provider-id'] %>
-                <%= link_to "#{collection['umm']['short-name']} (Draft)", draft_path(collection['meta']['draft_id'])%>
+                <%= link_to "#{collection['umm']['short-name']} (Draft)", draft_path(collection['meta']['draft_id']) %>
               <% elsif @current_user.available_providers.include?(collection['meta']['provider-id']) %>
                 <%= link_to "#{collection['umm']['short-name']} (Draft)", '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': collection['meta']['provider-id'], record_action: 'view-draft' } %>
                 <%= render partial: "shared/not_current_provider_modal", locals: {
@@ -56,17 +56,17 @@
                   } %>
               <% end %>
             <% else %>
-              <%= link_to collection['umm']['short-name'], collection_path(collection['meta']['concept-id'])%>
+              <%= link_to collection['umm']['short-name'], collection_path(collection['meta']['concept-id']) %>
             <% end %>
           </td>
           <td>
-            <%= collection['umm']['version-id']%>
+            <%= collection['umm']['version-id'] %>
           </td>
           <td>
-            <%= collection['umm']['entry-title']%>
+            <%= collection['umm']['entry-title'] %>
           </td>
           <td>
-            <%= collection['meta']['provider-id']%>
+            <%= collection['meta']['provider-id'] %>
           </td>
           <td>
             <% fragments = collection['meta']['revision-date'].split('T')

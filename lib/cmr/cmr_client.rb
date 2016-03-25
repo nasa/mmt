@@ -68,7 +68,7 @@ module Cmr
         url = "/ingest/providers/#{provider_id}/collections/#{native_id}"
       end
       headers = {
-        'Content-Type' => "application/#{Rails.configuration.umm_version}"
+        'Content-Type' => "application/#{Rails.configuration.umm_version};charset=utf-8"
       }
       put(url, metadata, headers.merge(token_header(token)))
     end

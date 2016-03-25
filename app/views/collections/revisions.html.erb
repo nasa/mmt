@@ -115,7 +115,8 @@
                       </p>
                     </div>
                     <%= render partial: "shared/not_current_provider_modal", locals: {
-                      options: { revisions: true, collection: @collection, revision_id: revision_id }
+                      options: { revisions: true, collection: @collection,
+                        concept_id: @concept_id, revision_id: revision_id }
                       } %>
                     </div>
                   <% end %>

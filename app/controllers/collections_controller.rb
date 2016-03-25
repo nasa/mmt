@@ -1,5 +1,6 @@
 class CollectionsController < ApplicationController
   before_action :set_collection
+  before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
   def show
     @language_codes = cmr_client.get_language_codes
@@ -56,14 +57,38 @@ class CollectionsController < ApplicationController
 
   private
 
+  def ensure_correct_collection_provider
+    return if @provider_id == @current_user.provider_id
+
+    case
+    when request.original_url.include?('edit')
+      @collection_action = 'edit'
+    when request.original_url.include?('clone')
+      @collection_action = 'clone'
+    when request.original_url.include?('revert')
+      @collection_action = 'revert'
+    when request.original_url.include?('delete')
+      @collection_action = 'delete'
+    end
+
+    @revision_id = params[:revision_id]
+
+    if @current_user.available_providers.include?(@provider_id)
+      @user_permissions = 'wrong_provider'
+    else
+      @user_permissions = 'none'
+    end
+    render :show
+  end
+
   def set_collection
-    concept_id = params[:id]
+    @concept_id = params[:id]
     revision_id = params[:revision_id]
 
-    set_collection_link(concept_id)
-    set_num_granules(concept_id)
+    set_collection_link(@concept_id)
+    set_num_granules(@concept_id)
 
-    @revisions = get_revisions(concept_id, revision_id)
+    @revisions = get_revisions(@concept_id, revision_id)
 
     latest = @revisions.first
 
@@ -78,20 +103,20 @@ class CollectionsController < ApplicationController
       end
 
       # retrieve native metadata
-      @metadata = cmr_client.get_concept(concept_id, token, revision_id)
+      @metadata = cmr_client.get_concept(@concept_id, token, revision_id)
 
       # translate to umm-json metadata if needed
       if concept_format == 'application/vnd.nasa.cmr.umm+json'
         @collection = @metadata
       else
-        @collection = cmr_client.translate_collection(@metadata, concept_format, "application/#{Rails.configuration.umm_version}", true).body
+        @collection = cmr_client.translate_collection(@metadata, concept_format, "application/#{Rails.configuration.umm_version};charset=utf-8", true).body
       end
     else
       # concept wasn't found, CMR might be a little slow
       # Take the user to a blank page with a message the collection doesn't exist yet,
       # eventually auto refreshing the page would be cool
       @collection = {}
-      @error = 'Your collection is being published. This page will show your published collection once it is ready. Please check back soon.'
+      @error = 'This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.'
     end
   end
 

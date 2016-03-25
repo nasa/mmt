@@ -146,6 +146,64 @@ describe 'Collections permissions', js: true, reset_provider: true do
           end
         end
       end
+
+      context 'when trying to visit the action links directly' do
+        context 'when visiting the edit link directly' do
+          before do
+            edit_link = page.current_path + '/edit'
+            visit edit_link
+          end
+
+          it 'displays warning banner link to change provider' do
+            expect(page).to have_css('.banner-warn')
+            expect(page).to have_content("You need to change your current provider to edit this collection")
+          end
+
+          context 'when clicking the warning banner link' do
+            before do
+              click_link("You need to change your current provider to edit this collection")
+              wait_for_ajax
+            end
+
+            it 'switches the provider context' do
+              expect(User.first.provider_id).to eq('MMT_2')
+            end
+
+            it 'creates a draft from the collection' do
+              expect(page).to have_content('Draft was successfully created')
+              expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
+            end
+          end
+        end
+
+        context 'when visiting the clone link directly' do
+          before do
+            clone_link = page.current_path + '/clone'
+            visit clone_link
+          end
+
+          it 'displays warning banner link to change provider' do
+            expect(page).to have_css('.banner-warn')
+            expect(page).to have_content("You need to change your current provider to clone this collection")
+          end
+
+          context 'when clicking the warning banner link' do
+            before do
+              click_link("You need to change your current provider to clone this collection")
+              wait_for_ajax
+            end
+
+            it 'switches the provider context' do
+              expect(User.first.provider_id).to eq('MMT_2')
+            end
+
+            it 'creates a draft from the collection' do
+              expect(page).to have_link('Records must have a unique Short Name. Click here to enter a new Short Name.')
+              expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
+            end
+          end
+        end
+      end
     end
 
     context 'when the collections provider is not in the users available providers' do
@@ -169,6 +227,43 @@ describe 'Collections permissions', js: true, reset_provider: true do
 
         it 'does not display the revert link' do
           expect(page).to have_no_content('Revert to this Revision')
+        end
+      end
+
+      context 'when trying to visit the action links directly' do
+
+        context 'when visiting the edit link directly' do
+          before do
+            edit_link = page.current_path + '/edit'
+            visit edit_link
+          end
+
+          it 'displays the no permissions banner message' do
+            expect(page).to have_css('.banner-danger')
+            expect(page).to have_content("You don't have the appropriate permissions to edit this collection")
+          end
+
+          it 'displays the Access Denied message' do
+            expect(page).to have_content('Access Denied')
+            expect(page).to have_content('It appears you do not have access to edit this content.')
+          end
+        end
+
+        context 'when visiting clone link directly' do
+          before do
+            clone_link = page.current_path + '/clone'
+            visit clone_link
+          end
+
+          it 'displays the no permissions banner message' do
+            expect(page).to have_css('.banner-danger')
+            expect(page).to have_content("You don't have the appropriate permissions to clone this collection")
+          end
+
+          it 'displays the Access Denied message' do
+            expect(page).to have_content('Access Denied')
+            expect(page).to have_content('It appears you do not have access to clone this content.')
+          end
         end
       end
     end

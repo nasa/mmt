@@ -91,3 +91,19 @@ ul.sub-field {
   font-size: 0.85em;
   border-radius: 3px;
 }
+
+.no-access {
+  text-align: center;
+  background: $white;
+  padding: 2em;
+  color: darken($light-grey, 15%);
+
+  .access-title {
+    font-size: 3em;
+  }
+
+  .access-message {
+    max-width: 575px;
+    margin: 1em auto;
+  }
+}

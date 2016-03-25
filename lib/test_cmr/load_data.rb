@@ -217,14 +217,16 @@ module Cmr
       uri_list.each_with_index do |obj, index|
         collection_uri = obj[:collection]
         metadata = connection.get(collection_uri).body
-        obj[:ingest_count].times do |count|
+        obj[:ingest_count].times do
           response = connection.put do |req|
             if collection_uri.include? 'SEDAC'
               req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
-            elsif collection_uri.include? 'LARC'
+            else #collection_uri.include? 'LARC'
               req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
             end
-            req.headers['Content-Type'] = 'application/echo10+xml'
+            content_type = 'application/echo10+xml'
+            content_type = 'application/dif10+xml' if obj[:type] == 'dif'
+            req.headers['Content-Type'] = content_type
             req.headers['Echo-token'] = 'mock-echo-system-token'
             req.body = metadata
           end
