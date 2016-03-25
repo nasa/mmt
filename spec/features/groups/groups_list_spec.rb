@@ -129,6 +129,7 @@ describe 'Groups list page', js: true, reset_provider: true do
       it 'displays the system level groups' do
         within '.groups-table' do
           expect(page).to have_content('Administrators CMR 0')
+          expect(page).to have_content('SEDAC Test Group SEDAC 0')
         end
       end
     end
