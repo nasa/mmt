@@ -14,16 +14,19 @@ describe 'Filtering groups', reset_provider: true, js: true do
       visit groups_path
       click_on 'New Group'
       fill_in 'Group Name', with: 'Group 2'
-      fill_in 'Group Description', with: 'test group'
+      fill_in 'Group Description', with: 'test group 2'
+      select('Alien Bobcat', from: 'Members directory')
+      click_on 'Add Member(s)'
       click_on 'Save'
       sleep 1
+
       visit groups_path
     end
 
     context 'when searching by provider' do
       before do
         select 'MMT_2', from: 'Provider'
-        click_on 'Search'
+        click_on 'Apply Filter'
       end
 
       it 'displays the search params' do
@@ -36,7 +39,26 @@ describe 'Filtering groups', reset_provider: true, js: true do
             expect(page).to have_content('Group 1 MMT_2 0')
           end
           within all('tr')[2] do
-            expect(page).to have_content('Group 2 MMT_2 0')
+            expect(page).to have_content('Group 2 MMT_2 1')
+          end
+        end
+      end
+    end
+
+    context 'when searching by member' do
+      before do
+        fill_in 'Member', with: 'abcd'
+        click_on 'Apply Filter'
+      end
+
+      it 'displays the search params' do
+        expect(page).to have_field('Member', with: 'abcd')
+      end
+
+      it 'displays the search results' do
+        within '.groups-table' do
+          within all('tr')[1] do
+            expect(page).to have_content('Group 2 MMT_2 1')
           end
         end
       end

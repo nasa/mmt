@@ -5,6 +5,8 @@ class GroupsController < ApplicationController
     @filters = params[:filters] || {}
     groups_response = cmr_client.get_cmr_groups(@filters, token)
 
+    @users = urs_users
+
     if groups_response.success?
       @groups = groups_response.body['items']
     else
