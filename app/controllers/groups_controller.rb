@@ -2,8 +2,8 @@ class GroupsController < ApplicationController
   before_filter :groups_enabled?
 
   def index
-    query = {}
-    groups_response = cmr_client.get_cmr_groups(query, token)
+    @filters = params[:filters] || {}
+    groups_response = cmr_client.get_cmr_groups(@filters, token)
 
     if groups_response.success?
       @groups = groups_response.body['items']

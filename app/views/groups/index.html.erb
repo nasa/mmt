@@ -20,9 +20,13 @@
     <section>
       <%= link_to 'New Group', new_group_path, class: 'btn btn-blue space-bot space-top-5' %>
 
-      <div class="provider-filter">
-        <%= text_field_tag 'provider-filter', nil, class: 'typeahead', placeholder: 'Search for provider...' %>
-      </div>
+      <%= form_tag(groups_path, method: :get, class: 'group-form') do %>
+        <div>
+          <%= label_tag 'filters_provider_', 'Provider:' %>
+          <%= select_tag 'filters[provider][]', options_for_select(@provider_ids, @filters['provider']), class: 'select2-select', prompt: 'Search for provider...', multiple: 'multiple' %>
+          <%= submit_tag 'Search', class: 'btn' %>
+        </div>
+      <% end %>
 
       <table class="groups-table"
         <thead>
@@ -51,10 +55,5 @@
         </tbody>
       </table>
     </section>
-
-    <!-- Setup Providers -->
-    <script type="text/javascript">
-      var providers = <%= providers_for_groups_filter(@provider_ids)
-    </script>
   </div>
 </main>
