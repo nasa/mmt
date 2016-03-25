@@ -27,3 +27,8 @@ $(document).ready ->
       $longNameElement.attr('readonly', true)
     else
       $longNameElement.attr('readonly', false)
+
+  # Set placeholder for group filters
+  $(".provider-filter").select2({
+    placeholder: "Filter by provider"
+  });
