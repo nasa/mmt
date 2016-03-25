@@ -29,6 +29,8 @@ $(document).ready ->
         'Reverting this collection'
       when 'view-draft'
         'Viewing this draft'
+      when 'edit-draft'
+        'Editing this draft'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
@@ -45,3 +47,16 @@ $(document).ready ->
       success: (data, status, xhr) ->
         # Click the link that the user needs
         $("#not-current-provider-#{linkType}-link")[0].click()
+
+  # change current provider from banner link
+  $('#change-current-provider-banner-link').on 'click', (element) ->
+    provider = $(element.target).data('provider')
+    actionLink = $(element.target).data('actionLink')
+
+    $.ajax
+      url: "/set_provider?provider_id=#{provider}"
+      method: 'post'
+      dataType: 'json'
+      success: (data, status, xhr) ->
+
+        $("##{actionLink}")[0].click()

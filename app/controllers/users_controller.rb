@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  skip_before_filter :is_logged_in, :setup_query
+  skip_before_filter :is_logged_in, except: :refresh_providers
+  skip_before_filter :setup_query
 
   def login
     session[:last_point] = request.referrer
