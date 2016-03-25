@@ -28,11 +28,11 @@ describe 'Revision list', js: true, reset_provider: true do
       end
 
       it 'displays when the revision was made' do
-        expect(page).to have_content('mock-admin', count: 2)
+        expect(page).to have_content(today_string, count: 2)
       end
 
       it 'displays what user made the revision' do
-        expect(page).to have_content(today_string, count: 2)
+        expect(page).to have_content('typical', count: 2)
       end
 
       it 'displays the correct phrasing for reverting records' do

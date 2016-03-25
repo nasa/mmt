@@ -1,28 +1,56 @@
 module Helpers
   module UserHelpers
-    def login
+    def login_admin
+      login(true)
+    end
+
+    def login(admin = false)
       # Mock calls to URS and login Test User
-      token_body = {
-        'access_token' => 'access_token',
-        'token_type' => 'Bearer',
-        'expires_in' => 3600,
-        'refresh_token' => 'refresh_token',
-        'endpoint' => '/api/users/testuser'
-      }
+      if admin
+        token_body = {
+          'access_token' => 'access_token_admin',
+          'token_type' => 'Bearer',
+          'expires_in' => 3600,
+          'refresh_token' => 'refresh_token',
+          'endpoint' => '/api/users/adminuser'
+        }
+      else
+        token_body = {
+          'access_token' => 'access_token',
+          'token_type' => 'Bearer',
+          'expires_in' => 3600,
+          'refresh_token' => 'refresh_token',
+          'endpoint' => '/api/users/testuser'
+        }
+      end
       token_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: token_body))
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_oauth_tokens).and_return(token_response)
 
-      profile_body = {
-        'uid' => 'testuser',
-        'first_name' => 'Test',
-        'last_name' => 'User',
-        'email_address' => 'testuser@example.com',
-        'country' => 'United States',
-        'study_area' => 'Other',
-        'user_type' => 'Public User',
-        'affiliation' => 'OTHER',
-        'organization' => 'Testing'
-      }
+      if admin
+        profile_body = {
+          'uid' => 'adminuser',
+          'first_name' => 'Admin',
+          'last_name' => 'User',
+          'email_address' => 'adminuser@example.com',
+          'country' => 'United States',
+          'study_area' => 'Other',
+          'user_type' => 'Public User',
+          'affiliation' => 'OTHER',
+          'organization' => 'Testing'
+        }
+      else
+        profile_body = {
+          'uid' => 'testuser',
+          'first_name' => 'Test',
+          'last_name' => 'User',
+          'email_address' => 'testuser@example.com',
+          'country' => 'United States',
+          'study_area' => 'Other',
+          'user_type' => 'Public User',
+          'affiliation' => 'OTHER',
+          'organization' => 'Testing'
+        }
+      end
       profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body))
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_profile).and_return(profile_response)
 

@@ -20,7 +20,11 @@ module Cmr
 
     def token_header(token, use_real = false)
       if (Rails.env.development? || Rails.env.test?) && !use_real
-        token.present? ? { 'Echo-Token' => 'mock-echo-system-token' } : {}
+        mock_token = 'ABC-2'
+        if Rails.env.test? && token == 'access_token_admin'
+          mock_token = 'ABC-1'
+        end
+        token.present? ? { 'Echo-Token' => mock_token } : {}
       else
         token.present? ? { 'Echo-Token' => "#{token}:#{@client_id}" } : {}
       end
