@@ -190,7 +190,7 @@ module Cmr
         req.url('http://localhost:3011/groups')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"name": "SEDAC Test Group", "description": "Test group for provider", "provider-id": "SEDAC"}'
+        req.body = '{"name": "SEDAC Test Group", "description": "Test group for provider", "provider_id": "SEDAC"}'
       end
 
       # ACLs for provider groups
