@@ -20,7 +20,18 @@
     <section>
       <%= link_to 'New Group', new_group_path, class: 'btn btn-blue space-bot space-top-5' %>
 
-      <table class="groups-table">
+      <%= form_tag(groups_path, method: :get, class: 'group-form') do %>
+        <div class="group-filters">
+          <span class="label">Refine group listing</span>
+          <!-- Filter by provider -->
+          <%= label_tag 'filters_provider_', 'Provider:', class: 'is-invisible' %>
+          <%= select_tag 'filters[provider][]', options_for_select(@provider_ids, @filters['provider']), style: 'width: 30%', class: 'select2-select provider-filter', multiple: 'multiple' %>
+          <!-- Apply all filters button -->
+          <%= submit_tag 'Apply Filter', class: 'btn btn-blue' %>
+        </div>
+      <% end %>
+
+      <table class="groups-table"
         <thead>
           <tr>
             <th>Group Name</th>

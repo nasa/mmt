@@ -7,7 +7,7 @@ describe 'Search published results', js: true do
   version = '2008.00'
   entry_title = '2008 Environmental Performance Index (EPI)'
   provider = 'SEDAC'
-  concept_id = 'C1200000005-SEDAC'
+  concept_id = 'C1200000006-SEDAC'
 
   before :each do
     login

@@ -54,5 +54,5 @@ fieldset {
 .label {
   display: block;
   font-weight: bold;
-  color: $dolphin-grey;
+  color: darken($dolphin-grey, 20%);
 }
