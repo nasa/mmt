@@ -44,11 +44,11 @@ class GroupsController < ApplicationController
     members = params[:selected_members] || []
 
     if valid_group?(group)
-      group['provider-id'] = @current_user.provider_id
+      group['provider_id'] = @current_user.provider_id
       group_creation_response = cmr_client.create_group(group.to_json, token)
 
       if group_creation_response.success?
-        concept_id = group_creation_response.body['concept-id']
+        concept_id = group_creation_response.body['concept_id']
         flash[:success] = 'Group was successfully created.'
 
         add_members_to_group(members, concept_id)
@@ -104,11 +104,11 @@ class GroupsController < ApplicationController
 
     if group
       if valid_group?(group)
-        group['provider-id'] = @current_user.provider_id
+        group['provider_id'] = @current_user.provider_id
         update_response = cmr_client.update_group(concept_id, group.to_json, token)
 
         if update_response.success?
-          concept_id = update_response.body['concept-id']
+          concept_id = update_response.body['concept_id']
           redirect_to group_path(concept_id)
         else
           Rails.logger.error("Group Update Error: #{update_response.inspect}")

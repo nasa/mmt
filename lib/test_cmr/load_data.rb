@@ -185,8 +185,22 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"name": "Administrators", "description": "The group of users that manages the CMR."}'
       end
+      # Create SEDAC group
+      connection.post do |req|
+        req.url('http://localhost:3011/groups')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"name": "SEDAC Test Group", "description": "Test group for provider", "provider_id": "SEDAC"}'
+      end
 
       # ACLs for provider groups
+      # Admin access to SEDAC
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "GROUP"}}}'
+      end
       # MMT_1
       connection.post do |req|
         req.url('http://localhost:3008/acls')

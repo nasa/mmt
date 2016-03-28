@@ -54,9 +54,9 @@
           <% else %>
             <% @groups.each do |group| %>
               <tr>
-                <td><%= link_to group['name'], group_path(group['concept-id']) %></td>
+                <td><%= link_to group['name'], group_path(group['concept_id']) %></td>
                 <td><%= group_provider(group) %></td>
-                <td><%= group['member-count'] %></td>
+                <td><%= group['member_count'] %></td>
               </tr>
             <% end %>
           <% end %>

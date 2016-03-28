@@ -66,6 +66,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
             expect(page).to have_content('Group 2 MMT_2 2')
           end
         end
+        expect(page).to have_no_content('SEDAC Test Group')
       end
     end
   end

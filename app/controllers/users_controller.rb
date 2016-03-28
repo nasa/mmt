@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_filter :is_logged_in, except: :refresh_providers
+  skip_before_filter :is_logged_in, except: [:set_provider, :refresh_providers]
   skip_before_filter :setup_query
 
   def login
