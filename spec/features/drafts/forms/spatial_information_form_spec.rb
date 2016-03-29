@@ -153,7 +153,40 @@ describe 'Spatial information form', js: true do
 
           # Spatial Keywords
           expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
-          expect(page).to have_content('OCEAN > ATLANTIC OCEAN')
+          expect(page).to have_content('OCEAN > ATLANTIC OCEAN > NORTH ATLANTIC OCEAN > BALTIC SEA')
+        end
+
+        context 'when removing the spatial keywords and submitting the form' do
+          before do
+            within '.selected-spatial-keywords' do
+              2.times do
+                find('.remove', match: :first).click
+              end
+            end
+
+            within '.nav-top' do
+              click_on 'Save & Done'
+            end
+          end
+
+          it 'displays a confirmation message' do
+            expect(page).to have_content('Draft was successfully updated')
+          end
+
+          context 'when returning to the form' do
+            before do
+              within '.metadata' do
+                click_on 'Spatial Information', match: :first
+              end
+
+              open_accordions
+            end
+
+            it 'does not display the removed spatial keywords' do
+              expect(page).to have_no_content('GEOGRAPHIC REGION > ARCTIC')
+              expect(page).to have_no_content('OCEAN > ATLANTIC OCEAN > NORTH ATLANTIC OCEAN > BALTIC SEA')
+            end
+          end
         end
       end
     end

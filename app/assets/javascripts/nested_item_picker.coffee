@@ -1,7 +1,10 @@
 # Setup NestedItemPicker for Science Keywords
 picker = undefined
 @setupScienceKeywords = (data) ->
-  picker = new NestedItemPicker('.nested-item-picker', data: data)
+  picker = new NestedItemPicker('.nested-item-picker', data: data, data_type: 'science')
+
+@setupSpatialKeywords = (data) ->
+  picker = new NestedItemPicker('.nested-item-picker', data: data, data_type: 'spatial')
 
 $(document).ready ->
   if picker?
@@ -33,7 +36,7 @@ $(document).ready ->
 
     resetPicker = ->
       # Reset picker to top level
-      $('.add-science-keyword').attr 'disabled', 'true'
+      $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', 'true'
       picker.resetPicker()
 
     $('.selected-science-keywords, .selected-spatial-keywords').on 'click', '.remove', ->
@@ -44,9 +47,9 @@ $(document).ready ->
     checkSelectionLevel = ->
       selectionLevel = $('.item-path li').length
       if selectionLevel > 3
-        $('.add-science-keyword').removeAttr 'disabled'
+        $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
       else
-        $('.add-science-keyword').attr 'disabled', true
+        $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
 
     $('div.nested-item-picker').on 'click', '.item-parent', ->
       checkSelectionLevel()
@@ -59,9 +62,9 @@ $(document).ready ->
     $('.nested-item-picker').on 'click', '.final-option', ->
       $this = $(this)
       if $this.hasClass('final-option-selected')
-        $('.add-science-keyword').removeAttr 'disabled'
+        $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
       else if $('.item-path li').length < 4
-        $('.add-science-keyword').attr 'disabled', true
+        $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
 
     # Science keyword searching
     getKeywords = (json, keyword = []) ->
@@ -85,14 +88,17 @@ $(document).ready ->
         value != ''
 
       keywords.filter (keyword) ->
-        keyword if keyword.split('>').length > 2 - numberSelectedValues.length
+        if picker.options.data_type == 'science'
+          keyword if keyword.split('>').length > 2 - numberSelectedValues.length
+        else if picker.options.data_type == 'spatial'
+          keyword if keyword.split('>').length > 1 - numberSelectedValues.length
 
     typeaheadSource = new Bloodhound
       datumTokenizer: Bloodhound.tokenizers.nonword,
       queryTokenizer: Bloodhound.tokenizers.nonword,
       local: getKeywords(picker.currentData)
 
-    $('#science-keyword-search').on 'click', ->
+    $('#science-keyword-search, #spatial-keyword-search').on 'click', ->
       typeaheadSource.clear()
       typeaheadSource.local = getKeywords(picker.currentData)
       typeaheadSource.initialize(true)
@@ -110,8 +116,8 @@ $(document).ready ->
     $(document).on 'click', 'li.item a, ul.item-path li', ->
       typeaheadSource.clear()
       # destroy typeahead
-      $('#science-keyword-search').val('')
-      $('#science-keyword-search').typeahead('destroy')
+      $('#science-keyword-search, #spatial-keyword-search').val('')
+      $('#science-keyword-search, #spatial-keyword-search').typeahead('destroy')
 
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
@@ -121,6 +127,9 @@ $(document).ready ->
       keyword.push(suggestion)
       keyword = [keyword.join(' > ')]
 
-      addKeyword('science', keyword)
+      if picker.options.data_type == 'science'
+        addKeyword('science', keyword)
+      else if picker.options.data_type == 'spatial'
+        addKeyword('spatial', keyword)
 
       e.preventDefault()

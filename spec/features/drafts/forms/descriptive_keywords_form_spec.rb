@@ -109,6 +109,40 @@ describe 'Descriptive keywords form', js: true do
           end
         end
       end
+
+      context 'when removing the science keywords and submitting the form' do
+        before do
+          within '.selected-science-keywords' do
+            3.times do
+              find('.remove', match: :first).click
+            end
+          end
+
+          within '.nav-top' do
+            click_on 'Save & Done'
+          end
+        end
+
+        it 'displays a confirmation message' do
+          expect(page).to have_content('Draft was successfully updated')
+        end
+
+        context 'when returning to the form' do
+          before do
+            within '.metadata' do
+              click_on 'Descriptive Keywords'
+            end
+
+            open_accordions
+          end
+
+          it 'does not display the removed science keywords' do
+            expect(page).to have_no_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_no_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_no_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
+          end
+        end
+      end
     end
   end
 end
