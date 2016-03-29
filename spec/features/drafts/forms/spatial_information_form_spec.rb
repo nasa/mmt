@@ -207,15 +207,15 @@ describe 'Spatial information form', js: true do
               expect(page).to have_no_checked_field('Geodetic')
               # BoundingRectangles
               within '.multiple.bounding-rectangles' do
-                expect(page).to have_field('W', with: '-180.0')
-                expect(page).to have_field('N', with: '90.0')
-                expect(page).to have_field('E', with: '180.0')
-                expect(page).to have_field('S', with: '-90.0')
+                expect(page).to have_field('West', with: '-180.0')
+                expect(page).to have_field('North', with: '90.0')
+                expect(page).to have_field('East', with: '180.0')
+                expect(page).to have_field('South', with: '-90.0')
                 within '.multiple-item-1' do
-                  expect(page).to have_field('W', with: '-96.9284587')
-                  expect(page).to have_field('N', with: '58.968602')
-                  expect(page).to have_field('E', with: '-56.9284587')
-                  expect(page).to have_field('S', with: '18.968602')
+                  expect(page).to have_field('West', with: '-96.9284587')
+                  expect(page).to have_field('North', with: '58.968602')
+                  expect(page).to have_field('East', with: '-56.9284587')
+                  expect(page).to have_field('South', with: '18.968602')
                 end
               end
             end

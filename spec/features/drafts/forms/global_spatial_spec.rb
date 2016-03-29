@@ -22,11 +22,11 @@ describe 'Global spatial coverage', js: true do
       click_on 'Apply global spatial coverage'
     end
 
-    it 'fills in the N, S, E, and W boxes' do
-      expect(page).to have_field('N', with: '90')
-      expect(page).to have_field('S', with: '-90')
-      expect(page).to have_field('E', with: '180')
-      expect(page).to have_field('W', with: '-180')
+    it 'fills in the North, South, East, and West boxes' do
+      expect(page).to have_field('North', with: '90')
+      expect(page).to have_field('South', with: '-90')
+      expect(page).to have_field('East', with: '180')
+      expect(page).to have_field('West', with: '-180')
     end
 
     it 'updates the preview on map link' do
@@ -54,19 +54,19 @@ describe 'Global spatial coverage', js: true do
 
       it 'only fills in the fields for the correct rectangle' do
         within '.bounding-rectangles-fields .multiple-item-1' do
-          expect(page).to have_field('N', with: '90')
-          expect(page).to have_field('S', with: '-90')
-          expect(page).to have_field('E', with: '180')
-          expect(page).to have_field('W', with: '-180')
+          expect(page).to have_field('North', with: '90')
+          expect(page).to have_field('South', with: '-90')
+          expect(page).to have_field('East', with: '180')
+          expect(page).to have_field('West', with: '-180')
         end
       end
 
       it 'does not change the other rectangles' do
         within '.bounding-rectangles-fields .multiple-item-0' do
-          expect(page).to have_field('N', with: '5')
-          expect(page).to have_field('S', with: '-5')
-          expect(page).to have_field('E', with: '5')
-          expect(page).to have_field('W', with: '-5')
+          expect(page).to have_field('North', with: '5')
+          expect(page).to have_field('South', with: '-5')
+          expect(page).to have_field('East', with: '5')
+          expect(page).to have_field('West', with: '-5')
         end
       end
     end

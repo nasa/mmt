@@ -149,7 +149,7 @@ class Draft < ActiveRecord::Base
       else
         object.each do |key, value|
           if INTEGER_KEYS.include?(key)
-            object[key] = value.to_i unless value.empty?
+            object[key] = convert_to_integer(value)
           elsif NUMBER_KEYS.include?(key)
             object[key] = convert_to_number(value)
           elsif BOOLEAN_KEYS.include?(key)
@@ -183,12 +183,22 @@ class Draft < ActiveRecord::Base
     object
   end
 
+  def convert_to_integer(string)
+    new_string = string.to_i unless string.empty?
+
+    return new_string if new_string.to_s == string || new_string.to_s == "#{string}.0"
+    string
+  end
+
   def convert_to_number(string)
     if string.is_a? Array
-      string.map { |s| s.gsub(/[^\-0-9.]/, '').to_f unless s.empty? }
+      new_string = string.map { |s| s.gsub(/[^\-0-9.]/, '').to_f unless s.empty? }
     else
-      string.gsub(/[^\-0-9.]/, '').to_f unless string.empty?
+      new_string = string.gsub(/[^\-0-9.]/, '').to_f unless string.empty?
     end
+
+    return new_string if new_string.to_s == string || new_string.to_s == "#{string}.0"
+    string
   end
 
   def compact_blank(node)
