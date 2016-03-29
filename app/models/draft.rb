@@ -184,21 +184,31 @@ class Draft < ActiveRecord::Base
   end
 
   def convert_to_integer(string)
-    new_string = string.to_i unless string.empty?
+    unless string.empty?
+      stripped_string = string.delete(',')
 
-    return new_string if new_string.to_s == string || new_string.to_s == "#{string}.0"
-    string
+      begin
+        integer = Integer(stripped_string)
+      rescue
+        integer = string
+      end
+
+      integer
+    end
   end
 
   def convert_to_number(string)
-    if string.is_a? Array
-      new_string = string.map { |s| s.gsub(/[^\-0-9.]/, '').to_f unless s.empty? }
-    else
-      new_string = string.gsub(/[^\-0-9.]/, '').to_f unless string.empty?
-    end
+    unless string.empty?
+      stripped_string = string.delete(',')
 
-    return new_string if new_string.to_s == string || new_string.to_s == "#{string}.0"
-    string
+      begin
+        number = Float(stripped_string)
+      rescue
+        number = string
+      end
+
+      number
+    end
   end
 
   def compact_blank(node)
