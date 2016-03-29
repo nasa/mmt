@@ -19,6 +19,6 @@ class OauthTokensController < ApplicationController
       # Rails.logger.info "Token: #{response.body.inspect}"
     end
 
-    redirect_to redirect_from_urs
+    redirect_from_urs
   end
 end
