@@ -73,11 +73,11 @@ class CollectionsController < ApplicationController
 
     @revision_id = params[:revision_id]
 
-    if @current_user.available_providers.include?(@provider_id)
+    @user_permissions = 'none'
+    if @current_user.available_providers && @current_user.available_providers.include?(@provider_id)
       @user_permissions = 'wrong_provider'
-    else
-      @user_permissions = 'none'
     end
+
     render :show
   end
 
