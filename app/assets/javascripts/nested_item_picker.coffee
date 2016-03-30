@@ -88,10 +88,7 @@ $(document).ready ->
         value != ''
 
       keywords.filter (keyword) ->
-        if picker.options.data_type == 'science'
-          keyword if keyword.split('>').length > 2 - numberSelectedValues.length
-        else if picker.options.data_type == 'spatial'
-          keyword if keyword.split('>').length > 1 - numberSelectedValues.length
+        keyword if keyword.split('>').length > 2 - numberSelectedValues.length
 
     typeaheadSource = new Bloodhound
       datumTokenizer: Bloodhound.tokenizers.nonword,
