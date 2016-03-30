@@ -58,21 +58,23 @@ module CollectionsHelper
 
           x1, y1 = convert_lat_lon_to_image_x_y(north_bounding_coordinate, west_bounding_coordinate, map_width, map_height)
           x2, y2 = convert_lat_lon_to_image_x_y(south_bounding_coordinate, east_bounding_coordinate, map_width, map_height)
-          min_x = [x1, x2].min
-          max_x = [x1, x2].max
-          min_y = [y1, y2].min
-          max_y = [y1, y2].max
+          if x1 && x2 && y1 && y2
+            min_x = [x1, x2].min
+            max_x = [x1, x2].max
+            min_y = [y1, y2].min
+            max_y = [y1, y2].max
 
-          rectangle_coordinate_array << {
-            'north_bounding_coordinate' => north_bounding_coordinate,
-            'west_bounding_coordinate' => west_bounding_coordinate,
-            'south_bounding_coordinate' => south_bounding_coordinate,
-            'east_bounding_coordinate' => east_bounding_coordinate,
-            'min_x' => min_x,
-            'min_y' => min_y,
-            'max_x' => max_x,
-            'max_y' => max_y
-          }
+            rectangle_coordinate_array << {
+              'north_bounding_coordinate' => north_bounding_coordinate,
+              'west_bounding_coordinate' => west_bounding_coordinate,
+              'south_bounding_coordinate' => south_bounding_coordinate,
+              'east_bounding_coordinate' => east_bounding_coordinate,
+              'min_x' => min_x,
+              'min_y' => min_y,
+              'max_x' => max_x,
+              'max_y' => max_y
+            }
+          end
         end
 
       end
