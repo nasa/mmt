@@ -58,12 +58,9 @@ describe 'Searching spatial keywords', js: true do
           find('#spatial-keyword-search').click
         end
 
-        it 'displays valid keywords' do
-          expect(page).to have_css('.tt-suggestion', text: /GEOGRAPHIC REGION > ARCTIC$/)
-        end
-
-        it 'does not display the invalid keyword' do
+        it 'does not display the invalid keywords' do
           within '.nested-item-picker' do
+            expect(page).to have_no_css('.tt-suggestion', text: /GEOGRAPHIC REGION > ARCTIC$/)
             expect(page).to have_no_css('.tt-suggestsion', text: /GEOGRAPHIC REGION$/)
           end
         end
