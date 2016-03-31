@@ -162,6 +162,12 @@ class GroupsController < ApplicationController
     end
   end
 
+  def invite
+    user = params['invite']
+    puts @current_user.inspect
+    GroupMailer.invite_user(user, session[:name], @group)
+  end
+
   private
 
   def set_previously_selected_members(members)
