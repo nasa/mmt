@@ -1,4 +1,4 @@
-class GroupMailer < ApplicationMailer
+class GroupMailer < ApplicationMailer::Preview
   def invite_user(user, from, group)
     @user = user
     @from = from
