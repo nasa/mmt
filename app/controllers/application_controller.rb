@@ -21,9 +21,13 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_from_urs
+    return_to = session[:return_to]
+    session[:return_to] = nil
+
     last_point = session[:last_point]
     session[:last_point] = nil
-    last_point || root_url
+
+    redirect_to return_to || last_point || dashboard_path
   end
 
   def cmr_client
@@ -157,7 +161,8 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
 
   def is_logged_in
-    redirect_to root_url unless logged_in?
+    session[:return_to] = request.fullpath
+    redirect_to login_path unless logged_in?
   end
 
   def logged_in_at
