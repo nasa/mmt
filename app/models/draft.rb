@@ -44,12 +44,16 @@ class Draft < ActiveRecord::Base
       # Convert parameter keys to CamelCase for UMM
       json_params = params.to_hash.to_camel_keys
       # Merge new params into draft
-      new_draft = draft.merge(json_params)
+      new_draft = self.draft.merge(json_params)
       # Remove empty params from draft
       new_draft = compact_blank(new_draft.clone)
 
       if new_draft
         self.draft = new_draft
+        save
+      elsif self.draft != {}
+        # draft had content, but now new_draft is nil/empty so any data has been deleted and saved in the forms
+        self.draft = {}
         save
       end
     end
