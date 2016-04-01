@@ -1,5 +1,12 @@
-<h1>Metadata Management Tool Invitation</h1>
-<p>
-  <%= @user['name'] %>, <%= @from %> would like to add you to a group using NASA's Metadata Management Tool (MMT). To do so, MMT needs to access your Earthdata Login profile. Please authorize MMT to access your profile by clicking the button below. Thank you!
-</p>
-<a class="btn btn-green" href="#">Authorize MMT</a>
+<h1 class="styled-heading">Metadata Management Tool Invitation</h1>
+<div class="email-message">
+  <p>
+    <%= @user['name'] %>, <%= @from %> would like to add you to a group using NASA's Metadata Management Tool (MMT). To do so, MMT needs to access your Earthdata Login profile. Please authorize MMT to access your profile by clicking the button below. Thank you!
+  </p>
+  <div class="center">
+    <a class="btn btn-green" href="#">Authorize MMT</a>
+  </div>
+</div>
+<div class="email-footer">
+  <img src="https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/meatball.png" alt="Meatball" class="image-center" />
+</div>
