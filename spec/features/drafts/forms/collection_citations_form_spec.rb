@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Resource citations form', js: true do
+describe 'Collection citations form', js: true do
   before do
     login
     draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
@@ -12,11 +12,11 @@ describe 'Resource citations form', js: true do
   context 'when submitting the form' do
     before do
       within '.metadata' do
-        click_on 'Resource Citations'
+        click_on 'Collection Citations', match: :first
       end
 
-      # Resource Citations
-      add_resource_citations
+      # Collection Citations
+      add_collection_citations
 
       within '.nav-top' do
         click_on 'Save & Done'
@@ -32,14 +32,14 @@ describe 'Resource citations form', js: true do
     context 'when returning to the form' do
       before do
         within '.metadata' do
-          click_on 'Resource Citations'
+          click_on 'Collection Citations', match: :first
         end
 
         open_accordions
       end
 
       it 'populates the form with the values' do
-        #### Resource Citations
+        #### Collection Citations
         within '.multiple.collection-citations' do
           within first('.multiple-item-0') do
             expect(page).to have_field('Version', with: 'v1')

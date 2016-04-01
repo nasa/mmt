@@ -14,7 +14,7 @@ class Draft < ActiveRecord::Base
     spatial_information
     organizations
     personnel
-    resource_citations
+    collection_citations
     metadata_information
   )
 
