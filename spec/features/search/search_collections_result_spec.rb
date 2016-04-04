@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe 'Search published results', js: true do
-  short_name = 'CIESIN_SEDAC_EPI_2008'
-  version = '2008.00'
-  entry_title = '2008 Environmental Performance Index (EPI)'
+  short_name = 'CIESIN_SEDAC_EPI_2012'
+  version = '2012.00'
+  entry_title = '2012 Environmental Performance Index and Pilot Trend Environmental Performance Index'
   provider = 'SEDAC'
-  concept_id = 'C1200000006-SEDAC'
+  concept_id = 'C1200000008-SEDAC'
 
   before :each do
     login
@@ -33,8 +33,8 @@ describe 'Search published results', js: true do
   end
 
   context 'when performing a collection search by partial entry title with quick find' do
-    # 2008 #=> 1 [0..3]
-    # 2008 Environmental #=> 1 [0..17]
+    # 2012 #=> 1 [0..3]
+    # 2012 Environmental #=> 2 [0..17]
     # Environmental #=> 14 [5..17]
     before do
       fill_in 'Quick Find', with: entry_title[0..17]
@@ -42,7 +42,7 @@ describe 'Search published results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(1, "Keyword: #{entry_title[0..9]}", 'Record State: Published Records')
+      expect(page).to have_search_query(2, "Keyword: #{entry_title[0..17]}", 'Record State: Published Records')
     end
 
     it 'displays expected Short Name, Entry Title and Last Modified values' do
