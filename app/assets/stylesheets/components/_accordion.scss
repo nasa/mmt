@@ -2,16 +2,22 @@
    Accordion
 \* ===================================================== */
 
-.accordion {
+.eui-accordion {
   margin-bottom: 0.2em;
 }
 
-.accordion-header {
+.eui-accordion__header {
   padding: 1em 0;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
   color: darken($dolphin-grey, 20%);
+  border-bottom: 0;
   @include transition(all 0.25s ease-in-out);
+
+  &:hover {
+    background-color: transparent;
+  }
 
   .actions {
     display: inline-block;
@@ -28,17 +34,23 @@
   }
 }
 
-.accordion-body {
+.eui-accordion__title {
+  color: $black;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.eui-accordion__body {
   margin: 0;
   padding: 0;
 
-  .accordion-header {
+  .eui-accordion__header {
     padding: 0;
     margin-bottom: 1em;
     background: none;
   }
 
-  .accordion-body {
+  .eui-accordion__body {
     padding: 0;
   }
 }
