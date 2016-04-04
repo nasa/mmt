@@ -8,7 +8,7 @@
 .icon-required {
   &:before {
     content:"\f125";
-    font-family: "Earthdata-Icon-Library";
+    font-family: "EUI-Icon-Library";
     font-size: 0.85em;
     color: $dark-green;
     margin-right: 0.5em;
@@ -22,7 +22,7 @@
   .icon-required {
     &:before {
       content:"\f125";
-      font-family: "Earthdata-Icon-Library";
+      font-family: "EUI-Icon-Library";
       font-size: 0.85em;
       color: $dark-green;
       display: inline-block;
@@ -59,7 +59,7 @@
 
 .icon-circle-left {
   &:before {
-    font-family: "Earthdata-Icon-Library";
+    font-family: "EUI-Icon-Library";
     content: "\f10e";
     font-size: 1em;
   }
@@ -67,7 +67,7 @@
 
 .icon-circle-right {
   &:before {
-    font-family: "Earthdata-Icon-Library";
+    font-family: "EUI-Icon-Library";
     content: "\f10f";
     font-size: 1em;
   }
