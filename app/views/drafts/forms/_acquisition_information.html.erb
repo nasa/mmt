@@ -1,17 +1,17 @@
 <!-- Platforms [r] -->
-<fieldset class="eui-accordion is-closed" id="platforms">
-  <div class="eui-accordion__header">
-    <h3 class="eui-accordion__title eui-icon eui-required">Platforms</h3>
+<fieldset class="accordion is-closed" id="platforms">
+  <div class="accordion__header">
+    <h3 class="accordion__title eui-required">Platforms</h3>
     <%= mmt_help_icon(
       title: 'Platforms',
       help: 'properties/Platforms'
     ) %>
-    <div class="eui-accordion__icon" tabindex="0">
+    <div class="accordion__icon" tabindex="0">
       <i class="eui-icon eui-fa-chevron-circle-down"></i>
       <span class="eui-sr-only">Toggle Platforms</span>
     </div>
   </div>
-  <div class="eui-accordion__body">
+  <div class="accordion__body">
     <div class="row taller">
       <div class="col-12">
         <%= render partial: 'drafts/forms/type', locals: {
@@ -26,19 +26,19 @@
 </fieldset>
 
 <!-- Projects -->
-<fieldset class="eui-accordion is-closed" id="projects">
-  <div class="eui-accordion__header">
-    <h3 class="eui-accordion__title">Projects</h3>
+<fieldset class="accordion is-closed" id="projects">
+  <div class="accordion__header">
+    <h3 class="accordion__title">Projects</h3>
     <%= mmt_help_icon(
       title: 'Projects',
       help: 'properties/Projects'
     ) %>
-    <div class="eui-accordion__icon" tabindex="0">
+    <div class="accordion__icon" tabindex="0">
       <i class="eui-icon eui-fa-chevron-circle-down"></i>
       <span class="eui-sr-only">Toggle Projects</span>
     </div>
   </div>
-  <div class="eui-accordion__body">
+  <div class="accordion__body">
     <div class="row taller">
       <div class="col-12">
         <%= render partial: 'drafts/forms/type', locals: {

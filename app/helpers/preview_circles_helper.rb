@@ -207,13 +207,13 @@ module PreviewCirclesHelper
   end
 
   def empty_circle(field, draft, form_name, anchor, required)
-    icon = required ? 'eui-icon eui-required-o icon-green' : 'eui-icon eui-fa-circle-o icon-grey'
+    icon = required ? 'eui-required-o icon-green' : 'eui-icon eui-fa-circle-o icon-grey'
     text = required ? "#{name_to_title(field)} - Required" : name_to_title(field)
     link_to "<i class=\"#{icon}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: text
   end
 
   def complete_circle(field, draft, form_name, anchor, required)
-    icon = required ? 'eui-icon eui-required icon-green' : 'eui-icon eui-fa-circle icon-grey'
+    icon = required ? 'eui-required icon-green' : 'eui-icon eui-fa-circle icon-grey'
     text = required ? "#{name_to_title(field)} - Required field complete" : name_to_title(field)
     link_to "<i class=\"#{icon}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: text
   end
