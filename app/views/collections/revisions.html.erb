@@ -110,8 +110,8 @@
                       <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
                       <p><%= confirm_phrase %></p>
                       <p>
-                        <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
-                        <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'btn btn-blue spinner' %>
+                        <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                        <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'eui-btn--blue spinner' %>
                       </p>
                     </div>
                     <%= render partial: "shared/not_current_provider_modal", locals: {

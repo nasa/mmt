@@ -33,8 +33,8 @@
             <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
             <p>Are you sure you want to delete this group?</p>
             <p>
-              <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
-              <%= link_to 'Yes', group_path(name: @group['name']), method: :delete, class: 'btn btn-blue spinner' %>
+              <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+              <%= link_to 'Yes', group_path(name: @group['name']), method: :delete, class: 'eui-btn--blue spinner' %>
             </p>
           </div>
         </div>
@@ -57,9 +57,9 @@
       </div>
       <%= form_tag(remove_members_path(id: @concept_id), method: :delete, class: 'group-form') do %>
         <div class="row">
-          <%= link_to 'Remove Selected', 'javascript:void(0)', id: 'remove-selected-members', class: 'btn btn-default disabled', disabled: true %>
+          <%= link_to 'Remove Selected', 'javascript:void(0)', id: 'remove-selected-members', class: 'eui-btn disabled', disabled: true %>
 
-          <%= link_to '+ Add Members', edit_group_path(add_members: true), class: 'btn btn-default' %>
+          <%= link_to '+ Add Members', edit_group_path(add_members: true), class: 'eui-btn' %>
         </div>
         <table class="space-top align-c" id="groups-table">
           <thead>
@@ -87,7 +87,7 @@
         </table>
       <% end %>
       <div class="row space-top disabled">
-        <input type="submit" class="btn btn-blue space-right" value="Save" disabled>
+        <input type="submit" class="eui-btn--blue space-right" value="Save" disabled>
         <a href="#">Cancel</a>
       </div>
     </section>
