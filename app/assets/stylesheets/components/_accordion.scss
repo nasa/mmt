@@ -64,13 +64,24 @@
     margin-bottom: 1em;
   }
 
-  .accordion-header {
+  .eui-accordion__header {
     padding: 0.5em 0;
     margin: 0 0 0.5em 0;
+    background-color: $white;
     border-bottom: 1px solid $light-grey;
   }
 
-  .accordion-body {
+  .eui-accordion__title {
+    color: $black;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .eui-accordion__icon {
+    color: $black;
+  }
+
+  .eui-accordion__body {
     padding: 0;
     margin-bottom: 1em;
   }
