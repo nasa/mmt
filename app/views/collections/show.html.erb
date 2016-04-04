@@ -29,15 +29,15 @@
         <div class="collection-details">
           <!-- Only display version if one exists. -->
           <% if @collection["Version"] %>
-            <span class="badge version">Version <%= @collection["Version"]%></span>
+            <span class="eui-badge version">Version <%= @collection["Version"]%></span>
           <% end %>
           <!-- Only display data language if one exists. -->
           <% if @collection["DataLanguage"] %>
-            <span class="badge language"><%= @collection["DataLanguage"]%></span>
+            <span class="eui-badge language"><%= @collection["DataLanguage"]%></span>
           <% end %>
           <!-- Only display CollectionDataType if it is NRT. -->
           <% if @collection["CollectionDataType"] == "NEAR_REAL_TIME" %>
-            <span class="badge nrt">NRT</span>
+            <span class="eui-badge nrt">NRT</span>
           <% end %>
           <div class="quality-score disabled">
             <div class="badges">
