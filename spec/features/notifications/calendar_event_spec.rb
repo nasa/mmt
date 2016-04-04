@@ -106,7 +106,7 @@ describe 'Calendar Event Query' do
           end
 
           it 'displays the non-dismissed notification' do
-            expect(page).to have_css('.banner-message')
+            expect(page).to have_css('.eui-banner__message')
           end
         end
       end
@@ -120,7 +120,7 @@ describe 'Calendar Event Query' do
       end
 
       it 'no notifications are shown' do
-        expect(page).to have_no_css('.banner-message')
+        expect(page).to have_no_css('.eui-banner__message')
       end
     end
   end

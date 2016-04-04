@@ -75,8 +75,8 @@
   <%= render 'shared/flash_messages' %>
 
   <% if @user_permissions == 'none' %>
-    <div class="banner banner-danger">
-      <p class="banner-message">
+    <div class="eui-banner--danger">
+      <p class="eui-banner__message">
         <%= "You don't have the appropriate permissions to #{@draft_action} this draft" %>
       </p>
     </div>
@@ -88,8 +88,8 @@
       </p>
     </div>
   <% elsif @user_permissions == 'wrong_provider' %>
-    <div class="banner banner-warn">
-      <p class="banner-message">
+    <div class="eui-banner--warn">
+      <p class="eui-banner__message">
         <%= link_to("You need to change your current provider to #{@draft_action} this draft. Click here to change your provider.",
           "#", id: "change-current-provider-banner-link",
           data: { "provider": @draft.provider_id, action_link: "change-provider-#{@draft_action}-draft" }) %>
@@ -137,23 +137,25 @@
 
       <% if @ingest_errors && !@ingest_errors.empty? %>
         <section class="errors">
-          <div class="banner banner-danger">
-            <i class="fa fa-exclamation-triangle"></i> This draft has the following errors:
-            <ul class="no-bullet">
-              <% @ingest_errors.each do |error| %>
-                <li>
-                  <% if error[:field] && error[:page] %>
-                    <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) %>
-                  <% else %>
-                    <%= "#{error[:field]}," if error[:field] %>
-                  <% end %>
-                  <%= error[:error] %>
-                  <% if error[:request_id] %>
-                    <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
+          <div class="eui-banner--danger">
+            <div class="eui-banner__message">
+              <i class="fa fa-exclamation-triangle"></i> This draft has the following errors:
+              <ul class="no-bullet">
+                <% @ingest_errors.each do |error| %>
+                  <li>
+                    <% if error[:field] && error[:page] %>
+                      <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) %>
+                    <% else %>
+                      <%= "#{error[:field]}," if error[:field] %>
+                    <% end %>
+                    <%= error[:error] %>
+                    <% if error[:request_id] %>
+                      <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
           </div>
         </section>
       <% end %>

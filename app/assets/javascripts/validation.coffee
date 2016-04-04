@@ -128,7 +128,7 @@ $(document).ready ->
       message = '<i class="fa fa-exclamation-triangle"></i>'
       message += validationMessages(error)
 
-      classes = 'banner banner-danger validation-error'
+      classes = 'eui-banner--danger validation-error'
 
       errorElement = $('<div/>',
         id: "#{error.id}_error"
@@ -154,7 +154,7 @@ $(document).ready ->
 
   displaySummary = (errors) ->
     summary = $('<div/>',
-      class: 'banner banner-danger summary-errors'
+      class: 'eui-banner--danger summary-errors'
       html: '<i class="fa fa-exclamation-triangle"></i> This draft has the following errors:'
     )
 

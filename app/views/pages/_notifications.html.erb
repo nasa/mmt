@@ -1,10 +1,10 @@
 <% if @notifications.size > 1 %>
-  <div class="banner banner-warn banner-dismissible">
-    <p class="banner-message">
+  <div class="eui-banner--warn eui-banner__dismiss">
+    <p class="eui-banner__message">
       <a title="Display all calendar events" href="#" class="multiple-events">Multiple calendar events have been found. Click here to see all messages.</a>
     </p>
     <% @notifications.each do |notification| %>
-      <p class="banner-message is-hidden">
+      <p class="eui-banner__message is-hidden">
         <strong><%= notification['title'] %> <%= notification_time_span(notification) %></strong>
         <%= notification['message'] %>
         <%= link_to hide_notification_path(id: notification['id']), method: :post, remote: true, class: 'dismiss', title: 'Dismiss banner' do %>
@@ -15,8 +15,8 @@
   </div>
 <% elsif @notifications.size == 1 %>
   <% notification = @notifications.first %>
-  <div class="banner banner-warn banner-dismissible">
-    <p class="banner-message">
+  <div class="eui-banner--warn eui-banner__dismiss">
+    <p class="eui-banner__message">
       <strong><%= notification['title'] %> <%= notification_time_span(notification) %></strong>
       <%= notification['message'] %>
       <%= link_to hide_notification_path(id: notification['id']), method: :post, remote: true, class: 'dismiss', title: 'Dismiss banner' do %>

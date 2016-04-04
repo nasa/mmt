@@ -17,19 +17,21 @@
 
   <% if @errors && !@errors.empty? %>
     <section class="errors">
-      <div class="banner banner-danger">
-        <!-- <i class="fa fa-exclamation-triangle"></i> This revision could not be reverted successfully: -->
-        <ul class="no-bullet">
-          <% @errors.each do |error| %>
-            <li>
-              <%= "#{error[:field]}, " if error[:field] %>
-              <%= error[:error] %>
-              <% if error[:request_id] %>
-                <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
+      <div class="eui-banner--danger">
+        <div class="eui-banner__message">
+          <!-- <i class="fa fa-exclamation-triangle"></i> This revision could not be reverted successfully: -->
+          <ul class="no-bullet">
+            <% @errors.each do |error| %>
+              <li>
+                <%= "#{error[:field]}, " if error[:field] %>
+                <%= error[:error] %>
+                <% if error[:request_id] %>
+                  <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </section>
   <% end %>
@@ -40,8 +42,10 @@
     </section>
     <% if @error %>
       <section class="errors">
-        <div class="banner banner-danger">
-          <i class="fa fa-exclamation-triangle"></i> This collection could not be updated. You may <%= link_to 'edit', edit_collection_path(revision_id: @revision_id) %> the collection to resolve these issues.
+        <div class="eui-banner--danger">
+          <p class="eui-banner__message">
+            <i class="fa fa-exclamation-triangle"></i> This collection could not be updated. You may <%= link_to 'edit', edit_collection_path(revision_id: @revision_id) %> the collection to resolve these issues.
+          </p>
         </div>
       </section>
     <% end %>
