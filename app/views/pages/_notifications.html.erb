@@ -8,7 +8,7 @@
         <strong><%= notification['title'] %> <%= notification_time_span(notification) %></strong>
         <%= notification['message'] %>
         <%= link_to hide_notification_path(id: notification['id']), method: :post, remote: true, class: 'dismiss', title: 'Dismiss banner' do %>
-          <i class="ed-icon ed-fa-times-circle"></i>
+          <i class="eui-icon eui-fa-times-circle"></i>
         <% end %>
       </p>
     <% end %>
@@ -20,7 +20,7 @@
       <strong><%= notification['title'] %> <%= notification_time_span(notification) %></strong>
       <%= notification['message'] %>
       <%= link_to hide_notification_path(id: notification['id']), method: :post, remote: true, class: 'dismiss', title: 'Dismiss banner' do %>
-        <i class="ed-icon ed-fa-times-circle"></i>
+        <i class="eui-icon eui-fa-times-circle"></i>
       <% end %>
     </p>
   </div>

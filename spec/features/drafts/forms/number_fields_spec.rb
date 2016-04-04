@@ -44,7 +44,7 @@ describe 'Number fields', js: true do
 
     it 'displays a validation error on the preview page' do
       within '#spatial-information a[title="Spatial Extent - Invalid"]' do
-        expect(page).to have_css('.ed-fa-minus-circle.icon-red')
+        expect(page).to have_css('.eui-fa-minus-circle.icon-red')
       end
     end
 
@@ -95,7 +95,7 @@ describe 'Number fields', js: true do
 
     it 'displays a validation error on the preview page' do
       within '#temporal-information a[title="Temporal Extents - Invalid"]' do
-        expect(page).to have_css('.ed-fa-minus-circle.icon-red')
+        expect(page).to have_css('.eui-fa-minus-circle.icon-red')
       end
     end
 
