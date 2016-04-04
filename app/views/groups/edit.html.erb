@@ -1,11 +1,11 @@
 <main class="internal" role="main">
   <header>
     <div class="content">
-      <div class="breadcrumb">
-        <ol>
-          <li><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li><%= link_to 'Groups', groups_path %></li>
-          <li><%= link_to @group['name'], group_path %></li>
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item"><%= link_to 'Groups', groups_path %></li>
+          <li class="eui-breadcrumbs__item"><%= link_to @group['name'], group_path %></li>
         </ol>
       </div>
       <h2>Edit Group</h2>

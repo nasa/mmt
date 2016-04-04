@@ -1,11 +1,11 @@
 <main class="internal" role="main">
   <header>
     <div class="content">
-      <div class="breadcrumb">
-        <ol>
-          <li><%= link_to 'Dashboard', dashboard_path %></li>
-          <li><%= link_to display_entry_id(@collection, 'collection'), collection_path %></li>
-          <li>Revision History</li>
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Dashboard', dashboard_path %></li>
+          <li class="eui-breadcrumbs__item"><%= link_to display_entry_id(@collection, 'collection'), collection_path %></li>
+          <li class="eui-breadcrumbs__item">Revision History</li>
         </ol>
       </div>
       <h2><%= display_entry_id(@collection, 'collection') %></h2>

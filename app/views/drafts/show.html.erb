@@ -3,22 +3,22 @@
     <div class="content">
       <% if @user_permissions == 'none' %>
         <div class="collection-basics">
-          <div class="breadcrumb">
-            <ol>
-              <li><%= link_to 'Dashboard', dashboard_path %></li>
-              <li><%= link_to 'Drafts', drafts_path %></li>
-              <li><%= 'Private Draft' %></li>
+          <div class="eui-breadcrumbs">
+            <ol class="eui-breadcrumbs__list">
+              <li class="eui-breadcrumbs__item"><%= link_to 'Dashboard', dashboard_path %></li>
+              <li class="eui-breadcrumbs__item"><%= link_to 'Drafts', drafts_path %></li>
+              <li class="eui-breadcrumbs__item"><%= 'Private Draft' %></li>
             </ol>
           </div>
           <h2>Private Draft</h2>
         </div>
       <% else %>
         <div class="collection-basics">
-          <div class="breadcrumb">
-            <ol>
-              <li><%= link_to 'Dashboard', dashboard_path %></li>
-              <li><%= link_to 'Drafts', drafts_path %></li>
-              <li><%= display_entry_id(@draft.draft, 'draft') %></li>
+          <div class="eui-breadcrumbs">
+            <ol class="eui-breadcrumbs__list">
+              <li class="eui-breadcrumbs__item"><%= link_to 'Dashboard', dashboard_path %></li>
+              <li class="eui-breadcrumbs__item"><%= link_to 'Drafts', drafts_path %></li>
+              <li class="eui-breadcrumbs__item"><%= display_entry_id(@draft.draft, 'draft') %></li>
             </ol>
           </div>
           <h2><%= display_entry_id(@draft.draft, 'draft') %></h2>

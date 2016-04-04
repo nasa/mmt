@@ -1,12 +1,13 @@
 /* ===================================================== *\
-   Breadcrumb
+   Breadcrumbs
 \* ===================================================== */
 
-.breadcrumb {
+.eui-breadcrumbs {
+  padding: 1em 0;
   font-size: 0.8em;
   opacity: 0.8;
-  a {
 
+  a {
     &:link,
     &:visited {
       color: $white;
