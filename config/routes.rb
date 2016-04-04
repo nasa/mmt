@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   get 'new_record' => 'pages#new_record', as: 'new_record'
   post 'hide_notification' => 'pages#hide_notification', as: 'hide_notification'
 
-  get 'login' => 'users#login'
+  get 'login' => 'users#login', as: 'login'
   get 'logout' => 'users#logout'
   get 'urs_callback' => 'oauth_tokens#urs_callback'
 

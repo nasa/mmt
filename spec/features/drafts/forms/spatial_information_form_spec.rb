@@ -153,7 +153,7 @@ describe 'Spatial information form', js: true do
 
           # Spatial Keywords
           expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
-          expect(page).to have_content('OCEAN > ATLANTIC OCEAN')
+          expect(page).to have_content('OCEAN > ATLANTIC OCEAN > NORTH ATLANTIC OCEAN > BALTIC SEA')
         end
       end
     end

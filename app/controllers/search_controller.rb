@@ -59,6 +59,10 @@ class SearchController < ApplicationController
   def get_published(query)
     errors = []
 
+    unless query['keyword'] && query['keyword'].empty?
+      query['keyword'] = query['keyword'].strip.gsub(/\s+/, '* ') + '*'
+    end
+
     collections = cmr_client.get_collections(query, token).body
     hits = collections['hits'].to_i
     if collections['errors']

@@ -119,6 +119,7 @@
                 </li>
               <% end %>
             </ul>
+            <p><%= hidden_field_tag("draft[spatial_keywords][]", "") %></p>
           </div>
           <div class="nested-item-picker">
             <ul class="item-path">
@@ -126,6 +127,9 @@
             </ul>
             <div class="item-list-pane">
               <ul>
+                <li>
+                  <%= text_field_tag 'spatial-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...' %>
+                </li>
               </ul>
             </div>
           </div>
@@ -140,5 +144,5 @@
 
 <!-- Setup Spatial Keywords -->
 <script type="text/javascript">
-  setupScienceKeywords(<%= raw @spatial_keywords.to_json %>);
+  setupSpatialKeywords(<%= raw @spatial_keywords.to_json %>);
 </script>

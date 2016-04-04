@@ -610,6 +610,8 @@ module Helpers
 
       choose_keyword 'OCEAN'
       choose_keyword 'ATLANTIC OCEAN'
+      choose_keyword 'NORTH ATLANTIC OCEAN'
+      choose_keyword 'BALTIC SEA'
       click_on 'Add Keyword'
     end
 

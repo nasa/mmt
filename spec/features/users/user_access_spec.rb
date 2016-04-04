@@ -8,8 +8,8 @@ describe 'User Access', js: true do
       visit '/search'
     end
 
-    it 'redirects them to the landing page' do
-      expect(page).to have_content 'ABOUT THE METADATA MANAGEMENT TOOL'
+    it 'redirects them to URS for login' do
+      expect(page).to have_content 'EARTHDATA LOGIN'
     end
   end
 
