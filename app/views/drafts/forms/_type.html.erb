@@ -4,12 +4,14 @@
 <% if multiple %>
   <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') %>" class="multiple <%= (options[:type] || type.pluralize).dasherize %>">
     <% values.each_with_index do |value, index| %>
-      <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') + "_#{index}" %>" class="multiple-item multiple-item-<%= index %> accordion <%= 'is-closed' unless value == values.last %>">
-        <div class="accordion-header">
-          <a href="#">
-            <i class="fa fa-angle-down toggle"></i>
-            <span class="is-invisible">Toggle <%= options[:title] || type.titleize %> <%= index + 1 %></span>
-          </a>
+      <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') + "_#{index}" %>" class="multiple-item multiple-item-<%= index %> eui-accordion <%= 'is-closed' unless value == values.last %>">
+        <div class="eui-accordion__header">
+          <div class="eui-accordion__icon" tabindex="0">
+            <i class="eui-icon eui-fa-chevron-circle-down"></i>
+            <span class="eui-sr-only">
+              Toggle <%= options[:title] || type.titleize %> <%= index + 1 %>
+            </span>
+          </div>
           <span class="header-title"><%= options[:title] || type.titleize %> <%= index + 1 %></span>
           <div class="actions">
             <a class="remove">
@@ -18,7 +20,7 @@
             </a>
           </div>
         </div>
-        <div class="accordion-body">
+        <div class="eui-accordion__body">
           <%= render partial: "drafts/forms/fields/#{type}_fields", locals: {
               type.to_sym => value,
               name_prefix: "#{name_prefix}#{index}_",

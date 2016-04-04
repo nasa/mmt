@@ -7,7 +7,7 @@
       <p class="eui-banner__message is-hidden">
         <strong><%= notification['title'] %> <%= notification_time_span(notification) %></strong>
         <%= notification['message'] %>
-        <%= link_to hide_notification_path(id: notification['id']), method: :post, remote: true, class: 'dismiss', title: 'Dismiss banner' do %>
+        <%= link_to hide_notification_path(id: notification['id']), method: :post, remote: true, class: 'eui-banner__dismiss', title: 'Dismiss banner' do %>
           <i class="eui-icon eui-fa-times-circle"></i>
         <% end %>
       </p>
@@ -15,13 +15,4 @@
   </div>
 <% elsif @notifications.size == 1 %>
   <% notification = @notifications.first %>
-  <div class="eui-banner--warn eui-banner__dismiss">
-    <p class="eui-banner__message">
-      <strong><%= notification['title'] %> <%= notification_time_span(notification) %></strong>
-      <%= notification['message'] %>
-      <%= link_to hide_notification_path(id: notification['id']), method: :post, remote: true, class: 'dismiss', title: 'Dismiss banner' do %>
-        <i class="eui-icon eui-fa-times-circle"></i>
-      <% end %>
-    </p>
-  </div>
 <% end %>

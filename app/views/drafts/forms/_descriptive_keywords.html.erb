@@ -1,17 +1,17 @@
 <!-- ScienceKeyword [r] -->
-<fieldset class="accordion is-closed" id="science-keywords">
-  <div class="accordion-header">
-    <h3 class="icon-required">Science Keywords</h3>
+<fieldset class="eui-accordion is-closed" id="science-keywords">
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title eui-icon eui-required">Science Keywords</h3>
     <%= mmt_help_icon(
       title: 'Science Keywords',
       help: 'properties/ScienceKeywords'
     ) %>
-    <a href="#" class="float-r">
-      <i class="fa fa-angle-down toggle"></i>
-      <span class="is-invisible">Toggle Science Keywords</span>
-    </a>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Science Keywords</span>
+    </div>
   </div>
-  <div class="accordion-body">
+  <div class="eui-accordion__body">
     <div class="row taller">
       <div class="col-12">
         <div class="row sub-fields">
@@ -31,11 +31,13 @@
             </ul>
             <p><%= hidden_field_tag("draft[science_keywords][]", "") %></p>
           </div>
-          <div class="nested-item-picker">
-            <ul class="item-path">
-              <li class="list-title"><a href="javascript:void(0);">Science Keyword</a></li>
+          <div class="eui-nested-item-picker">
+            <ul class="eui-item-path">
+              <li class="list-title">
+                <a href="javascript:void(0);">Science Keyword</a>
+              </li>
             </ul>
-            <div class="item-list-pane">
+            <div class="eui-item-list-pane">
               <ul>
                 <li>
                   <%= text_field_tag 'science-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...' %>
@@ -52,19 +54,19 @@
   </div>
 </fieldset>
 
-<fieldset class="accordion is-closed" id="ancillary-keywords">
-  <div class="accordion-header">
-    <h3>Ancillary Keywords</h3>
+<fieldset class="eui-accordion is-closed" id="ancillary-keywords">
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title">Ancillary Keywords</h3>
     <%= mmt_help_icon(
       title: 'Ancillary Keywords',
       help: 'properties/AncillaryKeywords'
     ) %>
-    <a href="#" class="float-r">
-      <i class="fa fa-angle-down toggle"></i>
-      <span class="is-invisible">Toggle Ancillary Keywords</span>
-    </a>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Ancillary Keywords</span>
+    </div>
   </div>
-  <div class="accordion-body">
+  <div class="eui-accordion__body">
     <!-- AncillaryKeyword -->
     <div class="row taller">
       <div class="col-12">
@@ -100,19 +102,19 @@
   </div>
 </fieldset>
 
-<fieldset class="accordion is-closed" id="additional-attributes">
-  <div class="accordion-header">
-    <h3>Additional Attributes</h3>
+<fieldset class="eui-accordion is-closed" id="additional-attributes">
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title">Additional Attributes</h3>
     <%= mmt_help_icon(
       title: 'Additional Attributes',
       help: 'properties/AdditionalAttributes'
     ) %>
-    <a href="#" class="float-r">
-      <i class="fa fa-angle-down toggle"></i>
-      <span class="is-invisible">Toggle Additional Attributes</span>
-    </a>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Additional Attributes</span>
+    </div>
   </div>
-  <div class="accordion-body">
+  <div class="eui-accordion__body">
     <!-- AdditionalAttribute -->
     <div class="row taller">
       <div class="col-12">

@@ -82,7 +82,7 @@ $(document).ready ->
     .unique()
 
     # Remove all required icons
-    $('label.icon-required').not('label.always-required').removeClass('icon-required')
+    $('label.eui-icon eui-required').not('label.always-required').removeClass('eui-icon eui-required')
 
     # Add required icons to required fields within required data levels
     for dataLevel in levels
@@ -91,7 +91,7 @@ $(document).ready ->
         addRequiredFields($fields)
       addRequiredLabels(dataLevel)
 
-  # add icon-required to labels of required fields
+  # add eui-icon eui-required to labels of required fields
   addRequiredFields = (fields) ->
     requiredLabels = []
     $(fields).each (index, field) ->
@@ -99,13 +99,13 @@ $(document).ready ->
       if label.hasClass('required')
         requiredLabels.push(label[0])
 
-    $(requiredLabels).addClass('icon-required')
+    $(requiredLabels).addClass('eui-icon eui-required')
 
-  # add icon-required to labels matching the level
+  # add eui-icon eui-required to labels matching the level
   addRequiredLabels = (level) ->
     label = $("label##{level}")
     if label.hasClass('required')
-      label.addClass('icon-required')
+      label.addClass('eui-icon eui-required')
 
   # find all labels associated with given fields
   getLabels = (fields) ->

@@ -3,9 +3,15 @@
     <div class="content">
       <div class="eui-breadcrumbs">
         <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Dashboard', dashboard_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to display_entry_id(@collection, 'collection'), collection_path %></li>
-          <li class="eui-breadcrumbs__item">Revision History</li>
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'Dashboard', dashboard_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">
+            <%= link_to display_entry_id(@collection, 'collection'), collection_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">
+            Revision History
+          </li>
         </ol>
       </div>
       <h2><%= display_entry_id(@collection, 'collection') %></h2>
@@ -110,7 +116,7 @@
                     <% elsif @current_user.available_providers.include?(@provider_id) %>
                       <%= link_to phrase, '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: phrase } %>
                     <% end %>
-                    <div id="revert-revisions-modal-<%= revision_id %>" class="modal-content">
+                    <div id="revert-revisions-modal-<%= revision_id %>" class="eui-modal-content">
                       <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
                       <p><%= confirm_phrase %></p>
                       <p>

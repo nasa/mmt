@@ -4,8 +4,8 @@
 
 // Note: Needs improved naming convention
 
-.icon-completed,
-.icon-required {
+.eui-completed,
+.eui-required {
   &:before {
     content:"\f125";
     font-family: "EUI-Icon-Library";
@@ -18,8 +18,8 @@
 }
 
 .compass-coordinates {
-  .icon-completed,
-  .icon-required {
+  .eui-completed,
+  .eui-required {
     &:before {
       content:"\f125";
       font-family: "EUI-Icon-Library";
@@ -33,7 +33,7 @@
   }
 }
 
-.icon-completed {
+.eui-completed {
   &:before {
     content: "\f111";
   }
@@ -57,7 +57,7 @@
   }
 }
 
-.icon-circle-left {
+.eui-circle-left {
   &:before {
     font-family: "EUI-Icon-Library";
     content: "\f10e";
@@ -65,7 +65,7 @@
   }
 }
 
-.icon-circle-right {
+.eui-circle-right {
   &:before {
     font-family: "EUI-Icon-Library";
     content: "\f10f";

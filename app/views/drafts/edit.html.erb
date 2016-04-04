@@ -9,10 +9,18 @@
       <div class="content">
         <div class="eui-breadcrumbs">
           <ol class="eui-breadcrumbs__list">
-            <li class="eui-breadcrumbs__item"><%= link_to 'Dashboard', dashboard_path %></li>
-            <li class="eui-breadcrumbs__item"><%= link_to 'Drafts', drafts_path %></li>
-            <li class="eui-breadcrumbs__item"><%= link_to display_entry_id(@draft.draft, 'draft'), draft_path(@draft) %></li>
-            <li class="eui-breadcrumbs__item"><%= @draft_form.titleize %></li>
+            <li class="eui-breadcrumbs__item">
+              <%= link_to 'Dashboard', dashboard_path %>
+            </li>
+            <li class="eui-breadcrumbs__item">
+              <%= link_to 'Drafts', drafts_path %>
+            </li>
+            <li class="eui-breadcrumbs__item">
+              <%= link_to display_entry_id(@draft.draft, 'draft'), draft_path(@draft) %>
+            </li>
+            <li class="eui-breadcrumbs__item">
+              <%= @draft_form.titleize %>
+            </li>
           </ol>
         </div>
         <h2><%= @draft_form.titleize %></h2>
@@ -44,7 +52,7 @@
 
         <div class="row">
           <div class="col-12">
-            <p class="icon-required">Indicates required field</p>
+            <p class="eui-icon eui-required">Indicates required field</p>
           </div>
         </div>
 
@@ -65,7 +73,7 @@
 
         <!-- Hidden link to allow modal to be shown -->
         <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Model</a>
-        <div id="invalid-draft-modal" class="modal-content">
+        <div id="invalid-draft-modal" class="eui-modal-content">
           <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
           <p>This page has invalid data. Are you sure you want to save it and proceed?</p>
           <p>

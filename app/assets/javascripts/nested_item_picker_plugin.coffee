@@ -19,7 +19,7 @@
 
   # bind events here
   self = this
-  @$element.on 'DOMSubtreeModified', '.item-path', ->
+  @$element.on 'DOMSubtreeModified', '.eui-item-path', ->
     self.updateList()
 
   this
@@ -38,7 +38,7 @@
   values = []
   items = []
 
-  itemElements = pickerElement.find('.item-path > li').not('.item-path > li.list-title')
+  itemElements = pickerElement.find('.eui-item-path > li').not('.eui-item-path > li.list-title')
   $.each itemElements, (index, element) ->
     items.push $(element).text()
 
@@ -55,7 +55,7 @@
   values
 
 @NestedItemPicker::resetPicker = ->
-  @$element.find('.item-path > li.list-title').click()
+  @$element.find('.eui-item-path > li.list-title').click()
   @updateList()
 
 @NestedItemPicker::updateList = ->
@@ -64,7 +64,7 @@
   if selectedValues.length > 0
     selectedItems = @getValues()[0].split(' > ')
 
-  itemList = @$element.find('.item-list-pane > ul')
+  itemList = @$element.find('.eui-item-list-pane > ul')
   $(itemList).find('li.item').remove()
 
   newItems = []

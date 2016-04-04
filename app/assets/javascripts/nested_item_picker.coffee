@@ -1,10 +1,7 @@
 # Setup NestedItemPicker for Science Keywords
 picker = undefined
 @setupScienceKeywords = (data) ->
-  picker = new NestedItemPicker('.nested-item-picker', data: data, data_type: 'science')
-
-@setupSpatialKeywords = (data) ->
-  picker = new NestedItemPicker('.nested-item-picker', data: data, data_type: 'spatial')
+  picker = new NestedItemPicker('.eui-nested-item-picker', data: data)
 
 $(document).ready ->
   if picker?
@@ -45,26 +42,26 @@ $(document).ready ->
     # Functions to validate user's ability to add keywords
     # Validate when user clicks on on item selection
     checkSelectionLevel = ->
-      selectionLevel = $('.item-path li').length
+      selectionLevel = $('.eui-item-path li').length
       if selectionLevel > 3
         $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
       else
         $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
 
-    $('div.nested-item-picker').on 'click', '.item-parent', ->
+    $('div.eui-nested-item-picker').on 'click', '.item-parent', ->
       checkSelectionLevel()
 
     # Validate when user uses side navigation
-    $('.item-path').on 'click', 'li', ->
+    $('.eui-item-path').on 'click', 'li', ->
       checkSelectionLevel()
 
     # Validate if user select final option
-    $('.nested-item-picker').on 'click', '.final-option', ->
+    $('.eui-nested-item-picker').on 'click', '.final-option', ->
       $this = $(this)
       if $this.hasClass('final-option-selected')
-        $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
-      else if $('.item-path li').length < 4
-        $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
+        $('.add-science-keyword').removeAttr 'disabled'
+      else if $('.eui-item-path li').length < 4
+        $('.add-science-keyword').attr 'disabled', true
 
     # Science keyword searching
     getKeywords = (json, keyword = []) ->
@@ -110,7 +107,7 @@ $(document).ready ->
 
       this.focus()
 
-    $(document).on 'click', 'li.item a, ul.item-path li', ->
+    $(document).on 'click', 'li.item a, ul.eui-item-path li', ->
       typeaheadSource.clear()
       # destroy typeahead
       $('#science-keyword-search, #spatial-keyword-search').val('')

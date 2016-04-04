@@ -1,31 +1,20 @@
 <main class="internal record" role="main">
   <header>
     <div class="content">
-      <% if @user_permissions == 'none' %>
-        <div class="collection-basics">
-          <div class="eui-breadcrumbs">
-            <ol class="eui-breadcrumbs__list">
-              <li class="eui-breadcrumbs__item"><%= link_to 'Dashboard', dashboard_path %></li>
-              <li class="eui-breadcrumbs__item"><%= link_to 'Drafts', drafts_path %></li>
-              <li class="eui-breadcrumbs__item"><%= 'Private Draft' %></li>
-            </ol>
-          </div>
-          <h2>Private Draft</h2>
+      <div class="collection-basics">
+        <div class="eui-breadcrumbs">
+          <ol class="eui-breadcrumbs__list">
+            <li class="eui-breadcrumbs__item">
+              <%= link_to 'Dashboard', dashboard_path %>
+            </li>
+            <li class="eui-breadcrumbs__item">
+              <%= link_to 'Drafts', drafts_path %>
+            </li>
+            <li class="eui-breadcrumbs__item">
+              <%= display_entry_id(@draft.draft, 'draft') %>
+            </li>
+          </ol>
         </div>
-      <% else %>
-        <div class="collection-basics">
-          <div class="eui-breadcrumbs">
-            <ol class="eui-breadcrumbs__list">
-              <li class="eui-breadcrumbs__item"><%= link_to 'Dashboard', dashboard_path %></li>
-              <li class="eui-breadcrumbs__item"><%= link_to 'Drafts', drafts_path %></li>
-              <li class="eui-breadcrumbs__item"><%= display_entry_id(@draft.draft, 'draft') %></li>
-            </ol>
-          </div>
-          <h2><%= display_entry_id(@draft.draft, 'draft') %></h2>
-          <p class="subtitle"><%= @draft.display_entry_title %></p>
-          <p class="subnav current">Draft Record</p>
-        </div>
-      <% end %>
 
       <% unless @user_permissions == 'none' %>
         <div class="collection-details">
@@ -132,8 +121,7 @@
               <%= link_to 'Yes', "/drafts/#{@draft.id}", method: :delete, class: 'eui-btn--blue spinner' %>
             </p>
           </div>
-        </div>
-      </section>
+        </section>
 
       <% if @ingest_errors && !@ingest_errors.empty? %>
         <section class="errors">

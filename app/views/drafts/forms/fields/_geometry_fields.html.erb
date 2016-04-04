@@ -27,7 +27,7 @@
 
   <!-- CoordinateSystem -->
   <% coordinate_system = geometry['CoordinateSystem'] || "" %>
-  <label class="icon-required">Coordinate System</label>
+  <label class="eui-icon eui-required">Coordinate System</label>
   <p class="radio-group">
     <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
     <label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label>
@@ -45,7 +45,7 @@
   <% g_polygons_checked = !geometry['GPolygons'].nil? %>
   <% lines_checked = !geometry['Lines'].nil? %>
   <div class="geometry-type">
-    <label class="icon-required">Geometry Type</label>
+    <label class="eui-icon eui-required">Geometry Type</label>
     <p class="radio-group">
       <%= radio_button_tag(name_to_param("#{name_prefix}"), 'points', points_checked, class: 'geometry-picker points', name: nil, data: { level: remove_pipes(name_prefix) }) %>
       <label for="<%= remove_pipes(name_prefix) %>points">Points</label>

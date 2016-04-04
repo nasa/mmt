@@ -1,12 +1,12 @@
 <fieldset class="no-bg">
   <legend class="space-bot-sm">General</legend>
   <div class="row">
-    <%= label_tag('group[name]', 'Group Name', class: 'icon-required') %>
+    <%= label_tag('group[name]', 'Group Name', class: 'eui-icon eui-required') %>
     <br/>
     <%= text_field_tag('group[name]', @group['name'], class: 'half-width required', readonly: !new_form) %>
   </div>
   <div class="row">
-    <%= label_tag('group[description]', 'Group Description', class: 'icon-required') %>
+    <%= label_tag('group[description]', 'Group Description', class: 'eui-icon eui-required') %>
     <%= text_area_tag('group[description]', @group['description'], cols: 30, rows: 3, class: 'required') %>
   </div>
 </fieldset>

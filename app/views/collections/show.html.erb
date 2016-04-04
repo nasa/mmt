@@ -4,8 +4,12 @@
       <div class="collection-basics">
         <div class="eui-breadcrumbs">
           <ol class="eui-breadcrumbs__list">
-            <li class="eui-breadcrumbs__item"><%= link_to 'Dashboard', dashboard_path %></li>
-            <li class="eui-breadcrumbs__item"><%= display_entry_id(@collection, 'collection') %></li>
+            <li class="eui-breadcrumbs__item">
+              <%= link_to 'Dashboard', dashboard_path %>
+            </li>
+            <li class="eui-breadcrumbs__item">
+              <%= display_entry_id(@collection, 'collection') %>
+            </li>
           </ol>
         </div>
         <h2><%= display_entry_id(@collection, 'collection') %></h2>

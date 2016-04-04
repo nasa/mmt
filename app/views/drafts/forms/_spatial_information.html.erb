@@ -1,17 +1,17 @@
 <!-- Spatial Extent [r] -->
-<fieldset class="accordion is-closed" id="spatial-extent">
-  <div class="accordion-header">
-    <h3 class="icon-required">Spatial Extent</h3>
+<fieldset class="eui-accordion is-closed" id="spatial-extent">
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title eui-icon eui-required">Spatial Extent</h3>
     <%= mmt_help_icon(
       title: 'Spatial Extent',
       help: 'properties/SpatialExtent'
     ) %>
-    <a href="#" class="float-r">
-      <i class="fa fa-angle-down toggle"></i>
-      <span class="is-invisible">Toggle Spatial Extent</span>
-    </a>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Spatial Extent</span>
+    </div>
   </div>
-  <div class="accordion-body">
+  <div class="eui-accordion__body">
     <div class="row">
       <div class="col-12">
         <%= render partial: 'drafts/forms/type', locals: {
@@ -26,19 +26,19 @@
 </fieldset>
 
 <!-- Tiling Identification Systems -->
-<fieldset class="accordion is-closed" id="tiling-identification-system">
-  <div class="accordion-header">
-    <h3>Tiling Identification Systems</h3>
+<fieldset class="eui-accordion is-closed" id="tiling-identification-system">
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title">Tiling Identification Systems</h3>
     <%= mmt_help_icon(
       title: 'Tiling Identification Systems',
       help: 'properties/TilingIdentificationSystems'
     ) %>
-    <a href="#" class="float-r">
-      <i class="fa fa-angle-down toggle"></i>
-      <span class="is-invisible">Toggle Tiling Identification Systems</span>
-    </a>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Tiling Identification Systems</span>
+    </div>
   </div>
-  <div class="accordion-body">
+  <div class="eui-accordion__body">
     <div class="row">
       <div class="col-12">
         <%= render partial: 'drafts/forms/type', locals: {
@@ -53,19 +53,19 @@
 </fieldset>
 
 <!-- Spatial Representation Information -->
-<fieldset class="accordion is-closed" id="spatial-representation-information">
-  <div class="accordion-header">
-    <h3>Spatial Representation Information</h3>
+<fieldset class="eui-accordion is-closed" id="spatial-representation-information">
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title">Spatial Representation Information</h3>
     <%= mmt_help_icon(
       title: 'Spatial Representation Information',
       help: 'properties/SpatialInformation'
     ) %>
-    <a href="#" class="float-r">
-      <i class="fa fa-angle-down toggle"></i>
-      <span class="is-invisible">Toggle Spatial Representation Information</span>
-    </a>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Spatial Representation Information</span>
+    </div>
   </div>
-  <div class="accordion-body">
+  <div class="eui-accordion__body">
     <div class="row">
       <div class="col-12">
         <%= mmt_label(
@@ -89,19 +89,19 @@
 </fieldset>
 
 <!-- Spatial Keywords -->
-<fieldset class="accordion is-closed" id="spatial-keywords">
-  <div class="accordion-header">
-    <h3>Spatial Keywords</h3>
+<fieldset class="eui-accordion is-closed" id="spatial-keywords">
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title">Spatial Keywords</h3>
     <%= mmt_help_icon(
       title: 'Spatial Keywords',
       help: 'properties/SpatialKeywords'
     ) %>
-    <a href="#" class="float-r">
-      <i class="fa fa-angle-down toggle"></i>
-      <span class="is-invisible">Toggle Spatial Keywords</span>
-    </a>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Spatial Keywords</span>
+    </div>
   </div>
-  <div class="accordion-body">
+  <div class="eui-accordion__body">
     <div class="row">
       <div class="col-12">
         <div class="row sub-fields">
@@ -121,11 +121,11 @@
             </ul>
             <p><%= hidden_field_tag("draft[spatial_keywords][]", "") %></p>
           </div>
-          <div class="nested-item-picker">
-            <ul class="item-path">
+          <div class="eui-nested-item-picker">
+            <ul class="eui-item-path">
               <li class="list-title"><a href="javascript:void(0);">Spatial Keyword</a></li>
             </ul>
-            <div class="item-list-pane">
+            <div class="eui-item-list-pane">
               <ul>
                 <li>
                   <%= text_field_tag 'spatial-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...' %>
