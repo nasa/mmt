@@ -23,7 +23,16 @@ describe 'Draft deletion', js: true do
     end
 
     it 'leaves the draft table in the database empty' do
-      expect(Draft.count).to eq(0)
+      # TODO intermittent failure
+      # ExpectationNotMetError
+      # expected 0, got 1; compared using ==
+      # using #synchronize as described in:
+      # https://github.com/jnicklas/capybara/blob/master/lib/capybara/node/base.rb#L44
+      # http://stackoverflow.com/questions/14588241/how-to-use-synchronize-in-capybara-exactly
+      # http://amcaplan.ninja/blog/2014/07/17/asynchronous-javascript-without-failing-capybara-tests/
+      page.document.synchronize do
+        expect(Draft.count).to eq(0)
+      end
     end
 
     it 'returns to the dashboard page' do
