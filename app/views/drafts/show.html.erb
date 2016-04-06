@@ -25,19 +25,19 @@
           <!-- Only display version if one exists. -->
           <% if @draft.draft["Version"] %>
             <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_version' }) do %>
-              <%= content_tag :span, "Version #{@draft.draft['Version']}", :class => "badge version" %>
+              <%= content_tag :span, "Version #{@draft.draft['Version']}", :class => "eui-badge version" %>
             <% end %>
           <% end %>
           <!-- Only display data language if one exists. -->
           <% if @draft.draft["DataLanguage"] %>
             <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_data_language' }) do %>
-              <%= content_tag :span,  @draft.draft['DataLanguage'], :class => "badge language" %>
+              <%= content_tag :span,  @draft.draft['DataLanguage'], :class => "eui-badge language" %>
             <% end %>
           <% end %>
           <!-- Only display CollectionDataType if it is NRT. -->
           <% if @draft.draft["CollectionDataType"] == "NEAR_REAL_TIME" %>
             <%= link_to draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-data-type' }) do %>
-              <%= content_tag :span, 'NRT' , :class => "badge nrt" %>
+              <%= content_tag :span, 'NRT' , :class => "eui-badge nrt" %>
             <% end %>
           <% end %>
           <!-- Only display CollectionProgress if it exists. -->
