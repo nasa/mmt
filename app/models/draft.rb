@@ -5,17 +5,17 @@ class Draft < ActiveRecord::Base
   after_create :set_native_id
 
   DRAFT_FORMS = %w(
-    metadata_information
     collection_information
-    organizations
-    personnel
     data_identification
-    resource_citations
-    descriptive_keywords
     distribution_information
+    descriptive_keywords
+    acquisition_information
     temporal_information
     spatial_information
-    acquisition_information
+    organizations
+    personnel
+    collection_citations
+    metadata_information
   )
 
   def self.get_next_form(name)
@@ -44,12 +44,16 @@ class Draft < ActiveRecord::Base
       # Convert parameter keys to CamelCase for UMM
       json_params = params.to_hash.to_camel_keys
       # Merge new params into draft
-      new_draft = draft.merge(json_params)
+      new_draft = self.draft.merge(json_params)
       # Remove empty params from draft
       new_draft = compact_blank(new_draft.clone)
 
       if new_draft
         self.draft = new_draft
+        save
+      elsif self.draft != {}
+        # draft had content, but now new_draft is nil/empty so any data has been deleted and saved in the forms
+        self.draft = {}
         save
       end
     end

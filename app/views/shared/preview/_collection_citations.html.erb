@@ -1,18 +1,18 @@
 <div class="preview-collection accordion">
   <div class="accordion-header">
-    <h4>Resource Citations Fields:</h4>
+    <h4>Collection Citations Fields:</h4>
     <a href="#" class="float-r">
       <i class="fa fa-angle-down toggle"></i>
-      <span class="is-invisible">Toggle Resource Citations Fields</span>
+      <span class="is-invisible">Toggle Collection Citations Fields</span>
     </a>
   </div>
   <div class="accordion-body">
-    <ul class="resource-citations-preview">
+    <ul class="collection-citations-preview">
       <% if metadata['CollectionCitations'] %>
         <h5>
           Collection Citations
           <% if @draft.present? %>
-            <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Resource Citations</span>'.html_safe, draft_edit_form_path(@draft, 'resource_citations', { anchor: 'collection-citation' }), { class: 'hash-link' } %>
+            <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Collection Citations</span>'.html_safe, draft_edit_form_path(@draft, 'collection_citations', { anchor: 'collection-citation' }), { class: 'hash-link' } %>
           <% end %>
         </h5>
 
