@@ -40,11 +40,10 @@ describe 'Number fields', js: true do
     it 'saves the original string into the database' do
       draft_metadata = { 'SpatialExtent' => { 'SpatialCoverageType' => 'HORIZONTAL', 'HorizontalSpatialDomain' => { 'Geometry' => { 'CoordinateSystem' => 'CARTESIAN', 'BoundingRectangles' => [{ 'NorthBoundingCoordinate' => '1a', 'WestBoundingCoordinate' => 'abcd', 'EastBoundingCoordinate' => 15.0, 'SouthBoundingCoordinate' => 30.0 }] } }, 'GranuleSpatialRepresentation' => 'CARTESIAN' } }
 
-      # TODO intermittent failure
-      # gets failure Rspec MultipleExceptionError
+      # intermittent failure, Rspec MultipleExceptionError
       # can't use #synchronize because MultipleExceptionError doesn't inherit from ElementNotFound
       # Capybara has deprecated #wait_until so need to find a matcher or comparator that will wait and/or reload on timeout
-      # one example list of methods that wait and that do not http://tech.simplybusiness.co.uk/2015/02/25/flaky-tests-and-capybara-best-practices/
+      # example list of methods that wait (and that don't) http://tech.simplybusiness.co.uk/2015/02/25/flaky-tests-and-capybara-best-practices/
       find('#spatial-information a[title="Spatial Extent - Invalid"]')
       expect(Draft.last.draft).to eq(draft_metadata)
     end

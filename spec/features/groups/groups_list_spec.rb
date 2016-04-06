@@ -87,9 +87,10 @@ describe 'Groups list page', js: true, reset_provider: true do
               end
 
               it 'displays the system level group' do
-                # TODO intermittent error
-                # Rspec ExpectationNotMetError
+                # intermittent error, Rspec ExpectationNotMetError
+                # added logging comments to verify users and system level groups setup in cmr
                 # using #syncrhonize, as used in draft_deletion_spec, ln 25
+                # may need different solution
                 page.document.synchronize do
                   within '.groups-table' do
                     expect(page).to have_content('Administrators CMR 0')
@@ -132,9 +133,10 @@ describe 'Groups list page', js: true, reset_provider: true do
       end
 
       it 'displays the system level groups' do
-        # TODO intermittent error
-        # Rspec ExpectationNotMetError
+        # intermittent error, Rspec ExpectationNotMetError
+        # added logging comments to verify users and system level groups setup in cmr
         # using #syncrhonize, as used in draft_deletion_spec, ln 25
+        # may need different solution
         page.document.synchronize do
           within '.groups-table' do
             expect(page).to have_content('Administrators CMR 0')
