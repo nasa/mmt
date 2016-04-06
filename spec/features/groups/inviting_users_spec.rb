@@ -1,0 +1,103 @@
+require 'rails_helper'
+
+describe 'Inviting users', reset_provider: true, js: true do
+  after do
+    ActionMailer::Base.deliveries.clear
+  end
+
+  context 'when creating a new group' do
+    before do
+      login
+      visit new_group_path
+      fill_in 'Group Name', with: 'Test Group'
+      fill_in 'Group Description', with: 'Test Description'
+    end
+
+    context 'when inviting a user' do
+      before do
+        click_on 'Member not listed'
+
+        fill_in 'invite_first_name', with: 'First'
+        fill_in 'invite_last_name', with: 'Last'
+        fill_in 'invite_email', with: 'test@example.com'
+
+        click_on 'Invite User'
+        wait_for_ajax
+      end
+
+      it 'creates a new UserInvite' do
+        expect(UserInvite.count).to eq(1)
+      end
+
+      it 'sends the user an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+
+      it 'clears the form' do
+        expect(page).to have_field('invite_first_name', with: '')
+        expect(page).to have_field('invite_last_name', with: '')
+        expect(page).to have_field('invite_email', with: '')
+      end
+
+      it 'displays a confirmation message' do
+        expect(page).to have_content('User has been successfully invited.')
+      end
+
+      context 'when the user accepts the invite' do
+        it 'sets the UserInvite to inactive'
+        it 'displays a confirmation page'
+        it 'emails the manager'
+      end
+    end
+  end
+
+  context 'when adding users to an existing group' do
+    before do
+      login
+      visit new_group_path
+      fill_in 'Group Name', with: 'Test Group'
+      fill_in 'Group Description', with: 'Test Description'
+      click_on 'Save'
+
+      click_on 'Add Members'
+    end
+
+    context 'when inviting a user' do
+      before do
+        click_on 'Member not listed'
+
+        fill_in 'invite_first_name', with: 'First'
+        fill_in 'invite_last_name', with: 'Last'
+        fill_in 'invite_email', with: 'test@example.com'
+
+        click_on 'Invite User'
+        wait_for_ajax
+      end
+
+      it 'creates a new UserInvite' do
+        expect(UserInvite.count).to eq(1)
+      end
+
+      it 'sends the user an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+
+      it 'clears the form' do
+        expect(page).to have_field('invite_first_name', with: '')
+        expect(page).to have_field('invite_last_name', with: '')
+        expect(page).to have_field('invite_email', with: '')
+      end
+
+      it 'displays a confirmation message' do
+        expect(page).to have_content('User has been successfully invited.')
+      end
+
+      context 'when the user accepts the invite' do
+        it 'sets the UserInvite to inactive'
+        it 'displays a confirmation page'
+        it 'emails the manager'
+        it 'adds the user to the group'
+      end
+    end
+  end
+end
