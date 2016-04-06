@@ -90,7 +90,7 @@ module PreviewCirclesHelper
         anchor: 'publication-references'
       }
     },
-    'resource_citations' => {
+    'collection_citations' => {
       'CollectionCitations' => {
         required: false,
         anchor: 'collection-citation'
