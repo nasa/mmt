@@ -162,7 +162,7 @@
       checkAccordionValidity(hash);
     }
 
-    $("a[href*=#]").on("click", function() {
+    $("a[href*='#']").on("click", function() {
       var linkHref = $(this).attr("href");
       var linkHash = linkHref.substring(linkHref.indexOf("#") + 1);
       checkAccordionValidity(linkHash);
