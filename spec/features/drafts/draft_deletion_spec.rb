@@ -24,7 +24,7 @@ describe 'Draft deletion', js: true do
 
     it 'leaves the draft table in the database empty' do
       # TODO intermittent failure
-      # ExpectationNotMetError
+      # Rspec ExpectationNotMetError
       # expected 0, got 1; compared using ==
       # using #synchronize as described in:
       # https://github.com/jnicklas/capybara/blob/master/lib/capybara/node/base.rb#L44

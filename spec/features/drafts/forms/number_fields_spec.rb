@@ -38,18 +38,15 @@ describe 'Number fields', js: true do
     end
 
     it 'saves the original string into the database' do
-      # TODO intermittent failure
-      # gets failure MultipleExceptionError
-      # expected (below), got {}, match with ==
-      # Couldn't find Draft with 'id'=1
-      # using #synchronize as described in:
-      # https://github.com/jnicklas/capybara/blob/master/lib/capybara/node/base.rb#L44
-      # http://stackoverflow.com/questions/14588241/how-to-use-synchronize-in-capybara-exactly
-      # http://amcaplan.ninja/blog/2014/07/17/asynchronous-javascript-without-failing-capybara-tests/
       draft_metadata = { 'SpatialExtent' => { 'SpatialCoverageType' => 'HORIZONTAL', 'HorizontalSpatialDomain' => { 'Geometry' => { 'CoordinateSystem' => 'CARTESIAN', 'BoundingRectangles' => [{ 'NorthBoundingCoordinate' => '1a', 'WestBoundingCoordinate' => 'abcd', 'EastBoundingCoordinate' => 15.0, 'SouthBoundingCoordinate' => 30.0 }] } }, 'GranuleSpatialRepresentation' => 'CARTESIAN' } }
-      page.document.synchronize do
-        expect(Draft.last.draft).to eq(draft_metadata)
-      end
+
+      # TODO intermittent failure
+      # gets failure Rspec MultipleExceptionError
+      # can't use #synchronize because MultipleExceptionError doesn't inherit from ElementNotFound
+      # Capybara has deprecated #wait_until so need to find a matcher or comparator that will wait and/or reload on timeout
+      # one example list of methods that wait and that do not http://tech.simplybusiness.co.uk/2015/02/25/flaky-tests-and-capybara-best-practices/
+      find('#spatial-information a[title="Spatial Extent - Invalid"]')
+      expect(Draft.last.draft).to eq(draft_metadata)
     end
 
     it 'displays a validation error on the preview page' do
