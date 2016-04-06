@@ -30,6 +30,11 @@
 
     a {
       color: $ocean-blue;
+
+      &:hover,
+      &:visited {
+        color: $ocean-blue;
+      }
     }
   }
 
