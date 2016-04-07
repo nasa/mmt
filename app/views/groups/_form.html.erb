@@ -31,12 +31,6 @@
     <span class="is-invisible">Close</span>
   </a>
 
-  <div class="banner banner-success invite-success is-invisible">
-    <p class="banner-message">
-      User has been successfully invited.
-    </p>
-  </div>
-
   <p>Users must authorize MMT through Earthdata Login to be added as group members.</p>
   <%= form_tag invite_user_path, method: :post, class: '', remote: true do %>
     <%= hidden_field_tag 'invite[group_id]', params[:id] %>
@@ -59,6 +53,9 @@
     <p>
       <a href="javascript:void(0)" class="btn btn-default modal-close">Cancel</a>
       <%= submit_tag 'Invite User', id: 'invite-user-button', class: 'btn btn-blue spinner' %>
+      <span class="invite-success is-invisible">
+        <i class="ed-icon ed-check-o icon-green"></i> Invitation sent!
+      </span>
     </p>
   <% end %>
 </div>
