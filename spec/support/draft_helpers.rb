@@ -40,14 +40,14 @@ module Helpers
     end
 
     def do_open_accordions
-      script = "$('.accordion.is-closed').removeClass('is-closed');"
+      script = "$('.eui-accordion.is-closed').removeClass('is-closed');"
       page.execute_script script
     end
 
     def accordions_open?
       # Are there accordions on the page, and are they open?
-      expect(page).to have_css('.accordion')
-      expect(page).to have_no_css('.accordion.is-closed')
+      expect(page).to have_css('.eui-accordion')
+      expect(page).to have_no_css('.eui-accordion.is-closed')
     rescue
       false
     end

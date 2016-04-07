@@ -12,10 +12,10 @@ describe 'Draft form accordions', js: true do
       click_on 'Distribution Information'
 
       # Open the RelatedUrl fieldset accordion
-      all('fieldset.accordion > div.accordion-header').first.click
+      all('fieldset.eui-accordion > div.eui-accordion__header').first.click
 
       # Collapse the Related Url 1 accordion
-      find('.multiple.related-urls > .multiple-item-0 > .accordion-header').click
+      find('.multiple.related-urls > .multiple-item-0 > .eui-accordion__header').click
     end
 
     it 'collapses the accordion' do
@@ -29,7 +29,7 @@ describe 'Draft form accordions', js: true do
     context 'when clicking on the header again' do
       before do
         # Open the Related Url 1 accordion
-        find('.multiple.related-urls > .multiple-item-0.is-closed > .accordion-header').click
+        find('.multiple.related-urls > .multiple-item-0.is-closed > .eui-accordion__header').click
       end
 
       it 'opens the accordion' do
@@ -50,12 +50,12 @@ describe 'Draft form accordions', js: true do
     end
 
     it 'shows the accordion open by default' do
-      expect(page).to have_no_css('.accordion.is-closed')
+      expect(page).to have_no_css('.eui-accordion.is-closed')
     end
 
     context 'when clicking on the accordion header' do
       before do
-        first('.accordion-header').click
+        first('.eui-accordion__header').click
       end
 
       it 'does not allow the user to collapse the accordion' do

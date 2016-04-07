@@ -16,7 +16,7 @@
     color: $dolphin-grey;
   }
 
-  .accordion-header {
+  .eui-accordion__header {
     h4, h5 {
       display: inline;
     }
@@ -41,7 +41,7 @@ ul.sub-field {
 
 .preview-collection {
 
-  .accordion-body {
+  .eui-accordion__body {
 
     h4 {
       border-bottom: 1px dotted $dolphin-grey;

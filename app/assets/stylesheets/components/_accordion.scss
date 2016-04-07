@@ -55,13 +55,13 @@
   }
 }
 
-.accordion.is-closed {
+.eui-accordion.is-closed {
 
-  > .accordion-body {
+  > .eui-accordion__body {
     display: none;
   }
 
-  > .accordion-header .toggle {
+  > .eui-accordion__header .toggle {
     @include transform(rotate(-90deg));
   }
 }

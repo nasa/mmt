@@ -155,7 +155,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
           end
 
           it 'displays warning banner link to change provider' do
-            expect(page).to have_css('.banner-warn')
+            expect(page).to have_css('.eui-banner--warn')
             expect(page).to have_content("You need to change your current provider to edit this collection")
           end
 
@@ -183,7 +183,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
           end
 
           it 'displays warning banner link to change provider' do
-            expect(page).to have_css('.banner-warn')
+            expect(page).to have_css('.eui-banner--warn')
             expect(page).to have_content("You need to change your current provider to clone this collection")
           end
 
@@ -239,7 +239,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
           end
 
           it 'displays the no permissions banner message' do
-            expect(page).to have_css('.banner-danger')
+            expect(page).to have_css('.eui-banner--danger')
             expect(page).to have_content("You don't have the appropriate permissions to edit this collection")
           end
 
@@ -256,7 +256,7 @@ describe 'Collections permissions', js: true, reset_provider: true do
           end
 
           it 'displays the no permissions banner message' do
-            expect(page).to have_css('.banner-danger')
+            expect(page).to have_css('.eui-banner--danger')
             expect(page).to have_content("You don't have the appropriate permissions to clone this collection")
           end
 
