@@ -44,7 +44,7 @@ describe 'Inviting users', reset_provider: true, js: true do
       end
 
       it 'displays a confirmation message' do
-        expect(page).to have_content('User has been successfully invited.')
+        expect(page).to have_content('Invitation sent!')
       end
 
       context 'when the user accepts the invite' do
@@ -107,7 +107,7 @@ describe 'Inviting users', reset_provider: true, js: true do
       end
 
       it 'displays a confirmation message' do
-        expect(page).to have_content('User has been successfully invited.')
+        expect(page).to have_content('Invitation sent!')
       end
 
       context 'when the user accepts the invite' do
