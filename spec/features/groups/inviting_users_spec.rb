@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'Inviting users', reset_provider: true, js: true do
+  let(:token) { UserInvite.first.token }
+
   after do
     ActionMailer::Base.deliveries.clear
   end
@@ -23,6 +25,8 @@ describe 'Inviting users', reset_provider: true, js: true do
 
         click_on 'Invite User'
         wait_for_ajax
+
+        token
       end
 
       it 'creates a new UserInvite' do
@@ -44,9 +48,21 @@ describe 'Inviting users', reset_provider: true, js: true do
       end
 
       context 'when the user accepts the invite' do
-        it 'sets the UserInvite to inactive'
-        it 'displays a confirmation page'
-        it 'emails the manager'
+        before do
+          visit accept_invite_path(token: token)
+        end
+
+        it 'sets the UserInvite to inactive' do
+          expect(UserInvite.first.active).to eq(false)
+        end
+
+        it 'displays a confirmation page' do
+          expect(page).to have_content('Thank you for accepting this invitation. Group managers will now be able to add you to groups.')
+        end
+
+        it 'emails the manager' do
+          expect(ActionMailer::Base.deliveries.count).to eq(2)
+        end
       end
     end
   end
@@ -72,6 +88,8 @@ describe 'Inviting users', reset_provider: true, js: true do
 
         click_on 'Invite User'
         wait_for_ajax
+
+        token
       end
 
       it 'creates a new UserInvite' do
@@ -93,10 +111,25 @@ describe 'Inviting users', reset_provider: true, js: true do
       end
 
       context 'when the user accepts the invite' do
-        it 'sets the UserInvite to inactive'
-        it 'displays a confirmation page'
-        it 'emails the manager'
-        it 'adds the user to the group'
+        before do
+          visit accept_invite_path(token: token)
+        end
+
+        it 'sets the UserInvite to inactive' do
+          expect(UserInvite.first.active).to eq(false)
+        end
+
+        it 'displays a confirmation page' do
+          expect(page).to have_content('Thank you for accepting this invitation. Group managers will now be able to add you to groups.')
+        end
+
+        it 'emails the manager' do
+          expect(ActionMailer::Base.deliveries.count).to eq(2)
+        end
+
+        it 'adds the user to the group' do
+          expect(page).to have_content('You have been added to the group Test Group in MMT_2')
+        end
       end
     end
   end

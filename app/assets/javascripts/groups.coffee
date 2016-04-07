@@ -42,3 +42,10 @@ $(document).ready ->
 
     if firstName.length == 0 || lastName.length == 0 || email.length == 0
       e.preventDefault()
+
+  $('#invite-user-modal').on 'click', '.modal-close', ->
+    $('.invite-success').addClass('is-invisible')
+
+    firstName = $('#invite_first_name').val('')
+    lastName = $('#invite_last_name').val('')
+    email = $('#invite_email').val('')

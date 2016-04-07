@@ -17,11 +17,7 @@ class UserInvite < ActiveRecord::Base
 
   def send_invite
     # TODO deliver mail
-    response = GroupMailer.invite_user(self).deliver_now
-    puts "RESPONSE: #{response.inspect}"
-
-
-    # return something to javascript, put results in modal
+    GroupMailer.invite_user(self).deliver_now
   end
 
   private

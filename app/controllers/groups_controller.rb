@@ -194,7 +194,7 @@ class GroupsController < ApplicationController
       @invite.active = false
       @invite.save
 
-      # TODO email manager GroupMailer.notify_manager
+      GroupMailer.notify_manager(@invite, @added).deliver_now
 
       # display page thanking user for authorizing MMT
     end

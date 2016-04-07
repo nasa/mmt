@@ -1,7 +1,17 @@
 <h1 class="styled-heading">Invitation Accepted</h1>
 <div class="email-message">
   <p>
-    <%= @user['name'] %> has authorized MMT to acces their Earthdata Login profile. They have successfully been added to <%= @group %>. If needed, you may also add them to other groups without the need to invite them again. Thank you!
+    <%= @invite.user_first_name + ' ' + @invite.user_last_name %> has authorized MMT to acces their Earthdata Login profile.
+  </p>
+  <p>
+    <% if @added %>
+      They have successfully been added to <%= @invite.group_name %>. If needed, you may also add them to other groups without the need to invite them again.
+    <% else %>
+      They are now able to be added to groups without the need to invite them again.
+    <% end %>
+  </p>
+  <p>
+      Thank you!
   </p>
   <div class="center">
     <a class="btn btn-green" href="#">View Group</a>

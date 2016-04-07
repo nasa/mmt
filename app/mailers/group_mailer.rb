@@ -4,10 +4,9 @@ class GroupMailer < ApplicationMailer
     mail(to: @invite.user_email, subject: 'Metadata Management Tool Invitation')
   end
 
-  def notify_manager(manager, user, group)
-    @manager = manager
-    @user = user
-    @group = group
-    mail(to: @manager['email'], subject: 'Metadata Management Tool Invitation Accepted')
+  def notify_manager(invite, added)
+    @invite = invite
+    @added = added
+    mail(to: @invite.manager_email, subject: 'Metadata Management Tool Invitation Accepted')
   end
 end
