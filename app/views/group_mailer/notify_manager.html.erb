@@ -5,9 +5,9 @@
   </p>
   <p>
     <% if @added %>
-      They have successfully been added to <%= @invite.group_name %>. If needed, you may also add them to other groups without the need to invite them again.
+      For your convenience, <%= @invite.user_first_name %> has been added to <%= @invite.group_name %>. If needed, you may also add them to other groups without the need to invite them again.
     <% else %>
-      They are now able to be added to groups without the need to invite them again.
+      <%= @invite.user_first_name %> may now be added to groups without the need to invite them again.
     <% end %>
   </p>
   <p>
