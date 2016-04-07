@@ -59,6 +59,21 @@ module TypesHelper
     { name: 'Stage' },
     { name: 'DetailedClassification' }
   ]
+  CollectionCitationType = [
+    { name: 'Version' },
+    { name: 'RelatedUrl', options: [:sub_type] },
+    { name: 'Title' },
+    { name: 'Creator' },
+    { name: 'Editor' },
+    { name: 'SeriesName' },
+    { name: 'ReleaseDate' },
+    { name: 'ReleasePlace' },
+    { name: 'Publisher' },
+    { name: 'IssueIdentification' },
+    { name: 'DataPresentationForm' },
+    { name: 'OtherCitationDetails' },
+    { name: 'DOI', options: [:sub_type] }
+  ]
   ContactsType = [
     { name: 'Type' },
     { name: 'Value' }
@@ -237,21 +252,6 @@ module TypesHelper
     { name: 'FileSize', options: [:sub_type] }
   ]
   RelatedUrlsType = RelatedUrlType
-  ResourceCitationType = [
-    { name: 'Version' },
-    { name: 'RelatedUrl', options: [:sub_type] },
-    { name: 'Title' },
-    { name: 'Creator' },
-    { name: 'Editor' },
-    { name: 'SeriesName' },
-    { name: 'ReleaseDate' },
-    { name: 'ReleasePlace' },
-    { name: 'Publisher' },
-    { name: 'IssueIdentification' },
-    { name: 'DataPresentationForm' },
-    { name: 'OtherCitationDetails' },
-    { name: 'DOI', options: [:sub_type] }
-  ]
   ResponsibilityType = [
     { name: 'Role', options: [:select_type], select_type: 'RoleOptions' },
     { name: 'Party', options: [:sub_type] }

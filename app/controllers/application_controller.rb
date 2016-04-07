@@ -281,7 +281,7 @@ class ApplicationController < ActionController::Base
     elsif COLLECTION_INFORMATION_FIELDS.include? field_name
       'collection_information'
     elsif COLLECTION_CITATIONS_FIELDS.include? field_name
-      'resource_citations'
+      'collection_citations'
     elsif DATA_IDENTIFICATION_FIELDS.include? field_name
       'data_identification'
     elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? field_name

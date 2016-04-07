@@ -34,19 +34,21 @@ module Cmr
 
     def setup_cmr
       # Create admin user (token ABC-1)
-      connection.post do |req|
+      resp = connection.post do |req|
         req.url('http://localhost:3008/tokens')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Accept'] = 'application/json'
         req.body = '{"token": {"username":"admin", "password":"admin", "client_id":"dev test", "user_ip_address":"127.0.0.1","group_guids":["guidMMTAdmin"]}}'
       end
+      puts "Created admin admin: #{resp.body}"
       # Create admin user (token ABC-2)
-      connection.post do |req|
+      resp = connection.post do |req|
         req.url('http://localhost:3008/tokens')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Accept'] = 'application/json'
         req.body = '{"token": {"username":"typical", "password":"user", "client_id":"dev test", "user_ip_address":"127.0.0.1","group_guids":["guidMMTUser"]}}'
       end
+      puts "Created typical user: #{resp.body}"
 
       ### Creating a Provider in CMR
       # Provider SEDAC
@@ -179,19 +181,21 @@ module Cmr
       end
 
       # Create system level group
-      connection.post do |req|
+      resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"name": "Administrators", "description": "The group of users that manages the CMR."}'
       end
+      puts "Created system level group: #{resp.body}"
       # Create SEDAC group
-      connection.post do |req|
+      resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"name": "SEDAC Test Group", "description": "Test group for provider", "provider_id": "SEDAC"}'
       end
+      puts "Created SEDAC group: #{resp.body}"
 
       # ACLs for provider groups
       # Admin access to SEDAC

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Resource citations preview' do
+describe 'Collection citations preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
       before do

@@ -5,17 +5,17 @@ class Draft < ActiveRecord::Base
   after_create :set_native_id
 
   DRAFT_FORMS = %w(
-    metadata_information
     collection_information
-    organizations
-    personnel
     data_identification
-    resource_citations
-    descriptive_keywords
     distribution_information
+    descriptive_keywords
+    acquisition_information
     temporal_information
     spatial_information
-    acquisition_information
+    organizations
+    personnel
+    collection_citations
+    metadata_information
   )
 
   def self.get_next_form(name)
