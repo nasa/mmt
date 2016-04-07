@@ -15,8 +15,26 @@ class UserInvite < ActiveRecord::Base
     user_invite
   end
 
+  def accept_invite(cmr_client, urs_uid, access_token)
+    if active
+      unless group_id.empty?
+        add_members_response = cmr_client.add_group_members(group_id, [urs_uid], access_token)
+        added = add_members_response.success?
+        unless added
+          Rails.logger.error("Add Members to Group Error: #{add_members_response.inspect}")
+        end
+      end
+
+      self.active = false
+      save
+
+      GroupMailer.notify_manager(self, @added).deliver_now
+
+      added
+    end
+  end
+
   def send_invite
-    # TODO deliver mail
     GroupMailer.invite_user(self).deliver_now
   end
 

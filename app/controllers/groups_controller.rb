@@ -170,34 +170,16 @@ class GroupsController < ApplicationController
     manager['provider'] = @current_user.provider_id
 
     invite = UserInvite.new_invite(user, manager)
-
     invite.send_invite
 
-    # render json: { status: true }
     respond_to do |format|
       format.js
     end
   end
 
   def accept_invite
-    # TODO move to model
     @invite = UserInvite.where(token: params[:token]).first
-
-    if @invite.active
-
-      # if invite.group_id exists, add member to group
-      unless @invite.group_id.empty?
-        @added = add_members_to_group([@current_user.urs_uid], @invite.group_id)
-      end
-
-      # set invite active to false
-      @invite.active = false
-      @invite.save
-
-      GroupMailer.notify_manager(@invite, @added).deliver_now
-
-      # display page thanking user for authorizing MMT
-    end
+    @added = @invite.accept_invite(cmr_client, @current_user.urs_uid, token)
   end
 
   private
