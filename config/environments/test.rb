@@ -45,6 +45,7 @@ Rails.application.configure do
   config.groups_enabled = true
 
   config.cmr_env = 'sit'
+  config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
 
   config.middleware.use RackSessionAccess::Middleware
 end

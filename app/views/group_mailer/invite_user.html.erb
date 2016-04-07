@@ -10,7 +10,7 @@
     If you do not have an Earthdata Login profile, please create one prior to authorizing MMT.
   </p>
   <div class="center">
-    <!-- TODO hookup environment specific path to Earthdata Login profile creation page https://urs.earthdata.nasa.gov/users/new -->
+    <%= link_to 'Register', Rails.configuration.urs_register_url, class: 'btn btn-blue' %>
   </div>
 </div>
 <div class="email-footer">
