@@ -1,7 +1,10 @@
 # Setup NestedItemPicker for Science Keywords
 picker = undefined
 @setupScienceKeywords = (data) ->
-  picker = new NestedItemPicker('.eui-nested-item-picker', data: data)
+  picker = new NestedItemPicker('.eui-nested-item-picker', data: data, data_type: 'science')
+
+@setupSpatialKeywords = (data) ->
+  picker = new NestedItemPicker('.eui-nested-item-picker', data: data, data_type: 'spatial')
 
 $(document).ready ->
   if picker?
@@ -59,9 +62,9 @@ $(document).ready ->
     $('.eui-nested-item-picker').on 'click', '.final-option', ->
       $this = $(this)
       if $this.hasClass('final-option-selected')
-        $('.add-science-keyword').removeAttr 'disabled'
+        $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
       else if $('.eui-item-path li').length < 4
-        $('.add-science-keyword').attr 'disabled', true
+        $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
 
     # Science keyword searching
     getKeywords = (json, keyword = []) ->

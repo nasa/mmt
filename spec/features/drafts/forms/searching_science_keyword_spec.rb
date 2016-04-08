@@ -63,7 +63,7 @@ describe 'Searching science keywords', js: true do
         end
 
         it 'does not display the invalid keyword' do
-          within '.nested-item-picker' do
+          within '.eui-nested-item-picker' do
             expect(page).to have_no_css('.tt-suggestion', text: /EARTH SCIENCE SERVICES$/)
             expect(page).to have_no_css('.tt-suggestion', text: /EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION$/)
           end

@@ -1,6 +1,5 @@
 $(document).ready ->
   $('.multiple').on 'click', '.add-new', (e) ->
-    console.log this.innerText
     $('.select2-select').select2('destroy')
 
     simple = $(this).hasClass('new-simple')

@@ -78,7 +78,5 @@ describe 'Clearing saved science keywords', js: true do
         end
       end
     end
-
   end
-
 end

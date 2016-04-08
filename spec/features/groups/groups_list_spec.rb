@@ -21,7 +21,7 @@ describe 'Groups list page', js: true, reset_provider: true do
             fill_in 'Group Description', with: 'test group'
             click_on 'Save'
 
-            within '.breadcrumb' do
+            within '.eui-breadcrumbs' do
               click_on 'Groups'
             end
 
@@ -33,7 +33,7 @@ describe 'Groups list page', js: true, reset_provider: true do
             click_on 'Save'
             sleep 1
 
-            within '.breadcrumb' do
+            within '.eui-breadcrumbs' do
               click_on 'Groups'
             end
           end
