@@ -182,7 +182,7 @@ module Helpers
         add_related_urls
 
         click_on "Add another #{(type || 'responsibility').singularize.titleize}"
-        within '.multiple-item.accordion.multiple-item-1' do
+        within '.multiple-item.eui-accordion.multiple-item-1' do
           select 'Owner', from: 'Role'
           case type
           when 'organizations'
@@ -252,7 +252,7 @@ module Helpers
         select 'District of Columbia', from: 'State / Province'
         fill_in 'Postal Code', with: '20546'
         click_on 'Add another Address'
-        within '.multiple-item.accordion.multiple-item-1' do
+        within '.multiple-item.eui-accordion.multiple-item-1' do
           fill_in 'Street Address - Line 1', with: '8800 Greenbelt Road'
           select 'United States', from: 'Country'
           fill_in 'City', with: 'Greenbelt'
