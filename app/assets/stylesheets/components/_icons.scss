@@ -7,11 +7,9 @@
 .eui-completed,
 .eui-required {
   &:before {
-    content:"\f125";
+    content:"\f126";
     font-family: "EUI-Icon-Library";
-    font-size: 0.85em;
     color: $dark-green;
-    margin-right: 0.5em;
     display: block;
     float: left;
   }
