@@ -1,10 +1,14 @@
-<fieldset id="personnel">
+<fieldset class="eui-accordion is-closed" id="personnel">
   <div class="eui-accordion__header">
     <h3 class="eui-accordion__title">Personnel</h3>
     <%= mmt_help_icon(
       title: 'Personnel',
       help: 'properties/Personnel'
     ) %>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Personnel</span>
+    </div>
   </div>
   <div class="eui-accordion__body">
     <!-- Personnel -->
