@@ -10,7 +10,7 @@ $(document).ready ->
 
     if $body.parent().hasClass('eui-accordion')
       $body.slideToggle 'fast', ->
-        # $(this).parent().toggleClass 'is-closed'
+        $(this).parent().toggleClass 'is-closed'
         $('html, body').animate {
           scrollTop: $(this).parent().offset().top
         }, 500
