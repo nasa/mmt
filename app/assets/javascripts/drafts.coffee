@@ -35,10 +35,10 @@ $(document).ready ->
 
       # close last accordion and open all new accordions
       $(multipleItem).addClass 'is-closed'
-      $(newDiv).find('.accordion').removeClass 'is-closed'
+      $(newDiv).find('.eui-accordion').removeClass 'is-closed'
 
       # Increment index on first accordion header, set all others to 1
-      $.each $(newDiv).find('.accordion-header .header-title'), (index, field) ->
+      $.each $(newDiv).find('.eui-accordion__header .header-title'), (index, field) ->
         headerHtml = $(field).html()
         headerIndex = headerHtml.match(/\d+/)
         if headerIndex != undefined
@@ -48,7 +48,7 @@ $(document).ready ->
             $(field).html headerHtml.replace(headerIndex, 1)
 
       # Increment index on toggle link in accordion header, set all others to 1
-      $.each $(newDiv).find('.accordion-header a span'), (index, field) ->
+      $.each $(newDiv).find('.eui-accordion__header .eui-accordion__icon span'), (index, field) ->
         headerHtml = $(field).html()
         headerIndex = headerHtml.match(/\d+/)
         if headerIndex != undefined
@@ -191,7 +191,7 @@ $(document).ready ->
 
   $('.latitude, .longitude').on 'change', ->
     coordinates = []
-    previewLink = $(this).parents('.accordion-body').find('.spatial-preview-link')
+    previewLink = $(this).parents('.eui-accordion__body').find('.spatial-preview-link')
     if previewLink.length > 0
       url = $(previewLink).attr('href').split('map')[0]
       # if point has both latitude and longitude points, generate a link
@@ -219,7 +219,7 @@ $(document).ready ->
 
   $('.bounding-rectangle-point').on 'change', ->
     coordinates = []
-    previewLink = $(this).parents('.accordion-body').find('.spatial-preview-link')
+    previewLink = $(this).parents('.eui-accordion__body').find('.spatial-preview-link')
     url = $(previewLink).attr('href').split('map')[0]
 
     parent = $(this).parents()

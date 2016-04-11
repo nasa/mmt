@@ -46,7 +46,7 @@
     color: darken($dolphin-grey, 20%);
   }
 
-  .ed-fa-info-circle {
+  .eui-fa-info-circle {
     color: $ocean-blue;
     margin: 0 0.75em;
     @include transition(all 0.15s ease-in-out);
@@ -145,7 +145,7 @@
   }
 }
 
-.nested-item-picker {
+.eui-nested-item-picker {
   margin-bottom: 0.5em;
 }
 
@@ -159,7 +159,7 @@
 }
 
 // This needs to move to EUI!
-.item-list-pane {
+.eui-item-list-pane {
   overflow-y: scroll;
 }
 

@@ -6,11 +6,10 @@ describe 'Draft permissions', js: true, reset_provider: true do
   short_name = 'Tropical Forests'
   entry_title = 'Tropical Forest Observation Record'
   provider = 'MMT_2'
-  modal_text = 'requires you change your provider context to'
 
   before do
     login
-    draft = create(:draft, entry_title: entry_title, short_name: short_name, provider_id: provider)
+    create(:draft, entry_title: entry_title, short_name: short_name, provider_id: provider)
   end
 
   let(:draft) { Draft.find_by(entry_title: entry_title) }
@@ -29,13 +28,13 @@ describe 'Draft permissions', js: true, reset_provider: true do
       end
 
       it 'displays warning banner link to change provider' do
-        expect(page).to have_css('.banner-warn')
-        expect(page).to have_content("You need to change your current provider to view this draft")
+        expect(page).to have_css('.eui-banner--warn')
+        expect(page).to have_content('You need to change your current provider to view this draft')
       end
 
       context 'when clicking on warning banner link' do
         before do
-          click_link("You need to change your current provider to view this draft")
+          click_on 'You need to change your current provider to view this draft'
           wait_for_ajax
         end
 
@@ -57,13 +56,13 @@ describe 'Draft permissions', js: true, reset_provider: true do
       end
 
       it 'displays warning banner link to change provider' do
-        expect(page).to have_css('.banner-warn')
-        expect(page).to have_content("You need to change your current provider to edit this draft")
+        expect(page).to have_css('.eui-banner--warn')
+        expect(page).to have_content('You need to change your current provider to edit this draft')
       end
 
       context 'when clicking on warning banner link' do
         before do
-          click_link("You need to change your current provider to edit this draft")
+          click_on 'You need to change your current provider to edit this draft'
           wait_for_ajax
         end
 
@@ -72,7 +71,7 @@ describe 'Draft permissions', js: true, reset_provider: true do
         end
 
         it 'goes to the edit draft collection information page' do
-          within '.breadcrumb' do
+          within '.eui-breadcrumbs' do
             expect(page).to have_content('Collection Information')
           end
           within '.content-header h2' do
@@ -99,8 +98,8 @@ describe 'Draft permissions', js: true, reset_provider: true do
       end
 
       it 'displays no permissions banner message' do
-        expect(page).to have_css('.banner-danger')
-        expect(page).to have_content("You don't have the appropriate permissions to view this draft")
+        expect(page).to have_css('.eui-banner--danger')
+        expect(page).to have_content('You don\'t have the appropriate permissions to view this draft')
       end
 
       it 'displays the Access Denied message' do
@@ -115,8 +114,8 @@ describe 'Draft permissions', js: true, reset_provider: true do
       end
 
       it 'displays no permisssions banner message' do
-        expect(page).to have_css('.banner-danger')
-        expect(page).to have_content("You don't have the appropriate permissions to edit this draft")
+        expect(page).to have_css('.eui-banner--danger')
+        expect(page).to have_content('You don\'t have the appropriate permissions to edit this draft')
       end
 
       it 'displays the Access Denied message' do

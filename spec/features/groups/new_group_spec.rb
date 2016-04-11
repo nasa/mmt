@@ -170,7 +170,7 @@ describe 'New Groups', reset_provider: true, js: true do
             end
 
             it 'displays an error message' do
-              expect(page).to have_css('div.banner-danger')
+              expect(page).to have_css('div.eui-banner--danger')
               expect(page).to have_content("Group with concept id [#{concept_id}] was deleted.")
             end
           end

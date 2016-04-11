@@ -1,10 +1,10 @@
 <main class="internal" role="main">
   <header>
     <div class="content">
-      <div class="breadcrumb">
-        <ol>
-          <li><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li>Groups</li>
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item">Groups</li>
         </ol>
       </div>
       <h2>Groups</h2>
@@ -18,7 +18,7 @@
 
   <div class="row row-content">
     <section>
-      <%= link_to 'New Group', new_group_path, class: 'btn btn-blue space-bot space-top-5' %>
+      <%= link_to 'New Group', new_group_path, class: 'eui-btn--blue space-bot space-top-5' %>
 
       <%= form_tag(groups_path, method: :get, class: 'group-form') do %>
         <div class="group-filters">
@@ -32,7 +32,7 @@
           <%= select_tag 'filters[member][]', options_for_select(@users.map{ |user| user[:uid] }.sort, @filters['member']), style: 'width: 40%', class: 'select2-select member-filter', multiple: 'multiple' %>
 
           <!-- Apply all filters button -->
-          <%= submit_tag 'Apply Filter', class: 'btn btn-blue' %>
+          <%= submit_tag 'Apply Filter', class: 'eui-btn--blue' %>
         </div>
       <% end %>
 

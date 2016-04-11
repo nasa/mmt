@@ -4,38 +4,45 @@
 
 // Note: Needs improved naming convention
 
-.icon-completed,
-.icon-required {
+.eui-completed,
+.eui-required,
+.eui-required-o {
   &:before {
-    content:"\f125";
-    font-family: "Earthdata-Icon-Library";
-    font-size: 0.85em;
+    font-family: "EUI-Icon-Library";
     color: $dark-green;
-    margin-right: 0.5em;
     display: block;
     float: left;
   }
 }
 
-.compass-coordinates {
-  .icon-completed,
-  .icon-required {
-    &:before {
-      content:"\f125";
-      font-family: "Earthdata-Icon-Library";
-      font-size: 0.85em;
-      color: $dark-green;
-      display: inline-block;
-      margin: 0;
-      padding: 0 0.8em 0 0;
-      float: none;
-    }
+.eui-required {
+  &:before {
+    content: "\f126";
   }
 }
 
-.icon-completed {
+.eui-required-o {
+  &:before {
+    content: "\f125";
+  }
+}
+
+.eui-completed {
   &:before {
     content: "\f111";
+  }
+}
+
+.compass-coordinates {
+  .eui-completed,
+  .eui-required {
+    &:before {
+      font-size: 0.85em;
+      display: inline-block;
+      margin: 0;
+      padding: 0 0.8em 0;
+      float: none;
+    }
   }
 }
 
@@ -57,17 +64,17 @@
   }
 }
 
-.icon-circle-left {
+.eui-circle-left {
   &:before {
-    font-family: "Earthdata-Icon-Library";
+    font-family: "EUI-Icon-Library";
     content: "\f10e";
     font-size: 1em;
   }
 }
 
-.icon-circle-right {
+.eui-circle-right {
   &:before {
-    font-family: "Earthdata-Icon-Library";
+    font-family: "EUI-Icon-Library";
     content: "\f10f";
     font-size: 1em;
   }

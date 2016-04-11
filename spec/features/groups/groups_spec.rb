@@ -12,13 +12,14 @@ describe 'Groups' do
     end
 
     it 'displays an error message' do
-      expect(page).to have_css('div.banner-danger')
+      expect(page).to have_css('div.eui-banner--danger')
       expect(page).to have_content("Concept-id [#{bad_concept_id}] is not valid")
     end
 
     it 'redirects to groups index page' do
       within 'main header h2' do
-        expect(page).to have_content('Groups') # match groups index.html.erb title
+        # match groups index.html.erb title
+        expect(page).to have_content('Groups')
       end
     end
   end

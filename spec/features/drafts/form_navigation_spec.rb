@@ -30,7 +30,7 @@ describe 'Draft form navigation', js: true do
         end
 
         it "displays the #{form_title} form" do
-          within '.breadcrumb' do
+          within '.eui-breadcrumbs' do
             expect(page).to have_content(form_title)
           end
           expect(page).to_not have_content(SUMMARY_PAGE_STRING)
@@ -74,7 +74,7 @@ describe 'Draft form navigation', js: true do
         end
 
         # These forms are invalid, and need to click 'Yes' to get to the next form
-        invalid_forms = ['Collection Information', 'Organizations']
+        invalid_forms = ['Acquisition Information', 'Collection Information', 'Organizations']
         click_on 'Yes' if invalid_forms.include?(current_form)
 
         next_form = Draft.get_next_form(current_form.parameterize.underscore).titleize
@@ -86,7 +86,7 @@ describe 'Draft form navigation', js: true do
       end
 
       it "displays the correct page (#{next_form})" do
-        within '.breadcrumb' do
+        within '.eui-breadcrumbs' do
           expect(page).to have_content(next_form)
         end
         expect(page).to_not have_content(SUMMARY_PAGE_STRING)

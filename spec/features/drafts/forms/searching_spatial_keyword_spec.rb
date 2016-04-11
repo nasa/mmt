@@ -59,7 +59,7 @@ describe 'Searching spatial keywords', js: true do
         end
 
         it 'does not display the invalid keywords' do
-          within '.nested-item-picker' do
+          within '.eui-nested-item-picker' do
             expect(page).to have_no_css('.tt-suggestion', text: /GEOGRAPHIC REGION > ARCTIC$/)
             expect(page).to have_no_css('.tt-suggestsion', text: /GEOGRAPHIC REGION$/)
           end

@@ -1,16 +1,16 @@
-<header role="banner">
+<header role="eui-banner">
   <div class="content">
     <div class="col-6">
-      <div class="masthead-logo application-logo" id="masthead-logo">
+      <div class="eui-masthead-logo eui-application-logo" id="masthead-logo">
         <%= link_to root_path do %>
-            <h1>Metadata Management Tool <span class="badge badge-sm">BETA</span></h1>
+            <h1>Metadata Management Tool <span class="eui-badge--sm">BETA</span></h1>
         <% end %>
       </div>
 
       <!-- Display provider context badge -->
       <div class="provider-context">
         <% if logged_in? && @current_user.provider_id %>
-          <span class="badge badge-sm daac"><%= @current_user.provider_id %></span>
+          <span class="eui-badge--sm daac"><%= @current_user.provider_id %></span>
         <% end %>
       </div>
       <!-- End provider context badge -->
@@ -27,7 +27,7 @@
     <div class="col-6 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <% if controller_name.include? 'welcome'%>
-        <%= link_to 'Earthdata Login', login_path, class: 'btn btn-blue' %>
+        <%= link_to 'Earthdata Login', login_path, class: 'eui-btn--blue' %>
       <% else %>
         <section id="search" class="full-width">
           <%= render 'shared/search_form' %>
@@ -38,8 +38,10 @@
 </header>
 
 <noscript>
-  <div id='javascript_warning' class="banner banner-danger">
-    <strong> JavaScript is disabled! </strong> JavaScript must be enabled for some features to work.
+  <div id='javascript_warning' class="eui-banner--danger">
+    <p class="eui-banner__message">
+      <strong> JavaScript is disabled! </strong> JavaScript must be enabled for some features to work.
+    </p>
   </div>
 </noscript>
 

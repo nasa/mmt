@@ -2,7 +2,8 @@
    Buttons
 \* ===================================================== */
 
-.btn-default {
+.eui-btn {
+  border: 1px solid rgba($black, 0.15);
 
   &:link,
   &:visited {

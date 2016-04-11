@@ -114,7 +114,7 @@ module FormHelper
 
     classes = []
     classes << 'required' if options[:required]
-    classes << 'always-required icon-required' if options[:always_required]
+    classes << 'always-required eui-required-o' if options[:always_required]
     label_tag(
       label_for,
       options[:title],
@@ -126,7 +126,7 @@ module FormHelper
   def mmt_help_icon(options)
     return unless options[:help]
     link_to('#help-modal', class: 'display-modal') do
-      "<i class=\"ed-icon ed-fa-info-circle\" data-help-path=\"#{options[:help]}\"></i><span class=\"is-invisible\">Help modal for #{options[:title]}</span>".html_safe
+      "<i class=\"eui-icon eui-fa-info-circle\" data-help-path=\"#{options[:help]}\"></i><span class=\"is-invisible\">Help modal for #{options[:title]}</span>".html_safe
     end
   end
 
