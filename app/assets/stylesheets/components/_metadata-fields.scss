@@ -22,7 +22,8 @@
 }
 
 .progress-indicator {
-  a[title$=complete] {
+  a[title$='complete'],
+  a[title$='Required'] {
     vertical-align: middle;
   }
 
