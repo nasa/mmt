@@ -99,13 +99,13 @@ $(document).ready ->
       if label.hasClass('required')
         requiredLabels.push(label[0])
 
-    $(requiredLabels).addClass('eui-required')
+    $(requiredLabels).addClass('eui-required-o')
 
   # add eui-required to labels matching the level
   addRequiredLabels = (level) ->
     label = $("label##{level}")
     if label.hasClass('required')
-      label.addClass('eui-required')
+      label.addClass('eui-required-o')
 
   # find all labels associated with given fields
   getLabels = (fields) ->

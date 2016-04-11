@@ -114,7 +114,7 @@ module FormHelper
 
     classes = []
     classes << 'required' if options[:required]
-    classes << 'always-required eui-required' if options[:always_required]
+    classes << 'always-required eui-required-o' if options[:always_required]
     label_tag(
       label_for,
       options[:title],

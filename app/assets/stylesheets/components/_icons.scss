@@ -5,9 +5,9 @@
 // Note: Needs improved naming convention
 
 .eui-completed,
-.eui-required {
+.eui-required,
+.eui-required-o {
   &:before {
-    content:"\f125";
     font-family: "EUI-Icon-Library";
     color: $dark-green;
     display: block;
@@ -15,25 +15,34 @@
   }
 }
 
-.compass-coordinates {
-  .eui-completed,
-  .eui-required {
-    &:before {
-      content:"\f125";
-      font-family: "EUI-Icon-Library";
-      font-size: 0.85em;
-      color: $dark-green;
-      display: inline-block;
-      margin: 0;
-      padding: 0 0.8em 0 0;
-      float: none;
-    }
+.eui-required {
+  &:before {
+    content: "\f126";
+  }
+}
+
+.eui-required-o {
+  &:before {
+    content: "\f125";
   }
 }
 
 .eui-completed {
   &:before {
     content: "\f111";
+  }
+}
+
+.compass-coordinates {
+  .eui-completed,
+  .eui-required {
+    &:before {
+      font-size: 0.85em;
+      display: inline-block;
+      margin: 0;
+      padding: 0 0.8em 0;
+      float: none;
+    }
   }
 }
 
