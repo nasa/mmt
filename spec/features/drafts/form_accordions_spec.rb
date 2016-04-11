@@ -56,10 +56,11 @@ describe 'Draft form accordions', js: true do
     context 'when clicking on the accordion header' do
       before do
         first('.eui-accordion__header').click
+        sleep 0.5
       end
 
       it 'does not allow the user to collapse the accordion' do
-        expect(page).to have_no_css('.is-closed')
+        expect(page).to have_selector('#draft_organizations_0_role', visible: true)
       end
     end
   end
