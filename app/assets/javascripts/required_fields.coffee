@@ -82,7 +82,7 @@ $(document).ready ->
     .unique()
 
     # Remove all required icons
-    $('label.eui-required').not('label.always-required').removeClass('eui-required')
+    $('label.eui-required-o').not('label.always-required').removeClass('eui-required-o')
 
     # Add required icons to required fields within required data levels
     for dataLevel in levels
