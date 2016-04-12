@@ -7,7 +7,7 @@ class UserInvite < ActiveRecord::Base
     user_invite.user_last_name = user['last_name']
     user_invite.user_email = user['email']
     user_invite.manager_name = manager['name']
-    user_invite.manager_email = manager['email_address']
+    user_invite.manager_email = manager['email']
     user_invite.provider = manager['provider']
     user_invite.group_id = user['group_id']
     user_invite.group_name = user['group_name']

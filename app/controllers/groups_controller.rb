@@ -166,7 +166,7 @@ class GroupsController < ApplicationController
     user = params['invite']
     manager = {}
     manager['name'] = session[:name]
-    manager['email_address'] = session[:email_address]
+    manager['email'] = session[:email_address]
     manager['provider'] = @current_user.provider_id
 
     invite = UserInvite.new_invite(user, manager)
