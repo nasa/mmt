@@ -9,9 +9,10 @@
  * compiled file so the styles you add here take precedence over styles defined in any styles
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
- *= require eui-0.3.14/eui
+ *= require eui-1.0.1/eui
  *= require dropzone-4.0.1/dropzone
  *= require select2-4.0.1/select2.min
+ *= require bootstrap-datepicker-1.6.0/bootstrap-datepicker.standalone.min
  */
 
 @import "config/colors";
@@ -37,6 +38,7 @@
 @import "components/buttons";
 @import "components/callout-box";
 @import "components/cards";
+@import "components/date-picker";
 @import "components/dual-select";
 @import "components/emails";
 @import "components/geographic-coverage";
@@ -60,5 +62,6 @@
 @import "pages/pages";
 
 @import "overrides/content";
+@import "overrides/datepicker";
 @import "overrides/modifiers";
 @import "overrides/select2";

@@ -1,50 +1,43 @@
 <main class="internal record" role="main">
   <header>
     <div class="content">
-      <% if @user_permissions == 'none' %>
-        <div class="collection-basics">
-          <div class="breadcrumb">
-            <ol>
-              <li><%= link_to 'Dashboard', dashboard_path %></li>
-              <li><%= link_to 'Drafts', drafts_path %></li>
-              <li><%= 'Private Draft' %></li>
-            </ol>
-          </div>
-          <h2>Private Draft</h2>
+      <div class="collection-basics">
+        <div class="eui-breadcrumbs">
+          <ol class="eui-breadcrumbs__list">
+            <li class="eui-breadcrumbs__item">
+              <%= link_to 'Dashboard', dashboard_path %>
+            </li>
+            <li class="eui-breadcrumbs__item">
+              <%= link_to 'Drafts', drafts_path %>
+            </li>
+            <li class="eui-breadcrumbs__item">
+              <%= display_entry_id(@draft.draft, 'draft') %>
+            </li>
+          </ol>
         </div>
-      <% else %>
-        <div class="collection-basics">
-          <div class="breadcrumb">
-            <ol>
-              <li><%= link_to 'Dashboard', dashboard_path %></li>
-              <li><%= link_to 'Drafts', drafts_path %></li>
-              <li><%= display_entry_id(@draft.draft, 'draft') %></li>
-            </ol>
-          </div>
-          <h2><%= display_entry_id(@draft.draft, 'draft') %></h2>
-          <p class="subtitle"><%= @draft.display_entry_title %></p>
-          <p class="subnav current">Draft Record</p>
-        </div>
-      <% end %>
+        <h2><%= display_entry_id(@draft.draft, 'draft') %></h2>
+        <p class="subtitle"><%= @draft.display_entry_title %></p>
+        <p class="subnav current">Draft Record</p>
+      </div>
 
       <% unless @user_permissions == 'none' %>
         <div class="collection-details">
           <!-- Only display version if one exists. -->
           <% if @draft.draft["Version"] %>
             <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_version' }) do %>
-              <%= content_tag :span, "Version #{@draft.draft['Version']}", :class => "badge version" %>
+              <%= content_tag :span, "Version #{@draft.draft['Version']}", :class => "eui-badge version" %>
             <% end %>
           <% end %>
           <!-- Only display data language if one exists. -->
           <% if @draft.draft["DataLanguage"] %>
             <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_data_language' }) do %>
-              <%= content_tag :span,  @draft.draft['DataLanguage'], :class => "badge language" %>
+              <%= content_tag :span,  @draft.draft['DataLanguage'], :class => "eui-badge language" %>
             <% end %>
           <% end %>
           <!-- Only display CollectionDataType if it is NRT. -->
           <% if @draft.draft["CollectionDataType"] == "NEAR_REAL_TIME" %>
             <%= link_to draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-data-type' }) do %>
-              <%= content_tag :span, 'NRT' , :class => "badge nrt" %>
+              <%= content_tag :span, 'NRT' , :class => "eui-badge nrt" %>
             <% end %>
           <% end %>
           <!-- Only display CollectionProgress if it exists. -->
@@ -75,8 +68,8 @@
   <%= render 'shared/flash_messages' %>
 
   <% if @user_permissions == 'none' %>
-    <div class="banner banner-danger">
-      <p class="banner-message">
+    <div class="eui-banner--danger">
+      <p class="eui-banner__message">
         <%= "You don't have the appropriate permissions to #{@draft_action} this draft" %>
       </p>
     </div>
@@ -88,8 +81,8 @@
       </p>
     </div>
   <% elsif @user_permissions == 'wrong_provider' %>
-    <div class="banner banner-warn">
-      <p class="banner-message">
+    <div class="eui-banner--warn">
+      <p class="eui-banner__message">
         <%= link_to("You need to change your current provider to #{@draft_action} this draft. Click here to change your provider.",
           "#", id: "change-current-provider-banner-link",
           data: { "provider": @draft.provider_id, action_link: "change-provider-#{@draft_action}-draft" }) %>
@@ -113,47 +106,48 @@
       <section class="action">
         <div class="cta">
           <% if @draft.new_record? || (@errors && @errors.size > 0) %>
-            <%= link_to 'Publish Draft', '#invalid-draft-modal', class: 'btn btn-blue display-modal' %>
-            <div id="invalid-draft-modal" class="modal-content">
+            <%= link_to 'Publish Draft', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
+            <div id="invalid-draft-modal" class="eui-modal-content">
               <p>This draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
               <p>
-                <a href="javascript:void(0)" class="btn btn-default modal-close">Ok</a>
+                <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
               </p>
             </div>
           <% else %>
-            <%= link_to 'Publish Draft', draft_publish_path(@draft), method: :post, class: 'btn btn-blue spinner' %>
+            <%= link_to 'Publish Draft', draft_publish_path(@draft), method: :post, class: 'eui-btn--blue spinner' %>
           <% end %>
           <%= link_to 'Delete Draft', "#delete-draft-modal", class: 'display-modal' %>
-          <div id="delete-draft-modal" class="modal-content">
+          <div id="delete-draft-modal" class="eui-modal-content">
             <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
             <p>Are you sure you want to delete this draft?</p>
             <p>
-              <a href="javascript:void(0)" class="btn btn-default modal-close">No</a>
-              <%= link_to 'Yes', "/drafts/#{@draft.id}", method: :delete, class: 'btn btn-blue spinner' %>
+              <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+              <%= link_to 'Yes', "/drafts/#{@draft.id}", method: :delete, class: 'eui-btn--blue spinner' %>
             </p>
           </div>
-        </div>
-      </section>
+        </section>
 
       <% if @ingest_errors && !@ingest_errors.empty? %>
         <section class="errors">
-          <div class="banner banner-danger">
-            <i class="fa fa-exclamation-triangle"></i> This draft has the following errors:
-            <ul class="no-bullet">
-              <% @ingest_errors.each do |error| %>
-                <li>
-                  <% if error[:field] && error[:page] %>
-                    <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) %>
-                  <% else %>
-                    <%= "#{error[:field]}," if error[:field] %>
-                  <% end %>
-                  <%= error[:error] %>
-                  <% if error[:request_id] %>
-                    <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
+          <div class="eui-banner--danger">
+            <div class="eui-banner__message">
+              <i class="fa fa-exclamation-triangle"></i> This draft has the following errors:
+              <ul class="no-bullet">
+                <% @ingest_errors.each do |error| %>
+                  <li>
+                    <% if error[:field] && error[:page] %>
+                      <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) %>
+                    <% else %>
+                      <%= "#{error[:field]}," if error[:field] %>
+                    <% end %>
+                    <%= error[:error] %>
+                    <% if error[:request_id] %>
+                      <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
           </div>
         </section>
       <% end %>

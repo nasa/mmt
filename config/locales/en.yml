@@ -24,8 +24,8 @@ en:
     pagination:
       first: "First"
       last: "Last"
-      previous: "<i class='ed-icon ed-fa-chevron-circle-left'></i> <span class='hidden'>Previous</span>"
-      next: "<i class='ed-icon ed-fa-chevron-circle-right'></i> <span class='hidden'>Next</span>"
+      previous: "<i class='eui-icon eui-fa-chevron-circle-left'></i> <span class='hidden'>Previous</span>"
+      next: "<i class='eui-icon eui-fa-chevron-circle-right'></i> <span class='hidden'>Next</span>"
       truncate: "&hellip;"
   helpers:
     page_entries_info:

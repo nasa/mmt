@@ -10,9 +10,9 @@ describe 'Progress circles', js: true do
     end
 
     it 'displays all circles as empty' do
-      expect(page).to have_no_css('.ed-icon.ed-fa-circle')
-      expect(page).to have_no_css('.ed-icon.ed-check.icon-green')
-      expect(page).to have_no_css('.ed-icon.ed-required.icon-green')
+      expect(page).to have_no_css('.eui-icon.eui-fa-circle')
+      expect(page).to have_no_css('.eui-icon.eui-check.icon-green')
+      expect(page).to have_no_css('.eui-icon.eui-required.icon-green')
     end
 
     context 'when viewing a form and clicking Cancel' do
@@ -28,9 +28,9 @@ describe 'Progress circles', js: true do
       end
 
       it 'displays all circles as empty' do
-        expect(page).to have_no_css('.ed-icon.ed-fa-circle')
-        expect(page).to have_no_css('.ed-icon.ed-check.icon-green')
-        expect(page).to have_no_css('.ed-icon.ed-required.icon-green')
+        expect(page).to have_no_css('.eui-icon.eui-fa-circle')
+        expect(page).to have_no_css('.eui-icon.eui-check.icon-green')
+        expect(page).to have_no_css('.eui-icon.eui-required.icon-green')
       end
     end
 
@@ -51,7 +51,7 @@ describe 'Progress circles', js: true do
 
       it 'fills in that correct circle in green' do
         within '#distribution-information a[title="Related Urls - Required field complete"]' do
-          expect(page).to have_css('.ed-required.icon-green')
+          expect(page).to have_css('.eui-required.icon-green')
         end
       end
     end
@@ -83,7 +83,7 @@ describe 'Progress circles', js: true do
 
       it 'fills in that correct circle in grey' do
         within '#distribution-information a[title="Distributions"]' do
-          expect(page).to have_css('.ed-fa-circle.icon-grey')
+          expect(page).to have_css('.eui-fa-circle.icon-grey')
         end
       end
     end
@@ -108,7 +108,7 @@ describe 'Progress circles', js: true do
 
       it 'fills in the correct circle in red' do
         within '#distribution-information a[title="Related Urls - Invalid"]' do
-          expect(page).to have_css('.ed-fa-minus-circle.icon-red')
+          expect(page).to have_css('.eui-fa-minus-circle.icon-red')
         end
       end
     end

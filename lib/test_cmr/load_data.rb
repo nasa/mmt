@@ -50,6 +50,8 @@ module Cmr
       end
       puts "Created typical user: #{resp.body}"
 
+      clear_cache
+
       ### Creating a Provider in CMR
       # Provider SEDAC
       connection.post do |req|
@@ -110,6 +112,8 @@ module Cmr
         req.body = '[{"provider":{"id":"provguid4","provider_id":"MMT_2"}}]'
       end
 
+      clear_cache
+
       ### Adding ACLs
       # Provider SEDAC
       connection.post do |req|
@@ -164,6 +168,8 @@ module Cmr
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
 
+      clear_cache
+
       ## ACLs for System level groups
       # admin user
       connection.post do |req|
@@ -179,6 +185,8 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "mock-admin-group-guid"}}}],"system_object_identity": {"target": "GROUP"}}}'
       end
+
+      clear_cache
 
       # Create system level group
       resp = connection.post do |req|
@@ -220,10 +228,14 @@ module Cmr
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTUser"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "GROUP"}}}'
       end
 
-      ### Clear Cache
+      clear_cache
+    end
+
+    def clear_cache
       connection.post do |req|
         req.url('http://localhost:2999/clear-cache')
       end
+      sleep 1
     end
 
     def retrieve_metadata_uris
@@ -320,10 +332,7 @@ module Cmr
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "' + guid + '","target": "GROUP"}}}'
       end
 
-      ### Clear Cache
-      connection.post do |req|
-        req.url('http://localhost:2999/clear-cache')
-      end
+      clear_cache
     end
 
     def connection

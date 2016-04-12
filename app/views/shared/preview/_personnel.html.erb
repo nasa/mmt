@@ -1,12 +1,12 @@
-<div class="preview-collection accordion">
-  <div class="accordion-header">
-    <h4>Personnel</h4>
-    <a href="#" class="float-r">
-      <i class="fa fa-angle-down toggle"></i>
-      <span class="is-invisible">Toggle Personnel Fields</span>
-    </a>
+<div class="preview-collection eui-accordion">
+  <div class="eui-accordion__header">
+    <h4 class="eui-accordion__title">Personnel</h4>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Personnel Fields</span>
+    </div>
   </div>
-  <div class="accordion-body">
+  <div class="eui-accordion__body">
     <% if metadata['Personnel'].blank? %>
       <p class="empty-section">
         There are no listed personnel for this collection.

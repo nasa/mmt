@@ -22,6 +22,10 @@
 }
 
 .progress-indicator {
+  a[title$='complete'],
+  a[title$='Required'] {
+    vertical-align: middle;
+  }
 
   li {
     @include span-columns(4);

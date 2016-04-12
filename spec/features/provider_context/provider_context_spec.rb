@@ -34,7 +34,7 @@ describe 'Provider context', js: true do
         end
 
         it 'displays the users current provider' do
-          within '.badge.daac' do
+          within '.eui-badge--sm.daac' do
             expect(page).to have_content('MMT_1')
           end
         end
@@ -49,7 +49,7 @@ describe 'Provider context', js: true do
           end
 
           it 'displays their last used provider context' do
-            within '.badge.daac' do
+            within '.eui-badge--sm.daac' do
               expect(page).to have_content('MMT_1')
             end
           end
@@ -72,7 +72,7 @@ describe 'Provider context', js: true do
       end
 
       it 'displays the new provider context' do
-        within '.badge.daac' do
+        within '.eui-badge--sm.daac' do
           expect(page).to have_content('MMT_2')
         end
       end
@@ -91,7 +91,7 @@ describe 'Provider context', js: true do
     end
 
     it 'displays the provider context' do
-      within '.badge.daac' do
+      within '.eui-badge--sm.daac' do
         expect(page).to have_content('MMT_2')
       end
     end

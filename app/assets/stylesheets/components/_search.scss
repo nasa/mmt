@@ -37,6 +37,8 @@
     }
   }
 
+
+
   .full-search-form {
     margin: 0.5em 0;
 
@@ -50,6 +52,10 @@
 
   .quick-search {
     margin: 0;
+
+    .eui-icon {
+      margin-right: 5px;
+    }
   }
 
   label {
@@ -100,7 +106,7 @@
 
 /* Search Results Page Styles */
 
-.pagination {
+.eui-pagination {
   text-align: center;
 
   ul {

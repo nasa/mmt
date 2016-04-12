@@ -19,7 +19,7 @@ describe 'Conditionally required fields', js: true do
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.icon-required', count: 4)
+        expect(page).to have_css('label.eui-required-o', count: 4)
       end
     end
 
@@ -31,7 +31,7 @@ describe 'Conditionally required fields', js: true do
       end
 
       it 'does not display required icons' do
-        expect(page).to have_no_css('label.icon-required')
+        expect(page).to have_no_css('label.eui-required-o')
       end
 
       context 'when filling in a form field that causes fields to become required' do
@@ -40,7 +40,7 @@ describe 'Conditionally required fields', js: true do
         end
 
         it 'displays the required icons' do
-          expect(page).to have_css('label.icon-required', count: 2)
+          expect(page).to have_css('label.eui-required-o', count: 2)
         end
 
         context 'when clearing a field that causes fields to become required' do
@@ -49,7 +49,7 @@ describe 'Conditionally required fields', js: true do
           end
 
           it 'removes the required icons' do
-            expect(page).to have_no_css('label.icon-required')
+            expect(page).to have_no_css('label.eui-required-o')
           end
         end
       end
@@ -70,7 +70,7 @@ describe 'Conditionally required fields', js: true do
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.icon-required', count: 4)
+        expect(page).to have_css('label.eui-required-o', count: 4)
       end
     end
 
@@ -82,7 +82,7 @@ describe 'Conditionally required fields', js: true do
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.icon-required', count: 4)
+        expect(page).to have_css('label.eui-required-o', count: 4)
       end
     end
   end

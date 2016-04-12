@@ -19,7 +19,7 @@ describe 'Add another button behavior', js: true do
     end
 
     it 'sets the toggle link index to 1' do
-      expect(page).to have_css('a', text: 'Toggle Distribution 1', visible: false)
+      expect(page).to have_css('span', text: 'Toggle Distribution 1', visible: false)
     end
 
     context 'when clicking the add another button' do
@@ -32,7 +32,7 @@ describe 'Add another button behavior', js: true do
       end
 
       it 'increments the toggle link index' do
-        expect(page).to have_css('a', text: 'Toggle Distribution 2', visible: false)
+        expect(page).to have_css('span', text: 'Toggle Distribution 2', visible: false)
       end
 
       context 'when clicking the add another button again' do
@@ -45,7 +45,7 @@ describe 'Add another button behavior', js: true do
         end
 
         it 'increments the toggle link index again' do
-          expect(page).to have_css('a', text: 'Toggle Distribution 3', visible: false)
+          expect(page).to have_css('span', text: 'Toggle Distribution 3', visible: false)
         end
       end
     end

@@ -5,7 +5,7 @@ require 'rails_helper'
 BASE_STRING = 'This site may be unavailable for a brief period due to planned maintenance'
 ECHO_DOWN_STRING = 'System availability notifications may be unavailable for a brief period due to planned maintenance. We apologize for the inconvenience.'
 
-describe 'Calendar Event Query' do
+describe 'Calendar Event Query', js: true do
   context 'when on home page and not logged in' do
     before do
       visit '/'
@@ -106,7 +106,7 @@ describe 'Calendar Event Query' do
           end
 
           it 'displays the non-dismissed notification' do
-            expect(page).to have_css('.banner-message')
+            expect(page).to have_css('.eui-banner__message')
           end
         end
       end
@@ -120,7 +120,7 @@ describe 'Calendar Event Query' do
       end
 
       it 'no notifications are shown' do
-        expect(page).to have_no_css('.banner-message')
+        expect(page).to have_no_css('.eui-banner__message')
       end
     end
   end

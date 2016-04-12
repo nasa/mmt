@@ -44,7 +44,7 @@ describe 'Global spatial coverage', js: true do
         fill_in 'West', with: '-5'
 
         click_on 'Add another Bounding Rectangle'
-        find('#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_0 > .accordion-header').click
+        find('#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_0 > .eui-accordion__header').click
 
         # Intermittent test failure hopefully solved by clicking the
         # link with JS
