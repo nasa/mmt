@@ -25,7 +25,7 @@
   </div>
 <% end %>
 
-<div id='invite-user-modal' class="modal-content">
+<div id='invite-user-modal' class="eui-modal-content">
   <a href="#" class="modal-close float-r">
     <i class="fa fa-times"></i>
     <span class="is-invisible">Close</span>
@@ -51,8 +51,8 @@
         placeholder: 'Email'
     ) %>
     <p>
-      <a href="javascript:void(0)" class="btn btn-default modal-close">Cancel</a>
-      <%= submit_tag 'Invite User', id: 'invite-user-button', class: 'btn btn-blue spinner' %>
+      <a href="javascript:void(0)" class="eui-btn modal-close">Cancel</a>
+      <%= submit_tag 'Invite User', id: 'invite-user-button', class: 'eui-btn--blue spinner' %>
       <span class="invite-success is-invisible">
         <i class="ed-icon ed-check-o icon-green"></i> Invitation sent!
       </span>
