@@ -66,6 +66,7 @@ class ApplicationController < ActionController::Base
     uid = session['endpoint'].split('/').last if session['endpoint']
     session[:name] = profile['first_name'].nil? ? uid : "#{profile['first_name']} #{profile['last_name']}"
     session[:urs_uid] = profile['uid'] || uid
+    session[:email_address] = profile['email_address']
     @current_user = User.from_urs_uid(session[:urs_uid])
     return if profile == {}
 

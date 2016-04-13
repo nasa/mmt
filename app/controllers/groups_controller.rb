@@ -162,6 +162,26 @@ class GroupsController < ApplicationController
     end
   end
 
+  def invite
+    user = params['invite']
+    manager = {}
+    manager['name'] = session[:name]
+    manager['email'] = session[:email_address]
+    manager['provider'] = @current_user.provider_id
+
+    invite = UserInvite.new_invite(user, manager)
+    invite.send_invite
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def accept_invite
+    @invite = UserInvite.where(token: params[:token]).first
+    @added = @invite.accept_invite(cmr_client, @current_user.urs_uid, token)
+  end
+
   private
 
   def set_previously_selected_members(members)

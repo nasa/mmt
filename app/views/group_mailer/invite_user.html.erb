@@ -1,0 +1,18 @@
+<h1 class="styled-heading">Metadata Management Tool Invitation</h1>
+<div class="email-message">
+  <p>
+    <%= @invite.user_first_name %>, <%= @invite.manager_name %> from <%= @invite.provider %> would like to add you to a group using NASA's Metadata Management Tool (MMT). To do so, MMT needs to access your Earthdata Login profile. Please authorize MMT to access your profile by clicking the button below. Thank you!
+  </p>
+  <div class="center">
+    <%= link_to 'Authorize MMT', accept_invite_url(token: @invite.token), class: 'btn btn-green' %>
+  </div>
+  <p>
+    If you do not have an Earthdata Login profile, please create one prior to authorizing MMT.
+  </p>
+  <div class="center">
+    <%= link_to 'Register', Rails.configuration.urs_register_url, class: 'btn btn-blue' %>
+  </div>
+</div>
+<div class="email-footer">
+  <img src="https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/meatball.png" alt="Meatball" class="image-center" />
+</div>

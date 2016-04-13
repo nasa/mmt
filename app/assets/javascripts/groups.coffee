@@ -22,3 +22,30 @@ $(document).ready ->
   $('#remove-selected-members').on 'click', ->
     if !$(this).hasClass('disabled')
       $(this).parents('form').submit()
+
+
+  # Set group params when showing invite-user-modal
+  $('.display-invite-user-modal').on 'click', ->
+    if $('#group_name').length > 0
+      name = $('#group_name').val()
+      $('#invite_group_name').val(name)
+
+  $('#invite_first_name, #invite_last_name, #invite_email').on 'blur', ->
+    $('.invite-success').addClass('is-invisible')
+
+  $('#invite-user-button').on 'click', (e) ->
+    $('.invite-success').addClass('is-invisible')
+
+    firstName = $('#invite_first_name').val()
+    lastName = $('#invite_last_name').val()
+    email = $('#invite_email').val()
+
+    if firstName.length == 0 || lastName.length == 0 || email.length == 0
+      e.preventDefault()
+
+  $('#invite-user-modal').on 'click', '.modal-close', ->
+    $('.invite-success').addClass('is-invisible')
+
+    firstName = $('#invite_first_name').val('')
+    lastName = $('#invite_last_name').val('')
+    email = $('#invite_email').val('')

@@ -30,6 +30,7 @@ Rails.application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
+  config.action_mailer.default_url_options = { host: 'localhost', port: '3000' }
 
   # Randomize the order test cases are executed.
   config.active_support.test_order = :random
@@ -44,6 +45,7 @@ Rails.application.configure do
   config.groups_enabled = true
 
   config.cmr_env = 'sit'
+  config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
 
   config.middleware.use RackSessionAccess::Middleware
 end
