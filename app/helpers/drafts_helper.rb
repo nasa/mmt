@@ -207,7 +207,7 @@ module DraftsHelper
   def options_for_subregion_select(country, value = nil)
     return nil unless country
 
-    options = country.subregions.map(&:name)
+    options = country.subregions.map(&:name).sort
     options.unshift ['Select State/Province', '']
     options_for_select(options, selected: value)
   end
