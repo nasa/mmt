@@ -127,7 +127,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
     end
   end
 
-  context 'when publishing a draft that has a non url encoded native id' do
+  context 'when publishing a new draft that has a non url encoded native id' do
     before do
       login
       draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url encoded / native id')

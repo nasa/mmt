@@ -1,7 +1,4 @@
 class DraftsController < ApplicationController
-  require "erb"
-  include ERB::Util
-
   before_action :set_draft, only: [:show, :edit, :update, :destroy, :publish]
   before_action :load_umm_schema, except: [:subregion_options]
   before_filter :ensure_correct_draft_provider, only: [:edit, :show]
@@ -94,7 +91,7 @@ class DraftsController < ApplicationController
     begin
       ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, @draft.native_id, token)
     rescue URI::InvalidURIError
-      ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, url_encode(@draft.native_id), token)
+      ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, URI.encode(@draft.native_id), token)
     end
 
     if ingested.success?
