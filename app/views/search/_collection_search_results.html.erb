@@ -8,9 +8,7 @@
     <!-- Temporarily commented out because this is not a part of the MVP %-->
     <!--th><input type="checkbox" name="name" value=""></th-->
     <th class="w20">
-      <%# Uncomment after CMR-2111 %>
-      <%#= sort_by_link('Short Name', 'short_name', @query) %>
-      Short Name
+      <%= sort_by_link('Short Name', 'short_name', @query) %>
     </th>
     <th class="w10">
       <%#= sort_by_link('Version', 'version_id', @query) %>
