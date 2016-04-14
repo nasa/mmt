@@ -9,16 +9,5 @@ module Helpers
         end
       end
     end
-
-    # a different waiting for js method: https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara
-    def wait_for_jquery
-      Timeout.timeout(Capybara.default_max_wait_time) do
-        loop until finished_jquery_requests?
-      end
-    end
-
-    def finished_jquery_requests?
-      page.evaluate_script('jQuery.active').zero?
-    end
   end
 end

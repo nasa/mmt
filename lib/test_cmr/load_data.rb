@@ -248,7 +248,7 @@ module Cmr
         collection_uri = obj[:collection]
         metadata = connection.get(collection_uri).body
         obj[:ingest_count].times do
-          unless collection_uri.include? 'EDF_DEV06'
+          if !(collection_uri.include? 'EDF_DEV06')
             response = connection.put do |req|
               if collection_uri.include? 'SEDAC'
                 req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")

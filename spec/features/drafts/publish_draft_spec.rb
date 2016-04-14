@@ -130,7 +130,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
   context 'when publishing a new draft that has a non url encoded native id' do
     before do
       login
-      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url encoded / native id')
+      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url, encoded / native id')
       visit draft_path(draft)
       click_on 'Publish'
       open_accordions

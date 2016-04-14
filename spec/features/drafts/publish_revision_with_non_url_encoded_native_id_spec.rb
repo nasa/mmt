@@ -11,35 +11,33 @@ describe 'Publishing revision of collection with non url encoded native id', js:
 
       click_on 'Find'
       click_on 'AE_5DSno'
-      click_on 'Revisions'
     end
 
-    it 'has one revision' do
-      within 'tbody' do
-        expect(page).to have_css('tr', count: 1)
+    context 'when visiting the revisions page' do
+      before do
+        click_on 'Revisions'
+      end
+
+      it 'has one revision' do
+        within 'tbody' do
+          expect(page).to have_css('tr', count: 1)
+        end
       end
     end
 
     context 'when editing the collection' do
       before do
-        within '.eui-breadcrumbs' do
-          click_on 'AE_5DSno_1'
-        end
-
         click_on 'Edit Record'
       end
 
-      it 'displays a draft created confirmation message' do
-        expect(page).to have_content('Draft was successfully created')
-      end
-
-      it 'creates a new draft' do
+      it 'creates a draft that has a url encoded native id' do
+        draft = Draft.first
         page.document.synchronize do
-          expect(Draft.count).to eq(1)
+          expect(draft.native_id).to eq('AMSR-E/Aqua%20&%205-Day,%20L3%20Global%20Snow%20Water%20Equivalent%20EASE-Grids%20V001')
         end
       end
 
-      context 'when the revision is ready to be published' do
+      context 'when publishing the revision then visiting the revisions page' do
         before do
           # add required data to publish
           within '.metadata' do
@@ -52,42 +50,15 @@ describe 'Publishing revision of collection with non url encoded native id', js:
           within '.nav-top' do
             click_on 'Save & Done'
           end
+
+          click_on 'Publish'
+
+          click_on 'Revisions'
         end
 
-        it 'is has all required fields filled and no errors' do
-          expect(page).to have_no_css('.eui-icon.eui-required-o.icon-green')
-          expect(page).to have_no_css('.eui-fa-minus-circle.icon-red')
-        end
-
-        context 'when publishing the revision' do
-          before do
-            click_on 'Publish'
-          end
-
-          it 'displays a confirmation message' do
-            expect(page).to have_content('Draft was successfully published')
-          end
-
-          it 'displays the published record page' do
-            expect(page).to have_content 'PUBLISHED RECORD'
-          end
-
-          it 'deletes the draft from the database' do
-            page.document.synchronize do
-              expect(Draft.count).to eq(0)
-            end
-          end
-
-          context 'when visiting the revisions page' do
-            before do
-              click_on 'Revisions'
-            end
-
-            it 'has more than one revision' do
-              within 'tbody' do
-                page.assert_selector('tr', :minimum => 2)
-              end
-            end
+        it 'has two revisions' do
+          within 'tbody' do
+            expect(page).to have_css('tr', count: 2)
           end
         end
       end
