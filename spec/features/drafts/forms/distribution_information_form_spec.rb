@@ -18,7 +18,7 @@ describe 'Distribution information form', js: true do
       open_accordions
 
       # Complete RelatedUrl fields
-      add_related_urls
+      add_related_urls(RelatedUrlFieldsHelper::DISTRIBUTION_FORM)
 
       # Complete Distribution fields
       within '.multiple.distributions' do

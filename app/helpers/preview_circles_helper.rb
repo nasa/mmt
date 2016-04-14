@@ -113,7 +113,7 @@ module PreviewCirclesHelper
     'distribution_information' => {
       'RelatedUrls' => {
         required: true,
-        anchor: 'relateui-urls'
+        anchor: 'related-urls'
       },
       'Distributions' => {
         required: false,
