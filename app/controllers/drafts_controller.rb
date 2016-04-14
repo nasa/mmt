@@ -87,12 +87,7 @@ class DraftsController < ApplicationController
 
     draft = @draft.draft
 
-    # ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, @draft.native_id, token)
-    begin
-      ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, @draft.native_id, token)
-    rescue URI::InvalidURIError
-      ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, URI.encode(@draft.native_id), token)
-    end
+    ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, @draft.native_id, token)
 
     if ingested.success?
       # Delete draft

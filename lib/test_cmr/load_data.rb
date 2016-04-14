@@ -248,35 +248,47 @@ module Cmr
         collection_uri = obj[:collection]
         metadata = connection.get(collection_uri).body
         obj[:ingest_count].times do
-          response = connection.put do |req|
-            if collection_uri.include? 'SEDAC'
-              req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
-            else #collection_uri.include? 'LARC'
-              req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
-            end
-            content_type = 'application/echo10+xml'
-            content_type = 'application/dif10+xml' if obj[:type] == 'dif'
-            req.headers['Content-Type'] = content_type
-            req.headers['Echo-token'] = 'mock-echo-system-token'
-            req.body = metadata
-          end
-
-          # Ingest a granules if available
-          if obj[:granule]
-            granule_metadata = connection.get(obj[:granule].first).body
+          unless collection_uri.include? 'EDF_DEV06'
             response = connection.put do |req|
-              req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
+              if collection_uri.include? 'SEDAC'
+                req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
+              else #collection_uri.include? 'LARC'
+                req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
+              end
+              content_type = 'application/echo10+xml'
+              content_type = 'application/dif10+xml' if obj[:type] == 'dif'
+              req.headers['Content-Type'] = content_type
+              req.headers['Echo-token'] = 'mock-echo-system-token'
+              req.body = metadata
+            end
+
+            # Ingest a granules if available
+            if obj[:granule]
+              granule_metadata = connection.get(obj[:granule].first).body
+              response = connection.put do |req|
+                req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
+                req.headers['Content-Type'] = 'application/echo10+xml'
+                req.headers['Echo-token'] = 'mock-echo-system-token'
+                req.body = granule_metadata
+              end
+            end
+
+            if response.success?
+              added += 1
+              puts "Loaded #{added} collections"
+            else
+              puts response.inspect
+            end
+          else
+            # collection with bad native id
+            bad_native_id = URI.encode('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
+            response = connection.put do |req|
+              req.url("http://localhost:3002/providers/LARC/collections/#{bad_native_id}")
               req.headers['Content-Type'] = 'application/echo10+xml'
               req.headers['Echo-token'] = 'mock-echo-system-token'
-              req.body = granule_metadata
+              req.body = metadata
             end
-          end
-
-          if response.success?
-            added += 1
-            puts "Loaded #{added} collections"
-          else
-            puts response.inspect
+            puts response.success? ? 'added bad native id collection' : response.inspect
           end
         end
       end
