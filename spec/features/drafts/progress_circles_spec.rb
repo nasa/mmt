@@ -42,7 +42,7 @@ describe 'Progress circles', js: true do
 
         open_accordions
 
-        add_related_urls
+        add_related_urls(RelatedUrlFieldsHelper::DISTRIBUTION_FORM)
 
         within '.nav-top' do
           click_on 'Save & Done'
