@@ -13,18 +13,6 @@ describe 'Publishing revision of collection with non url encoded native id', js:
       click_on 'AE_5DSno'
     end
 
-    context 'when visiting the revisions page' do
-      before do
-        click_on 'Revisions'
-      end
-
-      it 'has one revision' do
-        within 'tbody' do
-          expect(page).to have_css('tr', count: 1)
-        end
-      end
-    end
-
     context 'when editing the collection' do
       before do
         click_on 'Edit Record'
