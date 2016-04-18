@@ -29,7 +29,7 @@
 
           <!-- Filter by member -->
           <%= label_tag 'filters_member_', 'Member', class: 'is-invisible' %>
-          <%= select_tag 'filters[member][]', options_for_select(@users.map{ |user| user[:uid] }.sort, @filters['member']), style: 'width: 40%', class: 'select2-select member-filter', multiple: 'multiple' %>
+          <%= select_tag 'filters[member][]', options_for_user_select(@users, @filters['member']), style: 'width: 40%', class: 'select2-select member-filter', multiple: 'multiple' %>
 
           <!-- Apply all filters button -->
           <%= submit_tag 'Apply Filter', class: 'eui-btn--blue' %>

@@ -50,14 +50,14 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
     context 'when searching by member' do
       before do
-        select 'abcd', from: 'Member'
-        select 'qrst', from: 'Member'
+        select 'Alien Bobcat', from: 'Member'
+        select 'Quail Racoon', from: 'Member'
         click_on 'Apply Filter'
       end
 
       it 'displays the search params' do
-        expect(page).to have_css('li.select2-selection__choice', text: 'abcd')
-        expect(page).to have_css('li.select2-selection__choice', text: 'qrst')
+        expect(page).to have_css('li.select2-selection__choice', text: 'Alien Bobcat')
+        expect(page).to have_css('li.select2-selection__choice', text: 'Quail Racoon')
       end
 
       it 'displays the search results' do
