@@ -1,5 +1,7 @@
 <% options = {} unless options %>
 <% show_preview = options[:show_preview] ? true : false %>
+<% title = (options[:title] || type.titleize).singularize %>
+<% title = options[:related_url_title].singularize if type == 'related_url' %>
 
 <% if multiple %>
   <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') %>" class="multiple <%= (options[:type] || type.pluralize).dasherize %>">
@@ -9,14 +11,17 @@
           <div class="eui-accordion__icon" tabindex="0">
             <i class="eui-icon eui-fa-chevron-circle-down"></i>
             <span class="eui-sr-only">
-              Toggle <%= options[:title] || type.titleize %> <%= index + 1 %>
+              Toggle <%= title %> <%= index + 1 %>
             </span>
           </div>
-          <span class="header-title"><%= options[:title] || type.titleize %> <%= index + 1 %></span>
+          <span class="header-title">
+            <%= title %>
+            <%= index + 1 %>
+          </span>
           <div class="actions">
             <a class="remove">
               <i class="fa fa-times-circle"></i>
-              <span class="is-invisible">Remove <%= options[:title] || type.titleize %></span>
+              <span class="is-invisible">Remove <%= title %></span>
             </a>
           </div>
         </div>
@@ -34,7 +39,10 @@
       </div>
     <% end %>
     <div class="actions">
-      <button type="button" class="eui-btn--blue add-new"><i class="fa fa-plus-circle"></i>Add another <%= (options[:title] || type).titleize.singularize %></button>
+      <button type="button" class="eui-btn--blue add-new">
+        <i class="fa fa-plus-circle"></i>
+        Add another <%= title %>
+      </button>
     </div>
   </div>
 <% else %>

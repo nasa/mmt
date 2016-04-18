@@ -154,27 +154,27 @@ describe 'Data validation for a form', js: true do
   context 'when there is a floating point field' do
     before do
       within 'section.metadata' do
-        click_on 'Organizations', match: :first
+        click_on 'Distribution Information', match: :first
       end
+
+      open_accordions
     end
 
     it 'general floating point validation works' do
-      within '.multiple.organizations > .multiple-item-0' do
-        within '.multiple.related-urls' do
-          within '.file-size' do
-            good_number_values.each do |test|
-              fill_in 'Size', with: test
-              puts "Number: #{test}" if debug
-              within all('.col-6').first do
-                expect(page).to have_no_selector(validation_error)
-              end
+      within '.multiple.related-urls' do
+        within '.file-size' do
+          good_number_values.each do |test|
+            fill_in 'Size', with: test
+            puts "Number: #{test}" if debug
+            within all('.col-6').first do
+              expect(page).to have_no_selector(validation_error)
             end
+          end
 
-            bad_number_values.each do |test|
-              fill_in 'Size', with: test[:value]
-              puts "Number: #{test[:value]}: #{test[:error]}" if debug
-              expect(page).to have_content(test[:error])
-            end
+          bad_number_values.each do |test|
+            fill_in 'Size', with: test[:value]
+            puts "Number: #{test[:value]}: #{test[:error]}" if debug
+            expect(page).to have_content(test[:error])
           end
         end
       end

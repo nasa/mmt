@@ -170,11 +170,11 @@
   <!-- RelatedUrl - only one -->
   <%= mmt_label(
     name: 'related_url',
-    title: 'Related URL',
+    title: 'Publication URL',
     prefix: name_prefix
   ) %>
   <%= mmt_help_icon(
-    title: 'Related URL',
+    title: 'Publication URL',
     help: 'definitions/PublicationReferenceType/properties/RelatedUrl'
   ) %>
   <%= render partial: 'drafts/forms/type', locals: {
@@ -182,5 +182,9 @@
       values: publication_reference['RelatedUrl'] || {},
       name_prefix: "#{name_prefix}|related_url|_",
       multiple: false,
-      options: {} } %>
+      options: {
+        related_url_title: 'Publication URLs',
+        related_url_form_type: RelatedUrlFieldsHelper::PUBLICATION_REFERENCE_FORM
+      }
+    } %>
 </div>

@@ -60,10 +60,7 @@ describe 'Collection citations form', js: true do
               expect(page).to have_selector('input.url[value="http://example.com"]')
               expect(page).to have_selector('input.url[value="http://another-example.com"]')
               expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Mime Type', with: 'text/html')
               expect(page).to have_field('Title', with: 'Example Title')
-              expect(page).to have_field('Size', with: '42.0')
-              expect(page).to have_field('Unit', with: 'MB')
             end
           end
           within all('.multiple-item-1')[1] do
@@ -75,10 +72,7 @@ describe 'Collection citations form', js: true do
               expect(page).to have_selector('input.url[value="http://example.com"]')
               expect(page).to have_selector('input.url[value="http://another-example.com"]')
               expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Mime Type', with: 'text/html')
               expect(page).to have_field('Title', with: 'Example Title')
-              expect(page).to have_field('Size', with: '42.0')
-              expect(page).to have_field('Unit', with: 'MB')
             end
           end
         end

@@ -79,10 +79,7 @@ describe 'Personnel form', js: true do
             expect(page).to have_selector('input.url[value="http://example.com"]')
             expect(page).to have_selector('input.url[value="http://another-example.com"]')
             expect(page).to have_field('Description', with: 'Example Description')
-            expect(page).to have_field('Mime Type', with: 'text/html')
             expect(page).to have_field('Title', with: 'Example Title')
-            expect(page).to have_field('Size', with: '42.0')
-            expect(page).to have_field('Unit', with: 'MB')
           end
           within '.multiple.related-urls> .multiple-item-1' do
             expect(page).to have_selector('input.url[value="http://example.com/1"]')
@@ -125,10 +122,7 @@ describe 'Personnel form', js: true do
             expect(page).to have_selector('input.url[value="http://example.com"]')
             expect(page).to have_selector('input.url[value="http://another-example.com"]')
             expect(page).to have_field('Description', with: 'Example Description')
-            expect(page).to have_field('Mime Type', with: 'text/html')
             expect(page).to have_field('Title', with: 'Example Title')
-            expect(page).to have_field('Size', with: '42.0')
-            expect(page).to have_field('Unit', with: 'MB')
           end
           within '.multiple.related-urls> .multiple-item-1' do
             expect(page).to have_selector('input.url[value="http://example.com/1"]')
