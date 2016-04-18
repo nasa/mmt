@@ -86,7 +86,6 @@ module Helpers
           select 'Owner', from: 'Role'
           case type
           when 'organizations'
-            add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize)
             add_organization('ESA/ED')
           when 'personnel'
             add_person
@@ -100,7 +99,7 @@ module Helpers
 
           add_contacts
           add_addresses
-          add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize) unless type == 'organizations'
+          add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize)
         end
       end
     end
@@ -177,10 +176,20 @@ module Helpers
           all('input.relation').last.set('Example Relation 2')
         end
 
+        if type == RelatedUrlFieldsHelper::ORGANIZATIONS_FORM
+          script = '$("button").attr("readonly", false)'
+          page.execute_script(script)
+        end
+
         if type.include? 'urls'
           within '.multiple.urls' do
             within '.multiple-item-0' do
-              find('.url').set 'http://example.com'
+              if type == RelatedUrlFieldsHelper::ORGANIZATIONS_FORM
+                url1 = find('.url')
+                url1.set 'http://example.com' if url1.value.blank?
+              else
+                find('.url').set 'http://example.com'
+              end
               click_on 'Add another URL'
             end
             within '.multiple-item-1' do
