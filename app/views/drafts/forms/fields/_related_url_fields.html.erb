@@ -1,8 +1,8 @@
 <% always_required = options[:always_required] || false %>
-<% type = options[:related_url_form_type] %>
+<% related_url_type = options[:related_url_form_type] %>
 
 <div class="row sub-fields">
-  <% if type.include? 'title' %>
+  <% if related_url_type.include? 'title' %>
     <%= mmt_text_field(
       name: 'title',
       title: 'Title',
@@ -13,7 +13,7 @@
     ) %>
   <% end %>
 
-  <% if type.include? 'description' %>
+  <% if related_url_type.include? 'description' %>
     <%= mmt_text_field(
      name: 'description',
      title: 'Description',
@@ -24,7 +24,7 @@
     ) %>
   <% end %>
 
-  <% if type.include? 'relation' %>
+  <% if related_url_type.include? 'relation' %>
     <!-- Relation -->
     <% relations = related_url['Relation'] || Array.new(2) %>
     <div class="row">
@@ -45,7 +45,7 @@
     </div>
   <% end %>
 
-  <% if type.include? 'urls' %>
+  <% if related_url_type.include? 'urls' %>
     <% urls = related_url['URLs'] || [nil] # [nil] creates at least one URL field %>
     <div class="multiple simple-multiple urls">
       <%= mmt_label(
@@ -76,7 +76,7 @@
     </div>
   <% end %>
 
-  <% if type.include? 'mime_type' %>
+  <% if related_url_type.include? 'mime_type' %>
     <div class="row">
       <div class="col-6">
         <%= mmt_select(
@@ -92,7 +92,7 @@
     </div>
   <% end %>
 
-  <% if type.include? 'file_size' %>
+  <% if related_url_type.include? 'file_size' %>
     <%= mmt_label(
       name: 'file_size',
       title: 'File Size',
