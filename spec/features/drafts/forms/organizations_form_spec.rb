@@ -83,7 +83,7 @@ describe 'Organizations form', js: true do
             expect(page).to have_field('Size', with: '42.0')
             expect(page).to have_field('Unit', with: 'MB')
           end
-          within '.multiple.related-urls> .multiple-item-1' do
+          within '.multiple.related-urls > .multiple-item-1' do
             expect(page).to have_selector('input.url[value="http://example.com/1"]')
           end
         end
@@ -120,7 +120,7 @@ describe 'Organizations form', js: true do
             expect(page).to have_field('Country', with: 'United States')
           end
           within '.multiple.related-urls > .multiple-item-0' do
-            expect(page).to have_selector('input.url[value="http://example.com"]')
+            expect(page).to have_selector('input.url[value="http://www.esa.org/education/"]')
             expect(page).to have_selector('input.url[value="http://another-example.com"]')
             expect(page).to have_field('Description', with: 'Example Description')
             expect(page).to have_field('Mime Type', with: 'text/html')
@@ -128,7 +128,7 @@ describe 'Organizations form', js: true do
             expect(page).to have_field('Size', with: '42.0')
             expect(page).to have_field('Unit', with: 'MB')
           end
-          within '.multiple.related-urls> .multiple-item-1' do
+          within '.multiple.related-urls > .multiple-item-1' do
             expect(page).to have_selector('input.url[value="http://example.com/1"]')
           end
         end

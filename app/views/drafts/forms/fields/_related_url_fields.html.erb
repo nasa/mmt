@@ -33,7 +33,12 @@
 
     <% relations[0..1].each_with_index do |relation, index| %>
       <!-- does this need to implement mmt_text_field ? -->
-      <%= text_field_tag(name_to_param("#{name_prefix}relation_#{index}"), relation, class: 'full-width relation validate', data: { level: remove_pipes(name_prefix) }) %>
+      <%= text_field_tag(
+        name_to_param("#{name_prefix}relation_#{index}"),
+        relation,
+        class: 'full-width relation validate',
+        data: { level: remove_pipes(name_prefix) }
+      ) %>
     <% end %>
   </div>
 
@@ -54,7 +59,12 @@
   <% urls.each_with_index do |url, index| %>
     <div class="multiple-item multiple-item-<%= index %>">
       <!-- does this need to implement mmt_text_field ? -->
-      <%= text_field_tag(name_to_param("#{name_prefix}urls_#{index}"), url, class: 'half-width url simple-multiple-field validate mmt-uri', data: { level: remove_pipes(name_prefix) }) %>
+      <%= text_field_tag(
+        name_to_param("#{name_prefix}urls_#{index}"),
+        url,
+        class: 'half-width url simple-multiple-field validate mmt-uri',
+        data: { level: remove_pipes(name_prefix) }
+      ) %>
       <a class="remove">
         <i class="fa fa-times-circle"></i>
         <span class="is-invisible">Remove <%= index %></span>

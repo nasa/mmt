@@ -8,8 +8,8 @@
        prefix: name_prefix,
        value: organization_name['ShortName'],
        help: 'definitions/OrganizationNameType/properties/ShortName',
-       options: @organizations.map { |short_name, long_name| [short_name, short_name, { 'data-long-name' => long_name }]},
-       classes: 'select2-select',
+       options: @organizations.map { |short_name, long_name, url| [short_name, short_name, { 'data-long-name' => long_name, 'data-url' => url }]},
+       classes: 'select2-select', # TODO make class more specific to organizations?
        always_required: true
       ) %>
   </div>

@@ -183,6 +183,8 @@ module Helpers
 
         click_on "Add another #{(type || 'responsibility').singularize.titleize}"
         within '.multiple-item.eui-accordion.multiple-item-1' do
+          add_related_urls(nil, true)
+
           select 'Owner', from: 'Role'
           case type
           when 'organizations'
@@ -199,7 +201,6 @@ module Helpers
 
           add_contacts
           add_addresses
-          add_related_urls
         end
       end
     end
@@ -262,7 +263,7 @@ module Helpers
       end
     end
 
-    def add_related_urls(single = nil)
+    def add_related_urls(single = nil, prefilled_url = nil)
       within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
         fill_in 'Title', with: 'Example Title'
         fill_in 'Description', with: 'Example Description'
@@ -272,7 +273,9 @@ module Helpers
 
         within '.multiple.urls' do
           within '.multiple-item-0' do
-            find('.url').set 'http://example.com'
+            unless prefilled_url
+              find('.url').set 'http://example.com'
+            end
             click_on 'Add another URL'
           end
           within '.multiple-item-1' do

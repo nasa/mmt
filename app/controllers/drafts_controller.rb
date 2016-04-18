@@ -270,30 +270,39 @@ class DraftsController < ApplicationController
     end
   end
 
-  def get_organization_short_names_long_names(json, pairs = [])
+  def get_organization_short_names_long_names_urls(json, trios = [])
     json.each do |k, value|
       if k == 'short_name'
         value.each do |value2|
           short_name = value2['value']
-          long_name = value2['long_name'].nil? ? nil : value2['long_name'][0]['value']
-          pairs.push [short_name, long_name]
+
+          if value2['long_name'].nil?
+            long_name = nil
+            url = nil
+          else
+            long_name_hash = value2['long_name'][0]
+            long_name = long_name_hash['value']
+            url = long_name_hash['url'].nil? ? nil : long_name_hash['url'][0]['value']
+          end
+
+          trios.push [short_name, long_name, url]
         end
 
       elsif value.class == Array
         value.each do |value2|
-          get_organization_short_names_long_names value2, pairs if value2.class == Hash
+          get_organization_short_names_long_names_urls value2, trios if value2.class == Hash
         end
       elsif value.class == Hash
-        get_organization_short_names_long_names value, pairs
+        get_organization_short_names_long_names_urls value, trios
       end
     end
-    pairs
+    trios
   end
 
   def set_organizations
     if params[:form] == 'organizations' || params[:form] == 'personnel'
       organizations = cmr_client.get_controlled_keywords('providers')
-      organizations = get_organization_short_names_long_names(organizations)
+      organizations = get_organization_short_names_long_names_urls(organizations)
       @organizations = organizations.sort
     end
   end
