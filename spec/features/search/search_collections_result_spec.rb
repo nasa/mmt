@@ -21,7 +21,7 @@ describe 'Search published results', js: true do
 
     concept_id
 
-    visit '/dashboard'
+    visit '/manage_metadata'
   end
 
   context 'when performing a collection search by short name with quick find' do

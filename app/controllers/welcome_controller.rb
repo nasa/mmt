@@ -40,6 +40,6 @@ class WelcomeController < ApplicationController
   protected
 
   def redirect_if_logged_in
-    return redirect_to dashboard_path if logged_in?
+    return redirect_to manage_metadata_path if logged_in?
   end
 end

@@ -78,7 +78,7 @@ class DraftsController < ApplicationController
     @draft.destroy unless @draft.new_record?
     respond_to do |format|
       flash[:success] = 'Draft was successfully deleted.'
-      format.html { redirect_to dashboard_url }
+      format.html { redirect_to manage_metadata_path }
     end
   end
 

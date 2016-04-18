@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
-  before_filter :set_notifications, only: [:dashboard, :manage_cmr]
+  before_filter :set_notifications, only: [:manage_metadata, :manage_cmr]
 
-  def dashboard
+  def manage_metadata
     # If you change this number you must also change it in the corresponding test file - features/drafts/open_drafts_spec.rb.
     @draft_display_max_count = 5
 
@@ -18,7 +18,7 @@ class PagesController < ApplicationController
     when 'new_collection'
       redirect_to new_draft_path
     else
-      redirect_to dashboard_path
+      redirect_to manage_metadata_path
     end
   end
 

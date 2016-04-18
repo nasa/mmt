@@ -7,7 +7,7 @@ SUMMARY_PAGE_STRING = 'Quality Score:'
 describe 'Draft form navigation', js: true do
   before :each do
     login
-    visit '/dashboard'
+    visit '/manage_metadata'
     choose 'new-collection'
     click_on 'Create Record'
   end

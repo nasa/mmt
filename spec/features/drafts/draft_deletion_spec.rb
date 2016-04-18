@@ -33,7 +33,7 @@ describe 'Draft deletion', js: true do
       end
     end
 
-    it 'returns to the dashboard page' do
+    it 'returns to the manage metadata page' do
       expect(page).to have_content('Your MMT_2 Drafts')
     end
   end
@@ -51,7 +51,7 @@ describe 'Draft deletion', js: true do
       expect(Draft.count).to eq(1)
     end
 
-    it 'does NOT return to the dashboard page' do
+    it 'does NOT return to the manage metadata page' do
       expect(page).to_not have_content('Your MMT_2 Drafts')
     end
   end

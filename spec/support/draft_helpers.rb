@@ -8,7 +8,7 @@ module Helpers
     end
 
     def create_new_draft
-      visit '/dashboard'
+      visit '/manage_metadata'
       choose 'New Collection Record'
       click_on 'Create Record'
     end

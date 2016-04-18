@@ -51,9 +51,9 @@ describe 'Draft creation', js: true do
         expect(Draft.first.provider_id).to eq('MMT_2')
       end
 
-      context 'when viewing the dashboard page' do
+      context 'when viewing the manage metadata page' do
         before do
-          visit '/dashboard'
+          visit '/manage_metadata'
         end
 
         it 'displays the new draft' do
@@ -77,9 +77,9 @@ describe 'Draft creation', js: true do
       end
     end
 
-    context 'when viewing the dashboard page' do
+    context 'when viewing the manage metadata page' do
       before do
-        visit '/dashboard'
+        visit '/manage_metadata'
       end
 
       it 'does not show any open drafts' do
