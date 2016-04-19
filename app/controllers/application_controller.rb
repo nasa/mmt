@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
     last_point = session[:last_point]
     session[:last_point] = nil
 
-    redirect_to return_to || last_point || dashboard_path
+    redirect_to return_to || last_point || manage_metadata_path
   end
 
   def cmr_client

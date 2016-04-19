@@ -257,7 +257,7 @@ class GroupsController < ApplicationController
   end
 
   def groups_enabled?
-    redirect_to dashboard_path unless Rails.configuration.groups_enabled
+    redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
   end
 
   def valid_group?(group)

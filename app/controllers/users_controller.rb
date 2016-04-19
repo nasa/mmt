@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     @current_user.save
 
     respond_to do |format|
-      format.html { redirect_to dashboard_path }
+      format.html { redirect_to manage_metadata_path }
       format.json { render json: nil, status: :ok }
     end
   end
@@ -33,6 +33,6 @@ class UsersController < ApplicationController
     @current_user.provider_id = nil
     @current_user.save
     @current_user.providers = available_providers(@current_user.echo_id)
-    redirect_to dashboard_path
+    redirect_to manage_metadata_path
   end
 end

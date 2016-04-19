@@ -16,7 +16,7 @@ describe 'Collection with draft', js: true, reset_provider: true do
         user.provider_id = 'MMT_2'
         user.save
 
-        visit '/dashboard'
+        visit '/manage_metadata'
         fill_in 'Quick Find', with: 'MMT_2'
         click_on 'Find'
 
@@ -45,7 +45,7 @@ describe 'Collection with draft', js: true, reset_provider: true do
         user.available_providers = %w(MMT_1 MMT_2)
         user.save
 
-        visit '/dashboard'
+        visit '/manage_metadata'
         fill_in 'Quick Find', with: 'MMT_2'
         click_on 'Find'
 
@@ -90,7 +90,7 @@ describe 'Collection with draft', js: true, reset_provider: true do
         user.available_providers = %w(SEDAC)
         user.save
 
-        visit '/dashboard'
+        visit '/manage_metadata'
         fill_in 'Quick Find', with: 'MMT_2'
         click_on 'Find'
 

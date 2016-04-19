@@ -4,7 +4,7 @@ require 'rails_helper'
 
 draft_display_max_count = 5 # Should agree with @draft_display_max_count found in pages_controller
 
-# Basic draft creation and retrieval via the Dashboard list are tested in draft_creation_spec.rb
+# Basic draft creation and retrieval via the list on the Manage Metadata page are tested in draft_creation_spec.rb
 
 describe 'Open Drafts listings' do
   before do
@@ -27,7 +27,7 @@ describe 'Open Drafts listings' do
         create(:draft, user_id: current_user_id)
       end
 
-      visit '/dashboard'
+      visit '/manage_metadata'
     end
 
     it '"More" is displayed' do

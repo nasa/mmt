@@ -8,7 +8,7 @@ describe 'User login' do
       login
     end
 
-    it 'redirects the user to the dashboard' do
+    it 'redirects the user to the manage metadata page' do
       expect(page).to have_content('Test User')
       expect(page).to have_content('Logout')
     end
@@ -32,10 +32,10 @@ describe 'User login' do
   context 'when the user token is expiring' do
     before do
       login
-      visit_with_expiring_token('/dashboard')
+      visit_with_expiring_token('/manage_metadata')
     end
 
-    it 'allows access to the dashboard' do
+    it 'allows access to the manage metadata' do
       expect(page).to have_content('Test User')
       expect(page).to have_content('Logout')
     end
