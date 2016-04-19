@@ -9,8 +9,9 @@ $(document).ready ->
     .find('.eui-accordion__body').first()
 
     if $body.parent().hasClass('eui-accordion')
-      $body.slideToggle 'fast', ->
-        $(this).parent().toggleClass 'is-closed'
-        $('html, body').animate {
-          scrollTop: $(this).parent().offset().top
-        }, 500
+      if $body.parent().find('.disable-toggle').length == 0
+        $body.slideToggle 'fast', ->
+          $(this).parent().toggleClass 'is-closed'
+          $('html, body').animate {
+            scrollTop: $(this).parent().offset().top
+          }, 500
