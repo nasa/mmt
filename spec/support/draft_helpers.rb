@@ -52,107 +52,6 @@ module Helpers
       false
     end
 
-    MISMATCHED_KEYS = %w(
-      DataDates
-      MetadataDates
-      Organizations
-      Personnel
-      CollectionCitations
-      Sizes
-    )
-
-    def check_css_path_for_display_of_values(rendered, draft, key, path, special_handling = {}, top_level = false)
-      path += " > li.#{name_to_class(key)}" if top_level
-
-      case draft
-      when NilClass
-        # Don't expect any values
-      when String, Fixnum, FalseClass, TrueClass
-        new_path = path
-
-        parent_key_special_handling = special_handling[key.to_sym]
-        if parent_key_special_handling == :handle_as_currency && draft =~ /\A[-+]?\d*\.?\d+\z/
-          draft = number_to_currency(draft.to_f)
-        elsif parent_key_special_handling == :handle_as_role
-          # Map role value stored in json to what is actually supposed to be displayed
-          draft = map_value_onto_display_string(draft, DraftsHelper::RoleOptions)
-        elsif parent_key_special_handling == :handle_as_duration
-          # Map duration value stored in json to what is actually supposed to be displayed
-          draft = map_value_onto_display_string(draft, DraftsHelper::DurationOptions)
-        elsif parent_key_special_handling == :handle_as_collection_data_type
-          # Map duration value stored in json to what is actually supposed to be displayed
-          draft = map_value_onto_display_string(draft, DraftsHelper::CollectionDataTypeOptions)
-        elsif parent_key_special_handling == :handle_as_date_type
-          # Map date type value stored in json to what is actually supposed to be displayed
-          draft = map_value_onto_display_string(draft, DraftsHelper::DateTypeOptions)
-        elsif parent_key_special_handling == :handle_as_data_type
-          # Map data type value stored in json to what is actually supposed to be displayed
-          draft = map_value_onto_display_string(draft, DraftsHelper::DataTypeOptions)
-        elsif parent_key_special_handling == :handle_as_collection_progress
-          # Map duration value stored in json to what is actually supposed to be displayed
-          draft = map_value_onto_display_string(draft, DraftsHelper::CollectionProgressOptions)
-        elsif parent_key_special_handling == :handle_as_granule_spatial_representation
-          # Map value stored in json to what is actually supposed to be displayed
-          draft = map_value_onto_display_string(draft, DraftsHelper::GranuleSpatialRepresentationOptions)
-        elsif parent_key_special_handling == :handle_as_spatial_coverage_type
-          # Map value stored in json to what is actually supposed to be displayed
-          draft = map_value_onto_display_string(draft, DraftsHelper::SpatialCoverageTypeOptions)
-        elsif parent_key_special_handling == :handle_as_coordinate_system_type
-          # Map value stored in json to what is actually supposed to be displayed
-          draft = map_value_onto_display_string(draft, DraftsHelper::CoordinateSystemOptions)
-        elsif parent_key_special_handling == :handle_as_language_code
-          draft = { 'English' => 'eng' }.key('eng')
-        elsif key.include?('iso-topic-categories-')
-          draft = map_value_onto_display_string(draft, DraftsHelper::ISOTopicCategoriesOptions)
-        elsif parent_key_special_handling == :handle_as_not_shown
-          # This field is present in json, but intentionally not displayed
-          return
-        end
-
-        expect(rendered.find(:css, new_path)).to have_content(draft)
-
-      when Hash
-        top_path = ''
-        top_path = ' > ul' if top_level
-
-        draft.each do |new_key, value|
-          new_path = path + top_path
-
-          new_path += " > li.#{name_to_class(new_key)}"
-          if "TypesHelper::#{new_key}Type".safe_constantize
-            new_path += ' > ul' unless key == 'DOI' || new_key == 'Date'
-          end
-          check_css_path_for_display_of_values(rendered, value, new_key, new_path, special_handling)
-        end
-
-      when Array
-        # ScienceKeywords are displayed differently than all other fields
-        # Catch it at this level for testing
-        if key == 'ScienceKeywords'
-          draft.each_with_index do |value, index|
-            new_path = path + " > ul > li.science-keywords-#{index}"
-
-            expect(rendered.find(:css, new_path)).to have_content(keyword_string(value))
-          end
-        else
-          draft.each_with_index do |value, index|
-            new_path = path
-
-            class_name = "#{name_to_class(key)}-#{index}"
-            if type = "TypesHelper::#{key}Type".safe_constantize
-              new_path += "#{' > ul' if top_level}.#{class_name}"
-            elsif MISMATCHED_KEYS.include?(key)
-              new_path += " > ul.#{class_name}"
-            else
-              new_path += " > ul > li.#{class_name}"
-            end
-
-            check_css_path_for_display_of_values(rendered, value, class_name, new_path, special_handling)
-          end
-        end
-      end
-    end
-
     def add_organization(value)
       find('.select2-container .select2-selection').click
       find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: value).click
@@ -179,7 +78,7 @@ module Helpers
 
         add_contacts
         add_addresses
-        add_related_urls
+        add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize)
 
         click_on "Add another #{(type || 'responsibility').singularize.titleize}"
         within '.multiple-item.eui-accordion.multiple-item-1' do
@@ -199,7 +98,7 @@ module Helpers
 
           add_contacts
           add_addresses
-          add_related_urls
+          add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize)
         end
       end
     end
@@ -262,37 +161,55 @@ module Helpers
       end
     end
 
-    def add_related_urls(single = nil)
+    def add_related_urls(type, single = nil)
       within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
-        fill_in 'Title', with: 'Example Title'
-        fill_in 'Description', with: 'Example Description'
+        if type.include? 'title'
+          fill_in 'Title', with: 'Example Title'
+        end
+        if type.include? 'description'
+          fill_in 'Description', with: 'Example Description'
+        end
 
-        fill_in 'Relation', with: 'Example Relation'
-        all('input.relation').last.set('Example Relation 2')
+        if type.include? 'relation'
+          fill_in 'Relation', with: 'Example Relation'
+          all('input.relation').last.set('Example Relation 2')
+        end
 
-        within '.multiple.urls' do
-          within '.multiple-item-0' do
-            find('.url').set 'http://example.com'
-            click_on 'Add another URL'
-          end
-          within '.multiple-item-1' do
-            find('.url').set 'http://another-example.com'
+        if type.include? 'urls'
+          within '.multiple.urls' do
+            within '.multiple-item-0' do
+              find('.url').set 'http://example.com'
+              click_on 'Add another URL'
+            end
+            within '.multiple-item-1' do
+              find('.url').set 'http://another-example.com'
+            end
           end
         end
-        select 'text/html', from: 'Mime Type'
-        within '.file-size' do
-          fill_in 'Size', with: '42'
-          select 'MB', from: 'Unit'
+
+        if type.include? 'mime_type'
+          select 'text/html', from: 'Mime Type'
+        end
+
+        if type.include? 'file_size'
+          within '.file-size' do
+            fill_in 'Size', with: '42'
+            select 'MB', from: 'Unit'
+          end
         end
 
         unless single
+          button_title = 'Related URL'
+          button_title = 'Distribution URL' if type == RelatedUrlFieldsHelper::DISTRIBUTION_FORM
           # Add another RelatedUrl
-          click_on 'Add another Related Url'
+          click_on "Add another #{button_title}"
 
-          within '.multiple-item-1' do
-            within '.multiple.urls' do
-              within '.multiple-item-0' do
-                find('.url').set 'http://example.com/1'
+          if type.include? 'urls'
+            within '.multiple-item-1' do
+              within '.multiple.urls' do
+                within '.multiple-item-0' do
+                  find('.url').set 'http://example.com/1'
+                end
               end
             end
           end
@@ -315,14 +232,14 @@ module Helpers
         fill_in 'Other Citation Details', with: 'Citation other details'
         fill_in 'DOI', with: 'Citation DOI'
         fill_in 'Authority', with: 'Citation DOI Authority'
-        add_related_urls(true)
+        add_related_urls(RelatedUrlFieldsHelper::COLLECTION_CITATION_FORM, true)
 
         click_on 'Add another Collection Citation'
         within '.multiple-item-1' do
           fill_in 'Version', with: 'v2'
           fill_in 'draft_collection_citations_1_title', with: 'Citation title 1' # Title
           fill_in 'Creator', with: 'Citation creator 1'
-          add_related_urls(true)
+          add_related_urls(RelatedUrlFieldsHelper::COLLECTION_CITATION_FORM, true)
         end
       end
     end
@@ -357,7 +274,7 @@ module Helpers
         fill_in 'Pages', with: 'Publication reference pages'
         fill_in 'ISBN', with: '1234567890123'
         fill_in 'Other Reference Details', with: 'Publication reference details'
-        add_related_urls(true)
+        add_related_urls(RelatedUrlFieldsHelper::PUBLICATION_REFERENCE_FORM, true)
 
         click_on 'Add another Publication Reference'
         within '.multiple-item-1' do
