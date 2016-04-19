@@ -9,6 +9,5 @@ module Helpers
         end
       end
     end
-
   end
 end

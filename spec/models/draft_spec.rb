@@ -92,6 +92,10 @@ describe Draft do
     draft = create(:draft)
     expect(draft.native_id).to include('mmt_collection_')
   end
+  it 'url encodes a non url encoded native_id' do
+    draft = create(:draft, native_id: 'not & url, encoded / native id')
+    expect(draft.native_id).to eq('not%20&%20url,%20encoded%20/%20native%20id')
+  end
 
   # create_from_collection method
   it '"create_from_collection" saves a native_id' do
