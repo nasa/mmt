@@ -46,7 +46,10 @@ $(document).ready ->
     # Validate when user clicks on on item selection
     checkSelectionLevel = ->
       selectionLevel = $('.eui-item-path li').length
-      if selectionLevel > 3
+
+      # science keywords must be at least 3 levels deep, spatial keywords 2
+      selectionMinimum = if picker.options.data_type == 'science' then 3 else 2
+      if selectionLevel > selectionMinimum
         $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
       else
         $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
@@ -61,9 +64,12 @@ $(document).ready ->
     # Validate if user select final option
     $('.eui-nested-item-picker').on 'click', '.final-option', ->
       $this = $(this)
+
+      # science keywords must be at least 3 levels deep, spatial keywords 2
+      selectionLowerBound = if picker.options.data_type == 'science' then 4 else 3
       if $this.hasClass('final-option-selected')
         $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
-      else if $('.eui-item-path li').length < 4
+      else if $('.eui-item-path li').length < selectionLowerBound
         $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
 
     # Science keyword searching
@@ -88,7 +94,8 @@ $(document).ready ->
         value != ''
 
       keywords.filter (keyword) ->
-        keyword if keyword.split('>').length > 2 - numberSelectedValues.length
+        keywordLevelMinimum = if picker.options.data_type == 'science' then 2 else 1
+        keyword if keyword.split('>').length > keywordLevelMinimum - numberSelectedValues.length
 
     typeaheadSource = new Bloodhound
       datumTokenizer: Bloodhound.tokenizers.nonword,
