@@ -24,7 +24,8 @@ $(document).ready ->
       $.each keywords, (index, value) ->
         matchingKeywords = $(keywordList).find('li').filter ->
           this.childNodes[0].nodeValue.trim() == value
-        if matchingKeywords.length == 0 and (value.split('>').length > 2 or type == 'spatial')
+        keywordLengthMinimum = if picker.options.data_type == 'science' then 2 else 1
+        if matchingKeywords.length == 0 and value.split('>').length > keywordLengthMinimum
             span = "<span class='is-invisible'>Remove #{value}</span>"
             li = $("<li>#{value}<a class='remove'><i class='fa fa-times-circle'></i></a>#{span}</li>")
             $('<input/>',
@@ -46,7 +47,10 @@ $(document).ready ->
     # Validate when user clicks on on item selection
     checkSelectionLevel = ->
       selectionLevel = $('.eui-item-path li').length
-      if selectionLevel > 3
+
+      # science keywords must be at least 3 levels deep, spatial keywords 2
+      selectionMinimum = if picker.options.data_type == 'science' then 3 else 2
+      if selectionLevel > selectionMinimum
         $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
       else
         $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
@@ -61,9 +65,12 @@ $(document).ready ->
     # Validate if user select final option
     $('.eui-nested-item-picker').on 'click', '.final-option', ->
       $this = $(this)
+
+      # science keywords must be at least 3 levels deep, spatial keywords 2
+      selectionLowerBound = if picker.options.data_type == 'science' then 4 else 3
       if $this.hasClass('final-option-selected')
         $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
-      else if $('.eui-item-path li').length < 4
+      else if $('.eui-item-path li').length < selectionLowerBound
         $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
 
     # Science keyword searching
@@ -88,7 +95,8 @@ $(document).ready ->
         value != ''
 
       keywords.filter (keyword) ->
-        keyword if keyword.split('>').length > 2 - numberSelectedValues.length
+        keywordLevelMinimum = if picker.options.data_type == 'science' then 2 else 1
+        keyword if keyword.split('>').length > keywordLevelMinimum - numberSelectedValues.length
 
     typeaheadSource = new Bloodhound
       datumTokenizer: Bloodhound.tokenizers.nonword,
@@ -119,9 +127,11 @@ $(document).ready ->
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
       selectedValues = picker.getValues()
+      selectedValues = selectedValues[0].split(' > ')
       keyword = selectedValues.filter (value) ->
         value != ''
-      keyword.push(suggestion)
+      # prevent adding final option twice (when it is selected and also searched for)
+      keyword.push(suggestion) unless suggestion == keyword[keyword.length - 1]
       keyword = [keyword.join(' > ')]
 
       if picker.options.data_type == 'science'

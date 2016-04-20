@@ -129,5 +129,28 @@ describe 'Searching science keywords', js: true do
         end
       end
     end
+
+    context 'when a final option keyword is selected' do
+      before do
+        choose_keyword 'EARTH SCIENCE SERVICES'
+        choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
+        choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
+        choose_keyword 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+
+        find('#science-keyword-search').click
+        fill_in 'science-keyword-search', with: 'geographic'
+
+        script = '$(".tt-suggestion").last().click()'
+        page.execute_script(script)
+      end
+
+      it 'adds the spatial keyword to the selected keywords' do
+        expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
+      end
+
+      it 'does not add the final option twice to the spatial keyword' do
+        expect(page).to have_no_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
+      end
+    end
   end
 end
