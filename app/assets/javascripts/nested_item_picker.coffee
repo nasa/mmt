@@ -24,7 +24,8 @@ $(document).ready ->
       $.each keywords, (index, value) ->
         matchingKeywords = $(keywordList).find('li').filter ->
           this.childNodes[0].nodeValue.trim() == value
-        if matchingKeywords.length == 0 and (value.split('>').length > 2 or type == 'spatial')
+        keywordLengthMinimum = if picker.options.data_type == 'science' then 2 else 1
+        if matchingKeywords.length == 0 and value.split('>').length > keywordLengthMinimum
             span = "<span class='is-invisible'>Remove #{value}</span>"
             li = $("<li>#{value}<a class='remove'><i class='fa fa-times-circle'></i></a>#{span}</li>")
             $('<input/>',
@@ -126,9 +127,11 @@ $(document).ready ->
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
       selectedValues = picker.getValues()
+      selectedValues = selectedValues[0].split(' > ')
       keyword = selectedValues.filter (value) ->
         value != ''
-      keyword.push(suggestion)
+      # prevent adding final option twice (when it is selected and also searched for)
+      keyword.push(suggestion) unless suggestion == keyword[keyword.length - 1]
       keyword = [keyword.join(' > ')]
 
       if picker.options.data_type == 'science'

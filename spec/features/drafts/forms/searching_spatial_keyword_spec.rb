@@ -35,7 +35,7 @@ describe 'Searching spatial keywords', js: true do
 
       context 'when selecting the same keyword' do
         before do
-          script = '$(".tt-suggestsion").last().click()'
+          script = '$(".tt-suggestion").last().click()'
           page.execute_script(script)
         end
 
@@ -53,20 +53,14 @@ describe 'Searching spatial keywords', js: true do
           end
 
           find('#spatial-keyword-search').click
-          fill_in 'spatial-keyword-search', with: 'arctic'
+          fill_in 'spatial-keyword-search', with: 'geographic'
 
           find('#spatial-keyword-search').click
         end
 
-        it 'displays the valid keywords' do
-          within '.eui-nested-item-picker' do
-            expect(page).to have_css('.tt-suggestion', text: /GEOGRAPHIC REGION > ARCTIC$/)
-          end
-        end
-
         it 'does not display the invalid keywords' do
           within '.eui-nested-item-picker' do
-            expect(page).to have_no_css('.tt-suggestsion', text: /GEOGRAPHIC REGION$/)
+            expect(page).to have_no_css('.tt-suggestion', text: /GEOGRAPHIC REGION$/)
           end
         end
       end
@@ -94,8 +88,29 @@ describe 'Searching spatial keywords', js: true do
         end
 
         it 'clears the suggestions' do
-          expect(page).to have_no_css('.tt-suggestsion')
+          expect(page).to have_no_css('.tt-suggestion')
         end
+      end
+    end
+
+    context 'when a final option keyword is selected' do
+      before do
+        choose_keyword 'GEOGRAPHIC REGION'
+        choose_keyword 'ARCTIC'
+
+        find('#spatial-keyword-search').click
+        fill_in 'spatial-keyword-search', with: 'arctic'
+
+        script = '$(".tt-suggestion").last().click()'
+        page.execute_script(script)
+      end
+
+      it 'adds the spatial keyword to the selected keywords' do
+        expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
+      end
+
+      it 'does not add the final option twice to the spatial keyword' do
+        expect(page).to have_no_content('GEOGRAPHIC REGION > ARCTIC > ARCTIC')
       end
     end
   end
