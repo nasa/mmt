@@ -2,7 +2,7 @@ $(document).ready ->
   # set short name as select2 field
   $('.select2-select').select2()
 
-  # when selecting short name, populate long name and set to readonly
+  # when selecting short name, populate long name and url and set to readonly
   $('.organization-short-name-select').on 'select2:select', (event) ->
     $element = $(this)
     longName = $element.find(':selected').data('longName')
@@ -28,7 +28,7 @@ $(document).ready ->
       $urlElement.val('')
       $urlElement.attr('readonly', false)
 
-  # Set long name element to readonly if short name is selected on load
+  # Set long name and url elements to readonly if short name is selected on load
   $('.organization-short-name-select').each (index, element) ->
     $element = $(this)
     longName = $element.find(':selected').data('longName')

@@ -86,7 +86,6 @@ module Helpers
           select 'Owner', from: 'Role'
           case type
           when 'organizations'
-            add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize)
             add_organization('ESA/ED')
           when 'personnel'
             add_person
@@ -100,7 +99,7 @@ module Helpers
 
           add_contacts
           add_addresses
-          add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize) unless type == 'organizations'
+          add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize)
         end
       end
     end
