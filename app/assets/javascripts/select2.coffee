@@ -10,9 +10,9 @@ $(document).ready ->
 
     $longNameElement = $element.parent().siblings().find('.organization-long-name')
 
-    multipleItem = $element.closest('.multiple-item')
-    relatedUrl = multipleItem.find('.related-urls:first')
-    $urlElement = relatedUrl.find('.url:first')
+    $multipleItem = $element.closest('.multiple-item')
+    $relatedUrl = $multipleItem.find('.related-urls:first')
+    $urlElement = $relatedUrl.find('.url:first')
 
     if longName?
       $longNameElement.val(longName)
@@ -36,9 +36,9 @@ $(document).ready ->
 
     $longNameElement = $element.parent().siblings().find('.organization-long-name')
 
-    multipleItem = $element.closest('.multiple-item')
-    relatedUrl = multipleItem.find('.related-urls:first')
-    $urlElement = relatedUrl.find('.url:first')
+    $multipleItem = $element.closest('.multiple-item')
+    $relatedUrl = $multipleItem.find('.related-urls:first')
+    $urlElement = $relatedUrl.find('.url:first')
 
     if longName?
       $longNameElement.attr('readonly', true)
