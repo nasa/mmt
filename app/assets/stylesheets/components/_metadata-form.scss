@@ -74,12 +74,12 @@
 }
 
 // Sets the default behavior to show the remove button for accordion headers
-.multiple-item > .accordion-header > .actions > .remove {
+.multiple-item > .eui-accordion__header > .actions > .remove {
   display: inline-block;
 }
 
 // Hides the remove button if no other multiple-item groups have been added
-.multiple-item:first-child:nth-last-child(2) > .accordion-header > .actions > .remove {
+.multiple-item:first-child:nth-last-child(2) > .eui-accordion__header > .actions > .remove {
   display: none;
 }
 
