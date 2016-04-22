@@ -27,6 +27,7 @@ $(document).ready ->
     else
       $urlElement.val('')
       $urlElement.attr('readonly', false)
+    $urlElement.blur()
 
   # Set long name and url elements to readonly if short name is selected on load
   $('.organization-short-name-select').each (index, element) ->
