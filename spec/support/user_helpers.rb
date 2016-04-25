@@ -56,8 +56,6 @@ module Helpers
 
       # after the user authenticates with URS
       visit '/urs_callback?code=auth_code_here'
-
-      visit '/manage_metadata'
     end
 
     def visit_with_expiring_token(path)

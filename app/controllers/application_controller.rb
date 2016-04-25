@@ -52,6 +52,8 @@ class ApplicationController < ActionController::Base
   def clear_session
     store_oauth_token
     store_profile
+    session[:last_point] = nil
+    session[:return_to] = nil
   end
 
   def store_oauth_token(json = {})
