@@ -82,6 +82,7 @@ module Helpers
 
         click_on "Add another #{(type || 'responsibility').singularize.titleize}"
         within '.multiple-item.eui-accordion.multiple-item-1' do
+
           select 'Owner', from: 'Role'
           case type
           when 'organizations'
