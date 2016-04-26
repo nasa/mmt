@@ -58,6 +58,15 @@
   @$element.find('.eui-item-path > li.list-title').click()
   @updateList()
 
+@NestedItemPicker::sortItemList = (items) ->
+  sortedItems = items.sort (a, b) ->
+    if a.value > b.value
+      1
+    else if a.value < b.value
+      -1
+    else
+      0
+
 @NestedItemPicker::updateList = ->
   selectedValues = @getValues()
   selectedItems = []
@@ -96,6 +105,8 @@
       newItem.value = item.value
       newItem.class = if item.subfields == undefined then 'final-option' else 'item-parent'
       newItems.push newItem
+
+  newItems = @sortItemList newItems
 
   $.each newItems, (index, item) ->
     li = $('<li/>')
