@@ -15,3 +15,15 @@ $(document).ready ->
           $('html, body').animate {
             scrollTop: $(this).parent().offset().top
           }, 500
+
+  $('.expand-accordions').on 'click', ->
+    $('.eui-accordion.is-closed').removeClass('is-closed')
+    $('.eui-accordion__body').slideDown('fast')
+    $('.expand-accordions').addClass('is-invisible')
+    $('.collapse-accordions').removeClass('is-invisible')
+
+  $('.collapse-accordions').on 'click', ->
+    $('.eui-accordion').addClass('is-closed')
+    $('.eui-accordion__body').slideUp('fast')
+    $('.collapse-accordions').addClass('is-invisible')
+    $('.expand-accordions').removeClass('is-invisible')

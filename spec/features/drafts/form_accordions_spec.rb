@@ -53,6 +53,10 @@ describe 'Draft form accordions', js: true do
       expect(page).to have_no_css('.eui-accordion.is-closed')
     end
 
+    it 'does not display an Expand All link' do
+      expect(page).to have_no_link('Expand All')
+    end
+
     context 'when clicking on the accordion header' do
       before do
         first('.eui-accordion__header').click
@@ -79,6 +83,44 @@ describe 'Draft form accordions', js: true do
 
     it 'does not open the accordion' do
       expect(page).to have_no_field('DistributionMedia')
+    end
+  end
+
+  context 'when clicking the Expand All link' do
+    before do
+      click_on 'Distribution Information'
+      click_on 'Expand All'
+    end
+
+    it 'hides the Expand All link' do
+      expect(page).to have_link('Expand All', visible: false)
+    end
+
+    it 'displays a Collapse All link' do
+      expect(page).to have_link('Collapse All')
+    end
+
+    it 'expands all the accordions on the page' do
+      expect(page).to have_no_css('.eui-accordion.is-closed')
+    end
+
+    context 'when clicking the Collapse All link' do
+      before do
+        click_on 'Collapse All'
+      end
+
+      it 'hides the Collapse All link' do
+        expect(page).to have_link('Collapse All', visible: false)
+      end
+
+      it 'displays a Expand All link' do
+        expect(page).to have_link('Expand All')
+      end
+
+      it 'collapses all the accordions on the page' do
+        expect(page).to have_css('.eui-accordion', count: 2)
+        expect(page).to have_css('.eui-accordion.is-closed', count: 2)
+      end
     end
   end
 end
