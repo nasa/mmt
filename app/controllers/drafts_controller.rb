@@ -266,7 +266,7 @@ class DraftsController < ApplicationController
   def set_temporal_keywords
     if params[:form] == 'temporal_information'
       keywords = cmr_client.get_controlled_keywords('temporal_keywords')['temporal_resolution_range']
-      @temporal_keywords = keywords.map { |keyword| keyword['value'] }
+      @temporal_keywords = keywords.map { |keyword| keyword['value'] }.sort
     end
   end
 
