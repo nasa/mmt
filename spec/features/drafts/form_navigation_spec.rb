@@ -65,12 +65,12 @@ describe 'Draft form navigation', js: true do
     current_form = Draft::DRAFT_FORMS[index].titleize
     next_form = Draft.get_next_form(current_form.parameterize.underscore).titleize
 
-    context 'when pressing the Save & Next button' do
+    context 'when pressing the Next button' do
       before do
         click_on current_form, match: :first
 
         within '.nav-top' do
-          click_on 'Save & Next'
+          click_on 'Next'
         end
 
         # These forms are invalid, and need to click 'Yes' to get to the next form
@@ -99,10 +99,10 @@ describe 'Draft form navigation', js: true do
       click_on 'Metadata Information'
     end
 
-    context 'Clicking Save & Done' do
+    context 'Clicking Done' do
       before do
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
       end
 
