@@ -9,23 +9,36 @@ describe 'User login' do
     end
 
     it 'redirects the user to the manage metadata page' do
-      expect(page).to have_content('Test User')
-      expect(page).to have_content('Logout')
+      within 'h2.current' do
+        expect(page).to have_content('Manage Metadata')
+      end
     end
+
     it 'does not display public holdings' do
       expect(page).to have_no_css('table#public-holdings')
     end
-  end
 
-  context 'when logging out' do
-    before do
-      login
-      expect(page).to have_content('Logout')
-      click_on 'Logout'
-    end
+    context 'when logging out' do
+      before do
+        visit '/drafts'
+        click_on 'Logout'
+      end
 
-    it 'redirects the user to the landing page' do
-      expect(page).to have_content('About the Metadata Management Tool')
+      it 'redirects the user to the landing page' do
+        expect(page).to have_content('About the Metadata Management Tool')
+      end
+
+      context 'when the user logs back in' do
+        before do
+          login
+        end
+
+        it 'displays the manage metadata page' do
+          within 'h2.current' do
+            expect(page).to have_content('Manage Metadata')
+          end
+        end
+      end
     end
   end
 
