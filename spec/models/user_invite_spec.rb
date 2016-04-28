@@ -35,6 +35,10 @@ describe UserInvite do
   context '"accept_invite" method' do
     let(:invite) { create(:user_invite) }
 
+    before do
+      ActionMailer::Base.deliveries.clear
+    end
+
     after do
       ActionMailer::Base.deliveries.clear
     end
