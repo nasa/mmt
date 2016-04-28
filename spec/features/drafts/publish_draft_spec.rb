@@ -37,6 +37,10 @@ describe 'Publishing draft records', js: true, reset_provider: true do
       expect(page).to have_no_content('No Temporal Coverages found')
     end
 
+    it 'sends the user a notification email' do
+      expect(ActionMailer::Base.deliveries.count).to be >= 1
+    end
+
     context 'when searching for the published record' do
       before do
         fill_in 'Quick Find', with: '12345'

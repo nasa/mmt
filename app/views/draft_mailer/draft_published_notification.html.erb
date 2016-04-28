@@ -1,0 +1,19 @@
+
+<% if @is_update %>
+  <h1 class="styled-heading">New Record Published in Metadata Management Tool</h1>
+<% else %>
+  <h1 class="styled-heading">Record Updated in Metadata Management Tool</h1>
+<% end %>
+
+<div class="email-message">
+  <p>
+    <%= "#{@user[:name]}, your collection metadata record has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your collection's concept id is #{@concept_id}." %>
+  </p>
+  <div class="center">
+    <%= link_to 'View Collection', collection_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>
+  </div>
+</div>
+
+<div class="email-footer">
+  <img src="https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/meatball.png" alt="Meatball" class="image-center" />
+</div>
