@@ -18,9 +18,10 @@ class Draft < ActiveRecord::Base
     metadata_information
   )
 
-  def self.get_next_form(name)
+  def self.get_next_form(name, direction)
+    delta = direction == 'Next' ? 1 : -1
     index = DRAFT_FORMS.index(name)
-    DRAFT_FORMS[index + 1] || DRAFT_FORMS.first
+    DRAFT_FORMS[index + delta] || DRAFT_FORMS.first
   end
 
   def display_entry_title
