@@ -51,7 +51,7 @@ describe 'Distribution information form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # output_schema_validation Draft.first.draft
       open_accordions

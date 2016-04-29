@@ -80,7 +80,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
       select 'Orbit', from: 'Granule Spatial Representation'
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
 
       click_on 'Publish'

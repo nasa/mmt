@@ -36,7 +36,7 @@ describe 'Publishing revision of collection with non url encoded native id', js:
             select 'Resource Provider', from: 'Role'
           end
           within '.nav-top' do
-            click_on 'Save & Done'
+            click_on 'Done'
           end
 
           click_on 'Publish'

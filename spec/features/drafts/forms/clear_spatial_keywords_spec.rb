@@ -21,7 +21,7 @@ describe 'Clearing saved spatial keywords', js: true do
       click_on 'Add Keyword'
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
 
       find('#invalid-draft-accept').click
@@ -54,7 +54,7 @@ describe 'Clearing saved spatial keywords', js: true do
           end
 
           within '.nav-top' do
-            click_on 'Save & Done'
+            click_on 'Done'
           end
 
           find('#invalid-draft-accept').click

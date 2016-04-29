@@ -69,7 +69,7 @@ describe 'Spatial information form', js: true do
         add_spatial_keywords
 
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
         # output_schema_validation Draft.first.draft
         open_accordions
@@ -176,7 +176,7 @@ describe 'Spatial information form', js: true do
         select 'Cartesian', from: 'Granule Spatial Representation'
 
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
         # output_schema_validation Draft.first.draft
         open_accordions
@@ -243,7 +243,7 @@ describe 'Spatial information form', js: true do
         select 'Cartesian', from: 'Granule Spatial Representation'
 
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
         # output_schema_validation Draft.first.draft
         open_accordions
@@ -356,7 +356,7 @@ describe 'Spatial information form', js: true do
         select 'Cartesian', from: 'Granule Spatial Representation'
 
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
         # output_schema_validation Draft.first.draft
         open_accordions
@@ -467,7 +467,7 @@ describe 'Spatial information form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # output_schema_validation Draft.first.draft
       open_accordions
@@ -582,7 +582,7 @@ describe 'Spatial information form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # output_schema_validation Draft.first.draft
       open_accordions

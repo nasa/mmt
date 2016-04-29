@@ -58,7 +58,7 @@ class Draft < ActiveRecord::Base
         save
       end
     end
-    # This keeps an empty form from sending the user back to draft_path when clicking on Save & Next
+    # This keeps an empty form from sending the user back to draft_path when clicking on Next
     true
   end
 
