@@ -13,8 +13,8 @@ describe DraftMailer do
         expect(mail.subject).to eq('New Record Published in Metadata Management Tool')
       end
 
-      it 'renders the receiver' do
-        expect(mail.to).to eq("#{user[:name]}, <#{user[:email]}>")
+      it 'renders the receiver email' do
+        expect(mail.to).to eq([user[:email]])
       end
 
       it 'renders the sender email' do
@@ -22,15 +22,15 @@ describe DraftMailer do
       end
 
       it 'renders the new record published notice' do
-        expect(mail.parts.last.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully published to the CMR.")
+        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully published to the CMR.")
       end
 
       it 'renders the concept id' do
-        expect(mail.parts.last.body).to have_content(concept_id)
+        expect(mail.html_part.body).to have_content(concept_id)
       end
 
       it 'renders the link to the collection' do
-        expect(mail.parts.last.body).to have_link('View Collection', href: collection_url(concept_id, revision_id: revision_id))
+        expect(mail.html_part.body).to have_link('View Collection', href: collection_url(concept_id, revision_id: revision_id))
       end
     end
 
@@ -43,8 +43,8 @@ describe DraftMailer do
         expect(mail.subject).to eq('Record Updated in Metadata Management Tool')
       end
 
-      it 'renders the receiver' do
-        expect(mail.to).to eq("#{user[:name]}, <#{user[:email]}>")
+      it 'renders the receiver email' do
+        expect(mail.to).to eq([user[:email]])
       end
 
       it 'renders the sender email' do
@@ -52,15 +52,15 @@ describe DraftMailer do
       end
 
       it 'renders the record updated notice' do
-        expect(mail.parts.last.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully updated.")
+        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully updated.")
       end
 
       it 'renders the concept id' do
-        expect(mail.parts.last.body).to have_content(concept_id)
+        expect(mail.html_part.body).to have_content(concept_id)
       end
 
       it 'renders the link to the collection' do
-        expect(mail.parts.last.body).to have_link('View Collection', href: collection_url(concept_id, revision_id: revision_id))
+        expect(mail.html_part.body).to have_link('View Collection', href: collection_url(concept_id, revision_id: revision_id))
       end
     end
   end

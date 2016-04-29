@@ -2,13 +2,19 @@ class GroupMailer < ApplicationMailer
   def invite_user(invite)
     @invite = invite
     mail(to: "#{@invite.user_first_name} #{@invite.user_last_name} <#{@invite.user_email}>",
-         subject: 'Metadata Management Tool Invitation')
+         subject: 'Metadata Management Tool Invitation') do |format|
+      format.html
+      format.text
+    end
   end
 
   def notify_manager(invite, added)
     @invite = invite
     @added = added
     mail(to: "#{@invite.manager_name} <#{@invite.manager_email}>",
-         subject: 'Metadata Management Tool Invitation Accepted')
+         subject: 'Metadata Management Tool Invitation Accepted') do |format|
+      format.html
+      format.text
+    end
   end
 end

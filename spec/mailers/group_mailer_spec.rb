@@ -10,7 +10,7 @@ describe GroupMailer do
     end
 
     it 'renders the receiver email' do
-      expect(mail.to).to eq("#{invite.user_first_name} #{invite.user_last_name}, <#{invite.user_email}>")
+      expect(mail.to).to eq([invite.user_email])
     end
 
     it 'renders the sender email' do
@@ -18,8 +18,8 @@ describe GroupMailer do
     end
 
     it 'assigns @invite' do
-      expect(mail.body.encoded).to match("#{invite.user_first_name}, #{invite.manager_name} from #{invite.provider}")
-      expect(mail.body.encoded).to match("http://localhost:3000/accept_invite/#{invite.token}")
+      expect(mail.html_part.body.encoded).to match("#{invite.user_first_name}, #{invite.manager_name} from #{invite.provider}")
+      expect(mail.html_part.body.encoded).to match("http://localhost:3000/accept_invite/#{invite.token}")
     end
   end
 
@@ -32,8 +32,8 @@ describe GroupMailer do
         expect(mail.subject).to eq('Metadata Management Tool Invitation Accepted')
       end
 
-      it 'renders the receiver' do
-        expect(mail.to).to eq("#{invite.manager_name}, <#{invite.manager_email}>")
+      it 'renders the receiver email' do
+        expect(mail.to).to eq([invite.manager_email])
       end
 
       it 'renders the sender email' do
@@ -41,11 +41,11 @@ describe GroupMailer do
       end
 
       it 'assigns @invite' do
-        expect(mail.body.encoded).to match("#{invite.user_first_name + ' ' + invite.user_last_name} has authorized MMT to acces their Earthdata Login profile.")
+        expect(mail.html_part.body.encoded).to match("#{invite.user_first_name + ' ' + invite.user_last_name} has authorized MMT to acces their Earthdata Login profile.")
       end
 
       it 'assigns @added' do
-        expect(mail.body.encoded).to match("For your convenience, #{invite.user_first_name} has been added to #{invite.group_name}")
+        expect(mail.html_part.body.encoded).to match("For your convenience, #{invite.user_first_name} has been added to #{invite.group_name}")
       end
     end
 
@@ -58,7 +58,7 @@ describe GroupMailer do
       end
 
       it 'renders the receiver email' do
-        expect(mail.to).to eq("#{invite.manager_name}, <#{invite.manager_email}>")
+        expect(mail.to).to eq([invite.manager_email])
       end
 
       it 'renders the sender email' do
@@ -66,11 +66,11 @@ describe GroupMailer do
       end
 
       it 'assigns @invite' do
-        expect(mail.body.encoded).to match("#{invite.user_first_name + ' ' + invite.user_last_name} has authorized MMT to acces their Earthdata Login profile.")
+        expect(mail.html_part.body.encoded).to match("#{invite.user_first_name + ' ' + invite.user_last_name} has authorized MMT to acces their Earthdata Login profile.")
       end
 
       it 'assigns @added' do
-        expect(mail.body.encoded).to match("#{invite.user_first_name} may now be added to groups without the need to invite them again.")
+        expect(mail.html_part.body.encoded).to match("#{invite.user_first_name} may now be added to groups without the need to invite them again.")
       end
     end
   end
