@@ -11,7 +11,7 @@ class DraftMailer < ApplicationMailer
       email_subject = 'New Record Published in Metadata Management Tool'
     end
 
-    mail(to: "#{@user[:name]}, <#{@user[:email]}>", subject: email_subject) do |format|
+    mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject) do |format|
       format.html
       format.text
     end
