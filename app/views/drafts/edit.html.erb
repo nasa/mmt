@@ -51,9 +51,17 @@
             draft_forms: @draft_forms } %>
 
         <div class="row">
-          <div class="col-12">
+          <div class="col-6">
             <p class="eui-required-o">Indicates required field</p>
           </div>
+          <% unless %w(collection_information organizations personnel collection_citations).include? @draft_form  %>
+            <div class="col-6">
+              <p class="align-r">
+                <a href="#" class="expand-accordions">Expand All</a>
+                <a href="#" class="is-invisible collapse-accordions">Collapse All</a>
+              </p>
+            </div>
+          <% end %>
         </div>
 
         <%= render :partial => "drafts/forms/#{@draft_form}", :locals => { draft: @draft } %>
