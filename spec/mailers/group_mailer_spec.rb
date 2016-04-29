@@ -10,7 +10,7 @@ describe GroupMailer do
     end
 
     it 'renders the receiver email' do
-      expect(mail.to).to eq([invite.user_email])
+      expect(mail.to).to eq("#{invite.user_first_name} #{invite.user_last_name}, <#{invite.user_email}>")
     end
 
     it 'renders the sender email' do
@@ -32,8 +32,8 @@ describe GroupMailer do
         expect(mail.subject).to eq('Metadata Management Tool Invitation Accepted')
       end
 
-      it 'renders the receiver email' do
-        expect(mail.to).to eq([invite.manager_email])
+      it 'renders the receiver' do
+        expect(mail.to).to eq("#{invite.manager_name}, <#{invite.manager_email}>")
       end
 
       it 'renders the sender email' do
@@ -58,7 +58,7 @@ describe GroupMailer do
       end
 
       it 'renders the receiver email' do
-        expect(mail.to).to eq([invite.manager_email])
+        expect(mail.to).to eq("#{invite.manager_name}, <#{invite.manager_email}>")
       end
 
       it 'renders the sender email' do
