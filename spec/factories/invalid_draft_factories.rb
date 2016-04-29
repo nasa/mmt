@@ -72,6 +72,38 @@ FactoryGirl.define do
       }])
     }
   end
+
+  factory :draft_invalid_picklists, class: Draft do
+    draft {
+      all_required_fields.merge(
+        'ShortName' => '33333',
+        'EntryTitle' => 'Invalid Picklist Draft',
+        'ProcessingLevel' => {
+          'Id' => '1A'
+        },
+        'RelatedUrls' => [{
+          'MimeType' => 'badmimetype',
+          'URLs' => ['http://example.com/']
+        }],
+        'DataLanguage' => 'english',
+        'MetadataLanguage' => 'english',
+        'Platforms' => [{
+          'Type' => 'satellites',
+          'ShortName' => 'test 1 P ShortName',
+          'LongName' => 'test 1 P LongName'
+        }],
+        'Organizations' => [{
+          'Role' => 'RESOURCEPROVIDER',
+          'Party' => {
+            'OrganizationName' => {
+              'ShortName' => 'short_name',
+              'LongName' => 'Long Name'
+            }
+          }
+        }]
+      )
+    }
+  end
 end
 
 def all_required_fields
@@ -79,7 +111,7 @@ def all_required_fields
     'Platforms' => [{
       'Type' => 'Earth Observation Satellites',
       'ShortName' => 'test 1 P ShortName',
-      'LongName' => 'test 1 P LongName',
+      'LongName' => 'test 1 P LongName'
     }],
     'Abstract' => 'This is a long description of the collection',
     'DataDates' => [{

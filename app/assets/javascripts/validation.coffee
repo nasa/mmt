@@ -104,6 +104,7 @@ $(document).ready ->
           "Party is incomplete"
         else
           "#{field} should have one type completed"
+      when 'invalidPicklist' then "#{field} #{error.message}"
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -217,6 +218,47 @@ $(document).ready ->
               params: {}
             errors.push newError
 
+  validatePicklistValues = (errors) ->
+    $('select > option:disabled:selected').each ->
+      id = $(this).parent().attr('id')
+      visitedFields.push id
+
+      dataPath = switch
+        when /processing_level_id/.test id
+          '/ProcessingLevel/Id'
+        when /metadata_language/.test id
+          '/MetadataLanguage'
+        when /data_language/.test id
+          '/DataLanguage'
+        when /related_urls_\d*_mime_type/.test id
+          [_, index] = id.match /related_urls_(\d*)_mime_type/
+          "/RelatedUrls/#{index}/MimeType"
+        when /draft_platforms_\d*_type/.test id
+          [_, index] = id.match /platforms_(\d*)_type/
+          "/Platforms/#{index}/Type"
+        when /organizations_\d*_party_organization_name_short_name/.test id
+          [_, index] = id.match /organizations_(\d*)_party_organization_name_short_name/
+          "/Organizations/#{index}/Party/OrganizationName/ShortName"
+        # FileSize/Unit
+        # Address/Country
+          # State/Province
+
+      errors = errors.filter (err) ->
+        console.log "err: #{JSON.stringify(err)}"
+        if err.keyword == 'required'
+          dataPath.indexOf(err.dataPath) == -1
+        else
+          true
+
+      error = {}
+      error.keyword = 'invalidPicklist'
+      error.message = "value [#{$(this).val()}] does not match a valid selection option"
+      error.params = {}
+      error.dataPath = dataPath
+      errors.push error
+
+    errors
+
   validatePage = (opts) ->
     $('.validation-error').remove()
     $('.summary-errors').remove()
@@ -231,11 +273,10 @@ $(document).ready ->
     errors = validate.errors
 
     validateParameterRanges(errors)
+    errors = validatePicklistValues(errors)
 
     inlineErrors = []
     summaryErrors = []
-    formErrors.length = 0
-    formErrors.push(error) for error in errors
 
     # Display errors, from visited fields
     for error, index in errors
@@ -248,8 +289,8 @@ $(document).ready ->
 
         if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1
           # don't duplicate errors
-          inlineErrors.push error if $("##{error.id}:visible").length > 0
-          summaryErrors.push error if $("##{error.id}:visible").length > 0
+          inlineErrors.push error if $("##{error.id}").length > 0
+          summaryErrors.push error if $("##{error.id}").length > 0
 
     if inlineErrors.length > 0 and opts.showInline
       displayInlineErrors inlineErrors
@@ -270,7 +311,6 @@ $(document).ready ->
     valid
 
   visitedFields = []
-  formErrors = []
 
   # Validate the whole page on page load
   if $('.metadata-form').length > 0

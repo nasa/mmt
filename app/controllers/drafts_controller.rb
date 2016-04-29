@@ -252,7 +252,7 @@ class DraftsController < ApplicationController
 
   def set_language_codes
     if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
-      @language_codes = cmr_client.get_language_codes
+      @language_codes = cmr_client.get_language_codes.to_a
     end
   end
 

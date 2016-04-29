@@ -56,11 +56,17 @@ module FormHelper
     # restrict options for drop down if for metadata_date
     select_options.shift(2) if options[:metadata_date]
 
+    # append invalid disabled option
+    if options[:value] && invalid_select_option(select_options, options[:value])
+      select_options.unshift options[:value]
+      disabled_options = options[:value]
+    end
+
     styles = 'width: 100%;' if classes.include? 'select2-select'
 
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
-      options_for_select(select_options, options[:value]),
+      options_for_select(select_options, selected: options[:value], disabled: disabled_options),
       multiple: is_multi_select,
       size: size,
       class: classes,
@@ -166,5 +172,12 @@ module FormHelper
                                        metadata_update_date(metadata)['Date'])
 
     create_type + create_datetime + update_type + update_datetime
+  end
+
+  def invalid_select_option(options, value)
+    if options[0].class != Carmen::Country
+      matches = options.select { |option| option.include? value }
+      matches.empty?
+    end
   end
 end
