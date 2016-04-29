@@ -123,4 +123,37 @@ describe 'Draft form accordions', js: true do
       end
     end
   end
+
+  context 'when expanding all accordions manually' do
+    before do
+      click_on 'Distribution Information'
+
+      within '#related-urls.eui-accordion' do
+        find('.eui-accordion__header').click
+      end
+      within '#distributions.eui-accordion' do
+        find('.eui-accordion__header').click
+      end
+    end
+
+    it 'changes the Expand All link to Collapse All' do
+      expect(page).to have_link('Expand All', visible: false)
+      expect(page).to have_link('Collapse All')
+    end
+  end
+
+  context 'when collapsing all accordions manually' do
+    before do
+      click_on 'Related Urls'
+
+      within '#related-urls.eui-accordion' do
+        all('.eui-accordion__header').first.click
+      end
+    end
+
+    it 'changes the Collapse All link to Expand All' do
+      expect(page).to have_link('Collapse All', visible: false)
+      expect(page).to have_link('Expand All')
+    end
+  end
 end

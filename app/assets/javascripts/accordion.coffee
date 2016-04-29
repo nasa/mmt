@@ -27,3 +27,17 @@ $(document).ready ->
     $('.eui-accordion__body').slideUp('fast')
     $('.collapse-accordions').addClass('is-invisible')
     $('.expand-accordions').removeClass('is-invisible')
+
+  # Change Expand/Collapse All link if all accordions on page are collapsed or expanded
+  $('.eui-accordion__header').on 'click', ->
+    # We don't really care about every accordion on the page for this, just the top level accordions, or fieldset.eui-accordion
+
+    # if all accordions are closed
+    if $('fieldset.eui-accordion.is-closed').length == $('fieldset.eui-accordion').length
+      $('.collapse-accordions').addClass('is-invisible')
+      $('.expand-accordions').removeClass('is-invisible')
+
+    # if all accordions are open
+    if $('fieldset.eui-accordion.is-closed').length == 0
+      $('.collapse-accordions').removeClass('is-invisible')
+      $('.expand-accordions').addClass('is-invisible')
