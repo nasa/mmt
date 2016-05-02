@@ -12,9 +12,6 @@ class GroupMailer < ApplicationMailer
     @invite = invite
     @added = added
     mail(to: "#{@invite.manager_name} <#{@invite.manager_email}>",
-         subject: 'Metadata Management Tool Invitation Accepted') do |format|
-      format.html
-      format.text
-    end
+         subject: 'Metadata Management Tool Invitation Accepted')
   end
 end
