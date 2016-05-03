@@ -51,6 +51,11 @@ describe GroupMailer do
         expect(mail.html_part.body.encoded).to match("For your convenience, #{invite.user_first_name} has been added to #{invite.group_name}")
         expect(mail.text_part.body.encoded).to match("For your convenience, #{invite.user_first_name} has been added to #{invite.group_name}")
       end
+
+      it 'renders the group link' do
+        expect(mail.html_part.body).to have_link('View Group', href: group_url(invite.group_id))
+        expect(mail.text_part.body).to have_content(group_url(invite.group_id))
+      end
     end
 
     context 'without added' do
