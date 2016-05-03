@@ -7,7 +7,7 @@ article {
   @include row();
 
   &.row-content {
-    @include outer-container(76%);
+    @include outer-container;
   }
 }
 
@@ -20,7 +20,7 @@ main.dashboard {
 }
 
 section {
-  @include outer-container(76%);
+  @include outer-container;
 }
 
 // END NOTE
@@ -36,7 +36,7 @@ section {
 .col-9 { @include span-columns(9); }
 
 .content {
-  @include outer-container(76%);
+  @include outer-container;
 }
 
 .row {
