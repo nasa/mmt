@@ -14,10 +14,18 @@ module DraftsHelper
     ['Geodetic', 'GEODETIC']
   ]
   ContactTypeOptions = [
-    ['Phone'],
+    ['Direct Line'],
     ['Email'],
     ['Facebook'],
-    ['Twitter']
+    ['Fax'],
+    ['Mobile'],
+    ['Modem'],
+    ['Primary'],
+    ['TDD/TTY Phone'],
+    ['Telephone'],
+    ['Twitter'],
+    ['U.S. toll free'],
+    ['Other'],
   ]
   DataTypeOptions = [
     ['String', 'STRING'],
