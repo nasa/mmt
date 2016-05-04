@@ -50,9 +50,8 @@ previewSpatial = {}
 $(window).resize ->
   drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
 
-$(document).ready ->
-  # Sometimes (ugh), this gets drawn too soon and the spatial area is drawn
-  # too low. setTimeout keeps it from happening
-  setTimeout ->
-    drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
-  , 0
+# using window on load vs document ready waits until all images are loaded
+# so the correct coordinates are gathered for mapPosition
+# http://stackoverflow.com/questions/544993/official-way-to-ask-jquery-wait-for-all-images-to-load-before-executing-somethin
+$(window).on 'load', ->
+  drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
