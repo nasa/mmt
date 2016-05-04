@@ -30,6 +30,7 @@ module CollectionsHelper
        metadata['SpatialExtent']['HorizontalSpatialDomain'] &&
        metadata['SpatialExtent']['HorizontalSpatialDomain']['Geometry']
 
+      # needs to be aligned with size of map image on metadata preview
       map_width = 309
       map_height = 154.5
 
