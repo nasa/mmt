@@ -11,11 +11,14 @@
     title: 'Temporal Range Type',
     help: 'definitions/TemporalExtentType/properties/TemporalRangeType'
   ) %>
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'SingleDateTime', temporal_range_type == 'SingleDateTime', class: 'temporal-range-type-select validate', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_SingleDateTime">Single</label></p>
+  <a href="javascript:void(0)" class="clear-radio-button" data-content="temporal-range-type">Clear Selection</a>
+  <div class="temporal-range-type-group">
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'SingleDateTime', temporal_range_type == 'SingleDateTime', class: 'temporal-range-type-select validate', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_SingleDateTime">Single</label></p>
 
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'RangeDateTime', temporal_range_type == 'RangeDateTime', class: 'temporal-range-type-select validate', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_RangeDateTime">Range</label></p>
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'RangeDateTime', temporal_range_type == 'RangeDateTime', class: 'temporal-range-type-select validate', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_RangeDateTime">Range</label></p>
 
-  <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'PeriodicDateTime', temporal_range_type == 'PeriodicDateTime', class: 'temporal-range-type-select validate', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_PeriodicDateTime">Periodic</label></p>
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'PeriodicDateTime', temporal_range_type == 'PeriodicDateTime', class: 'temporal-range-type-select validate', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_PeriodicDateTime">Periodic</label></p>
+  </div>
 
   <!-- PrecisionOfSeconds -->
   <%= mmt_text_field(

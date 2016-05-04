@@ -10,18 +10,21 @@
     title: 'Spatial Coverage Type',
     help: 'definitions/SpatialExtentType/properties/SpatialCoverageType'
   ) %>
-  <p class="radio-group">
-    <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
-    <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label>
-  </p>
-  <p class="radio-group">
-    <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
-    <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label>
-  </p>
-  <p class="radio-group">
-    <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'ORBITAL', spatial_coverage_type == 'ORBITAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
-    <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_ORBITAL">Orbit</label>
-  </p>
+  <a href="javascript:void(0)" class="clear-radio-button" data-content="spatial-coverage-type">Clear Selection</a>
+  <div class="spatial-coverage-type-group">
+    <p class="radio-group">
+      <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label>
+    </p>
+    <p class="radio-group">
+      <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label>
+    </p>
+    <p class="radio-group">
+      <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'ORBITAL', spatial_coverage_type == 'ORBITAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_ORBITAL">Orbit</label>
+    </p>
+  </div>
 
 
   <!-- HorizontalSpatialDomain -->
