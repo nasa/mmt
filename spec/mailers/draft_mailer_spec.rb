@@ -22,6 +22,7 @@ describe DraftMailer do
       end
 
       it 'renders the new record published notice' do
+        expect(mail.html_part.body).to have_content("New Metadata Record")
         expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully published to the CMR.")
         expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully published to the CMR.")
       end
@@ -56,6 +57,7 @@ describe DraftMailer do
       end
 
       it 'renders the record updated notice' do
+        expect(mail.html_part.body).to have_content("Updated Metadata Record")
         expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully updated.")
         expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully updated.")
       end
