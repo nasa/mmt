@@ -224,19 +224,19 @@ class DraftsController < ApplicationController
     # for each bad field, if the value doesn't appear in the picklist values, create an error
     if metadata
       if metadata['ProcessingLevel'] && metadata['ProcessingLevel']['Id']
-        unless DraftsHelper::ProcessingLevelIdOptions.include? metadata['ProcessingLevel']['Id']
+        unless DraftsHelper::ProcessingLevelIdOptions.flatten.include? metadata['ProcessingLevel']['Id']
           errors << "The property '#/ProcessingLevel/Id' was invalid"
         end
       end
 
       if metadata['MetadataLanguage']
-        unless @language_codes.include? metadata['MetadataLanguage']
+        unless @language_codes.flatten.include? metadata['MetadataLanguage']
           errors << "The property '#/MetadataLanguage' was invalid"
         end
       end
 
       if metadata['DataLanguage']
-        unless @language_codes.include? metadata['DataLanguage']
+        unless @language_codes.flatten.include? metadata['DataLanguage']
           errors << "The property '#/DataLanguage' was invalid"
         end
       end
