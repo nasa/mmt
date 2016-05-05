@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 describe UserInvite do
+  before do
+    ActionMailer::Base.deliveries.clear
+  end
+
+  after do
+    ActionMailer::Base.deliveries.clear
+  end
+
   # self.new_invite method
   it '"self.new_invite" creates a new UserInvite' do
     user = {
@@ -35,10 +43,6 @@ describe UserInvite do
   context '"accept_invite" method' do
     let(:invite) { create(:user_invite) }
 
-    after do
-      ActionMailer::Base.deliveries.clear
-    end
-
     it 'sets active to false' do
       invite
       invite.accept_invite(nil, 'testuser', 'access_token')
@@ -60,7 +64,5 @@ describe UserInvite do
     invite.send_invite
 
     expect(ActionMailer::Base.deliveries.count).to eq(1)
-
-    ActionMailer::Base.deliveries.clear
   end
 end

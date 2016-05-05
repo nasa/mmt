@@ -18,8 +18,10 @@ describe GroupMailer do
     end
 
     it 'assigns @invite' do
-      expect(mail.body.encoded).to match("#{invite.user_first_name}, #{invite.manager_name} from #{invite.provider}")
-      expect(mail.body.encoded).to match("http://localhost:3000/accept_invite/#{invite.token}")
+      expect(mail.html_part.body.encoded).to match("#{invite.user_first_name}, #{invite.manager_name} from #{invite.provider}")
+      expect(mail.html_part.body.encoded).to match("http://localhost:3000/accept_invite/#{invite.token}")
+      expect(mail.text_part.body.encoded).to match("#{invite.user_first_name}, #{invite.manager_name} from #{invite.provider}")
+      expect(mail.text_part.body.encoded).to match("http://localhost:3000/accept_invite/#{invite.token}")
     end
   end
 
@@ -41,11 +43,18 @@ describe GroupMailer do
       end
 
       it 'assigns @invite' do
-        expect(mail.body.encoded).to match("#{invite.user_first_name + ' ' + invite.user_last_name} has authorized MMT to acces their Earthdata Login profile.")
+        expect(mail.html_part.body.encoded).to match("#{invite.user_first_name + ' ' + invite.user_last_name} has authorized MMT to acces their Earthdata Login profile.")
+        expect(mail.text_part.body.encoded).to match("#{invite.user_first_name + ' ' + invite.user_last_name} has authorized MMT to acces their Earthdata Login profile.")
       end
 
       it 'assigns @added' do
-        expect(mail.body.encoded).to match("For your convenience, #{invite.user_first_name} has been added to #{invite.group_name}")
+        expect(mail.html_part.body.encoded).to match("For your convenience, #{invite.user_first_name} has been added to #{invite.group_name}")
+        expect(mail.text_part.body.encoded).to match("For your convenience, #{invite.user_first_name} has been added to #{invite.group_name}")
+      end
+
+      it 'renders the group link' do
+        expect(mail.html_part.body).to have_link('View Group', href: group_url(invite.group_id))
+        expect(mail.text_part.body).to have_content(group_url(invite.group_id))
       end
     end
 
@@ -66,11 +75,13 @@ describe GroupMailer do
       end
 
       it 'assigns @invite' do
-        expect(mail.body.encoded).to match("#{invite.user_first_name + ' ' + invite.user_last_name} has authorized MMT to acces their Earthdata Login profile.")
+        expect(mail.html_part.body.encoded).to match("#{invite.user_first_name + ' ' + invite.user_last_name} has authorized MMT to acces their Earthdata Login profile.")
+        expect(mail.text_part.body.encoded).to match("#{invite.user_first_name + ' ' + invite.user_last_name} has authorized MMT to acces their Earthdata Login profile.")
       end
 
       it 'assigns @added' do
-        expect(mail.body.encoded).to match("#{invite.user_first_name} may now be added to groups without the need to invite them again.")
+        expect(mail.html_part.body.encoded).to match("#{invite.user_first_name} may now be added to groups without the need to invite them again.")
+        expect(mail.text_part.body.encoded).to match("#{invite.user_first_name} may now be added to groups without the need to invite them again.")
       end
     end
   end

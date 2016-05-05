@@ -96,6 +96,11 @@ class DraftsController < ApplicationController
       xml = MultiXml.parse(ingested.body)
       concept_id = xml['result']['concept_id']
       revision_id = xml['result']['revision_id']
+
+      # instantiate and deliver notification email
+      user_info = get_user_info
+      DraftMailer.draft_published_notification(user_info, concept_id, revision_id).deliver_now
+
       flash[:success] = 'Draft was successfully published.'
       redirect_to collection_path(concept_id, revision_id: revision_id)
     else
@@ -305,5 +310,12 @@ class DraftsController < ApplicationController
       organizations = get_organization_short_names_long_names_urls(organizations)
       @organizations = organizations.sort
     end
+  end
+
+  def get_user_info
+    user = {}
+    user[:name] = session[:name]
+    user[:email] = session[:email_address]
+    user
   end
 end
