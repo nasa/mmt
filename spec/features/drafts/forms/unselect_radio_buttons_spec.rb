@@ -94,7 +94,7 @@ describe 'Unselecting radio buttons', js: true do
     context 'when clearing the Spatial Representation Information Spatial Coverage Type' do
       before do
         within '.spatial-information' do
-          click_on 'Clear Selection'
+          click_on 'Clear'
         end
       end
 
@@ -132,7 +132,7 @@ describe 'Unselecting radio buttons', js: true do
     context 'when clearing the Temporal Range Type' do
       before do
         within '.temporal-extents > .multiple-item-2' do
-          click_on 'Clear Selection'
+          click_on 'Clear'
         end
       end
 

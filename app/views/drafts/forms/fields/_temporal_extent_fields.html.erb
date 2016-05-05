@@ -11,7 +11,7 @@
     title: 'Temporal Range Type',
     help: 'definitions/TemporalExtentType/properties/TemporalRangeType'
   ) %>
-  <a href="javascript:void(0)" class="clear-radio-button" data-content="temporal-range-type">Clear Selection</a>
+  <a href="javascript:void(0)" class="clear-radio-button" data-content="temporal-range-type">Clear</a>
   <div class="temporal-range-type-group">
     <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'SingleDateTime', temporal_range_type == 'SingleDateTime', class: 'temporal-range-type-select validate', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_SingleDateTime">Single</label></p>
 
