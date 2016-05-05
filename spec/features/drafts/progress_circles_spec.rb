@@ -45,7 +45,7 @@ describe 'Progress circles', js: true do
         add_related_urls(RelatedUrlFieldsHelper::DISTRIBUTION_FORM)
 
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
       end
 
@@ -75,7 +75,7 @@ describe 'Progress circles', js: true do
         end
 
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
         # Accept modal
         click_on 'Yes'
@@ -102,7 +102,7 @@ describe 'Progress circles', js: true do
         end
 
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
       end
 

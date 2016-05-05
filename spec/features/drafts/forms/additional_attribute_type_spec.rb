@@ -52,7 +52,7 @@ describe 'Additional Attribute data type', js: true do
           fill_in 'Name', with: 'Attribute name'
 
           within '.nav-top' do
-            click_on 'Save & Done'
+            click_on 'Done'
           end
           click_on 'Yes'
         end

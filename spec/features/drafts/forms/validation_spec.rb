@@ -98,7 +98,7 @@ describe 'Data validation for a form', js: true do
     context 'full page validation works' do
       before do
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
         # Reject
         click_on 'No'
@@ -126,7 +126,7 @@ describe 'Data validation for a form', js: true do
         fill_in 'Value', with: '42'
       end
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # Reject
       click_on 'No'
@@ -140,7 +140,7 @@ describe 'Data validation for a form', js: true do
         fill_in 'Description', with: empty_string
       end
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # Reject
       click_on 'No'
@@ -276,7 +276,7 @@ describe 'Data validation for a form', js: true do
       choose 'draft_temporal_extents_0_ends_at_present_flag_true'
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # Reject
       click_on 'No'
@@ -290,7 +290,7 @@ describe 'Data validation for a form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
 
       expect(page).to have_content('Draft was successfully updated')
@@ -308,7 +308,7 @@ describe 'Data validation for a form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
     end
 
@@ -344,7 +344,7 @@ describe 'Data validation for a form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # Reject
       click_on 'No'
@@ -377,7 +377,7 @@ describe 'Data validation for a form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # Reject
       click_on 'No'
@@ -396,7 +396,7 @@ describe 'Data validation for a form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # Reject
       click_on 'No'
@@ -420,7 +420,7 @@ describe 'Data validation for a form', js: true do
       expect(page).to have_content('URLs is an invalid URI')
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # Reject
       click_on 'No'
@@ -431,7 +431,7 @@ describe 'Data validation for a form', js: true do
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
 
       expect(page).to have_content('Draft was successfully updated')
@@ -444,7 +444,7 @@ describe 'Data validation for a form', js: true do
       expect(page).to have_content('URLs is an invalid URI')
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # Reject
       click_on 'No'
@@ -454,7 +454,7 @@ describe 'Data validation for a form', js: true do
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
 
       expect(page).to have_content('Draft was successfully updated')

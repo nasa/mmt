@@ -1,19 +1,20 @@
-<div class="row metadata-cta nav-<%= location %>">
+<div class="row align-c metadata-cta nav-<%= location %>">
   <div class="col-2">
-    <%= submit_tag 'Save & Done', class: 'eui-btn--blue save-form' %>
+    <%= submit_tag 'Previous', class: 'eui-btn--green save-form' %>
   </div>
 
-  <div class="col-7 form-nav">
+  <div class="col-6 form-nav">
     <label for="next-section-<%= location %>">Save &amp; Jump To: </label>
 
     <%= select_tag 'next_section', options_for_select(draft_forms.map{|form| [form.titleize, form]}, draft_form), class: 'next-section', id: "next-section-#{location}" %>
   </div>
 
   <div class="col-2">
-    <%= submit_tag 'Save & Next', class: 'eui-btn--green save-form' %>
+    <%= submit_tag 'Next', class: 'eui-btn--green save-form' %>
   </div>
 
-  <div class="col-1">
+  <div class="col-2">
+    <%= submit_tag 'Done', class: 'eui-btn--blue save-form' %>
     <% if draft.new_record? %>
       <%= link_to 'Cancel', new_draft_path, class: 'cancel' %>
     <% else %>

@@ -18,9 +18,10 @@ class Draft < ActiveRecord::Base
     metadata_information
   )
 
-  def self.get_next_form(name)
+  def self.get_next_form(name, direction)
+    delta = direction == 'Next' ? 1 : -1
     index = DRAFT_FORMS.index(name)
-    DRAFT_FORMS[index + 1] || DRAFT_FORMS.first
+    DRAFT_FORMS[index + delta] || DRAFT_FORMS.first
   end
 
   def display_entry_title
@@ -57,7 +58,7 @@ class Draft < ActiveRecord::Base
         save
       end
     end
-    # This keeps an empty form from sending the user back to draft_path when clicking on Save & Next
+    # This keeps an empty form from sending the user back to draft_path when clicking on Next
     true
   end
 

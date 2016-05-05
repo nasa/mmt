@@ -31,7 +31,7 @@ describe 'Number fields', js: true do
       select 'Cartesian', from: 'Granule Spatial Representation'
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
 
       click_on 'Yes'
@@ -88,7 +88,7 @@ describe 'Number fields', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
 
       click_on 'Yes'

@@ -53,11 +53,11 @@ class DraftsController < ApplicationController
       flash[:success] = 'Draft was successfully updated.'
 
       case params[:commit]
-      when 'Save & Done'
+      when 'Done'
         redirect_to @draft
-      when 'Save & Next'
+      when 'Next', 'Previous'
         # Determine next form to go to
-        next_form_name = Draft.get_next_form(params['next_section'])
+        next_form_name = Draft.get_next_form(params['next_section'], params[:commit])
         redirect_to draft_edit_form_path(@draft, next_form_name)
       else # Jump directly to a form
         next_form_name = params['new_form_name']
