@@ -74,6 +74,8 @@ FactoryGirl.define do
   end
 
   factory :draft_invalid_picklists, class: Draft do
+    native_id 'invalid_picklists_draft_id'
+    provider_id 'MMT_2'
     draft {
       all_required_fields.merge(
         'ShortName' => '33333',

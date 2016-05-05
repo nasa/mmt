@@ -220,6 +220,34 @@ class DraftsController < ApplicationController
     errors
   end
 
+  def validate_picklists(errors, metadata)
+    # for each bad field, if the value doesn't appear in the picklist values, create an error
+    if metadata
+      if metadata['ProcessingLevel'] && metadata['ProcessingLevel']['Id']
+        unless DraftsHelper::ProcessingLevelIdOptions.include? metadata['ProcessingLevel']['Id']
+          errors << "The property '#/ProcessingLevel/Id' was invalid"
+        end
+      end
+
+      if metadata['MetadataLanguage']
+        unless @language_codes.include? metadata['MetadataLanguage']
+          errors << "The property '#/MetadataLanguage' was invalid"
+        end
+      end
+
+      if metadata['DataLanguage']
+        unless @language_codes.include? metadata['DataLanguage']
+          errors << "The property '#/DataLanguage' was invalid"
+        end
+      end
+
+      # how do I figure out fields that are within arrays, like ['RelatedUrls'][0]['MimeType']
+
+    end
+
+    errors
+  end
+
   def validate_metadata
     schema = 'lib/assets/schemas/umm-c-json-schema.json'
 
@@ -235,6 +263,7 @@ class DraftsController < ApplicationController
 
     errors = Array.wrap(JSON::Validator.fully_validate(schema, @draft.draft))
     errors = validate_parameter_ranges(errors, @draft.draft)
+    errors = validate_picklists(errors, @draft.draft)
     errors.map { |error| generate_show_errors(error) }.flatten
   end
 

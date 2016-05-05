@@ -239,12 +239,12 @@ $(document).ready ->
         when /organizations_\d*_party_organization_name_short_name/.test id
           [_, index] = id.match /organizations_(\d*)_party_organization_name_short_name/
           "/Organizations/#{index}/Party/OrganizationName/ShortName"
-        # FileSize/Unit
-        # Address/Country
+        # FileSize/Unit (RelatedUrls and Distributions)
+        # Address/Country (Organizations and Personnel)
           # State/Province
 
       errors = errors.filter (err) ->
-        console.log "err: #{JSON.stringify(err)}"
+        # console.log "err: #{JSON.stringify(err)}"
         if err.keyword == 'required'
           dataPath.indexOf(err.dataPath) == -1
         else
