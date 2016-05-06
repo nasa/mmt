@@ -114,23 +114,15 @@ describe 'Personnel preview' do
       end
 
       it 'displays only the no address entered message' do
-        within '.personnel-cards' do
-          within '.card-body.active' do
-            within '.card-body-details' do
-              expect(page).to have_content('This person does not have any addresses listed.')
-            end
-          end
+        within '.personnel-cards .card-body.active .card-body-details' do
+          expect(page).to have_content('This person does not have any addresses listed.')
         end
       end
 
       it 'displays the other entered metadata' do
-        within '.personnel-cards' do
-          within '.card-body.active' do
-            within '.card-body-aside' do
-              expect(page).to have_content('555-1212')
-              expect(page).to have_link('Email', href: 'mailto:example@example.com')
-            end
-          end
+        within '.personnel-cards .card-body.active .card-body-aside' do
+          expect(page).to have_content('555-1212')
+          expect(page).to have_link('Email', href: 'mailto:example@example.com')
         end
       end
     end
