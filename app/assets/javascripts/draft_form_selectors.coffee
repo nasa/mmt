@@ -1,47 +1,28 @@
 $(document).ready ->
-  # Handle responsibility-picker (org/person)
-  $('.responsibility-picker').change ->
-    partyType = $(this).parents('.party-type')
-    switch $(this).val()
-      when 'organization'
-        $(partyType).siblings('.organization-fields').show()
-        $(partyType).siblings('.person-fields').hide()
-      when 'person'
-        $(partyType).siblings('.organization-fields').hide()
-        $(partyType).siblings('.person-fields').show()
-
-    # Clear all org and person fields
-    $.each $(partyType).siblings('.organization-fields, .person-fields').find('input'), (index, field) ->
-      $(field).val ''
-
-    # Toggle checkboxes
-    $(this).siblings('.responsibility-picker').prop 'checked', false
-    $(this).prop 'checked', true
-
   # Handle geometry-picker (points/rectangles/polygons/lines)
   $('.geometry-picker').change ->
-    geometryType = $(this).parents('.geometry-type')
-    $(geometryType).siblings('.points-fields').hide()
-    $(geometryType).siblings('.bounding-rectangles-fields').hide()
-    $(geometryType).siblings('.g-polygons-fields').hide()
-    $(geometryType).siblings('.lines-fields').hide()
+    geometryType = $(this).parents('.geometry-type-group')
+    $('.geometry-type .points-fields').hide()
+    $('.geometry-type .bounding-rectangles-fields').hide()
+    $('.geometry-type .g-polygons-fields').hide()
+    $('.geometry-type .lines-fields').hide()
 
     switch $(this).val()
       when 'points'
-        $(geometryType).siblings('.points-fields').show()
+        $('.geometry-type .points-fields').show()
       when 'bounding-rectangles'
-        $(geometryType).siblings('.bounding-rectangles-fields').show()
+        $('.geometry-type .bounding-rectangles-fields').show()
       when 'g-polygons'
-        $(geometryType).siblings('.g-polygons-fields').show()
+        $('.geometry-type .g-polygons-fields').show()
       when 'lines'
-        $(geometryType).siblings('.lines-fields').show()
+        $('.geometry-type .lines-fields').show()
 
     # Clear all fields
-    $.each $(geometryType).siblings('.points-fields, .bounding-rectangles-fields, .g-polygons-fields, .lines-fields').find('input'), (index, field) ->
+    $.each $('.geometry-type').find('.points-fields, .bounding-rectangles-fields, .g-polygons-fields, .lines-fields').find('input'), (index, field) ->
       $(field).val ''
 
     # Toggle checkboxes
-    $(geometryType).find('.geometry-picker').prop 'checked', false
+    $('.geometry-picker').prop 'checked', false
     $(this).prop 'checked', true
 
   # Handle coordinate-system-picker (geographic/local)
@@ -65,20 +46,21 @@ $(document).ready ->
 
   # Handle TemporalRangeType selector
   $('.temporal-range-type-select').change ->
-    $(this).parent().siblings('.temporal-range-type').hide()
+    $parent = $(this).parents('.temporal-range-type-group')
+    $parent.siblings('.temporal-range-type').hide()
     # Clear all fields
-    $(this).parent().siblings('.temporal-range-type').find('input, select').val ''
+    $parent.siblings('.temporal-range-type').find('input, select').val ''
     switch $(this).val()
       when 'SingleDateTime'
-        $(this).parent().siblings('.temporal-range-type.single-date-time').show()
+        $parent.siblings('.temporal-range-type.single-date-time').show()
       when 'RangeDateTime'
-        $(this).parent().siblings('.temporal-range-type.range-date-time').show()
+        $parent.siblings('.temporal-range-type.range-date-time').show()
       when 'PeriodicDateTime'
-        $(this).parent().siblings('.temporal-range-type.periodic-date-time').show()
+        $parent.siblings('.temporal-range-type.periodic-date-time').show()
 
   # Handle SpatialCoverageType selector
   $('.spatial-coverage-type-select').change ->
-    $parent = $(this).parent()
+    $parent = $(this).parents('.spatial-coverage-type-group')
 
     $parent.siblings('.spatial-coverage-type').hide()
 
@@ -130,3 +112,14 @@ $(document).ready ->
       $end.prop 'disabled', false
       $begin.removeClass('disabled')
       $end.removeClass('disabled')
+
+  # Clear radio button selection and hide content
+  $('.clear-radio-button').on 'click', ->
+    $fieldset = $(this).parents('fieldset')
+    content = $(this).data('content')
+
+    $(this).siblings().find('input, select, textarea').not('input[type="radio"]').val ''
+    $fieldset.find(".#{content}-group input[type='radio']").prop 'checked', false
+    $fieldset.find(".#{content} input[type='radio']").prop 'checked', false
+
+    $fieldset.find(".#{content}").hide()
