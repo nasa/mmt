@@ -119,43 +119,4 @@ describe 'Unselecting radio buttons', js: true do
       end
     end
   end
-
-  context 'when viewing the Temporal Information form' do
-    before do
-      within '.metadata' do
-        click_on 'Temporal Information', match: :first
-      end
-
-      open_accordions
-    end
-
-    context 'when clearing the Temporal Range Type' do
-      before do
-        within '.temporal-extents > .multiple-item-2' do
-          click_on 'Clear'
-        end
-      end
-
-      it 'clears the radio buttons' do
-        within '.temporal-extents > .multiple-item-2' do
-          expect(page).to have_no_checked_field('Single')
-          expect(page).to have_no_checked_field('Range')
-          expect(page).to have_no_checked_field('Periodic')
-        end
-      end
-
-      it 'hides the form fields' do
-        expect(page).to have_css('.temporal-range-type.single-date-time', visible: false)
-        expect(page).to have_css('.temporal-range-type.range-date-time', visible: false)
-        expect(page).to have_css('.temporal-range-type.periodic-date-time', visible: false)
-      end
-
-      it 'clears the form fields' do
-        script = "$('.temporal-extents > .multiple-item-2 .periodic-date-times').find('input').val()"
-        result = page.evaluate_script(script)
-
-        expect(result).to eq('')
-      end
-    end
-  end
 end
