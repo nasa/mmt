@@ -22,7 +22,7 @@ describe 'Clearing saved science keywords', js: true do
       click_on 'Add Keyword'
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
 
       open_accordions
@@ -55,7 +55,7 @@ describe 'Clearing saved science keywords', js: true do
           end
 
           within '.nav-top' do
-            click_on 'Save & Done'
+            click_on 'Done'
           end
         end
 

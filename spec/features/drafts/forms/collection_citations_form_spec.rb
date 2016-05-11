@@ -19,7 +19,7 @@ describe 'Collection citations form', js: true do
       add_collection_citations
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
       # output_schema_validation Draft.first.draft
       open_accordions

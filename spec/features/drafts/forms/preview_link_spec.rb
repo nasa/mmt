@@ -54,7 +54,7 @@ describe 'Preview on Map link', js: true do
       context 'when saving and reloading the page' do
         before do
           within '.nav-top' do
-            click_on 'Save & Done'
+            click_on 'Done'
           end
           # Accept
           click_on 'Yes'
@@ -107,7 +107,7 @@ describe 'Preview on Map link', js: true do
       context 'when saving and reloading the page' do
         before do
           within '.nav-top' do
-            click_on 'Save & Done'
+            click_on 'Done'
           end
           # Accept
           click_on 'Yes'
@@ -176,7 +176,7 @@ describe 'Preview on Map link', js: true do
       context 'when saving and reloading the page' do
         before do
           within '.nav-top' do
-            click_on 'Save & Done'
+            click_on 'Done'
           end
           # Accept
           click_on 'Yes'

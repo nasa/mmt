@@ -10,7 +10,7 @@ describe 'Personnel preview' do
       end
 
       it 'does not display metadata' do
-        expect(page).to have_content('There are no listed organizations for this collection.')
+        expect(page).to have_content('There are no listed personnel for this collection.')
       end
     end
 
@@ -92,6 +92,37 @@ describe 'Personnel preview' do
               expect(page).to have_link('http://example.com/1', href: 'http://example.com/1')
             end
           end
+        end
+      end
+    end
+
+    context 'when Personnel information has no name or address' do
+      before do
+        login
+        draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
+
+        draft.draft['Personnel'] = [{'Party'=>{'Contacts'=>[{'Type'=>'Direct Line', 'Value'=>'555-1212'}, {'Type'=>'Email', 'Value'=>'example@example.com'}]}}]
+        draft.save
+
+        visit draft_path(draft)
+      end
+
+      it 'does not display name information in the card header' do
+        within '.personnel-cards' do
+          expect(page.find('.card-header').text).to eq('')
+        end
+      end
+
+      it 'displays only the no address entered message' do
+        within '.personnel-cards .card-body.active .card-body-details' do
+          expect(page).to have_content('This person does not have any addresses listed.')
+        end
+      end
+
+      it 'displays the other entered metadata' do
+        within '.personnel-cards .card-body.active .card-body-aside' do
+          expect(page).to have_content('555-1212')
+          expect(page).to have_link('Email', href: 'mailto:example@example.com')
         end
       end
     end

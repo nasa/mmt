@@ -36,7 +36,7 @@ describe 'Auto populating metadata dates', js: true do
         add_metadata_dates
 
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
 
         click_on 'Publish'

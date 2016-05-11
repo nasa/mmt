@@ -25,6 +25,7 @@ section {
 
 // END NOTE
 
+.col-1 { @include span-columns(1); }
 .col-2 { @include span-columns(2); }
 .col-3 { @include span-columns(3); }
 .col-4 { @include span-columns(4); }

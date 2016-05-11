@@ -33,7 +33,7 @@ describe 'Draft creation', js: true do
         fill_in 'Short Name', with: '123'
 
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
         # Accept
         click_on 'Yes'

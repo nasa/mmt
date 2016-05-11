@@ -43,7 +43,7 @@ describe 'Data validation on each form for the factory draft', js: true do
         expect(page).not_to have_selector(validation_element_display_selector_string)
 
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
 
         expect(page).not_to have_selector(validation_element_display_selector_string)

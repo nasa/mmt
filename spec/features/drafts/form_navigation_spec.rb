@@ -40,7 +40,7 @@ describe 'Draft form navigation', js: true do
   end
 
   Draft::DRAFT_FORMS.each do |form|
-    next_form = Draft.get_next_form(form).titleize
+    next_form = Draft.get_next_form(form, 'Next').titleize
 
     context "when choosing #{next_form} from the form selection drop down" do
       before do
@@ -63,21 +63,21 @@ describe 'Draft form navigation', js: true do
 
   Draft::DRAFT_FORMS.size.times do |index|
     current_form = Draft::DRAFT_FORMS[index].titleize
-    next_form = Draft.get_next_form(current_form.parameterize.underscore).titleize
+    next_form = Draft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
 
-    context 'when pressing the Save & Next button' do
+    context 'when pressing the Next button' do
       before do
         click_on current_form, match: :first
 
         within '.nav-top' do
-          click_on 'Save & Next'
+          click_on 'Next'
         end
 
         # These forms are invalid, and need to click 'Yes' to get to the next form
         invalid_forms = ['Acquisition Information', 'Collection Information', 'Organizations']
         click_on 'Yes' if invalid_forms.include?(current_form)
 
-        next_form = Draft.get_next_form(current_form.parameterize.underscore).titleize
+        next_form = Draft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
         current_form = next_form
       end
 
@@ -94,15 +94,48 @@ describe 'Draft form navigation', js: true do
     end
   end
 
+  Draft::DRAFT_FORMS.size.times do |index|
+    current_form = Draft::DRAFT_FORMS[index].titleize
+    previous_form = Draft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
+
+    context 'when pressing the Previous button' do
+      before do
+        click_on current_form, match: :first
+
+        within '.nav-top' do
+          click_on 'Previous'
+        end
+
+        # These forms are invalid, and need to click 'Yes' to get to the next form
+        invalid_forms = ['Acquisition Information', 'Collection Information', 'Organizations']
+        click_on 'Yes' if invalid_forms.include?(current_form)
+
+        previous_form = Draft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
+        current_form = previous_form
+      end
+
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Draft was successfully updated')
+      end
+
+      it "displays the correct page (#{previous_form})" do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content(previous_form)
+        end
+        expect(page).to_not have_content(SUMMARY_PAGE_STRING)
+      end
+    end
+  end
+
   context 'when on the first form page' do
     before do
       click_on 'Metadata Information'
     end
 
-    context 'Clicking Save & Done' do
+    context 'Clicking Done' do
       before do
         within '.nav-top' do
-          click_on 'Save & Done'
+          click_on 'Done'
         end
       end
 

@@ -15,7 +15,7 @@
       <ul class="personnel-cards cards">
         <% metadata['Personnel'].each_with_index do |person, person_index| %>
           <% party = person['Party'] %>
-          <% person_name = party['Person'] %>
+          <% person_name = party['Person'] || {} %>
           <li class="card">
             <div class="card-header">
               <h5 class="card-header-title">
@@ -72,19 +72,16 @@
                   <ul>
                     <% party['Contacts'].each do |contact| %>
                       <li>
-                        <% if contact["Type"] == 'Phone' %>
+                        <% if MetadataPreviewHelper::PhoneContactTypes.include?(contact['Type']) %>
                           <i class="fa fa-phone-square"></i>
                           <%= contact['Value'] %>
-                        <% end %>
-                        <% if contact["Type"] == 'Email' %>
+                        <% elsif contact['Type'] == 'Email' %>
                           <i class="fa fa-envelope"></i>
                           <a href="mailto:<%= contact['Value'] %>" title="<%= contact['Value'] %>">Email</a>
-                        <% end %>
-                        <% if contact["Type"] == 'Twitter' %>
+                        <% elsif contact['Type'] == 'Twitter' %>
                           <i class="fa fa-twitter-square"></i>
                           <a href="<%= contact['Value'] %>">Twitter</a>
-                        <% end %>
-                        <% if contact["Type"] == 'Facebook' %>
+                        <% elsif contact['Type'] == 'Facebook' %>
                           <i class="fa fa-facebook-square"></i>
                           <a href="<%= contact['Value'] %>">Facebook</a>
                         <% end %>

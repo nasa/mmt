@@ -7,11 +7,17 @@ include ActionView::Helpers::NumberHelper
 describe 'Publishing draft records', js: true, reset_provider: true do
   context 'when publishing a draft record' do
     before do
+      ActionMailer::Base.deliveries.clear
+
       login
       draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
       visit draft_path(draft)
       click_on 'Publish'
       open_accordions
+    end
+
+    after do
+      ActionMailer::Base.deliveries.clear
     end
 
     it 'displays a confirmation message' do
@@ -35,6 +41,10 @@ describe 'Publishing draft records', js: true, reset_provider: true do
       expect(page).to have_no_content('No Spatial Coordinates found')
       expect(page).to have_no_content('No Spatial Keywords found')
       expect(page).to have_no_content('No Temporal Coverages found')
+    end
+
+    it 'sends the user a notification email' do
+      expect(ActionMailer::Base.deliveries.count).to eq(1)
     end
 
     context 'when searching for the published record' do
@@ -80,7 +90,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
       select 'Orbit', from: 'Granule Spatial Representation'
 
       within '.nav-top' do
-        click_on 'Save & Done'
+        click_on 'Done'
       end
 
       click_on 'Publish'
