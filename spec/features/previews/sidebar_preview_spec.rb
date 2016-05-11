@@ -12,7 +12,7 @@ describe 'Sidebar preview' do
       it 'does not display metadata' do
         within 'aside.geographic-coverage' do
           expect(page).to have_content('No Spatial Coordinates found')
-          expect(page).to have_content('No Spatial Keywords found')
+          expect(page).to have_content('No Location Keywords found')
           expect(page).to have_content('No Temporal Coverages found')
         end
       end
@@ -58,11 +58,11 @@ describe 'Sidebar preview' do
             end
           end
           within '.location-keyword-sidebar' do
-            within all('li')[0] do
-              expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
+            within all('ul')[0] do
+              expect(page).to have_content('GEOGRAPHIC REGION ARCTIC')
             end
-            within all('li')[1] do
-              expect(page).to have_content('OCEAN > ATLANTIC OCEAN')
+            within all('ul')[1] do
+              expect(page).to have_content('OCEAN ATLANTIC OCEAN')
             end
           end
           within '.temporal-coverage-sidebar' do

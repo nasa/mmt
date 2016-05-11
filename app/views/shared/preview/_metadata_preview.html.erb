@@ -70,19 +70,23 @@
         <% end %>
       </ol>
 
-      <% spatial_keywords = metadata['SpatialKeywords'] || [] %>
+      <% location_keywords = metadata['LocationKeywords'] || [] %>
       <h4>Location Keywords</h4>
       <ul class="location-keyword-sidebar no-bullets sidebar-list">
-        <% if spatial_keywords.size > 0 %>
-          <% spatial_keywords.each do |keyword| %>
-            <li>
-              <span class="preview-sidebar-item">
-                <%= keyword %>
-              </span>
-            </li>
-          <% end %>
+        <% if location_keywords.size > 0 %>
+          <li class="location-keywords">
+            <% location_keywords.each do |keyword| %>
+              <ul class="arrow-tag-group-list preview-sidebar-item">
+                <% keyword.each do |_key, value| %>
+                  <li class="arrow-tag-group-item">
+                    <%= value %>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </li>
         <% else %>
-          <li>No Spatial Keywords found</li>
+          <li>No Location Keywords found</li>
         <% end %>
       </ul>
 

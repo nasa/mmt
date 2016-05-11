@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-describe 'Clearing saved spatial keywords', js: true do
+describe 'Clearing saved location keywords', js: true do
   before do
     login
     draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
     visit draft_path(draft)
   end
 
-  context 'when selecting and saving spatial keywords' do
+  context 'when selecting and saving location keywords' do
     before do
       within '.metadata' do
         click_on 'Spatial Information', match: :first
@@ -15,7 +15,7 @@ describe 'Clearing saved spatial keywords', js: true do
 
       open_accordions
 
-      # add_spatial_keywords
+      # add_location_keywords
       choose_keyword 'GEOGRAPHIC REGION'
       choose_keyword 'ARCTIC'
       click_on 'Add Keyword'
@@ -42,13 +42,13 @@ describe 'Clearing saved spatial keywords', js: true do
         open_accordions
       end
 
-      it 'populates the form with the selected spatial keywords' do
+      it 'populates the form with the selected location keywords' do
         expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
       end
 
-      context 'when removing the spatial keywords and submitting the form' do
+      context 'when removing the location keywords and submitting the form' do
         before do
-          within '.selected-spatial-keywords' do
+          within '.selected-location-keywords' do
             find('.remove').click
             sleep 1
           end
@@ -73,7 +73,7 @@ describe 'Clearing saved spatial keywords', js: true do
             open_accordions
           end
 
-          it 'does not display the removed spatial keywords' do
+          it 'does not display the removed location keywords' do
             expect(page).to have_no_content('GEOGRAPHIC REGION > ARCTIC')
           end
         end

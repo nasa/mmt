@@ -28,7 +28,7 @@ class DraftsController < ApplicationController
     if params[:form]
       @draft_form = params[:form]
       set_science_keywords
-      set_spatial_keywords
+      set_location_keywords
       set_platform_types
       set_language_codes
       set_country_codes
@@ -247,8 +247,8 @@ class DraftsController < ApplicationController
     @science_keywords = cmr_client.get_controlled_keywords('science_keywords') if params[:form] == 'descriptive_keywords'
   end
 
-  def set_spatial_keywords
-    @spatial_keywords = cmr_client.get_controlled_keywords('spatial_keywords') if params[:form] == 'spatial_information'
+  def set_location_keywords
+    @location_keywords = cmr_client.get_controlled_keywords('spatial_keywords') if params[:form] == 'spatial_information'
   end
 
   def set_platform_types
