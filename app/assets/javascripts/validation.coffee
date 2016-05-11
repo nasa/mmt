@@ -230,21 +230,40 @@ $(document).ready ->
           '/MetadataLanguage'
         when /data_language/.test id
           '/DataLanguage'
-        when /related_urls_\d*_mime_type/.test id
+        when /related_urls_(\d*)_mime_type/.test id
           [_, index] = id.match /related_urls_(\d*)_mime_type/
           "/RelatedUrls/#{index}/MimeType"
-        when /draft_platforms_\d*_type/.test id
+        when /draft_platforms_(\d*)_type/.test id
           [_, index] = id.match /platforms_(\d*)_type/
           "/Platforms/#{index}/Type"
-        when /organizations_\d*_party_organization_name_short_name/.test id
+        when /organizations_(\d*)_party_organization_name_short_name/.test id
           [_, index] = id.match /organizations_(\d*)_party_organization_name_short_name/
           "/Organizations/#{index}/Party/OrganizationName/ShortName"
-        # FileSize/Unit (RelatedUrls and Distributions)
-        # Address/Country (Organizations and Personnel)
-          # State/Province
+        when /temporal_keywords/.test id
+          '/TemporalKeywords'
+        when /related_urls_(\d*)_file_size_unit/.test id
+          [_, index] = id.match /related_urls_(\d*)_file_size_unit/
+          "/RelatedUrls/#{index}/FileSize/Unit"
+        when /distributions_(\d*)_sizes_(\d*)_unit/.test id
+          [_, index1, index2] = id.match /distributions_(\d*)_sizes_(\d*)_unit/
+          "/Distributions/#{index1}/Sizes/#{index2}/Unit"
+        when /organizations_\d*_party_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /organizations_(\d*)_party_addresses_(\d*)_country/
+          "/Organizations/#{index1}/Party/Addresses/#{index2}/Country"
+        when /organizations_\d*_party_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /organizations_(\d*)_party_addresses_(\d*)_state_province/
+          "/Organizations/#{index1}/Party/Addresses/#{index2}/StateProvince"
+        when /personnel_\d*_party_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /personnel_(\d*)_party_addresses_(\d*)_country/
+          "/Personnel/#{index1}/Party/Addresses/#{index2}/Country"
+        when /personnel_\d*_party_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /personnel_(\d*)_party_addresses_(\d*)_state_province/
+          "/Personnel/#{index1}/Party/Addresses/#{index2}/StateProvince"
+        when /spatial_extent_granule_spatial_representation/.test id
+          '/SpatialExtent/GranuleSpatialRepresentation'
+
 
       errors = errors.filter (err) ->
-        # console.log "err: #{JSON.stringify(err)}"
         if err.keyword == 'required'
           dataPath.indexOf(err.dataPath) == -1
         else

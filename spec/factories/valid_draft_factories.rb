@@ -302,13 +302,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States of America'
+          'Country' => 'United States'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States of America'
+          'Country' => 'United States'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -344,13 +344,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States of America'
+          'Country' => 'United States'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States of America'
+          'Country' => 'United States'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -388,13 +388,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States of America'
+          'Country' => 'United States'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States of America'
+          'Country' => 'United States'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -431,13 +431,13 @@ FactoryGirl.define do
           'City' => 'Washington',
           'StateProvince' => 'DC',
           'PostalCode' => '20546',
-          'Country' => 'United States of America'
+          'Country' => 'United States'
         }, {
           'StreetAddresses' => ['8800 Greenbelt Road'],
           'City' => 'Greenbelt',
           'StateProvince' => 'MD',
           'PostalCode' => '20771',
-          'Country' => 'United States of America'
+          'Country' => 'United States'
         }],
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
@@ -581,7 +581,7 @@ FactoryGirl.define do
       'Description' => 'test 1 Description',
       'URLs' => ['http://example.com/1', 'http://example.com/a'],
       'Title' => 'test 1 Title',
-      'MimeType' => 'test 1 MimeType',
+      'MimeType' => 'text/html',
       'FileSize' => {
         'Size' => 123,
         'Unit' => 'MB'
@@ -590,7 +590,7 @@ FactoryGirl.define do
       'Description' => 'test 2 Description',
       'URLs' => ['http://example.com/2', 'http://example.com/b'],
       'Title' => 'test 2 Title',
-      'MimeType' => 'test 2 MimeType',
+      'MimeType' => 'text/html',
       'FileSize' => {
         'Size' => 321,
         'Unit' => 'PB'
@@ -708,7 +708,7 @@ FactoryGirl.define do
         }, ]
       }
     ],
-    'TemporalKeywords' => ['test 1 Keyword', 'test 2 Keyword'],
+    'TemporalKeywords' => ['Monthly Climatology', 'Weekly Climatology'],
     'PaleoTemporalCoverage' => {
       'StartDate' => '50 Ga', 'EndDate' => '25 Ga',
       'ChronostratigraphicUnits' => [{

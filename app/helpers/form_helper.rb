@@ -47,19 +47,28 @@ module FormHelper
 
     is_multi_select = true if options[:multiple]
 
-    if is_multi_select
-      prompt = nil
-      size = 4
-    end
-
     select_options = options[:options].clone
     # restrict options for drop down if for metadata_date
     select_options.shift(2) if options[:metadata_date]
 
-    # append invalid disabled option
-    if options[:value] && invalid_select_option(select_options, options[:value])
-      select_options.unshift options[:value]
-      disabled_options = options[:value]
+    disabled_options = []
+
+    if is_multi_select
+      prompt = nil
+      size = 4
+      options[:value].each do |value|
+        if value && invalid_select_option(select_options, value)
+          select_options.unshift value
+          puts "value: #{value.inspect}"
+          disabled_options << value
+        end
+      end
+    else
+      # append invalid disabled option
+      if options[:value] && invalid_select_option(select_options, options[:value])
+        select_options.unshift options[:value]
+        disabled_options = options[:value]
+      end
     end
 
     styles = 'width: 100%;' if classes.include? 'select2-select'
@@ -175,7 +184,10 @@ module FormHelper
   end
 
   def invalid_select_option(options, value)
-    if options[0].class != Carmen::Country
+    if options[0].class == Carmen::Country
+      matches = options.select { |option| option.name.include? value }
+      matches.empty?
+    else
       matches = options.select { |option| option.include? value }
       matches.empty?
     end
