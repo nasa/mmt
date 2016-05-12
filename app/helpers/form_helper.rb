@@ -59,7 +59,6 @@ module FormHelper
       options[:value].each do |value|
         if value && invalid_select_option(select_options, value)
           select_options.unshift value
-          puts "value: #{value.inspect}"
           disabled_options << value
         end
       end

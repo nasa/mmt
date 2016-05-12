@@ -25,6 +25,48 @@ describe 'Invalid picklists', js: true do
         expect(page).to have_link('Processing Level - Invalid')
       end
     end
+
+    it 'displays an invalid icon for Organizations' do
+      within '.metadata #organizations' do
+        expect(page).to have_link('Organizations - Invalid')
+      end
+    end
+
+    it 'displays an invalid icon for Personnel' do
+      within '.metadata #personnel' do
+        expect(page).to have_link('Personnel - Invalid')
+      end
+    end
+
+    it 'displays an invalid icon for Related Urls' do
+      within '.metadata #distribution-information' do
+        expect(page).to have_link('Related Urls - Invalid')
+      end
+    end
+
+    it 'displays an invalid icon for Distributions' do
+      within '.metadata #distribution-information' do
+        expect(page).to have_link('Distributions - Invalid')
+      end
+    end
+
+    it 'displays an invalid icon for Spatial Extent' do
+      within '.metadata #spatial-information' do
+        expect(page).to have_link('Spatial Extent - Invalid')
+      end
+    end
+
+    it 'displays an invalid icon for Platforms' do
+      within '.metadata #acquisition-information' do
+        expect(page).to have_link('Platforms - Invalid')
+      end
+    end
+
+    it 'displays an invalid icon for Temporal Keywords' do
+      within '.metadata #temporal-information' do
+        expect(page).to have_link('Temporal Keywords - Invalid')
+      end
+    end
   end
 
   context 'when viewing the Metadata Language field' do
@@ -107,6 +149,195 @@ describe 'Invalid picklists', js: true do
     it 'displays an unselectable invalid option' do
       within '.id-select' do
         expect(page).to have_css('option[disabled][selected]', text: '1A')
+      end
+    end
+  end
+
+  context 'when viewing the Organizations Short Name and Address fields' do
+    before do
+      within '.metadata' do
+        click_on 'Organizations'
+      end
+
+      open_accordions
+    end
+
+    it 'displays a summary error' do
+      within '.summary-errors' do
+        expect(page).to have_content('Short Name value [short_name] does not match a valid selection option')
+        expect(page).to have_content('Country value [usa] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an inline error' do
+      within '.organization-name' do
+        expect(page).to have_content('Short Name value [short_name] does not match a valid selection option')
+      end
+      within '.multiple.addresses > .multiple-item-0' do
+        expect(page).to have_content('Country value [usa] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an unselectable invalid option' do
+      within '.organization-short-name-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'short_name')
+      end
+      within '.multiple.addresses > .multiple-item-0 .country-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'usa')
+      end
+    end
+  end
+
+  context 'when viewing the Personnel Address field' do
+    before do
+      within '.metadata' do
+        click_on 'Personnel'
+      end
+
+      open_accordions
+    end
+
+    it 'displays a summary error' do
+      within '.summary-errors' do
+        expect(page).to have_content('Country value [usa] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an inline error' do
+      within '.multiple.addresses > .multiple-item-0' do
+        expect(page).to have_content('Country value [usa] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an unselectable invalid option' do
+      within '.multiple.addresses > .multiple-item-0 .country-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'usa')
+      end
+    end
+  end
+
+  context 'when viewing the Distribution Information form' do
+    before do
+      within '.metadata' do
+        click_on 'Distribution Information'
+      end
+
+      open_accordions
+    end
+
+    it 'displays a summary error' do
+      within '.summary-errors' do
+        expect(page).to have_content('Mime Type value [badmimetype] does not match a valid selection option')
+        expect(page).to have_content('Unit value [bits] does not match a valid selection option', count: 2)
+      end
+    end
+
+    it 'displays an inline error' do
+      within '.related-urls' do
+        expect(page).to have_content('Mime Type value [badmimetype] does not match a valid selection option')
+        expect(page).to have_content('Unit value [bits] does not match a valid selection option')
+      end
+      within '.distributions' do
+        expect(page).to have_content('Unit value [bits] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an unselectable invalid option' do
+      within '.multiple.related-urls > .multiple-item-0 .mime_type-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'badmimetype')
+      end
+      within '.multiple.related-urls > .multiple-item-1 .unit-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'bits')
+      end
+      within '.distributions .unit-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'bits')
+      end
+    end
+  end
+
+  context 'when viewing the Platform Type field' do
+    before do
+      within '.metadata' do
+        click_on 'Acquisition Information'
+      end
+
+      open_accordions
+    end
+
+    it 'displays a summary error' do
+      within '.summary-errors' do
+        expect(page).to have_content('Type value [satellites] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an inline error' do
+      within '.platforms' do
+        expect(page).to have_content('Type value [satellites] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an unselectable invalid option' do
+      within '.type-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'satellites')
+      end
+    end
+  end
+
+  context 'when viewing the Granule Spatial Representation field' do
+    before do
+      within '.metadata' do
+        click_on 'Spatial Information', match: :first
+      end
+
+      open_accordions
+    end
+
+    it 'displays a summary error' do
+      within '.summary-errors' do
+        expect(page).to have_content('Granule Spatial Representation value [cartesian] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an inline error' do
+      within '.spatial-extent' do
+        expect(page).to have_content('Granule Spatial Representation value [cartesian] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an unselectable invalid option' do
+      within '.granule_spatial_representation-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'cartesian')
+      end
+    end
+  end
+
+  context 'when viewing the Temporal Keywords field' do
+    before do
+      within '.metadata' do
+        click_on 'Temporal Information'
+      end
+
+      open_accordions
+    end
+
+    it 'displays a summary error' do
+      within '.summary-errors' do
+        expect(page).to have_content('Temporal Keywords value [Keyword 1] does not match a valid selection option')
+        expect(page).to have_content('Temporal Keywords value [Keyword 2] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an inline error' do
+      within '#temporal-keywords' do
+        expect(page).to have_content('Temporal Keywords value [Keyword 1] does not match a valid selection option')
+        expect(page).to have_content('Temporal Keywords value [Keyword 2] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an unselectable invalid option' do
+      within '.temporal_keywords-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'Keyword 1')
+        expect(page).to have_css('option[disabled][selected]', text: 'Keyword 2')
       end
     end
   end

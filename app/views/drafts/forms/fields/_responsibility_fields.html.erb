@@ -30,36 +30,30 @@
   ) %>
   <% name_prefix += 'party_' %>
   <div class="row sub-fields">
-    <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
-    <!-- TODO: There is no longer a checkbox for org or person -->
-    <% person_checked = !party['Person'].nil? %>
-    <% organization_checked = !party['OrganizationName'].nil? %>
-    <div class="party-type" style="<%= 'display: none;' if options[:limit_type] %>">
-      <input type="radio" id="<%= remove_pipes(name_prefix) %>responsibility_organization" value="organization" class="responsibility-picker organization" <%= 'checked="checked"' if organization_checked || options[:limit_type] == 'organization' %>>
-      <label for="<%= remove_pipes(name_prefix) %>responsibility_organization">Organization</label>
-      <input type="radio" id="<%= remove_pipes(name_prefix) %>responsibility_person" value="person" class="responsibility-picker person" <%= 'checked="checked"' if person_checked || options[:limit_type] == 'personnel' %>>
-      <label for="<%= remove_pipes(name_prefix) %>responsibility_person">Person</label>
-    </div>
 
     <!-- org fields -->
-    <div class="organization-fields" style="<%= 'display: none;' if person_checked || options[:limit_type] == 'personnel' %>">
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'organization_name',
-          values: party['OrganizationName'] || {},
-          name_prefix: name_prefix,
-          multiple: false,
-          options: options.clone } %>
-    </div>
+    <% if options[:limit_type] == 'organization' %>
+      <div class="organization-fields">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'organization_name',
+            values: party['OrganizationName'] || {},
+            name_prefix: name_prefix,
+            multiple: false,
+            options: options.clone } %>
+      </div>
+    <% end %>
 
     <!-- person fields -->
-    <div class="person-fields" style="<%= 'display: none;' if organization_checked || options[:limit_type] == 'organization' %>">
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'person',
-          values: party['Person'] || {},
-          name_prefix: name_prefix,
-          multiple: false,
-          options: options.clone } %>
-    </div>
+    <% if options[:limit_type] == 'personnel' %>
+      <div class="person-fields">
+        <%= render partial: 'drafts/forms/type', locals: {
+            type: 'person',
+            values: party['Person'] || {},
+            name_prefix: name_prefix,
+            multiple: false,
+            options: options.clone } %>
+      </div>
+    <% end %>
 
     <div class="row">
       <div class="col-6">
