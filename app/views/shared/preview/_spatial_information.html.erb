@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <% if (metadata['SpatialExtent'] || metadata['SpatialInformation']).blank? %>
+    <% if (metadata['SpatialExtent'] || metadata['SpatialInformation'] || metadata['LocationKeywords']).blank? %>
       <p class="empty-section">
         There is no spatial information for this collection.
       </p>
@@ -272,6 +272,31 @@
               </tbody>
             <% end %>
           </table>
+        <% end %>
+      </ul>
+
+      <h5>
+        Location Keywords
+        <% if @draft.present? %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Location Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'spatial_information', { anchor: 'location-keywords' }), { class: 'hash-link' } %>
+        <% end %>
+      </h5>
+      <% location_keywords = metadata['LocationKeywords'] || [] %>
+      <ul class="location-keyword-preview is-condensed">
+        <% if location_keywords.size > 0 %>
+          <li class="location-keywords">
+            <% location_keywords.each do |keyword| %>
+              <ul class="arrow-tag-group-list">
+                <% keyword.each do |_key, value| %>
+                  <li class="arrow-tag-group-item">
+                    <%= value %>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </li>
+        <% else %>
+          <li>No Location Keywords found</li>
         <% end %>
       </ul>
     <% end %>

@@ -55,6 +55,15 @@ describe 'Spatial information preview' do
             expect(page).to have_content('Datum	Distance Units Encoding [1.0, 2.0, 3.0]')
           end
         end
+
+        within '.location-keyword-preview' do
+          within all('ul')[0] do
+            expect(page).to have_content('GEOGRAPHIC REGION ARCTIC')
+          end
+          within all('ul')[1] do
+            expect(page).to have_content('OCEAN ATLANTIC OCEAN')
+          end
+        end
       end
     end
   end
