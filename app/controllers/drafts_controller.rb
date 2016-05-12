@@ -17,7 +17,7 @@ class DraftsController < ApplicationController
     set_temporal_keywords
     set_organizations
     set_country_codes
-    @language_codes = cmr_client.get_language_codes
+    set_language_codes
     @errors = validate_metadata
   end
 
@@ -34,7 +34,7 @@ class DraftsController < ApplicationController
       set_science_keywords
       set_spatial_keywords
       set_platform_types if params[:form] == 'acquisition_information'
-      set_language_codes
+      set_language_codes if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
       set_country_codes
       set_temporal_keywords if params[:form] == 'temporal_information'
       set_organizations if params[:form] == 'organizations'
@@ -238,14 +238,24 @@ class DraftsController < ApplicationController
         end
       end
 
-      if metadata['MetadataLanguage']
-        unless @language_codes.include? metadata['MetadataLanguage']
+      if metadata['CollectionProgress']
+        unless DraftsHelper::CollectionProgressOptions.flatten.include? metadata['CollectionProgress']
+          errors << "The property '#/CollectionProgress' was invalid"
+        end
+      end
+
+      metadata_language = metadata['MetadataLanguage']
+      if metadata_language
+        matches = @language_codes.select { |language| language.include? metadata_language }
+        if matches.empty?
           errors << "The property '#/MetadataLanguage' was invalid"
         end
       end
 
-      if metadata['DataLanguage']
-        unless @language_codes.include? metadata['DataLanguage']
+      data_language = metadata['DataLanguage']
+      if data_language
+        matches = @language_codes.select { |language| language.include? data_language }
+        if matches.empty?
           errors << "The property '#/DataLanguage' was invalid"
         end
       end
@@ -296,8 +306,11 @@ class DraftsController < ApplicationController
         organization_name = party['OrganizationName'] || {}
         short_name = organization_name['ShortName']
 
-        if short_name && !@organizations.include?(short_name)
-          errors << "The property '#/Organizations' was invalid"
+        if short_name
+          matches = @organizations.select { |org| org.include? short_name }
+          if matches.empty?
+            errors << "The property '#/Organizations' was invalid"
+          end
         end
 
         addresses = party['Addresses'] || []
@@ -366,9 +379,7 @@ class DraftsController < ApplicationController
   end
 
   def set_language_codes
-    if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
-      @language_codes = cmr_client.get_language_codes.to_a
-    end
+    @language_codes = cmr_client.get_language_codes.to_a
   end
 
   def set_country_codes

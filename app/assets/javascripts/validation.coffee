@@ -230,6 +230,8 @@ $(document).ready ->
           '/MetadataLanguage'
         when /data_language/.test id
           '/DataLanguage'
+        when /collection_progress/.test id
+          '/CollectionProgress'
         when /related_urls_(\d*)_mime_type/.test id
           [_, index] = id.match /related_urls_(\d*)_mime_type/
           "/RelatedUrls/#{index}/MimeType"

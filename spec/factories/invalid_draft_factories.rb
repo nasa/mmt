@@ -156,7 +156,8 @@ FactoryGirl.define do
         'TemporalKeywords' => ['Keyword 1', 'Keyword 2'],
         'SpatialExtent' => {
           'GranuleSpatialRepresentation' => 'cartesian'
-        }
+        },
+        'CollectionProgress' => 'inwork'
       )
     }
   end

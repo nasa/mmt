@@ -56,7 +56,8 @@ module FormHelper
     if is_multi_select
       prompt = nil
       size = 4
-      options[:value].each do |value|
+      values = options[:value] || []
+      values.each do |value|
         if value && invalid_select_option(select_options, value)
           select_options.unshift value
           disabled_options << value
