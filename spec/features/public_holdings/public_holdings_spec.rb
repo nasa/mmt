@@ -35,6 +35,10 @@ describe 'Public Holdings Display' do
           expect(page).to have_content('0')
         end
       end
+
+      it 'does not show other providers collections' do
+        expect(page).to have_no_content('ACRIM III Level 2 Daily Mean Data V001')
+      end
     end
 
     context 'when ECHO fails to return provider description' do
