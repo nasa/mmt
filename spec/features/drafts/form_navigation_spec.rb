@@ -129,7 +129,7 @@ describe 'Draft form navigation', js: true do
 
   context 'when on the first form page' do
     before do
-      click_on 'Metadata Information'
+      click_on 'Collection Information', match: :first
     end
 
     context 'Clicking Done' do
@@ -137,6 +137,8 @@ describe 'Draft form navigation', js: true do
         within '.nav-top' do
           click_on 'Done'
         end
+        # no data entered in required fields, so will have invalid data modal
+        click_on 'Yes'
       end
 
       it 'displays a confirmation message' do
@@ -158,6 +160,47 @@ describe 'Draft form navigation', js: true do
 
       it 'returns you to the Summary page with edits discarded' do
         expect(page).to have_content(SUMMARY_PAGE_STRING)
+      end
+    end
+
+    context 'Clicking Save' do
+      before do
+        fill_in 'Short Name', with: 'Test'
+        fill_in 'Version', with: '23'
+        fill_in 'Entry Title', with: 'New Test Draft Record'
+        fill_in 'Abstract', with: 'Descriptive paragraph summarizing record methodology and findings.'
+
+        within '.nav-top' do
+          click_on 'Save'
+        end
+      end
+
+      it 'stays on the same form' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Collection Information')
+        end
+        expect(page).to have_no_content(SUMMARY_PAGE_STRING)
+      end
+
+      it 'displays save confirmation message' do
+        expect(page).to have_content('Draft was successfully updated')
+      end
+
+      it 'displays the populated values in the form' do
+        expect(page).to have_field('Short Name', with: 'Test')
+        expect(page).to have_field('Version', with: '23')
+        expect(page).to have_field('Entry Title', with: 'New Test Draft Record')
+        expect(page).to have_field('Abstract', with: 'Descriptive paragraph summarizing record methodology and findings.')
+      end
+
+      it 'saves the data to the database' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Test_23')
+        end
+
+        draft = Draft.first
+        expect(draft.short_name).to eq('Test')
+        expect(draft.entry_title).to eq('New Test Draft Record')
       end
     end
   end
