@@ -22,7 +22,7 @@
       <%= link_to 'Cancel', draft_path(draft), class: 'cancel' %>
     <% end %>
     <p class="update-timestamp">
-      Last saved 5/16/2016 at 10:01 AM
+      Last saved <%= @draft.updated_at.in_time_zone('Eastern Time (US & Canada)').strftime('%Y-%m-%d %H:%M %Z') %>
     </p>
   </div>
 </div>

@@ -23,7 +23,7 @@ describe 'Collection Information form', js: true do
       select 'English', from: 'Data Language'
 
       within '.nav-top' do
-        click_on 'Done'
+        click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
       open_accordions
@@ -33,21 +33,13 @@ describe 'Collection Information form', js: true do
       expect(page).to have_content('Draft was successfully updated')
     end
 
-    context 'when returning to the form' do
-      before do
-        within '.metadata' do
-          click_on 'Collection Information'
-        end
-      end
-
-      it 'populates the form with the values' do
-        expect(page).to have_field('Short Name', with: '12345')
-        expect(page).to have_field('Version', with: 'v2')
-        expect(page).to have_field('Entry Title', with: 'Draft Title')
-        expect(page).to have_field('Abstract', with: 'This is a long description of the collection')
-        expect(page).to have_field('Purpose', with: 'This is the purpose field')
-        expect(page).to have_field('Data Language', with: 'eng')
-      end
+    it 'populates the form with the values' do
+      expect(page).to have_field('Short Name', with: '12345')
+      expect(page).to have_field('Version', with: 'v2')
+      expect(page).to have_field('Entry Title', with: 'Draft Title')
+      expect(page).to have_field('Abstract', with: 'This is a long description of the collection')
+      expect(page).to have_field('Purpose', with: 'This is the purpose field')
+      expect(page).to have_field('Data Language', with: 'eng')
     end
   end
 end
