@@ -264,10 +264,10 @@ $(document).ready ->
         when /spatial_extent_granule_spatial_representation/.test id
           '/SpatialExtent/GranuleSpatialRepresentation'
 
-
-      errors = errors.filter (err) ->
-        if err.keyword == 'required'
-          dataPath.indexOf(err.dataPath) == -1
+      # Remove required error from the same dataPath
+      errors = errors.filter (error) ->
+        if error.keyword == 'required'
+          dataPath.indexOf(error.dataPath) != -1
         else
           true
 

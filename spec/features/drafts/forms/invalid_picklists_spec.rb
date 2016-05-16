@@ -123,6 +123,26 @@ describe 'Invalid picklists', js: true do
         expect(page).to have_css('option[disabled][selected]', text: 'english')
       end
     end
+
+    context 'when creating another error on the page' do
+      before do
+        fill_in 'Short Name', with: ''
+      end
+
+      it 'displays both summary errors' do
+        within '.summary-errors' do
+          expect(page).to have_content('Short Name is required')
+          expect(page).to have_content('Data Language value [english] does not match a valid selection option')
+        end
+      end
+
+      it 'displays both inline errors' do
+        within '#collection-information' do
+          expect(page).to have_content('Short Name is required')
+          expect(page).to have_content('Data Language value [english] does not match a valid selection option')
+        end
+      end
+    end
   end
 
   context 'when viewing the Processing Level Id field' do
