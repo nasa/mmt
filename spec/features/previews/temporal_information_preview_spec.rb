@@ -50,8 +50,8 @@ describe 'Temporal information preview' do
         end
 
         within '.temporal-keywords-preview' do
-          expect(page).to have_content('test 1 Keyword')
-          expect(page).to have_content('test 2 Keyword')
+          expect(page).to have_content('Monthly Climatology')
+          expect(page).to have_content('Weekly Climatology')
         end
       end
     end

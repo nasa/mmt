@@ -18,58 +18,147 @@ FactoryGirl.define do
   end
 
   factory :draft_nested_required_field, class: Draft do
-    draft { all_required_fields.merge('RelatedUrls' => [{
-        'Description' => 'description'
-      }])
+    draft {
+      all_required_fields.merge(
+        'RelatedUrls' => [{
+          'Description' => 'description'
+        }]
+      )
     }
   end
 
   factory :draft_field_too_long, class: Draft do
-    draft { all_required_fields.merge('ShortName' => "#{'a' * 81}") }
+    draft {
+      all_required_fields.merge(
+        'ShortName' => "#{'a' * 81}"
+      )
+    }
   end
 
   factory :draft_field_too_high, class: Draft do
-    draft { all_required_fields.merge('SpatialExtent' => {
-        'GranuleSpatialRepresentation' => 'CARTESIAN',
-        'SpatialCoverageType' => 'HORIZONTAL',
-        'HorizontalSpatialDomain' => {
-          'ZoneIdentifier' => 'Zone ID',
-          'Geometry' => {
-            'CoordinateSystem' => 'CARTESIAN',
-            'Points' => [{
-              'Longitude' => 700, 'Latitude' => 38.805407
-            }]
+    draft {
+      all_required_fields.merge(
+        'SpatialExtent' => {
+          'GranuleSpatialRepresentation' => 'CARTESIAN',
+          'SpatialCoverageType' => 'HORIZONTAL',
+          'HorizontalSpatialDomain' => {
+            'ZoneIdentifier' => 'Zone ID',
+            'Geometry' => {
+              'CoordinateSystem' => 'CARTESIAN',
+              'Points' => [{
+                'Longitude' => 700, 'Latitude' => 38.805407
+              }]
+            }
           }
         }
-      })
+      )
     }
   end
 
   factory :draft_field_invalid_date, class: Draft do
-    draft { all_required_fields.merge('DataDates' => [{
-        'Type' => 'CREATE',
-        'Date' => '2015-07-01'
-      }])
+    draft {
+      all_required_fields.merge(
+        'DataDates' => [{
+          'Type' => 'CREATE',
+          'Date' => '2015-07-01'
+        }]
+      )
     }
   end
 
   factory :draft_field_invalid_pattern, class: Draft do
-    draft { all_required_fields.merge('Organizations' => [{
-        'Role' => 'RESOURCEPROVIDER',
-        'Party' => {
-          'OrganizationName' => {
-            'ShortName' => 'AARHUS-HYDRO',
-            'LongName' => 'Hydrogeophysics Group, Aarhus University'
+    draft {
+      all_required_fields.merge(
+        'Organizations' => [{
+          'Role' => 'RESOURCEPROVIDER',
+          'Party' => {
+            'OrganizationName' => {
+              'ShortName' => 'AARHUS-HYDRO',
+              'LongName' => 'Hydrogeophysics Group, Aarhus University'
+            }
           }
-        }
-      }])
+        }]
+      )
     }
   end
 
   factory :draft_field_invalid_uri, class: Draft do
-    draft { all_required_fields.merge('RelatedUrls' => [{
-        'URLs' => ['this is invalid']
-      }])
+    draft {
+      all_required_fields.merge(
+        'RelatedUrls' => [{
+          'URLs' => ['this is invalid']
+        }]
+      )
+    }
+  end
+
+  factory :draft_invalid_picklists, class: Draft do
+    native_id 'invalid_picklists_draft_id'
+    provider_id 'MMT_2'
+    draft {
+      all_required_fields.merge(
+        'ShortName' => '33333',
+        'EntryTitle' => 'Invalid Picklist Draft',
+        'ProcessingLevel' => {
+          'Id' => '1A'
+        },
+        'RelatedUrls' => [{
+          'MimeType' => 'badmimetype',
+          'URLs' => ['http://example.com/']
+        }, {
+          'URLs' => ['http://example.com/'],
+          'FileSize' => {
+            'Unit' => 'bits'
+          }
+        }],
+        'Distributions' => [{
+          'Sizes' => [{
+            'Unit' => 'bits'
+          }]
+        }],
+        'DataLanguage' => 'english',
+        'MetadataLanguage' => 'english',
+        'Platforms' => [{
+          'Type' => 'satellites',
+          'ShortName' => 'test 1 P ShortName',
+          'LongName' => 'test 1 P LongName'
+        }],
+        'Organizations' => [{
+          'Role' => 'RESOURCEPROVIDER',
+          'Party' => {
+            'OrganizationName' => {
+              'ShortName' => 'short_name',
+              'LongName' => 'Long Name'
+            },
+            'Addresses' => [{
+              'Country' => 'usa'
+            }, {
+              'Country' => 'United States',
+              'StateProvince' => 'maryland'
+            }]
+          }
+        }],
+        'Personnel' => [{
+          'Role' => 'RESOURCEPROVIDER',
+          'Party' => {
+            'OrganizationName' => {
+              'ShortName' => 'short_name',
+              'LongName' => 'Long Name'
+            },
+            'Addresses' => [{
+              'Country' => 'usa'
+            }, {
+              'Country' => 'United States',
+              'StateProvince' => 'maryland'
+            }]
+          }
+        }],
+        'TemporalKeywords' => ['Keyword 1', 'Keyword 2'],
+        'SpatialExtent' => {
+          'GranuleSpatialRepresentation' => 'cartesian'
+        },
+        'CollectionProgress' => 'inwork'
+      )
     }
   end
 end
@@ -79,7 +168,7 @@ def all_required_fields
     'Platforms' => [{
       'Type' => 'Earth Observation Satellites',
       'ShortName' => 'test 1 P ShortName',
-      'LongName' => 'test 1 P LongName',
+      'LongName' => 'test 1 P LongName'
     }],
     'Abstract' => 'This is a long description of the collection',
     'DataDates' => [{
