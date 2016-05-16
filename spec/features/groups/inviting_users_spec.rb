@@ -3,6 +3,10 @@ require 'rails_helper'
 describe 'Inviting users', reset_provider: true, js: true do
   let(:token) { UserInvite.first.token }
 
+  before do
+    ActionMailer::Base.deliveries.clear
+  end
+
   after do
     ActionMailer::Base.deliveries.clear
   end
