@@ -278,6 +278,29 @@ $(document).ready ->
       error.dataPath = dataPath
       errors.push error
 
+    # combine TemporalKeywords invalidPicklist errors if more than one exist
+    # find TemporalKeywords errors
+    temporalKeywordErrors = errors.filter (error) ->
+      error.dataPath == '/TemporalKeywords'
+
+    if temporalKeywordErrors.length > 1
+      # get all other errors
+      errors = errors.filter (error) ->
+        error.dataPath != '/TemporalKeywords'
+
+      # combine temporalKeywordErrors into 1 error
+      values = []
+      for error in temporalKeywordErrors
+        [_, value] = error.message.match /\[(.*)\]/
+        values.push value
+
+      newError = {}
+      newError.keyword = 'invalidPicklist'
+      newError.message = "values [#{values.join(', ')}] do not match a valid selection option"
+      newError.params = {}
+      newError.dataPath = '/TemporalKeywords'
+      errors.push newError
+
     errors
 
   validatePage = (opts) ->

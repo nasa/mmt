@@ -312,32 +312,66 @@ describe 'Invalid picklists', js: true do
   end
 
   context 'when viewing the Temporal Keywords field' do
-    before do
-      within '.metadata' do
-        click_on 'Temporal Information'
+    context 'when the Temporal Keywords field has multiple invalid options' do
+      before do
+        within '.metadata' do
+          click_on 'Temporal Information'
+        end
+
+        open_accordions
       end
 
-      open_accordions
-    end
+      it 'displays a summary error' do
+        within '.summary-errors' do
+          expect(page).to have_content('Temporal Keywords values [Keyword 2, Keyword 1] do not match a valid selection option')
+        end
+      end
 
-    it 'displays a summary error' do
-      within '.summary-errors' do
-        expect(page).to have_content('Temporal Keywords value [Keyword 1] does not match a valid selection option')
-        expect(page).to have_content('Temporal Keywords value [Keyword 2] does not match a valid selection option')
+      it 'displays an inline error' do
+        within '#temporal-keywords' do
+          expect(page).to have_content('Temporal Keywords values [Keyword 2, Keyword 1] do not match a valid selection option')
+        end
+      end
+
+      it 'displays an unselectable invalid option' do
+        within '.temporal_keywords-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'Keyword 1')
+          expect(page).to have_css('option[disabled][selected]', text: 'Keyword 2')
+        end
       end
     end
 
-    it 'displays an inline error' do
-      within '#temporal-keywords' do
-        expect(page).to have_content('Temporal Keywords value [Keyword 1] does not match a valid selection option')
-        expect(page).to have_content('Temporal Keywords value [Keyword 2] does not match a valid selection option')
-      end
-    end
+    context 'when the Temporal Keywords field only has one invalid option' do
+      before do
+        draft = Draft.first
+        draft_metadata = draft.draft
+        draft_metadata['TemporalKeywords'] = ['Keyword 1']
+        draft.draft = draft_metadata
+        draft.save
 
-    it 'displays an unselectable invalid option' do
-      within '.temporal_keywords-select' do
-        expect(page).to have_css('option[disabled][selected]', text: 'Keyword 1')
-        expect(page).to have_css('option[disabled][selected]', text: 'Keyword 2')
+        within '.metadata' do
+          click_on 'Temporal Information'
+        end
+
+        open_accordions
+      end
+
+      it 'displays a summary error' do
+        within '.summary-errors' do
+          expect(page).to have_content('Temporal Keywords value [Keyword 1] does not match a valid selection option')
+        end
+      end
+
+      it 'displays an inline error' do
+        within '#temporal-keywords' do
+          expect(page).to have_content('Temporal Keywords value [Keyword 1] does not match a valid selection option')
+        end
+      end
+
+      it 'displays an unselectable invalid option' do
+        within '.temporal_keywords-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'Keyword 1')
+        end
       end
     end
   end
