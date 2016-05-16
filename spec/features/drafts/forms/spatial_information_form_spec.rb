@@ -69,7 +69,7 @@ describe 'Spatial information form', js: true do
         add_spatial_keywords
 
         within '.nav-top' do
-          click_on 'Save'
+          click_on 'Done'
         end
         # output_schema_validation Draft.first.draft
         open_accordions
@@ -79,72 +79,82 @@ describe 'Spatial information form', js: true do
         expect(page).to have_content('Draft was successfully updated')
       end
 
-      it 'populates the form with the values including horizontal spatial data' do
-        # Spatial Extent
-        within '.spatial-extent' do
-          expect(page).to have_checked_field('Horizontal')
-          expect(page).to have_no_checked_field('Vertical')
-          expect(page).to have_no_checked_field('Orbit')
-          expect(page).to have_field('Zone Identifier', with: 'Zone ID')
-          within '.geometry' do
-            expect(page).to have_checked_field('Cartesian')
-            expect(page).to have_no_checked_field('Geodetic')
-            # Points
-            within first('.multiple.points') do
-              expect(page).to have_field('Longitude', with: '-77.047878')
-              expect(page).to have_field('Latitude', with: '38.805407')
-              within '.multiple-item-1' do
-                expect(page).to have_field('Longitude', with: '-76.9284587')
-                expect(page).to have_field('Latitude', with: '38.968602')
+      context 'when returning to the form' do
+        before do
+          within '.metadata' do
+            click_on 'Spatial Information', match: :first
+          end
+
+          open_accordions
+        end
+
+        it 'populates the form with the values including horizontal spatial data' do
+          # Spatial Extent
+          within '.spatial-extent' do
+            expect(page).to have_checked_field('Horizontal')
+            expect(page).to have_no_checked_field('Vertical')
+            expect(page).to have_no_checked_field('Orbit')
+            expect(page).to have_field('Zone Identifier', with: 'Zone ID')
+            within '.geometry' do
+              expect(page).to have_checked_field('Cartesian')
+              expect(page).to have_no_checked_field('Geodetic')
+              # Points
+              within first('.multiple.points') do
+                expect(page).to have_field('Longitude', with: '-77.047878')
+                expect(page).to have_field('Latitude', with: '38.805407')
+                within '.multiple-item-1' do
+                  expect(page).to have_field('Longitude', with: '-76.9284587')
+                  expect(page).to have_field('Latitude', with: '38.968602')
+                end
+              end
+            end
+            expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+          end
+
+          # Tiling Identification System
+          within '.multiple.tiling-identification-systems' do
+            within '.multiple-item-0' do
+              expect(page).to have_field('Tiling Identification System Name', with: 'System name')
+              within first('.tiling-coordinate') do
+                expect(page).to have_field('Minimum Value', with: '-50.0')
+                expect(page).to have_field('Maximum Value', with: '50.0')
+              end
+              within all('.tiling-coordinate').last do
+                expect(page).to have_field('Minimum Value', with: '-30.0')
+                expect(page).to have_field('Maximum Value', with: '30.0')
+              end
+            end
+            within '.multiple-item-1' do
+              expect(page).to have_field('Tiling Identification System Name', with: 'System name 1')
+              within first('.tiling-coordinate') do
+                expect(page).to have_field('Minimum Value', with: '-25.0')
+                expect(page).to have_field('Maximum Value', with: '25.0')
+              end
+              within all('.tiling-coordinate').last do
+                expect(page).to have_field('Minimum Value', with: '-15.0')
+                expect(page).to have_field('Maximum Value', with: '15.0')
               end
             end
           end
-          expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+
+          # Spatial Representation Information
+          expect(page).to have_checked_field('Horizontal')
+          expect(page).to have_no_checked_field('Vertical')
+          expect(page).to have_no_checked_field('Both')
+
+          expect(page).to have_field('Horizontal Datum Name', with: 'Datum name')
+          expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
+          expect(page).to have_field('Semi Major Axis', with: '3.0')
+          expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
+          expect(page).to have_checked_field('Geographic Coordinate System')
+          expect(page).to have_field('Geographic Coordinate Units', with: 'Coordinate units')
+          expect(page).to have_field('Latitude Resolution', with: '42.0')
+          expect(page).to have_field('Longitude Resolution', with: '43.0')
+
+          # Spatial Keywords
+          expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
+          expect(page).to have_content('OCEAN > ATLANTIC OCEAN > NORTH ATLANTIC OCEAN > BALTIC SEA')
         end
-
-        # Tiling Identification System
-        within '.multiple.tiling-identification-systems' do
-          within '.multiple-item-0' do
-            expect(page).to have_field('Tiling Identification System Name', with: 'System name')
-            within first('.tiling-coordinate') do
-              expect(page).to have_field('Minimum Value', with: '-50.0')
-              expect(page).to have_field('Maximum Value', with: '50.0')
-            end
-            within all('.tiling-coordinate').last do
-              expect(page).to have_field('Minimum Value', with: '-30.0')
-              expect(page).to have_field('Maximum Value', with: '30.0')
-            end
-          end
-          within '.multiple-item-1' do
-            expect(page).to have_field('Tiling Identification System Name', with: 'System name 1')
-            within first('.tiling-coordinate') do
-              expect(page).to have_field('Minimum Value', with: '-25.0')
-              expect(page).to have_field('Maximum Value', with: '25.0')
-            end
-            within all('.tiling-coordinate').last do
-              expect(page).to have_field('Minimum Value', with: '-15.0')
-              expect(page).to have_field('Maximum Value', with: '15.0')
-            end
-          end
-        end
-
-        # Spatial Representation Information
-        expect(page).to have_checked_field('Horizontal')
-        expect(page).to have_no_checked_field('Vertical')
-        expect(page).to have_no_checked_field('Both')
-
-        expect(page).to have_field('Horizontal Datum Name', with: 'Datum name')
-        expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
-        expect(page).to have_field('Semi Major Axis', with: '3.0')
-        expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
-        expect(page).to have_checked_field('Geographic Coordinate System')
-        expect(page).to have_field('Geographic Coordinate Units', with: 'Coordinate units')
-        expect(page).to have_field('Latitude Resolution', with: '42.0')
-        expect(page).to have_field('Longitude Resolution', with: '43.0')
-
-        # Spatial Keywords
-        expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
-        expect(page).to have_content('OCEAN > ATLANTIC OCEAN > NORTH ATLANTIC OCEAN > BALTIC SEA')
       end
     end
 
@@ -166,7 +176,7 @@ describe 'Spatial information form', js: true do
         select 'Cartesian', from: 'Granule Spatial Representation'
 
         within '.nav-top' do
-          click_on 'Save'
+          click_on 'Done'
         end
         # output_schema_validation Draft.first.draft
         open_accordions
@@ -176,31 +186,41 @@ describe 'Spatial information form', js: true do
         expect(page).to have_content('Draft was successfully updated')
       end
 
-      it 'populates the form with the values including horizontal spatial data' do
-        # Spatial Extent
-        within '.spatial-extent' do
-          expect(page).to have_checked_field('Horizontal')
-          expect(page).to have_no_checked_field('Vertical')
-          expect(page).to have_no_checked_field('Orbit')
-          expect(page).to have_field('Zone Identifier', with: 'Zone ID')
-          within '.geometry' do
-            expect(page).to have_checked_field('Cartesian')
-            expect(page).to have_no_checked_field('Geodetic')
-            # BoundingRectangles
-            within '.multiple.bounding-rectangles' do
-              expect(page).to have_field('West', with: '-180.0')
-              expect(page).to have_field('North', with: '90.0')
-              expect(page).to have_field('East', with: '180.0')
-              expect(page).to have_field('South', with: '-90.0')
-              within '.multiple-item-1' do
-                expect(page).to have_field('West', with: '-96.9284587')
-                expect(page).to have_field('North', with: '58.968602')
-                expect(page).to have_field('East', with: '-56.9284587')
-                expect(page).to have_field('South', with: '18.968602')
+      context 'when returning to the form' do
+        before do
+          within '.metadata' do
+            click_on 'Spatial Information', match: :first
+          end
+
+          open_accordions
+        end
+
+        it 'populates the form with the values including horizontal spatial data' do
+          # Spatial Extent
+          within '.spatial-extent' do
+            expect(page).to have_checked_field('Horizontal')
+            expect(page).to have_no_checked_field('Vertical')
+            expect(page).to have_no_checked_field('Orbit')
+            expect(page).to have_field('Zone Identifier', with: 'Zone ID')
+            within '.geometry' do
+              expect(page).to have_checked_field('Cartesian')
+              expect(page).to have_no_checked_field('Geodetic')
+              # BoundingRectangles
+              within '.multiple.bounding-rectangles' do
+                expect(page).to have_field('West', with: '-180.0')
+                expect(page).to have_field('North', with: '90.0')
+                expect(page).to have_field('East', with: '180.0')
+                expect(page).to have_field('South', with: '-90.0')
+                within '.multiple-item-1' do
+                  expect(page).to have_field('West', with: '-96.9284587')
+                  expect(page).to have_field('North', with: '58.968602')
+                  expect(page).to have_field('East', with: '-56.9284587')
+                  expect(page).to have_field('South', with: '18.968602')
+                end
               end
             end
+            expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
           end
-          expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
         end
       end
     end
@@ -223,7 +243,7 @@ describe 'Spatial information form', js: true do
         select 'Cartesian', from: 'Granule Spatial Representation'
 
         within '.nav-top' do
-          click_on 'Save'
+          click_on 'Done'
         end
         # output_schema_validation Draft.first.draft
         open_accordions
@@ -233,77 +253,87 @@ describe 'Spatial information form', js: true do
         expect(page).to have_content('Draft was successfully updated')
       end
 
-      it 'populates the form with the values including horizontal spatial data' do
-        # Spatial Extent
-        within '.spatial-extent' do
-          expect(page).to have_checked_field('Horizontal')
-          expect(page).to have_no_checked_field('Vertical')
-          expect(page).to have_no_checked_field('Orbit')
-          expect(page).to have_field('Zone Identifier', with: 'Zone ID')
-          within '.geometry' do
-            expect(page).to have_checked_field('Cartesian')
-            expect(page).to have_no_checked_field('Geodetic')
-            # GPolygons
-            within '.multiple.g-polygons > .multiple-item-0' do
-              # within '.point' do
-              #   expect(page).to have_field('Longitude', with: '0.0')
-              #   expect(page).to have_field('Latitude', with: '0.0')
-              # end
-              within '.boundary .multiple.points' do
-                expect(page).to have_field('Longitude', with: '10.0')
-                expect(page).to have_field('Latitude', with: '10.0')
-                within '.multiple-item-1' do
-                  expect(page).to have_field('Longitude', with: '-10.0')
-                  expect(page).to have_field('Latitude', with: '10.0')
-                end
-                within '.multiple-item-2' do
-                  expect(page).to have_field('Longitude', with: '-10.0')
-                  expect(page).to have_field('Latitude', with: '-10.0')
-                end
-                within '.multiple-item-3' do
+      context 'when returning to the form' do
+        before do
+          within '.metadata' do
+            click_on 'Spatial Information', match: :first
+          end
+
+          open_accordions
+        end
+
+        it 'populates the form with the values including horizontal spatial data' do
+          # Spatial Extent
+          within '.spatial-extent' do
+            expect(page).to have_checked_field('Horizontal')
+            expect(page).to have_no_checked_field('Vertical')
+            expect(page).to have_no_checked_field('Orbit')
+            expect(page).to have_field('Zone Identifier', with: 'Zone ID')
+            within '.geometry' do
+              expect(page).to have_checked_field('Cartesian')
+              expect(page).to have_no_checked_field('Geodetic')
+              # GPolygons
+              within '.multiple.g-polygons > .multiple-item-0' do
+                # within '.point' do
+                #   expect(page).to have_field('Longitude', with: '0.0')
+                #   expect(page).to have_field('Latitude', with: '0.0')
+                # end
+                within '.boundary .multiple.points' do
                   expect(page).to have_field('Longitude', with: '10.0')
-                  expect(page).to have_field('Latitude', with: '-10.0')
-                end
-              end
-              within '.exclusive-zone' do
-                within '.multiple.boundaries' do
-                  expect(page).to have_field('Longitude', with: '5.0')
-                  expect(page).to have_field('Latitude', with: '5.0')
+                  expect(page).to have_field('Latitude', with: '10.0')
                   within '.multiple-item-1' do
-                    expect(page).to have_field('Longitude', with: '-5.0')
-                    expect(page).to have_field('Latitude', with: '5.0')
+                    expect(page).to have_field('Longitude', with: '-10.0')
+                    expect(page).to have_field('Latitude', with: '10.0')
                   end
                   within '.multiple-item-2' do
-                    expect(page).to have_field('Longitude', with: '-5.0')
-                    expect(page).to have_field('Latitude', with: '-5.0')
+                    expect(page).to have_field('Longitude', with: '-10.0')
+                    expect(page).to have_field('Latitude', with: '-10.0')
                   end
                   within '.multiple-item-3' do
+                    expect(page).to have_field('Longitude', with: '10.0')
+                    expect(page).to have_field('Latitude', with: '-10.0')
+                  end
+                end
+                within '.exclusive-zone' do
+                  within '.multiple.boundaries' do
                     expect(page).to have_field('Longitude', with: '5.0')
-                    expect(page).to have_field('Latitude', with: '-5.0')
+                    expect(page).to have_field('Latitude', with: '5.0')
+                    within '.multiple-item-1' do
+                      expect(page).to have_field('Longitude', with: '-5.0')
+                      expect(page).to have_field('Latitude', with: '5.0')
+                    end
+                    within '.multiple-item-2' do
+                      expect(page).to have_field('Longitude', with: '-5.0')
+                      expect(page).to have_field('Latitude', with: '-5.0')
+                    end
+                    within '.multiple-item-3' do
+                      expect(page).to have_field('Longitude', with: '5.0')
+                      expect(page).to have_field('Latitude', with: '-5.0')
+                    end
+                  end
+                end
+              end
+              within '.multiple.g-polygons > .multiple-item-1' do
+                within '.boundary .multiple.points' do
+                  expect(page).to have_field('Longitude', with: '38.98828125')
+                  expect(page).to have_field('Latitude', with: '-77.044921875')
+                  within '.multiple-item-1' do
+                    expect(page).to have_field('Longitude', with: '38.935546875')
+                    expect(page).to have_field('Latitude', with: '-77.1240234375')
+                  end
+                  within '.multiple-item-2' do
+                    expect(page).to have_field('Longitude', with: '38.81689453125')
+                    expect(page).to have_field('Latitude', with: '-77.02734375')
+                  end
+                  within '.multiple-item-3' do
+                    expect(page).to have_field('Longitude', with: '38.900390625')
+                    expect(page).to have_field('Latitude', with: '-76.9130859375')
                   end
                 end
               end
             end
-            within '.multiple.g-polygons > .multiple-item-1' do
-              within '.boundary .multiple.points' do
-                expect(page).to have_field('Longitude', with: '38.98828125')
-                expect(page).to have_field('Latitude', with: '-77.044921875')
-                within '.multiple-item-1' do
-                  expect(page).to have_field('Longitude', with: '38.935546875')
-                  expect(page).to have_field('Latitude', with: '-77.1240234375')
-                end
-                within '.multiple-item-2' do
-                  expect(page).to have_field('Longitude', with: '38.81689453125')
-                  expect(page).to have_field('Latitude', with: '-77.02734375')
-                end
-                within '.multiple-item-3' do
-                  expect(page).to have_field('Longitude', with: '38.900390625')
-                  expect(page).to have_field('Latitude', with: '-76.9130859375')
-                end
-              end
-            end
+            expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
           end
-          expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
         end
       end
     end
@@ -326,7 +356,7 @@ describe 'Spatial information form', js: true do
         select 'Cartesian', from: 'Granule Spatial Representation'
 
         within '.nav-top' do
-          click_on 'Save'
+          click_on 'Done'
         end
         # output_schema_validation Draft.first.draft
         open_accordions
@@ -336,39 +366,49 @@ describe 'Spatial information form', js: true do
         expect(page).to have_content('Draft was successfully updated')
       end
 
-      it 'populates the form with the values including horizontal spatial data' do
-        # Spatial Extent
-        within '.spatial-extent' do
-          expect(page).to have_checked_field('Horizontal')
-          expect(page).to have_no_checked_field('Vertical')
-          expect(page).to have_no_checked_field('Orbit')
-          expect(page).to have_field('Zone Identifier', with: 'Zone ID')
-          within '.geometry' do
-            expect(page).to have_checked_field('Cartesian')
-            expect(page).to have_no_checked_field('Geodetic')
-            # Lines
-            within '.multiple.lines > .multiple-item-0' do
-              within '.multiple.points > .multiple-item-0' do
-                expect(page).to have_field('Longitude', with: '24.0')
-                expect(page).to have_field('Latitude', with: '24.0')
-              end
-              within '.multiple.points > .multiple-item-1' do
-                expect(page).to have_field('Longitude', with: '26.0')
-                expect(page).to have_field('Latitude', with: '26.0')
-              end
-            end
-            within '.multiple.lines > .multiple-item-1' do
-              within '.multiple.points > .multiple-item-0' do
-                expect(page).to have_field('Longitude', with: '24.0')
-                expect(page).to have_field('Latitude', with: '26.0')
-              end
-              within '.multiple.points > .multiple-item-1' do
-                expect(page).to have_field('Longitude', with: '26.0')
-                expect(page).to have_field('Latitude', with: '24.0')
-              end
-            end
+      context 'when returning to the form' do
+        before do
+          within '.metadata' do
+            click_on 'Spatial Information', match: :first
           end
-          expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+
+          open_accordions
+        end
+
+        it 'populates the form with the values including horizontal spatial data' do
+          # Spatial Extent
+          within '.spatial-extent' do
+            expect(page).to have_checked_field('Horizontal')
+            expect(page).to have_no_checked_field('Vertical')
+            expect(page).to have_no_checked_field('Orbit')
+            expect(page).to have_field('Zone Identifier', with: 'Zone ID')
+            within '.geometry' do
+              expect(page).to have_checked_field('Cartesian')
+              expect(page).to have_no_checked_field('Geodetic')
+              # Lines
+              within '.multiple.lines > .multiple-item-0' do
+                within '.multiple.points > .multiple-item-0' do
+                  expect(page).to have_field('Longitude', with: '24.0')
+                  expect(page).to have_field('Latitude', with: '24.0')
+                end
+                within '.multiple.points > .multiple-item-1' do
+                  expect(page).to have_field('Longitude', with: '26.0')
+                  expect(page).to have_field('Latitude', with: '26.0')
+                end
+              end
+              within '.multiple.lines > .multiple-item-1' do
+                within '.multiple.points > .multiple-item-0' do
+                  expect(page).to have_field('Longitude', with: '24.0')
+                  expect(page).to have_field('Latitude', with: '26.0')
+                end
+                within '.multiple.points > .multiple-item-1' do
+                  expect(page).to have_field('Longitude', with: '26.0')
+                  expect(page).to have_field('Latitude', with: '24.0')
+                end
+              end
+            end
+            expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+          end
         end
       end
     end
@@ -427,7 +467,7 @@ describe 'Spatial information form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save'
+        click_on 'Done'
       end
       # output_schema_validation Draft.first.draft
       open_accordions
@@ -437,39 +477,49 @@ describe 'Spatial information form', js: true do
       expect(page).to have_content('Draft was successfully updated')
     end
 
-    it 'populates the form with the values including vertical spatial data' do
-      # Spatial Extent
-      within '.spatial-extent' do
+    context 'when returning to the form with vertical spatial data' do
+      before do
+        within '.metadata' do
+          click_on 'Spatial Information', match: :first
+        end
+
+        open_accordions
+      end
+
+      it 'populates the form with the values including vertical spatial data' do
+        # Spatial Extent
+        within '.spatial-extent' do
+          expect(page).to have_no_checked_field('Horizontal')
+          expect(page).to have_checked_field('Vertical')
+          expect(page).to have_no_checked_field('Orbit')
+
+          within '.multiple.vertical-spatial-domains' do
+            expect(page).to have_field('Type', with: 'domain type')
+            expect(page).to have_field('Value', with: 'domain value')
+            expect(page).to have_field('Type', with: 'domain type 1')
+            expect(page).to have_field('Value', with: 'domain value 1')
+          end
+          expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+        end
+
+        # Spatial Representation Information
         expect(page).to have_no_checked_field('Horizontal')
         expect(page).to have_checked_field('Vertical')
-        expect(page).to have_no_checked_field('Orbit')
-
-        within '.multiple.vertical-spatial-domains' do
-          expect(page).to have_field('Type', with: 'domain type')
-          expect(page).to have_field('Value', with: 'domain value')
-          expect(page).to have_field('Type', with: 'domain type 1')
-          expect(page).to have_field('Value', with: 'domain value 1')
+        expect(page).to have_no_checked_field('Both')
+        within first('.vertical-system-definition') do
+          expect(page).to have_field('Datum Name', with: 'datum name')
+          expect(page).to have_field('Distance Units', with: 'miles')
+          expect(page).to have_field('Encoding Method', with: 'encoding method')
+          expect(page).to have_selector('input.resolution[value="3.0"]')
+          expect(page).to have_selector('input.resolution[value="4.0"]')
         end
-        expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
-      end
-
-      # Spatial Representation Information
-      expect(page).to have_no_checked_field('Horizontal')
-      expect(page).to have_checked_field('Vertical')
-      expect(page).to have_no_checked_field('Both')
-      within first('.vertical-system-definition') do
-        expect(page).to have_field('Datum Name', with: 'datum name')
-        expect(page).to have_field('Distance Units', with: 'miles')
-        expect(page).to have_field('Encoding Method', with: 'encoding method')
-        expect(page).to have_selector('input.resolution[value="3.0"]')
-        expect(page).to have_selector('input.resolution[value="4.0"]')
-      end
-      within all('.vertical-system-definition').last do
-        expect(page).to have_field('Datum Name', with: 'datum name 1')
-        expect(page).to have_field('Distance Units', with: 'miles')
-        expect(page).to have_field('Encoding Method', with: 'encoding method 1')
-        expect(page).to have_selector('input.resolution[value="5.0"]')
-        expect(page).to have_selector('input.resolution[value="6.0"]')
+        within all('.vertical-system-definition').last do
+          expect(page).to have_field('Datum Name', with: 'datum name 1')
+          expect(page).to have_field('Distance Units', with: 'miles')
+          expect(page).to have_field('Encoding Method', with: 'encoding method 1')
+          expect(page).to have_selector('input.resolution[value="5.0"]')
+          expect(page).to have_selector('input.resolution[value="6.0"]')
+        end
       end
     end
   end
@@ -532,7 +582,7 @@ describe 'Spatial information form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Save'
+        click_on 'Done'
       end
       # output_schema_validation Draft.first.draft
       open_accordions
@@ -542,46 +592,56 @@ describe 'Spatial information form', js: true do
       expect(page).to have_content('Draft was successfully updated')
     end
 
-    it 'populates the form with the values including orbital spatial data' do
-      # Spatial Extent
-      within '.spatial-extent' do
+    context 'when returning to the form for orbital spatial data' do
+      before do
+        within '.metadata' do
+          click_on 'Spatial Information', match: :first
+        end
+
+        open_accordions
+      end
+
+      it 'populates the form with the values including orbital spatial data' do
+        # Spatial Extent
+        within '.spatial-extent' do
+          expect(page).to have_no_checked_field('Horizontal')
+          expect(page).to have_no_checked_field('Vertical')
+          expect(page).to have_checked_field('Orbit')
+          expect(page).to have_field('Swath Width', with: '1.0')
+          expect(page).to have_field('Period', with: '2.0')
+          expect(page).to have_field('Inclination Angle', with: '3.0')
+          expect(page).to have_field('Number Of Orbits', with: '4.0')
+          expect(page).to have_field('Start Circular Latitude', with: '5.0')
+
+          expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+        end
+
+        # Spatial Representation Information
         expect(page).to have_no_checked_field('Horizontal')
         expect(page).to have_no_checked_field('Vertical')
-        expect(page).to have_checked_field('Orbit')
-        expect(page).to have_field('Swath Width', with: '1.0')
-        expect(page).to have_field('Period', with: '2.0')
-        expect(page).to have_field('Inclination Angle', with: '3.0')
-        expect(page).to have_field('Number Of Orbits', with: '4.0')
-        expect(page).to have_field('Start Circular Latitude', with: '5.0')
+        expect(page).to have_checked_field('Both')
+        expect(page).to have_field('Horizontal Datum Name', with: 'Datum name')
+        expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
+        expect(page).to have_field('Semi Major Axis', with: '3.0')
+        expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
+        expect(page).to have_checked_field('Local Coordinate System')
+        expect(page).to have_field('Geo Reference Information', with: 'reference information')
+        expect(page).to have_field('Description', with: 'local description')
 
-        expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
-      end
-
-      # Spatial Representation Information
-      expect(page).to have_no_checked_field('Horizontal')
-      expect(page).to have_no_checked_field('Vertical')
-      expect(page).to have_checked_field('Both')
-      expect(page).to have_field('Horizontal Datum Name', with: 'Datum name')
-      expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
-      expect(page).to have_field('Semi Major Axis', with: '3.0')
-      expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
-      expect(page).to have_checked_field('Local Coordinate System')
-      expect(page).to have_field('Geo Reference Information', with: 'reference information')
-      expect(page).to have_field('Description', with: 'local description')
-
-      within first('.vertical-system-definition') do
-        expect(page).to have_field('Datum Name', with: 'datum name')
-        expect(page).to have_field('Distance Units', with: 'miles')
-        expect(page).to have_field('Encoding Method', with: 'encoding method')
-        expect(page).to have_selector('input.resolution[value="3.0"]')
-        expect(page).to have_selector('input.resolution[value="4.0"]')
-      end
-      within all('.vertical-system-definition').last do
-        expect(page).to have_field('Datum Name', with: 'datum name 1')
-        expect(page).to have_field('Distance Units', with: 'miles')
-        expect(page).to have_field('Encoding Method', with: 'encoding method 1')
-        expect(page).to have_selector('input.resolution[value="5.0"]')
-        expect(page).to have_selector('input.resolution[value="6.0"]')
+        within first('.vertical-system-definition') do
+          expect(page).to have_field('Datum Name', with: 'datum name')
+          expect(page).to have_field('Distance Units', with: 'miles')
+          expect(page).to have_field('Encoding Method', with: 'encoding method')
+          expect(page).to have_selector('input.resolution[value="3.0"]')
+          expect(page).to have_selector('input.resolution[value="4.0"]')
+        end
+        within all('.vertical-system-definition').last do
+          expect(page).to have_field('Datum Name', with: 'datum name 1')
+          expect(page).to have_field('Distance Units', with: 'miles')
+          expect(page).to have_field('Encoding Method', with: 'encoding method 1')
+          expect(page).to have_selector('input.resolution[value="5.0"]')
+          expect(page).to have_selector('input.resolution[value="6.0"]')
+        end
       end
     end
   end
