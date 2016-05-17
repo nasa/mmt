@@ -55,7 +55,7 @@ describe 'Descriptive keywords form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Done'
+        click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
       open_accordions
@@ -65,48 +65,38 @@ describe 'Descriptive keywords form', js: true do
       expect(page).to have_content('Draft was successfully updated')
     end
 
-    context 'when returning to the form' do
-      before do
-        within '.metadata' do
-          click_on 'Descriptive Keywords'
-        end
+    it 'populates the form with the values' do
+      # Science keywords
+      expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+      expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+      expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
 
-        open_accordions
+      # Ancillary Keywords
+      within '.multiple.ancillary-keywords' do
+        expect(page).to have_selector('input.ancillary-keyword[value="Ancillary keyword 1"]')
+        expect(page).to have_selector('input.ancillary-keyword[value="Ancillary keyword 2"]')
       end
 
-      it 'populates the form with the values' do
-        # Science keywords
-        expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
-        expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
-        expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
-
-        # Ancillary Keywords
-        within '.multiple.ancillary-keywords' do
-          expect(page).to have_selector('input.ancillary-keyword[value="Ancillary keyword 1"]')
-          expect(page).to have_selector('input.ancillary-keyword[value="Ancillary keyword 2"]')
+      # Additional Attributes
+      within '.multiple.additional-attributes' do
+        within '.multiple-item-0' do
+          expect(page).to have_field('Name', with: 'Attribute 1')
+          expect(page).to have_field('Description', with: 'Description')
+          expect(page).to have_field('Data Type', with: 'INT')
+          expect(page).to have_field('Description', with: 'Description')
+          expect(page).to have_field('Measurement Resolution', with: 'Measurement Resolution')
+          expect(page).to have_field('Parameter Range Begin', with: '1')
+          expect(page).to have_field('Parameter Range End', with: '5')
+          expect(page).to have_field('Parameter Units Of Measure', with: 'Parameter Units Of Measure')
+          expect(page).to have_field('Parameter Value Accuracy', with: 'Parameter Value Accuracy')
+          expect(page).to have_field('Value Accuracy Explanation', with: 'Value Accuracy Explanation')
+          expect(page).to have_field('Group', with: 'Group')
+          expect(page).to have_field('Update Date', with: '2015-09-14T00:00:00Z')
         end
 
-        # Additional Attributes
-        within '.multiple.additional-attributes' do
-          within '.multiple-item-0' do
-            expect(page).to have_field('Name', with: 'Attribute 1')
-            expect(page).to have_field('Description', with: 'Description')
-            expect(page).to have_field('Data Type', with: 'INT')
-            expect(page).to have_field('Description', with: 'Description')
-            expect(page).to have_field('Measurement Resolution', with: 'Measurement Resolution')
-            expect(page).to have_field('Parameter Range Begin', with: '1')
-            expect(page).to have_field('Parameter Range End', with: '5')
-            expect(page).to have_field('Parameter Units Of Measure', with: 'Parameter Units Of Measure')
-            expect(page).to have_field('Parameter Value Accuracy', with: 'Parameter Value Accuracy')
-            expect(page).to have_field('Value Accuracy Explanation', with: 'Value Accuracy Explanation')
-            expect(page).to have_field('Group', with: 'Group')
-            expect(page).to have_field('Update Date', with: '2015-09-14T00:00:00Z')
-          end
-
-          within '.multiple-item-1' do
-            expect(page).to have_field('Name', with: 'Attribute 2')
-            expect(page).to have_field('Data Type', with: 'STRING')
-          end
+        within '.multiple-item-1' do
+          expect(page).to have_field('Name', with: 'Attribute 2')
+          expect(page).to have_field('Data Type', with: 'STRING')
         end
       end
     end
