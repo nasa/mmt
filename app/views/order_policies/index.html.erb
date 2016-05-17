@@ -1,0 +1,76 @@
+<main class="internal" role="main">
+  <section class="content-header">
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'Manage CMR', manage_cmr_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">Order Policies</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+  <div class="row row-content">
+    <section>
+      <h2><%= @current_user.provider_id %> Order Policies</h2>
+
+      <% if @policy.empty? %>
+
+        <p>No <%= @current_user.provider_id %> Order Policy found.</p>
+        <%= link_to "Create an Order Policy", new_order_policies_path, class: "eui-btn" %>
+
+      <% else %>
+
+        <article class="order-policy">
+          <h3>Retry Information</h3>
+          <ul>
+            <li><b>Retry Attempts:</b> <%= @policy.fetch(:retry_attempts) %></li>
+            <li><b>Retry Wait Time:</b> <%= @policy.fetch(:retry_wait_time) %></li>
+          </ul>
+
+          <h3>Order Transactions Supported</h3>
+          <ul>
+            <li><%= @policy.fetch(:supported_transactions, {}).fetch(:item, []).to_sentence %></li>
+          </ul>
+
+          <h3>Routing Location</h3>
+          <ul>
+            <li><b>End Point:</b> <%= @policy.fetch(:end_point) %></li>
+            <li><b>Type:</b> <%= @policy.fetch(:routing) %></li>
+            <li><b>Suspend Ordering Until:</b> <%= @policy.fetch(:suspend_ordering_until, "Ordering Not Suspended") %></li>
+          </ul>
+
+          <h3>Order Catalog Options</h3>
+          <ul>
+            <li><b>Maximum Items Per Order:</b> <%= @policy.fetch(:max_items_per_order, "No Maximum") %></li>
+            <% if @policy.key?(:collections_supporting_duplicate_order_items) %>
+            <li>
+              <b>Collections Supporting Duplicate Order Items:</b>
+              <ul>
+                <% @policy.fetch(:collections_supporting_duplicate_order_items, {}).fetch(:item, []).each do |collection| %>
+                <li><%= collection %></li>
+                <% end %>
+              </ul>
+            </li>
+            <% end %>
+          </ul>
+
+          <h3>SSL Policy</h3>
+          <ul>
+            <li><b>Status:</b> <%= @policy.fetch(:ssl_policy, {}).fetch(:ssl_enabled, false) ? "Enabled" : "Disabled" %></li>
+            <li><b>Last Updated:</b> <%= @policy.fetch(:ssl_policy, {}).fetch(:ssl_last_update) %></li>
+          </ul>
+
+          <h3>Customer Properties</h3>
+          <% if @policy.key?(:properties) %>
+          <pre><%= @pretty_properties %></pre>
+          <% end %>
+
+          <%= link_to "Edit Order Policies", edit_order_policies_path, class: "eui-btn" %>
+        </article>
+
+      <% end %>
+    </section>
+  </div>
+</main>

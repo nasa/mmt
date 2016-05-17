@@ -1,0 +1,26 @@
+<main class="internal" role="main">
+  <section class="content-header">
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'Manage CMR', manage_cmr_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'Order Policies', order_policies_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">Edit</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+  <div class="row row-content">
+    <section>
+      <h2>Editing <%= @current_user.provider_id %> Order Policies</h2>
+
+      <%= form_tag(order_policies_path, method: :put) do %>
+        <%= render partial: "form" %>
+      <% end %>
+    </section>
+  </div>
+</main>

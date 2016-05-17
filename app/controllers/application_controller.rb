@@ -120,6 +120,27 @@ class ApplicationController < ActionController::Base
     providers
   end
 
+  def get_provider_guid(provider_id)
+    # Dont bother searching if the provided information is nil
+    return nil if provider_id.nil?
+
+    response = Echo::Provider.get_provider_names(@token, nil)
+    result = response.body.fetch(:get_provider_names_response, {}).fetch(:result, {})
+
+    # The result is nil if there is nothing to return
+    unless result.nil?
+      providers = result.fetch(:item, [])
+
+      # Look for the current provider in the list, this will get us the guid we need
+      providers.each do |provider|
+        # If we find the provider we're looking for, ask ECHO for the DQSDs
+        if provider.fetch(:name, nil) == @current_user.provider_id
+          return provider.fetch(:guid, nil)
+        end
+      end
+    end
+  end
+
   def refresh_urs_if_needed
     if logged_in? && server_session_expires_in < 0
       refresh_urs_token
