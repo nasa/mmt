@@ -5,11 +5,10 @@ require 'rails_helper'
 SUMMARY_PAGE_STRING = 'Quality Score:'
 
 describe 'Draft form navigation', js: true do
-  before :each do
+  before do
     login
-    visit '/manage_metadata'
-    choose 'new-collection'
-    click_on 'Create Record'
+    draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
+    visit draft_path(draft)
   end
 
   context 'when viewing the Summary page' do
@@ -73,10 +72,6 @@ describe 'Draft form navigation', js: true do
           click_on 'Next'
         end
 
-        # These forms are invalid, and need to click 'Yes' to get to the next form
-        invalid_forms = ['Acquisition Information', 'Collection Information', 'Organizations']
-        click_on 'Yes' if invalid_forms.include?(current_form)
-
         next_form = Draft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
         current_form = next_form
       end
@@ -105,10 +100,6 @@ describe 'Draft form navigation', js: true do
         within '.nav-top' do
           click_on 'Previous'
         end
-
-        # These forms are invalid, and need to click 'Yes' to get to the next form
-        invalid_forms = ['Acquisition Information', 'Collection Information', 'Organizations']
-        click_on 'Yes' if invalid_forms.include?(current_form)
 
         previous_form = Draft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
         current_form = previous_form

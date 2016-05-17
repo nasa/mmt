@@ -36,4 +36,22 @@ namespace :drafts do
       puts "Did not load required fields only draft, it was already loaded, ID: #{found_draft.first.id}"
     end
   end
+
+  desc 'Load draft with invalid picklists into database'
+  task load_invalid_picklists: :environment do
+    draft = FactoryGirl.build(:draft_invalid_picklists)
+
+    found_draft = Draft.where(native_id: draft.native_id)
+    if found_draft.empty?
+      new_draft = FactoryGirl.create(:draft_invalid_picklists,
+                                     user: User.first,
+                                     provider_id: User.first.provider_id,
+                                     short_name: draft.draft['ShortName'],
+                                     entry_title: draft.draft['EntryTitle']
+                                    )
+      puts "Loaded draft with invalid picklists, ID: #{new_draft.id}"
+    else
+      puts "Did not load draft with invalid picklists, it was already loaded, ID: #{found_draft.first.id}"
+    end
+  end
 end
