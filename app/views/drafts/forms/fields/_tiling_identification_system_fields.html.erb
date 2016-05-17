@@ -9,10 +9,8 @@
     required: true
    ) %>
 
-
   <!-- Coordinate1 -->
   <%= mmt_label(
-    name: '',
     title: 'Coordinate 1',
     prefix: name_prefix,
     required: true,
@@ -21,12 +19,6 @@
   <%= mmt_help_icon(
     title: 'Coordinate 1',
     help: 'definitions/TilingCoordinateType'
-  ) %>
-  <%#= hidden_field_tag(
-    name_to_param(name_prefix + '|coordinate_1|'),
-    nil,
-    disabled: true,
-    data: { level: remove_pipes(name_prefix) }
   ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'tiling_coordinate',
@@ -35,10 +27,8 @@
       multiple: false,
       options: {} } %>
 
-
   <!-- Coordinate2 -->
   <%= mmt_label(
-    name: '',
     title: 'Coordinate 2',
     prefix: name_prefix,
     required: true,
@@ -47,12 +37,6 @@
   <%= mmt_help_icon(
     title: 'Coordinate 2',
     help: 'definitions/TilingCoordinateType'
-  ) %>
-  <%#= hidden_field_tag(
-    name_to_param(name_prefix + '|coordinate_2|'),
-    nil,
-    disabled: true,
-    data: { level: remove_pipes(name_prefix) }
   ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'tiling_coordinate',
