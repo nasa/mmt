@@ -1,0 +1,16 @@
+/* ===================================================== *\
+   Pages: Order Policies
+\* ===================================================== */
+
+.order-policy {
+
+  .content-box {
+    @include span-columns(4);
+    background-color: $light-blue;
+    padding: 10px;
+
+    h3 {
+      margin-top: 0;
+    }
+  }
+}
