@@ -14,11 +14,18 @@
   <%= mmt_label(
     name: 'tiling_coordinate_1',
     title: 'Coordinate 1',
-    prefix: name_prefix
+    prefix: name_prefix,
+    required: true
   ) %>
   <%= mmt_help_icon(
     title: 'Coordinate 1',
     help: 'definitions/TilingCoordinateType'
+  ) %>
+  <%= hidden_field_tag(
+    name_to_param(name_prefix + '|tiling_coordinate_1|'),
+    nil,
+    disabled: true,
+    data: { level: remove_pipes(name_prefix) }
   ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'tiling_coordinate',
@@ -32,11 +39,18 @@
   <%= mmt_label(
     name: 'tiling_coordinate_2',
     title: 'Coordinate 2',
-    prefix: name_prefix
+    prefix: name_prefix,
+    required: true
   ) %>
   <%= mmt_help_icon(
     title: 'Coordinate 2',
     help: 'definitions/TilingCoordinateType'
+  ) %>
+  <%= hidden_field_tag(
+    name_to_param(name_prefix + '|tiling_coordinate_2|'),
+    nil,
+    disabled: true,
+    data: { level: remove_pipes(name_prefix) }
   ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'tiling_coordinate',

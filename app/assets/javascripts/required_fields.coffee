@@ -114,7 +114,7 @@ $(document).ready ->
       id = $(element).attr('id')
       # if id ends in a number, trim that number
       [..., last] = id.split('_')
-      if $.isNumeric(last)
+      if $.isNumeric(last) && !id.match(/tiling_coordinate_\d*/)
         index = id.lastIndexOf(last)
         id = id.slice(0, index)
       label = $("label[for='#{id}']")
