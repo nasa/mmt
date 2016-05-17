@@ -12,17 +12,18 @@
 
   <!-- Coordinate1 -->
   <%= mmt_label(
-    name: 'tiling_coordinate_1',
+    name: '',
     title: 'Coordinate 1',
     prefix: name_prefix,
-    required: true
+    required: true,
+    set_id: true
   ) %>
   <%= mmt_help_icon(
     title: 'Coordinate 1',
     help: 'definitions/TilingCoordinateType'
   ) %>
-  <%= hidden_field_tag(
-    name_to_param(name_prefix + '|tiling_coordinate_1|'),
+  <%#= hidden_field_tag(
+    name_to_param(name_prefix + '|coordinate_1|'),
     nil,
     disabled: true,
     data: { level: remove_pipes(name_prefix) }
@@ -37,17 +38,18 @@
 
   <!-- Coordinate2 -->
   <%= mmt_label(
-    name: 'tiling_coordinate_2',
+    name: '',
     title: 'Coordinate 2',
     prefix: name_prefix,
-    required: true
+    required: true,
+    set_id: true
   ) %>
   <%= mmt_help_icon(
     title: 'Coordinate 2',
     help: 'definitions/TilingCoordinateType'
   ) %>
-  <%= hidden_field_tag(
-    name_to_param(name_prefix + '|tiling_coordinate_2|'),
+  <%#= hidden_field_tag(
+    name_to_param(name_prefix + '|coordinate_2|'),
     nil,
     disabled: true,
     data: { level: remove_pipes(name_prefix) }
