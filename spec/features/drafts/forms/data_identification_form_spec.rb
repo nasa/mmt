@@ -15,7 +15,7 @@ describe 'Data identification form', js: true do
         click_on 'Data Identification'
       end
 
-      open_accordions
+      click_on 'Expand All'
 
       # Data Dates
       add_dates
@@ -51,7 +51,7 @@ describe 'Data identification form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      open_accordions
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do

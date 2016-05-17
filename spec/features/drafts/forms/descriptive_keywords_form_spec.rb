@@ -15,7 +15,7 @@ describe 'Descriptive keywords form', js: true do
         click_on 'Descriptive Keywords'
       end
 
-      open_accordions
+      click_on 'Expand All'
 
       # Science keywords
       add_science_keywords
@@ -58,7 +58,7 @@ describe 'Descriptive keywords form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      open_accordions
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do

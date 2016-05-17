@@ -16,7 +16,7 @@ describe 'Spatial information form', js: true do
           click_on 'Spatial Information', match: :first
         end
 
-        open_accordions
+        click_on 'Expand All'
 
         # Spatial Extent
         choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
@@ -72,7 +72,7 @@ describe 'Spatial information form', js: true do
           click_on 'Save'
         end
         # output_schema_validation Draft.first.draft
-        open_accordions
+        click_on 'Expand All'
       end
 
       it 'displays a confirmation message' do
@@ -154,7 +154,7 @@ describe 'Spatial information form', js: true do
           click_on 'Spatial Information', match: :first
         end
 
-        open_accordions
+        click_on 'Expand All'
 
         # Spatial Extent
         choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
@@ -169,7 +169,7 @@ describe 'Spatial information form', js: true do
           click_on 'Save'
         end
         # output_schema_validation Draft.first.draft
-        open_accordions
+        click_on 'Expand All'
       end
 
       it 'displays a confirmation message' do
@@ -211,7 +211,7 @@ describe 'Spatial information form', js: true do
           click_on 'Spatial Information', match: :first
         end
 
-        open_accordions
+        click_on 'Expand All'
 
         # Spatial Extent
         choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
@@ -226,7 +226,7 @@ describe 'Spatial information form', js: true do
           click_on 'Save'
         end
         # output_schema_validation Draft.first.draft
-        open_accordions
+        click_on 'Expand All'
       end
 
       it 'displays a confirmation message' do
@@ -314,7 +314,7 @@ describe 'Spatial information form', js: true do
           click_on 'Spatial Information', match: :first
         end
 
-        open_accordions
+        click_on 'Expand All'
 
         # Spatial Extent
         choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
@@ -329,7 +329,7 @@ describe 'Spatial information form', js: true do
           click_on 'Save'
         end
         # output_schema_validation Draft.first.draft
-        open_accordions
+        click_on 'Expand All'
       end
 
       it 'displays a confirmation message' do
@@ -380,7 +380,7 @@ describe 'Spatial information form', js: true do
         click_on 'Spatial Information', match: :first
       end
 
-      open_accordions
+      click_on 'Expand All'
 
       # Spatial Extent
       choose 'draft_spatial_extent_spatial_coverage_type_VERTICAL'
@@ -430,7 +430,7 @@ describe 'Spatial information form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      open_accordions
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do
@@ -480,7 +480,7 @@ describe 'Spatial information form', js: true do
         click_on 'Spatial Information', match: :first
       end
 
-      open_accordions
+      click_on 'Expand All'
 
       # Spatial Extent
       choose 'draft_spatial_extent_spatial_coverage_type_ORBITAL'
@@ -535,7 +535,7 @@ describe 'Spatial information form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      open_accordions
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do

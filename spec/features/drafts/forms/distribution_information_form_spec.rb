@@ -15,7 +15,7 @@ describe 'Distribution information form', js: true do
         click_on 'Distribution Information'
       end
 
-      open_accordions
+      click_on 'Expand All'
 
       # Complete RelatedUrl fields
       add_related_urls(RelatedUrlFieldsHelper::DISTRIBUTION_FORM)
@@ -54,7 +54,7 @@ describe 'Distribution information form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      open_accordions
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do

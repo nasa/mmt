@@ -26,7 +26,6 @@ describe 'Collection Information form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      open_accordions
     end
 
     it 'displays a confirmation message' do

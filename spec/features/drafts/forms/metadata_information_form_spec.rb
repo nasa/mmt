@@ -15,7 +15,7 @@ describe 'Metadata Information form', js: true do
         click_on 'Metadata Information'
       end
 
-      open_accordions
+      click_on 'Expand All'
 
       select 'English', from: 'Metadata Language'
 
@@ -35,7 +35,7 @@ describe 'Metadata Information form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      open_accordions
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do

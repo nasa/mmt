@@ -15,7 +15,7 @@ describe 'Temporal information form', js: true do
         click_on 'Temporal Information'
       end
 
-      open_accordions
+      click_on 'Expand All'
 
       # Complete TemporalExtent fields
       within '.multiple.temporal-extents' do
@@ -91,7 +91,7 @@ describe 'Temporal information form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      open_accordions
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do

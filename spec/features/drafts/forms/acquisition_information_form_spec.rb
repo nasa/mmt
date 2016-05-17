@@ -15,7 +15,7 @@ describe 'Acquisition information form', js: true do
         click_on 'Acquisition Information'
       end
 
-      open_accordions
+      click_on 'Expand All'
 
       add_platforms
 
@@ -40,7 +40,7 @@ describe 'Acquisition information form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      open_accordions
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do
