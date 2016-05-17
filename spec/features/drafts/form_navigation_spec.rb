@@ -128,8 +128,6 @@ describe 'Draft form navigation', js: true do
         within '.nav-top' do
           click_on 'Done'
         end
-        # no data entered in required fields, so will have invalid data modal
-        click_on 'Yes'
       end
 
       it 'displays a confirmation message' do
