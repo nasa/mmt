@@ -8,7 +8,7 @@
     </div>
     <div class="col-6">
       <label class="eui-required-o">Retry Wait Time</label>
-      <%= text_field_tag('retry_attempts', @policy.fetch(:retry_wait_time, ""), class: 'full-width required') %>
+      <%= text_field_tag('retry_wait_time', @policy.fetch(:retry_wait_time, ""), class: 'full-width required') %>
       <p class="form-description">Amount of time (in seconds) that ECHO will wait before trying to connect.</p>
     </div>
   </div>
@@ -21,15 +21,15 @@
   </div>
   <div class="row">
     <div class="col-2">
-      <label><%= check_box_tag('supported_transactions[quote]', 1, @policy.fetch(:supported_transactions, {}).fetch(:item, []).include?('QUOTE'), class: 'required') %>
+      <label><%= check_box_tag('supported_transactions[QUOTE]', 1, @policy.fetch(:supported_transactions, {}).fetch(:item, []).include?('QUOTE'), class: 'required') %>
       Quote</label>
     </div>
     <div class="col-2">
-      <label><%= check_box_tag('supported_transactions[submit]', 1, @policy.fetch(:supported_transactions, {}).fetch(:item, []).include?('SUBMIT'), class: 'required') %>
+      <label><%= check_box_tag('supported_transactions[SUBMIT]', 1, @policy.fetch(:supported_transactions, {}).fetch(:item, []).include?('SUBMIT'), class: 'required') %>
       Submit</label>
     </div>
     <div class="col-2">
-      <label><%= check_box_tag('supported_transactions[cancel]', 1, @policy.fetch(:supported_transactions, {}).fetch(:item, []).include?('CANCEL'), class: 'required') %>
+      <label><%= check_box_tag('supported_transactions[CANCEL]', 1, @policy.fetch(:supported_transactions, {}).fetch(:item, []).include?('CANCEL'), class: 'required') %>
       Cancel</label>
     </div>
   </div>
@@ -46,7 +46,7 @@
   <h3>Routing Location</h3>
   <div class="row">
     <label class="eui-required-o">End Point</label>
-    <%= text_field_tag('properties', @policy.fetch(:end_point, ""), class: 'full-width required') %>
+    <%= text_field_tag('end_point', @policy.fetch(:end_point, ""), class: 'full-width required') %>
   </div>
   <div class="row">
     <label class="eui-required-o">Type</label>
@@ -94,7 +94,7 @@
     <div class="col-6">
       <label>Maximum Items Per Order</label>
       <%= text_field_tag('max_items_per_order', @policy.fetch(:max_items_per_order, ""), class: 'full-width required') %>
-      <p class="form-description">The maximum number of items that a user can have in a single order.This value is the total quantity of items. If left blank, there is no maximum enforced.</p>
+      <p class="form-description">The maximum number of items that a user can have in a single order. This value is the total quantity of items. If left blank, there is no maximum enforced.</p>
     </div>
   </div>
 </fieldset>
@@ -103,7 +103,7 @@
   <h3>SSL Policy</h3>
   <div class="row">
     <label>Certificate</label>
-    <%= text_area_tag('properties', @policy.fetch(:ssl_policy, {}).fetch(:ssl_certificate, ""), rows: 5, class: 'full-width required') %>
+    <%= text_area_tag('ssl_policy[ssl_certificate]', @policy.fetch(:ssl_policy, {}).fetch(:ssl_certificate, ""), rows: 5, class: 'full-width required') %>
   </div>
   <div class="row">
     <div class="col-8">
@@ -127,7 +127,6 @@
 
 <fieldset>
   <div class="row search-form-actions">
-    <button type="button" name="full_search" class="eui-btn--blue">Submit</button>
-    <a href="#" class="cancel">Cancel</a>
+    <%= submit_tag('Submit', name: 'full_search', class: 'eui-btn--blue') %>
   </div>
 </fieldset>

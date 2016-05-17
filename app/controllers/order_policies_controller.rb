@@ -8,7 +8,13 @@ class OrderPoliciesController < ApplicationController
   end
 
   def new
-    @policy = {}
+    get_policy
+
+    unless @policy.empty?
+      flash[:notice] = "Order Policies already exist for #{@current_user.provider_id}."
+
+      redirect_to edit_order_policies_path
+    end
   end
 
   def edit
@@ -16,11 +22,19 @@ class OrderPoliciesController < ApplicationController
   end
 
   def create
-    
+    flash[:success] = 'Order Policies successfully created'
+
+    redirect_to order_policies_path
   end
 
   def update
-    
+    if upsert_policy
+      flash[:success] = 'Order Policies successfully updated'
+    else
+      flash[:error] ||= 'Error updating Order Policies'
+    end
+
+    redirect_to order_policies_path    
   end
 
   private
@@ -58,5 +72,54 @@ class OrderPoliciesController < ApplicationController
       end
 
       @policy = {} if defined?(@policy).nil?
+    end
+
+    def generate_upsert_payload
+      payload = {
+        :RetryAttempts => params.fetch("retry_attempts"), 
+        :RetryWaitTime => params.fetch("retry_wait_time"), 
+        :EndPoint => params.fetch("end_point"), 
+        :Routing => params.fetch("routing_type"),
+        :overrideNotificationEnabled => params.fetch("override_notification_enabled", false), 
+        :SslPolicy => {
+          :SslEnabled => params.fetch("ssl_policy", {}).fetch("ssl_enabled", false), 
+          :SslCertificate => params.fetch("ssl_policy", {}).fetch("ssl_certificate", "")
+        }, 
+        :SupportedTransactions => params.fetch("supported_transactions", {}).keys,
+        :Properties => params.fetch("properties")
+      }
+
+      order_items = params.fetch("collections_supporting_duplicate_order_items", {}).keys
+      unless order_items.empty?
+        payload[:OrderSupportsDuplicateCatalogItems] = true
+        payload[:CollectionsSupportingDuplicateOrderItems] = order_items
+      end
+
+      unless params.fetch("max_items_per_order").empty?
+        payload[:MaxItemsPerOrder] = params.fetch("max_items_per_order")
+      end
+
+      unless params.fetch("ordering_suspended_until_date").empty?
+        payload[:OrderingSuspendedUntilDate] = params.fetch("ordering_suspended_until_date")
+      end
+
+      payload
+    end
+
+    def upsert_policy
+      begin
+        # echo_token = Echo::Authentication.login("USERNAME", "PW", behalfOfProvider: @current_user.provider_id, clientInfo: {UserIpAddress: request.remote_ip}).body.fetch(:login_response, {}).fetch(:result)
+
+        Echo::ProviderPolicy.set_provider_policies(echo_token, generate_upsert_payload)
+
+        return true
+      rescue Savon::SOAPFault => e
+        Rails.logger.error(e)
+
+        flash[:error] = e.to_hash.fetch(:fault, {}).fetch(:detail, {}).fetch(:soap_message_validation_fault, "An unknown error has occurred.")
+
+        return false
+        # TODO: Implement error/validation messages
+      end
     end
 end

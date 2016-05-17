@@ -124,7 +124,7 @@ class ApplicationController < ActionController::Base
     # Dont bother searching if the provided information is nil
     return nil if provider_id.nil?
 
-    response = Echo::Provider.get_provider_names(@token, nil)
+    response = Echo::Provider.get_provider_names(token_with_client_id, nil)
     result = response.body.fetch(:get_provider_names_response, {}).fetch(:result, {})
 
     # The result is nil if there is nothing to return

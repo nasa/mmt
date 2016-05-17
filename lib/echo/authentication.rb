@@ -20,8 +20,8 @@ module Echo
 					builder.ns2(:password, password)
 
 					builder.ns2(:clientInfo) do
-						builder.ns3(:ClientId, payload.fetch(:clientInfo, {}).fetch(:ClientId, "MMT"))
-						builder.ns3(:UserIpAddress, payload.fetch(:clientInfo, {}).fetch(:UserIpAddress, nil))
+						builder.ns3(:ClientId, params.fetch(:clientInfo, {}).fetch(:ClientId, "MMT"))
+						builder.ns3(:UserIpAddress, params.fetch(:clientInfo, {}).fetch(:UserIpAddress, nil))
 					end
 
 					builder.ns2(:actAsUserName, params.fetch(:actAsUserName, nil)) 

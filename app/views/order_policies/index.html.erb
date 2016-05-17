@@ -1,5 +1,5 @@
 <main class="internal" role="main">
-  <section class="content-header">
+  <header>
     <div class="content">
       <div class="eui-breadcrumbs">
         <ol class="eui-breadcrumbs__list">
@@ -10,7 +10,10 @@
         </ol>
       </div>
     </div>
-  </section>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
   <div class="row row-content">
     <section>
       <h2><%= @current_user.provider_id %> Order Policies</h2>
@@ -42,7 +45,7 @@
             <!-- TRANSACTIONS SUPPORTED -->
             <div class="content-box">
               <h3>Order Transactions Supported</h3>
-              <p><%= @policy.fetch(:supported_transactions, {}).fetch(:item, []).to_sentence %></p>
+              <p><%= @policy.fetch(:supported_transactions, {}).fetch(:item) %></p>
             </div>
           </div>
 

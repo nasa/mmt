@@ -48,7 +48,6 @@ module Echo
             builder.ns3(:SslPolicy) do              
               builder.ns3(:SslEnabled, payload.fetch(:SslPolicy, {}).fetch(:SslEnabled, false))
               builder.ns3(:SslCertificate, payload.fetch(:SslPolicy, {}).fetch(:SslCertificate, nil))
-              builder.ns3(:SslLastUpdate, payload.fetch(:SslPolicy, {}).fetch(:SslLastUpdate, nil))
             end
 
             # OrderSupportsDuplicateCatalogItems is required, if not provided in the payload we'll default to false
@@ -70,12 +69,11 @@ module Echo
               end
             end
 
-            builder.ns3(:overrideNotificationEnabled, payload.fetch(:overrideNotificationEnabled))
-
-            # These items are no required
             builder.ns3(:MaxItemsPerOrder, payload.fetch(:MaxItemsPerOrder)) if payload.has_key?(:MaxItemsPerOrder)
             builder.ns3(:Properties, payload.fetch(:Properties)) if payload.has_key?(:Properties)
             builder.ns3(:OrderingSuspendedUntilDate, payload.fetch(:OrderingSuspendedUntilDate)) if payload.has_key?(:OrderingSuspendedUntilDate)
+
+            builder.ns3(:overrideNotificationEnabled, payload.fetch(:overrideNotificationEnabled))
           end
         end
 
