@@ -180,6 +180,7 @@ $(document).ready ->
     error.dataPath += "/#{error.params.missingProperty}" if error.params.missingProperty?
 
     path = for p in error.dataPath.replace(/^\//, '').split('/')
+      p = p.replace(/(\w)(\d)$/, '$1_$2')
       humps.decamelize(p)
     path = path.join('_')
 
