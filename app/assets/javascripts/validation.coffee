@@ -104,6 +104,7 @@ $(document).ready ->
           "Party is incomplete"
         else
           "#{field} should have one type completed"
+      when 'invalidPicklist' then "#{field} #{error.message}"
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -218,6 +219,91 @@ $(document).ready ->
               params: {}
             errors.push newError
 
+  validatePicklistValues = (errors) ->
+    $('select > option:disabled:selected').each ->
+      id = $(this).parent().attr('id')
+      visitedFields.push id
+
+      dataPath = switch
+        when /processing_level_id/.test id
+          '/ProcessingLevel/Id'
+        when /metadata_language/.test id
+          '/MetadataLanguage'
+        when /data_language/.test id
+          '/DataLanguage'
+        when /collection_progress/.test id
+          '/CollectionProgress'
+        when /related_urls_(\d*)_mime_type/.test id
+          [_, index] = id.match /related_urls_(\d*)_mime_type/
+          "/RelatedUrls/#{index}/MimeType"
+        when /draft_platforms_(\d*)_type/.test id
+          [_, index] = id.match /platforms_(\d*)_type/
+          "/Platforms/#{index}/Type"
+        when /organizations_(\d*)_party_organization_name_short_name/.test id
+          [_, index] = id.match /organizations_(\d*)_party_organization_name_short_name/
+          "/Organizations/#{index}/Party/OrganizationName/ShortName"
+        when /temporal_keywords/.test id
+          '/TemporalKeywords'
+        when /related_urls_(\d*)_file_size_unit/.test id
+          [_, index] = id.match /related_urls_(\d*)_file_size_unit/
+          "/RelatedUrls/#{index}/FileSize/Unit"
+        when /distributions_(\d*)_sizes_(\d*)_unit/.test id
+          [_, index1, index2] = id.match /distributions_(\d*)_sizes_(\d*)_unit/
+          "/Distributions/#{index1}/Sizes/#{index2}/Unit"
+        when /organizations_\d*_party_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /organizations_(\d*)_party_addresses_(\d*)_country/
+          "/Organizations/#{index1}/Party/Addresses/#{index2}/Country"
+        when /organizations_\d*_party_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /organizations_(\d*)_party_addresses_(\d*)_state_province/
+          "/Organizations/#{index1}/Party/Addresses/#{index2}/StateProvince"
+        when /personnel_\d*_party_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /personnel_(\d*)_party_addresses_(\d*)_country/
+          "/Personnel/#{index1}/Party/Addresses/#{index2}/Country"
+        when /personnel_\d*_party_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /personnel_(\d*)_party_addresses_(\d*)_state_province/
+          "/Personnel/#{index1}/Party/Addresses/#{index2}/StateProvince"
+        when /spatial_extent_granule_spatial_representation/.test id
+          '/SpatialExtent/GranuleSpatialRepresentation'
+
+      # Remove required error from the same dataPath
+      errors = errors.filter (error) ->
+        if error.keyword == 'required'
+          dataPath.indexOf(error.dataPath) != -1
+        else
+          true
+
+      error = {}
+      error.keyword = 'invalidPicklist'
+      error.message = "value [#{$(this).val()}] does not match a valid selection option"
+      error.params = {}
+      error.dataPath = dataPath
+      errors.push error
+
+    # combine TemporalKeywords invalidPicklist errors if more than one exist
+    # find TemporalKeywords errors
+    temporalKeywordErrors = errors.filter (error) ->
+      error.dataPath == '/TemporalKeywords'
+
+    if temporalKeywordErrors.length > 1
+      # get all other errors
+      errors = errors.filter (error) ->
+        error.dataPath != '/TemporalKeywords'
+
+      # combine temporalKeywordErrors into 1 error
+      values = []
+      for error in temporalKeywordErrors
+        [_, value] = error.message.match /\[(.*)\]/
+        values.push value
+
+      newError = {}
+      newError.keyword = 'invalidPicklist'
+      newError.message = "values [#{values.join(', ')}] do not match a valid selection option"
+      newError.params = {}
+      newError.dataPath = '/TemporalKeywords'
+      errors.push newError
+
+    errors
+
   validatePage = (opts) ->
     $('.validation-error').remove()
     $('.summary-errors').remove()
@@ -232,11 +318,10 @@ $(document).ready ->
     errors = validate.errors
 
     validateParameterRanges(errors)
+    errors = validatePicklistValues(errors)
 
     inlineErrors = []
     summaryErrors = []
-    formErrors.length = 0
-    formErrors.push(error) for error in errors
 
     # Display errors, from visited fields
     for error, index in errors
@@ -249,8 +334,8 @@ $(document).ready ->
 
         if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1
           # don't duplicate errors
-          inlineErrors.push error if $("##{error.id}:visible").length > 0
-          summaryErrors.push error if $("##{error.id}:visible").length > 0
+          inlineErrors.push error if $("##{error.id}").length > 0
+          summaryErrors.push error if $("##{error.id}").length > 0
 
     if inlineErrors.length > 0 and opts.showInline
       displayInlineErrors inlineErrors
@@ -271,7 +356,6 @@ $(document).ready ->
     valid
 
   visitedFields = []
-  formErrors = []
 
   # Validate the whole page on page load
   if $('.metadata-form').length > 0

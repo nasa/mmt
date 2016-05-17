@@ -21,7 +21,7 @@ module Cmr
       response
     end
 
-    def get_provider_holdings(provider_id = nil, token = nil)
+    def get_provider_holdings(cached = true, provider_id = nil, token = nil)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3003/provider_holdings.json'
       else
@@ -31,8 +31,12 @@ module Cmr
       options = {}
       options[:provider_id] = provider_id if provider_id
 
-      response = Rails.cache.fetch("get_provider_holdings_#{provider_id || 'all'}", expires_in: 1.hours) do
-        get(url, options, token_header(token))
+      if cached
+        response = Rails.cache.fetch("get_provider_holdings_#{provider_id || 'all'}", expires_in: 1.hours) do
+          get(url, options, token_header(token))
+        end
+      else
+        response = get(url, options, token_header(token))
       end
       response
     end

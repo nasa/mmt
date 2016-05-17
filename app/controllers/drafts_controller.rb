@@ -13,7 +13,11 @@ class DraftsController < ApplicationController
   # GET /drafts/1
   # GET /drafts/1.json
   def show
-    @language_codes = cmr_client.get_language_codes
+    set_platform_types
+    set_temporal_keywords
+    set_organizations
+    set_country_codes
+    set_language_codes
     @errors = validate_metadata
   end
 
@@ -29,11 +33,11 @@ class DraftsController < ApplicationController
       @draft_form = params[:form]
       set_science_keywords
       set_location_keywords
-      set_platform_types
-      set_language_codes
+      set_platform_types if params[:form] == 'acquisition_information'
+      set_language_codes if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
       set_country_codes
-      set_temporal_keywords
-      set_organizations
+      set_temporal_keywords if params[:form] == 'temporal_information'
+      set_organizations if params[:form] == 'organizations'
     else
       render action: 'show'
     end
@@ -225,6 +229,124 @@ class DraftsController < ApplicationController
     errors
   end
 
+  def validate_picklists(errors, metadata)
+    # for each bad field, if the value doesn't appear in the picklist values, create an error
+    if metadata
+      if metadata['ProcessingLevel'] && metadata['ProcessingLevel']['Id']
+        unless DraftsHelper::ProcessingLevelIdOptions.flatten.include? metadata['ProcessingLevel']['Id']
+          errors << "The property '#/ProcessingLevel/Id' was invalid"
+        end
+      end
+
+      if metadata['CollectionProgress']
+        unless DraftsHelper::CollectionProgressOptions.flatten.include? metadata['CollectionProgress']
+          errors << "The property '#/CollectionProgress' was invalid"
+        end
+      end
+
+      metadata_language = metadata['MetadataLanguage']
+      if metadata_language
+        matches = @language_codes.select { |language| language.include? metadata_language }
+        if matches.empty?
+          errors << "The property '#/MetadataLanguage' was invalid"
+        end
+      end
+
+      data_language = metadata['DataLanguage']
+      if data_language
+        matches = @language_codes.select { |language| language.include? data_language }
+        if matches.empty?
+          errors << "The property '#/DataLanguage' was invalid"
+        end
+      end
+
+      related_urls = metadata['RelatedUrls'] || []
+      related_urls.each do |related_url|
+        mime_type = related_url['MimeType']
+        if mime_type && !DraftsHelper::MimeTypeOptions.flatten.include?(mime_type)
+          errors << "The property '#/RelatedUrls' was invalid"
+        end
+
+        file_size = related_url['FileSize'] || {}
+        unit = file_size['Unit']
+        if unit && !DraftsHelper::FileSizeUnitTypeOptions.flatten.include?(unit)
+          errors << "The property '#/RelatedUrls' was invalid"
+        end
+      end
+
+      distributions = metadata['Distributions'] || []
+      distributions.each do |distribution|
+        sizes = distribution['Sizes'] || []
+        sizes.each do |size|
+          unit = size['Unit']
+          if unit && !DraftsHelper::FileSizeUnitTypeOptions.flatten.include?(unit)
+            errors << "The property '#/Distributions' was invalid"
+          end
+        end
+      end
+
+      platforms = metadata['Platforms'] || []
+      platforms.each do |platform|
+        platform_type = platform['Type']
+        if platform_type && !@platform_types.include?(platform_type)
+          errors << "The property '#/Platforms' was invalid"
+        end
+      end
+
+      temporal_keywords = metadata['TemporalKeywords'] || []
+      temporal_keywords.each do |keyword|
+        if keyword && !@temporal_keywords.include?(keyword)
+          errors << "The property '#/TemporalKeywords' was invalid"
+        end
+      end
+
+      organizations = metadata['Organizations'] || []
+      organizations.each do |organization|
+        party = organization['Party'] || {}
+        organization_name = party['OrganizationName'] || {}
+        short_name = organization_name['ShortName']
+
+        if short_name
+          matches = @organizations.select { |org| org.include? short_name }
+          if matches.empty?
+            errors << "The property '#/Organizations' was invalid"
+          end
+        end
+
+        addresses = party['Addresses'] || []
+        addresses.each do |address|
+          country = address['Country']
+
+          if country
+            matches = @country_codes.select { |option| option.name.include? country }
+            if matches.empty?
+              errors << "The property '#/Organizations' was invalid"
+            end
+          end
+        end
+      end
+
+      personnel = metadata['Personnel'] || []
+      personnel.each do |person|
+        party = person['Party'] || {}
+
+        addresses = party['Addresses'] || []
+        addresses.each do |address|
+          country = address['Country']
+
+          if country
+            matches = @country_codes.select { |option| option.name.include? country }
+            if matches.empty?
+              errors << "The property '#/Personnel' was invalid"
+            end
+          end
+        end
+      end
+    end
+
+    errors
+  end
+
   def validate_metadata
     schema = 'lib/assets/schemas/umm-c-json-schema.json'
 
@@ -240,6 +362,7 @@ class DraftsController < ApplicationController
 
     errors = Array.wrap(JSON::Validator.fully_validate(schema, @draft.draft))
     errors = validate_parameter_ranges(errors, @draft.draft)
+    errors = validate_picklists(errors, @draft.draft)
     errors.map { |error| generate_show_errors(error) }.flatten
   end
 
@@ -252,13 +375,11 @@ class DraftsController < ApplicationController
   end
 
   def set_platform_types
-    @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map { |category| category['value'] }.sort if params[:form] == 'acquisition_information'
+    @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map { |category| category['value'] }.sort
   end
 
   def set_language_codes
-    if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
-      @language_codes = cmr_client.get_language_codes
-    end
+    @language_codes = cmr_client.get_language_codes.to_a
   end
 
   def set_country_codes
@@ -269,10 +390,8 @@ class DraftsController < ApplicationController
   end
 
   def set_temporal_keywords
-    if params[:form] == 'temporal_information'
-      keywords = cmr_client.get_controlled_keywords('temporal_keywords')['temporal_resolution_range']
-      @temporal_keywords = keywords.map { |keyword| keyword['value'] }.sort
-    end
+    keywords = cmr_client.get_controlled_keywords('temporal_keywords')['temporal_resolution_range']
+    @temporal_keywords = keywords.map { |keyword| keyword['value'] }.sort
   end
 
   def get_organization_short_names_long_names_urls(json, trios = [])
@@ -305,11 +424,9 @@ class DraftsController < ApplicationController
   end
 
   def set_organizations
-    if params[:form] == 'organizations' || params[:form] == 'personnel'
-      organizations = cmr_client.get_controlled_keywords('providers')
-      organizations = get_organization_short_names_long_names_urls(organizations)
-      @organizations = organizations.sort
-    end
+    organizations = cmr_client.get_controlled_keywords('providers')
+    organizations = get_organization_short_names_long_names_urls(organizations)
+    @organizations = organizations.sort
   end
 
   def get_user_info

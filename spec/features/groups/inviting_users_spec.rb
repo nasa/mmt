@@ -6,7 +6,7 @@ describe 'Inviting users', reset_provider: true, js: true do
   before do
     ActionMailer::Base.deliveries.clear
   end
-  
+
   after do
     ActionMailer::Base.deliveries.clear
   end

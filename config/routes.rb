@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :provider_holdings, only: [:index, :show]
   resources :groups
   delete '/groups/:id/remove_members' => 'groups#remove_members', as: 'remove_members'
   post '/invite_user' => 'groups#invite', as: 'invite_user'

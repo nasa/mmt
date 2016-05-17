@@ -29,7 +29,7 @@ class WelcomeController < ApplicationController
       # rescue statement required, but no action needed
     end
 
-    @collections = cmr_client.get_provider_holdings(provider_id).body.map { |q| { id: q['concept-id'], title: q['entry-title'], granules: q['granule-count'] } }.sort { |x, y| x['entry-title'] <=> y['entry-title'] }
+    @collections = cmr_client.get_provider_holdings(false, provider_id).body.map { |q| { id: q['concept-id'], title: q['entry-title'], granules: q['granule-count'] } }.sort { |x, y| x['entry-title'] <=> y['entry-title'] }
   end
 
   # Small, light weight check if the app is running
