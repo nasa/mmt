@@ -15,7 +15,7 @@ describe 'Metadata Information form', js: true do
         click_on 'Metadata Information'
       end
 
-      open_accordions
+      click_on 'Expand All'
 
       select 'English', from: 'Metadata Language'
 
@@ -32,47 +32,37 @@ describe 'Metadata Information form', js: true do
       end
 
       within '.nav-top' do
-        click_on 'Done'
+        click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      open_accordions
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do
       expect(page).to have_content('Draft was successfully updated')
     end
 
-    context 'when returning to the form' do
-      before do
-        within '.metadata' do
-          click_on 'Metadata Information'
-        end
+    it 'populates the form with the values' do
+      expect(page).to have_field('Metadata Language', with: 'eng')
 
-        open_accordions
+      within '.multiple.dates' do
+        within '.multiple-item-0' do
+          expect(page).to have_field('Type', with: 'REVIEW')
+          expect(page).to have_field('Date', with: '2015-07-01T00:00:00Z')
+        end
+        within '.multiple-item-1' do
+          expect(page).to have_field('Type', with: 'DELETE')
+          expect(page).to have_field('Date', with: '2015-07-02T00:00:00Z')
+        end
       end
 
-      it 'populates the form with the values' do
-        expect(page).to have_field('Metadata Language', with: 'eng')
+      within '#directory-names' do
+        expect(page).to have_field('Short Name', with: 'Short Directory 1')
+        expect(page).to have_field('Long Name', with: 'Long Directory 1')
 
-        within '.multiple.dates' do
-          within '.multiple-item-0' do
-            expect(page).to have_field('Type', with: 'REVIEW')
-            expect(page).to have_field('Date', with: '2015-07-01T00:00:00Z')
-          end
-          within '.multiple-item-1' do
-            expect(page).to have_field('Type', with: 'DELETE')
-            expect(page).to have_field('Date', with: '2015-07-02T00:00:00Z')
-          end
-        end
-
-        within '#directory-names' do
-          expect(page).to have_field('Short Name', with: 'Short Directory 1')
-          expect(page).to have_field('Long Name', with: 'Long Directory 1')
-
-          within '.multiple-item-1' do
-            expect(page).to have_field('Short Name', with: 'Short Directory 2')
-            expect(page).to have_field('Long Name', with: 'Long Directory 2')
-          end
+        within '.multiple-item-1' do
+          expect(page).to have_field('Short Name', with: 'Short Directory 2')
+          expect(page).to have_field('Long Name', with: 'Long Directory 2')
         end
       end
     end

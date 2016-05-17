@@ -21,7 +21,7 @@ describe 'Clearing saved spatial keywords', js: true do
       click_on 'Add Keyword'
 
       within '.nav-top' do
-        click_on 'Done'
+        click_on 'Save'
       end
 
       find('#invalid-draft-accept').click
@@ -33,52 +33,31 @@ describe 'Clearing saved spatial keywords', js: true do
       expect(page).to have_content('Draft was successfully updated')
     end
 
-    context 'when returning to the form' do
-      before do
-        within '.metadata' do
-          click_on 'Spatial Information', match: :first
-        end
-
-        open_accordions
-      end
-
-      it 'populates the form with the selected spatial keywords' do
-        expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
-      end
-
-      context 'when removing the spatial keywords and submitting the form' do
-        before do
-          within '.selected-spatial-keywords' do
-            find('.remove').click
-            sleep 1
-          end
-
-          within '.nav-top' do
-            click_on 'Done'
-          end
-
-          find('#invalid-draft-accept').click
-        end
-
-        it 'displays a confirmation message' do
-          expect(page).to have_content('Draft was successfully updated')
-        end
-
-        context 'when returning to the form' do
-          before do
-            within '.metadata' do
-              click_on 'Spatial Information', match: :first
-            end
-
-            open_accordions
-          end
-
-          it 'does not display the removed spatial keywords' do
-            expect(page).to have_no_content('GEOGRAPHIC REGION > ARCTIC')
-          end
-        end
-      end
+    it 'populates the form with the selected spatial keywords' do
+      expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
     end
 
+    context 'when removing the spatial keywords and submitting the form' do
+      before do
+        within '.selected-spatial-keywords' do
+          find('.remove').click
+          sleep 1
+        end
+
+        within '.nav-top' do
+          click_on 'Save'
+        end
+
+        find('#invalid-draft-accept').click
+      end
+
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Draft was successfully updated')
+      end
+
+      it 'does not display the removed spatial keywords' do
+        expect(page).to have_no_content('GEOGRAPHIC REGION > ARCTIC')
+      end
+    end
   end
 end

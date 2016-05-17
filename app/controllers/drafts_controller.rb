@@ -39,7 +39,7 @@ class DraftsController < ApplicationController
       set_temporal_keywords if params[:form] == 'temporal_information'
       set_organizations if params[:form] == 'organizations'
     else
-      render action: 'show'
+      render :show
     end
   end
 
@@ -63,6 +63,10 @@ class DraftsController < ApplicationController
         # Determine next form to go to
         next_form_name = Draft.get_next_form(params['next_section'], params[:commit])
         redirect_to draft_edit_form_path(@draft, next_form_name)
+      when 'Save'
+        # tried to use render to avoid another request, but could not get form name in url even with passing in location
+        @draft_form = params['next_section']
+        redirect_to draft_edit_form_path(@draft, @draft_form)
       else # Jump directly to a form
         next_form_name = params['new_form_name']
         redirect_to draft_edit_form_path(@draft, next_form_name)
