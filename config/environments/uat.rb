@@ -82,6 +82,7 @@ Rails.application.configure do
   config.groups_enabled = true
 
   config.cmr_env = 'uat'
+  config.echo_env = 'uat'
   config.analytics_id = 'UA-62340125-5'
   config.urs_register_url = 'https://uat.urs.earthdata.nasa.gov/users/new'
 end

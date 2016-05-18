@@ -145,7 +145,7 @@ class ApplicationController < ActionController::Base
       # Look for the current provider in the list, this will get us the guid we need
       providers.each do |provider|
         # If we find the provider we're looking for, ask ECHO for the DQSDs
-        if provider.fetch("Name", nil) == @current_user.provider_id
+        if provider.fetch("Name", nil) == provider_id
           return provider.fetch("Guid", nil)
         end
       end

@@ -21,14 +21,14 @@ module Echo
     end
 
     def parsed_body
-      body = Hash.from_xml(self.body).fetch("Envelope", {}).fetch("Body", {})
+      body = Hash.from_xml(self.body).fetch('Envelope', {}).fetch('Body', {})
 
       if self.status == 200
         method_name = body.keys.first
 
-        return body.fetch(method_name).fetch("result", nil)
+        return body.fetch(method_name).fetch('result', nil)
       else
-        return body.fetch("Fault", {})
+        return body.fetch('Fault', {})
       end
     end
 

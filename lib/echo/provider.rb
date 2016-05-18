@@ -4,12 +4,12 @@ module Echo
 		def get_provider_names(token, guids=nil)
 			builder = Builder::XmlMarkup.new
 
-			builder.ns2(:GetProviderNames, {"xmlns:ns2": "http://echo.nasa.gov/echo/v10", "xmlns:ns3": "http://echo.nasa.gov/echo/v10/types", "xmlns:ns4": "http://echo.nasa.gov/ingest/v10"}) do
+			builder.ns2(:GetProviderNames, {'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10'}) do
 		    builder.ns2(:token, token)
 
 		    if guids.nil?
 					# Providing nil will return all providers (NOT an empty string, only nil)
-					builder.ns2(:guids, {"xsi:nil": true})
+					builder.ns2(:guids, {'xsi:nil': true})
 		    else
 		    	builder.ns2(:guids) do
 		    		guids.each do |g|
@@ -29,7 +29,7 @@ module Echo
 		def get_providers_policies(token, guids)
 		  builder = Builder::XmlMarkup.new
 
-		  builder.ns2(:GetProvidersPolicies, {"xmlns:ns2": "http://echo.nasa.gov/echo/v10", "xmlns:ns3": "http://echo.nasa.gov/echo/v10/types", "xmlns:ns4": "http://echo.nasa.gov/ingest/v10"}) do
+		  builder.ns2(:GetProvidersPolicies, {'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10'}) do
 		    builder.ns2(:token, token)
 
 		    builder.ns2(:providerGuids) do
@@ -53,7 +53,7 @@ module Echo
 		def set_provider_policies(token, provider_guid, payload)
 		  builder = Builder::XmlMarkup.new
 
-		  builder.ns2(:SetProviderPolicies, {"xmlns:ns2": "http://echo.nasa.gov/echo/v10", "xmlns:ns3": "http://echo.nasa.gov/echo/v10/types", "xmlns:ns4": "http://echo.nasa.gov/ingest/v10"}) do
+		  builder.ns2(:SetProviderPolicies, {'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10'}) do
 		    builder.ns2(:token, token)
 		    builder.ns2(:providerGuid, provider_guid)
 		    builder.ns2(:policies) do

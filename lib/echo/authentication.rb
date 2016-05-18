@@ -7,12 +7,12 @@ module Echo
 		def login(username, password, params)
 	    builder = Builder::XmlMarkup.new
 
-			builder.ns2(:Login, {"xmlns:ns2": "http://echo.nasa.gov/echo/v10", "xmlns:ns3": "http://echo.nasa.gov/echo/v10/types", "xmlns:ns4": "http://echo.nasa.gov/ingest/v10"}) do
+			builder.ns2(:Login, {'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10'}) do
 				builder.ns2(:username, username)
 				builder.ns2(:password, password)
 
 				builder.ns2(:clientInfo) do
-					builder.ns3(:ClientId, params.fetch(:clientInfo, {}).fetch(:ClientId, "MMT"))
+					builder.ns3(:ClientId, params.fetch(:clientInfo, {}).fetch(:ClientId, 'MMT'))
 					builder.ns3(:UserIpAddress, params.fetch(:clientInfo, {}).fetch(:UserIpAddress, nil))
 				end
 
