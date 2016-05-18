@@ -65,8 +65,8 @@ describe 'Spatial information form', js: true do
         fill_in 'Latitude Resolution', with: '42.0'
         fill_in 'Longitude Resolution', with: '43.0'
 
-        # Spatial Keywords
-        add_spatial_keywords
+        # Location Keywords
+        add_location_keywords
 
         within '.nav-top' do
           click_on 'Save'
@@ -142,7 +142,7 @@ describe 'Spatial information form', js: true do
         expect(page).to have_field('Latitude Resolution', with: '42.0')
         expect(page).to have_field('Longitude Resolution', with: '43.0')
 
-        # Spatial Keywords
+        # Location Keywords
         expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
         expect(page).to have_content('OCEAN > ATLANTIC OCEAN > NORTH ATLANTIC OCEAN > BALTIC SEA')
       end

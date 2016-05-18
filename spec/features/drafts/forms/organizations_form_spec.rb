@@ -23,6 +23,7 @@ describe 'Organizations form', js: true do
       within '.nav-top' do
         click_on 'Save'
       end
+      expect(page).to have_content('Organizations')
       # output_schema_validation Draft.first.draft
       open_accordions
     end

@@ -39,7 +39,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
       expect(page).to have_no_content('There is no spatial information for this collection.')
       expect(page).to have_no_content('No platforms or instruments have been added to this associated with this collection.')
       expect(page).to have_no_content('No Spatial Coordinates found')
-      expect(page).to have_no_content('No Spatial Keywords found')
+      expect(page).to have_no_content('No Location Keywords found')
       expect(page).to have_no_content('No Temporal Coverages found')
     end
 

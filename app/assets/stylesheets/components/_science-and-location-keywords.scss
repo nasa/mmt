@@ -1,11 +1,11 @@
 /* ===================================================== *\
-   Science Keywords
+   Science and Location Keywords
 \* ===================================================== */
 
 // todo: require refactoring
 
 div.science-keywords,
-div.spatial-keywords {
+div.location-keywords {
   margin: 0 0 2em 0;
 
   ul {
@@ -20,7 +20,7 @@ div.spatial-keywords {
 }
 
 #science-keyword-search,
-#spatial-keyword-search {
+#location-keyword-search {
   margin: 0;
   border: none;
   width: 100%;
@@ -46,7 +46,7 @@ div.spatial-keywords {
   }
 }
 
-/* Science Keyword Rendering
+/* Science and Location Keyword Rendering
 ------------------------------------------*/
 
 .arrow-tag-group {

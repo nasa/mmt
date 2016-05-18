@@ -9,12 +9,12 @@
     required: true
    ) %>
 
-
   <!-- Coordinate1 -->
   <%= mmt_label(
-    name: 'tiling_coordinate_1',
     title: 'Coordinate 1',
-    prefix: name_prefix
+    prefix: name_prefix,
+    required: true,
+    set_id: true
   ) %>
   <%= mmt_help_icon(
     title: 'Coordinate 1',
@@ -27,12 +27,12 @@
       multiple: false,
       options: {} } %>
 
-
   <!-- Coordinate2 -->
   <%= mmt_label(
-    name: 'tiling_coordinate_2',
     title: 'Coordinate 2',
-    prefix: name_prefix
+    prefix: name_prefix,
+    required: true,
+    set_id: true
   ) %>
   <%= mmt_help_icon(
     title: 'Coordinate 2',

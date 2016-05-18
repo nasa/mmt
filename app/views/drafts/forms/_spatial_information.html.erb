@@ -88,53 +88,53 @@
   </div>
 </fieldset>
 
-<!-- Spatial Keywords -->
-<fieldset class="eui-accordion is-closed" id="spatial-keywords">
+<!-- Location Keywords -->
+<fieldset class="eui-accordion is-closed" id="location-keywords">
   <div class="eui-accordion__header">
-    <h3 class="eui-accordion__title">Spatial Keywords</h3>
+    <h3 class="eui-accordion__title">Location Keywords</h3>
     <%= mmt_help_icon(
-      title: 'Spatial Keywords',
-      help: 'properties/SpatialKeywords'
+      title: 'Location Keywords',
+      help: 'properties/LocationKeywords'
     ) %>
     <div class="eui-accordion__icon" tabindex="0">
       <i class="eui-icon eui-fa-chevron-circle-down"></i>
-      <span class="eui-sr-only">Toggle Spatial Keywords</span>
+      <span class="eui-sr-only">Toggle Location Keywords</span>
     </div>
   </div>
   <div class="eui-accordion__body">
     <div class="row">
       <div class="col-12">
         <div class="row sub-fields">
-          <div class="selected-spatial-keywords spatial-keywords">
+          <div class="selected-location-keywords location-keywords">
             <ul>
-              <% spatial_keywords = draft.draft['SpatialKeywords'] || [] %>
-              <% spatial_keywords.each do |spatial_keyword| %>
+              <% location_keywords = draft.draft['LocationKeywords'] || [] %>
+              <% location_keywords.each do |location_keyword| %>
                 <li>
-                  <%= spatial_keyword %>
+                  <%= keyword_string(location_keyword) %>
                   <a class="remove">
                     <i class="fa fa-times-circle"></i>
-                    <span class="is-invisible">Remove <%= spatial_keyword %></span>
+                    <span class="is-invisible">Remove <%= keyword_string(location_keyword) %></span>
                   </a>
-                  <%= hidden_field_tag("draft[spatial_keywords][]", spatial_keyword) %>
+                  <%= hidden_field_tag("draft[location_keywords][]", keyword_string(location_keyword)) %>
                 </li>
               <% end %>
             </ul>
-            <p><%= hidden_field_tag("draft[spatial_keywords][]", "") %></p>
+            <p><%= hidden_field_tag("draft[location_keywords][]", "") %></p>
           </div>
           <div class="eui-nested-item-picker">
             <ul class="eui-item-path">
-              <li class="list-title"><a href="javascript:void(0);">Spatial Keyword</a></li>
+              <li class="list-title"><a href="javascript:void(0);">Location Keyword</a></li>
             </ul>
             <div class="eui-item-list-pane">
               <ul>
                 <li>
-                  <%= text_field_tag 'spatial-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...' %>
+                  <%= text_field_tag 'location-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...' %>
                 </li>
               </ul>
             </div>
           </div>
           <div class="actions">
-            <button type="button" class="eui-btn--blue add-spatial-keyword" disabled><i class="fa fa-plus-circle"></i> Add Keyword</button>
+            <button type="button" class="eui-btn--blue add-location-keyword" disabled><i class="fa fa-plus-circle"></i> Add Keyword</button>
           </div>
         </div>
       </div>
@@ -142,7 +142,7 @@
   </div>
 </fieldset>
 
-<!-- Setup Spatial Keywords -->
+<!-- Setup Location Keywords -->
 <script type="text/javascript">
-  setupSpatialKeywords(<%= raw @spatial_keywords.to_json %>);
+  setupLocationKeywords(<%= raw @location_keywords.to_json %>);
 </script>

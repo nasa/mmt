@@ -686,11 +686,16 @@ FactoryGirl.define do
         }
       }
     },
-    'SpatialKeywords' => ['GEOGRAPHIC REGION > ARCTIC', 'OCEAN > ATLANTIC OCEAN'],
+    'LocationKeywords' => [{
+      'Category' => 'GEOGRAPHIC REGION',
+      'Type' => 'ARCTIC'
+    }, {
+      'Category' => 'OCEAN',
+      'Type' => 'ATLANTIC OCEAN'
+    }],
     'TemporalExtents' => [{
         'TemporalRangeType' => 'SingleDateTime', 'PrecisionOfSeconds' => 1, 'EndsAtPresentFlag' => false, 'SingleDateTimes' => ['2015-07-01T00:00:00Z', '2015-12-25T00:00:00Z']
       },
-
       {
         'TemporalRangeType' => 'RangeDateTime', 'PrecisionOfSeconds' => 10, 'EndsAtPresentFlag' => false, 'RangeDateTimes' => [{
           'BeginningDateTime' => '2014-07-01T00:00:00Z', 'EndingDateTime' => '2014-08-01T00:00:00Z'
@@ -698,7 +703,6 @@ FactoryGirl.define do
           'BeginningDateTime' => '2015-07-01T00:00:00Z', 'EndingDateTime' => '2015-08-01T00:00:00Z'
         }]
       },
-
       {
         'TemporalRangeType' => 'PeriodicDateTime', 'PrecisionOfSeconds' => 30, 'EndsAtPresentFlag' => false,
         'PeriodicDateTimes' => [{

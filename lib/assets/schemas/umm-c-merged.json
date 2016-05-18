@@ -1256,8 +1256,7 @@
         "MaximumValue": {
           "type": "number"
         }
-      },
-      "required": ["MinimumValue"]
+      }
     },
     "UuidType": {
       "description": "A Level 3 UUID, see wiki link http://en.wikipedia.org/wiki/Universally_unique_identifier#Version_4_.28random.29",
@@ -1659,6 +1658,38 @@
       "description": "This element is used to identify the collection as a Science Quality Collection or as a non-science-quality collection such as a Near Real Time collection. If a collection does not contain this field, it will be assumed to be of science-quality.",
       "type": "string",
       "enum": ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"]
+    },
+    "LocationKeywordType": {
+      "description": "This element defines a mapping to the GCMD KMS hierarchical location list. It replaces SpatialKeywords. Each tier must have data in the tier above it.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Category":{
+          "description": "Top-level controlled keyword hierarchical level that contains the largest general location where the collection data was taken from.",
+          "$ref": "umm-cmn-json-schema.json#/definitions/KeywordStringType"
+          },
+        "Type":{
+          "description": "Second-tier controlled keyword hierarchical level that contains the regional location where the collection data was taken from",
+          "$ref": "umm-cmn-json-schema.json#/definitions/KeywordStringType"
+          },
+        "Subregion1":{
+          "description": "Third-tier controlled keyword heirarchical level that contains the regional sub-location where the collection data was taken from",
+          "$ref": "umm-cmn-json-schema.json#/definitions/KeywordStringType"
+        },
+        "Subregion2":{
+          "description": "Fourth-tier controlled keyword heirarchical level that contains the regional sub-location where the collection data was taken from",
+          "$ref": "umm-cmn-json-schema.json#/definitions/KeywordStringType"
+        },
+        "Subregion3":{
+          "description": "Fifth-tier controlled keyword heirarchical level that contains the regional sub-location where the collection data was taken from",
+          "$ref": "umm-cmn-json-schema.json#/definitions/KeywordStringType"
+        },
+        "DetailedLocation":{
+          "description": "Uncontrolled keyword heirarchical level that contains the specific location where the collection data was taken from. Exists outside the heirarchy.",
+          "$ref": "umm-cmn-json-schema.json#/definitions/KeywordStringType"
+        }
+      },
+      "required": ["Category"]
     }
   },
   "title": "UMM-C",
@@ -1788,7 +1819,9 @@
       "description": "Identifies the topic categories from the EN ISO 19115-1:2014 Geographic Information – Metadata – Part 1: Fundamentals (http://www.isotc211.org/) Topic Category Code List that pertain to this collection, based on the Science Keywords associated with the collection. An ISO Topic Category is a high-level thematic classification to assist in the grouping of and search for available collections.",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/ISOTopicCategoryEnum"
+        "type": "string",
+        "maxLength": 4000,
+        "minLength": 1
       },
       "minItems": 0
     },
@@ -1859,12 +1892,19 @@
       "$ref": "#/definitions/SpatialInformationType"
     },
     "SpatialKeywords": {
-      "description": "Controlled hierarchical keywords used to specify the spatial location of the collection.   The controlled vocabulary for spatial keywords is maintained in the Keyword Management System (KMS).  The Spatial Keyword hierarchy includes one or more of the following layers: Location_Category (e.g., Continent), Location_Type (e.g. Africa), Location_Subregion1 (e.g., Central Africa), Location_Subregion2 (e.g., Cameroon), and Location_Subregion3",
+      "description": "This is deprecated and will be removed. Use LocationKeywords instead. Controlled hierarchical keywords used to specify the spatial location of the collection.   The controlled vocabulary for spatial keywords is maintained in the Keyword Management System (KMS).  The Spatial Keyword hierarchy includes one or more of the following layers: Location_Category (e.g., Continent), Location_Type (e.g. Africa), Location_Subregion1 (e.g., Central Africa), Location_Subregion2 (e.g., Cameroon), and Location_Subregion3.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/KeywordStringType"
       },
       "minItems": 1
+    },
+    "LocationKeywords": {
+      "description": "Controlled hierarchical keywords used to specify the spatial location of the collection.   The controlled vocabulary for spatial keywords is maintained in the Keyword Management System (KMS).  The Spatial Keyword hierarchy includes one or more of the following layers: Category (e.g., Continent), Type (e.g. Africa), Subregion1 (e.g., Central Africa), Subregion2 (e.g., Cameroon), and Subregion3. DetailedLocation exists outside the hierarchy.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/LocationKeywordType"
+      }
     },
     "Platforms": {
       "description": "Information about the relevant platform(s) used to acquire the data in the collection. Platform types are controlled in the Keyword Management System (KMS), and include Spacecraft, Aircraft, Vessel, Buoy, Platform, Station, Network, Human, etc.",

@@ -3,8 +3,8 @@ picker = undefined
 @setupScienceKeywords = (data) ->
   picker = new NestedItemPicker('.eui-nested-item-picker', data: data, data_type: 'science')
 
-@setupSpatialKeywords = (data) ->
-  picker = new NestedItemPicker('.eui-nested-item-picker', data: data, data_type: 'spatial')
+@setupLocationKeywords = (data) ->
+  picker = new NestedItemPicker('.eui-nested-item-picker', data: data, data_type: 'location')
 
 $(document).ready ->
   if picker?
@@ -13,8 +13,8 @@ $(document).ready ->
     $('.add-science-keyword').on 'click', ->
       addKeyword 'science'
       resetPicker()
-    $('.add-spatial-keyword').on 'click', ->
-      addKeyword 'spatial'
+    $('.add-location-keyword').on 'click', ->
+      addKeyword 'location'
       resetPicker()
 
     addKeyword = (type, keywords = []) ->
@@ -37,10 +37,10 @@ $(document).ready ->
 
     resetPicker = ->
       # Reset picker to top level
-      $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', 'true'
+      $('.add-science-keyword, .add-location-keyword').attr 'disabled', 'true'
       picker.resetPicker()
 
-    $('.selected-science-keywords, .selected-spatial-keywords').on 'click', '.remove', ->
+    $('.selected-science-keywords, .selected-location-keywords').on 'click', '.remove', ->
       $(this).parent().remove()
 
     # Functions to validate user's ability to add keywords
@@ -48,12 +48,12 @@ $(document).ready ->
     checkSelectionLevel = ->
       selectionLevel = $('.eui-item-path li').length
 
-      # science keywords must be at least 3 levels deep, spatial keywords 2
+      # science keywords must be at least 3 levels deep, location keywords 2
       selectionMinimum = if picker.options.data_type == 'science' then 3 else 2
       if selectionLevel > selectionMinimum
-        $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
+        $('.add-science-keyword, .add-location-keyword').removeAttr 'disabled'
       else
-        $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
+        $('.add-science-keyword, .add-location-keyword').attr 'disabled', true
 
     $('div.eui-nested-item-picker').on 'click', '.item-parent', ->
       checkSelectionLevel()
@@ -66,12 +66,12 @@ $(document).ready ->
     $('.eui-nested-item-picker').on 'click', '.final-option', ->
       $this = $(this)
 
-      # science keywords must be at least 3 levels deep, spatial keywords 2
+      # science keywords must be at least 3 levels deep, location keywords 2
       selectionLowerBound = if picker.options.data_type == 'science' then 4 else 3
       if $this.hasClass('final-option-selected')
-        $('.add-science-keyword, .add-spatial-keyword').removeAttr 'disabled'
+        $('.add-science-keyword, .add-location-keyword').removeAttr 'disabled'
       else if $('.eui-item-path li').length < selectionLowerBound
-        $('.add-science-keyword, .add-spatial-keyword').attr 'disabled', true
+        $('.add-science-keyword, .add-location-keyword').attr 'disabled', true
 
     # Science keyword searching
     getKeywords = (json, keyword = []) ->
@@ -103,7 +103,7 @@ $(document).ready ->
       queryTokenizer: Bloodhound.tokenizers.nonword,
       local: getKeywords(picker.currentData)
 
-    $('#science-keyword-search, #spatial-keyword-search').on 'click', ->
+    $('#science-keyword-search, #location-keyword-search').on 'click', ->
       typeaheadSource.clear()
       typeaheadSource.local = getKeywords(picker.currentData)
       typeaheadSource.initialize(true)
@@ -121,8 +121,8 @@ $(document).ready ->
     $(document).on 'click', 'li.item a, ul.eui-item-path li', ->
       typeaheadSource.clear()
       # destroy typeahead
-      $('#science-keyword-search, #spatial-keyword-search').val('')
-      $('#science-keyword-search, #spatial-keyword-search').typeahead('destroy')
+      $('#science-keyword-search, #location-keyword-search').val('')
+      $('#science-keyword-search, #location-keyword-search').typeahead('destroy')
 
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
@@ -136,7 +136,7 @@ $(document).ready ->
 
       if picker.options.data_type == 'science'
         addKeyword('science', keyword)
-      else if picker.options.data_type == 'spatial'
-        addKeyword('spatial', keyword)
+      else if picker.options.data_type == 'location'
+        addKeyword('location', keyword)
 
       e.preventDefault()

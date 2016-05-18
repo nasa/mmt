@@ -270,7 +270,7 @@ class ApplicationController < ActionController::Base
     SpatialExtent
     TilingIdentificationSystem
     SpatialInformation
-    SpatialKeywords
+    LocationKeywords
   )
   TEMPORAL_INFORMATION_FIELDS = %w(
     TemporalExtents

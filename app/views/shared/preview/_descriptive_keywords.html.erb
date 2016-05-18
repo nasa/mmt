@@ -7,7 +7,7 @@
       <h5>
         Science Keywords
         <% if @draft.present? %>
-          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Science Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', { anchor: 'descriptive_keywords' }), { class: 'hash-link' } %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Science Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'descriptive_keywords', { anchor: 'science-keywords' }), { class: 'hash-link' } %>
         <% end %>
       </h5>
       <% keywords = metadata['ScienceKeywords'] || [] %>

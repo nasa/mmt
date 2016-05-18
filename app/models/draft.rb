@@ -141,6 +141,25 @@ class Draft < ActiveRecord::Base
     ends_at_present_flag
   )
 
+  SCIENCE_KEYWORD_LEVELS = %w(
+    Category
+    Topic
+    Term
+    VariableLevel1
+    VariableLevel2
+    VariableLevel3
+    DetailedVariable
+  )
+
+  LOCATION_KEYWORD_TIERS = %w(
+    Category
+    Type
+    Subregion1
+    Subregion2
+    Subregion3
+    DetailedLocation
+  )
+
   def convert_to_arrays(object)
     case object
     when Hash
@@ -163,6 +182,8 @@ class Draft < ActiveRecord::Base
             object[key] = value.map { |_key, resolution| convert_to_number(resolution) }
           elsif key == 'science_keywords'
             object[key] = convert_science_keywords(value)
+          elsif key == 'location_keywords'
+            object[key] = convert_location_keywords(value)
           elsif key == 'access_constraints'
             # 'Value' shows up multiple times in the UMM. We just need to convert AccessConstraints/Value to a number
             value['value'] = convert_to_number(value['value']) if value['value']
@@ -231,16 +252,27 @@ class Draft < ActiveRecord::Base
   def convert_science_keywords(science_keywords)
     values = []
     if science_keywords.length > 0
-      science_keywords.each do |keyword|
+      science_keywords.each do |science_keyword|
         value = {}
-        keywords = keyword.split(' > ')
-        value['Category'] = keywords[0] if keywords[0]
-        value['Topic'] = keywords[1] if keywords[1]
-        value['Term'] = keywords[2] if keywords[2]
-        value['VariableLevel1'] = keywords[3] if keywords[3]
-        value['VariableLevel2'] = keywords[4] if keywords[4]
-        value['VariableLevel3'] = keywords[5] if keywords[5]
-        value['DetailedVariable'] = keywords[6] if keywords[6]
+        keywords = science_keyword.split(' > ')
+        keywords.each_with_index do |keyword, index|
+          value[SCIENCE_KEYWORD_LEVELS[index]] = keyword
+        end
+        values << value
+      end
+    end
+    values
+  end
+
+  def convert_location_keywords(location_keywords)
+    values = []
+    if location_keywords.length > 0
+      location_keywords.each do |location_keyword|
+        value = {}
+        keywords = location_keyword.split(' > ')
+        keywords.each_with_index do |keyword, index|
+          value[LOCATION_KEYWORD_TIERS[index]] = keyword
+        end
         values << value
       end
     end

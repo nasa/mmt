@@ -147,9 +147,9 @@ module PreviewCirclesHelper
         required: false,
         anchor: 'spatial-representation-information'
       },
-      'SpatialKeywords' => {
+      'LocationKeywords' => {
         required: false,
-        anchor: 'spatial-keywords'
+        anchor: 'location-keywords'
       }
     },
     'acquisition_information' => {

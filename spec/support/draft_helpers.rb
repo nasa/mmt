@@ -521,7 +521,7 @@ module Helpers
       click_on 'Add Keyword'
     end
 
-    def add_spatial_keywords
+    def add_location_keywords
       choose_keyword 'GEOGRAPHIC REGION'
       choose_keyword 'ARCTIC'
       click_on 'Add Keyword'
