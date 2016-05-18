@@ -23,9 +23,9 @@ describe 'Personnel form', js: true do
       within '.nav-top' do
         click_on 'Save'
       end
+      expect(page).to have_content('Personnel')
       # output_schema_validation Draft.first.draft
       open_accordions
-      wait_for_jquery
     end
 
     it 'displays a confirmation message' do
