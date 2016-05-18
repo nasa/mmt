@@ -25,6 +25,7 @@ describe 'Personnel form', js: true do
       end
       # output_schema_validation Draft.first.draft
       open_accordions
+      wait_for_jquery
     end
 
     it 'displays a confirmation message' do
