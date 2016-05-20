@@ -132,6 +132,8 @@ describe 'Publishing draft records', js: true, reset_provider: true do
     it 'displays a link to submit feedback' do
       recorded_request_id = 'a037669d-c94e-45d1-838c-707b884245ab'
 
+      expect(page).to have_css('.eui-banner--danger')
+
       expect(page).to have_link('Click here to submit feedback')
       expect(page).to have_xpath("//a[contains(@href,'#{recorded_request_id}')]")
     end

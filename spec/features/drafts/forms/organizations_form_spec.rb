@@ -76,6 +76,7 @@ describe 'Organizations form', js: true do
           expect(page).to have_selector('input.url[value="http://example.com/1"]')
         end
       end
+
       within '.multiple.organizations > .multiple-item-1' do
         expect(page).to have_field('Role', with: 'OWNER')
         expect(page).to have_field('Short Name', with: 'ESA/ED')

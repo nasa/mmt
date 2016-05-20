@@ -48,6 +48,9 @@ module Helpers
       # Are there accordions on the page, and are they open?
       expect(page).to have_css('.eui-accordion')
       expect(page).to have_no_css('.eui-accordion.is-closed')
+
+      # are active jQuery requests finished?
+      expect(page.evaluate_script('jQuery.active').zero?).to be true
     rescue
       false
     end

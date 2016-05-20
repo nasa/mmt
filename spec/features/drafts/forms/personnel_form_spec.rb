@@ -77,6 +77,7 @@ describe 'Personnel form', js: true do
           expect(page).to have_selector('input.url[value="http://example.com/1"]')
         end
       end
+
       within '.multiple.personnel > .multiple-item-1' do
         expect(page).to have_field('Role', with: 'OWNER')
         expect(page).to have_field('First Name', with: 'First Name')

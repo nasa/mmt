@@ -17,6 +17,8 @@ describe 'Radio button form selectors', js: true do
         click_on 'Spatial Information', match: :first
       end
 
+      expect(page).to have_content('Spatial Information')
+
       open_accordions
 
       within '#spatial-extent' do
@@ -115,6 +117,8 @@ describe 'Radio button form selectors', js: true do
         click_on 'Spatial Information', match: :first
       end
 
+      expect(page).to have_content('Spatial Information')
+
       open_accordions
     end
 
@@ -209,6 +213,8 @@ describe 'Radio button form selectors', js: true do
         click_on 'Spatial Information', match: :first
       end
 
+      expect(page).to have_content('Spatial Information')
+
       open_accordions
 
       within '#spatial-representation-information' do
@@ -273,6 +279,8 @@ describe 'Radio button form selectors', js: true do
       within '.metadata' do
         click_on 'Temporal Information'
       end
+
+      expect(page).to have_content('Temporal Information')
 
       open_accordions
     end
