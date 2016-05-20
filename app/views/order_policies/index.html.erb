@@ -20,8 +20,8 @@
 
       <% if @policy.empty? %>
 
-        <p>No <%= @current_user.provider_id %> Order Policy found.</p>
-        <%= link_to "Create an Order Policy", new_order_policies_path, class: "eui-btn" %>
+        <p>No <%= @current_user.provider_id %> Order Policies found.</p>
+        <%= link_to "Create Order Policies", new_order_policies_path, class: "eui-btn" %>
 
       <% else %>
 
@@ -45,7 +45,7 @@
             <!-- TRANSACTIONS SUPPORTED -->
             <div class="content-box">
               <h3>Order Transactions Supported</h3>
-              <p><%= @policy.fetch(:supported_transactions, {}).fetch(:item) %></p>
+              <%= [*@policy.fetch(:supported_transactions, {}).fetch(:item, [])].to_sentence %>
             </div>
           </div>
 
@@ -78,7 +78,7 @@
           <p><span class="inline-label">Status:</span> <%= @policy.fetch(:ssl_policy, {}).fetch(:ssl_enabled, false) ? "Enabled" : "Disabled" %></p>
           <p><span class="inline-label">Last Updated:</span> <%= @policy.fetch(:ssl_policy, {}).fetch(:ssl_last_update) %></p>
 
-          <h3>Customer Properties</h3>
+          <h3>Custom Properties</h3>
           <% if @policy.key?(:properties) %>
             <pre><%= @pretty_properties %></pre>
           <% end %>

@@ -22,4 +22,5 @@
 //= require chosen-1.4.2/chosen.jquery.min
 //= require typeahead-0.11.1/typeahead.bundle
 //= require select2-4.0.1/select2.min
+//= require jquery-validate/jquery.validate.min
 //= require_tree .

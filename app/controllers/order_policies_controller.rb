@@ -22,7 +22,11 @@ class OrderPoliciesController < ApplicationController
   end
 
   def create
-    flash[:success] = 'Order Policies successfully created'
+    if upsert_policy
+      flash[:success] = 'Order Policies successfully created'
+    else
+      flash[:error] ||= 'Error creating Order Policies'
+    end
 
     redirect_to order_policies_path
   end
@@ -85,11 +89,11 @@ class OrderPoliciesController < ApplicationController
           :SslEnabled => params.fetch("ssl_policy", {}).fetch("ssl_enabled", false), 
           :SslCertificate => params.fetch("ssl_policy", {}).fetch("ssl_certificate", "")
         }, 
-        :SupportedTransactions => params.fetch("supported_transactions", {}).keys,
+        :SupportedTransactions => params.fetch("supported_transactions", []),
         :Properties => params.fetch("properties")
       }
 
-      order_items = params.fetch("collections_supporting_duplicate_order_items", {}).keys
+      order_items = params.fetch("collections_supporting_duplicate_order_items", [])
       unless order_items.empty?
         payload[:OrderSupportsDuplicateCatalogItems] = true
         payload[:CollectionsSupportingDuplicateOrderItems] = order_items
@@ -116,7 +120,7 @@ class OrderPoliciesController < ApplicationController
       rescue Savon::SOAPFault => e
         Rails.logger.error(e)
 
-        flash[:error] = e.to_hash.fetch(:fault, {}).fetch(:detail, {}).fetch(:soap_message_validation_fault, "An unknown error has occurred.")
+        flash[:error] = ([*e.to_hash.fetch(:fault, {}).fetch(:detail, {}).fetch(:soap_message_validation_fault, "An unknown error has occurred.")].to_sentence)
 
         return false
         # TODO: Implement error/validation messages
