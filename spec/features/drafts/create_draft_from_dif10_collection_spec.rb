@@ -45,12 +45,6 @@ describe 'Create and edit a draft from a Dif 10 collection with location keyword
         end
       end
 
-      after(:all) do
-        # delete the draft record so it doesn't affect other tests
-        draft = Draft.first
-        draft.destroy!
-      end
-
       it 'displays all the location keywords in the metadata preview' do
         within '.location-keyword-preview' do
           expect(page).to have_content('GEOGRAPHIC REGION GLOBAL')
