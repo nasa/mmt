@@ -227,4 +227,12 @@
   "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1000000279-EDF_DEV06/5",
   "ingest_count": 1,
   "granule": null
+}, {
+  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1200189951-MMT_2.echo10",
+  "ingest_count": 1,
+  "granule": null
+}, {
+  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1200189943-MMT_2.echo10",
+  "ingest_count": 1,
+  "granule": null
 }]

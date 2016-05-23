@@ -42,6 +42,18 @@ class ApplicationController < ActionController::Base
   end
   helper_method :cmr_env
 
+  def echo_client
+    if @echo_client.nil?
+      @echo_client = Echo::Client.client_for_environment(echo_env, Rails.configuration.services)
+    end
+    @echo_client
+  end
+
+  def echo_env
+    @echo_env = Rails.configuration.echo_env
+  end
+  helper_method :echo_env
+
   def edsc_map_path
     service_configs = Rails.configuration.services
     edsc_root = service_configs['earthdata'][cmr_env]['edsc_root']
@@ -124,18 +136,17 @@ class ApplicationController < ActionController::Base
     # Dont bother searching if the provided information is nil
     return nil if provider_id.nil?
 
-    response = Echo::Provider.get_provider_names(token_with_client_id, nil)
-    result = response.body.fetch(:get_provider_names_response, {}).fetch(:result, {})
+    result = echo_client.get_provider_names(token_with_client_id, nil).parsed_body
 
     # The result is nil if there is nothing to return
-    unless result.nil?
-      providers = result.fetch(:item, [])
+    if result
+      providers = result.fetch("Item", [])
 
       # Look for the current provider in the list, this will get us the guid we need
       providers.each do |provider|
         # If we find the provider we're looking for, ask ECHO for the DQSDs
-        if provider.fetch(:name, nil) == @current_user.provider_id
-          return provider.fetch(:guid, nil)
+        if provider.fetch("Name", nil) == @current_user.provider_id
+          return provider.fetch("Guid", nil)
         end
       end
     end

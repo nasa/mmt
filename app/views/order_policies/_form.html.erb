@@ -3,12 +3,12 @@
   <div class="row">
     <div class="col-6">
       <label for="retry_attempts" class="eui-required-o">Retry Attempts</label>
-      <%= text_field_tag('retry_attempts', @policy.fetch(:retry_attempts, ""), class: 'full-width') %>
+      <%= text_field_tag('retry_attempts', @policy.fetch("RetryAttempts", ""), class: 'full-width') %>
       <p class="form-description">Number of times that ECHO will try to connect to the provider if the transmission fails.</p>
     </div>
     <div class="col-6">
       <label for="retry_wait_time" class="eui-required-o">Retry Wait Time</label>
-      <%= text_field_tag('retry_wait_time', @policy.fetch(:retry_wait_time, ""), class: 'full-width') %>
+      <%= text_field_tag('retry_wait_time', @policy.fetch("RetryWaitTime", ""), class: 'full-width') %>
       <p class="form-description">Amount of time (in seconds) that ECHO will wait before trying to connect.</p>
     </div>
   </div>
@@ -21,11 +21,11 @@
   </div>
   <div class="row checkbox-group">
     <div>
-      <label for="supported_transactions_quote"><%= check_box_tag('supported_transactions[]', 'QUOTE', @policy.fetch(:supported_transactions, {}).fetch(:item, []).include?('QUOTE'), id: 'supported_transactions_quote') %>
+      <label for="supported_transactions_quote"><%= check_box_tag('supported_transactions[]', 'QUOTE', @policy.fetch("SupportedTransactions", {}).fetch("Item", []).include?('QUOTE'), id: 'supported_transactions_quote') %>
       Quote</label><br />
-      <label for="supported_transactions_submit"><%= check_box_tag('supported_transactions[]', 'SUBMIT', @policy.fetch(:supported_transactions, {}).fetch(:item, []).include?('SUBMIT'), id: 'supported_transactions_submit') %>
+      <label for="supported_transactions_submit"><%= check_box_tag('supported_transactions[]', 'SUBMIT', @policy.fetch("SupportedTransactions", {}).fetch("Item", []).include?('SUBMIT'), id: 'supported_transactions_submit') %>
       Submit</label><br />
-      <label for="supported_transactions_cancel"><%= check_box_tag('supported_transactions[]', 'CANCEL', @policy.fetch(:supported_transactions, {}).fetch(:item, []).include?('CANCEL'), id: 'supported_transactions_cancel') %>
+      <label for="supported_transactions_cancel"><%= check_box_tag('supported_transactions[]', 'CANCEL', @policy.fetch("SupportedTransactions", {}).fetch("Item", []).include?('CANCEL'), id: 'supported_transactions_cancel') %>
       Cancel</label><br />
     </div>
     <label for="supported_transactions[]"></label>
@@ -34,7 +34,7 @@
   <div class="row">
     <label>Status Update Notifications</label>
     <br>
-    <label><%= check_box_tag('override_notification_enabled', 1, @policy.fetch(:override_notification_enabled, false)) %>
+    <label><%= check_box_tag('override_notification_enabled', 1, @policy.fetch("overrideNotificationEnabled", "false").downcase == "true") %>
     Always send status updates</label>
   </div>
 </fieldset>
@@ -43,15 +43,15 @@
   <h3>Routing Location</h3>
   <div class="row">
     <label for="end_point" class="eui-required-o">End Point</label>
-    <%= text_field_tag('end_point', @policy.fetch(:end_point, ""), class: 'full-width required') %>
+    <%= text_field_tag('end_point', @policy.fetch("EndPoint", ""), class: 'full-width required') %>
   </div>
   <div class="row">
     <label for="routing_type" class="eui-required-o">Type</label>
-    <%= select_tag('routing_type', options_for_select([["Order Fullfillment V9", "ORDER_FULFILLMENT_V9"]], @policy.fetch(:routing_type, "")), class: 'full-width required') %>
+    <%= select_tag('routing_type', options_for_select([["Order Fullfillment V9", "ORDER_FULFILLMENT_V9"]], @policy.fetch("Routing", "")), class: 'full-width required') %>
   </div>
   <div class="row">
     <label>Suspend Ordering Until</label>
-    <%= datetime_field_tag('ordering_suspended_until_date', @policy.fetch(:ordering_suspended_until_date, ""), class: 'full-width') %>
+    <%= datetime_field_tag('ordering_suspended_until_date', @policy.fetch("OrderingSuspendedUntilDate", ""), class: 'full-width') %>
   </div>
 </fieldset>
 
@@ -77,7 +77,7 @@
       <% else %>
       <% @collections.each do |collection| %>
       <tr>
-        <td class="align-c"><%= check_box_tag("collections_supporting_duplicate_order_items[]", collection.fetch("meta").fetch("concept-id"), @policy.fetch(:collections_supporting_duplicate_order_items, {}).fetch(:item, []).include?(collection.fetch("meta").fetch("concept-id"))) %></td>
+        <td class="align-c"><%= check_box_tag("collections_supporting_duplicate_order_items[]", collection.fetch("meta").fetch("concept-id"), @policy.fetch("CollectionsSupportingDuplicateOrderItems", {}).fetch("Item", []).include?(collection.fetch("meta").fetch("concept-id"))) %></td>
         <td><%= collection.fetch("umm", {}).fetch("entry-title", "") %></td>
         <td><%= collection.fetch("umm", {}).fetch("version-id", "") %></td>
         <td><%= collection.fetch("umm", {}).fetch("entry-title", "") %></td>
@@ -90,7 +90,7 @@
   <div class="row">
     <div class="col-6">
       <label>Maximum Items Per Order</label>
-      <%= text_field_tag('max_items_per_order', @policy.fetch(:max_items_per_order, ""), class: 'full-width') %>
+      <%= text_field_tag('max_items_per_order', @policy.fetch("MaxItemsPerOrder", ""), class: 'full-width') %>
       <p class="form-description">The maximum number of items that a user can have in a single order. This value is the total quantity of items. If left blank, there is no maximum enforced.</p>
     </div>
   </div>
@@ -100,16 +100,16 @@
   <h3>SSL Policy</h3>
   <div class="row">
     <label>Certificate</label>
-    <%= text_area_tag('ssl_policy[ssl_certificate]', @policy.fetch(:ssl_policy, {}).fetch(:ssl_certificate, ""), rows: 5, class: 'full-width') %>
+    <%= text_area_tag('ssl_policy[ssl_certificate]', @policy.fetch("SslPolicy", {}).fetch("SslCertificate", ""), rows: 5, class: 'full-width') %>
   </div>
   <div class="row">
     <div class="col-8">
-      <label><%= check_box_tag('ssl_policy[ssl_enabled]', 1, @policy.fetch(:ssl_policy, {}).fetch(:ssl_enabled, false)) %>
+      <label><%= check_box_tag('ssl_policy[ssl_enabled]', 1, @policy.fetch("SslPolicy", {}).fetch("SslEnabled", "false").downcase == "true") %>
       SSL Enabled</label>
     </div>
     <div class="col-4">
-      <% unless @policy.fetch(:ssl_policy, {}).empty? %>
-      <em class="form-description">Last Updated on <%= @policy.fetch(:ssl_policy, {}).fetch(:ssl_last_update, "") %></em>
+      <% unless @policy.fetch("SslPolicy", {}).empty? %>
+      <em class="form-description">Last Updated on <%= @policy.fetch("SslPolicy", {}).fetch("SslLastUpdate", "") %></em>
       <% end %>
     </div>
   </div>
@@ -118,7 +118,7 @@
 <fieldset>
   <h3>Custom Properties</h3>
   <div class="row">
-    <%= text_area_tag('properties', @policy.fetch(:properties, ""), rows: 5, class: 'full-width') %>
+    <%= text_area_tag('properties', @policy.fetch("Properties", ""), rows: 5, class: 'full-width') %>
   </div>
 </fieldset>
 
@@ -127,8 +127,3 @@
     <%= submit_tag('Submit', name: 'full_search', class: 'eui-btn--blue') %>
   </div>
 </fieldset>
-
-<script>
-  // Load json-schema for field validation
-  var globalJsonSchema = <%= raw @json_schema.to_json %>;
-</script>
