@@ -37,9 +37,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
-    akami (1.3.1)
-      gyoku (>= 0.4.0)
-      nokogiri
     arel (6.0.3)
     autoprefixer-rails (6.3.1)
       execjs
@@ -96,12 +93,7 @@ GEM
       thor (~> 0.14)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    gyoku (1.3.1)
-      builder (>= 2.1.2)
     hike (1.2.3)
-    httpi (2.4.2)
-      rack
-      socksify
     i18n (0.7.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -140,7 +132,6 @@ GEM
       sass (>= 3.3)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
-    nori (2.6.0)
     pg (0.18.4)
     poltergeist (1.8.1)
       capybara (~> 2.1)
@@ -215,14 +206,6 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    savon (2.11.1)
-      akami (~> 1.2)
-      builder (>= 2.1.2)
-      gyoku (~> 1.2)
-      httpi (~> 2.3)
-      nokogiri (>= 1.4.0)
-      nori (~> 2.4)
-      wasabi (~> 3.4)
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -232,7 +215,6 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     slop (3.6.0)
-    socksify (1.7.0)
     sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -259,9 +241,6 @@ GEM
       rack
       raindrops (~> 0.7)
     vcr (3.0.1)
-    wasabi (3.5.0)
-      httpi (~> 2.0)
-      nokogiri (>= 1.4.2)
     web-console (2.3.0)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -308,7 +287,6 @@ DEPENDENCIES
   rspec-rails
   rspec_junit_formatter
   sass-rails (~> 5.0)
-  savon (~> 2.11.0)
   sdoc (~> 0.4.0)
   simplecov
   sprockets (~> 2.8)
