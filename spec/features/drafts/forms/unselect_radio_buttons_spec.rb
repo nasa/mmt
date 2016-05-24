@@ -89,6 +89,16 @@ describe 'Unselecting radio buttons', js: true do
 
         expect(result).to eq('')
       end
+
+      context 'when selecting a geometry radio button' do
+        before do
+          choose 'Points'
+        end
+
+        it 'displays the form fields' do
+          expect(page).to have_field('Longitude')
+        end
+      end
     end
 
     context 'when clearing the Spatial Representation Information Spatial Coverage Type' do

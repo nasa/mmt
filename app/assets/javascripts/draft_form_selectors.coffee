@@ -1,6 +1,7 @@
 $(document).ready ->
   # Handle geometry-picker (points/rectangles/polygons/lines)
   $('.geometry-picker').change ->
+    $('.geometry-type').show()
     geometryType = $(this).parents('.geometry-type-group')
     $('.geometry-type .points-fields').hide()
     $('.geometry-type .bounding-rectangles-fields').hide()
@@ -121,5 +122,7 @@ $(document).ready ->
     $(this).siblings().find('input, select, textarea').not('input[type="radio"]').val ''
     $fieldset.find(".#{content}-group input[type='radio']").prop 'checked', false
     $fieldset.find(".#{content} input[type='radio']").prop 'checked', false
+
+    $fieldset.find(".#{content} .geometry-type").hide()
 
     $fieldset.find(".#{content}").hide()
