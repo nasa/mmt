@@ -64,11 +64,11 @@
             </thead>
             <tbody>
               <% if @policy.key?('CollectionsSupportingDuplicateOrderItems') %>
-                <% [*@policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', [])].each do |collection| %>
+                <% @collections.select{ |c| [*@policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', [])].include?(c.fetch('meta', {}).fetch('concept-id', nil)) }.each do |collection| %>
                   <tr>
-                    <td><%= collection %></td>
-                    <td>Version Placeholder</td>
-                    <td>Shortname Placeholder</td>
+                    <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+                    <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
+                    <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
                   </tr>
                 <% end %>
               <% end %>

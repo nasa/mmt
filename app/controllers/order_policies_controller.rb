@@ -1,7 +1,7 @@
 require 'rexml/document'
 
 class OrderPoliciesController < ApplicationController
-  before_action :set_collections, only: [:new, :edit]
+  before_action :set_collections, only: [:index, :new, :edit]
 
   def index
     set_policy

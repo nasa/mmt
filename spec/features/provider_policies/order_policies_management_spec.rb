@@ -98,6 +98,8 @@ describe 'Viewing Order Policies', js: true do
             expect(page).to have_content('QUOTE and SUBMIT')
             expect(page).to have_content('Override Status Notifications: No')
 
+            expect(page).to have_content('My testing title 02')
+
             expect(page).to have_content('<test> user provided xml </test>')
 
             # Button to edit order policies
