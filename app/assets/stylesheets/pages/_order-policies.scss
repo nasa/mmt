@@ -14,3 +14,15 @@
     }
   }
 }
+
+
+.eui-btn {
+  &.eui-btn--red {
+    background-color: lighten($red, 4%);
+    color: $white;
+
+    &:hover {
+      background-color: lighten($red, 6%);
+    }
+  }  
+}

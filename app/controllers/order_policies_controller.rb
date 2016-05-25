@@ -28,20 +28,40 @@ class OrderPoliciesController < ApplicationController
   end
 
   def create
-    if upsert_policy
-      flash[:success] = 'Order Policies successfully created'
+    # Attempt to upsert the policies
+    upsert_response = upsert_policy
+
+    if upsert_response.error?
+      flash[:error] ||= [*response.parsed_error].to_sentence
     else
-      flash[:error] ||= 'Error creating Order Policies'
+      flash[:success] = 'Order Policies successfully created'
     end
 
     redirect_to order_policies_path
   end
 
   def update
-    if upsert_policy
-      flash[:success] = 'Order Policies successfully updated'
+    # Attempt to upsert the policies
+    upsert_response = upsert_policy
+
+    if upsert_response.error?
+      flash[:error] ||= [*response.parsed_error].to_sentence
     else
-      flash[:error] ||= 'Error updating Order Policies'
+      flash[:success] = 'Order Policies successfully updated'
+    end
+
+    redirect_to order_policies_path
+  end
+
+  def destroy
+    return false unless current_provider_guid
+
+    response = echo_client.remove_provider_policies(token_with_client_id, current_provider_guid)
+
+    if response.error?
+      flash[:error] = [*response.parsed_error].to_sentence if response.error?
+    else
+      flash[:success] = 'Order Policies successfully removed'
     end
 
     redirect_to order_policies_path
@@ -62,12 +82,10 @@ class OrderPoliciesController < ApplicationController
   end
 
   def set_policy
-    @token = token_with_client_id
-
     # This call will only work if a provider guid is supplied
     if current_provider_guid
       # Ask ECHO for a list of providers, response includes the name and guid
-      result = echo_client.get_providers_policies(@token, [current_provider_guid]).parsed_body
+      result = echo_client.get_providers_policies(token_with_client_id, [current_provider_guid]).parsed_body
 
       if result && result.fetch('Item', {}).fetch('xsi:nil', 'false') == 'false'
         @policy = result.fetch('Item', {})
@@ -115,14 +133,6 @@ class OrderPoliciesController < ApplicationController
   def upsert_policy
     return false unless current_provider_guid
 
-    response = echo_client.set_provider_policies(token_with_client_id, current_provider_guid, generate_upsert_payload)
-
-    if response.error?
-      flash[:error] = [*response.parsed_body.fetch('faultstring', 'An unknown error has occurred.')].map(&:humanize).to_sentence
-
-      return false
-    else
-      return true
-    end
+    echo_client.set_provider_policies(token_with_client_id, current_provider_guid, generate_upsert_payload)
   end
 end
