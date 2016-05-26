@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   resources :provider_holdings, only: [:index, :show]
+
+  # PUMPness
   resource :order_policies, except: :show
   get '/order_policies' => 'order_policies#index'
+
+  resources :data_quality_summaries
 
   resources :groups
   delete '/groups/:id/remove_members' => 'groups#remove_members', as: 'remove_members'

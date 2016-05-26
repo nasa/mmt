@@ -1,0 +1,32 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'Manage CMR', manage_cmr_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'Data Quality Summaries', data_quality_summaries_path %>
+          </li>
+          <li class="eui-breadcrumbs__item"><%= @summary.parsed_body.fetch('Name', '') %></li>
+        </ol>
+      </div>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+      <% if @summary.error? %>
+        <h2>Error Retrieving Data Quality Summary</h2>
+        <p><%= @summary.parsed_error %></p>
+      <% else %>
+        <h2><%= @summary.parsed_body.fetch('Name', '') %></h2>
+
+        <%= raw @summary.parsed_body.fetch('Summary', '') %>
+      <% end %>
+    </section>
+  </div>
+</main>

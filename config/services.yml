@@ -37,3 +37,6 @@ echo_soap:
     provider:
       wsdl: "echo-wsdl/v10/ProviderService.wsdl"
       path: "echo-v10/ProviderServicePortImpl"
+    data_management:
+      wsdl: "echo-wsdl/v10/DataManagementService.wsdl"
+      path: "echo-v10/DataManagementServicePortImpl"

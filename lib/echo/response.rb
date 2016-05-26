@@ -26,14 +26,14 @@ module Echo
 
       return body.fetch('Fault', {}) if status >= 400
 
-      body.fetch(body.keys.first).fetch('result', nil)
+      body.fetch(body.keys.first).fetch('result', {})
     end
 
     def parsed_error
       error = parsed_body.fetch('faultstring')
       detail = parsed_body.fetch('detail', {}).fetch('SoapMessageValidationFault', '')
 
-      [error, detail].join(': ')
+      [error, detail].reject(&:empty?).join(': ')
     end
 
     def headers

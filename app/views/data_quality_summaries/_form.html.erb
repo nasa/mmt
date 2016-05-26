@@ -1,0 +1,19 @@
+<fieldset>
+  <div class="row">
+    <label for="name" class="eui-required-o">Name</label>
+    <%= text_field_tag('name', @summary.fetch('Name', ''), class: 'full-width') %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <div class="row">
+    <label for="summary" class="eui-required-o">Summary</label>
+    <%= text_area_tag('summary', @summary.fetch('Summary', ''), class: 'full-width') %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <div class="row search-form-actions">
+    <%= submit_tag('Submit', class: 'eui-btn--blue pull-right') %>
+  </div>
+</fieldset>

@@ -36,7 +36,7 @@ describe 'Viewing Order Policies', js: true do
           expect(page).to have_content('New MMT_2 Order Policies')
 
           # Check that all 6 results appear on the page
-          expect(page).to have_selector('#duplicate-order-items tbody tr', :count => 6)
+          expect(page).to have_selector('#duplicate-order-items tbody tr', count: 6)
 
           # Check for 2 specific results
           expect(page).to have_content('My testing title 02')
@@ -85,7 +85,7 @@ describe 'Viewing Order Policies', js: true do
             end
           end
 
-          it 'successfully creates an order policies' do
+          it 'successfully creates order policies' do
             expect(page).to have_content('Order Policies successfully created')
 
             expect(page).to have_content('Retry Attempts: 3')
