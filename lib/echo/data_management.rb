@@ -70,5 +70,54 @@ module Echo
 
       make_request(@url, payload)
     end
+
+    # Retrieve all data quality summary assignments for a catalog item.
+    def get_data_quality_summary_assignments(token, catalog_item_guid)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:GetDataQualitySummaryAssignments, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:catalogItemGuid, catalog_item_guid)
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
+
+    # Creates a data quality summary assignment between a catalog item and a data quality summary definition.
+    def create_data_quality_summary_assignment(token, provider_guid, definition_guid, catalog_item_guid)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:GetDataQualitySummaryAssignments, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:providerGuid, provider_guid)
+        builder.ns2(:dataQualitySummaryAssignment) do
+          builder.ns3(:DefinitionGuid, definition_guid)
+          builder.ns3(:CatalogItemGuid, catalog_item_guid)
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
+
+    # Removes a data quality summary assignment.
+    def remove_data_quality_summary_assignments(token, guids)
+      builder.ns2(:RemoveDataQualitySummaryAssignments, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+
+        builder.ns2(:guids) do
+          [*guids].each do |g|
+            builder.ns3(:Item, g)
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
   end
 end
