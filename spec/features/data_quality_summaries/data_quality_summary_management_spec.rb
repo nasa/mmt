@@ -59,6 +59,21 @@ describe 'Viewing Data Quality Summaries', js: true do
           expect(page).to have_content('DQS #1')
           expect(page).to have_content('Maecenas faucibus mollis interdum.')
         end
+
+        context 'when clicking the delete link for a data quality summary' do
+          before do
+            VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/list', record: :none) do
+              # Breadcrumbs link
+              click_on 'Data Quality Summaries'
+
+              find(:xpath, "//tr[contains(.,'DQS #1')]/td/a", text: 'Delete').click
+            end
+          end
+
+          it 'deletes the data quality summary' do
+            expect(page).to have_content('Data Quality Summary successfully deleted')
+          end
+        end
       end
     end
   end

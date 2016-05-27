@@ -40,7 +40,7 @@
             <td><%= link_to summary.parsed_body.fetch('Name', ''), data_quality_summary_path(summary.parsed_body.fetch('Guid')) %></td>
             <td><%= strip_tags(summary.parsed_body.fetch('Summary', '')) %></td>
             <td><em>Edit</em></td>
-            <td><em>Delete</em></td>
+            <td><%= link_to 'Delete', data_quality_summary_path(summary.parsed_body.fetch('Guid')), method: :delete, data: { confirm: 'Are you sure you want to delete this Data Quality Summary?' } %></td>
             <% end %>
           </tr>
           <% end %>
