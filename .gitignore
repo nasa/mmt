@@ -35,3 +35,5 @@ test_results
 coverage
 umm-spec
 todo
+.byebug_history
+cmr_logs.log

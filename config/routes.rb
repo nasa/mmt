@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
   resources :provider_holdings, only: [:index, :show]
+  resource :order_policies, except: :show
+  resources :order_options
+  get '/order_policies' => 'order_policies#index'
+
   resources :groups
   delete '/groups/:id/remove_members' => 'groups#remove_members', as: 'remove_members'
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
 
-  resources :order_options
 
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'

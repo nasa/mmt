@@ -227,4 +227,9 @@
   "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1000000279-EDF_DEV06/5",
   "ingest_count": 1,
   "granule": null
+}, {
+  "collection": "https://cmr.uat.earthdata.nasa.gov/search/concepts/C1215718270-GES_DISC/6",
+  "ingest_count": 1,
+  "granule": null,
+  "type": "dif"
 }]
