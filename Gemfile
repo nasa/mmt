@@ -87,3 +87,4 @@ gem 'database_cleaner' # added to provide a solution to Capybara's problems with
 gem 'kaminari'
 gem 'carmen' # countries and subdivisions
 gem 'factory_girl_rails'
+gem 'builder'

@@ -261,6 +261,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bourbon
+  builder
   byebug
   capybara
   capybara-screenshot
@@ -298,4 +299,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.11.2
+   1.12.1
