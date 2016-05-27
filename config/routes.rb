@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
 
+  resources :order_options
+
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'

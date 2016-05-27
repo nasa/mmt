@@ -43,6 +43,7 @@ module Cmr
           req.headers[header] = value
         end
         req.body = body if body
+        Rails.logger.debug("request: #{req.inspect}")
       end
       Cmr::Response.new(faraday_response)
     end

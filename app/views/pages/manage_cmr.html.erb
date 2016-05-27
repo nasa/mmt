@@ -16,7 +16,7 @@
 <%= render 'shared/flash_messages' %>
 
 <main class="dashboard" role="main">
-  <article id="manage-cmr" class="row-content" role="article">
+  <article id="manage-cmr" class="row-content flex-row--sb" role="article">
     <section class="eui-callout-box col-left">
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Provider Information</h3>
@@ -29,6 +29,18 @@
         <h3 class="eui-callout-box__title">Permissions &amp; Groups</h3>
         <p><%= link_to 'Permissions', '#' %></p>
         <p><%= link_to 'Groups', groups_path %></p>
+      </div>
+    </section>
+
+    <section class="eui-callout-box col-left">
+      <div class="eui-callout-box-content">
+        <h3 class="eui-callout-box__title">Orders</h3>
+        <!-- placeholder to merge with 129 -->
+        <p><a href="#">Order Policies</a></p>
+        <!-- TODO placeholder for Track Orders -->
+        <p><a href="#">Track Orders</a></p>
+        <!-- TODO wire when routes created for order options -->
+        <p><%= link_to 'Order Options', order_options_path %></p>
       </div>
     </section>
   </article>
