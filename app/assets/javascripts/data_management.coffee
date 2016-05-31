@@ -1,7 +1,7 @@
+# $.validator.setDefaults({ ignore: [] });
 $(document).ready ->
-  $('#summary').redactor
+  $('.redactor').redactor
     buttons: [
-      'html'
       'formatting'
       'bold'
       'italic'
@@ -13,16 +13,20 @@ $(document).ready ->
       'outdent'
       'alignment'
     ]
-    # blurCallback: (e) ->
-    #   $(e.toElement).validate
-    #   $.validator.addMethod 'validateRedactor', (value, element) -> 
-    #     return $('.redactor-editor').length == 0
+    blurCallback: (e) ->
+      this.core.getTextarea().valid()
 
   $('#data-quality-summary-form').validate
     errorClass: 'eui-banner--danger'
     errorElement: 'div'
     onkeyup: false
     
+    errorPlacement: (error, element) ->
+      if element.hasClass('redactor')
+        error.insertAfter(element.closest('.redactor-box'))
+      else
+        error.insertAfter(element)
+
     onfocusout: (error) ->
       this.element(error)
 
