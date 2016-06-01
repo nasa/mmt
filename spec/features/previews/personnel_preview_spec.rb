@@ -96,33 +96,58 @@ describe 'Personnel preview' do
       end
     end
 
-    context 'when Personnel information has no name or address' do
+    context 'when Personnel metadata has incomplete information' do
       before do
         login
         draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-
-        draft.draft['Personnel'] = [{'Party'=>{'Contacts'=>[{'Type'=>'Direct Line', 'Value'=>'555-1212'}, {'Type'=>'Email', 'Value'=>'example@example.com'}]}}]
-        draft.save
-
-        visit draft_path(draft)
       end
 
-      it 'does not display name information in the card header' do
-        within '.personnel-cards' do
-          expect(page.find('.card-header').text).to eq('')
+      context 'when Personnel metadata has no name or address' do
+        before do
+          draft = Draft.first
+          draft.draft['Personnel'] = [{'Party'=>{'Contacts'=>[{'Type'=>'Direct Line', 'Value'=>'555-1212'}, {'Type'=>'Email', 'Value'=>'example@example.com'}]}}]
+          draft.save
+
+          visit draft_path(draft)
+        end
+
+        it 'does not display name information in the card header' do
+          within '.personnel-cards' do
+            expect(page.find('.card-header').text).to eq('')
+          end
+        end
+
+        it 'displays the other entered metadata' do
+          within '.personnel-cards .card-body.active .card-body-aside' do
+            expect(page).to have_content('555-1212')
+            expect(page).to have_link('Email', href: 'mailto:example@example.com')
+          end
         end
       end
 
-      it 'displays only the no address entered message' do
-        within '.personnel-cards .card-body.active .card-body-details' do
-          expect(page).to have_content('This person does not have any addresses listed.')
-        end
-      end
+      context 'when Personnel metadata has Role information only' do
+        before do
+          draft = Draft.first
+          draft.draft['Personnel'] = [{"Role"=>"OWNER"}]
+          draft.save
 
-      it 'displays the other entered metadata' do
-        within '.personnel-cards .card-body.active .card-body-aside' do
-          expect(page).to have_content('555-1212')
-          expect(page).to have_link('Email', href: 'mailto:example@example.com')
+          visit draft_path(draft)
+        end
+
+        it 'displays the owner badge on the personnel preview card' do
+          within '.personnel-cards .card-header' do
+            expect(page).to have_css('.card-header-badge')
+            expect(page).to have_content('OWNER')
+          end
+        end
+
+        it 'displays the no addresses and no contacts added messages' do
+          within '.personnel-cards .card-body-details' do
+            expect(page).to have_content('This person does not have any addresses listed.')
+          end
+          within '.personnel-cards .card-body-aside' do
+            expect(page).to have_content('This person does not have any contacts listed.')
+          end
         end
       end
     end
