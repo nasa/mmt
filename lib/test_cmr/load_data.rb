@@ -252,6 +252,8 @@ module Cmr
             response = connection.put do |req|
               if collection_uri.include? 'SEDAC'
                 req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
+              elsif collection_uri.include? 'MMT_2'
+                req.url("http://localhost:3002/providers/MMT_2/collections/collection#{index}")
               else #collection_uri.include? 'LARC'
                 req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
               end

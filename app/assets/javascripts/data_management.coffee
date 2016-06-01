@@ -49,3 +49,37 @@ $(document).ready ->
         required: 'Name is required.'
       summary:
         required: 'Summary is required.'
+
+  $('#data-quality-summary-assignments-form').validate
+    errorClass: 'eui-banner--danger'
+    errorElement: 'div'
+    onkeyup: false
+    
+    errorPlacement: (error, element) ->
+      if element.attr('name') == 'catalog_item_guid[]'
+        element.closest('fieldset').append(error)
+      else
+        error.insertAfter(element)
+
+    onfocusout: (error) ->
+      this.element(error)
+
+    highlight: (element, errorClass) ->
+      # Prevent highlighting the fields themselves
+      return false
+
+    rules:
+      definition_guid:
+        required: true
+      'catalog_item_guid[]': 
+        required: true
+
+    messages:
+      definition_guid:
+        required: 'Data Quality Summary is required.'
+      'catalog_item_guid[]':
+        required: 'You must select at least 1 collection.'
+
+  # jQuery Validate has a 'feature' that means this only gets called on blur, we want on change
+  $('select').on 'change', ->
+    $(this).valid()

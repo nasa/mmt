@@ -1,0 +1,51 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'Manage CMR', manage_cmr_path %>
+          </li>
+          <li class="eui-breadcrumbs__item">
+            <%= link_to 'Data Quality Summary Assignments', data_quality_summary_assignments_path %>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+      <h2><%= @current_user.provider_id %> Data Quality Summary Assignments</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Collection</th>
+            <th>Short Name</th>
+            <th>Version ID</th>
+            <th>Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @assignments.each do |collection| %>
+          <% collection.fetch('data_quality_summaries', []).each do |assignment| %>
+          <tr>
+            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
+            <td><%= link_to assignment.fetch('Name'), data_quality_summary_path(assignment.fetch('Guid')) %></td>
+          </tr>
+          <% end %>
+          <% end %>
+        </tbody>
+      </table>
+
+      <p>Add a new Assignment by clicking the 'Create New Assignments' button below.</p>
+      <%= link_to 'Create New Assignments', new_data_quality_summary_assignments_path, class: 'eui-btn--green' %>
+
+    </section>
+  </div>
+</main>

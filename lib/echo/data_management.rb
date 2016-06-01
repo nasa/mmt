@@ -89,7 +89,7 @@ module Echo
     def create_data_quality_summary_assignment(token, provider_guid, definition_guid, catalog_item_guid)
       builder = Builder::XmlMarkup.new
 
-      builder.ns2(:GetDataQualitySummaryAssignments, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+      builder.ns2(:CreateDataQualitySummaryAssignment, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
         builder.ns2(:token, token)
         builder.ns2(:providerGuid, provider_guid)
         builder.ns2(:dataQualitySummaryAssignment) do
