@@ -54,8 +54,6 @@ class OrderPoliciesController < ApplicationController
   end
 
   def destroy
-    return false unless current_provider_guid
-
     response = echo_client.remove_provider_policies(token_with_client_id, current_provider_guid)
 
     if response.error?
@@ -82,16 +80,13 @@ class OrderPoliciesController < ApplicationController
   end
 
   def set_policy
-    # This call will only work if a provider guid is supplied
-    if current_provider_guid
-      # Ask ECHO for a list of providers, response includes the name and guid
-      result = echo_client.get_providers_policies(token_with_client_id, [current_provider_guid]).parsed_body
+    # Get the provider's policies (will only ever be one)
+    result = echo_client.get_providers_policies(token_with_client_id, current_provider_guid)
 
-      if result && result.fetch('Item', {}).fetch('xsi:nil', 'false') == 'false'
-        @policy = result.fetch('Item', {})
-      end
-    end
+    # Check for an error OR nil, rather than returning an empty list or error it returns nil
+    @policy = result.parsed_body.fetch('Item', {}) unless result.error? || result.parsed_body.fetch('Item', {}).fetch('xsi:nil', 'false') == 'true'
 
+    # Default value in case of error
     @policy = {} if defined?(@policy).nil?
   end
 
@@ -131,8 +126,6 @@ class OrderPoliciesController < ApplicationController
   end
 
   def upsert_policy
-    return false unless current_provider_guid
-
     echo_client.set_provider_policies(token_with_client_id, current_provider_guid, generate_upsert_payload)
   end
 end

@@ -38,7 +38,7 @@ module Echo
         builder.ns2(:token, token)
 
         builder.ns2(:providerGuids) do
-          guids.each do |g|
+          [*guids].each do |g|
             builder.ns3(:Item, g)
           end
         end
