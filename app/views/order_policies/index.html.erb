@@ -19,12 +19,9 @@
       <h2><%= @current_user.provider_id %> Order Policies</h2>
 
       <% if @policy.empty? %>
-
         <p>No <%= @current_user.provider_id %> Order Policies found.</p>
         <%= link_to 'Create Order Policies', new_order_policies_path, class: 'eui-btn' %>
-
       <% else %>
-
         <article class="order-policy">
           <div class="row-content flex-row--sb">
             <!-- RETRY INFORMATION -->
@@ -82,7 +79,8 @@
              <%= @policy.fetch('SslPolicy', {}).fetch('SslEnabled', 'false') == "true" ? 'Enabled' : 'Disabled' %></p>
           <p>
             <span class="inline-label">Last Updated:</span>
-             <%= @policy.fetch('SslPolicy', {}).fetch('SslLastUpdate') %></p>
+            <%= @policy.fetch('SslPolicy', {}).fetch('SslLastUpdate') %>
+          </p>
 
           <h3>Custom Properties</h3>
           <% if @policy.key?('Properties') %>

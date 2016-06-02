@@ -50,4 +50,8 @@ class EchoSoapController < ApplicationController
       @summaries << echo_client.get_data_quality_summary_definition(token_with_client_id, guid)
     end
   end
+
+  def set_collections
+    @collections = cmr_client.get_collections({ provider_id: @current_user.provider_id }, token).body.fetch('items', [])
+  end
 end

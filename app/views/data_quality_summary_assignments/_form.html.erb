@@ -1,10 +1,10 @@
 <% if action_name == 'new' %>
-<fieldset>
-  <div class="row">
-    <label for="definition_guid" class="eui-required-o">Data Quality Summary</label>
-    <%= select_tag('definition_guid', options_for_select(@summaries.map { |s| [s.parsed_body.fetch('Name', nil), s.parsed_body.fetch('Guid', nil)] }), class: 'full-width', prompt: 'Select a Data Quality Summary') %>
-  </div>
-</fieldset>
+  <fieldset>
+    <div class="row">
+      <label for="definition_guid" class="eui-required-o">Data Quality Summary</label>
+      <%= select_tag('definition_guid', options_for_select(@summaries.map { |s| [s.parsed_body.fetch('Name', nil), s.parsed_body.fetch('Guid', nil)] }), class: 'full-width', prompt: 'Select a Data Quality Summary') %>
+    </div>
+  </fieldset>
 <% end %>
 
 <fieldset>
@@ -20,20 +20,20 @@
     </thead>
     <tbody>
       <% if @collections.empty? %>
-      <tr>
-        <td colspan="4">No collections to display for <%= @current_user.provider_id %>.</td>
-      </tr>
+        <tr>
+          <td colspan="4">No collections to display for <%= @current_user.provider_id %>.</td>
+        </tr>
       <% else %>
-      <% @collections.each do |collection| %>
-      <tr>
-        <td class="align-c">
-          <%= check_box_tag('catalog_item_guid[]', collection.fetch('meta').fetch('concept-id'), false, id: "catalog_item_guid_#{collection.fetch('meta').fetch('concept-id')}") %>
-        </td>
-        <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
-        <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
-        <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
-      </tr>
-      <% end %>
+        <% @collections.each do |collection| %>
+          <tr>
+            <td class="align-c">
+              <%= check_box_tag('catalog_item_guid[]', collection.fetch('meta').fetch('concept-id'), false, id: "catalog_item_guid_#{collection.fetch('meta').fetch('concept-id')}") %>
+            </td>
+            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
     <tfoot>

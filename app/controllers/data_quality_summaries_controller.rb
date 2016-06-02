@@ -1,5 +1,6 @@
 class DataQualitySummariesController < EchoSoapController
   before_action :set_summary, only: :show
+  before_action :set_summaries, only: :index
 
   def index
     set_summaries

@@ -36,20 +36,20 @@
         </thead>
         <tbody>
           <% if @assignments.empty? %>
-          <tr>
-            <td colspan="4">No assignments found for the selected collections.</td>
-          </tr>
+            <tr>
+              <td colspan="4">No assignments found for the selected collections.</td>
+            </tr>
           <% else %>
-          <% @assignments.each do |collection| %>
-          <% collection.fetch('data_quality_summaries', []).each do |assignment| %>
-          <tr>
-            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
-            <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
-            <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
-            <td><%= link_to assignment.fetch('Name'), data_quality_summary_path(assignment.fetch('Guid')) %></td>
-          </tr>
-          <% end %>
-          <% end %>
+            <% @assignments.each do |collection| %>
+              <% collection.fetch('data_quality_summaries', []).each do |assignment| %>
+                <tr>
+                  <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+                  <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
+                  <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
+                  <td><%= link_to assignment.fetch('Name'), data_quality_summary_path(assignment.fetch('Guid')) %></td>
+                </tr>
+              <% end %>
+            <% end %>
           <% end %>
         </tbody>
       </table>

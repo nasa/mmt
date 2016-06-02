@@ -1,15 +1,14 @@
 class DataQualitySummaryAssignmentsController < EchoSoapController
   before_action :set_collections
+  before_action :set_summaries, only: [:new, :edit]
 
   def index
   end
 
   def new
-    set_summaries
   end
 
   def edit
-    set_summaries
   end
 
   def create
@@ -64,12 +63,5 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
     end
 
     render action: :edit
-  end
-
-  private
-
-  def set_collections
-    # @collections = cmr_client.get_collections({ provider_id: @current_user.provider_id }, token).body.fetch('items', [])
-    @collections = JSON.parse(File.read('spec/fixtures/cmr_search.json')).fetch('items', [])
   end
 end

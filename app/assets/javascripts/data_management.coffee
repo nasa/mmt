@@ -1,4 +1,3 @@
-# $.validator.setDefaults({ ignore: [] });
 $(document).ready ->
   $('.redactor').redactor
     buttons: [
