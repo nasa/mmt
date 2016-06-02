@@ -1,0 +1,165 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetDataQualitySummaryAssignments
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token:81FEem91NlTQreWv2UgtXQ</ns2:token><ns2:catalogItemGuid>C1200060160-MMT_2</ns2:catalogItemGuid></ns2:GetDataQualitySummaryAssignments><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      server:
+      - Apache-Coyote/1.1
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml;charset=utf-8
+      content-length:
+      - '619'
+      date:
+      - Thu, 02 Jun 2016 16:00:12 GMT
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetDataQualitySummaryAssignmentsResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result><ns3:Item><ns3:Guid>C69A5C93-D07F-502F-7274-AFA25B3FE8A7</ns3:Guid><ns3:DefinitionGuid>4B0BAE63-7BB1-D370-3AB9-37FA97D14CFB</ns3:DefinitionGuid><ns3:CatalogItemGuid>C1200060160-MMT_2</ns3:CatalogItemGuid></ns3:Item></ns2:result></ns2:GetDataQualitySummaryAssignmentsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Thu, 02 Jun 2016 16:00:12 GMT
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetDataQualitySummaryDefinition
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token:81FEem91NlTQreWv2UgtXQ</ns2:token><ns2:guid>4B0BAE63-7BB1-D370-3AB9-37FA97D14CFB</ns2:guid></ns2:GetDataQualitySummaryDefinition><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      server:
+      - Apache-Coyote/1.1
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml;charset=utf-8
+      content-length:
+      - '714'
+      date:
+      - Thu, 02 Jun 2016 16:00:12 GMT
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetDataQualitySummaryDefinitionResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result><ns3:Guid>4B0BAE63-7BB1-D370-3AB9-37FA97D14CFB</ns3:Guid><ns3:Summary>&lt;p&gt;Maecenas
+        faucibus mollis interdum.&lt;/p&gt;</ns3:Summary><ns3:Name>DQS #1</ns3:Name><ns3:LastUpdateDate>2016-06-02T15:06:11.546Z</ns3:LastUpdateDate><ns3:OwnerProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns3:OwnerProviderGuid></ns2:result></ns2:GetDataQualitySummaryDefinitionResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>'
+    http_version: 
+  recorded_at: Thu, 02 Jun 2016 16:00:13 GMT
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetDataQualitySummaryAssignments
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token:81FEem91NlTQreWv2UgtXQ</ns2:token><ns2:catalogItemGuid>C1200019403-MMT_2</ns2:catalogItemGuid></ns2:GetDataQualitySummaryAssignments><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      server:
+      - Apache-Coyote/1.1
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml;charset=utf-8
+      content-length:
+      - '619'
+      date:
+      - Thu, 02 Jun 2016 16:00:13 GMT
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetDataQualitySummaryAssignmentsResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result><ns3:Item><ns3:Guid>8B743447-61F5-C47B-D7AC-7E44D5C47A5A</ns3:Guid><ns3:DefinitionGuid>4B0BAE63-7BB1-D370-3AB9-37FA97D14CFB</ns3:DefinitionGuid><ns3:CatalogItemGuid>C1200019403-MMT_2</ns3:CatalogItemGuid></ns3:Item></ns2:result></ns2:GetDataQualitySummaryAssignmentsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Thu, 02 Jun 2016 16:00:13 GMT
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetDataQualitySummaryDefinition
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token:81FEem91NlTQreWv2UgtXQ</ns2:token><ns2:guid>4B0BAE63-7BB1-D370-3AB9-37FA97D14CFB</ns2:guid></ns2:GetDataQualitySummaryDefinition><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      server:
+      - Apache-Coyote/1.1
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml;charset=utf-8
+      content-length:
+      - '714'
+      date:
+      - Thu, 02 Jun 2016 16:00:13 GMT
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetDataQualitySummaryDefinitionResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result><ns3:Guid>4B0BAE63-7BB1-D370-3AB9-37FA97D14CFB</ns3:Guid><ns3:Summary>&lt;p&gt;Maecenas
+        faucibus mollis interdum.&lt;/p&gt;</ns3:Summary><ns3:Name>DQS #1</ns3:Name><ns3:LastUpdateDate>2016-06-02T15:06:11.546Z</ns3:LastUpdateDate><ns3:OwnerProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns3:OwnerProviderGuid></ns2:result></ns2:GetDataQualitySummaryDefinitionResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>'
+    http_version: 
+  recorded_at: Thu, 02 Jun 2016 16:00:13 GMT
+recorded_with: VCR 3.0.1

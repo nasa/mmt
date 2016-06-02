@@ -20,7 +20,12 @@
     <section>
       <h2><%= @current_user.provider_id %> Data Quality Summary Assignments</h2>
 
-      <table>
+      <p>Add a new Assignment by clicking the 'Create New Assignments' button below.</p>
+      <%= link_to 'Create New Assignments', new_data_quality_summary_assignments_path, class: 'eui-btn--green' %>
+      
+      <%= link_to 'Go Back', data_quality_summary_assignments_path, class: 'eui-btn--blue pull-right' %>
+
+      <table id="assignment-list">
         <thead>
           <tr>
             <th>Collection</th>
@@ -30,6 +35,11 @@
           </tr>
         </thead>
         <tbody>
+          <% if @assignments.empty? %>
+          <tr>
+            <td colspan="4">No assignments found for the selected collections.</td>
+          </tr>
+          <% else %>
           <% @assignments.each do |collection| %>
           <% collection.fetch('data_quality_summaries', []).each do |assignment| %>
           <tr>
@@ -40,11 +50,11 @@
           </tr>
           <% end %>
           <% end %>
+          <% end %>
         </tbody>
       </table>
 
-      <p>Add a new Assignment by clicking the 'Create New Assignments' button below.</p>
-      <%= link_to 'Create New Assignments', new_data_quality_summary_assignments_path, class: 'eui-btn--green' %>
+      <%= link_to 'Go Back', data_quality_summary_assignments_path, class: 'eui-btn--blue pull-right' %>
 
     </section>
   </div>

@@ -3,75 +3,101 @@
 require 'rails_helper'
 
 describe 'Viewing Data Quality Summary Assignments', js: true do
-  context 'when viewing the data quality summaries page' do
+  context 'when viewing the data quality summary assignments page' do
     before do
       login
 
       click_on 'Manage CMR'
 
-      VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/empty', record: :none) do
-        click_on 'View All Summaries'
-      end
+      collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+
+      click_on 'View Summary Assignments'
     end
 
-    it 'displays the create data quality summary button' do
-      expect(page).to have_content('No MMT_2 Data Quality Summaries found.')
+    it 'displays the display data quality summary assignments form' do
+      expect(page).to have_content('MMT_2 Data Quality Summary Assignments')
 
-      expect(page).to have_content('Create a Data Quality Summary')
+      # We mocked the CMR above so we know how many collectiosn to expect
+      expect(page).to have_selector("input[name='catalog_item_guid[]']", count: 6)
     end
 
-    context 'when clicking the create data quality summary button' do
+    context 'when clicking the display selected assignments button with no collections selected' do
       before do
-        click_on 'Create a Data Quality Summary'
+        click_on 'Display Selected Assignments'
       end
 
-      it 'displays the new order policies form' do
-        expect(page).to have_content('New MMT_2 Data Quality Summary')
+      it 'displays validation errors within the form' do
+        expect(page).to have_content('You must select at least 1 collection.')
+      end
+    end
+
+    context 'when clicking the display selected assignments button with collections selected' do
+      before do
+        # Mark's Test
+        check 'catalog_item_guid_C1200060160-MMT_2'
+
+        # Matthew's Test
+        check 'catalog_item_guid_C1200019403-MMT_2'
+
+        VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/empty', record: :none) do
+          click_on 'Display Selected Assignments'
+        end
       end
 
-      context 'when submitting an invalid order policies form' do
+      it 'displays no results message' do
+        expect(page).to have_content('No assignments found for the selected collections.')
+      end
+
+      context 'when submitting an invalid data quality summary assignment form ' do
         before do
-          fill_in 'Name', with: ''
-          fill_in 'Summary', with: ''
+          VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/create', record: :none) do
+            click_on 'Create New Assignments'
+          end
 
           click_on 'Submit'
         end
 
         it 'displays validation errors within the form' do
-          expect(page).to have_content('Name is required.')
-          expect(page).to have_content('Summary is required.')
-        end
-      end
-
-      context 'when submitting a valid order policies form' do
-        before do
-          fill_in 'Name', with: 'DQS #1'
-          fill_in 'Summary', with: '<p>Maecenas faucibus mollis interdum.</p>'
-
-          VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/create', record: :none) do
-            click_on 'Submit'
-          end
+          expect(page).to have_content('Data Quality Summary is required.')
+          expect(page).to have_content('You must select at least 1 collection.')
         end
 
-        it 'successfully creates a data quality summary' do
-          expect(page).to have_content('Data Quality Summary successfully created')
-
-          expect(page).to have_content('DQS #1')
-          expect(page).to have_content('Maecenas faucibus mollis interdum.')
-        end
-
-        context 'when clicking the delete link for a data quality summary' do
+        context 'when submitting a valid data quality summary assignment form' do
           before do
-            VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/list', record: :none) do
-              # Breadcrumbs link
-              click_on 'Data Quality Summaries'
+            select 'DQS #1', from: 'definition_guid'
 
-              find(:xpath, "//tr[contains(.,'DQS #1')]/td/a", text: 'Delete').click
+            # Mark's Test
+            check 'catalog_item_guid_C1200060160-MMT_2'
+
+            # Matthew's Test
+            check 'catalog_item_guid_C1200019403-MMT_2'
+
+            VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/created', record: :none) do
+              click_on 'Submit'
             end
           end
 
-          it 'deletes the data quality summary' do
-            expect(page).to have_content('Data Quality Summary successfully deleted')
+          it 'displays validation errors within the form' do
+            expect(page).to have_content('2 data quality summary assignments created successfully, 0 data quality summary assignments failed to save.')
+          end
+
+          context 'when clicking the display selected assignments button with collections selected' do
+            before do
+              # Mark's Test
+              check 'catalog_item_guid_C1200060160-MMT_2'
+
+              # Matthew's Test
+              check 'catalog_item_guid_C1200019403-MMT_2'
+
+              VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/list', record: :none) do
+                click_on 'Display Selected Assignments'
+              end
+            end
+
+            it 'displays no results message' do
+              expect(page).to have_selector("#assignment-list tbody tr", count: 2)
+            end
           end
         end
       end
