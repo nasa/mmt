@@ -89,7 +89,8 @@
             <pre><%= @pretty_properties %></pre>
           <% end %>
 
-          <%= link_to 'Edit Order Policies', edit_order_policies_path, class: 'eui-btn' %>
+          <%= link_to 'Remove Order Policies', order_policies_path, method: :delete, class: 'eui-btn eui-btn--red' %>
+          <%= link_to 'Edit Order Policies', edit_order_policies_path, class: 'eui-btn pull-right' %>
         </article>
 
       <% end %>

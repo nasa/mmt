@@ -148,6 +148,21 @@ describe 'Viewing Order Policies', js: true do
 
                 expect(page).to have_content('QUOTE')
               end
+
+              context 'when clicking the remove order policies button' do
+                before do
+                  VCR.use_cassette('echo_soap/provider_service/order_policies/destroy', record: :none) do
+                    click_on 'Remove Order Policies'
+                  end
+                end
+
+                it 'deletes the order policies' do
+                  expect(page).to have_content('Order Policies successfully removed')
+
+                  expect(page).to have_content('No MMT_2 Order Policies found.')
+                  expect(page).to have_content('Create Order Policies')
+                end
+              end
             end
           end
         end
