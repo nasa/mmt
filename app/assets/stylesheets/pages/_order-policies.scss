@@ -18,11 +18,11 @@
 
 .eui-btn {
   &.eui-btn--red {
-    background-color: lighten($red, 4%);
+    background-color: $red;
     color: $white;
 
     &:hover {
-      background-color: lighten($red, 6%);
+      background-color: darken($red, 6%);
     }
   }  
 }
