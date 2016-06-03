@@ -152,6 +152,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_provider_guid
+    if @current_provider_guid.nil?
+      @current_provider_guid = get_provider_guid(@current_user.provider_id)
+    end
+
+    @current_provider_guid
+  end
+
   def refresh_urs_if_needed
     if logged_in? && server_session_expires_in < 0
       refresh_urs_token

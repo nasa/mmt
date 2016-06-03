@@ -71,14 +71,6 @@ class OrderPoliciesController < ApplicationController
     @collections = cmr_client.get_collections({ provider_id: @current_user.provider_id }, token).body.fetch('items', [])
   end
 
-  def current_provider_guid
-    if @current_provider_guid.nil?
-      @current_provider_guid = get_provider_guid(@current_user.provider_id)
-    end
-
-    @current_provider_guid
-  end
-
   def set_policy
     # Get the provider's policies (will only ever be one)
     result = echo_client.get_providers_policies(token_with_client_id, current_provider_guid)

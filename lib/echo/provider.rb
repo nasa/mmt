@@ -17,7 +17,7 @@ module Echo
           builder.ns2(:guids, 'xsi:nil': true)
         else
           builder.ns2(:guids) do
-            guids.each do |g|
+            [*guids].each do |g|
               builder.ns3(:Item, g)
             end
           end
