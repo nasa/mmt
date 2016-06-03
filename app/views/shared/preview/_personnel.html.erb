@@ -14,7 +14,7 @@
     <% else %>
       <ul class="personnel-cards cards">
         <% metadata['Personnel'].each_with_index do |person, person_index| %>
-          <% party = person['Party'] %>
+          <% party = person['Party'] || {} %>
           <% person_name = party['Person'] || {} %>
           <li class="card">
             <div class="card-header">
