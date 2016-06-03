@@ -71,6 +71,9 @@ describe 'Viewing Data Quality Summaries', js: true do
               click_on 'Data Quality Summaries'
 
               find(:xpath, "//tr[contains(.,'DQS #1')]/td/a", text: 'Delete').click
+
+              # Confirmation Dialog
+              click_on 'Yes'
             end
           end
 
