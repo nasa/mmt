@@ -14,7 +14,7 @@
 .eui-btn--red {
   @extend .eui-btn;
 
-  background-color: lighten($red, 4%);
+  background-color: $red, 4%;
   color: $white;
 
   &:link,
@@ -23,7 +23,7 @@
   }
 
   &:hover {
-    background-color: lighten($red, 6%);
+    background-color: darken($red, 6%);
   }
 }  
 
