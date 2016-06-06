@@ -1,7 +1,8 @@
 require 'rexml/document'
 
-class OrderPoliciesController < ApplicationController
+class OrderPoliciesController < EchoSoapController
   before_action :set_collections, only: [:index, :new, :edit]
+  before_action :set_policy, only: [:index, :new, :edit]
 
   def index
     set_policy

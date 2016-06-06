@@ -7,6 +7,9 @@ Rails.application.routes.draw do
 
   resources :data_quality_summaries
 
+  resource :data_quality_summary_assignments, except: :show
+  get '/data_quality_summary_assignments' => 'data_quality_summary_assignments#index'
+
   resources :groups
   delete '/groups/:id/remove_members' => 'groups#remove_members', as: 'remove_members'
   post '/invite_user' => 'groups#invite', as: 'invite_user'

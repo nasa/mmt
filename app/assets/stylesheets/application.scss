@@ -17,6 +17,7 @@
 
 @import "config/colors";
 
+@import "redactor/redactor";
 @import "vendor/vendor";
 @import "bourbon";
 @import "neat";
@@ -66,5 +67,4 @@
 @import "overrides/datepicker";
 @import "overrides/modifiers";
 @import "overrides/select2";
-
-@import "redactor/redactor";
+@import "overrides/redactor";

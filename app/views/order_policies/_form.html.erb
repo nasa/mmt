@@ -71,20 +71,20 @@
     </thead>
     <tbody>
       <% if @collections.empty? %>
-      <tr>
-        <td colspan="4">No collections to display for <%= @current_user.provider_id %>.</td>
-      </tr>
+        <tr>
+          <td colspan="4">No collections to display for <%= @current_user.provider_id %>.</td>
+        </tr>
       <% else %>
-      <% @collections.each do |collection| %>
-      <tr>
-        <td class="align-c">
-          <%= check_box_tag("collections_supporting_duplicate_order_items[]", collection.fetch('meta').fetch('concept-id'), @policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', []).include?(collection.fetch('meta').fetch('concept-id')), id: collection.fetch('meta').fetch('concept-id')) %>
-        </td>
-        <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
-        <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
-        <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
-      </tr>
-      <% end %>
+        <% @collections.each do |collection| %>
+          <tr>
+            <td class="align-c">
+              <%= check_box_tag("collections_supporting_duplicate_order_items[]", collection.fetch('meta').fetch('concept-id'), @policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', []).include?(collection.fetch('meta').fetch('concept-id')), id: collection.fetch('meta').fetch('concept-id')) %>
+            </td>
+            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>

@@ -18,44 +18,43 @@
     <section>
       <h2><%= @current_user.provider_id %> Data Quality Summaries</h2>
 
-      <%= link_to 'Create a Data Quality Summary', new_data_quality_summary_path, class: 'eui-btn' %>
+      <%= link_to 'Create a Data Quality Summary', new_data_quality_summary_path, class: 'eui-btn--green' %>
 
       <% if @summaries.empty? %>
-      <p>No <%= @current_user.provider_id %> Data Quality Summaries found.</p>
+        <p>No <%= @current_user.provider_id %> Data Quality Summaries found.</p>
       <% else %>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Summary</th>
-            <th colspan="2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @summaries.each_with_index do |summary, index| %>
-          <tr>
-            <% if summary.error? %>
-            <td colspan="4"><%= summary.parsed_error %></td>
-            <% else %>
-            <td><%= link_to summary.parsed_body.fetch('Name', ''), data_quality_summary_path(summary.parsed_body.fetch('Guid')) %></td>
-            <td><%= strip_tags(summary.parsed_body.fetch('Summary', '')) %></td>
-            <td><em>Edit</em></td>
-            <td>
-              <%= link_to 'Delete', "#delete-summary-modal-#{index}", class: 'display-modal' %>
-              <div id="delete-summary-modal-<%= index %>" class="eui-modal-content">
-                <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                <p>Are you sure you want to delete the data quality summary named '<%= summary.parsed_body.fetch('Name', '') %>'?</p>
-                <p>
-                  <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                  <%= link_to 'Yes', data_quality_summary_path(summary.parsed_body.fetch('Guid')), method: :delete, class: 'eui-btn--blue spinner' %>
-                </p>
-              </div>
-            </td>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Summary</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @summaries.each_with_index do |summary, index| %>
+              <tr>
+                <% if summary.error? %>
+                  <td colspan="3"><%= summary.parsed_error %></td>
+                <% else %>
+                  <td><%= link_to summary.parsed_body.fetch('Name', ''), data_quality_summary_path(summary.parsed_body.fetch('Guid')) %></td>
+                  <td><%= strip_tags(summary.parsed_body.fetch('Summary', '')) %></td>
+                  <td>
+                    <%= link_to 'Delete', "#delete-summary-modal-#{index}", class: 'display-modal' %>
+                    <div id="delete-summary-modal-<%= index %>" class="eui-modal-content">
+                      <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+                      <p>Are you sure you want to delete the data quality summary named '<%= summary.parsed_body.fetch('Name', '') %>'?</p>
+                      <p>
+                        <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                        <%= link_to 'Yes', data_quality_summary_path(summary.parsed_body.fetch('Guid')), method: :delete, class: 'eui-btn--blue spinner' %>
+                      </p>
+                    </div>
+                  </td>
+                <% end %>
+              </tr>
             <% end %>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
       <% end %>
     </section>
   </div>

@@ -1,28 +1,8 @@
-class DataQualitySummariesController < ApplicationController
+class DataQualitySummariesController < EchoSoapController
   before_action :set_summary, only: :show
+  before_action :set_summaries, only: :index
 
   def index
-    response = echo_client.get_data_quality_summary_definition_name_guids(token_with_client_id, current_provider_guid)
-
-    summary_guids = []
-    # No ruby idioms exist that will allow us to ensure this is a list, because it
-    # is a list of dictionaries, not a list of strings
-    unless response.error? || response.parsed_body.nil?
-      parsed_response = response.parsed_body.fetch('Item', [])
-      if parsed_response.is_a?(Hash)
-        summary_guids << parsed_response.fetch('Guid', nil)
-      else
-        parsed_response.each do |item|
-          summary_guids << item.fetch('Guid', nil)
-        end
-      end
-      summary_guids = summary_guids.reject(&:blank?)
-    end
-
-    @summaries = []
-    summary_guids.each do |guid|
-      @summaries << echo_client.get_data_quality_summary_definition(token_with_client_id, guid)
-    end
   end
 
   def show
