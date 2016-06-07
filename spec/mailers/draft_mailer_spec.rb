@@ -18,7 +18,7 @@ describe DraftMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
       end
 
       it 'renders the new record published notice' do
@@ -53,7 +53,7 @@ describe DraftMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
       end
 
       it 'renders the record updated notice' do
