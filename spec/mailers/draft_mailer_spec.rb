@@ -24,9 +24,9 @@ describe DraftMailer do
       end
 
       it 'renders the new record published notice including short name + version' do
-        expect(mail.html_part.body).to have_content("#{@short_name}_#{@version} Published")
-        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata #{@short_name}_#{@version} record has been successfully published to the CMR.")
-        expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata #{@short_name}_#{@version} record has been successfully published to the CMR.")
+        expect(mail.html_part.body).to have_content("#{short_name}_#{version} Published")
+        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully published to the CMR.")
+        expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully published to the CMR.")
       end
 
       it 'renders the concept id' do
@@ -60,10 +60,10 @@ describe DraftMailer do
         expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
       end
 
-      it 'renders the record updated notice' do
-        expect(mail.html_part.body).to have_content("#{@short_name}_#{@version} Updated")
-        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{@short_name}_#{@version} has been successfully updated.")
-        expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{@short_name}_#{@version} has been successfully updated.")
+      it 'renders the record updated notice including short name + version' do
+        expect(mail.html_part.body).to have_content("#{short_name}_#{version} Updated")
+        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully updated.")
+        expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully updated.")
       end
 
       it 'renders the concept id' do
