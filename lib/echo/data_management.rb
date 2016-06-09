@@ -52,6 +52,28 @@ module Echo
       make_request(@url, payload)
     end
 
+    # Updates a data quality summary definition for use in describing the quality information 
+    # associated with one or more catalog items.
+    def update_data_quality_summary_definition(token, payload)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:UpdateDataQualitySummaryDefinitions, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:dataQualitySummaryDefinitions) do
+          builder.ns3(:Item) do
+            builder.ns3(:Guid, payload.fetch('Guid')) if payload.key?('Guid')
+            builder.ns3(:Summary, payload.fetch('Summary')) if payload.key?('Summary')
+            builder.ns3(:Name, payload.fetch('Name')) if payload.key?('Name')
+            builder.ns3(:OwnerProviderGuid, payload.fetch('OwnerProviderGuid')) if payload.key?('OwnerProviderGuid')
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
+
     # Removes a data quality summary definition for use in describing the quality information associated with one or more catalog items.
     def remove_data_quality_summary_definition(token, guids)
       builder = Builder::XmlMarkup.new

@@ -1,3 +1,5 @@
+<%= hidden_field_tag('id', @summary.fetch('Guid', '')) %>
+
 <fieldset>
   <div class="row">
     <label for="name" class="eui-required-o">Name</label>
@@ -14,6 +16,15 @@
 
 <fieldset>
   <div class="row search-form-actions">
-    <%= submit_tag('Submit', class: 'eui-btn--blue pull-right') %>
+    <div class="col-9">
+      <% if @summary.fetch('LastUpdateDate', nil) %>
+        <div class="last-updated">
+          <b>Last Updated:</b> <%= DateTime.parse(@summary.fetch('LastUpdateDate')).strftime('%A, %B %d, %Y at %l:%M %P') %>
+        </div>
+      <% end %>      
+    </div>
+    <div class="col-3">
+      <%= submit_tag('Submit', class: 'eui-btn--blue pull-right') %>
+    </div>
   </div>
 </fieldset>

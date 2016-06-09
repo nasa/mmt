@@ -1,5 +1,5 @@
 class DataQualitySummariesController < EchoSoapController
-  before_action :set_summary, only: :show
+  before_action :set_summary, only: [:show, :new, :edit]
   before_action :set_summaries, only: :index
 
   def index
@@ -9,7 +9,9 @@ class DataQualitySummariesController < EchoSoapController
   end
 
   def new
-    @summary = {}
+  end
+
+  def edit
   end
 
   def create
@@ -23,6 +25,22 @@ class DataQualitySummariesController < EchoSoapController
       render :new
     else
       flash[:success] = 'Data Quality Summary successfully created'
+
+      redirect_to data_quality_summary_path(response.parsed_body)
+    end
+  end
+
+  def update
+    @summary = generate_payload
+
+    response = echo_client.update_data_quality_summary_definition(token_with_client_id, @summary)
+
+    if response.error?
+      flash[:error] ||= [*response.parsed_error].to_sentence
+
+      render :edit
+    else
+      flash[:success] = 'Data Quality Summary successfully updated'
 
       redirect_to data_quality_summary_path(response.parsed_body)
     end
@@ -44,6 +62,7 @@ class DataQualitySummariesController < EchoSoapController
 
   def generate_payload
     {
+      'Guid' => params.fetch('id'),
       'Name' => params.fetch('name'),
       'Summary' => params.fetch('summary'),
       'OwnerProviderGuid' => current_provider_guid
@@ -51,6 +70,10 @@ class DataQualitySummariesController < EchoSoapController
   end
 
   def set_summary
-    @summary = echo_client.get_data_quality_summary_definition(token_with_client_id, params[:id])
+    result = echo_client.get_data_quality_summary_definition(token_with_client_id, params[:id])
+
+    @summary = result.parsed_body unless result.error?
+
+    @summary = {} if defined?(@summary).nil?
   end
 end
