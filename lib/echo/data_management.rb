@@ -105,6 +105,8 @@ module Echo
 
     # Removes a data quality summary assignment.
     def remove_data_quality_summary_assignments(token, guids)
+      builder = Builder::XmlMarkup.new
+
       builder.ns2(:RemoveDataQualitySummaryAssignments, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
         builder.ns2(:token, token)
 
