@@ -24,10 +24,8 @@
       <%= form_tag(data_quality_summary_assignments_path, method: :post, id: "data-quality-summary-assignments-form") do %>
         <%= render partial: "form" %>
 
-        <fieldset>
-          <div class="row">
-            <%= submit_tag('Submit', class: 'eui-btn--blue pull-right') %>
-          </div>
+        <fieldset class="align-r">
+          <%= submit_tag('Submit', class: 'eui-btn--blue') %>
         </fieldset>
       <% end %>
     </section>
