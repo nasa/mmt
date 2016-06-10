@@ -98,6 +98,11 @@ class DraftsController < ApplicationController
     ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, @draft.native_id, token)
 
     if ingested.success?
+      # get information for publication email notification before draft is deleted
+      user_info = get_user_info
+      short_name = @draft.draft['ShortName']
+      version = @draft.draft['Version']
+
       # Delete draft
       @draft.destroy
 
@@ -106,8 +111,7 @@ class DraftsController < ApplicationController
       revision_id = xml['result']['revision_id']
 
       # instantiate and deliver notification email
-      user_info = get_user_info
-      DraftMailer.draft_published_notification(user_info, concept_id, revision_id).deliver_now
+      DraftMailer.draft_published_notification(user_info, concept_id, revision_id, short_name, version).deliver_now
 
       flash[:success] = 'Draft was successfully published.'
       redirect_to collection_path(concept_id, revision_id: revision_id)
