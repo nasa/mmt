@@ -14,13 +14,11 @@
   </div>
 </fieldset>
 
-<fieldset>
-  <div class="row search-form-actions align-r">
-    <%= submit_tag('Submit', class: 'eui-btn--blue') %>
-    <% if @summary.fetch('LastUpdateDate', nil) %>
-      <div class="update-timestamp">
-        <b>Last Updated:</b> <%= DateTime.parse(@summary.fetch('LastUpdateDate')).strftime('%A, %B %d, %Y at %l:%M %P') %>
-      </div>
-    <% end %>
-  </div>
+<fieldset class="align-r">
+  <%= submit_tag('Submit', class: 'eui-btn--blue') %>
+  <% if @summary.fetch('LastUpdateDate', nil) %>
+    <div class="update-timestamp">
+      <b>Last Updated:</b> <%= DateTime.parse(@summary.fetch('LastUpdateDate')).strftime('%A, %B %d, %Y at %l:%M %P') %>
+    </div>
+  <% end %>
 </fieldset>
