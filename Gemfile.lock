@@ -1,3 +1,13 @@
+GIT
+  remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
+  revision: 97e2ad5103db05e3b2d2572c5887103d8a5a90dc
+  branch: master
+  specs:
+    cmr_metadata_preview (0.0.1)
+      coffee-rails (~> 4.1.0)
+      jquery-rails
+      rails (~> 4.2.5.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -284,6 +294,7 @@ DEPENDENCIES
   capybara
   capybara-screenshot
   carmen
+  cmr_metadata_preview!
   coffee-rails (~> 4.1.0)
   database_cleaner
   factory_girl_rails

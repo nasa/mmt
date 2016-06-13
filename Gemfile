@@ -93,3 +93,7 @@ gem 'kaminari'
 gem 'carmen' # countries and subdivisions
 gem 'factory_girl_rails'
 gem 'builder'
+
+# run this command to work from a local copy of the gem's repo
+# bundle config local.cmr_metadata_preview /path/to/local/git/repository
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', branch: 'master'

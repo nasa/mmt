@@ -19,7 +19,7 @@ describe 'Draft creation', js: true do
     # end
 
     it 'creates a new blank draft record' do
-      expect(page).to have_content('Untitled Collection Record')
+      expect(page).to have_content('Entry Title Not Provided')
     end
 
     # it 'does not create a new draft in the database' do

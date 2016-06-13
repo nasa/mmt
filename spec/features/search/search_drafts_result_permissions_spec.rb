@@ -10,7 +10,7 @@ describe 'Search results permissions for drafts', reset_provider: true, js: true
   context 'when searching drafts' do
     before do
       login
-      create(:draft, entry_title: entry_title, short_name: short_name, provider_id: provider)
+      create(:full_draft, entry_title: entry_title, short_name: short_name, provider_id: provider)
     end
 
     context 'when drafts are from current provider' do

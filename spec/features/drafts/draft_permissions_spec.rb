@@ -3,16 +3,14 @@
 require 'rails_helper'
 
 describe 'Draft permissions', js: true, reset_provider: true do
-  short_name = 'Tropical Forests'
-  entry_title = 'Tropical Forest Observation Record'
   provider = 'MMT_2'
 
   before do
     login
-    create(:draft, entry_title: entry_title, short_name: short_name, provider_id: provider)
+    create(:full_draft, provider_id: provider)
   end
 
-  let(:draft) { Draft.find_by(entry_title: entry_title) }
+  let(:draft) { Draft.first }
 
   context 'when the draft provider is in the users available providers' do
     before do
@@ -43,7 +41,7 @@ describe 'Draft permissions', js: true, reset_provider: true do
         end
 
         it 'goes to the draft preview page' do
-          expect(page).to have_content("#{entry_title} DRAFT RECORD")
+          expect(page).to have_content('Draft Title DRAFT RECORD')
           expect(page).to have_content('Publish Draft')
           expect(page).to have_content('Delete Draft')
         end
