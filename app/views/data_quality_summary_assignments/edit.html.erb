@@ -34,7 +34,7 @@
           <table id="assignment-list">
             <thead>
               <tr>
-                <th></th>
+                <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="data_quality_summary_assignment[]" /></th>
                 <th>Collection</th>
                 <th>Short Name</th>
                 <th>Version ID</th>
@@ -71,10 +71,8 @@
         </fieldset>
 
         <% unless @assignments.empty? %>
-          <fieldset>
-            <div class="row">
-              <%= submit_tag('Delete Selected Assignments', class: 'eui-btn--red pull-right') %>
-            </div>
+          <fieldset class="align-r">
+            <%= submit_tag('Delete Selected Assignments', class: 'eui-btn--red') %>
           </fieldset>
         <% end %>
       <% end %>
