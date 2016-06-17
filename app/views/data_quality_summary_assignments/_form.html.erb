@@ -29,7 +29,7 @@
             <td class="align-c">
               <%= check_box_tag('catalog_item_guid[]', collection.fetch('meta').fetch('concept-id'), false, id: "catalog_item_guid_#{collection.fetch('meta').fetch('concept-id')}") %>
             </td>
-            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
             <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
             <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
           </tr>
