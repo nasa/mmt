@@ -153,6 +153,9 @@ describe 'Viewing Order Policies', js: true do
                 before do
                   VCR.use_cassette('echo_soap/provider_service/order_policies/destroy', record: :none) do
                     click_on 'Remove Order Policies'
+
+                    # Confirmation Dialog
+                    click_on 'Yes'
                   end
                 end
 
