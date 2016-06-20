@@ -112,7 +112,7 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
             context 'when selecting an assignment to delete' do
               before do
                 within '#assignment-list' do
-                  first("input[type='checkbox']").set(true)
+                  first("td input[type='checkbox']").set(true)
                 end
 
                 VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/delete', record: :none) do
