@@ -30,7 +30,7 @@ http_interactions:
       content-length:
       - '392'
       date:
-      - Thu, 02 Jun 2016 15:57:33 GMT
+      - Thu, 09 Jun 2016 19:40:44 GMT
       connection:
       - close
     body:
@@ -39,7 +39,7 @@ http_interactions:
         xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
         xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result/></ns2:GetDataQualitySummaryAssignmentsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
     http_version: 
-  recorded_at: Thu, 02 Jun 2016 15:57:33 GMT
+  recorded_at: Thu, 09 Jun 2016 19:40:44 GMT
 - request:
     method: post
     uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
@@ -70,7 +70,7 @@ http_interactions:
       content-length:
       - '392'
       date:
-      - Thu, 02 Jun 2016 15:57:33 GMT
+      - Thu, 09 Jun 2016 19:40:44 GMT
       connection:
       - close
     body:
@@ -79,5 +79,5 @@ http_interactions:
         xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
         xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result/></ns2:GetDataQualitySummaryAssignmentsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
     http_version: 
-  recorded_at: Thu, 02 Jun 2016 15:57:33 GMT
+  recorded_at: Thu, 09 Jun 2016 19:40:45 GMT
 recorded_with: VCR 3.0.1

@@ -79,6 +79,29 @@ $(document).ready ->
       'catalog_item_guid[]':
         required: 'You must select at least 1 collection.'
 
+  $('#delete-data-quality-summary-assignments-form').validate
+    errorClass: 'eui-banner--danger'
+    errorElement: 'div'
+    onkeyup: false
+    
+    errorPlacement: (error, element) ->
+      element.closest('fieldset').append(error)
+
+    onfocusout: (error) ->
+      this.element(error)
+
+    highlight: (element, errorClass) ->
+      # Prevent highlighting the fields themselves
+      return false
+
+    rules:
+      'data_quality_summary_assignment[]': 
+        required: true
+
+    messages:
+      'data_quality_summary_assignment[]':
+        required: 'You must select at least 1 assignment.'
+
   # jQuery Validate has a 'feature' that means this only gets called on blur, we want on change
   $('select').on 'change', ->
     $(this).valid()
