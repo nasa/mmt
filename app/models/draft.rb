@@ -44,6 +44,7 @@ class Draft < ActiveRecord::Base
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
       json_params = params.to_hash.to_camel_keys
+      Rails.logger.info("Modified Draft Parameters: #{json_params}")
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
       # Remove empty params from draft
@@ -63,6 +64,7 @@ class Draft < ActiveRecord::Base
   end
 
   def self.create_from_collection(collection, user, native_id)
+    Rails.logger.info("Draft created by #{user} for collection #{native_id}")
     new_entry_title = (collection['EntryTitle'] && collection['EntryTitle'].empty?) ? nil : collection['EntryTitle']
 
     if native_id
