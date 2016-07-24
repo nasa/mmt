@@ -9,6 +9,7 @@ class CollectionsController < ApplicationController
 
   def edit
     draft = Draft.create_from_collection(@collection, @current_user, @native_id)
+    Rails.logger.info("Draft for #{@native_id} was created by #{@current_user}")
     flash[:success] = 'Draft was successfully created'
     redirect_to draft_path(draft)
   end
@@ -23,18 +24,15 @@ class CollectionsController < ApplicationController
 
   def destroy
     provider_id = @revisions.first['meta']['provider-id']
-    time = Benchmark.realtime do 
-      delete =  cmr_client.delete_collection(provider_id, @native_id, token)
-      if delete.success?
-        flash[:success] = 'Collection was successfully deleted'
-        Rails.logger.info("Collection #{@native_id} was deleted for #{provider_id} by #{session[:urs_uid]}")
-        redirect_to collection_revisions_path(id: delete.body['concept-id'], revision_id: delete.body['revision-id'])
-      else
-        flash[:error] = 'Collection was not successfully deleted'
-        render :show
-      end
+    delete = cmr_client.delete_collection(provider_id, @native_id, token)
+    if delete.success?
+      flash[:success] = 'Collection was successfully deleted'
+       Rails.logger.info("Collection #{@native_id} was deleted for #{provider_id} by #{session[:urs_uid]}")
+      redirect_to collection_revisions_path(id: delete.body['concept-id'], revision_id: delete.body['revision-id'])
+    else
+      flash[:error] = 'Collection was not successfully deleted'
+      render :show
     end
-    Rails.logger.info "Delete action for #{@native_id} for provider #{provider_id} by #{session[:urs_uid]} took #{time}"
   end
 
   def revisions
@@ -42,24 +40,22 @@ class CollectionsController < ApplicationController
 
   def revert
     latest_revision_id = @revisions.first['meta']['revision-id']
-    time = Benchmark.realtime do
-      # Ingest revision
-      ingested = cmr_client.ingest_collection(@metadata.to_json, @provider_id, @native_id, token)
 
-      if ingested.success?
-        flash[:success] = 'Revision was successfully created'
-        Rails.logger.info("Revision for #{@native_id} for provider #{@provider_id} by user #{session[:urs_uid]} has been successfully reverted")
-        redirect_to collection_revisions_path(revision_id: latest_revision_id.to_i + 1)
-      else
-        Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
+    # Ingest revision
+    ingested = cmr_client.ingest_collection(@metadata.to_json, @provider_id, @native_id, token)
 
-        @errors = generate_ingest_errors(ingested)
+    if ingested.success?
+      flash[:success] = 'Revision was successfully created'
+       Rails.logger.info("Revision for #{@native_id} for provider #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
+      redirect_to collection_revisions_path(revision_id: latest_revision_id.to_i + 1)
+    else
+      Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
 
-        flash[:error] = 'Revision was not successfully created'
-        render action: 'revisions'
-      end
+      @errors = generate_ingest_errors(ingested)
+
+      flash[:error] = 'Revision was not successfully created'
+      render action: 'revisions'
     end
-    Rails.logger.info("Revert action for #{@native_id} for provider #{@provider_id} by user #{session[:urs_uid]} took #{time} ")
   end
 
   private
@@ -110,19 +106,13 @@ class CollectionsController < ApplicationController
       end
 
       # retrieve native metadata
-      time = Benchmark.realtime do 
-        @metadata = cmr_client.get_concept(@concept_id, token, revision_id)
-      end
-      Rails.logger.info("Getting concept from CMR took: #{time}")
+      @metadata = cmr_client.get_concept(@concept_id, token, revision_id)
 
       # translate to umm-json metadata if needed
       if concept_format == 'application/vnd.nasa.cmr.umm+json'
         @collection = @metadata
       else
-        time = Benchmark.realtime do
-          @collection = cmr_client.translate_collection(@metadata, concept_format, "application/#{Rails.configuration.umm_version};charset=utf-8", true).body
-        end
-        Rails.logger.info("Translating concept to umm-json took #{time}")
+        @collection = cmr_client.translate_collection(@metadata, concept_format, "application/#{Rails.configuration.umm_version};charset=utf-8", true).body
       end
     else
       # concept wasn't found, CMR might be a little slow

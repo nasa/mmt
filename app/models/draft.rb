@@ -64,7 +64,6 @@ class Draft < ActiveRecord::Base
   end
 
   def self.create_from_collection(collection, user, native_id)
-    Rails.logger.info("Draft created by #{user} for collection #{native_id}")
     new_entry_title = (collection['EntryTitle'] && collection['EntryTitle'].empty?) ? nil : collection['EntryTitle']
 
     if native_id
@@ -85,6 +84,7 @@ class Draft < ActiveRecord::Base
     draft.provider_id = user.provider_id # TODO is this problematic for collections editing permissions?
     draft.draft = collection
     draft.save
+    Rails.logger.info("Draft created by #{user} for collection #{native_id}")
     draft
   end
 
