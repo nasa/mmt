@@ -11,6 +11,7 @@ describe 'Data validation on each form for the factory draft', js: true do
   before do
     login
     draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
+    sleep 10
     visit draft_path(draft)
   end
 
