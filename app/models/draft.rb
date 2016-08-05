@@ -44,6 +44,7 @@ class Draft < ActiveRecord::Base
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
       json_params = params.to_hash.to_camel_keys
+      Rails.logger.info("Modified Draft Parameters: #{json_params}")
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
       # Remove empty params from draft
@@ -83,6 +84,7 @@ class Draft < ActiveRecord::Base
     draft.provider_id = user.provider_id # TODO is this problematic for collections editing permissions?
     draft.draft = collection
     draft.save
+    Rails.logger.info("Draft created by #{user} for collection #{native_id}")
     draft
   end
 
