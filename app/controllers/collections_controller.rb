@@ -40,7 +40,7 @@ class CollectionsController < ApplicationController
     latest_revision_id = @revisions.first['meta']['revision-id']
 
     # Ingest revision
-    ingested = cmr_client.ingest_collection(@metadata.to_json, @provider_id, @native_id, token)
+    ingested = cmr_client.ingest_collection(@collection.to_json, @provider_id, @native_id, token)
 
     if ingested.success?
       flash[:success] = 'Revision was successfully created'
