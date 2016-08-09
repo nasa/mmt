@@ -24,65 +24,72 @@ describe Draft do
   # update_draft method
   it '"update_draft" saves short_name on update' do
     draft = create(:draft)
+    user = create(:user)
     params = { 'short_name' => '12345', 'entry_title' => 'new title' }
 
-    draft.update_draft(params)
+    draft.update_draft(params,user)
 
     expect(draft.display_short_name).to eq('12345')
   end
   it '"update_draft" saves entry_title on update' do
     draft = create(:draft)
+    user = create(:user)
     params = { 'short_name' => '12345', 'entry_title' => 'new title' }
 
-    draft.update_draft(params)
+    draft.update_draft(params,user)
 
     expect(draft.display_entry_title).to eq('new title')
   end
   it '"update_draft" overwrites old values with new values' do
     draft = create(:draft, draft: { 'EntryTitle' => 'test title' })
+    user = create(:user)
     params = { 'entry_title' => 'new title' }
 
-    draft.update_draft(params)
+    draft.update_draft(params,user)
 
     expect(draft.draft).to eq('EntryTitle' => 'new title')
   end
   it '"update_draft" deletes empty values' do
     draft = create(:draft, draft: { 'EntryTitle' => 'test title' })
     params = { 'short_name' => '12345', 'entry_title' => '' }
+    user = create(:user)
 
-    draft.update_draft(params)
+    draft.update_draft(params,user)
 
     expect(draft.draft).to eq('ShortName' => '12345')
   end
+
   it '"update_draft" converts number fields to numbers' do
     draft = create(:draft, draft: {})
     params = { 'size' => '42' }
-
-    draft.update_draft(params)
+    user = create(:user)
+    draft.update_draft(params,user)
 
     expect(draft.draft).to eq('Size' => 42.0)
   end
   it '"update_draft" converts number filds with delimiters to numbers' do
     draft = create(:draft, draft: {})
     params = { 'size' => '9,001' }
+    user = create(:user)
 
-    draft.update_draft(params)
+    draft.update_draft(params,user)
 
     expect(draft.draft).to eq('Size' => 9001.0)
   end
   it '"update_draft" converts integer fields to integers' do
     draft = create(:draft, draft: {})
     params = { 'number_of_sensors' => '42' }
-
-    draft.update_draft(params)
+    user = create(:user)
+    
+    draft.update_draft(params,user)
 
     expect(draft.draft).to eq('NumberOfSensors' => 42)
   end
   it '"update_draft" converts boolean fields to boolean' do
     draft = create(:draft, draft: {})
     params = { 'ends_at_present_flag' => 'false' }
-
-    draft.update_draft(params)
+    user = create(:user)
+    draft.update_draft(params,user)
 
     expect(draft.draft).to eq('EndsAtPresentFlag' => false)
   end
