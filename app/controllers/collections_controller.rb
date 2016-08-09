@@ -9,7 +9,7 @@ class CollectionsController < ApplicationController
 
   def edit
     draft = Draft.create_from_collection(@collection, @current_user, @native_id)
-    Rails.logger.info("Draft for #{@native_id} was created by #{@current_user}")
+    Rails.logger.info("Audit Log: Draft for #{draft.entry_title} was created by #{@current_user.urs_uid} in provider #{@current_user.provider_id}")
     flash[:success] = 'Draft was successfully created'
     redirect_to draft_path(draft)
   end
@@ -27,7 +27,7 @@ class CollectionsController < ApplicationController
     delete = cmr_client.delete_collection(provider_id, @native_id, token)
     if delete.success?
       flash[:success] = 'Collection was successfully deleted'
-       Rails.logger.info("Collection #{@native_id} was deleted for #{provider_id} by #{session[:urs_uid]}")
+       Rails.logger.info("Audit Log: Collection with native_id #{@native_id} was deleted for #{provider_id} by #{session[:urs_uid]}")
       redirect_to collection_revisions_path(id: delete.body['concept-id'], revision_id: delete.body['revision-id'])
     else
       flash[:error] = 'Collection was not successfully deleted'
@@ -46,7 +46,7 @@ class CollectionsController < ApplicationController
 
     if ingested.success?
       flash[:success] = 'Revision was successfully created'
-       Rails.logger.info("Revision for #{@native_id} for provider #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
+       Rails.logger.info("Audit Log: Revision for draft with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
       redirect_to collection_revisions_path(revision_id: latest_revision_id.to_i + 1)
     else
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
