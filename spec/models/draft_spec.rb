@@ -27,7 +27,7 @@ describe Draft do
     user = create(:user)
     params = { 'short_name' => '12345', 'entry_title' => 'new title' }
 
-    draft.update_draft(params,user)
+    draft.update_draft(params, user)
 
     expect(draft.display_short_name).to eq('12345')
   end
@@ -36,7 +36,7 @@ describe Draft do
     user = create(:user)
     params = { 'short_name' => '12345', 'entry_title' => 'new title' }
 
-    draft.update_draft(params,user)
+    draft.update_draft(params, user)
 
     expect(draft.display_entry_title).to eq('new title')
   end
@@ -45,7 +45,7 @@ describe Draft do
     user = create(:user)
     params = { 'entry_title' => 'new title' }
 
-    draft.update_draft(params,user)
+    draft.update_draft(params, user)
 
     expect(draft.draft).to eq('EntryTitle' => 'new title')
   end
@@ -54,7 +54,7 @@ describe Draft do
     params = { 'short_name' => '12345', 'entry_title' => '' }
     user = create(:user)
 
-    draft.update_draft(params,user)
+    draft.update_draft(params, user)
 
     expect(draft.draft).to eq('ShortName' => '12345')
   end
@@ -63,7 +63,7 @@ describe Draft do
     draft = create(:draft, draft: {})
     params = { 'size' => '42' }
     user = create(:user)
-    draft.update_draft(params,user)
+    draft.update_draft(params, user)
 
     expect(draft.draft).to eq('Size' => 42.0)
   end
@@ -72,7 +72,7 @@ describe Draft do
     params = { 'size' => '9,001' }
     user = create(:user)
 
-    draft.update_draft(params,user)
+    draft.update_draft(params, user)
 
     expect(draft.draft).to eq('Size' => 9001.0)
   end
@@ -81,7 +81,7 @@ describe Draft do
     params = { 'number_of_sensors' => '42' }
     user = create(:user)
     
-    draft.update_draft(params,user)
+    draft.update_draft(params, user)
 
     expect(draft.draft).to eq('NumberOfSensors' => 42)
   end
@@ -89,7 +89,7 @@ describe Draft do
     draft = create(:draft, draft: {})
     params = { 'ends_at_present_flag' => 'false' }
     user = create(:user)
-    draft.update_draft(params,user)
+    draft.update_draft(params, user)
 
     expect(draft.draft).to eq('EndsAtPresentFlag' => false)
   end

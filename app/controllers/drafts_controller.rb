@@ -29,7 +29,7 @@ class DraftsController < ApplicationController
 
   # GET /drafts/1/edit
   def edit
-    Rails.logger.info("Audit Log: User #{@current_user.urs_uid} started to modify record #{@draft.entry_title} for provider #{@current_user.provider_id}")
+    Rails.logger.info("Audit Log: User #{@current_user.urs_uid} started to modify draft #{@draft.entry_title} for provider #{@current_user.provider_id}")
     if params[:form]
       @draft_form = params[:form]
       set_science_keywords
@@ -49,7 +49,7 @@ class DraftsController < ApplicationController
   def update
     if params[:id] == '0'
       @draft = Draft.create(user: @current_user, provider_id: @current_user.provider_id, draft: {})
-      Rails.logger.info("Audit Log: #{@current_user.urs_uid} created draft #{@draft.entry_title}for provider #{@current_user.provider_id}")
+      Rails.logger.info("Audit Log: #{@current_user.urs_uid} created draft #{@draft.entry_title} for provider #{@current_user.provider_id}")
       params[:id] = @draft.id
     else
       @draft = Draft.find(params[:id])
@@ -122,7 +122,7 @@ class DraftsController < ApplicationController
     else
       # Log error message
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
-      Rails.logger.info("User #{@current_user.urs_uid} attempted to destroy draft #{@draft.entry_title} in provider #{@current_user.provider_id} but encountered an error.")
+      Rails.logger.info("User #{@current_user.urs_uid} attempted to ingest draft #{@draft.entry_title} in provider #{@current_user.provider_id} but encountered an error.")
       @ingest_errors = generate_ingest_errors(ingested)
 
       flash[:error] = 'Draft was not published successfully.'

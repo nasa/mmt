@@ -32,7 +32,7 @@ class Draft < ActiveRecord::Base
     short_name || '<Blank Short Name>'
   end
 
-  def update_draft(params,user_id)
+  def update_draft(params, editing_user_id)
     if params
       # pull out searchable fields if provided
       if params['short_name']
@@ -44,7 +44,7 @@ class Draft < ActiveRecord::Base
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
       json_params = params.to_hash.to_camel_keys
-      Rails.logger.info("Audit Log: #{user_id} modified Draft Parameters: #{json_params}")
+      Rails.logger.info("Audit Log: #{editing_user_id} modified Draft Parameters: #{json_params}")
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
       # Remove empty params from draft
