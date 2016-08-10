@@ -13,7 +13,7 @@ describe 'Create new draft from cloning a collection', js: true, reset_provider:
 
       fill_in 'Quick Find', with: short_name
       click_on 'Find'
-
+      page.should have_content(short_name)
       click_on short_name
 
       click_on 'Clone this Record'
