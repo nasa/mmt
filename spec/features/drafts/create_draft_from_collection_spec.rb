@@ -14,6 +14,8 @@ describe 'Create new draft from collection', js: true, reset_provider: true do
       fill_in 'Quick Find', with: short_name
       click_on 'Find'
 
+      expect(page).to have_content(short_name)
+
       click_on short_name
 
       click_on 'Edit Record'

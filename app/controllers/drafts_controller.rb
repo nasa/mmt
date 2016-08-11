@@ -29,6 +29,7 @@ class DraftsController < ApplicationController
 
   # GET /drafts/1/edit
   def edit
+    Rails.logger.info("Audit Log: User #{@current_user.urs_uid} started to modify draft #{@draft.entry_title} for provider #{@current_user.provider_id}")
     if params[:form]
       @draft_form = params[:form]
       set_science_keywords
@@ -48,12 +49,13 @@ class DraftsController < ApplicationController
   def update
     if params[:id] == '0'
       @draft = Draft.create(user: @current_user, provider_id: @current_user.provider_id, draft: {})
+      Rails.logger.info("Audit Log: #{@current_user.urs_uid} created draft #{@draft.entry_title} for provider #{@current_user.provider_id}")
       params[:id] = @draft.id
     else
       @draft = Draft.find(params[:id])
     end
 
-    if @draft.update_draft(params[:draft])
+    if @draft.update_draft(params[:draft], @current_user.urs_uid)
       flash[:success] = 'Draft was successfully updated.'
 
       case params[:commit]
@@ -84,6 +86,7 @@ class DraftsController < ApplicationController
   def destroy
     # if new_record?, no need to destroy
     @draft.destroy unless @draft.new_record?
+    Rails.logger.info("Audit Log: Draft #{@draft.entry_title} was destroyed by #{@current_user.urs_uid} in provider: #{@current_user.provider_id}")
     respond_to do |format|
       flash[:success] = 'Draft was successfully deleted.'
       format.html { redirect_to manage_metadata_path }
@@ -99,6 +102,7 @@ class DraftsController < ApplicationController
 
     if ingested.success?
       # get information for publication email notification before draft is deleted
+      Rails.logger.info("Audit Log: Draft #{@draft.entry_title} was published by #{@current_user.urs_uid} in provider: #{@current_user.provider_id}")
       user_info = get_user_info
       short_name = @draft.draft['ShortName']
       version = @draft.draft['Version']
@@ -118,7 +122,7 @@ class DraftsController < ApplicationController
     else
       # Log error message
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
-
+      Rails.logger.info("User #{@current_user.urs_uid} attempted to ingest draft #{@draft.entry_title} in provider #{@current_user.provider_id} but encountered an error.")
       @ingest_errors = generate_ingest_errors(ingested)
 
       flash[:error] = 'Draft was not published successfully.'
