@@ -83,7 +83,10 @@ module Cmr
       else
         url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       end
-      get(url, {}, token_header(token)).body
+      headers = {
+        'Accept' => "application/#{Rails.configuration.umm_version}; charset=utf-8"
+      }
+      get(url, {}, headers.merge(token_header(token))).body
     end
 
     def delete_collection(provider_id, native_id, token)

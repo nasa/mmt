@@ -42,7 +42,7 @@ class CollectionsController < ApplicationController
     latest_revision_id = @revisions.first['meta']['revision-id']
 
     # Ingest revision
-    ingested = cmr_client.ingest_collection(@metadata.to_json, @provider_id, @native_id, token)
+    ingested = cmr_client.ingest_collection(@collection.to_json, @provider_id, @native_id, token)
 
     if ingested.success?
       flash[:success] = 'Revision was successfully created'
@@ -105,15 +105,8 @@ class CollectionsController < ApplicationController
         @old_revision = true
       end
 
-      # retrieve native metadata
-      @metadata = cmr_client.get_concept(@concept_id, token, revision_id)
-
-      # translate to umm-json metadata if needed
-      if concept_format == 'application/vnd.nasa.cmr.umm+json'
-        @collection = @metadata
-      else
-        @collection = cmr_client.translate_collection(@metadata, concept_format, "application/#{Rails.configuration.umm_version};charset=utf-8", true).body
-      end
+      # retrieve metadata (umm-json with umm-c version)
+      @collection = cmr_client.get_concept(@concept_id, token, revision_id)
     else
       # concept wasn't found, CMR might be a little slow
       # Take the user to a blank page with a message the collection doesn't exist yet,
