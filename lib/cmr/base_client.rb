@@ -42,6 +42,7 @@ module Cmr
         headers.each do |header, value|
           req.headers[header] = value
         end
+        Rails.logger.debug("request: #{req}")
         req.body = body if body
       end
       Cmr::Response.new(faraday_response)
@@ -74,6 +75,16 @@ module Cmr
 
         conn.adapter Faraday.default_adapter
       end
+    end
+
+    def valid_uri?(uri)
+      !!URI.parse(uri)
+    rescue URI::InvalidURIError
+      false
+    end
+
+    def encode_if_needed(url_fragment)
+      valid_uri?(url_fragment) ? url_fragment : URI.encode(url_fragment)
     end
   end
 end
