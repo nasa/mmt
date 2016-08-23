@@ -287,7 +287,6 @@ class Draft < ActiveRecord::Base
 
   def set_native_id
     self.native_id ||= "mmt_collection_#{id}"
-    self.native_id = URI.encode(self.native_id) # TODO remove and make sure the publishing still works with non uri encoded native id
     save
   end
 end

@@ -18,13 +18,6 @@ describe 'Publishing revision of collection with non url encoded native id', js:
         click_on 'Edit Record'
       end
 
-      it 'creates a draft that has a url encoded native id' do
-        draft = Draft.first
-        page.document.synchronize do
-          expect(draft.native_id).to eq('AMSR-E/Aqua%20&%205-Day,%20L3%20Global%20Snow%20Water%20Equivalent%20EASE-Grids%20V001')
-        end
-      end
-
       context 'when publishing the revision then visiting the revisions page' do
         before do
           # add required data to publish

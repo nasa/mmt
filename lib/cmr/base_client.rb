@@ -42,7 +42,6 @@ module Cmr
         headers.each do |header, value|
           req.headers[header] = value
         end
-        Rails.logger.debug("request: #{req}")
         req.body = body if body
       end
       Cmr::Response.new(faraday_response)
