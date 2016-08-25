@@ -16,6 +16,7 @@ describe 'Publishing revision of collection with non url encoded native id', js:
     context 'when editing the collection' do
       before do
         click_on 'Edit Record'
+
       end
 
       it 'creates a draft with a non url encoded native id' do
@@ -32,8 +33,8 @@ describe 'Publishing revision of collection with non url encoded native id', js:
             click_on 'Organizations', match: :first
           end
           within '#organizations' do
-            add_organization('AARHUS-HYDRO')
             select 'Resource Provider', from: 'Role'
+            select 'AARHUS-HYDRO', from: 'Short Name'
           end
           within '.nav-top' do
             click_on 'Done'
@@ -60,7 +61,7 @@ describe 'Publishing revision of collection with non url encoded native id', js:
 
           click_on 'Publish'
           wait_for_ajax
-          
+
           click_on 'Revisions'
         end
 
