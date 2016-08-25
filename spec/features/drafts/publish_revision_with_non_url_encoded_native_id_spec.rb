@@ -43,9 +43,9 @@ describe 'Publishing revision of collection with non url encoded native id', js:
           within '.metadata' do
             click_on 'Data Identification'
           end
-          open_accordions
-          select 'In work', from: 'Collection Progress'
+          click_on 'Expand All'
           select 'Level 3', from: 'ID'
+          select 'Planned', from: 'Collection Progress'
           within '.nav-top' do
             click_on 'Done'
           end
@@ -53,7 +53,7 @@ describe 'Publishing revision of collection with non url encoded native id', js:
           within '.metadata' do
             click_on 'Acquisition Information'
           end
-          open_accordions
+          click_on 'Expand All'
           select 'Aircraft', from: 'Type'
           within '.nav-top' do
             click_on 'Done'
