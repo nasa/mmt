@@ -59,7 +59,8 @@ describe 'Publishing revision of collection with non url encoded native id', js:
           end
 
           click_on 'Publish'
-
+          wait_for_ajax
+          
           click_on 'Revisions'
         end
 
