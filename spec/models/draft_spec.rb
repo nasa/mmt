@@ -58,7 +58,6 @@ describe Draft do
 
     expect(draft.draft).to eq('ShortName' => '12345')
   end
-
   it '"update_draft" converts number fields to numbers' do
     draft = create(:draft, draft: {})
     params = { 'size' => '42' }
@@ -67,7 +66,7 @@ describe Draft do
 
     expect(draft.draft).to eq('Size' => 42.0)
   end
-  it '"update_draft" converts number filds with delimiters to numbers' do
+  it '"update_draft" converts number fields with delimiters to numbers' do
     draft = create(:draft, draft: {})
     params = { 'size' => '9,001' }
     user = create(:user)
@@ -80,7 +79,7 @@ describe Draft do
     draft = create(:draft, draft: {})
     params = { 'number_of_sensors' => '42' }
     user = create(:user)
-    
+
     draft.update_draft(params, user)
 
     expect(draft.draft).to eq('NumberOfSensors' => 42)
@@ -99,9 +98,9 @@ describe Draft do
     draft = create(:draft)
     expect(draft.native_id).to include('mmt_collection_')
   end
-  it 'url encodes a non url encoded native_id' do
+  it 'stores non url encoded native_id' do
     draft = create(:draft, native_id: 'not & url, encoded / native id')
-    expect(draft.native_id).to eq('not%20&%20url,%20encoded%20/%20native%20id')
+    expect(draft.native_id).to eq('not & url, encoded / native id')
   end
 
   # create_from_collection method

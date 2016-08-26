@@ -66,10 +66,11 @@ module Cmr
     end
 
     def ingest_collection(metadata, provider_id, native_id, token)
+      # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3002/providers/#{provider_id}/collections/#{native_id}"
+        url = "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
       else
-        url = "/ingest/providers/#{provider_id}/collections/#{native_id}"
+        url = "/ingest/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
       end
       headers = {
         'Content-Type' => "application/#{Rails.configuration.umm_version};charset=utf-8"
@@ -90,10 +91,11 @@ module Cmr
     end
 
     def delete_collection(provider_id, native_id, token)
+      # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3002/providers/#{provider_id}/collections/#{native_id}"
+        url = "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
       else
-        url = "/ingest/providers/#{provider_id}/collections/#{native_id}"
+        url = "/ingest/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
       end
       headers = {
         'Accept' => 'application/json'

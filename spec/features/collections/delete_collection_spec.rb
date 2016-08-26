@@ -87,4 +87,25 @@ describe 'Delete collection', js: true, reset_provider: true do
       end
     end
   end
+
+  context 'when viewing a published collection with a non url encoded native id' do
+    before do
+      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url, encoded / native id')
+      visit draft_path(draft)
+
+      click_on 'Publish'
+    end
+
+    context 'when clicking the delete link' do
+      before do
+        click_on 'Delete Record'
+        # Accept
+        click_on 'Yes'
+      end
+
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Collection was successfully deleted')
+      end
+    end
+  end
 end

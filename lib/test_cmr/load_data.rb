@@ -280,15 +280,15 @@ module Cmr
               puts response.inspect
             end
           else
-            # collection with bad native id
-            bad_native_id = URI.encode('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
+            # collection with not url friendly native id
+            encoded_bad_native_id = URI.encode('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
             response = connection.put do |req|
-              req.url("http://localhost:3002/providers/LARC/collections/#{bad_native_id}")
+              req.url("http://localhost:3002/providers/LARC/collections/#{encoded_bad_native_id}")
               req.headers['Content-Type'] = 'application/echo10+xml'
               req.headers['Echo-token'] = 'mock-echo-system-token'
               req.body = metadata
             end
-            puts response.success? ? 'added bad native id collection' : response.inspect
+            puts response.success? ? 'added collection with a not url friendly native id' : response.inspect
           end
         end
       end
