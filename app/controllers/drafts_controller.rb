@@ -16,9 +16,11 @@ class DraftsController < ApplicationController
     set_platform_types
     set_temporal_keywords
     set_organizations
+    set_data_centers
     set_country_codes
     set_language_codes
     @errors = validate_metadata
+    # fail
   end
 
   # GET /drafts/new
@@ -39,6 +41,7 @@ class DraftsController < ApplicationController
       set_country_codes
       set_temporal_keywords if params[:form] == 'temporal_information'
       set_organizations if params[:form] == 'organizations'
+      set_data_centers if params[:form] == 'data_centers'
     else
       render :show
     end
@@ -54,6 +57,7 @@ class DraftsController < ApplicationController
     else
       @draft = Draft.find(params[:id])
     end
+    # fail
 
     if @draft.update_draft(params[:draft], @current_user.urs_uid)
       flash[:success] = 'Draft was successfully updated.'
@@ -337,6 +341,7 @@ class DraftsController < ApplicationController
           end
         end
       end
+      # TODO need to make data_centers work like organizations
 
       personnel = metadata['Personnel'] || []
       personnel.each do |person|
@@ -439,6 +444,11 @@ class DraftsController < ApplicationController
     organizations = cmr_client.get_controlled_keywords('providers')
     organizations = get_organization_short_names_long_names_urls(organizations)
     @organizations = organizations.sort
+  end
+  def set_data_centers
+    data_centers = cmr_client.get_controlled_keywords('providers')
+    data_centers = get_organization_short_names_long_names_urls(data_centers)
+    @data_centers = data_centers.sort
   end
 
   def get_user_info

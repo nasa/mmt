@@ -1,0 +1,137 @@
+<div class="row sub-fields">
+  <!-- Roles [r] -->
+  <%= mmt_select(
+    name: 'roles',
+    title: 'Roles',
+    prefix: name_prefix,
+    value: data_center['Roles'], # need to fill ou
+    multiple: true,
+    options: DraftsHelper::DataCenterRoleOptions,
+    help: 'definitions/DataCenterType/properties/Roles',
+    required: true,
+    always_required: true
+  ) %>
+
+  <div class="row">
+    <!-- ShortName [r] -->
+    <div class="col-6">
+      <%= mmt_select(
+        name: 'short_name',
+        title: 'Short Name',
+        prefix: name_prefix,
+        value: data_center['ShortName'],
+        help: 'definitions/DataCenterType/properties/ShortName',
+        options: @data_centers.map { |short_name, long_name, url| [short_name, short_name, { 'data-long-name' => long_name, 'data-url' => url }]},
+        classes: 'select2-select data-center-short-name-select',
+        always_required: true
+      ) %>
+    </div>
+
+    <!-- LongName -->
+    <div class="col-6">
+      <%= mmt_text_field(
+        name: 'long_name',
+        title: 'Long Name',
+        prefix: name_prefix,
+        value: data_center['LongName'],
+        help: 'definitions/DataCenterType/properties/LongName',
+        classes: 'data-center-long-name',
+        validate: true
+      ) %>
+    </div>
+  </div>
+
+  <!-- ContactInformation -->
+  <!-- TODO check a record in v1.6 to make sure it is nested as such -->
+  <%= render partial: 'drafts/forms/type', locals: {
+    type: 'contact_information',
+    title: 'Contact Information',
+    values: data_center['ContactInformation'] || {}, # no multiple right?
+    name_prefix: "#{name_prefix}|contact_information|_", # TODO need to verify
+    help: 'definitions/ContactInformationType',
+    multiple: false,
+    # options: options.clone # original. works.
+    options: { # newer version to redo title and get rid of always required icon
+      # always_required: true, # TODO not sure about this
+      related_url_title: 'Data Center Related URLs', # TODO each related url might have a different title
+      related_url_form_type: RelatedUrlFieldsHelper::DATA_CENTERS_FORM
+    }
+  } %>
+
+  <!-- ContactPersons - multiple -->
+  <!-- TODO need something so there is some space above this section -->
+  <!-- TODO when making form, need to differentiate btwn w/ data center or non data center affiliation -->
+  <%= render partial: 'drafts/forms/type', locals: {
+    type: 'contact_person',
+    title: 'Contact Person',
+    values: data_center['ContactPersons'] || [{}],
+    name_prefix: "#{name_prefix}|contact_persons|_",
+    help: 'definitions/ContactPersonType',
+    multiple: true,
+    options: options.clone#.merge(title: 'Contact Person') # TODO check to see if need to edit, add, or redo options
+  } %>
+
+  <!-- ContactGroup - multiple -->
+  <%= render partial: 'drafts/forms/type', locals: {
+    type: 'contact_group',
+    title: 'Contact Group',
+    values: data_center['ContactGroups'] || [{}],
+    name_prefix: "#{name_prefix}|contact_groups|_",
+    help: 'definitions/ContactGroupType',
+    multiple: true,
+    options: options.clone#.merge(title: 'Contact Group') # TODO check to see if need to edit, add, or redo options
+  } %>
+</div>
+
+<!-- <h4>
+  data_center :
+</h4>
+<p>
+  <%#= data_center %>
+</p> -->
+
+<!--
+Data Center {
+  Roles* (multi-select)
+  Shortname*
+  Longname
+  Contact Information {
+    RelatedURL
+    Service Hours
+    Contact Instructions
+    Mechanisms
+    Address {
+      Street
+      City
+      State
+      Country
+      PostalCode
+    }
+  }
+  ContactPersonType {
+    Roles*
+    FirstName
+    MiddleName
+    LastName
+    Contact Information {
+      RelatedURL
+      Service Hours
+      Contact Instructions
+      Mechanisms
+      Address {
+        Street
+        City
+        State
+        Country
+        PostalCode
+      }
+    }
+  }
+  [Add another Data Center contact person]
+  ContactGroup {
+    fields...
+  }
+  [Add another Data Center contact group]
+}
+[Add another Data Center]
+ -->

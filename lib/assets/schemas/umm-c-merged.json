@@ -1381,7 +1381,7 @@
       "minLength": 1,
       "maxLength": 255,
       "pattern": "[\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=,][\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=, ]{1,254}"
-    },    
+    },
     "DataTypeEnum": {
       "description": "This entity contains the additional attribute data types.",
       "type": "string",

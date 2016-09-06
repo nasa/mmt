@@ -40,6 +40,12 @@ module PreviewCirclesHelper
         anchor: 'collection-information'
       }
     },
+    'data_centers' => { # TODO make sure this works
+      'DataCenters' => {
+        required: true,
+        anchor: 'data-centers'
+      }
+    },
     'organizations' => {
       'Organizations' => {
         required: true,

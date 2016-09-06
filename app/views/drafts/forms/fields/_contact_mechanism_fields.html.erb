@@ -1,13 +1,12 @@
-<!-- TODO delete and make sure all forms use contact mechanishm fields partial -->
 <div class="row sub-fields">
   <div class="col-6">
     <%= mmt_select(
       name: 'type',
       title: 'Type',
       prefix: name_prefix,
-      value: contact['Type'],
-      options: DraftsHelper::ContactTypeOptions,
-      help: 'definitions/ContactType/properties/Type',
+      value: contact_mechanism['Type'],
+      options: DraftsHelper::ContactMechanismTypeOptions,
+      help: 'definitions/ContactMechanismType/properties/Type',
     ) %>
   </div>
   <div class="col-6">
@@ -15,8 +14,8 @@
       name: 'value',
       title: 'Value',
       prefix: name_prefix,
-      value: contact['Value'],
-      help: 'definitions/ContactType/properties/Value',
+      value: contact_mechanism['Value'],
+      help: 'definitions/ContactMechanismType/properties/Value',
       validate: true
      ) %>
   </div>

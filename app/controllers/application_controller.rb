@@ -275,6 +275,9 @@ class ApplicationController < ActionController::Base
   ORGANIZATIONS_FIELDS = %w(
     Organizations
   )
+  DATA_CENTER_FIELDS = %w(
+    DataCenters
+  )
   PERSONNEL_FIELDS = %w(
     Personnel
   )

@@ -1,0 +1,65 @@
+<div class="row sub-fields">
+  <!-- Roles [r] -->
+  <%= mmt_select(
+    name: 'roles',
+    title: 'Roles',
+    prefix: name_prefix,
+    value: contact_group['Roles'],
+    multiple: true,
+    options: DraftsHelper::DataContactRoleOptions,
+    help: 'definitions/ContactGroupType/properties/Roles',
+    required: true
+  ) %>
+
+  <!-- GroupName [r] -->
+  <%= mmt_text_field(
+    name: 'group_name',
+    title: 'Group Name',
+    prefix: name_prefix,
+    value: contact_group['GroupName'],
+    help: 'definitions/ContactGroupType/properties/GroupName',
+    required: true
+  ) %>
+
+  <!-- NonDataCenterAffiliation (unless data_center_affiliation) -->
+  <% unless options[:data_center_affiliation] %>
+    <div class="row">
+      <%= mmt_text_field(
+      name: 'non_data_center_affiliation',
+      title: 'Non Data Center Affiliation',
+      prefix: name_prefix,
+      value: contact_group['NonDataCenterAffiliation'],
+      help: 'definitions/ContactGroupType/properties/NonDataCenterAffiliation',
+      validate: true
+      ) %>
+    </div>
+  <% end %>
+
+  <!-- ContactInformation -->
+  <%= render partial: 'drafts/forms/type', locals: {
+    type: 'contact_information',
+    title: 'Contact Information',
+    values: contact_group['ContactInformation'] || {},
+    name_prefix: "#{name_prefix}|contact_information|_",
+    help: 'definitions/ContactInformationType',
+    multiple: false,
+    # options: options.clone # original. works. # TODO check to see if need to edit, add, or redo options
+    # options: {
+      # title? shouldn't need type
+      # pass related url info
+      # related url getting class 'data-centers'. from highest options??
+    # }
+    options: { # newer version to redo title and get rid of always required icon
+      # always_required: true, # TODO not sure about this
+      related_url_title: 'Contact Group Related URLs', # TODO each related url might have a different title
+      related_url_form_type: RelatedUrlFieldsHelper::DATA_CENTERS_FORM
+    }
+  } %>
+</div>
+
+<!-- <h4>
+  contact_group :
+</h4>
+<p>
+  <%#= contact_group %>
+</p> -->

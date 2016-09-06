@@ -281,6 +281,7 @@ FactoryGirl.define do
       'Type' => 'UPDATE',
       'Date' => '2015-07-05T00:00:00Z'
     }],
+    # TODO add Data Centers
     'Organizations' => [{
       'Role' => 'RESOURCEPROVIDER',
       'Party' => {

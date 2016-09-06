@@ -1,0 +1,78 @@
+<fieldset class="eui-accordion" id="data_centers">
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title eui-required-o">Data Centers</h3>
+    <%= mmt_help_icon(
+      title: 'Data Centers',
+      help: 'properties/DataCenters'
+    ) %>
+  </div>
+  <div class="eui-accordion__body">
+    <!-- Data Centers [r] -->
+    <div class="row taller">
+      <div class="col-12">
+        <div class="row">
+          <%= render partial: 'drafts/forms/type', locals: {
+            type: 'data_center',
+            values: draft.draft['DataCenters'] || [{}],
+            name_prefix: "draft_|data_centers|_",
+            multiple: true,
+            options: {
+              # type: 'data_centers', # TODO make sure this hasn't messed anything up
+              # title: 'Data Center',
+              data_center_affiliation: true,
+              always_required: true, # TODO not sure about this
+              related_url_title: 'Related URLs', # TODO each related url might have a different title
+              related_url_form_type: RelatedUrlFieldsHelper::DATA_CENTERS_FORM
+            }
+          } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<!--
+Data Center {
+  Roles* (multi-select)
+  Shortname*
+  Longname
+  Contact Information {
+    RelatedURL
+    Service Hours
+    Contact Instructions
+    Mechanisms
+    Address {
+      Street
+      City
+      State
+      Country
+      PostalCode
+    }
+  }
+  ContactPersonType {
+    Roles*
+    FirstName
+    MiddleName
+    LastName
+    Contact Information {
+      RelatedURL
+      Service Hours
+      Contact Instructions
+      Mechanisms
+      Address {
+        Street
+        City
+        State
+        Country
+        PostalCode
+      }
+    }
+  }
+  [Add another Data Center contact person]
+  ContactGroup {
+    fields...
+  }
+  [Add another Data Center contact group]
+}
+[Add another Data Center]
+ -->

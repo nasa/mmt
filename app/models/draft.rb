@@ -16,6 +16,7 @@ class Draft < ActiveRecord::Base
     personnel
     collection_citations
     metadata_information
+    data_centers
   )
 
   def self.get_next_form(name, direction)

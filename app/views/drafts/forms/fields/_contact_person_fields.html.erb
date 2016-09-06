@@ -1,0 +1,89 @@
+<div class="row sub-fields taller">
+  <!-- Roles [r] -->
+  <%= mmt_select(
+    name: 'roles',
+    title: 'Roles',
+    prefix: name_prefix,
+    value: contact_person['Roles'],
+    multiple: true,
+    options: DraftsHelper::DataContactRoleOptions,
+    help: 'definitions/ContactPersonType/properties/Roles',
+    required: true
+  ) %>
+
+  <div class="row">
+    <!-- FirstName -->
+    <div class="col-4">
+      <%= mmt_text_field(
+        name: 'first_name',
+        title: 'First Name',
+        prefix: name_prefix,
+        value: contact_person['FirstName'],
+        help: 'definitions/ContactPersonType/properties/FirstName',
+        validate: true
+      ) %>
+    </div>
+
+    <!-- MiddleName -->
+    <div class="col-4">
+      <%= mmt_text_field(
+        name: 'middle_name',
+        title: 'Middle Name',
+        prefix: name_prefix,
+        value: contact_person['MiddleName'],
+        help: 'definitions/ContactPersonType/properties/MiddleName',
+        validate: true
+      ) %>
+    </div>
+
+    <!-- LastName [r] -->
+    <div class="col-4">
+      <%= mmt_text_field(
+        name: 'last_name',
+        title: 'Last Name',
+        prefix: name_prefix,
+        value: contact_person['LastName'],
+        help: 'definitions/ContactPersonType/properties/LastName',
+        validate: true,
+        required: true
+      ) %>
+    </div>
+  </div>
+
+  <!-- NonDataCenterAffiliation -->
+  <% unless options[:data_center_affiliation] %>
+    <div class="row">
+      <%= mmt_text_field(
+      name: 'non_data_center_affiliation',
+      title: 'Non Data Center Affiliation',
+      prefix: name_prefix,
+      value: contact_person['NonDataCenterAffiliation'],
+      help: 'definitions/ContactPersonType/properties/NonDataCenterAffiliation',
+      validate: true
+      ) %>
+    </div>
+  <% end %>
+
+  <!-- ContactInformation -->
+  <%= render partial: 'drafts/forms/type', locals: {
+    type: 'contact_information',
+    title: 'Contact Information',
+    values: contact_person['ContactInformation'] || {},
+    name_prefix: "#{name_prefix}|contact_information|_",
+    help: 'definitions/ContactInformationType',
+    multiple: false,
+    # options: options.clone # original. works. # TODO check to see if need to edit, add, or redo options
+    options: { # newer version to redo title and get rid of always required icon
+      # always_required: true, # TODO not sure about this
+      related_url_title: 'Contact Person Related URLs', # TODO each related url might have a different title
+      related_url_form_type: RelatedUrlFieldsHelper::DATA_CENTERS_FORM
+    }
+  } %>
+</div>
+
+<!-- <h4>
+  contact_person :
+</h4>
+<p>
+  <%#= contact_person %>
+</p> -->

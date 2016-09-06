@@ -5,8 +5,20 @@ module RelatedUrlFieldsHelper
     relation
     urls
   )
-
+  DATA_CENTERS_FORM = %w(
+    title
+    description
+    relation
+    urls
+  )
+# Contact Persons? Contact Groups?
   PERSONNEL_FORM = %w(
+    title
+    description
+    relation
+    urls
+  )
+  NON_DATA_CENTER_AFFILIATION_FORM = %w(
     title
     description
     relation

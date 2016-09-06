@@ -25,7 +25,36 @@ module DraftsHelper
     ['Telephone'],
     ['Twitter'],
     ['U.S. toll free'],
-    ['Other'],
+    ['Other']
+  ]
+  ContactMechanismTypeOptions = [
+    ['Direct Line'],
+    ['Email'],
+    ['Facebook'],
+    ['Fax'],
+    ['Mobile'],
+    ['Modem'],
+    ['Primary'],
+    ['TDD/TTY Phone'],
+    ['Telephone'],
+    ['Twitter'],
+    ['U.S. toll free'],
+    ['Other']
+  ]
+  DataCenterRoleOptions = [
+    ['Archiver', 'ARCHIVER'],
+    ['Distributor', 'DISTRIBUTOR'],
+    ['Originator', 'ORIGINATOR'],
+    ['Processor', 'PROCESSOR']
+  ]
+  DataContactRoleOptions = [
+    ['Data Center Contact'],
+    ['Technical Contact'],
+    ['Science Contact'],
+    ['Investigator'],
+    ['Metadata Author'],
+    ['User Services'],
+    ['Science Software Development']
   ]
   DataTypeOptions = [
     ['String', 'STRING'],
@@ -35,9 +64,9 @@ module DraftsHelper
     ['Date', 'DATE'],
     ['Time', 'TIME'],
     ['Date time', 'DATETIME'],
-    ['Date String', 'DATESTRING'],
-    ['Time String', 'TIMESTRING'],
-    ['Date Time String', 'DATETIMESTRING']
+    ['Date String', 'DATE_STRING'],
+    ['Time String', 'TIME_STRING'],
+    ['Date Time String', 'DATETIME_STRING']
   ]
   DurationOptions = [
     ['Day', 'DAY'],

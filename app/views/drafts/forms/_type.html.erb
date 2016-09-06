@@ -6,6 +6,7 @@
 <% if multiple %>
   <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') %>" class="multiple <%= (options[:type] || type.pluralize).dasherize %>">
     <% values.each_with_index do |value, index| %>
+      <!-- <p><%#= "value: #{value}; type: #{type};" %></p> -->
       <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') + "_#{index}" %>" class="multiple-item multiple-item-<%= index %> eui-accordion <%= 'is-closed' unless value == values.last %>">
         <div class="eui-accordion__header">
           <div class="eui-accordion__icon" tabindex="0">
