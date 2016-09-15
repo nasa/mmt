@@ -1,5 +1,5 @@
 <fieldset class="eui-accordion" id="data_centers">
-  <div class="eui-accordion__header">
+  <div class="eui-accordion__header disable-toggle">
     <h3 class="eui-accordion__title eui-required-o">Data Centers</h3>
     <%= mmt_help_icon(
       title: 'Data Centers',
@@ -30,49 +30,3 @@
     </div>
   </div>
 </fieldset>
-
-<!--
-Data Center {
-  Roles* (multi-select)
-  Shortname*
-  Longname
-  Contact Information {
-    RelatedURL
-    Service Hours
-    Contact Instructions
-    Mechanisms
-    Address {
-      Street
-      City
-      State
-      Country
-      PostalCode
-    }
-  }
-  ContactPersonType {
-    Roles*
-    FirstName
-    MiddleName
-    LastName
-    Contact Information {
-      RelatedURL
-      Service Hours
-      Contact Instructions
-      Mechanisms
-      Address {
-        Street
-        City
-        State
-        Country
-        PostalCode
-      }
-    }
-  }
-  [Add another Data Center contact person]
-  ContactGroup {
-    fields...
-  }
-  [Add another Data Center contact group]
-}
-[Add another Data Center]
- -->

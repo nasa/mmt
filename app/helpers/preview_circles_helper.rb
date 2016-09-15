@@ -40,22 +40,24 @@ module PreviewCirclesHelper
         anchor: 'collection-information'
       }
     },
-    'data_centers' => { # TODO make sure this works
+    'data_centers' => {
       'DataCenters' => {
         required: true,
         anchor: 'data-centers'
       }
     },
-    'organizations' => {
-      'Organizations' => {
-        required: true,
-        anchor: 'organizations'
-      }
-    },
-    'personnel' => {
-      'Personnel' => {
+    'data_contacts' => {
+      'DataContacts' => {
         required: false,
-        anchor: 'personnel'
+        anchor: 'data-contacts' # TODO how to get Data Center Contacts?
+      },
+      'ContactPersons' => {
+        required: false,
+        anchor: 'data-contacts'
+      },
+      'ContactGroups' => {
+        required: false,
+        anchor: 'data-contacts'
       }
     },
     'data_identification' => {
@@ -197,6 +199,7 @@ module PreviewCirclesHelper
     page_errors = Array.wrap(errors).select { |error| error[:page] == form_name }
     error_fields = page_errors.map { |error| error[:top_field] }
 
+    # TODO - handle Data Contacts circle
     FORM_FIELDS[form_name].each do |field, options|
       circle = complete_circle(field, draft, form_name, options[:anchor], options[:required])
 

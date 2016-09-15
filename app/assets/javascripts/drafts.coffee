@@ -60,9 +60,13 @@ $(document).ready ->
     # remove validation errors
     $(newDiv).find('.validation-error').remove()
 
-    $(newDiv).find('select, input, textarea').removeAttr 'disabled'
+    $(newDiv).find('select, input, textarea').removeAttr 'disabled' # TODO check this doesn't affect radio button selection disabling for data-contact-type
+                                                                    # can use .prop 'disabled', false
     $(newDiv).find('select, input, textarea').removeAttr 'readonly'
     $(newDiv).find('select, input, textarea').not('input[type="hidden"]')[0].focus()
+
+    # TODO need to actually apply style="display: none"??
+    $(newDiv).find('.data-contact-type').hide()
 
     # Remove points from preview link
     $.each $(newDiv).find('.spatial-preview-link'), ->

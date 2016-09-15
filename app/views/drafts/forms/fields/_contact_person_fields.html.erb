@@ -50,8 +50,8 @@
     </div>
   </div>
 
-  <!-- NonDataCenterAffiliation -->
   <% unless options[:data_center_affiliation] %>
+    <!-- NonDataCenterAffiliation -->
     <div class="row">
       <%= mmt_text_field(
       name: 'non_data_center_affiliation',
@@ -72,18 +72,6 @@
     name_prefix: "#{name_prefix}|contact_information|_",
     help: 'definitions/ContactInformationType',
     multiple: false,
-    # options: options.clone # original. works. # TODO check to see if need to edit, add, or redo options
-    options: { # newer version to redo title and get rid of always required icon
-      # always_required: true, # TODO not sure about this
-      related_url_title: 'Contact Person Related URLs', # TODO each related url might have a different title
-      related_url_form_type: RelatedUrlFieldsHelper::DATA_CENTERS_FORM
-    }
+    options: options.clone
   } %>
 </div>
-
-<!-- <h4>
-  contact_person :
-</h4>
-<p>
-  <%#= contact_person %>
-</p> -->

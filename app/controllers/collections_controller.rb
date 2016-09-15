@@ -5,6 +5,7 @@ class CollectionsController < ApplicationController
   def show
     @language_codes = cmr_client.get_language_codes
     @draft = Draft.where(provider_id: @provider_id, native_id: @native_id).first
+    fail
   end
 
   def edit

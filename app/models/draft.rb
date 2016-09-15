@@ -12,11 +12,10 @@ class Draft < ActiveRecord::Base
     acquisition_information
     temporal_information
     spatial_information
-    organizations
-    personnel
+    data_centers
+    data_contacts
     collection_citations
     metadata_information
-    data_centers
   )
 
   def self.get_next_form(name, direction)
@@ -40,14 +39,17 @@ class Draft < ActiveRecord::Base
         self.entry_title = params['entry_title'].empty? ? nil : params['entry_title']
         self.short_name = params['short_name'].empty? ? nil : params['short_name']
       end
-
+      # fail
       # Convert {'0' => {'id' => 123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
       json_params = params.to_hash.to_camel_keys
       Rails.logger.info("Audit Log: #{editing_user_id} modified Draft Parameters: #{json_params}")
+
+      json_params = transform_data_contacts(json_params)
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
+      # fail
       # Remove empty params from draft
       new_draft = compact_blank(new_draft.clone)
 
@@ -174,6 +176,7 @@ class Draft < ActiveRecord::Base
           convert_to_arrays(value)
         end
       else
+        # fail
         object.each do |key, value|
           if INTEGER_KEYS.include?(key)
             object[key] = convert_to_integer(value)
@@ -191,6 +194,7 @@ class Draft < ActiveRecord::Base
             # 'Value' shows up multiple times in the UMM. We just need to convert AccessConstraints/Value to a number
             value['value'] = convert_to_number(value['value']) if value['value']
             object[key] = value
+          # elsif key == 'data_contacts'
           else
             if key == 'orbit_parameters'
               # There are two fields named 'Period' but only one of them is a number.
@@ -280,6 +284,94 @@ class Draft < ActiveRecord::Base
       end
     end
     values
+  end
+
+  def add_contacts_to_data_center(data_contact, target_data_center)
+    data_center = data_contact['DataCenter']
+    if data_contact['DataContactType'] == 'DataCenterContactPerson'
+      target_data_center['ContactPersons'] << data_center['ContactPerson']
+    elsif data_contact['DataContactType'] == 'DataCenterContactGroup'
+      target_data_center['ContactGroups'] << data_center['ContactGroup']
+    end
+  end
+
+  def transform_data_contacts(json_params) # transform, ensure, repackage,
+    return json_params unless json_params.keys == ['DataContacts']
+
+    contact_persons = []
+    contact_groups = []
+    param_data_centers = []
+    new_params = {}
+
+    # data contact should come in in a separated/nested structure
+    # will be converted into the schema structure we need here
+    # this method should be called in update_draft or convert_to_arrays (maybe latter)
+
+    draft_data_centers = self.draft['DataCenters'] || []
+    data_contacts_params = compact_blank(json_params) # TODO maybe need to try and do it with compact_blank at end???
+    # fail
+    data_contacts_params['DataContacts'].each do |data_contact|
+      if data_contact['DataContactType'] == 'NonDataCenterContactPerson'
+        contact_persons << data_contact['ContactPerson']
+      elsif data_contact['DataContactType'] == 'NonDataCenterContactGroup'
+        contact_groups << data_contact['ContactGroup']
+      elsif data_contact['DataContactType'] == 'DataCenterContactPerson' || data_contact['DataContactType'] == 'DataCenterContactGroup'
+        # data center short names & long names
+        data_center = data_contact['DataCenter']
+        short_name = data_center['ShortName']
+        long_name = data_center['LongName']
+
+        # match_data_centers
+          # find returns first; select returns array with all matches
+        matching_draft_data_center = draft_data_centers.find { |d_data_center| d_data_center['ShortName'] == short_name && d_data_center['LongName'] == long_name }
+        matching_param_data_center = param_data_centers.find { |p_data_center| p_data_center['ShortName'] == short_name && p_data_center['LongName'] == long_name }
+        if matching_param_data_center
+          # TODO need to verify deleting the data center allows us to still manipulate and add it back
+          param_data_centers.delete(matching_param_data_center)
+          # if data_contact['DataContactType'] == 'DataCenterContactPerson'
+          #   matching_param_data_center['ContactPersons'] << data_center['ContactPerson']
+          # elsif data_contact['DataContactType'] == 'DataCenterContactGroup'
+          #   matching_param_data_center['ContactGroups'] << data_center['ContactGroup']
+          # end
+          add_contacts_to_data_center(data_contact, matching_param_data_center)
+          param_data_centers << matching_param_data_center
+        elsif matching_draft_data_center
+          matching_draft_data_center['ContactPersons'] = []
+          matching_draft_data_center['ContactGroups'] = []
+          # if data_contact['DataContactType'] == 'DataCenterContactPerson'
+          #   matching_draft_data_center['ContactPersons'] << data_center['ContactPerson']
+          # elsif data_contact['DataContactType'] == 'DataCenterContactGroup'
+          #   matching_draft_data_center['ContactGroups'] << data_center['ContactGroup']
+          # end
+          add_contacts_to_data_center(data_contact, matching_draft_data_center)
+          param_data_centers << matching_draft_data_center
+        else
+          # else
+            # if data center in draft, output data center = draft['DataCenter']
+            # else add this data center (shortname, longname) to output
+          new_data_center = { 'ShortName' => short_name, 'LongName' => long_name, 'ContactPersons' => [], 'ContactGroups' => [] }
+          # if data_contact['DataContactType'] == 'DataCenterContactPerson'
+          #   new_data_center['ContactPersons'] << data_center['ContactPerson']
+          # elsif data_contact['DataContactType'] == 'DataCenterContactGroup'
+          #   new_data_center['ContactGroups'] << data_center['ContactGroup']
+          # end
+          add_contacts_to_data_center(data_contact, new_data_center)
+          param_data_centers << new_data_center
+        end
+      end
+    end
+
+    new_params['DataCenters'] = param_data_centers
+    new_params['ContactPersons'] = contact_persons
+    new_params['ContactGroups'] = contact_groups
+    # fail # test to make sure params are as expected
+    new_params
+
+    # test all data contacts. if the data contacts have contact persons and contact groups for same data center
+    #   need to combine them
+    # on merge, need to check/match if there is a data center with the short name/long name
+    #   make the data center here the data center there replace the contact person and groups with these
+
   end
 
   def default_values

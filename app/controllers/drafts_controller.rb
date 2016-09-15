@@ -15,12 +15,10 @@ class DraftsController < ApplicationController
   def show
     set_platform_types
     set_temporal_keywords
-    set_organizations
     set_data_centers
     set_country_codes
     set_language_codes
     @errors = validate_metadata
-    # fail
   end
 
   # GET /drafts/new
@@ -40,8 +38,7 @@ class DraftsController < ApplicationController
       set_language_codes if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
       set_country_codes
       set_temporal_keywords if params[:form] == 'temporal_information'
-      set_organizations if params[:form] == 'organizations'
-      set_data_centers if params[:form] == 'data_centers'
+      set_data_centers if params[:form] == 'data_centers' || params[:form] == 'data_contacts'
     else
       render :show
     end
@@ -342,6 +339,7 @@ class DraftsController < ApplicationController
         end
       end
       # TODO need to make data_centers work like organizations
+      # TODO need to make sure the data contacts all get validated like personnel
 
       personnel = metadata['Personnel'] || []
       personnel.each do |person|
@@ -411,7 +409,7 @@ class DraftsController < ApplicationController
     @temporal_keywords = keywords.map { |keyword| keyword['value'] }.sort
   end
 
-  def get_organization_short_names_long_names_urls(json, trios = [])
+  def get_data_center_short_names_long_names_urls(json, trios = [])
     json.each do |k, value|
       if k == 'short_name'
         value.each do |value2|
@@ -431,23 +429,18 @@ class DraftsController < ApplicationController
 
       elsif value.class == Array
         value.each do |value2|
-          get_organization_short_names_long_names_urls value2, trios if value2.class == Hash
+          get_data_center_short_names_long_names_urls value2, trios if value2.class == Hash
         end
       elsif value.class == Hash
-        get_organization_short_names_long_names_urls value, trios
+        get_data_center_short_names_long_names_urls value, trios
       end
     end
     trios
   end
 
-  def set_organizations
-    organizations = cmr_client.get_controlled_keywords('providers')
-    organizations = get_organization_short_names_long_names_urls(organizations)
-    @organizations = organizations.sort
-  end
   def set_data_centers
     data_centers = cmr_client.get_controlled_keywords('providers')
-    data_centers = get_organization_short_names_long_names_urls(data_centers)
+    data_centers = get_data_center_short_names_long_names_urls(data_centers) # TODO need to change this method name above
     @data_centers = data_centers.sort
   end
 

@@ -33,7 +33,7 @@
     values: contact_information['ContactMechanisms'] || [{}],
     name_prefix: "#{name_prefix}|contact_mechanisms|_", # TODO verify
     multiple: true,
-    options: options.clone#.merge(title: 'Contact Mechanism') # TODO need to merge contact mechanism?
+    options: options.clone #.merge(title: 'Contact Mechanism') # TODO need to merge contact mechanism?
   } %>
 
   <!-- Addresses - multiple-->
@@ -42,7 +42,7 @@
     values: contact_information['Addresses'] || [{}],
     name_prefix: "#{name_prefix}addresses_",
     multiple: true,
-    options: options.clone#.merge(title: 'Address')
+    options: options.clone #.merge(title: 'Address')
   } %>
 
   <!-- RelatedUrls - multiple -->
@@ -54,10 +54,3 @@
     options: options.clone
   } %>
 </div>
-
-<!-- <h4>
-  contact_information :
-</h4>
-<p>
-  <%#= contact_information %>
-</p> -->

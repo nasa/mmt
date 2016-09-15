@@ -23,6 +23,7 @@
         help: 'definitions/DataCenterType/properties/ShortName',
         options: @data_centers.map { |short_name, long_name, url| [short_name, short_name, { 'data-long-name' => long_name, 'data-url' => url }]},
         classes: 'select2-select data-center-short-name-select',
+        required: true,
         always_required: true
       ) %>
     </div>
@@ -68,7 +69,7 @@
     name_prefix: "#{name_prefix}|contact_persons|_",
     help: 'definitions/ContactPersonType',
     multiple: true,
-    options: options.clone#.merge(title: 'Contact Person') # TODO check to see if need to edit, add, or redo options
+    options: options.clone # TODO change url title
   } %>
 
   <!-- ContactGroup - multiple -->
@@ -79,59 +80,6 @@
     name_prefix: "#{name_prefix}|contact_groups|_",
     help: 'definitions/ContactGroupType',
     multiple: true,
-    options: options.clone#.merge(title: 'Contact Group') # TODO check to see if need to edit, add, or redo options
+    options: options.clone # TODO change url title
   } %>
 </div>
-
-<!-- <h4>
-  data_center :
-</h4>
-<p>
-  <%#= data_center %>
-</p> -->
-
-<!--
-Data Center {
-  Roles* (multi-select)
-  Shortname*
-  Longname
-  Contact Information {
-    RelatedURL
-    Service Hours
-    Contact Instructions
-    Mechanisms
-    Address {
-      Street
-      City
-      State
-      Country
-      PostalCode
-    }
-  }
-  ContactPersonType {
-    Roles*
-    FirstName
-    MiddleName
-    LastName
-    Contact Information {
-      RelatedURL
-      Service Hours
-      Contact Instructions
-      Mechanisms
-      Address {
-        Street
-        City
-        State
-        Country
-        PostalCode
-      }
-    }
-  }
-  [Add another Data Center contact person]
-  ContactGroup {
-    fields...
-  }
-  [Add another Data Center contact group]
-}
-[Add another Data Center]
- -->

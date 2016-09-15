@@ -264,6 +264,45 @@ $(document).ready ->
           "/Personnel/#{index1}/Party/Addresses/#{index2}/StateProvince"
         when /spatial_extent_granule_spatial_representation/.test id
           '/SpatialExtent/GranuleSpatialRepresentation'
+        when /data_contacts_\d*_data_center_contact_person_contact_information_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_person_contact_information_addresses_(\d*)_country/
+          "/DataContacts/#{index1}/DataCenterContactPerson/ContactInformation/Addresses/#{index2}/Country"
+        when /data_contacts_\d*_data_center_contact_person_contact_information_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_person_contact_information_addresses_(\d*)_state_province/
+          "/DataContacts/#{index1}/DataCenterContactPerson/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_data_center_contact_group_contact_information_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_group_contact_information_addresses_(\d*)_country/
+          "/DataContacts/#{index1}/DataCenterContactGroup/ContactInformation/Addresses/#{index2}/Country"
+        when /data_contacts_\d*_data_center_contact_group_contact_information_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_group_contact_information_addresses_(\d*)_state_province/
+          "/DataContacts/#{index1}/DataCenterContactGroup/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_person_contact_information_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_addresses_(\d*)_country/
+          "/DataContacts/#{index1}/ContactPerson/ContactInformation/Addresses/#{index2}/Country"
+        when /data_contacts_\d*_contact_person_contact_information_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_addresses_(\d*)_state_province/
+          "/DataContacts/#{index1}/ContactPerson/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_group_contact_information_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_addresses_(\d*)_country/
+          "/DataContacts/#{index1}/ContactGroup/ContactInformation/Addresses/#{index2}/Country"
+        when /data_contacts_\d*_contact_group_contact_information_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_addresses_(\d*)_state_province/
+          "/DataContacts/#{index1}/ContactGroup/ContactInformation/Addresses/#{index2}/StateProvince"
+
+        # TODO add data centers and data contacts
+        # data contacts
+        # organizations didn't have short name. is it needed?
+        # not actual id: data center short name
+        # draft_data_contacts_0_data_center_short_name
+        # organizations and personnel didn't have roles or contact type/mechanism. why? do we need?
+        # draft_data_contacts_0_data_center_contact_person_roles
+        # draft_data_contacts_0_data_center_contact_group_roles
+        # draft_data_contacts_0_contact_person_roles
+        # draft_data_contacts_0_contact_group_roles
+        # draft_data_contacts_0_data_center_contact_person_contact_information_contact_mechanisms_0_type
+        # draft_data_contacts_0_data_center_contact_group_contact_information_contact_mechanisms_0_type
+        # draft_data_contacts_0_contact_person_contact_information_contact_mechanisms_0_type
+        # draft_data_contacts_0_contact_group_contact_information_contact_mechanisms_0_type
 
       # Remove required error from the same dataPath
       errors = errors.filter (error) ->
