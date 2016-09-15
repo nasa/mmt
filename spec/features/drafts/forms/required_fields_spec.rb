@@ -26,7 +26,16 @@ describe 'Conditionally required fields', js: true do
     context 'when viewing a form with conditionally required fields' do
       before do
         within '.metadata' do
-          click_on 'Personnel', match: :first
+          click_on 'Data Contacts', match: :first
+          # expect(page.evaluate_script('jQuery.active').zero?).to be true
+          choose 'draft_data_contacts_0_data_contact_type_DataCenterContactPerson'
+          # page.document.synchronize do
+            # choose 'DataCenterContactPerson'
+            # within '.data-contact-type-group' do
+            # end
+            # find('label', text: 'Data Center Contact Person').click
+          # end
+          expect(page.evaluate_script('jQuery.active').zero?).to be true
         end
       end
 
@@ -36,7 +45,7 @@ describe 'Conditionally required fields', js: true do
 
       context 'when filling in a form field that causes fields to become required' do
         before do
-          fill_in 'City', with: 'Alexandria'
+          fill_in 'First Name', with: 'First'
         end
 
         it 'displays the required icons' do
@@ -45,7 +54,7 @@ describe 'Conditionally required fields', js: true do
 
         context 'when clearing a field that causes fields to become required' do
           before do
-            fill_in 'City', with: ''
+            fill_in 'First Name', with: ''
           end
 
           it 'removes the required icons' do
@@ -77,12 +86,12 @@ describe 'Conditionally required fields', js: true do
     context 'when viewing a form with conditionally required fields' do
       before do
         within '.metadata' do
-          click_on 'Personnel', match: :first
+          click_on 'Data Contacts', match: :first
         end
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.eui-required-o', count: 4)
+        expect(page).to have_css('label.eui-required-o', count: 5)
       end
     end
   end

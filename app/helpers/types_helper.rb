@@ -173,24 +173,26 @@ module TypesHelper
     { name: 'NumberOfOrbits' },
     { name: 'StartCircularLatitude' }
   ]
-  OrganizationNameType = [
-    { name: 'ShortName' },
-    { name: 'LongName' }
-  ]
+  # TODO: delete; what about Data Centers?
+  # OrganizationNameType = [
+  #   { name: 'ShortName' },
+  #   { name: 'LongName' }
+  # ]
   PaleoTemporalCoverageType = [
     { name: 'ChronostratigraphicUnits', options: [:sub_type] },
     { name: 'StartDate' },
     { name: 'EndDate' }
   ]
-  PartyType = [
-    { name: 'OrganizationName', options: [:sub_type] },
-    { name: 'Person', options: [:sub_type] },
-    { name: 'ServiceHours' },
-    { name: 'ContactInstructions' },
-    { name: 'Contacts', options: [:sub_type] },
-    { name: 'Addresses', options: [:sub_type] },
-    { name: 'RelatedUrls', options: [:sub_type] }
-  ]
+  # TODO: delete; what about ContactInformation
+  # PartyType = [
+  #   { name: 'OrganizationName', options: [:sub_type] },
+  #   { name: 'Person', options: [:sub_type] },
+  #   { name: 'ServiceHours' },
+  #   { name: 'ContactInstructions' },
+  #   { name: 'Contacts', options: [:sub_type] },
+  #   { name: 'Addresses', options: [:sub_type] },
+  #   { name: 'RelatedUrls', options: [:sub_type] }
+  # ]
   PeriodicDateTimesType = [
     { name: 'Name' },
     { name: 'StartDate' },

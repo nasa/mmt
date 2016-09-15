@@ -69,14 +69,10 @@ FactoryGirl.define do
   factory :draft_field_invalid_pattern, class: Draft do
     draft {
       all_required_fields.merge(
-        'Organizations' => [{
-          'Role' => 'RESOURCEPROVIDER',
-          'Party' => {
-            'OrganizationName' => {
-              'ShortName' => 'AARHUS-HYDRO',
-              'LongName' => 'Hydrogeophysics Group, Aarhus University'
-            }
-          }
+        'DataCenters' => [{
+          'Roles' => ['DISTRIBUTOR'],
+          'ShortName' => 'AARHUS-HYDRO',
+          'LongName' => 'Hydrogeophysics Group, Aarhus University'
         }]
       )
     }
@@ -123,35 +119,69 @@ FactoryGirl.define do
           'ShortName' => 'test 1 P ShortName',
           'LongName' => 'test 1 P LongName'
         }],
-        'Organizations' => [{
-          'Role' => 'RESOURCEPROVIDER',
-          'Party' => {
-            'OrganizationName' => {
-              'ShortName' => 'short_name',
-              'LongName' => 'Long Name'
-            },
+        'DataCenters' => [{
+          'Roles' => ['DISTRIBUTOR'],
+          'ShortName' => 'short_name',
+          'LongName' => 'Long Name',
+          'ContactInformation' => {
             'Addresses' => [{
               'Country' => 'usa'
             }, {
               'Country' => 'United States',
               'StateProvince' => 'maryland'
             }]
-          }
+            # TODO add invalid Contact Mechanism type?
+          },
+          'ContactPersons' => [{
+            'Roles' => ['Science Contact'],
+            'LastName' => 'Last Name',
+            'ContactInformation' => [{
+              'Addresses' => [{
+                'Country' => 'usa'
+              }, {
+                'Country' => 'United States',
+                'StateProvince' => 'maryland'
+              }]
+            }]
+          }],
+          'ContactGroups' => [{
+            'Roles' => ['User Services'],
+            'GroupName' => 'Group Name',
+            'ContactInformation' => [{
+              'Addresses' => [{
+                'Country' => 'usa'
+              }, {
+                'Country' => 'United States',
+                'StateProvince' => 'maryland'
+              }]
+            }]
+          }]
         }],
-        'Personnel' => [{
-          'Role' => 'RESOURCEPROVIDER',
-          'Party' => {
-            'OrganizationName' => {
-              'ShortName' => 'short_name',
-              'LongName' => 'Long Name'
-            },
+        'ContactPersons' => [{
+          'Roles' => ['Science Contact'],
+          'LastName' => 'Last Name',
+          'ContactInformation' => [{
             'Addresses' => [{
               'Country' => 'usa'
             }, {
               'Country' => 'United States',
               'StateProvince' => 'maryland'
             }]
-          }
+            # TODO add invalid Contact Mechanism type?
+          }]
+        }],
+        'ContactGroups' => [{
+          'Roles' => ['User Services'],
+          'GroupName' => 'Group Name',
+          'ContactInformation' => [{
+            'Addresses' => [{
+              'Country' => 'usa'
+            }, {
+              'Country' => 'United States',
+              'StateProvince' => 'maryland'
+            }]
+            # TODO add invalid Contact Mechanism type?
+          }]
         }],
         'TemporalKeywords' => ['Keyword 1', 'Keyword 2'],
         'SpatialExtent' => {
@@ -178,14 +208,10 @@ def all_required_fields
     'ShortName' => '12345',
     'Version' => '1',
     'EntryTitle' => 'Required Fields Only Draft',
-    'Organizations' => [{
-      'Role' => 'RESOURCEPROVIDER',
-      'Party' => {
-        'OrganizationName' => {
-          'ShortName' => 'AARHUS-HYDRO',
-          'LongName' => 'Hydrogeophysics Group, Aarhus University'
-        }
-      }
+    'DataCenters' => [{
+      'Roles' => ['DISTRIBUTOR'],
+      'ShortName' => 'AARHUS-HYDRO',
+      'LongName' => 'Hydrogeophysics Group, Aarhus University'
     }],
     'ProcessingLevel' => {
       'Id' => 'Level 1',

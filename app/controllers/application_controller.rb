@@ -272,14 +272,11 @@ class ApplicationController < ActionController::Base
     MetadataLanguage
     MetadataDates
   )
-  ORGANIZATIONS_FIELDS = %w(
-    Organizations
-  )
-  DATA_CENTER_FIELDS = %w(
+  DATA_CENTERS_FIELDS = %w(
     DataCenters
   )
-  PERSONNEL_FIELDS = %w(
-    Personnel
+  DATA_CONTACTS_FIELDS = %w(
+    DataContacts
   )
   SPATIAL_INFORMATION_FIELDS = %w(
     SpatialExtent
@@ -290,7 +287,7 @@ class ApplicationController < ActionController::Base
   TEMPORAL_INFORMATION_FIELDS = %w(
     TemporalExtents
     TemporalKeywords
-    PaleoTemporalCoverage
+    PaleoTemporalCoverages
   )
 
   def get_page(field_name)
@@ -308,10 +305,10 @@ class ApplicationController < ActionController::Base
       'distribution_information'
     elsif METADATA_INFORMATION_FIELDS.include? field_name
       'metadata_information'
-    elsif ORGANIZATIONS_FIELDS.include? field_name
-      'organizations'
-    elsif PERSONNEL_FIELDS.include? field_name
-      'personnel'
+    elsif DATA_CENTERS_FIELDS.include? field_name
+      'data_centers'
+    elsif DATA_CONTACTS_FIELDS.include? field_name
+      'data_contacts'
     elsif SPATIAL_INFORMATION_FIELDS.include? field_name
       'spatial_information'
     elsif TEMPORAL_INFORMATION_FIELDS.include? field_name

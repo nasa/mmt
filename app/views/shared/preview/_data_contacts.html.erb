@@ -139,11 +139,11 @@
                 </div>
               <% end %>
             <% end %>
-            <% if contact_info['ContactInstructions'] %>
+            <% if contact_info['ContactInstruction'] %>
               <div class="card-body">
                 <div class="card-body-details-full">
                   <h6>Contact Details</h6>
-                  <p><%= contact_info['ContactInstructions'] %></p>
+                  <p><%= contact_info['ContactInstruction'] %></p>
                 </div>
               </div>
             <% end %>
@@ -179,7 +179,7 @@
                       <i class="fa fa-circle-o"></i>
                     <% end %>
                   <% end %>
-                  <% if contact_info['ContactInstructions'] %>
+                  <% if contact_info['ContactInstruction'] %>
                     <i class="fa fa-circle-o"></i>
                   <% end %>
                   <% if contact_info['RelatedUrls'] %>

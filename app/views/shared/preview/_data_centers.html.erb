@@ -128,11 +128,11 @@
                 </div>
               <% end %>
             <% end %>
-            <% if dc_contact_info['ContactInstructions'] %>
+            <% if dc_contact_info['ContactInstruction'] %>
               <div class="card-body">
                 <div class="card-body-details-full">
                   <h6>Contact Details</h6>
-                  <p><%= dc_contact_info['ContactInstructions'] %></p>
+                  <p><%= dc_contact_info['ContactInstruction'] %></p>
                 </div>
               </div>
             <% end %>
@@ -168,7 +168,7 @@
                       <i class="fa fa-circle-o"></i>
                     <% end %>
                   <% end %>
-                  <% if dc_contact_info['ContactInstructions'] %>
+                  <% if dc_contact_info['ContactInstruction'] %>
                     <i class="fa fa-circle-o"></i>
                   <% end %>
                   <% if dc_contact_info['RelatedUrls'] %>

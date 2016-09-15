@@ -137,9 +137,9 @@ module PreviewCirclesHelper
         required: false,
         anchor: 'temporal-keywords'
       },
-      'PaleoTemporalCoverage' => {
+      'PaleoTemporalCoverages' => {
         required: false,
-        anchor: 'paleo-temporal-coverage'
+        anchor: 'paleo-temporal-coverages'
       }
     },
     'spatial_information' => {

@@ -58,28 +58,4 @@
       related_url_form_type: RelatedUrlFieldsHelper::DATA_CENTERS_FORM
     }
   } %>
-
-  <!-- ContactPersons - multiple -->
-  <!-- TODO need something so there is some space above this section -->
-  <!-- TODO when making form, need to differentiate btwn w/ data center or non data center affiliation -->
-  <%= render partial: 'drafts/forms/type', locals: {
-    type: 'contact_person',
-    title: 'Contact Person',
-    values: data_center['ContactPersons'] || [{}],
-    name_prefix: "#{name_prefix}|contact_persons|_",
-    help: 'definitions/ContactPersonType',
-    multiple: true,
-    options: options.clone # TODO change url title
-  } %>
-
-  <!-- ContactGroup - multiple -->
-  <%= render partial: 'drafts/forms/type', locals: {
-    type: 'contact_group',
-    title: 'Contact Group',
-    values: data_center['ContactGroups'] || [{}],
-    name_prefix: "#{name_prefix}|contact_groups|_",
-    help: 'definitions/ContactGroupType',
-    multiple: true,
-    options: options.clone # TODO change url title
-  } %>
 </div>

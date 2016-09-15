@@ -18,7 +18,8 @@
     prefix: name_prefix,
     value: contact_group['GroupName'],
     help: 'definitions/ContactGroupType/properties/GroupName',
-    required: true
+    required: true,
+    validate: true
   ) %>
 
   <% unless options[:data_center_affiliation] %>
