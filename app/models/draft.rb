@@ -39,7 +39,7 @@ class Draft < ActiveRecord::Base
         self.entry_title = params['entry_title'].empty? ? nil : params['entry_title']
         self.short_name = params['short_name'].empty? ? nil : params['short_name']
       end
-      # fail
+
       # Convert {'0' => {'id' => 123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
@@ -49,7 +49,7 @@ class Draft < ActiveRecord::Base
       json_params = transform_data_contacts(json_params)
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
-      # fail
+
       # Remove empty params from draft
       new_draft = compact_blank(new_draft.clone)
 
@@ -176,7 +176,6 @@ class Draft < ActiveRecord::Base
           convert_to_arrays(value)
         end
       else
-        # fail
         object.each do |key, value|
           if INTEGER_KEYS.include?(key)
             object[key] = convert_to_integer(value)
@@ -309,7 +308,6 @@ class Draft < ActiveRecord::Base
 
     draft_data_centers = self.draft['DataCenters'] || []
     data_contacts_params = compact_blank(json_params) # TODO maybe need to try and do it with compact_blank at end???
-    # fail
     data_contacts_params['DataContacts'].each do |data_contact|
       if data_contact['DataContactType'] == 'NonDataCenterContactPerson'
         contact_persons << data_contact['ContactPerson']
@@ -364,7 +362,6 @@ class Draft < ActiveRecord::Base
     new_params['DataCenters'] = param_data_centers
     new_params['ContactPersons'] = contact_persons
     new_params['ContactGroups'] = contact_groups
-    # fail # test to make sure params are as expected
     new_params
 
     # test all data contacts. if the data contacts have contact persons and contact groups for same data center
