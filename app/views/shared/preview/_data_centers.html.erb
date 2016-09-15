@@ -12,7 +12,7 @@
         There are no listed data centers for this collection.
       </p>
     <% else %>
-      <ul class="data-center-cards cards">
+      <ul class="data-centers-cards cards">
         <% metadata['DataCenters'].each_with_index do |data_center, data_center_index| %>
           <% dc_contact_info = data_center['ContactInformation'] || {} %>
           <li class="card">
@@ -51,7 +51,7 @@
                       <%= street_address[2] %><br />
                     <% end %>
                     <% if address['City'] %>
-                      <%= address['City'] %>
+                      <%= address['City'] %>,
                     <% end %>
                     <% if address['StateProvince'] %>
                       <%= address['StateProvince'] %>
@@ -115,7 +115,7 @@
                         <%= street_address[2] %><br />
                       <% end %>
                       <% if address['City'] %>
-                        <%= address['City'] %>
+                        <%= address['City'] %>,
                       <% end %>
                       <% if address['StateProvince'] %>
                         <%= address['StateProvince'] %>

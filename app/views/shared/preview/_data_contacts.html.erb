@@ -28,7 +28,7 @@
               <% if contact['Roles'] %>
                 <% contact['Roles'].each do |role| %>
                   <span class="card-header-badge">
-                    <%= role  %>
+                    <%= role %>
                   </span>
                 <% end %>
               <% end %>
@@ -62,7 +62,7 @@
                       <%= street_address[2] %><br />
                     <% end %>
                     <% if address['City'] %>
-                      <%= address['City'] %>
+                      <%= address['City'] %>,
                     <% end %>
                     <% if address['StateProvince'] %>
                       <%= address['StateProvince'] %>

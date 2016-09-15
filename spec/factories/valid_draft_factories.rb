@@ -281,17 +281,14 @@ FactoryGirl.define do
       'Type' => 'UPDATE',
       'Date' => '2015-07-05T00:00:00Z'
     }],
-    # TODO add Data Centers
-    'Organizations' => [{
-      'Role' => 'RESOURCEPROVIDER',
-      'Party' => {
-        'OrganizationName' => {
-          'ShortName' => 'AARHUS-HYDRO',
-          'LongName' => 'Hydrogeophysics Group, Aarhus University'
-        },
+    'DataCenters' => [{
+      'Roles' => ['ARCHIVER'],
+      'ShortName' => 'AARHUS-HYDRO',
+      'LongName' => 'Hydrogeophysics Group, Aarhus University',
+      'ContactInformation' => {
         'ServiceHours' => '9-6, M-F',
         'ContactInstructions' => 'Email only',
-        'Contacts' => [{
+        'ContactMechanisms' => [{
           'Type' => 'Email',
           'Value' => 'example@example.com'
         }, {
@@ -314,31 +311,24 @@ FactoryGirl.define do
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
-          'MimeType' => 'text/html',
-          'Title' => 'Example Title',
-          'FileSize' => {
-            'Size' => 42,
-            'Unit' => 'MB'
-          }
+          'Title' => 'Example Title'
         }, {
           'URLs' => ['http://example1.com/1']
         }]
       }
     }, {
-      'Role' => 'OWNER',
-      'Party' => {
-        'OrganizationName' => {
-          'ShortName' => 'ESA/ED',
-          'LongName' => 'Educational Office, Ecological Society of America'
-        },
-        'ServiceHours' => '10-2, M-W',
-        'ContactInstructions' => 'Email only',
-        'Contacts' => [{
-          'Type' => 'Email',
-          'Value' => 'example@example.com'
+    'Roles' => ['ORIGINATOR', 'DISTRIBUTOR'],
+    'ShortName' => 'ESA/ED',
+    'LongName' => 'Educational Office, Ecological Society of America',
+    'ContactInformation' => {
+      'ServiceHours' => '10-2, M-W',
+      'ContactInstructions' => 'Email only',
+      'ContactMechanisms' => [{
+        'Type' => 'Email',
+        'Value' => 'example@example.com'
         }, {
-          'Type' => 'Email',
-          'Value' => 'example2@example.com'
+        'Type' => 'Email',
+        'Value' => 'example2@example.com'
         }],
         'Addresses' => [{
           'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
@@ -356,71 +346,94 @@ FactoryGirl.define do
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
-          'MimeType' => 'text/html',
-          'Title' => 'Example Title',
-          'FileSize' => {
-            'Size' => 42,
-            'Unit' => 'MB'
-          }
-        }, {
+          'Title' => 'Example Title'
+          }, {
           'URLs' => ['http://example2.com/1']
         }]
-      }
+      },
+      'ContactPersons' => [{
+        'Roles' => ['Investigator', 'Metadata Author'],
+        'FirstName' => 'First Name 3',
+        'MiddleName' => 'Middle Name 3',
+        'LastName' => 'Last Name 3',
+        'ContactInformation' => {
+          'ServiceHours' => '1-4, M-W',
+          'ContactInstructions' => 'Email only',
+          'ContactMechanisms' => [{
+            'Type' => 'Email',
+            'Value' => 'example5@example.com'
+          }, {
+            'Type' => 'Email',
+            'Value' => 'example6@example.com'
+          }],
+          'Addresses' => [{
+            'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+            'City' => 'Washington',
+            'StateProvince' => 'DC',
+            'PostalCode' => '20546',
+            'Country' => 'United States'
+          }, {
+            'StreetAddresses' => ['8800 Greenbelt Road'],
+            'City' => 'Greenbelt',
+            'StateProvince' => 'MD',
+            'PostalCode' => '20771',
+            'Country' => 'United States'
+          }],
+          'RelatedUrls' => [{
+            'URLs' => ['http://example.com', 'http://another-example.com'],
+            'Description' => 'Example Description',
+            'Title' => 'Example Title'
+          }, {
+            'URLs' => ['http://example.com/1']
+          }]
+        }
+      }],
+      'ContactGroups' => [{
+        'Roles' => ['User Services'],
+        'GroupName' => 'Group Name 2',
+        'ContactInformation' => {
+          'ServiceHours' => '9-5, M-F',
+          'ContactInstructions' => 'Email only',
+          'ContactMechanisms' => [{
+            'Type' => 'Email',
+            'Value' => 'example7@example.com'
+          }, {
+            'Type' => 'Email',
+            'Value' => 'example8@example.com'
+          }],
+          'Addresses' => [{
+            'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+            'City' => 'Washington',
+            'StateProvince' => 'DC',
+            'PostalCode' => '20546',
+            'Country' => 'United States'
+          }, {
+            'StreetAddresses' => ['8800 Greenbelt Road'],
+            'City' => 'Greenbelt',
+            'StateProvince' => 'MD',
+            'PostalCode' => '20771',
+            'Country' => 'United States'
+          }],
+          'RelatedUrls' => [{
+            'URLs' => ['http://example.com', 'http://another-example.com'],
+            'Description' => 'Example Description',
+            'Title' => 'Example Title'
+          }, {
+            'URLs' => ['http://example.com/1']
+          }]
+        }
+      }]
     }],
-    'Personnel' => [{
-      'Role' => 'RESOURCEPROVIDER',
-      'Party' => {
-        'Person' => {
-          'FirstName' => 'First Name',
-          'MiddleName' => 'Middle Name',
-          'LastName' => 'Last Name'
-        },
-        'ServiceHours' => '9-5, M-F',
-        'ContactInstructions' => 'Email only',
-        'Contacts' => [{
-          'Type' => 'Email',
-          'Value' => 'example@example.com'
-        }, {
-          'Type' => 'Email',
-          'Value' => 'example2@example.com'
-        }],
-        'Addresses' => [{
-          'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
-          'City' => 'Washington',
-          'StateProvince' => 'DC',
-          'PostalCode' => '20546',
-          'Country' => 'United States'
-        }, {
-          'StreetAddresses' => ['8800 Greenbelt Road'],
-          'City' => 'Greenbelt',
-          'StateProvince' => 'MD',
-          'PostalCode' => '20771',
-          'Country' => 'United States'
-        }],
-        'RelatedUrls' => [{
-          'URLs' => ['http://example.com', 'http://another-example.com'],
-          'Description' => 'Example Description',
-          'MimeType' => 'text/html',
-          'Title' => 'Example Title',
-          'FileSize' => {
-            'Size' => 42,
-            'Unit' => 'MB'
-          }
-        }, {
-          'URLs' => ['http://example.com/1']
-        }]
-      }
-    }, {
-      'Role' => 'OWNER',
-      'Party' => {
-        'Person' => {
-          'FirstName' => 'First Name 2',
-          'MiddleName' => 'Middle Name 2',
-          'LastName' => 'Last Name 2'
-        },
+    'ContactPersons' => [{
+      'Roles' => ['Science Contact', 'Technical Contact'],
+      'FirstName' => 'First Name',
+      'MiddleName' => 'Middle Name',
+      'LastName' => 'Last Name',
+      'NonDataCenterAffiliation' => 'Famous University',
+      'ContactInformation' => {
         'ServiceHours' => '10-2, M-W',
         'ContactInstructions' => 'Email only',
-        'Contacts' => [{
+        'ContactMechanisms' => [{
           'Type' => 'Email',
           'Value' => 'example1@example.com'
         }, {
@@ -443,17 +456,220 @@ FactoryGirl.define do
         'RelatedUrls' => [{
           'URLs' => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
-          'MimeType' => 'text/html',
-          'Title' => 'Example Title',
-          'FileSize' => {
-            'Size' => 42,
-            'Unit' => 'MB'
-          }
+          'Title' => 'Example Title'
         }, {
           'URLs' => ['http://example.com/1']
         }]
       }
     }],
+    'ContactGroups' => [{
+      'Roles' => ['User Services', 'Science Software Development'],
+      'GroupName' => 'Group Name',
+      'NonDataCenterAffiliation' => 'Famous University',
+      'ContactInformation' => {
+        'ServiceHours' => '9-5, M-F',
+        'ContactInstructions' => 'Email only',
+        'ContactMechanisms' => [{
+          'Type' => 'Email',
+          'Value' => 'example3@example.com'
+        }, {
+          'Type' => 'Email',
+          'Value' => 'example4@example.com'
+        }],
+        'Addresses' => [{
+          'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+          'City' => 'Washington',
+          'StateProvince' => 'DC',
+          'PostalCode' => '20546',
+          'Country' => 'United States'
+        }, {
+          'StreetAddresses' => ['8800 Greenbelt Road'],
+          'City' => 'Greenbelt',
+          'StateProvince' => 'MD',
+          'PostalCode' => '20771',
+          'Country' => 'United States'
+        }],
+        'RelatedUrls' => [{
+          'URLs' => ['http://example.com', 'http://another-example.com'],
+          'Description' => 'Example Description',
+          'Title' => 'Example Title'
+        }, {
+          'URLs' => ['http://example.com/1']
+        }]
+      }
+    }],
+    # 'Personnel' => [{
+    #   'Role' => 'RESOURCEPROVIDER',
+    #   'Party' => {
+    #     'Person' => {
+    #       'FirstName' => 'First Name',
+    #       'MiddleName' => 'Middle Name',
+    #       'LastName' => 'Last Name'
+    #     },
+    #     'ServiceHours' => '9-5, M-F',
+    #     'ContactInstructions' => 'Email only',
+    #     'Contacts' => [{
+    #       'Type' => 'Email',
+    #       'Value' => 'example@example.com'
+    #     }, {
+    #       'Type' => 'Email',
+    #       'Value' => 'example2@example.com'
+    #     }],
+    #     'Addresses' => [{
+    #       'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+    #       'City' => 'Washington',
+    #       'StateProvince' => 'DC',
+    #       'PostalCode' => '20546',
+    #       'Country' => 'United States'
+    #     }, {
+    #       'StreetAddresses' => ['8800 Greenbelt Road'],
+    #       'City' => 'Greenbelt',
+    #       'StateProvince' => 'MD',
+    #       'PostalCode' => '20771',
+    #       'Country' => 'United States'
+    #     }],
+    #     'RelatedUrls' => [{
+    #       'URLs' => ['http://example.com', 'http://another-example.com'],
+    #       'Description' => 'Example Description',
+    #       'MimeType' => 'text/html',
+    #       'Title' => 'Example Title',
+    #       'FileSize' => {
+    #         'Size' => 42,
+    #         'Unit' => 'MB'
+    #       }
+    #     }, {
+    #       'URLs' => ['http://example.com/1']
+    #     }]
+    #   }
+    # }, {
+    #   'Role' => 'OWNER',
+    #   'Party' => {
+    #     'Person' => {
+    #       'FirstName' => 'First Name 2',
+    #       'MiddleName' => 'Middle Name 2',
+    #       'LastName' => 'Last Name 2'
+    #     },
+    #     'ServiceHours' => '10-2, M-W',
+    #     'ContactInstructions' => 'Email only',
+    #     'Contacts' => [{
+    #       'Type' => 'Email',
+    #       'Value' => 'example1@example.com'
+    #     }, {
+    #       'Type' => 'Email',
+    #       'Value' => 'example2@example.com'
+    #     }],
+    #     'Addresses' => [{
+    #       'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+    #       'City' => 'Washington',
+    #       'StateProvince' => 'DC',
+    #       'PostalCode' => '20546',
+    #       'Country' => 'United States'
+    #     }, {
+    #       'StreetAddresses' => ['8800 Greenbelt Road'],
+    #       'City' => 'Greenbelt',
+    #       'StateProvince' => 'MD',
+    #       'PostalCode' => '20771',
+    #       'Country' => 'United States'
+    #     }],
+    #     'RelatedUrls' => [{
+    #       'URLs' => ['http://example.com', 'http://another-example.com'],
+    #       'Description' => 'Example Description',
+    #       'MimeType' => 'text/html',
+    #       'Title' => 'Example Title',
+    #       'FileSize' => {
+    #         'Size' => 42,
+    #         'Unit' => 'MB'
+    #       }
+    #     }, {
+    #       'URLs' => ['http://example.com/1']
+    #     }]
+    #   }
+    # }],
+    # 'Organizations' => [{
+    #   'Role' => 'RESOURCEPROVIDER',
+    #   'Party' => {
+    #     'OrganizationName' => {
+    #       'ShortName' => 'AARHUS-HYDRO',
+    #       'LongName' => 'Hydrogeophysics Group, Aarhus University'
+    #     },
+    #     'ServiceHours' => '9-6, M-F',
+    #     'ContactInstructions' => 'Email only',
+    #     'Contacts' => [{
+    #       'Type' => 'Email',
+    #       'Value' => 'example@example.com'
+    #     }, {
+    #       'Type' => 'Email',
+    #       'Value' => 'example2@example.com'
+    #     }],
+    #     'Addresses' => [{
+    #       'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+    #       'City' => 'Washington',
+    #       'StateProvince' => 'DC',
+    #       'PostalCode' => '20546',
+    #       'Country' => 'United States'
+    #     }, {
+    #       'StreetAddresses' => ['8800 Greenbelt Road'],
+    #       'City' => 'Greenbelt',
+    #       'StateProvince' => 'MD',
+    #       'PostalCode' => '20771',
+    #       'Country' => 'United States'
+    #     }],
+    #     'RelatedUrls' => [{
+    #       'URLs' => ['http://example.com', 'http://another-example.com'],
+    #       'Description' => 'Example Description',
+    #       'MimeType' => 'text/html',
+    #       'Title' => 'Example Title',
+    #       'FileSize' => {
+    #         'Size' => 42,
+    #         'Unit' => 'MB'
+    #       }
+    #     }, {
+    #       'URLs' => ['http://example1.com/1']
+    #     }]
+    #   }
+    # }, {
+    #   'Role' => 'OWNER',
+    #   'Party' => {
+    #     'OrganizationName' => {
+    #       'ShortName' => 'ESA/ED',
+    #       'LongName' => 'Educational Office, Ecological Society of America'
+    #     },
+    #     'ServiceHours' => '10-2, M-W',
+    #     'ContactInstructions' => 'Email only',
+    #     'Contacts' => [{
+    #       'Type' => 'Email',
+    #       'Value' => 'example@example.com'
+    #     }, {
+    #       'Type' => 'Email',
+    #       'Value' => 'example2@example.com'
+    #     }],
+    #     'Addresses' => [{
+    #       'StreetAddresses' => ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+    #       'City' => 'Washington',
+    #       'StateProvince' => 'DC',
+    #       'PostalCode' => '20546',
+    #       'Country' => 'United States'
+    #     }, {
+    #       'StreetAddresses' => ['8800 Greenbelt Road'],
+    #       'City' => 'Greenbelt',
+    #       'StateProvince' => 'MD',
+    #       'PostalCode' => '20771',
+    #       'Country' => 'United States'
+    #     }],
+    #     'RelatedUrls' => [{
+    #       'URLs' => ['http://example.com', 'http://another-example.com'],
+    #       'Description' => 'Example Description',
+    #       'MimeType' => 'text/html',
+    #       'Title' => 'Example Title',
+    #       'FileSize' => {
+    #         'Size' => 42,
+    #         'Unit' => 'MB'
+    #       }
+    #     }, {
+    #       'URLs' => ['http://example2.com/1']
+    #     }]
+    #   }
+    # }],
     'CollectionDataType' => 'SCIENCE_QUALITY',
     'ProcessingLevel' => {
       'Id' => 'Level 1A',
