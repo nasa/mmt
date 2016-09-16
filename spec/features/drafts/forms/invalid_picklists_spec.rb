@@ -35,14 +35,14 @@ describe 'Invalid picklists', js: true do
     end
 
     it 'displays an invalid icon for Organizations' do
-      within '.metadata #organizations' do
-        expect(page).to have_link('Organizations - Invalid')
+      within '.metadata #data-centers' do
+        expect(page).to have_link('Data Centers - Invalid')
       end
     end
 
     it 'displays an invalid icon for Personnel' do
-      within '.metadata #personnel' do
-        expect(page).to have_link('Personnel - Invalid')
+      within '.metadata #data_contacts' do
+        expect(page).to have_link('Data Contacts - Invalid')
       end
     end
 

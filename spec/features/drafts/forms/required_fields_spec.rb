@@ -27,16 +27,9 @@ describe 'Conditionally required fields', js: true do
       before do
         within '.metadata' do
           click_on 'Data Contacts', match: :first
-          # expect(page.evaluate_script('jQuery.active').zero?).to be true
-          choose 'draft_data_contacts_0_data_contact_type_DataCenterContactPerson'
-          # page.document.synchronize do
-            # choose 'DataCenterContactPerson'
-            # within '.data-contact-type-group' do
-            # end
-            # find('label', text: 'Data Center Contact Person').click
-          # end
-          expect(page.evaluate_script('jQuery.active').zero?).to be true
         end
+
+        choose 'draft_data_contacts_0_data_contact_type_DataCenterContactPerson'
       end
 
       it 'does not display required icons' do

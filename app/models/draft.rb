@@ -286,7 +286,7 @@ class Draft < ActiveRecord::Base
   end
 
   def add_contacts_to_data_center(data_contact, target_data_center)
-    data_center = data_contact['DataCenter']
+    data_center = data_contact['DataCenter'] || {}
     if data_contact['DataContactType'] == 'DataCenterContactPerson'
       target_data_center['ContactPersons'] << data_center['ContactPerson']
     elsif data_contact['DataContactType'] == 'DataCenterContactGroup'
@@ -315,7 +315,7 @@ class Draft < ActiveRecord::Base
         contact_groups << data_contact['ContactGroup']
       elsif data_contact['DataContactType'] == 'DataCenterContactPerson' || data_contact['DataContactType'] == 'DataCenterContactGroup'
         # data center short names & long names
-        data_center = data_contact['DataCenter']
+        data_center = data_contact['DataCenter'] || {}
         short_name = data_center['ShortName']
         long_name = data_center['LongName']
 

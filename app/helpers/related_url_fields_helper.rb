@@ -1,5 +1,5 @@
 module RelatedUrlFieldsHelper
-  DATA_CENTERS_FORM = %w(
+  DATA_CENTER_FORM = %w(
     title
     description
     relation
