@@ -51,15 +51,6 @@ module PreviewCirclesHelper
         required: false,
         anchor: 'data-contacts' # TODO how to get Data Center Contacts?
       }
-      # ,
-      # 'ContactPersons' => {
-      #   required: false,
-      #   anchor: 'data-contacts'
-      # },
-      # 'ContactGroups' => {
-      #   required: false,
-      #   anchor: 'data-contacts'
-      # }
     },
     'data_identification' => {
       'DataDates' => {
@@ -200,10 +191,7 @@ module PreviewCirclesHelper
     page_errors = Array.wrap(errors).select { |error| error[:page] == form_name }
     error_fields = page_errors.map { |error| error[:top_field] }
 
-    # TODO - handle Data Contacts circle
     FORM_FIELDS[form_name].each do |field, options|
-      # fail if form_name == 'data_contacts'
-      # if field == 'DataContacts'
       circle = complete_circle(field, draft, form_name, options[:anchor], options[:required])
 
       if draft.draft[field].nil?

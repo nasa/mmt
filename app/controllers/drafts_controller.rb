@@ -19,7 +19,6 @@ class DraftsController < ApplicationController
     set_country_codes
     set_language_codes
     @errors = validate_metadata
-    console
   end
 
   # GET /drafts/new
@@ -55,7 +54,6 @@ class DraftsController < ApplicationController
     else
       @draft = Draft.find(params[:id])
     end
-    # fail
 
     if @draft.update_draft(params[:draft], @current_user.urs_uid)
       flash[:success] = 'Draft was successfully updated.'
