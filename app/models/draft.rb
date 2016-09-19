@@ -46,7 +46,7 @@ class Draft < ActiveRecord::Base
       json_params = params.to_hash.to_camel_keys
       Rails.logger.info("Audit Log: #{editing_user_id} modified Draft Parameters: #{json_params}")
 
-      json_params = transform_data_contacts(json_params)
+      json_params = convert_data_contacts_params(json_params)
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
 
@@ -294,17 +294,16 @@ class Draft < ActiveRecord::Base
     end
   end
 
-  def transform_data_contacts(json_params) # transform, ensure, repackage,
+  def convert_data_contacts_params(json_params)
+    # take Data Contacts from forms that come in all nested under DataContacts,
+    # and restructure as ContactPersons and ContactGroups under Data Centers
+    # or outside of Data Centers if not affiliated
     return json_params unless json_params.keys == ['DataContacts']
 
     contact_persons = []
     contact_groups = []
     param_data_centers = []
     new_params = {}
-
-    # data contact should come in in a separated/nested structure
-    # will be converted into the schema structure we need here
-    # this method should be called in update_draft or convert_to_arrays (maybe latter)
 
     draft_data_centers = self.draft['DataCenters'] || []
     data_contacts_params = compact_blank(json_params) # TODO maybe need to try and do it with compact_blank at end???
@@ -363,13 +362,9 @@ class Draft < ActiveRecord::Base
     new_params['ContactPersons'] = contact_persons
     new_params['ContactGroups'] = contact_groups
     new_params
-
-    # test all data contacts. if the data contacts have contact persons and contact groups for same data center
-    #   need to combine them
-    # on merge, need to check/match if there is a data center with the short name/long name
-    #   make the data center here the data center there replace the contact person and groups with these
-
   end
+
+  
 
   def default_values
     self.draft ||= {}

@@ -120,10 +120,14 @@ FactoryGirl.define do
           'LongName' => 'test 1 P LongName'
         }],
         'DataCenters' => [{
-          'Roles' => ['DISTRIBUTOR'],
+          'Roles' => ['bad data center role'],
           'ShortName' => 'short_name',
           'LongName' => 'Long Name',
           'ContactInformation' => {
+            'ContactMechanisms' => [{
+              'Type' => 'bad contact mechanism type',
+              'Value' => 'contactmech@email.com'
+            }],
             'Addresses' => [{
               'Country' => 'usa'
             }, {
@@ -133,9 +137,13 @@ FactoryGirl.define do
             # TODO add invalid Contact Mechanism type?
           },
           'ContactPersons' => [{
-            'Roles' => ['Science Contact'],
+            'Roles' => ['bad data center contact person role'],
             'LastName' => 'Last Name',
             'ContactInformation' => [{
+              'ContactMechanisms' => [{
+                'Type' => 'bad contact mechanism type',
+                'Value' => 'contactmech@email.com'
+              }],
               'Addresses' => [{
                 'Country' => 'usa'
               }, {
@@ -145,9 +153,13 @@ FactoryGirl.define do
             }]
           }],
           'ContactGroups' => [{
-            'Roles' => ['User Services'],
+            'Roles' => ['bad data center contact group role'],
             'GroupName' => 'Group Name',
             'ContactInformation' => [{
+              'ContactMechanisms' => [{
+                'Type' => 'bad contact mechanism type',
+                'Value' => 'contactmech@email.com'
+              }],
               'Addresses' => [{
                 'Country' => 'usa'
               }, {
@@ -158,9 +170,13 @@ FactoryGirl.define do
           }]
         }],
         'ContactPersons' => [{
-          'Roles' => ['Science Contact'],
+          'Roles' => ['bad non dc contact person role'],
           'LastName' => 'Last Name',
           'ContactInformation' => [{
+            'ContactMechanisms' => [{
+              'Type' => 'bad contact mechanism type',
+              'Value' => 'contactmech@email.com'
+            }],
             'Addresses' => [{
               'Country' => 'usa'
             }, {
@@ -171,9 +187,13 @@ FactoryGirl.define do
           }]
         }],
         'ContactGroups' => [{
-          'Roles' => ['User Services'],
+          'Roles' => ['bad non dc contact group role'],
           'GroupName' => 'Group Name',
           'ContactInformation' => [{
+            'ContactMechanisms' => [{
+              'Type' => 'bad contact mechanism type',
+              'Value' => 'contactmech@email.com'
+            }],
             'Addresses' => [{
               'Country' => 'usa'
             }, {

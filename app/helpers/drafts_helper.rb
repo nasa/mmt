@@ -153,6 +153,13 @@ module DraftsHelper
     ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
   ]
 
+  SINGLE_FIELDSET_FORMS = %w(
+    collection_information
+    collection_citations
+  )
+  # data_centers
+  # data_contacts
+
   def construct_keyword_string(hash_obj, str)
     # Assumes hash is passed in as ordered
     hash_obj.each do |_key, value|
@@ -225,6 +232,10 @@ module DraftsHelper
 
     options = country.subregions.map(&:name).sort
     options.unshift ['Select State/Province', '']
-    options_for_select(options, selected: value)
+    if value && invalid_select_option(options, value)
+      options.unshift value
+      disabled_options = value
+    end
+    options_for_select(options, selected: value, disabled: disabled_options)
   end
 end

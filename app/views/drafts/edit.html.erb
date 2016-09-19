@@ -54,7 +54,8 @@
           <div class="col-6">
             <p class="eui-required-o">Indicates required field</p>
           </div>
-          <% unless %w(collection_information data_centers data_contacts collection_citations).include? @draft_form  %>
+          <!-- Expand All link -->
+          <% unless DraftsHelper::SINGLE_FIELDSET_FORMS.include? @draft_form  %>
             <div class="col-6">
               <p class="align-r">
                 <a href="#" class="expand-accordions">Expand All</a>

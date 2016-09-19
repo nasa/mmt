@@ -264,6 +264,44 @@ $(document).ready ->
           "/Personnel/#{index1}/Party/Addresses/#{index2}/StateProvince"
         when /spatial_extent_granule_spatial_representation/.test id
           '/SpatialExtent/GranuleSpatialRepresentation'
+        when /data_centers_\d*_roles/.test id
+          [_, index] = id.match /data_centers_(\d*)_roles/
+          "/DataCenters/#{index}/Roles"
+        when /data_centers_\d*_short_name/.test id
+          [_, index] = id.match /data_centers_(\d*)_short_name/
+          "/DataCenters/#{index}/ShortName"
+        when /data_centers_\d*_contact_information_contact_mechanisms_\d*_type/.test id
+          [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_contact_mechanisms_(\d*)_type/
+          "DataCenters/#{index1}/ContactInformation/ContactMechanisms/#{index2}/Type"
+          # draft_data_centers_0_contact_information_contact_mechanisms_0_type
+          # TODO need to add the rest of the data centers picklists
+        when /data_contacts_\d*_data_center_short_name/.test id # need to figure out why this is not working
+          [_, index] = id.match /data_contacts_(\d*)_data_center_short_name/ # also will need the alter when change partials for distinct id for data center field
+          "DataContacts/#{index}/DataCenterShortName"
+        when /data_contacts_\d*_data_center_contact_person_roles/.test id
+          [_, index] = id.match /data_contacts_(\d*)_data_center_contact_person_roles/
+          "/DataContacts/#{index}/DataCenterContactPerson/Roles"
+        when /data_contacts_\d*_data_center_contact_group_roles/.test id
+          [_, index] = id.match /data_contacts_(\d*)_data_center_contact_group_roles/
+          "/DataContacts/#{index}/DataCenterContactGroup/Roles"
+        when /data_contacts_\d*_contact_person_roles/.test id
+          [_, index] = id.match /data_contacts_(\d*)_contact_person_roles/
+          "/DataContacts/#{index}/ContactPerson/Roles"
+        when /data_contacts_\d*_contact_group_roles/.test id
+          [_, index] = id.match /data_contacts_(\d*)_contact_group_roles/
+          "/DataContacts/#{index}/ContactGroup/Roles"
+        when /data_contacts_\d*_data_center_contact_person_contact_information_contact_mechanisms_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_person_contact_information_contact_mechanisms_(\d*)_type/
+          "/DataContacts/#{index1}/DataCenterContactPerson/ContactInformation/ContactMechanisms/#{index2}/Type"
+        when /data_contacts_\d*_data_center_contact_group_contact_information_contact_mechanisms_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_group_contact_information_contact_mechanisms_(\d*)_type/
+          "/DataContacts/#{index1}/DataCenterContactGroup/ContactInformation/ContactMechanisms/#{index2}/Type"
+        when /data_contacts_\d*_contact_person_contact_information_contact_mechanisms_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_contact_mechanisms_(\d*)_type/
+          "/DataContacts/#{index1}/ContactPerson/ContactInformation/ContactMechanisms/#{index2}/Type"
+        when /data_contacts_\d*_contact_group_contact_information_contact_mechanisms_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_contact_mechanisms_(\d*)_type/
+          "/DataContacts/#{index1}/ContactGroup/ContactInformation/ContactMechanisms/#{index2}/Type"
         when /data_contacts_\d*_data_center_contact_person_contact_information_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_person_contact_information_addresses_(\d*)_country/
           "/DataContacts/#{index1}/DataCenterContactPerson/ContactInformation/Addresses/#{index2}/Country"
@@ -311,6 +349,7 @@ $(document).ready ->
         else
           true
 
+      console.trace()
       error = {}
       error.keyword = 'invalidPicklist'
       error.message = "value [#{$(this).val()}] does not match a valid selection option"

@@ -50,15 +50,16 @@ module PreviewCirclesHelper
       'DataContacts' => {
         required: false,
         anchor: 'data-contacts' # TODO how to get Data Center Contacts?
-      },
-      'ContactPersons' => {
-        required: false,
-        anchor: 'data-contacts'
-      },
-      'ContactGroups' => {
-        required: false,
-        anchor: 'data-contacts'
       }
+      # ,
+      # 'ContactPersons' => {
+      #   required: false,
+      #   anchor: 'data-contacts'
+      # },
+      # 'ContactGroups' => {
+      #   required: false,
+      #   anchor: 'data-contacts'
+      # }
     },
     'data_identification' => {
       'DataDates' => {
@@ -201,6 +202,8 @@ module PreviewCirclesHelper
 
     # TODO - handle Data Contacts circle
     FORM_FIELDS[form_name].each do |field, options|
+      # fail if form_name == 'data_contacts'
+      # if field == 'DataContacts'
       circle = complete_circle(field, draft, form_name, options[:anchor], options[:required])
 
       if draft.draft[field].nil?
@@ -208,6 +211,8 @@ module PreviewCirclesHelper
       elsif error_fields.include?(field)
         circle = invalid_circle(field, draft, form_name, options[:anchor])
       end
+
+      circle = data_contacts_circle(field, draft, form_name, options, circle, error_fields) if field == 'DataContacts'
 
       circles << circle
     end
@@ -230,5 +235,14 @@ module PreviewCirclesHelper
   def invalid_circle(field, draft, form_name, anchor)
     text = "#{name_to_title(field)} - Invalid"
     link_to "<i class=\"eui-icon eui-fa-minus-circle icon-red\"></i> <span class=\"is-invisible\">#{name_to_title(field)} Invalid</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: text
+  end
+
+  def data_contacts_circle(field, draft, form_name, options, circle, error_fields)
+    if draft_data_contacts_flat(draft.draft).blank?
+      circle = empty_circle(field, draft, form_name, options[:anchor], options[:required])
+    elsif !error_fields.blank?
+      circle = invalid_circle(field, draft, form_name, options[:anchor])
+    end
+    circle
   end
 end

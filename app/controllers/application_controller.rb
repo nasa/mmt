@@ -215,7 +215,7 @@ class ApplicationController < ActionController::Base
         {
           field: path,
           top_field: path,
-          page: get_page(path),
+          page: get_page(path), # can we send path and pull first?
           error: error,
           request_id: request_id
         }
@@ -290,28 +290,32 @@ class ApplicationController < ActionController::Base
     PaleoTemporalCoverages
   )
 
-  def get_page(field_name)
-    if ACQUISITION_INFORMATION_FIELDS.include? field_name
+  def get_page(field_name) # (now field_name is sent in as an array. want to change to fields)
+    # for path in generate_ingest_errors
+    return nil if field_name.nil?
+    # for field in generate_show_errors
+    if ACQUISITION_INFORMATION_FIELDS.include? field_name.first
       'acquisition_information'
-    elsif COLLECTION_INFORMATION_FIELDS.include? field_name
+    elsif COLLECTION_INFORMATION_FIELDS.include? field_name.first
       'collection_information'
-    elsif COLLECTION_CITATIONS_FIELDS.include? field_name
+    elsif COLLECTION_CITATIONS_FIELDS.include? field_name.first
       'collection_citations'
-    elsif DATA_IDENTIFICATION_FIELDS.include? field_name
+    elsif DATA_IDENTIFICATION_FIELDS.include? field_name.first
       'data_identification'
-    elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? field_name
+    elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? field_name.first
       'descriptive_keywords'
-    elsif DISTRIBUTION_INFORMATION_FIELDS.include? field_name
+    elsif DISTRIBUTION_INFORMATION_FIELDS.include? field_name.first
       'distribution_information'
-    elsif METADATA_INFORMATION_FIELDS.include? field_name
+    elsif METADATA_INFORMATION_FIELDS.include? field_name.first
       'metadata_information'
-    elsif DATA_CENTERS_FIELDS.include? field_name
-      'data_centers'
-    elsif DATA_CONTACTS_FIELDS.include? field_name
+    # elsif DATA_CONTACTS_FIELDS.include? field_name
+    elsif field_name.include?('ContactPersons' || 'ContactGroups')
       'data_contacts'
-    elsif SPATIAL_INFORMATION_FIELDS.include? field_name
+    elsif DATA_CENTERS_FIELDS.include? field_name.first
+      'data_centers'
+    elsif SPATIAL_INFORMATION_FIELDS.include? field_name.first
       'spatial_information'
-    elsif TEMPORAL_INFORMATION_FIELDS.include? field_name
+    elsif TEMPORAL_INFORMATION_FIELDS.include? field_name.first
       'temporal_information'
     end
   end

@@ -19,6 +19,7 @@ class DraftsController < ApplicationController
     set_country_codes
     set_language_codes
     @errors = validate_metadata
+    console
   end
 
   # GET /drafts/new
@@ -200,9 +201,11 @@ class DraftsController < ApplicationController
       {
         field: field.last,
         top_field: field[0],
-        page: get_page(field[0]),
+        # page: get_page(field[0]),
+        page: get_page(field),
         error: get_error(string)
       }
+      # fail if field.include?('ContactGroups' || 'ContactPersons')
     end
   end
 
@@ -244,6 +247,7 @@ class DraftsController < ApplicationController
 
   def validate_picklists(errors, metadata)
     # for each bad field, if the value doesn't appear in the picklist values, create an error
+    # if/when there is time, it would be nice to refactor this with helper methods
     if metadata
       if metadata['ProcessingLevel'] && metadata['ProcessingLevel']['Id']
         unless DraftsHelper::ProcessingLevelIdOptions.flatten.include? metadata['ProcessingLevel']['Id']
@@ -333,13 +337,64 @@ class DraftsController < ApplicationController
           if country
             matches = @country_codes.select { |option| option.name.include? country }
             if matches.empty?
-              errors << "The property '#/Organizations' was invalid"
+              errors << "The property '#/DataCenters' was invalid"
             end
           end
         end
       end
+
       # TODO need to make data_centers work like organizations
+      data_centers = metadata['DataCenters'] || []
+      data_centers.each do |data_center|
+        # roles = data_center['Roles'] || []
+        # roles.each do |role|
+        #   unless DraftsHelper::DataCenterRoleOptions.flatten.include?(role)
+        #     errors << "The property '#/DataCenters' was invalid"
+        #   end
+        # end
+
+        short_name = data_center['ShortName']
+        if short_name
+          matches = @data_centers.select { |dc| dc.include?(short_name) }
+          if matches.empty?
+            errors << "The property '#/DataCenters' was invalid"
+          end
+        end
+
+        contact_information = data_center['ContactInformation'] || {}
+        addresses = contact_information['Addresses'] || []
+        addresses.each do |address|
+          country = address['Country']
+          if country
+            matches = @country_codes.select { |option| option.name.include?(country) }
+            if matches.empty?
+              errors << "The property '#/DataCenters' was invalid"
+            end
+            # need to add StateProvince? not in any other Address type
+            # but path in validation.coffee
+          end
+        end
+
+        # contact_mechanisms = contact_information['ContactMechanisms'] || []
+        # contact_mechanisms.each do |contact_mechanism|
+        #   type = contact_mechanism['Type']
+        #   if type && !DraftsHelper::ContactMechanismTypeOptions.flatten.include?(type)
+        #     errors << "The property '#/DataCenters' was invalid"
+        #   end
+        # end
+
+      end
+
       # TODO need to make sure the data contacts all get validated like personnel
+      contact_persons = metadata['ContactPersons'] || []
+      contact_persons.each do |contact_person|
+
+      end
+
+      contact_groups = metadata['ContactGroups'] || []
+      contact_groups.each do |contact_group|
+
+      end
 
       personnel = metadata['Personnel'] || []
       personnel.each do |person|
@@ -378,6 +433,7 @@ class DraftsController < ApplicationController
     errors = Array.wrap(JSON::Validator.fully_validate(schema, @draft.draft))
     errors = validate_parameter_ranges(errors, @draft.draft)
     errors = validate_picklists(errors, @draft.draft)
+    # fail
     errors.map { |error| generate_show_errors(error) }.flatten
   end
 
