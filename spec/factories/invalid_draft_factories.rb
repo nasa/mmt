@@ -93,7 +93,7 @@ FactoryGirl.define do
     provider_id 'MMT_2'
     draft {
       all_required_fields.merge(
-        'ShortName' => '33333',
+        'ShortName' => 'Invalid Picklists',
         'EntryTitle' => 'Invalid Picklist Draft',
         'ProcessingLevel' => {
           'Id' => '1A'
@@ -139,7 +139,7 @@ FactoryGirl.define do
           'ContactPersons' => [{
             'Roles' => ['bad data center contact person role'],
             'LastName' => 'Last Name',
-            'ContactInformation' => [{
+            'ContactInformation' => {
               'ContactMechanisms' => [{
                 'Type' => 'bad contact mechanism type',
                 'Value' => 'contactmech@email.com'
@@ -150,12 +150,12 @@ FactoryGirl.define do
                 'Country' => 'United States',
                 'StateProvince' => 'maryland'
               }]
-            }]
+            }
           }],
           'ContactGroups' => [{
             'Roles' => ['bad data center contact group role'],
             'GroupName' => 'Group Name',
-            'ContactInformation' => [{
+            'ContactInformation' => {
               'ContactMechanisms' => [{
                 'Type' => 'bad contact mechanism type',
                 'Value' => 'contactmech@email.com'
@@ -166,13 +166,13 @@ FactoryGirl.define do
                 'Country' => 'United States',
                 'StateProvince' => 'maryland'
               }]
-            }]
+            }
           }]
         }],
         'ContactPersons' => [{
           'Roles' => ['bad non dc contact person role'],
           'LastName' => 'Last Name',
-          'ContactInformation' => [{
+          'ContactInformation' => {
             'ContactMechanisms' => [{
               'Type' => 'bad contact mechanism type',
               'Value' => 'contactmech@email.com'
@@ -184,12 +184,12 @@ FactoryGirl.define do
               'StateProvince' => 'maryland'
             }]
             # TODO add invalid Contact Mechanism type?
-          }]
+          }
         }],
         'ContactGroups' => [{
           'Roles' => ['bad non dc contact group role'],
           'GroupName' => 'Group Name',
-          'ContactInformation' => [{
+          'ContactInformation' => {
             'ContactMechanisms' => [{
               'Type' => 'bad contact mechanism type',
               'Value' => 'contactmech@email.com'
@@ -201,7 +201,7 @@ FactoryGirl.define do
               'StateProvince' => 'maryland'
             }]
             # TODO add invalid Contact Mechanism type?
-          }]
+          }
         }],
         'TemporalKeywords' => ['Keyword 1', 'Keyword 2'],
         'SpatialExtent' => {

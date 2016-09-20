@@ -19,6 +19,7 @@ class DraftsController < ApplicationController
     set_country_codes
     set_language_codes
     @errors = validate_metadata
+    # console
   end
 
   # GET /drafts/new
@@ -54,7 +55,7 @@ class DraftsController < ApplicationController
     else
       @draft = Draft.find(params[:id])
     end
-
+    # fail
     if @draft.update_draft(params[:draft], @current_user.urs_uid)
       flash[:success] = 'Draft was successfully updated.'
 
@@ -177,12 +178,15 @@ class DraftsController < ApplicationController
     if string.include? 'did not contain a required property'
       required_field = string.match(/contain a required property of '(.*)'/).captures.first
 
-      top_field = fields.split('/')[0] || required_field
-
+      field = fields.split('/')
+      top_field = field[0] || required_field
+      # top_field = fields.split('/')[0] || required_field
+      # fail if top_field == 'DataCenters'
       {
         field: required_field,
         top_field: top_field,
-        page: get_page(top_field),
+        # page: get_page(top_field),
+        page: get_page(field),
         error: 'is required'
       }
 
@@ -203,6 +207,7 @@ class DraftsController < ApplicationController
         page: get_page(field),
         error: get_error(string)
       }
+      # fail if field.include?('DataCenters')
       # fail if field.include?('ContactGroups' || 'ContactPersons')
     end
   end
@@ -315,31 +320,31 @@ class DraftsController < ApplicationController
         end
       end
 
-      organizations = metadata['Organizations'] || []
-      organizations.each do |organization|
-        party = organization['Party'] || {}
-        organization_name = party['OrganizationName'] || {}
-        short_name = organization_name['ShortName']
-
-        if short_name
-          matches = @organizations.select { |org| org.include? short_name }
-          if matches.empty?
-            errors << "The property '#/Organizations' was invalid"
-          end
-        end
-
-        addresses = party['Addresses'] || []
-        addresses.each do |address|
-          country = address['Country']
-
-          if country
-            matches = @country_codes.select { |option| option.name.include? country }
-            if matches.empty?
-              errors << "The property '#/DataCenters' was invalid"
-            end
-          end
-        end
-      end
+      # organizations = metadata['Organizations'] || []
+      # organizations.each do |organization|
+      #   party = organization['Party'] || {}
+      #   organization_name = party['OrganizationName'] || {}
+      #   short_name = organization_name['ShortName']
+      #
+      #   if short_name
+      #     matches = @organizations.select { |org| org.include? short_name }
+      #     if matches.empty?
+      #       errors << "The property '#/Organizations' was invalid"
+      #     end
+      #   end
+      #
+      #   addresses = party['Addresses'] || []
+      #   addresses.each do |address|
+      #     country = address['Country']
+      #
+      #     if country
+      #       matches = @country_codes.select { |option| option.name.include? country }
+      #       if matches.empty?
+      #         errors << "The property '#/DataCenters' was invalid"
+      #       end
+      #     end
+      #   end
+      # end
 
       # TODO need to make data_centers work like organizations
       data_centers = metadata['DataCenters'] || []
@@ -394,22 +399,22 @@ class DraftsController < ApplicationController
 
       end
 
-      personnel = metadata['Personnel'] || []
-      personnel.each do |person|
-        party = person['Party'] || {}
-
-        addresses = party['Addresses'] || []
-        addresses.each do |address|
-          country = address['Country']
-
-          if country
-            matches = @country_codes.select { |option| option.name.include? country }
-            if matches.empty?
-              errors << "The property '#/Personnel' was invalid"
-            end
-          end
-        end
-      end
+      # personnel = metadata['Personnel'] || []
+      # personnel.each do |person|
+      #   party = person['Party'] || {}
+      #
+      #   addresses = party['Addresses'] || []
+      #   addresses.each do |address|
+      #     country = address['Country']
+      #
+      #     if country
+      #       matches = @country_codes.select { |option| option.name.include? country }
+      #       if matches.empty?
+      #         errors << "The property '#/Personnel' was invalid"
+      #       end
+      #     end
+      #   end
+      # end
     end
 
     errors

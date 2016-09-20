@@ -49,7 +49,7 @@ module PreviewCirclesHelper
     'data_contacts' => {
       'DataContacts' => {
         required: false,
-        anchor: 'data-contacts' # TODO how to get Data Center Contacts?
+        anchor: 'data-contacts'
       }
     },
     'data_identification' => {
@@ -173,7 +173,9 @@ module PreviewCirclesHelper
 
       valid = true
       FORM_FIELDS[form_name].each do |field, options|
-        if metadata[field].nil?
+        if field == 'DataContacts'
+          valid = false unless error_fields.blank?
+        elsif metadata[field].nil?
           valid = false if options[:required]
         elsif error_fields.include?(field)
           valid = false
@@ -192,15 +194,16 @@ module PreviewCirclesHelper
     error_fields = page_errors.map { |error| error[:top_field] }
 
     FORM_FIELDS[form_name].each do |field, options|
+      # fail if form_name == 'data_centers'
       circle = complete_circle(field, draft, form_name, options[:anchor], options[:required])
 
-      if draft.draft[field].nil?
+      if field == 'DataContacts'
+        circle = data_contacts_circle(field, draft, form_name, options, circle, error_fields)
+      elsif draft.draft[field].nil?
         circle = empty_circle(field, draft, form_name, options[:anchor], options[:required])
       elsif error_fields.include?(field)
         circle = invalid_circle(field, draft, form_name, options[:anchor])
       end
-
-      circle = data_contacts_circle(field, draft, form_name, options, circle, error_fields) if field == 'DataContacts'
 
       circles << circle
     end

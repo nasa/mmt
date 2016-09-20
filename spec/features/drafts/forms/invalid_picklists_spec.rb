@@ -34,14 +34,14 @@ describe 'Invalid picklists', js: true do
       end
     end
 
-    it 'displays an invalid icon for Organizations' do
+    it 'displays an invalid icon for Data Centers' do
       within '.metadata #data-centers' do
         expect(page).to have_link('Data Centers - Invalid')
       end
     end
 
-    it 'displays an invalid icon for Personnel' do
-      within '.metadata #data_contacts' do
+    it 'displays an invalid icon for Data Contacts' do
+      within '.metadata #data-contacts' do
         expect(page).to have_link('Data Contacts - Invalid')
       end
     end
@@ -181,10 +181,10 @@ describe 'Invalid picklists', js: true do
     end
   end
 
-  context 'when viewing the Organizations Short Name and Address fields' do
+  context 'when viewing the Data Centers Short Name and Address fields' do
     before do
       within '.metadata' do
-        click_on 'Organizations'
+        click_on 'Data Centers', match: :first
       end
 
       open_accordions
@@ -198,7 +198,7 @@ describe 'Invalid picklists', js: true do
     end
 
     it 'displays an inline error' do
-      within '.organization-name' do
+      within '.data-centers' do
         expect(page).to have_content('Short Name value [short_name] does not match a valid selection option')
       end
       within '.multiple.addresses > .multiple-item-0' do
@@ -207,7 +207,7 @@ describe 'Invalid picklists', js: true do
     end
 
     it 'displays an unselectable invalid option' do
-      within '.organization-short-name-select' do
+      within '.data-center-short-name-select' do
         expect(page).to have_css('option[disabled][selected]', text: 'short_name')
       end
       within '.multiple.addresses > .multiple-item-0 .country-select' do
@@ -216,10 +216,10 @@ describe 'Invalid picklists', js: true do
     end
   end
 
-  context 'when viewing the Personnel Address field' do
+  context 'when viewing the Data Contacts Address field' do
     before do
       within '.metadata' do
-        click_on 'Personnel'
+        click_on 'Data Contacts', match: :first
       end
 
       open_accordions
@@ -232,13 +232,13 @@ describe 'Invalid picklists', js: true do
     end
 
     it 'displays an inline error' do
-      within '.multiple.addresses > .multiple-item-0' do
+      within '.multiple.addresses > .multiple-item-0', match: :first do
         expect(page).to have_content('Country value [usa] does not match a valid selection option')
       end
     end
 
     it 'displays an unselectable invalid option' do
-      within '.multiple.addresses > .multiple-item-0 .country-select' do
+      within '.multiple.addresses > .multiple-item-0 .country-select', match: :first do
         expect(page).to have_css('option[disabled][selected]', text: 'usa')
       end
     end

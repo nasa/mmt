@@ -46,7 +46,10 @@ class Draft < ActiveRecord::Base
       json_params = params.to_hash.to_camel_keys
       Rails.logger.info("Audit Log: #{editing_user_id} modified Draft Parameters: #{json_params}")
 
+      # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
       json_params = convert_data_contacts_params(json_params)
+      json_params = convert_data_centers_params(json_params)
+
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
 
@@ -304,8 +307,8 @@ class Draft < ActiveRecord::Base
     contact_groups = []
     param_data_centers = []
     new_params = {}
-
     draft_data_centers = self.draft['DataCenters'] || []
+
     data_contacts_params = compact_blank(json_params) # TODO maybe need to try and do it with compact_blank at end???
     data_contacts_params['DataContacts'].each do |data_contact|
       if data_contact['DataContactType'] == 'NonDataCenterContactPerson'
@@ -323,8 +326,7 @@ class Draft < ActiveRecord::Base
         matching_draft_data_center = draft_data_centers.find { |d_data_center| d_data_center['ShortName'] == short_name && d_data_center['LongName'] == long_name }
         matching_param_data_center = param_data_centers.find { |p_data_center| p_data_center['ShortName'] == short_name && p_data_center['LongName'] == long_name }
         if matching_param_data_center
-          # TODO need to verify deleting the data center allows us to still manipulate and add it back
-          param_data_centers.delete(matching_param_data_center)
+          param_data_centers.delete(matching_param_data_center) # ***** TODO Can this be done without deleting out of the array?
           # if data_contact['DataContactType'] == 'DataCenterContactPerson'
           #   matching_param_data_center['ContactPersons'] << data_center['ContactPerson']
           # elsif data_contact['DataContactType'] == 'DataCenterContactGroup'
@@ -333,6 +335,7 @@ class Draft < ActiveRecord::Base
           add_contacts_to_data_center(data_contact, matching_param_data_center)
           param_data_centers << matching_param_data_center
         elsif matching_draft_data_center
+          draft_data_centers.delete(matching_draft_data_center)
           matching_draft_data_center['ContactPersons'] = []
           matching_draft_data_center['ContactGroups'] = []
           # if data_contact['DataContactType'] == 'DataCenterContactPerson'
@@ -343,6 +346,7 @@ class Draft < ActiveRecord::Base
           add_contacts_to_data_center(data_contact, matching_draft_data_center)
           param_data_centers << matching_draft_data_center
         else
+          # no match (yet) for the data center, create a new one
           # else
             # if data center in draft, output data center = draft['DataCenter']
             # else add this data center (shortname, longname) to output
@@ -359,12 +363,35 @@ class Draft < ActiveRecord::Base
     end
 
     new_params['DataCenters'] = param_data_centers
+    new_params['DataCenters'] += draft_data_centers # add back in the data centers that were not matched
     new_params['ContactPersons'] = contact_persons
     new_params['ContactGroups'] = contact_groups
     new_params
   end
 
-  
+  def convert_data_centers_params(json_params)
+    return json_params unless json_params.keys == ['DataCenters']
+
+    self.draft['DataCenters'].each do |draft_data_center|
+      short_name = draft_data_center['ShortName']
+      long_name = draft_data_center['LongName']
+
+      match = json_params['DataCenters'].find { |dc| dc['ShortName'] == short_name && dc['LongName'] == long_name }
+
+      if match
+        match['ContactPersons'] = draft_data_center['ContactPersons']
+        match['ContactGroups'] = draft_data_center['ContactGroups']
+      else
+        # no match, so draft_data_center is not in the params
+        # if there are no contact persons or groups, no problem
+        # if there are contact persons or groups - what to do? keep the contacts or no?
+      end
+    end
+
+    json_params
+  end
+
+
 
   def default_values
     self.draft ||= {}

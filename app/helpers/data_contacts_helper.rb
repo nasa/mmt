@@ -1,64 +1,8 @@
 module DataContactsHelper
-  TEST = [1, 2, 3]
-
-  # def draft_data_contacts_unnested(draft)
-  #   data_contacts = []
-  #
-  #   if draft['ContactPersons']
-  #     data_contacts << {'NonDataCenterContactPersons' => draft['ContactPersons']}
-  #   end
-  #   if draft['ContactGroups']
-  #     data_contacts << {'NonDataCenterContactGroups' => draft['ContactGroups']}
-  #   end
-  #
-  #   if draft['DataCenters']
-  #     data_centers = draft['DataCenters']
-  #     data_centers.each do |data_center|
-  #       if data_center['ContactPersons']
-  #         data_contacts['DataCenterContactPersons'] ||= []
-  #         data_contacts['DataCenterContactPersons'] += data_center['ContactPersons']
-  #       end
-  #       if data_center['ContactGroups']
-  #         data_contacts['DataCenterContactGroups'] ||= []
-  #         data_contacts['DataCenterContactGroups'] += data_center['ContactGroups']
-  #       end
-  #     end
-  #   end
-  #
-  #   data_contacts
-  # end
-
-  # def draft_data_contacts_nested(draft)
-  #   data_contacts = []
-  #
-  #   # TODO need to separate out contact persons and groups?
-  #   if draft['ContactPersons']
-  #     data_contacts << { 'ContactPersons' => draft['ContactPersons'] }
-  #   end
-  #   if draft['ContactGroups']
-  #     data_contacts << { 'ContactGroups' => draft['ContactGroups'] }
-  #   end
-  #
-  #   if draft['DataCenters']
-  #     data_centers = draft['DataCenters']
-  #     data_centers_with_contacts = [] # {} or []
-  #     data_centers.each do |data_center|
-  #       # do we need to test that short_name has been chosen?
-  #       if data_center['ContactPersons'] || data_center['ContactGroups']
-  #         data_centers_with_contacts << data_center
-  #       end
-  #       if data_center['ContactPersons'] || data_center['ContactGroups']
-  #         data_centers_with_contacts << data_center
-  #       end
-  #       # need to test and flatten
-  #     end
-  #     if data_centers_with_contacts.count > 0
-  #       data_contacts << { 'DataCenters' => data_centers_with_contacts }
-  #     end
-  #   end
-  #
-  #   data_contacts
-  # end
+  # most of these helper methods have to do with MMT-697, upgrading the UMM schema from
+  # v1.2 to v1.6, which had ContactPersons and ContactGroups that are associated
+  # (and nested under) DataCenters and also ContactPersons and ContactGroups
+  # not associated with DataCenters so nested separately
 
   def draft_data_contacts_flat(draft)
     data_contacts = []
@@ -135,23 +79,6 @@ module DataContactsHelper
                       'LongName' => data_contact['ContactGroupDataCenter']['LongName'] }
     end
   end
-
-  def contact_person_first_name(data_contact)
-
-  end
-
-  def contact_person_last_name(data_contact)
-
-  end
-
-  def contact_group_name(data_contact)
-
-  end
-
-  # most of these helper methods have to do with ___, upgrading the UMM schema from
-  # v1.2 to v1.6, which had ContactPersons and ContactGroups that are associated
-  # (and nested under) DataCenters and also ContactPersons and ContactGroups
-  # not associated with DataCenters so nested separately
 
   # def has_any_data_contacts?(metadata)
   #   has_contacts?(metadata) || has_data_center_contacts?(metadata) ? true : false

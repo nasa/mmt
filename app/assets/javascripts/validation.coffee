@@ -273,8 +273,12 @@ $(document).ready ->
         when /data_centers_\d*_contact_information_contact_mechanisms_\d*_type/.test id
           [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_contact_mechanisms_(\d*)_type/
           "DataCenters/#{index1}/ContactInformation/ContactMechanisms/#{index2}/Type"
-          # draft_data_centers_0_contact_information_contact_mechanisms_0_type
-          # TODO need to add the rest of the data centers picklists
+        when /data_centers_\d*_contact_information_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_addresses_(\d*)_country/
+          "/DataCenters/#{index1}/ContactInformation/Addresses/#{index2}/Country"
+        when /data_centers_\d*_contact_information_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_addresses_(\d*)_state_province/
+          "/DataCenters/#{index1}/ContactInformation/Addresses/#{index2}/StateProvince"
         when /data_contacts_\d*_data_center_short_name/.test id # need to figure out why this is not working
           [_, index] = id.match /data_contacts_(\d*)_data_center_short_name/ # also will need the alter when change partials for distinct id for data center field
           "DataContacts/#{index}/DataCenterShortName"
@@ -326,21 +330,6 @@ $(document).ready ->
         when /data_contacts_\d*_contact_group_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_addresses_(\d*)_state_province/
           "/DataContacts/#{index1}/ContactGroup/ContactInformation/Addresses/#{index2}/StateProvince"
-
-        # TODO add data centers and data contacts
-        # data contacts
-        # organizations didn't have short name. is it needed?
-        # not actual id: data center short name
-        # draft_data_contacts_0_data_center_short_name
-        # organizations and personnel didn't have roles or contact type/mechanism. why? do we need?
-        # draft_data_contacts_0_data_center_contact_person_roles
-        # draft_data_contacts_0_data_center_contact_group_roles
-        # draft_data_contacts_0_contact_person_roles
-        # draft_data_contacts_0_contact_group_roles
-        # draft_data_contacts_0_data_center_contact_person_contact_information_contact_mechanisms_0_type
-        # draft_data_contacts_0_data_center_contact_group_contact_information_contact_mechanisms_0_type
-        # draft_data_contacts_0_contact_person_contact_information_contact_mechanisms_0_type
-        # draft_data_contacts_0_contact_group_contact_information_contact_mechanisms_0_type
 
       # Remove required error from the same dataPath
       errors = errors.filter (error) ->
