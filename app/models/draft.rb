@@ -298,9 +298,8 @@ class Draft < ActiveRecord::Base
   end
 
   def convert_data_contacts_params(json_params)
-    # take Data Contacts from forms that come in all nested under DataContacts,
-    # and restructure as ContactPersons and ContactGroups under Data Centers
-    # or outside of Data Centers if not affiliated
+    # updating from data contacts form. take all contacts which will be nested under DataContacts,
+    # and restructure as ContactPersons and ContactGroups under Data Centers or outside of Data Centers if not affiliated
     return json_params unless json_params.keys == ['DataContacts']
 
     contact_persons = []
@@ -326,14 +325,14 @@ class Draft < ActiveRecord::Base
         matching_draft_data_center = draft_data_centers.find { |d_data_center| d_data_center['ShortName'] == short_name && d_data_center['LongName'] == long_name }
         matching_param_data_center = param_data_centers.find { |p_data_center| p_data_center['ShortName'] == short_name && p_data_center['LongName'] == long_name }
         if matching_param_data_center
-          param_data_centers.delete(matching_param_data_center) # ***** TODO Can this be done without deleting out of the array?
+          # param_data_centers.delete(matching_param_data_center) # ***** TODO Can this be done without deleting out of the array?
           # if data_contact['DataContactType'] == 'DataCenterContactPerson'
           #   matching_param_data_center['ContactPersons'] << data_center['ContactPerson']
           # elsif data_contact['DataContactType'] == 'DataCenterContactGroup'
           #   matching_param_data_center['ContactGroups'] << data_center['ContactGroup']
           # end
           add_contacts_to_data_center(data_contact, matching_param_data_center)
-          param_data_centers << matching_param_data_center
+          # param_data_centers << matching_param_data_center
         elsif matching_draft_data_center
           draft_data_centers.delete(matching_draft_data_center)
           matching_draft_data_center['ContactPersons'] = []
@@ -362,8 +361,8 @@ class Draft < ActiveRecord::Base
       end
     end
 
-    new_params['DataCenters'] = param_data_centers
-    new_params['DataCenters'] += draft_data_centers # add back in the data centers that were not matched
+    # these params are what will be merged back in, we are keeping the new/matched data centers but we need to keep the unmatched data centers that were in the draft as well
+    new_params['DataCenters'] = param_data_centers + draft_data_centers
     new_params['ContactPersons'] = contact_persons
     new_params['ContactGroups'] = contact_groups
     new_params
@@ -372,19 +371,22 @@ class Draft < ActiveRecord::Base
   def convert_data_centers_params(json_params)
     return json_params unless json_params.keys == ['DataCenters']
 
-    self.draft['DataCenters'].each do |draft_data_center|
-      short_name = draft_data_center['ShortName']
-      long_name = draft_data_center['LongName']
+    # updating from data centers form. we need to make sure to add in any existing data contacts from the draft so they are not erased
+    unless self.draft['DataCenters'].blank?
+      self.draft['DataCenters'].each do |draft_data_center|
+        short_name = draft_data_center['ShortName']
+        long_name = draft_data_center['LongName']
 
-      match = json_params['DataCenters'].find { |dc| dc['ShortName'] == short_name && dc['LongName'] == long_name }
+        match = json_params['DataCenters'].find { |dc| dc['ShortName'] == short_name && dc['LongName'] == long_name }
 
-      if match
-        match['ContactPersons'] = draft_data_center['ContactPersons']
-        match['ContactGroups'] = draft_data_center['ContactGroups']
-      else
-        # no match, so draft_data_center is not in the params
-        # if there are no contact persons or groups, no problem
-        # if there are contact persons or groups - what to do? keep the contacts or no?
+        if match
+          match['ContactPersons'] = draft_data_center['ContactPersons']
+          match['ContactGroups'] = draft_data_center['ContactGroups']
+        else
+          # no match, so draft_data_center is not in the params
+          # if there are no contact persons or groups, no problem
+          # if there are contact persons or groups - what to do? keep the contacts or no?
+        end
       end
     end
 

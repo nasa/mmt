@@ -194,7 +194,6 @@ module PreviewCirclesHelper
     error_fields = page_errors.map { |error| error[:top_field] }
 
     FORM_FIELDS[form_name].each do |field, options|
-      # fail if form_name == 'data_centers'
       circle = complete_circle(field, draft, form_name, options[:anchor], options[:required])
 
       if field == 'DataContacts'

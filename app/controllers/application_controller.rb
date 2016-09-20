@@ -207,7 +207,7 @@ class ApplicationController < ActionController::Base
     request_id = response.headers['CMR-Request-Id']
     if errors.size > 0
       ingest_errors = errors.map do |error|
-        # path = error['path'].nil? ? nil : error['path'].first # pulling out because of change to get_page
+        path = error['path'].nil? ? nil : error['path']#.first # pulling out because of change to get_page
         error = error['errors'].nil? ? error : error['errors'].first
 
         # only show the feedback module link if the error is 500

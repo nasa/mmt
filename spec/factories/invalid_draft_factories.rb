@@ -72,7 +72,7 @@ FactoryGirl.define do
         'DataCenters' => [{
           'Roles' => ['DISTRIBUTOR'],
           'ShortName' => 'AARHUS-HYDRO',
-          'LongName' => 'Hydrogeophysics Group, Aarhus University'
+          'LongName' => 'Hydrogeophysics Group, Aarhus University '
         }]
       )
     }
@@ -231,7 +231,7 @@ def all_required_fields
     'DataCenters' => [{
       'Roles' => ['DISTRIBUTOR'],
       'ShortName' => 'AARHUS-HYDRO',
-      'LongName' => 'Hydrogeophysics Group, Aarhus University'
+      'LongName' => 'Hydrogeophysics Group, Aarhus University ' # controlled keywords source has extra space at the end
     }],
     'ProcessingLevel' => {
       'Id' => 'Level 1',

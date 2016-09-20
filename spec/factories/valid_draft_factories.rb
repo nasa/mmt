@@ -284,7 +284,7 @@ FactoryGirl.define do
     'DataCenters' => [{
       'Roles' => ['ARCHIVER'],
       'ShortName' => 'AARHUS-HYDRO',
-      'LongName' => 'Hydrogeophysics Group, Aarhus University',
+      'LongName' => 'Hydrogeophysics Group, Aarhus University ', # controlled keywords source has extra space at the end
       'ContactInformation' => {
         'ServiceHours' => '9-6, M-F',
         'ContactInstruction' => 'Email only',

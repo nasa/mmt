@@ -117,7 +117,7 @@ $(document).ready ->
         if labelFor != undefined
           labelFor = labelFor.slice(0, idIndex) + labelFor.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
           $(field).attr 'for', labelFor
-
+      # TODO how to have the id for data contacts included to be incremented?
     newDiv
 
   $('.multiple').on 'click', '.remove', ->
