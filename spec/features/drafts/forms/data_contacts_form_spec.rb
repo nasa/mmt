@@ -688,7 +688,7 @@ describe 'Data Contacts form', js: true do
                   expect(page).to have_field('Country', with: 'United States')
                 end
                 within '.multiple.related-urls > .multiple-item-0' do
-                  # expect(page).to have_selector('input.url[value="http://www.esa.org/education/"]') # needs fixing
+                  expect(page).to have_selector('input.url[value="http://www.esa.org/education/"]')
                   expect(page).to have_selector('input.url[value="http://another-example.com"]')
                   expect(page).to have_field('Description', with: 'Example Description')
                   expect(page).to have_field('Title', with: 'Example Title')

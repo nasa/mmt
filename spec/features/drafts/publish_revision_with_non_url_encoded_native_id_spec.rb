@@ -30,16 +30,19 @@ describe 'Publishing revision of collection with non url encoded native id', js:
         before do
           # add required data to publish
           within '.metadata' do
-            click_on 'Organizations', match: :first
+            click_on 'Data Centers', match: :first
           end
-          open_accordions
+          expect(page).to have_content('Data Centers')
+
           (1..3).each do |n|
             # TODO this is not the ideal way to do this, but the entire form will be changed by the next ticket
-            within "#draft_organizations_#{n} > .eui-accordion__header" do
+            within "#draft_data_centers_#{n} > .eui-accordion__header" do
               find('.remove').click
             end
           end
-          within '#draft_organizations_0' do
+
+          open_accordions
+          within '#draft_data_centers_0' do
             select 'AARHUS-HYDRO', from: 'Short Name'
           end
           within '.nav-top' do

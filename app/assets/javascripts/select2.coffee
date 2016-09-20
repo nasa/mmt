@@ -11,7 +11,14 @@ $(document).ready ->
     $longNameElement = $element.parent().siblings().find('.data-center-long-name')
 
     $multipleItem = $element.closest('.multiple-item')
-    $relatedUrl = $multipleItem.find('.related-urls:first')
+    $dataContactType = $element.closest('.data-contact-type')
+
+    if $dataContactType.length > 0
+      # the select is in the data contact form, so use the data contact type we are in
+      $relatedUrl = $dataContactType.find('.related-urls:first')
+    else
+      $relatedUrl = $multipleItem.find('.related-urls:first')
+
     $urlElement = $relatedUrl.find('.url:first')
 
     if longName?
@@ -38,7 +45,14 @@ $(document).ready ->
     $longNameElement = $element.parent().siblings().find('.data-center-long-name')
 
     $multipleItem = $element.closest('.multiple-item')
-    $relatedUrl = $multipleItem.find('.related-urls:first')
+    $dataContactType = $element.closest('.data-contact-type')
+
+    if $dataContactType.length > 0
+      # the select is in the data contact form, so use the data contact type we are in
+      $relatedUrl = $dataContactType.find('.related-urls:first')
+    else
+      $relatedUrl = $multipleItem.find('.related-urls:first')
+
     $urlElement = $relatedUrl.find('.url:first')
 
     if longName?
