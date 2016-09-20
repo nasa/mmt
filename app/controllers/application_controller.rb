@@ -207,7 +207,7 @@ class ApplicationController < ActionController::Base
     request_id = response.headers['CMR-Request-Id']
     if errors.size > 0
       ingest_errors = errors.map do |error|
-        path = error['path'].nil? ? nil : error['path']#.first # pulling out because of change to get_page
+        path = error['path'].nil? ? nil : error['path']
         error = error['errors'].nil? ? error : error['errors'].first
 
         # only show the feedback module link if the error is 500
@@ -215,7 +215,7 @@ class ApplicationController < ActionController::Base
         {
           field: path,
           top_field: path,
-          page: get_page(path), # can we send path and pull first?
+          page: get_page(path),
           error: error,
           request_id: request_id
         }
@@ -290,7 +290,7 @@ class ApplicationController < ActionController::Base
     PaleoTemporalCoverages
   )
 
-  def get_page(fields) # (now field_name is sent in as an array. want to change to fields)
+  def get_page(fields)
     # for path in generate_ingest_errors
     return nil if fields.nil?
     # for field in generate_show_errors
@@ -320,5 +320,3 @@ class ApplicationController < ActionController::Base
     end
   end
 end
-
-# if fields

@@ -1,9 +1,6 @@
+# MMT-697, upgrading the UMM schema from v1.2 to v1.6, which had ContactPersons and ContactGroups that are associated
+# (and nested under) DataCenters and also ContactPersons and ContactGroups not associated with DataCenters so nested separately
 module DataContactsHelper
-  # most of these helper methods have to do with MMT-697, upgrading the UMM schema from
-  # v1.2 to v1.6, which had ContactPersons and ContactGroups that are associated
-  # (and nested under) DataCenters and also ContactPersons and ContactGroups
-  # not associated with DataCenters so nested separately
-
   def draft_data_contacts_flat(draft)
     data_contacts = []
 
@@ -79,32 +76,4 @@ module DataContactsHelper
                       'LongName' => data_contact['ContactGroupDataCenter']['LongName'] }
     end
   end
-
-  # def has_any_data_contacts?(metadata)
-  #   has_contacts?(metadata) || has_data_center_contacts?(metadata) ? true : false
-  # end
-
-  # def has_data_center_contacts?(draft)
-  #   return false unless draft['DataCenters']
-  #   data_centers = draft['DataCenters']
-  #   data_centers.each do |data_center|
-  #     # return true if !data_center['ContactPersons'].empty? || !data_center['ContactGroups'].empty?
-  #     return true if has_contacts?(data_center)
-  #   end
-  #   false
-  # end
-
-  # def has_non_data_center_contacts?(metadata)
-  #   metadata['ContactPersons'].empty? && metadata['ContactGroups'].empty? ? false : true
-  # end
-
-  # def has_contacts?(metadata)
-  #   metadata['ContactPersons'] || metadata['ContactGroups'] ? true : false
-  # end
-
-  def has_data_contacts?(metadata)
-    draft_data_contacts_flat(metadata).blank? ? false : true
-  end
-
-
 end

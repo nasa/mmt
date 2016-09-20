@@ -2,12 +2,10 @@
 <fieldset class="eui-accordion" id="data-contact">
   <div class="eui-accordion__header disable-toggle">
     <h3 class="eui-accordion__title">Data Contacts</h3>
-    <!-- possible to add a help icon that pulls from a different place? -->
   </div>
   <div class="eui-accordion__body">
     <div class="row taller">
       <div class="col-12">
-        <!-- TODO all of this needs to be checked -->
         <%= render partial: 'drafts/forms/type', locals: {
           type: 'data_contact',
           values: draft_data_contacts_flat(draft.draft) || [{}],

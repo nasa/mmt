@@ -75,7 +75,7 @@
     <%= mmt_label(
     name: 'non_data_center_contact_person',
     title: 'Non Data Center Contact Person',
-    prefix: name_prefix # TODO need to add to this?
+    prefix: name_prefix
     ) %>
     <%= mmt_help_icon(
     title: 'Contact Persons',
@@ -87,9 +87,8 @@
       name_prefix: "#{name_prefix}|contact_person|_",
       multiple: false,
       options: {
-        # data_contact_form: true,
         data_center_affiliation: false,
-        related_url_title: 'Non Data Center Contact Person Related URLs', # TODO each related url might have a different title
+        related_url_title: 'Non Data Center Contact Person Related URLs',
         related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM
       }
     } %>
@@ -102,7 +101,7 @@
     <%= mmt_label(
     name: 'non_data_center_contact_group',
     title: 'Non Data Center Contact Group',
-    prefix: name_prefix # TODO need to add to this?
+    prefix: name_prefix
     ) %>
     <%= mmt_help_icon(
     title: 'Contact Groups',
@@ -114,7 +113,6 @@
       name_prefix: "#{name_prefix}|contact_group|_",
       multiple: false,
       options: {
-        # data_contact_form: true,
         data_center_affiliation: false,
         related_url_title: 'Non Data Center Contact Group Related URLs',
         related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM

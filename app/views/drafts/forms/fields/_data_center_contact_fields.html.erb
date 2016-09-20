@@ -30,8 +30,8 @@
     </div>
   </div>
 
-  <!-- Contact Person -->
   <% if options[:contact_person] %>
+    <!-- Contact Person -->
     <%= render partial: 'drafts/forms/type', locals: {
       type: 'contact_person',
       title: 'Contact Person',
@@ -44,8 +44,8 @@
   <% end %>
 
 
-  <!-- Contact Group -->
   <% if options[:contact_group] %>
+    <!-- Contact Group -->
     <%= render partial: 'drafts/forms/type', locals: {
       type: 'contact_group',
       title: 'Contact Group',
