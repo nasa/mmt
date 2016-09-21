@@ -94,7 +94,7 @@ $(document).ready ->
       $(newDiv).attr 'id', id
 
     # Loop through newDiv and increment the correct index
-    $.each $(newDiv).find('select, input, textarea, label'), (index, field) ->
+    $.each $(newDiv).find("select, input, textarea, label, div[id^='draft_#{type}_#{multipleIndex}']"), (index, field) ->
       if $(field).is('input, textarea, select')
         name = $(field).attr('name')
         if name != undefined
@@ -117,7 +117,11 @@ $(document).ready ->
         if labelFor != undefined
           labelFor = labelFor.slice(0, idIndex) + labelFor.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
           $(field).attr 'for', labelFor
-      # TODO how to have the id for data contacts included to be incremented?
+      else if $(field).is('div')
+        # also increment the id for data contacts divs
+        id = $(field).attr('id')
+        id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
+        $(field).attr 'id', id
     newDiv
 
   $('.multiple').on 'click', '.remove', ->

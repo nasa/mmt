@@ -338,7 +338,6 @@ $(document).ready ->
         else
           true
 
-      console.trace()
       error = {}
       error.keyword = 'invalidPicklist'
       error.message = "value [#{$(this).val()}] does not match a valid selection option"
