@@ -232,4 +232,9 @@
   "ingest_count": 1,
   "granule": null,
   "type": "dif"
+}, {
+  "collection": "https://cmr.uat.earthdata.nasa.gov/search/concepts/C1215139660-GES_DISC",
+  "ingest_count": 1,
+  "granule": null,
+  "type": "dif"
 }]

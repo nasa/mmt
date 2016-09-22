@@ -31,7 +31,7 @@ describe 'Data Centers preview' do
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
-                expect(page).to have_content('Hydrogeophysics Group, Aarhus University ')
+                expect(page).to have_content('Hydrogeophysics Group, Aarhus University ') # the long name source (controlled keywords) contains the extra space
                 expect(page).to have_content('300 E Street Southwest')
                 expect(page).to have_content('Room 203')
                 expect(page).to have_content('Address line 3')
