@@ -10,9 +10,6 @@ describe 'Viewing Collections with other native formats', js: true do
 
       fill_in 'Quick Find', with: short_name
       click_on 'Find'
-
-      # within '.collection_search_results'
-      # expect(page).to have_content(short_name)
       click_link short_name
     end
 
@@ -33,7 +30,6 @@ describe 'Viewing Collections with other native formats', js: true do
           end
         end
       end
-
     end
   end
 end
