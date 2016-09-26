@@ -61,8 +61,7 @@ describe 'Data Centers preview' do
           within all('li.card')[1] do
             within '.card-header' do
               expect(page).to have_content('ESA/ED')
-              expect(page).to have_content('ORIGINATOR')
-              expect(page).to have_content('DISTRIBUTOR')
+              expect(page).to have_content('Multiple Roles')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do

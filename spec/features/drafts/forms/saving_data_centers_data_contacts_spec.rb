@@ -41,8 +41,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
       it 'displays the Data Contact on the preview page' do
         within '.data-contacts-cards' do
           expect(page).to have_content('NDC Group Name')
-          expect(page).to have_content('DATA CENTER CONTACT')
-          expect(page).to have_content('USER SERVICES')
+          expect(page).to have_content('MULTIPLE ROLES')
           expect(page).to have_content('Big Name Research Lab')
         end
       end
@@ -87,8 +86,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
         it 'still displays the Data Contact on the preview page' do
           within '.data-contacts-cards' do
             expect(page).to have_content('NDC Group Name')
-            expect(page).to have_content('DATA CENTER CONTACT')
-            expect(page).to have_content('USER SERVICES')
+            expect(page).to have_content('MULTIPLE ROLES')
             expect(page).to have_content('Big Name Research Lab')
           end
         end

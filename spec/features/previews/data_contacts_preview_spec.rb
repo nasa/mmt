@@ -27,8 +27,7 @@ describe 'Data Contacts preview' do
           within all('li.card')[0] do
             within '.card-header' do
               expect(page).to have_content('First Name')
-              expect(page).to have_content('Science Contact')
-              expect(page).to have_content('Technical Contact')
+              expect(page).to have_content('Multiple Roles')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
@@ -63,8 +62,7 @@ describe 'Data Contacts preview' do
           within all('li.card')[1] do
             within '.card-header' do
               expect(page).to have_content('Group Name')
-              expect(page).to have_content('User Services')
-              expect(page).to have_content('Science Software Development')
+              expect(page).to have_content('Multiple Roles')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
@@ -99,8 +97,7 @@ describe 'Data Contacts preview' do
           within all('li.card')[2] do
             within '.card-header' do
               expect(page).to have_content('First Name 3')
-              expect(page).to have_content('Investigator')
-              expect(page).to have_content('Metadata Author')
+              expect(page).to have_content('Multiple Roles')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do

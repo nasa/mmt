@@ -326,8 +326,7 @@ describe 'Data Contacts form', js: true do
               within '.data-contacts-cards' do
                 expect(page).to have_content('First Name')
                 expect(page).to have_content('Last Name')
-                expect(page).to have_content('INVESTIGATOR')
-                expect(page).to have_content('TECHNICAL CONTACT')
+                expect(page).to have_content('MULTIPLE ROLES')
                 expect(page).to have_content(data_center_short_name)
               end
             end
@@ -446,8 +445,7 @@ describe 'Data Contacts form', js: true do
             it 'displays the Contact Group on the preview' do
               within '.data-contacts-cards' do
                 expect(page).to have_content('DC Contact Group Name')
-                expect(page).to have_content('DATA CENTER CONTACT')
-                expect(page).to have_content('USER SERVICES')
+                expect(page).to have_content('MULTIPLE ROLES')
                 expect(page).to have_content(data_center_short_name)
               end
             end
@@ -590,8 +588,7 @@ describe 'Data Contacts form', js: true do
               within '.data-contacts-cards' do
                 expect(page).to have_content('First Name')
                 expect(page).to have_content('Last Name')
-                expect(page).to have_content('INVESTIGATOR')
-                expect(page).to have_content('TECHNICAL CONTACT')
+                expect(page).to have_content('MULTIPLE ROLES')
                 expect(page).to have_content(data_center_short_name)
               end
             end
@@ -708,8 +705,7 @@ describe 'Data Contacts form', js: true do
             it 'displays the Contact Group on the preview' do
               within '.data-contacts-cards' do
                 expect(page).to have_content('DC Contact Group Name')
-                expect(page).to have_content('DATA CENTER CONTACT')
-                expect(page).to have_content('USER SERVICES')
+                expect(page).to have_content('MULTIPLE ROLES')
                 expect(page).to have_content(data_center_short_name)
               end
             end
