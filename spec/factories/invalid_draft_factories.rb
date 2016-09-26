@@ -134,7 +134,6 @@ FactoryGirl.define do
               'Country' => 'United States',
               'StateProvince' => 'maryland'
             }]
-            # TODO add invalid Contact Mechanism type?
           },
           'ContactPersons' => [{
             'Roles' => ['bad data center contact person role'],
@@ -183,7 +182,6 @@ FactoryGirl.define do
               'Country' => 'United States',
               'StateProvince' => 'maryland'
             }]
-            # TODO add invalid Contact Mechanism type?
           }
         }],
         'ContactGroups' => [{
@@ -200,7 +198,6 @@ FactoryGirl.define do
               'Country' => 'United States',
               'StateProvince' => 'maryland'
             }]
-            # TODO add invalid Contact Mechanism type?
           }
         }],
         'TemporalKeywords' => ['Keyword 1', 'Keyword 2'],

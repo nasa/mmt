@@ -283,3 +283,8 @@ $(document).ready ->
       $select.prop 'disabled', true
       $text.show()
       $text.prop 'disabled', false
+
+  # TODO move to drafts.coffee?
+  # Handle Data Contacts form on load
+  # disable hidden form elements so blank values don't interevere with data being saved/resaved
+  $('.data-contact-type[style$="display: none;"]').find('input, select').prop 'disabled', true

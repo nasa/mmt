@@ -7,7 +7,6 @@ describe 'Data Contacts form', js: true do
 
   context 'when creating Non Data Center Contacts' do
     before do
-      # need to make sure this is appropriate place
       draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
       visit draft_path(draft)
     end
@@ -17,7 +16,7 @@ describe 'Data Contacts form', js: true do
         click_on 'Data Contacts', match: :first
 
         page.document.synchronize do
-          choose 'draft_data_contacts_0_data_contact_type_NonDataCenterContactGroup'
+          select 'NonDataCenterContactGroup', from: 'Data Contact Type'
         end
       end
 
@@ -104,8 +103,7 @@ describe 'Data Contacts form', js: true do
       before do
         click_on 'Data Contacts', match: :first
 
-        # add an expect or within or synchronize for wait?
-        choose 'draft_data_contacts_0_data_contact_type_NonDataCenterContactPerson'
+        select 'NonDataCenterContactPerson', from: 'Data Contact Type'
       end
 
       it 'displays the Non Data Center Affiliation field' do
@@ -205,7 +203,6 @@ describe 'Data Contacts form', js: true do
 
       it 'displays the Data Center on the preview page' do
         within '.data-centers-cards' do
-          # TODO worth having more specificity?? (.card-header .card-body)
           expect(page).to have_content(data_center_short_name)
           expect(page).to have_content(data_center_long_name)
         end
@@ -222,8 +219,7 @@ describe 'Data Contacts form', js: true do
         before do
           click_on 'Data Contacts', match: :first
 
-          # add an expect or within or synchronize for wait?
-          choose 'draft_data_contacts_0_data_contact_type_DataCenterContactPerson'
+          select 'DataCenterContactPerson', from: 'Data Contact Type'
         end
 
         it 'does not display the Non Data Center Affiliation field' do
@@ -332,6 +328,7 @@ describe 'Data Contacts form', js: true do
                 expect(page).to have_content('Last Name')
                 expect(page).to have_content('INVESTIGATOR')
                 expect(page).to have_content('TECHNICAL CONTACT')
+                expect(page).to have_content(data_center_short_name)
               end
             end
 
@@ -349,8 +346,7 @@ describe 'Data Contacts form', js: true do
         before do
           click_on 'Data Contacts', match: :first
 
-          # add expect, within, or synchronize for wait?
-          choose 'draft_data_contacts_0_data_contact_type_DataCenterContactGroup'
+          select 'DataCenterContactGroup', from: 'Data Contact Type'
         end
 
         it 'does not display the Non Data Center Afiiliation field' do
@@ -452,6 +448,7 @@ describe 'Data Contacts form', js: true do
                 expect(page).to have_content('DC Contact Group Name')
                 expect(page).to have_content('DATA CENTER CONTACT')
                 expect(page).to have_content('USER SERVICES')
+                expect(page).to have_content(data_center_short_name)
               end
             end
 
@@ -462,10 +459,8 @@ describe 'Data Contacts form', js: true do
               end
             end
           end
-
         end
       end
-
     end
 
     context 'when the Data Center has not yet been added to the draft' do
@@ -473,7 +468,6 @@ describe 'Data Contacts form', js: true do
       data_center_long_name = 'Educational Office, Ecological Society of America'
 
       before do
-        # need to make sure this is appropriate place
         draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
         visit draft_path(draft)
       end
@@ -491,13 +485,7 @@ describe 'Data Contacts form', js: true do
         before do
           click_on 'Data Contacts', match: :first
 
-          # add an expect or within or synchronize for wait?
-          choose 'draft_data_contacts_0_data_contact_type_DataCenterContactPerson'
-        end
-
-        # is this required for every single time we are creating a data contact?
-        it 'does not display the Non Data Center Affiliation field' do
-          expect(page).to have_no_field 'Non Data Center Affiliation'
+          select 'DataCenterContactPerson', from: 'Data Contact Type'
         end
 
         context 'when filling out the form' do
@@ -604,6 +592,7 @@ describe 'Data Contacts form', js: true do
                 expect(page).to have_content('Last Name')
                 expect(page).to have_content('INVESTIGATOR')
                 expect(page).to have_content('TECHNICAL CONTACT')
+                expect(page).to have_content(data_center_short_name)
               end
             end
 
@@ -621,12 +610,7 @@ describe 'Data Contacts form', js: true do
         before do
           click_on 'Data Contacts', match: :first
 
-          # add expect, within, or synchronize for wait?
-          choose 'draft_data_contacts_0_data_contact_type_DataCenterContactGroup'
-        end
-
-        it 'does not display the Non Data Center Afiiliation field' do
-          expect(page).to have_no_field 'Non Data Center Affiliation'
+          select 'DataCenterContactGroup', from: 'Data Contact Type'
         end
 
         context 'when filling out the form' do
@@ -726,6 +710,7 @@ describe 'Data Contacts form', js: true do
                 expect(page).to have_content('DC Contact Group Name')
                 expect(page).to have_content('DATA CENTER CONTACT')
                 expect(page).to have_content('USER SERVICES')
+                expect(page).to have_content(data_center_short_name)
               end
             end
 
@@ -736,10 +721,8 @@ describe 'Data Contacts form', js: true do
               end
             end
           end
-
         end
       end
-
     end
   end
 end

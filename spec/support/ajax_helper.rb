@@ -9,5 +9,15 @@ module Helpers
         end
       end
     end
+
+    def wait_for_jQuery
+      Timeout.timeout(Capybara.default_max_wait_time) do
+        loop until finished_all_jQuery_requests?
+      end
+   end
+
+   def finished_all_jQuery_requests?
+      page.evaluate_script('jQuery.active').zero?
+   end
   end
 end

@@ -33,6 +33,7 @@ describe 'Data Contacts preview' do
             within all('.card-body')[0] do
               within '.card-body-details' do
                 expect(page).to have_content('First Name Last Name')
+                expect(page).to have_content('Famous University')
                 expect(page).to have_content('300 E Street Southwest')
                 expect(page).to have_content('Room 203')
                 expect(page).to have_content('Address line 3')
@@ -68,6 +69,7 @@ describe 'Data Contacts preview' do
             within all('.card-body')[0] do
               within '.card-body-details' do
                 expect(page).to have_content('Group Name')
+                expect(page).to have_content('Famous University')
                 expect(page).to have_content('300 E Street Southwest')
                 expect(page).to have_content('Room 203')
                 expect(page).to have_content('Address line 3')
@@ -103,6 +105,7 @@ describe 'Data Contacts preview' do
             within all('.card-body')[0] do
               within '.card-body-details' do
                 expect(page).to have_content('First Name 3 Last Name 3')
+                expect(page).to have_content('ESA/ED')
                 expect(page).to have_content('300 E Street Southwest')
                 expect(page).to have_content('Room 203')
                 expect(page).to have_content('Address line 3')
@@ -137,6 +140,7 @@ describe 'Data Contacts preview' do
             within all('.card-body')[0] do
               within '.card-body-details' do
                 expect(page).to have_content('Group Name 2')
+                expect(page).to have_content('ESA/ED')
                 expect(page).to have_content('300 E Street Southwest')
                 expect(page).to have_content('Room 203')
                 expect(page).to have_content('Address line 3')

@@ -23,5 +23,6 @@
 //= require typeahead-0.11.1/typeahead.bundle
 //= require select2-4.0.1/select2.min
 //= require jquery-validate/jquery.validate.min
+//= require jquery.webui-popover/jquery.webui-popover.min
 //= require redactor/redactor.min
 //= require_tree .

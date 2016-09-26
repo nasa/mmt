@@ -279,45 +279,48 @@ $(document).ready ->
         when /data_centers_\d*_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_addresses_(\d*)_state_province/
           "/DataCenters/#{index1}/ContactInformation/Addresses/#{index2}/StateProvince"
-        when /data_contacts_\d*_data_center_short_name/.test id # need to figure out why this is not working
-          [_, index] = id.match /data_contacts_(\d*)_data_center_short_name/ # also will need the alter when change partials for distinct id for data center field
-          "DataContacts/#{index}/DataCenterShortName"
-        when /data_contacts_\d*_data_center_contact_person_roles/.test id
-          [_, index] = id.match /data_contacts_(\d*)_data_center_contact_person_roles/
-          "/DataContacts/#{index}/DataCenterContactPerson/Roles"
-        when /data_contacts_\d*_data_center_contact_group_roles/.test id
-          [_, index] = id.match /data_contacts_(\d*)_data_center_contact_group_roles/
-          "/DataContacts/#{index}/DataCenterContactGroup/Roles"
+        when /data_contacts_\d*_contact_person_data_center_short_name/.test id
+          [_, index] = id.match /data_contacts_\d*_contact_person_data_center_short_name/
+          "/DataContacts/#{index}/ContactPersonDataCenter/ShortName"
+        when /data_contacts_\d*_contact_group_data_center_short_name/.test id
+          [_, index] = id.match /data_contacts_\d*_contact_group_data_center_short_name/
+          "/DataContacts/#{index}/ContactGroupDataCenter/ShortName"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_roles/.test id
+          [_, index] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_roles/
+          "/DataContacts/#{index}/ContactPersonDataCenter/ContactPerson/Roles"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_roles/.test id
+          [_, index] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_roles/
+          "/DataContacts/#{index}/ContactGroupDataCenter/ContactGroup/Roles"
         when /data_contacts_\d*_contact_person_roles/.test id
           [_, index] = id.match /data_contacts_(\d*)_contact_person_roles/
           "/DataContacts/#{index}/ContactPerson/Roles"
         when /data_contacts_\d*_contact_group_roles/.test id
           [_, index] = id.match /data_contacts_(\d*)_contact_group_roles/
           "/DataContacts/#{index}/ContactGroup/Roles"
-        when /data_contacts_\d*_data_center_contact_person_contact_information_contact_mechanisms_\d*_type/.test id
-          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_person_contact_information_contact_mechanisms_(\d*)_type/
-          "/DataContacts/#{index1}/DataCenterContactPerson/ContactInformation/ContactMechanisms/#{index2}/Type"
-        when /data_contacts_\d*_data_center_contact_group_contact_information_contact_mechanisms_\d*_type/.test id
-          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_group_contact_information_contact_mechanisms_(\d*)_type/
-          "/DataContacts/#{index1}/DataCenterContactGroup/ContactInformation/ContactMechanisms/#{index2}/Type"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_contact_mechanisms_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_contact_mechanisms_(\d*)_type/
+          "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/ContactMechanisms/#{index2}/Type"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_contact_mechanisms_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_contact_mechanisms_(\d*)_type/
+          "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/ContactMechanisms/#{index2}/Type"
         when /data_contacts_\d*_contact_person_contact_information_contact_mechanisms_\d*_type/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_contact_mechanisms_(\d*)_type/
           "/DataContacts/#{index1}/ContactPerson/ContactInformation/ContactMechanisms/#{index2}/Type"
         when /data_contacts_\d*_contact_group_contact_information_contact_mechanisms_\d*_type/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_contact_mechanisms_(\d*)_type/
           "/DataContacts/#{index1}/ContactGroup/ContactInformation/ContactMechanisms/#{index2}/Type"
-        when /data_contacts_\d*_data_center_contact_person_contact_information_addresses_\d*_country/.test id
-          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_person_contact_information_addresses_(\d*)_country/
-          "/DataContacts/#{index1}/DataCenterContactPerson/ContactInformation/Addresses/#{index2}/Country"
-        when /data_contacts_\d*_data_center_contact_person_contact_information_addresses_\d*_state_province/.test id
-          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_person_contact_information_addresses_(\d*)_state_province/
-          "/DataContacts/#{index1}/DataCenterContactPerson/ContactInformation/Addresses/#{index2}/StateProvince"
-        when /data_contacts_\d*_data_center_contact_group_contact_information_addresses_\d*_country/.test id
-          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_group_contact_information_addresses_(\d*)_country/
-          "/DataContacts/#{index1}/DataCenterContactGroup/ContactInformation/Addresses/#{index2}/Country"
-        when /data_contacts_\d*_data_center_contact_group_contact_information_addresses_\d*_state_province/.test id
-          [_, index1, index2] = id.match /data_contacts_(\d*)_data_center_contact_group_contact_information_addresses_(\d*)_state_province/
-          "/DataContacts/#{index1}/DataCenterContactGroup/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_addresses_(\d*)_country/
+          "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/Addresses/#{index2}/Country"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_addresses_(\d*)_state_province/
+          "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_addresses_\d*_country/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_addresses_(\d*)_country/
+          "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/Addresses/#{index2}/Country"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_addresses_\d*_state_province/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_addresses_(\d*)_state_province/
+          "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/Addresses/#{index2}/StateProvince"
         when /data_contacts_\d*_contact_person_contact_information_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_addresses_(\d*)_country/
           "/DataContacts/#{index1}/ContactPerson/ContactInformation/Addresses/#{index2}/Country"

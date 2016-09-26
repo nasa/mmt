@@ -22,7 +22,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
       before do
         click_on 'Data Contacts', match: :first
 
-        choose 'draft_data_contacts_0_data_contact_type_NonDataCenterContactGroup'
+        select 'NonDataCenterContactGroup', from: 'Data Contact Type'
 
         within '.multiple.data-contacts' do
           select 'Data Center Contact', from: 'Role'
@@ -43,7 +43,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
           expect(page).to have_content('NDC Group Name')
           expect(page).to have_content('DATA CENTER CONTACT')
           expect(page).to have_content('USER SERVICES')
-          # expect(page).to have_content('Big Name Research Lab') # uncomment when added to cards
+          expect(page).to have_content('Big Name Research Lab')
         end
       end
 
@@ -89,7 +89,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
             expect(page).to have_content('NDC Group Name')
             expect(page).to have_content('DATA CENTER CONTACT')
             expect(page).to have_content('USER SERVICES')
-            # expect(page).to have_content('Big Name Research Lab') # uncomment when added to cards
+            expect(page).to have_content('Big Name Research Lab')
           end
         end
       end

@@ -51,7 +51,7 @@ describe 'Groups list page', js: true, reset_provider: true do
 
           it 'does not display the system level group' do
             within '.groups-table' do
-              expect(page).to have_no_content('Administrators CMR 0')
+              expect(page).to have_no_content('Administrators CMR 3')
             end
           end
 
@@ -93,7 +93,7 @@ describe 'Groups list page', js: true, reset_provider: true do
                 # may need different solution
                 page.document.synchronize do
                   within '.groups-table' do
-                    expect(page).to have_content('Administrators CMR 0')
+                    expect(page).to have_content('Administrators CMR 3')
                   end
                 end
               end
@@ -139,7 +139,7 @@ describe 'Groups list page', js: true, reset_provider: true do
         # may need different solution
         page.document.synchronize do
           within '.groups-table' do
-            expect(page).to have_content('Administrators CMR 0')
+            expect(page).to have_content('Administrators CMR 3')
             expect(page).to have_content('SEDAC Test Group SEDAC 0')
           end
         end

@@ -51,6 +51,19 @@ module DataContactsHelper
     end
   end
 
+  def get_affiliation(data_contact)
+    type = get_contact_type(data_contact)
+    if type == 'NonDataCenterContactPerson'
+      affiliation = data_contact['ContactPerson']['NonDataCenterAffiliation']
+    elsif type == 'NonDataCenterContactGroup'
+      affiliation = data_contact['ContactGroup']['NonDataCenterAffiliation']
+    elsif type == 'DataCenterContactPerson'
+      affiliation = data_contact['ContactPersonDataCenter']['ShortName']
+    elsif type == 'DataCenterContactGroup'
+      affiliation = data_contact['ContactGroupDataCenter']['ShortName']
+    end
+  end
+
   def get_person(data_contact)
     if data_contact['ContactPerson']
       person = data_contact['ContactPerson']

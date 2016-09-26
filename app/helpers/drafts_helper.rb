@@ -56,6 +56,12 @@ module DraftsHelper
     ['User Services'],
     ['Science Software Development']
   ]
+  DataContactTypeOptions = [
+    ['DataCenterContactPerson'],
+    ['DataCenterContactGroup'],
+    ['NonDataCenterContactPerson'],
+    ['NonDataCenterContactGroup']
+  ]
   DataTypeOptions = [
     ['String', 'STRING'],
     ['Float', 'FLOAT'],

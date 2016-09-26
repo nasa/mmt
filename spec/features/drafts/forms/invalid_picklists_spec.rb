@@ -226,12 +226,14 @@ describe 'Invalid picklists', js: true do
     end
 
     it 'displays a summary error' do
+      wait_for_jQuery
       within '.summary-errors' do
         expect(page).to have_content('Country value [usa] does not match a valid selection option')
       end
     end
 
     it 'displays an inline error' do
+      wait_for_jQuery
       within '.multiple.addresses > .multiple-item-0', match: :first do
         expect(page).to have_content('Country value [usa] does not match a valid selection option')
       end

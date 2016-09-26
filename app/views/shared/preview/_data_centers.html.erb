@@ -22,12 +22,23 @@
               </h5>
               <!-- Data Center Roles -->
               <!-- TODO this is different from Organizations (only one). how to represent on card? -->
-              <% unless data_center['Roles'].blank? %>
-                <% data_center['Roles'].each do |role| %>
+              <% if data_center['Roles'] %>
+                <% if data_center['Roles'].count == 1 %>
+                  <!-- one role, show in card badge -->
+                  <% role = data_center['Roles'].first %>
+                  <span class="card-header-badge"><%= role %></span>
+                <% else %>
+                  <!-- mulitple roles, show in popover -->
                   <span class="card-header-badge">
-                    <%= role %>
+                    <a href="#" class="webui-popover-link" data-placement="right">Multiple Roles</a>
+                    <div class="webui-popover-content">
+                      <% data_center['Roles'].each do |role| %>
+                        <p><%= role %></p>
+                      <% end %>
+                    </div>
                   </span>
                 <% end %>
+
               <% end %>
             </div>
             <div class="card-body active">
@@ -89,7 +100,7 @@
                             <i class="fa fa-fax"></i>
                             <%= mechanism['Value'] %>
                           <% else %>
-                            <i class="fa fa-pencil-square-o"></i>
+                            <i class="fa fa-bullhorn"></i>
                             <%= mechanism['Value'] %>
                         <% end %>
                       </li>
