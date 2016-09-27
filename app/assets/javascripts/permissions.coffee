@@ -1,13 +1,40 @@
 $(document).ready ->
   # Enable jQuery Chosen on field
-  $('#collection-ids').chosen()
+
+
+
+  #$('#collection-ids').chosen()
+  # When the select is updated, this needs to be called
+  #$('#collection-ids').trigger('chosen:updated')
+
+  #$('#collection-ids').select2()
+
+
+
+  $('#search-groups').on 'change', ->
+    v = $(this).val()
+    $('#searchGroupsVal').val( v )
+
+
+  $('#search-order-groups').on 'change', ->
+    v = $(this).val()
+    $('#searchAndOrderGroupsVal').val( v )
+
+
+
+
+
   $('#search-order-groups').chosen placeholder_text_multiple: "Select groups for Search and Order permissions"
   $('#search-groups').chosen placeholder_text_multiple: "Select groups for Search permissions"
 
   # Hide field by default
+
   $('#collection_ids_chosen').addClass 'is-hidden'
-  $('#search_order_groups_chosen').addClass 'is-hidden'
-  $('#search_groups_chosen').addClass 'is-hidden'
+
+
+
+  #$('#search_order_groups_chosen').addClass 'is-hidden'
+  #$('#search_groups_chosen').addClass 'is-hidden'
 
   # Show respective field based on selection
   $('#collections').on 'change', ->

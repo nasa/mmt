@@ -1,0 +1,71 @@
+<%= render 'shared/flash_messages' %>
+
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <!-- todo: wire the following links -->
+          <li class="eui-breadcrumbs__item"><a href="#">Manage CMR</a></li>
+          <li class="eui-breadcrumbs__item"><a href="#">Permissions & Groups</a></li>
+          <!-- end todo -->
+        </ol>
+      </div>
+      <h2>Permissions & Groups</h2>
+      <p class="subnav current">Permissions</p>
+      <!-- todo: wire this link -->
+      <p class="subnav"><a href="#">Groups</a></p>
+      <!-- end todo -->
+    </div>
+  </header>
+  <div class="row row-content">
+    <section>
+      <h3>General Access Permissions</h3>
+      <ul class="no-bullets no-padding">
+        <!-- todo: wire the following links -->
+        <li><a href="#">All Guest Users</a></li>
+        <li><a href="#">All Registered Users</a></li>
+        <!-- end todo -->
+      </ul>
+
+
+      <div class="flex-row--sb">
+        <h3>Custom Permissions</h3>
+        <!--<a href="#" class="eui-btn--blue space-bot">New Permissions</a>-->
+        <%= link_to 'New Permission', new_permission_path, :class=> 'eui-btn--blue space-bot' %>
+      </div>
+
+
+      <table>
+        <thead>
+          <tr>
+            <th>Permission Name</th>
+            <th>Permission Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- todo: populate proper data using the following template -->
+
+          <% @permissions.each do |permission| %>
+            <tr>
+              <td>
+                <%= link_to permission["name"], permission_path(permission["concept_id"])  %>
+              </td>
+              <td>
+                <%= permission["permisssion_summary"] %>
+              </td>
+            </tr>
+          <% end %>
+
+
+          <!-- note: if no permissions are found, show the following -->
+          <% if @permissions.length == 0 %>
+            <tr>
+              <td colspan="2">No permissions found at this time.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</main>

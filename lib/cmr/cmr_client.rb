@@ -215,5 +215,125 @@ module Cmr
       end
       get(url, {}, token_header(token))
     end
-  end
-end
+
+
+    #-------------------------------------------------------------------
+    # add_group_permissions - adds permissions for a groups
+    #
+    # Parameters:
+    # provider_id - the provider ID for the current user
+    # permission_name - the name of the permission specified
+    # collections - an Array of collections (or "All colections")
+    # granules - an Array of granules (or "All" granules)
+    # search_groups - an Array of groups that can search (i.e., read)
+    # search_and_order_groups - an Array of groups that can search AND order
+    # token - the global security token
+    #-------------------------------------------------------------------
+    def add_group_permissions(provider_id, permission_name, collections, granules, search_groups, search_and_order_groups, token)
+      
+      # Example: curl -XPOST -i -H "Content-Type: application/json" -H "Echo-Token: XXXXX" https://cmr.sit.earthdata.nasa.gov/access-control/acls -d \
+
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/acls"
+      else
+        url = "/access-control/acls"
+      end
+
+      obj = {
+        "group_permissions" => Array.new,
+        "catalog_item_identity" => {
+          "name" => permission_name,
+          "provider_id" => provider_id,
+          "granule_applicable" => true
+        }
+      }
+
+
+      # TODO -- we will add another condition here to add
+      # specifc collection IDs
+
+      collection_applicable = false
+      if collections == "all-collections"
+        collection_applicable = true
+      end
+
+      obj["catalog_item_identity"]["collection_applicable"] = collection_applicable
+
+      granule_applicable = false
+      if granules == "all-granules"
+          granule_applicable = true
+      end
+
+      obj["catalog_item_identity"]["granule_applicable"] = granule_applicable
+
+
+      for i in search_groups
+        search_permission = {
+          "group_id"=> i,
+          "permissions"=> ["read"] # aka "search"
+        }
+        obj["group_permissions"].push(search_permission)
+      end
+
+      for i in search_and_order_groups
+        search_and_order_permission = {
+          "group_id"=> i,
+          "permissions"=> ["read", "order"] # aka "search"
+        }
+        obj["group_permissions"].push(search_and_order_permission)
+      end
+
+      puts "add_group_permissions:::Data being sent to API: ===============> " + obj.to_s
+      puts "add_group_permissions:::JSON data being sent to API: ===============> " + obj.to_json
+
+      post(url, obj.to_json, token_header(token))
+
+    end
+
+
+
+    #-------------------------------------------------------------------
+    # get_permissions_for_provider - gets all permissions for a given provider
+    #
+    # Parameters:
+    # provider_id - the provider ID
+    # token - the global security token
+    #-------------------------------------------------------------------
+    def get_permissions_for_provider(provider_id, token)
+
+      # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
+
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/acls"
+      else
+        url = "/acls"
+      end
+
+      url += "?provider=" + provider_id + "&include_full_acl=true"
+
+      response = get(url, {}, token_header(token))
+
+    end
+
+
+    def get_permission(concept_id, token)
+
+      # Example: curl -i "http://localhost:3011/acls/"
+
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/acls"
+      else
+        url = "/acls"
+      end
+
+      url += "?provider=" + provider_id
+
+      response = get(url, {}, token_header(token))
+
+    end
+
+
+
+  end # end class
+
+end # end module
