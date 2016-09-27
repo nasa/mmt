@@ -33,15 +33,13 @@
                     <%= role %>
                   </span>
                 <% else %>
-                  <!-- more than 1, show Roles in popover -->
-                  <span class="card-header-badge">
-                    <a href="#" class="webui-popover-link" data-placement="right">Multiple Roles</a>
-                    <div class="webui-popover-content">
-                      <% contact['Roles'].each do |role| %>
-                        <p><%= role %></p>
-                      <% end %>
-                    </div>
-                  </span>
+                  <!-- Show multiple roles in a popover -->
+                  <a href="javascript:void(0)" class="webui-popover-link card-header-badge">Multiple Roles <i class="fa fa-plus"></i></a>
+                  <div class="webui-popover-content">
+                    <% contact['Roles'].each do |role| %>
+                      <p><%= role %></p>
+                    <% end %>
+                  </div>
                 <% end %>
               <% end %>
             </div>

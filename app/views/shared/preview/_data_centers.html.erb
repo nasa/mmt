@@ -28,7 +28,7 @@
                   <% role = data_center['Roles'].first %>
                   <span class="card-header-badge"><%= role %></span>
                 <% else %>
-                  <!-- mulitple roles, show in popover -->
+                  <!-- Show multiple roles in a popover -->
                   <a href="javascript:void(0)" class="webui-popover-link card-header-badge">Multiple Roles <i class="fa fa-plus"></i></a>
                   <div class="webui-popover-content">
                     <% data_center['Roles'].each do |role| %>
