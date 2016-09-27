@@ -288,15 +288,6 @@ class Draft < ActiveRecord::Base
     values
   end
 
-  # def add_contacts_to_data_center(data_contact, target_data_center)
-  #   data_center = data_contact['DataCenter'] || {}
-  #   if data_contact['DataContactType'] == 'DataCenterContactPerson'
-  #     target_data_center['ContactPersons'] << data_center['ContactPerson']
-  #   elsif data_contact['DataContactType'] == 'DataCenterContactGroup'
-  #     target_data_center['ContactGroups'] << data_center['ContactGroup']
-  #   end
-  # end
-
   def add_contact_to_target_data_center(type, target_data_center, current_data_center)
     if type == 'DataCenterContactPerson'
       target_data_center['ContactPersons'] << current_data_center['ContactPerson']
@@ -349,49 +340,11 @@ class Draft < ActiveRecord::Base
         end
 
         add_contact_to_target_data_center(contact_type, target, data_center)
-
-      # elsif data_contact['DataContactType'] == 'DataCenterContactPerson'
-      #   data_center = data_contact['ContactPersonDataCenter'] || {}
-      #   short_name = data_center['ShortName']
-      #   long_name = data_center['LongName']
-      #
-      # elsif data_contact['DataContactType'] == 'DataCenterContactGroup'
-      #   data_center = data_contact['ContactGroupDataCenter'] || {}
-      #   short_name = data_center['ShortName']
-      #   long_name = data_center['LongName']
-      #
-      #
-      #
-      #
-      # elsif data_contact['DataContactType'] == 'DataCenterContactPerson' || data_contact['DataContactType'] == 'DataCenterContactGroup'
-      #   data_center = data_contact['DataCenter'] || {}
-      #   short_name = data_center['ShortName']
-      #   long_name = data_center['LongName']
-      #   matching_draft_data_center = draft_data_centers.find { |d_data_center| d_data_center['ShortName'] == short_name && d_data_center['LongName'] == long_name }
-      #   matching_param_data_center = param_data_centers.find { |p_data_center| p_data_center['ShortName'] == short_name && p_data_center['LongName'] == long_name }
-      #
-      #   if matching_param_data_center
-      #     # data center has already been added to the target array
-      #     add_contacts_to_data_center(data_contact, matching_param_data_center)
-      #   elsif matching_draft_data_center
-      #     # data center is not in target array, but is in the draft
-      #     draft_data_centers.delete(matching_draft_data_center)
-      #     matching_draft_data_center['ContactPersons'] = []
-      #     matching_draft_data_center['ContactGroups'] = []
-      #
-      #     add_contacts_to_data_center(data_contact, matching_draft_data_center)
-      #     param_data_centers << matching_draft_data_center
-      #   else
-      #     # no match for data center, create a new one
-      #     new_data_center = { 'ShortName' => short_name, 'LongName' => long_name,
-      #                         'ContactPersons' => [], 'ContactGroups' => [] }
-      #     add_contacts_to_data_center(data_contact, new_data_center)
-      #     param_data_centers << new_data_center
-      #   end
       end
     end
 
-    # these params are what will be merged (and overwrite what is in drafts), so we are keeping the new/matched data centers but we need to keep the unmatched data centers that were in the draft as well
+    # these params are what will be merged (and overwrite what is in the draft), so we are keeping the new/matched data centers
+    # and we need to add back in any unmatched data centers that were in the draft so they won't be erased
     new_params['DataCenters'] = param_data_centers + draft_data_centers
     new_params['ContactPersons'] = contact_persons
     new_params['ContactGroups'] = contact_groups

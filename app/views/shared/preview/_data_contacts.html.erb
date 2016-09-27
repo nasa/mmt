@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <% data_contacts = draft_data_contacts_flat(metadata) %>
+    <% data_contacts = draft_all_data_contacts_array(metadata) %>
     <% if data_contacts.blank? %>
       <p class="empty-section">
         There are no listed data contacts for this collection.

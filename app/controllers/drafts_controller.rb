@@ -338,12 +338,6 @@ class DraftsController < ApplicationController
 
       data_centers = metadata['DataCenters'] || []
       data_centers.each do |data_center|
-        # roles = data_center['Roles'] || []
-        # roles.each do |role|
-        #   unless DraftsHelper::DataCenterRoleOptions.flatten.include?(role)
-        #     errors << "The property '#/DataCenters' was invalid"
-        #   end
-        # end
 
         short_name = data_center['ShortName']
         if short_name
@@ -367,17 +361,12 @@ class DraftsController < ApplicationController
           end
         end
 
-        # contact_mechanisms = contact_information['ContactMechanisms'] || []
-        # contact_mechanisms.each do |contact_mechanism|
-        #   type = contact_mechanism['Type']
-        #   if type && !DraftsHelper::ContactMechanismTypeOptions.flatten.include?(type)
-        #     errors << "The property '#/DataCenters' was invalid"
-        #   end
-        # end
-
       end
 
-      # TODO need to make sure the data contacts all get validated like personnel
+      # TODO for data contacts and data centers:
+      # don't need roles or contact mechanisms because they are enum
+      # need to have short_name, country, and stateprovince
+
       contact_persons = metadata['ContactPersons'] || []
       contact_persons.each do |contact_person|
 
