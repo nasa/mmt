@@ -34,12 +34,12 @@ describe 'Multiple Roles in Data Centers and Data Contacts preview', js: true do
       end
 
       context 'when the Data Center has Multiple Roles' do
-        it 'displays "MULTIPLE ROLES" in the card header' do
+        it 'displays "Multiple Roles" in the card header' do
           within '.data-centers-cards' do
             within all('li.card')[1] do
               within '.card-header' do
                 expect(page).to have_content('ESA/ED')
-                expect(page).to have_content('MULTIPLE ROLES')
+                expect(page).to have_link('Multiple Roles')
               end
             end
           end
@@ -66,24 +66,24 @@ describe 'Multiple Roles in Data Centers and Data Contacts preview', js: true do
       end
 
       context 'when the Data Contact(s) have Multiple Roles' do
-        it 'displays "MULTIPLE ROLES" in the card headers' do
+        it 'displays "Multiple Roles" in the card headers' do
           within '.data-contacts-cards' do
             within all('li.card')[0] do
               within '.card-header' do
                 expect(page).to have_content('First Name')
-                expect(page).to have_content('MULTIPLE ROLES')
+                expect(page).to have_link('Multiple Roles')
               end
             end
             within all('li.card')[1] do
               within '.card-header' do
                 expect(page).to have_content('Group Name')
-                expect(page).to have_content('MULTIPLE ROLES')
+                expect(page).to have_link('Multiple Roles')
               end
             end
             within all('li.card')[2] do
               within '.card-header' do
                 expect(page).to have_content('First Name 3')
-                expect(page).to have_content('MULTIPLE ROLES')
+                expect(page).to have_link('Multiple Roles')
               end
             end
           end

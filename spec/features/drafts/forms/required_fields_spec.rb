@@ -29,8 +29,7 @@ describe 'Conditionally required fields', js: true do
           click_on 'Data Contacts', match: :first
         end
 
-        # choose 'draft_data_contacts_0_data_contact_type_DataCenterContactPerson'
-        select 'DataCenterContactPerson', from: 'Data Contact Type'
+        select 'Data Center Contact Person', from: 'Data Contact Type'
       end
 
       it 'does not display required icons' do

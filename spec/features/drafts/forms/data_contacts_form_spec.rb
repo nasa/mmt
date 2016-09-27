@@ -16,7 +16,7 @@ describe 'Data Contacts form', js: true do
         click_on 'Data Contacts', match: :first
 
         page.document.synchronize do
-          select 'NonDataCenterContactGroup', from: 'Data Contact Type'
+          select 'Non Data Center Contact Group', from: 'Data Contact Type'
         end
       end
 
@@ -103,7 +103,7 @@ describe 'Data Contacts form', js: true do
       before do
         click_on 'Data Contacts', match: :first
 
-        select 'NonDataCenterContactPerson', from: 'Data Contact Type'
+        select 'Non Data Center Contact Person', from: 'Data Contact Type'
       end
 
       it 'displays the Non Data Center Affiliation field' do
@@ -219,7 +219,7 @@ describe 'Data Contacts form', js: true do
         before do
           click_on 'Data Contacts', match: :first
 
-          select 'DataCenterContactPerson', from: 'Data Contact Type'
+          select 'Data Center Contact Person', from: 'Data Contact Type'
         end
 
         it 'does not display the Non Data Center Affiliation field' do
@@ -345,7 +345,7 @@ describe 'Data Contacts form', js: true do
         before do
           click_on 'Data Contacts', match: :first
 
-          select 'DataCenterContactGroup', from: 'Data Contact Type'
+          select 'Data Center Contact Group', from: 'Data Contact Type'
         end
 
         it 'does not display the Non Data Center Afiiliation field' do
@@ -483,7 +483,7 @@ describe 'Data Contacts form', js: true do
         before do
           click_on 'Data Contacts', match: :first
 
-          select 'DataCenterContactPerson', from: 'Data Contact Type'
+          select 'Data Center Contact Person', from: 'Data Contact Type'
         end
 
         context 'when filling out the form' do
@@ -607,7 +607,7 @@ describe 'Data Contacts form', js: true do
         before do
           click_on 'Data Contacts', match: :first
 
-          select 'DataCenterContactGroup', from: 'Data Contact Type'
+          select 'Data Center Contact Group', from: 'Data Contact Type'
         end
 
         context 'when filling out the form' do

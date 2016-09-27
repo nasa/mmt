@@ -22,7 +22,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
       before do
         click_on 'Data Contacts', match: :first
 
-        select 'NonDataCenterContactGroup', from: 'Data Contact Type'
+        select 'Non Data Center Contact Group', from: 'Data Contact Type'
 
         within '.multiple.data-contacts' do
           select 'Data Center Contact', from: 'Role'

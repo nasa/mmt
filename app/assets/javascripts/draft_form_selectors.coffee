@@ -115,8 +115,8 @@ $(document).ready ->
       $end.removeClass('disabled')
 
   # Handle Data Contacts Type selector
-  $('.data_contact_type-select').change ->
-    $contactTypeSelect = $(this).parents('.data-contact-type-select')
+  $('.data-contact-type-select').change ->
+    $contactTypeSelect = $(this).parents('.data-contact-type-select-parent')
     $dataContactTypes = $contactTypeSelect.siblings('.data-contact-type')
     # hide all the form elements
     $dataContactTypes.hide()

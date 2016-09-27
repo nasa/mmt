@@ -1,12 +1,13 @@
 <% data_contact_type = get_contact_type(data_contact) %>
 
 <div class="row sub-fields">
-  <div class="data-contact-type-select">
+  <div class="data-contact-type-select-parent">
     <%= mmt_select(
       name: 'data_contact_type',
       title: 'Data Contact Type',
       prefix: name_prefix,
       value: get_contact_type(data_contact),
+      classes: 'data-contact-type-select',
       options: DraftsHelper::DataContactTypeOptions
     ) %>
   </div>

@@ -38,7 +38,7 @@ module FormHelper
     options[:name] = add_pipes(options[:name])
 
     classes = ["half-width #{remove_pipes(options[:name])}-select"]
-    classes << options[:classes]
+    classes += options[:classes].split(' ') if options[:classes]
 
     # default values when not multi-select
     is_multi_select = false
@@ -71,7 +71,10 @@ module FormHelper
       end
     end
 
-    styles = 'width: 100%;' if classes.include? 'select2-select'
+    if classes.include? 'select2-select'
+      styles = 'width: 100%;'
+      classes.delete('half-width')
+    end
 
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),

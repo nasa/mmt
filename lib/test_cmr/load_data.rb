@@ -227,12 +227,20 @@ module Cmr
 
       # ACLs for provider groups
       # Admin access to SEDAC
-      connection.post do |req|
+      resp = connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "GROUP"}}}'
       end
+      puts "admin access SEDAC 3008: #{resp.body}"
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "GROUP"}}}'
+      end
+      puts "admin access SEDAC 30011: #{resp.body}"
       # MMT_1
       connection.post do |req|
         req.url('http://localhost:3008/acls')

@@ -57,10 +57,10 @@ module DraftsHelper
     ['Science Software Development']
   ]
   DataContactTypeOptions = [
-    ['DataCenterContactPerson'],
-    ['DataCenterContactGroup'],
-    ['NonDataCenterContactPerson'],
-    ['NonDataCenterContactGroup']
+    ['Data Center Contact Person', 'DataCenterContactPerson'],
+    ['Data Center Contact Group', 'DataCenterContactGroup'],
+    ['Non Data Center Contact Person', 'NonDataCenterContactPerson'],
+    ['Non Data Center Contact Group', 'NonDataCenterContactGroup']
   ]
   DataTypeOptions = [
     ['String', 'STRING'],
