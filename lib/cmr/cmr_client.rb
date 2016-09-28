@@ -223,10 +223,6 @@ module Cmr
       else
         url = '/access-control/acls'
       end
-
-      puts 'add_group_permissions:::Data being sent to API: ===============> ' + request_object.to_s
-      puts 'add_group_permissions:::JSON data being sent to API: ===============> ' + request_object.to_json
-
       post(url, request_object.to_json, token_header(token))
     end
 
@@ -237,10 +233,8 @@ module Cmr
       else
         url = '/access-control/acls'
       end
-
-      url += "?provider=#{provider_id}&include_full_acl=true"
-
-      response = get(url, {}, token_header(token))
+      options = {'provider' => provider_id, 'include_full_acl' => true}
+      response = get(url, options, token_header(token))
     end
 
     def get_permission(concept_id, token)

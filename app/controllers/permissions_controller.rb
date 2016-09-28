@@ -18,25 +18,25 @@ class PermissionsController < ApplicationController
 
     # This block searches through the permissions of each
     # group and creates a summary for display on the page
-    @permissions.each do |p|
+    @permissions.each do |perm|
       permission_summary = {}
       permission_summary_list = []
-      group_permissions = p['acl']['group_permissions']
-      group_permissions.each do |g|
-        perm_list = g['permissions']
-        perm_list.each do |i|
-            permission_summary[i] = i
+      group_permissions = perm['acl']['group_permissions']
+      group_permissions.each do |group_perm|
+        perm_list = group_perm['permissions']
+        perm_list.each do |type|
+            permission_summary[type] = type
         end
       end
 
-      permission_summary.keys.each do |a|
-        if a == 'read'
-          a = 'search'
+      permission_summary.keys.each do |key|
+        if key == 'read'
+          key = 'search'
         end
-        permission_summary_list.push(a.capitalize)
+        permission_summary_list << key.capitalize
       end
 
-      p['permisssion_summary'] = permission_summary_list.join ' & '
+      perm['permisssion_summary'] = permission_summary_list.join ' & '
     end
 
   end
@@ -60,34 +60,16 @@ class PermissionsController < ApplicationController
 
 
     if groups_response.success?
-
       @tmp_groups = groups_response.body['items']
-      for i in @tmp_groups
-        opt = [i['name'], i['concept_id'] ]
-        @groups.push(opt)
+      @tmp_groups.each do |group|
+        opt = [group['name'], group['concept_id']]
+        @groups << opt
       end
-
-
     else
       Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
       flash[:error] = Array.wrap(groups_response.body['errors'])[0]
       @groups = nil
     end
-
-    @granules_options = [
-      ['- Select -', 'select'],
-      ['No Access to Granules', 'no-access'],
-      ['All Granules', 'all-granules']
-      #['All Granules in Selected Collections','all-granules-in-collections'],
-      #['Granules with an Access Constraint Value','access-constraint-granule']
-    ]
-
-    @collections_options = [
-      ['- Select -', 'select'],
-      ['All Collections','all-collections']
-      #['Selected Collection Entry IDs', 'selected-ids-collections'],
-      #['Collections with an Access Constraint Value', 'access-constraint-collections' ]
-    ]
   end
 
   def show
@@ -97,8 +79,7 @@ class PermissionsController < ApplicationController
   def create
     #add_group_permissions(provider_id, permission_name, collections, granules, search_groups, search_and_order_groups, token)
 
-    # Global provier ID for the current user. At some point we might
-    # allow the user to specify a different provider.
+    # Global provier ID for the current user. At some point we may allow the user to specify a different provider.
     provider_id = @current_user.provider_id
 
     search_groups = params[:searchGroupsVal].split ','
@@ -109,7 +90,7 @@ class PermissionsController < ApplicationController
     request_object = {
       'group_permissions' => Array.new,
       'catalog_item_identity' => {
-        'name' => params['permissionName'],
+        'name' => params[:permissionName],
         'provider_id' => provider_id,
         'granule_applicable' => true
       }
@@ -131,17 +112,17 @@ class PermissionsController < ApplicationController
 
     request_object['catalog_item_identity']['granule_applicable'] = granule_applicable
 
-    search_groups.each do |i|
+    search_groups.each do |group|
       search_permission = {
-        'group_id'=> i,
+        'group_id'=> group,
         'permissions'=> ['read'] # aka "search"
       }
       request_object['group_permissions'] << search_permission
     end
 
-    search_and_order_groups.each do |i|
+    search_and_order_groups.each do |group|
       search_and_order_permission = {
-        'group_id'=> i,
+        'group_id'=> group,
         'permissions'=> ['read', 'order'] # aka "search"
       }
       request_object['group_permissions'] << search_and_order_permission
@@ -156,6 +137,7 @@ class PermissionsController < ApplicationController
       Rails.logger.error("Permission Creation Error: #{response.inspect}")
       permission_creation_error = Array.wrap(response.body['errors'])[0]
       flash[:error] = permission_creation_error
+      render :new
     end
   end
 end

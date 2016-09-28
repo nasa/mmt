@@ -3,17 +3,14 @@
     <div class="content">
       <div class="eui-breadcrumbs">
         <ol class="eui-breadcrumbs__list">
-          <!-- todo: wire the following links -->
-          <li class="eui-breadcrumbs__item"><a href="#">Manage CMR</a></li>
-          <li class="eui-breadcrumbs__item"><a href="#">Permissions & Groups</a></li>
-          <!-- end todo -->
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item"><%= link_to 'Permissions & Groups', permissions_path %></li>
+          <li class="eui-breadcrumbs__item current">New Permission</li>
         </ol>
       </div>
       <h2>New Permission</h2>
       <p class="subnav current">Permissions</p>
-      <!-- todo: wire this link -->
-      <p class="subnav"><a href="#">Groups</a></p>
-      <!-- end todo -->
+      <p class="subnav"><%= link_to 'Groups', groups_path %></p>
     </div>
   </header>
   <div class="row row-content">
@@ -25,7 +22,7 @@
           <%= text_field_tag 'permissionName', '', class: 'half-width', placeholder: 'permission name' %>
         </div>
       <label for="collections">Collections</label>
-      <%= select_tag 'collections', options_for_select(@collections_options), id: 'collections' %>
+      <%= select_tag 'collections', options_for_select(PermissionsHelper::CollectionsOptions), id: 'collections' %>
         <label for="collection-ids" class="is-invisible">Selected Collection Entry IDs</label>
         <fieldset id="collections-constraint-values" class="is-hidden is-white">
           <div class="row">
@@ -42,7 +39,7 @@
         </fieldset>
         <hr>
         <label for="granules">Granules</label>
-        <%= select_tag 'granules', options_for_select(@granules_options), id: 'granules' %>
+        <%= select_tag 'granules', options_for_select(PermissionsHelper::GranulesOptions), id: 'granules' %>
         <fieldset id="granules-constraint-values" class="is-hidden is-white">
           <div class="row">
             <label for="granules-constraint-min">Min</label>
@@ -79,7 +76,6 @@
         </table>
         <div class="row space-top">
           <%= submit_tag 'Save', class: 'eui-btn--blue space-right', id: 'permissions-save-button' %>
-          <!--<input type="submit" id="permissions-save-button" class="eui-btn--blue space-right" value="Save">-->
           <%= link_to 'Cancel', permissions_path %>
         </div>
     </section>

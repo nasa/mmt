@@ -5,17 +5,14 @@
     <div class="content">
       <div class="eui-breadcrumbs">
         <ol class="eui-breadcrumbs__list">
-          <!-- todo: wire the following links -->
-          <li class="eui-breadcrumbs__item"><a href="#">Manage CMR</a></li>
-          <li class="eui-breadcrumbs__item"><a href="#">Permissions & Groups</a></li>
-          <!-- end todo -->
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item current">Permissions & Groups</li>          
         </ol>
       </div>
       <h2>Permissions & Groups</h2>
       <p class="subnav current">Permissions</p>
-      <!-- todo: wire this link -->
-      <p class="subnav"><a href="#">Groups</a></p>
-      <!-- end todo -->
+
+      <p class="subnav"><%= link_to 'Groups', groups_path %></p>
     </div>
   </header>
   <div class="row row-content">
