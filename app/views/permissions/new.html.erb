@@ -18,31 +18,15 @@
   </header>
   <div class="row row-content">
     <section>
-
-        <%= form_tag(permissions_path, method: :post, class: 'group-form') %>
+      <%= form_tag(permissions_path, method: :post, class: 'group-form') %>
         <div class="row">
-
           <label for="name">Name</label>
-
           <br>
-
           <%= text_field_tag 'permissionName', '', class: 'half-width', placeholder: 'permission name' %>
-
         </div>
-
-
-
-
-
-
       <label for="collections">Collections</label>
-      <%= select_tag 'collections', options_for_select(@collectionsOptions), id: 'collections' %>
-
-
-
+      <%= select_tag 'collections', options_for_select(@collections_options), id: 'collections' %>
         <label for="collection-ids" class="is-invisible">Selected Collection Entry IDs</label>
-
-
         <fieldset id="collections-constraint-values" class="is-hidden is-white">
           <div class="row">
             <label for="collections-constraint-min">Min</label>
@@ -57,11 +41,8 @@
           </div>
         </fieldset>
         <hr>
-
         <label for="granules">Granules</label>
-        <%= select_tag 'granules', options_for_select(@granulesOptions), id: 'granules' %>
-
-
+        <%= select_tag 'granules', options_for_select(@granules_options), id: 'granules' %>
         <fieldset id="granules-constraint-values" class="is-hidden is-white">
           <div class="row">
             <label for="granules-constraint-min">Min</label>
@@ -76,16 +57,11 @@
           </div>
         </fieldset>
         <hr>
-
         <table class="space-top align-c" id="groups-table2">
           <thead>
             <tr>
-              <th class="align-c" style="width: 50%;">
-                Search
-              </th>
-              <th class="align-c" style="width: 50%;">
-                Search and Order
-              </th>
+              <th class="align-c width-50">Search</th>
+              <th class="align-c width-50">Search and Order</th>
             </tr>
           </thead>
           <tbody>
@@ -101,15 +77,11 @@
             </tr>
           </tbody>
         </table>
-
-
         <div class="row space-top">
           <%= submit_tag 'Save', class: 'eui-btn--blue space-right', id: 'permissions-save-button' %>
           <!--<input type="submit" id="permissions-save-button" class="eui-btn--blue space-right" value="Save">-->
-
           <%= link_to 'Cancel', permissions_path %>
         </div>
-
     </section>
   </div>
 </main>
