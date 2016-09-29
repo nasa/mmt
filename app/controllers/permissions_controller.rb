@@ -55,7 +55,7 @@ class PermissionsController < ApplicationController
   def create
     #add_group_permissions(provider_id, permission_name, collections, granules, search_groups, search_and_order_groups, token)
 
-    if params[:permission_name].nil? || params[:permission_name].empty?
+    if params[:permissionName].nil? || params[:permissionName].empty?
       msg = 'Permission Name is required.'
       Rails.logger.error("Permission Creation Error: #{msg}")
       flash[:error] = msg
