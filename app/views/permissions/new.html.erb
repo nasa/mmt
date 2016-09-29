@@ -1,3 +1,5 @@
+<%= render 'shared/flash_messages' %>
+
 <main class="internal" role="main">
   <header>
     <div class="content">
@@ -17,7 +19,7 @@
     <section>
       <%= form_tag(permissions_path, method: :post, class: 'group-form') %>
         <div class="row">
-          <label for="name">Name</label>
+          <label for="permissionName">Name</label>
           <br>
           <%= text_field_tag 'permissionName', '', class: 'half-width', placeholder: 'permission name' %>
         </div>
@@ -57,19 +59,19 @@
         <table class="space-top align-c" id="groups-table2">
           <thead>
             <tr>
-              <th class="align-c width-50">Search</th>
-              <th class="align-c width-50">Search and Order</th>
+              <th class="align-c width-50"><label for="searchGroups">Search</label></th>
+              <th class="align-c width-50"><label for="searchAndOrderGroups">Search and Order</label></th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
                 <%= hidden_field_tag 'searchGroupsVal' %>
-                <%= select_tag 'searchGroups', options_for_select(@groups), multiple: 'multiple', id: 'search-groups'  %>
+                <%= select_tag 'searchGroups', options_for_select(@groups), multiple: 'multiple'  %>
               </td>
               <td>
                 <%= hidden_field_tag 'searchAndOrderGroupsVal' %>
-                <%= select_tag 'searchAndOrderGroups', options_for_select(@groups), multiple: 'multiple', id: 'search-order-groups'  %>
+                <%= select_tag 'searchAndOrderGroups', options_for_select(@groups), multiple: 'multiple'  %>
               </td>
             </tr>
           </tbody>

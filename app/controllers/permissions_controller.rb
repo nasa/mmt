@@ -45,31 +45,7 @@ class PermissionsController < ApplicationController
     @collection_ids = []
     @granules_options = []
     @collections_options = []
-    @groups = []
-
-    @filters = params[:filters] || {}
-    if @filters['member']
-      @filters['options'] = { 'member' => { 'and' => true } }
-    end
-
-    groups_response = cmr_client.get_cmr_groups(@filters, token)
-
-
-    #TODO!  How do we get all groups for a given provider?
-
-
-
-    if groups_response.success?
-      @tmp_groups = groups_response.body['items']
-      @tmp_groups.each do |group|
-        opt = [group['name'], group['concept_id']]
-        @groups << opt
-      end
-    else
-      Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
-      flash[:error] = Array.wrap(groups_response.body['errors'])[0]
-      @groups = nil
-    end
+    @groups = get_groups(params[:filters])
   end
 
   def show
@@ -78,6 +54,15 @@ class PermissionsController < ApplicationController
 
   def create
     #add_group_permissions(provider_id, permission_name, collections, granules, search_groups, search_and_order_groups, token)
+
+    if params[:permission_name].nil? || params[:permission_name].empty?
+      msg = 'Permission Name is required.'
+      Rails.logger.error("Permission Creation Error: #{msg}")
+      flash[:error] = msg
+      @groups = get_groups(params[:filters])
+      redirect_to new_permission_path
+      return
+    end
 
     # Global provier ID for the current user. At some point we may allow the user to specify a different provider.
     provider_id = @current_user.provider_id
@@ -140,4 +125,31 @@ class PermissionsController < ApplicationController
       render :new
     end
   end
+
+  private
+
+  def get_groups(filters)
+    if filters && filters['member']
+      filters['options'] = { 'member' => { 'and' => true } }
+    end
+
+    groups_response = cmr_client.get_cmr_groups(filters, token)
+    groups = []
+
+    #TODO!  How do we get all groups for a given provider?
+
+    if groups_response.success?
+      tmp_groups = groups_response.body['items']
+      tmp_groups.each do |group|
+        opt = [group['name'], group['concept_id']]
+        groups << opt
+      end
+    else
+      Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
+      flash[:error] = Array.wrap(groups_response.body['errors'])[0]
+      groups = nil
+    end
+    return groups
+  end
+
 end
