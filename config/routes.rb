@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   resources :provider_holdings, only: [:index, :show]
 
 
-  #get 'new-permissions' => 'new_permissions#index', as: 'new-permissions'
-  resources :permissions
+
+  resources :permissions, only: [:index, :show, :new, :create]
 
   # PUMPness
   resource :order_policies, except: :show

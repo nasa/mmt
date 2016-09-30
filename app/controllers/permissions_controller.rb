@@ -45,6 +45,7 @@ class PermissionsController < ApplicationController
     @collection_ids = []
     @granules_options = []
     @collections_options = []
+    @permission_name = params[:permissionName]
     @groups = get_groups(params[:filters])
   end
 
@@ -55,12 +56,29 @@ class PermissionsController < ApplicationController
   def create
     #add_group_permissions(provider_id, permission_name, collections, granules, search_groups, search_and_order_groups, token)
 
-    if params[:permissionName].nil? || params[:permissionName].empty?
+    hasError = false
+    msg = ''
+
+    if params[:permissionName].blank?
+      hasError = true
       msg = 'Permission Name is required.'
+    elsif params[:collections].blank? || params[:collections] == 'select'
+      hasError = true
+      msg = 'Collections must be specified.'
+    elsif params[:granules].blank? || params[:granules] == 'select'
+      hasError = true
+      msg = 'Granules must be specified.'
+    end
+
+    if hasError == true
+      #debugger
       Rails.logger.error("Permission Creation Error: #{msg}")
       flash[:error] = msg
+      @collections = params[:collections]
+      @granules = params[:granules]
+      @permission_name = params[:permissionName]
       @groups = get_groups(params[:filters])
-      redirect_to new_permission_path
+      render :new
       return
     end
 
@@ -151,5 +169,4 @@ class PermissionsController < ApplicationController
     end
     return groups
   end
-
 end

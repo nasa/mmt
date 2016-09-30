@@ -6,7 +6,7 @@
       <div class="eui-breadcrumbs">
         <ol class="eui-breadcrumbs__list">
           <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item current">Permissions & Groups</li>          
+          <li class="eui-breadcrumbs__item current">Permissions & Groups</li>
         </ol>
       </div>
       <h2>Permissions & Groups</h2>
@@ -41,25 +41,21 @@
           </tr>
         </thead>
         <tbody>
-          <!-- todo: populate proper data using the following template -->
-
-          <% @permissions.each do |permission| %>
-            <tr>
-              <td>
-                <%= link_to permission["name"], permission_path(permission["concept_id"])  %>
-              </td>
-              <td>
-                <%= permission["permisssion_summary"] %>
-              </td>
-            </tr>
-          <% end %>
-
-
-          <!-- note: if no permissions are found, show the following -->
-          <% if @permissions.length == 0 %>
+          <% if @permissions.blank? %>
             <tr>
               <td colspan="2">No permissions found at this time.</td>
             </tr>
+          <% else %>
+            <% @permissions.each do |permission| %>
+              <tr>
+                <td>
+                  <%= link_to permission["name"], permission_path(permission["concept_id"])  %>
+                </td>
+                <td>
+                  <%= permission["permisssion_summary"] %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>

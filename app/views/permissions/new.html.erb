@@ -19,12 +19,12 @@
     <section>
       <%= form_tag(permissions_path, method: :post, class: 'group-form') %>
         <div class="row">
-          <label for="permissionName">Name</label>
+          <%= label_tag :permissionName, 'Name' %>
           <br>
-          <%= text_field_tag 'permissionName', '', class: 'half-width', placeholder: 'permission name' %>
+          <%= text_field_tag 'permissionName', @permission_name, class: 'half-width'%>
         </div>
       <label for="collections">Collections</label>
-      <%= select_tag 'collections', options_for_select(PermissionsHelper::CollectionsOptions), id: 'collections' %>
+          <%= select_tag 'collections', options_for_select(PermissionsHelper::CollectionsOptions, @collections), id: 'collections' %>
         <label for="collection-ids" class="is-invisible">Selected Collection Entry IDs</label>
         <fieldset id="collections-constraint-values" class="is-hidden is-white">
           <div class="row">
@@ -41,7 +41,7 @@
         </fieldset>
         <hr>
         <label for="granules">Granules</label>
-        <%= select_tag 'granules', options_for_select(PermissionsHelper::GranulesOptions), id: 'granules' %>
+        <%= select_tag 'granules', options_for_select(PermissionsHelper::GranulesOptions, @granules) %>
         <fieldset id="granules-constraint-values" class="is-hidden is-white">
           <div class="row">
             <label for="granules-constraint-min">Min</label>
@@ -59,8 +59,8 @@
         <table class="space-top align-c" id="groups-table2">
           <thead>
             <tr>
-              <th class="align-c width-50"><label for="searchGroups">Search</label></th>
-              <th class="align-c width-50"><label for="searchAndOrderGroups">Search and Order</label></th>
+              <th class="align-c half-width"><label for="searchGroups">Search</label></th>
+              <th class="align-c half-width"><label for="searchAndOrderGroups">Search and Order</label></th>
             </tr>
           </thead>
           <tbody>
