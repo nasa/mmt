@@ -308,8 +308,7 @@ class ApplicationController < ActionController::Base
       'distribution_information'
     elsif METADATA_INFORMATION_FIELDS.include? fields.first
       'metadata_information'
-    # elsif DATA_CONTACTS_FIELDS.include? field_name
-    elsif fields.include?('ContactPersons' || 'ContactGroups')
+    elsif fields.include?('ContactPersons' || 'ContactGroups') # DATA_CONTACTS
       'data_contacts'
     elsif DATA_CENTERS_FIELDS.include? fields.first
       'data_centers'

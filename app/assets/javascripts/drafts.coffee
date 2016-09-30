@@ -60,7 +60,7 @@ $(document).ready ->
     # remove validation errors
     $(newDiv).find('.validation-error').remove()
 
-    $(newDiv).find('select, input, textarea').removeAttr 'disabled' # should change to .prop 'disabled', false ?
+    $(newDiv).find('select, input, textarea').removeAttr 'disabled'
     $(newDiv).find('select, input, textarea').removeAttr 'readonly'
     $(newDiv).find('select, input, textarea').not('input[type="hidden"]')[0].focus()
 

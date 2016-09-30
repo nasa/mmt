@@ -190,32 +190,15 @@ module Cmr
 
       clear_cache
 
-      ## Add admin user to legacy guid Administrators group so admin can access System level groups
-      connection.post do |req|
-        req.url('http://localhost:3008/urs/users')
-        req.headers['Content-Type'] = 'application/json'
-        req.body = '[{"username": "admin", "password": "admin"}]'
-      end
-
+      # there is now a default Administrators group in CMR
+      # Create system level group
       resp = connection.post do |req|
-        req.url('http://localhost:3011/groups/AG1200000000-CMR/members')
+        req.url('http://localhost:3011/groups')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '["admin"]'
+        req.body = '{"name": "Administrators_2", "description": "The group of users that manages the CMR."}'
       end
-      puts "added admin to Administrators group: #{resp.body}"
-
-      clear_cache
-
-      # Create system level group
-      # might not need this anymore because using legacy guid Administrators group
-      # resp = connection.post do |req|
-      #   req.url('http://localhost:3011/groups')
-      #   req.headers['Content-Type'] = 'application/json'
-      #   req.headers['Echo-token'] = 'mock-echo-system-token'
-      #   req.body = '{"name": "Administrators_2", "description": "The group of users that manages the CMR."}'
-      # end
-      # puts "Created system level group: #{resp.body}"
+      puts "Created system level group: #{resp.body}"
       # Create SEDAC group
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
@@ -225,8 +208,33 @@ module Cmr
       end
       puts "Created SEDAC group: #{resp.body}"
 
+      # ## Add admin user to legacy guid Administrators group so admin can access System level groups
+      # connection.post do |req|
+      #   req.url('http://localhost:3008/urs/users')
+      #   req.headers['Content-Type'] = 'application/json'
+      #   req.body = '[{"username": "admin", "password": "admin"}]'
+      # end
+      # # Add admin to Admin Group
+      # resp = connection.post do |req|
+      #   req.url('http://localhost:3011/groups/AG1200000001-CMR/members')
+      #   req.headers['Content-Type'] = 'application/json'
+      #   req.headers['Echo-token'] = 'mock-echo-system-token'
+      #   req.body = '["admin"]'
+      # end
+      # # Add admin to SEDAC group
+      # puts "added admin to Administrators group: #{resp.body}"
+      # resp = connection.post do |req|
+      #   req.url('http://localhost:3011/groups/AG1200000002-SEDAC/members')
+      #   req.headers['Content-Type'] = 'application/json'
+      #   req.headers['Echo-token'] = 'mock-echo-system-token'
+      #   req.body = '["admin"]'
+      # end
+      # puts "added admin to SEDAC group: #{resp.body}"
+
+      clear_cache
+
       # ACLs for provider groups
-      # Admin access to SEDAC
+      # Admin access to SEDAC (attempt)
       resp = connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
@@ -235,12 +243,26 @@ module Cmr
       end
       puts "admin access SEDAC 3008: #{resp.body}"
       resp = connection.post do |req|
-        req.url('http://localhost:3011/acls')
+        req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "GROUP"}}}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "GROUP"}}}'
       end
-      puts "admin access SEDAC 30011: #{resp.body}"
+      puts "admin read access SEDAC 3008: #{resp.body}"
+      resp = connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "GROUP"}}}'
+      end
+      puts "admin read access SEDAC 3008: #{resp.body}"
+      # resp = connection.post do |req|
+      #   req.url('http://localhost:3011/acls')
+      #   req.headers['Content-Type'] = 'application/json'
+      #   req.headers['Echo-token'] = 'mock-echo-system-token'
+      #   req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "GROUP"}}}'
+      # end
+      # puts "admin access SEDAC 3011: #{resp.body}"
       # MMT_1
       connection.post do |req|
         req.url('http://localhost:3008/acls')

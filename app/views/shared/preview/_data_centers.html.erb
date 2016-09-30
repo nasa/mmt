@@ -21,7 +21,6 @@
                 <%= data_center['ShortName'] || "Data Center #{data_center_index + 1}" %>
               </h5>
               <!-- Data Center Roles -->
-              <!-- TODO this is different from Organizations (only one). how to represent on card? -->
               <% if data_center['Roles'] %>
                 <% if data_center['Roles'].count == 1 %>
                   <!-- one role, show in card badge -->
