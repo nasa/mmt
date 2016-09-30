@@ -11,21 +11,21 @@ $(document).ready ->
 
 
 
-  $('#searchGroups').on 'change', ->
+  $('#search_groups').on 'change', ->
     v = $(this).val()
-    $('#searchGroupsVal').val( v )
+    $('#search_groups_val').val( v )
 
 
-  $('#searchAndOrderGroups').on 'change', ->
+  $('#search_and_order_groups').on 'change', ->
     v = $(this).val()
-    $('#searchAndOrderGroupsVal').val( v )
+    $('#search_and_order_groups_val').val( v )
 
 
 
 
 
-  $('#searchAndOrderGroups').chosen placeholder_text_multiple: "Select groups for Search and Order permissions"
-  $('#searchGroups').chosen placeholder_text_multiple: "Select groups for Search permissions"
+  $('#search_and_order_groups').chosen placeholder_text_multiple: "Select groups for Search and Order permissions"
+  $('#search_groups').chosen placeholder_text_multiple: "Select groups for Search permissions"
 
   # Hide field by default
 

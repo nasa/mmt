@@ -15,7 +15,6 @@ class PermissionsController < ApplicationController
 
     @permissions = response.body['items']
 
-
     # This block searches through the permissions of each
     # group and creates a summary for display on the page
     @permissions.each do |perm|
@@ -36,7 +35,7 @@ class PermissionsController < ApplicationController
         permission_summary_list << key.capitalize
       end
 
-      perm['permisssion_summary'] = permission_summary_list.join ' & '
+      perm['permission_summary'] = permission_summary_list.join ' & '
     end
 
   end
@@ -45,7 +44,7 @@ class PermissionsController < ApplicationController
     @collection_ids = []
     @granules_options = []
     @collections_options = []
-    @permission_name = params[:permissionName]
+    @permission_name = params[:permission_name]
     @groups = get_groups(params[:filters])
   end
 
@@ -55,11 +54,13 @@ class PermissionsController < ApplicationController
 
   def create
     #add_group_permissions(provider_id, permission_name, collections, granules, search_groups, search_and_order_groups, token)
+    
+    search_groups = params[:search_groups_val].split ','
+    search_and_order_groups = params[:search_and_order_groups_val].split ','
 
     hasError = false
     msg = ''
-
-    if params[:permissionName].blank?
+    if params[:permission_name].blank?
       hasError = true
       msg = 'Permission Name is required.'
     elsif params[:collections].blank? || params[:collections] == 'select'
@@ -68,15 +69,17 @@ class PermissionsController < ApplicationController
     elsif params[:granules].blank? || params[:granules] == 'select'
       hasError = true
       msg = 'Granules must be specified.'
+    elsif search_groups.empty? && search_and_order_groups.empty?
+      hasError = true
+      msg = 'Please specify at least one Search group or one Search & Order group.'
     end
 
     if hasError == true
-      #debugger
       Rails.logger.error("Permission Creation Error: #{msg}")
       flash[:error] = msg
       @collections = params[:collections]
       @granules = params[:granules]
-      @permission_name = params[:permissionName]
+      @permission_name = params[:permission_name]
       @groups = get_groups(params[:filters])
       render :new
       return
@@ -85,51 +88,16 @@ class PermissionsController < ApplicationController
     # Global provier ID for the current user. At some point we may allow the user to specify a different provider.
     provider_id = @current_user.provider_id
 
-    search_groups = params[:searchGroupsVal].split ','
-    search_and_order_groups = params[:searchAndOrderGroupsVal].split ','
+    
     collections = params[:collections]
     granules = params[:granules]
-
-    request_object = {
-      'group_permissions' => Array.new,
-      'catalog_item_identity' => {
-        'name' => params[:permissionName],
-        'provider_id' => provider_id,
-        'granule_applicable' => true
-      }
-    }
-
-    # TODO -- we will add another condition here to add
-    # specifc collection IDs
-    collection_applicable = false
-    if collections == 'all-collections'
-      collection_applicable = true
-    end
-
-    request_object['catalog_item_identity']['collection_applicable'] = collection_applicable
-
-    granule_applicable = false
-    if granules == 'all-granules'
-        granule_applicable = true
-    end
-
-    request_object['catalog_item_identity']['granule_applicable'] = granule_applicable
-
-    search_groups.each do |group|
-      search_permission = {
-        'group_id'=> group,
-        'permissions'=> ['read'] # aka "search"
-      }
-      request_object['group_permissions'] << search_permission
-    end
-
-    search_and_order_groups.each do |group|
-      search_and_order_permission = {
-        'group_id'=> group,
-        'permissions'=> ['read', 'order'] # aka "search"
-      }
-      request_object['group_permissions'] << search_and_order_permission
-    end
+    
+    request_object = construct_request_object(params[:permission_name], 
+      provider_id, 
+      params[:collections], 
+      params[:granules], 
+      search_groups, 
+      search_and_order_groups)
 
     response = cmr_client.add_group_permissions(request_object, token)
 
@@ -168,5 +136,50 @@ class PermissionsController < ApplicationController
       groups = nil
     end
     return groups
+  end
+
+  def construct_request_object(permission_name, provider_id, collections, granules, search_groups, search_and_order_groups)
+    req_obj = {
+      'group_permissions' => Array.new,
+      'catalog_item_identity' => {
+        'name' => params[:permission_name],
+        'provider_id' => provider_id,
+        'granule_applicable' => true
+      }
+    }
+
+    # TODO -- we will add another condition here to add
+    # specifc collection IDs
+    collection_applicable = false
+    if collections == 'all-collections'
+      collection_applicable = true
+    end
+
+    req_obj['catalog_item_identity']['collection_applicable'] = collection_applicable
+
+    granule_applicable = false
+    if granules == 'all-granules'
+        granule_applicable = true
+    end
+
+    req_obj['catalog_item_identity']['granule_applicable'] = granule_applicable
+    req_obj['group_permissions'] = Array.new
+
+    search_groups.each do |group|
+      search_permission = {
+        'group_id'=> group,
+        'permissions'=> ['read'] # aka "search"
+      }
+      req_obj['group_permissions'] << search_permission
+    end
+
+    search_and_order_groups.each do |group|
+      search_and_order_permission = {
+        'group_id'=> group,
+        'permissions'=> ['read', 'order'] # aka "search"
+      }
+      req_obj['group_permissions'] << search_and_order_permission
+      return req_obj
+    end
   end
 end

@@ -19,12 +19,12 @@
     <section>
       <%= form_tag(permissions_path, method: :post, class: 'group-form') %>
         <div class="row">
-          <%= label_tag :permissionName, 'Name' %>
+          <%= label_tag :permission_name, 'Name', class: 'eui-required-o' %>
           <br>
-          <%= text_field_tag 'permissionName', @permission_name, class: 'half-width'%>
+          <%= text_field_tag 'permission_name', @permission_name, class: 'half-width'%>
         </div>
-      <label for="collections">Collections</label>
-          <%= select_tag 'collections', options_for_select(PermissionsHelper::CollectionsOptions, @collections), id: 'collections' %>
+        <%= label_tag :collections, 'Collections', class: 'eui-required-o' %>      
+        <%= select_tag 'collections', options_for_select(PermissionsHelper::CollectionsOptions, @collections), id: 'collections' %>
         <label for="collection-ids" class="is-invisible">Selected Collection Entry IDs</label>
         <fieldset id="collections-constraint-values" class="is-hidden is-white">
           <div class="row">
@@ -40,7 +40,7 @@
           </div>
         </fieldset>
         <hr>
-        <label for="granules">Granules</label>
+        <%= label_tag :granules, 'Granules', class: 'eui-required-o' %>
         <%= select_tag 'granules', options_for_select(PermissionsHelper::GranulesOptions, @granules) %>
         <fieldset id="granules-constraint-values" class="is-hidden is-white">
           <div class="row">
@@ -59,19 +59,19 @@
         <table class="space-top align-c" id="groups-table2">
           <thead>
             <tr>
-              <th class="align-c half-width"><label for="searchGroups">Search</label></th>
-              <th class="align-c half-width"><label for="searchAndOrderGroups">Search and Order</label></th>
+              <th class="align-c half-width"><label for="search_groups">Search</label></th>
+              <th class="align-c half-width"><label for="search_and_order_groups">Search and Order</label></th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
-                <%= hidden_field_tag 'searchGroupsVal' %>
-                <%= select_tag 'searchGroups', options_for_select(@groups), multiple: 'multiple'  %>
+                <%= hidden_field_tag 'search_groups_val' %>
+                <%= select_tag 'search_groups', options_for_select(@groups), multiple: 'multiple'  %>
               </td>
               <td>
-                <%= hidden_field_tag 'searchAndOrderGroupsVal' %>
-                <%= select_tag 'searchAndOrderGroups', options_for_select(@groups), multiple: 'multiple'  %>
+                <%= hidden_field_tag 'search_and_order_groups_val' %>
+                <%= select_tag 'search_and_order_groups', options_for_select(@groups), multiple: 'multiple'  %>
               </td>
             </tr>
           </tbody>

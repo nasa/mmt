@@ -245,9 +245,9 @@ module Cmr
         url = '/access-control/acls'
       end
 
-      url += "?provider=#{provider_id}"
+      options = {'provider' => provider_id}
 
-      response = get(url, {}, token_header(token))
+      response = get(url, options, token_header(token))
     end
 
   end
