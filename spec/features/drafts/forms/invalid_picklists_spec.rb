@@ -181,7 +181,7 @@ describe 'Invalid picklists', js: true do
     end
   end
 
-  context 'when viewing the Data Centers Short Name and Address fields' do
+  context 'when viewing the Data Centers fields' do
     before do
       within '.metadata' do
         click_on 'Data Centers', match: :first
@@ -192,26 +192,45 @@ describe 'Invalid picklists', js: true do
 
     it 'displays a summary error' do
       within '.summary-errors' do
+        expect(page).to have_content('Roles value [bad data center role] does not match a valid selection option')
         expect(page).to have_content('Short Name value [short_name] does not match a valid selection option')
+        expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
         expect(page).to have_content('Country value [usa] does not match a valid selection option')
+        expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
       end
     end
 
     it 'displays an inline error' do
       within '.data-centers' do
+        expect(page).to have_content('Roles value [bad data center role] does not match a valid selection option')
         expect(page).to have_content('Short Name value [short_name] does not match a valid selection option')
+      end
+      within '.multiple.contact-mechanisms > .multiple-item-0' do
+        expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
       end
       within '.multiple.addresses > .multiple-item-0' do
         expect(page).to have_content('Country value [usa] does not match a valid selection option')
       end
+      within '.multiple.addresses > .multiple-item-1' do
+        expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+      end
     end
 
     it 'displays an unselectable invalid option' do
+      within '.data-center-roles-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'bad data center role')
+      end
       within '.data-center-short-name-select' do
         expect(page).to have_css('option[disabled][selected]', text: 'short_name')
       end
+      within '.multiple.contact-mechanisms > .multiple-item-0 .contact-mechanism-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'bad contact mechanism type')
+      end
       within '.multiple.addresses > .multiple-item-0 .country-select' do
         expect(page).to have_css('option[disabled][selected]', text: 'usa')
+      end
+      within '.multiple.addresses > .multiple-item-1 .state-province-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'maryland')
       end
     end
   end
@@ -222,24 +241,139 @@ describe 'Invalid picklists', js: true do
         click_on 'Data Contacts', match: :first
       end
 
+      wait_for_jQuery
       open_accordions
     end
 
     it 'displays a summary error' do
       within '.summary-errors' do
+        expect(page).to have_content('Roles value [bad non dc contact person role] does not match a valid selection option')
+        expect(page).to have_content('Roles value [bad non dc contact group role] does not match a valid selection option')
+        expect(page).to have_content('Roles value [bad data center contact person role] does not match a valid selection option')
+        expect(page).to have_content('Roles value [bad data center contact group role] does not match a valid selection option')
+
+        expect(page).to have_content('Short Name value [short_name] does not match a valid selection option')
+
+        expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
         expect(page).to have_content('Country value [usa] does not match a valid selection option')
-      end
+        expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')      end
     end
 
     it 'displays an inline error' do
-      within '.multiple.addresses > .multiple-item-0', match: :first do
-        expect(page).to have_content('Country value [usa] does not match a valid selection option')
+      within '.multiple.data-contacts > .multiple-item-0' do
+        expect(page).to have_content('Roles value [bad non dc contact person role] does not match a valid selection option')
+        within '.multiple.contact-mechanisms > .multiple-item-0' do
+          expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
+        end
+        within '.multiple.addresses > .multiple-item-0' do
+          expect(page).to have_content('Country value [usa] does not match a valid selection option')
+        end
+        within '.multiple.addresses > .multiple-item-1' do
+          expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+        end
+      end
+      within '.multiple.data-contacts > .multiple-item-1' do
+        expect(page).to have_content('Roles value [bad non dc contact group role] does not match a valid selection option')
+        within '.multiple.contact-mechanisms > .multiple-item-0' do
+          expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
+        end
+        within '.multiple.addresses > .multiple-item-0' do
+          expect(page).to have_content('Country value [usa] does not match a valid selection option')
+        end
+        within '.multiple.addresses > .multiple-item-1' do
+          expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+        end
+      end
+      within '.multiple.data-contacts > .multiple-item-2' do
+        expect(page).to have_content('Short Name value [short_name] does not match a valid selection option')
+        expect(page).to have_content('Roles value [bad data center contact person role] does not match a valid selection option')
+        within '.multiple.contact-mechanisms > .multiple-item-0' do
+          expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
+        end
+        within '.multiple.addresses > .multiple-item-0' do
+          expect(page).to have_content('Country value [usa] does not match a valid selection option')
+        end
+        within '.multiple.addresses > .multiple-item-1' do
+          expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+        end
+      end
+      within '.multiple.data-contacts > .multiple-item-3' do
+        expect(page).to have_content('Short Name value [short_name] does not match a valid selection option')
+        expect(page).to have_content('Roles value [bad data center contact group role] does not match a valid selection option')
+        within '.multiple.contact-mechanisms > .multiple-item-0' do
+          expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
+        end
+        within '.multiple.addresses > .multiple-item-0' do
+          expect(page).to have_content('Country value [usa] does not match a valid selection option')
+        end
+        within '.multiple.addresses > .multiple-item-1' do
+          expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+        end
       end
     end
 
     it 'displays an unselectable invalid option' do
-      within '.multiple.addresses > .multiple-item-0 .country-select', match: :first do
-        expect(page).to have_css('option[disabled][selected]', text: 'usa')
+      within '.multiple.data-contacts > .multiple-item-0' do
+        within '.data-contact-roles-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'bad non dc contact person role')
+        end
+        within '.multiple.contact-mechanisms > .multiple-item-0 .contact-mechanism-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'bad contact mechanism type')
+        end
+        within '.multiple.addresses > .multiple-item-0 .country-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'usa')
+        end
+        within '.multiple.addresses > .multiple-item-1 .state-province-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'maryland')
+        end
+      end
+      within '.multiple.data-contacts > .multiple-item-1' do
+        within '.data-contact-roles-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'bad non dc contact group role')
+        end
+        within '.multiple.contact-mechanisms > .multiple-item-0 .contact-mechanism-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'bad contact mechanism type')
+        end
+        within '.multiple.addresses > .multiple-item-0 .country-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'usa')
+        end
+        within '.multiple.addresses > .multiple-item-1 .state-province-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'maryland')
+        end
+      end
+      within '.multiple.data-contacts > .multiple-item-2' do
+        within '.data-center-short-name-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'short_name')
+        end
+        within '.data-contact-roles-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'bad data center contact person role')
+        end
+        within '.multiple.contact-mechanisms > .multiple-item-0 .contact-mechanism-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'bad contact mechanism type')
+        end
+        within '.multiple.addresses > .multiple-item-0 .country-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'usa')
+        end
+        within '.multiple.addresses > .multiple-item-1 .state-province-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'maryland')
+        end
+      end
+      within '.multiple.data-contacts > .multiple-item-3' do
+        within '.data-center-short-name-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'short_name')
+        end
+        within '.data-contact-roles-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'bad data center contact group role')
+        end
+        within '.multiple.contact-mechanisms > .multiple-item-0 .contact-mechanism-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'bad contact mechanism type')
+        end
+        within '.multiple.addresses > .multiple-item-0 .country-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'usa')
+        end
+        within '.multiple.addresses > .multiple-item-1 .state-province-select' do
+          expect(page).to have_css('option[disabled][selected]', text: 'maryland')
+        end
       end
     end
   end

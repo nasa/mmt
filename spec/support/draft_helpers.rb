@@ -76,47 +76,6 @@ module Helpers
       end
     end
 
-    # def add_responsibilities(type = nil)
-    #   within ".multiple.#{type}" do
-    #     select 'Resource Provider', from: 'Role'
-    #     case type
-    #     when 'organizations'
-    #       add_organization('AARHUS-HYDRO')
-    #     when 'personnel'
-    #       add_person
-    #     end
-    #
-    #     fill_in 'Service Hours', with: '9-5, M-F'
-    #     fill_in 'Contact Instructions', with: 'Email only'
-    #
-    #     add_contacts
-    #     add_addresses
-    #     add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize)
-    #
-    #     click_on "Add another #{(type || 'responsibility').singularize.titleize}"
-    #     within '.multiple-item.eui-accordion.multiple-item-1' do
-    #
-    #       select 'Owner', from: 'Role'
-    #       case type
-    #       when 'organizations'
-    #         add_organization('ESA/ED')
-    #       when 'personnel'
-    #         add_person
-    #       else
-    #         find('.responsibility-picker.person').click
-    #         add_person
-    #       end
-    #
-    #       fill_in 'Service Hours', with: '10-2, M-W'
-    #       fill_in 'Contact Instructions', with: 'Email only'
-    #
-    #       add_contacts
-    #       add_addresses
-    #       add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize)
-    #     end
-    #   end
-    # end
-
     def add_dates
       within '.multiple.dates' do
         select 'Creation', from: 'Type'

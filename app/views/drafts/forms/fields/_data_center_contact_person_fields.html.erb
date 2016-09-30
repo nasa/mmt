@@ -1,18 +1,6 @@
+<!-- Contact Person Data Center  -->
 <div class="row sub-fields">
-  <!-- Roles [r] -->
-  <%= mmt_select(
-    name: 'roles',
-    title: 'Roles',
-    prefix: name_prefix,
-    value: data_center['Roles'], # need to fill ou
-    multiple: true,
-    options: DraftsHelper::DataCenterRoleOptions,
-    help: 'definitions/DataCenterType/properties/Roles',
-    classes: 'data-center-roles-select',
-    required: true,
-    always_required: true
-  ) %>
-
+  <!-- Data Center -->
   <div class="row">
     <!-- ShortName [r] -->
     <div class="col-6">
@@ -20,12 +8,11 @@
         name: 'short_name',
         title: 'Short Name',
         prefix: name_prefix,
-        value: data_center['ShortName'],
+        value: data_center_contact_person['ShortName'],
         help: 'definitions/DataCenterType/properties/ShortName',
         options: @data_centers.map { |short_name, long_name, url| [short_name, short_name, { 'data-long-name' => long_name, 'data-url' => url }]},
         classes: 'select2-select data-center-short-name-select',
-        required: true,
-        always_required: true
+        required: true
       ) %>
     </div>
 
@@ -35,7 +22,7 @@
         name: 'long_name',
         title: 'Long Name',
         prefix: name_prefix,
-        value: data_center['LongName'],
+        value: data_center_contact_person['LongName'],
         help: 'definitions/DataCenterType/properties/LongName',
         classes: 'data-center-long-name',
         validate: true
@@ -43,17 +30,14 @@
     </div>
   </div>
 
-  <!-- ContactInformation -->
+  <!-- Contact Person -->
   <%= render partial: 'drafts/forms/type', locals: {
-    type: 'contact_information',
-    title: 'Contact Information',
-    values: data_center['ContactInformation'] || {},
-    name_prefix: "#{name_prefix}|contact_information|_",
-    help: 'definitions/ContactInformationType',
+    type: 'contact_person',
+    title: 'Contact Person',
+    values: data_center_contact_person['ContactPerson'] || {},
+    name_prefix: "#{name_prefix}|contact_person|_",
+    help: 'definitions/ContactPersonType',
     multiple: false,
-    options: {
-      related_url_title: 'Data Center Related URLs',
-      related_url_form_type: RelatedUrlFieldsHelper::DATA_CENTER_FORM
-    }
+    options: options.clone
   } %>
 </div>

@@ -13,6 +13,7 @@
  *= require dropzone-4.0.1/dropzone
  *= require select2-4.0.1/select2.min
  *= require bootstrap-datepicker-1.6.0/bootstrap-datepicker.standalone.min
+ *= require jquery.webui-popover/jquery.webui-popover.min
  */
 
 @import "config/colors";
@@ -55,6 +56,7 @@
 @import "components/metadata-preview";
 @import "components/modal";
 @import "components/navigation";
+@import "components/popover";
 @import "components/science-and-location-keywords";
 @import "components/search";
 @import "components/skip-nav";

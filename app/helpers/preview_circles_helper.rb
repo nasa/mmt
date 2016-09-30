@@ -228,7 +228,7 @@ module PreviewCirclesHelper
   end
 
   def data_contacts_circle(field, draft, form_name, options, circle, error_fields)
-    if draft_data_contacts_flat(draft.draft).blank?
+    if draft_all_data_contacts_array(draft.draft).blank?
       circle = empty_circle(field, draft, form_name, options[:anchor], options[:required])
     elsif !error_fields.blank?
       circle = invalid_circle(field, draft, form_name, options[:anchor])

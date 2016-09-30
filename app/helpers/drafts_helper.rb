@@ -56,6 +56,12 @@ module DraftsHelper
     ['User Services'],
     ['Science Software Development']
   ]
+  DataContactTypeOptions = [
+    ['Data Center Contact Person', 'DataCenterContactPerson'],
+    ['Data Center Contact Group', 'DataCenterContactGroup'],
+    ['Non Data Center Contact Person', 'NonDataCenterContactPerson'],
+    ['Non Data Center Contact Group', 'NonDataCenterContactGroup']
+  ]
   DataTypeOptions = [
     ['String', 'STRING'],
     ['Float', 'FLOAT'],
@@ -230,9 +236,12 @@ module DraftsHelper
   def options_for_subregion_select(country, value = nil)
     return nil unless country
 
+    # TODO This is currently implemented to use the coded alias values as well for StateProvince.
+    # The coded alias can be used for Country Names as well. We should attempt to use the coded values
+    # for matching, as well as try and match various cases and use of periods
+
     options = country.subregions.map(&:name).sort
     options.unshift ['Select State/Province', '']
-    # TODO easiest path to make it not invalid
     if value && invalid_select_option(options, value)
       # there is an invalid selection
       if country.subregions.coded(value)

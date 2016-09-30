@@ -1,7 +1,7 @@
 # MMT-697, upgrading the UMM schema from v1.2 to v1.6, which had ContactPersons and ContactGroups that are associated
 # (and nested under) DataCenters and also ContactPersons and ContactGroups not associated with DataCenters so nested separately
 module DataContactsHelper
-  def draft_data_contacts_flat(draft)
+  def draft_all_data_contacts_array(draft)
     data_contacts = []
 
     if draft['ContactPersons']
@@ -48,6 +48,19 @@ module DataContactsHelper
       'DataCenterContactPerson'
     elsif data_contact.keys.include?('ContactGroupDataCenter')
       'DataCenterContactGroup'
+    end
+  end
+
+  def get_affiliation(data_contact)
+    type = get_contact_type(data_contact)
+    if type == 'NonDataCenterContactPerson'
+      affiliation = data_contact['ContactPerson']['NonDataCenterAffiliation']
+    elsif type == 'NonDataCenterContactGroup'
+      affiliation = data_contact['ContactGroup']['NonDataCenterAffiliation']
+    elsif type == 'DataCenterContactPerson'
+      affiliation = data_contact['ContactPersonDataCenter']['ShortName']
+    elsif type == 'DataCenterContactGroup'
+      affiliation = data_contact['ContactGroupDataCenter']['ShortName']
     end
   end
 

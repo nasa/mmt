@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <% data_contacts = draft_data_contacts_flat(metadata) %>
+    <% data_contacts = draft_all_data_contacts_array(metadata) %>
     <% if data_contacts.blank? %>
       <p class="empty-section">
         There are no listed data contacts for this collection.
@@ -26,10 +26,20 @@
                 <%= contact_type == 'person' ? contact['FirstName'] : contact['GroupName'] %>
               </h5>
               <% if contact['Roles'] %>
-                <% contact['Roles'].each do |role| %>
+                <% if contact['Roles'].count == 1 %>
+                  <% role = contact['Roles'].first %>
+                  <!-- show Role in badge if only one -->
                   <span class="card-header-badge">
                     <%= role %>
                   </span>
+                <% else %>
+                  <!-- Show multiple roles in a popover -->
+                  <a href="javascript:void(0)" class="webui-popover-link card-header-badge">Multiple Roles <i class="fa fa-plus"></i></a>
+                  <div class="webui-popover-content">
+                    <% contact['Roles'].each do |role| %>
+                      <p><%= role %></p>
+                    <% end %>
+                  </div>
                 <% end %>
               <% end %>
             </div>
@@ -44,6 +54,11 @@
                     <%= contact['GroupName'] %>
                   <% end %>
                 </h6>
+                <% unless get_affiliation(data_contact).blank? %>
+                  <p class="data-contact-affiliation">
+                    <%= get_affiliation(data_contact) %>
+                  </p>
+                <% end %>
                 <% if contact_info['Addresses'].blank? %>
                   <p class="empty-section">
                     This contact does not have any addresses listed.
@@ -100,7 +115,7 @@
                             <i class="fa fa-fax"></i>
                             <%= mechanism['Value'] %>
                           <% else %>
-                            <i class="fa fa-pencil-square-o"></i>
+                            <i class="fa fa-bullhorn"></i>
                             <%= mechanism['Value'] %>
                         <% end %>
                       </li>
@@ -193,13 +208,9 @@
                 </li>
               </ul>
             </div>
-
           </li>
         <% end %>
       </ul>
-
     <% end %>
-
   </div>
-
 </div>

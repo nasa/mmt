@@ -1,27 +1,18 @@
 <% data_contact_type = get_contact_type(data_contact) %>
 
 <div class="row sub-fields">
-  <div class="data-contact-type-group">
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}|data_contact_type|"), 'DataCenterContactPerson', data_contact_type == 'DataCenterContactPerson', class: 'data-contact-type-select' ) %>
-      <label for="<%= remove_pipes(name_prefix) %>data_contact_type_DataCenterContactPerson">Data Center Contact Person</label>
-    </p>
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}|data_contact_type|"), 'DataCenterContactGroup', data_contact_type == 'DataCenterContactGroup', class: 'data-contact-type-select' ) %>
-      <label for="<%= remove_pipes(name_prefix) %>data_contact_type_DataCenterContactGroup">Data Center Contact Group</label>
-    </p>
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}|data_contact_type|"), 'NonDataCenterContactPerson', data_contact_type == 'NonDataCenterContactPerson', class: 'data-contact-type-select' ) %>
-      <label for="<%= remove_pipes(name_prefix) %>data_contact_type_NonDataCenterContactPerson">Non Data Center Contact Person</label>
-    </p>
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}|data_contact_type|"), 'NonDataCenterContactGroup', data_contact_type == 'NonDataCenterContactGroup', class: 'data-contact-type-select' ) %>
-      <label for="<%= remove_pipes(name_prefix) %>data_contact_type_NonDataCenterContactGroup">Non Data Center Contact Group</label>
-    </p>
+  <div class="data-contact-type-select-parent">
+    <%= mmt_select(
+      name: 'data_contact_type',
+      title: 'Data Contact Type',
+      prefix: name_prefix,
+      value: get_contact_type(data_contact),
+      classes: 'data-contact-type-select',
+      options: DraftsHelper::DataContactTypeOptions
+    ) %>
   </div>
 
   <!-- Data Center Contact Person -->
-  <!-- TODO do these need more/other classes? -->
   <div class="data-contact-type data-center-contact-person" style="<%= 'display: none;' unless data_contact_type == 'DataCenterContactPerson' %>">
     <%= mmt_label(
     name: 'data_center_contact_person',
@@ -30,14 +21,13 @@
     ) %>
 
     <%= render partial: 'drafts/forms/type', locals: {
-      type: 'data_center_contact',
+      type: 'data_center_contact_person',
       title: 'Data Center Contact Person',
       values: data_contact['ContactPersonDataCenter'] || {},
-      name_prefix: "#{name_prefix}|data_center|_",
+      name_prefix: "#{name_prefix}|contact_person_data_center|_",
       help: 'definitions/ContactPersonType',
       multiple: false,
       options: {
-        contact_person: true,
         data_center_affiliation: true,
         related_url_title: 'Data Center Contact Person Related URLs',
         related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM
@@ -55,14 +45,13 @@
     ) %>
 
     <%= render partial: 'drafts/forms/type', locals: {
-      type: 'data_center_contact',
+      type: 'data_center_contact_group',
       title: 'Data Center Contact Group',
       values: data_contact['ContactGroupDataCenter'] || {},
-      name_prefix: "#{name_prefix}|data_center|_",
+      name_prefix: "#{name_prefix}|contact_group_data_center|_",
       help: 'definitions/ContactGroupType',
       multiple: false,
       options: {
-        contact_group: true,
         data_center_affiliation: true,
         related_url_title: 'Data Center Contact Group Related URLs',
         related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM

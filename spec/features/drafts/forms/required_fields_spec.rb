@@ -29,7 +29,7 @@ describe 'Conditionally required fields', js: true do
           click_on 'Data Contacts', match: :first
         end
 
-        choose 'draft_data_contacts_0_data_contact_type_DataCenterContactPerson'
+        select 'Data Center Contact Person', from: 'Data Contact Type'
       end
 
       it 'does not display required icons' do
@@ -84,7 +84,7 @@ describe 'Conditionally required fields', js: true do
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.eui-required-o', count: 5)
+        expect(page).to have_css('label.eui-required-o', count: 6)
       end
     end
   end

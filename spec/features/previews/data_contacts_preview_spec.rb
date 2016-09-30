@@ -27,12 +27,12 @@ describe 'Data Contacts preview' do
           within all('li.card')[0] do
             within '.card-header' do
               expect(page).to have_content('First Name')
-              expect(page).to have_content('Science Contact')
-              expect(page).to have_content('Technical Contact')
+              expect(page).to have_link('Multiple Roles')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
                 expect(page).to have_content('First Name Last Name')
+                expect(page).to have_content('Famous University')
                 expect(page).to have_content('300 E Street Southwest')
                 expect(page).to have_content('Room 203')
                 expect(page).to have_content('Address line 3')
@@ -62,12 +62,12 @@ describe 'Data Contacts preview' do
           within all('li.card')[1] do
             within '.card-header' do
               expect(page).to have_content('Group Name')
-              expect(page).to have_content('User Services')
-              expect(page).to have_content('Science Software Development')
+              expect(page).to have_link('Multiple Roles')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
                 expect(page).to have_content('Group Name')
+                expect(page).to have_content('Famous University')
                 expect(page).to have_content('300 E Street Southwest')
                 expect(page).to have_content('Room 203')
                 expect(page).to have_content('Address line 3')
@@ -97,12 +97,12 @@ describe 'Data Contacts preview' do
           within all('li.card')[2] do
             within '.card-header' do
               expect(page).to have_content('First Name 3')
-              expect(page).to have_content('Investigator')
-              expect(page).to have_content('Metadata Author')
+              expect(page).to have_link('Multiple Roles')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
                 expect(page).to have_content('First Name 3 Last Name 3')
+                expect(page).to have_content('ESA/ED')
                 expect(page).to have_content('300 E Street Southwest')
                 expect(page).to have_content('Room 203')
                 expect(page).to have_content('Address line 3')
@@ -137,6 +137,7 @@ describe 'Data Contacts preview' do
             within all('.card-body')[0] do
               within '.card-body-details' do
                 expect(page).to have_content('Group Name 2')
+                expect(page).to have_content('ESA/ED')
                 expect(page).to have_content('300 E Street Southwest')
                 expect(page).to have_content('Room 203')
                 expect(page).to have_content('Address line 3')
