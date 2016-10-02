@@ -41,6 +41,7 @@ describe 'Data Contacts form', js: true do
 
           expect(page).to have_content('Data Contacts')
           open_accordions
+          wait_for_jQuery
         end
 
         it 'displays a confirmation message' do
@@ -127,6 +128,7 @@ describe 'Data Contacts form', js: true do
 
           expect(page).to have_content('Data Contacts')
           open_accordions
+          wait_for_jQuery
         end
 
         it 'displays a confirmation message'do
@@ -244,6 +246,7 @@ describe 'Data Contacts form', js: true do
 
               expect(page).to have_content('Data Contacts')
               open_accordions
+              wait_for_jQuery
             end
 
             it 'displays a confirmation message' do
@@ -370,6 +373,7 @@ describe 'Data Contacts form', js: true do
 
               expect(page).to have_content('Data Contacts')
               open_accordions
+              wait_for_jQuery
             end
 
             it 'displays a confirmation message' do
@@ -504,6 +508,7 @@ describe 'Data Contacts form', js: true do
 
               expect(page).to have_content('Data Contacts')
               open_accordions
+              wait_for_jQuery
             end
 
             it 'displays a confirmation message' do
