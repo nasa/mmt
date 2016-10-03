@@ -207,7 +207,7 @@ class ApplicationController < ActionController::Base
     request_id = response.headers['CMR-Request-Id']
     if errors.size > 0
       ingest_errors = errors.map do |error|
-        path = error['path'].nil? ? nil : error['path'].first
+        path = error['path'].nil? ? nil : error['path']
         error = error['errors'].nil? ? error : error['errors'].first
 
         # only show the feedback module link if the error is 500
@@ -272,11 +272,11 @@ class ApplicationController < ActionController::Base
     MetadataLanguage
     MetadataDates
   )
-  ORGANIZATIONS_FIELDS = %w(
-    Organizations
+  DATA_CENTERS_FIELDS = %w(
+    DataCenters
   )
-  PERSONNEL_FIELDS = %w(
-    Personnel
+  DATA_CONTACTS_FIELDS = %w(
+    DataContacts
   )
   SPATIAL_INFORMATION_FIELDS = %w(
     SpatialExtent
@@ -287,31 +287,34 @@ class ApplicationController < ActionController::Base
   TEMPORAL_INFORMATION_FIELDS = %w(
     TemporalExtents
     TemporalKeywords
-    PaleoTemporalCoverage
+    PaleoTemporalCoverages
   )
 
-  def get_page(field_name)
-    if ACQUISITION_INFORMATION_FIELDS.include? field_name
+  def get_page(fields)
+    # for path in generate_ingest_errors
+    return nil if fields.nil?
+    # for field in generate_show_errors
+    if ACQUISITION_INFORMATION_FIELDS.include? fields.first
       'acquisition_information'
-    elsif COLLECTION_INFORMATION_FIELDS.include? field_name
+    elsif COLLECTION_INFORMATION_FIELDS.include? fields.first
       'collection_information'
-    elsif COLLECTION_CITATIONS_FIELDS.include? field_name
+    elsif COLLECTION_CITATIONS_FIELDS.include? fields.first
       'collection_citations'
-    elsif DATA_IDENTIFICATION_FIELDS.include? field_name
+    elsif DATA_IDENTIFICATION_FIELDS.include? fields.first
       'data_identification'
-    elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? field_name
+    elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? fields.first
       'descriptive_keywords'
-    elsif DISTRIBUTION_INFORMATION_FIELDS.include? field_name
+    elsif DISTRIBUTION_INFORMATION_FIELDS.include? fields.first
       'distribution_information'
-    elsif METADATA_INFORMATION_FIELDS.include? field_name
+    elsif METADATA_INFORMATION_FIELDS.include? fields.first
       'metadata_information'
-    elsif ORGANIZATIONS_FIELDS.include? field_name
-      'organizations'
-    elsif PERSONNEL_FIELDS.include? field_name
-      'personnel'
-    elsif SPATIAL_INFORMATION_FIELDS.include? field_name
+    elsif fields.include?('ContactPersons' || 'ContactGroups') # DATA_CONTACTS
+      'data_contacts'
+    elsif DATA_CENTERS_FIELDS.include? fields.first
+      'data_centers'
+    elsif SPATIAL_INFORMATION_FIELDS.include? fields.first
       'spatial_information'
-    elsif TEMPORAL_INFORMATION_FIELDS.include? field_name
+    elsif TEMPORAL_INFORMATION_FIELDS.include? fields.first
       'temporal_information'
     end
   end

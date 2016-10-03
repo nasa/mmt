@@ -101,7 +101,7 @@ describe 'Publishing draft records', js: true, reset_provider: true do
     end
 
     it 'displays the error received from CMR' do
-      expect(page).to have_content('SpatialCoverage, Orbit Parameters must be defined for a collection whose granule spatial representation is ORBIT.')
+      expect(page).to have_content('["SpatialCoverage"], Orbit Parameters must be defined for a collection whose granule spatial representation is ORBIT.')
     end
   end
 

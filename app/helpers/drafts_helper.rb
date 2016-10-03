@@ -25,7 +25,42 @@ module DraftsHelper
     ['Telephone'],
     ['Twitter'],
     ['U.S. toll free'],
-    ['Other'],
+    ['Other']
+  ]
+  ContactMechanismTypeOptions = [
+    ['Direct Line'],
+    ['Email'],
+    ['Facebook'],
+    ['Fax'],
+    ['Mobile'],
+    ['Modem'],
+    ['Primary'],
+    ['TDD/TTY Phone'],
+    ['Telephone'],
+    ['Twitter'],
+    ['U.S. toll free'],
+    ['Other']
+  ]
+  DataCenterRoleOptions = [
+    ['Archiver', 'ARCHIVER'],
+    ['Distributor', 'DISTRIBUTOR'],
+    ['Originator', 'ORIGINATOR'],
+    ['Processor', 'PROCESSOR']
+  ]
+  DataContactRoleOptions = [
+    ['Data Center Contact'],
+    ['Technical Contact'],
+    ['Science Contact'],
+    ['Investigator'],
+    ['Metadata Author'],
+    ['User Services'],
+    ['Science Software Development']
+  ]
+  DataContactTypeOptions = [
+    ['Data Center Contact Person', 'DataCenterContactPerson'],
+    ['Data Center Contact Group', 'DataCenterContactGroup'],
+    ['Non Data Center Contact Person', 'NonDataCenterContactPerson'],
+    ['Non Data Center Contact Group', 'NonDataCenterContactGroup']
   ]
   DataTypeOptions = [
     ['String', 'STRING'],
@@ -35,9 +70,9 @@ module DraftsHelper
     ['Date', 'DATE'],
     ['Time', 'TIME'],
     ['Date time', 'DATETIME'],
-    ['Date String', 'DATESTRING'],
-    ['Time String', 'TIMESTRING'],
-    ['Date Time String', 'DATETIMESTRING']
+    ['Date String', 'DATE_STRING'],
+    ['Time String', 'TIME_STRING'],
+    ['Date Time String', 'DATETIME_STRING']
   ]
   DurationOptions = [
     ['Day', 'DAY'],
@@ -124,6 +159,13 @@ module DraftsHelper
     ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
   ]
 
+  SINGLE_FIELDSET_FORMS = %w(
+    collection_information
+    collection_citations
+    data_centers
+    data_contacts
+  )
+
   def construct_keyword_string(hash_obj, str)
     # Assumes hash is passed in as ordered
     hash_obj.each do |_key, value|
@@ -194,8 +236,24 @@ module DraftsHelper
   def options_for_subregion_select(country, value = nil)
     return nil unless country
 
+    # TODO This is currently implemented to use the coded alias values as well for StateProvince.
+    # The coded alias can be used for Country Names as well. We should attempt to use the coded values
+    # for matching, as well as try and match various cases and use of periods
+
     options = country.subregions.map(&:name).sort
     options.unshift ['Select State/Province', '']
-    options_for_select(options, selected: value)
+    if value && invalid_select_option(options, value)
+      # there is an invalid selection
+      if country.subregions.coded(value)
+        # if the subregion (StateProvince) value matches a valid Carmen code/alias, save use the main value
+        value = country.subregions.coded(value)
+        disabled_options = nil
+      else
+        # append invalid disabled option
+        options.unshift value
+        disabled_options = value
+      end
+    end
+    options_for_select(options, selected: value, disabled: disabled_options)
   end
 end

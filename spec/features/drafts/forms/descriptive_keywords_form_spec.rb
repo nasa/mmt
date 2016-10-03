@@ -50,6 +50,7 @@ describe 'Descriptive keywords form', js: true do
 
         within '.multiple-item-1' do
           fill_in 'Name', with: 'Attribute 2'
+          fill_in 'Description', with: 'Description 2'
           select 'String', from: 'Data Type'
         end
       end

@@ -62,8 +62,8 @@
   <div class="eui-accordion__header">
     <h3 class="eui-accordion__title">Paleo Temporal Coverage</h3>
     <%= mmt_help_icon(
-      title: 'Paleo Temporal Coverage',
-      help: 'properties/PaleoTemporalCoverage'
+      title: 'Paleo Temporal Coverages',
+      help: 'properties/PaleoTemporalCoverages'
     ) %>
     <div class="eui-accordion__icon" tabindex="0">
       <i class="eui-icon eui-fa-chevron-circle-down"></i>
@@ -71,16 +71,15 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <!-- Paleo Temporal Coverage -->
-    <!-- PaleoTemporalCoverageType -->
+    <!-- Paleo Temporal Coverages -->
     <div class="row">
       <div class="col-12">
         <div class="row sub-fields">
           <%= render partial: 'drafts/forms/type', locals: {
               type: 'paleo_temporal_coverage',
-              values: draft.draft['PaleoTemporalCoverage'] || {},
-              name_prefix: 'draft_|paleo_temporal_coverage|_',
-              multiple: false,
+              values: draft.draft['PaleoTemporalCoverages'] || [{}],
+              name_prefix: 'draft_|paleo_temporal_coverages|_',
+              multiple: true,
               options: {} } %>
         </div>
       </div>

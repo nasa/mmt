@@ -1,0 +1,59 @@
+<div class="row sub-fields">
+  <!-- Roles [r] -->
+  <%= mmt_select(
+    name: 'roles',
+    title: 'Roles',
+    prefix: name_prefix,
+    value: data_center['Roles'], # need to fill ou
+    multiple: true,
+    options: DraftsHelper::DataCenterRoleOptions,
+    help: 'definitions/DataCenterType/properties/Roles',
+    classes: 'data-center-roles-select',
+    required: true,
+    always_required: true
+  ) %>
+
+  <div class="row">
+    <!-- ShortName [r] -->
+    <div class="col-6">
+      <%= mmt_select(
+        name: 'short_name',
+        title: 'Short Name',
+        prefix: name_prefix,
+        value: data_center['ShortName'],
+        help: 'definitions/DataCenterType/properties/ShortName',
+        options: @data_centers.map { |short_name, long_name, url| [short_name, short_name, { 'data-long-name' => long_name, 'data-url' => url }]},
+        classes: 'select2-select data-center-short-name-select',
+        required: true,
+        always_required: true
+      ) %>
+    </div>
+
+    <!-- LongName -->
+    <div class="col-6">
+      <%= mmt_text_field(
+        name: 'long_name',
+        title: 'Long Name',
+        prefix: name_prefix,
+        value: data_center['LongName'],
+        help: 'definitions/DataCenterType/properties/LongName',
+        classes: 'data-center-long-name',
+        validate: true
+      ) %>
+    </div>
+  </div>
+
+  <!-- ContactInformation -->
+  <%= render partial: 'drafts/forms/type', locals: {
+    type: 'contact_information',
+    title: 'Contact Information',
+    values: data_center['ContactInformation'] || {},
+    name_prefix: "#{name_prefix}|contact_information|_",
+    help: 'definitions/ContactInformationType',
+    multiple: false,
+    options: {
+      related_url_title: 'Data Center Related URLs',
+      related_url_form_type: RelatedUrlFieldsHelper::DATA_CENTER_FORM
+    }
+  } %>
+</div>
