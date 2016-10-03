@@ -41,6 +41,7 @@ describe 'Data Contacts form', js: true do
 
           expect(page).to have_content('Data Contacts')
           open_accordions
+          wait_for_jQuery
         end
 
         it 'displays a confirmation message' do
@@ -48,43 +49,45 @@ describe 'Data Contacts form', js: true do
         end
 
         it 'populates the form with the values' do
-          within '.multiple.data-contacts > .multiple-item-0' do
-            expect(page).to have_select('Role', selected: ['Data Center Contact', 'User Services'])
-            expect(page).to have_field('Group Name', with: 'NDC Group Name')
-            expect(page).to have_field('Non Data Center Affiliation', with: 'Big Name Research Lab')
-            expect(page).to have_field('Service Hours', with: '9-5, M-F')
-            expect(page).to have_field('Contact Instructions', with: 'Email only')
-            within '.multiple.contact-mechanisms' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example@example.com')
+          page.document.synchronize do
+            within '.multiple.data-contacts > .multiple-item-0' do
+              expect(page).to have_select('Role', selected: ['Data Center Contact', 'User Services'])
+              expect(page).to have_field('Group Name', with: 'NDC Group Name')
+              expect(page).to have_field('Non Data Center Affiliation', with: 'Big Name Research Lab')
+              expect(page).to have_field('Service Hours', with: '9-5, M-F')
+              expect(page).to have_field('Contact Instructions', with: 'Email only')
+              within '.multiple.contact-mechanisms' do
+                within '.multiple-item-0' do
+                  expect(page).to have_field('Type', with: 'Email')
+                  expect(page).to have_field('Value', with: 'example@example.com')
+                end
+                within '.multiple-item-1' do
+                  expect(page).to have_field('Type', with: 'Email')
+                  expect(page).to have_field('Value', with: 'example2@example.com')
+                end
               end
-              within '.multiple-item-1' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example2@example.com')
+              within '.multiple.addresses > .multiple-item-0' do
+                expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
+                expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
+                expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
+                expect(page).to have_field('City', with: 'Washington')
+                expect(page).to have_field('State / Province', with: 'District of Columbia')
+                expect(page).to have_field('Postal Code', with: '20546')
+                expect(page).to have_field('Country', with: 'United States')
               end
-            end
-            within '.multiple.addresses > .multiple-item-0' do
-              expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
-              expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
-              expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
-              expect(page).to have_field('City', with: 'Washington')
-              expect(page).to have_field('State / Province', with: 'District of Columbia')
-              expect(page).to have_field('Postal Code', with: '20546')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.addresses > .multiple-item-1' do
-              expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
-              expect(page).to have_field('City', with: 'Greenbelt')
-              expect(page).to have_field('State / Province', with: 'Maryland')
-              expect(page).to have_field('Postal Code', with: '20771')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.related-urls > .multiple-item-0' do
-              expect(page).to have_selector('input.url[value="http://example.com"]')
-              expect(page).to have_selector('input.url[value="http://another-example.com"]')
-              expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Title', with: 'Example Title')
+              within '.multiple.addresses > .multiple-item-1' do
+                expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
+                expect(page).to have_field('City', with: 'Greenbelt')
+                expect(page).to have_field('State / Province', with: 'Maryland')
+                expect(page).to have_field('Postal Code', with: '20771')
+                expect(page).to have_field('Country', with: 'United States')
+              end
+              within '.multiple.related-urls > .multiple-item-0' do
+                expect(page).to have_selector('input.url[value="http://example.com"]')
+                expect(page).to have_selector('input.url[value="http://another-example.com"]')
+                expect(page).to have_field('Description', with: 'Example Description')
+                expect(page).to have_field('Title', with: 'Example Title')
+              end
             end
           end
         end
@@ -127,6 +130,7 @@ describe 'Data Contacts form', js: true do
 
           expect(page).to have_content('Data Contacts')
           open_accordions
+          wait_for_jQuery
         end
 
         it 'displays a confirmation message'do
@@ -134,45 +138,47 @@ describe 'Data Contacts form', js: true do
         end
 
         it 'populates the form with the values' do
-          within '.multiple.data-contacts > .multiple-item-0' do
-            expect(page).to have_select('Role', selected: ['Investigator', 'Technical Contact'])
-            expect(page).to have_field('First Name', with: 'First Name')
-            expect(page).to have_field('Middle Name', with: 'Middle Name')
-            expect(page).to have_field('Last Name', with: 'Last Name')
-            expect(page).to have_field('Non Data Center Affiliation', with: 'Big Name Research Lab')
-            expect(page).to have_field('Service Hours', with: '9-5, M-F')
-            expect(page).to have_field('Contact Instructions', with: 'Email only')
-            within '.multiple.contact-mechanisms' do
-              within '.multiple-item-0' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example@example.com')
+          page.document.synchronize do
+            within '.multiple.data-contacts > .multiple-item-0' do
+              expect(page).to have_select('Role', selected: ['Investigator', 'Technical Contact'])
+              expect(page).to have_field('First Name', with: 'First Name')
+              expect(page).to have_field('Middle Name', with: 'Middle Name')
+              expect(page).to have_field('Last Name', with: 'Last Name')
+              expect(page).to have_field('Non Data Center Affiliation', with: 'Big Name Research Lab')
+              expect(page).to have_field('Service Hours', with: '9-5, M-F')
+              expect(page).to have_field('Contact Instructions', with: 'Email only')
+              within '.multiple.contact-mechanisms' do
+                within '.multiple-item-0' do
+                  expect(page).to have_field('Type', with: 'Email')
+                  expect(page).to have_field('Value', with: 'example@example.com')
+                end
+                within '.multiple-item-1' do
+                  expect(page).to have_field('Type', with: 'Email')
+                  expect(page).to have_field('Value', with: 'example2@example.com')
+                end
               end
-              within '.multiple-item-1' do
-                expect(page).to have_field('Type', with: 'Email')
-                expect(page).to have_field('Value', with: 'example2@example.com')
+              within '.multiple.addresses > .multiple-item-0' do
+                expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
+                expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
+                expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
+                expect(page).to have_field('City', with: 'Washington')
+                expect(page).to have_field('State / Province', with: 'District of Columbia')
+                expect(page).to have_field('Postal Code', with: '20546')
+                expect(page).to have_field('Country', with: 'United States')
               end
-            end
-            within '.multiple.addresses > .multiple-item-0' do
-              expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
-              expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
-              expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
-              expect(page).to have_field('City', with: 'Washington')
-              expect(page).to have_field('State / Province', with: 'District of Columbia')
-              expect(page).to have_field('Postal Code', with: '20546')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.addresses > .multiple-item-1' do
-              expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
-              expect(page).to have_field('City', with: 'Greenbelt')
-              expect(page).to have_field('State / Province', with: 'Maryland')
-              expect(page).to have_field('Postal Code', with: '20771')
-              expect(page).to have_field('Country', with: 'United States')
-            end
-            within '.multiple.related-urls > .multiple-item-0' do
-              expect(page).to have_selector('input.url[value="http://example.com"]')
-              expect(page).to have_selector('input.url[value="http://another-example.com"]')
-              expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Title', with: 'Example Title')
+              within '.multiple.addresses > .multiple-item-1' do
+                expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
+                expect(page).to have_field('City', with: 'Greenbelt')
+                expect(page).to have_field('State / Province', with: 'Maryland')
+                expect(page).to have_field('Postal Code', with: '20771')
+                expect(page).to have_field('Country', with: 'United States')
+              end
+              within '.multiple.related-urls > .multiple-item-0' do
+                expect(page).to have_selector('input.url[value="http://example.com"]')
+                expect(page).to have_selector('input.url[value="http://another-example.com"]')
+                expect(page).to have_field('Description', with: 'Example Description')
+                expect(page).to have_field('Title', with: 'Example Title')
+              end
             end
           end
         end
@@ -244,6 +250,7 @@ describe 'Data Contacts form', js: true do
 
               expect(page).to have_content('Data Contacts')
               open_accordions
+              wait_for_jQuery
             end
 
             it 'displays a confirmation message' do
@@ -251,46 +258,48 @@ describe 'Data Contacts form', js: true do
             end
 
             it 'populates the form with the values' do
-              within '.multiple.data-contacts > .multiple-item-0' do
-                expect(page).to have_select('Short Name', selected: data_center_short_name)
-                expect(page).to have_field('Long Name', with: data_center_long_name)
-                expect(page).to have_select('Role', selected: ['Investigator', 'Technical Contact'])
-                expect(page).to have_field('First Name', with: 'First Name')
-                expect(page).to have_field('Middle Name', with: 'Middle Name')
-                expect(page).to have_field('Last Name', with: 'Last Name')
-                expect(page).to have_field('Service Hours', with: '9-5, M-F')
-                expect(page).to have_field('Contact Instructions', with: 'Email only')
-                within '.multiple.contact-mechanisms' do
-                  within '.multiple-item-0' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example@example.com')
+              page.document.synchronize do
+                within '.multiple.data-contacts > .multiple-item-0' do
+                  expect(page).to have_select('Short Name', selected: data_center_short_name)
+                  expect(page).to have_field('Long Name', with: data_center_long_name)
+                  expect(page).to have_select('Role', selected: ['Investigator', 'Technical Contact'])
+                  expect(page).to have_field('First Name', with: 'First Name')
+                  expect(page).to have_field('Middle Name', with: 'Middle Name')
+                  expect(page).to have_field('Last Name', with: 'Last Name')
+                  expect(page).to have_field('Service Hours', with: '9-5, M-F')
+                  expect(page).to have_field('Contact Instructions', with: 'Email only')
+                  within '.multiple.contact-mechanisms' do
+                    within '.multiple-item-0' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example@example.com')
+                    end
+                    within '.multiple-item-1' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example2@example.com')
+                    end
                   end
-                  within '.multiple-item-1' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example2@example.com')
+                  within '.multiple.addresses > .multiple-item-0' do
+                    expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
+                    expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
+                    expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
+                    expect(page).to have_field('City', with: 'Washington')
+                    expect(page).to have_field('State / Province', with: 'District of Columbia')
+                    expect(page).to have_field('Postal Code', with: '20546')
+                    expect(page).to have_field('Country', with: 'United States')
                   end
-                end
-                within '.multiple.addresses > .multiple-item-0' do
-                  expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
-                  expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
-                  expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
-                  expect(page).to have_field('City', with: 'Washington')
-                  expect(page).to have_field('State / Province', with: 'District of Columbia')
-                  expect(page).to have_field('Postal Code', with: '20546')
-                  expect(page).to have_field('Country', with: 'United States')
-                end
-                within '.multiple.addresses > .multiple-item-1' do
-                  expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
-                  expect(page).to have_field('City', with: 'Greenbelt')
-                  expect(page).to have_field('State / Province', with: 'Maryland')
-                  expect(page).to have_field('Postal Code', with: '20771')
-                  expect(page).to have_field('Country', with: 'United States')
-                end
-                within '.multiple.related-urls > .multiple-item-0' do
-                  expect(page).to have_selector('input.url[value="http://example.com"]')
-                  expect(page).to have_selector('input.url[value="http://another-example.com"]')
-                  expect(page).to have_field('Description', with: 'Example Description')
-                  expect(page).to have_field('Title', with: 'Example Title')
+                  within '.multiple.addresses > .multiple-item-1' do
+                    expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
+                    expect(page).to have_field('City', with: 'Greenbelt')
+                    expect(page).to have_field('State / Province', with: 'Maryland')
+                    expect(page).to have_field('Postal Code', with: '20771')
+                    expect(page).to have_field('Country', with: 'United States')
+                  end
+                  within '.multiple.related-urls > .multiple-item-0' do
+                    expect(page).to have_selector('input.url[value="http://example.com"]')
+                    expect(page).to have_selector('input.url[value="http://another-example.com"]')
+                    expect(page).to have_field('Description', with: 'Example Description')
+                    expect(page).to have_field('Title', with: 'Example Title')
+                  end
                 end
               end
             end
@@ -370,6 +379,7 @@ describe 'Data Contacts form', js: true do
 
               expect(page).to have_content('Data Contacts')
               open_accordions
+              wait_for_jQuery
             end
 
             it 'displays a confirmation message' do
@@ -377,44 +387,46 @@ describe 'Data Contacts form', js: true do
             end
 
             it 'populates the form with the values' do
-              within '.multiple.data-contacts > .multiple-item-0' do
-                expect(page).to have_select('Short Name', selected: data_center_short_name)
-                expect(page).to have_field('Long Name', with: data_center_long_name)
-                expect(page).to have_select('Role', selected: ['Data Center Contact', 'User Services'])
-                expect(page).to have_field('Group Name', with: 'DC Contact Group Name')
-                expect(page).to have_field('Service Hours', with: '9-5, M-F')
-                expect(page).to have_field('Contact Instructions', with: 'Email only')
-                within '.multiple.contact-mechanisms' do
-                  within '.multiple-item-0' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example@example.com')
+              page.document.synchronize do
+                within '.multiple.data-contacts > .multiple-item-0' do
+                  expect(page).to have_select('Short Name', selected: data_center_short_name)
+                  expect(page).to have_field('Long Name', with: data_center_long_name)
+                  expect(page).to have_select('Role', selected: ['Data Center Contact', 'User Services'])
+                  expect(page).to have_field('Group Name', with: 'DC Contact Group Name')
+                  expect(page).to have_field('Service Hours', with: '9-5, M-F')
+                  expect(page).to have_field('Contact Instructions', with: 'Email only')
+                  within '.multiple.contact-mechanisms' do
+                    within '.multiple-item-0' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example@example.com')
+                    end
+                    within '.multiple-item-1' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example2@example.com')
+                    end
                   end
-                  within '.multiple-item-1' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example2@example.com')
+                  within '.multiple.addresses > .multiple-item-0' do
+                    expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
+                    expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
+                    expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
+                    expect(page).to have_field('City', with: 'Washington')
+                    expect(page).to have_field('State / Province', with: 'District of Columbia')
+                    expect(page).to have_field('Postal Code', with: '20546')
+                    expect(page).to have_field('Country', with: 'United States')
                   end
-                end
-                within '.multiple.addresses > .multiple-item-0' do
-                  expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
-                  expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
-                  expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
-                  expect(page).to have_field('City', with: 'Washington')
-                  expect(page).to have_field('State / Province', with: 'District of Columbia')
-                  expect(page).to have_field('Postal Code', with: '20546')
-                  expect(page).to have_field('Country', with: 'United States')
-                end
-                within '.multiple.addresses > .multiple-item-1' do
-                  expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
-                  expect(page).to have_field('City', with: 'Greenbelt')
-                  expect(page).to have_field('State / Province', with: 'Maryland')
-                  expect(page).to have_field('Postal Code', with: '20771')
-                  expect(page).to have_field('Country', with: 'United States')
-                end
-                within '.multiple.related-urls > .multiple-item-0' do
-                  expect(page).to have_selector('input.url[value="http://example.com"]')
-                  expect(page).to have_selector('input.url[value="http://another-example.com"]')
-                  expect(page).to have_field('Description', with: 'Example Description')
-                  expect(page).to have_field('Title', with: 'Example Title')
+                  within '.multiple.addresses > .multiple-item-1' do
+                    expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
+                    expect(page).to have_field('City', with: 'Greenbelt')
+                    expect(page).to have_field('State / Province', with: 'Maryland')
+                    expect(page).to have_field('Postal Code', with: '20771')
+                    expect(page).to have_field('Country', with: 'United States')
+                  end
+                  within '.multiple.related-urls > .multiple-item-0' do
+                    expect(page).to have_selector('input.url[value="http://example.com"]')
+                    expect(page).to have_selector('input.url[value="http://another-example.com"]')
+                    expect(page).to have_field('Description', with: 'Example Description')
+                    expect(page).to have_field('Title', with: 'Example Title')
+                  end
                 end
               end
             end
@@ -504,6 +516,7 @@ describe 'Data Contacts form', js: true do
 
               expect(page).to have_content('Data Contacts')
               open_accordions
+              wait_for_jQuery
             end
 
             it 'displays a confirmation message' do
@@ -511,46 +524,48 @@ describe 'Data Contacts form', js: true do
             end
 
             it 'populates the form with the values' do
-              within '.multiple.data-contacts > .multiple-item-0' do
-                expect(page).to have_select('Short Name', selected: data_center_short_name)
-                expect(page).to have_field('Long Name', with: data_center_long_name)
-                expect(page).to have_select('Role', selected: ['Investigator', 'Technical Contact'])
-                expect(page).to have_field('First Name', with: 'First Name')
-                expect(page).to have_field('Middle Name', with: 'Middle Name')
-                expect(page).to have_field('Last Name', with: 'Last Name')
-                expect(page).to have_field('Service Hours', with: '9-5, M-F')
-                expect(page).to have_field('Contact Instructions', with: 'Email only')
-                within '.multiple.contact-mechanisms' do
-                  within '.multiple-item-0' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example@example.com')
+              page.document.synchronize do
+                within '.multiple.data-contacts > .multiple-item-0' do
+                  expect(page).to have_select('Short Name', selected: data_center_short_name)
+                  expect(page).to have_field('Long Name', with: data_center_long_name)
+                  expect(page).to have_select('Role', selected: ['Investigator', 'Technical Contact'])
+                  expect(page).to have_field('First Name', with: 'First Name')
+                  expect(page).to have_field('Middle Name', with: 'Middle Name')
+                  expect(page).to have_field('Last Name', with: 'Last Name')
+                  expect(page).to have_field('Service Hours', with: '9-5, M-F')
+                  expect(page).to have_field('Contact Instructions', with: 'Email only')
+                  within '.multiple.contact-mechanisms' do
+                    within '.multiple-item-0' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example@example.com')
+                    end
+                    within '.multiple-item-1' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example2@example.com')
+                    end
                   end
-                  within '.multiple-item-1' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example2@example.com')
+                  within '.multiple.addresses > .multiple-item-0' do
+                    expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
+                    expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
+                    expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
+                    expect(page).to have_field('City', with: 'Washington')
+                    expect(page).to have_field('State / Province', with: 'District of Columbia')
+                    expect(page).to have_field('Postal Code', with: '20546')
+                    expect(page).to have_field('Country', with: 'United States')
                   end
-                end
-                within '.multiple.addresses > .multiple-item-0' do
-                  expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
-                  expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
-                  expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
-                  expect(page).to have_field('City', with: 'Washington')
-                  expect(page).to have_field('State / Province', with: 'District of Columbia')
-                  expect(page).to have_field('Postal Code', with: '20546')
-                  expect(page).to have_field('Country', with: 'United States')
-                end
-                within '.multiple.addresses > .multiple-item-1' do
-                  expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
-                  expect(page).to have_field('City', with: 'Greenbelt')
-                  expect(page).to have_field('State / Province', with: 'Maryland')
-                  expect(page).to have_field('Postal Code', with: '20771')
-                  expect(page).to have_field('Country', with: 'United States')
-                end
-                within '.multiple.related-urls > .multiple-item-0' do
-                  expect(page).to have_selector('input.url[value="http://www.esa.org/education/"]')
-                  expect(page).to have_selector('input.url[value="http://another-example.com"]')
-                  expect(page).to have_field('Description', with: 'Example Description')
-                  expect(page).to have_field('Title', with: 'Example Title')
+                  within '.multiple.addresses > .multiple-item-1' do
+                    expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
+                    expect(page).to have_field('City', with: 'Greenbelt')
+                    expect(page).to have_field('State / Province', with: 'Maryland')
+                    expect(page).to have_field('Postal Code', with: '20771')
+                    expect(page).to have_field('Country', with: 'United States')
+                  end
+                  within '.multiple.related-urls > .multiple-item-0' do
+                    expect(page).to have_selector('input.url[value="http://www.esa.org/education/"]')
+                    expect(page).to have_selector('input.url[value="http://another-example.com"]')
+                    expect(page).to have_field('Description', with: 'Example Description')
+                    expect(page).to have_field('Title', with: 'Example Title')
+                  end
                 end
               end
             end
@@ -635,44 +650,46 @@ describe 'Data Contacts form', js: true do
             end
 
             it 'populates the form with the values' do
-              within '.multiple.data-contacts > .multiple-item-0' do
-                expect(page).to have_select('Short Name', selected: data_center_short_name)
-                expect(page).to have_field('Long Name', with: data_center_long_name)
-                expect(page).to have_select('Role', selected: ['Data Center Contact', 'User Services'])
-                expect(page).to have_field('Group Name', with: 'DC Contact Group Name')
-                expect(page).to have_field('Service Hours', with: '9-5, M-F')
-                expect(page).to have_field('Contact Instructions', with: 'Email only')
-                within '.multiple.contact-mechanisms' do
-                  within '.multiple-item-0' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example@example.com')
+              page.document.synchronize do
+                within '.multiple.data-contacts > .multiple-item-0' do
+                  expect(page).to have_select('Short Name', selected: data_center_short_name)
+                  expect(page).to have_field('Long Name', with: data_center_long_name)
+                  expect(page).to have_select('Role', selected: ['Data Center Contact', 'User Services'])
+                  expect(page).to have_field('Group Name', with: 'DC Contact Group Name')
+                  expect(page).to have_field('Service Hours', with: '9-5, M-F')
+                  expect(page).to have_field('Contact Instructions', with: 'Email only')
+                  within '.multiple.contact-mechanisms' do
+                    within '.multiple-item-0' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example@example.com')
+                    end
+                    within '.multiple-item-1' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example2@example.com')
+                    end
                   end
-                  within '.multiple-item-1' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example2@example.com')
+                  within '.multiple.addresses > .multiple-item-0' do
+                    expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
+                    expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
+                    expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
+                    expect(page).to have_field('City', with: 'Washington')
+                    expect(page).to have_field('State / Province', with: 'District of Columbia')
+                    expect(page).to have_field('Postal Code', with: '20546')
+                    expect(page).to have_field('Country', with: 'United States')
                   end
-                end
-                within '.multiple.addresses > .multiple-item-0' do
-                  expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
-                  expect(page).to have_field('Street Address - Line 2', with: 'Room 203')
-                  expect(page).to have_field('Street Address - Line 3', with: 'Address line 3')
-                  expect(page).to have_field('City', with: 'Washington')
-                  expect(page).to have_field('State / Province', with: 'District of Columbia')
-                  expect(page).to have_field('Postal Code', with: '20546')
-                  expect(page).to have_field('Country', with: 'United States')
-                end
-                within '.multiple.addresses > .multiple-item-1' do
-                  expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
-                  expect(page).to have_field('City', with: 'Greenbelt')
-                  expect(page).to have_field('State / Province', with: 'Maryland')
-                  expect(page).to have_field('Postal Code', with: '20771')
-                  expect(page).to have_field('Country', with: 'United States')
-                end
-                within '.multiple.related-urls > .multiple-item-0' do
-                  expect(page).to have_selector('input.url[value="http://www.esa.org/education/"]')
-                  expect(page).to have_selector('input.url[value="http://another-example.com"]')
-                  expect(page).to have_field('Description', with: 'Example Description')
-                  expect(page).to have_field('Title', with: 'Example Title')
+                  within '.multiple.addresses > .multiple-item-1' do
+                    expect(page).to have_field('Street Address - Line 1', with: '8800 Greenbelt Road')
+                    expect(page).to have_field('City', with: 'Greenbelt')
+                    expect(page).to have_field('State / Province', with: 'Maryland')
+                    expect(page).to have_field('Postal Code', with: '20771')
+                    expect(page).to have_field('Country', with: 'United States')
+                  end
+                  within '.multiple.related-urls > .multiple-item-0' do
+                    expect(page).to have_selector('input.url[value="http://www.esa.org/education/"]')
+                    expect(page).to have_selector('input.url[value="http://another-example.com"]')
+                    expect(page).to have_field('Description', with: 'Example Description')
+                    expect(page).to have_field('Title', with: 'Example Title')
+                  end
                 end
               end
             end
