@@ -83,14 +83,14 @@ class PermissionsController < ApplicationController
     # Global provier ID for the current user. At some point we may allow the user to specify a different provider.
     provider_id = @current_user.provider_id
 
-    
+
     collections = params[:collections]
     granules = params[:granules]
-    
-    request_object = construct_request_object(params[:permission_name], 
-      provider_id, 
-      params[:collections], 
-      params[:granules], 
+
+    request_object = construct_request_object(params[:permission_name],
+      provider_id,
+      params[:collections],
+      params[:granules],
       params[:search_groups],
       params[:search_and_order_groups])
 
@@ -103,6 +103,10 @@ class PermissionsController < ApplicationController
       Rails.logger.error("Permission Creation Error: #{response.inspect}")
       permission_creation_error = Array.wrap(response.body['errors'])[0]
       flash[:error] = permission_creation_error
+      @collections = params[:collections]
+      @granules = params[:granules]
+      @permission_name = params[:permission_name]
+      @groups = get_groups(params[:filters])
       render :new
     end
   end
@@ -183,5 +187,3 @@ class PermissionsController < ApplicationController
     return req_obj
   end
 end
-
-
