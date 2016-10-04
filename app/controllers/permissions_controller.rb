@@ -53,11 +53,6 @@ class PermissionsController < ApplicationController
   end
 
   def create
-    #add_group_permissions(provider_id, permission_name, collections, granules, search_groups, search_and_order_groups, token)
-    
-    search_groups = params[:search_groups_val].split ','
-    search_and_order_groups = params[:search_and_order_groups_val].split ','
-
     hasError = false
     msg = ''
     if params[:permission_name].blank?
@@ -69,7 +64,7 @@ class PermissionsController < ApplicationController
     elsif params[:granules].blank? || params[:granules] == 'select'
       hasError = true
       msg = 'Granules must be specified.'
-    elsif search_groups.empty? && search_and_order_groups.empty?
+    elsif params[:search_groups].nil? && params[:search_and_order_groups].nil?
       hasError = true
       msg = 'Please specify at least one Search group or one Search & Order group.'
     end
@@ -96,8 +91,8 @@ class PermissionsController < ApplicationController
       provider_id, 
       params[:collections], 
       params[:granules], 
-      search_groups, 
-      search_and_order_groups)
+      params[:search_groups],
+      params[:search_and_order_groups])
 
     response = cmr_client.add_group_permissions(request_object, token)
 
@@ -165,21 +160,28 @@ class PermissionsController < ApplicationController
     req_obj['catalog_item_identity']['granule_applicable'] = granule_applicable
     req_obj['group_permissions'] = Array.new
 
-    search_groups.each do |group|
-      search_permission = {
-        'group_id'=> group,
-        'permissions'=> ['read'] # aka "search"
-      }
-      req_obj['group_permissions'] << search_permission
+    if ! search_groups.nil?
+      search_groups.each do |group|
+        search_permission = {
+          'group_id'=> group,
+          'permissions'=> ['read'] # aka "search"
+        }
+        req_obj['group_permissions'] << search_permission
+        end
     end
 
-    search_and_order_groups.each do |group|
-      search_and_order_permission = {
-        'group_id'=> group,
-        'permissions'=> ['read', 'order'] # aka "search"
-      }
-      req_obj['group_permissions'] << search_and_order_permission
-      return req_obj
+
+    if ! search_and_order_groups.nil?
+      search_and_order_groups.each do |group|
+        search_and_order_permission = {
+            'group_id'=> group,
+            'permissions'=> ['read', 'order'] # aka "search"
+        }
+        req_obj['group_permissions'] << search_and_order_permission
+      end
     end
+    return req_obj
   end
 end
+
+

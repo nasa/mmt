@@ -59,19 +59,17 @@
         <table class="space-top align-c" id="groups-table2">
           <thead>
             <tr>
-              <th class="align-c half-width"><label for="search_groups">Search</label></th>
-              <th class="align-c half-width"><label for="search_and_order_groups">Search and Order</label></th>
+              <th class="align-c half-width"><label for="search_groups_">Search</label></th>
+              <th class="align-c half-width"><label for="search_and_order_groups_">Search and Order</label></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>
-                <%= hidden_field_tag 'search_groups_val' %>
-                <%= select_tag 'search_groups', options_for_select(@groups), multiple: 'multiple'  %>
+              <td id="search_groups_cell">
+                <%= select_tag 'search_groups[]', options_for_select(@groups), multiple: 'multiple'  %>
               </td>
-              <td>
-                <%= hidden_field_tag 'search_and_order_groups_val' %>
-                <%= select_tag 'search_and_order_groups', options_for_select(@groups), multiple: 'multiple'  %>
+              <td id="search_and_order_groups_cell">
+                <%= select_tag 'search_and_order_groups[]', options_for_select(@groups), multiple: 'multiple'  %>
               </td>
             </tr>
           </tbody>
