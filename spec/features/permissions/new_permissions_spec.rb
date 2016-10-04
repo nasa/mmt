@@ -4,12 +4,6 @@ require 'rails_helper'
 
 describe 'New Permission', reset_provider: true, js: true do
   permission_name = 'James-Test-Permission-1'
-  collection_opt = "all-collections"
-  granules_opt = "all-granules"
-  search_group = 'James-Test-Group-1'
-  search_and_order_group = 'James-Test-Group-1'
-
-
 
   context 'When visiting new permission page' do
     before do
@@ -40,97 +34,65 @@ describe 'New Permission', reset_provider: true, js: true do
       expect(page).to have_field('Search and Order', type: 'select', visible: false)
     end
 
-
     context 'when creating a new permission with complete information' do
-        before do
-          fill_in 'Name', with: permission_name
-          select('All Collections', from: 'Collections')
-          select('All Granules', from: 'Granules')
+      it 'indicates success that a new permission was added' do
+        fill_in 'Name', with: permission_name
+        select('All Collections', from: 'Collections')
+        select('All Granules', from: 'Granules')
 
-          within('#search_groups_cell') do
-            find('.select2-container .select2-selection').click
-            find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'Group 1').click
-          end
+        find('#search_groups_cell .select2-container .select2-selection').click
+        find('.select2-dropdown li.select2-results__option', text: 'Group 1').click
 
-          within('#search_and_order_groups_cell') do
-            find('.select2-container .select2-selection').click
-            find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'Group 2').click
-          end
+        find('#search_and_order_groups_cell .select2-container .select2-selection').click
+        find('.select2-dropdown li.select2-results__option', text: 'Group 1').click
 
-          click_on 'Save'
-        end
-
-        it 'indicates success that a new permission was added' do
-          expect(page).to have_content('Permission was successfully created.')
-        end
-
-
-    end
-
-
-
-    context 'when attempting to create a permission with incomplete information' do
-      context 'when saving without collection information' do
-        before do
-          visit new_permission_path
-          fill_in 'Name', with: permission_name
-          click_on 'Save'
-        end
-        it 'displays an error message' do
-          expect(page).to have_content('Search Collections must be specified.')
-        end
-      end
-    end
-=begin
-    context 'when attempting to create a permission with partial information' do
-      context 'when saving without collections' do
-        before do
-          fill_in 'Name', with: permission_name
-          click_on 'Save'
-        end
-        it 'displays an error message' do
-          expect(page).to have_content('Permission Name is required.')
-        end
+        click_on 'Save'
+        expect(page).to have_content('Permission was successfully created.')
       end
     end
 
-    context 'when attempting to create a permission with partial information' do
-      context 'when saving without granules' do
-        before do
-          fill_in 'Name', with: permission_name
-          click_on 'Save'
-        end
-        it 'displays an error message' do
-          expect(page).to have_content('Permission Name is required.')
-        end
+    context 'when attempting to create a permission with incomplete collection or granule information' do
+
+      it 'displays an error message' do
+        visit new_permission_path
+        fill_in 'Name', with: permission_name
+        click_on 'Save'
+        expect(page).to have_content('Search Collections must be specified.')
       end
     end
 
-    context 'when attempting to create a permission with partial information' do
-      context 'when saving without collections' do
-        before do
-          fill_in 'Name', with: permission_name
-          click_on 'Save'
-        end
-        it 'displays an error message' do
-          expect(page).to have_content('Permission Name is required.')
-        end
+    context 'when attempting to create a permission with incomplete granule information' do
+      before do
+        fill_in 'Name', with: permission_name
+        select('All Collections', from: 'Collections')
+        click_on 'Save'
+      end
+      it 'displays an error message' do
+        expect(page).to have_content('Granules must be specified.')
       end
     end
 
-    context 'when attempting to create a permission with existing name' do
-      context 'when saving without collections' do
-        before do
-          fill_in 'Name', with: permission_name
-          click_on 'Save'
-        end
-        it 'displays an error message' do
-          expect(page).to have_content('Permission Name is required.')
-        end
+    context 'when attempting to create a permission with incomplete collection information' do
+      before do
+        fill_in 'Name', with: permission_name
+        select('All Granules', from: 'Granules')
+        click_on 'Save'
+      end
+      it 'displays an error message' do
+        expect(page).to have_content('Collections must be specified.')
       end
     end
-=end
 
-
+    context 'when attempting to create a permission with no groups specified' do
+      before do
+        fill_in 'Name', with: permission_name
+        select('All Granules', from: 'Granules')
+        select('All Collections', from: 'Collections')
+        click_on 'Save'
+      end
+      it 'displays an error message' do
+        expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
+      end
+    end
   end
 end
