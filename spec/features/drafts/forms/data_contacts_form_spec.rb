@@ -60,7 +60,6 @@ describe 'Data Contacts form', js: true do
 
           expect(page).to have_content('Data Contacts')
           open_accordions
-          wait_for_jQuery
         end
 
         it 'displays a confirmation message' do
@@ -69,6 +68,7 @@ describe 'Data Contacts form', js: true do
 
         it 'populates the form with the values' do
           page.document.synchronize do
+            wait_for_jQuery
             within '.multiple.data-contacts > .multiple-item-0' do
               expect(page).to have_select('Role', selected: ['Data Center Contact', 'User Services'])
               expect(page).to have_field('Group Name', with: 'NDC Group Name')
@@ -151,7 +151,6 @@ describe 'Data Contacts form', js: true do
 
           expect(page).to have_content('Data Contacts')
           open_accordions
-          wait_for_jQuery
         end
 
         it 'displays a confirmation message'do
@@ -160,6 +159,7 @@ describe 'Data Contacts form', js: true do
 
         it 'populates the form with the values' do
           page.document.synchronize do
+            wait_for_jQuery
             within '.multiple.data-contacts > .multiple-item-0' do
               expect(page).to have_select('Role', selected: ['Investigator', 'Technical Contact'])
               expect(page).to have_field('First Name', with: 'First Name')
@@ -282,6 +282,7 @@ describe 'Data Contacts form', js: true do
 
             it 'populates the form with the values' do
               page.document.synchronize do
+                wait_for_jQuery
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
                   expect(page).to have_field('Long Name', with: data_center_long_name)
@@ -404,7 +405,6 @@ describe 'Data Contacts form', js: true do
 
               expect(page).to have_content('Data Contacts')
               open_accordions
-              wait_for_jQuery
             end
 
             it 'displays a confirmation message' do
@@ -413,6 +413,7 @@ describe 'Data Contacts form', js: true do
 
             it 'populates the form with the values' do
               page.document.synchronize do
+                wait_for_jQuery
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
                   expect(page).to have_field('Long Name', with: data_center_long_name)
@@ -543,7 +544,6 @@ describe 'Data Contacts form', js: true do
 
               expect(page).to have_content('Data Contacts')
               open_accordions
-              wait_for_jQuery
             end
 
             it 'displays a confirmation message' do
@@ -552,6 +552,7 @@ describe 'Data Contacts form', js: true do
 
             it 'populates the form with the values' do
               page.document.synchronize do
+                wait_for_jQuery
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
                   expect(page).to have_field('Long Name', with: data_center_long_name)
@@ -680,6 +681,7 @@ describe 'Data Contacts form', js: true do
 
             it 'populates the form with the values' do
               page.document.synchronize do
+                wait_for_jQuery
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
                   expect(page).to have_field('Long Name', with: data_center_long_name)
