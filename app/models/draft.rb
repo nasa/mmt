@@ -301,12 +301,14 @@ class Draft < ActiveRecord::Base
     # and restructure as ContactPersons and ContactGroups under Data Centers or outside of Data Centers if not affiliated
     return json_params unless json_params.keys == ['DataContacts']
 
+    data_contacts_params = compact_blank(json_params)
+    return {} if data_contacts_params.nil?
+
     contact_persons = []
     contact_groups = []
     param_data_centers = []
     new_params = {}
     draft_data_centers = self.draft['DataCenters'] || []
-    data_contacts_params = compact_blank(json_params)
 
     data_contacts_params['DataContacts'].each do |data_contact|
       if data_contact['DataContactType'] == 'NonDataCenterContactPerson'
