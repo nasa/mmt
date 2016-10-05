@@ -12,7 +12,8 @@
         </ol>
       </div>
       <h2>New Group for <%= @current_user.provider_id %></h2>
-      <p class="subnav">Permissions</p>
+      <p class="subnav">
+        <%= link_to 'Permissions', permissions_path %></p>
       <p class="subnav current">
         <%= link_to 'Groups', groups_path %>
       </p>

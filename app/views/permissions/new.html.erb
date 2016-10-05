@@ -11,8 +11,12 @@
         </ol>
       </div>
       <h2>New Permission</h2>
-      <p class="subnav current">Permissions</p>
-      <p class="subnav"><%= link_to 'Groups', groups_path %></p>
+      <p class="subnav current">
+        <%= link_to 'Permissions', permissions_path %>
+      </p>
+      <p class="subnav">
+        <%= link_to 'Groups', groups_path %>
+      </p>
     </div>
   </header>
   <div class="row row-content">
@@ -23,9 +27,10 @@
           <br>
           <%= text_field_tag 'permission_name', @permission_name, class: 'half-width'%>
         </div>
-        <%= label_tag :collections, 'Collections', class: 'eui-required-o' %>      
+        <%= label_tag :collections, 'Collections', class: 'eui-required-o' %>
         <%= select_tag 'collections', options_for_select(PermissionsHelper::CollectionsOptions, @collections), id: 'collections' %>
-        <label for="collection-ids" class="is-invisible">Selected Collection Entry IDs</label>
+        <!-- not yet implemented -->
+        <!-- <label for="collection-ids" class="is-invisible">Selected Collection Entry IDs</label>
         <fieldset id="collections-constraint-values" class="is-hidden is-white">
           <div class="row">
             <label for="collections-constraint-min">Min</label>
@@ -38,11 +43,12 @@
             <input type="checkbox" name="undefined-val" id="undefind-val">
             <label for="undefined-val">Include undefined value</label>
           </div>
-        </fieldset>
+        </fieldset> -->
         <hr>
         <%= label_tag :granules, 'Granules', class: 'eui-required-o' %>
         <%= select_tag 'granules', options_for_select(PermissionsHelper::GranulesOptions, @granules) %>
-        <fieldset id="granules-constraint-values" class="is-hidden is-white">
+        <!-- not yet implemented -->
+        <!-- <fieldset id="granules-constraint-values" class="is-hidden is-white">
           <div class="row">
             <label for="granules-constraint-min">Min</label>
             <input type="number" id="granules-constraint-min" class="space-right">
@@ -54,7 +60,7 @@
             <input type="checkbox" name="undefined-val" id="undefind-val">
             <label for="undefined-val">Include undefined value</label>
           </div>
-        </fieldset>
+        </fieldset> -->
         <hr>
         <table class="space-top align-c" id="groups-table2">
           <thead>

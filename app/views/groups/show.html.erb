@@ -19,7 +19,9 @@
         <p><%= @group['description'] %></p>
       </div>
       <div class="row">
-        <p class="subnav">Permissions</p>
+        <p class="subnav">
+          <%= link_to 'Permissions', permissions_path %>
+        </p>
         <p class="subnav current">
           <%= link_to 'Groups', groups_path %>
         </p>

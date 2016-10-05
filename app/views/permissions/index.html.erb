@@ -11,8 +11,9 @@
       </div>
       <h2>Permissions & Groups</h2>
       <p class="subnav current">Permissions</p>
-
-      <p class="subnav"><%= link_to 'Groups', groups_path %></p>
+      <p class="subnav">
+        <%= link_to 'Groups', groups_path %>
+      </p>
     </div>
   </header>
   <div class="row row-content">
@@ -25,13 +26,11 @@
         <!-- end todo -->
       </ul>
 
-
       <div class="flex-row--sb">
         <h3>Custom Permissions</h3>
         <!--<a href="#" class="eui-btn--blue space-bot">New Permissions</a>-->
         <%= link_to 'New Permission', new_permission_path, :class=> 'eui-btn--blue space-bot' %>
       </div>
-
 
       <table>
         <thead>
