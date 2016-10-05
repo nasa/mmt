@@ -22,8 +22,6 @@ require 'database_cleaner'
 require 'rake'
 require 'rails/tasks'
 
-require "transactional_capybara/rspec"
-
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, timeout: 1.minute)
 end
@@ -51,12 +49,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-
-  # from instructions for https://github.com/iangreenleaf/transactional_capybara
-  config.after :each do
-    TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
-  end
-
   # Lines below taken from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
   config.use_transactional_fixtures = false
 

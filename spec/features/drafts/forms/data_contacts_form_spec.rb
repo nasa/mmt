@@ -113,7 +113,6 @@ describe 'Data Contacts form', js: true do
 
         it 'saves the contact group in the right structure in the schema' do
           page.document.synchronize do
-            wait_for_jQuery
             d = Draft.first
             expect(d.draft['ContactGroups'].count).to eq(1)
             contact_group = d.draft['ContactGroups'].first
@@ -207,7 +206,6 @@ describe 'Data Contacts form', js: true do
 
         it 'saves the data in the right structure in the schema' do
           page.document.synchronize do
-            wait_for_jQuery
             d = Draft.first
             expect(d.draft['ContactPersons'].count).to eq(1)
 
@@ -332,7 +330,6 @@ describe 'Data Contacts form', js: true do
 
             it 'saves the data center contact person in the right structure in the schema' do
               page.document.synchronize do
-                wait_for_jQuery
                 d = Draft.first
                 data_center = d.draft['DataCenters'].first
                 expect(data_center['ShortName']).to eq(data_center_short_name)
@@ -462,7 +459,6 @@ describe 'Data Contacts form', js: true do
 
             it 'saves the data in the right structure in the schema' do
               page.document.synchronize do
-                wait_for_jQuery
                 d = Draft.first
                 data_center = d.draft['DataCenters'].first
                 expect(data_center['ShortName']).to eq(data_center_short_name)
@@ -604,7 +600,6 @@ describe 'Data Contacts form', js: true do
 
             it 'saves the contact under a new data center in the schema' do
               page.document.synchronize do
-                wait_for_jQuery
                 d = Draft.first
                 expect(d.draft['DataCenters'].blank?).to be false
 
@@ -732,7 +727,6 @@ describe 'Data Contacts form', js: true do
 
             it 'saves the contact group under a new data center in the schema' do
               page.document.synchronize do
-                wait_for_jQuery
                 d = Draft.first
                 expect(d.draft['DataCenters'].blank?).to be false
 
