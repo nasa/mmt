@@ -73,6 +73,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rspec_junit_formatter'
   gem 'simplecov', require: false
+  gem 'transactional_capybara'
 end
 
 group :production do
