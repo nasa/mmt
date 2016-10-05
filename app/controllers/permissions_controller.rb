@@ -1,11 +1,26 @@
 class PermissionsController < ApplicationController
 
   def index
-
-    # Global provier ID for the current user. At some point we might
-    # allow the user to specify a different provider.
     provider_id = @current_user.provider_id
     response = cmr_client.get_permissions_for_provider(provider_id, token)
+
+    if params[:new_acl] && response.success?
+      # indexing of new acls makes it such that the first request does not always return the newly created ACL
+      # if the new acl is not in the response, we are making the request again until the request fails
+      # or we get the new ACL
+      has_new_acl = false
+      until has_new_acl
+        resp_concept_ids = []
+        response.body['items'].each do |item|
+          if item['concept_id'] == params[:new_acl]
+            has_new_acl = true
+            break
+          end
+        end
+        response = cmr_client.get_permissions_for_provider(provider_id, token)
+        break if response.error?
+      end
+    end
 
     unless response.success?
       Rails.logger.error("Error getting permissions: #{response.inspect}")
@@ -13,10 +28,10 @@ class PermissionsController < ApplicationController
       flash[:error] = error
     end
 
+    # puts response.body.inspect
     @permissions = response.body['items']
 
-    # This block searches through the permissions of each
-    # group and creates a summary for display on the page
+    # This block searches through the permissions of each group and creates a summary for display
     @permissions.each do |perm|
       permission_summary = {}
       permission_summary_list = []
@@ -24,20 +39,18 @@ class PermissionsController < ApplicationController
       group_permissions.each do |group_perm|
         perm_list = group_perm['permissions']
         perm_list.each do |type|
-            permission_summary[type] = type
+          permission_summary[type] = type
         end
       end
 
       permission_summary.keys.each do |key|
-        if key == 'read'
-          key = 'search'
-        end
+        key = 'search' if key == 'read'
+
         permission_summary_list << key.capitalize
       end
 
       perm['permission_summary'] = permission_summary_list.join ' & '
     end
-
   end
 
   def new
@@ -80,9 +93,9 @@ class PermissionsController < ApplicationController
       return
     end
 
-    # Global provier ID for the current user. At some point we may allow the user to specify a different provider.
+    # Global provider ID for the current user, based their current provider
+    # to use a different provider_id, user will need to change current provider
     provider_id = @current_user.provider_id
-
 
     collections = params[:collections]
     granules = params[:granules]
@@ -98,7 +111,11 @@ class PermissionsController < ApplicationController
 
     if response.success?
       flash[:success] = 'Permission was successfully created.'
-      redirect_to permissions_path
+      Rails.logger.info("#{@current_user.urs_uid} CREATED catalog item ACL for #{provider_id}. #{response.body}")
+
+      # passing in concept_id to redirect, because indexing is not happening fast enough
+      concept_id = response.body['concept_id']
+      redirect_to permissions_path(new_acl: concept_id)
     else
       Rails.logger.error("Permission Creation Error: #{response.inspect}")
       permission_creation_error = Array.wrap(response.body['errors'])[0]

@@ -9,16 +9,6 @@ describe 'New Permission', reset_provider: true, js: true do
     before do
       login
 
-      visit new_group_path
-      fill_in 'Group Name', with: 'Group 1'
-      fill_in 'Group Description', with: 'test group 1'
-      click_on 'Save'
-
-      visit new_group_path
-      fill_in 'Group Name', with: 'Group 2'
-      fill_in 'Group Description', with: 'test group 2'
-      click_on 'Save'
-
       visit new_permission_path
     end
 
@@ -35,7 +25,21 @@ describe 'New Permission', reset_provider: true, js: true do
     end
 
     context 'when creating a new permission with complete information' do
-      it 'indicates success that a new permission was added' do
+      before do
+        # add groups
+        visit new_group_path
+        fill_in 'Group Name', with: 'Group 1'
+        fill_in 'Group Description', with: 'test group 1'
+        click_on 'Save'
+        expect(page).to have_content('Group 1')
+
+        visit new_group_path
+        fill_in 'Group Name', with: 'Group 2'
+        fill_in 'Group Description', with: 'test group 2'
+        click_on 'Save'
+        expect(page).to have_content('Group 2')
+
+        visit new_permission_path
         fill_in 'Name', with: permission_name
         select('All Collections', from: 'Collections')
         select('All Granules', from: 'Granules')
@@ -47,13 +51,25 @@ describe 'New Permission', reset_provider: true, js: true do
         find('.select2-dropdown li.select2-results__option', text: 'Group 1').click
 
         click_on 'Save'
+
+        expect(page).to have_content('Custom Permissions')
+      end
+
+      it 'displays a success message that a new permission was added' do
         expect(page).to have_content('Permission was successfully created.')
+      end
+
+      it 'displays the permission on the page' do
+        within '#custom-permissions-table' do
+          expect(page).to have_content('James-Test-Permission-1')
+          expect(page).to have_content('Search & Order')
+        end
       end
     end
 
     context 'when attempting to create a permission with incomplete collection or granule information' do
 
-      it 'displays an error message' do
+      it 'displays the appropriate error message' do
         visit new_permission_path
         fill_in 'Name', with: permission_name
         click_on 'Save'
@@ -67,7 +83,7 @@ describe 'New Permission', reset_provider: true, js: true do
         select('All Collections', from: 'Collections')
         click_on 'Save'
       end
-      it 'displays an error message' do
+      it 'displays the appropriate error message' do
         expect(page).to have_content('Granules must be specified.')
       end
     end
@@ -78,7 +94,7 @@ describe 'New Permission', reset_provider: true, js: true do
         select('All Granules', from: 'Granules')
         click_on 'Save'
       end
-      it 'displays an error message' do
+      it 'displays the appropriate error message' do
         expect(page).to have_content('Collections must be specified.')
       end
     end
@@ -90,7 +106,7 @@ describe 'New Permission', reset_provider: true, js: true do
         select('All Collections', from: 'Collections')
         click_on 'Save'
       end
-      it 'displays an error message' do
+      it 'displays the appropriate error message' do
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end
     end
