@@ -26,29 +26,25 @@ describe 'New Permission', reset_provider: true, js: true do
 
     context 'when creating a new permission with complete information' do
       before do
-        # add groups
-        visit new_group_path
-        fill_in 'Group Name', with: 'Group 1'
-        fill_in 'Group Description', with: 'test group 1'
-        click_on 'Save'
-        expect(page).to have_content('Group 1')
+        page.document.synchronize do
+          # add group
+          visit new_group_path
+          fill_in 'Group Name', with: 'Group 1'
+          fill_in 'Group Description', with: 'test group 1'
+          click_on 'Save'
+          expect(page).to have_content('Group 1')
 
-        visit new_group_path
-        fill_in 'Group Name', with: 'Group 2'
-        fill_in 'Group Description', with: 'test group 2'
-        click_on 'Save'
-        expect(page).to have_content('Group 2')
+          visit new_permission_path
+          fill_in 'Name', with: permission_name
+          select('All Collections', from: 'Collections')
+          select('All Granules', from: 'Granules')
 
-        visit new_permission_path
-        fill_in 'Name', with: permission_name
-        select('All Collections', from: 'Collections')
-        select('All Granules', from: 'Granules')
+          within '#groups-table2' do
+            select('Group 1', from: 'Search')
+            select('Group 1', from: 'Search and Order')
+          end
 
-        find('#search_groups_cell .select2-container .select2-selection').click
-        find('.select2-dropdown li.select2-results__option', text: 'Group 1').click
-
-        find('#search_and_order_groups_cell .select2-container .select2-selection').click
-        find('.select2-dropdown li.select2-results__option', text: 'Group 1').click
+        end
 
         click_on 'Save'
 
