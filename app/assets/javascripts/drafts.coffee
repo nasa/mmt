@@ -64,6 +64,8 @@ $(document).ready ->
     $(newDiv).find('select, input, textarea').removeAttr 'readonly'
     $(newDiv).find('select, input, textarea').not('input[type="hidden"]')[0].focus()
 
+    $(newDiv).find('.data-contact-type').hide()
+
     # Remove points from preview link
     $.each $(newDiv).find('.spatial-preview-link'), ->
       url = $(this).attr('href').split('?')[0]
@@ -90,7 +92,7 @@ $(document).ready ->
       $(newDiv).attr 'id', id
 
     # Loop through newDiv and increment the correct index
-    $.each $(newDiv).find('select, input, textarea, label'), (index, field) ->
+    $.each $(newDiv).find("select, input, textarea, label, div[id^='draft_#{type}_#{multipleIndex}']"), (index, field) ->
       if $(field).is('input, textarea, select')
         name = $(field).attr('name')
         if name != undefined
@@ -113,7 +115,11 @@ $(document).ready ->
         if labelFor != undefined
           labelFor = labelFor.slice(0, idIndex) + labelFor.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
           $(field).attr 'for', labelFor
-
+      else if $(field).is('div')
+        # also increment the id for data contacts divs
+        id = $(field).attr('id')
+        id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
+        $(field).attr 'id', id
     newDiv
 
   $('.multiple').on 'click', '.remove', ->
@@ -275,3 +281,7 @@ $(document).ready ->
       $select.prop 'disabled', true
       $text.show()
       $text.prop 'disabled', false
+
+  # Handle Data Contacts form on load
+  # disable hidden form elements so blank values don't interevere with data being saved/resaved
+  $('.data-contact-type[style$="display: none;"]').find('input, select').prop 'disabled', true

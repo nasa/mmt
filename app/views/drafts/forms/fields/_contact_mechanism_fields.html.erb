@@ -1,0 +1,26 @@
+<div class="row sub-fields">
+  <div class="col-6">
+    <%= mmt_select(
+      name: 'type',
+      title: 'Type',
+      prefix: name_prefix,
+      value: contact_mechanism['Type'],
+      options: DraftsHelper::ContactMechanismTypeOptions,
+      help: 'definitions/ContactMechanismType/properties/Type',
+      classes: 'contact-mechanism-select',
+      required: true,
+      validate: true
+    ) %>
+  </div>
+  <div class="col-6">
+    <%= mmt_text_field(
+      name: 'value',
+      title: 'Value',
+      prefix: name_prefix,
+      value: contact_mechanism['Value'],
+      help: 'definitions/ContactMechanismType/properties/Value',
+      required: true,
+      validate: true
+     ) %>
+  </div>
+</div>

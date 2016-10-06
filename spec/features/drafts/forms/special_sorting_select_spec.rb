@@ -10,7 +10,7 @@ describe 'Special sorting in select fields', js: true do
   context 'when viewing a country select field' do
     before do
       within '.metadata' do
-        click_on 'Organizations', match: :first
+        click_on 'Data Centers', match: :first
       end
     end
 

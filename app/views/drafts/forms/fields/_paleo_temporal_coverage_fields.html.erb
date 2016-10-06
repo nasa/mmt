@@ -24,20 +24,22 @@
     </div>
   </div>
 
-  <!-- ChronostratigraphicUnit -->
-  <%= mmt_label(
+  <div class="row">
+    <!-- ChronostratigraphicUnit -->
+    <%= mmt_label(
     name: 'chronostratigraphic_unit',
     title: 'Chronostratigraphic Units',
     prefix: name_prefix
-  ) %>
-  <%= mmt_help_icon(
+    ) %>
+    <%= mmt_help_icon(
     title: 'Chronostratigraphic Units',
     help: 'definitions/PaleoTemporalCoverageType/properties/ChronostratigraphicUnits'
-  ) %>
-  <%= render partial: 'drafts/forms/type', locals: {
+    ) %>
+    <%= render partial: 'drafts/forms/type', locals: {
       type: 'chronostratigraphic_unit',
       values: paleo_temporal_coverage['ChronostratigraphicUnits'] || [{}],
       name_prefix: "#{name_prefix}|chronostratigraphic_units|_",
       multiple: true,
       options: {} } %>
+  </div>
 </div>

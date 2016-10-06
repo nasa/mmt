@@ -171,7 +171,7 @@ module Cmr
       clear_cache
 
       ## ACLs for System level groups
-      ## these ACLs are need groups in the groups api (3011) for sids lookup to work properly for the tokens created at the beginning of this setup
+      ## these ACLs need groups in the groups api (3011) for sids lookup to work properly for the tokens created at the beginning of this setup
       # admin user
       resp = connection.post do |req|
         req.url('http://localhost:3008/acls')
@@ -239,7 +239,7 @@ module Cmr
       #   req.headers['Content-Type'] = 'application/json'
       #   req.body = '[{"username": "admin", "password": "admin"}]'
       # end
-      # Add admin to default CMR Administrators Group
+      # # Add admin to default CMR Administrators Group
       # resp = connection.post do |req|
       #   req.url('http://localhost:3011/groups/AG1200000000-CMR/members')
       #   req.headers['Content-Type'] = 'application/json'

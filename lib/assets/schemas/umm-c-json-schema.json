@@ -50,11 +50,15 @@
         },
         "StartDate": {
           "description": "A string indicating the number of years furthest back in time, including units, e.g., 100 Ga.  Units may be Ga (billions of years before present), Ma (millions of years before present), ka (thousands of years before present) or ybp (years before present).",
-          "type": "string"
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
         },
         "EndDate": {
           "description": "A string indicating the number of years closest to the present time, including units, e.g., 10 ka.  Units may be Ga (billions of years before present), Ma (millions of years before present), ka (thousands of years before present) or ybp (years before present).",
-          "type": "string"
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
         }
       }
     },
@@ -292,14 +296,6 @@
       "description": "The language used in the metadata record.",
       "$ref": "umm-cmn-json-schema.json#/definitions/LanguageType"
     },
-    "MetadataLineages": {
-      "description": "Historical data including how data was processed.",
-      "type": "array",
-      "items": {
-        "$ref": "umm-cmn-json-schema.json#/definitions/LineageType"
-      },
-      "minItems": 0
-    },
     "MetadataDates": {
       "description": "Dates related to activities involving the metadata record itself.  For example, Future Review date is the date that the metadata record is scheduled to be reviewed.",
       "type": "array",
@@ -340,21 +336,27 @@
       },
       "minItems": 1
     },
-    "Organizations": {
-      "description": "Information about the organization(s) responsible for this collection and its metadata.",
+    "DataCenters": {
+      "description": "Information about the data centers responsible for this collection and its metadata.",
       "type": "array",
       "items": {
-        "$ref": "umm-cmn-json-schema.json#/definitions/ResponsibilityType"
+        "$ref": "umm-cmn-json-schema.json#/definitions/DataCenterType"
       },
       "minItems": 1
     },
-    "Personnel": {
+    "ContactGroups": {
+      "description": "Information about the personnel groups responsible for this collection and its metadata.",
+      "type": "array",
+      "items": {
+        "$ref": "umm-cmn-json-schema.json#/definitions/ContactGroupType"
+      }
+    },
+    "ContactPersons": {
       "description": "Information about the personnel responsible for this collection and its metadata.",
       "type": "array",
       "items": {
-        "$ref": "umm-cmn-json-schema.json#/definitions/ResponsibilityType"
-      },
-      "minItems": 1
+        "$ref": "umm-cmn-json-schema.json#/definitions/ContactPersonType"
+      }
     },
     "CollectionDataType": {
       "description": "Identifies the collection as a Science Quality collection or a non-science-quality collection such as a Near-Real-Time collection.",
@@ -429,7 +431,7 @@
       "description": "Allows authors to provide words or phrases outside of the controlled Science Keyword vocabulary, to further describe the collection.",
       "type": "array",
       "items": {
-        "$ref": "umm-cmn-json-schema.json#/definitions/KeywordStringType"
+        "$ref": "umm-cmn-json-schema.json#/definitions/AncillaryKeywordStringType"
       },
       "minItems": 0
     },
@@ -457,9 +459,13 @@
       },
       "minItems": 1
     },
-    "PaleoTemporalCoverage": {
+    "PaleoTemporalCoverages": {
       "description": "For paleoclimate or geologic data, PaleoTemporalCoverage is the length of time represented by the data collected. PaleoTemporalCoverage should be used when the data spans time frames earlier than yyyy-mm-dd = 0001-01-01.",
-      "$ref": "#/definitions/PaleoTemporalCoverageType"
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PaleoTemporalCoverageType"
+      },
+      "minItems": 0
     },
     "TemporalKeywords": {
       "description": "One or more words or phrases that describe the temporal resolution of the dataset.",
@@ -531,5 +537,5 @@
       "$ref": "umm-cmn-json-schema.json#/definitions/VersionType"
     }
   },
-  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DataDates", "Organizations", "RelatedUrls", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms"]
+  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DataDates", "DataCenters", "RelatedUrls", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms"]
 }

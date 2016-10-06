@@ -64,7 +64,7 @@ describe 'Temporal information form', js: true do
       select('Annual Climatology', from: 'Temporal Keywords')
       select('Annual', from: 'Temporal Keywords')
 
-      # Complete PaleoTemporalCoverage fields
+      # Complete PaleoTemporalCoverages fields
       within '.paleo-temporal-coverage-fields' do
         within '.multiple.chronostratigraphic-units' do
           fill_in 'Eon', with: 'Eon text'

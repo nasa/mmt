@@ -26,8 +26,10 @@ describe 'Conditionally required fields', js: true do
     context 'when viewing a form with conditionally required fields' do
       before do
         within '.metadata' do
-          click_on 'Personnel', match: :first
+          click_on 'Data Contacts', match: :first
         end
+
+        select 'Data Center Contact Person', from: 'Data Contact Type'
       end
 
       it 'does not display required icons' do
@@ -36,7 +38,7 @@ describe 'Conditionally required fields', js: true do
 
       context 'when filling in a form field that causes fields to become required' do
         before do
-          fill_in 'City', with: 'Alexandria'
+          fill_in 'First Name', with: 'First'
         end
 
         it 'displays the required icons' do
@@ -45,7 +47,7 @@ describe 'Conditionally required fields', js: true do
 
         context 'when clearing a field that causes fields to become required' do
           before do
-            fill_in 'City', with: ''
+            fill_in 'First Name', with: ''
           end
 
           it 'removes the required icons' do
@@ -77,12 +79,12 @@ describe 'Conditionally required fields', js: true do
     context 'when viewing a form with conditionally required fields' do
       before do
         within '.metadata' do
-          click_on 'Personnel', match: :first
+          click_on 'Data Contacts', match: :first
         end
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.eui-required-o', count: 4)
+        expect(page).to have_css('label.eui-required-o', count: 6)
       end
     end
   end

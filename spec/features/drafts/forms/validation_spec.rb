@@ -297,27 +297,6 @@ describe 'Data validation for a form', js: true do
     end
   end
 
-  context 'when triggering the oneOf error for Party' do
-    before do
-      within 'section.metadata' do
-        click_on 'Organizations', match: :first
-      end
-
-      within '#organizations' do
-        fill_in 'Service Hours', with: 'test'
-      end
-
-      within '.nav-top' do
-        click_on 'Done'
-      end
-    end
-
-    it 'shows a helpful error' do
-      expect(page).to have_selector(validation_error)
-      expect(page).to have_content('Party is incomplete')
-    end
-  end
-
   context 'when there is a minItems constraint' do
     before do
       within 'section.metadata' do

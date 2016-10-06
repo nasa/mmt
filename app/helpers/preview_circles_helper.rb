@@ -40,16 +40,16 @@ module PreviewCirclesHelper
         anchor: 'collection-information'
       }
     },
-    'organizations' => {
-      'Organizations' => {
+    'data_centers' => {
+      'DataCenters' => {
         required: true,
-        anchor: 'organizations'
+        anchor: 'data-centers'
       }
     },
-    'personnel' => {
-      'Personnel' => {
+    'data_contacts' => {
+      'DataContacts' => {
         required: false,
-        anchor: 'personnel'
+        anchor: 'data-contacts'
       }
     },
     'data_identification' => {
@@ -129,9 +129,9 @@ module PreviewCirclesHelper
         required: false,
         anchor: 'temporal-keywords'
       },
-      'PaleoTemporalCoverage' => {
+      'PaleoTemporalCoverages' => {
         required: false,
-        anchor: 'paleo-temporal-coverage'
+        anchor: 'paleo-temporal-coverages'
       }
     },
     'spatial_information' => {
@@ -173,7 +173,9 @@ module PreviewCirclesHelper
 
       valid = true
       FORM_FIELDS[form_name].each do |field, options|
-        if metadata[field].nil?
+        if field == 'DataContacts'
+          valid = false unless error_fields.blank?
+        elsif metadata[field].nil?
           valid = false if options[:required]
         elsif error_fields.include?(field)
           valid = false
@@ -194,7 +196,9 @@ module PreviewCirclesHelper
     FORM_FIELDS[form_name].each do |field, options|
       circle = complete_circle(field, draft, form_name, options[:anchor], options[:required])
 
-      if draft.draft[field].nil?
+      if field == 'DataContacts'
+        circle = data_contacts_circle(field, draft, form_name, options, circle, error_fields)
+      elsif draft.draft[field].nil?
         circle = empty_circle(field, draft, form_name, options[:anchor], options[:required])
       elsif error_fields.include?(field)
         circle = invalid_circle(field, draft, form_name, options[:anchor])
@@ -221,5 +225,14 @@ module PreviewCirclesHelper
   def invalid_circle(field, draft, form_name, anchor)
     text = "#{name_to_title(field)} - Invalid"
     link_to "<i class=\"eui-icon eui-fa-minus-circle icon-red\"></i> <span class=\"is-invisible\">#{name_to_title(field)} Invalid</span>".html_safe, draft_edit_form_path(draft, form_name, anchor: anchor), title: text
+  end
+
+  def data_contacts_circle(field, draft, form_name, options, circle, error_fields)
+    if draft_all_data_contacts_array(draft.draft).blank?
+      circle = empty_circle(field, draft, form_name, options[:anchor], options[:required])
+    elsif !error_fields.blank?
+      circle = invalid_circle(field, draft, form_name, options[:anchor])
+    end
+    circle
   end
 end

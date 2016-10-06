@@ -1,12 +1,12 @@
 module RelatedUrlFieldsHelper
-  ORGANIZATIONS_FORM = %w(
+  DATA_CENTER_FORM = %w(
     title
     description
     relation
     urls
   )
 
-  PERSONNEL_FORM = %w(
+  DATA_CONTACT_FORM = %w(
     title
     description
     relation

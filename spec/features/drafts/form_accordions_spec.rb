@@ -45,7 +45,7 @@ describe 'Draft form accordions', js: true do
   context 'when viewing a form with only one accordion' do
     before do
       within '.metadata' do
-        click_on 'Organization', match: :first
+        click_on 'Data Centers', match: :first
       end
     end
 
@@ -64,7 +64,7 @@ describe 'Draft form accordions', js: true do
       end
 
       it 'does not allow the user to collapse the accordion' do
-        expect(page).to have_selector('#draft_organizations_0_role', visible: true)
+        expect(page).to have_selector('#draft_data_centers_0_roles', visible: true)
       end
     end
   end

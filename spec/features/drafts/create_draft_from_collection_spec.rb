@@ -15,10 +15,13 @@ describe 'Create new draft from collection', js: true, reset_provider: true do
       click_on 'Find'
 
       expect(page).to have_content(short_name)
-
-      click_on short_name
+      page.document.synchronize do
+        click_on short_name
+      end
 
       click_on 'Edit Record'
+
+      expect(page).to have_content('Metadata Fields')
     end
 
     it 'displays a confirmation message' do
@@ -52,7 +55,13 @@ describe 'Create new draft from collection', js: true, reset_provider: true do
       visit draft_path(draft)
       current_datetime = Time.now.utc.strftime('%Y-%m-%dT%H:%M:00.000Z')
       click_on 'Publish'
-      click_on 'Edit Record'
+
+      expect(page).to have_link 'Edit Record'
+      page.document.synchronize do
+        click_on 'Edit Record'
+      end
+
+      expect(page).to have_content('Metadata Fields')
     end
 
     it 'copies all data from the published record into the draft' do
