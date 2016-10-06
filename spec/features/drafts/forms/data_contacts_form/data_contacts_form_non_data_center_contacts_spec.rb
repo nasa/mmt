@@ -49,8 +49,8 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
         end
 
         it 'populates the form with the values' do
+          wait_for_jQuery
           page.document.synchronize do
-            wait_for_jQuery
             within '.multiple.data-contacts > .multiple-item-0' do
               expect(page).to have_select('Role', selected: ['Data Center Contact', 'User Services'])
               expect(page).to have_field('Group Name', with: 'NDC Group Name')
@@ -58,14 +58,9 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
               expect(page).to have_field('Service Hours', with: '9-5, M-F')
               expect(page).to have_field('Contact Instructions', with: 'Email only')
               within '.multiple.contact-mechanisms' do
-                within '.multiple-item-0' do
-                  expect(page).to have_field('Type', with: 'Email')
-                  expect(page).to have_field('Value', with: 'example@example.com')
-                end
-                within '.multiple-item-1' do
-                  expect(page).to have_field('Type', with: 'Email')
-                  expect(page).to have_field('Value', with: 'example2@example.com')
-                end
+                expect(page).to have_field('Type', with: 'Email') # ask for 2 matches?
+                expect(page).to have_field('Value', with: 'example@example.com')
+                expect(page).to have_field('Value', with: 'example2@example.com')
               end
               within '.multiple.addresses > .multiple-item-0' do
                 expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
@@ -142,8 +137,8 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
         end
 
         it 'populates the form with the values' do
+          wait_for_jQuery
           page.document.synchronize do
-            wait_for_jQuery
             within '.multiple.data-contacts > .multiple-item-0' do
               expect(page).to have_select('Role', selected: ['Investigator', 'Technical Contact'])
               expect(page).to have_field('First Name', with: 'First Name')
@@ -153,14 +148,9 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
               expect(page).to have_field('Service Hours', with: '9-5, M-F')
               expect(page).to have_field('Contact Instructions', with: 'Email only')
               within '.multiple.contact-mechanisms' do
-                within '.multiple-item-0' do
-                  expect(page).to have_field('Type', with: 'Email')
-                  expect(page).to have_field('Value', with: 'example@example.com')
-                end
-                within '.multiple-item-1' do
-                  expect(page).to have_field('Type', with: 'Email')
-                  expect(page).to have_field('Value', with: 'example2@example.com')
-                end
+                expect(page).to have_field('Type', with: 'Email') # ask for 2 matches?
+                expect(page).to have_field('Value', with: 'example@example.com')
+                expect(page).to have_field('Value', with: 'example2@example.com')
               end
               within '.multiple.addresses > .multiple-item-0' do
                 expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
