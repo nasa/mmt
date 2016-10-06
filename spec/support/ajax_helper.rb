@@ -11,7 +11,7 @@ module Helpers
     end
 
     def wait_for_jQuery
-      Timeout.timeout(Capybara.default_max_wait_time) do
+      Timeout.timeout(25) do #Capybara.default_max_wait_time
         loop until finished_all_jQuery_requests?
       end
    end
