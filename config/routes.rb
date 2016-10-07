@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   resources :provider_holdings, only: [:index, :show]
 
-
-
   resources :permissions, only: [:index, :show, :new, :create]
 
   # PUMPness
@@ -56,9 +54,8 @@ Rails.application.routes.draw do
   get 'status' => 'welcome#status'
 
   # Temporary routes for Permission pages
-  # get 'permissions' => 'pages#permissions', as: 'permissions'
-  #get 'new-permissions' => 'pages#new-permissions', as: 'new-permissions'
-
+  get 'index-permissions' => 'pages#index-permissions', as: 'index-permissions'
+  get 'new-permissions' => 'pages#new-permissions', as: 'new-permissions'
   get 'show-permissions' => 'pages#show-permissions', as: 'show-permissions'
 
 

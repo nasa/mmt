@@ -22,24 +22,15 @@
         <div class="row">
           <label for="name">Name</label>
           <br>
-          <input type="text" id="name" class="half-width" placeholder="Permission Name">
+          <input type="text" id="name" class="half-width">
         </div>
-
         <hr>
-
-
-        <!--
         <label for="permission-type">Permission Type</label>
-
         <select name="permission-type" id="permission-type">
           <option value="Select">- Select -</option>
           <option value="search-and-order">Search & Order</option>
           <option value="search">Search</option>
         </select>
-
-      -->
-
-        <!--
         <label for="provider"><b>Provider</b></label>
         <select name="provier" id="provider" multiple>
           <option value="Organization A">Organization A</option>
@@ -50,10 +41,6 @@
           <option value="Organization F">Organization F</option>
         </select>
         <hr>
-
-      -->
-
-
         <label for="collections">Collections</label>
         <select name="collections" id="collections">
           <option value="Select">- Select -</option>
@@ -103,53 +90,6 @@
           </div>
         </fieldset>
         <hr>
-
-        <table class="space-top align-c" id="groups-table2">
-          <thead>
-            <tr>
-              <th class="align-c" style="width: 50%;">
-                Search
-              </th>
-              <th class="align-c" style="width: 50%;">
-                Search and Order
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-
-                <select name="search-groups" id="search-groups" multiple>
-                  <option value="curators">Curators (5)</option>
-                  <option value="ice-data-scientists">Ice Data Scientists (12)</option>
-                  <option value="ice-data-supervisors">Ice Data Supervisors (2)</option>
-                  <option value="interns">Interns (3)</option>
-                  <option value="metadata-supervisors">Metadata Supervisors (3)</option>
-                  <option value="science-coordinators">Science Coordinators (15)</option>
-                  <option value="science-curators">Science Curators (7)</option>
-                </select>
-
-
-              </td>
-              <td>
-                <select name="search-order-groups" id="search-order-groups"  multiple>
-                  <option value="curators">Curators (5)</option>
-                  <option value="ice-data-scientists">Ice Data Scientists (12)</option>
-                  <option value="ice-data-supervisors">Ice Data Supervisors (2)</option>
-                  <option value="interns">Interns (3)</option>
-                  <option value="metadata-supervisors">Metadata Supervisors (3)</option>
-                  <option value="science-coordinators">Science Coordinators (15)</option>
-                  <option value="science-curators">Science Curators (7)</option>
-                </select>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-
-
-
-        <!--
         <table class="space-top align-c" id="groups-table">
           <thead>
             <tr>
@@ -161,64 +101,42 @@
           <tbody>
             <tr>
               <td class="cell-primary-cta">
-
-
                 <button class="eui-btn">Add Group</button>
                 <label for="search-order-groups" class="is-invisible">Add Groups to Search and Order Permissions</label>
-
-
-
-
+                <select name="search-order-groups" id="search-order-groups"  multiple>
+                  <option value="curators"><a href="http://www.google.com">Curators</a> (5)</option>
+                  <option value="ice-data-scientists">Ice Data Scientists (12)</option>
+                  <option value="ice-data-supervisors">Ice Data Supervisors (2)</option>
+                  <option value="interns">Interns (3)</option>
+                  <option value="metadata-supervisors">Metadata Supervisors (3)</option>
+                  <option value="science-coordinators">Science Coordinators (15)</option>
+                  <option value="science-curators">Science Curators (7)</option>
+                </select>
               </td>
-
-              <td>
-                <i class="eui-icon eui-check-o icon-green icon--md">
-                  <span class="is-invisible">Search allowed for this group</span>
-                </i>
-              </td>
-
-              <td>
-                <i class="eui-icon eui-check-o icon-green icon--md">
-                  <span class="is-invisible">Order is also allowed for this group</span>
-                </i>
-              </td>
+              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Search allowed for this group</span></i></td>
+              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Order is also allowed for this group</span></i></td>
             </tr>
             <tr>
               <td class="cell-primary-cta">
-
-
                 <button class="eui-btn">Add Group</button>
                 <label for="search-groups" class="is-invisible">Add Groups to Search and Order Permissions</label>
-
-
-
-
-
-
+                <select name="search-groups" id="search-groups"  multiple>
+                  <option value="curators"><a href="http://www.google.com">Curators</a> (5)</option>
+                  <option value="ice-data-scientists">Ice Data Scientists (12)</option>
+                  <option value="ice-data-supervisors">Ice Data Supervisors (2)</option>
+                  <option value="interns">Interns (3)</option>
+                  <option value="metadata-supervisors">Metadata Supervisors (3)</option>
+                  <option value="science-coordinators">Science Coordinators (15)</option>
+                  <option value="science-curators">Science Curators (7)</option>
+                </select>
               </td>
-              <td>
-                <input type="checkbox">
-                <i class="eui-icon eui-check-o icon-green icon--md">
-                  <span class="is-invisible">
-                    Only search is allowed for this group
-                  </span>
-                </i>
-              </td>
-              <td>
-                <span class="is-invisible">
-                  Order is not allowed for this group
-                </span>
-              </td>
+              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Only search is allowed for this group</span></i></td>
+              <td><span class="is-invisible">Order is not allowed for this group</span></td>
             </tr>
           </tbody>
         </table>
-      -->
-
-
-
-
         <div class="row space-top">
-          <input type="submit" id="permissions-save-button" class="eui-btn--blue space-right" value="Save">
+          <input type="submit" class="eui-btn--blue space-right" value="Save">
           <a href="#">Cancel</a>
         </div>
       </form>
