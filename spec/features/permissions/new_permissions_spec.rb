@@ -32,6 +32,7 @@ describe 'New Permission', reset_provider: true, js: true do
           fill_in 'Group Name', with: 'Group 1'
           fill_in 'Group Description', with: 'test group 1'
           click_on 'Save'
+          wait_for_ajax
           expect(page).to have_content('Group 1')
 
           visit new_permission_path
