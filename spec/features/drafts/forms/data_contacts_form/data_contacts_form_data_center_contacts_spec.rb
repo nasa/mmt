@@ -65,7 +65,7 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
             end
 
             it 'populates the form with the values' do
-              wait_for_jQuery
+              wait_for_jQuery(30)
               page.document.synchronize do
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
@@ -189,7 +189,7 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
             end
 
             it 'populates the form with the values' do
-              wait_for_jQuery
+              wait_for_jQuery(30)
               page.document.synchronize do
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
@@ -320,7 +320,7 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
             end
 
             it 'populates the form with the values' do
-              wait_for_jQuery
+              wait_for_jQuery(30)
               page.document.synchronize do
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
@@ -442,7 +442,7 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
             end
 
             it 'populates the form with the values' do
-              wait_for_jQuery
+              wait_for_jQuery(30)
               page.document.synchronize do
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)

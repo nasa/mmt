@@ -41,7 +41,6 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
 
           expect(page).to have_content('Data Contacts')
           open_accordions
-          wait_for_jQuery
         end
 
         it 'displays a confirmation message' do
@@ -49,7 +48,7 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
         end
 
         it 'populates the form with the values' do
-          wait_for_jQuery
+          wait_for_jQuery(30)
           page.document.synchronize do
             within '.multiple.data-contacts > .multiple-item-0' do
               expect(page).to have_select('Role', selected: ['Data Center Contact', 'User Services'])
@@ -129,7 +128,6 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
 
           expect(page).to have_content('Data Contacts')
           open_accordions
-          wait_for_jQuery
         end
 
         it 'displays a confirmation message'do
@@ -137,7 +135,7 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
         end
 
         it 'populates the form with the values' do
-          wait_for_jQuery
+          wait_for_jQuery(30)
           page.document.synchronize do
             within '.multiple.data-contacts > .multiple-item-0' do
               expect(page).to have_select('Role', selected: ['Investigator', 'Technical Contact'])
