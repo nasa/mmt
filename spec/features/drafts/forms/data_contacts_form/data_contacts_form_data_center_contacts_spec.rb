@@ -60,13 +60,13 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
               end
 
               expect(page).to have_content('Data Contacts')
-              open_accordions
-              wait_for_jQuery
             end
 
             it 'populates the form with the values' do
               wait_for_jQuery(45)
               page.document.synchronize do
+                open_accordions
+
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
                   expect(page).to have_field('Long Name', with: data_center_long_name)
@@ -77,9 +77,14 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
                   expect(page).to have_field('Service Hours', with: '9-5, M-F')
                   expect(page).to have_field('Contact Instructions', with: 'Email only')
                   within '.multiple.contact-mechanisms' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example@example.com')
-                    expect(page).to have_field('Value', with: 'example2@example.com')
+                    within '.multiple-item-0' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example@example.com')
+                    end
+                    within '.multiple-item-1' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example2@example.com')
+                    end
                   end
                   within '.multiple.addresses > .multiple-item-0' do
                     expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
@@ -184,13 +189,13 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
               end
 
               expect(page).to have_content('Data Contacts')
-              open_accordions
-              wait_for_jQuery
             end
 
             it 'populates the form with the values' do
               wait_for_jQuery(45)
               page.document.synchronize do
+                open_accordions
+
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
                   expect(page).to have_field('Long Name', with: data_center_long_name)
@@ -199,9 +204,14 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
                   expect(page).to have_field('Service Hours', with: '9-5, M-F')
                   expect(page).to have_field('Contact Instructions', with: 'Email only')
                   within '.multiple.contact-mechanisms' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example@example.com')
-                    expect(page).to have_field('Value', with: 'example2@example.com')
+                    within '.multiple-item-0' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example@example.com')
+                    end
+                    within '.multiple-item-1' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example2@example.com')
+                    end
                   end
                   within '.multiple.addresses > .multiple-item-0' do
                     expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
@@ -316,12 +326,13 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
               end
 
               expect(page).to have_content('Data Contacts')
-              open_accordions
             end
 
             it 'populates the form with the values' do
               wait_for_jQuery(45)
               page.document.synchronize do
+                open_accordions
+
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
                   expect(page).to have_field('Long Name', with: data_center_long_name)
@@ -332,9 +343,14 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
                   expect(page).to have_field('Service Hours', with: '9-5, M-F')
                   expect(page).to have_field('Contact Instructions', with: 'Email only')
                   within '.multiple.contact-mechanisms' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example@example.com')
-                    expect(page).to have_field('Value', with: 'example2@example.com')
+                    within '.multiple-item-0' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example@example.com')
+                    end
+                    within '.multiple-item-1' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example2@example.com')
+                    end
                   end
                   within '.multiple.addresses > .multiple-item-0' do
                     expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
@@ -437,13 +453,13 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
               end
 
               expect(page).to have_content('Data Contacts')
-              open_accordions
-              wait_for_jQuery
             end
 
             it 'populates the form with the values' do
               wait_for_jQuery(45)
               page.document.synchronize do
+                open_accordions
+
                 within '.multiple.data-contacts > .multiple-item-0' do
                   expect(page).to have_select('Short Name', selected: data_center_short_name)
                   expect(page).to have_field('Long Name', with: data_center_long_name)
@@ -452,9 +468,14 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
                   expect(page).to have_field('Service Hours', with: '9-5, M-F')
                   expect(page).to have_field('Contact Instructions', with: 'Email only')
                   within '.multiple.contact-mechanisms' do
-                    expect(page).to have_field('Type', with: 'Email')
-                    expect(page).to have_field('Value', with: 'example@example.com')
-                    expect(page).to have_field('Value', with: 'example2@example.com')
+                    within '.multiple-item-0' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example@example.com')
+                    end
+                    within '.multiple-item-1' do
+                      expect(page).to have_field('Type', with: 'Email')
+                      expect(page).to have_field('Value', with: 'example2@example.com')
+                    end
                   end
                   within '.multiple.addresses > .multiple-item-0' do
                     expect(page).to have_field('Street Address - Line 1', with: '300 E Street Southwest')
