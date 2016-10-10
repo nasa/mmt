@@ -39,6 +39,7 @@ class DraftsController < ApplicationController
       set_country_codes
       set_temporal_keywords if params[:form] == 'temporal_information'
       set_data_centers if params[:form] == 'data_centers' || params[:form] == 'data_contacts'
+      load_data_contacts_schema if params[:form] == 'data_contacts'
     else
       render :show
     end
@@ -156,6 +157,10 @@ class DraftsController < ApplicationController
     @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
   end
 
+  def load_data_contacts_schema
+    @data_contacts_form_json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'data-contacts-form-json-schema-2.json')))
+  end
+
   def ensure_correct_draft_provider
     return if @draft.provider_id == @current_user.provider_id || @draft.new_record?
 
@@ -172,6 +177,7 @@ class DraftsController < ApplicationController
 
   def validate_metadata
     schema = 'lib/assets/schemas/umm-c-json-schema.json'
+    data_contacts_form_schema = 'lib/assets/schemas/data-contacts-schema-3.json'
 
     # Setup URI and date-time validation correctly
     uri_format_proc = lambda do |value|

@@ -384,7 +384,17 @@ $(document).ready ->
       formats: 'uri' : URI_REGEX
     validate = ajv.compile(globalJsonSchema)
     validate(json)
-    errors = validate.errors
+
+    # adding validation for Data Contacts form with separate schema as it
+    # does not follow UMM schema structure in the form
+    # Data Contacts Schema is only passed on the data contacts form
+    # validateDataContacts = ajv.compile(globalDataContactsFormSchema)
+    if globalDataContactsFormSchema?
+      validate = ajv.compile(globalDataContactsFormSchema)
+      validate(json)
+
+
+    errors = if validate.errors? then validate.errors else []
 
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)

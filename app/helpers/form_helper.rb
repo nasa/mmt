@@ -39,6 +39,7 @@ module FormHelper
 
     classes = ["half-width #{remove_pipes(options[:name])}-select"]
     classes += options[:classes].split(' ') if options[:classes]
+    classes << 'validate' if options[:validate]
 
     # default values when not multi-select
     is_multi_select = false
