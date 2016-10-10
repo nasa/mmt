@@ -1,0 +1,89 @@
+<%= render 'shared/flash_messages' %>
+
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item"><%= link_to 'Permissions & Groups', permissions_path %></li>
+          <li class="eui-breadcrumbs__item current">New Permission</li>
+        </ol>
+      </div>
+      <h2>New Permission</h2>
+      <p class="subnav current">
+        <%= link_to 'Permissions', permissions_path %>
+      </p>
+      <p class="subnav">
+        <%= link_to 'Groups', groups_path %>
+      </p>
+    </div>
+  </header>
+  <div class="row row-content">
+    <section>
+      <%= form_tag(permissions_path, method: :post, class: 'group-form') %>
+        <div class="row">
+          <%= label_tag :permission_name, 'Name', class: 'eui-required-o' %>
+          <br>
+          <%= text_field_tag 'permission_name', @permission_name, class: 'half-width'%>
+        </div>
+        <%= label_tag :collections, 'Collections', class: 'eui-required-o' %>
+        <%= select_tag 'collections', options_for_select(PermissionsHelper::CollectionsOptions, @collections), id: 'collections' %>
+        <!-- not yet implemented -->
+        <!-- <label for="collection-ids" class="is-invisible">Selected Collection Entry IDs</label>
+        <fieldset id="collections-constraint-values" class="is-hidden is-white">
+          <div class="row">
+            <label for="collections-constraint-min">Min</label>
+            <input type="number" id="collections-constraint-min" class="space-right">
+            <label for="collections-constraint-Max">Max</label>
+            <input type="number" id="collections-constraint-max">
+            <span>(Inclusive)</span>
+          </div>
+          <div class="row">
+            <input type="checkbox" name="undefined-val" id="undefind-val">
+            <label for="undefined-val">Include undefined value</label>
+          </div>
+        </fieldset> -->
+        <hr>
+        <%= label_tag :granules, 'Granules', class: 'eui-required-o' %>
+        <%= select_tag 'granules', options_for_select(PermissionsHelper::GranulesOptions, @granules) %>
+        <!-- not yet implemented -->
+        <!-- <fieldset id="granules-constraint-values" class="is-hidden is-white">
+          <div class="row">
+            <label for="granules-constraint-min">Min</label>
+            <input type="number" id="granules-constraint-min" class="space-right">
+            <label for="granules-constraint-Max">Max</label>
+            <input type="number" id="granules-constraint-max">
+            <span>(Inclusive)</span>
+          </div>
+          <div class="row">
+            <input type="checkbox" name="undefined-val" id="undefind-val">
+            <label for="undefined-val">Include undefined value</label>
+          </div>
+        </fieldset> -->
+        <hr>
+        <table class="space-top align-c" id="groups-table2">
+          <thead>
+            <tr>
+              <th class="align-c half-width"><label for="search_groups_">Search</label></th>
+              <th class="align-c half-width"><label for="search_and_order_groups_">Search and Order</label></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="search_groups_cell">
+                <%= select_tag 'search_groups[]', options_for_select(@groups), multiple: 'multiple'  %>
+              </td>
+              <td id="search_and_order_groups_cell">
+                <%= select_tag 'search_and_order_groups[]', options_for_select(@groups), multiple: 'multiple'  %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row space-top">
+          <%= submit_tag 'Save', class: 'eui-btn--blue space-right', id: 'permissions-save-button' %>
+          <%= link_to 'Cancel', permissions_path %>
+        </div>
+    </section>
+  </div>
+</main>

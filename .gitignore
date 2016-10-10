@@ -37,3 +37,5 @@ umm-spec
 todo
 .byebug_history
 cmr_logs.log
+
+node_modules/

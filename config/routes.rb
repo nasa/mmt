@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :provider_holdings, only: [:index, :show]
 
+  resources :permissions, only: [:index, :show, :new, :create]
+
   # PUMPness
   resource :order_policies, except: :show
   get '/order_policies' => 'order_policies#index'
@@ -14,6 +16,8 @@ Rails.application.routes.draw do
   delete '/groups/:id/remove_members' => 'groups#remove_members', as: 'remove_members'
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
+
+
 
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
@@ -50,9 +54,10 @@ Rails.application.routes.draw do
   get 'status' => 'welcome#status'
 
   # Temporary routes for Permission pages
-  get 'permissions' => 'pages#permissions', as: 'permissions'
+  get 'index-permissions' => 'pages#index-permissions', as: 'index-permissions'
   get 'new-permissions' => 'pages#new-permissions', as: 'new-permissions'
   get 'show-permissions' => 'pages#show-permissions', as: 'show-permissions'
+
 
   root 'welcome#index'
 end

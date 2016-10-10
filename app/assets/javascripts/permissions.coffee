@@ -1,13 +1,13 @@
 $(document).ready ->
-  # Enable jQuery Chosen on field
-  $('#collection-ids').chosen()
-  $('#search-order-groups').chosen placeholder_text_multiple: "Select groups for Search and Order permissions"
-  $('#search-groups').chosen placeholder_text_multiple: "Select groups for Search permissions"
+
+  $('#search_groups_').select2()
+  $('#search_and_order_groups_').select2()
 
   # Hide field by default
   $('#collection_ids_chosen').addClass 'is-hidden'
-  $('#search_order_groups_chosen').addClass 'is-hidden'
-  $('#search_groups_chosen').addClass 'is-hidden'
+
+  #$('#search_order_groups_chosen').addClass 'is-hidden'
+  #$('#search_groups_chosen').addClass 'is-hidden'
 
   # Show respective field based on selection
   $('#collections').on 'change', ->

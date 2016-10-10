@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Downloading Collection XML', js: true do
-  concept_id = 'C1200000005-SEDAC'
+  concept_id = 'C1200000010-SEDAC'
 
   context 'when viewing the collection preview page' do
     before do
