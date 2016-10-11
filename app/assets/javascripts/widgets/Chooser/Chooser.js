@@ -5,7 +5,9 @@
  * @author James LastName
  *
  * Configuration parameters:
- * url (string):            URL of resource to retrieve selections.
+ * firstUrl (string):       URL of resource to retrieve initial selections.
+ * nextUrl (string):        URL of resource to retrieve next chunk of selections.
+ * filterUrl (string):      URL of resource to retrieve filtered selections.
  * target (string):         DOM element where this widget will be placed.
  * initialList:             List of initial values to load into the "from" list
  * fromLabel:               Label to appear over "from" list
@@ -16,6 +18,8 @@
  * resetSize (int):         When user scrolls to top, the entire list is trimmed to this size. Not required,
  *                          default is 50.
  * rememberLast:            Remember the last values entered. Uses browser's session storage.
+ * filterChars (sting):     Number of characters to allow typing into filter textbox before AJAX call is triggered.
+ *                          Default is 3.
  *
  * Public methods:
  *
@@ -25,6 +29,21 @@
  * addValues(list)          Adds values to the "from" list
  * setValues(list)          Removes current values from "from" list and adds new ones.
  * removeFromBottom(n)      Remove n values from bottom of "from" list.
+ *
+ * NOTES: Data format shall be formatted in the following ways:
+ *
+ *          1) An array of strings. Every value will be used for the option value and display value.
+ *          For example, ["lorem", "ipsum", "dolor", "sit", "amet"]
+ *
+ *          2) An array of 2-element arrays. First element is the option value, the second is the display value.
+ *          For example, [ ["lorem", "Lorem"], ["ipsum", "Ipsum"] ...  ]
+ *
+ *          3) A mixed array: [ ["lorem", "Lorem"], "ipsum",  "dolor", ["sit", "Sit"] ... ]
+ *
+ *          4) An array of single- or dual-element arrays.
+ *          For example, [ ["lorem", "Lorem"], ["ipsum"] ...  ]
+ *
+ *          5) Any combination of the above.
  *
  * @param config
  * @constructor
@@ -38,6 +57,8 @@ var Chooser = function(config) {
         ADD_BUTTON, REMOVE_BUTTON, REMOVE_ALL_BUTTON,
         FROM_LABEL, TO_LABEL,
         FILTER_TEXTBOX;
+
+    var PAGE_NUM = 1;
 
     /**
      *
@@ -103,7 +124,7 @@ var Chooser = function(config) {
         $(REMOVE_BUTTON).click(removeButtonClick);
         $(REMOVE_ALL_BUTTON).click(removeAllButtonClick);
 
-        getRemoteData();
+        getRemoteData("first");
 
         $(FROM_LIST).on('scroll', function(){
             var lowerBoundary = $(this).position().top + parseInt($(this).css('height'));
@@ -116,18 +137,18 @@ var Chooser = function(config) {
 
             if(lastOptPos <= lowerBoundary) {
                 console.log("HIT LOWER BOUNDARY ---->"+ lowerBoundary + "," + lastOptPos)
-                getRemoteData();
+                getRemoteData("next");
             }
-
 
             if(firstOptPos >= upperBoundary) {
                 console.log("HIT UPPER BOUNDARY ---->"+ upperBoundary + "," + firstOptPos)
                 self.removeFromBottom();
-                //getRemoteData();
             }
-
-
         });
+
+
+        $(FILTER_TEXTBOX).keyup(initFilter);
+
 
         storeSelections();
         loadSelections();
@@ -142,7 +163,7 @@ var Chooser = function(config) {
         return $(TO_LIST)
             .find("option")
             .map(function(k,v){return $(v).attr("value")});
-    }
+    };
 
     /**
      *
@@ -212,6 +233,13 @@ var Chooser = function(config) {
     // Private functions: -----------------------------
 
 
+    var initFilter = function(e) {
+        console.log($(this).val());
+        if($(this).val().length > config.filterChars) {
+            getRemoteData("filter");
+        }
+    };
+
 
     var storeSelections = function() {
         if(sessionStorage) {
@@ -242,9 +270,26 @@ var Chooser = function(config) {
         }
     };
 
-    var getRemoteData = function() {
+    var getRemoteData = function(type, filterText) {
+
+        var url = config.url;
+
+        if(type === "first") {
+            url += "?"+config.nextPageParm+"=1"
+            PAGE_NUM = 1;
+        } else if(type === "next") {
+            PAGE_NUM++;
+            url += "?"+config.nextPageParm+"=" + PAGE_NUM;
+        } else if(type === "filter") {
+            if(filterText && filterText !== "") {
+                url += "&" + config.filterParm + "=" + filterText;
+            }
+        }
+
+        console.log("url", url)
+
         $.ajax({
-            'url': config.url,
+            'url': url,
         }).done(function (resp) {
             //console.log(resp)
             setOrAddValues(resp)
@@ -257,8 +302,21 @@ var Chooser = function(config) {
 
 
     var setOrAddValues = function(list) {
-        list.forEach(function(v,k){
-            var newOpt = $("<option value='"+v+"'>"+v+"</option>");
+        var value, displayValue;
+        $.each(list, function(k,v) {
+            if(typeof v === "string") {
+                value = displayValue = v;
+            } else if(typeof v === "object") {
+                if(v.length === 2) {
+                    value = v[0];
+                    displayValue = v[1];
+                } else if (v.length === 1){
+                    value = v[0];
+                    displayValue = v[0];
+                }
+            }
+
+            var newOpt = $("<option value='"+value+"'>"+displayValue+"</option>");
             $(FROM_LIST).append(newOpt);
         });
     };
