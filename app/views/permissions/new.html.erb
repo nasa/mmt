@@ -29,6 +29,9 @@
         </div>
         <%= label_tag :collections, 'Collections', class: 'eui-required-o' %>
         <%= select_tag 'collections', options_for_select(PermissionsHelper::CollectionsOptions, @collections), id: 'collections' %>
+        <div id="chooser-widget" style="display: none;"></div>
+
+
         <!-- not yet implemented -->
         <!-- <label for="collection-ids" class="is-invisible">Selected Collection Entry IDs</label>
         <fieldset id="collections-constraint-values" class="is-hidden is-white">

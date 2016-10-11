@@ -1,5 +1,10 @@
 $(document).ready ->
 
+  # JUST FOR TESTING - REMOVE!
+  $('#chooser-widget').show()
+  start_widget()
+
+
   $('#search_groups_').select2()
   $('#search_and_order_groups_').select2()
 
@@ -12,15 +17,11 @@ $(document).ready ->
   # Show respective field based on selection
   $('#collections').on 'change', ->
     if $(this).val() == 'selected-ids-collections'
-      $('#collection_ids_chosen').removeClass 'is-hidden'
-      $('#all-granules-in-collections').removeClass 'is-hidden'
+      $('#chooser-widget').show()
+      start_widget()
     else
-      $('#collection_ids_chosen').addClass 'is-hidden'
-      $('#all-granules-in-collections').addClass 'is-hidden'
-    if $(this).val() == 'access-constraint-collections'
-      $('#collections-constraint-values').removeClass 'is-hidden'
-    else
-      $('#collections-constraint-values').addClass 'is-hidden'
+      $('#chooser-widget').hide()
+
 
   $('#granules').on 'change', ->
     if $(this).val() == 'access-constraint-granule'
@@ -34,3 +35,20 @@ $(document).ready ->
     $(this).addClass 'is-hidden'
     $(this).siblings('#search_order_groups_chosen').removeClass 'is-hidden'
     $(this).siblings('#search_groups_chosen').removeClass 'is-hidden'
+
+
+window.collectionsChooser = null
+
+start_widget = () ->
+  if window.collectionsChooser == null
+    window.collectionsChooser = new Chooser({
+      url: '/permission/all_collections',
+      resetSize: 20,
+      target: $('#chooser-widget'),
+      fromLabel: 'Available collection IDs',
+      toLabel: 'Chosen collection IDs',
+      forceUnique: true
+    })
+
+    window.collectionsChooser.init()
+

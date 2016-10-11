@@ -128,7 +128,45 @@ class PermissionsController < ApplicationController
     end
   end
 
+  def get_all_collections
+    #debugger
+    @collections, @errors, hits = get_collections_for_provider
+
+
+    length=20
+
+    100.times do
+      fake_id = rand(36**length).to_s(36) + "-" + rand(36**length).to_s(36)
+      @collections << fake_id
+    end
+
+
+
+    respond_to do |format|
+      format.json { render json: @collections }
+    end
+  end
+
   private
+
+  def get_collections_for_provider
+    # what page_size to use for the search box? default is 10, max is 2000
+
+    query = { 'provider' => @current_user.provider_id,
+              'page_size' => 1000 }
+    errors = []
+
+    collections = cmr_client.get_collections(query, token).body
+    hits = collections['hits'].to_i # don't really need hits
+    if collections['errors']
+      errors = collections['errors']
+      collections = []
+    elsif collections['items']
+      collections = collections ['items']
+    end
+
+    [collections, errors, hits]
+  end
 
   def get_groups(filters)
     if filters && filters['member']
