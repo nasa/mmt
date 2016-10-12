@@ -149,6 +149,14 @@ var Chooser = function(config) {
 
         $(FILTER_TEXTBOX).keyup(initFilter);
 
+        $(FROM_LIST).dblclick(function() {
+            $(ADD_BUTTON).click();
+        });
+
+        $(TO_LIST).dblclick(function() {
+            $(REMOVE_BUTTON).click();
+        });
+
 
         storeSelections();
         loadSelections();
@@ -226,6 +234,9 @@ var Chooser = function(config) {
                 $(v).remove();
             }
         });
+
+        PAGE_NUM = 1;
+
         console.log("removeFromBottom:::LIST SIZE------->",$(FROM_LIST).find("option").length)
     };
 
@@ -235,8 +246,12 @@ var Chooser = function(config) {
 
     var initFilter = function(e) {
         console.log($(this).val());
-        if($(this).val().length > config.filterChars) {
+        if($(this).val().length >= config.filterChars) {
+            console.log("Getting filtered data...")
             getRemoteData("filter");
+        } else {
+            console.log("Getting first page of data...")
+            getRemoteData("first");
         }
     };
 
@@ -247,7 +262,11 @@ var Chooser = function(config) {
                 console.log("Storing selections...");
                 var items = [];
                 $(this).find("option").each(function(k,v){
-                    items.push($(v).val());
+                    var optData = {
+                        dispText: $(v).text(),
+                        val: $(v).val()
+                    };
+                    items.push(optData);
                 });
                 sessionStorage.setItem("___Chooser_opts", JSON.stringify(items));
             });
@@ -262,7 +281,7 @@ var Chooser = function(config) {
             var items = JSON.parse(sessionStorage.getItem("___Chooser_opts"));
             console.log("items==================>", items);
             $.each(items, function(k,v){
-                var opt = $("<option value='"+v+"'>"+v+"</option>")
+                var opt = $("<option value='"+v.val+"'>"+v.dispText+"</option>")
                 $(TO_LIST).append(opt);
             });
         } else {
@@ -270,20 +289,21 @@ var Chooser = function(config) {
         }
     };
 
-    var getRemoteData = function(type, filterText) {
-
+    var getRemoteData = function(type) {
+        console.log("getRemoteData::type=="+type);
         var url = config.url;
+        var overwrite = false;
 
         if(type === "first") {
+            overwrite = true;
             url += "?"+config.nextPageParm+"=1"
             PAGE_NUM = 1;
         } else if(type === "next") {
             PAGE_NUM++;
             url += "?"+config.nextPageParm+"=" + PAGE_NUM;
         } else if(type === "filter") {
-            if(filterText && filterText !== "") {
-                url += "&" + config.filterParm + "=" + filterText;
-            }
+            overwrite = true;
+            url += "?" + config.filterParm + "=" + $(FILTER_TEXTBOX).val();
         }
 
         console.log("url", url)
@@ -292,7 +312,7 @@ var Chooser = function(config) {
             'url': url,
         }).done(function (resp) {
             //console.log(resp)
-            setOrAddValues(resp)
+            setOrAddValues(resp, overwrite);
             console.log("LIST SIZE------->",$(FROM_LIST).find("option").length)
         }).fail(function (resp) {
             console.error(resp)
@@ -301,8 +321,14 @@ var Chooser = function(config) {
 
 
 
-    var setOrAddValues = function(list) {
+    var setOrAddValues = function(list, overwrite) {
+
         var value, displayValue;
+
+        if(overwrite === true) {
+            $(FROM_LIST).find("option").remove();
+        }
+
         $.each(list, function(k,v) {
             if(typeof v === "string") {
                 value = displayValue = v;
@@ -341,24 +367,23 @@ var Chooser = function(config) {
         })
     };
 
-    var removeButtonClick = function(e) {
+    var removeButtonClick = function(e, remAll) {
         e.preventDefault();
-        $(TO_LIST).find("option:selected").each(function(k,v){
-            var clonedOpt = $(v).clone();
-            $(FROM_LIST).prepend(clonedOpt);
+        var query =  remAll ? "option" : "option:selected";
+        $(TO_LIST).find(query).each(function(k,v){
+            var fromListVal = $(v).attr("value");
+            var toListVal = $(TO_LIST).find("option[value='"+fromListVal+"']").attr("value");
+            if(fromListVal !== toListVal) {
+                var clonedOpt = $(v).clone();
+                $(FROM_LIST).prepend(clonedOpt);
+            }
             $(v).remove();
         });
         $(TO_LIST).trigger("change");
     };
 
     var removeAllButtonClick = function(e) {
-        e.preventDefault();
-        $(TO_LIST).find("option").each(function(k,v){
-            var clonedOpt = $(v).clone();
-            $(FROM_LIST).prepend(clonedOpt);
-            $(v).remove();
-        });
-        $(TO_LIST).trigger("change");
+        removeButtonClick(e, true);
     };
 
     // hasProp("someProp", "object")

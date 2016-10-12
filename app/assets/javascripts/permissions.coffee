@@ -44,7 +44,8 @@ start_widget = () ->
     window.collectionsChooser = new Chooser({
       url: '/permission/all_collections',
       nextPageParm: 'page_num',
-      filterParm: 'entry_title',
+      filterParm: 'entry_id',
+      filterChars: '3',
       resetSize: 20,
       target: $('#chooser-widget'),
       fromLabel: 'Available collection IDs',

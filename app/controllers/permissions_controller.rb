@@ -129,10 +129,11 @@ class PermissionsController < ApplicationController
   end
 
   def get_all_collections
-    @collections, @errors, hits = get_collections_for_provider
+
+    @collections, @errors, hits = get_collections_for_provider(params)
     option_data = []
     @collections.each do |collection|
-      opt = [ collection['meta']['concept-id'], collection['umm']['entry-title'] ]
+      opt = [ collection['meta']['concept-id'], collection['umm']['entry-id'] ]
       option_data << opt
     end
 
@@ -143,15 +144,24 @@ class PermissionsController < ApplicationController
 
   private
 
-  def get_collections_for_provider
+  def get_collections_for_provider(params)
     # what page_size to use for the search box? default is 10, max is 2000
 
     query = { 'provider' => @current_user.provider_id,
               'page_size' => 50 }
+
+    if params.key?('entry_id')
+      query['keyword'] = params['entry_id'] + '*'
+    end
+
+    if params.key?('page_num')
+      query['page_num'] = params['page_num']
+    end
+
     errors = []
 
     collections = cmr_client.get_collections(query, token).body
-    hits = collections['hits'].to_i # don't really need hits
+      hits = collections['hits'].to_i # don't really need hits
     if collections['errors']
       errors = collections['errors']
       collections = []
