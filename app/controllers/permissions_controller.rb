@@ -159,8 +159,8 @@ class PermissionsController < ApplicationController
     groups_for_permissions_select = get_groups
 
     # add options for registered users and guest users
-    groups_for_permissions_select << ['Guest Users', 'Guest Users']
-    groups_for_permissions_select << ['Registered Users', 'Registered Users']
+    groups_for_permissions_select << ['Guest Users', 'guest']
+    groups_for_permissions_select << ['Registered Users', 'registered']
 
     groups_for_permissions_select
   end
@@ -192,12 +192,21 @@ class PermissionsController < ApplicationController
     req_obj['catalog_item_identity']['granule_applicable'] = granule_applicable
     req_obj['group_permissions'] = Array.new
 
+    # fail
+
     if ! search_groups.nil?
       search_groups.each do |group|
-        search_permission = {
-          'group_id'=> group,
-          'permissions'=> ['read'] # aka "search"
-        }
+        if group == 'guest' || group == 'registered'
+          search_permission = {
+            'user_type' => group,
+            'permissions'=> ['read'] # aka "search"
+          }
+        else
+          search_permission = {
+              'group_id'=> group,
+              'permissions'=> ['read'] # aka "search"
+          }
+        end
         req_obj['group_permissions'] << search_permission
         end
     end
@@ -205,14 +214,31 @@ class PermissionsController < ApplicationController
 
     if ! search_and_order_groups.nil?
       search_and_order_groups.each do |group|
-        search_and_order_permission = {
-            'group_id'=> group,
-            'permissions'=> ['read', 'order'] # aka "search"
-        }
+        if group == 'guest' || group == 'registered'
+          search_and_order_permission = {
+              'user_type' => group,
+              'permissions'=> ['read'] # aka "search"
+          }
+        else
+          search_and_order_permission = {
+              'group_id'=> group,
+              'permissions'=> ['read', 'order'] # aka "search"
+          }
+        end
         req_obj['group_permissions'] << search_and_order_permission
       end
     end
     return req_obj
+  end
+
+  def add_guest_or_registered_group(type)
+    # 'user_type' => 'guest'
+    # 'user_type' => 'registered'
+    if type == 'guest'
+
+    elsif type == 'registered'
+    end
+
   end
 
   def construct_permissions_summaries(permissions)
