@@ -9,7 +9,8 @@
     options: DraftsHelper::DataContactRoleOptions,
     help: 'definitions/ContactGroupType/properties/Roles',
     classes: 'data-contact-roles-select',
-    required: true
+    required: true,
+    required_level: options[:required_level]
   ) %>
 
   <!-- GroupName [r] -->
@@ -20,7 +21,8 @@
     value: contact_group['GroupName'],
     help: 'definitions/ContactGroupType/properties/GroupName',
     required: true,
-    validate: true
+    validate: true,
+    required_level: options[:required_level]
   ) %>
 
   <% unless options[:data_center_affiliation] %>
@@ -32,7 +34,8 @@
       prefix: name_prefix,
       value: contact_group['NonDataCenterAffiliation'],
       help: 'definitions/ContactGroupType/properties/NonDataCenterAffiliation',
-      validate: true
+      validate: true,
+      required_level: options[:required_level]
       ) %>
     </div>
   <% end %>
@@ -45,6 +48,6 @@
     name_prefix: "#{name_prefix}|contact_information|_",
     help: 'definitions/ContactInformationType',
     multiple: false,
-    options: options.clone
+    options: options.clone.merge({ required_level: options[:required_level] })
   } %>
 </div>

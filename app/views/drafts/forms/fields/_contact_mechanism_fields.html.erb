@@ -9,7 +9,8 @@
       help: 'definitions/ContactMechanismType/properties/Type',
       classes: 'contact-mechanism-select',
       required: true,
-      validate: true
+      validate: true,
+      required_level: options[:required_level]
     ) %>
   </div>
   <div class="col-6">
@@ -20,7 +21,8 @@
       value: contact_mechanism['Value'],
       help: 'definitions/ContactMechanismType/properties/Value',
       required: true,
-      validate: true
+      validate: true,
+      required_level: options[:required_level]
      ) %>
   </div>
 </div>

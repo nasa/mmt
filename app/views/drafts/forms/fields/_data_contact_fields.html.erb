@@ -8,12 +8,13 @@
       prefix: name_prefix,
       value: get_contact_type(data_contact),
       classes: 'data-contact-type-select',
-      options: DraftsHelper::DataContactTypeOptions
+      options: DraftsHelper::DataContactTypeOptions,
+      required_level: 1 # might not need/want this. there are no decendants
     ) %>
   </div>
 
   <!-- Data Center Contact Person -->
-  <div class="data-contact-type data-center-contact-person" style="<%= 'display: none;' unless data_contact_type == 'DataCenterContactPerson' %>">
+  <div class="data-contact-type data-center-contact-person" data-required-level="1" style="<%= 'display: none;' unless data_contact_type == 'DataCenterContactPerson' %>">
     <%= mmt_label(
     name: 'data_center_contact_person',
     title: 'Data Center Contact Person',
@@ -30,14 +31,15 @@
       options: {
         data_center_affiliation: true,
         related_url_title: 'Data Center Contact Person Related URLs',
-        related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM
+        related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM,
+        required_level: 1
       }
     } %>
   </div>
 
 
   <!-- Data Center Contact Group -->
-  <div class="data-contact-type data-center-contact-group" style="<%= 'display: none;' unless data_contact_type == 'DataCenterContactGroup' %>">
+  <div class="data-contact-type data-center-contact-group" data-required-level="1" style="<%= 'display: none;' unless data_contact_type == 'DataCenterContactGroup' %>">
     <%= mmt_label(
     name: 'data_center_contact_group',
     title: 'Data Center Contact Group',
@@ -54,13 +56,14 @@
       options: {
         data_center_affiliation: true,
         related_url_title: 'Data Center Contact Group Related URLs',
-        related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM
+        related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM,
+        required_level: 1
       }
     } %>
   </div>
 
   <!-- Non Data Center Contact Person -->
-  <div class="data-contact-type non-data-center-contact-person" style="<%= 'display: none;' unless data_contact_type == 'NonDataCenterContactPerson' %>">
+  <div class="data-contact-type non-data-center-contact-person" data-required-level="1" style="<%= 'display: none;' unless data_contact_type == 'NonDataCenterContactPerson' %>">
     <%= mmt_label(
     name: 'non_data_center_contact_person',
     title: 'Non Data Center Contact Person',
@@ -78,7 +81,8 @@
       options: {
         data_center_affiliation: false,
         related_url_title: 'Non Data Center Contact Person Related URLs',
-        related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM
+        related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM,
+        required_level: 1
       }
     } %>
 
@@ -86,7 +90,7 @@
   </div>
 
   <!-- Non Data Center Contact Group -->
-  <div class="data-contact-type non-data-center-contact-group" style="<%= 'display: none;' unless data_contact_type == 'NonDataCenterContactGroup' %>">
+  <div class="data-contact-type non-data-center-contact-group" data-required-level="1" style="<%= 'display: none;' unless data_contact_type == 'NonDataCenterContactGroup' %>">
     <%= mmt_label(
     name: 'non_data_center_contact_group',
     title: 'Non Data Center Contact Group',
@@ -104,7 +108,8 @@
       options: {
         data_center_affiliation: false,
         related_url_title: 'Non Data Center Contact Group Related URLs',
-        related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM
+        related_url_form_type: RelatedUrlFieldsHelper::DATA_CONTACT_FORM,
+        required_level: 1
       }
     } %>
   </div>

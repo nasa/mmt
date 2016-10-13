@@ -10,7 +10,8 @@ module FormHelper
       name_to_param(options[:prefix] + options[:name]),
       options[:value],
       class: classes.join(' '),
-      data: { level: remove_pipes(options[:prefix]) }
+      data: { level: remove_pipes(options[:prefix]),
+              required_level: options[:required_level] }
     )
 
     mmt_label(options) + mmt_help_icon(options) + text_field_html
@@ -84,7 +85,8 @@ module FormHelper
       size: size,
       class: classes,
       prompt: prompt,
-      data: { level: remove_pipes(options[:prefix]) },
+      data: { level: remove_pipes(options[:prefix]),
+              required_level: options[:required_level] },
       style: styles
     )
 

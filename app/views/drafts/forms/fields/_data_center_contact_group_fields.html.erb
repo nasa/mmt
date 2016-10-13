@@ -12,7 +12,8 @@
         help: 'definitions/DataCenterType/properties/ShortName',
         options: @data_centers.map { |short_name, long_name, url| [short_name, short_name, { 'data-long-name' => long_name, 'data-url' => url }]},
         classes: 'select2-select data-center-short-name-select',
-        required: true
+        required: true,
+        required_level: options[:required_level]
       ) %>
     </div>
 
@@ -25,7 +26,8 @@
         value: data_center_contact_group['LongName'],
         help: 'definitions/DataCenterType/properties/LongName',
         classes: 'data-center-long-name',
-        validate: true
+        validate: true,
+        required_level: options[:required_level]
       ) %>
     </div>
   </div>
@@ -38,6 +40,6 @@
     name_prefix: "#{name_prefix}|contact_group|_",
     help: 'definitions/ContactGroupType',
     multiple: false,
-    options: options.clone
+    options: options.clone.merge({ required_level: options[:required_level] })
   } %>
 </div>
