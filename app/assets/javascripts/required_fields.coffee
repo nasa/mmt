@@ -182,7 +182,7 @@ $(document).ready ->
           # field is a url input, need to grab the URL title
           urlParent = $(field).parent()
           $label = urlParent.siblings('label')
-          console.log 'url label', $label
+          # console.log 'url label', $label
       if $label.hasClass('required')
         $requiredLabels.push($label)
         $requiredFields.push(field)
@@ -265,17 +265,25 @@ $(document).ready ->
       # if there are other reasons (at some level up or down there are values)
         # up only, can take out icons from levels below which there are values
         # down, find the down level, keep all icons at that level and above
-      # need to get max level. right now we can just set it at like 5, 6, 7, 8?
+      # get the max data-required-level on the page (currently just for Data Contacts)
       allReqLevelFields = $ancestor.find('[data-required-level]').not(['data-required-level="null"'])
       last = allReqLevelFields[allReqLevelFields.length - 1]
       maxRequiredLevel = parseInt($(last).data('required-level'), 10)
       console.log 'max req level:', maxRequiredLevel
+
+      keepRemoving = true
       for downLevel in [maxRequiredLevel..1] by -1
+        return unless keepRemoving
         [$reqLabelsAtLevel, $reqFieldsAtLevel] = getRequiredLabelsAndFieldsAtLevel(downLevel, $ancestor)
-        labelsToRemoveIcons = []
-        if doFieldsHaveValue($reqFieldsAtLevel)
-          # fields at the required level have values
+        $allFieldsAtLevel = getAllFieldsAtRequiredLevel(downLevel, $ancestor)
+
+        if doFieldsHaveValue($allFieldsAtLevel)
+          # fields at the data-required-level have values
+          keepRemoving = false # stop going down the levels because we found a value
+
+          labelsToRemoveIcons = []
           for field, index in $reqFieldsAtLevel
+            # check the different data-level groups to only remove those that don't have values
             fieldDataLevel = $(field).data('level')
             fieldsAtFieldDataLevel = $("[data-level='#{fieldDataLevel}']")
             unless doFieldsHaveValue(fieldsAtFieldDataLevel)

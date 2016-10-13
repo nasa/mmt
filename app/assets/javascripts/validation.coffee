@@ -279,12 +279,12 @@ $(document).ready ->
         when /data_centers_\d*_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_addresses_(\d*)_state_province/
           "/DataCenters/#{index1}/ContactInformation/Addresses/#{index2}/StateProvince"
-        when /data_contacts_\d*_contact_person_data_center_short_name/.test id
-          [_, index] = id.match /data_contacts_(\d*)_contact_person_data_center_short_name/
-          "/DataContacts/#{index}/ContactPersonDataCenter/ShortName"
-        when /data_contacts_\d*_contact_group_data_center_short_name/.test id
-          [_, index] = id.match /data_contacts_(\d*)_contact_group_data_center_short_name/
-          "/DataContacts/#{index}/ContactGroupDataCenter/ShortName"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_short_name/.test id
+          [_, index] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_short_name/
+          "/DataContacts/#{index}/ContactPersonDataCenter/ContactPerson/ShortName"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_short_name/.test id
+          [_, index] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_short_name/
+          "/DataContacts/#{index}/ContactGroupDataCenter/ContactGroup/ShortName"
         when /data_contacts_\d*_contact_person_data_center_contact_person_roles/.test id
           [_, index] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_roles/
           "/DataContacts/#{index}/ContactPersonDataCenter/ContactPerson/Roles"
