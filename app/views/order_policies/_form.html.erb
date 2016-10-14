@@ -28,7 +28,6 @@
       <label for="supported_transactions_cancel"><%= check_box_tag('supported_transactions[]', 'CANCEL', @policy.fetch('SupportedTransactions', {}).fetch('Item', []).include?('CANCEL'), id: 'supported_transactions_cancel') %>
       Cancel</label><br />
     </div>
-    <label for="supported_transactions[]"></label>
   </div>
 
   <div class="row">
