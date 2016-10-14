@@ -29,6 +29,7 @@
         </div>
         <%= label_tag :collections, 'Collections', class: 'eui-required-o' %>
         <%= select_tag 'collections', options_for_select(PermissionsHelper::CollectionsOptions, @collections), id: 'collections' %>
+        <%= hidden_field_tag 'collection_selections'  %>
         <div id="chooser-widget" style="display: none;"></div>
 
 

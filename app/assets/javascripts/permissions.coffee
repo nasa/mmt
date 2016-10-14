@@ -11,8 +11,8 @@ $(document).ready ->
   # Hide field by default
   $('#collection_ids_chosen').addClass 'is-hidden'
 
-  #$('#search_order_groups_chosen').addClass 'is-hidden'
-  #$('#search_groups_chosen').addClass 'is-hidden'
+
+  $('#chooser-widget').hide()
 
   # Show respective field based on selection
   $('#collections').on 'change', ->
@@ -42,15 +42,18 @@ window.collectionsChooser = null
 start_widget = () ->
   if window.collectionsChooser == null
     window.collectionsChooser = new Chooser({
+      id: 'collectionsChooser',
       url: '/permission/all_collections',
       nextPageParm: 'page_num',
       filterParm: 'entry_id',
-      filterChars: '3',
+      filterChars: '1',
       resetSize: 20,
       target: $('#chooser-widget'),
-      fromLabel: 'Available collection IDs',
-      toLabel: 'Chosen collection IDs',
-      forceUnique: true
+      fromLabel: 'Available collections',
+      toLabel: 'Chosen collections',
+      showNumChosen: true,
+      forceUnique: true,
+      attachTo: $('#collection_selections')
     })
 
     window.collectionsChooser.init()

@@ -103,6 +103,7 @@ class PermissionsController < ApplicationController
     request_object = construct_request_object(params[:permission_name],
       provider_id,
       params[:collections],
+      params[:collection_selections],
       params[:granules],
       params[:search_groups],
       params[:search_and_order_groups])
@@ -133,7 +134,7 @@ class PermissionsController < ApplicationController
     @collections, @errors, hits = get_collections_for_provider(params)
     option_data = []
     @collections.each do |collection|
-      opt = [ collection['meta']['concept-id'], collection['umm']['entry-id'] ]
+      opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
       option_data << opt
     end
 
@@ -148,7 +149,7 @@ class PermissionsController < ApplicationController
     # what page_size to use for the search box? default is 10, max is 2000
 
     query = { 'provider' => @current_user.provider_id,
-              'page_size' => 50 }
+              'page_size' => 10 }
 
     if params.key?('entry_id')
       query['keyword'] = params['entry_id'] + '*'
@@ -196,7 +197,7 @@ class PermissionsController < ApplicationController
     return groups
   end
 
-  def construct_request_object(permission_name, provider_id, collections, granules, search_groups, search_and_order_groups)
+  def construct_request_object(permission_name, provider_id, collections, collections_selections, granules, search_groups, search_and_order_groups)
     req_obj = {
       'group_permissions' => Array.new,
       'catalog_item_identity' => {
@@ -209,11 +210,18 @@ class PermissionsController < ApplicationController
     # TODO -- we will add another condition here to add
     # specifc collection IDs
     collection_applicable = false
-    if collections == 'all-collections'
+    if collections == 'all-collections' || collections == 'selected-ids-collections'
       collection_applicable = true
     end
 
     req_obj['catalog_item_identity']['collection_applicable'] = collection_applicable
+
+
+    entry_titles = collections_selections.split(',')
+    if collections == 'selected-ids-collections'
+      req_obj['catalog_item_identity']['collection_identifier'] = {}
+      req_obj['catalog_item_identity']['collection_identifier']['entry_titles'] = entry_titles
+    end
 
     granule_applicable = false
     if granules == 'all-granules'

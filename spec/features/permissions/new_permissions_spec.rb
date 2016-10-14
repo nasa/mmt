@@ -107,5 +107,37 @@ describe 'New Permission', reset_provider: true, js: true do
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end
     end
+
+
+    xcontext 'when attempting to create a permission with selected collections' do
+      before do
+        click_on 'Change Provider'
+        find('#select_provider').select('LARC')
+        sleep 1.seconds
+        visit new_permission_path
+        fill_in 'Name', with: permission_name
+        select('All Granules', from: 'Granules')
+        select('Selected Collections', from: 'Collections')
+        sleep 2.seconds
+        option = first('#collectionsChooser_fromList option').text
+        select(option, from: 'Available collections')
+
+        within '#collectionsChooser' do
+          find('button[title="add"]').click
+        end
+
+        within '#groups-table2' do
+          select('Group 1', from: 'Search')
+          select('Group 1', from: 'Search and Order')
+        end
+
+        click_on 'Save'
+      end
+      it 'displays a success message that a new permission was added' do
+        expect(page).to have_content('Permission was successfully created.')
+      end
+    end
+
+
   end
 end
