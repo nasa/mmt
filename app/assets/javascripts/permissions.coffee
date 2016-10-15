@@ -32,8 +32,7 @@ $(document).ready ->
     $(this).siblings('#search_order_groups_chosen').removeClass 'is-hidden'
     $(this).siblings('#search_groups_chosen').removeClass 'is-hidden'
 
-  # Validate new permissions form
-#  if $('.permissions-form').length > 0
+  # Validate new permissions form with jqueryvalidation
   $('.permissions-form').validate
     errorClass: 'eui-banner--danger'
     errorElement: 'div'
@@ -41,10 +40,11 @@ $(document).ready ->
 
     errorPlacement: (error, element) ->
       if element.attr('id') == 'search_groups_' || element.attr('id') == 'search_and_order_groups_'
+        # error placement is trickier with the groups because of select2 and the table
+        # placing it after the table
         error.addClass('full-width')
         $table = element.closest('table')
         error.insertAfter($table)
-        # element.closest('table').insertAfter(error)
       else
         error.insertAfter(element)
 
@@ -56,6 +56,11 @@ $(document).ready ->
       return false
 
     rules:
+      # these don't work like this, but the docs say they should
+      # 'search_groups[]':
+      #   require_from_group: [1, '.permission-group']
+      # 'search_and_order_groups[]':
+      #   require_from_group: [1, '.permission-group']
       permission_name:
         required: true
       collections:
@@ -64,6 +69,8 @@ $(document).ready ->
       granules:
         required: true
         valueNotEquals: 'select'
+      # these rules work. but we aren't able to submit with only one filled
+      # need to figure out allowing that to happen
       'search_groups[]':
         required:
           # only require one of the two select fields
@@ -82,29 +89,41 @@ $(document).ready ->
       granules:
         # we are using the valueNotEquals method, so need to use that message
         valueNotEquals: 'Granules is required.'
+      # the messages in required is working with having required as one of the
+      # options in rules. trying to figure out allowing to submit with only one
+      # filled. So trying to see which message will work for that.
       'search_groups[]':
+      #   # require_from_group: 'A group is required for Search or Search and Order permissions.'
         required: 'A group is required for Search or Search and Order permissions.'
       'search_and_order_groups[]':
+      #   # require_from_group: 'A group is required for Search or Search and Order permissions.'
         required: 'A group is required for Search or Search and Order permissions.'
 
-    groups:
-      permission_group: 'search_groups[] search_and_order_groups[]'
+    # groups:
+      # permission_group: 'search_groups[] search_and_order_groups[]'
 
   # adding a method so the collections and granules default values ('select') are not valid
   $.validator.addMethod 'valueNotEquals', (value, elem, arg) ->
     arg != value
-  , 'Selection is required.'
+  , 'Selection is required.' # this is the default message used if not specified in the messages options object
+
+  visitedPermissionGroupSelect = []
 
   $('#search_groups_').select2()
+  .on 'select2:open', (e) ->
+    # add the id to visited array on open
+    id = $(this).attr('id')
+    visitedPermissionGroupSelect.push id unless visitedPermissionGroupSelect.indexOf(id) != -1
   .on 'select2:close', (e) ->
-    # adding this to trigger validation of the select2 on close
-    # tried to use blur but could not find a right way for that to work with select2
-    $(this).valid()
+    # check if the visited array has both select2 fields, and if so validate on close
+    if visitedPermissionGroupSelect.indexOf('#search_groups_') != -1 && visitedPermissionGroupSelect.indexOf('#search_and_order_groups_') != -1
+      $(this).valid()
 
   $('#search_and_order_groups_').select2()
+  .on 'select2:open', (e) ->
+    id = $(this).attr('id')
+    visitedPermissionGroupSelect.push id unless visitedPermissionGroupSelect.indexOf(id) != -1
   .on 'select2:close', (e) ->
-    # adding this to trigger validation of the select2 on close
-    # tried to use blur but could not find a right way for that to work with select2
-    $(this).valid()
-
-# errorElement = $('<div/>', {id: "#{id}_error", class: 'eui-banner--danger validation-error', html: 'new message'})
+    # check if the visited array has both select2 fields, and if so validate on close
+    if visitedPermissionGroupSelect.indexOf('search_groups_') != -1 && visitedPermissionGroupSelect.indexOf('search_and_order_groups_') != -1
+      $(this).valid()

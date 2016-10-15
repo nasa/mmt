@@ -5,6 +5,7 @@ class PermissionsController < ApplicationController
     response = cmr_client.get_permissions_for_provider(provider_id, token)
 
     if params[:new_acl] && response.success?
+      # TODO once the CMR makes indexing synchronous, we can take out this waiting/checking loop
       # indexing of new acls makes it such that the first request does not always return the newly created ACL
       # if the new acl is not in the response, we make the request again until the request fails or we get the new ACL
       has_new_acl = false
@@ -217,7 +218,7 @@ class PermissionsController < ApplicationController
         if group == 'guest' || group == 'registered'
           search_and_order_permission = {
               'user_type' => group,
-              'permissions'=> ['read'] # aka "search"
+              'permissions'=> ['read', 'order'] # aka "search"
           }
         else
           search_and_order_permission = {
