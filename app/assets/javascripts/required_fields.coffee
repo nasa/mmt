@@ -46,7 +46,7 @@ $(document).ready ->
       addRequiredIconsWithRequiredLevel(field)
       return
 
-    console.log 'going past data-required-level. staying in addRequiredIcons'
+    # console.log 'going past data-required-level. staying in addRequiredIcons'
     isRequired = false
     topDataLevel = dataLevels.join('_')
 
@@ -101,7 +101,7 @@ $(document).ready ->
     levels = requiredDataLevels.map (obj) ->
       obj.level
     .unique()
-    console.log "levels #{levels}"
+    # console.log "levels #{levels}"
 
     # Remove all required icons
     $('label.eui-required-o').not('label.always-required').removeClass('eui-required-o')
@@ -195,7 +195,7 @@ $(document).ready ->
 
   removeRequiredIconsFromLabels = (labels) ->
     $(labels).each (index, label) ->
-      console.log 'in removing icons. label:', label
+      # console.log 'in removing icons. label:', label
       $(label).removeClass('eui-required-o')
 
   # see if any fields in group (level) have a value
@@ -205,7 +205,7 @@ $(document).ready ->
     values = $(fields).filter ->
       this.value
 
-    console.log "fields have value? #{values.length > 0}"
+    # console.log "fields have value? #{values.length > 0}"
     values.length > 0 ? true : false
 
   addRequiredIconsWithRequiredLevel = (field) ->
@@ -213,13 +213,19 @@ $(document).ready ->
     # get data-required-level
     # return unless $(field).data('required-level')?
 
+    # get the highest ancestor of data-level-required for this field group
+    # this might (probably?) be a div, not a form field
+    $ancestor = $(field).closest('[data-required-level="1"]')
+    # get required-level of field as integer
+    reqLevel = parseInt($(field).data('required-level'), 10)
+
     isRequired = false
 
     # need dataLevel?
     topDataLevel = $(field).data('level')
     dataLevels = topDataLevel.split('_')
     # fields at current data-level
-    $topDataLevelFields = $("[data-level='#{topDataLevel}']")
+    $topDataLevelFields = $ancestor.find("[data-level='#{topDataLevel}']") # TODO using ancestor b/c of issues incrementing data-level in drafts.coffee
     if $topDataLevelFields.length > 0
       values = $topDataLevelFields.filter ->
         this.value
@@ -229,11 +235,6 @@ $(document).ready ->
         # this is what takes care of required icons at the same data level
         # addRequiredFields($topDataLevelFields)
 
-    # get the highest ancestor of data-level-required for this field group
-    # this might (probably?) be a div, not a form field
-    $ancestor = $(field).closest('[data-required-level="1"]')
-    # get required-level of field as integer
-    reqLevel = parseInt($(field).data('required-level'), 10)
 
     # if isRequired true
       # should get all fields (labels) at current required-level
@@ -245,7 +246,7 @@ $(document).ready ->
         # console.log "level: #{level}. reqFields: ", $reqFieldsAtLevel
         # console.log "level #{level}. reqLabels:", $reqLabelsAtLevel
         addRequiredIconsToLabels($reqLabelsAtLevel)
-        console.trace()
+        # console.trace()
       # test and add required icons for the current reqLevel. go through the
       # fields/labels test if fields at that data-level have values. if so add labels
       [$reqLabelsAtLevel, $reqFieldsAtLevel] = getRequiredLabelsAndFieldsAtLevel(level, $ancestor)
@@ -269,7 +270,7 @@ $(document).ready ->
       allReqLevelFields = $ancestor.find('[data-required-level]').not(['data-required-level="null"'])
       last = allReqLevelFields[allReqLevelFields.length - 1]
       maxRequiredLevel = parseInt($(last).data('required-level'), 10)
-      console.log 'max req level:', maxRequiredLevel
+      # console.log 'max req level:', maxRequiredLevel
 
       keepRemoving = true
       for downLevel in [maxRequiredLevel..1] by -1
@@ -292,10 +293,11 @@ $(document).ready ->
           removeRequiredIconsFromLabels(labelsToRemoveIcons)
         else
           # the reqFieldsAtLevel DONT have a value so required icons can be taken out
+#          console.log "removing these labels", JSON.stringify($reqLabelsAtLevel)
           removeRequiredIconsFromLabels($reqLabelsAtLevel)
 
 
-    console.log 'fin'
+    # console.log 'fin'
 
   # Add required icons when a form field is updated
   $('.metadata-form').on 'blur', 'input, select, textarea', ->
@@ -308,3 +310,6 @@ $(document).ready ->
 
   $('.metadata-form').on 'change', 'input[type="radio"], select', ->
     addRequiredIcons(this)
+
+# TODO do a search for console.log or just console, and erase all commented out
+# console calls that aren't neeeded to help clarify/debug

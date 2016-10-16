@@ -6,11 +6,24 @@ module FormHelper
     classes << 'validate' if options[:validate]
     classes << options[:classes]
 
+    # for data center contact person/groups in data contacts form, need to keep the data center information
+    # at the same data-level and data-required-level as the contact person/ group, so the required fields
+    # appear/disappear with the contact person/group information
+    if options[:prefix] =~ /\|contact_person_data_center\|_$/ #== 'draft_|data_contacts|_|contact_person_data_center|_'
+      data_level = remove_pipes(options[:prefix] + '|contact_person|_')
+      options[:required_level] += 1
+    elsif options[:prefix] =~ /\|contact_group_data_center\|_$/ #== 'draft_|data_contacts|_|contact_group_data_center|_'
+      data_level = remove_pipes(options[:prefix] + '|contact_group|_')
+      options[:required_level] += 1
+    else
+      data_level = remove_pipes(options[:prefix])
+    end
+
     text_field_html = text_field_tag(
       name_to_param(options[:prefix] + options[:name]),
       options[:value],
       class: classes.join(' '),
-      data: { level: remove_pipes(options[:prefix]),
+      data: { level: data_level,
               required_level: options[:required_level] }
     )
 
@@ -61,12 +74,13 @@ module FormHelper
       values = options[:value] || []
       values.each do |value|
         if value && invalid_select_option(select_options, value)
+          # handle invalid options for multi_select
           select_options.unshift value
           disabled_options << value
         end
       end
     else
-      # append invalid disabled option
+      # prepend invalid disabled option
       if options[:value] && invalid_select_option(select_options, options[:value])
         select_options.unshift options[:value]
         disabled_options = options[:value]
@@ -78,6 +92,21 @@ module FormHelper
       classes.delete('half-width')
     end
 
+    # for data center contact person/groups in data contacts form, need to keep the data center information
+    # at the same data-level and data-required-level as the contact person/ group, so the required fields
+    # appear/disappear with the contact person/group information
+    if options[:prefix] =~ /\|contact_person_data_center\|_$/ #== 'draft_|data_contacts|_|contact_person_data_center|_'
+      data_level = remove_pipes(options[:prefix] + '|contact_person|_')
+      options[:required_level] += 1
+    elsif options[:prefix] =~ /\|contact_group_data_center\|_$/ #== 'draft_|data_contacts|_|contact_group_data_center|_'
+      data_level = remove_pipes(options[:prefix] + '|contact_group|_')
+      options[:required_level] += 1
+    else
+      data_level = remove_pipes(options[:prefix])
+    end
+    # need to make sure the required icons act the way we want with this change
+    # labels, name, id will be different than data-level ...
+
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
       options_for_select(select_options, selected: options[:value], disabled: disabled_options),
@@ -85,7 +114,7 @@ module FormHelper
       size: size,
       class: classes,
       prompt: prompt,
-      data: { level: remove_pipes(options[:prefix]),
+      data: { level: data_level,
               required_level: options[:required_level] },
       style: styles
     )

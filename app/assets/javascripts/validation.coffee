@@ -78,6 +78,7 @@ $(document).ready ->
       field = path[path.length - 1]
       field = path[path.length - 2] if $.isNumeric(field)
     type = getFieldType(error.element)
+    console.log "in messages: #{error.id}, #{error.keyword}, #{error.title}, #{error.dataPath}"
 
     switch keyword
       when 'required' then "#{field} is required"
@@ -151,6 +152,7 @@ $(document).ready ->
       if $element.next().hasClass('select2-container')
         afterElement = $element.next()
 
+      console.log "in inline: #{error.id}, #{error.keyword}, #{error.title}, #{error.dataPath}"
       $(errorElement).insertAfter(afterElement)
 
   displaySummary = (errors) ->
