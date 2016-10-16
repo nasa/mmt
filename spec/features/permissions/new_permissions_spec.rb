@@ -25,6 +25,10 @@ describe 'New Permission', reset_provider: true, js: true do
     end
 
     context 'when creating a new permission with complete information' do
+      # TODO do one with only one group in Search or Search and Order, one with both
+      context 'when creating a permission with a group chosen for ___'
+      context 'when creating a permission with groups chosen for both ___'
+
       before do
         page.document.synchronize do
           # add group
@@ -44,7 +48,6 @@ describe 'New Permission', reset_provider: true, js: true do
             select('Group 1', from: 'Search')
             select('Group 1', from: 'Search and Order')
           end
-
         end
 
         click_on 'Save'
@@ -62,10 +65,50 @@ describe 'New Permission', reset_provider: true, js: true do
           expect(page).to have_content('Search & Order')
         end
       end
+
+      context 'when creating a permission for registered users' do
+        before do
+          visit new_permission_path
+          # fill in form for permission
+
+          # choose registered users
+          # save
+        end
+      end
+
+      context 'when creating a permission for guest users' do
+        before do
+          visit new_permission_path
+          # fill in form for permission
+          # fill_in 'Name', with:
+
+          # choose guest users
+          # save
+        end
+
+        # display a success message? I am against it right now - tested above, want to minimize
+
+        it 'displays the permission on the page'
+
+        # should I inspect the permission somehow?
+        # make sure the permission says guest users?
+        # => add a comment to add a test to visit permission page after show is created.
+        it 'shows the permission is for guest users on the permission page'
+      end
+    end
+
+    context 'when attempting to create a permission with incomplete information' do
+      # TODO this is the new context. should be able to streamline the the tests with errors
+      before do
+        click_on 'Save'
+      end
+
+      it 'displays validation errors on the form'
     end
 
     context 'when attempting to create a permission with incomplete collection or granule information' do
 
+      # TODO - should be able to take this out
       it 'displays the appropriate error message' do
         visit new_permission_path
         fill_in 'Name', with: permission_name

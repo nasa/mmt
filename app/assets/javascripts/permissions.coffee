@@ -32,7 +32,7 @@ $(document).ready ->
     $(this).siblings('#search_order_groups_chosen').removeClass 'is-hidden'
     $(this).siblings('#search_groups_chosen').removeClass 'is-hidden'
 
-  # Validate new permissions form with jqueryvalidation
+  # Validate new permissions form with jquery validation plugin
   $('.permissions-form').validate
     errorClass: 'eui-banner--danger'
     errorElement: 'div'
@@ -56,7 +56,7 @@ $(document).ready ->
       return false
 
     rules:
-      # these don't work like this, but the docs say they should
+      # this doesn't work. period. something is wrong with the additional-method
       # 'search_groups[]':
       #   require_from_group: [1, '.permission-group']
       # 'search_and_order_groups[]':
@@ -69,16 +69,15 @@ $(document).ready ->
       granules:
         required: true
         valueNotEquals: 'select'
-      # these rules work. but we aren't able to submit with only one filled
-      # need to figure out allowing that to happen
+      # could not make require_from_group work, so adding our own dependency
       'search_groups[]':
-        required:
-          # only require one of the two select fields
-          require_from_group: [1, '.permission-group']
+        required: (element) ->
+          # field is required if the other field has no value/selection
+          $('#search_and_order_groups_').val() == null
       'search_and_order_groups[]':
-        required:
-          # only require one of the two select fields
-          require_from_group: [1, '.permission-group']
+        required: (element) ->
+          # field is required if the other field has no value/selection
+          $('#search_groups_').val() == null
 
     messages:
       permission_name:
@@ -93,10 +92,8 @@ $(document).ready ->
       # options in rules. trying to figure out allowing to submit with only one
       # filled. So trying to see which message will work for that.
       'search_groups[]':
-      #   # require_from_group: 'A group is required for Search or Search and Order permissions.'
         required: 'A group is required for Search or Search and Order permissions.'
       'search_and_order_groups[]':
-      #   # require_from_group: 'A group is required for Search or Search and Order permissions.'
         required: 'A group is required for Search or Search and Order permissions.'
 
     # groups:
