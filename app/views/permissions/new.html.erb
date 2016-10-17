@@ -77,9 +77,11 @@
             <tr>
               <td id="search_groups_cell">
                 <%= select_tag 'search_groups[]', options_for_select(@groups), multiple: 'multiple'  %>
+                <%= hidden_field_tag 'search_groups_prev_val', @search_groups_prev_val %>
               </td>
               <td id="search_and_order_groups_cell">
                 <%= select_tag 'search_and_order_groups[]', options_for_select(@groups), multiple: 'multiple'  %>
+                <%= hidden_field_tag 'search_and_order_groups_prev_val', @search_and_order_groups_prev_val %>
               </td>
             </tr>
           </tbody>

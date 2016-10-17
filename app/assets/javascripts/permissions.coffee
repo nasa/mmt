@@ -37,6 +37,19 @@ $(document).ready ->
     $(this).siblings('#search_groups_chosen').removeClass 'is-hidden'
 
 
+  if $("#search_groups_prev_val").val() != ""
+    tmp_val = $("#search_groups_prev_val").val().split(",")
+    $("#search_groups_").val(tmp_val)
+    $("#search_groups_").select2()
+
+  if $("#search_and_order_groups_prev_val").val() != ""
+    tmp_val = $("#search_and_order_groups_prev_val").val().split(",")
+    $("#search_and_order_groups_").val(tmp_val)
+    $("#search_and_order_groups_").select2()
+
+
+
+
 window.collectionsChooser = null
 
 start_widget = () ->

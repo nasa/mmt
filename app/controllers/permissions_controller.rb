@@ -89,6 +89,14 @@ class PermissionsController < ApplicationController
       @granules = params[:granules]
       @permission_name = params[:permission_name]
       @groups = get_groups
+
+      if ! params[:search_groups].nil?
+        @search_groups_prev_val = params[:search_groups].join ','
+      end
+      if ! params[:search_and_order_groups].nil?
+        @search_and_order_groups_prev_val = params[:search_and_order_groups].join ','
+      end
+
       render :new
       return
     end
@@ -120,6 +128,9 @@ class PermissionsController < ApplicationController
     else
       Rails.logger.error("Permission Creation Error: #{response.inspect}")
       permission_creation_error = Array.wrap(response.body['errors'])[0]
+      if permission_creation_error == 'Permission to create ACL is denied'
+        permission_creation_error = 'You are not authorized to create a permission. Please contact your system administrator.'
+      end
       flash[:error] = permission_creation_error
       @collections = params[:collections]
       @granules = params[:granules]
