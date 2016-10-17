@@ -38,7 +38,7 @@ class PermissionsController < ApplicationController
     @granules_options = []
     @collections_options = []
     @permission_name = params[:permission_name]
-    @groups = get_groups_for_permissions #(params[:filters]) # TODO we aren't filtering the groups so we should try to take it out
+    @groups = get_groups_for_permissions
   end
 
   def show
@@ -77,7 +77,7 @@ class PermissionsController < ApplicationController
       @collections = params[:collections]
       @granules = params[:granules]
       @permission_name = params[:permission_name]
-      @groups = get_groups_for_permissions #(params[:filters])
+      @groups = get_groups_for_permissions
       render :new
     end
   end
@@ -126,16 +126,11 @@ class PermissionsController < ApplicationController
     [collections, errors, hits]
   end
 
-  def get_groups(filters = {})
-    # we aren't filtering groups, so don't really need this
-    # if filters && filters['member']
-    #   filters['options'] = { 'member' => { 'and' => true } }
-    # end
-
+  def get_groups
+    filters = {}
+    filters['provider'] = @current_user.provider_id;
     groups_response = cmr_client.get_cmr_groups(filters, token)
     groups_for_permissions_select = []
-
-    #TODO!  How do we get all groups for a given provider?
 
     if groups_response.success?
       tmp_groups = groups_response.body['items']
@@ -146,13 +141,13 @@ class PermissionsController < ApplicationController
     else
       Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
       flash[:error] = Array.wrap(groups_response.body['errors'])[0]
-      # groups_for_permissions_select = nil # what about keeping this as [] instead of nil ?
+      groups_for_permissions_select = nil # what about keeping this as [] instead of nil ?
     end
 
     groups_for_permissions_select
   end
 
-  def get_groups_for_permissions #(filters = {})
+  def get_groups_for_permissions
     groups_for_permissions_select = get_groups
 
     # add options for registered users and guest users
