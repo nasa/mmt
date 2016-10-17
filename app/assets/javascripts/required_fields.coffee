@@ -151,12 +151,8 @@ $(document).ready ->
   getRequiredFieldsAtLevel = (reqLevel, ancestor) ->
     $levelFields = $(ancestor).find("input[data-required-level='#{reqLevel}'], select[data-required-level='#{reqLevel}'], textarea[data-required-level='#{reqLevel}']")
     $requiredFields = $levelFields.filter ->
-      # console.log this
       $id = this.id
       $label = $("label[for='#{$id}']") # get label matching the id
-
-      # console.log "label", $label
-      # console.log "should return: #{$label.hasClass('required')}"
       $label.hasClass('required')
 
   getRequiredLabelsAndFieldsAtLevel = (reqLevel, ancestor) ->
@@ -165,11 +161,9 @@ $(document).ready ->
     $requiredFields = []
     $levelFields.each (index, field) ->
       id = $(field).attr('id')
-      # console.log "in getReqLabel. id: #{id}"
       $label = $("label[for='#{id}']")
       if $label.length == 0
         # no label matched the id
-
         if /urls_\d*_urls_\d*$/.test id
           # field is a url input, need to grab the URL title
           urlParent = $(field).parent()
@@ -182,7 +176,6 @@ $(document).ready ->
 
   addRequiredIconsToLabels = (labels) ->
     $(labels).each (index, label) ->
-      # console.log label
       $(label).addClass('eui-required-o')
 
   removeRequiredIconsFromLabels = (labels) ->
@@ -192,12 +185,10 @@ $(document).ready ->
 
   # see if any fields in group (level) have a value
   doFieldsHaveValue = (fields) ->
-    # need to check fields.length?
     return false if fields.length == 0
     values = $(fields).filter ->
       this.value
 
-    # console.log "fields have value? #{values.length > 0}"
     values.length > 0 ? true : false
 
   addRequiredIconsWithRequiredLevel = (field) ->
@@ -213,9 +204,10 @@ $(document).ready ->
 
     isRequired = false
 
-    # need dataLevel?
+    # still using data-level to differentiate different field groups
     topDataLevel = $(field).data('level')
     dataLevels = topDataLevel.split('_')
+
     # fields at current data-level
     $topDataLevelFields = $ancestor.find("[data-level='#{topDataLevel}']") # TODO using ancestor b/c of issues incrementing data-level in drafts.coffee
     if $topDataLevelFields.length > 0
@@ -224,25 +216,20 @@ $(document).ready ->
       # if fields have values
       if values.length > 0
         isRequired = true
-        # this is what takes care of required icons at the same data level
+        # this usually takes care of required icons at the same data level
         # addRequiredFields($topDataLevelFields)
 
-
-    # if isRequired true
-      # should get all fields (labels) at current required-level
-      # add required icon
     if isRequired
       for level in [1..reqLevel - 1]
         # add required icons to all levels above current level
         [$reqLabelsAtLevel, $reqFieldsAtLevel] = getRequiredLabelsAndFieldsAtLevel(level, $ancestor)
-        # console.log "level: #{level}. reqFields: ", $reqFieldsAtLevel
-        # console.log "level #{level}. reqLabels:", $reqLabelsAtLevel
+
         addRequiredIconsToLabels($reqLabelsAtLevel)
-        # console.trace()
-      # test and add required icons for the current reqLevel. go through the
-      # fields/labels test if fields at that data-level have values. if so add labels
+
       [$reqLabelsAtLevel, $reqFieldsAtLevel] = getRequiredLabelsAndFieldsAtLevel(level, $ancestor)
       labelsToAddIcons = []
+      # test and add required icons for the current reqLevel. go through the
+      # fields/labels test if fields at that data-level have values
       for field, index in $reqFieldsAtLevel
         fieldDataLevel = $(field).data('level')
         fieldsAtFieldDataLevel = $("[data-level='#{fieldDataLevel}']")
@@ -272,7 +259,8 @@ $(document).ready ->
 
         if doFieldsHaveValue($allFieldsAtLevel)
           # fields at the data-required-level have values
-          keepRemoving = false # stop going down the levels because we found a value
+          # also stop going down past this level and removing icons since we found a value
+          keepRemoving = false
 
           labelsToRemoveIcons = []
           for field, index in $reqFieldsAtLevel
@@ -284,12 +272,8 @@ $(document).ready ->
               labelsToRemoveIcons.push($reqLabelsAtLevel[index])
           removeRequiredIconsFromLabels(labelsToRemoveIcons)
         else
-          # the reqFieldsAtLevel DONT have a value so required icons can be taken out
-#          console.log "removing these labels", JSON.stringify($reqLabelsAtLevel)
+          # the reqFieldsAtLevel DON'T have a value so required icons can be taken out
           removeRequiredIconsFromLabels($reqLabelsAtLevel)
-
-
-    # console.log 'fin'
 
   # Add required icons when a form field is updated
   $('.metadata-form').on 'blur', 'input, select, textarea', ->

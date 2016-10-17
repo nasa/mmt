@@ -104,10 +104,10 @@ $(document).ready ->
         $(field).attr 'id', id
 
         # TODO this incrementing is not working for some reason
-        # data_level = $(field).data('level')
-        # data_level = data_level.slice(0, idIndex) + data_level.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
+        data_level = $(field).data('level')
+        data_level = data_level.slice(0, idIndex) + data_level.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
         # console.log 'data_level: ', data_level
-        # $(field).data('level', data_level)
+        $(field).data('level', data_level)
         # console.log 'after trying to update: ', $(field).data('level')
 
         # Clear field value

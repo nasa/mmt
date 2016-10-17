@@ -96,7 +96,7 @@ $(document).ready ->
       when 'minimum' then "#{field} is too low"
       when 'parameter-range-later' then "#{field} must be later than Parameter Range Begin"
       when 'parameter-range-larger' then "#{field} must be larger than Parameter Range Begin"
-      when 'oneOf'
+      when 'oneOf' # TODO check and remove 'Party' - was only for organization or personnel
         # oneOf Party means it wants oneOf OrganizationName or Person
         # Those errors don't matter to a user because they don't see
         # that difference in the forms
