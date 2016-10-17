@@ -1,4 +1,4 @@
-# MMT-507
+# MMT-507, 152, 153
 
 require 'rails_helper'
 
@@ -25,85 +25,104 @@ describe 'New Permission', reset_provider: true, js: true do
     end
 
     context 'when creating a new permission with complete information' do
-      before do
-        page.document.synchronize do
-          # add group
-          visit new_group_path
-          fill_in 'Group Name', with: 'Group 1'
-          fill_in 'Group Description', with: 'test group 1'
-          click_on 'Save'
-          wait_for_ajax
-          expect(page).to have_content('Group 1')
+      context 'when creating a permission for groups' do
+        before do
+          page.document.synchronize do
+            # add group
+            visit new_group_path
+            fill_in 'Group Name', with: 'Group 1'
+            fill_in 'Group Description', with: 'test group 1'
+            click_on 'Save'
+            wait_for_ajax
+            expect(page).to have_content('Group 1')
 
-          visit new_permission_path
+            visit new_permission_path
+            fill_in 'Name', with: permission_name
+            select('All Collections', from: 'Collections')
+            select('All Granules', from: 'Granules')
+
+            within '#groups-table2' do
+              select('Group 1', from: 'Search')
+              select('Group 1', from: 'Search and Order')
+            end
+          end
+
+          click_on 'Save'
+          expect(page).to have_content('Custom Permissions')
+        end
+
+        it 'displays a success message that a new permission was added' do
+          expect(page).to have_content('Permission was successfully created.')
+        end
+
+        it 'displays the permission on the page' do
+          within '#custom-permissions-table' do
+            expect(page).to have_content(permission_name)
+            expect(page).to have_content('Search & Order')
+          end
+        end
+      end
+
+      context 'when creating a permission for registered users' do
+        before do
           fill_in 'Name', with: permission_name
           select('All Collections', from: 'Collections')
           select('All Granules', from: 'Granules')
 
-          within '#groups-table2' do
-            select('Group 1', from: 'Search')
-            select('Group 1', from: 'Search and Order')
+          # choose registered users
+          select('Registered Users', from: 'Search')
+
+          click_on 'Save'
+          expect(page).to have_content('Custom Permissions')
+        end
+
+        it 'displays the permission on the page' do
+          within '#custom-permissions-table' do
+            expect(page).to have_content(permission_name)
+            expect(page).to have_content('Search')
           end
-
         end
-
-        click_on 'Save'
-
-        expect(page).to have_content('Custom Permissions')
+        # TODO when the permission show page is implemented, we should visit and test that
+        # the permission shows the right information so we know it was created correctly
       end
 
-      it 'displays a success message that a new permission was added' do
-        expect(page).to have_content('Permission was successfully created.')
-      end
+      context 'when creating a permission for guest users' do
+        before do
+          # visit new_permission_path
+          # fill in form for permission
+          fill_in 'Name', with: permission_name
+          select('All Collections', from: 'Collections')
+          select('All Granules', from: 'Granules')
 
-      it 'displays the permission on the page' do
-        within '#custom-permissions-table' do
-          expect(page).to have_content('James-Test-Permission-1')
-          expect(page).to have_content('Search & Order')
+          # choose guest users
+          select('Guest Users', from: 'Search and Order')
+
+          click_on 'Save'
+          expect(page).to have_content('Custom Permissions')
         end
+
+        it 'displays the permission on the page' do
+          within '#custom-permissions-table' do
+            expect(page).to have_content(permission_name)
+            expect(page).to have_content('Search & Order')
+          end
+        end
+
+        # TODO when the permission show page is implemented, we should visit and test that
+        # the permission shows the right information so we know it was created correctly
       end
     end
 
-    context 'when attempting to create a permission with incomplete collection or granule information' do
-
-      it 'displays the appropriate error message' do
-        visit new_permission_path
-        fill_in 'Name', with: permission_name
-        click_on 'Save'
-        expect(page).to have_content('Search Collections must be specified.')
-      end
-    end
-
-    context 'when attempting to create a permission with incomplete granule information' do
+    context 'when attempting to create a permission with incomplete information' do
       before do
-        fill_in 'Name', with: permission_name
-        select('All Collections', from: 'Collections')
+        # should already be on new permission page. click save to produce the inline validation errors
         click_on 'Save'
       end
-      it 'displays the appropriate error message' do
+
+      it 'displays validation errors on the form' do
+        expect(page).to have_content('Permission Name is required.')
         expect(page).to have_content('Granules must be specified.')
-      end
-    end
-
-    context 'when attempting to create a permission with incomplete collection information' do
-      before do
-        fill_in 'Name', with: permission_name
-        select('All Granules', from: 'Granules')
-        click_on 'Save'
-      end
-      it 'displays the appropriate error message' do
         expect(page).to have_content('Collections must be specified.')
-      end
-    end
-
-    context 'when attempting to create a permission with no groups specified' do
-      before do
-        fill_in 'Name', with: permission_name
-        select('All Granules', from: 'Granules')
-        select('All Collections', from: 'Collections')
-        click_on 'Save'
-      end
-      it 'displays the appropriate error message' do
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end
     end
