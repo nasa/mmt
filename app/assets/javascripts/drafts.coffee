@@ -116,7 +116,6 @@ $(document).ready ->
         else
           $(field).not('input[type="hidden"]').val ''
 
-        # console.log field
       else if $(field).is('label')
         labelFor = $(field).attr('for')
 

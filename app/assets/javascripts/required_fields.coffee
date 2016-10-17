@@ -42,7 +42,7 @@ $(document).ready ->
 
     # use data-required-level for data contacts form
     if $(field).data('required-level')? && $(field).data('required-level') != null
-      console.log 'got data-required-level. going into new RequiredIcons function'
+      # console.log 'got data-required-level. going into new RequiredIcons function'
       addRequiredIconsWithRequiredLevel(field)
       return
 
@@ -80,8 +80,6 @@ $(document).ready ->
       dataLevelObj.level = dataLevel
       dataLevelObj.topLevel = topDataLevel
 
-#      console.log "dataLevelObj: level #{dataLevelObj.dataLevel}, top #{dataLevelObj.topDataLevel}. isRequired = #{isRequired}"
-
       # if the top data level is required
       if isRequired
         # if the dataLevelObj is not already saved, save it
@@ -101,7 +99,6 @@ $(document).ready ->
     levels = requiredDataLevels.map (obj) ->
       obj.level
     .unique()
-    # console.log "levels #{levels}"
 
     # Remove all required icons
     $('label.eui-required-o').not('label.always-required').removeClass('eui-required-o')
@@ -126,11 +123,6 @@ $(document).ready ->
   # add eui-required-o to labels matching the level
   addRequiredLabels = (level) ->
     label = $("label[for=#{level}]")
-    # label = $("label##{level}")
-    # want to use regex
-    # label = $("label:regex(id,^(#{level}))")
-    # label = $('label').filter ->
-    #   this.id.match level
     if label.hasClass('required')
       label.addClass('eui-required-o')
 
@@ -305,7 +297,7 @@ $(document).ready ->
     addRequiredIcons(this)
 
   # Add required icons on page load
-  $('.metadata-form').find('input, select, textarea').each (index, field) ->
+  $('.metadata-form').find('input, select, textarea').not(':disabled').each (index, field) ->
     addRequiredIcons(field)
 
   $('.metadata-form').on 'change', 'input[type="radio"], select', ->
