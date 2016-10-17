@@ -56,6 +56,7 @@ class PermissionsController < ApplicationController
     request_object = construct_request_object(params[:permission_name],
                                               provider_id,
                                               params[:collections],
+                                              params[:collection_selections],
                                               params[:granules],
                                               params[:search_groups],
                                               params[:search_and_order_groups])
