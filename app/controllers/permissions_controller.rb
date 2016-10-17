@@ -58,7 +58,7 @@ class PermissionsController < ApplicationController
     @granules_options = []
     @collections_options = []
     @permission_name = params[:permission_name]
-    @groups = get_groups(params[:filters])
+    @groups = get_groups
   end
 
   def show
@@ -88,7 +88,7 @@ class PermissionsController < ApplicationController
       @collections = params[:collections]
       @granules = params[:granules]
       @permission_name = params[:permission_name]
-      @groups = get_groups(params[:filters])
+      @groups = get_groups
       render :new
       return
     end
@@ -124,7 +124,7 @@ class PermissionsController < ApplicationController
       @collections = params[:collections]
       @granules = params[:granules]
       @permission_name = params[:permission_name]
-      @groups = get_groups(params[:filters])
+      @groups = get_groups
       render :new
     end
   end
@@ -173,15 +173,11 @@ class PermissionsController < ApplicationController
     [collections, errors, hits]
   end
 
-  def get_groups(filters)
-    if filters && filters['member']
-      filters['options'] = { 'member' => { 'and' => true } }
-    end
-
+  def get_groups
+    filters = {}
+    filters['provider'] = @current_user.provider_id;
     groups_response = cmr_client.get_cmr_groups(filters, token)
     groups = []
-
-    #TODO!  How do we get all groups for a given provider?
 
     if groups_response.success?
       tmp_groups = groups_response.body['items']
