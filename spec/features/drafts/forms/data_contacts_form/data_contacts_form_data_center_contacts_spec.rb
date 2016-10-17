@@ -143,7 +143,7 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
             end
 
             it 'saves the data center contact person in the right structure in the schema' do
-              wait_for_jQuery
+              wait_for_jQuery(20)
               page.document.synchronize do
                 d = Draft.first
                 data_center = d.draft['DataCenters'].first
@@ -267,7 +267,7 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
             end
 
             it 'saves the data in the right structure in the schema' do
-              wait_for_jQuery
+              wait_for_jQuery(20)
               page.document.synchronize do
                 d = Draft.first
                 data_center = d.draft['DataCenters'].first
@@ -409,7 +409,7 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
             end
 
             it 'saves the contact under a new data center in the schema' do
-              wait_for_jQuery
+              wait_for_jQuery(20)
               page.document.synchronize do
                 d = Draft.first
                 expect(d.draft['DataCenters'].blank?).to be false
@@ -531,7 +531,7 @@ describe 'Data Contacts form filling in Data Center Contacts', js: true do
             end
 
             it 'saves the contact group under a new data center in the schema' do
-              wait_for_jQuery
+              wait_for_jQuery(20)
               page.document.synchronize do
                 d = Draft.first
                 expect(d.draft['DataCenters'].blank?).to be false
