@@ -38,15 +38,15 @@ $(document).ready ->
 
 
 
-    if $("#search_groups_prev_val").val() != ""
-      tmp_val = $("#search_groups_prev_val").val().split(",")
-      $("#search_groups_").val(tmp_val)
-      $("#search_groups_").select2()
+  if $("#search_groups_prev_val").val() != ""
+    tmp_val = $("#search_groups_prev_val").val().split(",")
+    $("#search_groups_").val(tmp_val)
+    $("#search_groups_").select2()
 
-    if $("#search_and_order_groups_prev_val").val() != ""
-      tmp_val = $("#search_and_order_groups_prev_val").val().split(",")
-      $("#search_and_order_groups_").val(tmp_val)
-      $("#search_and_order_groups_").select2()
+  if $("#search_and_order_groups_prev_val").val() != ""
+    tmp_val = $("#search_and_order_groups_prev_val").val().split(",")
+    $("#search_and_order_groups_").val(tmp_val)
+    $("#search_and_order_groups_").select2()
 
 
 
@@ -137,24 +137,26 @@ $(document).ready ->
       $(this).valid()
 
 
-  # widget for choosing collections
-  window.collectionsChooser = null
+# widget for choosing collections
+window.collectionsChooser = null
 
-  start_widget = ->
-    if window.collectionsChooser == null
-      window.collectionsChooser = new Chooser({
-        id: 'collectionsChooser',
-        url: '/permission/all_collections',
-        nextPageParm: 'page_num',
-        filterParm: 'entry_id',
-        filterChars: '1',
-        resetSize: 20,
-        target: $('#chooser-widget'),
-        fromLabel: 'Available collections',
-        toLabel: 'Chosen collections',
-        showNumChosen: true,
-        forceUnique: true,
-        attachTo: $('#collection_selections')
-      })
 
-      window.collectionsChooser.init()
+
+start_widget = ->
+  if window.collectionsChooser == null
+    window.collectionsChooser = new Chooser({
+      id: 'collectionsChooser',
+      url: '/permission/all_collections',
+      nextPageParm: 'page_num',
+      filterParm: 'entry_id',
+      filterChars: '1',
+      resetSize: 20,
+      target: $('#chooser-widget'),
+      fromLabel: 'Available collections',
+      toLabel: 'Chosen collections',
+      showNumChosen: true,
+      forceUnique: true,
+      attachTo: $('#collection_selections')
+    })
+
+    window.collectionsChooser.init()

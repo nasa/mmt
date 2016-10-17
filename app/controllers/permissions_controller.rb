@@ -89,12 +89,12 @@ class PermissionsController < ApplicationController
     granules = params[:granules]
 
     request_object = construct_request_object(params[:permission_name],
-                                              provider_id,
-                                              params[:collections],
-                                              params[:collection_selections],
-                                              params[:granules],
-                                              params[:search_groups],
-                                              params[:search_and_order_groups])
+      provider_id,
+      params[:collections],
+      params[:collection_selections],
+      params[:granules],
+      params[:search_groups],
+      params[:search_and_order_groups])
 
     response = cmr_client.add_group_permissions(request_object, token)
 
@@ -116,6 +116,12 @@ class PermissionsController < ApplicationController
       @granules = params[:granules]
       @permission_name = params[:permission_name]
       @groups = get_groups_for_permissions
+      if ! params[:search_groups].nil?
+        @search_groups_prev_val = params[:search_groups].join ','
+      end
+      if ! params[:search_and_order_groups].nil?
+        @search_and_order_groups_prev_val = params[:search_and_order_groups].join ','
+      end
       render :new
     end
   end
