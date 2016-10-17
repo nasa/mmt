@@ -31,27 +31,6 @@ class PermissionsController < ApplicationController
     # puts response.body.inspect
     @permissions = response.body['items']
     @permissions = construct_permissions_summaries(@permissions)
-
-    # This block searches through the permissions of each group and creates a summary for display
-    # @permissions.each do |perm|
-    #   permission_summary = {}
-    #   permission_summary_list = []
-    #   group_permissions = perm['acl']['group_permissions']
-    #   group_permissions.each do |group_perm|
-    #     perm_list = group_perm['permissions']
-    #     perm_list.each do |type|
-    #       permission_summary[type] = type
-    #     end
-    #   end
-    #
-    #   permission_summary.keys.each do |key|
-    #     key = 'search' if key == 'read'
-    #
-    #     permission_summary_list << key.capitalize
-    #   end
-    #
-    #   perm['permission_summary'] = permission_summary_list.join ' & '
-    # end
   end
 
   def new
@@ -67,32 +46,6 @@ class PermissionsController < ApplicationController
   end
 
   def create
-    hasError = false
-    msg = ''
-    if params[:permission_name].blank?
-      hasError = true
-      msg = 'Permission Name is required.'
-    elsif params[:collections].blank? || params[:collections] == 'select'
-      hasError = true
-      msg = 'Collections must be specified.'
-    elsif params[:granules].blank? || params[:granules] == 'select'
-      hasError = true
-      msg = 'Granules must be specified.'
-    elsif params[:search_groups].nil? && params[:search_and_order_groups].nil?
-      hasError = true
-      msg = 'Please specify at least one Search group or one Search & Order group.'
-    end
-
-    if hasError == true
-      Rails.logger.error("Permission Creation Error: #{msg}")
-      flash[:error] = msg
-      @collections = params[:collections]
-      @granules = params[:granules]
-      @permission_name = params[:permission_name]
-      @groups = get_groups_for_permissions #(params[:filters])
-      render :new and return
-    end
-
     # current user's current provider
     # to use a different provider_id, user will need to change current provider
     provider_id = @current_user.provider_id
@@ -193,42 +146,42 @@ class PermissionsController < ApplicationController
     req_obj['catalog_item_identity']['granule_applicable'] = granule_applicable
     req_obj['group_permissions'] = Array.new
 
-    # fail
-
-    if ! search_groups.nil?
-      search_groups.each do |group|
-        if group == 'guest' || group == 'registered'
+    if !search_groups.blank?
+      search_groups.each do |search_group|
+        if search_group == 'guest' || search_group == 'registered'
           search_permission = {
-            'user_type' => group,
+            'user_type' => search_group,
             'permissions'=> ['read'] # aka "search"
           }
         else
           search_permission = {
-              'group_id'=> group,
+              'group_id'=> search_group,
               'permissions'=> ['read'] # aka "search"
           }
         end
-        req_obj['group_permissions'] << search_permission
+
+          req_obj['group_permissions'] << search_permission
         end
     end
 
-
-    if ! search_and_order_groups.nil?
-      search_and_order_groups.each do |group|
-        if group == 'guest' || group == 'registered'
+    if !search_and_order_groups.blank?
+      search_and_order_groups.each do |search_and_order_group|
+        if search_and_order_group == 'guest' || search_and_order_group == 'registered'
           search_and_order_permission = {
-              'user_type' => group,
+              'user_type' => search_and_order_group,
               'permissions'=> ['read', 'order'] # aka "search"
           }
         else
           search_and_order_permission = {
-              'group_id'=> group,
+              'group_id'=> search_and_order_group,
               'permissions'=> ['read', 'order'] # aka "search"
           }
         end
-        req_obj['group_permissions'] << search_and_order_permission
+
+          req_obj['group_permissions'] << search_and_order_permission
       end
     end
+    
     return req_obj
   end
 

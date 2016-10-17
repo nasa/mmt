@@ -56,11 +56,6 @@ $(document).ready ->
       return false
 
     rules:
-      # this doesn't work. period. something is wrong with the additional-method
-      # 'search_groups[]':
-      #   require_from_group: [1, '.permission-group']
-      # 'search_and_order_groups[]':
-      #   require_from_group: [1, '.permission-group']
       permission_name:
         required: true
       collections:
@@ -84,20 +79,18 @@ $(document).ready ->
         required: 'Permission Name is required.'
       collections:
         # we are using the valueNotEquals method, so need to use that message
-        valueNotEquals: 'Collection is required.'
+        valueNotEquals: 'Collections must be specified.'
       granules:
         # we are using the valueNotEquals method, so need to use that message
-        valueNotEquals: 'Granules is required.'
-      # the messages in required is working with having required as one of the
-      # options in rules. trying to figure out allowing to submit with only one
-      # filled. So trying to see which message will work for that.
+        valueNotEquals: 'Granules must be specified.'
       'search_groups[]':
-        required: 'A group is required for Search or Search and Order permissions.'
+        required: 'Please specify at least one Search group or one Search & Order group.'
       'search_and_order_groups[]':
-        required: 'A group is required for Search or Search and Order permissions.'
+        required: 'Please specify at least one Search group or one Search & Order group.'
 
-    # groups:
-      # permission_group: 'search_groups[] search_and_order_groups[]'
+    groups:
+      # this should make it so only one message is shown for both elements
+      permission_group: 'search_groups[] search_and_order_groups[]'
 
   # adding a method so the collections and granules default values ('select') are not valid
   $.validator.addMethod 'valueNotEquals', (value, elem, arg) ->
