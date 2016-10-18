@@ -1,4 +1,4 @@
-$(document).ready ->
+$(".permissions-form").ready ->
 
   # JUST FOR TESTING - REMOVE!
   $('#chooser-widget').show()
@@ -38,12 +38,12 @@ $(document).ready ->
 
 
 
-  if $("#search_groups_prev_val").val() != ""
+  if $("#search_groups_prev_val").val()?
     tmp_val = $("#search_groups_prev_val").val().split(",")
     $("#search_groups_").val(tmp_val)
     $("#search_groups_").select2()
 
-  if $("#search_and_order_groups_prev_val").val() != ""
+  if $("#search_and_order_groups_prev_val").val()?
     tmp_val = $("#search_and_order_groups_prev_val").val().split(",")
     $("#search_and_order_groups_").val(tmp_val)
     $("#search_and_order_groups_").select2()
@@ -156,7 +156,11 @@ start_widget = ->
       toLabel: 'Chosen collections',
       showNumChosen: true,
       forceUnique: true,
-      attachTo: $('#collection_selections')
+      attachTo: $('#collection_selections'),
+      errorCallback: ->
+        $('<div class="eui-banner--danger">' +
+            'A server error occurred. Unable to get collections.' +
+            '</div>').prependTo '#main-content'
     })
 
     window.collectionsChooser.init()

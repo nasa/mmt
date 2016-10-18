@@ -1,5 +1,7 @@
 class PermissionsController < ApplicationController
 
+  skip_before_filter :is_logged_in, only: [:get_all_collections]
+
   def index
     provider_id = @current_user.provider_id
     response = cmr_client.get_permissions_for_provider(provider_id, token)
@@ -127,16 +129,19 @@ class PermissionsController < ApplicationController
   end
 
   def get_all_collections
-
-    @collections, @errors, hits = get_collections_for_provider(params)
-    option_data = []
-    @collections.each do |collection|
+    collections, @errors, hits = get_collections_for_provider(params)
+    @option_data = []
+    collections.each do |collection|
       opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
-      option_data << opt
+      @option_data << opt
     end
 
-    respond_to do |format|
-      format.json { render json: option_data }
+    if @errors.length > 0
+      render :json => { :success => false }
+    else
+      respond_to do |format|
+        format.json { render json: @option_data }
+      end
     end
   end
 
@@ -270,8 +275,7 @@ class PermissionsController < ApplicationController
           req_obj['group_permissions'] << search_and_order_permission
       end
     end
-
-    return req_obj
+    req_obj
   end
 
   def construct_permissions_summaries(permissions)
