@@ -22,6 +22,7 @@
  *                          Default is 3.
  * showNumChosen (int):     Always show the number of chosen items in the "to" list.
  * attachTo (element):      DOM element where a value can be stored (hidden or text input).
+ * errorCallback (function): Callback function to execute if an AJAX error occurs.
  *
  * Public methods:
  *
@@ -62,7 +63,9 @@ var Chooser = function(config) {
 
     var PAGE_NUM = 1;
 
-    
+    /**
+     * init - initializes the widget.
+     */
     this.init = function() {
 
         var self = this;
@@ -148,7 +151,6 @@ var Chooser = function(config) {
                 var dist = lowerBoundary - lastOptPos;
                 //console.log("dist =====> " + dist);
 
-
                 var offset = lastOptHeight - dist;
 
                 //console.log("offset =====> " + offset);
@@ -156,8 +158,6 @@ var Chooser = function(config) {
                 if(offset > 1 && offset < 5) {
                     getRemoteData("next");
                 }
-
-
             }
 
             if(firstOptPos >= upperBoundary) {
@@ -214,7 +214,7 @@ var Chooser = function(config) {
     };
 
     /**
-     *
+     * Returns the top-level DOM node of this widget.
      * @returns {*|jQuery|HTMLElement}
      */
     this.getDOMNode = function() {
@@ -223,7 +223,7 @@ var Chooser = function(config) {
 
 
     /**
-     *
+     * Adds values to the FROM list.
      * @param list
      */
     this.addValues = function(list) {
@@ -232,7 +232,7 @@ var Chooser = function(config) {
 
 
     /**
-     *
+     * Overwrites existing values in FROM list with new ones.
      * @param list
      */
     this.setValues = function(list) {
@@ -241,6 +241,11 @@ var Chooser = function(config) {
     };
 
 
+    /**
+     * Removes N values from top of FROM list.
+     *
+     * @param n - number of values to remove.
+     */
     this.removeFromTop = function(n) {
         //console.log("removeFromTop")
 
@@ -256,6 +261,10 @@ var Chooser = function(config) {
         //console.log("removeFromTop:::LIST SIZE------->",$(FROM_LIST).find("option").length)
     };
 
+
+    /**
+     * Remove N values from bottom of list.
+     */
     this.removeFromBottom = function() {
         //console.log("removeFromBottom")
 
@@ -286,7 +295,11 @@ var Chooser = function(config) {
 
     // Private functions: -----------------------------
 
-
+    /**
+     * Trigger the filter textbox action.
+     *
+     * @param e
+     */
     var initFilter = function(e) {
         //console.log($(this).val());
         if($(this).val().length >= config.filterChars) {
@@ -298,7 +311,10 @@ var Chooser = function(config) {
         }
     };
 
-
+    /**
+     * Stores the selections in the browser's session
+     * storage.
+     */
     var storeSelections = function() {
         if(sessionStorage) {
             $(TO_LIST).on('change', function(){
@@ -318,7 +334,9 @@ var Chooser = function(config) {
         }
     };
 
-
+    /**
+     * Loads selections into the TO box from the browser's sesssion storage.
+     */
     var loadSelections = function() {
         if(sessionStorage) {
             var items = JSON.parse(sessionStorage.getItem("___Chooser_opts"));
@@ -333,6 +351,11 @@ var Chooser = function(config) {
         }
     };
 
+    /**
+     * Makes the AJAX calls to get the data from the remote server.
+     *
+     * @param type
+     */
     var getRemoteData = function(type) {
         //console.log("getRemoteData::type=="+type);
         var url = config.url;
@@ -350,21 +373,26 @@ var Chooser = function(config) {
             url += "?" + config.filterParm + "=" + $(FILTER_TEXTBOX).val();
         }
 
-        //console.log("url", url)
 
         $.ajax({
             'url': url,
         }).done(function (resp) {
-            //console.log(resp)
             setOrAddValues(resp, overwrite);
-            //console.log("LIST SIZE------->",$(FROM_LIST).find("option").length)
         }).fail(function (resp) {
-            //console.error(resp)
+            console.error("ERROR--->Could not retrieve values. Reason:", resp);
+            if(hasProp("errorCallback", "function")) {
+                config.errorCallback.call();
+            }
         });
     };
 
 
-
+    /**
+     * Sets or adds the vaulues in the FROM list.
+     *
+     * @param list - the array of values.
+     * @param overwrite - whether or not to overwrite the existing values.
+     */
     var setOrAddValues = function(list, overwrite) {
 
         var value, displayValue;
@@ -391,6 +419,11 @@ var Chooser = function(config) {
         });
     };
 
+    /**
+     * Add button click action.
+     *
+     * @param e - the click event
+     */
     var addButtonClick = function(e) {
         e.preventDefault();
         $(FROM_LIST).find("option:selected").each(function(k,v){
@@ -411,6 +444,13 @@ var Chooser = function(config) {
         })
     };
 
+    /**
+     * Remve button click action.
+     *
+     * @param e - the click event
+     * @param remAll - boolean indicating whether or not to remove
+     * all values from the FROM list.
+     */
     var removeButtonClick = function(e, remAll) {
         e.preventDefault();
         var query =  remAll ? "option" : "option:selected";
@@ -430,7 +470,21 @@ var Chooser = function(config) {
         removeButtonClick(e, true);
     };
 
-    // hasProp("someProp", "object")
+
+    /**
+     * Convenience method to test for presence of
+     * a config option.
+     *
+     * Exanples:
+     * hasProp("someProp", "object")
+     * hasProp("foo", "string")
+     * hasProp("bar", "function")
+     * hasProp("baz")
+     *
+     * @param name - config key
+     * @param type - data type
+     * @returns {boolean}
+     */
     var hasProp = function(name, type) {
         if(config.hasOwnProperty(name)) {
             if(type) {
