@@ -1,9 +1,7 @@
 $(".permissions-form").ready ->
 
-  # JUST FOR TESTING - REMOVE!
   $('#chooser-widget').show()
   start_widget()
-
 
   $('#search_groups_').select2()
   $('#search_and_order_groups_').select2()
