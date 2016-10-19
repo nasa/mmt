@@ -170,7 +170,8 @@ module Cmr
 
       clear_cache
 
-      ## ACLs for System level groups # As of CMR-CSB-1241 or 1242, these ACLs are no longer working for seeing groups with the tokens created for users in beginning of this method
+      ## ACLs for System level groups
+      ## these ACLs need groups in the groups api (3011) for sids lookup to work properly for the tokens created at the beginning of this setup
       # admin user
       resp = connection.post do |req|
         req.url('http://localhost:3008/acls')
@@ -298,6 +299,36 @@ module Cmr
       end
 
       clear_cache
+
+      ## ACLs for permissions for ACLs
+      ## temporary fix: we are using the legacy_guid used in the groups we created for the sids
+      ## it should have been the concept_id of the group but that was not working. what we use will change in the near future
+      # ACL for read and create access for ACLs for admin user, read access for registered users
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"group_permissions": [{"group_id": "guidMMTAdmin", "permissions": ["read", "create"]}, {"user_type":"registered", "permissions":["read"]}], "system_identity": {"target": "ANY_ACL"}}'
+      end
+      puts "ACL access for admin user and registered users: #{resp.body}"
+      # ACL for typical user to create catalog item ACLs for MMT_1
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "MMT_1"}}'
+      end
+      puts "ACL for typical user to read and create catalog item ACLs for MMT_1 #{resp.body}"
+      # ACL for typical user to create catalog item ACLs for MMT_2
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "MMT_2"}}'
+      end
+      puts "ACL for typical user to read and create catalog item ACLs for MMT_2 #{resp.body}"
+
+      clear_cache
     end
 
     def clear_cache
@@ -415,6 +446,12 @@ module Cmr
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "' + guid + '","target": "GROUP"}}}'
+      end
+      connection.post do |req|
+        req.url('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "' + provider_id + '"}}'
       end
 
       clear_cache

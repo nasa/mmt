@@ -1,0 +1,63 @@
+<%= render 'shared/flash_messages' %>
+
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item current">Permissions & Groups</li>
+        </ol>
+      </div>
+      <h2>Permissions & Groups</h2>
+      <p class="subnav current">Permissions</p>
+      <p class="subnav">
+        <%= link_to 'Groups', groups_path %>
+      </p>
+    </div>
+  </header>
+  <div class="row row-content">
+    <section>
+      <h3>General Access Permissions</h3>
+      <ul class="no-bullets no-padding">
+        <!-- todo: wire the following links -->
+        <li><a href="#">All Guest Users</a></li>
+        <li><a href="#">All Registered Users</a></li>
+        <!-- end todo -->
+      </ul>
+
+      <div class="flex-row--sb">
+        <h3>Custom Permissions</h3>
+        <!--<a href="#" class="eui-btn--blue space-bot">New Permissions</a>-->
+        <%= link_to 'New Permission', new_permission_path, :class=> 'eui-btn--blue space-bot' %>
+      </div>
+
+      <table id="custom-permissions-table">
+        <thead>
+          <tr>
+            <th>Permission Name</th>
+            <th>Permission Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @permissions.blank? %>
+            <tr>
+              <td colspan="2">No permissions found at this time.</td>
+            </tr>
+          <% else %>
+            <% @permissions.each do |permission| %>
+              <tr>
+                <td>
+                  <%= link_to permission["name"], permission_path(permission["concept_id"])  %>
+                </td>
+                <td>
+                  <%= permission["permission_summary"] %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</main>

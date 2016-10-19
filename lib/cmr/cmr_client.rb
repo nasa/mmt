@@ -215,5 +215,40 @@ module Cmr
       end
       get(url, {}, token_header(token))
     end
+
+    def add_group_permissions(request_object, token)
+      # Example: curl -XPOST -i -H "Content-Type: application/json" -H "Echo-Token: XXXXX" https://cmr.sit.earthdata.nasa.gov/access-control/acls -d \
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/acls'
+      else
+        url = '/access-control/acls'
+      end
+      post(url, request_object.to_json, token_header(token))
+    end
+
+    def get_permissions_for_provider(provider_id, token)
+      # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/acls'
+      else
+        url = '/access-control/acls'
+      end
+      options = {'provider' => provider_id, 'include_full_acl' => true}
+      response = get(url, options, token_header(token))
+    end
+
+    def get_permission(concept_id, token)
+      # Example: curl -i "http://localhost:3011/acls/"
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/acls'
+      else
+        url = '/access-control/acls'
+      end
+
+      options = {'provider' => provider_id}
+
+      response = get(url, options, token_header(token))
+    end
+
   end
 end
