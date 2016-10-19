@@ -35,20 +35,6 @@ $('.permissions-form').ready ->
     $(this).siblings('#search_order_groups_chosen').removeClass 'is-hidden'
     $(this).siblings('#search_groups_chosen').removeClass 'is-hidden'
 
-
-
-  if $("#search_groups_prev_val").val()?
-    tmp_val = $("#search_groups_prev_val").val().split(",")
-    $("#search_groups_").val(tmp_val)
-    $("#search_groups_").select2()
-
-  if $("#search_and_order_groups_prev_val").val()?
-    tmp_val = $("#search_and_order_groups_prev_val").val().split(",")
-    $("#search_and_order_groups_").val(tmp_val)
-    $("#search_and_order_groups_").select2()
-
-
-
   # Validate new permissions form with jquery validation plugin
   $('.permissions-form').validate
     errorClass: 'eui-banner--danger'
