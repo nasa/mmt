@@ -103,13 +103,10 @@ $(document).ready ->
         id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
         $(field).attr 'id', id
 
-        # data_level = $(field).data('level')
         data_level = $(field).attr('data-level')
         data_level = data_level.slice(0, idIndex) + data_level.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
-        # console.log 'data_level: ', data_level
-        # debugger
-        # TODO for some reason, incrementing on the page does not happen without the attr call,
-        # but required fields does not work properly without the data call
+        # TODO for some reason, incrementing on the page does not happen without the .attr call,
+        # but required fields does not work properly without the .data call
         $(field).data('level', data_level)
         $(field).attr('data-level', data_level)
         # console.log 'after trying to update: ', $(field).data('level')
@@ -123,19 +120,22 @@ $(document).ready ->
           # $(field).not('input[type="hidden"]').attr('value', '')
 
       else if $(field).is('label')
+        # keep always required icons, remove conditionally required icons
         if $(field).hasClass('required') && !$(field).hasClass('always-required')
-          # keep always required icons, remove conditionally required icons
           $(field).removeClass('eui-required-o')
+
         labelFor = $(field).attr('for')
 
         if labelFor != undefined
           labelFor = labelFor.slice(0, idIndex) + labelFor.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
           $(field).attr 'for', labelFor
+
       else if $(field).is('div')
         # also increment the id for data contacts divs
         id = $(field).attr('id')
         id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
         $(field).attr 'id', id
+
     newDiv
 
   $('.multiple').on 'click', '.remove', ->
