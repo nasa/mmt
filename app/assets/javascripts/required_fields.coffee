@@ -18,18 +18,6 @@ Array::unique = ->
   output[@[key]] = @[key] for key in [0...@length]
   value for key, value of output
 
-# Add ability to use regex with jQuery selectors
-# http://james.padolsey.com/javascript/regex-selector-for-jquery/
-jQuery.expr[':'].regex = (elem, index, match) ->
-  matchParams = match[3].split(',')
-  validLabels = /^(data|css):/
-  attr =
-    method: if matchParams[0].match(validLabels) then matchParams[0].split(':')[0] else 'attr'
-    property: matchParams.shift().replace(validLabels,'')
-  regexFlags = 'ig'
-  regex = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g,''), regexFlags)
-  regex.test(jQuery(elem)[attr.method](attr.property))
-
 $(document).ready ->
   # Stores the pages required fields
   requiredDataLevels = []
@@ -42,11 +30,12 @@ $(document).ready ->
 
     # use data-required-level for data contacts form
     if $(field).data('required-level')? && $(field).data('required-level') != null
-      # console.log 'got data-required-level. going into new RequiredIcons function'
+      console.log 'got data-required-level. going into new RequiredIcons function'
       addRequiredIconsWithRequiredLevel(field)
       return
 
-    # console.log 'going past data-required-level. staying in addRequiredIcons'
+    console.log 'going past data-required-level. staying in addRequiredIcons'
+    console.log field
     isRequired = false
     topDataLevel = dataLevels.join('_')
 
@@ -68,7 +57,6 @@ $(document).ready ->
     # draft_personnel_0_related isn't an actual data level
     for level, index in dataLevels
       dataLevel = dataLevels.slice(0, index + 1).join('_')
-#      console.log "dataLevel: #{dataLevel}"
 
       # if the last item in the data level is a number, we need to add a '_' to work
       [..., last] = dataLevel.split('_')
@@ -168,7 +156,6 @@ $(document).ready ->
           # field is a url input, need to grab the URL title
           urlParent = $(field).parent()
           $label = urlParent.siblings('label')
-          # console.log 'url label', $label
       if $label.hasClass('required')
         $requiredLabels.push($label)
         $requiredFields.push(field)
@@ -188,7 +175,6 @@ $(document).ready ->
     return false if fields.length == 0
     values = $(fields).filter ->
       this.value
-
     values.length > 0 ? true : false
 
   addRequiredIconsWithRequiredLevel = (field) ->
@@ -216,8 +202,7 @@ $(document).ready ->
       # if fields have values
       if values.length > 0
         isRequired = true
-        # this usually takes care of required icons at the same data level
-        # addRequiredFields($topDataLevelFields)
+        # addRequiredFields($topDataLevelFields) # this usually takes care of required icons at the same data level
 
     if isRequired
       for level in [1..reqLevel - 1]
@@ -239,17 +224,11 @@ $(document).ready ->
       addRequiredIconsToLabels(labelsToAddIcons) if labelsToAddIcons.length > 0
 
     else
-    # isRequired false
-      # if there are no other reasons to keep this true (no other fields with required icons that have values)
-        # we can take out all required icons
-      # if there are other reasons (at some level up or down there are values)
-        # up only, can take out icons from levels below which there are values
-        # down, find the down level, keep all icons at that level and above
+
       # get the max data-required-level on the page (currently just for Data Contacts)
       allReqLevelFields = $ancestor.find('[data-required-level]').not(['data-required-level="null"'])
       last = allReqLevelFields[allReqLevelFields.length - 1]
       maxRequiredLevel = parseInt($(last).data('required-level'), 10)
-      # console.log 'max req level:', maxRequiredLevel
 
       keepRemoving = true
       for downLevel in [maxRequiredLevel..1] by -1
@@ -259,7 +238,8 @@ $(document).ready ->
 
         if doFieldsHaveValue($allFieldsAtLevel)
           # fields at the data-required-level have values
-          # also stop going down past this level and removing icons since we found a value
+
+          # stop going down past this level and removing icons since we found a value
           keepRemoving = false
 
           labelsToRemoveIcons = []
@@ -267,9 +247,11 @@ $(document).ready ->
             # check the different data-level groups to only remove those that don't have values
             fieldDataLevel = $(field).data('level')
             fieldsAtFieldDataLevel = $("[data-level='#{fieldDataLevel}']")
+
             unless doFieldsHaveValue(fieldsAtFieldDataLevel)
               # fields in the data level don't have values, remove icons
               labelsToRemoveIcons.push($reqLabelsAtLevel[index])
+
           removeRequiredIconsFromLabels(labelsToRemoveIcons)
         else
           # the reqFieldsAtLevel DON'T have a value so required icons can be taken out
@@ -286,6 +268,3 @@ $(document).ready ->
 
   $('.metadata-form').on 'change', 'input[type="radio"], select', ->
     addRequiredIcons(this)
-
-# TODO do a search for console.log or just console, and erase all commented out
-# console calls that aren't neeeded to help clarify/debug

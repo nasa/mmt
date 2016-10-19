@@ -393,8 +393,8 @@ $(document).ready ->
       validate = ajv.compile(globalDataContactsFormSchema)
       validate(json)
 
-
     errors = if validate.errors? then validate.errors else []
+    # console.log 'errors! ', JSON.stringify(errors)
 
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)
