@@ -379,7 +379,10 @@ var Chooser = function(config) {
         }).done(function (resp) {
             setOrAddValues(resp, overwrite);
         }).fail(function (resp) {
-            console.error("ERROR--->Could not retrieve values. Reason:", resp);
+            console.error("ERROR--->Could not retrieve values. Reason:");
+            console.error(resp.statusCode);
+            console.error(resp.responseText)
+
             if(hasProp("errorCallback", "function")) {
                 config.errorCallback.call();
             }

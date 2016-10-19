@@ -130,6 +130,7 @@ class PermissionsController < ApplicationController
 
   def get_all_collections
     collections, @errors, hits = get_collections_for_provider(params)
+    
     @option_data = []
     collections.each do |collection|
       opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]

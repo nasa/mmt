@@ -49,8 +49,8 @@ describe 'New Permission', reset_provider: true, js: true do
             select('All Granules', from: 'Granules')
 
             within '#groups-table2' do
-              select('Group 1', from: 'Search')
-              select('Group 1', from: 'Search and Order')
+              select('Guest Users', from: 'Search')
+              select('Guest Users', from: 'Search and Order')
             end
 
             click_on 'Save'
@@ -87,7 +87,8 @@ describe 'New Permission', reset_provider: true, js: true do
             end
 
             within '#groups-table2' do
-              select('Group 1', from: 'Search and Order')
+              #select('Group 1', from: 'Search and Order')
+              select('Guest Users', from: 'Search and Order')
             end
 
             click_on 'Save'

@@ -136,13 +136,12 @@ $(".permissions-form").ready ->
 
 
 # widget for choosing collections
-window.collectionsChooser = null
-
+collectionsChooser = null
 
 
 start_widget = ->
-  if window.collectionsChooser == null
-    window.collectionsChooser = new Chooser({
+  if collectionsChooser == null
+    collectionsChooser = new Chooser({
       id: 'collectionsChooser',
       url: '/permission/all_collections',
       nextPageParm: 'page_num',
@@ -161,4 +160,4 @@ start_widget = ->
             '</div>').prependTo '#main-content'
     })
 
-    window.collectionsChooser.init()
+    collectionsChooser.init()
