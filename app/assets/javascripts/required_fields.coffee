@@ -30,12 +30,12 @@ $(document).ready ->
 
     # use data-required-level for data contacts form
     if $(field).data('required-level')? && $(field).data('required-level') != null
-      console.log 'got data-required-level. going into new RequiredIcons function'
+      # console.log 'got data-required-level. going into new RequiredIcons function'
       addRequiredIconsWithRequiredLevel(field)
       return
 
-    console.log 'going past data-required-level. staying in addRequiredIcons'
-    console.log field
+    # console.log 'going past data-required-level. staying in addRequiredIcons'
+
     isRequired = false
     topDataLevel = dataLevels.join('_')
 

@@ -177,7 +177,6 @@ class DraftsController < ApplicationController
 
   def validate_metadata
     schema = 'lib/assets/schemas/umm-c-json-schema.json'
-    data_contacts_form_schema = 'lib/assets/schemas/data-contacts-schema-3.json'
 
     # Setup URI and date-time validation correctly
     uri_format_proc = lambda do |value|

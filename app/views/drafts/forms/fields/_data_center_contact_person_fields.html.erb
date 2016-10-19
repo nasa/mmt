@@ -6,7 +6,7 @@
     <div class="col-6">
       <%= mmt_select(
         name: 'short_name',
-        title: 'Short Name',
+        title: 'Data Center Short Name',
         prefix: "#{name_prefix}",
         value: data_center_contact_person['ShortName'],
         help: 'definitions/DataCenterType/properties/ShortName',
@@ -21,7 +21,7 @@
     <div class="col-6">
       <%= mmt_text_field(
         name: 'long_name',
-        title: 'Long Name',
+        title: 'Data Center Long Name',
         prefix: "#{name_prefix}",
         value: data_center_contact_person['LongName'],
         help: 'definitions/DataCenterType/properties/LongName',
