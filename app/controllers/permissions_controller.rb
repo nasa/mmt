@@ -113,8 +113,8 @@ class PermissionsController < ApplicationController
     groups_for_permissions_select = get_groups
 
     # add options for registered users and guest users
-    groups_for_permissions_select << ['Guest Users', 'guest']
-    groups_for_permissions_select << ['Registered Users', 'registered']
+    groups_for_permissions_select.unshift(['All Registered Users', 'registered'])
+    groups_for_permissions_select.unshift(['All Guest Users', 'guest'])
 
     groups_for_permissions_select
   end
@@ -181,7 +181,7 @@ class PermissionsController < ApplicationController
           req_obj['group_permissions'] << search_and_order_permission
       end
     end
-    
+
     return req_obj
   end
 
