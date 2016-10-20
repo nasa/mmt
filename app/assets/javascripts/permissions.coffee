@@ -30,9 +30,6 @@ $(document).ready ->
     $('#chooser-widget').show()
     start_widget()
 
-    $('#search_groups_').select2()
-    $('#search_and_order_groups_').select2()
-
     # Hide field by default
     $('#collection_ids_chosen').addClass 'is-hidden'
 
@@ -46,7 +43,6 @@ $(document).ready ->
         start_widget()
       else
         $('#chooser-widget').hide()
-
 
     $('#granules').on 'change', ->
       if $(this).val() == 'access-constraint-granule'
