@@ -1,5 +1,7 @@
 class PermissionsController < ApplicationController
 
+  skip_before_filter :is_logged_in, only: [:get_all_collections]
+
   def index
     provider_id = @current_user.provider_id
     response = cmr_client.get_permissions_for_provider(provider_id, token)
@@ -38,7 +40,7 @@ class PermissionsController < ApplicationController
     @granules_options = []
     @collections_options = []
     @permission_name = params[:permission_name]
-    @groups = get_groups_for_permissions #(params[:filters]) # TODO we aren't filtering the groups so we should try to take it out
+    @groups = get_groups_for_permissions
   end
 
   def show
@@ -46,7 +48,42 @@ class PermissionsController < ApplicationController
   end
 
   def create
-    # current user's current provider
+    hasError = false
+    msg = ''
+    if params[:permission_name].blank?
+      hasError = true
+      msg = 'Permission Name is required.'
+    elsif params[:collections].blank? || params[:collections] == 'select'
+      hasError = true
+      msg = 'Collections must be specified.'
+    elsif params[:granules].blank? || params[:granules] == 'select'
+      hasError = true
+      msg = 'Granules must be specified.'
+    elsif params[:search_groups].nil? && params[:search_and_order_groups].nil?
+      hasError = true
+      msg = 'Please specify at least one Search group or one Search & Order group.'
+    end
+
+    if hasError == true
+      Rails.logger.error("Permission Creation Error: #{msg}")
+      flash[:error] = msg
+      @collections = params[:collections]
+      @granules = params[:granules]
+      @permission_name = params[:permission_name]
+      @groups = get_groups
+
+      if ! params[:search_groups].nil?
+        @search_groups_prev_val = params[:search_groups].join ','
+      end
+      if ! params[:search_and_order_groups].nil?
+        @search_and_order_groups_prev_val = params[:search_and_order_groups].join ','
+      end
+
+      render :new
+      return
+    end
+
+    # Global provider ID for the current user, based their current provider
     # to use a different provider_id, user will need to change current provider
     provider_id = @current_user.provider_id
 
@@ -54,11 +91,12 @@ class PermissionsController < ApplicationController
     granules = params[:granules]
 
     request_object = construct_request_object(params[:permission_name],
-                                              provider_id,
-                                              params[:collections],
-                                              params[:granules],
-                                              params[:search_groups],
-                                              params[:search_and_order_groups])
+      provider_id,
+      params[:collections],
+      params[:collection_selections],
+      params[:granules],
+      params[:search_groups],
+      params[:search_and_order_groups])
 
     response = cmr_client.add_group_permissions(request_object, token)
 
@@ -72,27 +110,77 @@ class PermissionsController < ApplicationController
     else
       Rails.logger.error("Permission Creation Error: #{response.inspect}")
       permission_creation_error = Array.wrap(response.body['errors'])[0]
+      if permission_creation_error == 'Permission to create ACL is denied'
+        permission_creation_error = 'You are not authorized to create a permission. Please contact your system administrator.'
+      end
       flash[:error] = permission_creation_error
       @collections = params[:collections]
       @granules = params[:granules]
       @permission_name = params[:permission_name]
-      @groups = get_groups_for_permissions #(params[:filters])
+      @groups = get_groups_for_permissions
+      if ! params[:search_groups].nil?
+        @search_groups_prev_val = params[:search_groups].join ','
+      end
+      if ! params[:search_and_order_groups].nil?
+        @search_and_order_groups_prev_val = params[:search_and_order_groups].join ','
+      end
       render :new
+    end
+  end
+
+  def get_all_collections
+    collections, @errors, hits = get_collections_for_provider(params)
+    
+    @option_data = []
+    collections.each do |collection|
+      opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
+      @option_data << opt
+    end
+
+    if @errors.length > 0
+      render :json => { :success => false }
+    else
+      respond_to do |format|
+        format.json { render json: @option_data }
+      end
     end
   end
 
   private
 
-  def get_groups(filters = {})
-    # we aren't filtering groups, so don't really need this
-    # if filters && filters['member']
-    #   filters['options'] = { 'member' => { 'and' => true } }
-    # end
+  def get_collections_for_provider(params)
+    # what page_size to use for the search box? default is 10, max is 2000
 
+    query = { 'provider' => @current_user.provider_id,
+              'page_size' => 10 }
+
+    if params.key?('entry_id')
+      query['keyword'] = params['entry_id'] + '*'
+    end
+
+    if params.key?('page_num')
+      query['page_num'] = params['page_num']
+    end
+
+    errors = []
+
+    collections = cmr_client.get_collections(query, token).body
+      hits = collections['hits'].to_i # don't really need hits
+    if collections['errors']
+      errors = collections['errors']
+      collections = []
+    elsif collections['items']
+      collections = collections ['items']
+    end
+
+    [collections, errors, hits]
+  end
+
+  def get_groups
+    filters = {}
+    filters['provider'] = @current_user.provider_id;
     groups_response = cmr_client.get_cmr_groups(filters, token)
     groups_for_permissions_select = []
-
-    #TODO!  How do we get all groups for a given provider?
 
     if groups_response.success?
       tmp_groups = groups_response.body['items']
@@ -103,13 +191,13 @@ class PermissionsController < ApplicationController
     else
       Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
       flash[:error] = Array.wrap(groups_response.body['errors'])[0]
-      # groups_for_permissions_select = nil # what about keeping this as [] instead of nil ?
+      groups_for_permissions_select = nil # what about keeping this as [] instead of nil ?
     end
 
     groups_for_permissions_select
   end
 
-  def get_groups_for_permissions #(filters = {})
+  def get_groups_for_permissions
     groups_for_permissions_select = get_groups
 
     # add options for registered users and guest users
@@ -119,7 +207,7 @@ class PermissionsController < ApplicationController
     groups_for_permissions_select
   end
 
-  def construct_request_object(permission_name, provider_id, collections, granules, search_groups, search_and_order_groups)
+  def construct_request_object(permission_name, provider_id, collections, collections_selections, granules, search_groups, search_and_order_groups)
     req_obj = {
       'group_permissions' => Array.new,
       'catalog_item_identity' => {
@@ -132,11 +220,18 @@ class PermissionsController < ApplicationController
     # TODO -- we will add another condition here to add
     # specifc collection IDs
     collection_applicable = false
-    if collections == 'all-collections'
+    if collections == 'all-collections' || collections == 'selected-ids-collections'
       collection_applicable = true
     end
 
     req_obj['catalog_item_identity']['collection_applicable'] = collection_applicable
+
+
+    entry_titles = collections_selections.split(',')
+    if collections == 'selected-ids-collections'
+      req_obj['catalog_item_identity']['collection_identifier'] = {}
+      req_obj['catalog_item_identity']['collection_identifier']['entry_titles'] = entry_titles
+    end
 
     granule_applicable = false
     if granules == 'all-granules'
@@ -181,18 +276,7 @@ class PermissionsController < ApplicationController
           req_obj['group_permissions'] << search_and_order_permission
       end
     end
-    
-    return req_obj
-  end
-
-  def add_guest_or_registered_group(type)
-    # 'user_type' => 'guest'
-    # 'user_type' => 'registered'
-    if type == 'guest'
-
-    elsif type == 'registered'
-    end
-
+    req_obj
   end
 
   def construct_permissions_summaries(permissions)

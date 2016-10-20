@@ -25,16 +25,23 @@ describe 'New Permission', reset_provider: true, js: true do
     end
 
     context 'when creating a new permission with complete information' do
-      context 'when creating a permission for groups' do
+      context 'when creating a permission with groups' do
         before do
           page.document.synchronize do
             # add group
             visit new_group_path
+            wait_for_ajax
+
             fill_in 'Group Name', with: 'Group 1'
             fill_in 'Group Description', with: 'test group 1'
             click_on 'Save'
-            wait_for_ajax
             expect(page).to have_content('Group 1')
+            # screenshot_and_save_page
+          end
+        end
+
+        context 'when creating a permission for all collections' do
+          before do
 
             visit new_permission_path
             fill_in 'Name', with: permission_name
@@ -42,23 +49,57 @@ describe 'New Permission', reset_provider: true, js: true do
             select('All Granules', from: 'Granules')
 
             within '#groups-table2' do
-              select('Group 1', from: 'Search')
-              select('Group 1', from: 'Search and Order')
+              select('Guest Users', from: 'Search')
+              select('Guest Users', from: 'Search and Order')
             end
+
+            click_on 'Save'
+            expect(page).to have_content('Custom Permissions')
           end
 
-          click_on 'Save'
-          expect(page).to have_content('Custom Permissions')
+          it 'displays the permission on the page' do
+            within '#custom-permissions-table' do
+              expect(page).to have_content(permission_name)
+              expect(page).to have_content('Search & Order')
+            end
+          end
         end
 
-        it 'displays a success message that a new permission was added' do
-          expect(page).to have_content('Permission was successfully created.')
-        end
+        context 'when attempting to create a permission with selected collections' do
+          before do
+            publish_draft
 
-        it 'displays the permission on the page' do
-          within '#custom-permissions-table' do
-            expect(page).to have_content(permission_name)
-            expect(page).to have_content('Search & Order')
+            visit new_permission_path
+
+            fill_in 'Name', with: permission_name
+            select('All Granules', from: 'Granules')
+            select('Selected Collections', from: 'Collections')
+
+            # either of these wait methods should work
+            wait_for_ajax
+            # wait_for_jQuery
+
+            option = first('#collectionsChooser_fromList option').text
+            select(option, from: 'Available collections')
+
+            within '#collectionsChooser' do
+              find('button[title="add"]').click
+            end
+
+            within '#groups-table2' do
+              #select('Group 1', from: 'Search and Order')
+              select('Guest Users', from: 'Search and Order')
+            end
+
+            click_on 'Save'
+            expect(page).to have_content('Custom Permissions')
+          end
+
+          it 'displays the permission on the page' do
+            within '#custom-permissions-table' do
+              expect(page).to have_content(permission_name)
+              expect(page).to have_content('Search & Order')
+            end
           end
         end
       end
@@ -74,6 +115,10 @@ describe 'New Permission', reset_provider: true, js: true do
 
           click_on 'Save'
           expect(page).to have_content('Custom Permissions')
+        end
+
+        it 'displays a success message that a new permission was added' do
+          expect(page).to have_content('Permission was successfully created.')
         end
 
         it 'displays the permission on the page' do
@@ -101,6 +146,10 @@ describe 'New Permission', reset_provider: true, js: true do
           expect(page).to have_content('Custom Permissions')
         end
 
+        it 'displays a success message that a new permission was added' do
+          expect(page).to have_content('Permission was successfully created.')
+        end
+
         it 'displays the permission on the page' do
           within '#custom-permissions-table' do
             expect(page).to have_content(permission_name)
@@ -126,5 +175,6 @@ describe 'New Permission', reset_provider: true, js: true do
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end
     end
+
   end
 end

@@ -328,6 +328,17 @@ module Cmr
       end
       puts "ACL for typical user to read and create catalog item ACLs for MMT_2 #{resp.body}"
 
+
+      ## this is temporary and for Permissions tests
+      # ACL for typical user to create catalog item ACLs for LARC
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "LARC"}}'
+      end
+      puts "ACL for typical user to read and create catalog item ACLs for LARC #{resp.body}"
+
       clear_cache
     end
 
