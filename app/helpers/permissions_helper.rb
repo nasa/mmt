@@ -8,8 +8,8 @@ module PermissionsHelper
   ]
   CollectionsOptions = [
     ['- Select -', 'select'],
-    ['All Collections','all-collections']
-    #['Selected Collection Entry IDs', 'selected-ids-collections'],
+    ['All Collections','all-collections'],
+    ['Selected Collections', 'selected-ids-collections']
     #['Collections with an Access Constraint Value', 'access-constraint-collections' ]
   ]
 end
