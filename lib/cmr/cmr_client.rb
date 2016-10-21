@@ -238,16 +238,14 @@ module Cmr
     end
 
     def get_permission(concept_id, token)
-      # Example: curl -i "http://localhost:3011/acls/"
+      # Example: curl -i "http://localhost:3011/acls/#{concept_id}"
       if Rails.env.development? || Rails.env.test?
-        url = 'http://localhost:3011/acls'
+        url = "http://localhost:3011/acls/#{concept_id}"
       else
-        url = '/access-control/acls'
+        url = "/access-control/acls/#{concept_id}"
       end
 
-      options = {'provider' => provider_id}
-
-      response = get(url, options, token_header(token))
+      response = get(url, token_header(token))
     end
 
   end

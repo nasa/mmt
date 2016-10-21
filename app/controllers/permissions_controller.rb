@@ -11,7 +11,7 @@ class PermissionsController < ApplicationController
       # indexing of new acls makes it such that the first request does not always return the newly created ACL
       # if the new acl is not in the response, we make the request again until the request fails or we get the new ACL
       has_new_acl = false
-      until has_new_acl
+      50.times do
         resp_concept_ids = []
         response.body['items'].each do |item|
           if item['concept_id'] == params[:new_acl]
@@ -35,6 +35,132 @@ class PermissionsController < ApplicationController
     @permissions = construct_permissions_summaries(@permissions)
   end
 
+  def show
+    concept_id = params[:id]
+    permission_response = cmr_client.get_permission(concept_id, token)
+
+    # have the info about the permission
+    if permission_response.success?
+      # group_permissions
+      # [
+      # user_type
+        # 'guest', 'registered'
+      # permissions
+        # ['read']
+        # ['read', 'order']
+
+      # group_id
+        # concept_id
+      # permissions
+        # ['read']
+        # ['read', 'order']
+      # ]
+      # catalog_item_identity
+      # name
+      # provider_id
+      # granule_applicable (bool)
+      # collection_applicable (bool)
+      # after 508 - collections
+
+      permission = permission_response.body
+      catalog_item_identity = permission['catalog_item_identity']
+      @permission_name = catalog_item_identity['name']
+      @collection_options = catalog_item_identity['collection_applicable'] # bool
+      @granules_options = catalog_item_identity['granule_applicable'] # bool
+      if catalog_item_identity['collection_identifier']
+        entry_titles = catalog_item_identity['collection_identifier']['entry_titles']
+        # get collections entry id using entry titles
+      end
+      @permission_provider = catalog_item_identity['provider_id']
+
+      # probably at least has one
+      group_permissions = permission['group_permissions'] # || []
+        # search_groups
+      search_groups_list = []
+        # search_and_order_groups
+      search_and_order_groups_list = []
+
+      group_permissions.each do |group_perm|
+        # if trying to go with type first
+        # if group_perm.keys.include?('user_type')
+        #   search_groups << 'user'
+        # elsif group_perm.keys.include?('group_id')
+        #
+        # end
+
+        if group_perm['permissions'] == ['read', 'order']
+          # does it work with the || ?
+          # add the group id or user type to the list
+          search_and_order_groups_list << (group_perm['group_id'] || group_perm['user_type'])
+        elsif group_perm['permissions'] == ['read']
+          # does it work with the || ?
+          # add the group id or user type to the list
+          search_groups_list << (group_perm['group_id'] || group_perm['user_type'])
+        end
+      end
+
+      @permission_type = 'Search' unless search_groups_list.blank?
+      @permission_type = 'Search & Order' unless search_and_order_groups_list.blank?
+
+      group_retrieval_error_messages = []
+
+      @search_and_order_groups = []
+      search_and_order_groups_list.each do |search_and_order_group_id|
+        # go through the list, and add a group with Guest or Registered Users
+        # or if it is a concept_id, retrieve the group and add it as a hash with the necessary information
+        search_and_order_group = {}
+        if search_and_order_group_id == 'guest'
+          search_and_order_group[:name] = 'All Guest Users'
+        elsif search_and_order_group_id == 'registered'
+          search_and_order_group[:name] = 'All Registered Users'
+        else
+          group_response = cmr_client.get_group(search_and_order_group_id, token)
+          if group_response.success?
+            group = group_response.body
+            search_and_order_group[:name] = group['name']
+            search_and_order_group[:concept_id] = search_and_order_group_id
+            search_and_order_group[:num_members] = group['num_members']
+          else
+            group_retrieval_error_messages << Array.wrap(group_response.body['errors'])[0]
+          end
+        end
+
+        @search_and_order_groups << search_and_order_group
+      end
+
+      @search_groups = []
+      search_groups_list.each do |search_group_id|
+        # go through the list, and add a group with Guest or Registered Users
+        # or if it is a concept_id, retrieve the group and add it as a hash with the necessary information
+        search_group = {}
+        if search_group_id == 'guest'
+          search_group[:name] = 'All Guest Users'
+        elsif search_group_id == 'registered'
+          search_group[:name] = 'All Registered Users'
+        else
+          group_response = cmr_client.get_group(search_group_id, token)
+          if group_response.success?
+            group = group_response.body
+            search_group[:name] = group['name']
+            search_group[:concept_id] = search_group_id
+            search_group[:num_members] = group['num_members']
+          else
+            group_retrieval_error_messages << Array.wrap(group_response.body['errors'])[0]
+          end
+        end
+
+        @search_groups << search_group
+      end
+
+      flash[:error] = group_retrieval_error_messages.join('; ') if group_retrieval_error_messages.length > 0
+
+    else
+      Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
+      error = Array.wrap(permission_response.body['errors'])[0]
+      flash[:error] = error
+    end
+  end
+
   def new
     @collection_ids = []
     @granules_options = []
@@ -43,9 +169,6 @@ class PermissionsController < ApplicationController
     @groups = get_groups_for_permissions
   end
 
-  def show
-    # stub
-  end
 
   def create
     hasError = false
@@ -92,12 +215,12 @@ class PermissionsController < ApplicationController
     granules = params[:granules]
 
     request_object = construct_request_object(params[:permission_name],
-      provider_id,
-      params[:collections],
-      params[:collection_selections],
-      params[:granules],
-      params[:search_groups],
-      params[:search_and_order_groups])
+                                              provider_id,
+                                              params[:collections],
+                                              params[:collection_selections],
+                                              params[:granules],
+                                              params[:search_groups],
+                                              params[:search_and_order_groups])
 
     response = cmr_client.add_group_permissions(request_object, token)
 
@@ -132,7 +255,7 @@ class PermissionsController < ApplicationController
 
   def get_all_collections
     collections, @errors, hits = get_collections_for_provider(params)
-    
+
     @option_data = []
     collections.each do |collection|
       opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
