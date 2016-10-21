@@ -36,6 +36,7 @@ class PermissionsController < ApplicationController
   end
 
   def new
+    @new_page = true
     @collection_ids = []
     @granules_options = []
     @collections_options = []
@@ -152,7 +153,7 @@ class PermissionsController < ApplicationController
     # what page_size to use for the search box? default is 10, max is 2000
 
     query = { 'provider' => @current_user.provider_id,
-              'page_size' => 10 }
+              'page_size' => 500 }
 
     if params.key?('entry_id')
       query['keyword'] = params['entry_id'] + '*'

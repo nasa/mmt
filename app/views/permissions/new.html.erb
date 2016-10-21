@@ -22,6 +22,7 @@
   <div class="row row-content">
     <section>
       <%= form_tag(permissions_path, method: :post, class: 'permissions-form') %>
+        <%= hidden_field_tag 'new_page', @new_page %>
         <div class="row">
           <%= label_tag :permission_name, 'Name', class: 'required eui-required-o' %>
           <br>

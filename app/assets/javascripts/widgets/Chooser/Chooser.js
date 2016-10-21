@@ -23,6 +23,9 @@
  * showNumChosen (int):     Always show the number of chosen items in the "to" list.
  * attachTo (element):      DOM element where a value can be stored (hidden or text input).
  * errorCallback (function): Callback function to execute if an AJAX error occurs.
+ * filterText (string):     Text for the filter textbox placeholder (default is "filter")
+ * removeAdded (boolean):   Remove selections from the FROM list as they are added to the TO list. Default is true,
+ * allowRemoveALl (boolean): Show the remove all button
  *
  * Public methods:
  *
@@ -59,8 +62,9 @@ var Chooser = function(config) {
         TO_BOX, TO_LIST,
         ADD_BUTTON, REMOVE_BUTTON, REMOVE_ALL_BUTTON,
         FROM_LABEL, TO_LABEL,
-        FILTER_TEXTBOX;
+        FILTER_TEXTBOX, TO_MESSAGE;
 
+    var CHOOSER_OPTS_STORAGE_KEY = "___Chooser_opts_" + config.id;
     var PAGE_NUM = 1;
 
     /**
@@ -77,14 +81,36 @@ var Chooser = function(config) {
         BUTTON_CONTAINER = $("<div></div>");
         FROM_BOX = $("<div></div>");
         TO_BOX = $("<div></div>");
-        ADD_BUTTON = $("<button title='add'>&#x2192;</button>");
-        REMOVE_BUTTON = $("<button title='remove'>&#x2190;</button>");
-        REMOVE_ALL_BUTTON = $("<button title='remove all'>&#x21C7;</button>");
+
+
+        var addButtonText = hasProp("addButton", "object") ? config.addButton.text : "&#x2192;";
+        var addButtonCssClass = hasProp("addButton", "object") ? config.addButton.cssClass : "";
+        ADD_BUTTON = $("<button title='add' class='"+addButtonCssClass+"'>"+addButtonText+"</button>");
+        if(hasProp("addButton") && config.addButton.arrowCssClass) {
+            $(ADD_BUTTON).append(" <span class='"+config.addButton.arrowCssClass+"'></span> ");
+        }
+
+
+        var delButtonText = hasProp("delButton", "object") ? config.delButton.text : "&#x2190;";
+        var delButtonCssClass = hasProp("delButton", "object") ? config.delButton.cssClass : "";
+        REMOVE_BUTTON = $("<button title='remove' class='"+delButtonCssClass+"'>"+delButtonText+"</button>");
+        if(hasProp("delButton") && config.delButton.arrowCssClass) {
+            $(REMOVE_BUTTON).prepend(" <span class='"+config.delButton.arrowCssClass+"'></span> ");
+        }
+
+        var allowRemoveAll = hasProp("allowRemoveAll", "boolean") ? config.allowRemoveAll : true;
+
+        if(allowRemoveAll === true) {
+            REMOVE_ALL_BUTTON = $("<button title='remove all'>&#x21C7;</button>");
+        }
+
         FROM_LIST = $("<select class='___fromList' id='"+config.id +"_fromList"
                     +"' multiple size='5'></select>");
-        TO_LIST = $("<select class='___toList' id='"+config.id + "_toList"
+        TO_LIST = $("<select class='___toList' name='"+config.id + "_toList"+"' id='"+config.id + "_toList"
                     +"' multiple size='5'></select>");
-        FILTER_TEXTBOX = $("<input type='text' placeholder='filter'>");
+
+        var placeHolderText = hasProp("filterText", "string") ? config.filterText : "filter";
+        FILTER_TEXTBOX = $("<input type='text' placeholder='"+placeHolderText+"'>");
 
         if(!config.hasOwnProperty("resetSize")) {
             config.resetSize = 50;
@@ -115,6 +141,10 @@ var Chooser = function(config) {
         $(OUTER_CONTAINER).appendTo($(config.target));
 
 
+        TO_MESSAGE = $("<span class='___to_message'></span>");
+        $(TO_CONTAINER).append(TO_MESSAGE);
+
+
         if(hasProp("initialList", "object")) {
             config.initialList.forEach(function(v,k){
                 var li = $("<option value='"+v+"'>"+v+"</option>");
@@ -132,6 +162,10 @@ var Chooser = function(config) {
         getRemoteData("first");
 
         $(FROM_LIST).on('scroll', function(evt){
+
+            if(hasProp("endlessScroll", "boolean") && config.endlessScroll === false) {
+                return;
+            }
 
             //console.log('scroll evet:::::', evt);
 
@@ -292,6 +326,15 @@ var Chooser = function(config) {
         //console.log("removeFromBottom:::LIST SIZE------->",$(FROM_LIST).find("option").length)
     };
 
+    /**
+     * Remove any stored selections.
+     */
+    this.clearSelections = function() {
+        if(sessionStorage) {
+            sessionStorage.removeItem(CHOOSER_OPTS_STORAGE_KEY);
+        }
+    };
+
 
     // Private functions: -----------------------------
 
@@ -316,7 +359,7 @@ var Chooser = function(config) {
      * storage.
      */
     var storeSelections = function() {
-        if(sessionStorage) {
+        if(sessionStorage && hasProp("rememberLast", "boolean") && config.rememberLast === true) {
             $(TO_LIST).on('change', function(){
                 //console.log("Storing selections...");
                 var items = [];
@@ -327,7 +370,7 @@ var Chooser = function(config) {
                     };
                     items.push(optData);
                 });
-                sessionStorage.setItem("___Chooser_opts", JSON.stringify(items));
+                sessionStorage.setItem(CHOOSER_OPTS_STORAGE_KEY, JSON.stringify(items));
             });
         } else {
             //console.error("Session storage is not supported in this browser.");
@@ -338,8 +381,8 @@ var Chooser = function(config) {
      * Loads selections into the TO box from the browser's sesssion storage.
      */
     var loadSelections = function() {
-        if(sessionStorage) {
-            var items = JSON.parse(sessionStorage.getItem("___Chooser_opts"));
+        if(sessionStorage && hasProp("rememberLast", "boolean") && config.rememberLast === true) {
+            var items = JSON.parse(sessionStorage.getItem(CHOOSER_OPTS_STORAGE_KEY));
             //console.log("items==================>", items);
             $.each(items, function(k,v){
                 var opt = $("<option value='"+v.val+"'>"+v.dispText+"</option>");
@@ -350,6 +393,8 @@ var Chooser = function(config) {
             //console.error("Session storage is not supported in this browser.");
         }
     };
+
+
 
     /**
      * Makes the AJAX calls to get the data from the remote server.
@@ -429,6 +474,9 @@ var Chooser = function(config) {
      */
     var addButtonClick = function(e) {
         e.preventDefault();
+        var msg = hasProp("uniqueMsg", "string") ? config.uniqueMsg : "Value already added";
+
+        var removeAdded = hasProp("removeAdded", "boolean") ? config.removeAdded : true;
         $(FROM_LIST).find("option:selected").each(function(k,v){
             var clonedOpt = $(v).clone();
             if(config.forceUnique) {
@@ -437,13 +485,29 @@ var Chooser = function(config) {
                 var toListVal = $(TO_LIST).find("option[value='"+fromListVal+"']").attr("value");
                 if(toListVal !== fromListVal) {
                     $(TO_LIST).append(clonedOpt);
-                    $(v).remove();
+                    if(removeAdded) {
+                        $(v).remove();
+                    }
+                } else {
+                    $(TO_MESSAGE).text(msg);
+                    setTimeout(function() {
+                        $(TO_MESSAGE).text("");
+                    }, 2000);
+
                 }
             } else {
                 $(TO_LIST).append(clonedOpt);
-                $(v).remove();
+                if(removeAdded) {
+                    $(v).remove();
+                }
             }
+
             $(TO_LIST).trigger("change");
+
+            // This is a hack in order to accomodate picky libraries like validate
+            $(TO_LIST).find("option:first").prop("selected", true);
+            $(TO_LIST).find("option:first").click();
+
         })
     };
 

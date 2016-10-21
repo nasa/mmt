@@ -12,23 +12,50 @@ $(document).ready ->
           nextPageParm: 'page_num',
           filterParm: 'entry_id',
           filterChars: '1',
-          resetSize: 20,
+          endlessScroll: false,
           target: $('#chooser-widget'),
           fromLabel: 'Available collections',
-          toLabel: 'Chosen collections',
+          toLabel: 'Selected collections',
           showNumChosen: true,
           forceUnique: true,
+          uniqueMsg: 'Collection already added',
           attachTo: $('#collection_selections'),
+          filterText: "Filter collections",
+          rememberLast: true,
+          removeAdded: false,
+          addButton: {
+            cssClass: 'eui-btn nowrap',
+            arrowCssClass: 'eui-circle-right',
+            text: 'Add collection(s)'
+          },
+          delButton: {
+            cssClass: 'eui-btn nowrap',
+            arrowCssClass: 'eui-circle-left',
+            text: 'Remove collection(s)'
+          },
+          allowRemoveAll: false,
           errorCallback: ->
             $('<div class="eui-banner--danger">' +
                 'A server error occurred. Unable to get collections.' +
                 '</div>').prependTo '#main-content'
         })
+
+        # remove any remembered selections if this is a new page
+        if $("#new_page").val() == "true"
+          collectionsChooser.clearSelections();
+
         collectionsChooser.init()
 
 
-    $('#chooser-widget').show()
-    start_widget()
+        $('#collectionsChooser_toList').rules 'add',
+            #required: true,
+            required: ->
+              $('#collections').val() == 'selected-ids-collections'
+            messages:
+             required: 'Specify collections'
+
+
+
 
     # Hide field by default
     $('#collection_ids_chosen').addClass 'is-hidden'
@@ -71,11 +98,16 @@ $(document).ready ->
 
 
 
+
+
+
+
     # Validate new permissions form with jquery validation plugin
+
     $('.permissions-form').validate
       errorClass: 'eui-banner--danger'
       errorElement: 'div'
-      onkeyup: false
+      onkeyup: false,
 
       errorPlacement: (error, element) ->
         if element.attr('id') == 'search_groups_' || element.attr('id') == 'search_and_order_groups_'
@@ -130,6 +162,7 @@ $(document).ready ->
       groups:
         # this should make it so only one message is shown for both elements
         permission_group: 'search_groups[] search_and_order_groups[]'
+
 
     # adding a method so the collections and granules default values ('select') are not valid
     $.validator.addMethod 'valueNotEquals', (value, elem, arg) ->
