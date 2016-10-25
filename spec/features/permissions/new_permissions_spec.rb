@@ -27,6 +27,8 @@ describe 'New Permission', reset_provider: true, js: true do
     context 'when creating a new permission with complete information' do
       context 'when creating a permission with groups' do
         before do
+          # TODO create helper method that creates groups with cmr_client method
+          # so no need to do it with page/js/etc
           page.document.synchronize do
             # add group
             visit new_group_path

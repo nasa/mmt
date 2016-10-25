@@ -1,12 +1,31 @@
 module Cmr
   class CmrClient < BaseClient
     def get_collections(options = {}, token = nil)
+      # umm-json gives us shorter version of metadata in the 'umm' portion. but it has entry-id
+      # umm_json gives us the metadata record in the 'umm' portion. but that does not include entry-id
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3003/collections.umm-json'
       else
         url = '/search/collections.umm-json'
       end
       get(url, options, token_header(token))
+    end
+
+    def get_collections_with_entry_titles(entry_titles, token = nil)
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/collections'
+      else
+        url = '/search/collections'
+      end
+
+      # headers = {
+      #     'Content-Type' => "application/#{Rails.configuration.umm_version};charset=utf-8"
+      # }
+      encoded_entry_titles = entry_titles.map { |entry_title| encode_if_needed(entry_title) }
+      params = {
+          'entry_title' => encoded_entry_titles
+      }
+
     end
 
     def get_providers
@@ -245,7 +264,31 @@ module Cmr
         url = "/access-control/acls/#{concept_id}"
       end
 
-      response = get(url, token_header(token))
+      # CMR returns data as utf-8. With the curl method, we can see the response has utf-8 as part of the Content-Type
+      # header, but rails does not seem to be recognizing that encoding properly
+      # adding an Accept header with charset=utf-8 worked to solve MMT-485, as now implemented in get_concept,
+      # but I can't seem to get this method response to recognize it with any variation of Accept headers with charset=utf-8
+      # the problem is likely with NET::HTTP (which is used by faraday)
+      headers = {
+        # 'Content-Type' => "application/json; charset=utf-8",
+        # 'Accept' => "charset=utf-8"
+        'Accept' => "application/json; charset=utf-8"
+        # 'Accept' => "charset=UTF-8"
+        # 'Accept' => "application/json; charset=UTF-8"
+      }
+
+      response = get(url, {}, headers.merge(token_header(token)))
+
+      # because of the issue commented above, and because the catalog_item acls (permissions) use entry titles
+      # (if they are specified) to identify collections, we need to parse the entry titles of the permissions and encode
+      # them properly in case of non-standard characters, or they will cause 500 errors when we are retrieving the
+      # collections by entry title
+      if response.success? && response.body['catalog_item_identity']['collection_identifier']
+        entry_titles = response.body['catalog_item_identity']['collection_identifier']['entry_titles']
+        entry_titles.map! { |entry_title| entry_title.force_encoding('ISO-8859-1').encode('UTF-8') }
+      end
+
+      response
     end
 
   end
