@@ -7,10 +7,13 @@ class PermissionsController < ApplicationController
     response = cmr_client.get_permissions_for_provider(provider_id, token)
 
     if params[:new_acl] && response.success?
+      # TODO the loop has some problems, so we should change it to not be able to infinitely loop.
+
       # TODO once the CMR makes indexing synchronous, we can take out this waiting/checking loop
       # indexing of new acls makes it such that the first request does not always return the newly created ACL
       # if the new acl is not in the response, we make the request again until the request fails or we get the new ACL
       has_new_acl = false
+      # until has_new_acl
       50.times do
         resp_concept_ids = []
         response.body['items'].each do |item|
@@ -69,8 +72,16 @@ class PermissionsController < ApplicationController
       @granules_options = catalog_item_identity['granule_applicable'] # bool
       if catalog_item_identity['collection_identifier']
         entry_titles = catalog_item_identity['collection_identifier']['entry_titles']
-        # get collections entry id using entry titles
+
+        collections, errors, hits = get_collections_by_entry_titles(entry_titles)
+        @collection_entry_ids = []
+        collections.each do |collection|
+          # parsing used in get_all_collections
+          # opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
+          @collection_entry_ids << collection['umm']['entry-id']
+        end
       end
+
       @permission_provider = catalog_item_identity['provider_id']
 
       # probably at least has one
@@ -81,19 +92,10 @@ class PermissionsController < ApplicationController
       search_and_order_groups_list = []
 
       group_permissions.each do |group_perm|
-        # if trying to go with type first
-        # if group_perm.keys.include?('user_type')
-        #   search_groups << 'user'
-        # elsif group_perm.keys.include?('group_id')
-        #
-        # end
-
         if group_perm['permissions'] == ['read', 'order']
-          # does it work with the || ?
           # add the group id or user type to the list
           search_and_order_groups_list << (group_perm['group_id'] || group_perm['user_type'])
         elsif group_perm['permissions'] == ['read']
-          # does it work with the || ?
           # add the group id or user type to the list
           search_groups_list << (group_perm['group_id'] || group_perm['user_type'])
         end
@@ -251,6 +253,42 @@ class PermissionsController < ApplicationController
     end
   end
 
+  def edit # TODO take out before committing show page
+    # before allowing to edit check current provider, and ask if want to switch?
+
+    concept_id = params[:id]
+    permission_response = cmr_client.get_permission(concept_id, token)
+
+    # have the info about the permission
+    if permission_response.success?
+      # group_permissions
+      # [
+      # user_type
+      # permissions
+
+      # group_id
+      # permissions
+      # ]
+      # catalog_item_identity
+      # name
+      # provider_id
+      # granule_applicable (bool)
+      # collection_applicable (bool)
+      # after 508 - collections
+
+      permission = permission_response.body
+      group_permissions = permission['group_permissions']
+      catalog_item_identity = permission['catalog_item_identity']
+    end
+
+  end
+
+  def update
+    # get data from form request
+
+    # assemble data for the ACL
+  end
+
   def get_all_collections
     collections, @errors, hits = get_collections_for_provider(params)
 
@@ -288,7 +326,28 @@ class PermissionsController < ApplicationController
     errors = []
 
     collections = cmr_client.get_collections(query, token).body
-      hits = collections['hits'].to_i # don't really need hits
+    hits = collections['hits'].to_i # don't really need hits
+    if collections['errors']
+      errors = collections['errors']
+      collections = []
+    elsif collections['items']
+      collections = collections ['items']
+    end
+
+    [collections, errors, hits]
+  end
+
+  def get_collections_by_entry_titles(entry_titles)
+    # entry_titles_param = entry_titles.map { |entry_title| "'entry_title': '#{entry_title}'"}
+    # search_param = "{ " + entry_titles_param.join(", ") + ", 'page_size': '100' }"
+    # encoded_entry_titles = entry_titles.map { |entry_title| URI.encode(entry_title) } # wanted to use encode_if_necessary, but where to put it so it is accessible?
+
+    # query = { 'page_size' => 100, 'entry_title' => encoded_entry_titles }
+    query = { 'page_size' => 100, 'entry_title' => entry_titles }
+
+    collections = cmr_client.get_collections(query, token).body
+
+    hits = collections['hits'].to_i # don't really need hits
     if collections['errors']
       errors = collections['errors']
       collections = []

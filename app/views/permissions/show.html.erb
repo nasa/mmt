@@ -25,12 +25,12 @@
       <hr>
 
       <p>
-        <b>Collections | 15 Selected Entry IDs</b>
+        <b>Collections | <%= @collection_entry_ids.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Entry IDs" %></b>
         <br>
-        ASF20CD03, ASF20CD04, ASF20CD05, ASF20CD06
+        <%= @collection_entry_ids.join(', ') unless @collection_entry_ids.blank? %>
       </p>
       <p>
-        <b>Granules | All in Selected Collection Records</b>
+        <b>Granules | <%= @granule_options ? 'All Granules in Selected Collection Records' : 'No Access to Granules' %></b>
       </p>
 
       <hr>
