@@ -212,8 +212,8 @@ var Chooser = function(config) {
             }
             //debugger
             if(hasProp("attachTo", "object")) {
-                var vals = self.val();
-                $(config.attachTo).val(vals);
+                var delimiter = hasProp("delimiter", "string") ? config.delimiter : ",";
+                $(config.attachTo).val( self.val().join(delimiter) );
             }
         });
 
@@ -238,10 +238,41 @@ var Chooser = function(config) {
      *
      * @returns {*|jQuery}
      */
-    this.val = function() {
+    this.val = function(valToSet) {
+        //var vals = $(TO_LIST)
+         //   .find("option")
+         //   .map(function(k,v){return $(v).attr("value")});
+
+
+        if(valToSet && typeof valToSet === "object") {
+            $(TO_LIST).empty();
+            $.each(valToSet, function(k,v) {
+
+                var disp_val, opt_val;
+
+                if(typeof v === "object" && v.length === 2) {
+                    disp_val = v[0];
+                    opt_val = v[1];
+                } else if(typeof v === "object" && v.length === 1) {
+                    disp_val = v[0];
+                    opt_val = v[0];
+                } else {
+                    disp_val = v;
+                    opt_val = v;
+                }
+
+                var opt = "<option value='"+opt_val+"'>"+disp_val+"</option>";
+
+                $(TO_LIST).append(opt);
+            });
+
+            $(TO_LIST).trigger("change");
+        }
+
         var vals = $(TO_LIST)
             .find("option")
-            .map(function(k,v){return $(v).attr("value")});
+            .map(function(k,v){return $(v).text()});
+
         var valsAsArray = [];
         $.each(vals, function(k,v){valsAsArray.push(v)});
         return valsAsArray;
@@ -531,6 +562,10 @@ var Chooser = function(config) {
             $(v).remove();
         });
         $(TO_LIST).trigger("change");
+
+        // This is a hack in order to accomodate picky libraries like validate
+        $(TO_LIST).find("option:first").prop("selected", true);
+        $(TO_LIST).find("option:first").click();
     };
 
     var removeAllButtonClick = function(e) {

@@ -1,6 +1,10 @@
 $(document).ready ->
   if $(".permissions-form").length > 0
 
+
+
+
+
     # widget for choosing collections
     collectionsChooser = null
 
@@ -20,8 +24,9 @@ $(document).ready ->
           forceUnique: true,
           uniqueMsg: 'Collection already added',
           attachTo: $('#collection_selections'),
+          delimiter: "%%__%%",
           filterText: "Filter collections",
-          rememberLast: true,
+          rememberLast: false,
           removeAdded: false,
           addButton: {
             cssClass: 'eui-btn nowrap',
@@ -46,7 +51,6 @@ $(document).ready ->
 
         collectionsChooser.init()
 
-
         $('#collectionsChooser_toList').rules 'add',
             #required: true,
             required: ->
@@ -55,6 +59,20 @@ $(document).ready ->
              required: 'Specify collections'
 
 
+    # show  the Chooser widget if a refresh of the page has "selected collections" as the dropdown value
+    setTimeout ( ->
+      if $('#collections').val() == 'selected-ids-collections'
+        $('#chooser-widget').show()
+        start_widget()
+
+        if $('#collection_selections').val()?
+          opts = []
+          entry_titles = $('#collection_selections').val().split("%%__%%")
+          $.each entry_titles, (k,v)->
+            opt_val = v.split('|')[1].trim()
+            opts.push( [v, opt_val] )
+          collectionsChooser.val(opts);
+    ), 500
 
 
     # Hide field by default

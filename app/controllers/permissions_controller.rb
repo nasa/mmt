@@ -69,6 +69,7 @@ class PermissionsController < ApplicationController
       Rails.logger.error("Permission Creation Error: #{msg}")
       flash[:error] = msg
       @collections = params[:collections]
+      @collection_selections = params[:collection_selections]
       @granules = params[:granules]
       @permission_name = params[:permission_name]
       @groups = get_groups
@@ -116,6 +117,7 @@ class PermissionsController < ApplicationController
       end
       flash[:error] = permission_creation_error
       @collections = params[:collections]
+      @collection_selections = params[:collection_selections]
       @granules = params[:granules]
       @permission_name = params[:permission_name]
       @groups = get_groups_for_permissions
@@ -227,8 +229,16 @@ class PermissionsController < ApplicationController
 
     req_obj['catalog_item_identity']['collection_applicable'] = collection_applicable
 
+    # The split character below is determined by the Chooser widget configuration. We are using this unusual
+    # delimiter becuase collection entry titles could contain commas.
+    raw_entry_titles = collections_selections.split('%%__%%')
+    entry_titles = []
+    raw_entry_titles.each do |entry_title|
+      parts = entry_title.split('|')
+      entry_titles << parts[1].strip()
+    end
 
-    entry_titles = collections_selections.split(',')
+
     if collections == 'selected-ids-collections'
       req_obj['catalog_item_identity']['collection_identifier'] = {}
       req_obj['catalog_item_identity']['collection_identifier']['entry_titles'] = entry_titles
