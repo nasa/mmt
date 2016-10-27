@@ -1,6 +1,11 @@
 $(document).ready ->
   if $(".permissions-form").length > 0
 
+    $('.display-modal').leanModal
+      top: 200
+      overlay: 0.6
+      closeButton: '.modal-close'
+
     # widget for choosing collections
     collectionsChooser = null
 
