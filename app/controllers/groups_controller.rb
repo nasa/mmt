@@ -93,6 +93,7 @@ class GroupsController < ApplicationController
         flash[:error] = error
       end
     else
+      Rails.logger.error("Error retrieving group to edit: #{group_response.inspect}")
       flash[:error] = Array.wrap(group_response.body['errors'])[0]
       redirect_to groups_path
     end

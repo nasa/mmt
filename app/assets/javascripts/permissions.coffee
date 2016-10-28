@@ -1,5 +1,5 @@
 $(document).ready ->
-  if $(".permissions-form").length > 0
+  if $(".permission-form").length > 0
 
 
 
@@ -78,7 +78,7 @@ $(document).ready ->
     $('#chooser-widget').hide()
 
     # Show respective field based on selection
-    $('#collections').on 'change', ->
+    $('#collection_options').on 'change', ->
       if $(this).val() == 'selected-ids-collections'
         $('#chooser-widget').show()
         start_widget()
@@ -99,26 +99,8 @@ $(document).ready ->
       $(this).siblings('#search_groups_chosen').removeClass 'is-hidden'
 
 
-
-    if $("#search_groups_prev_val").val()?
-      tmp_val = $("#search_groups_prev_val").val().split(",")
-      $("#search_groups_").val(tmp_val)
-      $("#search_groups_").select2()
-
-    if $("#search_and_order_groups_prev_val").val()?
-      tmp_val = $("#search_and_order_groups_prev_val").val().split(",")
-      $("#search_and_order_groups_").val(tmp_val)
-      $("#search_and_order_groups_").select2()
-
-
-
-
-
-
-
     # Validate new permissions form with jquery validation plugin
-
-    $('.permissions-form').validate
+    $('.permission-form').validate
       errorClass: 'eui-banner--danger'
       errorElement: 'div'
       onkeyup: false,
@@ -203,8 +185,3 @@ $(document).ready ->
       # check if the visited array has both select2 fields, and if so validate on close
       if visitedPermissionGroupSelect.indexOf('search_groups_') != -1 && visitedPermissionGroupSelect.indexOf('search_and_order_groups_') != -1
         $(this).valid()
-
-
-
-
-

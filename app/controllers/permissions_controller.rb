@@ -39,37 +39,16 @@ class PermissionsController < ApplicationController
   end
 
   def show
-    concept_id = params[:id]
-    permission_response = cmr_client.get_permission(concept_id, token)
+    @permission_concept_id = params[:id]
+    permission_response = cmr_client.get_permission(@permission_concept_id, token)
 
-    # have the info about the permission
     if permission_response.success?
-      # group_permissions
-      # [
-      # user_type
-        # 'guest', 'registered'
-      # permissions
-        # ['read']
-        # ['read', 'order']
-
-      # group_id
-        # concept_id
-      # permissions
-        # ['read']
-        # ['read', 'order']
-      # ]
-      # catalog_item_identity
-      # name
-      # provider_id
-      # granule_applicable (bool)
-      # collection_applicable (bool)
-      # after 508 - collections
-
       permission = permission_response.body
+
       catalog_item_identity = permission['catalog_item_identity']
       @permission_name = catalog_item_identity['name']
       @collection_options = catalog_item_identity['collection_applicable'] # bool
-      @granules_options = catalog_item_identity['granule_applicable'] # bool
+      @granule_options = catalog_item_identity['granule_applicable'] # bool
       if catalog_item_identity['collection_identifier']
         entry_titles = catalog_item_identity['collection_identifier']['entry_titles']
 
@@ -164,11 +143,14 @@ class PermissionsController < ApplicationController
   end
 
   def new
-    @collection_ids = []
-    @granules_options = []
-    @collections_options = []
-    @permission_name = params[:permission_name]
+    # TODO before allowing to create new perm check current provider, and ask if want to switch?
+    @collection_ids = [] # need?
+    # @granule_options = nil # [] # don't need
+    # @collection_options = nil #[] # don't need
+    # @permission_name = nil # don't need #params[:permission_name]
     @groups = get_groups_for_permissions
+    # @search_groups = nil # don't need?
+    # @search_and_order_groups = nil # don't need?
   end
 
 
@@ -178,10 +160,10 @@ class PermissionsController < ApplicationController
     if params[:permission_name].blank?
       hasError = true
       msg = 'Permission Name is required.'
-    elsif params[:collections].blank? || params[:collections] == 'select'
+    elsif params[:collection_options].blank? || params[:collection_options] == 'select'
       hasError = true
       msg = 'Collections must be specified.'
-    elsif params[:granules].blank? || params[:granules] == 'select'
+    elsif params[:granule_options].blank? || params[:granule_options] == 'select'
       hasError = true
       msg = 'Granules must be specified.'
     elsif params[:search_groups].nil? && params[:search_and_order_groups].nil?
@@ -192,43 +174,44 @@ class PermissionsController < ApplicationController
     if hasError == true
       Rails.logger.error("Permission Creation Error: #{msg}")
       flash[:error] = msg
-      @collections = params[:collections]
-      @collection_selections = params[:collection_selections]
-      @granules = params[:granules]
+
       @permission_name = params[:permission_name]
-      @groups = get_groups
 
-      if ! params[:search_groups].nil?
-        @search_groups_prev_val = params[:search_groups].join ','
-      end
-      if ! params[:search_and_order_groups].nil?
-        @search_and_order_groups_prev_val = params[:search_and_order_groups].join ','
-      end
+      @collection_options = params[:collection_options]
+      @collection_selections = params[:collection_selections]
+      @granule_options = params[:granule_options]
 
-      render :new
-      return
+      @groups = get_groups_for_permissions
+      @search_groups = params[:search_groups]
+      @search_and_order_groups = params[:search_and_order_groups]
+
+      render :new and return
     end
 
     # Global provider ID for the current user, based their current provider
     # to use a different provider_id, user will need to change current provider
-    provider_id = @current_user.provider_id
+    # provider_id = @current_user.provider_id
+    #
+    # collection_options = params[:collection_options]
+    # granule_options = params[:granule_options]
+    # search_groups = params[:search_groups] || []
+    # search_and_order_groups = params[:search_and_order_groups] || []
+    #
+    # request_object = construct_request_object(params[:permission_name],
+    #                                           provider_id,
+    #                                           params[:collection_options],
+    #                                           params[:collection_selections],
+    #                                           params[:granule_options],
+    #                                           params[:search_groups],
+    #                                           params[:search_and_order_groups])
 
-    collections = params[:collections]
-    granules = params[:granules]
-
-    request_object = construct_request_object(params[:permission_name],
-                                              provider_id,
-                                              params[:collections],
-                                              params[:collection_selections],
-                                              params[:granules],
-                                              params[:search_groups],
-                                              params[:search_and_order_groups])
+    request_object = construct_request_object
 
     response = cmr_client.add_group_permissions(request_object, token)
 
     if response.success?
       flash[:success] = 'Permission was successfully created.'
-      Rails.logger.info("#{@current_user.urs_uid} CREATED catalog item ACL for #{provider_id}. #{response.body}")
+      Rails.logger.info("#{@current_user.urs_uid} CREATED catalog item ACL for #{@current_user.provider_id}. #{response.body}")
 
       # passing in concept_id to redirect, because indexing is not happening fast enough
       concept_id = response.body['concept_id']
@@ -240,55 +223,114 @@ class PermissionsController < ApplicationController
         permission_creation_error = 'You are not authorized to create a permission. Please contact your system administrator.'
       end
       flash[:error] = permission_creation_error
-      @collections = params[:collections]
-      @collection_selections = params[:collection_selections]
-      @granules = params[:granules]
+
       @permission_name = params[:permission_name]
+
+      @collection_options = params[:collection_options]
+      @collection_selections = params[:collection_selections]
+      @granule_options = params[:granule_options]
+
       @groups = get_groups_for_permissions
-      if ! params[:search_groups].nil?
-        @search_groups_prev_val = params[:search_groups].join ','
-      end
-      if ! params[:search_and_order_groups].nil?
-        @search_and_order_groups_prev_val = params[:search_and_order_groups].join ','
-      end
+      @search_groups = params[:search_groups]
+      @search_and_order_groups = params[:search_and_order_groups]
+
       render :new
     end
   end
 
-  def edit # TODO take out before committing show page
-    # before allowing to edit check current provider, and ask if want to switch?
+  def edit
+    # TODO before allowing to edit check current provider, and ask if want to switch?
 
-    concept_id = params[:id]
-    permission_response = cmr_client.get_permission(concept_id, token)
+    @permission_concept_id = params[:id]
+    permission_response = cmr_client.get_permission(@permission_concept_id, token)
 
-    # have the info about the permission
     if permission_response.success?
-      # group_permissions
-      # [
-      # user_type
-      # permissions
-
-      # group_id
-      # permissions
-      # ]
-      # catalog_item_identity
-      # name
-      # provider_id
-      # granule_applicable (bool)
-      # collection_applicable (bool)
-      # after 508 - collections
-
       permission = permission_response.body
       group_permissions = permission['group_permissions']
-      catalog_item_identity = permission['catalog_item_identity']
-    end
 
+      catalog_item_identity = permission['catalog_item_identity']
+      @permission_name = catalog_item_identity['name']
+
+      @collection_options = catalog_item_identity['collection_identifier'] ? 'selected-ids-collections' : 'all-collections'
+      @granule_options = catalog_item_identity['granule_applicable'] ? 'all-granules' : 'no-access' # bool # show is @granules_options
+
+      if catalog_item_identity['collection_identifier']
+        entry_titles = catalog_item_identity['collection_identifier']['entry_titles']
+
+        collections, errors, hits = get_collections_by_entry_titles(entry_titles)
+        @collection_entry_ids = []
+        collections.each do |collection|
+          # parsing used in get_all_collections
+          # opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
+          @collection_entry_ids << collection['umm']['entry-id']
+        end
+      end
+
+      # should at least has one
+      group_permissions = permission['group_permissions'] # || []
+      @search_groups = []
+      @search_and_order_groups = []
+
+      group_permissions.each do |group_perm|
+        if group_perm['permissions'] == ['read', 'order']
+          # add the group id or user type
+          @search_and_order_groups << (group_perm['group_id'] || group_perm['user_type'])
+        elsif group_perm['permissions'] == ['read']
+          # add the group id or user type
+          @search_groups << (group_perm['group_id'] || group_perm['user_type'])
+        end
+      end
+
+      @groups = get_groups_for_permissions
+
+    else
+      Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
+      flash[:error] = Array.wrap(permission_response.body['errors'])[0]
+      redirect_to permissions_path
+    end
   end
 
   def update
-    # get data from form request
+    concept_id = params[:id]
 
-    # assemble data for the ACL
+    request_object = construct_request_object
+    update_response = cmr_client.update_permission(request_object, concept_id, token)
+
+    if update_response.success?
+      flash[:success] = 'Permission was successfully updated.'
+      Rails.logger.info("#{@current_user.urs_uid} UPDATED catalog item ACL for #{@current_user.provider_id}. #{response.body}")
+
+      redirect_to permission_path(concept_id)
+      # TODO redirect to show page - keep this or change to index.
+      # if keep, should change the redirect in create?
+    else
+      # log error response
+      Rails.logger.error("Permission Update Error: #{update_response.inspect}")
+      # flash error message
+      permission_update_error = Array.wrap(response.body['errors'])[0]
+
+      # check if error has 'Permission' and 'denied'?
+      # TODO need to check actual message to make sure this is best way to handle
+      if permission_update_error.include?('Permission') && permission_update_error.include?('ACL is denied')
+        flash[:error] = 'You are not authorized to create a permission. Please contact your system administrator.'
+        # opt1 send back to show page
+        redirect_to permission_path(concept_id)
+      else
+        flash[:error] = permission_update_error
+        # opt2 parse/grab data, render edit with flash message
+        @permission_name = params[:permission_name]
+
+        @collection_options = params[:collection_options]
+        # collection ids?
+        @granule_options = params[:granule_options]
+
+        @groups = get_groups_for_permissions
+        @search_groups = params[:search_groups]
+        @search_and_order_groups = params[:search_and_order_groups]
+
+        render :edit
+      end
+    end
   end
 
   def get_all_collections
@@ -391,82 +433,70 @@ class PermissionsController < ApplicationController
     groups_for_permissions_select
   end
 
-  def construct_request_object(permission_name, provider_id, collections, collections_selections, granules, search_groups, search_and_order_groups)
+  def construct_request_object #(permission_name, provider_id, collections, collections_selections, granules, search_groups, search_and_order_groups)
+
+    collection_applicable = false
+    if params[:collection_options] == 'all-collections' || params[:collection_options] == 'selected-ids-collections'
+      collection_applicable = true
+    end
+    granule_applicable = params[:granule_options] == 'all-granules' ? true : false
+
     req_obj = {
       'group_permissions' => Array.new,
       'catalog_item_identity' => {
         'name' => params[:permission_name],
-        'provider_id' => provider_id,
-        'granule_applicable' => true
+        'provider_id' => @current_user.provider_id,
+        'granule_applicable' => granule_applicable,
+        'collection_applicable' => collection_applicable
       }
     }
 
-    # TODO -- we will add another condition here to add
-    # specifc collection IDs
-    collection_applicable = false
-    if collections == 'all-collections' || collections == 'selected-ids-collections'
-      collection_applicable = true
-    end
+    if params[:collection_options] == 'selected-ids-collections'
+      # The split character below is determined by the Chooser widget configuration. We are using this unusual
+      # delimiter becuase collection entry titles could contain commas.
+      raw_entry_titles = collections_selections.split('%%__%%')
+      entry_titles = []
+      raw_entry_titles.each do |entry_title|
+        parts = entry_title.split('|')
+        entry_titles << parts[1].strip
+      end
 
-    req_obj['catalog_item_identity']['collection_applicable'] = collection_applicable
-
-    # The split character below is determined by the Chooser widget configuration. We are using this unusual
-    # delimiter becuase collection entry titles could contain commas.
-    raw_entry_titles = collections_selections.split('%%__%%')
-    entry_titles = []
-    raw_entry_titles.each do |entry_title|
-      parts = entry_title.split('|')
-      entry_titles << parts[1].strip()
-    end
-
-
-    if collections == 'selected-ids-collections'
       req_obj['catalog_item_identity']['collection_identifier'] = {}
       req_obj['catalog_item_identity']['collection_identifier']['entry_titles'] = entry_titles
     end
 
-    granule_applicable = false
-    if granules == 'all-granules'
-        granule_applicable = true
-    end
-
-    req_obj['catalog_item_identity']['granule_applicable'] = granule_applicable
-    req_obj['group_permissions'] = Array.new
-
-    if !search_groups.blank?
-      search_groups.each do |search_group|
-        if search_group == 'guest' || search_group == 'registered'
-          search_permission = {
-            'user_type' => search_group,
+    search_groups = params[:search_groups] || []
+    search_groups.each do |search_group|
+      if search_group == 'guest' || search_group == 'registered'
+        search_permission = {
+          'user_type' => search_group,
+          'permissions'=> ['read'] # aka "search"
+        }
+      else
+        search_permission = {
+            'group_id'=> search_group,
             'permissions'=> ['read'] # aka "search"
-          }
-        else
-          search_permission = {
-              'group_id'=> search_group,
-              'permissions'=> ['read'] # aka "search"
-          }
-        end
+        }
+      end
 
-          req_obj['group_permissions'] << search_permission
-        end
+      req_obj['group_permissions'] << search_permission
     end
 
-    if !search_and_order_groups.blank?
-      search_and_order_groups.each do |search_and_order_group|
-        if search_and_order_group == 'guest' || search_and_order_group == 'registered'
-          search_and_order_permission = {
-              'user_type' => search_and_order_group,
-              'permissions'=> ['read', 'order'] # aka "search"
-          }
-        else
-          search_and_order_permission = {
-              'group_id'=> search_and_order_group,
-              'permissions'=> ['read', 'order'] # aka "search"
-          }
-        end
-
-          req_obj['group_permissions'] << search_and_order_permission
+    search_and_order_groups = params[:search_and_order_groups] || []
+    search_and_order_groups.each do |search_and_order_group|
+      if search_and_order_group == 'guest' || search_and_order_group == 'registered'
+        search_and_order_permission = {
+            'user_type' => search_and_order_group,
+            'permissions'=> ['read', 'order'] # aka "search"
+        }
+      else
+        search_and_order_permission = {
+            'group_id'=> search_and_order_group,
+            'permissions'=> ['read', 'order'] # aka "search"
+        }
       end
+
+      req_obj['group_permissions'] << search_and_order_permission
     end
 
     req_obj
