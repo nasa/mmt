@@ -295,10 +295,10 @@ class PermissionsController < ApplicationController
       flash[:success] = 'Permission was successfully deleted.'
       Rails.logger.info("#{@current_user.urs_uid} DELETED catalog item ACL for #{@current_user.provider_id}. #{response.body}")
 
-      # passing in concept_id to redirect, because indexing is not happening fast enough
-      concept_id = response.body['concept_id']
-      redirect_to permissions_path(new_acl: concept_id)
-      #redirect_to permissions_path
+      # Waiting for an arbitrary 3 seconds to redirect, because the old permission is still being displayed
+      # on the listing page (indexing is not happening fast enough) .
+      sleep(3.seconds)
+      redirect_to permissions_path
     else
       Rails.logger.error("Permission Deletion Error: #{response.inspect}")
       permission_deletion_error = Array.wrap(response.body['errors'])[0]
