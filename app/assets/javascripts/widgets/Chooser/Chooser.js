@@ -222,6 +222,10 @@ var Chooser = function(config) {
                 $(v).attr("title",  $(v).text() );
             });
 
+            // if the TO_LIST has any selected options, make the first one selected and click on it
+            $(TO_LIST).find("option:first").prop("selected", true);
+            $(TO_LIST).find("option:first").click();
+
         });
 
 
@@ -234,11 +238,9 @@ var Chooser = function(config) {
         $(TO_LIST).dblclick(function() {
             $(REMOVE_BUTTON).click();
         });
-
-
+        
         storeSelections();
         loadSelections();
-
     };
 
     /**
