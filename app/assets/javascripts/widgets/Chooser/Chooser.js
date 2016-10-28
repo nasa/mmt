@@ -167,7 +167,7 @@ var Chooser = function(config) {
                 return;
             }
 
-            //console.log('scroll evet:::::', evt);
+            //console.log('scroll event:::::', evt);
 
             var lowerBoundary = $(this).position().top + parseInt($(this).css('height'));
             var upperBoundary = $(this).position().top;
@@ -409,7 +409,7 @@ var Chooser = function(config) {
     };
 
     /**
-     * Loads selections into the TO box from the browser's sesssion storage.
+     * Loads selections into the TO box from the browser's session storage.
      */
     var loadSelections = function() {
         if(sessionStorage && hasProp("rememberLast", "boolean") && config.rememberLast === true) {
@@ -467,7 +467,7 @@ var Chooser = function(config) {
 
 
     /**
-     * Sets or adds the vaulues in the FROM list.
+     * Sets or adds the values in the FROM list.
      *
      * @param list - the array of values.
      * @param overwrite - whether or not to overwrite the existing values.
@@ -535,7 +535,7 @@ var Chooser = function(config) {
 
             $(TO_LIST).trigger("change");
 
-            // This is a hack in order to accomodate picky libraries like validate
+            // This is a hack in order to accommodate picky libraries like validate
             $(TO_LIST).find("option:first").prop("selected", true);
             $(TO_LIST).find("option:first").click();
 
@@ -563,7 +563,7 @@ var Chooser = function(config) {
         });
         $(TO_LIST).trigger("change");
 
-        // This is a hack in order to accomodate picky libraries like validate
+        // This is a hack in order to accommodate picky libraries like validate
         $(TO_LIST).find("option:first").prop("selected", true);
         $(TO_LIST).find("option:first").click();
     };
@@ -577,7 +577,7 @@ var Chooser = function(config) {
      * Convenience method to test for presence of
      * a config option.
      *
-     * Exanples:
+     * Examples:
      * hasProp("someProp", "object")
      * hasProp("foo", "string")
      * hasProp("bar", "function")
@@ -599,7 +599,10 @@ var Chooser = function(config) {
             } else {
                 return true;
             }
+        } else {
+            return false;
         }
     };
 
 };
+
