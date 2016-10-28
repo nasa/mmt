@@ -45,10 +45,6 @@ $(document).ready ->
                 '</div>').prependTo '#main-content'
         })
 
-        # remove any remembered selections if this is a new page
-        if $("#new_page").val() == "true"
-          collectionsChooser.clearSelections();
-
         collectionsChooser.init()
 
         $('#collectionsChooser_toList').rules 'add',

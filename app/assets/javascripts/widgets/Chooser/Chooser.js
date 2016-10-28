@@ -210,11 +210,18 @@ var Chooser = function(config) {
                     $(TO_LABEL).text( config.toLabel );
                 }
             }
-            //debugger
+
             if(hasProp("attachTo", "object")) {
                 var delimiter = hasProp("delimiter", "string") ? config.delimiter : ",";
                 $(config.attachTo).val( self.val().join(delimiter) );
             }
+
+            // Ensure each option has a title so that mouse hover reveals the full value
+            // if it overflows the bounding box.
+            $(TO_LIST).find("option").each(function(k,v){
+                $(v).attr("title",  $(v).text() );
+            });
+
         });
 
 

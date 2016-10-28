@@ -36,7 +36,6 @@ class PermissionsController < ApplicationController
   end
 
   def new
-    @new_page = true
     @collection_ids = []
     @granules_options = []
     @collections_options = []
