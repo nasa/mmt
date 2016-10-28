@@ -64,7 +64,7 @@ var Chooser = function(config) {
         FROM_LABEL, TO_LABEL,
         FILTER_TEXTBOX, TO_MESSAGE;
 
-    var CHOOSER_OPTS_STORAGE_KEY = "___Chooser_opts_" + config.id;
+    var CHOOSER_OPTS_STORAGE_KEY = "Chooser_opts_" + config.id;
     var PAGE_NUM = 1;
 
     /**
@@ -75,7 +75,7 @@ var Chooser = function(config) {
         var self = this;
 
         // Construct each component
-        OUTER_CONTAINER = $("<div class='___Chooser' id='"+config.id+"'></div>");
+        OUTER_CONTAINER = $("<div class='Chooser' id='"+config.id+"'></div>");
         FROM_CONTAINER = $("<div></div>");
         TO_CONTAINER = $("<div></div>");
         BUTTON_CONTAINER = $("<div></div>");
@@ -141,13 +141,13 @@ var Chooser = function(config) {
         $(OUTER_CONTAINER).appendTo($(config.target));
 
 
-        TO_MESSAGE = $("<span class='___to_message'></span>");
+        TO_MESSAGE = $("<span class='to_message'></span>");
         $(TO_CONTAINER).append(TO_MESSAGE);
 
 
         if(hasProp("initialList", "object")) {
-            config.initialList.forEach(function(v,k){
-                var li = $("<option value='"+v+"'>"+v+"</option>");
+            config.initialList.forEach(function(value,key){
+                var li = $("<option value='"+value+"'>"+value+"</option>");
                 $(li).on("click", function(){
 
                 });
@@ -167,8 +167,6 @@ var Chooser = function(config) {
                 return;
             }
 
-            //console.log('scroll event:::::', evt);
-
             var lowerBoundary = $(this).position().top + parseInt($(this).css('height'));
             var upperBoundary = $(this).position().top;
 
@@ -179,23 +177,14 @@ var Chooser = function(config) {
             var lastOptHeight = parseInt($(lastOpt).css("height"));
 
             if(lastOptPos <= lowerBoundary) {
-
-                //console.log("HIT LOWER BOUNDARY ---->"+ lowerBoundary + "," + lastOptPos)
-                //console.log("lastOptHeight==="+lastOptHeight)
                 var dist = lowerBoundary - lastOptPos;
-                //console.log("dist =====> " + dist);
-
                 var offset = lastOptHeight - dist;
-
-                //console.log("offset =====> " + offset);
-
                 if(offset > 1 && offset < 5) {
                     getRemoteData("next");
                 }
             }
 
             if(firstOptPos >= upperBoundary) {
-                //console.log("HIT UPPER BOUNDARY ---->"+ upperBoundary + "," + firstOptPos);
                 self.removeFromBottom();
                 PAGE_NUM = 1;
             }
@@ -218,8 +207,8 @@ var Chooser = function(config) {
 
             // Ensure each option has a title so that mouse hover reveals the full value
             // if it overflows the bounding box.
-            $(TO_LIST).find("option").each(function(k,v){
-                $(v).attr("title",  $(v).text() );
+            $(TO_LIST).find("option").each(function(key,tmpVal){
+                $(tmpVal).attr("title",  $(tmpVal).text() );
             });
 
             // if the TO_LIST has any selected options, make the first one selected and click on it
@@ -238,39 +227,37 @@ var Chooser = function(config) {
         $(TO_LIST).dblclick(function() {
             $(REMOVE_BUTTON).click();
         });
-        
+
         storeSelections();
         loadSelections();
     };
 
     /**
+     * Returns the widget's "value" (selected values). Set's the
+     * widget's value if an array is passed in.
      *
      * @returns {*|jQuery}
      */
     this.val = function(valToSet) {
-        //var vals = $(TO_LIST)
-         //   .find("option")
-         //   .map(function(k,v){return $(v).attr("value")});
-
 
         if(valToSet && typeof valToSet === "object") {
             $(TO_LIST).empty();
-            $.each(valToSet, function(k,v) {
+            $.each(valToSet, function(tmpKey,tmpVal) {
 
-                var disp_val, opt_val;
+                var dispVal, optVal;
 
-                if(typeof v === "object" && v.length === 2) {
-                    disp_val = v[0];
-                    opt_val = v[1];
-                } else if(typeof v === "object" && v.length === 1) {
-                    disp_val = v[0];
-                    opt_val = v[0];
+                if(typeof tmpVal === "object" && tmpVal.length === 2) {
+                    dispVal = tmpVal[0];
+                    optVal = tmpVal[1];
+                } else if(typeof tmpVal === "object" && tmpVal.length === 1) {
+                    dispVal = tmpVal[0];
+                    optVal = tmpVal[0];
                 } else {
-                    disp_val = v;
-                    opt_val = v;
+                    dispVal = tmpVal;
+                    optVal = tmpVal;
                 }
 
-                var opt = "<option value='"+opt_val+"'>"+disp_val+"</option>";
+                var opt = "<option value='"+optVal+"'>"+dispVal+"</option>";
 
                 $(TO_LIST).append(opt);
             });
@@ -280,10 +267,10 @@ var Chooser = function(config) {
 
         var vals = $(TO_LIST)
             .find("option")
-            .map(function(k,v){return $(v).text()});
+            .map(function(tmpKey,tmpVal){return $(tmpVal).text()});
 
         var valsAsArray = [];
-        $.each(vals, function(k,v){valsAsArray.push(v)});
+        $.each(vals, function(tmpKey,tmpVal){valsAsArray.push(tmpVal)});
         return valsAsArray;
     };
 
@@ -321,18 +308,15 @@ var Chooser = function(config) {
      * @param n - number of values to remove.
      */
     this.removeFromTop = function(n) {
-        //console.log("removeFromTop")
 
         var list = $(FROM_LIST).find("option");
         var listSize = $(list).length;
         var numOptsToRemove = listSize - config.resetSize;
-        //console.log("removeFromTop::Removing " + numOptsToRemove + " options")
-        $(FROM_LIST).find("option").each(function(k,v) {
-            if(k < numOptsToRemove) {
-                $(v).remove();
+        $(FROM_LIST).find("option").each(function(tmpKey,tmpVal) {
+            if(tmpKey < numOptsToRemove) {
+                $(tmpVal).remove();
             }
         });
-        //console.log("removeFromTop:::LIST SIZE------->",$(FROM_LIST).find("option").length)
     };
 
 
@@ -340,30 +324,22 @@ var Chooser = function(config) {
      * Remove N values from bottom of list.
      */
     this.removeFromBottom = function() {
-        //console.log("removeFromBottom")
-
         var list = $(FROM_LIST).find("option");
         var listSize = $(list).length;
         var numOptsToRemove = listSize - config.resetSize;
-        //console.log("removeFromBottom::Removing " + numOptsToRemove + " options");
         if(listSize < 1) {
             return;
         }
         var revList = [];
         // reverse the list
-            $.each(list, function(k,v){
-            revList.unshift(v);
+            $.each(list, function(tmpKey,tmpVal){
+            revList.unshift(tmpVal);
         });
-        //console.log("revList==="+revList.length);
-        $.each(revList, function(k,v) {
-                if(k < numOptsToRemove) {
-                $(v).remove();
+        $.each(revList, function(tmpKey,tmpVal) {
+                if(tmpKey < numOptsToRemove) {
+                $(tmpVal).remove();
             }
         });
-
-
-
-        //console.log("removeFromBottom:::LIST SIZE------->",$(FROM_LIST).find("option").length)
     };
 
     /**
@@ -384,12 +360,9 @@ var Chooser = function(config) {
      * @param e
      */
     var initFilter = function(e) {
-        //console.log($(this).val());
         if($(this).val().length >= config.filterChars) {
-            //console.log("Getting filtered data...")
             getRemoteData("filter");
         } else {
-            //console.log("Getting first page of data...")
             getRemoteData("first");
         }
     };
@@ -401,19 +374,18 @@ var Chooser = function(config) {
     var storeSelections = function() {
         if(sessionStorage && hasProp("rememberLast", "boolean") && config.rememberLast === true) {
             $(TO_LIST).on('change', function(){
-                //console.log("Storing selections...");
                 var items = [];
-                $(this).find("option").each(function(k,v){
+                $(this).find("option").each(function(tmpKey,tmpVal){
                     var optData = {
-                        dispText: $(v).text(),
-                        val: $(v).val()
+                        dispText: $(tmpVal).text(),
+                        val: $(tmpVal).val()
                     };
                     items.push(optData);
                 });
                 sessionStorage.setItem(CHOOSER_OPTS_STORAGE_KEY, JSON.stringify(items));
             });
         } else {
-            //console.error("Session storage is not supported in this browser.");
+            console.info("Session storage is not supported in this browser.");
         }
     };
 
@@ -423,14 +395,13 @@ var Chooser = function(config) {
     var loadSelections = function() {
         if(sessionStorage && hasProp("rememberLast", "boolean") && config.rememberLast === true) {
             var items = JSON.parse(sessionStorage.getItem(CHOOSER_OPTS_STORAGE_KEY));
-            //console.log("items==================>", items);
-            $.each(items, function(k,v){
-                var opt = $("<option value='"+v.val+"'>"+v.dispText+"</option>");
+            $.each(items, function(tmpKey,tmpVal){
+                var opt = $("<option value='"+tmpVal.val+"'>"+tmpVal.dispText+"</option>");
                 $(TO_LIST).append(opt);
             });
             $(TO_LIST).trigger("change");
         } else {
-            //console.error("Session storage is not supported in this browser.");
+            console.info("Session storage is not supported in this browser.");
         }
     };
 
@@ -442,7 +413,6 @@ var Chooser = function(config) {
      * @param type
      */
     var getRemoteData = function(type) {
-        //console.log("getRemoteData::type=="+type);
         var url = config.url;
         var overwrite = false;
 
@@ -489,16 +459,16 @@ var Chooser = function(config) {
             $(FROM_LIST).find("option").remove();
         }
 
-        $.each(list, function(k,v) {
-            if(typeof v === "string") {
-                value = displayValue = v;
-            } else if(typeof v === "object") {
-                if(v.length === 2) {
-                    value = v[0];
-                    displayValue = v[1];
-                } else if (v.length === 1){
-                    value = v[0];
-                    displayValue = v[0];
+        $.each(list, function(tmpKey,tmpVal) {
+            if(typeof tmpVal === "string") {
+                value = displayValue = tmpVal;
+            } else if(typeof tmpVal === "object") {
+                if(tmpVal.length === 2) {
+                    value = tmpVal[0];
+                    displayValue = tmpVal[1];
+                } else if (tmpVal.length === 1){
+                    value = tmpVal[0];
+                    displayValue = tmpVal[0];
                 }
             }
 
@@ -517,16 +487,15 @@ var Chooser = function(config) {
         var msg = hasProp("uniqueMsg", "string") ? config.uniqueMsg : "Value already added";
 
         var removeAdded = hasProp("removeAdded", "boolean") ? config.removeAdded : true;
-        $(FROM_LIST).find("option:selected").each(function(k,v){
-            var clonedOpt = $(v).clone();
+        $(FROM_LIST).find("option:selected").each(function(tmpKey,tmpVal){
+            var clonedOpt = $(tmpVal).clone();
             if(config.forceUnique) {
-                //debugger
-                var fromListVal = $(v).attr("value");
+                var fromListVal = $(tmpVal).attr("value");
                 var toListVal = $(TO_LIST).find("option[value='"+fromListVal+"']").attr("value");
                 if(toListVal !== fromListVal) {
                     $(TO_LIST).append(clonedOpt);
                     if(removeAdded) {
-                        $(v).remove();
+                        $(tmpVal).remove();
                     }
                 } else {
                     $(TO_MESSAGE).text(msg);
@@ -538,7 +507,7 @@ var Chooser = function(config) {
             } else {
                 $(TO_LIST).append(clonedOpt);
                 if(removeAdded) {
-                    $(v).remove();
+                    $(tmpVal).remove();
                 }
             }
 
@@ -561,14 +530,14 @@ var Chooser = function(config) {
     var removeButtonClick = function(e, remAll) {
         e.preventDefault();
         var query =  remAll ? "option" : "option:selected";
-        $(TO_LIST).find(query).each(function(k,v){
-            var fromListVal = $(v).attr("value");
+        $(TO_LIST).find(query).each(function(tmpKey,tmpVal){
+            var fromListVal = $(tmpVal).attr("value");
             var toListVal = $(TO_LIST).find("option[value='"+fromListVal+"']").attr("value");
             if(fromListVal !== toListVal) {
-                var clonedOpt = $(v).clone();
+                var clonedOpt = $(tmpVal).clone();
                 $(FROM_LIST).prepend(clonedOpt);
             }
-            $(v).remove();
+            $(tmpVal).remove();
         });
         $(TO_LIST).trigger("change");
 

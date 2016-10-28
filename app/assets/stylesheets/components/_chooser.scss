@@ -1,4 +1,4 @@
-.___Chooser {
+.Chooser {
   display: table;
   border: 1px solid #ccc;
   padding: 10px;
@@ -6,47 +6,47 @@
 }
 
 
-.___Chooser div:nth-child(1) {
+.Chooser div:nth-child(1) {
   display: table-cell;
   vertical-align: top;
   width: 40%;
 
 }
 
-.___Chooser div:nth-child(1) select {
+.Chooser div:nth-child(1) select {
   width: 100% !important;
 }
 
 
-.___Chooser div:nth-child(2) {
+.Chooser div:nth-child(2) {
   display: table-cell;
   width: 10%;
   padding: 20px;
   vertical-align: middle;
 }
 
-.___Chooser div:nth-child(2) button {
+.Chooser div:nth-child(2) button {
   display: block;
   width: 100%;
   margin-bottom: 5px;
 }
 
 
-.___Chooser div:nth-child(3) {
+.Chooser div:nth-child(3) {
   display: table-cell;
   width: 40%;
   vertical-align: top;
 }
 
 
-.___Chooser div:nth-child(3) select {
+.Chooser div:nth-child(3) select {
   width: 100% !important;
 }
 
-.___Chooser div:nth-child(1) input[type=text] {
+.Chooser div:nth-child(1) input[type=text] {
   width: 100%;
 }
 
-.___Chooser span.___to_message {
+.Chooser span.to_message {
   color: red;
 }
