@@ -41,7 +41,7 @@ describe 'Clearing saved location keywords', js: true do
       before do
         within '.selected-location-keywords' do
           find('.remove').click
-          sleep 1
+          # sleep 1
         end
 
         within '.nav-top' do

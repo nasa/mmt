@@ -1,7 +1,7 @@
 class OgreClient
   # Register custom middleware
   Faraday.register_middleware(:response,
-                                :logging => Cmr::ClientMiddleware::LoggingMiddleware)
+                              logging: Cmr::ClientMiddleware::LoggingMiddleware)
 
   OGRE_URL = ENV['ogre_url']
 
@@ -10,7 +10,7 @@ class OgreClient
   end
 
   def self.connection
-    Thread.current[:edsc_ogre_connection] ||= self.build_connection
+    Thread.current[:edsc_ogre_connection] ||= build_connection
   end
 
   private
@@ -20,7 +20,9 @@ class OgreClient
   end
 
   def self.build_connection
-    Faraday.new(:url => OGRE_URL) do |conn|
+    Faraday.new(url: OGRE_URL) do |conn|
+      conn.use :instrumentation
+
       conn.request :multipart
       conn.request :url_encoded
 

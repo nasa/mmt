@@ -54,19 +54,62 @@ module Helpers
   end
 end
 
-ActiveSupport::Notifications.subscribe /^mmt\.performance/ do |*args|
+ActiveSupport::Notifications.subscribe('mmt.performance') do |*args|
   event = ActiveSupport::Notifications::Event.new(*args)
+
   key = event.payload && event.payload[:activity] || event.name.gsub(/^mmt.performance\./, '')
+
   Helpers::Instrumentation.record_performance(key, event.duration)
 end
 
-ActiveSupport::Notifications.subscribe /process_action.action_controller/ do |*args|
+ActiveSupport::Notifications.subscribe('process_action.action_controller') do |*args|
   event = ActiveSupport::Notifications::Event.new(*args)
+
   controller = event.payload[:controller]
   action = event.payload[:action]
-  format = event.payload[:format] || "all"
-  format = "all" if format == "*/*"
-  status = event.payload[:status]
+  format = event.payload[:format] || 'all'
+  format = 'all' if format == '*/*'
   key = "#{controller}##{action}.#{format}"
+
   Helpers::Instrumentation.record_performance(key, event.duration)
+end
+
+ActiveSupport::Notifications.subscribe('request.faraday') do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+
+  url         = event.payload[:url]
+  http_method = event.payload[:method].to_s.upcase
+  key         = "[#{url.host}:#{url.port}] #{http_method} #{url.request_uri}"
+
+  Helpers::Instrumentation.record_performance(key, event.duration)
+end
+
+ActiveSupport::Notifications.subscribe('factory_girl.run_factory') do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+
+  key = "FactoryGirl##{event.payload[:strategy]} (#{event.payload[:name]})"
+
+  Helpers::Instrumentation.record_performance(key, event.duration)
+end
+
+ActiveSupport::Notifications.subscribe 'sql.active_record' do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+
+  Helpers::Instrumentation.record_performance(event.name, event.duration)
+end
+
+ActiveSupport::Notifications.subscribe 'render_template.action_view' do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+
+  template = event.payload[:identifier].sub(Rails.root.to_s, '')
+
+  Helpers::Instrumentation.record_performance("Render View #{template}", event.duration)
+end
+
+ActiveSupport::Notifications.subscribe 'render_partial.action_view' do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+
+  template = event.payload[:identifier].sub(Rails.root.to_s, '')
+  
+  Helpers::Instrumentation.record_performance("Render Partial #{template}", event.duration)
 end

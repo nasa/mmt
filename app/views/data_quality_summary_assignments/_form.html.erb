@@ -21,7 +21,7 @@
     <tbody>
       <% if @collections.empty? %>
         <tr>
-          <td colspan="4">No collections to display for <%= @current_user.provider_id %>.</td>
+          <td colspan="4">No collections to display for <%= current_user.provider_id %>.</td>
         </tr>
       <% else %>
         <% @collections.each do |collection| %>

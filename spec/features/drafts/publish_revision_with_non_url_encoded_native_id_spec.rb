@@ -1,76 +1,94 @@
 require 'rails_helper'
 
-describe 'Publishing revision of collection with non url encoded native id', js: true do
+describe 'Publishing revision of collection with non url encoded native id' do
   context 'when finding a published collection with a non url encoded native id' do
     before do
       login
-      user = User.first
-      user.provider_id = 'LARC'
-      user.available_providers << 'LARC'
-      user.save
 
-      click_on 'Find'
-      click_on 'AE_5DSno'
+      # Update the authenticated user to have permissions to LARC data
+      # user = User.first
+      # user.provider_id = 'LARC'
+      # user.available_providers << 'LARC'
+      # user.save
+
+      # Searched CMR for all collections
+      # fill_in 'Quick Find', with: 'AE_5DSno'
+      # click_on 'Find'
+
+      # Click on the one we want because we don't know its collection id
+      # click_on 'AE_5DSno'
+
     end
 
     context 'when editing the collection' do
       before do
-        click_on 'Edit Record'
+        native_id = "not & url, encoded / native id #{Faker::SlackEmoji.emoji}"
+        ingest_response, concept = publish_draft(native_id: native_id)
 
+        visit collection_path(ingest_response['result']['concept_id'])
+
+        # Editing this record will make a new draft
+        click_on 'Edit Record'
       end
 
       it 'creates a draft with a non url encoded native id' do
-        draft = Draft.first
-        page.document.synchronize do
-          expect(draft.native_id).to eq('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
+        within '.eui-banner--success' do
+          expect(page).to have_content('Draft was successfully created')
         end
       end
 
       context 'when publishing the revision then visiting the revisions page' do
         before do
-          # add required data to publish
-          within '.metadata' do
-            click_on 'Data Centers', match: :first
-          end
-          expect(page).to have_content('Data Centers')
+          # # add required data to publish
+          # within '.metadata' do
+          #   click_on 'Data Centers', match: :first
+          # end
 
-          (1..3).each do |n|
-            # TODO this is not the ideal way to do this, but the entire form will be changed by the next ticket
-            within "#draft_data_centers_#{n} > .eui-accordion__header" do
-              find('.remove').click
-            end
-          end
+          # expect(page).to have_content('Data Centers')
 
-          open_accordions
-          within '#draft_data_centers_0' do
-            select 'AARHUS-HYDRO', from: 'Short Name'
-          end
-          within '.nav-top' do
-            click_on 'Done'
-          end
+          # (1..3).each do |n|
+          #   # TODO: Rewrite this so that it doesnt depend on previous tests
+          #   # TODO this is not the ideal way to do this, but the entire form will be changed by the next ticket
+          #   within "#draft_data_centers_#{n} > .eui-accordion__header" do
+          #     find('.remove').trigger(:click)
+          #   end
+          # end
+          # byebug
 
-          within '.metadata' do
-            click_on 'Data Identification'
-          end
-          click_on 'Expand All'
-          select 'Level 3', from: 'ID'
-          select 'Planned', from: 'Collection Progress'
-          within '.nav-top' do
-            click_on 'Done'
-          end
+          # open_accordions
 
-          within '.metadata' do
-            click_on 'Acquisition Information'
-          end
-          click_on 'Expand All'
-          select 'Aircraft', from: 'Type'
-          within '.nav-top' do
-            click_on 'Done'
-          end
+          # within '#draft_data_centers_0' do
+          #   select 'AARHUS-HYDRO', from: 'Short Name'
+          # end
+
+          # within '.nav-top' do
+          #   click_on 'Done'
+          # end
+
+          # within '.metadata' do
+          #   click_on 'Data Identification'
+          # end
+
+          # click_on 'Expand All'
+          # select 'Level 3', from: 'ID'
+          # select 'Planned', from: 'Collection Progress'
+
+          # within '.nav-top' do
+          #   click_on 'Done'
+          # end
+
+          # within '.metadata' do
+          #   click_on 'Acquisition Information'
+          # end
+
+          # click_on 'Expand All'
+          # select 'Aircraft', from: 'Type'
+
+          # within '.nav-top' do
+          #   click_on 'Done'
+          # end
 
           click_on 'Publish'
-          wait_for_ajax
-
           click_on 'Revisions'
         end
 

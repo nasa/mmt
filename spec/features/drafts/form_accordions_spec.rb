@@ -60,7 +60,7 @@ describe 'Draft form accordions', js: true do
     context 'when clicking on the accordion header' do
       before do
         first('.eui-accordion__header').click
-        sleep 0.5
+        # sleep 0.5
       end
 
       it 'does not allow the user to collapse the accordion' do

@@ -21,7 +21,7 @@ class EchoSoapController < ApplicationController
 
   def current_provider_guid
     if @current_provider_guid.nil?
-      @current_provider_guid = get_provider_guid(@current_user.provider_id)
+      @current_provider_guid = get_provider_guid(current_user.provider_id)
     end
 
     @current_provider_guid
@@ -52,6 +52,6 @@ class EchoSoapController < ApplicationController
   end
 
   def set_collections
-    @collections = cmr_client.get_collections({ provider_id: @current_user.provider_id }, token).body.fetch('items', [])
+    @collections = cmr_client.get_collections({ provider_id: current_user.provider_id }, token).body.fetch('items', [])
   end
 end

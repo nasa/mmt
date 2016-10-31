@@ -2,17 +2,16 @@
 
 require 'rails_helper'
 
-describe 'Delete collection', js: true, reset_provider: true do
+describe 'Delete collection', js: true do
   before do
     login
   end
 
   context 'when viewing a published collection' do
     before do
-      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
+      ingest_response, @concept = publish_draft
 
-      click_on 'Publish'
+      visit collection_path(ingest_response['result']['concept_id'])
     end
 
     context 'when the collection has no granules' do
@@ -23,23 +22,25 @@ describe 'Delete collection', js: true, reset_provider: true do
       context 'when clicking the delete link' do
         before do
           click_on 'Delete Record'
-          # Accept
-          click_on 'Yes'
+          
+          within '#delete-record-modal' do
+            click_on 'Yes'
+          end
         end
 
         it 'displays a confirmation message' do
           expect(page).to have_content('Collection was successfully deleted')
-        end
+        # end
 
-        it 'displays the revision page' do
+        # it 'displays the revision page' do
           expect(page).to have_content('Revision History')
-        end
+        # end
 
-        it 'displays the correct number of revisions' do
+        # it 'displays the correct number of revisions' do
           expect(page).to have_selector('tbody > tr', count: 2)
-        end
+        # end
 
-        it 'displays the latest revision as being deleted' do
+        # it 'displays the latest revision as being deleted' do
           within first('tbody > tr') do
             expect(page).to have_content('Deleted')
           end
@@ -67,11 +68,11 @@ describe 'Delete collection', js: true, reset_provider: true do
       click_on short_name
     end
 
-    after do
-      user = User.first
-      user.provider_id = 'MMT_2'
-      user.save
-    end
+    # after do
+    #   user = User.first
+    #   user.provider_id = 'MMT_2'
+    #   user.save
+    # end
 
     it 'displays the number of granules' do
       expect(page).to have_content('Granules (1)')
@@ -90,17 +91,18 @@ describe 'Delete collection', js: true, reset_provider: true do
 
   context 'when viewing a published collection with a non url encoded native id' do
     before do
-      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url, encoded / native id')
-      visit draft_path(draft)
+      ingest_response, concept = publish_draft(native_id: 'not & url, encoded / native id')
 
-      click_on 'Publish'
+      visit collection_path(ingest_response['result']['concept_id'])
     end
 
     context 'when clicking the delete link' do
       before do
         click_on 'Delete Record'
-        # Accept
-        click_on 'Yes'
+        
+        within '#delete-record-modal' do
+          click_on 'Yes'
+        end
       end
 
       it 'displays a confirmation message' do

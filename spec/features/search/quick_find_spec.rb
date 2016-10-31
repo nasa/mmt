@@ -12,7 +12,7 @@ describe 'Quick find search', js: true do
   context 'when not viewing the search page' do
     context 'and performing a quick find search' do
       before do
-        visit '/manage_metadata'
+        visit manage_metadata_path
         fill_in 'Quick Find', with: short_name
         click_on 'Find'
       end
@@ -29,7 +29,7 @@ describe 'Quick find search', js: true do
 
   context 'when viewing the search page' do
     before do
-      visit '/search'
+      visit search_path
       fill_in 'Quick Find', with: short_name
       click_on 'Find'
     end
@@ -45,7 +45,7 @@ describe 'Quick find search', js: true do
 
   context 'When on the home page' do
     before do
-      visit '/'
+      visit root_url
     end
 
     it 'there is no Quick Find option' do

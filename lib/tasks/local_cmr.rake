@@ -33,8 +33,10 @@ namespace :cmr do
   end
 
   desc 'Delete provider used in tests'
-  task reset_test_provider: ['tmp:cache:clear'] do
+  task :reset_test_provider, [:provider_id] => ['tmp:cache:clear'] do |task, args|
+    args.with_defaults(provider_id: 'MMT_2')
+
     cmr = Cmr::Local.new
-    cmr.reset_provider('MMT_2')
+    cmr.reset_provider(args[:provider_id])
   end
 end

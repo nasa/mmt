@@ -23,7 +23,7 @@ describe 'Progress circles', js: true do
 
         within '.nav-top' do
           find('a.cancel').trigger('click')
-          sleep 0.1
+          # sleep 0.1
         end
       end
 

@@ -1,4 +1,4 @@
-# MMT-150,
+# MMT-150
 
 require 'rails_helper'
 
@@ -8,7 +8,7 @@ describe 'Groups' do
 
     before do
       login
-      visit "/groups/#{bad_concept_id}"
+      visit group_path(bad_concept_id)
     end
 
     it 'displays an error message' do

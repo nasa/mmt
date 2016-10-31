@@ -14,7 +14,9 @@ describe 'Inviting users', reset_provider: true, js: true do
   context 'when creating a new group' do
     before do
       login
+
       visit new_group_path
+
       fill_in 'Group Name', with: 'Test Group'
       fill_in 'Group Description', with: 'Test Description'
     end
@@ -28,6 +30,7 @@ describe 'Inviting users', reset_provider: true, js: true do
         fill_in 'invite_email', with: 'test@example.com'
 
         click_on 'Invite User'
+
         wait_for_ajax
 
         token
@@ -72,14 +75,23 @@ describe 'Inviting users', reset_provider: true, js: true do
   end
 
   context 'when adding users to an existing group' do
+
+    before :all do
+      @group_name = 'Test Group For New Invites'
+      @group_description = 'Group to invite users to'
+      @provider_id = 'MMT_2'
+
+      @group = create_group(
+        name: @group_name,
+        description: @group_description,
+        provider_id: @provider_id
+      )
+    end
+
     before do
       login
-      visit new_group_path
-      fill_in 'Group Name', with: 'Test Group'
-      fill_in 'Group Description', with: 'Test Description'
-      click_on 'Save'
 
-      click_on 'Add Members'
+      visit edit_group_path(@group['concept_id'], add_members: true)
     end
 
     context 'when inviting a user' do
@@ -132,7 +144,7 @@ describe 'Inviting users', reset_provider: true, js: true do
         end
 
         it 'adds the user to the group' do
-          expect(page).to have_content('You have been added to the group Test Group in MMT_2')
+          expect(page).to have_content("You have been added to the group #{@group_name} in #{@provider_id}")
         end
       end
     end

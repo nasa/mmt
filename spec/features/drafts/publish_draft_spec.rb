@@ -4,13 +4,13 @@ require 'rails_helper'
 include DraftsHelper
 include ActionView::Helpers::NumberHelper
 
-describe 'Publishing draft records', js: true, reset_provider: true do
+describe 'Publishing draft records', js: true do
   context 'when publishing a draft record' do
     before do
       ActionMailer::Base.deliveries.clear
 
       login
-      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
+      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
       visit draft_path(draft)
       click_on 'Publish'
       open_accordions

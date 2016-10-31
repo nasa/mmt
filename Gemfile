@@ -13,33 +13,35 @@ gem 'multi_xml'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+
 # Use Autoprefixer for prefixing styles
 gem 'autoprefixer-rails'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
+
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
 gem 'unicorn'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 gem 'bourbon'
 gem 'neat'
+gem 'font-awesome-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -62,14 +64,18 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
 
-  gem 'pry-rails'
+  # Keep that code clean, folks!
+  gem 'rubocop'
 end
+
 
 group :test do
   gem 'capybara'
-  gem 'poltergeist'
-  gem 'launchy'
   gem 'capybara-screenshot'
+  gem 'faker'
+  gem 'fuubar'
+  gem 'launchy'
+  gem 'poltergeist'
   gem 'rack_session_access'
   gem 'rspec_junit_formatter'
   gem 'simplecov', require: false
@@ -80,7 +86,6 @@ group :production do
 end
 
 gem 'figaro'
-
 gem 'json-schema'
 gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
 gem 'database_cleaner' # added to provide a solution to Capybara's problems with js=>true

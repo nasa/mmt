@@ -10,7 +10,9 @@ module Echo
     end
 
     def build_connection
-      Faraday.new(url: @url)
+      Faraday.new(url: @url) do |conn|
+        conn.use :instrumentation
+      end
     end
 
     def make_request(url, body)

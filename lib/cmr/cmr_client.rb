@@ -1,15 +1,12 @@
 module Cmr
   class CmrClient < BaseClient
     def get_collections(options = {}, token = nil)
-      ActiveSupport::Notifications.instrument "mmt.performance", activity: "Cmr::CmrClient#get_collections" do
-
-        if Rails.env.development? || Rails.env.test?
-          url = 'http://localhost:3003/collections.umm-json'
-        else
-          url = '/search/collections.umm-json'
-        end
-        get(url, options, token_header(token))
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/collections.umm-json'
+      else
+        url = '/search/collections.umm-json'
       end
+      get(url, options, token_header(token))
     end
 
     def get_providers
@@ -187,6 +184,7 @@ module Cmr
       # '[{"username": "user1", "password": "user1pass"}, ...]'
       # local cmr requires 'username' and 'password' fields
       users = user_uids.map { |uid| { 'username' => uid, 'password' => 'password' } }
+
       url = 'http://localhost:3008/urs/users'
       post(url, users.to_json, token_header(token))
     end

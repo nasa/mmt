@@ -9,7 +9,7 @@ class PermissionsController < ApplicationController
     page = 1 if page < 1
 
     @opts = {
-      'provider' => @current_user.provider_id,
+      'provider' => current_user.provider_id,
       'page_num' => page,
       'page_size' => RESULTS_PER_PAGE,
       'identity_type' => 'catalog_item',
@@ -18,7 +18,7 @@ class PermissionsController < ApplicationController
 
     #@opts.delete('page')
 
-    provider_id = @current_user.provider_id
+    provider_id = current_user.provider_id
     response = cmr_client.get_permissions_for_provider(@opts, token)
 
     if response.success?
@@ -115,12 +115,12 @@ class PermissionsController < ApplicationController
       render :new and return
     end
 
-    request_object = construct_request_object(@current_user.provider_id)
+    request_object = construct_request_object(current_user.provider_id)
     response = cmr_client.add_group_permissions(request_object, token)
 
     if response.success?
       flash[:success] = 'Permission was successfully created.'
-      Rails.logger.info("#{@current_user.urs_uid} CREATED catalog item ACL for #{@current_user.provider_id}. #{response.body}")
+      Rails.logger.info("#{current_user.urs_uid} CREATED catalog item ACL for #{current_user.provider_id}. #{response.body}")
 
       concept_id = response.body['concept_id']
       redirect_to permission_path(concept_id)
@@ -180,7 +180,7 @@ class PermissionsController < ApplicationController
 
     if update_response.success?
       flash[:success] = 'Permission was successfully updated.'
-      Rails.logger.info("#{@current_user.urs_uid} UPDATED catalog item ACL for #{permission_provider}. #{response.body}")
+      Rails.logger.info("#{current_user.urs_uid} UPDATED catalog item ACL for #{permission_provider}. #{response.body}")
 
       redirect_to permission_path(concept_id)
     else
@@ -215,7 +215,7 @@ class PermissionsController < ApplicationController
     response = cmr_client.delete_permission(params[:id], token)
     if response.success?
       flash[:success] = 'Permission was successfully deleted.'
-      Rails.logger.info("#{@current_user.urs_uid} DELETED catalog item ACL for #{@current_user.provider_id}. #{response.body}")
+      Rails.logger.info("#{current_user.urs_uid} DELETED catalog item ACL for #{current_user.provider_id}. #{response.body}")
       redirect_to permissions_path
     else
       Rails.logger.error("Permission Deletion Error: #{response.inspect}")
@@ -248,7 +248,7 @@ class PermissionsController < ApplicationController
   def get_collections_for_provider(params)
     # page_size default is 10, max is 2000
 
-    query = { 'provider' => @current_user.provider_id,
+    query = { 'provider' => current_user.provider_id,
               'page_size' => 500 }
 
     if params.key?('entry_id')
@@ -281,7 +281,7 @@ class PermissionsController < ApplicationController
 
   def get_groups
     filters = {}
-    filters['provider'] = @current_user.provider_id;
+    filters['provider'] = current_user.provider_id;
     groups_response = cmr_client.get_cmr_groups(filters, token)
     groups_for_permissions_select = []
 

@@ -5,13 +5,10 @@
 <table id="search-results">
   <thead>
   <tr>
-    <!-- Temporarily commented out because this is not a part of the MVP %-->
-    <!--th><input type="checkbox" name="name" value=""></th-->
     <th class="w20">
       <%= sort_by_link('Short Name', 'short_name', @query) %>
     </th>
     <th class="w10">
-      <%#= sort_by_link('Version', 'version_id', @query) %>
       Version
     </th>
     <th class="w40"><%= sort_by_link('Entry Title', 'entry_title', @query) %></th>
@@ -23,7 +20,7 @@
 
     <% @errors.each do |error| %>
       <tr>
-        <td colspan="4">
+        <td colspan="5">
           <strong>Error:</strong> <%= error %>
         </td>
       </tr>
@@ -31,7 +28,7 @@
 
     <% if @collections.blank? %>
       <tr>
-        <td colspan="4">
+        <td colspan="5">
           No collections found
         </td>
       </tr>
@@ -39,15 +36,11 @@
 
       <% @collections.each do |collection| %>
         <tr class='<%= cycle("alt", "") %>'>
-          <!-- Temporarily commented out because this is not a part of the MVP %-->
-          <!--td>
-            <input type="checkbox" name="name" value="">
-          </td-->
           <td>
             <% if collection['meta']['draft_id'] %>
-              <% if @current_user.provider_id == collection['meta']['provider-id'] %>
+              <% if current_user.provider_id == collection['meta']['provider-id'] %>
                 <%= link_to "#{collection['umm']['short-name']} (Draft)", draft_path(collection['meta']['draft_id']) %>
-              <% elsif @current_user.available_providers.include?(collection['meta']['provider-id']) %>
+              <% elsif current_user.available_providers.include?(collection['meta']['provider-id']) %>
                 <%= link_to "#{collection['umm']['short-name']} (Draft)", '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': collection['meta']['provider-id'], record_action: 'view-draft' } %>
                 <%= render partial: "shared/not_current_provider_modal", locals: {
                   options: { draft: collection, draft_id: collection['meta']['draft_id'] }

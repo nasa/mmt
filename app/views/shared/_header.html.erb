@@ -9,8 +9,8 @@
 
       <!-- Display provider context badge -->
       <div class="provider-context">
-        <% if logged_in? && @current_user.provider_id %>
-          <span class="eui-badge--sm daac"><%= @current_user.provider_id %></span>
+        <% if logged_in? && current_user.provider_id %>
+          <span class="eui-badge--sm daac"><%= current_user.provider_id %></span>
         <% end %>
       </div>
       <!-- End provider context badge -->
@@ -45,7 +45,7 @@
   </div>
 </noscript>
 
-<% if logged_in? && @current_user.provider_id.nil? %>
+<% if logged_in? && current_user.provider_id.nil? %>
   <script type="text/javascript">
     $(document).ready(function() {
       $('#change-context').click();
@@ -54,22 +54,22 @@
 <% end %>
 
 <div id="provider-context">
-  <% if logged_in? && @current_user.available_providers %>
+  <% if logged_in? && current_user.available_providers %>
     <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
     <div>
-      <% if @current_user.available_providers.size > 1 %>
+      <% if current_user.available_providers.size > 1 %>
         <p>
           Please select your provider context. You can change your context at any point.
         </p>
 
         <p>
           <%= form_tag set_provider_path, method: 'post' do %>
-            <%= select_tag 'select_provider', options_for_select(@current_user.available_providers.unshift(['Select Provider', '']), @current_user.provider_id), class: 'single-select' %>
+            <%= select_tag 'select_provider', options_for_select(current_user.available_providers.unshift(['Select Provider', '']), current_user.provider_id), class: 'single-select' %>
           <% end %>
         </p>
-      <% elsif @current_user.available_providers.size == 1 %>
+      <% elsif current_user.available_providers.size == 1 %>
         <p>
-          You only have one available provider, <%= @current_user.provider_id %>
+          You only have one available provider, <%= current_user.provider_id %>
         </p>
       <% else %>
         <p>

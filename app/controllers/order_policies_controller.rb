@@ -18,7 +18,7 @@ class OrderPoliciesController < EchoSoapController
     set_policy
 
     unless @policy.empty?
-      flash[:notice] = "Order Policies already exist for #{@current_user.provider_id}."
+      flash[:notice] = "Order Policies already exist for #{current_user.provider_id}."
 
       redirect_to edit_order_policies_path
     end
@@ -69,7 +69,7 @@ class OrderPoliciesController < EchoSoapController
   private
 
   def set_collections
-    @collections = cmr_client.get_collections({ provider_id: @current_user.provider_id }, token).body.fetch('items', [])
+    @collections = cmr_client.get_collections({ provider_id: current_user.provider_id }, token).body.fetch('items', [])
   end
 
   def set_policy

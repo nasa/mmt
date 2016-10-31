@@ -20,8 +20,8 @@ class UsersController < ApplicationController
 
   def set_provider
     provider_id = params[:provider_id] || params[:select_provider]
-    @current_user.provider_id = provider_id
-    @current_user.save
+    current_user.provider_id = provider_id
+    current_user.save
 
     set_provider_context_token
 
@@ -32,9 +32,9 @@ class UsersController < ApplicationController
   end
 
   def refresh_providers
-    @current_user.provider_id = nil
-    @current_user.save
-    @current_user.providers = available_providers(@current_user.echo_id)
+    current_user.provider_id = nil
+    current_user.save
+    current_user.set_available_providers
     redirect_to manage_metadata_path
   end
 end

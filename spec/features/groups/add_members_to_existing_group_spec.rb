@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Adding members to existing group', reset_provider: true, js: true do
+describe 'Adding members to existing group', js: true, reset_provider: true do
   group_name = 'Ocean Explorers'
   group_description = 'Group for Ocean Monitoring Scientists'
 
@@ -22,18 +22,18 @@ describe 'Adding members to existing group', reset_provider: true, js: true do
       click_on 'Save'
     end
 
-    it 'displays a success message' do
+    it 'displays correct data' do
       expect(page).to have_content('Members successfully added.')
-    end
+    # end
 
-    it 'displays the group information' do
+    # it 'displays the group information' do
       within '#main-content header' do
         expect(page).to have_content(group_name)
         expect(page).to have_content(group_description)
       end
-    end
+    # end
 
-    it 'displays the group members' do
+    # it 'displays the group members' do
       within '#groups-table' do
         expect(page).to have_content('Marsupial Narwal')
         expect(page).to have_content('Quail Racoon')

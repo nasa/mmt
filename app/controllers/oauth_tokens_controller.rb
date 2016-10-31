@@ -1,24 +1,28 @@
 class OauthTokensController < ApplicationController
-  skip_before_filter :is_logged_in, :setup_query
+  skip_before_filter :is_logged_in
+  skip_before_filter :setup_query
 
   def urs_callback
     if params[:code]
-      auth_code = params[:code]
-      response = cmr_client.get_oauth_tokens(auth_code)
+      # Ask CMR for an access token
+      response = cmr_client.get_oauth_tokens(params[:code])
 
+      # If the request was successful continue logging in
       if response.success?
+        # Adds token response to session variables
         store_oauth_token(response.body)
+
+        # Retreive profile details for the provided token
         profile = cmr_client.get_profile(response.body['endpoint'], response.body['access_token'])
+
+        # Stores additional information in the session pertaining to the user
         store_profile(profile.body)
-        # useful for debugging
-        # Rails.logger.info "Profile: #{profile.body}"
       else
-        Rails.logger.error("Oauth error: #{response.body}")
+        Rails.logger.error("OAuth error: #{response.body}")
       end
-      # useful when needing to replace the application.yml tokens
-      # Rails.logger.info "Token: #{response.body.inspect}"
     end
 
+    # Redirects the user to an appropriate location
     redirect_from_urs
   end
 end

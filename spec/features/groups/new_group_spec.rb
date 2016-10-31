@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'New Groups', reset_provider: true, js: true do
+describe 'New Groups', reset_provider: true do
   group_name = 'Forest People'
   group_description = 'Group for scientists monitoring Forest Cover'
 
@@ -14,6 +14,7 @@ describe 'New Groups', reset_provider: true, js: true do
 
     it 'displays the new group information entry fields' do
       expect(page).to have_field('Group Name', type: 'text')
+      
       # test that it does not have 'System Level Group?' checkbox?
       expect(page).to have_no_unchecked_field('System Level Group?')
       expect(page).to have_field('Group Description', type: 'textarea')
@@ -24,7 +25,7 @@ describe 'New Groups', reset_provider: true, js: true do
     end
 
     context 'when attempting to create a group with incomplete information' do
-      context 'when saving without a Group Name' do
+      context 'when saving without a name' do
         before do
           fill_in 'Group Description', with: group_description
           click_on 'Save'
@@ -64,7 +65,8 @@ describe 'New Groups', reset_provider: true, js: true do
         end
       end
 
-      context 'when not filling in required fields' do
+      # Javascript Form Validation
+      context 'when not filling in required fields', js: true do
         context 'when not filling in group name' do
           before do
             page.execute_script("$('#group_name').trigger('blur')")
@@ -90,7 +92,7 @@ describe 'New Groups', reset_provider: true, js: true do
           end
         end
 
-        context 'when not filling in group description' do
+        context 'when not filling in group description', js: true do
           before do
             page.execute_script("$('#group_description').trigger('blur')")
           end
@@ -121,65 +123,24 @@ describe 'New Groups', reset_provider: true, js: true do
       before do
         fill_in 'Group Name', with: group_name
         fill_in 'Group Description', with: group_description
+
+        click_on 'Save'
       end
 
-      context 'when no members are added' do
-        before do
-          click_on 'Save'
+      it 'displays the group information' do
+        expect(page).to have_content('Group was successfully created.')
+
+        within '#main-content header' do
+          expect(page).to have_content(group_name)
+          expect(page).to have_content(group_description)
+
+          # does not have SYS badge
+          expect(page).to have_no_content('SYS')
+          expect(page).to have_no_css('span.eui-badge--sm')
         end
 
-        it 'displays the group information' do
-          within '#main-content header' do
-            expect(page).to have_content(group_name)
-            expect(page).to have_content(group_description)
-
-            # does not have SYS badge
-            expect(page).to have_no_content('SYS')
-            expect(page).to have_no_css('span.eui-badge--sm')
-          end
-        end
-
-        it 'displays a success message' do
-          expect(page).to have_content('Group was successfully created.')
-        end
-
-        it 'does not have any members' do
-          within '#groups-table tbody' do
-            expect(page).to have_no_css('tr td')
-          end
-        end
-
-        context 'when deleting the group' do
-          let(:concept_id) { page.current_path.delete('/groups/') }
-
-          before do
-            concept_id # not sure why, the tests won't use concept_id correctly unless I call it here
-            click_link 'Delete Group'
-            # modal
-            sleep 1
-            click_on 'Yes'
-          end
-
-          it 'redirects to groups index page' do
-            within 'main header h2' do
-              expect(page).to have_content('Groups')
-            end
-          end
-
-          it 'displays a success message' do
-            expect(page).to have_content("Group #{group_name} successfully deleted.")
-          end
-
-          context 'when trying to visit the group page with concept id' do
-            before do
-              visit "/groups/#{concept_id}"
-            end
-
-            it 'displays an error message' do
-              expect(page).to have_css('div.eui-banner--danger')
-              expect(page).to have_content("Group with concept id [#{concept_id}] was deleted.")
-            end
-          end
+        within '#groups-table tbody' do
+          expect(page).to have_no_css('tr td')
         end
       end
     end

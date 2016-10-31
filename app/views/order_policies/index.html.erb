@@ -16,10 +16,10 @@
 
   <div class="row row-content">
     <section>
-      <h2><%= @current_user.provider_id %> Order Policies</h2>
+      <h2><%= current_user.provider_id %> Order Policies</h2>
 
       <% if @policy.empty? %>
-        <p>No <%= @current_user.provider_id %> Order Policies found.</p>
+        <p>No <%= current_user.provider_id %> Order Policies found.</p>
         <%= link_to 'Create Order Policies', new_order_policies_path, class: 'eui-btn' %>
       <% else %>
         <article class="order-policy">
@@ -90,7 +90,7 @@
           <%= link_to 'Remove Order Policies', "#delete-summary-modal", class: 'display-modal eui-btn eui-btn--red' %>
           <div id="delete-summary-modal" class="eui-modal-content">
             <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-            <p>Are you sure you want to delete the order policies for <%= @current_user.provider_id %>?</p>
+            <p>Are you sure you want to delete the order policies for <%= current_user.provider_id %>?</p>
             <p>
               <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
               <%= link_to 'Yes', order_policies_path, method: :delete, class: 'eui-btn--blue spinner' %>

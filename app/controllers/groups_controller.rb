@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
     @is_system_group = params[:system_group]
 
     if valid_group?(group)
-      group['provider_id'] = @current_user.provider_id unless @is_system_group
+      group['provider_id'] = current_user.provider_id unless @is_system_group
       # from CMR docs on group fields: members - Optional. May be specified in create and update operations
       group['members'] = members unless members.blank?
 
@@ -116,7 +116,7 @@ class GroupsController < ApplicationController
 
     if group
       if valid_group?(group)
-        group['provider_id'] = @current_user.provider_id unless @is_system_group
+        group['provider_id'] = current_user.provider_id unless @is_system_group
         update_response = cmr_client.update_group(concept_id, group, token)
 
         if update_response.success?
@@ -181,7 +181,7 @@ class GroupsController < ApplicationController
     manager = {}
     manager['name'] = session[:name]
     manager['email'] = session[:email_address]
-    manager['provider'] = @current_user.provider_id
+    manager['provider'] = current_user.provider_id
 
     invite = UserInvite.new_invite(user, manager)
     invite.send_invite
@@ -193,7 +193,7 @@ class GroupsController < ApplicationController
 
   def accept_invite
     @invite = UserInvite.where(token: params[:token]).first
-    @added = @invite.accept_invite(cmr_client, @current_user.urs_uid, token)
+    @added = @invite.accept_invite(cmr_client, current_user.urs_uid, token)
   end
 
   private
@@ -292,13 +292,13 @@ class GroupsController < ApplicationController
   end
 
   def check_if_system_group_administrator
-    check_permission_options = { user_id: @current_user.urs_uid, system_object: 'GROUP' }
+    check_permission_options = { user_id: current_user.urs_uid, system_object: 'GROUP' }
     user_permission_response = cmr_client.check_user_permissions(check_permission_options, token)
     if user_permission_response.success?
       permission = JSON.parse(user_permission_response.body) # why is this JSON but other CMR responses don't need to be parsed?
       @user_is_system_group_admin = true if permission.fetch('GROUP', []).include?('create')
     else
-      Rails.logger.error("Check User Permission Response for #{@current_user.urs_uid}: #{user_permission_response.inspect}")
+      Rails.logger.error("Check User Permission Response for #{current_user.urs_uid}: #{user_permission_response.inspect}")
       check_permission_error = Array.wrap(user_permission_response.body['errors'])[0]
       flash[:error] = check_permission_error
     end

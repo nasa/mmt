@@ -125,3 +125,36 @@ Try the following steps:
 ### UMM JSON-Schema
 
 You can view/download the latest UMM JSON-Schema here, https://git.earthdata.nasa.gov/projects/CMR/repos/cmr/browse/umm-spec-lib/resources/json-schemas
+
+## Testing
+
+### Locally
+
+#### VCR
+VCR is configured in [spec/support/vcr.rb](spec/support/vcr.rb). 
+
+##### Things To Fix
+All calls to localhost are ignored by VCR and therefore will not be recorded.
+
+This isn't an issue normally but with MMT we run a number of services locally while developing that we would like to be recorded. 
+
+#### CMR
+There are a number of tests that check against the creation dates of collections, to ensure that the collections the tests look for exist, make sure to restart your local CMR and load the data.
+
+    # Will stop the CMR instance
+    rake cmr:stop
+    
+    # Start the CMR instance, and load the test data
+    rake cmr:start_and_load
+
+As of today when a collection is added to CMR the index is updated asyncronously -- this is being changed by the CMR team but until then adding the following to the tests will put a syncronous call infront of the any requests to new collections.
+
+```ruby
+# Reads the CMR queue and won't return until all of them have been processed
+cmr_conn = Faraday.new(url: 'http://localhost:2999')
+cmr_conn.post('message-queue/wait-for-terminal-states')
+
+# Tell ElasticSearch to make any recent changes available for search
+elastic_conn = Faraday.new(url: 'http://localhost:9210')
+elastic_conn.get('_refresh')
+```

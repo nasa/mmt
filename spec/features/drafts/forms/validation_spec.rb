@@ -322,14 +322,17 @@ describe 'Data validation for a form', js: true do
         end
       end
 
+      select 'Cartesian', from: 'draft_spatial_extent_granule_spatial_representation'
+
       within '.nav-top' do
         click_on 'Done'
       end
+
       # Reject
       click_on 'No'
 
       expect(page).to have_selector(validation_error)
-      expect(page).to have_selector(validation_error)
+      # expect(page).to have_selector(validation_error)
       expect(page).to have_content('Points has too few items')
 
       # Fully populate a boundary's list of points
@@ -358,29 +361,31 @@ describe 'Data validation for a form', js: true do
       within '.nav-top' do
         click_on 'Done'
       end
-      # Reject
-      click_on 'No'
 
-      expect(page).to have_no_content('Points has too few items')
+      expect(page).to have_content('Draft was successfully updated')
+      # # Reject
+      # click_on 'No'
 
-      # Delete a point and the error should reappear
-      within '.geometry' do
-        within '.multiple.g-polygons > .multiple-item-0' do
-          within '.boundary .multiple.points' do
-            within '.multiple-item-1' do
-              find('.remove').click
-            end
-          end
-        end
-      end
+      # expect(page).to have_no_content('Points has too few items')
 
-      within '.nav-top' do
-        click_on 'Done'
-      end
-      # Reject
-      click_on 'No'
+      # # Delete a point and the error should reappear
+      # within '.geometry' do
+      #   within '.multiple.g-polygons > .multiple-item-0' do
+      #     within '.boundary .multiple.points' do
+      #       within '.multiple-item-1' do
+      #         find('.remove').click
+      #       end
+      #     end
+      #   end
+      # end
 
-      expect(page).to have_content('Points has too few items')
+      # within '.nav-top' do
+      #   click_on 'Done'
+      # end
+      # # Reject
+      # click_on 'No'
+
+      # expect(page).to have_content('Points has too few items')
     end
   end
 

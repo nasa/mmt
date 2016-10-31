@@ -8,14 +8,14 @@ class CollectionsController < ApplicationController
   end
 
   def edit
-    draft = Draft.create_from_collection(@collection, @current_user, @native_id)
-    Rails.logger.info("Audit Log: Draft for #{draft.entry_title} was created by #{@current_user.urs_uid} in provider #{@current_user.provider_id}")
+    draft = Draft.create_from_collection(@collection, current_user, @native_id)
+    Rails.logger.info("Audit Log: Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
     flash[:success] = 'Draft was successfully created'
     redirect_to draft_path(draft)
   end
 
   def clone
-    draft = Draft.create_from_collection(@collection, @current_user, nil)
+    draft = Draft.create_from_collection(@collection, current_user, nil)
 
     flash[:notice] = view_context.link_to 'Records must have a unique Short Name. Click here to enter a new Short Name.', draft_edit_form_path(draft, 'collection_information', anchor: 'collection-information')
 
@@ -61,7 +61,7 @@ class CollectionsController < ApplicationController
   private
 
   def ensure_correct_collection_provider
-    return if @provider_id == @current_user.provider_id
+    return if @provider_id == current_user.provider_id
 
     case
     when request.original_url.include?('edit')
@@ -77,7 +77,7 @@ class CollectionsController < ApplicationController
     @revision_id = params[:revision_id]
 
     @user_permissions = 'none'
-    if @current_user.available_providers && @current_user.available_providers.include?(@provider_id)
+    if current_user.available_providers && current_user.available_providers.include?(@provider_id)
       @user_permissions = 'wrong_provider'
     end
 
@@ -118,15 +118,16 @@ class CollectionsController < ApplicationController
 
   def get_revisions(concept_id, revision_id)
     # if the revision is not found, try again because CMR might be a little slow to index if it is a newly published revision
+    # TODO: this has to go
     attempts = 0
-    while attempts < 3
+    while attempts < 20
       revisions = cmr_client.get_collections({ concept_id: concept_id, all_revisions: true }, token).body['items']
       revisions.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
       latest = revisions.first
       break if latest && !revision_id
       break if latest && latest['meta']['revision-id'] >= revision_id.to_i
       attempts += 1
-      sleep 2
+      sleep 0.05
     end
 
     revisions

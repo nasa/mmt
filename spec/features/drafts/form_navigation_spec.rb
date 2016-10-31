@@ -50,6 +50,7 @@ describe 'Draft form navigation', js: true do
         end
 
         select next_form, from: 'next-section-top'
+        wait_for_ajax
       end
 
       # Note - randomization causes test result order to not agree with DRAFT_FORMS order.
