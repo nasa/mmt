@@ -48,4 +48,5 @@ describe 'Permissions form', js: true do
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end
     end
+  end
 end

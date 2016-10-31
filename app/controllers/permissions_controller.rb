@@ -328,7 +328,7 @@ class PermissionsController < ApplicationController
   private
 
   def get_collections_for_provider(params)
-    # what page_size to use for the search box? default is 10, max is 2000
+    # page_size default is 10, max is 2000
 
     query = { 'provider' => @current_user.provider_id,
               'page_size' => 500 }
@@ -356,11 +356,7 @@ class PermissionsController < ApplicationController
   end
 
   def get_collections_by_entry_titles(entry_titles)
-    # entry_titles_param = entry_titles.map { |entry_title| "'entry_title': '#{entry_title}'"}
-    # search_param = "{ " + entry_titles_param.join(", ") + ", 'page_size': '100' }"
-    # encoded_entry_titles = entry_titles.map { |entry_title| URI.encode(entry_title) } # wanted to use encode_if_necessary, but where to put it so it is accessible?
-
-    # query = { 'page_size' => 100, 'entry_title' => encoded_entry_titles }
+    # page_size default is 10
     query = { 'page_size' => 100, 'entry_title' => entry_titles }
 
     collections = cmr_client.get_collections(query, token).body
