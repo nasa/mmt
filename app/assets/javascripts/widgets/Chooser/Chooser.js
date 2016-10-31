@@ -384,8 +384,6 @@ var Chooser = function(config) {
                 });
                 sessionStorage.setItem(CHOOSER_OPTS_STORAGE_KEY, JSON.stringify(items));
             });
-        } else {
-            console.info("Session storage is not supported in this browser.");
         }
     };
 
@@ -400,8 +398,6 @@ var Chooser = function(config) {
                 $(TO_LIST).append(opt);
             });
             $(TO_LIST).trigger("change");
-        } else {
-            console.info("Session storage is not supported in this browser.");
         }
     };
 
