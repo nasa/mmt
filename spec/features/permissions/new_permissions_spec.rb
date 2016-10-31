@@ -1,4 +1,4 @@
-# MMT-507, 152, 153
+# MMT-507, 152, 153, 170, 171
 
 require 'rails_helper'
 
