@@ -1,14 +1,15 @@
 module Cmr
   class CmrClient < BaseClient
     def get_collections(options = {}, token = nil)
-      # umm-json gives us shorter version of metadata in the 'umm' portion. but it has entry-id
-      # umm_json gives us the metadata record in the 'umm' portion. but that does not include entry-id
-      if Rails.env.development? || Rails.env.test?
-        url = 'http://localhost:3003/collections.umm-json'
-      else
-        url = '/search/collections.umm-json'
+      ActiveSupport::Notifications.instrument "mmt.performance", activity: "Cmr::CmrClient#get_collections" do
+
+        if Rails.env.development? || Rails.env.test?
+          url = 'http://localhost:3003/collections.umm-json'
+        else
+          url = '/search/collections.umm-json'
+        end
+        get(url, options, token_header(token))
       end
-      get(url, options, token_header(token))
     end
 
     def get_providers
