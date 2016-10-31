@@ -90,7 +90,7 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
         end
 
         it 'saves the contact group in the right structure in the schema' do
-          wait_for_jQuery(20)
+          wait_for_jQuery(30)
           page.document.synchronize do
             d = Draft.first
             expect(d.draft['ContactGroups'].count).to eq(1)
@@ -176,7 +176,7 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
         end
 
         it 'saves the data in the right structure in the schema' do
-          wait_for_jQuery(20)
+          wait_for_jQuery(30)
           page.document.synchronize do
             d = Draft.first
             expect(d.draft['ContactPersons'].count).to eq(1)

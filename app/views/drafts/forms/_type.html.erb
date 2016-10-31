@@ -2,6 +2,7 @@
 <% show_preview = options[:show_preview] ? true : false %>
 <% title = (options[:title] || type.titleize).singularize %>
 <% title = options[:related_url_title].singularize if type == 'related_url' %>
+<% options[:required_level] += 1 if options[:required_level] %>
 
 <% if multiple %>
   <div id="<%= remove_pipes(name_prefix).gsub(/_$/, '') %>" class="multiple <%= (options[:type] || type.pluralize).dasherize %>">

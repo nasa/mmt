@@ -9,7 +9,8 @@
     options: DraftsHelper::DataContactRoleOptions,
     help: 'definitions/ContactPersonType/properties/Roles',
     classes: 'data-contact-roles-select',
-    required: true
+    required: true,
+    required_level: options[:required_level]
   ) %>
 
   <div class="row">
@@ -21,7 +22,8 @@
         prefix: name_prefix,
         value: contact_person['FirstName'],
         help: 'definitions/ContactPersonType/properties/FirstName',
-        validate: true
+        validate: true,
+        required_level: options[:required_level]
       ) %>
     </div>
 
@@ -33,7 +35,8 @@
         prefix: name_prefix,
         value: contact_person['MiddleName'],
         help: 'definitions/ContactPersonType/properties/MiddleName',
-        validate: true
+        validate: true,
+        required_level: options[:required_level]
       ) %>
     </div>
 
@@ -46,7 +49,8 @@
         value: contact_person['LastName'],
         help: 'definitions/ContactPersonType/properties/LastName',
         validate: true,
-        required: true
+        required: true,
+        required_level: options[:required_level]
       ) %>
     </div>
   </div>
@@ -60,7 +64,8 @@
       prefix: name_prefix,
       value: contact_person['NonDataCenterAffiliation'],
       help: 'definitions/ContactPersonType/properties/NonDataCenterAffiliation',
-      validate: true
+      validate: true,
+      required_level: options[:required_level]
       ) %>
     </div>
   <% end %>
@@ -73,6 +78,6 @@
     name_prefix: "#{name_prefix}|contact_information|_",
     help: 'definitions/ContactInformationType',
     multiple: false,
-    options: options.clone
+    options: options.clone.merge({ required_level: options[:required_level] })
   } %>
 </div>

@@ -96,7 +96,7 @@ $(document).ready ->
       when 'minimum' then "#{field} is too low"
       when 'parameter-range-later' then "#{field} must be later than Parameter Range Begin"
       when 'parameter-range-larger' then "#{field} must be larger than Parameter Range Begin"
-      when 'oneOf'
+      when 'oneOf' # TODO check and remove 'Party' - was only for organization or personnel
         # oneOf Party means it wants oneOf OrganizationName or Person
         # Those errors don't matter to a user because they don't see
         # that difference in the forms
@@ -384,7 +384,17 @@ $(document).ready ->
       formats: 'uri' : URI_REGEX
     validate = ajv.compile(globalJsonSchema)
     validate(json)
-    errors = validate.errors
+
+    # adding validation for Data Contacts form with separate schema as it
+    # does not follow UMM schema structure in the form
+    # Data Contacts Schema is only passed on the data contacts form
+    # validateDataContacts = ajv.compile(globalDataContactsFormSchema)
+    if globalDataContactsFormSchema?
+      validate = ajv.compile(globalDataContactsFormSchema)
+      validate(json)
+
+    errors = if validate.errors? then validate.errors else []
+    # console.log 'errors! ', JSON.stringify(errors)
 
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)
@@ -429,7 +439,7 @@ $(document).ready ->
   # Validate the whole page on page load
   if $('.metadata-form').length > 0
     # "visit" each field with a value on page load
-    $('.validate').filter ->
+    $('.validate').not(':disabled').filter ->
       return switch this.type
         when 'radio'
           # don't want to save fields that aren't translated into metadata

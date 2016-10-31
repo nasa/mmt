@@ -39,6 +39,7 @@ class DraftsController < ApplicationController
       set_country_codes
       set_temporal_keywords if params[:form] == 'temporal_information'
       set_data_centers if params[:form] == 'data_centers' || params[:form] == 'data_contacts'
+      load_data_contacts_schema if params[:form] == 'data_contacts'
     else
       render :show
     end
@@ -154,6 +155,10 @@ class DraftsController < ApplicationController
 
   def load_umm_schema
     @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
+  end
+
+  def load_data_contacts_schema
+    @data_contacts_form_json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'data-contacts-form-json-schema-2.json')))
   end
 
   def ensure_correct_draft_provider
