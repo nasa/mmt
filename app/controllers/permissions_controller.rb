@@ -144,13 +144,7 @@ class PermissionsController < ApplicationController
 
   def new
     # TODO before allowing to create new perm check current provider, and ask if want to switch?
-    @collection_ids = [] # need?
-    # @granule_options = nil # [] # don't need
-    # @collection_options = nil #[] # don't need
-    # @permission_name = nil # don't need #params[:permission_name]
     @groups = get_groups_for_permissions
-    # @search_groups = nil # don't need?
-    # @search_and_order_groups = nil # don't need?
   end
 
 
@@ -188,25 +182,7 @@ class PermissionsController < ApplicationController
       render :new and return
     end
 
-    # Global provider ID for the current user, based their current provider
-    # to use a different provider_id, user will need to change current provider
-    # provider_id = @current_user.provider_id
-    #
-    # collection_options = params[:collection_options]
-    # granule_options = params[:granule_options]
-    # search_groups = params[:search_groups] || []
-    # search_and_order_groups = params[:search_and_order_groups] || []
-    #
-    # request_object = construct_request_object(params[:permission_name],
-    #                                           provider_id,
-    #                                           params[:collection_options],
-    #                                           params[:collection_selections],
-    #                                           params[:granule_options],
-    #                                           params[:search_groups],
-    #                                           params[:search_and_order_groups])
-
     request_object = construct_request_object
-
     response = cmr_client.add_group_permissions(request_object, token)
 
     if response.success?
@@ -263,12 +239,12 @@ class PermissionsController < ApplicationController
         @collection_entry_ids = []
         collections.each do |collection|
           # parsing used in get_all_collections
-          # opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
-          @collection_entry_ids << collection['umm']['entry-id']
+          opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
+          @collection_entry_ids << opt
         end
       end
 
-      # should at least has one
+      # should at least have one
       group_permissions = permission['group_permissions'] # || []
       @search_groups = []
       @search_and_order_groups = []
@@ -304,9 +280,7 @@ class PermissionsController < ApplicationController
 
       redirect_to permission_path(concept_id)
     else
-      # log error response
       Rails.logger.error("Permission Update Error: #{update_response.inspect}")
-      # flash error message
       permission_update_error = Array.wrap(response.body['errors'])[0]
 
       # check if error has 'Permission' and 'denied'?
@@ -321,7 +295,7 @@ class PermissionsController < ApplicationController
         @permission_name = params[:permission_name]
 
         @collection_options = params[:collection_options]
-        # collection ids?
+        @collection_selections = params[:collection_selections]
         @granule_options = params[:granule_options]
 
         @groups = get_groups_for_permissions
