@@ -215,7 +215,9 @@ class PermissionsController < ApplicationController
 
       # passing in concept_id to redirect, because indexing is not happening fast enough
       concept_id = response.body['concept_id']
-      redirect_to permissions_path(new_acl: concept_id)
+      # before we were redirecting to index b/c show page had not been set up, but now show page is working so redirecting there
+      # redirect_to permissions_path(new_acl: concept_id)
+      redirect_to permission_path(concept_id)
     else
       Rails.logger.error("Permission Creation Error: #{response.inspect}")
       permission_creation_error = Array.wrap(response.body['errors'])[0]
@@ -301,8 +303,6 @@ class PermissionsController < ApplicationController
       Rails.logger.info("#{@current_user.urs_uid} UPDATED catalog item ACL for #{@current_user.provider_id}. #{response.body}")
 
       redirect_to permission_path(concept_id)
-      # TODO redirect to show page - keep this or change to index.
-      # if keep, should change the redirect in create?
     else
       # log error response
       Rails.logger.error("Permission Update Error: #{update_response.inspect}")

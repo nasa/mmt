@@ -40,6 +40,7 @@ describe 'New Permission', reset_provider: true, js: true do
             expect(page).to have_content('Group 1')
             # screenshot_and_save_page
           end
+          # add_group('Group 1', 'test group 1', 'MMT_2')
         end
 
         context 'when creating a permission for all collections' do
