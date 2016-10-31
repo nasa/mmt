@@ -6,34 +6,12 @@ class PermissionsController < ApplicationController
     provider_id = @current_user.provider_id
     response = cmr_client.get_permissions_for_provider(provider_id, token)
 
-    if params[:new_acl] && response.success?
-      # TODO the loop has some problems, so we should change it to not be able to infinitely loop.
-
-      # TODO once the CMR makes indexing synchronous, we can take out this waiting/checking loop
-      # indexing of new acls makes it such that the first request does not always return the newly created ACL
-      # if the new acl is not in the response, we make the request again until the request fails or we get the new ACL
-      has_new_acl = false
-      # until has_new_acl
-      50.times do
-        resp_concept_ids = []
-        response.body['items'].each do |item|
-          if item['concept_id'] == params[:new_acl]
-            has_new_acl = true
-            break
-          end
-        end
-        response = cmr_client.get_permissions_for_provider(provider_id, token)
-        break if response.error?
-      end
-    end
-
     unless response.success?
       Rails.logger.error("Error getting permissions: #{response.inspect}")
       error = Array.wrap(response.body['errors'])[0]
       flash[:error] = error
     end
 
-    # puts response.body.inspect
     @permissions = response.body['items']
     @permissions = construct_permissions_summaries(@permissions)
   end
@@ -64,10 +42,10 @@ class PermissionsController < ApplicationController
       @permission_provider = catalog_item_identity['provider_id']
 
       # probably at least has one
-      group_permissions = permission['group_permissions'] # || []
-        # search_groups
+      group_permissions = permission['group_permissions']
+      # search_groups
       search_groups_list = []
-        # search_and_order_groups
+      # search_and_order_groups
       search_and_order_groups_list = []
 
       group_permissions.each do |group_perm|
@@ -143,7 +121,6 @@ class PermissionsController < ApplicationController
   end
 
   def new
-    # TODO before allowing to create new perm check current provider, and ask if want to switch?
     @groups = get_groups_for_permissions
   end
 
@@ -189,10 +166,7 @@ class PermissionsController < ApplicationController
       flash[:success] = 'Permission was successfully created.'
       Rails.logger.info("#{@current_user.urs_uid} CREATED catalog item ACL for #{@current_user.provider_id}. #{response.body}")
 
-      # passing in concept_id to redirect, because indexing is not happening fast enough
       concept_id = response.body['concept_id']
-      # before we were redirecting to index b/c show page had not been set up, but now show page is working so redirecting there
-      # redirect_to permissions_path(new_acl: concept_id)
       redirect_to permission_path(concept_id)
     else
       Rails.logger.error("Permission Creation Error: #{response.inspect}")
@@ -236,16 +210,20 @@ class PermissionsController < ApplicationController
         entry_titles = catalog_item_identity['collection_identifier']['entry_titles']
 
         collections, errors, hits = get_collections_by_entry_titles(entry_titles)
-        @collection_entry_ids = []
+
+        selected_collections = []
+        delimiter = '%%__%%'
         collections.each do |collection|
           # parsing used in get_all_collections
-          opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
-          @collection_entry_ids << opt
+          opt = collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title']
+          selected_collections << opt
         end
+        # the hidden input can only handle text, so the widget is currently using the delimiter to separate the
+        # collection display values
+        @collection_selections = selected_collections.join(delimiter)
       end
 
-      # should at least have one
-      group_permissions = permission['group_permissions'] # || []
+      group_permissions = permission['group_permissions']
       @search_groups = []
       @search_and_order_groups = []
 
@@ -281,12 +259,10 @@ class PermissionsController < ApplicationController
       redirect_to permission_path(concept_id)
     else
       Rails.logger.error("Permission Update Error: #{update_response.inspect}")
-      permission_update_error = Array.wrap(response.body['errors'])[0]
+      permission_update_error = Array.wrap(update_response.body['errors'])[0]
 
-      # check if error has 'Permission' and 'denied'?
-      # TODO need to check actual message to make sure this is best way to handle
-      if permission_update_error.include?('Permission') && permission_update_error.include?('ACL is denied')
-        flash[:error] = 'You are not authorized to create a permission. Please contact your system administrator.'
+      if permission_update_error == 'Permission to update ACL is denied'
+        flash[:error] = 'You are not authorized to update permissions. Please contact your system administrator.'
         # opt1 send back to show page
         redirect_to permission_path(concept_id)
       else
@@ -356,7 +332,7 @@ class PermissionsController < ApplicationController
   end
 
   def get_collections_by_entry_titles(entry_titles)
-    # page_size default is 10
+    # page_size default is 10, max is 2000
     query = { 'page_size' => 100, 'entry_title' => entry_titles }
 
     collections = cmr_client.get_collections(query, token).body
@@ -424,7 +400,7 @@ class PermissionsController < ApplicationController
     if params[:collection_options] == 'selected-ids-collections'
       # The split character below is determined by the Chooser widget configuration. We are using this unusual
       # delimiter becuase collection entry titles could contain commas.
-      raw_entry_titles = collections_selections.split('%%__%%')
+      raw_entry_titles = params[:collection_selections].split('%%__%%')
       entry_titles = []
       raw_entry_titles.each do |entry_title|
         parts = entry_title.split('|')

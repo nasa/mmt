@@ -47,9 +47,20 @@ describe 'Creating Permissions', js: true do
       select('Selected Collections', from: 'Collections')
       # choose the collections
       within '#collectionsChooser' do
-        page.all('#collectionsChooser_fromList > option').select
-        # click_on 'Add collection(s)' # TODO need to wait for 508 to use this
-        click_on '→' # TODO change when 508 updated
+        # selecting each individually as it seems more robust.
+        # I was using `page.all('#collectionsChooser_fromList > option').select`, and that worked previously but is not working now
+        select('lorem_223', from: 'Available collections')
+        click_button 'Add collection(s)'
+        select('ID_1', from: 'Available collections')
+        click_button 'Add collection(s)'
+        select("Matthew'sTest_2", from: 'Available collections')
+        click_button 'Add collection(s)'
+        select('testing 02_01', from: 'Available collections')
+        click_button 'Add collection(s)'
+        select('testing 03_002', from: 'Available collections')
+        click_button 'Add collection(s)'
+        select('New Testy Test_02', from: 'Available collections')
+        click_button 'Add collection(s)'
       end
 
       select('No Access to Granules', from: 'Granules')
@@ -59,8 +70,6 @@ describe 'Creating Permissions', js: true do
         select('Group 1', from: 'Search')
         select('All Registered Users', from: 'Search and Order')
       end
-
-      screenshot_and_save_page
 
       click_on 'Save'
     end
@@ -77,13 +86,6 @@ describe 'Creating Permissions', js: true do
 
       expect(page).to have_content('Collections | 6 Selected Entry IDs')
       expect(page).to have_content("lorem_223, ID_1, Matthew'sTest_2, testing 02_01, testing 03_002, New Testy Test_02")
-      # if the collection entry_ids get listed in order then these can be removed
-      # expect(page).to have_content('lorem_223')
-      # expect(page).to have_content('ID_1')
-      # expect(page).to have_content("Matthew'sTest_2")
-      # expect(page).to have_content('testing 02_01')
-      # expect(page).to have_content('testing 03_002')
-      # expect(page).to have_content('New Testy Test_02')
 
       expect(page).to have_content('Granules | No Access to Granules')
 
@@ -105,22 +107,16 @@ describe 'Creating Permissions', js: true do
         expect(page).to have_field('Name', with: permission_name, readonly: true)
 
         expect(page).to have_select('Collections', selected: 'Selected Collections')
-        # after merge/rebase of 508, add the selected collections in the box
+        expect(page).to have_select('collectionsChooser_toList', with_options: ["lorem_223 | ipsum", "ID_1 | Mark's Test", "Matthew'sTest_2 | Matthew's Test", "testing 02_01 | My testing title 02", "testing 03_002 | Test test title 03", "New Testy Test_02 | Testy long entry title"])
+
         expect(page).to have_select('Granules', selected: 'No Access to Granules')
 
-        # these did not work, why?
-        # expect(page).to have_select('Search', selected: 'All Guest Users')
-        # expect(page).to have_select('Search', selected: 'Group 1')
         within '#search_groups_cell' do
           expect(page).to have_css('li.select2-selection__choice', text: 'All Guest Users')
           expect(page).to have_css('li.select2-selection__choice', text: 'Group 1')
         end
 
         expect(page).to have_select('Search and Order', selected: 'All Registered Users')
-        # this might be needed
-        # within '#search_and_order_groups_cell' do
-        #   expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
-        # end
       end
 
       context 'when updating the permission' do
@@ -163,6 +159,16 @@ describe 'Creating Permissions', js: true do
             expect(page).to have_content('Group 2 (8)')
           end
         end
+
+        # context with stub for tests for deleting a permission
+        # context 'when deleting the permission' do
+        #   before do
+        #     delete_success = '{"revision_id":3,"concept_id":"ACL12345-CMR"}' # should make sure that concept_id is with underscore, not dash. the CMR docs have dash in the delete response, but everything else is underscore
+        #     delete_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(delete_success)))
+        #     allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(delete_response) # method name being received must match the cmr_client delete method
+        #
+        #   end
+        # end
       end
     end
   end

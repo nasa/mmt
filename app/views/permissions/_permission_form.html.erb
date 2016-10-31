@@ -8,7 +8,7 @@
 </div>
 <%= label_tag 'collection_options', 'Collections', class: 'required eui-required-o' %>
 <%= select_tag 'collection_options', options_for_select(PermissionsHelper::CollectionsOptions, @collection_options) %>
-<%= hidden_field_tag 'collection_selections'  %>
+<%= hidden_field_tag 'collection_selections', @collection_selections %>
 <div id="chooser-widget" style="display: none;"></div>
 
 <!-- not yet implemented -->

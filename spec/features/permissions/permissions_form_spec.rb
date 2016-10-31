@@ -43,7 +43,7 @@ describe 'Permissions form', js: true do
 
       it 'displays the appropriate validation errors' do
         expect(page).to have_content('Permission Name is required.')
-        expect(page).to have_content('Specify Collections') # change message in coffee or widget to have period?
+        expect(page).to have_content('Please specify collections.')
         expect(page).to have_content('Granules must be specified.')
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end
