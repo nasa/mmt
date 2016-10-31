@@ -25,11 +25,11 @@
         <div class="row">
           <%= label_tag :permission_name, 'Name', class: 'required eui-required-o' %>
           <br>
-          <%= text_field_tag 'permission_name', @permission_name, class: 'half-width'%>
+          <%= text_field_tag 'permission_name', @permission_name, class: 'half-width', maxlength: '100'%>
         </div>
         <%= label_tag :collections, 'Collections', class: 'required eui-required-o' %>
         <%= select_tag 'collections', options_for_select(PermissionsHelper::CollectionsOptions, @collections), id: 'collections' %>
-        <%= hidden_field_tag 'collection_selections'  %>
+        <%= hidden_field_tag 'collection_selections', @collection_selections  %>
         <div id="chooser-widget" style="display: none;"></div>
 
 
