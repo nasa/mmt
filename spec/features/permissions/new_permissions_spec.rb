@@ -1,3 +1,4 @@
+# TODO after MMT-508-fix-2 is merged, this test will be removed
 # MMT-507, 152, 153
 
 require 'rails_helper'
@@ -27,8 +28,6 @@ describe 'New Permission', reset_provider: true, js: true do
     context 'when creating a new permission with complete information' do
       context 'when creating a permission with groups' do
         before do
-          # TODO create helper method that creates groups with cmr_client method
-          # so no need to do it with page/js/etc
           page.document.synchronize do
             # add group
             visit new_group_path
@@ -38,9 +37,7 @@ describe 'New Permission', reset_provider: true, js: true do
             fill_in 'Group Description', with: 'test group 1'
             click_on 'Save'
             expect(page).to have_content('Group 1')
-            # screenshot_and_save_page
           end
-          # add_group('Group 1', 'test group 1', 'MMT_2')
         end
 
         context 'when creating a permission for all collections' do

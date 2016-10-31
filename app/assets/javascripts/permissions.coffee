@@ -71,9 +71,6 @@ $(document).ready ->
     ), 500
 
 
-    # Hide field by default
-    $('#collection_ids_chosen').addClass 'is-hidden'
-
 
     $('#chooser-widget').hide()
 
@@ -91,12 +88,6 @@ $(document).ready ->
       else
         $('#granules-constraint-values').addClass 'is-hidden'
 
-    # Toggle group input field
-    $('#groups-table button').on 'click', (e) ->
-      e.preventDefault()
-      $(this).addClass 'is-hidden'
-      $(this).siblings('#search_order_groups_chosen').removeClass 'is-hidden'
-      $(this).siblings('#search_groups_chosen').removeClass 'is-hidden'
 
 
     # Validate new permissions form with jquery validation plugin
