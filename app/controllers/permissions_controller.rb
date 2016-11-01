@@ -391,10 +391,12 @@ class PermissionsController < ApplicationController
     if params[:collection_options] == 'selected-ids-collections'
       # The split character below is determined by the Chooser widget configuration. We are using this unusual
       # delimiter becuase collection entry titles could contain commas.
-      raw_entry_titles = params[:collection_selections].split('%%__%%')
+      raw_collection_selections = params[:collection_selections].split('%%__%%')
       entry_titles = []
-      raw_entry_titles.each do |entry_title|
-        parts = entry_title.split('|')
+      raw_collection_selections.each do |collection_selection|
+        # collection_selections come from widget as 'entry_id | entry_title',
+        # so we need to split them up and pass just entry title values
+        parts = collection_selection.split('|')
         entry_titles << parts[1].strip
       end
 
