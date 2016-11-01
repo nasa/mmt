@@ -233,7 +233,11 @@ module Cmr
       else
         url = '/access-control/acls'
       end
-      options = {'provider' => provider_id, 'include_full_acl' => true}
+      # first do a test for number of hits, then set that as the page size
+      options = {'provider' => provider_id, 'include_full_acl' => true, 'page_size' => '0'}
+      response = get(url, options, token_header(token))
+      hits = response.body['hits']
+      options['page_size'] = hits
       response = get(url, options, token_header(token))
     end
 

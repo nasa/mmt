@@ -66,7 +66,7 @@ class PermissionsController < ApplicationController
 
     if hasError == true
       Rails.logger.error("Permission Creation Error: #{msg}")
-      flash[:error] = msg
+      flash.now[:error] = msg
       @collections = params[:collections]
       @collection_selections = params[:collection_selections]
       @granules = params[:granules]
@@ -110,11 +110,18 @@ class PermissionsController < ApplicationController
       redirect_to permissions_path(new_acl: concept_id)
     else
       Rails.logger.error("Permission Creation Error: #{response.inspect}")
-      permission_creation_error = Array.wrap(response.body['errors'])[0]
-      if permission_creation_error == 'Permission to create ACL is denied'
-        permission_creation_error = 'You are not authorized to create a permission. Please contact your system administrator.'
+
+      # Look up the error code. If we have a friendly version, use it. Otherwise,
+      # just use the error message as it comes back from the CMR.
+      friendlyErrorMsg = PermissionsHelper::ErrorCodeMessages[response.status]
+
+      if ! friendlyErrorMsg.blank?
+        permission_creation_error = friendlyErrorMsg
+      else
+        permission_creation_error = Array.wrap(response.body['errors'])[0]
       end
-      flash[:error] = permission_creation_error
+
+      flash.now[:error] = permission_creation_error
       @collections = params[:collections]
       @collection_selections = params[:collection_selections]
       @granules = params[:granules]
