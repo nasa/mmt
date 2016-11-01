@@ -159,7 +159,7 @@ class PermissionsController < ApplicationController
       render :new and return
     end
 
-    request_object = construct_request_object
+    request_object = construct_request_object(@current_user.provider_id)
     response = cmr_client.add_group_permissions(request_object, token)
 
     if response.success?
@@ -191,8 +191,6 @@ class PermissionsController < ApplicationController
   end
 
   def edit
-    # TODO before allowing to edit check current provider, and ask if want to switch?
-
     @permission_concept_id = params[:id]
     permission_response = cmr_client.get_permission(@permission_concept_id, token)
 
@@ -214,7 +212,7 @@ class PermissionsController < ApplicationController
         selected_collections = []
         delimiter = '%%__%%'
         collections.each do |collection|
-          # parsing used in get_all_collections
+          # widget needs entry_id | entry_title
           opt = collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title']
           selected_collections << opt
         end
@@ -222,6 +220,8 @@ class PermissionsController < ApplicationController
         # collection display values
         @collection_selections = selected_collections.join(delimiter)
       end
+
+      @permission_provider = catalog_item_identity['provider_id']
 
       group_permissions = permission['group_permissions']
       @search_groups = []
@@ -248,19 +248,21 @@ class PermissionsController < ApplicationController
 
   def update
     concept_id = params[:id]
+    permission_provider = params[:permission_provider]
 
-    request_object = construct_request_object
+    request_object = construct_request_object(permission_provider)
     update_response = cmr_client.update_permission(request_object, concept_id, token)
 
     if update_response.success?
       flash[:success] = 'Permission was successfully updated.'
-      Rails.logger.info("#{@current_user.urs_uid} UPDATED catalog item ACL for #{@current_user.provider_id}. #{response.body}")
+      Rails.logger.info("#{@current_user.urs_uid} UPDATED catalog item ACL for #{permission_provider}. #{response.body}")
 
       redirect_to permission_path(concept_id)
     else
       Rails.logger.error("Permission Update Error: #{update_response.inspect}")
       permission_update_error = Array.wrap(update_response.body['errors'])[0]
 
+      # TODO change to match on 403 response. currently this response from cmr is 400
       if permission_update_error == 'Permission to update ACL is denied'
         flash[:error] = 'You are not authorized to update permissions. Please contact your system administrator.'
         # opt1 send back to show page
@@ -317,33 +319,22 @@ class PermissionsController < ApplicationController
       query['page_num'] = params['page_num']
     end
 
-    errors = []
-
-    collections = cmr_client.get_collections(query, token).body
-    hits = collections['hits'].to_i # don't really need hits
-    if collections['errors']
-      errors = collections['errors']
-      collections = []
-    elsif collections['items']
-      collections = collections ['items']
-    end
-
-    [collections, errors, hits]
+    collections_response = cmr_client.get_collections(query, token).body
+    parse_get_collections_response(collections_response)
   end
 
   def get_collections_by_entry_titles(entry_titles)
     # page_size default is 10, max is 2000
     query = { 'page_size' => 100, 'entry_title' => entry_titles }
 
-    collections = cmr_client.get_collections(query, token).body
+    collections_response = cmr_client.get_collections(query, token).body
+    parse_get_collections_response(collections_response)
+  end
 
-    hits = collections['hits'].to_i # don't really need hits
-    if collections['errors']
-      errors = collections['errors']
-      collections = []
-    elsif collections['items']
-      collections = collections ['items']
-    end
+  def parse_get_collections_response(response)
+    hits = response['hits'].to_i
+    errors = response.fetch('errors', [])
+    collections = response.fetch('items', [])
 
     [collections, errors, hits]
   end
@@ -379,7 +370,7 @@ class PermissionsController < ApplicationController
     groups_for_permissions_select
   end
 
-  def construct_request_object #(permission_name, provider_id, collections, collections_selections, granules, search_groups, search_and_order_groups)
+  def construct_request_object(provider)
 
     collection_applicable = false
     if params[:collection_options] == 'all-collections' || params[:collection_options] == 'selected-ids-collections'
@@ -391,7 +382,7 @@ class PermissionsController < ApplicationController
       'group_permissions' => Array.new,
       'catalog_item_identity' => {
         'name' => params[:permission_name],
-        'provider_id' => @current_user.provider_id,
+        'provider_id' => provider,
         'granule_applicable' => granule_applicable,
         'collection_applicable' => collection_applicable
       }

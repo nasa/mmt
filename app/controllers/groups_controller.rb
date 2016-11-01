@@ -27,7 +27,7 @@ class GroupsController < ApplicationController
       @group = group_response.body
       request_group_members(@concept_id)
     else
-      # TODO should have Rails.logger.error("Get Group Error: #{group_response.inspect}")
+      Rails.logger.error("Get Group Error: #{group_response.inspect}")
       flash[:error] = Array.wrap(group_response.body['errors'])[0]
       redirect_to groups_path
     end

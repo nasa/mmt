@@ -1,5 +1,4 @@
-<!-- new_form is variable of whether form is for new or edit -->
-<% cancel_path = new_form ? permissions_path : permission_path(params[:id]) %>
+<!-- new_form is local passed in for new or edit -->
 
 <div class="row">
   <%= label_tag 'permission_name', 'Name', class: 'required eui-required-o' %>
@@ -68,5 +67,5 @@
 </table>
 <div class="row space-top">
   <%= submit_tag 'Save', class: 'eui-btn--blue space-right', id: 'permissions-save-button' %>
-  <%= link_to 'Cancel', cancel_path %>
+  <%= link_to 'Cancel', (new_form ? permissions_path : permission_path(@permission_concept_id)) %>
 </div>

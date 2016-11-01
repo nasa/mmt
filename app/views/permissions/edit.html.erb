@@ -23,7 +23,9 @@
   <div class="row row-content">
     <section>
       <%= form_tag(permission_path(@permission_concept_id), method: :put, class: 'permission-form') %>
+        <%= hidden_field_tag 'permission_provider', @permission_provider %>
         <%= render partial: 'permission_form', locals: { new_form: false } %>
+
     </section>
   </div>
 </main>
