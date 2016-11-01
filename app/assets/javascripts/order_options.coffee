@@ -5,9 +5,17 @@ $(document).ready ->
     onkeyup: false
 
     errorPlacement: (error, element) ->
+      if element.attr('id') == 'order_option_name'
+        error.addClass 'half-width'
       error.insertAfter(element)
+
+
     onfocusout: (error) ->
       this.element(error)
+
+    highlight: (element, errorClass) ->
+      # Prevent highlighting the fields themselves
+      return false
 
     rules:
       'order_option[name]':

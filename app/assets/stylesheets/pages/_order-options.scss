@@ -1,7 +1,16 @@
-form.order-options {
+form#order-option-definition-form {
+  label {
+    font-weight: bold;
+  }
 
+  textarea#order_option_form {
+    height: 200px;
+    font-family: monospace;
+    font-size: large;
+  }
 }
 
-form.order-options label {
-  font-weight: bold;
-}
+
+
+
+
