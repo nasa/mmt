@@ -69,14 +69,10 @@ FactoryGirl.define do
   factory :draft_field_invalid_pattern, class: Draft do
     draft {
       all_required_fields.merge(
-        'Organizations' => [{
-          'Role' => 'RESOURCEPROVIDER',
-          'Party' => {
-            'OrganizationName' => {
-              'ShortName' => 'AARHUS-HYDRO',
-              'LongName' => 'Hydrogeophysics Group, Aarhus University'
-            }
-          }
+        'DataCenters' => [{
+          'Roles' => ['DISTRIBUTOR'],
+          'ShortName' => 'AARHUS-HYDRO',
+          'LongName' => 'Hydrogeophysics Group, Aarhus University '
         }]
       )
     }
@@ -97,7 +93,7 @@ FactoryGirl.define do
     provider_id 'MMT_2'
     draft {
       all_required_fields.merge(
-        'ShortName' => '33333',
+        'ShortName' => 'Invalid Picklists',
         'EntryTitle' => 'Invalid Picklist Draft',
         'ProcessingLevel' => {
           'Id' => '1A'
@@ -123,13 +119,63 @@ FactoryGirl.define do
           'ShortName' => 'test 1 P ShortName',
           'LongName' => 'test 1 P LongName'
         }],
-        'Organizations' => [{
-          'Role' => 'RESOURCEPROVIDER',
-          'Party' => {
-            'OrganizationName' => {
-              'ShortName' => 'short_name',
-              'LongName' => 'Long Name'
-            },
+        'DataCenters' => [{
+          'Roles' => ['bad data center role'],
+          'ShortName' => 'short_name',
+          'LongName' => 'Long Name',
+          'ContactInformation' => {
+            'ContactMechanisms' => [{
+              'Type' => 'bad contact mechanism type',
+              'Value' => 'contactmech@email.com'
+            }],
+            'Addresses' => [{
+              'Country' => 'usa'
+            }, {
+              'Country' => 'United States',
+              'StateProvince' => 'maryland'
+            }]
+          },
+          'ContactPersons' => [{
+            'Roles' => ['bad data center contact person role'],
+            'LastName' => 'Last Name',
+            'ContactInformation' => {
+              'ContactMechanisms' => [{
+                'Type' => 'bad contact mechanism type',
+                'Value' => 'contactmech@email.com'
+              }],
+              'Addresses' => [{
+                'Country' => 'usa'
+              }, {
+                'Country' => 'United States',
+                'StateProvince' => 'maryland'
+              }]
+            }
+          }],
+          'ContactGroups' => [{
+            'Roles' => ['bad data center contact group role'],
+            'GroupName' => 'Group Name',
+            'ContactInformation' => {
+              'ContactMechanisms' => [{
+                'Type' => 'bad contact mechanism type',
+                'Value' => 'contactmech@email.com'
+              }],
+              'Addresses' => [{
+                'Country' => 'usa'
+              }, {
+                'Country' => 'United States',
+                'StateProvince' => 'maryland'
+              }]
+            }
+          }]
+        }],
+        'ContactPersons' => [{
+          'Roles' => ['bad non dc contact person role'],
+          'LastName' => 'Last Name',
+          'ContactInformation' => {
+            'ContactMechanisms' => [{
+              'Type' => 'bad contact mechanism type',
+              'Value' => 'contactmech@email.com'
+            }],
             'Addresses' => [{
               'Country' => 'usa'
             }, {
@@ -138,13 +184,14 @@ FactoryGirl.define do
             }]
           }
         }],
-        'Personnel' => [{
-          'Role' => 'RESOURCEPROVIDER',
-          'Party' => {
-            'OrganizationName' => {
-              'ShortName' => 'short_name',
-              'LongName' => 'Long Name'
-            },
+        'ContactGroups' => [{
+          'Roles' => ['bad non dc contact group role'],
+          'GroupName' => 'Group Name',
+          'ContactInformation' => {
+            'ContactMechanisms' => [{
+              'Type' => 'bad contact mechanism type',
+              'Value' => 'contactmech@email.com'
+            }],
             'Addresses' => [{
               'Country' => 'usa'
             }, {
@@ -178,14 +225,10 @@ def all_required_fields
     'ShortName' => '12345',
     'Version' => '1',
     'EntryTitle' => 'Required Fields Only Draft',
-    'Organizations' => [{
-      'Role' => 'RESOURCEPROVIDER',
-      'Party' => {
-        'OrganizationName' => {
-          'ShortName' => 'AARHUS-HYDRO',
-          'LongName' => 'Hydrogeophysics Group, Aarhus University'
-        }
-      }
+    'DataCenters' => [{
+      'Roles' => ['DISTRIBUTOR'],
+      'ShortName' => 'AARHUS-HYDRO',
+      'LongName' => 'Hydrogeophysics Group, Aarhus University ' # controlled keywords source has extra space at the end
     }],
     'ProcessingLevel' => {
       'Id' => 'Level 1',

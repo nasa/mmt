@@ -19,12 +19,9 @@
       <h2><%= @current_user.provider_id %> Order Policies</h2>
 
       <% if @policy.empty? %>
-
         <p>No <%= @current_user.provider_id %> Order Policies found.</p>
         <%= link_to 'Create Order Policies', new_order_policies_path, class: 'eui-btn' %>
-
       <% else %>
-
         <article class="order-policy">
           <div class="row-content flex-row--sb">
             <!-- RETRY INFORMATION -->
@@ -82,16 +79,26 @@
              <%= @policy.fetch('SslPolicy', {}).fetch('SslEnabled', 'false') == "true" ? 'Enabled' : 'Disabled' %></p>
           <p>
             <span class="inline-label">Last Updated:</span>
-             <%= @policy.fetch('SslPolicy', {}).fetch('SslLastUpdate') %></p>
+            <%= @policy.fetch('SslPolicy', {}).fetch('SslLastUpdate') %>
+          </p>
 
           <h3>Custom Properties</h3>
           <% if @policy.key?('Properties') %>
             <pre><%= @pretty_properties %></pre>
           <% end %>
 
-          <%= link_to 'Edit Order Policies', edit_order_policies_path, class: 'eui-btn' %>
-        </article>
+          <%= link_to 'Remove Order Policies', "#delete-summary-modal", class: 'display-modal eui-btn eui-btn--red' %>
+          <div id="delete-summary-modal" class="eui-modal-content">
+            <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+            <p>Are you sure you want to delete the order policies for <%= @current_user.provider_id %>?</p>
+            <p>
+              <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+              <%= link_to 'Yes', order_policies_path, method: :delete, class: 'eui-btn--blue spinner' %>
+            </p>
+          </div>
 
+          <%= link_to 'Edit Order Policies', edit_order_policies_path, class: 'eui-btn pull-right' %>
+        </article>
       <% end %>
     </section>
   </div>

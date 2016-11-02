@@ -8,6 +8,7 @@
   background-color: $white;
   margin-left: 0;
   margin-right: 5%;
+  max-width: 294px // Max width to handle rows with less than 3 callout boxes
 }
 
 .eui-callout-box__title {

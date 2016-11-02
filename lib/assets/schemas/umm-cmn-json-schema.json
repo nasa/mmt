@@ -7,55 +7,6 @@
       "minLength": 1,
       "maxLength": 25
     },
-    "LineageType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Describes the Records the data and the changes that happened on that date for the metadata or data (the metadata or data is described by the scope element.)",
-      "properties": {
-        "Scope": {
-          "description": "Describes the data held as either describing the metadata or data.",
-          "$ref": "#/definitions/LineageScopeEnum"
-        },
-        "Dates": {
-          "description": "This encapsulates all of the changes for a specific date.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LineageDateType"
-          },
-          "minItems": 0
-        }
-      },
-      "required": ["Scope"]
-    },
-    "LineageDateType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Encapsulates the data that describe the change that was made to either the metadata or data.",
-      "properties": {
-        "Date": {
-          "description": "The date something changed with the metadata or data.",
-          "format": "date-time",
-          "type": "string"
-        },
-        "Type": {
-          "description": "Documents the type of change that happened.",
-          "$ref": "#/definitions/LineageDateEnum"
-        },
-        "Description": {
-          "description": "Describes the change.",
-          "type": "string"
-        },
-        "Responsibilities": {
-          "description": "Documents who made the change.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ResponsibilityType"
-          },
-          "minItems": 1
-        }
-      },
-      "required": ["Date", "Type", "Responsibilities"]
-    },
     "DateType": {
       "type": "object",
       "additionalProperties": false,
@@ -79,100 +30,112 @@
       "minLength": 1,
       "maxLength": 80
     },
-    "ResponsibilityType": {
+    "DataCenterType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Defines a responsibility by role which is either an organization such as a data center, or institution responsible for distributing, archiving, or processing the data, etc., or a person such as an Investigator, a Technical Contact, Metadata Author, etc.",
+      "description": "Defines a data center which is either an organization or institution responsible for distributing, archiving, or processing the data, etc.",
       "properties": {
-        "Role": {
-          "description": "This is the responsibility role.",
-          "$ref": "#/definitions/ResponsibilityRoleEnum"
+        "Roles": {
+          "description": "This is the roles of the data center.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataCenterRoleEnum"
+          },
+          "minItems": 1
         },
-        "Party": {
-          "description": "This is the party responsible for the collection and its metadata - either a person or an organization.",
-          "$ref": "#/definitions/PartyType"
+        "ShortName": {
+          "description": "This is the short name of the data center.",
+           "$ref": "#/definitions/ShortNameType"
+        },
+        "LongName": {
+          "description": "This is the long name of the data center.",
+           "$ref": "#/definitions/LongNameType"
+        },
+        "Uuid": {
+          "description": "Uuid of the data center.",
+          "$ref": "#/definitions/UuidType"
+        },
+        "ContactGroups": {
+          "description": "This is the contact groups of the data center.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContactGroupType"
+          }
+        },
+        "ContactPersons": {
+          "description": "This is the contact persons of the data center.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContactPersonType"
+          }
+        },
+        "ContactInformation": {
+          "description": "This is the contact information of the data center.",
+          "$ref": "#/definitions/ContactInformationType"
         }
       },
-      "required": ["Role", "Party"]
+      "required": ["Roles", "ShortName"]
     },
-    "PartyType": {
+    "ContactGroupType": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "OrganizationName": {
-          "$ref": "#/definitions/OrganizationNameType"
+        "Roles": {
+          "description": "This is the roles of the data contact.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataContactRoleEnum"
+          },
+          "minItems": 1
         },
-        "Person": {
-          "$ref": "#/definitions/PersonType"
+        "Uuid": {
+          "description": "Uuid of the data contact.",
+          "$ref": "#/definitions/UuidType"
         },
-        "ServiceHours": {
-          "description": "Time period when individuals can speak to the responsible party.",
+        "NonDataCenterAffiliation": {
+          "description": "This is the contact person or group that is not affiliated with the data centers.",
           "type": "string",
           "minLength": 1,
           "maxLength": 1024
         },
-        "ContactInstructions": {
-          "description": "Supplemental instructions on how or when to contact the responsible party.",
+        "ContactInformation": {
+          "description": "This is the contact information of the data contact.",
+          "$ref": "#/definitions/ContactInformationType"
+        },
+        "GroupName": {
+          "description": "This is the contact group name.",
           "type": "string",
           "minLength": 1,
-          "maxLength": 2048
-        },
-        "Contacts": {
-          "description": "Contact information for the responsible party, including phone, fax, email, url, etc.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ContactType"
-          },
-          "minItems": 0
-        },
-        "Addresses": {
-          "description": "The address of the responsible party",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AddressType"
-          },
-          "minItems": 0
-        },
-        "RelatedUrls": {
-          "description": "A URL associated with the responsible party, e.g., the home page for the DAAC which is responsible for the collection.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RelatedUrlType"
-          },
-          "minItems": 0
+          "maxLength": 255
         }
       },
-      "oneOf": [{
-        "required": ["OrganizationName"]
-      }, {
-        "required": ["Person"]
-      }]
+      "required": ["Roles", "GroupName"]
     },
-    "OrganizationNameType": {
+    "ContactPersonType": {
       "type": "object",
-      "additionalProperties": false,
-      "description": "consists of the ShortName and LongName of the organization that distributes, archives, or processes the data.",
       "properties": {
-        "ShortName": {
-          "description": "Short name of the organization.",
-          "$ref": "#/definitions/ShortNameType"
-        },
-        "LongName": {
-          "description": "Long name of the organization.",
-          "$ref": "#/definitions/LongNameType"
+        "Roles": {
+          "description": "This is the roles of the data contact.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataContactRoleEnum"
+          },
+          "minItems": 1
         },
         "Uuid": {
-          "description": "Uuid of the organization.",
+          "description": "Uuid of the data contact.",
           "$ref": "#/definitions/UuidType"
-        }
-      },
-      "required": ["ShortName"]
-    },
-    "PersonType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "defines the point of contact for more information about the data set or the metadata. The contact personnel are defined by the Role, which include: Investigator: The person who headed the investigation or experiment that resulted in the acquisition of the data described (i.e., Principal Investigator, Experiment Team Leader) Technical Contact: The person who is knowledgeable about the technical content of the data (quality, processing methods, units, available software for further processing) Metadata Author: The person who is responsible for the content of the Metadata. If the responsibility shifts from the original author to another person, the Metadata Author field should be updated to the new responsible person.",
-      "properties": {
+        },
+        "NonDataCenterAffiliation": {
+          "description": "This is the contact person or group that is not affiliated with the data centers.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "ContactInformation": {
+          "description": "This is the contact information of the data contact.",
+          "$ref": "#/definitions/ContactInformationType"
+        },
         "FirstName": {
           "description": "First name of the individual.",
           "type": "string",
@@ -190,24 +153,59 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 255
-        },
-        "Uuid": {
-          "description": "Uuid of the individual.",
-          "$ref": "#/definitions/UuidType"
         }
       },
-      "required": ["LastName"]
+      "required": ["Roles", "LastName"]
     },
-    "ContactType": {
+    "ContactInformationType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Method for contacting the responsible party.   A contact can be available via phone, email, Facebook, or Twitter.",
+      "description": "Defines the contact information of a data center or data contact.",
+      "properties": {
+        "RelatedUrls": {
+          "description": "A URL associated with the contact, e.g., the home page for the DAAC which is responsible for the collection.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RelatedUrlType"
+          },
+          "minItems": 0
+        },
+        "ServiceHours": {
+          "description": "Time period when the contact answers questions or provides services.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "ContactInstruction": {
+          "description": "Supplemental instructions on how or when to contact the responsible party.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "ContactMechanisms": {
+          "description": "Mechanisms of contacting.",
+          "type": "array",
+          "items": {
+             "$ref": "#/definitions/ContactMechanismType"
+          }
+        },
+         "Addresses": {
+          "description": "Contact addresses.",
+          "type": "array",
+          "items": {
+             "$ref": "#/definitions/AddressType"
+          }
+        }
+      }
+    },
+    "ContactMechanismType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Method for contacting the data contact. A contact can be available via phone, email, Facebook, or Twitter.",
       "properties": {
         "Type": {
           "description": "This is the method type for contacting the responsible party - phone, email, Facebook, or Twitter.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
+          "$ref": "#/definitions/ContactMechanismTypeEnum"
         },
         "Value": {
           "description": "This is the contact phone number, email address, Facebook address, or Twitter handle associated with the contact method.",
@@ -215,15 +213,16 @@
           "minLength": 1,
           "maxLength": 1024
         }
-      }
+      },
+      "required": ["Type", "Value"]
     },
     "AddressType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "This entity contains the physical address details for the responsible party.",
+      "description": "This entity contains the physical address details for the contact.",
       "properties": {
         "StreetAddresses": {
-          "description": "An address line for the street address, used for mailing or physical addresses of organizations or individuals who serve as responsible parties for the collection.",
+          "description": "An address line for the street address, used for mailing or physical addresses of organizations or individuals who serve as contacts for the collection.",
           "type": "array",
           "items": {
             "type": "string",
@@ -244,17 +243,17 @@
           "minLength": 1,
           "maxLength": 100
         },
-        "PostalCode": {
-          "description": "The zip or other postal code portion of the physical address.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 20
-        },
         "Country": {
           "description": "The country of the physical address.",
           "type": "string",
           "minLength": 1,
           "maxLength": 100
+        },
+        "PostalCode": {
+          "description": "The zip or other postal code portion of the physical address.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
         }
       }
     },
@@ -656,7 +655,7 @@
           "type": "string"
         }
       },
-      "required": ["Name", "DataType"]
+      "required": ["Name", "DataType", "Description"]
     },
     "DistributionType": {
       "type": "object",
@@ -1263,11 +1262,6 @@
       "type": "string",
       "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89abAB][0-9a-f]{3}-[0-9a-f]{12}"
     },
-    "LineageScopeEnum": {
-      "description": "The name of supported lineage date types",
-      "type": "string",
-      "enum": ["METADATA", "DATA"]
-    },
     "LineageDateEnum": {
       "description": "The name of supported lineage date types",
       "type": "string",
@@ -1313,9 +1307,20 @@
       "minLength": 1,
       "maxLength": 4000
     },
-    "ResponsibilityRoleEnum": {
+    "DataCenterRoleEnum": {
+      "description": "Defines the possible values of a data center role.",
       "type": "string",
-      "enum": ["RESOURCEPROVIDER", "CUSTODIAN", "OWNER", "USER", "DISTRIBUTOR", "ORIGINATOR", "POINTOFCONTACT", "PRINCIPALINVESTIGATOR", "PROCESSOR", "PUBLISHER", "AUTHOR", "SPONSOR", "COAUTHOR", "COLLABORATOR", "EDITOR", "MEDIATOR", "RIGHTSHOLDER", "CONTRIBUTOR", "FUNDER", "STAKEHOLDER"]
+      "enum": ["ARCHIVER", "DISTRIBUTOR", "PROCESSOR", "ORIGINATOR"]
+    },
+    "DataContactRoleEnum": {
+      "description": "Defines the possible values of a data contact role.",
+      "type": "string",
+      "enum": ["Data Center Contact", "Technical Contact", "Science Contact", "Investigator", "Metadata Author", "User Services", "Science Software Development"]
+    },
+    "ContactMechanismTypeEnum": {
+      "description": "Defines the possible contact mechanism types.",
+      "type": "string",
+      "enum": ["Direct Line", "Email", "Facebook", "Fax", "Mobile", "Modem", "Primary", "TDD/TTY Phone", "Telephone", "Twitter", "U.S. toll free", "Other"]
     },
     "ISOTopicCategoryEnum": {
       "description": "High-level geospatial data thematic classification to assist in the grouping and search of available geospatial collections.",
@@ -1371,6 +1376,12 @@
       "maxLength": 80,
       "pattern": "[\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=,][\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=, ]{1,79}"
     },
+    "AncillaryKeywordStringType": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "[\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=,][\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=, ]{1,254}"
+    },    
     "DataTypeEnum": {
       "description": "This entity contains the additional attribute data types.",
       "type": "string",

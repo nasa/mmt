@@ -3,15 +3,22 @@ $(document).ready ->
   $('.select2-select').select2()
 
   # when selecting short name, populate long name and url and set to readonly
-  $('.organization-short-name-select').on 'select2:select', (event) ->
+  $('.data-center-short-name-select').on 'select2:select', (event) ->
     $element = $(this)
     longName = $element.find(':selected').data('longName')
     url = $element.find(':selected').data('url')
 
-    $longNameElement = $element.parent().siblings().find('.organization-long-name')
+    $longNameElement = $element.parent().siblings().find('.data-center-long-name')
 
     $multipleItem = $element.closest('.multiple-item')
-    $relatedUrl = $multipleItem.find('.related-urls:first')
+    $dataContactType = $element.closest('.data-contact-type')
+
+    if $dataContactType.length > 0
+      # the select is in the data contact form, so use the data contact type we are in
+      $relatedUrl = $dataContactType.find('.related-urls:first')
+    else
+      $relatedUrl = $multipleItem.find('.related-urls:first')
+
     $urlElement = $relatedUrl.find('.url:first')
 
     if longName?
@@ -30,15 +37,22 @@ $(document).ready ->
     $urlElement.blur()
 
   # Set long name and url elements to readonly if short name is selected on load
-  $('.organization-short-name-select').each (index, element) ->
+  $('.data-center-short-name-select').each (index, element) ->
     $element = $(this)
     longName = $element.find(':selected').data('longName')
     url = $element.find(':selected').data('url')
 
-    $longNameElement = $element.parent().siblings().find('.organization-long-name')
+    $longNameElement = $element.parent().siblings().find('.data-center-long-name')
 
     $multipleItem = $element.closest('.multiple-item')
-    $relatedUrl = $multipleItem.find('.related-urls:first')
+    $dataContactType = $element.closest('.data-contact-type')
+
+    if $dataContactType.length > 0
+      # the select is in the data contact form, so use the data contact type we are in
+      $relatedUrl = $dataContactType.find('.related-urls:first')
+    else
+      $relatedUrl = $multipleItem.find('.related-urls:first')
+
     $urlElement = $relatedUrl.find('.url:first')
 
     if longName?

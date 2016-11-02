@@ -1,7 +1,8 @@
 module Echo
+  # Custom response wrapper for Echo to handle parsing the body appropriately
   class Response
-    def initialize(faradayResponse)
-      @response = faradayResponse
+    def initialize(faraday_response)
+      @response = faraday_response
     end
 
     def error?
@@ -23,13 +24,16 @@ module Echo
     def parsed_body
       body = Hash.from_xml(self.body).fetch('Envelope', {}).fetch('Body', {})
 
-      if self.status == 200
-        method_name = body.keys.first
+      return body.fetch('Fault', {}) if status >= 400
 
-        return body.fetch(method_name).fetch('result', nil)
-      else
-        return body.fetch('Fault', {})
-      end
+      body.fetch(body.keys.first).fetch('result', {})
+    end
+
+    def parsed_error
+      error = parsed_body.fetch('faultstring')
+      detail = parsed_body.fetch('detail', {}).fetch('SoapMessageValidationFault', '')
+
+      [error, detail].reject(&:empty?).join(': ')
     end
 
     def headers

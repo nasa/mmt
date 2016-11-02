@@ -9,7 +9,8 @@
       prefix: name_prefix,
       value: related_url['Title'],
       help: 'definitions/RelatedUrlType/properties/Title',
-      validate: true
+      validate: true,
+      required_level: options[:required_level]
     ) %>
   <% end %>
 
@@ -20,7 +21,8 @@
      prefix: name_prefix,
      value: related_url['Description'],
      help: 'definitions/RelatedUrlType/properties/Description',
-     validate: true
+     validate: true,
+     required_level: options[:required_level]
     ) %>
   <% end %>
 
@@ -40,7 +42,13 @@
 
       <% relations[0..1].each_with_index do |relation, index| %>
         <!-- does this need to implement mmt_text_field ? -->
-        <%= text_field_tag(name_to_param("#{name_prefix}relation_#{index}"), relation, class: 'full-width relation validate', data: { level: remove_pipes(name_prefix) }) %>
+        <%= text_field_tag(
+          name_to_param("#{name_prefix}relation_#{index}"),
+          relation,
+          class: 'full-width relation validate',
+          data: { level: remove_pipes(name_prefix),
+                  required_level: options[:required_level] }
+          ) %>
       <% end %>
     </div>
   <% end %>
@@ -63,13 +71,20 @@
       <% urls.each_with_index do |url, index| %>
         <div class="multiple-item multiple-item-<%= index %>">
           <!-- does this need to implement mmt_text_field ? -->
-          <%= text_field_tag(name_to_param("#{name_prefix}urls_#{index}"), url, class: 'half-width url simple-multiple-field validate mmt-uri', data: { level: remove_pipes(name_prefix) }) %>
+          <%= text_field_tag(
+            name_to_param("#{name_prefix}urls_#{index}"),
+            url,
+            class: 'half-width url simple-multiple-field validate mmt-uri',
+            data: { level: remove_pipes(name_prefix),
+                    required_level: options[:required_level] }
+            ) %>
           <a class="remove">
             <i class="fa fa-times-circle"></i>
             <span class="is-invisible">Remove <%= index %></span>
           </a>
           <div class="actions">
-            <button type="button" class="eui-btn--blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another URL</button>
+            <button type="button" class="eui-btn--blue add-new new-simple">
+              <i class="fa fa-plus-circle"></i> Add another URL</button>
           </div>
         </div>
       <% end %>

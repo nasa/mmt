@@ -5,12 +5,16 @@ module Echo
 
       services = []
       services << Authentication.new(
-        [@base_url, services_configs['authentication']['path']].join("/"), 
-        [@base_url, services_configs['authentication']['wsdl']].join("/"))
+        [@base_url, services_configs['authentication']['path']].join('/'),
+        [@base_url, services_configs['authentication']['wsdl']].join('/'))
 
       services << Provider.new(
-        [@base_url, services_configs['provider']['path']].join("/"), 
-        [@base_url, services_configs['provider']['wsdl']].join("/"))
+        [@base_url, services_configs['provider']['path']].join('/'),
+        [@base_url, services_configs['provider']['wsdl']].join('/'))
+
+      services << DataManagement.new(
+        [@base_url, services_configs['data_management']['path']].join('/'),
+        [@base_url, services_configs['data_management']['wsdl']].join('/'))
 
       @services = services
     end

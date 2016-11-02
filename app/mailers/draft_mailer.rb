@@ -1,7 +1,9 @@
 class DraftMailer < ApplicationMailer
-  def draft_published_notification(user, concept_id, revision_id)
+  def draft_published_notification(user, concept_id, revision_id, short_name, version)
     @user = user
     @concept_id = concept_id
+    @short_name = short_name
+    @version = version
 
     @revision_id = revision_id.to_i
     @is_update = @revision_id > 1

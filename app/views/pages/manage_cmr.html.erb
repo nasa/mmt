@@ -9,7 +9,7 @@
 
 <div class="eui-banner--info">
   <p class="eui-banner__message">
-    These features are not fully supported yet. Only groups created within MMT are visible.
+    Groups and permissions are not fully supported yet. Only groups created within MMT are visible.
   </p>
 </div>
 
@@ -17,28 +17,40 @@
 
 <main class="dashboard" role="main">
   <article id="manage-cmr" class="row-content flex-row--sb" role="article">
-    <section class="eui-callout-box col-left">
+    <section class="eui-callout-box">
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Provider Information</h3>
         <p><%= link_to 'Holdings Report', provider_holdings_path %></p>
       </div>
     </section>
 
-    <section class="eui-callout-box col-left">
+    <section class="eui-callout-box">
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Permissions &amp; Groups</h3>
-        <p><%= link_to 'Permissions', '#' %></p>
+        <p><%= link_to 'Permissions', permissions_path %></p>
         <p><%= link_to 'Groups', groups_path %></p>
       </div>
     </section>
 
-    <section class="eui-callout-box col-left">
+    <section class="eui-callout-box">
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Orders</h3>
         <p><%= link_to 'Order Policies', order_policies_path %></p>
         <!-- TODO placeholder for Track Orders -->
         <p><a href="#">Track Orders</a></p>
         <p><%= link_to 'Order Options', order_options_path %></p>
+      </div>
+    </section>
+  </article>
+
+  <article id="manage-cmr" class="row-content flex-row--sb" role="article">
+    <section class="eui-callout-box">
+      <div class="eui-callout-box-content">
+        <h3 class="eui-callout-box__title">Data Quality Summaries</h3>
+        <p><%= link_to 'View All Summaries', data_quality_summaries_path %></p>
+        <p><%= link_to 'Create a New Summary', new_data_quality_summary_path %></p>
+        <p><%= link_to 'View Summary Assignments', data_quality_summary_assignments_path %></p>
+        <p><%= link_to 'Create a Summary Assignment', new_data_quality_summary_assignments_path %></p>
       </div>
     </section>
   </article>

@@ -15,7 +15,7 @@ class DraftsController < ApplicationController
   def show
     set_platform_types
     set_temporal_keywords
-    set_organizations
+    set_data_centers
     set_country_codes
     set_language_codes
     @errors = validate_metadata
@@ -29,6 +29,7 @@ class DraftsController < ApplicationController
 
   # GET /drafts/1/edit
   def edit
+    Rails.logger.info("Audit Log: User #{@current_user.urs_uid} started to modify draft #{@draft.entry_title} for provider #{@current_user.provider_id}")
     if params[:form]
       @draft_form = params[:form]
       set_science_keywords
@@ -37,7 +38,8 @@ class DraftsController < ApplicationController
       set_language_codes if params[:form] == 'metadata_information' || params[:form] == 'collection_information'
       set_country_codes
       set_temporal_keywords if params[:form] == 'temporal_information'
-      set_organizations if params[:form] == 'organizations'
+      set_data_centers if params[:form] == 'data_centers' || params[:form] == 'data_contacts'
+      load_data_contacts_schema if params[:form] == 'data_contacts'
     else
       render :show
     end
@@ -48,12 +50,13 @@ class DraftsController < ApplicationController
   def update
     if params[:id] == '0'
       @draft = Draft.create(user: @current_user, provider_id: @current_user.provider_id, draft: {})
+      Rails.logger.info("Audit Log: #{@current_user.urs_uid} created draft #{@draft.entry_title} for provider #{@current_user.provider_id}")
       params[:id] = @draft.id
     else
       @draft = Draft.find(params[:id])
     end
 
-    if @draft.update_draft(params[:draft])
+    if @draft.update_draft(params[:draft], @current_user.urs_uid)
       flash[:success] = 'Draft was successfully updated.'
 
       case params[:commit]
@@ -84,6 +87,7 @@ class DraftsController < ApplicationController
   def destroy
     # if new_record?, no need to destroy
     @draft.destroy unless @draft.new_record?
+    Rails.logger.info("Audit Log: Draft #{@draft.entry_title} was destroyed by #{@current_user.urs_uid} in provider: #{@current_user.provider_id}")
     respond_to do |format|
       flash[:success] = 'Draft was successfully deleted.'
       format.html { redirect_to manage_metadata_path }
@@ -98,6 +102,12 @@ class DraftsController < ApplicationController
     ingested = cmr_client.ingest_collection(draft.to_json, @draft.provider_id, @draft.native_id, token)
 
     if ingested.success?
+      # get information for publication email notification before draft is deleted
+      Rails.logger.info("Audit Log: Draft #{@draft.entry_title} was published by #{@current_user.urs_uid} in provider: #{@current_user.provider_id}")
+      user_info = get_user_info
+      short_name = @draft.draft['ShortName']
+      version = @draft.draft['Version']
+
       # Delete draft
       @draft.destroy
 
@@ -106,15 +116,14 @@ class DraftsController < ApplicationController
       revision_id = xml['result']['revision_id']
 
       # instantiate and deliver notification email
-      user_info = get_user_info
-      DraftMailer.draft_published_notification(user_info, concept_id, revision_id).deliver_now
+      DraftMailer.draft_published_notification(user_info, concept_id, revision_id, short_name, version).deliver_now
 
       flash[:success] = 'Draft was successfully published.'
       redirect_to collection_path(concept_id, revision_id: revision_id)
     else
       # Log error message
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
-
+      Rails.logger.info("User #{@current_user.urs_uid} attempted to ingest draft #{@draft.entry_title} in provider #{@current_user.provider_id} but encountered an error.")
       @ingest_errors = generate_ingest_errors(ingested)
 
       flash[:error] = 'Draft was not published successfully.'
@@ -148,6 +157,10 @@ class DraftsController < ApplicationController
     @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
   end
 
+  def load_data_contacts_schema
+    @data_contacts_form_json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'data-contacts-form-json-schema-2.json')))
+  end
+
   def ensure_correct_draft_provider
     return if @draft.provider_id == @current_user.provider_id || @draft.new_record?
 
@@ -162,6 +175,25 @@ class DraftsController < ApplicationController
     render :show
   end
 
+  def validate_metadata
+    schema = 'lib/assets/schemas/umm-c-json-schema.json'
+
+    # Setup URI and date-time validation correctly
+    uri_format_proc = lambda do |value|
+      raise JSON::Schema::CustomFormatError.new('must be a valid URI') unless value.match URI_REGEX
+    end
+    JSON::Validator.register_format_validator('uri', uri_format_proc)
+    date_time_format_proc = lambda do |value|
+      raise JSON::Schema::CustomFormatError.new('must be a valid RFC3339 date/time string') unless value.match DATE_TIME_REGEX
+    end
+    JSON::Validator.register_format_validator('date-time', date_time_format_proc)
+
+    errors = Array.wrap(JSON::Validator.fully_validate(schema, @draft.draft))
+    errors = validate_parameter_ranges(errors, @draft.draft)
+    @errors_before_generate = validate_picklists(errors, @draft.draft)
+    @errors_before_generate.map { |error| generate_show_errors(error) }.flatten
+  end
+
   # These errors are generated by our JSON Schema validation
   def generate_show_errors(string)
     fields = string.match(/'#\/(.*?)'/).captures.first
@@ -169,12 +201,13 @@ class DraftsController < ApplicationController
     if string.include? 'did not contain a required property'
       required_field = string.match(/contain a required property of '(.*)'/).captures.first
 
-      top_field = fields.split('/')[0] || required_field
+      field = fields.split('/')
+      top_field = field[0] || required_field
 
       {
         field: required_field,
         top_field: top_field,
-        page: get_page(top_field),
+        page: get_page(field),
         error: 'is required'
       }
 
@@ -191,7 +224,7 @@ class DraftsController < ApplicationController
       {
         field: field.last,
         top_field: field[0],
-        page: get_page(field[0]),
+        page: get_page(field),
         error: get_error(string)
       }
     end
@@ -235,6 +268,7 @@ class DraftsController < ApplicationController
 
   def validate_picklists(errors, metadata)
     # for each bad field, if the value doesn't appear in the picklist values, create an error
+    # if/when there is time, it would be nice to refactor this with helper methods
     if metadata
       if metadata['ProcessingLevel'] && metadata['ProcessingLevel']['Id']
         unless DraftsHelper::ProcessingLevelIdOptions.flatten.include? metadata['ProcessingLevel']['Id']
@@ -304,44 +338,55 @@ class DraftsController < ApplicationController
         end
       end
 
-      organizations = metadata['Organizations'] || []
-      organizations.each do |organization|
-        party = organization['Party'] || {}
-        organization_name = party['OrganizationName'] || {}
-        short_name = organization_name['ShortName']
+      data_centers = metadata['DataCenters'] || []
+      data_centers.each do |data_center|
 
+        short_name = data_center['ShortName']
         if short_name
-          matches = @organizations.select { |org| org.include? short_name }
+          matches = @data_centers.select { |dc| dc.include?(short_name) }
           if matches.empty?
-            errors << "The property '#/Organizations' was invalid"
+            errors << "The property '#/DataCenters' was invalid"
           end
         end
 
-        addresses = party['Addresses'] || []
+        contact_information = data_center['ContactInformation'] || {}
+        addresses = contact_information['Addresses'] || []
         addresses.each do |address|
           country = address['Country']
-
           if country
-            matches = @country_codes.select { |option| option.name.include? country }
+            matches = @country_codes.select { |option| option.name.include?(country) }
             if matches.empty?
-              errors << "The property '#/Organizations' was invalid"
+              errors << "The property '#/DataCenters' was invalid"
             end
           end
         end
       end
 
-      personnel = metadata['Personnel'] || []
-      personnel.each do |person|
-        party = person['Party'] || {}
-
-        addresses = party['Addresses'] || []
+      contact_persons = metadata['ContactPersons'] || []
+      contact_persons.each do |contact_person|
+        contact_information = contact_person['ContactInformation'] || {}
+        addresses = contact_information['Addresses'] || []
         addresses.each do |address|
           country = address['Country']
-
           if country
-            matches = @country_codes.select { |option| option.name.include? country }
+            matches = @country_codes.select { |option| option.name.include?(country) }
             if matches.empty?
-              errors << "The property '#/Personnel' was invalid"
+              errors << "The property '#/ContactPersons' was invalid"
+            end
+          end
+        end
+      end
+
+      contact_groups = metadata['ContactGroups'] || []
+      contact_groups.each do |contact_group|
+        contact_information = contact_group['ContactInformation'] || {}
+        addresses = contact_information['Addresses'] || []
+        addresses.each do |address|
+          country = address['Country']
+          if country
+            matches = @country_codes.select { |option| option.name.include?(country) }
+            if matches.empty?
+              errors << "The property '#/ContactGroups' was invalid"
             end
           end
         end
@@ -349,25 +394,6 @@ class DraftsController < ApplicationController
     end
 
     errors
-  end
-
-  def validate_metadata
-    schema = 'lib/assets/schemas/umm-c-json-schema.json'
-
-    # Setup URI and date-time validation correctly
-    uri_format_proc = lambda do |value|
-      raise JSON::Schema::CustomFormatError.new('must be a valid URI') unless value.match URI_REGEX
-    end
-    JSON::Validator.register_format_validator('uri', uri_format_proc)
-    date_time_format_proc = lambda do |value|
-      raise JSON::Schema::CustomFormatError.new('must be a valid RFC3339 date/time string') unless value.match DATE_TIME_REGEX
-    end
-    JSON::Validator.register_format_validator('date-time', date_time_format_proc)
-
-    errors = Array.wrap(JSON::Validator.fully_validate(schema, @draft.draft))
-    errors = validate_parameter_ranges(errors, @draft.draft)
-    errors = validate_picklists(errors, @draft.draft)
-    errors.map { |error| generate_show_errors(error) }.flatten
   end
 
   def set_science_keywords
@@ -398,7 +424,7 @@ class DraftsController < ApplicationController
     @temporal_keywords = keywords.map { |keyword| keyword['value'] }.sort
   end
 
-  def get_organization_short_names_long_names_urls(json, trios = [])
+  def get_data_center_short_names_long_names_urls(json, trios = [])
     json.each do |k, value|
       if k == 'short_name'
         value.each do |value2|
@@ -418,19 +444,19 @@ class DraftsController < ApplicationController
 
       elsif value.class == Array
         value.each do |value2|
-          get_organization_short_names_long_names_urls value2, trios if value2.class == Hash
+          get_data_center_short_names_long_names_urls value2, trios if value2.class == Hash
         end
       elsif value.class == Hash
-        get_organization_short_names_long_names_urls value, trios
+        get_data_center_short_names_long_names_urls value, trios
       end
     end
     trios
   end
 
-  def set_organizations
-    organizations = cmr_client.get_controlled_keywords('providers')
-    organizations = get_organization_short_names_long_names_urls(organizations)
-    @organizations = organizations.sort
+  def set_data_centers
+    data_centers = cmr_client.get_controlled_keywords('providers')
+    data_centers = get_data_center_short_names_long_names_urls(data_centers) # TODO need to change this method name above
+    @data_centers = data_centers.sort
   end
 
   def get_user_info

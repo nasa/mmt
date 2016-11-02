@@ -41,7 +41,7 @@
             <% end %>
           <% end %>
           <!-- Only display CollectionProgress if it exists. -->
-          <% if @draft.draft["CollectionProgress"] %>
+          <% if @draft.draft["CollectionProgress"] && DraftsHelper::CollectionProgressOptions.flatten.include?(@draft.draft["CollectionProgress"]) %>
             <p>Collection Progress:
               <%= link_to map_value_onto_display_string(@draft.draft['CollectionProgress'], DraftsHelper::CollectionProgressOptions), draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-progress' }) %>
             </p>

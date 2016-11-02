@@ -1,8 +1,8 @@
 
 <% if @is_update %>
-  <h1 class="styled-heading">Updated Metadata Record</h1>
+  <h1 class="styled-heading"><%= "#{@short_name}_#{@version} Updated" %></h1>
 <% else %>
-  <h1 class="styled-heading">New Metadata Record</h1>
+  <h1 class="styled-heading"><%= "#{@short_name}_#{@version} Published" %></h1>
 <% end %>
 
 <div class="email-message">
@@ -10,7 +10,7 @@
     <%= @user[:name] %>,
   </p>
   <p>
-    <%= "Your collection metadata record has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your collection's concept ID is #{@concept_id}." %>
+    <%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your collection's concept ID is #{@concept_id}." %>
   </p>
   <div class="center">
     <%= link_to 'View Collection', collection_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>

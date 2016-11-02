@@ -66,10 +66,11 @@ module Cmr
     end
 
     def ingest_collection(metadata, provider_id, native_id, token)
+      # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3002/providers/#{provider_id}/collections/#{native_id}"
+        url = "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
       else
-        url = "/ingest/providers/#{provider_id}/collections/#{native_id}"
+        url = "/ingest/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
       end
       headers = {
         'Content-Type' => "application/#{Rails.configuration.umm_version};charset=utf-8"
@@ -83,14 +84,18 @@ module Cmr
       else
         url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       end
-      get(url, {}, token_header(token)).body
+      headers = {
+        'Accept' => "application/#{Rails.configuration.umm_version}; charset=utf-8"
+      }
+      get(url, {}, headers.merge(token_header(token))).body
     end
 
     def delete_collection(provider_id, native_id, token)
+      # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3002/providers/#{provider_id}/collections/#{native_id}"
+        url = "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
       else
-        url = "/ingest/providers/#{provider_id}/collections/#{native_id}"
+        url = "/ingest/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
       end
       headers = {
         'Accept' => 'application/json'
@@ -210,5 +215,40 @@ module Cmr
       end
       get(url, {}, token_header(token))
     end
+
+    def add_group_permissions(request_object, token)
+      # Example: curl -XPOST -i -H "Content-Type: application/json" -H "Echo-Token: XXXXX" https://cmr.sit.earthdata.nasa.gov/access-control/acls -d \
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/acls'
+      else
+        url = '/access-control/acls'
+      end
+      post(url, request_object.to_json, token_header(token))
+    end
+
+    def get_permissions_for_provider(provider_id, token)
+      # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/acls'
+      else
+        url = '/access-control/acls'
+      end
+      options = {'provider' => provider_id, 'include_full_acl' => true}
+      response = get(url, options, token_header(token))
+    end
+
+    def get_permission(concept_id, token)
+      # Example: curl -i "http://localhost:3011/acls/"
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/acls'
+      else
+        url = '/access-control/acls'
+      end
+
+      options = {'provider' => provider_id}
+
+      response = get(url, options, token_header(token))
+    end
+
   end
 end

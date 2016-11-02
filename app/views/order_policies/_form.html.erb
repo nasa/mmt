@@ -28,7 +28,6 @@
       <label for="supported_transactions_cancel"><%= check_box_tag('supported_transactions[]', 'CANCEL', @policy.fetch('SupportedTransactions', {}).fetch('Item', []).include?('CANCEL'), id: 'supported_transactions_cancel') %>
       Cancel</label><br />
     </div>
-    <label for="supported_transactions[]"></label>
   </div>
 
   <div class="row">
@@ -63,7 +62,7 @@
   <table id="duplicate-order-items">
     <thead>
       <tr>
-        <th></th>
+        <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="collections_supporting_duplicate_order_items[]" /></th>
         <th>Short Name</th>
         <th>Version</th>
         <th>Entry Title</th>
@@ -71,20 +70,20 @@
     </thead>
     <tbody>
       <% if @collections.empty? %>
-      <tr>
-        <td colspan="4">No collections to display for <%= @current_user.provider_id %>.</td>
-      </tr>
+        <tr>
+          <td colspan="4">No collections to display for <%= @current_user.provider_id %>.</td>
+        </tr>
       <% else %>
-      <% @collections.each do |collection| %>
-      <tr>
-        <td class="align-c">
-          <%= check_box_tag("collections_supporting_duplicate_order_items[]", collection.fetch('meta').fetch('concept-id'), @policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', []).include?(collection.fetch('meta').fetch('concept-id')), id: collection.fetch('meta').fetch('concept-id')) %>
-        </td>
-        <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
-        <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
-        <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
-      </tr>
-      <% end %>
+        <% @collections.each do |collection| %>
+          <tr>
+            <td class="align-c">
+              <%= check_box_tag("collections_supporting_duplicate_order_items[]", collection.fetch('meta').fetch('concept-id'), @policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', []).include?(collection.fetch('meta').fetch('concept-id')), id: collection.fetch('meta').fetch('concept-id')) %>
+            </td>
+            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
@@ -124,8 +123,6 @@
   </div>
 </fieldset>
 
-<fieldset>
-  <div class="row search-form-actions">
-    <%= submit_tag('Submit', name: 'full_search', class: 'eui-btn--blue') %>
-  </div>
+<fieldset class="align-r">
+  <%= submit_tag('Submit', class: 'eui-btn--blue') %>
 </fieldset>

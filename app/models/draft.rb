@@ -12,8 +12,8 @@ class Draft < ActiveRecord::Base
     acquisition_information
     temporal_information
     spatial_information
-    organizations
-    personnel
+    data_centers
+    data_contacts
     collection_citations
     metadata_information
   )
@@ -32,7 +32,7 @@ class Draft < ActiveRecord::Base
     short_name || '<Blank Short Name>'
   end
 
-  def update_draft(params)
+  def update_draft(params, editing_user_id)
     if params
       # pull out searchable fields if provided
       if params['short_name']
@@ -44,8 +44,15 @@ class Draft < ActiveRecord::Base
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
       json_params = params.to_hash.to_camel_keys
+      Rails.logger.info("Audit Log: #{editing_user_id} modified Draft Parameters: #{json_params}")
+
+      # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
+      json_params = convert_data_contacts_params(json_params)
+      json_params = convert_data_centers_params(json_params)
+
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
+
       # Remove empty params from draft
       new_draft = compact_blank(new_draft.clone)
 
@@ -83,6 +90,7 @@ class Draft < ActiveRecord::Base
     draft.provider_id = user.provider_id # TODO is this problematic for collections editing permissions?
     draft.draft = collection
     draft.save
+    Rails.logger.info("Draft created by #{user.urs_uid} for collection #{draft.entry_title} for provider #{user.provider_id}")
     draft
   end
 
@@ -188,6 +196,7 @@ class Draft < ActiveRecord::Base
             # 'Value' shows up multiple times in the UMM. We just need to convert AccessConstraints/Value to a number
             value['value'] = convert_to_number(value['value']) if value['value']
             object[key] = value
+          # elsif key == 'data_contacts'
           else
             if key == 'orbit_parameters'
               # There are two fields named 'Period' but only one of them is a number.
@@ -279,13 +288,104 @@ class Draft < ActiveRecord::Base
     values
   end
 
+  def add_contact_to_target_data_center(type, target_data_center, current_data_center)
+    if type == 'DataCenterContactPerson'
+      target_data_center['ContactPersons'] << current_data_center['ContactPerson']
+    elsif type == 'DataCenterContactGroup'
+      target_data_center['ContactGroups'] << current_data_center['ContactGroup']
+    end
+  end
+
+  def convert_data_contacts_params(json_params)
+    # updating from data contacts form. take all contacts which will be nested under DataContacts,
+    # and restructure as ContactPersons and ContactGroups under Data Centers or outside of Data Centers if not affiliated
+    return json_params unless json_params.keys == ['DataContacts']
+
+    data_contacts_params = compact_blank(json_params)
+    return {} if data_contacts_params.nil?
+
+    contact_persons = []
+    contact_groups = []
+    param_data_centers = []
+    new_params = {}
+    draft_data_centers = self.draft['DataCenters'] || []
+
+    data_contacts_params['DataContacts'].each do |data_contact|
+      if data_contact['DataContactType'] == 'NonDataCenterContactPerson'
+        contact_persons << data_contact['ContactPerson']
+      elsif data_contact['DataContactType'] == 'NonDataCenterContactGroup'
+        contact_groups << data_contact['ContactGroup']
+
+      elsif data_contact['DataContactType'] == 'DataCenterContactPerson' || data_contact['DataContactType'] == 'DataCenterContactGroup'
+        contact_type = data_contact['DataContactType']
+        data_center = data_contact['ContactPersonDataCenter'] || data_contact['ContactGroupDataCenter']
+        data_center ||= {}
+        short_name = data_center['ShortName']
+        long_name = data_center['LongName']
+
+        matching_draft_data_center = draft_data_centers.find { |d_data_center| d_data_center['ShortName'] == short_name && d_data_center['LongName'] == long_name }
+        matching_param_data_center = param_data_centers.find { |p_data_center| p_data_center['ShortName'] == short_name && p_data_center['LongName'] == long_name }
+
+        if matching_param_data_center
+          target = matching_param_data_center
+        elsif matching_draft_data_center
+          target = matching_draft_data_center
+          draft_data_centers.delete(target)
+          matching_draft_data_center['ContactPersons'] = []
+          matching_draft_data_center['ContactGroups'] = []
+          param_data_centers << target
+        else
+          # no match for data center, create a new one
+          target = { 'ShortName' => short_name, 'LongName' => long_name,
+                     'ContactPersons' => [], 'ContactGroups' => [] }
+          param_data_centers << target
+        end
+
+        add_contact_to_target_data_center(contact_type, target, data_center)
+      end
+    end
+
+    # these params are what will be merged (and overwrite what is in the draft), so we are keeping the new/matched data centers
+    # and we need to add back in any unmatched data centers that were in the draft so they won't be erased
+    new_params['DataCenters'] = param_data_centers + draft_data_centers
+    new_params['ContactPersons'] = contact_persons
+    new_params['ContactGroups'] = contact_groups
+    new_params
+  end
+
+  def convert_data_centers_params(json_params)
+    return json_params unless json_params.keys == ['DataCenters']
+
+    # updating from data centers form. we need to make sure to add in any existing data contacts from the draft so they are not erased
+    unless self.draft['DataCenters'].blank?
+      self.draft['DataCenters'].each do |draft_data_center|
+        short_name = draft_data_center['ShortName']
+        long_name = draft_data_center['LongName']
+
+        match = json_params['DataCenters'].find { |dc| dc['ShortName'] == short_name && dc['LongName'] == long_name }
+
+        if match
+          match['ContactPersons'] = draft_data_center['ContactPersons']
+          match['ContactGroups'] = draft_data_center['ContactGroups']
+        else
+          # no match, so draft_data_center is not in the params
+          # if there are no contact persons or groups, no problem
+          # if there are contact persons or groups - what to do? keep the contacts or no?
+        end
+      end
+    end
+
+    json_params
+  end
+
+
+
   def default_values
     self.draft ||= {}
   end
 
   def set_native_id
     self.native_id ||= "mmt_collection_#{id}"
-    self.native_id = URI.encode(self.native_id)
     save
   end
 end

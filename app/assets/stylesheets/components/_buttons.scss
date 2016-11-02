@@ -11,6 +11,22 @@
   }
 }
 
+.eui-btn--red {
+  @extend .eui-btn;
+
+  background-color: $red;
+  color: $white;
+
+  &:link,
+  &:visited {
+    color: $white;
+  }
+
+  &:hover {
+    background-color: darken($red, 6%);
+  }
+}  
+
 button {
   &:disabled {
     background-color: lighten($dolphin-grey, 10%);

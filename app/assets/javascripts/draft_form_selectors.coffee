@@ -114,6 +114,32 @@ $(document).ready ->
       $begin.removeClass('disabled')
       $end.removeClass('disabled')
 
+  # Handle Data Contacts Type selector
+  $('.data-contact-type-select').change ->
+    $contactTypeSelect = $(this).parents('.data-contact-type-select-parent')
+    $dataContactTypes = $contactTypeSelect.siblings('.data-contact-type')
+    # hide all the form elements
+    $dataContactTypes.hide()
+    # clear fieldset
+    $dataContactTypes.find('input, select').val ''
+    # disable form elements so blank values dont interfere with saving
+    $dataContactTypes.find('input, select').prop 'disabled', true
+
+    switch $(this).val()
+      # show and enable selected data contact type
+      when 'DataCenterContactPerson'
+        $contactTypeSelect.siblings('.data-contact-type.data-center-contact-person').show()
+        $contactTypeSelect.siblings('.data-contact-type.data-center-contact-person').find('input, select').prop 'disabled', false
+      when 'DataCenterContactGroup'
+        $contactTypeSelect.siblings('.data-contact-type.data-center-contact-group').show()
+        $contactTypeSelect.siblings('.data-contact-type.data-center-contact-group').find('input, select').prop 'disabled', false
+      when 'NonDataCenterContactPerson'
+        $contactTypeSelect.siblings('.data-contact-type.non-data-center-contact-person').show()
+        $contactTypeSelect.siblings('.data-contact-type.non-data-center-contact-person').find('input, select').prop 'disabled', false
+      when 'NonDataCenterContactGroup'
+        $contactTypeSelect.siblings('.data-contact-type.non-data-center-contact-group').show()
+        $contactTypeSelect.siblings('.data-contact-type.non-data-center-contact-group').find('input, select').prop 'disabled', false
+
   # Clear radio button selection and hide content
   $('.clear-radio-button').on 'click', ->
     $fieldset = $(this).parents('fieldset')

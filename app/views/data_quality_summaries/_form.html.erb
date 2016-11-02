@@ -1,0 +1,24 @@
+<%= hidden_field_tag('id', @summary.fetch('Guid', '')) %>
+
+<fieldset>
+  <div class="row">
+    <label for="name" class="eui-required-o">Name</label>
+    <%= text_field_tag('name', @summary.fetch('Name', ''), class: 'full-width') %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <div class="row">
+    <label for="summary" class="eui-required-o">Summary</label>
+    <%= text_area_tag('summary', @summary.fetch('Summary', ''), class: 'full-width redactor textarea-tall') %>
+  </div>
+</fieldset>
+
+<fieldset class="align-r">
+  <%= submit_tag('Submit', class: 'eui-btn--blue') %>
+  <% if @summary.fetch('LastUpdateDate', nil) %>
+    <div class="update-timestamp">
+      <b>Last Updated:</b> <%= DateTime.parse(@summary.fetch('LastUpdateDate')).strftime('%A, %B %d, %Y at %l:%M %P') %>
+    </div>
+  <% end %>
+</fieldset>

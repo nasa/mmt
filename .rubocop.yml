@@ -1,10 +1,13 @@
 # Config options: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 
 AllCops:
+  TargetRubyVersion: 2.2
   Exclude:
     - 'vendor/**/*'
     - 'spec/fixtures/**/*'
     - '**/*.erb'
+  Rails:
+    Enabled: true
 
 Metrics/LineLength:
   Enabled: false

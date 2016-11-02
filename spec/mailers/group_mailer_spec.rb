@@ -14,7 +14,7 @@ describe GroupMailer do
     end
 
     it 'renders the sender email' do
-      expect(mail.from).to eq(['no-reply@mmt.nasa.gov'])
+      expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
     end
 
     it 'assigns @invite' do
@@ -39,7 +39,7 @@ describe GroupMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
       end
 
       it 'assigns @invite' do
@@ -71,7 +71,7 @@ describe GroupMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
       end
 
       it 'assigns @invite' do

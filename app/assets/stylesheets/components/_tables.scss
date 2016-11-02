@@ -46,3 +46,9 @@ table {
 .preview table .table-header-span {
   background: darken($light-blue, 8%);
 }
+
+table caption {
+  text-align: left;
+  color: #617376;
+  font-weight: bold;
+}

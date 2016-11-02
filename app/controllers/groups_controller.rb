@@ -250,7 +250,14 @@ class GroupsController < ApplicationController
       # Log error message
       Rails.logger.error("Users Request Error: #{users_response.inspect}")
 
-      users_response_error = Array.wrap(users_response.body['error'])[0]
+      # error should be json, but URS has given an html response for a 500 error
+      if users_response.body['error']
+        users_response_error = Array.wrap(users_response.body['error'])[0]
+      else
+        # error is related to getting users from URS
+        users_response_error = 'An unexpected URS error has occurred.'
+      end
+
       flash[:error] = users_response_error
       []
     end

@@ -16,12 +16,13 @@ describe 'Publishing revision of collection with non url encoded native id', js:
     context 'when editing the collection' do
       before do
         click_on 'Edit Record'
+
       end
 
-      it 'creates a draft that has a url encoded native id' do
+      it 'creates a draft with a non url encoded native id' do
         draft = Draft.first
         page.document.synchronize do
-          expect(draft.native_id).to eq('AMSR-E/Aqua%20&%205-Day,%20L3%20Global%20Snow%20Water%20Equivalent%20EASE-Grids%20V001')
+          expect(draft.native_id).to eq('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
         end
       end
 
@@ -29,11 +30,20 @@ describe 'Publishing revision of collection with non url encoded native id', js:
         before do
           # add required data to publish
           within '.metadata' do
-            click_on 'Organizations', match: :first
+            click_on 'Data Centers', match: :first
           end
-          within '#organizations' do
-            add_organization('AARHUS-HYDRO')
-            select 'Resource Provider', from: 'Role'
+          expect(page).to have_content('Data Centers')
+
+          (1..3).each do |n|
+            # TODO this is not the ideal way to do this, but the entire form will be changed by the next ticket
+            within "#draft_data_centers_#{n} > .eui-accordion__header" do
+              find('.remove').click
+            end
+          end
+
+          open_accordions
+          within '#draft_data_centers_0' do
+            select 'AARHUS-HYDRO', from: 'Short Name'
           end
           within '.nav-top' do
             click_on 'Done'
@@ -42,9 +52,9 @@ describe 'Publishing revision of collection with non url encoded native id', js:
           within '.metadata' do
             click_on 'Data Identification'
           end
-          open_accordions
-          select 'In work', from: 'Collection Progress'
+          click_on 'Expand All'
           select 'Level 3', from: 'ID'
+          select 'Planned', from: 'Collection Progress'
           within '.nav-top' do
             click_on 'Done'
           end
@@ -52,13 +62,14 @@ describe 'Publishing revision of collection with non url encoded native id', js:
           within '.metadata' do
             click_on 'Acquisition Information'
           end
-          open_accordions
+          click_on 'Expand All'
           select 'Aircraft', from: 'Type'
           within '.nav-top' do
             click_on 'Done'
           end
 
           click_on 'Publish'
+          wait_for_ajax
 
           click_on 'Revisions'
         end

@@ -1,0 +1,52 @@
+.Chooser {
+  display: table;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100%;
+}
+
+
+.Chooser div:nth-child(1) {
+  display: table-cell;
+  vertical-align: top;
+  width: 40%;
+
+}
+
+.Chooser div:nth-child(1) select {
+  width: 100% !important;
+}
+
+
+.Chooser div:nth-child(2) {
+  display: table-cell;
+  width: 10%;
+  padding: 20px;
+  vertical-align: middle;
+}
+
+.Chooser div:nth-child(2) button {
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+
+.Chooser div:nth-child(3) {
+  display: table-cell;
+  width: 40%;
+  vertical-align: top;
+}
+
+
+.Chooser div:nth-child(3) select {
+  width: 100% !important;
+}
+
+.Chooser div:nth-child(1) input[type=text] {
+  width: 100%;
+}
+
+.Chooser span.to_message {
+  color: red;
+}

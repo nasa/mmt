@@ -38,7 +38,7 @@ module Mmt
 
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
 
-    config.umm_version = 'vnd.nasa.cmr.umm+json; version=1.2'
+    config.umm_version = 'vnd.nasa.cmr.umm+json; version=1.6'
 
     def load_version
       version_file = "#{config.root}/version.txt"
@@ -52,5 +52,8 @@ module Mmt
     end
 
     config.version = load_version
+
+    # Log request UUID so we can track requests across threaded log messages
+    config.log_tags = [:uuid]
   end
 end

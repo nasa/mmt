@@ -7,7 +7,9 @@ describe DraftMailer do
     context 'when publishing a new record' do
       concept_id = 'C1200000007-SEDAC'
       revision_id = 1
-      let(:mail) { described_class.draft_published_notification(user, concept_id, revision_id) }
+      short_name = 'CIESIN_SEDAC_EPI_2010'
+      version = 2010
+      let(:mail) { described_class.draft_published_notification(user, concept_id, revision_id, short_name, version) }
 
       it 'renders the subject' do
         expect(mail.subject).to eq('New Record Published in Metadata Management Tool')
@@ -18,13 +20,13 @@ describe DraftMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
       end
 
-      it 'renders the new record published notice' do
-        expect(mail.html_part.body).to have_content("New Metadata Record")
-        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully published to the CMR.")
-        expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully published to the CMR.")
+      it 'renders the new record published notice including short name + version' do
+        expect(mail.html_part.body).to have_content("#{short_name}_#{version} Published")
+        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully published to the CMR.")
+        expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully published to the CMR.")
       end
 
       it 'renders the concept id' do
@@ -42,7 +44,9 @@ describe DraftMailer do
     context 'when publishing an update' do
       concept_id = 'C1200000059-LARC'
       revision_id = 3
-      let(:mail) { described_class.draft_published_notification(user, concept_id, revision_id) }
+      short_name = 'AE_5DSno'
+      version = 1
+      let(:mail) { described_class.draft_published_notification(user, concept_id, revision_id, short_name, version) }
 
       it 'renders the subject' do
         expect(mail.subject).to eq('Record Updated in Metadata Management Tool')
@@ -53,13 +57,13 @@ describe DraftMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
       end
 
-      it 'renders the record updated notice' do
-        expect(mail.html_part.body).to have_content("Updated Metadata Record")
-        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully updated.")
-        expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record has been successfully updated.")
+      it 'renders the record updated notice including short name + version' do
+        expect(mail.html_part.body).to have_content("#{short_name}_#{version} Updated")
+        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully updated.")
+        expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully updated.")
       end
 
       it 'renders the concept id' do

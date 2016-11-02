@@ -17,7 +17,7 @@ describe 'Create and edit a draft from a Dif 10 collection with location keyword
       # search for the record, by short_name
       fill_in 'Quick Find', with: short_name
       click_on 'Find'
-
+      expect(page).to have_content(short_name)
       click_on short_name
     end
 

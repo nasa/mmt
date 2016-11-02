@@ -55,7 +55,7 @@ module Helpers
       false
     end
 
-    def add_organization(value)
+    def add_data_center(value)
       find('.select2-container .select2-selection').click
       find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: value).click
     end
@@ -66,44 +66,13 @@ module Helpers
       fill_in 'Last Name', with: 'Last Name'
     end
 
-    def add_responsibilities(type = nil)
-      within ".multiple.#{type}" do
-        select 'Resource Provider', from: 'Role'
-        case type
-        when 'organizations'
-          add_organization('AARHUS-HYDRO')
-        when 'personnel'
-          add_person
-        end
-
+    def add_contact_information(type = nil, single = nil, button_type = nil)
+      within '.contact-information' do
         fill_in 'Service Hours', with: '9-5, M-F'
         fill_in 'Contact Instructions', with: 'Email only'
-
-        add_contacts
+        add_contact_mechanisms
         add_addresses
-        add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize)
-
-        click_on "Add another #{(type || 'responsibility').singularize.titleize}"
-        within '.multiple-item.eui-accordion.multiple-item-1' do
-
-          select 'Owner', from: 'Role'
-          case type
-          when 'organizations'
-            add_organization('ESA/ED')
-          when 'personnel'
-            add_person
-          else
-            find('.responsibility-picker.person').click
-            add_person
-          end
-
-          fill_in 'Service Hours', with: '10-2, M-W'
-          fill_in 'Contact Instructions', with: 'Email only'
-
-          add_contacts
-          add_addresses
-          add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize)
-        end
+        add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize, single, button_type)
       end
     end
 
@@ -133,11 +102,11 @@ module Helpers
       end
     end
 
-    def add_contacts
-      within '.multiple.contacts' do
+    def add_contact_mechanisms
+      within '.multiple.contact-mechanisms' do
         select 'Email', from: 'Type'
         fill_in 'Value', with: 'example@example.com'
-        click_on 'Add another Contact Method'
+        click_on 'Add another Contact Mechanism'
         within '.multiple-item-1' do
           select 'Email', from: 'Type'
           fill_in 'Value', with: 'example2@example.com'
@@ -165,7 +134,7 @@ module Helpers
       end
     end
 
-    def add_related_urls(type, single = nil)
+    def add_related_urls(type, single = nil, button_type = nil)
       within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
         if type.include? 'title'
           fill_in 'Title', with: 'Example Title'
@@ -205,8 +174,9 @@ module Helpers
         unless single
           button_title = 'Related URL'
           button_title = 'Distribution URL' if type == RelatedUrlFieldsHelper::DISTRIBUTION_FORM
+          button_type += ' ' unless button_type.nil?
           # Add another RelatedUrl
-          click_on "Add another #{button_title}"
+          click_on "Add another #{button_type}#{button_title}"
 
           if type.include? 'urls'
             within '.multiple-item-1' do

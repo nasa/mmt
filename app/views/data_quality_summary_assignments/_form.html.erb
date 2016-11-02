@@ -1,0 +1,45 @@
+<% if action_name == 'new' %>
+  <fieldset>
+    <div class="row">
+      <label for="definition_guid" class="eui-required-o">Data Quality Summary</label>
+      <%= select_tag('definition_guid', options_for_select(@summaries.map { |s| [s.parsed_body.fetch('Name', nil), s.parsed_body.fetch('Guid', nil)] }), class: 'full-width', prompt: 'Select a Data Quality Summary') %>
+    </div>
+  </fieldset>
+<% end %>
+
+<fieldset>
+  <label for="catalog_item_guid[]" class="eui-required-o">Collections</label>
+  <table id="duplicate-order-items">
+    <thead>
+      <tr>
+        <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="catalog_item_guid[]" /></th>
+        <th>Short Name</th>
+        <th>Version</th>
+        <th>Entry Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @collections.empty? %>
+        <tr>
+          <td colspan="4">No collections to display for <%= @current_user.provider_id %>.</td>
+        </tr>
+      <% else %>
+        <% @collections.each do |collection| %>
+          <tr>
+            <td class="align-c">
+              <%= check_box_tag('catalog_item_guid[]', collection.fetch('meta').fetch('concept-id'), false, id: "catalog_item_guid_#{collection.fetch('meta').fetch('concept-id')}") %>
+            </td>
+            <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
+            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="4">Select one or more collections.</th>
+      </tr>
+    </tfoot>
+  </table>
+</fieldset>
