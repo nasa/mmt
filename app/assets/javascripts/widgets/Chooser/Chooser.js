@@ -9,7 +9,6 @@
  *                          have IDs based on this.
  * url (string):            URL of resource to retrieve initial selections.
  * target (element):        DOM element where this widget will be placed.
- * initialList:             List of initial values to load into the "from" list
  * fromLabel:               Label to appear over "from" list
  * toLabel:                 Label to appear over "to" list
  * forceUnique (boolean):   When true, only allows unique options to be added to the "to" list,
@@ -17,7 +16,6 @@
  * size (int):              Height of select control in number of options.
  * resetSize (int):         When user scrolls to top, the entire list is trimmed to this size. Not required,
  *                          default is 50.
- * rememberLast:            Remember the last values entered. Uses browser's session storage.
  * filterChars (sting):     Number of characters to allow typing into filter textbox before AJAX call is triggered.
  *                          Default is 3.
  * showNumChosen (int):     Always show the number of chosen items in the "to" list.
@@ -144,17 +142,6 @@ var Chooser = function(config) {
         TO_MESSAGE = $("<span class='to_message'></span>");
         $(TO_CONTAINER).append(TO_MESSAGE);
 
-
-        if(hasProp("initialList", "object")) {
-            config.initialList.forEach(function(value,key){
-                var li = $("<option value='"+value+"'>"+value+"</option>");
-                $(li).on("click", function(){
-
-                });
-                $(FROM_LIST).append(li);
-            });
-        }
-
         $(ADD_BUTTON).click(addButtonClick);
         $(REMOVE_BUTTON).click(removeButtonClick);
         $(REMOVE_ALL_BUTTON).click(removeAllButtonClick);
@@ -228,8 +215,6 @@ var Chooser = function(config) {
             $(REMOVE_BUTTON).click();
         });
 
-        storeSelections();
-        loadSelections();
     };
 
     /**
@@ -257,7 +242,8 @@ var Chooser = function(config) {
                     optVal = tmpVal;
                 }
 
-                var opt = "<option value='"+optVal+"'>"+dispVal+"</option>";
+
+                var opt = $("<option>").val(optVal).text(dispVal);
 
                 $(TO_LIST).append(opt);
             });
@@ -367,45 +353,6 @@ var Chooser = function(config) {
         }
     };
 
-    /**
-     * Stores the selections in the browser's session
-     * storage.
-     */
-    var storeSelections = function() {
-        if(sessionStorage && hasProp("rememberLast", "boolean") && config.rememberLast === true) {
-            $(TO_LIST).on('change', function(){
-                var items = [];
-                $(this).find("option").each(function(tmpKey,tmpVal){
-                    var optData = {
-                        dispText: $(tmpVal).text(),
-                        val: $(tmpVal).val()
-                    };
-                    items.push(optData);
-                });
-                sessionStorage.setItem(CHOOSER_OPTS_STORAGE_KEY, JSON.stringify(items));
-            });
-        } else {
-            console.info("Session storage is not supported in this browser.");
-        }
-    };
-
-    /**
-     * Loads selections into the TO box from the browser's session storage.
-     */
-    var loadSelections = function() {
-        if(sessionStorage && hasProp("rememberLast", "boolean") && config.rememberLast === true) {
-            var items = JSON.parse(sessionStorage.getItem(CHOOSER_OPTS_STORAGE_KEY));
-            $.each(items, function(tmpKey,tmpVal){
-                var opt = $("<option value='"+tmpVal.val+"'>"+tmpVal.dispText+"</option>");
-                $(TO_LIST).append(opt);
-            });
-            $(TO_LIST).trigger("change");
-        } else {
-            console.info("Session storage is not supported in this browser.");
-        }
-    };
-
-
 
     /**
      * Makes the AJAX calls to get the data from the remote server.
@@ -472,7 +419,7 @@ var Chooser = function(config) {
                 }
             }
 
-            var newOpt = $("<option value='"+value+"' title='"+displayValue+"'>"+displayValue+"</option>");
+            var newOpt = $("<option>").val(value).attr("title", displayValue).text(displayValue);
             $(FROM_LIST).append(newOpt);
         });
     };
@@ -490,8 +437,13 @@ var Chooser = function(config) {
         $(FROM_LIST).find("option:selected").each(function(tmpKey,tmpVal){
             var clonedOpt = $(tmpVal).clone();
             if(config.forceUnique) {
-                var fromListVal = $(tmpVal).attr("value");
-                var toListVal = $(TO_LIST).find("option[value='"+fromListVal+"']").attr("value");
+                var fromListVal = $(tmpVal).val();
+
+                var toListVal = $(TO_LIST).find("option").filter(function (idx, val) {
+                    if($(val).val() === fromListVal) return true;
+                }).val();
+
+
                 if(toListVal !== fromListVal) {
                     $(TO_LIST).append(clonedOpt);
                     if(removeAdded) {
@@ -531,8 +483,10 @@ var Chooser = function(config) {
         e.preventDefault();
         var query =  remAll ? "option" : "option:selected";
         $(TO_LIST).find(query).each(function(tmpKey,tmpVal){
-            var fromListVal = $(tmpVal).attr("value");
-            var toListVal = $(TO_LIST).find("option[value='"+fromListVal+"']").attr("value");
+            var fromListVal = $(tmpVal).val();
+            var toListVal = $(TO_LIST).find("option").filter(function (idx, val) {
+                if($(val).val() === fromListVal) return true;
+            }).val();
             if(fromListVal !== toListVal) {
                 var clonedOpt = $(tmpVal).clone();
                 $(FROM_LIST).prepend(clonedOpt);

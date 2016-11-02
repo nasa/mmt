@@ -26,7 +26,6 @@ $(document).ready ->
           attachTo: $('#collection_selections'),
           delimiter: "%%__%%",
           filterText: "Filter collections",
-          rememberLast: false,
           removeAdded: false,
           addButton: {
             cssClass: 'eui-btn nowrap',
