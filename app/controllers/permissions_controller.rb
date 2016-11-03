@@ -394,7 +394,7 @@ class PermissionsController < ApplicationController
       if group_response.success?
         group = group_response.body
         group[:name] = group['name']
-        group[:concept_id] = search_group_id
+        group[:concept_id] = group_id
         group[:num_members] = group['num_members']
         retrieval_error_message = nil
       else
@@ -408,7 +408,7 @@ class PermissionsController < ApplicationController
 
   def set_catalog_item_identity(permission)
     # parsing for show or edit actions
-    show = params[:action] == show ? true : false
+    show = params[:action] == 'show' ? true : false
 
     catalog_item_identity = permission['catalog_item_identity']
     @permission_name = catalog_item_identity['name']
