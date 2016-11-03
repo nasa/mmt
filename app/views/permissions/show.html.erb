@@ -10,7 +10,7 @@
       <h2><%= @permission_name %></h2>
       <p class="subtitle"><strong>Permission Type:</strong><%= " #{@permission_type || '<type>'} | #{@permission_provider || '<provider>'}" %></p>
 
-      <p class="subnav current">Permissions</p>
+      <p class="subnav current"><%= link_to 'Permissions', permissions_path %></p>
       <p class="subnav"><%= link_to 'Groups', groups_path %></p>
     </div>
   </header>
