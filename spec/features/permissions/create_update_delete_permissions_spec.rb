@@ -1,4 +1,4 @@
-# MMT-507, 508, 152, 153, 170
+# MMT-507, 508, 152, 153, 170, 171
 # tests for create, show, edit, update
 
 require 'rails_helper'
@@ -160,15 +160,48 @@ describe 'Creating Permissions', js: true do
           end
         end
 
-        # context with stub for tests for deleting a permission
-        # context 'when deleting the permission' do
-        #   before do
-        #     delete_success = '{"revision_id":3,"concept_id":"ACL12345-CMR"}' # should make sure that concept_id is with underscore, not dash. the CMR docs have dash in the delete response, but everything else is underscore
-        #     delete_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(delete_success)))
-        #     allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(delete_response) # method name being received must match the cmr_client delete method
-        #
-        #   end
-        # end
+        #context with stub for tests for deleting a permission
+
+        context 'when deleting the permission with negative confirmation' do
+          before do
+            delete_success = '{"revision_id":3,"concept_id":"ACL12345-CMR"}' # should make sure that concept_id is with underscore, not dash. the CMR docs have dash in the delete response, but everything else is underscore
+            delete_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(delete_success)))
+            allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(delete_response) # method name being received must match the cmr_client delete method
+
+            click_on 'Delete Permission'
+            click_on 'No'
+
+          end
+
+          it 'closes the confirmation dialog and does not delete the permission' do
+
+            expect(page).to_not have_content('Are you sure you want to delete this permission?')
+            expect(page).to have_selector('#delete-permission-modal', visible: false)
+            expect(page).to have_content(permission_name)
+            expect(page).to have_link('Edit Permission')
+            expect(page).to have_link('Delete Permission')
+
+          end
+
+        end
+
+
+        context 'when deleting the permission with positive confirmation' do
+          before do
+            delete_success = '{"revision_id":3,"concept_id":"ACL12345-CMR"}' # should make sure that concept_id is with underscore, not dash. the CMR docs have dash in the delete response, but everything else is underscore
+            delete_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(delete_success)))
+            allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(delete_response) # method name being received must match the cmr_client delete method
+
+            click_on 'Delete Permission'
+            click_on 'Yes'
+
+          end
+
+          it 'redirects to the index page and does not display the current permission' do
+            expect(page).to_not have_content(permission_name)
+          end
+
+        end
       end
     end
   end
