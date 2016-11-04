@@ -121,8 +121,8 @@ class PermissionsController < ApplicationController
       end
 
       flash.now[:error] = permission_creation_error
-      @collections = params[:collections]
-      @collection_selections = params[:collection_selections]
+
+      #@collections = params[:collections]
       @granules = params[:granules]
       @permission_name = params[:permission_name]
 
