@@ -45,7 +45,7 @@ describe 'Data identification preview' do
           end
 
           within '.processing-level' do
-            expect(page).to have_content('Level 1A')
+            expect(page).to have_content('1A')
             expect(page).to have_content('Level 1 Description')
           end
 

@@ -27,7 +27,7 @@ describe 'Data identification form', js: true do
 
       # Processing level
       within '.processing-level-fields' do
-        select 'Level 1A', from: 'ID'
+        select '1A', from: 'ID'
         fill_in 'Description', with: 'Level 1 Description'
       end
 
@@ -75,7 +75,7 @@ describe 'Data identification form', js: true do
 
       # Processing Level
       within '.processing-level-fields' do
-        expect(page).to have_field('ID', with: 'Level 1A')
+        expect(page).to have_field('ID', with: '1A')
         expect(page).to have_field('Description', with: 'Level 1 Description')
       end
 

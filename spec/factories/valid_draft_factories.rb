@@ -519,7 +519,7 @@ FactoryGirl.define do
       }],
       'CollectionDataType' => 'SCIENCE_QUALITY',
       'ProcessingLevel' => {
-        'Id'                         => 'Level 1A',
+        'Id'                         => '1A',
         'ProcessingLevelDescription' => 'Level 1 Description'
       },
       'CollectionCitations' => [{

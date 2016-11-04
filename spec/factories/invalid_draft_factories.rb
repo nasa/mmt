@@ -231,7 +231,7 @@ def all_required_fields
       'LongName' => 'Hydrogeophysics Group, Aarhus University ' # controlled keywords source has extra space at the end
     }],
     'ProcessingLevel' => {
-      'Id' => 'Level 1',
+      'Id' => '1',
       'ProcessingLevelDescription' => 'Level 1 Description'
     },
     'RelatedUrls' => [{
