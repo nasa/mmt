@@ -49,3 +49,17 @@ $(document).ready ->
     firstName = $('#invite_first_name').val('')
     lastName = $('#invite_last_name').val('')
     email = $('#invite_email').val('')
+
+  $('.system-group-checkbox').on 'change', ->
+    $box = $(this)
+    provider = $('.provider-context > span').text()
+    $title = $('.new-group-title')
+    $span = $('.new-group-badge')
+    if $box.prop 'checked'
+      $title.text($title.text().replace provider, 'CMR')
+      $span.text('SYS')
+      $span.addClass('eui-badge--sm')
+    else
+      $title.text($title.text().replace 'CMR', provider)
+      $span.text('')
+      $span.removeClass('eui-badge--sm')

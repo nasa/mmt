@@ -14,7 +14,12 @@
           </li>
         </ol>
       </div>
-      <h2>Edit Group</h2>
+      <div class="group-header">
+        <h2>Edit <%= @group['name'] %></h2>
+        <% if system_group?(@group, @concept_id) %>
+          <span class="eui-badge--sm">SYS</span>
+        <% end %>
+      </div>
       <p class="subnav">
         <%= link_to 'Permissions', permissions_path %>
       </p>

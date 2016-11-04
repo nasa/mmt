@@ -11,7 +11,12 @@
           </li>
         </ol>
       </div>
-      <h2>New Group for <%= @current_user.provider_id %></h2>
+      <div class="group-header">
+        <h2 class="new-group-title">New Group for <%= @current_user.provider_id %></h2>
+        <% if @admin %>
+          <span class="new-group-badge"></span>
+        <% end %>
+      </div>
       <p class="subnav">
         <%= link_to 'Permissions', permissions_path %></p>
       <p class="subnav current">

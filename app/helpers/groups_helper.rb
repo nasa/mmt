@@ -4,10 +4,6 @@ module GroupsHelper
   end
 
   def group_provider(group)
-    if group['provider_id'].nil? && group['concept_id'] =~ /(CMR)$/
-      'CMR'
-    else
-      group['provider_id']
-    end
+    system_group?(group, group['concept_id']) ? 'CMR' : group['provider_id']
   end
 end

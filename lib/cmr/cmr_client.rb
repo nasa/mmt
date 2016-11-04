@@ -250,5 +250,23 @@ module Cmr
       response = get(url, options, token_header(token))
     end
 
+    def check_user_permissions(options, token)
+      # https://cmr.sit.earthdata.nasa.gov/access-control/site/access_control_api_docs.html#get-permissions
+      # one of `concept_id`, `system_object`(i.e. GROUP), or `provider` AND `target`(i.e. HOLDINGS)
+      # one of `user_type`('guest' or 'registered') or `user_id`
+      # example: curl -g -i -H "Echo-Token: XXXX" "https://cmr.sit.earthdata.nasa.gov/access-control/permissions?user_type=guest&concept_id[]=C1200000000-PROV1&concept_id[]=C1200000001-PROV1"
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/permissions'
+      else
+        url = '/access-control/permissions'
+      end
+
+      params = {}
+      params['user_id'] = options[:user_id] if options[:user_id]
+      # params['user_type']
+      params['system_object'] = options[:system_object] if options[:system_object]
+
+      get(url, params, token_header(token))
+    end
   end
 end

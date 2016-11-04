@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_filter :groups_enabled?
+  before_filter :check_if_admin, except: [:index]
 
   def index
     @filters = params[:filters] || {}
@@ -37,14 +38,17 @@ class GroupsController < ApplicationController
 
     @users_options = urs_users
     @selected_users = []
+
+    @system_group = false # initially set checkbox to unchecked
   end
 
   def create
     group = params[:group]
     members = params[:selected_members] || []
+    @system_group = params[:system_group]
 
     if valid_group?(group)
-      group['provider_id'] = @current_user.provider_id
+      group['provider_id'] = @current_user.provider_id unless @system_group
       group_creation_response = cmr_client.create_group(group.to_json, token)
 
       if group_creation_response.success?
@@ -76,6 +80,7 @@ class GroupsController < ApplicationController
 
     if group_response.success?
       @group = group_response.body
+      @system_group = system_group?(@group, concept_id)
 
       group_members_response = cmr_client.get_group_members(concept_id, token)
       if group_members_response.success?
@@ -101,10 +106,11 @@ class GroupsController < ApplicationController
     concept_id = params[:id]
     group = params[:group]
     members = params[:selected_members]
+    @system_group = params[:system_group]
 
     if group
       if valid_group?(group)
-        group['provider_id'] = @current_user.provider_id
+        group['provider_id'] = @current_user.provider_id unless @system_group
         update_response = cmr_client.update_group(concept_id, group.to_json, token)
 
         if update_response.success?
@@ -280,4 +286,22 @@ class GroupsController < ApplicationController
     end
     false
   end
+
+  def check_if_admin
+    check_permission_options = { user_id: @current_user.urs_uid, system_object: 'GROUP' }
+    user_permission_response = cmr_client.check_user_permissions(check_permission_options, token)
+    if user_permission_response.success?
+      permission = JSON.parse(user_permission_response.body) # why is this JSON but other CMR responses don't need to be parsed?
+      @admin = true if permission.fetch('GROUP', []).include?('create')
+    else
+      Rails.logger.error("Check User Permission Response for #{@current_user.urs_uid}: #{user_permission_response.inspect}")
+      check_permission_error = Array.wrap(user_permission_response.body['errors'])[0]
+      flash[:error] = check_permission_error
+    end
+  end
+
+  def system_group?(group, concept_id)
+    group['provider_id'].nil? && concept_id =~ /(CMR)$/
+  end
+  helper_method :system_group?
 end

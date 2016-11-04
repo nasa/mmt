@@ -232,6 +232,33 @@ module Cmr
       end
       puts "add group for typical user for sids: #{resp.body}"
 
+      clear_cache
+
+      ## Add admin and typical users to urs, so they can be added to groups
+      ## and given appropriate permissions to system level groups
+      # add admin and typical users to local cmr mocked urs
+      connection.post do |req|
+        req.url('http://localhost:3008/urs/users')
+        req.headers['Content-Type'] = 'application/json'
+        req.body = '[{"username": "admin", "password": "admin"}, {"username": "typical", "password":"password"}]'
+      end
+      # add admin user to our Administrators_2 group (usu AG1200000001-CMR)
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/groups/AG1200000001-CMR/members')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '["admin"]'
+      end
+      puts "add admin user to Administrators_2: #{resp.body}"
+      # create ACL for system level groups for Administrators_2
+      resp = connection.post do |req|
+        req.url = ('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"group_permissions": [{"group_id": "AG1200000001-CMR","permissions": ["read", "create"]}], "system_identity": {"target": "GROUP"}}'
+      end
+      puts "acl for system level groups for Administrators_2"
+
       ## Add admin user to legacy guid Administrators group so admin can access System level groups
       # first add admin user to cmr urs
       # connection.post do |req|
