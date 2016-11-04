@@ -11,23 +11,6 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def get_collections_with_entry_titles(entry_titles, token = nil)
-      if Rails.env.development? || Rails.env.test?
-        url = 'http://localhost:3003/collections'
-      else
-        url = '/search/collections'
-      end
-
-      # headers = {
-      #     'Content-Type' => "application/#{Rails.configuration.umm_version};charset=utf-8"
-      # }
-      encoded_entry_titles = entry_titles.map { |entry_title| encode_if_needed(entry_title) }
-      params = {
-          'entry_title' => encoded_entry_titles
-      }
-
-    end
-
     def get_providers
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3002/providers'

@@ -164,10 +164,6 @@ describe 'Creating Permissions', js: true do
 
         context 'when deleting the permission with negative confirmation' do
           before do
-            delete_success = '{"revision_id":3,"concept_id":"ACL12345-CMR"}' # should make sure that concept_id is with underscore, not dash. the CMR docs have dash in the delete response, but everything else is underscore
-            delete_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(delete_success)))
-            allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(delete_response) # method name being received must match the cmr_client delete method
-
             click_on 'Delete Permission'
             click_on 'No'
 
