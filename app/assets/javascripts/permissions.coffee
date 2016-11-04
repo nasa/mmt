@@ -1,5 +1,5 @@
 $(document).ready ->
-  if $(".permissions-form").length > 0
+  if $(".permission-form").length > 0
 
     $('.display-modal').leanModal
       top: 200
@@ -17,70 +17,81 @@ $(document).ready ->
           nextPageParm: 'page_num',
           filterParm: 'entry_id',
           filterChars: '1',
-          resetSize: 20,
+          endlessScroll: false,
           target: $('#chooser-widget'),
           fromLabel: 'Available collections',
-          toLabel: 'Chosen collections',
+          toLabel: 'Selected collections',
           showNumChosen: true,
           forceUnique: true,
+          uniqueMsg: 'Collection already added',
           attachTo: $('#collection_selections'),
+          delimiter: "%%__%%",
+          filterText: "Filter collections",
+          rememberLast: false,
+          removeAdded: false,
+          addButton: {
+            cssClass: 'eui-btn nowrap',
+            arrowCssClass: 'eui-circle-right',
+            text: 'Add collection(s)'
+          },
+          delButton: {
+            cssClass: 'eui-btn nowrap',
+            arrowCssClass: 'eui-circle-left',
+            text: 'Remove collection(s)'
+          },
+          allowRemoveAll: false,
           errorCallback: ->
             $('<div class="eui-banner--danger">' +
                 'A server error occurred. Unable to get collections.' +
                 '</div>').prependTo '#main-content'
         })
+
         collectionsChooser.init()
 
+        $('#collectionsChooser_toList').rules 'add',
+            #required: true,
+            required: ->
+              $('#collection_options').val() == 'selected-ids-collections'
+            messages:
+             required: 'Please specify collections.'
 
-    $('#chooser-widget').show()
-    start_widget()
 
-    # Hide field by default
-    $('#collection_ids_chosen').addClass 'is-hidden'
+    # show the Chooser widget if a refresh of the page has "selected collections" as the dropdown value
+    setTimeout ( ->
+      if $('#collection_options').val() == 'selected-ids-collections'
+        $('#chooser-widget').show()
+        start_widget()
 
-
-    $('#chooser-widget').hide()
+        if $('#collection_selections').val()? && $('#collection_selections').val().length > 0
+          opts = []
+          entry_titles = $('#collection_selections').val().split("%%__%%")
+          $.each entry_titles, (index, value)->
+            opt_val = value.split('|')[1].trim()
+            opts.push( [value, opt_val] )
+          collectionsChooser.val(opts);
+    ), 500
 
     # Show respective field based on selection
-    $('#collections').on 'change', ->
+    $('#collection_options').on 'change', ->
       if $(this).val() == 'selected-ids-collections'
         $('#chooser-widget').show()
         start_widget()
       else
         $('#chooser-widget').hide()
 
-    $('#granules').on 'change', ->
+    $('#granule_options').on 'change', ->
       if $(this).val() == 'access-constraint-granule'
         $('#granules-constraint-values').removeClass 'is-hidden'
       else
         $('#granules-constraint-values').addClass 'is-hidden'
 
-    # Toggle group input field
-    $('#groups-table button').on 'click', (e) ->
-      e.preventDefault()
-      $(this).addClass 'is-hidden'
-      $(this).siblings('#search_order_groups_chosen').removeClass 'is-hidden'
-      $(this).siblings('#search_groups_chosen').removeClass 'is-hidden'
-
-
-
-    if $("#search_groups_prev_val").val()?
-      tmp_val = $("#search_groups_prev_val").val().split(",")
-      $("#search_groups_").val(tmp_val)
-      $("#search_groups_").select2()
-
-    if $("#search_and_order_groups_prev_val").val()?
-      tmp_val = $("#search_and_order_groups_prev_val").val().split(",")
-      $("#search_and_order_groups_").val(tmp_val)
-      $("#search_and_order_groups_").select2()
-
 
 
     # Validate new permissions form with jquery validation plugin
-    $('.permissions-form').validate
+    $('.permission-form').validate
       errorClass: 'eui-banner--danger'
       errorElement: 'div'
-      onkeyup: false
+      onkeyup: false,
 
       errorPlacement: (error, element) ->
         if element.attr('id') == 'search_groups_' || element.attr('id') == 'search_and_order_groups_'
@@ -102,10 +113,10 @@ $(document).ready ->
       rules:
         permission_name:
           required: true
-        collections:
+        collection_options:
           required: true
           valueNotEquals: 'select'
-        granules:
+        granule_options:
           required: true
           valueNotEquals: 'select'
         # could not make require_from_group work, so adding our own dependency
@@ -121,10 +132,10 @@ $(document).ready ->
       messages:
         permission_name:
           required: 'Permission Name is required.'
-        collections:
+        collection_options:
           # we are using the valueNotEquals method, so need to use that message
           valueNotEquals: 'Collections must be specified.'
-        granules:
+        granule_options:
           # we are using the valueNotEquals method, so need to use that message
           valueNotEquals: 'Granules must be specified.'
         'search_groups[]':
@@ -135,6 +146,7 @@ $(document).ready ->
       groups:
         # this should make it so only one message is shown for both elements
         permission_group: 'search_groups[] search_and_order_groups[]'
+
 
     # adding a method so the collections and granules default values ('select') are not valid
     $.validator.addMethod 'valueNotEquals', (value, elem, arg) ->
@@ -161,8 +173,3 @@ $(document).ready ->
       # check if the visited array has both select2 fields, and if so validate on close
       if visitedPermissionGroupSelect.indexOf('search_groups_') != -1 && visitedPermissionGroupSelect.indexOf('search_and_order_groups_') != -1
         $(this).valid()
-
-
-
-
-

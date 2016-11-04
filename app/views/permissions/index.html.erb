@@ -16,6 +16,9 @@
       </p>
     </div>
   </header>
+
+  <%= render 'shared/flash_messages' %>
+
   <div class="row row-content">
     <section>
       <h3>General Access Permissions</h3>
@@ -46,6 +49,8 @@
             </tr>
           <% else %>
             <% @permissions.each do |permission| %>
+              <%# These permissions are only for Collections (aka Catalog Item Identity) so only show those  %>
+              <% next unless permission['identity_type'] == 'Catalog Item' %>
               <tr>
                 <td>
                   <%= link_to permission["name"], permission_path(permission["concept_id"])  %>

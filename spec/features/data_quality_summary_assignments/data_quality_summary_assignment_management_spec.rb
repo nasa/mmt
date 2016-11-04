@@ -18,7 +18,7 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
     it 'displays the display data quality summary assignments form' do
       expect(page).to have_content('MMT_2 Data Quality Summary Assignments')
 
-      # We mocked the CMR above so we know how many collectiosn to expect
+      # We mocked the CMR above so we know how many collections to expect
       expect(page).to have_selector("input[name='catalog_item_guid[]']", count: 6)
     end
 

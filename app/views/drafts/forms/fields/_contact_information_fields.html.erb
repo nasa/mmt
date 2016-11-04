@@ -8,7 +8,8 @@
         prefix: name_prefix,
         value: contact_information['ServiceHours'],
         help: 'definitions/ContactInformationType/properties/ServiceHours',
-        validate: true
+        validate: true,
+        required_level: options[:required_level]
       ) %>
     </div>
 
@@ -20,7 +21,8 @@
         prefix: name_prefix,
         value: contact_information['ContactInstruction'],
         help: 'definitions/ContactInformationType/properties/ContactInstruction',
-        validate: true
+        validate: true,
+        required_level: options[:required_level]
       ) %>
     </div>
   </div>

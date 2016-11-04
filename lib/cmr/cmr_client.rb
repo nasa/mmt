@@ -283,7 +283,7 @@ module Cmr
       # (if they are specified) to identify collections, we need to parse the entry titles of the permissions and encode
       # them properly in case of non-standard characters, or they will cause 500 errors when we are retrieving the
       # collections by entry title
-      if response.success? && response.body['catalog_item_identity']['collection_identifier']
+      if response.success? && response.body.fetch('catalog_item_identity', {})['collection_identifier']
         entry_titles = response.body['catalog_item_identity']['collection_identifier']['entry_titles']
         entry_titles.map! { |entry_title| entry_title.force_encoding('ISO-8859-1').encode('UTF-8') }
       end
@@ -291,17 +291,16 @@ module Cmr
       response
     end
 
-
-    def delete_permission(concept_id, token)
-      # curl -XDELETE -i -H "Echo-Token: mock-echo-system-token" https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200000000-CMR
+    def update_permission(request_object, concept_id, token)
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3011/acls/#{concept_id}"
       else
         url = "/access-control/acls/#{concept_id}"
       end
-      response = delete(url, {}, nil, token_header(token))
+      headers = {
+        'Content-Type' => 'application/json'
+      }
+      put(url, request_object.to_json, headers.merge(token_header(token)))
     end
-
-
-    end
+  end
 end
