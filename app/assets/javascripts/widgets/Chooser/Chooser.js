@@ -473,7 +473,7 @@ var Chooser = function(config) {
     };
 
     /**
-     * Remve button click action.
+     * Remove button click action.
      *
      * @param e - the click event
      * @param remAll - boolean indicating whether or not to remove
@@ -537,4 +537,3 @@ var Chooser = function(config) {
     };
 
 };
-

@@ -1,0 +1,33 @@
+{
+  "group_permissions" : [ {
+    "user_type" : "guest",
+    "permissions" : [ "read" ]
+  }, {
+    "user_type" : "registered",
+    "permissions" : [ "read", "order" ]
+  }, {
+    "group_id" : "AG1200000069-MMT_2",
+    "permissions" : [ "read" ]
+  }],
+  "catalog_item_identity" : {
+    "name" : "Test Permission 1",
+    "provider_id" : "MMT_2",
+    "granule_applicable" : false,
+    "collection_applicable" : true,
+    "collection_identifier" : {
+      "entry_titles" : [
+        "ipsum",
+        "Mark's Test",
+        "Matthew's Test",
+        "My testing title 02",
+        "Test test title 03",
+        "Testy long entry title"
+      ]
+    }
+  }
+}
+
+/*, {
+  "group_id" : "AG1200000071-MMT_2",
+  "permissions" : [ "read", "order" ]
+} */
