@@ -8,13 +8,23 @@ class OrderOptionsController < ApplicationController
   end
 
   def create
+
     @order_option = params[:order_option]
     @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
 
     # using ECHO SOAP Authenticate, temporarily
-    # password = '' # for now, need to add in your password to get Echo Token
+    password = '' # for now, need to add in your password to get Echo Token
     token_response = echo_client.login(session[:urs_uid], password, behalfOfProvider: @current_user.provider_id, clientInfo: {UserIpAddress: request.remote_ip}).body # .fetch(:login_response, {}).fetch(:result)
     body_hash = Hash.from_xml(token_response)
+
+    if ! body_hash['Envelope']['Body']['Fault'].nil?
+      errorMessage = body_hash['Envelope']['Body']['Fault']['detail']['AuthorizationFault']['SystemMessage']
+      flash.now[:error] = errorMessage
+      render :new
+      return
+    end
+
+
     echo_security_token = body_hash['Envelope']['Body']['LoginResponse']['result']
 
     response = temp_response = cmr_client.create_order_option(@order_option, echo_security_token)
@@ -33,7 +43,7 @@ class OrderOptionsController < ApplicationController
       Rails.logger.error("Create Order Option Error: #{response.inspect}")
       # TODO error parses into array. should change flash render to handle array?
       parsed_errors = Hash.from_xml(response.body)
-      flash[:error] = parsed_errors['errors']['error'].inspect
+      flash.now[:error] = parsed_errors['errors']['error'].inspect
       render :new
     end
   end
