@@ -49,13 +49,16 @@ class GroupsController < ApplicationController
 
     if valid_group?(group)
       group['provider_id'] = @current_user.provider_id unless @system_group
-      group_creation_response = cmr_client.create_group(group.to_json, token)
+      # from CMR docs on group fields: members - Optional. May be specified in create and update operations
+      group['members'] = members unless members.blank?
+
+      group_creation_response = cmr_client.create_group(group, token)
 
       if group_creation_response.success?
         concept_id = group_creation_response.body['concept_id']
         flash[:success] = 'Group was successfully created.'
 
-        add_members_to_group(members, concept_id)
+        # add_members_to_group(members, concept_id)
         redirect_to group_path(concept_id)
       else
         # Log error message
@@ -111,7 +114,7 @@ class GroupsController < ApplicationController
     if group
       if valid_group?(group)
         group['provider_id'] = @current_user.provider_id unless @system_group
-        update_response = cmr_client.update_group(concept_id, group.to_json, token)
+        update_response = cmr_client.update_group(concept_id, group, token)
 
         if update_response.success?
           concept_id = update_response.body['concept_id']
@@ -128,6 +131,7 @@ class GroupsController < ApplicationController
         render :edit
       end
     elsif members
+      # params[:group] is empty, user clicked on the 'Add Members' button and is just adding members
       add_members_to_group(members, concept_id)
       redirect_to group_path(concept_id)
     end

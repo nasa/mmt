@@ -139,13 +139,14 @@ module Cmr
     def create_group(group, token)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3011/groups'
+        add_users_to_local_cmr(group['members'], token) if group['members']
       else
         url = '/access-control/groups'
       end
       headers = {
         'Content-Type' => 'application/json'
       }
-      post(url, group, headers.merge(token_header(token)))
+      post(url, group.to_json, headers.merge(token_header(token)))
     end
 
     def update_group(concept_id, group, token)
@@ -157,7 +158,7 @@ module Cmr
       headers = {
         'Content-Type' => 'application/json'
       }
-      put(url, group, headers.merge(token_header(token)))
+      put(url, group.to_json, headers.merge(token_header(token)))
     end
 
     def get_group(concept_id, token)

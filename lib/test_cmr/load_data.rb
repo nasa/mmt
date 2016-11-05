@@ -235,19 +235,20 @@ module Cmr
       clear_cache
 
       ## Add admin and typical users to urs, so they can be added to groups
+      ## adminuser and testuser are the urs_uids used for tests
       ## and given appropriate permissions to system level groups
       # add admin and typical users to local cmr mocked urs
       connection.post do |req|
         req.url('http://localhost:3008/urs/users')
         req.headers['Content-Type'] = 'application/json'
-        req.body = '[{"username": "admin", "password": "admin"}, {"username": "typical", "password":"password"}]'
+        req.body = '[{"username": "admin", "password": "admin"}, {"username": "typical", "password":"password"}, {"username": "adminuser", "password": "admin"}]'
       end
-      # add admin user to our Administrators_2 group (usu AG1200000001-CMR)
+      # add admin and adminuser to our Administrators_2 group (usu AG1200000001-CMR)
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups/AG1200000001-CMR/members')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '["admin"]'
+        req.body = '["admin", "adminuser"]'
       end
       puts "add admin user to Administrators_2: #{resp.body}"
       # create ACL for system level groups for Administrators_2

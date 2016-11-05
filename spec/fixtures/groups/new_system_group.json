@@ -1,0 +1,6 @@
+{
+  "name" : "New Test System Group 1",
+  "description" : "System Group 1 description",
+  /*"legacy_guid" : "mock-admin-group-guid",*/
+  "num_members" : 2
+}
