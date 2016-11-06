@@ -152,7 +152,7 @@ class GroupsController < ApplicationController
       end
     end
 
-    redirect_to group_path
+    redirect_to group_path(params[:id])
   end
 
   def destroy
@@ -305,7 +305,7 @@ class GroupsController < ApplicationController
   end
 
   def system_group?(group, concept_id)
-    group['provider_id'].nil? && concept_id =~ /(CMR)$/
+    group['provider_id'].nil? && concept_id =~ /(CMR)$/ ? true : false
   end
   helper_method :system_group?
 end

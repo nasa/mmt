@@ -14,6 +14,8 @@ describe 'New Groups', reset_provider: true, js: true do
 
     it 'displays the new group information entry fields' do
       expect(page).to have_field('Group Name', type: 'text')
+      # test that it does not have 'System Level Group?' checkbox?
+      expect(page).to have_no_unchecked_field('System Level Group?')
       expect(page).to have_field('Group Description', type: 'textarea')
     end
 
@@ -130,6 +132,10 @@ describe 'New Groups', reset_provider: true, js: true do
           within '#main-content header' do
             expect(page).to have_content(group_name)
             expect(page).to have_content(group_description)
+
+            # does not have SYS badge
+            expect(page).to have_no_content('SYS')
+            expect(page).to have_no_css('span.eui-badge--sm')
           end
         end
 
