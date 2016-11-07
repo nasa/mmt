@@ -1,9 +1,5 @@
 $(document).ready ->
-  if $(".permissions-form").length > 0
-
-
-
-
+  if $(".permission-form").length > 0
 
     # widget for choosing collections
     collectionsChooser = null
@@ -50,75 +46,44 @@ $(document).ready ->
         $('#collectionsChooser_toList').rules 'add',
             #required: true,
             required: ->
-              $('#collections').val() == 'selected-ids-collections'
+              $('#collection_options').val() == 'selected-ids-collections'
             messages:
-             required: 'Specify collections'
+             required: 'Please specify collections.'
 
 
-    # show  the Chooser widget if a refresh of the page has "selected collections" as the dropdown value
+    # show the Chooser widget if a refresh of the page has "selected collections" as the dropdown value
     setTimeout ( ->
-      if $('#collections').val() == 'selected-ids-collections'
+      if $('#collection_options').val() == 'selected-ids-collections'
         $('#chooser-widget').show()
         start_widget()
 
-        if $('#collection_selections').val()?
+        if $('#collection_selections').val()? && $('#collection_selections').val().length > 0
           opts = []
           entry_titles = $('#collection_selections').val().split("%%__%%")
-          $.each entry_titles, (k,v)->
-            opt_val = v.split('|')[1].trim()
-            opts.push( [v, opt_val] )
+          $.each entry_titles, (index, value)->
+            opt_val = value.split('|')[1].trim()
+            opts.push( [value, opt_val] )
           collectionsChooser.val(opts);
     ), 500
 
-
-    # Hide field by default
-    $('#collection_ids_chosen').addClass 'is-hidden'
-
-
-    $('#chooser-widget').hide()
-
     # Show respective field based on selection
-    $('#collections').on 'change', ->
+    $('#collection_options').on 'change', ->
       if $(this).val() == 'selected-ids-collections'
         $('#chooser-widget').show()
         start_widget()
       else
         $('#chooser-widget').hide()
 
-    $('#granules').on 'change', ->
+    $('#granule_options').on 'change', ->
       if $(this).val() == 'access-constraint-granule'
         $('#granules-constraint-values').removeClass 'is-hidden'
       else
         $('#granules-constraint-values').addClass 'is-hidden'
 
-    # Toggle group input field
-    $('#groups-table button').on 'click', (e) ->
-      e.preventDefault()
-      $(this).addClass 'is-hidden'
-      $(this).siblings('#search_order_groups_chosen').removeClass 'is-hidden'
-      $(this).siblings('#search_groups_chosen').removeClass 'is-hidden'
-
-
-
-    if $("#search_groups_prev_val").val()?
-      tmp_val = $("#search_groups_prev_val").val().split(",")
-      $("#search_groups_").val(tmp_val)
-      $("#search_groups_").select2()
-
-    if $("#search_and_order_groups_prev_val").val()?
-      tmp_val = $("#search_and_order_groups_prev_val").val().split(",")
-      $("#search_and_order_groups_").val(tmp_val)
-      $("#search_and_order_groups_").select2()
-
-
-
-
-
 
 
     # Validate new permissions form with jquery validation plugin
-
-    $('.permissions-form').validate
+    $('.permission-form').validate
       errorClass: 'eui-banner--danger'
       errorElement: 'div'
       onkeyup: false,
@@ -143,10 +108,10 @@ $(document).ready ->
       rules:
         permission_name:
           required: true
-        collections:
+        collection_options:
           required: true
           valueNotEquals: 'select'
-        granules:
+        granule_options:
           required: true
           valueNotEquals: 'select'
         # could not make require_from_group work, so adding our own dependency
@@ -162,10 +127,10 @@ $(document).ready ->
       messages:
         permission_name:
           required: 'Permission Name is required.'
-        collections:
+        collection_options:
           # we are using the valueNotEquals method, so need to use that message
           valueNotEquals: 'Collections must be specified.'
-        granules:
+        granule_options:
           # we are using the valueNotEquals method, so need to use that message
           valueNotEquals: 'Granules must be specified.'
         'search_groups[]':
@@ -203,8 +168,3 @@ $(document).ready ->
       # check if the visited array has both select2 fields, and if so validate on close
       if visitedPermissionGroupSelect.indexOf('search_groups_') != -1 && visitedPermissionGroupSelect.indexOf('search_and_order_groups_') != -1
         $(this).valid()
-
-
-
-
-
