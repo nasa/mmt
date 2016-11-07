@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :provider_holdings, only: [:index, :show]
 
-  resources :permissions, only: [:index, :show, :new, :create]
+  resources :permissions
   get '/permission/all_collections' => 'permissions#get_all_collections'
 
   # PUMPness
