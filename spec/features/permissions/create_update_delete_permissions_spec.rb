@@ -171,7 +171,7 @@ describe 'Creating Permissions', js: true do
 
           it 'closes the confirmation dialog and does not delete the permission' do
 
-            expect(page).to_not have_content('Are you sure you want to delete this permission?')
+            expect(page).to have_no_content('Are you sure you want to delete this permission?')
             expect(page).to have_selector('#delete-permission-modal', visible: false)
             expect(page).to have_content(permission_name)
             expect(page).to have_link('Edit Permission')
@@ -194,7 +194,7 @@ describe 'Creating Permissions', js: true do
           end
 
           it 'redirects to the index page and does not display the current permission' do
-            expect(page).to_not have_content(permission_name)
+            expect(page).to have_no_content(permission_name)
           end
 
         end
