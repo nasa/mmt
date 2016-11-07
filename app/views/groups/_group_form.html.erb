@@ -6,8 +6,6 @@
     <%= text_field_tag('group[name]', @group['name'], class: 'half-width required', readonly: !new_form) %>
 
     <% if @admin %>
-      <br>
-      <br>
       <div class="row">
         <!-- checkbox to ask if user wants to create system level group -->
         <% if new_form %>
