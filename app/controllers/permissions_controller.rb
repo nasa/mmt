@@ -82,7 +82,6 @@ class PermissionsController < ApplicationController
     if hasError == true
       Rails.logger.error("Permission Creation Error: #{msg}")
       flash.now[:error] = msg
-      @collection_selections = params[:collection_selections]
       @permission_name = params[:permission_name]
 
       @collection_options = params[:collection_options]
