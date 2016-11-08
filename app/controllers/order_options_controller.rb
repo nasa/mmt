@@ -1,4 +1,5 @@
 class OrderOptionsController < ApplicationController
+  include OrderOptionsHelper
 
   def index
   end
@@ -17,13 +18,13 @@ class OrderOptionsController < ApplicationController
     token_response = echo_client.login(session[:urs_uid], password, behalfOfProvider: @current_user.provider_id, clientInfo: {UserIpAddress: request.remote_ip}).body # .fetch(:login_response, {}).fetch(:result)
     body_hash = Hash.from_xml(token_response)
 
-    if ! body_hash['Envelope']['Body']['Fault'].nil?
-      errorMessage = body_hash['Envelope']['Body']['Fault']['detail']['AuthorizationFault']['SystemMessage']
+    errorMessage = get_login_error(body_hash)
+
+    if(! errorMessage.nil?)
       flash.now[:error] = errorMessage
       render :new
       return
     end
-
 
     echo_security_token = body_hash['Envelope']['Body']['LoginResponse']['result']
 
