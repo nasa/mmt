@@ -88,7 +88,7 @@ describe 'Adding Members to New Groups', reset_provider: true, js: true do
       end
 
       it 'displays a success message' do
-        expect(page).to have_content('Group was successfully created and members successfully added.')
+        expect(page).to have_content('Group was successfully created.')
       end
 
       it 'displays the group information' do
