@@ -190,10 +190,6 @@ class PermissionsController < ApplicationController
     if response.success?
       flash[:success] = 'Permission was successfully deleted.'
       Rails.logger.info("#{@current_user.urs_uid} DELETED catalog item ACL for #{@current_user.provider_id}. #{response.body}")
-
-      # TODO: Once CMR has synchronous indexing, we can remove the sleep command below.
-      sleep(3.seconds)
-
       redirect_to permissions_path
     else
       Rails.logger.error("Permission Deletion Error: #{response.inspect}")
