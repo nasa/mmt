@@ -9,7 +9,7 @@ require 'rails_helper'
   # remove members from group
   # delete group
 
-describe 'System Groups', js: true do
+describe 'System Groups' do
   context 'when viewing new groups form as an admin user' do
     before do
       # login as admin
@@ -23,7 +23,7 @@ describe 'System Groups', js: true do
       expect(page).to have_unchecked_field('system_group')
     end
 
-    context 'when clicking the system group checkbox' do
+    context 'when clicking the system group checkbox', js: true do
       before do
         check 'System Level Group?'
       end
@@ -37,7 +37,7 @@ describe 'System Groups', js: true do
       end
     end
 
-    context 'when creating the system level group' do
+    context 'when creating the system level group', js: true do
       sys_group_concept_id = 'AG121111-CMR'
       before do
 

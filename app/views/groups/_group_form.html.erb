@@ -2,22 +2,16 @@
   <legend class="space-bot-sm">General</legend>
   <div class="row">
     <%= label_tag('group[name]', 'Group Name', class: 'eui-required-o') %>
-    <br>
     <%= text_field_tag('group[name]', @group['name'], class: 'half-width required', readonly: !new_form) %>
 
-    <% if @admin %>
+    <% if @user_is_system_group_admin %>
       <div class="row">
         <!-- checkbox to ask if user wants to create system level group -->
-        <% if new_form %>
-          <%= check_box_tag(:system_group, true, @system_group, class: 'system-group-checkbox') %>
-        <% else %>
-          <%= check_box_tag(:system_group, true, @system_group, class: 'system-group-checkbox',
-                            readonly: true, onclick: "return false;", onkeydown: "return false;") %>
-        <% end %>
-        <%= label_tag(:system_group, 'System Level Group?', class: 'checkbox-med-label') %>
+        <%= system_group_checkbox(new_form) %>
+        <%= label_tag(:system_group, 'System Level Group?') %>
       </div>
-      <br>
     <% end %>
+
   </div>
   <div class="row">
     <%= label_tag('group[description]', 'Group Description', class: 'eui-required-o') %>

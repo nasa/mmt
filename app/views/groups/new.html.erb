@@ -13,7 +13,7 @@
       </div>
       <div class="group-header">
         <h2 class="new-group-title">New Group for <%= @current_user.provider_id %></h2>
-        <% if @admin %>
+        <% if @user_is_system_group_admin %>
           <span class="new-group-badge"></span>
         <% end %>
       </div>

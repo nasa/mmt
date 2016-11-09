@@ -58,7 +58,7 @@
               <tr>
                 <td>
                   <%= link_to group['name'], group_path(group['concept_id']) %>
-                  <% if system_group?(group, group['concept_id']) %>
+                  <% if check_if_system_group?(group, group['concept_id']) %>
                     <span class="eui-badge--sm">SYS</span>
                   <% end %>
                 </td>
