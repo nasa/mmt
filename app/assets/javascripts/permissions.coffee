@@ -43,9 +43,10 @@ $(document).ready ->
         collectionsChooser.init()
 
         $('#collectionsChooser_toList').rules 'add',
-            #required: true,
-            required: ->
-              $('#collection_options').val() == 'selected-ids-collections'
+            required:
+              depends: ->
+                if $('#collection_options').val() == 'selected-ids-collections'
+                  return true
             messages:
              required: 'Please specify collections.'
 
