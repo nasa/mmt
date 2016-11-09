@@ -32,16 +32,11 @@
             <!-- The identifying name for the form which must be unique amongst
             all option definitions created by a Data Partner. This value will be
             displayed to the users to identify an option definition. -->
-            <br>
             <%= label_tag('order_option[name]', 'Name', class: 'required eui-required-o', for: 'order_option[name]') %>
             <!--<p>The identifying name for the order option form, which must be unique for all order options created by a provider</p> -->
-            <br>
             <%= text_field_tag('order_option[name]', @order_option['name'], class: 'required half-width') %>
           </div>
-
         </div>
-
-        <br>
         <div class="row">
           <div class="col-9">
             <!-- Sort Key -->
@@ -51,7 +46,6 @@
             sorted based on a standard text sort order. -->
             <%= label_tag('order_option[sort_key]', 'Sort Key', for: 'order_option[sort_key]') %>
             <!--<p>This optional field can be used to define a sort order, based on a standard text sort order</p>-->
-            <br>
             <%= text_field_tag('order_option[sort_key]', @order_option['sort_key'], class: 'half-width') %>
           </div>
         </div>
@@ -64,10 +58,8 @@
 
             <!-- The scope of the option definition. This may be  ̳system‘ or  ̳provider‘
             and is described further in section 7.4.2.1. -->
-            <br>
             <%= label_tag('order_option[scope]', 'Scope', class: 'eui-required-o') %>
             <!-- TODO if user is admin, they can create 'system' level options -->
-            <br>
             <%= select_tag('order_option[scope]', options_for_select(['PROVIDER'], 'PROVIDER'), class: 'required half-width') %>
           </div>
         </div>
@@ -79,7 +71,6 @@
           when multiple option definitions are assigned to the same collection.
           The description can be used to help a user know which definition they
           want to use. -->
-          <br>
           <%= label_tag('order_option[description]', 'Description', class: 'eui-required-o') %>
           <%= text_area_tag('order_option[description]', @order_option['description'], class: 'required') %>
         </div>
@@ -89,14 +80,11 @@
           <!-- The XML ECHO Form outlining the information which is to be
           requested from a user during the order process and how an ECHO client
           should facilitate the information gathering. -->
-          <br>
           <%= label_tag('order_option[form]', 'ECHO Form XML', class: 'eui-required-o') %>
           <!--<p>Please see ECHO Forms Specification</p>-->
-          <br>
           <%= text_area_tag('order_option[form]', @order_option['form'], class: 'required') %>
         </div>
         <div class="col-3">
-          <br>
           <%= submit_tag 'Create', class: 'eui-btn--blue' %>
 
           <%= link_to 'Cancel', order_options_path %>

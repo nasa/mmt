@@ -3,7 +3,11 @@ module OrderOptionsHelper
   # Searches though the error object returned from ECHO
   def get_login_error(body_hash)
     err_msg = nil
-    err_obj = body_hash['Envelope']['Body']['Fault']['detail']
+    err_obj = nil
+
+    if body_hash['Envelope'] && body_hash['Envelope']['Body'] && body_hash['Envelope']['Body']['Fault']
+      err_obj = body_hash['Envelope']['Body']['Fault']['detail']
+    end
 
     if ! err_obj.nil?
       if ! err_obj['AuthorizationFault'].nil?
