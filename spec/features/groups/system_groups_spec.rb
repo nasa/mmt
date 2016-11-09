@@ -1,14 +1,6 @@
 # MMT-561
 require 'rails_helper'
 
-# CMR calls that need to be stubbed:
-  # create group
-  # get group members
-  # add members to group
-  # update group
-  # remove members from group
-  # delete group
-
 describe 'System Groups' do
   context 'when viewing new groups form as an admin user' do
     before do
@@ -46,18 +38,15 @@ describe 'System Groups' do
         group_create_success = '{"revision_id":1,"concept_id":"AG121111-CMR"}'
         group_creation_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(group_create_success)))
         allow_any_instance_of(Cmr::CmrClient).to receive(:create_group).with(group_to_create, 'access_token_admin').and_return(group_creation_response)
-        # allow_any_instance_of(Cmr::CmrClient).to receive(:create_group).and_return(group_creation_response)
 
         # stub for retrieving group
         group_retrieval_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/groups/new_system_group.json'))))
         allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(sys_group_concept_id, 'access_token_admin').and_return(group_retrieval_response)
-        # allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).and_return(group_retrieval_response)
 
         # stub for retrieving group members
         group_members = '["abcd", "qrst"]'
         group_members_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(group_members)))
         allow_any_instance_of(Cmr::CmrClient).to receive(:get_group_members).with(sys_group_concept_id, 'access_token_admin').and_return(group_members_response)
-        # allow_any_instance_of(Cmr::CmrClient).to receive(:get_group_members).and_return(group_members_response)
 
         # fill in group
         fill_in 'Group Name', with: 'New Test System Group 1'
@@ -73,7 +62,6 @@ describe 'System Groups' do
       end
 
       it 'displays a success message' do
-        # TODO - Ryan, should I incorporate it into the test below? if so, do I need to amend the it statement?
         expect(page).to have_content('Group was successfully created.')
       end
 
@@ -134,8 +122,9 @@ describe 'System Groups' do
             click_on 'Save'
           end
 
-          it 'displays a success message'
-            # TODO same question
+          it 'displays a success message' do
+            expect(page).to have_content('Group was successfully updated.')
+          end
 
           it 'displays the original and new group information' do
             within 'main > header' do

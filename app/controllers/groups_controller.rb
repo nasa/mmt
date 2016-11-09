@@ -61,7 +61,6 @@ class GroupsController < ApplicationController
         concept_id = group_creation_response.body['concept_id']
         flash[:success] = 'Group was successfully created.'
 
-        # add_members_to_group(members, concept_id)
         redirect_to group_path(concept_id)
       else
         # Log error message
@@ -121,6 +120,7 @@ class GroupsController < ApplicationController
         update_response = cmr_client.update_group(concept_id, group, token)
 
         if update_response.success?
+          flash[:success] = 'Group was successfully updated.'
           concept_id = update_response.body['concept_id']
           redirect_to group_path(concept_id)
         else
@@ -231,11 +231,7 @@ class GroupsController < ApplicationController
 
     add_members_response = cmr_client.add_group_members(concept_id, members, token)
     if add_members_response.success?
-      if flash[:success] == 'Group was successfully created.'
-        flash[:success] = 'Group was successfully created and members successfully added.'
-      else
-        flash[:success] = 'Members successfully added.'
-      end
+      flash[:success] = 'Members successfully added.'
     else
       # Log error message
       Rails.logger.error("Add Members to Group Error: #{add_members_response.inspect}")

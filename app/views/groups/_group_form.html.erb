@@ -2,7 +2,7 @@
   <legend class="space-bot-sm">General</legend>
   <div class="row">
     <%= label_tag('group[name]', 'Group Name', class: 'eui-required-o') %>
-    <%= text_field_tag('group[name]', @group['name'], class: 'half-width required', readonly: !new_form) %>
+    <%= text_field_tag('group[name]', @group['name'], class: 'full-width required', readonly: !new_form) %>
 
     <% if @user_is_system_group_admin %>
       <div class="row">
