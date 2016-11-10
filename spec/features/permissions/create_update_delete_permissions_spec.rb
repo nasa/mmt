@@ -84,7 +84,7 @@ describe 'Creating Permissions', js: true do
         expect(page).to have_content('Permission Type: Search & Order | MMT_2')
       end
 
-      expect(page).to have_content('Collections | 6 Selected Entry IDs')
+      expect(page).to have_content('Collections | 6 Selected Collections')
       expect(page).to have_content("lorem_223, ID_1, Matthew'sTest_2, testing 02_01, testing 03_002, New Testy Test_02")
 
       expect(page).to have_content('Granules | No Access to Granules')

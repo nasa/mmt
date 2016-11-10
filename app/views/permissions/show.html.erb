@@ -37,7 +37,7 @@
       <hr>
 
       <p>
-        <b>Collections | <%= @collection_entry_ids.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Entry IDs" %></b>
+        <b>Collections | <%= @collection_entry_ids.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Collections" %></b>
         <br>
         <%= @collection_entry_ids.join(', ') unless @collection_entry_ids.blank? %>
       </p>
@@ -87,10 +87,6 @@
           <% end %>
         </tbody>
       </table>
-      <div class="row space-top">
-        <input type="submit" class="eui-btn--blue space-right" value="Save">
-        <%= link_to 'Cancel', permissions_path %>
-      </div>
     </section>
   </div>
 </main>

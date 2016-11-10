@@ -22,6 +22,10 @@ describe 'Updating groups', reset_provider: true, js: true do
         within '#main-content header' do
           expect(page).to have_content('Test group')
           expect(page).to have_content('New description')
+
+          # does not have SYS badge
+          expect(page).to have_no_content('SYS')
+          expect(page).to have_no_css('span.eui-badge--sm')
         end
       end
     end
