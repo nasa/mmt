@@ -228,19 +228,16 @@ module Cmr
       post(url, request_object.to_json, token_header(token))
     end
 
-    def get_permissions_for_provider(provider_id, token)
+    def get_permissions_for_provider(opts, token)
       # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3011/acls'
       else
         url = '/access-control/acls'
       end
-      # first do a test for number of hits, then set that as the page size
-      options = {'provider' => provider_id, 'include_full_acl' => true, 'page_size' => '0'}
-      response = get(url, options, token_header(token))
-      hits = response.body['hits']
-      options['page_size'] = hits
-      response = get(url, options, token_header(token))
+
+      opts['include_full_acl'] = true
+      response = get(url, opts, token_header(token))
     end
 
     def get_permission(concept_id, token)

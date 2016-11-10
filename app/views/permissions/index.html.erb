@@ -35,6 +35,10 @@
         <%= link_to 'New Permission', new_permission_path, :class=> 'eui-btn--blue space-bot' %>
       </div>
 
+      <div class="pagination-summary">
+        <%= page_entries_info @permissions, entry_name: 'permission' %>
+      </div>
+
       <table id="custom-permissions-table">
         <thead>
           <tr>
@@ -63,6 +67,9 @@
           <% end %>
         </tbody>
       </table>
+
+      <%= paginate @permissions %>
+
     </section>
   </div>
 </main>

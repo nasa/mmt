@@ -2,9 +2,21 @@ class PermissionsController < ApplicationController
 
   skip_before_filter :is_logged_in, only: [:get_all_collections]
 
+  RESULTS_PER_PAGE = 10
+
   def index
+    page = params['page'].to_i || 1
+    page = 1 if page < 1
+
+    @opts = {}
+
+    @opts['provider'] = @current_user.provider_id
+    @opts['page_num'] = page
+    @opts.delete('page')
+    @opts['page_size'] = RESULTS_PER_PAGE
+
     provider_id = @current_user.provider_id
-    response = cmr_client.get_permissions_for_provider(provider_id, token)
+    response = cmr_client.get_permissions_for_provider(@opts, token)
 
     unless response.success?
       Rails.logger.error("Error getting permissions: #{response.inspect}")
@@ -12,8 +24,12 @@ class PermissionsController < ApplicationController
       flash[:error] = error
     end
 
+    hits = response.body['hits']
+
     @permissions = response.body['items']
     @permissions = construct_permissions_summaries(@permissions)
+    
+    @permissions = Kaminari.paginate_array(@permissions, total_count: hits).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
