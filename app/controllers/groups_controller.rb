@@ -1,5 +1,8 @@
 class GroupsController < ApplicationController
+  include GroupsHelper
+
   before_filter :groups_enabled?
+  before_filter :check_if_system_group_administrator, except: [:index, :show, :destroy]
 
   def index
     @filters = params[:filters] || {}
@@ -38,21 +41,26 @@ class GroupsController < ApplicationController
 
     @users_options = urs_users
     @selected_users = []
+
+    @is_system_group = false # initially set checkbox to unchecked
   end
 
   def create
     group = params[:group]
     members = params[:selected_members] || []
+    @is_system_group = params[:system_group]
 
     if valid_group?(group)
-      group['provider_id'] = @current_user.provider_id
-      group_creation_response = cmr_client.create_group(group.to_json, token)
+      group['provider_id'] = @current_user.provider_id unless @is_system_group
+      # from CMR docs on group fields: members - Optional. May be specified in create and update operations
+      group['members'] = members unless members.blank?
+
+      group_creation_response = cmr_client.create_group(group, token)
 
       if group_creation_response.success?
         concept_id = group_creation_response.body['concept_id']
         flash[:success] = 'Group was successfully created.'
 
-        add_members_to_group(members, concept_id)
         redirect_to group_path(concept_id)
       else
         # Log error message
@@ -77,6 +85,7 @@ class GroupsController < ApplicationController
 
     if group_response.success?
       @group = group_response.body
+      @is_system_group = check_if_system_group?(@group, concept_id)
 
       group_members_response = cmr_client.get_group_members(concept_id, token)
       if group_members_response.success?
@@ -103,13 +112,15 @@ class GroupsController < ApplicationController
     concept_id = params[:id]
     group = params[:group]
     members = params[:selected_members]
+    @is_system_group = params[:system_group]
 
     if group
       if valid_group?(group)
-        group['provider_id'] = @current_user.provider_id
-        update_response = cmr_client.update_group(concept_id, group.to_json, token)
+        group['provider_id'] = @current_user.provider_id unless @is_system_group
+        update_response = cmr_client.update_group(concept_id, group, token)
 
         if update_response.success?
+          flash[:success] = 'Group was successfully updated.'
           concept_id = update_response.body['concept_id']
           redirect_to group_path(concept_id)
         else
@@ -124,6 +135,7 @@ class GroupsController < ApplicationController
         render :edit
       end
     elsif members
+      # params[:group] is empty, user clicked on the 'Add Members' button and is just adding members
       add_members_to_group(members, concept_id)
       redirect_to group_path(concept_id)
     end
@@ -144,7 +156,7 @@ class GroupsController < ApplicationController
       end
     end
 
-    redirect_to group_path
+    redirect_to group_path(params[:id])
   end
 
   def destroy
@@ -219,11 +231,7 @@ class GroupsController < ApplicationController
 
     add_members_response = cmr_client.add_group_members(concept_id, members, token)
     if add_members_response.success?
-      if flash[:success] == 'Group was successfully created.'
-        flash[:success] = 'Group was successfully created and members successfully added.'
-      else
-        flash[:success] = 'Members successfully added.'
-      end
+      flash[:success] = 'Members successfully added.'
     else
       # Log error message
       Rails.logger.error("Add Members to Group Error: #{add_members_response.inspect}")
@@ -281,5 +289,18 @@ class GroupsController < ApplicationController
       return true
     end
     false
+  end
+
+  def check_if_system_group_administrator
+    check_permission_options = { user_id: @current_user.urs_uid, system_object: 'GROUP' }
+    user_permission_response = cmr_client.check_user_permissions(check_permission_options, token)
+    if user_permission_response.success?
+      permission = JSON.parse(user_permission_response.body) # why is this JSON but other CMR responses don't need to be parsed?
+      @user_is_system_group_admin = true if permission.fetch('GROUP', []).include?('create')
+    else
+      Rails.logger.error("Check User Permission Response for #{@current_user.urs_uid}: #{user_permission_response.inspect}")
+      check_permission_error = Array.wrap(user_permission_response.body['errors'])[0]
+      flash[:error] = check_permission_error
+    end
   end
 end

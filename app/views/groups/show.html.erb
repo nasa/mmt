@@ -15,7 +15,12 @@
         </ol>
       </div>
       <div class="row space-bot">
-        <h2><%= @group['name'] %></h2>
+        <div class="group-header">
+          <h2><%= @group['name'] %></h2>
+          <% if check_if_system_group?(@group, @concept_id) %>
+            <span class="eui-badge--sm">SYS</span>
+          <% end %>
+        </div>
         <p><%= @group['description'] %></p>
       </div>
       <div class="row">

@@ -105,6 +105,7 @@ $(document).ready ->
         else
           "#{field} should have one type completed"
       when 'invalidPicklist' then "#{field} #{error.message}"
+      # when 'anyOf' then "#{error.message}" # we are currently suppressing 'anyOf' errors from the data contacts form
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -175,6 +176,15 @@ $(document).ready ->
 
   getErrorDetails = (error) ->
     if error.keyword == 'additionalProperties'
+      error = null
+      return
+
+    if error.keyword == 'anyOf'
+      # anyOf errors are showing up in the data contacts form, but only when
+      # there are other validation errors. as the error messages are duplicate
+      # and don't have the specificity of the other error messages (or have
+      # information useful to the user), it seems best to suppress these
+      # more info at https://github.com/epoberezkin/ajv/issues/201#issuecomment-222544956
       error = null
       return
 

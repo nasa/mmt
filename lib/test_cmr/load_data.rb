@@ -214,23 +214,31 @@ module Cmr
       ### These calls were all added because of various issues with permissions with groups
       ### and ACLs. I would like to keep these in as reference until all the issues are resolved
 
-      ## Add groups in new groups API so it can provide the SIDS
-      # Admin, token ABC-1
+      ## Add admin and typical users to urs, so they can be added to groups
+      ## adminuser and testuser are the urs_uids used for tests
+      ## and given appropriate permissions to system level groups
+      # add admin and typical users to local cmr mocked urs
+      connection.post do |req|
+        req.url('http://localhost:3008/urs/users')
+        req.headers['Content-Type'] = 'application/json'
+        req.body = '[{"username": "admin", "password": "admin"}, {"username": "typical", "password":"password"}, {"username": "adminuser", "password": "admin"}]'
+      end
+      # add admin and adminuser to our Administrators_2 group (usu AG1200000001-CMR)
       resp = connection.post do |req|
-        req.url('http://localhost:3011/groups')
+        req.url('http://localhost:3011/groups/AG1200000001-CMR/members')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"name": "MMT Admins", "description": "MMT admin group", "legacy_guid": "guidMMTAdmin", "members": ["admin"]}'
+        req.body = '["admin", "adminuser"]'
       end
-      puts "add group for admin for sids: #{resp.body}"
-      # Typical, token ABC-2
+      puts "add admin and adminuser to Administrators_2: #{resp.body}"
+      # create ACL for system level groups for Administrators_2
       resp = connection.post do |req|
-        req.url('http://localhost:3011/groups')
+        req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"name": "MMT Users", "description": "MMT users group", "legacy_guid": "guidMMTUser", "members": ["typical"]}'
+        req.body = '{"group_permissions": [{"group_id": "AG1200000001-CMR","permissions": ["read", "create"]}], "system_identity": {"target": "GROUP"}}'
       end
-      puts "add group for typical user for sids: #{resp.body}"
+      puts "acl for system level groups for Administrators_2 #{resp.body}"
 
       ## Add admin user to legacy guid Administrators group so admin can access System level groups
       # first add admin user to cmr urs
@@ -256,6 +264,26 @@ module Cmr
       #   req.body = '["admin"]'
       # end
       # puts "added admin to SEDAC group: #{resp.body}"
+
+      clear_cache
+
+      ## Add groups in new groups API so it can provide the SIDS
+      # Admin, token ABC-1
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/groups')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"name": "MMT Admins", "description": "MMT admin group", "legacy_guid": "guidMMTAdmin", "members": ["admin"]}'
+      end
+      puts "add group for admin for sids: #{resp.body}"
+      # Typical, token ABC-2
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/groups')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"name": "MMT Users", "description": "MMT users group", "legacy_guid": "guidMMTUser", "members": ["typical"]}'
+      end
+      puts "add group for typical user for sids: #{resp.body}"
 
       clear_cache
 
@@ -310,7 +338,7 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "guidMMTAdmin", "permissions": ["read", "create"]}, {"user_type":"registered", "permissions":["read"]}], "system_identity": {"target": "ANY_ACL"}}'
       end
-      puts "ACL access for admin user and registered users: #{resp.body}"
+      puts "ANY_ACL read and create access for admin user and registered users: #{resp.body}"
       # ACL for typical user to create catalog item ACLs for MMT_1
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
