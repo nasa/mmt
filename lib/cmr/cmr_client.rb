@@ -237,8 +237,6 @@ module Cmr
         url = '/access-control/acls'
       end
 
-      opts['identity_type'] = 'catalog_item'
-      opts['include_full_acl'] = true
       response = get(url, opts, token_header(token))
     end
 

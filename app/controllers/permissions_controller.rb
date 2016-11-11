@@ -8,28 +8,31 @@ class PermissionsController < ApplicationController
     page = params['page'].to_i || 1
     page = 1 if page < 1
 
-    @opts = {}
+    @opts = {
+      'provider' => @current_user.provider_id,
+      'page_num' => page,
+      'page_size' => RESULTS_PER_PAGE,
+      'identity_type' => 'catalog_item',
+      'include_full_acl' => true
+    }
 
-    @opts['provider'] = @current_user.provider_id
-    @opts['page_num'] = page
-    @opts.delete('page')
-    @opts['page_size'] = RESULTS_PER_PAGE
+    #@opts.delete('page')
 
     provider_id = @current_user.provider_id
     response = cmr_client.get_permissions_for_provider(@opts, token)
 
-    unless response.success?
+    if response.success?
+      @permissions = response.body['items']
+      @permissions = construct_permissions_summaries(@permissions)
+      hits = response.body['hits']
+      @permissions = response.body['items']
+      @permissions = construct_permissions_summaries(@permissions)
+      @permissions = Kaminari.paginate_array(@permissions, total_count: hits).page(page).per(RESULTS_PER_PAGE)
+    else
       Rails.logger.error("Error getting permissions: #{response.inspect}")
       error = Array.wrap(response.body['errors'])[0]
       flash[:error] = error
     end
-
-    hits = response.body['hits']
-
-    @permissions = response.body['items']
-    @permissions = construct_permissions_summaries(@permissions)
-    
-    @permissions = Kaminari.paginate_array(@permissions, total_count: hits).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
