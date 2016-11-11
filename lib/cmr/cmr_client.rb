@@ -305,5 +305,16 @@ module Cmr
 
       get(url, params, token_header(token))
     end
+
+    def delete_permission(concept_id, token)
+      # curl -XDELETE -i -H "Echo-Token: mock-echo-system-token" https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200000000-CMR
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/acls/#{concept_id}"
+      else
+        url = "/access-control/acls/#{concept_id}"
+      end
+      response = delete(url, {}, nil, token_header(token))
+    end
+
   end
 end
