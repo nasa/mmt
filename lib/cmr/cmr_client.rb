@@ -229,15 +229,15 @@ module Cmr
       post(url, request_object.to_json, token_header(token))
     end
 
-    def get_permissions_for_provider(provider_id, token)
+    def get_permissions_for_provider(opts, token)
       # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3011/acls'
       else
         url = '/access-control/acls'
       end
-      options = {'provider' => provider_id, 'include_full_acl' => true}
-      response = get(url, options, token_header(token))
+
+      response = get(url, opts, token_header(token))
     end
 
     def get_permission(concept_id, token)

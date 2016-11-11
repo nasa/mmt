@@ -2,18 +2,37 @@ class PermissionsController < ApplicationController
 
   skip_before_filter :is_logged_in, only: [:get_all_collections]
 
-  def index
-    provider_id = @current_user.provider_id
-    response = cmr_client.get_permissions_for_provider(provider_id, token)
+  RESULTS_PER_PAGE = 10
 
-    unless response.success?
+  def index
+    page = params['page'].to_i || 1
+    page = 1 if page < 1
+
+    @opts = {
+      'provider' => @current_user.provider_id,
+      'page_num' => page,
+      'page_size' => RESULTS_PER_PAGE,
+      'identity_type' => 'catalog_item',
+      'include_full_acl' => true
+    }
+
+    #@opts.delete('page')
+
+    provider_id = @current_user.provider_id
+    response = cmr_client.get_permissions_for_provider(@opts, token)
+
+    if response.success?
+      @permissions = response.body['items']
+      @permissions = construct_permissions_summaries(@permissions)
+      hits = response.body['hits']
+      @permissions = response.body['items']
+      @permissions = construct_permissions_summaries(@permissions)
+      @permissions = Kaminari.paginate_array(@permissions, total_count: hits).page(page).per(RESULTS_PER_PAGE)
+    else
       Rails.logger.error("Error getting permissions: #{response.inspect}")
       error = Array.wrap(response.body['errors'])[0]
       flash[:error] = error
     end
-
-    @permissions = response.body['items']
-    @permissions = construct_permissions_summaries(@permissions)
   end
 
   def show
@@ -81,8 +100,7 @@ class PermissionsController < ApplicationController
 
     if hasError == true
       Rails.logger.error("Permission Creation Error: #{msg}")
-      flash[:error] = msg
-
+      flash.now[:error] = msg
       @permission_name = params[:permission_name]
 
       @collection_options = params[:collection_options]
@@ -107,11 +125,18 @@ class PermissionsController < ApplicationController
       redirect_to permission_path(concept_id)
     else
       Rails.logger.error("Permission Creation Error: #{response.inspect}")
-      permission_creation_error = Array.wrap(response.body['errors'])[0]
-      if permission_creation_error == 'Permission to create ACL is denied'
-        permission_creation_error = 'You are not authorized to create a permission. Please contact your system administrator.'
+
+      # Look up the error code. If we have a friendly version, use it. Otherwise,
+      # just use the error message as it comes back from the CMR.
+      friendlyErrorMsg = PermissionsHelper::ErrorCodeMessages[response.status]
+
+      if ! friendlyErrorMsg.blank?
+        permission_creation_error = friendlyErrorMsg
+      else
+        permission_creation_error = Array.wrap(response.body['errors'])[0]
       end
-      flash[:error] = permission_creation_error
+
+      flash.now[:error] = permission_creation_error
 
       @permission_name = params[:permission_name]
 

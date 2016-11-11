@@ -33,6 +33,10 @@
         <%= link_to 'New Permission', new_permission_path, :class=> 'eui-btn--blue space-bot' %>
       </div>
 
+      <div class="pagination-summary">
+        <%= page_entries_info @permissions, entry_name: 'permission' %>
+      </div>
+
       <table id="custom-permissions-table">
         <thead>
           <tr>
@@ -47,8 +51,6 @@
             </tr>
           <% else %>
             <% @permissions.each do |permission| %>
-              <%# These permissions are only for Collections (aka Catalog Item Identity) so only show those  %>
-              <% next unless permission['identity_type'] == 'Catalog Item' %>
               <tr>
                 <td>
                   <%= link_to permission["name"], permission_path(permission["concept_id"])  %>
@@ -61,6 +63,9 @@
           <% end %>
         </tbody>
       </table>
+
+      <%= paginate @permissions %>
+
     </section>
   </div>
 </main>

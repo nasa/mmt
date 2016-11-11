@@ -22,7 +22,6 @@ $(document).ready ->
           attachTo: $('#collection_selections'),
           delimiter: "%%__%%",
           filterText: "Filter collections",
-          rememberLast: false,
           removeAdded: false,
           addButton: {
             cssClass: 'eui-btn nowrap',
@@ -44,9 +43,11 @@ $(document).ready ->
         collectionsChooser.init()
 
         $('#collectionsChooser_toList').rules 'add',
-            #required: true,
-            required: ->
-              $('#collection_options').val() == 'selected-ids-collections'
+            required:
+              depends: ->
+                if $('#collection_options').val() == 'selected-ids-collections'
+                  return true
+                return false
             messages:
              required: 'Please specify collections.'
 
@@ -168,3 +169,8 @@ $(document).ready ->
       # check if the visited array has both select2 fields, and if so validate on close
       if visitedPermissionGroupSelect.indexOf('search_groups_') != -1 && visitedPermissionGroupSelect.indexOf('search_and_order_groups_') != -1
         $(this).valid()
+
+    $('#permissions-save-button').click( ->
+      $('#collectionsChooser_toList').find('option:first').prop('selected', true)
+      $('#collectionsChooser_toList').find('option:first').click()
+    )
