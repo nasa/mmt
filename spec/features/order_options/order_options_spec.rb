@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Creating Order Options', js: true do
-  option_name = 'Test Order Option 1'
+  option_name = 'Test Order Option James-2'
   option_description = 'Test Order Option Definition Description'
   bad_form = '<form>what</form>'
   echo_form = '<?xml version="1.0" encoding="utf-8"?>
@@ -61,6 +61,39 @@ describe 'Creating Order Options', js: true do
       expect(page).to have_field('ECHO Form XML', type: 'textarea')
     end
 
+
+
+    context 'when creating an order option with complete information' do
+
+      before do
+        fill_in 'Name', with: option_name
+        fill_in 'Description', with: option_description
+        fill_in 'ECHO Form XML', with: echo_form
+
+        VCR.use_cassette('echo_rest/order_options/create', record: :none) do
+          click_on 'Create'
+        end
+      end
+
+      it 'displays a success message' do
+        expect(page).to have_content('Order Option was successfully created')
+      end
+
+      it 'displays the Order Option Definition' do
+        expect(page).to have_content(option_name)
+        expect(page).to have_content(option_description)
+        expect(page).to have_content('PROVIDER')
+
+        # use parts of the ECHO form xml, because VCR alters the tags and newlines
+        expect(page).to have_content('xmlns="http://echo.nasa.gov/v9/echoforms')
+        expect(page).to have_content('prov:options xmlns:prov="http://myorganization.gov/orderoptions"')
+        expect(page).to have_content('constraints')
+        expect(page).to have_content('pattern')
+        expect(page).to have_content('range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"')
+      end
+
+    end
+
     context 'when attempting to create an order option with incomplete information' do
 
       context 'when submitting an invalid form' do
@@ -82,7 +115,7 @@ describe 'Creating Order Options', js: true do
           fill_in 'Description', with: option_description
           fill_in 'ECHO Form XML', with: bad_form
 
-          VCR.use_cassette('order_options/bad_echo_form', record: :none) do
+          VCR.use_cassette('echo_rest/order_options/create_with_error', record: :none) do
             click_on 'Create'
           end
         end
@@ -91,35 +124,6 @@ describe 'Creating Order Options', js: true do
           expect(page).to have_css('.eui-banner--danger')
           expect(page).to have_content('ECHO Form is not valid')
         end
-      end
-    end
-
-    context 'when submitting a valid order option definition form' do
-      before do
-        fill_in 'Name', with: option_name
-        fill_in 'Description', with: option_description
-        fill_in 'ECHO Form XML', with: echo_form
-
-        VCR.use_cassette('order_options/create', record: :none) do
-          click_on 'Create'
-        end
-      end
-
-      it 'displays a success message' do
-        expect(page).to have_content('Order Option was successfully created')
-      end
-
-      it 'displays the Order Option Definition' do
-        expect(page).to have_content(option_name)
-        expect(page).to have_content(option_description)
-        expect(page).to have_content('PROVIDER')
-
-        # use parts of the ECHO form xml, because VCR alters the tags and newlines
-        expect(page).to have_content('xmlns="http://echo.nasa.gov/v9/echoforms')
-        expect(page).to have_content('prov:options xmlns:prov="http://myorganization.gov/orderoptions"')
-        expect(page).to have_content('constraints')
-        expect(page).to have_content('pattern')
-        expect(page).to have_content('range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"')
       end
     end
   end

@@ -39,7 +39,7 @@ module Cmr
 
     def get_order_option(id, token)
       url = "/echo-rest/option_definitions/#{id}"
-      get(url, {}, token_header(token, true))
+      get(url, {}, { 'Echo-Token' => token })
     end
   end
 end

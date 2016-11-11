@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-rest/option_definitions
+    body:
+      encoding: UTF-8
+      string: '{"option_definition":{"name":"Test Order Option James-2","scope":"PROVIDER","description":"Test
+        Order Option Definition Description","form":"\u003cform\u003ewhat\u003c/form\u003e"}}'
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Echo-Token:
+      - access_token
+  response:
+    status:
+      code: 422
+      message: 
+    headers:
+      content-type:
+      - application/xml; charset=utf-8
+      cache-control:
+      - no-cache
+      x-ua-compatible:
+      - IE=Edge,chrome=1
+      set-cookie:
+      - _EchoRestRails_session=BAh7BiIPc2Vzc2lvbl9pZCIlMmRmYWQ0NjVmM2Q3N2ZhOTY4ZmMyNDAzZjRkYmFlODE%3D--38c46e5a96c1e15301c453a539da5d7cde502011;
+        path=/; HttpOnly
+      x-runtime:
+      - '0.111000'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+      transfer-encoding:
+      - chunked
+      date:
+      - Fri, 11 Nov 2016 19:33:43 GMT
+    body:
+      encoding: UTF-8
+      string: "<errors><error>ECHO Form is not valid [[Line: -1, Column: -1] cvc-elt.1:
+        Cannot find the declaration of element 'form'.]</error></errors>"
+    http_version: 
+  recorded_at: Fri, 11 Nov 2016 19:33:43 GMT
+recorded_with: VCR 3.0.1
