@@ -197,7 +197,7 @@ window.Chooser = (config) ->
         else
           dispVal = tmpVal
           optVal = tmpVal
-        opt = '<option value=\'' + optVal + '\'>' + dispVal + '</option>'
+        opt = $('<option>').val(optVal).text(dispVal)
         $(TO_LIST).append opt
         return
       $(TO_LIST).trigger 'change'
@@ -343,7 +343,7 @@ window.Chooser = (config) ->
         else if tmpVal.length == 1
           value = tmpVal[0]
           displayValue = tmpVal[0]
-      newOpt = $('<option value=\'' + value + '\' title=\'' + displayValue + '\'>' + displayValue + '</option>')
+      newOpt = $('<option>').val(value).attr('title', displayValue).text(displayValue)
       $(FROM_LIST).append newOpt
       return
     return
@@ -361,7 +361,10 @@ window.Chooser = (config) ->
       clonedOpt = $(tmpVal).clone()
       if config.forceUnique
         fromListVal = $(tmpVal).attr('value')
-        toListVal = $(TO_LIST).find('option[value=\'' + fromListVal + '\']').attr('value')
+        toListVal = $(TO_LIST).find('option').filter () ->
+          if fromListVal == $(this).val()
+            return true
+        toListVal = $(toListVal).val();
         if toListVal != fromListVal
           $(TO_LIST).append clonedOpt
           if removeAdded
@@ -395,7 +398,11 @@ window.Chooser = (config) ->
     query = if remAll then 'option' else 'option:selected'
     $(TO_LIST).find(query).each (tmpKey, tmpVal) ->
       fromListVal = $(tmpVal).attr('value')
-      toListVal = $(TO_LIST).find('option[value=\'' + fromListVal + '\']').attr('value')
+      #toListVal = $(TO_LIST).find('option[value=\'' + fromListVal + '\']').attr('value')
+      toListVal = $(TO_LIST).find('option').filter () ->
+        if fromListVal == $(this).val()
+          return true
+      toListVal = $(toListVal).val()
       if fromListVal != toListVal
         clonedOpt = $(tmpVal).clone()
         $(FROM_LIST).prepend clonedOpt
@@ -405,6 +412,7 @@ window.Chooser = (config) ->
     # This is a hack in order to accommodate picky libraries like validate
     $(TO_LIST).find('option:first').prop 'selected', true
     $(TO_LIST).find('option:first').click()
+    $(TO_LIST).focus()
     return
 
   removeAllButtonClick = (e) ->

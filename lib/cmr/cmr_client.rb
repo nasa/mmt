@@ -141,13 +141,14 @@ module Cmr
     def create_group(group, token)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3011/groups'
+        add_users_to_local_cmr(group['members'], token) if group['members']
       else
         url = '/access-control/groups'
       end
       headers = {
         'Content-Type' => 'application/json'
       }
-      post(url, group, headers.merge(token_header(token)))
+      post(url, group.to_json, headers.merge(token_header(token)))
     end
 
     def update_group(concept_id, group, token)
@@ -159,7 +160,7 @@ module Cmr
       headers = {
         'Content-Type' => 'application/json'
       }
-      put(url, group, headers.merge(token_header(token)))
+      put(url, group.to_json, headers.merge(token_header(token)))
     end
 
     def get_group(concept_id, token)
@@ -228,15 +229,15 @@ module Cmr
       post(url, request_object.to_json, token_header(token))
     end
 
-    def get_permissions_for_provider(provider_id, token)
+    def get_permissions_for_provider(opts, token)
       # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3011/acls'
       else
         url = '/access-control/acls'
       end
-      options = {'provider' => provider_id, 'include_full_acl' => true}
-      response = get(url, options, token_header(token))
+
+      response = get(url, opts, token_header(token))
     end
 
     def get_permission(concept_id, token)
@@ -285,5 +286,35 @@ module Cmr
       }
       put(url, request_object.to_json, headers.merge(token_header(token)))
     end
+
+    def check_user_permissions(options, token)
+      # https://cmr.sit.earthdata.nasa.gov/access-control/site/access_control_api_docs.html#get-permissions
+      # one of `concept_id`, `system_object`(i.e. GROUP), or `provider` AND `target`(i.e. HOLDINGS)
+      # one of `user_type`('guest' or 'registered') or `user_id`
+      # example: curl -g -i -H "Echo-Token: XXXX" "https://cmr.sit.earthdata.nasa.gov/access-control/permissions?user_type=guest&concept_id[]=C1200000000-PROV1&concept_id[]=C1200000001-PROV1"
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3011/permissions'
+      else
+        url = '/access-control/permissions'
+      end
+
+      params = {}
+      params['user_id'] = options[:user_id] if options[:user_id]
+      # params['user_type']
+      params['system_object'] = options[:system_object] if options[:system_object]
+
+      get(url, params, token_header(token))
+    end
+
+    def delete_permission(concept_id, token)
+      # curl -XDELETE -i -H "Echo-Token: mock-echo-system-token" https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200000000-CMR
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/acls/#{concept_id}"
+      else
+        url = "/access-control/acls/#{concept_id}"
+      end
+      response = delete(url, {}, nil, token_header(token))
+    end
+
   end
 end
