@@ -7,7 +7,7 @@
           <li class="eui-breadcrumbs__item"><%= link_to 'Permissions & Groups', permissions_path %></li>
         </ol>
       </div>
-      <h2><%= @permission_name %></h2>
+      <h2><%= @permission_name || '<No Name>' %></h2>
       <p class="subtitle"><strong>Permission Type:</strong><%= " #{@permission_type || '<type>'} | #{@permission_provider || '<provider>'}" %></p>
 
       <p class="subnav current"><%= link_to 'Permissions', permissions_path %></p>
@@ -56,37 +56,48 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Search & Order groups -->
-          <% @search_and_order_groups.each do |search_and_order_group| %>
+          <% if @search_groups.blank? && @search_and_order_groups.blank? %>
             <tr>
-              <td class="cell-primary-cta">
-                <% if search_and_order_group[:concept_id] %>
-                  <p><%= link_to search_and_order_group[:name], group_path(search_and_order_group[:concept_id]) %> (<%= search_and_order_group[:num_members] %>)</p>
-                <% else %>
-                  <p><%= search_and_order_group[:name] %></p>
-                <% end %>
+              <td colspan="3">
+                No Groups listed.
               </td>
-              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Search allowed for this group</span></i></td>
-              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Order is also allowed for this group</span></i></td>
             </tr>
-          <% end %>
+          <% else %>
 
-          <!-- Search Groups -->
-          <% @search_groups.each do |search_group| %>
-            <tr>
-              <td class="cell-primary-cta">
-                <% if search_group[:concept_id] %>
-                  <p><%= link_to search_group[:name], group_path(search_group[:concept_id]) %> (<%= search_group[:num_members] %>)</p>
-                <% else %>
-                  <p><%= search_group[:name] %></p>
-                <% end %>
-              </td>
-              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Only search is allowed for this group</span></i></td>
-              <td><span class="is-invisible">Order is not allowed for this group</span></td>
-            </tr>
+            <!-- Search & Order groups -->
+            <% @search_and_order_groups.each do |search_and_order_group| %>
+              <tr>
+                <td class="cell-primary-cta">
+                  <% if search_and_order_group[:concept_id] %>
+                    <p><%= link_to search_and_order_group[:name], group_path(search_and_order_group[:concept_id]) %> (<%= search_and_order_group[:num_members] %>)</p>
+                  <% else %>
+                    <p><%= search_and_order_group[:name] %></p>
+                  <% end %>
+                </td>
+                <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Search allowed for this group</span></i></td>
+                <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Order is also allowed for this group</span></i></td>
+              </tr>
+            <% end %>
+
+            <!-- Search Groups -->
+            <% @search_groups.each do |search_group| %>
+              <tr>
+                <td class="cell-primary-cta">
+                  <% if search_group[:concept_id] %>
+                    <p><%= link_to search_group[:name], group_path(search_group[:concept_id]) %> (<%= search_group[:num_members] %>)</p>
+                  <% else %>
+                    <p><%= search_group[:name] %></p>
+                  <% end %>
+                </td>
+                <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Only search is allowed for this group</span></i></td>
+                <td><span class="is-invisible">Order is not allowed for this group</span></td>
+              </tr>
+            <% end %>
+
           <% end %>
         </tbody>
       </table>
+
     </section>
   </div>
 </main>

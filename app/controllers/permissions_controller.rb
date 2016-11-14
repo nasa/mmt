@@ -37,6 +37,9 @@ class PermissionsController < ApplicationController
 
   def show
     @permission_concept_id = params[:id]
+    @search_and_order_groups = []
+    @search_groups = []
+
     permission_response = cmr_client.get_permission(@permission_concept_id, token)
 
     if permission_response.success?
@@ -51,7 +54,6 @@ class PermissionsController < ApplicationController
 
       group_retrieval_error_messages = []
 
-      @search_and_order_groups = []
       search_and_order_groups_list.each do |search_and_order_group_id|
         search_and_order_group, error_message = construct_permission_group(search_and_order_group_id)
 
@@ -59,7 +61,6 @@ class PermissionsController < ApplicationController
         group_retrieval_error_messages << error_message if error_message
       end
 
-      @search_groups = []
       search_groups_list.each do |search_group_id|
         search_group, error_message = construct_permission_group(search_group_id)
 
