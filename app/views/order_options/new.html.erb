@@ -46,7 +46,7 @@
             sorted based on a standard text sort order. -->
             <%= label_tag('order_option[sort_key]', 'Sort Key', for: 'order_option_sort_key') %>
             <!--<p>This optional field can be used to define a sort order, based on a standard text sort order</p>-->
-            <%= text_field_tag('order_option[sort_key]', @order_option['sort_key'], class: 'half-width') %>
+            <%= text_field_tag('order_option[sort_key]', @order_option['sort_key'], class: 'half-width', maxlength: 5) %>
           </div>
         </div>
 
