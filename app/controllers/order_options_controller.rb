@@ -11,7 +11,7 @@ class OrderOptionsController < ApplicationController
     @order_option = params[:order_option]
     @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
 
-    response = temp_response = cmr_client.create_order_option(@order_option, echo_provider_token)
+    response = cmr_client.create_order_option(@order_option, echo_provider_token)
 
     if response.success?
       order_option_response = Hash.from_xml(response.body)

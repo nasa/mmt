@@ -163,9 +163,6 @@ window.Chooser = (config) ->
       $(TO_LIST).find('option').each (key, tmpVal) ->
         $(tmpVal).attr 'title', $(tmpVal).text()
         return
-      # if the TO_LIST has any selected options, make the first one selected and click on it
-      $(TO_LIST).find('option:first').prop 'selected', true
-      $(TO_LIST).find('option:first').click()
       return
     $(FILTER_TEXTBOX).keyup initFilter
     $(FROM_LIST).dblclick ->
