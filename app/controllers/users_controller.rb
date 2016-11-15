@@ -23,6 +23,8 @@ class UsersController < ApplicationController
     @current_user.provider_id = provider_id
     @current_user.save
 
+    set_provider_context_token
+
     respond_to do |format|
       format.html { redirect_to manage_metadata_path }
       format.json { render json: nil, status: :ok }

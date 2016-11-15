@@ -24,5 +24,25 @@ module Echo
 
       self.make_request(@url, payload)
     end
+
+    def get_provider_context_token(token, params)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:GetProviderContextToken, {'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10'}) do
+        builder.ns2(:token, token)
+
+        builder.ns2(:clientInfo) do
+          builder.ns3(:ClientId, params.fetch(:clientInfo, {}).fetch(:ClientId, 'MMT'))
+          builder.ns3(:UserIpAddress, params.fetch(:clientInfo, {}).fetch(:UserIpAddress, nil))
+        end
+
+        builder.ns2(:behalfOfProvider, params.fetch(:behalfOfProvider, nil))
+      end
+
+      payload = self.wrap_with_envelope(builder)
+
+      self.make_request(@url, payload)
+    end
+
   end
 end

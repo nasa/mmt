@@ -13,26 +13,8 @@ class OrderOptionsController < ApplicationController
     @order_option = params[:order_option]
     @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
 
-    # using ECHO SOAP Authenticate, temporarily
-    password = '' # for now, need to add in your password to get Echo Token
-    token_response = echo_client.login(session[:urs_uid], password, behalfOfProvider: @current_user.provider_id, clientInfo: {UserIpAddress: request.remote_ip}).body # .fetch(:login_response, {}).fetch(:result)
-    body_hash = Hash.from_xml(token_response)
+    response = temp_response = cmr_client.create_order_option(@order_option, echo_provider_token)
 
-    errorMessage = get_login_error(body_hash)
-
-    if(! errorMessage.nil?)
-      flash.now[:error] = errorMessage
-      render :new
-      return
-    end
-
-    echo_security_token = body_hash['Envelope']['Body']['LoginResponse']['result']
-
-    response = temp_response = cmr_client.create_order_option(@order_option, echo_security_token)
-
-    # TODO when guid option is created, use guid
-    # provider_guid = get_provider_guid(@current_user.provider_id)
-    # response = cmr_client.create_order_option(@order_option, token)
     if response.success?
       flash[:success] = 'Order Option was successfully created.'
 
@@ -42,7 +24,6 @@ class OrderOptionsController < ApplicationController
       redirect_to order_option_path(order_option_id)
     else
       Rails.logger.error("Create Order Option Error: #{response.inspect}")
-      # TODO error parses into array. should change flash render to handle array?
       parsed_errors = Hash.from_xml(response.body)
       flash.now[:error] = parsed_errors['errors']['error'].inspect
       render :new
@@ -52,7 +33,7 @@ class OrderOptionsController < ApplicationController
   def show
     order_option_id = params[:id]
 
-    response = cmr_client.get_order_option(order_option_id, token)
+    response = cmr_client.get_order_option(order_option_id, echo_provider_token)
     if response.success?
       @order_option = Hash.from_xml(response.body)['option_definition']
     else

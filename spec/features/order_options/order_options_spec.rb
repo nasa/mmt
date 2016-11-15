@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Creating Order Options', js: true do
-  option_name = 'Test Order Option James-2'
+  option_name = 'Test Order Option ABC-1'
   option_description = 'Test Order Option Definition Description'
   bad_form = '<form>what</form>'
   echo_form = '<?xml version="1.0" encoding="utf-8"?>

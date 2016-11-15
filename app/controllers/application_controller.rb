@@ -151,8 +151,18 @@ class ApplicationController < ActionController::Base
     json
   end
 
+  def set_provider_context_token
+    session[:echo_provider_token] = echo_client.get_provider_context_token(token_with_client_id, {behalfOfProvider: @current_user.provider_id}).parsed_body
+  end
+
   def token
     session[:access_token]
+  end
+
+  def echo_provider_token
+    set_provider_context_token if session.fetch('echo_provider_token', nil).nil?
+
+    session[:echo_provider_token]
   end
 
   def token_with_client_id

@@ -22,8 +22,9 @@
         <% end %>
         Scope: <%= @order_option['scope'] %>
       </p>
-      <!-- button update -->
+
       <a href="#" class="eui-btn">Update</a>
+      <%-# link_to 'Edit Order Option', edit_order_path(@order_option_id), class: 'eui-btn--blue space-right' -%>
 
       <div class="row">
         <!-- Description -->
@@ -32,7 +33,7 @@
 
       <!-- Echo Form -->
       <div class="content-box">
-        <p><%= @order_option['form'] %></p>
+        <pre><%= @order_option['form'] %></pre>
       </div>
     </section>
   </div>
