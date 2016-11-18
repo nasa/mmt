@@ -221,21 +221,16 @@ module Cmr
       connection.post do |req|
         req.url('http://localhost:3008/urs/users')
         req.headers['Content-Type'] = 'application/json'
-        # req.body = '[{"username": "admin", "password": "admin"}, {"username": "typical", "password":"password"}, {"username": "adminuser", "password": "admin"}]'
-        # *** NOTE adding myself
-        req.body = '[{"username": "admin", "password": "admin"}, {"username": "typical", "password":"password"}, {"username": "adminuser", "password": "admin"}, {"username": "test_user", "password": "password"}]'
+        req.body = '[{"username": "admin", "password": "admin"}, {"username": "typical", "password":"password"}, {"username": "adminuser", "password": "admin"}]'
       end
       # add admin and adminuser to our Administrators_2 group (usu AG1200000001-CMR)
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups/AG1200000001-CMR/members')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        # req.body = '["admin", "adminuser"]'
-        # *** NOTE adding myself and typical
-        req.body = '["admin", "adminuser", "typical", "test_user"]'
+        req.body = '["admin", "adminuser"]'
       end
-      # puts "add admin and adminuser to Administrators_2: #{resp.body}"
-      puts "add admin and adminuser to Administrators_2 PLUS typical and CHARLES URS: #{resp.body}"
+      puts "add admin and adminuser to Administrators_2: #{resp.body}"
       # create ACL for system level groups for Administrators_2
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')

@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   get 'search' => 'search#index', as: 'search'
 
   get 'manage_metadata' => 'pages#manage_metadata', as: 'manage_metadata'
-  get 'manage_cmr' => 'pages#manage_cmr', as: 'manage_cmr'
+  get 'manage_cmr' => 'manage_cmr#manage_cmr', as: 'manage_cmr'
   get 'new_record' => 'pages#new_record', as: 'new_record'
   post 'hide_notification' => 'pages#hide_notification', as: 'hide_notification'
 

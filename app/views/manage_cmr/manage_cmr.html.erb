@@ -1,4 +1,4 @@
-<%= render 'notifications' %>
+<%= render 'pages/notifications' %>
 
 <nav>
   <div class="content">
@@ -27,8 +27,10 @@
     <section class="eui-callout-box">
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Permissions &amp; Groups</h3>
-        <!-- TODO implement check to only show this link if has system ANY_ACL permissions -->
+        <% if @user_is_system_acl_admin %>
+          <!-- show this link if user has all system ANY_ACL permissions -->
           <p><%= link_to 'System Object Permissions', system_identity_permissions_path %></p>
+        <% end %>
         <p><%= link_to 'Collection Permissions', permissions_path %></p>
         <p><%= link_to 'Groups', groups_path %></p>
       </div>

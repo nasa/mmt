@@ -1,19 +1,11 @@
-class SystemIdentityPermissionsController < ApplicationController
+class SystemIdentityPermissionsController < ManageCmrController
+  before_filter :redirect_unless_system_acl_admin, only: [:index, :edit, :update]
 
   def index
-    # should implement a check against system ANY_ACL permissions
-    # don't (necessarily) need to implement system group perm check, but then the
-    # system groups might not show up (right?)
-    # so need to figure out what to do if
-      # 1 can see system groups but don't have the ANY_ACL perms
-      # 2 no system groups show up
-      # -- what if can see system groups (have perms) but don't have perms for ANY_ACL perms?
-      # -- what if have ANY_ACL perms but don't have system group perms?
-
     filters = {}
     filters['provider'] = 'CMR'
     # groups_response = cmr_client.get_cmr_groups(filters, token)
-    # should use token as normally done. this is a hack while there are issues with system group permissions
+    # TODO should use token as normally done. this is a hack while there are issues with system group permissions
     groups_response = cmr_client.get_cmr_groups(filters, 'access_token_admin')
 
     if groups_response.success?
@@ -31,7 +23,7 @@ class SystemIdentityPermissionsController < ApplicationController
     @group_system_permissions_hash = assemble_permissions_for_table(group_system_permissions, @group_id)
 
     # group_response = cmr_client.get_group(@group_id, token)
-    # should use token, as per usual. hack while potential issues with sys group permissions
+    # TODO should use token, as per usual. hack while potential issues with sys group permissions
     group_response = cmr_client.get_group(@group_id, 'access_token_admin')
     if group_response.success?
       @group = group_response.body
@@ -73,8 +65,7 @@ class SystemIdentityPermissionsController < ApplicationController
     options['permitted_group'] = group if group
 
     # system_permissions_response = cmr_client.get_permissions(options, token)
-    # should use token normally. this is a hack while issues with system group permissions exist
-    # TODO test to see if there are issues with other permissions?
+    # TODO should use token normally. this is a hack while issues with system group permissions exist
     system_permissions_response = cmr_client.get_permissions(options, 'access_token_admin')
 
     if system_permissions_response.success?
@@ -108,8 +99,8 @@ class SystemIdentityPermissionsController < ApplicationController
       permission_concept_id = perm['concept_id']
       target = perm['acl']['system_identity']['target']
       group_perms = perm['acl']['group_permissions']
-      # puts "**** fresh from system #{target} #{group_perms}"
       num_groups_in_permission = group_perms.count
+
       matching_group_permission = group_perms.select { |group_perm| group_perm['group_id'] == group_id }
       if matching_group_permission.blank?
         matched_to_group = false
@@ -161,7 +152,7 @@ class SystemIdentityPermissionsController < ApplicationController
     all_update_perms = perms_to_skip + targets_to_remove_group + targets_to_update_perms + targets_to_add_group + targets_to_delete
     # need to create any system target permissions not in existing system permissions
     targets_to_create = permissions_params.keys - all_update_perms
-    # fail
+
     [targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete]
   end
 
@@ -182,7 +173,7 @@ class SystemIdentityPermissionsController < ApplicationController
       next unless new_perm_obj
 
       # update_perm_response = cmr_client.update_permission(new_perm_obj, concept_id, token)
-      # hack while there may be problems with local cmr permissions
+      # TODO hack while there may be problems with local cmr permissions
       update_perm_response = cmr_client.update_permission(new_perm_obj, concept_id, 'access_token_admin')
       if update_perm_response.success?
         successes << target
@@ -191,7 +182,6 @@ class SystemIdentityPermissionsController < ApplicationController
         fails << target
       end
     end
-    # fail unless fails.blank?
   end
 
   def edit_permission_object(perm_object, action, new_perms, group_id)
@@ -204,7 +194,7 @@ class SystemIdentityPermissionsController < ApplicationController
       perm_object = edit_permission_object(perm_object, 'remove', new_perms, group_id)
       perm_object = edit_permission_object(perm_object, 'add', new_perms, group_id)
     end
-    # puts perm_object.inspect
+
     perm_object
   end
 
@@ -214,7 +204,7 @@ class SystemIdentityPermissionsController < ApplicationController
 
     new_permissions.each do |new_perm|
       # new_perm_response = cmr_client.add_group_permissions(new_perm, token)
-      # should use token. using this as hack for admin
+      # TODO should use token. using this as hack for admin
       new_perm_response = cmr_client.add_group_permissions(new_perm, 'access_token_admin')
       if new_perm_response.success?
         successes << new_perm['system_identity']['target']
@@ -248,12 +238,10 @@ class SystemIdentityPermissionsController < ApplicationController
   def delete_permissions(targets_to_delete, selective_full_system_permission_info, successes, fails)
     permissions_to_delete = {}
     targets_to_delete.each { |perm| permissions_to_delete[perm] = selective_full_system_permission_info[perm]['permission_concept_id'] }
-    # puts "deleting #{permissions.inspect}"
-    # fail
 
     permissions_to_delete.each do |target, concept_id|
       # delete_response = cmr_client.delete_permission(concept_id, token)
-      # should use token
+      # TODO should use token
       delete_response = cmr_client.delete_permission(concept_id, 'access_token_admin')
       if delete_response.success?
         successes << target
@@ -264,8 +252,8 @@ class SystemIdentityPermissionsController < ApplicationController
     end
   end
 
-  def check_if_system_acl_administrator
-    # TODO implement a check against system ANY_ACL for current user
-    # if not, should redirect back to manage_cmr_page
+  def redirect_unless_system_acl_admin
+    check_if_system_acl_administrator
+    redirect_to manage_cmr_path unless @user_is_system_acl_admin
   end
 end

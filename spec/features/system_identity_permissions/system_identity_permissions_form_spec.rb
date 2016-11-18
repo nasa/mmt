@@ -40,9 +40,11 @@ describe 'System Identity Permissions pages and form' do
 
       within '.system-permissions-table' do
         expect(page).to have_css('tbody > tr', count: SystemIdentityPermissionsHelper::SYSTEM_TARGETS.count)
-        expect(page).to have_css('input[type=checkbox][checked]', count: 6)
         expect(page).to have_css('input[type=checkbox]', count: 92) # all checkboxes
+        expect(page).to have_css('input[type=checkbox][checked]', count: 6)
         expect(page).to have_css('input[type=checkbox][disabled]', count: 54)
+        expect(page).to have_css('input[type=checkbox]:not([disabled])', count: 38)
+        expect(page).to have_css('input[type=checkbox]:not([checked])', count: 86)
       end
     end
 
