@@ -4,9 +4,7 @@ class SystemIdentityPermissionsController < ManageCmrController
   def index
     filters = {}
     filters['provider'] = 'CMR'
-    # groups_response = cmr_client.get_cmr_groups(filters, token)
-    # TODO should use token as normally done. this is a hack while there are issues with system group permissions
-    groups_response = cmr_client.get_cmr_groups(filters, 'access_token_admin')
+    groups_response = cmr_client.get_cmr_groups(filters, token)
 
     if groups_response.success?
       @groups = groups_response.body['items']
@@ -22,9 +20,7 @@ class SystemIdentityPermissionsController < ManageCmrController
     group_system_permissions = get_system_permissions(@group_id)
     @group_system_permissions_hash = assemble_permissions_for_table(group_system_permissions, @group_id)
 
-    # group_response = cmr_client.get_group(@group_id, token)
-    # TODO should use token, as per usual. hack while potential issues with sys group permissions
-    group_response = cmr_client.get_group(@group_id, 'access_token_admin')
+    group_response = cmr_client.get_group(@group_id, token)
     if group_response.success?
       @group = group_response.body
     else
@@ -64,9 +60,7 @@ class SystemIdentityPermissionsController < ManageCmrController
                 'page_size' => 30 }
     options['permitted_group'] = group if group
 
-    # system_permissions_response = cmr_client.get_permissions(options, token)
-    # TODO should use token normally. this is a hack while issues with system group permissions exist
-    system_permissions_response = cmr_client.get_permissions(options, 'access_token_admin')
+    system_permissions_response = cmr_client.get_permissions(options, token)
 
     if system_permissions_response.success?
       system_permissions_response.body['items']
@@ -172,9 +166,7 @@ class SystemIdentityPermissionsController < ManageCmrController
 
       next unless new_perm_obj
 
-      # update_perm_response = cmr_client.update_permission(new_perm_obj, concept_id, token)
-      # TODO hack while there may be problems with local cmr permissions
-      update_perm_response = cmr_client.update_permission(new_perm_obj, concept_id, 'access_token_admin')
+      update_perm_response = cmr_client.update_permission(new_perm_obj, concept_id, token)
       if update_perm_response.success?
         successes << target
       else
@@ -203,9 +195,7 @@ class SystemIdentityPermissionsController < ManageCmrController
     new_permissions = construct_new_permission_objects(permissions_to_create, group_id)
 
     new_permissions.each do |new_perm|
-      # new_perm_response = cmr_client.add_group_permissions(new_perm, token)
-      # TODO should use token. using this as hack for admin
-      new_perm_response = cmr_client.add_group_permissions(new_perm, 'access_token_admin')
+      new_perm_response = cmr_client.add_group_permissions(new_perm, token)
       if new_perm_response.success?
         successes << new_perm['system_identity']['target']
       else
@@ -240,9 +230,7 @@ class SystemIdentityPermissionsController < ManageCmrController
     targets_to_delete.each { |perm| permissions_to_delete[perm] = selective_full_system_permission_info[perm]['permission_concept_id'] }
 
     permissions_to_delete.each do |target, concept_id|
-      # delete_response = cmr_client.delete_permission(concept_id, token)
-      # TODO should use token
-      delete_response = cmr_client.delete_permission(concept_id, 'access_token_admin')
+      delete_response = cmr_client.delete_permission(concept_id, token)
       if delete_response.success?
         successes << target
       else

@@ -221,7 +221,6 @@ module Cmr
     end
 
     def add_group_permissions(request_object, token)
-      # TODO change to `create_permission`?
       # Example: curl -XPOST -i -H "Content-Type: application/json" -H "Echo-Token: XXXXX" https://cmr.sit.earthdata.nasa.gov/access-control/acls -d \
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3011/acls'
