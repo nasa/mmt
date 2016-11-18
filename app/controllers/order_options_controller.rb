@@ -49,8 +49,6 @@ class OrderOptionsController < ApplicationController
     order_option_id = params[:id]
 
     response = cmr_client.get_order_option(order_option_id, echo_provider_token)
-    
-
     if response.success?
       @order_option = Hash.from_xml(response.body)['option_definition']
 
