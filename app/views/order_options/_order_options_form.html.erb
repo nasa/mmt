@@ -1,0 +1,66 @@
+<!-- Guid -->
+<!-- Multiplicity: 0 to 1
+  The unique id assigned by ECHO for this option definition. -->
+
+<div class="row">
+  <div class="col-9">
+    <!-- Name -->
+    <!-- Multiplicity: 1 to 1
+    The name of the definition. The name is a shortened name used to distinguish between other option definitions.
+    This field must be unique per provider and is restricted to 30 characters.  -->
+
+    <!-- The identifying name for the form which must be unique amongst
+    all option definitions created by a Data Partner. This value will be
+    displayed to the users to identify an option definition. -->
+    <%= label_tag('order_option[name]', 'Name', class: 'required eui-required-o', for: 'order_option_name') %>
+    <!--<p>The identifying name for the order option form, which must be unique for all order options created by a provider</p> -->
+    <%= text_field_tag('order_option[name]', @order_option['name'], class: 'required half-width', readonly: !new_form) %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-9">
+    <!-- Sort Key -->
+    <!-- This optional field may be used to define a sort order for
+    definitions. This is also useful when multiple option definitions are
+    assigned to the same collection. The values in this field will be
+    sorted based on a standard text sort order. -->
+    <%= label_tag('order_option[sort_key]', 'Sort Key', for: 'order_option_sort_key') %>
+    <!--<p>This optional field can be used to define a sort order, based on a standard text sort order</p>-->
+    <%= text_field_tag('order_option[sort_key]', @order_option['sort_key'], class: 'half-width', maxlength: 5) %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-9">
+    <!-- Scope -->
+    <!-- Multiplicity: 1 to 1
+    Only administrators may add system level definitions and only providers may add provider level definitions. -->
+
+    <!-- The scope of the option definition. This may be  ̳system‘ or  ̳provider‘
+    and is described further in section 7.4.2.1. -->
+    <%= label_tag('order_option[scope]', 'Scope', class: 'eui-required-o') %>
+    <!-- TODO if user is admin, they can create 'system' level options -->
+    <%= select_tag('order_option[scope]', options_for_select(['PROVIDER'], 'PROVIDER'), class: 'required half-width') %>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Description -->
+  <!-- A textual description of the form which will be displayed to the
+  user to give additional information regarding the form. This is useful
+  when multiple option definitions are assigned to the same collection.
+  The description can be used to help a user know which definition they
+  want to use. -->
+  <%= label_tag('order_option[description]', 'Description', class: 'eui-required-o') %>
+  <%= text_area_tag('order_option[description]', @order_option['description'], class: 'required') %>
+</div>
+
+<div class="">
+  <!-- ECHO Form -->
+  <!-- The XML ECHO Form outlining the information which is to be
+  requested from a user during the order process and how an ECHO client
+  should facilitate the information gathering. -->
+  <%= label_tag('order_option[form]', 'ECHO Form XML', class: 'eui-required-o') %>
+  <!--<p>Please see ECHO Forms Specification</p>-->
+  <%= text_area_tag('order_option[form]', @order_option['form'], class: 'required') %>
+</div>

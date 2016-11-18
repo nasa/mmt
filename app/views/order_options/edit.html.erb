@@ -8,7 +8,7 @@
           <li class="eui-breadcrumbs__item">New Order Option</li>
         </ol>
       </div>
-      <h2>Create a New Order Option</h2>
+      <h2>Edit Order Option</h2>
     </div>
   </header>
 
@@ -16,16 +16,12 @@
 
   <div class="row row-content">
     <section>
-      <%= form_tag(order_options_path, method: :post, id: 'order-option-definition-form', class: 'order-options') do %>
-
-          <%= render partial: 'order_options_form', locals: { new_form: true } %>
-
+      <%= form_tag(order_options_path(@order_option['id']), method: :post, id: 'order-option-definition-form', class: 'order-options') do %>
+          <%= render partial: 'order_options_form', locals: { new_form: false } %>
         <div class="col-3">
-          <%= submit_tag 'Create', class: 'eui-btn--blue' %>
-
+          <%= submit_tag 'Update', class: 'eui-btn--blue' %>
           <%= link_to 'Cancel', order_options_path %>
         </div>
-
       <% end %>
     </section>
   </div>

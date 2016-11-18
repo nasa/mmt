@@ -64,4 +64,24 @@ class OrderOptionsController < ApplicationController
       redirect_to order_options_path
     end
   end
+
+  def edit
+    order_option_id = params[:id]
+
+    response = cmr_client.get_order_option(order_option_id, echo_provider_token)
+    if response.success?
+      @order_option = Hash.from_xml(response.body)['option_definition']
+    else
+      Rails.logger.error("Get Order Option Definition Error: #{response.inspect}")
+
+      parsed_errors = Hash.from_xml(response.body)
+      flash[:error] = parsed_errors['errors']['error'].inspect
+      redirect_to order_options_path
+    end
+  end
+
+  def update
+    fail
+  end
+
 end
