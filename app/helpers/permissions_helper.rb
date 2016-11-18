@@ -22,8 +22,9 @@ module PermissionsHelper
     if enable
       check_box_tag(name, value, value_boolean, class: classes)
     else
-      check_box_tag(name, value, value_boolean, class: classes,
-                    readonly: true, onclick: "return false;", onkeydown: "return false;")
+      check_box_tag(name, value, value_boolean, class: classes, disabled: true)
+      # check_box_tag(name, value, value_boolean, class: classes,
+      #               readonly: true, onclick: "return false;", onkeydown: "return false;")
 
     end
   end

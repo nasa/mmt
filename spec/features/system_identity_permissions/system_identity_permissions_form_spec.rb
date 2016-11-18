@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'System Identity Permissions pages and form' do
   # concept_id for Administrators_2 group created on cmr setup
-  concept_id = 'AG1200000001-CMR'
+  let(:concept_id) { 'AG1200000001-CMR' }
 
   before do
     login(true)
@@ -39,25 +39,10 @@ describe 'System Identity Permissions pages and form' do
       expect(page).to have_content("Set permissions for the Administrators_2 group by checking the appropriate boxes below and then clicking 'Save'.")
 
       within '.system-permissions-table' do
-        # loop through all the system targets to check they are in the table
-        SystemIdentityPermissionsHelper::SYSTEM_TARGETS.each_with_index do |system_target, index|
-          within "tbody > tr:nth-child(#{index + 1})" do
-            expect(page).to have_content(system_target)
-
-            SystemIdentityPermissionsHelper::PermissionsOptions.each do |permission_option|
-              if SystemIdentityPermissionsHelper.const_get(system_target + '_PERMISSIONS').include?(permission_option)
-                if system_target == 'ANY_ACL' || system_target == 'GROUP'
-                  # ANY_ACL and GROUP permissions are created on cmr setup
-                  expect(page).to have_checked_field("system_permissions[#{system_target}][]", with: permission_option)
-                else
-                  expect(page).to have_unchecked_field("system_permissions[#{system_target}][]", with: permission_option)
-                end
-              else
-                expect(page).to have_unchecked_field("system_permissions[#{system_target}][]", with: permission_option, readonly: true)
-              end
-            end
-          end
-        end
+        expect(page).to have_css('tbody > tr', count: SystemIdentityPermissionsHelper::SYSTEM_TARGETS.count)
+        expect(page).to have_css('input[type=checkbox][checked]', count: 6)
+        expect(page).to have_css('input[type=checkbox]', count: 92) # all checkboxes
+        expect(page).to have_css('input[type=checkbox][disabled]', count: 54)
       end
     end
 
@@ -82,28 +67,6 @@ describe 'System Identity Permissions pages and form' do
         expect(page).to have_checked_field('system_permissions_TAXONOMY_', with: 'create')
 
         expect(page).to have_checked_field('system_permissions_USER_', with: 'update')
-      end
-    end
-
-    context 'when clicking on unavailable permissions', js: true do
-      before do
-        check('system_permissions_EXTENDED_SERVICE_', option: 'create')
-
-        check('system_permissions_SYSTEM_INITIALIZER_', option: 'read')
-        check('system_permissions_SYSTEM_INITIALIZER_', option: 'update')
-
-        check('system_permissions_TAXONOMY_ENTRY_', option: 'update')
-        check('system_permissions_TAXONOMY_ENTRY_', option: 'delete')
-      end
-
-      it 'does not make the boxes checked' do
-        expect(page).to have_unchecked_field('system_permissions_EXTENDED_SERVICE_', with: 'create')
-
-        expect(page).to have_unchecked_field('system_permissions_SYSTEM_INITIALIZER_', with: 'read')
-        expect(page).to have_unchecked_field('system_permissions_SYSTEM_INITIALIZER_', with: 'update')
-
-        expect(page).to have_unchecked_field('system_permissions_TAXONOMY_ENTRY_', with: 'update')
-        expect(page).to have_unchecked_field('system_permissions_TAXONOMY_ENTRY_', with: 'delete')
       end
     end
 

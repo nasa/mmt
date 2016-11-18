@@ -46,20 +46,19 @@ class SystemIdentityPermissionsController < ApplicationController
     permissions_params = params[:system_permissions]
     permissions_params.each { |_target, perms| perms.delete('') }
     full_system_permissions = get_system_permissions
-
     selective_full_system_permission_info = assemble_permissions_for_updating(full_system_permissions, @group_id)
-    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete = sort_permissions_to_update(selective_full_system_permission_info, permissions_params, @group_id)
 
-    # fail
+    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete = sort_permissions_to_update(selective_full_system_permission_info, permissions_params)
+
     successes = []
     fails = []
 
-    delete_permissions(targets_to_delete, selective_full_system_permission_info, successes, fails)
     create_permissions(targets_to_create, permissions_params, @group_id, successes, fails)
-
+    delete_permissions(targets_to_delete, selective_full_system_permission_info, successes, fails)
     update_permissions(full_system_permissions, permissions_params, targets_to_add_group, targets_to_update_perms, targets_to_remove_group, @group_id, successes, fails)
 
-    flash[:success] = "System Object Permissions were saved." unless successes.blank?
+    # fail
+    flash[:success] = 'System Object Permissions were saved.' unless successes.blank?
     flash[:error] = "#{fails.join(', ')} permissions were unable to be saved." unless fails.blank?
 
     redirect_to system_identity_permissions_path
@@ -131,7 +130,7 @@ class SystemIdentityPermissionsController < ApplicationController
     assembled_permissions
   end
 
-  def sort_permissions_to_update(selective_system_permission_info, permissions_params, group_id)
+  def sort_permissions_to_update(selective_system_permission_info, permissions_params)
     targets_to_add_group = []
     targets_to_update_perms = []
     targets_to_remove_group = []
