@@ -41,63 +41,12 @@
           <% end %>
       </tr>
     <% end %>
-
-
-    <!-- need a list of system identities to iterate through -->
-    <!-- <tr>
-      <td>
-        ANY_ACL
-      </td>
-      <td>
-        <%= acl_checkbox(
-          'any_acl[]', 'create', @any_acl_bool, nil, true
-        ) %>
-      </td>
-      <td>
-        <%= acl_checkbox(
-        'any_acl[]', 'read', @any_acl_bool, nil, true
-        ) %>
-      </td>
-      <td>
-        <%= acl_checkbox(
-        'any_acl[]', 'update', @any_acl_bool, nil, true
-        ) %>
-      </td>
-      <td>
-        <%= acl_checkbox(
-        'any_acl[]', 'delete', @any_acl_bool, nil, true
-        ) %>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        GROUP
-      </td>
-      <td>
-        <%= acl_checkbox(
-          'group[]', 'create', @group_bool, nil, true
-        ) %>
-      </td>
-      <td>
-        <%= acl_checkbox(
-        'group[]', 'read', @group_bool, nil, true
-        ) %>
-      </td>
-      <td class="disabled">
-        <%= acl_checkbox(
-        'group[]', 'update', @group_bool, nil, false
-        ) %>
-      </td>
-      <td class="disabled">
-        <%= acl_checkbox(
-        'group[]', 'delete', @group_bool, nil, false
-        ) %>
-      </td>
-    </tr> -->
-
   </tbody>
+
 </table>
+
+<%= check_box_tag :system_acls_select_all  %>
+<%= label_tag :system_acls_select_all, 'Check/Uncheck all permissions' %>
 
 <div class="row space-top">
   <%= submit_tag('Save', class: 'eui-btn--blue space-right') %>
