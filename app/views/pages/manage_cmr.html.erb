@@ -27,7 +27,9 @@
     <section class="eui-callout-box">
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Permissions &amp; Groups</h3>
-        <p><%= link_to 'Permissions', permissions_path %></p>
+        <!-- only if system any acl permissions -->
+          <p><%= link_to 'System Object Permissions', system_identity_permissions_path %></p>
+        <p><%= link_to 'Collection Permissions', permissions_path %></p>
         <p><%= link_to 'Groups', groups_path %></p>
       </div>
     </section>

@@ -1,0 +1,105 @@
+<table class='system-permissions-table'>
+  <thead>
+    <tr>
+      <th>System Object</th><th class="align-c">Create</th><th class="align-c">Read</th>
+                            <th class="align-c">Update</th><th class="align-c">Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% SystemIdentityPermissionsHelper::SYSTEM_TARGETS.sort.each do |system_target| %>
+      <tr>
+        <td>
+          <%= system_target %>
+        </td>
+          <% SystemIdentityPermissionsHelper::PermissionsOptions.each do |permission_option| %>
+            <%# iterate through create read update delete %>
+            <%# target_permissions = system_target + '_PERMISSIONS' %>
+            <% if SystemIdentityPermissionsHelper.const_get(system_target + '_PERMISSIONS').include?(permission_option) %>
+              <td class="align-c">
+                <% if @group_system_permissions_hash.fetch(system_target, {}).fetch('permissions', []).include?(permission_option) %>
+                  <%= acl_checkbox(
+                    "system_permissions[#{system_target}][]", permission_option, true, nil, true
+                  ) %>
+                <% else %>
+                  <%= acl_checkbox(
+                    "system_permissions[#{system_target}][]", permission_option, false, nil, true
+                  ) %>
+                <% end %>
+              </td>
+            <% else %>
+              <td class="align-c disabled">
+                <%= acl_checkbox(
+                  "system_permissions[#{system_target}][]", permission_option, false, nil, false
+                ) %>
+              </td>
+            <% end %>
+          <% end %>
+
+          <% if @group_system_permissions_hash.keys.include?(system_target) %>
+            <%= hidden_field_tag "system_permissions[#{system_target}][]", '' %>
+          <% end %>
+      </tr>
+    <% end %>
+
+
+    <!-- need a list of system identities to iterate through -->
+    <!-- <tr>
+      <td>
+        ANY_ACL
+      </td>
+      <td>
+        <%= acl_checkbox(
+          'any_acl[]', 'create', @any_acl_bool, nil, true
+        ) %>
+      </td>
+      <td>
+        <%= acl_checkbox(
+        'any_acl[]', 'read', @any_acl_bool, nil, true
+        ) %>
+      </td>
+      <td>
+        <%= acl_checkbox(
+        'any_acl[]', 'update', @any_acl_bool, nil, true
+        ) %>
+      </td>
+      <td>
+        <%= acl_checkbox(
+        'any_acl[]', 'delete', @any_acl_bool, nil, true
+        ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        GROUP
+      </td>
+      <td>
+        <%= acl_checkbox(
+          'group[]', 'create', @group_bool, nil, true
+        ) %>
+      </td>
+      <td>
+        <%= acl_checkbox(
+        'group[]', 'read', @group_bool, nil, true
+        ) %>
+      </td>
+      <td class="disabled">
+        <%= acl_checkbox(
+        'group[]', 'update', @group_bool, nil, false
+        ) %>
+      </td>
+      <td class="disabled">
+        <%= acl_checkbox(
+        'group[]', 'delete', @group_bool, nil, false
+        ) %>
+      </td>
+    </tr> -->
+
+  </tbody>
+</table>
+
+<div class="row space-top">
+  <%= submit_tag('Save', class: 'eui-btn--blue space-right') %>
+  <%= link_to 'Cancel', system_identity_permissions_path %>
+</div>

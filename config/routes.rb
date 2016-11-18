@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   resources :provider_holdings, only: [:index, :show]
 
+  # PUMPness
   resources :permissions
   get '/permission/all_collections' => 'permissions#get_all_collections'
 
-  # PUMPness
+  resources :system_identity_permissions, only: [:index, :edit, :update]
+
   resource :order_policies, except: :show
   resources :order_options
   get '/order_policies' => 'order_policies#index'

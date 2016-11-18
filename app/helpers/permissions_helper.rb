@@ -18,4 +18,13 @@ module PermissionsHelper
       403 => 'You are not authorized to create a permission. Please contact your system administrator.'
   }
 
+  def acl_checkbox(name, value, value_boolean, classes, enable = true)
+    if enable
+      check_box_tag(name, value, value_boolean, class: classes)
+    else
+      check_box_tag(name, value, value_boolean, class: classes,
+                    readonly: true, onclick: "return false;", onkeydown: "return false;")
+
+    end
+  end
 end

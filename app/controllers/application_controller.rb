@@ -143,6 +143,8 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
 
   def is_logged_in
+    # TODO we should make sure we skip or omit the request paths that we don't
+    # want to be stored or the user to be returned to
     session[:return_to] = request.fullpath
     redirect_to login_path unless logged_in?
   end

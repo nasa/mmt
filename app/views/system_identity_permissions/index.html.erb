@@ -1,0 +1,70 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item current">System Object Permissions</li>
+        </ol>
+      </div>
+      <h2>System Object Permissions</h2>
+      <p class="subnav current">
+        <%= link_to 'Permissions', permissions_path %>
+      </p>
+      <p class="subnav">
+        <%= link_to 'Groups', groups_path %>
+      </p>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+      <!-- <%#= form_tag(edit_system_identity_permission_path(:system_group), method: :get, class: 'system_group_select_form') %>
+        <p>
+          Select a system group, then click 'View/Update Permissions' to access the system object permissions for that group.
+        </p>
+
+        <%#= label_tag(:system_group, 'System Group') %>
+        <%#= select_tag(:system_group, options_for_select(@groups)) %>
+
+        <%#= submit_tag('View/Update Permissions', class: 'eui-btn--blue') %> -->
+        <p>Click on a System Group to access the system object permissions for that group.</p>
+
+        <table class="system-group-table">
+          <thead>
+            <tr>
+              <th>
+                Group Name
+              </th>
+              <th>
+                Members
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% if @groups.blank? %>
+              <tr>
+                <td colspan="2">
+                  There are no System Groups available at this time.
+                </td>
+              </tr>
+            <% else %>
+              <% @groups.each do |group| %>
+                <tr>
+                  <td>
+                    <%= link_to "#{group['name']}", edit_system_identity_permission_path(group['concept_id']) %>
+                  </td>
+                  <td>
+                    <%= group['member_count'] %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+    </section>
+  </div>
+</main>

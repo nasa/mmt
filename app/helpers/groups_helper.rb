@@ -16,7 +16,7 @@ module GroupsHelper
       check_box_tag(:system_group, true, @is_system_group, class: 'system-group-checkbox')
     else
       check_box_tag(:system_group, true, @is_system_group, class: 'system-group-checkbox',
-                        readonly: true, onclick: "return false;", onkeydown: "return false;")
+                    readonly: true, onclick: "return false;", onkeydown: "return false;")
     end
   end
 end

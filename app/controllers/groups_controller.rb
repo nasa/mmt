@@ -24,7 +24,9 @@ class GroupsController < ApplicationController
 
   def show
     @concept_id = params[:id]
-    group_response = cmr_client.get_group(@concept_id, token)
+    # group_response = cmr_client.get_group(@concept_id, token)
+    # TODO hackety hack for system groups
+    group_response = cmr_client.get_group(@concept_id, 'access_token_admin')
 
     if group_response.success?
       @group = group_response.body
@@ -55,7 +57,9 @@ class GroupsController < ApplicationController
       # from CMR docs on group fields: members - Optional. May be specified in create and update operations
       group['members'] = members unless members.blank?
 
-      group_creation_response = cmr_client.create_group(group, token)
+      # group_creation_response = cmr_client.create_group(group, token)
+      # TODO hackety hack for system groups
+      group_creation_response = cmr_client.create_group(group, 'access_token_admin')
 
       if group_creation_response.success?
         concept_id = group_creation_response.body['concept_id']
@@ -223,6 +227,7 @@ class GroupsController < ApplicationController
 
       get_group_members_error = Array.wrap(group_members_response.body['errors'])[0]
       flash[:error] = get_group_members_error
+      @members = []
     end
   end
 
