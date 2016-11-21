@@ -109,7 +109,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_provider_context_token
-    session[:echo_provider_token] = echo_client.get_provider_context_token(token_with_client_id, {behalfOfProvider: @current_user.provider_id}).parsed_body
+    session[:echo_provider_token] = echo_client.get_provider_context_token(token_with_client_id, {behalfOfProvider: current_user.provider_id}).parsed_body
   end
 
   def token
