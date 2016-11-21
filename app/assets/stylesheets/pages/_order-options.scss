@@ -1,0 +1,16 @@
+form#order-option-definition-form {
+  label {
+    display: block;
+  }
+
+  textarea {
+    height: 200px;
+    font-family: monospace;
+    font-size: large;
+  }
+
+  div.row {
+    margin-bottom: 1em;
+    margin-top: 1em;
+  }
+}

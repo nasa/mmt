@@ -23,5 +23,18 @@ module Cmr
     def get_all_providers
       get('/echo-rest/providers.json')
     end
+
+    def create_order_option(order_option, token)
+      url = '/echo-rest/option_definitions'
+      content_type = { 'Content-Type' => 'application/json' }
+      body = { 'option_definition' => order_option }
+      echo_security_token = { 'Echo-Token' => token }
+      post(url, body.to_json, content_type.merge(echo_security_token))
+    end
+
+    def get_order_option(id, token)
+      url = "/echo-rest/option_definitions/#{id}"
+      get(url, {}, { 'Echo-Token' => token })
+    end
   end
 end

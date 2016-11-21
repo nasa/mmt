@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   # PUMPness
   resource :order_policies, except: :show
+  resources :order_options
   get '/order_policies' => 'order_policies#index'
 
   resources :data_quality_summaries
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
   delete '/groups/:id/remove_members' => 'groups#remove_members', as: 'remove_members'
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
+
 
 
 

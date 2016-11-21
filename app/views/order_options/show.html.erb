@@ -1,0 +1,45 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item"><%= link_to 'Order Options', order_options_path %></li>
+          <li class="eui-breadcrumbs__item"><%= @order_option['name'] %></li>
+        </ol>
+      </div>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+      <h2><%= @order_option['name'] %></h2>
+      <p>
+        <% if @order_option['sort_key'] %>
+          <label>Sort Key:</label> <%= @order_option['sort_key'] %> |
+        <% end %>
+        <label>Scope:</label> <%= @order_option['scope'] %>
+      </p>
+
+      <p>
+        <!-- Description -->
+        <label>Description:</label>
+        <%= @order_option['description'] %>
+      </p>
+
+
+      <div class="row">
+        <!-- Echo Form -->
+        <label>
+          ECHO form:
+        </label>
+        <div class="content-box">
+          <pre><%= @order_option['form'] %></pre>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</main>
