@@ -226,6 +226,8 @@ class GroupsController < ApplicationController
       get_group_members_error = Array.wrap(group_members_response.body['errors'])[0]
       flash[:error] = get_group_members_error
     end
+
+    @members
   end
 
   def add_members_to_group(members, concept_id)
@@ -255,9 +257,11 @@ class GroupsController < ApplicationController
   end
 
   def urs_users
+    urs_users = []
+
     users_response = cmr_client.get_urs_users
     if users_response.success?
-      map_urs_users(users_response.body.sort_by { |_uid, user| user['first_name'].downcase })
+      urs_users = map_urs_users(users_response.body.sort_by { |_uid, user| user['first_name'].downcase })
     else
       # Log error message
       Rails.logger.error("Users Request Error: #{users_response.inspect}")
@@ -269,10 +273,10 @@ class GroupsController < ApplicationController
         # error is related to getting users from URS
         users_response_error = 'An unexpected URS error has occurred.'
       end
-
       flash[:error] = users_response_error
-      []
     end
+
+    urs_users
   end
 
   def groups_enabled?
