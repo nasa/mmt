@@ -7,7 +7,8 @@ describe 'Public Holdings Display', reset_provider: true do
 
   before :all do
     3.times do
-      ingest_response, concept = publish_draft
+      # Create 3 collections for MMT_2 (default provider)
+      publish_draft
     end
   end
 
@@ -40,7 +41,6 @@ describe 'Public Holdings Display', reset_provider: true do
         expect(page).to have_selector('table#collections tbody tr', count: collection_count)
       end
 
-      # TODO: Who does this belong to?
       it 'does not show other providers collections' do
         expect(page).to have_no_content('ACRIM III Level 2 Daily Mean Data V001')
       end

@@ -1,5 +1,7 @@
 module Cmr
   class CmrClient < BaseClient
+    # umm-json gives us shorter version of metadata in the 'umm' portion. but it has entry-id
+    # umm_json gives us the metadata record in the 'umm' portion. but that does not include entry-id
     def get_collections(options = {}, token = nil)
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3003/collections.umm-json'

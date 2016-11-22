@@ -47,7 +47,7 @@
     }
   </style>
 
-  <!-- Prevent jQuery animations in tes -->
+  <!-- Prevent jQuery animations in tests -->
   <%= javascript_tag '$.fx.off = true;' if Rails.env.test? -%>
   <% end -%>
 </head>

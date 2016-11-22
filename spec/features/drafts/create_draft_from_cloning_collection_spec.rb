@@ -39,21 +39,21 @@ describe 'Create new draft from cloning a collection', js: true do
     it 'displays the draft preview page' do
       expect(page).to have_content('DRAFT RECORD')
       expect(page).to have_content("#{@concept['EntryTitle']} - Cloned")
-    # end
+    end
 
-    # it 'appends " - Cloned" to the metadata' do
+    it 'appends " - Cloned" to the metadata' do
       within '.collection-basics' do
         expect(page).to have_content("#{@concept['EntryTitle']} - Cloned")
       end
-    # end
+    end
 
-    # it 'removes Short Name from the metadata' do
+    it 'removes Short Name from the metadata' do
       within '.collection-information-preview' do
         expect(page).to have_no_content('Short Name')
       end
-    # end
+    end
 
-    # it 'displays a message that the draft needs a unique Short Name' do
+    it 'displays a message that the draft needs a unique Short Name' do
       expect(page).to have_link('Records must have a unique Short Name. Click here to enter a new Short Name.')
     end
 

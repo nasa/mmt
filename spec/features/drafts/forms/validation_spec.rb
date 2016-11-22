@@ -332,7 +332,6 @@ describe 'Data validation for a form', js: true do
       click_on 'No'
 
       expect(page).to have_selector(validation_error)
-      # expect(page).to have_selector(validation_error)
       expect(page).to have_content('Points has too few items')
 
       # Fully populate a boundary's list of points

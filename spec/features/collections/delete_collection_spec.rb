@@ -30,17 +30,17 @@ describe 'Delete collection', js: true do
 
         it 'displays a confirmation message' do
           expect(page).to have_content('Collection was successfully deleted')
-        # end
+        end
 
-        # it 'displays the revision page' do
+        it 'displays the revision page' do
           expect(page).to have_content('Revision History')
-        # end
+        end
 
-        # it 'displays the correct number of revisions' do
+        it 'displays the correct number of revisions' do
           expect(page).to have_selector('tbody > tr', count: 2)
-        # end
+        end
 
-        # it 'displays the latest revision as being deleted' do
+        it 'displays the latest revision as being deleted' do
           within first('tbody > tr') do
             expect(page).to have_content('Deleted')
           end
@@ -68,12 +68,6 @@ describe 'Delete collection', js: true do
       click_on short_name
     end
 
-    # after do
-    #   user = User.first
-    #   user.provider_id = 'MMT_2'
-    #   user.save
-    # end
-
     it 'displays the number of granules' do
       expect(page).to have_content('Granules (1)')
     end
@@ -91,7 +85,7 @@ describe 'Delete collection', js: true do
 
   context 'when viewing a published collection with a non url encoded native id' do
     before do
-      ingest_response, concept = publish_draft(native_id: 'not & url, encoded / native id')
+      ingest_response, _concept = publish_draft(native_id: 'not & url, encoded / native id')
 
       visit collection_path(ingest_response['result']['concept_id'])
     end

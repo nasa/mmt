@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
                   # Get all ACLs
                   acls = cmr_client.get_provider_acls.body
 
-                  # Pull out nly the acls that apply to this
+                  # Pull out only the acls that apply to this
                   good_acls = acls.select do |acl|
                     # If the ACL is an ingest ACL
                     is_ingest_acl = acl['acl']['provider_object_identity']['target'] == 'INGEST_MANAGEMENT_ACL'

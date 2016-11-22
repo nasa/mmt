@@ -5,10 +5,6 @@ require 'rails_helper'
 describe 'Search sorting', reset_provider: true, js: true do
   context 'when sorting search collections results' do
     before :all do
-      # 5.times do
-      #   publish_draft
-      # end
-
       publish_draft(short_name: 'First!', modified_date: (Time.now.utc - 5.days))
 
       publish_draft(short_name: '0000_Aardvark Short Name')
@@ -201,9 +197,9 @@ describe 'Search sorting', reset_provider: true, js: true do
 
       it 'displays the correct search param' do
         expect(page).to have_search_query(nil, 'Sort Key: Entry Title Asc')
-      # end
+      end
 
-      # it 'sorts the results by Entry Title Asc' do
+      it 'sorts the results by Entry Title Asc' do
         within '#search-results tbody tr:nth-child(1)' do
           expect(page).to have_content('Arctic Cooling Heating Vectors')
         end
@@ -217,9 +213,9 @@ describe 'Search sorting', reset_provider: true, js: true do
 
         it 'displays the correct search param' do
           expect(page).to have_search_query(nil, 'Sort Key: Entry Title Desc')
-        # end
+        end
 
-        # it 'sorts the results by Entry Title Desc' do
+        it 'sorts the results by Entry Title Desc' do
           within '#search-results tbody tr:nth-child(1)' do
             expect(page).to have_content('Zimbabwe Evapotranspiration')
           end
@@ -235,9 +231,9 @@ describe 'Search sorting', reset_provider: true, js: true do
 
       it 'displays the correct search param' do
         expect(page).to have_search_query(nil, 'Sort Key: Last Modified Asc')
-      # end
+      end
 
-      # it 'sorts the results by Last Modified Asc' do
+      it 'sorts the results by Last Modified Asc' do
         within '#search-results tbody tr:nth-child(1)' do
           expect(page).to have_content('Arctic Cooling Heating Vectors')
         end
@@ -251,9 +247,9 @@ describe 'Search sorting', reset_provider: true, js: true do
 
         it 'displays the correct search param' do
           expect(page).to have_search_query(nil, 'Sort Key: Last Modified Desc')
-        # end
+        end
 
-        # it 'sorts the results by Last Modified Desc' do
+        it 'sorts the results by Last Modified Desc' do
           within '#search-results tbody tr:nth-child(1)' do
             expect(page).to have_content('Zimbabwe Evapotranspiration')
           end
@@ -269,9 +265,9 @@ describe 'Search sorting', reset_provider: true, js: true do
 
       it 'displays the correct search param' do
         expect(page).to have_search_query(nil, 'Sort Key: Provider Id Asc')
-      # end
+      end
 
-      # it 'sorts the results by Provider Id Asc' do
+      it 'sorts the results by Provider Id Asc' do
         within '#search-results tbody tr:nth-child(1)' do
           expect(page).to have_content('Arctic Cooling Heating Vectors')
         end
@@ -285,9 +281,9 @@ describe 'Search sorting', reset_provider: true, js: true do
 
         it 'displays the correct search param' do
           expect(page).to have_search_query(nil, 'Sort Key: Provider Id Desc')
-        # end
+        end
 
-        # it 'sorts the results by Provider Id Desc' do
+        it 'sorts the results by Provider Id Desc' do
           within '#search-results tbody tr:nth-child(1)' do
             expect(page).to have_content('Zimbabwe Evapotranspiration')
           end
