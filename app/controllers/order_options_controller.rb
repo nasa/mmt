@@ -49,6 +49,7 @@ class OrderOptionsController < ApplicationController
     order_option_id = params[:id]
 
     response = cmr_client.get_order_option(order_option_id, echo_provider_token)
+
     if response.success?
       @order_option = Hash.from_xml(response.body)['option_definition']
 
@@ -66,9 +67,9 @@ class OrderOptionsController < ApplicationController
   end
 
   def edit
-    order_option_id = params[:id]
+    @order_option_id = params[:id]
 
-    response = cmr_client.get_order_option(order_option_id, echo_provider_token)
+    response = cmr_client.get_order_option(@order_option_id, echo_provider_token)
     if response.success?
       @order_option = Hash.from_xml(response.body)['option_definition']
     else
@@ -81,7 +82,39 @@ class OrderOptionsController < ApplicationController
   end
 
   def update
-    fail
+    @order_option = params[:order_option]
+    @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
+
+    soap_xml_response = echo_client.deprecate_order_options([params['id']], echo_provider_token)
+    soap_response = Hash.from_xml(soap_xml_response.body)
+
+    # We have to deprecate the order before allowing to update. We will ignore the error it was already deprecated in case
+    # the user tries to rename it something that already exists.
+    if(! soap_xml_response.success?)
+      error_code = soap_response.fetch('Envelope',{}).fetch('Body',{}).fetch('Fault',{}).fetch('detail',{}).fetch('InvalidStateFault',{}).fetch('ErrorCode',nil)
+      if(error_code != 'OptionDefAlreadyDeprecated')
+        flash[:error] = soap_response['Envelope']['Body']['Fault']['faultstring']
+        redirect_to edit_order_option_path
+        return
+      end
+    end
+
+
+    # "Updating" an order option is simply recreating it once it has been deprecated via
+    # ECHO SOAP API.
+    response = cmr_client.create_order_option(@order_option, echo_provider_token)
+
+    if response.success?
+      order_option_response = Hash.from_xml(response.body)
+      order_option_id = order_option_response['option_definition']['id']
+      flash[:success] = 'Order Option was successfully updated.'
+      redirect_to order_option_path(order_option_id)
+    else
+      Rails.logger.error("Update Order Option Error: #{response.inspect}")
+      parsed_errors = Hash.from_xml(response.body)
+      flash[:error] = parsed_errors['errors']['error'].inspect
+      redirect_to edit_order_option_path
+    end
   end
 
 end

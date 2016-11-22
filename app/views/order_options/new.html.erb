@@ -17,15 +17,7 @@
   <div class="row row-content">
     <section>
       <%= form_tag(order_options_path, method: :post, id: 'order-option-definition-form', class: 'order-options') do %>
-
           <%= render partial: 'order_options_form', locals: { new_form: true } %>
-
-        <div class="col-3">
-          <%= submit_tag 'Create', class: 'eui-btn--blue' %>
-
-          <%= link_to 'Cancel', order_options_path %>
-        </div>
-
       <% end %>
     </section>
   </div>

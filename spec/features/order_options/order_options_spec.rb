@@ -121,5 +121,11 @@ describe 'Creating Order Options' do
         end
       end
     end
+
+    context 'when updating an existing order option' do
+      # TODO: Fill in cases when view listing ticket is complete
+      # 1. Updating an order with a different name
+      # 2. Error case: Updating an order with the same name
+    end
   end
 end
