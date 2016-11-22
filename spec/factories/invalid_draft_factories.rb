@@ -96,7 +96,7 @@ FactoryGirl.define do
         'ShortName' => 'Invalid Picklists',
         'EntryTitle' => 'Invalid Picklist Draft',
         'ProcessingLevel' => {
-          'Id' => '1A'
+          'Id' => '5'
         },
         'RelatedUrls' => [{
           'MimeType' => 'badmimetype',
@@ -231,8 +231,8 @@ def all_required_fields
       'LongName' => 'Hydrogeophysics Group, Aarhus University ' # controlled keywords source has extra space at the end
     }],
     'ProcessingLevel' => {
-      'Id' => '1',
-      'ProcessingLevelDescription' => 'Level 1 Description'
+      'Id' => '5',
+      'ProcessingLevelDescription' => 'Level 5 Description'
     },
     'RelatedUrls' => [{
       'URLs' => ['http://example.com/']

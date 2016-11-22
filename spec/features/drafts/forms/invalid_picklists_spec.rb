@@ -164,19 +164,19 @@ describe 'Invalid picklists', js: true do
 
     it 'displays a summary error' do
       within '.summary-errors' do
-        expect(page).to have_content('ID value [Level 1A] does not match a valid selection option')
+        expect(page).to have_content('ID value [5] does not match a valid selection option')
       end
     end
 
     it 'displays an inline error' do
       within '#processing-level' do
-        expect(page).to have_content('ID value [Level 1A] does not match a valid selection option')
+        expect(page).to have_content('ID value [5] does not match a valid selection option')
       end
     end
 
     it 'displays an unselectable invalid option' do
       within '.id-select' do
-        expect(page).to have_css('option[disabled][selected]', text: 'Level 1A')
+        expect(page).to have_css('option[disabled][selected]', text: '5')
       end
     end
   end
