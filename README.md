@@ -144,4 +144,4 @@ This isn't an issue normally but with MMT we run a number of services locally wh
 
 For calls to CMR that are asyncronous, we do have a method of waiting for those to finish, syncronously. Within the [spec/helpers/cmr_helper.rb](spec/helpers/cmr_helper.rb) we have a method called `wait_for_cmr` that makes two calls to CMR and ElasticSearch to ensure all work is complete. This should ONLY be used within tests. 
 
-### Please Ensure ALL tests pass before submitting a Pull Request.
+###### * PLEASE ENSURE ALL TESTS PASS BEFORE SUBMITTING A PULL REQUEST *
