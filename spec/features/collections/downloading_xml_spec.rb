@@ -3,12 +3,14 @@
 require 'rails_helper'
 
 describe 'Downloading Collection XML', js: true do
-  concept_id = 'C1200000010-SEDAC'
-
   context 'when viewing the collection preview page' do
     before do
       login
-      visit collection_path(concept_id)
+
+      ingest_response, @concept = publish_draft
+
+      @concept_id = ingest_response['result']['concept_id']
+      visit collection_path(@concept_id)
     end
 
     context 'when clicking Download XML' do
@@ -17,7 +19,7 @@ describe 'Downloading Collection XML', js: true do
       end
 
       it 'shows the download selections' do
-        link = "http://localhost:3003/concepts/#{concept_id}"
+        link = "http://localhost:3003/concepts/#{@concept_id}"
         token = 'access_token:81FEem91NlTQreWv2UgtXQ'
 
         expect(page).to have_link('Native', href: "#{link}?token=#{token}")

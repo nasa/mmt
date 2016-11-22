@@ -1,26 +1,18 @@
 require 'rails_helper'
 
-describe 'Collection with draft', js: true, reset_provider: true do
+describe 'Collection with draft' do
   modal_text = 'requires you change your provider context to MMT_2'
 
   context 'when viewing a collection that has an open draft' do
     before do
       login
-      publish_draft
-      click_on 'Edit'
     end
 
-    context 'when the collections provider is the users current provider' do
+    context 'when the collections provider is the users current provider', js: true do
       before do
-        user = User.first
-        user.provider_id = 'MMT_2'
-        user.save
+        ingest_response, @concept = publish_draft(include_new_draft: true)
 
-        visit '/manage_metadata'
-        fill_in 'Quick Find', with: 'MMT_2'
-        click_on 'Find'
-
-        click_on '12345'
+        visit collection_path(ingest_response['result']['concept_id'])
       end
 
       it 'displays a message that a draft exists' do
@@ -33,23 +25,21 @@ describe 'Collection with draft', js: true, reset_provider: true do
         end
 
         it 'displays the draft' do
-          expect(page).to have_content('12345_1 Draft Title DRAFT RECORD')
+          expect(page).to have_content("#{@concept['ShortName']}_1 #{@concept['EntryTitle']} DRAFT RECORD")
         end
       end
     end
 
-    context 'when the collections provider is in the users available providers' do
+    context 'when the collections provider is in the users available providers', js: true do
       before do
+        ingest_response, @concept = publish_draft(include_new_draft: true)
+
         user = User.first
         user.provider_id = 'MMT_1'
         user.available_providers = %w(MMT_1 MMT_2)
         user.save
 
-        visit '/manage_metadata'
-        fill_in 'Quick Find', with: 'MMT_2'
-        click_on 'Find'
-
-        click_on '12345'
+        visit collection_path(ingest_response['result']['concept_id'])
       end
 
       it 'displays a message that a draft exists' do
@@ -77,7 +67,7 @@ describe 'Collection with draft', js: true, reset_provider: true do
           end
 
           it 'displays the draft' do
-            expect(page).to have_content('12345_1 Draft Title DRAFT RECORD')
+            expect(page).to have_content("#{@concept['ShortName']}_1 #{@concept['EntryTitle']} DRAFT RECORD")
           end
         end
       end
@@ -85,16 +75,14 @@ describe 'Collection with draft', js: true, reset_provider: true do
 
     context 'when the collections provider is not in the users available providers' do
       before do
+        ingest_response, @concept = publish_draft(include_new_draft: true)
+
         user = User.first
         user.provider_id = 'SEDAC'
         user.available_providers = %w(SEDAC)
         user.save
 
-        visit '/manage_metadata'
-        fill_in 'Quick Find', with: 'MMT_2'
-        click_on 'Find'
-
-        click_on '12345'
+        visit collection_path(ingest_response['result']['concept_id'])
       end
 
       it 'does not display a message that a draft exists' do

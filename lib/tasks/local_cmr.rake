@@ -11,7 +11,8 @@ namespace :cmr do
 
   desc 'Start local CMR'
   task start: [:stop] do
-    Process.spawn('cd cmr; java -XX:-OmitStackTraceInFastThrow -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr_logs.log &')
+    # Process.spawn('cd cmr; java -XX:-OmitStackTraceInFastThrow -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr_logs.log &')
+    Process.spawn('cd cmr; nohup java -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner&')
     puts 'Cmr is starting up'
   end
 
@@ -28,12 +29,14 @@ namespace :cmr do
 
   desc 'Stop local CMR process'
   task :stop do
-    `kill $(ps aux | grep '[c]mr-dev-system' | awk '{print $2}')`
+    `date && echo "Stopping applications" && (curl -XPOST http://localhost:2999/stop; true)`
   end
 
   desc 'Delete provider used in tests'
-  task reset_test_provider: ['tmp:cache:clear'] do
+  task :reset_test_provider, [:provider_id] => ['tmp:cache:clear'] do |task, args|
+    args.with_defaults(provider_id: 'MMT_2')
+
     cmr = Cmr::Local.new
-    cmr.reset_provider('MMT_2')
+    cmr.reset_provider(args[:provider_id])
   end
 end

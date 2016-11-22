@@ -62,7 +62,7 @@ class SearchController < ApplicationController
     unless query['keyword'] && query['keyword'].empty?
       query['keyword'] = query['keyword'].strip.gsub(/\s+/, '* ') + '*'
     end
-
+    
     collections = cmr_client.get_collections(query, token).body
     hits = collections['hits'].to_i
     if collections['errors']
@@ -76,7 +76,7 @@ class SearchController < ApplicationController
   end
 
   def get_drafts(query)
-    providers = Array.wrap(query['provider_id'] || @current_user.available_providers)
+    providers = Array.wrap(query['provider_id'] || current_user.available_providers)
     drafts = Draft.where('lower(short_name) LIKE ? OR lower(entry_title) LIKE ?',
                          "%#{query['keyword'].downcase}%", "%#{query['keyword'].downcase}%")
                   .where('provider_id IN (?)', providers)

@@ -42,7 +42,7 @@ describe 'Clearing saved science keywords', js: true do
           find('.remove').click
           # remove_script = "$('.selected-science-keywords').find('.remove').click()"
           # page.execute_script(remove_script)
-          sleep 1
+          # sleep 1
         end
 
         within '.nav-top' do

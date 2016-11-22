@@ -111,9 +111,9 @@
                   <% end %>
 
                   <% unless index == 0 || revision['meta']['deleted'] == true %>
-                    <% if @current_user.provider_id == @provider_id %>
+                    <% if current_user.provider_id == @provider_id %>
                       <%= link_to phrase, "#revert-revisions-modal-#{revision_id}", class: 'display-modal' %>
-                    <% elsif @current_user.available_providers.include?(@provider_id) %>
+                    <% elsif current_user.available_providers.include?(@provider_id) %>
                       <%= link_to phrase, '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: phrase } %>
                     <% end %>
                     <div id="revert-revisions-modal-<%= revision_id %>" class="eui-modal-content">

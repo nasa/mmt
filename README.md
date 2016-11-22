@@ -125,3 +125,23 @@ Try the following steps:
 ### UMM JSON-Schema
 
 You can view/download the latest UMM JSON-Schema here, https://git.earthdata.nasa.gov/projects/CMR/repos/cmr/browse/umm-spec-lib/resources/json-schemas
+
+## Local Testing
+
+#### JavaScript
+MMT uses PhantomJS which allows us to run our Capybara tests on a headless WebKit browser. Before you're able to run tests locally you'll need to install it. The easiest way to accomplish this would be to use [Homebrew](http://brew.sh/) or a similar packager manager. If you're using Homebrew, run the following the command:
+
+    brew install phantomjs
+
+#### VCR
+MMT uses [VCR](https://github.com/vcr/vcr) to record non-localhost HTTP interactions, it is configured in [spec/support/vcr.rb](spec/support/vcr.rb).
+
+All calls to localhost are ignored by VCR and therefore will not be recorded.
+
+This isn't an issue normally but with MMT we run a number of services locally while developing that we would like to be recorded. 
+
+#### CMR
+
+For calls to CMR that are asyncronous, we do have a method of waiting for those to finish, syncronously. Within the [spec/helpers/cmr_helper.rb](spec/helpers/cmr_helper.rb) we have a method called `wait_for_cmr` that makes two calls to CMR and ElasticSearch to ensure all work is complete. This should ONLY be used within tests. 
+
+###### * PLEASE ENSURE ALL TESTS PASS BEFORE SUBMITTING A PULL REQUEST *

@@ -17,9 +17,9 @@
         <% unless @error %>
           <p class="subnav current">Published Record</p>
           <p class="subnav">
-            <% if @current_user.provider_id == @provider_id %>
+            <% if current_user.provider_id == @provider_id %>
               <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%>
-            <% elsif @current_user.available_providers.include?(@provider_id) %>
+            <% elsif current_user.available_providers.include?(@provider_id) %>
               <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-collection' } %>
             <% end %>
           </p>
@@ -95,9 +95,9 @@
     <% if @draft %>
       <div class="eui-banner--warn">
         <p class="eui-banner__message">
-          <% if @current_user.provider_id == @provider_id %>
+          <% if current_user.provider_id == @provider_id %>
             <%= link_to 'This collection has an open draft associated with it. Click here to view it.', @draft %>
-          <% elsif @current_user.available_providers.include?(@provider_id) %>
+          <% elsif current_user.available_providers.include?(@provider_id) %>
             <%= link_to 'This collection has an open draft associated with it. Click here to view it.', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'view-draft' } %>
           <% end %>
         </p>
@@ -116,15 +116,15 @@
           <div class="cta">
             <p>
               <a class="disabled" href="#">Save as Template</a> |
-              <% if @current_user.provider_id == @provider_id %>
+              <% if current_user.provider_id == @provider_id %>
                 <%= link_to 'Clone this Record', clone_collection_path %> |
-              <% elsif @current_user.available_providers.include?(@provider_id) %>
+              <% elsif current_user.available_providers.include?(@provider_id) %>
                 <%= link_to 'Clone this Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'clone' } %> |
               <% end %>
               <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= @collection_link %>" data-token="<%= token_with_client_id %>">Download XML</a>
-              <% if @current_user.provider_id == @provider_id %>
+              <% if current_user.provider_id == @provider_id %>
                 | <%= link_to 'Delete Record', "#delete-record-modal", class: 'display-modal delete-collection' %>
-              <% elsif @current_user.available_providers.include?(@provider_id) %>
+              <% elsif current_user.available_providers.include?(@provider_id) %>
                 | <%= link_to 'Delete Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'delete-collection' } %>
               <% end %>
               <div id="delete-record-modal" class="eui-modal-content">

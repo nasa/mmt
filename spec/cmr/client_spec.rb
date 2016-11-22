@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Cmr::Client do
-  let(:connection) { Object.new }
+  let(:connection) { Faraday.new }
   let(:req) { double(headers: {}) }
   let(:cmr_client) { Cmr::CmrClient.new('http://example.com', '1234') }
 

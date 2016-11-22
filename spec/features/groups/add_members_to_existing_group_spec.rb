@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Adding members to existing group', reset_provider: true, js: true do
+describe 'Adding members to existing group', js: true, reset_provider: true do
   group_name = 'Ocean Explorers'
   group_description = 'Group for Ocean Monitoring Scientists'
 
@@ -13,6 +13,9 @@ describe 'Adding members to existing group', reset_provider: true, js: true do
       fill_in 'Group Name', with: group_name
       fill_in 'Group Description', with: group_description
       click_on 'Save'
+
+      @concept_id = group_concept_from_path
+
       click_on '+ Add Members'
 
       select('Marsupial Narwal', from: 'Members directory')
@@ -22,7 +25,13 @@ describe 'Adding members to existing group', reset_provider: true, js: true do
       click_on 'Save'
     end
 
-    it 'displays a success message' do
+    after do
+      delete_group(concept_id: @concept_id)
+
+      wait_for_cmr
+    end
+
+    it 'displays correct data' do
       expect(page).to have_content('Members successfully added.')
     end
 

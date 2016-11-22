@@ -1,11 +1,11 @@
 class ProviderHoldingsController < ApplicationController
   def index
-    if @current_user.available_providers.size == 1
-      return redirect_to provider_holding_path(@current_user.provider_id)
+    if current_user.available_providers.size == 1
+      return redirect_to provider_holding_path(current_user.provider_id)
     end
 
     providers = Hash[cmr_client.get_providers.body.map { |p| [p['provider-id'], { 'provider_id' => p['provider-id'], 'short_name' => p['short-name'] }] }]
-    providers.select! { |provider| @current_user.available_providers.include?(provider) }
+    providers.select! { |provider| current_user.available_providers.include?(provider) }
 
     holdings = cmr_client.get_provider_holdings(false, nil, token).body
 

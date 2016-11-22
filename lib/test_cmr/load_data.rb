@@ -382,11 +382,9 @@ module Cmr
       connection.post do |req|
         req.url('http://localhost:2999/clear-cache')
       end
-      sleep 1
       connection.post do |req|
         req.url('http://localhost:3011/caches/clear-cache?token=mock-echo-system-token')
       end
-      sleep 1
     end
 
     def retrieve_metadata_uris
@@ -455,57 +453,63 @@ module Cmr
     end
 
     def reset_provider(provider_id)
-      # Delete provider
-      response = connection.delete do |req|
-        req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.url("http://localhost:3002/providers/#{provider_id}")
-      end
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'load_data.rb reset_provider' do
+        # Delete the given provider
+        # When a provider is deleted all of the data associated with that provider is
+        # also deleted. CMR then needs to re-index, which is asyncronous
+        response = connection.delete do |req|
+          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.url("http://localhost:3002/providers/#{provider_id}")
+        end
 
-      guid = "prov-guid-#{Time.now.to_i}"
+        guid = "prov-guid-#{Time.now.to_i}"
 
-      # Create provider
-      connection.post do |req|
-        req.url('http://localhost:3002/providers')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "' + provider_id + '", "short-name": "' + provider_id + '", "cmr-only": true}'
-      end
-      connection.post do |req|
-        req.url('http://localhost:3008/providers')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '[{"provider":{"id":"' + guid + '","provider_id":"' + provider_id + '"}}]'
-      end
-      connection.post do |req|
-        req.url('http://localhost:3008/acls')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "' + guid + '"}}}'
-      end
-      connection.post do |req|
-        req.url('http://localhost:3008/acls')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "' + guid + '","target": "INGEST_MANAGEMENT_ACL"}}}'
-      end
-      connection.post do |req|
-        req.url('http://localhost:3008/acls')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "' + guid + '","target": "GROUP"}}}'
-      end
-      connection.post do |req|
-        req.url('http://localhost:3011/acls')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "' + provider_id + '"}}'
-      end
+        # Create provider
+        connection.post do |req|
+          req.url('http://localhost:3002/providers')
+          req.headers['Content-Type'] = 'application/json'
+          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.body = '{"provider-id": "' + provider_id + '", "short-name": "' + provider_id + '", "cmr-only": true}'
+        end
+        connection.post do |req|
+          req.url('http://localhost:3008/providers')
+          req.headers['Content-Type'] = 'application/json'
+          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.body = '[{"provider":{"id":"' + guid + '","provider_id":"' + provider_id + '"}}]'
+        end
+        connection.post do |req|
+          req.url('http://localhost:3008/acls')
+          req.headers['Content-Type'] = 'application/json'
+          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "' + guid + '"}}}'
+        end
+        connection.post do |req|
+          req.url('http://localhost:3008/acls')
+          req.headers['Content-Type'] = 'application/json'
+          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "' + guid + '","target": "INGEST_MANAGEMENT_ACL"}}}'
+        end
+        connection.post do |req|
+          req.url('http://localhost:3008/acls')
+          req.headers['Content-Type'] = 'application/json'
+          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "' + guid + '","target": "GROUP"}}}'
+        end
+        connection.post do |req|
+          req.url('http://localhost:3011/acls')
+          req.headers['Content-Type'] = 'application/json'
+          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "' + provider_id + '"}}'
+        end
 
-      clear_cache
+        clear_cache
+      end
     end
 
     def connection
       @connection ||= Faraday.new do |faraday|
+        faraday.use :instrumentation
+
         faraday.request :url_encoded # form-encode POST params
         # faraday.response :logger  # log requests to STDOUT
         faraday.adapter Faraday.default_adapter # make requests with Net::HTTP

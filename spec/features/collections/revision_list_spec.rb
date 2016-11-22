@@ -2,12 +2,14 @@
 
 require 'rails_helper'
 
-describe 'Revision list', js: true, reset_provider: true do
+describe 'Revision list', js: true do
   context 'when viewing a published collection' do
     before do
       login
 
-      publish_draft(2)
+      ingest_response, @concept = publish_draft(revision_count: 2)
+
+      visit collection_path(ingest_response['result']['concept_id'])
     end
 
     it 'displays the number of revisions' do
@@ -16,6 +18,7 @@ describe 'Revision list', js: true, reset_provider: true do
 
     context 'when clicking on the revision link' do
       before do
+        wait_for_cmr
         click_on 'Revisions'
       end
 
@@ -24,7 +27,7 @@ describe 'Revision list', js: true, reset_provider: true do
       end
 
       it 'displays the collection entry title' do
-        expect(page).to have_content('Draft Title')
+        expect(page).to have_content(@concept['ShortName'])
       end
 
       it 'displays when the revision was made' do
@@ -63,12 +66,12 @@ describe 'Revision list', js: true, reset_provider: true do
 
     context 'when searching for the collection' do
       before do
-        full_search(keyword: '12345', provider_id: 'MMT_2')
+        full_search(keyword: @concept['EntryTitle'], provider: 'MMT_2')
       end
 
       it 'only displays the latest revision' do
         within '#collection_search_results' do
-          expect(page).to have_content('12345', count: 1)
+          expect(page).to have_content(@concept['EntryTitle'], count: 1)
         end
       end
     end

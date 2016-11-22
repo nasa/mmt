@@ -2,22 +2,20 @@
 
 require 'rails_helper'
 
-describe 'Reverting to previous collections', js: true, reset_provider: true do
+describe 'Reverting to previous collections', js: true do
   before do
     login
-
-    draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
-    visit draft_path(draft)
-
-    click_on 'Publish'
   end
 
   context 'when the latest revision is a published collection' do
     before do
-      # go back to the draft and publish it a second time
-      click_on 'Edit Record'
-      click_on 'Publish'
-      click_on 'Revisions (2)'
+     ingest_response, concept = publish_draft(revision_count: 2)
+
+     visit collection_path(ingest_response['result']['concept_id'])
+
+      within '.cta' do
+        click_on 'Revisions'
+      end
     end
 
     it 'displays the correct phrasing for reverting records' do
@@ -27,15 +25,15 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
     context 'when reverting the collection' do
       before do
         click_on 'Revert to this Revision'
-        # Accept
         click_on 'Yes'
+
+        wait_for_ajax
+        wait_for_cmr
       end
 
-      it 'displays a confirmation message' do
+      it 'displays all the correct revision information' do
         expect(page).to have_content('Revision was successfully created')
-      end
 
-      it 'displays the new latest revision' do
         expect(page).to have_content('Published', count: 1)
         expect(page).to have_content('Revision View', count: 2)
         expect(page).to have_content('Revert to this Revision', count: 2)
@@ -54,6 +52,9 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
 
         click_on 'Revert to this Revision'
         click_on 'Yes'
+
+        wait_for_ajax
+        wait_for_cmr
       end
 
       it 'displays an error message' do
@@ -64,9 +65,15 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
 
   context 'when the latest revision is a deleted collection' do
     before do
+      ingest_response, concept = publish_draft
+
+      visit collection_path(ingest_response['result']['concept_id'])
+
       click_on 'Delete Record'
-      # Accept
       click_on 'Yes'
+
+      wait_for_ajax
+      wait_for_cmr
     end
 
     it 'displays the correct phrasing for reverting records' do
@@ -76,15 +83,15 @@ describe 'Reverting to previous collections', js: true, reset_provider: true do
     context 'when reverting the collection' do
       before do
         click_on 'Reinstate'
-        # Accept
         click_on 'Yes'
+
+        wait_for_ajax
+        wait_for_cmr
       end
 
-      it 'displays a confirmation message' do
+      it 'displays all the correct revision information' do
         expect(page).to have_content('Revision was successfully created')
-      end
 
-      it 'displays the new latest revision' do
         expect(page).to have_content('Published', count: 1)
         expect(page).to have_content('Deleted', count: 1)
         expect(page).to have_content('Revision View', count: 1)

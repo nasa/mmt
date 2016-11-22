@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe 'Viewing Data Quality Summaries', js: true do
+describe 'Viewing Data Quality Summaries' do
   context 'when viewing the data quality summaries page' do
     before do
       login
 
-      click_on 'Manage CMR'
+      visit manage_cmr_path
 
       VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/empty', record: :none) do
         click_on 'View All Summaries'
@@ -20,7 +20,7 @@ describe 'Viewing Data Quality Summaries', js: true do
       expect(page).to have_content('Create a Data Quality Summary')
     end
 
-    context 'when clicking the create data quality summary button' do
+    context 'when clicking the create data quality summary button', js: true do
       before do
         VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/list', record: :none) do
           click_on 'Create a Data Quality Summary'

@@ -33,7 +33,7 @@
           <% @providers.each do |row| %>
             <tr class='<%= cycle("alt", "") %>'>
               <td>
-                <%= link_to row['short_name'], :action=>:collections, :provider_id=> row['provider_id'], :provider_name=> row['short_name'] %>
+                <%= link_to row['short_name'], welcome_collections_path(provider_id: row['provider_id'], provider_name: row['short_name'])%>
               </td>
               <td class="align-r">
                 <%= number_with_delimiter(row['collection_count']) %>

@@ -16,6 +16,7 @@ describe 'Auto populating metadata dates', js: true do
 
       visit draft_path(draft)
       click_on 'Publish'
+      wait_for_cmr
       open_accordions
     end
 
@@ -40,6 +41,7 @@ describe 'Auto populating metadata dates', js: true do
         end
 
         click_on 'Publish'
+        wait_for_cmr
         open_accordions
       end
 

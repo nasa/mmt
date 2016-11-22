@@ -1,8 +1,8 @@
 module Cmr
   class CmrClient < BaseClient
+    # umm-json gives us shorter version of metadata in the 'umm' portion. but it has entry-id
+    # umm_json gives us the metadata record in the 'umm' portion. but that does not include entry-id
     def get_collections(options = {}, token = nil)
-      # umm-json gives us shorter version of metadata in the 'umm' portion. but it has entry-id
-      # umm_json gives us the metadata record in the 'umm' portion. but that does not include entry-id
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3003/collections.umm-json'
       else
@@ -186,6 +186,7 @@ module Cmr
       # '[{"username": "user1", "password": "user1pass"}, ...]'
       # local cmr requires 'username' and 'password' fields
       users = user_uids.map { |uid| { 'username' => uid, 'password' => 'password' } }
+
       url = 'http://localhost:3008/urs/users'
       post(url, users.to_json, token_header(token))
     end

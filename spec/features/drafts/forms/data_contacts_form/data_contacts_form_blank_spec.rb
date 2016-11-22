@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Data Contacts form saving when blank', js: true do
+describe 'Data Contacts form saving when blank' do
   before do
     login
   end

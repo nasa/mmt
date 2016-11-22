@@ -2,11 +2,10 @@
 
 require 'rails_helper'
 
-describe 'Search results permissions for drafts', js: true do
-  short_name = 'Climate Change'
-  entry_title = 'Climate Observation Record'
-  provider = 'MMT_2'
-  modal_text = 'requires you change your provider context to MMT_2'
+describe 'Search results permissions for drafts', reset_provider: true, js: true do
+  let(:short_name)  { 'Climate Change' }
+  let(:entry_title) { 'Climate Observation Record' }
+  let(:provider)    { 'MMT_2' }
 
   context 'when searching drafts' do
     before do
@@ -16,10 +15,6 @@ describe 'Search results permissions for drafts', js: true do
 
     context 'when drafts are from current provider' do
       before do
-        user = User.first
-        user.provider_id = 'MMT_2'
-        user.save
-
         full_search(keyword: entry_title, record_type: 'Drafts')
       end
 
@@ -49,11 +44,10 @@ describe 'Search results permissions for drafts', js: true do
     end
 
     context 'when drafts are from available providers' do
+      let(:provider_id) { 'MMT_1' }
+
       before do
-        user = User.first
-        user.provider_id = 'MMT_1'
-        user.available_providers = %w(MMT_1 MMT_2)
-        user.save
+        User.first.update(provider_id: provider_id)
 
         full_search(keyword: short_name, record_type: 'Drafts')
       end
@@ -74,7 +68,7 @@ describe 'Search results permissions for drafts', js: true do
         end
 
         it 'displays a modal informing the user they need to switch providers' do
-          expect(page).to have_content("Viewing this draft #{modal_text}")
+          expect(page).to have_content("Viewing this draft requires you change your provider context to MMT_2")
         end
 
         context 'when clicking Yes' do
@@ -100,7 +94,7 @@ describe 'Search results permissions for drafts', js: true do
       before do
         user = User.first
         user.provider_id = 'SEDAC'
-        user.available_providers = ['SEDAC']
+        user.providers = ['SEDAC']
         user.save
 
         full_search(keyword: short_name, record_type: 'Drafts')

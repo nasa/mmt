@@ -13,13 +13,61 @@ module Helpers
       click_on 'Create Record'
     end
 
-    def publish_draft(count = 1)
-      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
+    # Publishes a draft and returns the new created collection as well as the most recent draft
+    def publish_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_draft' do
+        user = User.where(urs_uid: 'testuser').first
 
-      visit draft_path(draft)
-      count.times do |i|
-        click_on 'Edit Record' if i > 0
-        click_on 'Publish'
+        # Only return te most recent concept
+        ingest_response = nil
+        revision_count.times do
+          # Default draft attributes
+          draft_attributes = {
+            user: user,
+            provider_id: provider_id,
+            native_id: native_id || Faker::Crypto.md5
+          }
+
+          # Conditional additions to the draft attributes
+          draft_attributes[:draft_short_name] = short_name unless short_name.nil?
+          draft_attributes[:draft_entry_title] = entry_title unless entry_title.nil?
+
+          # Create a new draft with the provided attributes
+          # NOTE: We don't save the draft object, there is no reason to hit the database
+          # here knowing that we're going to delete it as soon as it's published anyway
+          draft = build(:full_draft, draft_attributes)
+
+          # Adds metadata dates (this method saves the object)
+          draft.add_metadata_dates(date: modified_date, save_record: false) unless modified_date.nil?
+
+          ingest_response = cmr_client.ingest_collection(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+
+          # We need the native id of the draft to create another draft below
+          native_id = draft.native_id
+
+          # Draft has been published, destroy it
+          # draft.destroy
+        end
+
+        raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+        parsed_ingest_response = MultiXml.parse(ingest_response.body)
+
+        # Synchronous way of waiting for CMR to complete the ingest work
+        wait_for_cmr
+        
+        # Retrieve the concept from CMR so that we can create a new draft, if test requires it
+        concept_response = cmr_client.get_concept(parsed_ingest_response['result']['concept_id'], 'token', parsed_ingest_response['result']['revision_id'])
+
+        raise Array.wrap(concept_response.body['errors']).join(' /// ') if concept_response.key?('errors')
+
+        # If the test needs an unpublished draft as well, we'll create it and return it here
+        if include_new_draft
+          # Create a new draft (same as editing a collection)
+          Draft.create_from_collection(concept_response, user, native_id)
+        end
+
+        return [parsed_ingest_response, concept_response]
       end
     end
 
@@ -31,8 +79,8 @@ module Helpers
         loop do
           do_open_accordions
           return if accordions_open?
-          puts 'sleeping'
-          sleep 0.2
+          # puts 'sleeping'
+          # sleep 2
         end
       end
     rescue Timeout::Error

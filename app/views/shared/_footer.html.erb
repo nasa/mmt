@@ -10,6 +10,7 @@
 </footer>
 
 <!-- Scripts that should be loaded in the footer to allow for faster page loads -->
+<% unless Rails.env.test? %>
 <script id="feedback-tag" src="https://fbm.earthdata.nasa.gov/for/MMT/feedback.js"></script>
 <script type="text/javascript">
   (function() {
@@ -24,3 +25,4 @@
     }
   })();
 </script>
+<% end %>

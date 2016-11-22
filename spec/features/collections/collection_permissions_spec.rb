@@ -1,25 +1,23 @@
 require 'rails_helper'
 
-describe 'Collections permissions', js: true, reset_provider: true do
+describe 'Collections permissions', js: true do
   modal_text = 'requires you change your provider context to MMT_2'
 
   context 'when viewing a collection' do
     before do
       login
-      publish_draft(2)
     end
 
     context 'when the collections provider is in the users available providers' do
       before do
+        ingest_response, concept = publish_draft(revision_count: 2)
+
         user = User.first
         user.provider_id = 'MMT_1'
         user.available_providers = %w(MMT_1 MMT_2)
         user.save
 
-        fill_in 'Quick Find', with: 'MMT_2'
-        click_on 'Find'
-
-        click_on '12345'
+        visit collection_path(ingest_response['result']['concept_id'])
       end
 
       it 'displays the action links' do
@@ -110,7 +108,9 @@ describe 'Collections permissions', js: true, reset_provider: true do
 
       context 'when viewing the revisions page' do
         before do
-          click_on 'Revisions (2)'
+          within '.cta' do
+            click_on 'Revisions'
+          end
         end
 
         it 'displays the revert link' do
@@ -208,10 +208,9 @@ describe 'Collections permissions', js: true, reset_provider: true do
 
     context 'when the collections provider is not in the users available providers' do
       before do
-        fill_in 'Quick Find', with: 'ACR3L2DM'
-        click_on 'Find'
+        ingest_response, concept = publish_draft(revision_count: 2, provider_id: 'SEDAC')
 
-        click_on 'ACR3L2DM'
+        visit collection_path(ingest_response['result']['concept_id'])
       end
 
       it 'does not display the action links' do
@@ -222,7 +221,9 @@ describe 'Collections permissions', js: true, reset_provider: true do
 
       context 'when viewing the revisions page' do
         before do
-          click_on 'Revisions (2)'
+          within '.cta' do
+            click_on 'Revisions'
+          end
         end
 
         it 'does not display the revert link' do

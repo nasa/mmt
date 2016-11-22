@@ -6,7 +6,7 @@ class DraftsController < ApplicationController
   # GET /drafts
   # GET /drafts.json
   def index
-    @drafts = @current_user.drafts.where(provider_id: @current_user.provider_id)
+    @drafts = current_user.drafts.where(provider_id: current_user.provider_id)
                                   .order('updated_at DESC')
   end
 
@@ -23,13 +23,13 @@ class DraftsController < ApplicationController
 
   # GET /drafts/new
   def new
-    @draft = Draft.new(user: @current_user, draft: {}, id: 0)
+    @draft = Draft.new(user: current_user, draft: {}, id: 0)
     render :show
   end
 
   # GET /drafts/1/edit
   def edit
-    Rails.logger.info("Audit Log: User #{@current_user.urs_uid} started to modify draft #{@draft.entry_title} for provider #{@current_user.provider_id}")
+    Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{@draft.entry_title} for provider #{current_user.provider_id}")
     if params[:form]
       @draft_form = params[:form]
       set_science_keywords
@@ -49,14 +49,14 @@ class DraftsController < ApplicationController
   # PATCH/PUT /drafts/1.json
   def update
     if params[:id] == '0'
-      @draft = Draft.create(user: @current_user, provider_id: @current_user.provider_id, draft: {})
-      Rails.logger.info("Audit Log: #{@current_user.urs_uid} created draft #{@draft.entry_title} for provider #{@current_user.provider_id}")
+      @draft = Draft.create(user: current_user, provider_id: current_user.provider_id, draft: {})
+      Rails.logger.info("Audit Log: #{current_user.urs_uid} created draft #{@draft.entry_title} for provider #{current_user.provider_id}")
       params[:id] = @draft.id
     else
       @draft = Draft.find(params[:id])
     end
 
-    if @draft.update_draft(params[:draft], @current_user.urs_uid)
+    if @draft.update_draft(params[:draft], current_user.urs_uid)
       flash[:success] = 'Draft was successfully updated.'
 
       case params[:commit]
@@ -87,7 +87,7 @@ class DraftsController < ApplicationController
   def destroy
     # if new_record?, no need to destroy
     @draft.destroy unless @draft.new_record?
-    Rails.logger.info("Audit Log: Draft #{@draft.entry_title} was destroyed by #{@current_user.urs_uid} in provider: #{@current_user.provider_id}")
+    Rails.logger.info("Audit Log: Draft #{@draft.entry_title} was destroyed by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
     respond_to do |format|
       flash[:success] = 'Draft was successfully deleted.'
       format.html { redirect_to manage_metadata_path }
@@ -103,7 +103,7 @@ class DraftsController < ApplicationController
 
     if ingested.success?
       # get information for publication email notification before draft is deleted
-      Rails.logger.info("Audit Log: Draft #{@draft.entry_title} was published by #{@current_user.urs_uid} in provider: #{@current_user.provider_id}")
+      Rails.logger.info("Audit Log: Draft #{@draft.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
       user_info = get_user_info
       short_name = @draft.draft['ShortName']
       version = @draft.draft['Version']
@@ -118,12 +118,11 @@ class DraftsController < ApplicationController
       # instantiate and deliver notification email
       DraftMailer.draft_published_notification(user_info, concept_id, revision_id, short_name, version).deliver_now
 
-      flash[:success] = 'Draft was successfully published.'
-      redirect_to collection_path(concept_id, revision_id: revision_id)
+      redirect_to collection_path(concept_id, revision_id: revision_id), flash: { success: 'Draft was successfully published.' }
     else
       # Log error message
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
-      Rails.logger.info("User #{@current_user.urs_uid} attempted to ingest draft #{@draft.entry_title} in provider #{@current_user.provider_id} but encountered an error.")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to ingest draft #{@draft.entry_title} in provider #{current_user.provider_id} but encountered an error.")
       @ingest_errors = generate_ingest_errors(ingested)
 
       flash[:error] = 'Draft was not published successfully.'
@@ -141,7 +140,7 @@ class DraftsController < ApplicationController
   def set_draft
     id = params[:draft_id] || params[:id]
     if id == '0'
-      @draft = Draft.new(user: @current_user, draft: {}, id: 0)
+      @draft = Draft.new(user: current_user, draft: {}, id: 0)
     else
       @draft = Draft.find(id)
     end
@@ -162,12 +161,12 @@ class DraftsController < ApplicationController
   end
 
   def ensure_correct_draft_provider
-    return if @draft.provider_id == @current_user.provider_id || @draft.new_record?
+    return if @draft.provider_id == current_user.provider_id || @draft.new_record?
 
     @draft_action = request.original_url.include?('edit') ? 'edit' : 'view'
     @draft_form = params[:form] ? params[:form] : nil
 
-    if @current_user.available_providers.include?(@draft.provider_id)
+    if current_user.available_providers.include?(@draft.provider_id)
       @user_permissions = 'wrong_provider'
     else
       @user_permissions = 'none'
