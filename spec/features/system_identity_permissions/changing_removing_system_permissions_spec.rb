@@ -11,13 +11,7 @@ describe 'Changing or Removing System Identity Permissions' do
                             'description': 'Group to test system permissions' }
     @group_response = cmr_client.create_group(system_group_params, 'access_token_admin').body
 
-    # wait_for_cmr # copied from Ryan
-    # Wait for the CMR queue to be empty
-    cmr_conn = Faraday.new(url: 'http://localhost:2999')
-    cmr_response = cmr_conn.post('message-queue/wait-for-terminal-states')
-    # Refresh the ElasticSearch index
-    elastic_conn = Faraday.new(url: 'http://localhost:9210')
-    elastic_response = elastic_conn.get('_refresh')
+    wait_for_cmr
 
     system_perm_1 = {
       'group_permissions' => [{
@@ -52,17 +46,11 @@ describe 'Changing or Removing System Identity Permissions' do
     permissions = [system_perm_1, system_perm_2, system_perm_3]
     permissions.each { |perm| cmr_client.add_group_permissions(perm, 'access_token_admin').body }
 
-    # wait_for_cmr # copied from Ryan
-    # Wait for the CMR queue to be empty
-    cmr_conn = Faraday.new(url: 'http://localhost:2999')
-    cmr_response = cmr_conn.post('message-queue/wait-for-terminal-states')
-    # Refresh the ElasticSearch index
-    elastic_conn = Faraday.new(url: 'http://localhost:9210')
-    elastic_response = elastic_conn.get('_refresh')
+    wait_for_cmr
   end
 
   before do
-    login(true)
+    login_admin
 
     visit edit_system_identity_permission_path(@group_response['concept_id'])
   end
@@ -79,13 +67,7 @@ describe 'Changing or Removing System Identity Permissions' do
 
     cmr_client.delete_group(@group_response['concept_id'], 'access_token_admin')
 
-    # wait_for_cmr # copied from Ryan
-    # Wait for the CMR queue to be empty
-    cmr_conn = Faraday.new(url: 'http://localhost:2999')
-    cmr_response = cmr_conn.post('message-queue/wait-for-terminal-states')
-    # Refresh the ElasticSearch index
-    elastic_conn = Faraday.new(url: 'http://localhost:9210')
-    elastic_response = elastic_conn.get('_refresh')
+    wait_for_cmr
   end
 
   it 'has the correct permissions checked' do
@@ -108,13 +90,7 @@ describe 'Changing or Removing System Identity Permissions' do
 
       click_on 'Save'
 
-      # wait_for_cmr # copied from Ryan
-      # Wait for the CMR queue to be empty
-      cmr_conn = Faraday.new(url: 'http://localhost:2999')
-      cmr_response = cmr_conn.post('message-queue/wait-for-terminal-states')
-      # Refresh the ElasticSearch index
-      elastic_conn = Faraday.new(url: 'http://localhost:9210')
-      elastic_response = elastic_conn.get('_refresh')
+      wait_for_cmr
     end
 
     it 'displays a success message and no error message on the index page' do

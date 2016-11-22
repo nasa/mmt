@@ -7,7 +7,7 @@ describe 'System Identity Permissions pages and form' do
   let(:concept_id) { 'AG1200000001-CMR' }
 
   before do
-    login(true)
+    login_admin
   end
 
   context 'when visiting the system identities index page' do
