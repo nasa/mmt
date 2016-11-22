@@ -41,5 +41,9 @@ module Helpers
     def random_group_description
       Faker::Lorem.sentence
     end
+
+    def group_concept_from_path
+      current_path.sub('/groups/', '')
+    end
   end
 end

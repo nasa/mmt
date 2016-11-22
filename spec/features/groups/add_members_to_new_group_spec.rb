@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Adding Members to New Groups', js: true, reset_provider: true do
+describe 'Adding Members to New Groups', js: true do
   context 'when visiting new group page' do
     before do
       login
@@ -88,20 +88,28 @@ describe 'Adding Members to New Groups', js: true, reset_provider: true do
         select('Ukulele Vulcan', from: 'Members directory')
         click_on 'Add Member(s)'
         click_on 'Save'
+
+        @concept_id = group_concept_from_path
+      end
+
+      after do
+        delete_group(concept_id: @concept_id)
+
+        wait_for_cmr
       end
 
       it 'displays a success message' do
         expect(page).to have_content('Group was successfully created.')
-      # end
+      end
 
-      # it 'displays the group information' do
+      it 'displays the group information' do
         within '#main-content header' do
           expect(page).to have_content(group_name)
           expect(page).to have_content(group_description)
         end
-      # end
+      end
 
-      # it 'displays the group members' do
+      it 'displays the group members' do
         within '#groups-table' do
           expect(page).to have_content('Marsupial Narwal')
           expect(page).to have_content('Quail Racoon')
