@@ -29,7 +29,7 @@ describe 'Saving System Identity Permissions' do
                             'permitted_group' => @group_response['concept_id'] }
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
 
-    permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_resp['concept_id'], 'access_token_admin') }
+    permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token_admin') }
 
     # delete the group
     cmr_client.delete_group(@group_response['concept_id'], 'access_token_admin')
