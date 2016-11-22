@@ -4,7 +4,7 @@ require 'rails_helper'
 describe 'Listing System Level Groups' do
   context 'when viewing the index page with a mix of system level and provider level groups' do
     before do
-      login(admin: true)
+      login_admin
 
       # stub for index groups / get_cmr_groups with a mix of groups
       index_groups_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/groups/sys_groups_index.json'))))
