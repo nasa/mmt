@@ -70,7 +70,7 @@ describe 'Publishing revision of collection with non url encoded native id' do
           # end
 
           # click_on 'Expand All'
-          # select 'Level 3', from: 'ID'
+          # select '3', from: 'ID'
           # select 'Planned', from: 'Collection Progress'
 
           # within '.nav-top' do
