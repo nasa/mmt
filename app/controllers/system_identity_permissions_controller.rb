@@ -54,20 +54,22 @@ class SystemIdentityPermissionsController < ManageCmrController
   private
 
   def get_system_permissions(group = nil)
+    system_permissions = []
+
     options = { 'include_full_acl' => 'true',
                 'identity_type' => 'system',
                 'page_size' => 30 }
     options['permitted_group'] = group if group
 
     system_permissions_response = cmr_client.get_permissions(options, token)
-
     if system_permissions_response.success?
-      system_permissions_response.body['items']
+      system_permissions = system_permissions_response.body['items']
     else
       Rails.logger.error("Get System Object Permissions Error: #{system_permissions_response.inspect}")
       flash[:error] = Array.wrap(system_permissions_response.body['errors'])[0]
-      []
     end
+
+    system_permissions
   end
 
   def assemble_permissions_for_table(permissions, group_id)

@@ -209,6 +209,8 @@ class GroupsController < ApplicationController
   end
 
   def request_group_members(concept_id)
+    @members = []
+    
     group_members_response = cmr_client.get_group_members(concept_id, token)
     if group_members_response.success?
       group_members_uids = group_members_response.body
@@ -223,7 +225,6 @@ class GroupsController < ApplicationController
 
       get_group_members_error = Array.wrap(group_members_response.body['errors'])[0]
       flash[:error] = get_group_members_error
-      @members = []
     end
   end
 
