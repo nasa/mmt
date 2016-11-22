@@ -210,7 +210,7 @@ class GroupsController < ApplicationController
 
   def request_group_members(concept_id)
     @members = []
-    
+
     group_members_response = cmr_client.get_group_members(concept_id, token)
     if group_members_response.success?
       group_members_uids = group_members_response.body
