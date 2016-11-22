@@ -45,7 +45,6 @@ class SystemIdentityPermissionsController < ManageCmrController
     delete_permissions(targets_to_delete, selective_full_system_permission_info, successes, fails)
     update_permissions(full_system_permissions, permissions_params, targets_to_add_group, targets_to_update_perms, targets_to_remove_group, @group_id, successes, fails)
 
-    # fail
     flash[:success] = 'System Object Permissions were saved.' unless successes.blank?
     flash[:error] = "#{fails.join(', ')} permissions were unable to be saved." unless fails.blank?
 

@@ -13,25 +13,17 @@
           <%= system_target %>
         </td>
           <% SystemIdentityPermissionsHelper::PermissionsOptions.each do |permission_option| %>
-            <%# iterate through create read update delete %>
-            <%# target_permissions = system_target + '_PERMISSIONS' %>
             <% if SystemIdentityPermissionsHelper.const_get(system_target + '_PERMISSIONS').include?(permission_option) %>
               <td class="align-c">
                 <% if @group_system_permissions_hash.fetch(system_target, {}).fetch('permissions', []).include?(permission_option) %>
-                  <%= acl_checkbox(
-                    "system_permissions[#{system_target}][]", permission_option, true, nil, true
-                  ) %>
+                  <%= check_box_tag("system_permissions[#{system_target}][]", permission_option, true) %>
                 <% else %>
-                  <%= acl_checkbox(
-                    "system_permissions[#{system_target}][]", permission_option, false, nil, true
-                  ) %>
+                  <%= check_box_tag("system_permissions[#{system_target}][]", permission_option, false) %>
                 <% end %>
               </td>
             <% else %>
               <td class="align-c disabled">
-                <%= acl_checkbox(
-                  "system_permissions[#{system_target}][]", permission_option, false, nil, false
-                ) %>
+                <%= check_box_tag("system_permissions[#{system_target}][]", permission_option, false, disabled: true) %>
               </td>
             <% end %>
           <% end %>
