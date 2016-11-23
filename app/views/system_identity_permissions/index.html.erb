@@ -23,6 +23,8 @@
     <section>
         <p>Click on a System Group to access the system object permissions for that group.</p>
 
+        <%= page_entries_info @groups, entry_name: 'group' %>
+
         <table class="system-group-table">
           <thead>
             <tr><th>System Group Name</th><th>Number of Members</th></tr>
@@ -49,6 +51,8 @@
             <% end %>
           </tbody>
         </table>
+
+        <%= paginate @groups %>
     </section>
   </div>
 </main>

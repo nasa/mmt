@@ -1,17 +1,34 @@
 class SystemIdentityPermissionsController < ManageCmrController
   before_filter :redirect_unless_system_acl_admin, only: [:index, :edit, :update]
 
+  RESULTS_PER_PAGE = 25
+
   def index
-    filters = {}
-    filters['provider'] = 'CMR'
+    # Initialize an empty group list
+    @groups = []
+
+    # Default the page to 1
+    page = params.fetch('page', 1)
+
+    # Prevent the page from being less than 1
+    page = 1 if page < 1
+
+    # Filters to provide CMR
+    filters = {
+      provider: 'CMR',
+      page_size: RESULTS_PER_PAGE,
+      page_num: page
+    }
+
     groups_response = cmr_client.get_cmr_groups(filters, token)
 
     if groups_response.success?
-      @groups = groups_response.body['items']
+      group_list = groups_response.body.fetch('items', [])
+
+      @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
     else
       Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
       flash[:error] = Array.wrap(groups_response.body['errors'])[0]
-      @groups = []
     end
   end
 
@@ -124,7 +141,6 @@ class SystemIdentityPermissionsController < ManageCmrController
     perms_to_skip = []
 
     selective_system_permission_info.each do |target, acl_info|
-
       if acl_info['matched_to_group'] # group is currently in the system acl
         if acl_info['granted_permissions'] == permissions_params[target]
           # permissions are the same, do nothing

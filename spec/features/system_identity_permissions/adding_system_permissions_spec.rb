@@ -4,14 +4,7 @@ require 'rails_helper'
 
 describe 'Saving System Identity Permissions' do
   before :all do
-    # instantiate cmr client
-    cmr_client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
-
-    system_group_params = { 'name' => 'Test System Permissions Group 1',
-                            'description': 'Group to test system permissions' }
-    @group_response = cmr_client.create_group(system_group_params, 'access_token_admin').body
-
-    wait_for_cmr
+    @group_response = create_group(name: 'Test System Permissions Group 1', description: 'Group to test system permissions', admin: true)
   end
 
   before do
@@ -21,20 +14,18 @@ describe 'Saving System Identity Permissions' do
   end
 
   after :all do
-    # instantiate cmr client
-    cmr_client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
-
     # delete system permissions for the group
-    permissions_options = { 'page_size' => 30,
-                            'permitted_group' => @group_response['concept_id'] }
+    permissions_options = {
+      'page_size' => 30,
+      'permitted_group' => @group_response['concept_id']
+    }
+
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
 
     permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token_admin') }
 
     # delete the group
-    cmr_client.delete_group(@group_response['concept_id'], 'access_token_admin')
-
-    wait_for_cmr
+    delete_group(concept_id: @group_response['concept_id'], admin: true)
   end
 
   context 'when selecting and saving system permissions' do

@@ -83,7 +83,7 @@ describe 'System Identity Permissions pages and form' do
         end
       end
 
-      context 'when clicking the Check/Uncheck all box when it is checked', js: true do
+      context 'when clicking the Check/Uncheck all box when it is checked' do
         before do
           uncheck('system_acls_select_all')
         end
