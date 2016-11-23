@@ -8,7 +8,7 @@ class SystemIdentityPermissionsController < ManageCmrController
     @groups = []
 
     # Default the page to 1
-    page = params.fetch('page', 1)
+    page = params.fetch('page', 1).to_i
 
     # Prevent the page from being less than 1
     page = 1 if page < 1
