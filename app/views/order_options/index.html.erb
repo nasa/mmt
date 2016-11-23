@@ -33,7 +33,7 @@
             <td><%= link_to order_option['Name'], order_option_path(order_option['Guid']) %></td>
             <td><%= order_option['Scope'] %></td>
             <td><%= order_option['Deprecated'] %></td>
-            <td><%= DateTime.parse(order_option['LastUpdate']).strftime('%A, %B %d, %Y at %l:%M %P') %></td>
+            <td><%= echo_formatted_date(order_option['LastUpdate']) %></td>
           </tr>
           <% end %>
         </tbody>
