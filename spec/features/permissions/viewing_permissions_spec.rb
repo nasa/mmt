@@ -17,7 +17,6 @@ describe 'Viewing Permissions' do # need js? don't think so
     end
 
     it 'displays the table of permissions' do
-      screenshot_and_save_page
       within '#custom-permissions-table' do
         within 'tbody > tr:nth-child(1)' do
           expect(page).to have_content('perm 01')

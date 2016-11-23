@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
 
   def store_profile(profile = {})
     uid = session['endpoint'].split('/').last if session['endpoint']
-    
+
     session[:name] = profile['first_name'].nil? ? uid : "#{profile['first_name']} #{profile['last_name']}"
     session[:urs_uid] = profile['uid'] || uid
     session[:email_address] = profile['email_address']
@@ -126,7 +126,7 @@ class ApplicationController < ActionController::Base
     services = Rails.configuration.services
     config = services['earthdata'][Rails.configuration.cmr_env]
     client_id = services['urs'][Rails.env.to_s][config['urs_root']]
-    
+
     "#{token}:#{client_id}"
   end
   helper_method :token_with_client_id

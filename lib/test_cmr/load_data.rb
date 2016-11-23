@@ -331,14 +331,23 @@ module Cmr
       ## ACLs for permissions for ACLs
       ## temporary fix: we are using the legacy_guid used in the groups we created for the sids
       ## it should have been the concept_id of the group but that was not working. what we use will change in the near future
+
       # ACL for read and create access for ACLs for admin user, read access for registered users
+      # resp = connection.post do |req|
+      #   req.url('http://localhost:3011/acls')
+      #   req.headers['Content-Type'] = 'application/json'
+      #   req.headers['Echo-token'] = 'mock-echo-system-token'
+      #   req.body = '{"group_permissions": [{"group_id": "guidMMTAdmin", "permissions": ["read", "create", "update", "delete"]}, {"user_type":"registered", "permissions":["read"]}], "system_identity": {"target": "ANY_ACL"}}'
+      # end
+      # puts "ANY_ACL read and create access for admin user (guidMMTAdmin) and registered users: #{resp.body}"
+      # NOTE TEMP ACL for CRUD for ACLs for Administrators_2, read access for registered users
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"group_permissions": [{"group_id": "guidMMTAdmin", "permissions": ["read", "create"]}, {"user_type":"registered", "permissions":["read"]}], "system_identity": {"target": "ANY_ACL"}}'
+        req.body = '{"group_permissions": [{"group_id": "AG1200000001-CMR", "permissions": ["read", "create", "update", "delete"]}, {"user_type":"registered", "permissions":["read"]}], "system_identity": {"target": "ANY_ACL"}}'
       end
-      puts "ANY_ACL read and create access for admin user and registered users: #{resp.body}"
+      puts "ANY_ACL CRUD access for Administrators_2 and read for registered users: #{resp.body}"
       # ACL for typical user to create catalog item ACLs for MMT_1
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')

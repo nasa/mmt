@@ -1,0 +1,54 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item current">System Object Permissions</li>
+        </ol>
+      </div>
+      <h2>System Object Permissions</h2>
+      <p class="subnav current">
+        <%= link_to 'Permissions', permissions_path %>
+      </p>
+      <p class="subnav">
+        <%= link_to 'Groups', groups_path %>
+      </p>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+        <p>Click on a System Group to access the system object permissions for that group.</p>
+
+        <table class="system-group-table">
+          <thead>
+            <tr><th>System Group Name</th><th>Number of Members</th></tr>
+          </thead>
+
+          <tbody>
+            <% if @groups.blank? %>
+              <tr>
+                <td colspan="2">
+                  There are no System Groups available at this time or you do not have permissions to see System Groups.
+                </td>
+              </tr>
+            <% else %>
+              <% @groups.each do |group| %>
+                <tr>
+                  <td>
+                    <%= link_to "#{group['name']}", edit_system_identity_permission_path(group['concept_id']) %>
+                  </td>
+                  <td>
+                    <%= group['member_count'] %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+    </section>
+  </div>
+</main>

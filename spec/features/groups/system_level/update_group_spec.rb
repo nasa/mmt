@@ -23,7 +23,7 @@ describe 'Updating System Level Groups', js: true do
     end
 
     before do
-      login(admin: true)
+      login_admin
 
       visit edit_group_path(@group['concept_id'], edit_group: true)
     end

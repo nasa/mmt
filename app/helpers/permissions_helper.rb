@@ -17,5 +17,4 @@ module PermissionsHelper
       409 => 'This permission could not be created because there is already another permission with the same name.',
       403 => 'You are not authorized to create a permission. Please contact your system administrator.'
   }
-
 end

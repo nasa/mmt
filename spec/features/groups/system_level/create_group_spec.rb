@@ -4,7 +4,7 @@ require 'rails_helper'
 describe 'Creating  System Level Groups' do
   context 'when viewing new groups form as an admin user' do
     before do
-      login(admin: true)
+      login_admin
 
       visit new_group_path
     end

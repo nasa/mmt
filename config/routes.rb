@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   resources :provider_holdings, only: [:index, :show]
 
+  # PUMPness
   resources :permissions
   get '/permission/all_collections' => 'permissions#get_all_collections'
 
-  # PUMPness
+  resources :system_identity_permissions, only: [:index, :edit, :update]
+
   resource :order_policies, except: :show
   resources :order_options
   get '/order_policies' => 'order_policies#index'
@@ -40,7 +42,7 @@ Rails.application.routes.draw do
   get 'search' => 'search#index', as: 'search'
 
   get 'manage_metadata' => 'pages#manage_metadata', as: 'manage_metadata'
-  get 'manage_cmr' => 'pages#manage_cmr', as: 'manage_cmr'
+  get 'manage_cmr' => 'manage_cmr#manage_cmr', as: 'manage_cmr'
   get 'new_record' => 'pages#new_record', as: 'new_record'
   post 'hide_notification' => 'pages#hide_notification', as: 'hide_notification'
 
