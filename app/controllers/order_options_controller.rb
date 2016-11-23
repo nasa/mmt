@@ -13,6 +13,7 @@ class OrderOptionsController < ApplicationController
 
   def new
     @order_option = {}
+    @scope_options = OrderOptionsHelper::ScopeOptions
   end
 
   def create
