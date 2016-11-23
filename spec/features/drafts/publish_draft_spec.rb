@@ -7,7 +7,7 @@ include ActionView::Helpers::NumberHelper
 describe 'Publishing draft records', js: true do
   context 'when publishing a draft record' do
     before do
-      ActionMailer::Base.deliveries.clear
+      # ActionMailer::Base.deliveries.clear
 
       login
       draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
@@ -16,9 +16,9 @@ describe 'Publishing draft records', js: true do
       open_accordions
     end
 
-    after do
-      ActionMailer::Base.deliveries.clear
-    end
+    # after do
+    #   ActionMailer::Base.deliveries.clear
+    # end
 
     it 'displays a confirmation message' do
       expect(page).to have_content('Draft was successfully published')
@@ -43,9 +43,9 @@ describe 'Publishing draft records', js: true do
       expect(page).to have_no_content('No Temporal Coverages found')
     end
 
-    it 'sends the user a notification email' do
-      expect(ActionMailer::Base.deliveries.count).to eq(1)
-    end
+    # it 'sends the user a notification email' do
+    #   expect(ActionMailer::Base.deliveries.count).to eq(1)
+    # end
 
     context 'when searching for the published record' do
       before do
