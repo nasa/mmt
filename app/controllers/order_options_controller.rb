@@ -1,6 +1,14 @@
 class OrderOptionsController < ApplicationController
 
   def index
+    @order_options = []
+
+    order_option_response = echo_client.get_order_options(echo_provider_token)
+
+    if order_option_response.success?
+      # Retreive the order options and sort by name, ignoring case
+      @order_options = order_option_response.parsed_body.fetch('Item', {}).sort_by { |option| option['Name'].downcase }
+    end
   end
 
   def new
