@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-describe 'Creating Order Options', js: true do
-  option_name = 'Test Order Option ABC-1'
-  option_description = 'Test Order Option Definition Description'
-  bad_form = '<form>what</form>'
-  echo_form = '<?xml version="1.0" encoding="utf-8"?>
+describe 'Creating Order Options' do
+  let(:option_name)        { 'Test Order Option ABC-1' }
+  let(:option_description) { 'Test Order Option Definition Description' }
+  let(:bad_form)           { '<form>what</form>' }
+  let(:echo_form)          { '<?xml version="1.0" encoding="utf-8"?>
     <form xmlns="http://echo.nasa.gov/v9/echoforms"
                  targetNamespace="http://myorganization.gov/echoforms"
                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -39,6 +39,7 @@ describe 'Creating Order Options', js: true do
         </range>
       </ui>
     </form>'
+  }
 
   context 'when viewing the new order option page' do
     before do
@@ -61,10 +62,7 @@ describe 'Creating Order Options', js: true do
       expect(page).to have_field('ECHO Form XML', type: 'textarea')
     end
 
-
-
     context 'when creating an order option with complete information' do
-
       before do
         fill_in 'Name', with: option_name
         fill_in 'Description', with: option_description
@@ -91,12 +89,10 @@ describe 'Creating Order Options', js: true do
         expect(page).to have_content('pattern')
         expect(page).to have_content('range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"')
       end
-
     end
 
     context 'when attempting to create an order option with incomplete information' do
-
-      context 'when submitting an invalid form' do
+      context 'when submitting an invalid form', js: true do
         before do
           click_on 'Create'
         end

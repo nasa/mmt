@@ -7,7 +7,6 @@
           <li class="eui-breadcrumbs__item">Order Options</li>
         </ol>
       </div>
-      <h2>Order Options</h2>
     </div>
   </header>
 
@@ -15,27 +14,28 @@
 
   <div class="row row-content">
     <section>
+      <h2>Order Options</h2>
 
-      <div class="flex-row--sb">
-        <%= link_to 'Create New Order Option', new_order_option_path, class: 'eui-btn--blue space-bot' %>
-      </div>
+      <%= link_to 'Create an Order Option', new_order_option_path, class: 'eui-btn--green space-bot' %>
 
-      <table class="order-policies-table">
+      <table class="order-options-table">
         <thead>
           <tr>
             <th>Name</th>
             <th>Scope</th>
+            <th>Deprecated?</th>
             <th>Last Update</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
+        <% @order_options.each do |order_option| %>
           <tr>
-            <td>Option 1</td>
-            <td>Provider</td>
-            <td>date</td>
-            <td><a href="#">View</a> | <a href="#">Update</a> | <a href="#">Delete</a></td>
+            <td><%= link_to order_option['Name'], order_option_path(order_option['Guid']) %></td>
+            <td><%= order_option['Scope'] %></td>
+            <td><%= order_option['Deprecated'] %></td>
+            <td><%= echo_formatted_date(order_option['LastUpdate']) %></td>
           </tr>
+          <% end %>
         </tbody>
       </table>
     </section>

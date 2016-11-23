@@ -143,5 +143,28 @@ module Echo
 
       make_request(@url, payload)
     end
+
+    def get_order_options(token, guids = nil)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:GetCatalogItemOptionDefinitions2, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+
+        if guids.nil?
+          # Providing nil will return all providers (NOT an empty string, only nil)
+          builder.ns2(:optionGuids, 'xsi:nil': true)
+        else
+          builder.ns2(:optionGuids) do
+            [*guids].each do |g|
+              builder.ns3(:Item, g)
+            end
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
   end
 end
