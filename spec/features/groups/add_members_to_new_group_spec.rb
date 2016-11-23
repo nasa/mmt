@@ -92,24 +92,22 @@ describe 'Adding Members to New Groups', js: true do
         @concept_id = group_concept_from_path
       end
 
-      after do
-        delete_group(concept_id: @concept_id)
-
-        wait_for_cmr
-      end
+      # after do
+      #   delete_group(concept_id: @concept_id)
+      # end
 
       it 'displays a success message' do
         expect(page).to have_content('Group was successfully created.')
-      end
+      # end
 
-      it 'displays the group information' do
+      # it 'displays the group information' do
         within '#main-content header' do
           expect(page).to have_content(group_name)
           expect(page).to have_content(group_description)
         end
-      end
+      # end
 
-      it 'displays the group members' do
+      # it 'displays the group members' do
         within '#groups-table' do
           expect(page).to have_content('Marsupial Narwal')
           expect(page).to have_content('Quail Racoon')
