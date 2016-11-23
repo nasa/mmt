@@ -1,12 +1,14 @@
-# MMT-592
+# MMT-593
 
 require 'rails_helper'
 
-describe 'Creating Order Options' do
-  let(:option_name)        { 'Test Order Option ABC-1' }
-  let(:option_description) { 'Test Order Option Definition Description' }
-  let(:bad_form)           { '<form>what</form>' }
-  let(:echo_form)          { '<?xml version="1.0" encoding="utf-8"?>
+describe 'Creating Order Options', js: true do
+  option_name = 'Test Order Option ABC-1'
+  updated_option_name = 'Test Order Option ABC-1 V2'
+  option_description = 'Test Order Option Definition Description'
+  updated_option_description = 'Updated Test Order Option Definition Description'
+
+  echo_form = '<?xml version="1.0" encoding="utf-8"?>
     <form xmlns="http://echo.nasa.gov/v9/echoforms"
                  targetNamespace="http://myorganization.gov/echoforms"
                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -39,9 +41,8 @@ describe 'Creating Order Options' do
         </range>
       </ui>
     </form>'
-  }
 
-  context 'when viewing the new order option page' do
+  context 'when updating an existing order option' do
     before do
       login
       visit new_order_option_path
@@ -57,11 +58,15 @@ describe 'Creating Order Options' do
     it 'displays the new order option entry fields' do
       expect(page).to have_field('Name', type: 'text')
       expect(page).to have_field('Sort Key', type: 'text')
+      expect(page).to have_field('Scope', type: 'select')
       expect(page).to have_field('Description', type: 'textarea')
       expect(page).to have_field('ECHO Form XML', type: 'textarea')
     end
 
+
+
     context 'when creating an order option with complete information' do
+
       before do
         fill_in 'Name', with: option_name
         fill_in 'Description', with: option_description
@@ -76,7 +81,7 @@ describe 'Creating Order Options' do
         expect(page).to have_content('Order Option was successfully created')
       end
 
-      it 'displays the Order Option Definition' do
+      it 'Suucessfully updates an order option' do
         expect(page).to have_content(option_name)
         expect(page).to have_content(option_description)
         expect(page).to have_content('PROVIDER')
@@ -87,39 +92,44 @@ describe 'Creating Order Options' do
         expect(page).to have_content('constraints')
         expect(page).to have_content('pattern')
         expect(page).to have_content('range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"')
-      end
-    end
+        expect(page).to have_link('Edit Order Option')
 
-    context 'when attempting to create an order option with incomplete information' do
-      context 'when submitting an invalid form', js: true do
-        before do
+
+        VCR.use_cassette('echo_rest/order_options/update', record: :none) do
+          click_on 'Edit Order Option'
+        end
+
+        expect(page).to have_content('You must change the name of this option definition when updating it.')
+        expect(page).to have_field('Name', type: 'text')
+        expect(page).to have_field('Sort Key', type: 'text')
+        expect(page).to have_field('Scope', type: 'select')
+        expect(page).to have_field('Description', type: 'textarea')
+        expect(page).to have_field('ECHO Form XML', type: 'textarea')
+
+        VCR.use_cassette('echo_rest/order_options/update_fail', record: :none) do
           click_on 'Save'
         end
 
-        it 'displays the correct error messages' do
-          expect(page).to have_css('.eui-banner--danger')
-          expect(page).to have_content('Order Option Name is required.')
-          expect(page).to have_content('Description is required.')
-          expect(page).to have_content('ECHO Form XML is required.')
+        expect(page).to have_content('The option definition name [Test Order Option ABC-1] must be unique.')
+
+        fill_in 'Name', with: updated_option_name
+        fill_in 'Description', with: updated_option_description
+
+        VCR.use_cassette('echo_rest/order_options/update_success', record: :none) do
+          click_on 'Save'
         end
+
+        expect(page).to have_content('Order Option was successfully updated.')
+        expect(page).to have_content('xmlns="http://echo.nasa.gov/v9/echoforms')
+        expect(page).to have_content('prov:options xmlns:prov="http://myorganization.gov/orderoptions"')
+        expect(page).to have_content('constraints')
+        expect(page).to have_content('pattern')
+        expect(page).to have_content('range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"')
+        expect(page).to have_link('Edit Order Option')
+
+
       end
 
-      context 'when submitting a form with a bad ECHO form' do
-        before do
-          fill_in 'Name', with: option_name
-          fill_in 'Description', with: option_description
-          fill_in 'ECHO Form XML', with: bad_form
-
-          VCR.use_cassette('echo_rest/order_options/create_with_error', record: :none) do
-            click_on 'Save'
-          end
-        end
-
-        it 'displays bad echo form error message' do
-          expect(page).to have_css('.eui-banner--danger')
-          expect(page).to have_content('ECHO Form is not valid')
-        end
-      end
     end
 
   end
