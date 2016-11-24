@@ -1,13 +1,21 @@
 class OrderOptionsController < ApplicationController
 
+  RESULTS_PER_PAGE = 25
+
   def index
+    # Initialize an empty order options list
     @order_options = []
+
+    # Default the page to 1
+    page = params.fetch('page', 1)
 
     order_option_response = echo_client.get_order_options(echo_provider_token)
 
     if order_option_response.success?
       # Retreive the order options and sort by name, ignoring case
-      @order_options = order_option_response.parsed_body.fetch('Item', {}).sort_by { |option| option['Name'].downcase }
+      order_option_list = order_option_response.parsed_body.fetch('Item', {}).sort_by { |option| option['Name'].downcase }
+
+      @order_options = Kaminari.paginate_array(order_option_list, total_count: order_option_list.count).page(page).per(RESULTS_PER_PAGE)
     end
   end
 
