@@ -51,7 +51,38 @@ class EchoSoapController < ApplicationController
     end
   end
 
+  # Get all of the collections for the current provider
   def set_collections
-    @collections = cmr_client.get_collections({ provider_id: current_user.provider_id }, token).body.fetch('items', [])
+    # Initialize the collections array to provide to the view
+    @collections = []
+
+    # Default the params that we'll send to CMR
+    collection_params = {
+      provider_id: current_user.provider_id,
+      page_num: 1,
+      page_size: 50
+    }
+
+    # Retrieve the first page of collections
+    response = cmr_client.get_collections(collection_params, token)
+
+    # Request collections
+    until response.error? || response.body['items'].empty?
+      # Add the retrieved collections to our array
+      @collections.concat(response.body['items'])
+
+      # Tests within this controller family mock the response of `get_collections`
+      # which means that the criteria set to break on will never be met and will
+      # result in an infinite loop
+      break if Rails.env.test?
+
+      # Increment the page number
+      collection_params[:page_num] += 1
+
+      # Request the next page
+      response = cmr_client.get_collections(collection_params, token)
+    end
+
+    @collections
   end
 end

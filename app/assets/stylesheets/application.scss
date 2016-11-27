@@ -14,6 +14,8 @@
  *= require dropzone-4.0.1/dropzone
  *= require select2-4.0.1/select2.min
  *= require bootstrap-datepicker-1.6.0/bootstrap-datepicker.standalone.min
+ *= require bootstrap-datetimepicker
+ *= require bootstrap-datetimepicker-standalone
  *= require jquery.webui-popover/jquery.webui-popover.min
  */
 
@@ -71,9 +73,9 @@
 @import "pages/data-management";
 @import "pages/order-options";
 
-
 @import "overrides/content";
 @import "overrides/datepicker";
+@import "overrides/datetimepicker";
 @import "overrides/modifiers";
 @import "overrides/select2";
 @import "overrides/redactor";

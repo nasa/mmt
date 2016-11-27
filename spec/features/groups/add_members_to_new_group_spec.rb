@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Adding Members to New Groups', js: true do
+describe 'Adding Members to New Groups', reset_provider: true, js: true do
   context 'when visiting new group page' do
     before do
       login

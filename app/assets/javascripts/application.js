@@ -14,6 +14,9 @@
 //= require jquery_ujs
 //= require eui-1.0.0/eui
 //= require bootstrap-datepicker-1.6.0/bootstrap-datepicker.min
+//= require moment
+//= require moment/moment-timezone
+//= require bootstrap-datetimepicker
 //= require dropzone-4.0.1/dropzone
 //= require jquery-serialize-object/jquery.serialize-object.min
 //= require humps/humps
