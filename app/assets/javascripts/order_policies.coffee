@@ -1,4 +1,10 @@
 $(document).ready ->
+  $('#duplicate-order-items').tablesorter
+    # Prevent sorting on the checkboxes
+    headers:
+      0: 
+        sorter: false
+
   $('#order-policies-form').validate
     errorClass: 'eui-banner--danger'
     errorElement: 'div'
