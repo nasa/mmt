@@ -51,20 +51,6 @@
         </div>
 
         <div class="row">
-          <div class="col-9">
-            <!-- Scope -->
-            <!-- Multiplicity: 1 to 1
-            Only administrators may add system level definitions and only providers may add provider level definitions. -->
-
-            <!-- The scope of the option definition. This may be  ̳system‘ or  ̳provider‘
-            and is described further in section 7.4.2.1. -->
-            <%= label_tag('order_option[scope]', 'Scope', class: 'eui-required-o') %>
-            <!-- TODO if user is admin, they can create 'system' level options -->
-            <%= select_tag('order_option[scope]', options_for_select(@scope_options), class: 'required half-width') %>
-          </div>
-        </div>
-
-        <div class="row">
           <!-- Description -->
           <!-- A textual description of the form which will be displayed to the
           user to give additional information regarding the form. This is useful
