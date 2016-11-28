@@ -21,8 +21,12 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
       success_count += 1 unless response.error?
       error_count += 1 if response.error?
     end
+    
+    flash_messages = {}
+    flash_messages[:success] = "#{success_count} #{'data quality summary assignment'.pluralize(success_count)} created successfully." if success_count > 0
+    flash_messages[:error] = "#{error_count} #{'data quality summary assignment'.pluralize(error_count)} failed to save." if error_count > 0
 
-    redirect_to data_quality_summary_assignments_path, notice: "#{success_count} #{'data quality summary assignment'.pluralize(success_count)} created successfully, #{error_count} #{'data quality summary assignment'.pluralize(error_count)} failed to save."
+    redirect_to data_quality_summary_assignments_path, flash: flash_messages
   end
 
   def update
@@ -82,6 +86,11 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
       error_count += 1 if response.error?
     end
 
-    redirect_to data_quality_summary_assignments_path, notice: "#{success_count} #{'data quality summary assignment'.pluralize(success_count)} deleted successfully, #{error_count} #{'data quality summary assignment'.pluralize(error_count)} failed to delete."
+    flash_messages = {}
+    flash_messages[:success] = "Deleted #{success_count} #{'data quality summary assignment'.pluralize(success_count)} successfully." if success_count > 0
+    flash_messages[:error] = "Failed to delete #{error_count} #{'data quality summary assignment'.pluralize(error_count)}." if error_count > 0
+
+    redirect_to data_quality_summary_assignments_path, flash: flash_messages
+
   end
 end
