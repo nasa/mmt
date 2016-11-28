@@ -15,6 +15,14 @@ $(document).ready ->
     blurCallback: (e) ->
       this.core.getTextarea().valid()
 
+  $('#assignment-collections').tablesorter
+    # Prevent sorting on the checkboxes
+    headers:
+      0: 
+        sorter: false
+      3:
+        sorter: 'text'
+
   $('#data-quality-summary-form').validate
     errorClass: 'eui-banner--danger'
     errorElement: 'div'
