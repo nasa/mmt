@@ -4,8 +4,8 @@
       <div class="eui-breadcrumbs">
         <ol class="eui-breadcrumbs__list">
           <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to 'System Permissions', system_identity_permissions_path %></li>
-          <li class="eui-breadcrumbs__item current">System Object Permissions</li>
+          <li class="eui-breadcrumbs__item"><%= link_to 'System Object Permissions', system_identity_permissions_path %></li>
+          <li class="eui-breadcrumbs__item current"><%= @group.fetch('name', 'No Name') %></li>
         </ol>
       </div>
       <h2>System Object Permissions for <%= @group.fetch('name', 'No Name') %></h2>

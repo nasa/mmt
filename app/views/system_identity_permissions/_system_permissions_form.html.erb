@@ -10,29 +10,29 @@
   </thead>
 
   <tbody>
-    <% SystemIdentityPermissionsHelper::SYSTEM_TARGETS.sort.each do |system_target| %>
+    <% SystemIdentityPermissionsHelper::SYSTEM_TARGETS.each do |system_target| %>
       <tr>
         <td>
-          <%= system_target %>
+          <%= system_target[0] %>
         </td>
           <% SystemIdentityPermissionsHelper::PermissionsOptions.each do |permission_option| %>
-            <% if SystemIdentityPermissionsHelper.const_get(system_target + '_PERMISSIONS').include?(permission_option) %>
+            <% if SystemIdentityPermissionsHelper.const_get(system_target[1] + '_PERMISSIONS').include?(permission_option) %>
               <td class="align-c">
-                <% if @group_system_permissions_hash.fetch(system_target, {}).fetch('permissions', []).include?(permission_option) %>
-                  <%= check_box_tag("system_permissions[#{system_target}][]", permission_option, true) %>
+                <% if @group_system_permissions_hash.fetch(system_target[1], {}).fetch('permissions', []).include?(permission_option) %>
+                  <%= check_box_tag("system_permissions[#{system_target[1]}][]", permission_option, true) %>
                 <% else %>
-                  <%= check_box_tag("system_permissions[#{system_target}][]", permission_option, false) %>
+                  <%= check_box_tag("system_permissions[#{system_target[1]}][]", permission_option, false) %>
                 <% end %>
               </td>
             <% else %>
               <td class="align-c disabled">
-                <%= check_box_tag("system_permissions[#{system_target}][]", permission_option, false, disabled: true) %>
+                <%= check_box_tag("system_permissions[#{system_target[1]}][]", permission_option, false, disabled: true) %>
               </td>
             <% end %>
           <% end %>
 
-          <% if @group_system_permissions_hash.keys.include?(system_target) %>
-            <%= hidden_field_tag "system_permissions[#{system_target}][]", '' %>
+          <% if @group_system_permissions_hash.keys.include?(system_target[1]) %>
+            <%= hidden_field_tag "system_permissions[#{system_target[1]}][]", '' %>
           <% end %>
       </tr>
     <% end %>
