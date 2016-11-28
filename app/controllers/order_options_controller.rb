@@ -27,6 +27,9 @@ class OrderOptionsController < ApplicationController
     @order_option = params[:order_option]
     @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
 
+    # Scope will always be PROVIDER
+    @order_option['scope'] = 'PROVIDER'
+
     response = cmr_client.create_order_option(@order_option, echo_provider_token)
 
     if response.success?
@@ -48,6 +51,11 @@ class OrderOptionsController < ApplicationController
     response = cmr_client.get_order_option(order_option_id, echo_provider_token)
     if response.success?
       @order_option = Hash.from_xml(response.body)['option_definition']
+
+      if @order_option['sort_key'].blank?
+        @order_option['sort_key'] = 'n/a'
+      end
+
     else
       Rails.logger.error("Get Order Option Definition Error: #{response.inspect}")
 

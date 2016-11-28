@@ -57,7 +57,6 @@ describe 'Creating Order Options' do
     it 'displays the new order option entry fields' do
       expect(page).to have_field('Name', type: 'text')
       expect(page).to have_field('Sort Key', type: 'text')
-      expect(page).to have_field('Scope', type: 'select')
       expect(page).to have_field('Description', type: 'textarea')
       expect(page).to have_field('ECHO Form XML', type: 'textarea')
     end

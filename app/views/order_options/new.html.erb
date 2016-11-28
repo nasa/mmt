@@ -34,7 +34,7 @@
             displayed to the users to identify an option definition. -->
             <%= label_tag('order_option[name]', 'Name', class: 'required eui-required-o', for: 'order_option_name') %>
             <!--<p>The identifying name for the order option form, which must be unique for all order options created by a provider</p> -->
-            <%= text_field_tag('order_option[name]', @order_option['name'], class: 'required half-width') %>
+            <%= text_field_tag('order_option[name]', @order_option['name'], class: 'required half-width', maxlength: 30) %>
           </div>
         </div>
         <div class="row">
@@ -46,21 +46,7 @@
             sorted based on a standard text sort order. -->
             <%= label_tag('order_option[sort_key]', 'Sort Key', for: 'order_option_sort_key') %>
             <!--<p>This optional field can be used to define a sort order, based on a standard text sort order</p>-->
-            <%= text_field_tag('order_option[sort_key]', @order_option['sort_key'], class: 'half-width', maxlength: 5) %>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-9">
-            <!-- Scope -->
-            <!-- Multiplicity: 1 to 1
-            Only administrators may add system level definitions and only providers may add provider level definitions. -->
-
-            <!-- The scope of the option definition. This may be  ̳system‘ or  ̳provider‘
-            and is described further in section 7.4.2.1. -->
-            <%= label_tag('order_option[scope]', 'Scope', class: 'eui-required-o') %>
-            <!-- TODO if user is admin, they can create 'system' level options -->
-            <%= select_tag('order_option[scope]', options_for_select(['PROVIDER'], 'PROVIDER'), class: 'required half-width') %>
+            <%= text_field_tag('order_option[sort_key]', @order_option['sort_key'], size: 5, maxlength: 5) %>
           </div>
         </div>
 
