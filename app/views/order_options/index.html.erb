@@ -16,7 +16,11 @@
     <section>
       <h2>Order Options</h2>
 
-      <%= link_to 'Create an Order Option', new_order_option_path, class: 'eui-btn--green space-bot' %>
+      <%= link_to 'Create an Order Option', new_order_option_path, class: 'eui-btn--green' %>
+
+      <p>
+        <%= page_entries_info @order_options, entry_name: 'order option' %>
+      </p>
 
       <table class="order-options-table">
         <thead>
@@ -38,6 +42,9 @@
           <% end %>
         </tbody>
       </table>
+
+      <%= paginate @order_options %>
+
     </section>
   </div>
 </main>
