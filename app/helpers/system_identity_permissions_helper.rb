@@ -24,31 +24,31 @@ module SystemIdentityPermissionsHelper
   INGEST_MANAGEMENT_ACL_PERMISSIONS = %w(read update)
   SYSTEM_CALENDAR_EVENT_PERMISSIONS = %w(create update delete)
 
-  SYSTEM_TARGETS = %w(
-    ANY_ACL
-    ARCHIVE_RECORD
-    ERROR_MESSAGE
-    EVENT_NOTIFICATION
-    EXTENDED_SERVICE
-    EXTENDED_SERVICE_ACTIVATION
-    GROUP
-    INGEST_MANAGEMENT_ACL
-    METRIC_DATA_POINT_SAMPLE
-    ORDER_AND_ORDER_ITEMS
-    PROVIDER
-    SYSTEM_AUDIT_REPORT
-    SYSTEM_CALENDAR_EVENT
-    SYSTEM_INITIALIZER
-    SYSTEM_OPTION_DEFINITION
-    SYSTEM_OPTION_DEFINITION_DEPRECATION
-    TAG_GROUP
-    TAXONOMY
-    TAXONOMY_ENTRY
-    TOKEN
-    TOKEN_REVOCATION
-    USER
-    USER_CONTEXT
-  )
+  SYSTEM_TARGETS = [
+    ['Any ACL', 'ANY_ACL'],
+    ['Archive Records', 'ARCHIVE_RECORD'],
+    ['Error Messages', 'ERROR_MESSAGE'],
+    ['Event Notifications', 'EVENT_NOTIFICATION'],
+    ['Extended Service Activation', 'EXTENDED_SERVICE_ACTIVATION'],
+    ['Extended Services', 'EXTENDED_SERVICE'],
+    ['Groups', 'GROUP'],
+    ['Ingest Operations', 'INGEST_MANAGEMENT_ACL'],
+    ['Metric Data Point Samples', 'METRIC_DATA_POINT_SAMPLE'],
+    ['Orders and Order Items', 'ORDER_AND_ORDER_ITEMS'],
+    ['Providers', 'PROVIDER'],
+    ['System Audit Reports', 'SYSTEM_AUDIT_REPORT'],
+    ['System Calendar Event', 'SYSTEM_CALENDAR_EVENT'],
+    ['System Initializer', 'SYSTEM_INITIALIZER'],
+    ['System Option Definition Deprecations', 'SYSTEM_OPTION_DEFINITION_DEPRECATION'],
+    ['System Option Definitions', 'SYSTEM_OPTION_DEFINITION'],
+    ['Tags and Tag Groups', 'TAG_GROUP'],
+    ['Taxonomies', 'TAXONOMY'],
+    ['Taxonomy Entries', 'TAXONOMY_ENTRY'],
+    ['Token Revocations', 'TOKEN_REVOCATION'],
+    ['Tokens', 'TOKEN'],
+    ['User Context', 'USER_CONTEXT'],
+    ['Users', 'USER']
+  ]
 
   PermissionsOptions = %w(create read update delete)
 
