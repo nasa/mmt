@@ -49,6 +49,7 @@ class OrderOptionsController < ApplicationController
     order_option_id = params[:id]
 
     response = cmr_client.get_order_option(order_option_id, echo_provider_token)
+    
 
     if response.success?
       @order_option = Hash.from_xml(response.body)['option_definition']
@@ -85,7 +86,7 @@ class OrderOptionsController < ApplicationController
     @order_option = params[:order_option]
     @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
 
-    soap_xml_response = echo_client.deprecate_order_options([params['id']], echo_provider_token)
+    soap_xml_response = echo_client.deprecate_order_options(echo_provider_token,[params['id']])
     soap_response = Hash.from_xml(soap_xml_response.body)
 
     # We have to deprecate the order before allowing to update. We will ignore the error it was already deprecated in case

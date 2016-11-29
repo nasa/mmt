@@ -13,7 +13,9 @@
     all option definitions created by a Data Partner. This value will be
     displayed to the users to identify an option definition. -->
     <%= label_tag('order_option[name]', 'Name', class: 'required eui-required-o', for: 'order_option_name') %>
-    <% unless new_form %><span class="red-warning">You must change the name of this option definition when updating it.</span><% end %>
+    <% if new_form == false%>
+        <span class="red-warning">You must change the name of this option definition when updating it.</span>
+    <% end %>
     <!--<p>The identifying name for the order option form, which must be unique for all order options created by a provider</p> -->
     <%= text_field_tag('order_option[name]', @order_option['name'], class: 'required half-width') %>
 
