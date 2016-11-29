@@ -42,6 +42,7 @@
         <thead>
           <tr>
             <th>Group Name</th>
+            <th>Description</th>
             <th>Provider</th>
             <th>Members</th>
           </tr>
@@ -50,9 +51,7 @@
         <tbody>
           <% if @groups.blank? %>
             <tr>
-              <td>No groups found at this time.</td>
-              <td>-</td>
-              <td>-</td>
+              <td colspan="4">No groups found at this time.</td>
             </tr>
           <% else %>
             <% @groups.each do |group| %>
@@ -63,6 +62,8 @@
                     <span class="eui-badge--sm">SYS</span>
                   <% end %>
                 </td>
+                <!-- TODO need to put a limit or char cutoff for description? -->
+                <td><%= group['description'] %></td>
                 <td><%= group_provider(group) %></td>
                 <td><%= group['member_count'] %></td>
               </tr>
