@@ -51,7 +51,6 @@ describe 'Creating Order Options' do
       within 'main header' do
         expect(page).to have_content('Create a New Order Option')
       end
-      # TODO when guid is available, add expectation for provider
     end
 
     it 'displays the new order option entry fields' do

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Creating Order Options' do
+describe 'Updating Order Options' do
   let(:option_name)                { 'Test Order Option ABC-1' }
   let(:updated_option_name)        { 'Test Order Option ABC-1 V2' }
   let(:option_description)         { 'Test Order Option Definition Description' }
@@ -51,7 +51,6 @@ describe 'Creating Order Options' do
       within 'main header' do
         expect(page).to have_content('Create a New Order Option')
       end
-      # TODO when guid is available, add expectation for provider
     end
 
     it 'displays the new order option entry fields' do
