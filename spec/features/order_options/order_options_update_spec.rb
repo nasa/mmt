@@ -2,13 +2,12 @@
 
 require 'rails_helper'
 
-describe 'Creating Order Options', js: true do
-  option_name = 'Test Order Option ABC-1'
-  updated_option_name = 'Test Order Option ABC-1 V2'
-  option_description = 'Test Order Option Definition Description'
-  updated_option_description = 'Updated Test Order Option Definition Description'
-
-  echo_form = '<?xml version="1.0" encoding="utf-8"?>
+describe 'Creating Order Options' do
+  let(:option_name)                { 'Test Order Option ABC-1' }
+  let(:updated_option_name)        { 'Test Order Option ABC-1 V2' }
+  let(:option_description)         { 'Test Order Option Definition Description' }
+  let(:updated_option_description) { 'Updated Test Order Option Definition Description'}
+  let(:echo_form)                  { '<?xml version="1.0" encoding="utf-8"?>
     <form xmlns="http://echo.nasa.gov/v9/echoforms"
                  targetNamespace="http://myorganization.gov/echoforms"
                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
