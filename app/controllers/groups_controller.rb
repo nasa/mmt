@@ -4,21 +4,36 @@ class GroupsController < ApplicationController
   before_filter :groups_enabled?
   before_filter :check_if_system_group_administrator, except: [:index, :show, :destroy]
 
+  RESULTS_PER_PAGE = 25
+
   def index
+    # initialize empty group list
+    @groups = []
+
     @filters = params[:filters] || {}
     if @filters['member']
       @filters['options'] = { 'member' => { 'and' => true } }
     end
+
+    @filters[:page_size] = RESULTS_PER_PAGE
+
+    # default page to 1
+    page = params.fetch('page', 1).to_i
+    # prevent kaminari error with page_entries_info if page < 1 and @groups = []
+    page = 1 if page < 1
+    @filters[:page_num] = page
+
     groups_response = cmr_client.get_cmr_groups(@filters, token)
 
     @users = urs_users
 
     if groups_response.success?
-      @groups = groups_response.body['items']
+      group_list = groups_response.body['items']
+
+      @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
     else
       Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
       flash[:error] = Array.wrap(groups_response.body['errors'])[0]
-      @groups = nil
     end
   end
 
