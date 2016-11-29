@@ -4,12 +4,12 @@
     <div class="col-6">
       <label for="retry_attempts" class="eui-required-o">Retry Attempts</label>
       <%= text_field_tag('retry_attempts', @policy.fetch('RetryAttempts', ''), class: 'full-width') %>
-      <p class="form-description">Number of times that ECHO will try to connect to the provider if the transmission fails.</p>
+      <p class="form-description">Number of times that CMR will try to connect to the provider if the transmission fails.</p>
     </div>
     <div class="col-6">
       <label for="retry_wait_time" class="eui-required-o">Retry Wait Time</label>
       <%= text_field_tag('retry_wait_time', @policy.fetch('RetryWaitTime', ''), class: 'full-width') %>
-      <p class="form-description">Amount of time (in seconds) that ECHO will wait before trying to connect.</p>
+      <p class="form-description">Amount of time (in seconds) that CMR will wait before trying to connect.</p>
     </div>
   </div>
 </fieldset>
@@ -21,10 +21,9 @@
   </div>
   <div class="row checkbox-group">
     <div>
-      <label for="supported_transactions_quote"><%= check_box_tag('supported_transactions[]', 'QUOTE', @policy.fetch('SupportedTransactions', {}).fetch('Item', []).include?('QUOTE'), id: 'supported_transactions_quote') %>
-      Quote</label><br />
-      <label for="supported_transactions_submit"><%= check_box_tag('supported_transactions[]', 'SUBMIT', @policy.fetch('SupportedTransactions', {}).fetch('Item', []).include?('SUBMIT'), id: 'supported_transactions_submit') %>
-      Submit</label><br />
+      <!-- SUBMIT is supported for all orders -->
+      <%= hidden_field_tag('supported_transactions[]', 'SUBMIT', value: 'SUBMIT', id: 'supported_transactions_submit') %>
+
       <label for="supported_transactions_cancel"><%= check_box_tag('supported_transactions[]', 'CANCEL', @policy.fetch('SupportedTransactions', {}).fetch('Item', []).include?('CANCEL'), id: 'supported_transactions_cancel') %>
       Cancel</label><br />
     </div>
@@ -45,27 +44,23 @@
     <%= text_field_tag('end_point', @policy.fetch('EndPoint', ''), class: 'full-width required') %>
   </div>
   <div class="row">
-    <label for="routing_type" class="eui-required-o">Type</label>
-    <%= select_tag('routing_type', options_for_select([['Order Fullfillment V9', "ORDER_FULFILLMENT_V9"]], @policy.fetch('Routing', '')), class: 'full-width required') %>
-  </div>
-  <div class="row">
     <label>Suspend Ordering Until</label>
-    <%= datetime_field_tag('ordering_suspended_until_date', @policy.fetch('OrderingSuspendedUntilDate', ''), class: 'full-width') %>
+    <%= text_field_tag('ordering_suspended_until_date', nil,  class: 'full-width datetimepicker', data: { 'date-default-date': @policy.fetch('OrderingSuspendedUntilDate', ''), 'date-view-date': @policy.fetch('OrderingSuspendedUntilDate', Time.now.utc.beginning_of_day.iso8601) }) %>
   </div>
 </fieldset>
 
 <fieldset>
-  <h3>Order Catalog Options</h3>
+  <h3>Order Catalog Items</h3>
 
   <p class="form-description">Select collections for which duplicate catalog items will be allowed.</p>
 
-  <table id="duplicate-order-items">
+  <table id="duplicate-order-items" class="tablesorter">
     <thead>
       <tr>
         <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="collections_supporting_duplicate_order_items[]" /></th>
+        <th>Collection</th>
         <th>Short Name</th>
         <th>Version</th>
-        <th>Entry Title</th>
       </tr>
     </thead>
     <tbody>
@@ -79,9 +74,9 @@
             <td class="align-c">
               <%= check_box_tag("collections_supporting_duplicate_order_items[]", collection.fetch('meta').fetch('concept-id'), @policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', []).include?(collection.fetch('meta').fetch('concept-id')), id: collection.fetch('meta').fetch('concept-id')) %>
             </td>
-            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+            <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta').fetch('concept-id')), target: '_blank' %></td>
+            <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
             <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
-            <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
           </tr>
         <% end %>
       <% end %>
@@ -104,13 +99,13 @@
     <%= text_area_tag('ssl_policy[ssl_certificate]', @policy.fetch('SslPolicy', {}).fetch('SslCertificate', ''), rows: 5, class: 'full-width') %>
   </div>
   <div class="row">
-    <div class="col-8">
+    <div class="col-6">
       <label><%= check_box_tag('ssl_policy[ssl_enabled]', 1, @policy.fetch('SslPolicy', {}).fetch('SslEnabled', 'false').downcase == 'true') %>
       SSL Enabled</label>
     </div>
-    <div class="col-4">
+    <div class="col-6 align-r">
       <% unless @policy.fetch('SslPolicy', {}).empty? %>
-      <em class="form-description">Last Updated on <%= @policy.fetch('SslPolicy', {}).fetch('SslLastUpdate', '') %></em>
+      <em class="form-description">Last Updated on <%= echo_formatted_date(@policy.fetch('SslPolicy', {}).fetch('SslLastUpdate', '')) %></em>
       <% end %>
     </div>
   </div>

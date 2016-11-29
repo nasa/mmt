@@ -48,8 +48,6 @@ describe 'Viewing Order Policies', js: true do
             fill_in 'Retry Attempts', with: ''
             fill_in 'Retry Wait Time', with: ''
 
-            uncheck 'Submit'
-            uncheck 'Quote'
             uncheck 'Cancel'
 
             fill_in 'End Point', with: ''
@@ -61,7 +59,6 @@ describe 'Viewing Order Policies', js: true do
             expect(page).to have_content('Retry Attempts is required.')
             expect(page).to have_content('Retry Wait Time is required.')
             expect(page).to have_content('End Point is required.')
-            expect(page).to have_content('Supported Transactions is required.')
           end
         end
 
@@ -70,8 +67,7 @@ describe 'Viewing Order Policies', js: true do
             fill_in 'Retry Attempts', with: 3
             fill_in 'Retry Wait Time', with: 60
 
-            check 'Submit'
-            check 'Quote'
+            check 'Cancel'
 
             # Concept ID of the collection 'My testing title 02'
             check 'C1200189943-MMT_2'
@@ -92,10 +88,9 @@ describe 'Viewing Order Policies', js: true do
             expect(page).to have_content('Retry Wait Time: 60')
 
             expect(page).to have_content('End Point: /path_to.html')
-            expect(page).to have_content('Type: ORDER_FULFILLMENT_V9')
             expect(page).to have_content('Suspend Ordering Until: Ordering Not Suspended')
 
-            expect(page).to have_content('QUOTE and SUBMIT')
+            expect(page).to have_content('CANCEL')
             expect(page).to have_content('Override Status Notifications: No')
 
             expect(page).to have_content('My testing title 02')
@@ -103,7 +98,7 @@ describe 'Viewing Order Policies', js: true do
             expect(page).to have_content('<test> user provided xml </test>')
 
             # Button to edit order policies
-            expect(page).to have_content('Edit Order Policies')            
+            expect(page).to have_content('Edit Order Policies')
           end
 
           context 'when clicking the edit order policies button' do
@@ -119,11 +114,9 @@ describe 'Viewing Order Policies', js: true do
               expect(page).to have_field('retry_attempts', with: 3)
               expect(page).to have_field('retry_wait_time', with: 60)
 
-              expect(page).to have_checked_field('supported_transactions_submit')
-              expect(page).to have_checked_field('supported_transactions_quote')
+              expect(page).to have_checked_field('supported_transactions_cancel')
 
               expect(page).to have_field('end_point', with: '/path_to.html')
-              expect(page).to have_field('routing_type', with: 'ORDER_FULFILLMENT_V9')
 
               expect(page).to have_checked_field('C1200189943-MMT_2')
             end
@@ -133,7 +126,7 @@ describe 'Viewing Order Policies', js: true do
                 fill_in 'Retry Attempts', with: 5
                 fill_in 'Retry Wait Time', with: 30
 
-                uncheck 'Submit'
+                uncheck 'Cancel'
 
                 VCR.use_cassette('echo_soap/provider_service/order_policies/updated', record: :none) do
                   click_on 'Submit'
@@ -146,7 +139,7 @@ describe 'Viewing Order Policies', js: true do
                 expect(page).to have_content('Retry Attempts: 5')
                 expect(page).to have_content('Retry Wait Time: 30')
 
-                expect(page).to have_content('QUOTE')
+                # expect(page).to have_content('QUOTE')
               end
 
               context 'when clicking the remove order policies button' do

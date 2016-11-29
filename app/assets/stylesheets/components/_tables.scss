@@ -52,3 +52,24 @@ table caption {
   color: #617376;
   font-weight: bold;
 }
+
+table.tablesorter {
+  thead {
+    tr {
+      th.headerSortUp:after,
+      th.headerSortDown:after,
+      th.header:after {
+        font-family: FontAwesome;
+      }
+      th.header:after {
+        content: " \f0dc";
+      }
+      th.headerSortUp:after {
+        content: " \f0de";
+      }
+      th.headerSortDown:after {
+        content: " \f0dd";
+      }  
+    }
+  }
+}

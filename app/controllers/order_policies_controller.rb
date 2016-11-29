@@ -17,11 +17,7 @@ class OrderPoliciesController < EchoSoapController
   def new
     set_policy
 
-    unless @policy.empty?
-      flash[:notice] = "Order Policies already exist for #{current_user.provider_id}."
-
-      redirect_to edit_order_policies_path
-    end
+    redirect_to edit_order_policies_path, flash: { notice: "Order Policies already exist for #{current_user.provider_id}." } unless @policy.empty?
   end
 
   def edit
@@ -33,7 +29,7 @@ class OrderPoliciesController < EchoSoapController
     upsert_response = upsert_policy
 
     if upsert_response.error?
-      flash[:error] ||= [*response.parsed_error].to_sentence
+      flash[:error] ||= [*upsert_response.parsed_error].to_sentence
     else
       flash[:success] = 'Order Policies successfully created'
     end
@@ -46,7 +42,7 @@ class OrderPoliciesController < EchoSoapController
     upsert_response = upsert_policy
 
     if upsert_response.error?
-      flash[:error] ||= [*response.parsed_error].to_sentence
+      flash[:error] ||= [*upsert_response.parsed_error].to_sentence
     else
       flash[:success] = 'Order Policies successfully updated'
     end
@@ -68,10 +64,6 @@ class OrderPoliciesController < EchoSoapController
 
   private
 
-  def set_collections
-    @collections = cmr_client.get_collections({ provider_id: current_user.provider_id }, token).body.fetch('items', [])
-  end
-
   def set_policy
     # Get the provider's policies (will only ever be one)
     result = echo_client.get_providers_policies(token_with_client_id, current_provider_guid)
@@ -84,17 +76,20 @@ class OrderPoliciesController < EchoSoapController
   end
 
   def generate_upsert_payload
+    # SUBMIT is given to all orders, no need to select it
+    provided_supported_transactions = %w(SUBMIT)
+
     payload = {
       RetryAttempts: params.fetch('retry_attempts'),
       RetryWaitTime: params.fetch('retry_wait_time'),
       EndPoint: params.fetch('end_point'),
-      Routing: params.fetch('routing_type'),
+      Routing: 'ORDER_FULFILLMENT_V9', # Only one value exists for this key, so we're hardcoding it and hiding it from the form
       overrideNotificationEnabled: params.fetch('override_notification_enabled', 'false'),
       SslPolicy: {
         SslEnabled: params.fetch('ssl_policy', {}).fetch('ssl_enabled', 'false'),
         SslCertificate: params.fetch('ssl_policy', {}).fetch('ssl_certificate', '')
       },
-      SupportedTransactions: params.fetch('supported_transactions', [])
+      SupportedTransactions: params.fetch('supported_transactions', []) | provided_supported_transactions
     }
 
     unless params.fetch('properties').empty?

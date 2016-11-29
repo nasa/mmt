@@ -35,8 +35,13 @@
             <div class="content-box">
               <h3>Routing Location</h3>
               <p><span class="inline-label">End Point:</span> <%= @policy.fetch('EndPoint') %></p>
-              <p><span class="inline-label">Type:</span> <%= @policy.fetch('Routing') %></p>
-              <p><span class="inline-label">Suspend Ordering Until:</span> <%= @policy.fetch('SuspendOrderingUntil', 'Ordering Not Suspended') %></p>
+              <p><span class="inline-label">Suspend Ordering Until:</span> 
+                <% if @policy.has_key?('OrderingSuspendedUntilDate') %>
+                <%= echo_formatted_date(@policy.fetch('OrderingSuspendedUntilDate')) %>
+                <% else %>
+                Ordering Not Suspended
+                <% end %>
+              </p>
             </div>
 
             <!-- TRANSACTIONS SUPPORTED -->
@@ -51,12 +56,12 @@
           <table>
             <thead>
               <tr>
-                <th class="table-header-span" colspan="3">Order Catalog Options</th>
+                <th class="table-header-span" colspan="3">Order Catalog Items</th>
               </tr>
               <tr>
+                <th>Collection</th>
                 <th>Short Name</th>
                 <th>Version</th>
-                <th>Entry Title</th>
               </tr>
             </thead>
             <tbody>
@@ -64,10 +69,16 @@
                 <% @collections.select{ |c| [*@policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', [])].include?(c.fetch('meta', {}).fetch('concept-id', nil)) }.each do |collection| %>
                   <tr>
                     <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+                    <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
                     <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
-                    <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
                   </tr>
                 <% end %>
+              <% else %>
+              <tr>
+                <td colspan="3">
+                  This order policy has no selected order catalog items.
+                </td>
+              </tr>
               <% end %>
             </tbody>
           </table>
@@ -79,12 +90,14 @@
              <%= @policy.fetch('SslPolicy', {}).fetch('SslEnabled', 'false') == "true" ? 'Enabled' : 'Disabled' %></p>
           <p>
             <span class="inline-label">Last Updated:</span>
-            <%= @policy.fetch('SslPolicy', {}).fetch('SslLastUpdate') %>
+            <%= echo_formatted_date(@policy.fetch('SslPolicy', {}).fetch('SslLastUpdate')) %>
           </p>
 
           <h3>Custom Properties</h3>
           <% if @policy.key?('Properties') %>
             <pre><%= @pretty_properties %></pre>
+          <% else %>
+            <p>This order policy contains no custom properties</p>
           <% end %>
 
           <%= link_to 'Remove Order Policies', "#delete-summary-modal", class: 'display-modal eui-btn eui-btn--red' %>
