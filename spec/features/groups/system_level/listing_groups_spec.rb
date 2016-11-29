@@ -16,21 +16,21 @@ describe 'Listing System Level Groups' do
     it 'displays the groups table with the group information' do
       within '.groups-table' do
         within all('tr')[1] do
-          expect(page).to have_content('LARC Test Group 01 LARC 5')
+          expect(page).to have_content('LARC Test Group 01 asdfasdfasd LARC 5')
         end
         within all('tr')[2] do
-          expect(page).to have_content('SEDAC Test Group 02 SEDAC 0')
+          expect(page).to have_content('SEDAC Test Group 02 Test group for provider SEDAC 0')
         end
         within all('tr')[3] do
-          expect(page).to have_content('Administrators SYS CMR 6')
+          expect(page).to have_content('Administrators SYS CMR Administrators CMR 6')
           expect(page).to have_css('span.eui-badge--sm')
         end
         within all('tr')[4] do
-          expect(page).to have_content('Administrators_2 SYS CMR 2')
+          expect(page).to have_content('Administrators_2 SYS The group of users that manages the CMR. CMR 2')
           expect(page).to have_css('span.eui-badge--sm')
         end
         within all('tr')[5] do
-          expect(page).to have_content('CH mmt2 test system group 03 MMT_2 4')
+          expect(page).to have_content('CH mmt2 test system group 03 lalalallalalala MMT_2 4')
         end
       end
     end

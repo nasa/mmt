@@ -36,10 +36,10 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
           within '.groups-table' do
             within all('tr')[1] do
-              expect(page).to have_content('Group 1 MMT_2 1')
+              expect(page).to have_content('Group 1 test group MMT_2 1')
             end
             within all('tr')[2] do
-              expect(page).to have_content('Group 2 MMT_2 2')
+              expect(page).to have_content('Group 2 test group 2 MMT_2 2')
             end
           end
         end
@@ -58,7 +58,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
           within '.groups-table' do
             within all('tr')[1] do
-              expect(page).to have_content('Group 2 MMT_2 2')
+              expect(page).to have_content('Group 2 test group 2 MMT_2 2')
             end
           end
           expect(page).to have_no_content('SEDAC Test Group')
