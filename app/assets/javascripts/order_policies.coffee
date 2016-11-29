@@ -21,7 +21,7 @@ $(document).ready ->
     onfocusout: false    
     invalidHandler: (form, validator) ->
       if validator.numberOfInvalids() > 0
-        validator.errorList[0].element.focus();
+        validator.errorList[0].element.focus()
 
     highlight: (element, errorClass) ->
       # Prevent highlighting the fields themselves
