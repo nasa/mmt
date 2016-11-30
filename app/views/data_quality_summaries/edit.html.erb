@@ -24,7 +24,7 @@
     <section>
       <h2>Edit <%= current_user.provider_id %> Data Quality Summary</h2>
 
-      <%= form_tag(data_quality_summary_path(@summary.fetch('Guid')), method: :put, id: "data-quality-summary-form") do %>
+      <%= form_tag(data_quality_summary_path(@summary.fetch('Guid')), method: :put, class: "data-quality-summary-form", id: "data-quality-summary-form") do %>
         <%= render partial: "form" %>
       <% end %>
     </section>

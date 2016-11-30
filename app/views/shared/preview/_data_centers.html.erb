@@ -89,10 +89,10 @@
                             <a href="mailto:<%= mechanism['Value'] %>" title="<%= mechanism['Value'] %>">Email</a>
                           <% when 'Twitter' %>
                             <i class="fa fa-twitter-square"></i>
-                            <a href="<%= mechanism['Value'] %>">Twitter</a>
+                            <%= link_to 'Twitter', "https://twitter.com/#{mechanism['Value']}", :target => "_blank" %>
                           <% when 'Facebook' %>
                             <i class="fa fa-facebook-square"></i>
-                            <a href="<%= mechanism['Value'] %>">Facebook</a>
+                            <%= link_to 'Facebook', "https://www.facebook.com/#{mechanism['Value']}", :target => "_blank" %>
                           <% when 'Fax' %>
                             <i class="fa fa-fax"></i>
                             <%= mechanism['Value'] %>
