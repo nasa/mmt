@@ -68,7 +68,7 @@ describe 'Viewing Data Quality Summary Assignments' do
           end
 
           it 'displays the correct list of assignments' do
-            expect(page).to have_selector('#assignment-list tbody tr', count: 2)
+            expect(page).to have_selector('#assignment-collections tbody tr', count: 2)
           end
         end
       end

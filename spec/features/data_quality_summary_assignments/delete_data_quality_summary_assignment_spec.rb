@@ -34,7 +34,7 @@ describe 'Deleting a Data Quality Summary Assignment' do
 
   context 'when clicking delete with assignments selected' do
     before do
-      within '#assignment-list' do
+      within '#assignment-collections' do
         first("td input[type='checkbox']").set(true)
       end
 

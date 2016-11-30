@@ -4,6 +4,8 @@ $(document).ready ->
     headers:
       0: 
         sorter: false
+      3:
+        sorter: 'text'
 
   $('#order-policies-form').validate
     errorClass: 'eui-banner--danger'

@@ -31,7 +31,7 @@
         <fieldset>
           <label for="data_quality_summary_assignment[]" class="eui-required-o">Assignments</label>
 
-          <table id="assignment-list">
+          <table id="assignment-collections" class="tablesorter">
             <thead>
               <tr>
                 <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="data_quality_summary_assignment[]" /></th>
@@ -53,7 +53,7 @@
                       <td class="align-c">
                         <%= check_box_tag('data_quality_summary_assignment[]', assignment.fetch('AssignmentGuid'), false, id: "data_quality_summary_assignment_#{assignment.fetch('AssignmentGuid')}") %>
                       </td>
-                      <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
+                      <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta').fetch('concept-id')), target: '_blank' %></td>
                       <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
                       <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
                       <td><%= link_to assignment.fetch('Name'), data_quality_summary_path(assignment.fetch('Guid')) %></td>
