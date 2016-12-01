@@ -70,7 +70,6 @@ $(document).ready ->
     return
 
   validationMessages = (error) ->
-    debugger
     keyword = error.keyword
     if error.title.length > 0
       field =  error.title
