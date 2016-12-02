@@ -92,21 +92,23 @@ describe 'Updating Order Options' do
     end
 
     context 'When updating the Order Option with the same name' do
-      it 'Displays an error message inidicating the name must be unique' do
 
+      before do
         fill_in 'Sort Key', with: 'AAA'
 
         VCR.use_cassette('echo_rest/order_options/1001-update-page-error', record: :none) do
           click_on 'Save'
         end
+      end
 
+      it 'Displays an error message inidicating the name must be unique' do
         expect(page).to have_content('The option definition name [1001] must be unique')
       end
     end
 
     context 'When successfully updating an Order Option' do
-      it 'Displays a success message and shows the updated Order Option' do
-        
+
+      before do
         fill_in 'Name', with: '1001 - UPDATE'
         fill_in 'Sort Key', with: 'BBB'
         fill_in 'ECHO Form XML', with: echo_form_update
@@ -114,7 +116,9 @@ describe 'Updating Order Options' do
         VCR.use_cassette('echo_rest/order_options/1001-update-page-update-ok', record: :none) do
           click_on 'Save'
         end
+      end
 
+      it 'Displays a success message and shows the updated Order Option' do
         expect(page).to have_content('Order Option was successfully updated')
         expect(page).to have_content(echo_form_update)
         expect(page).to have_content('1001 - UPDATE')
