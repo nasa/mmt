@@ -54,34 +54,12 @@
 
   <p class="form-description">Select collections for which duplicate catalog items will be allowed.</p>
 
-  <table id="duplicate-order-items" class="tablesorter">
-    <thead>
-      <tr>
-        <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="collections_supporting_duplicate_order_items[]" /></th>
-        <th>Collection</th>
-        <th>Short Name</th>
-        <th>Version</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if @collections.empty? %>
-        <tr>
-          <td colspan="4">No collections to display for <%= current_user.provider_id %>.</td>
-        </tr>
-      <% else %>
-        <% @collections.each do |collection| %>
-          <tr>
-            <td class="align-c">
-              <%= check_box_tag("collections_supporting_duplicate_order_items[]", collection.fetch('meta').fetch('concept-id'), @policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', []).include?(collection.fetch('meta').fetch('concept-id')), id: collection.fetch('meta').fetch('concept-id')) %>
-            </td>
-            <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta').fetch('concept-id')), target: '_blank' %></td>
-            <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
-            <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
+  <!-- Hidden fields that represent the underlying array of selected collections -->
+  <% @policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', []).each do |collection| %>
+  <%= hidden_field_tag('collections_supporting_duplicate_order_items[]', collection, class: 'selected-collection') %>
+  <% end %>
+  
+  <div id="order-policies-chooser-widget"></div>
 
   <div class="row">
     <div class="col-6">
