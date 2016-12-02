@@ -1,11 +1,8 @@
 # MMT-593
-
 require 'rails_helper'
 
 describe 'Updating Order Options' do
-
   let(:order_option_guid) {'848DA05B-51A2-1F3D-6783-6C27E5EA74B4'}
-
   let(:echo_form)          { '<form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms">
       <model>
         <instance>
@@ -68,7 +65,6 @@ describe 'Updating Order Options' do
     </form>'
   }
 
-
   context 'When viewing the update page for an existing Order Option' do
     before do
       login
@@ -94,55 +90,38 @@ describe 'Updating Order Options' do
       expect(page).to have_field('ECHO Form XML')
       expect(find_field('ECHO Form XML').value).to eq echo_form
     end
-  end
 
-  context 'When updating the Order Option with the same name' do
-    before do
-      login
+    context 'When updating the Order Option with the same name' do
+      it 'Displays an error message inidicating the name must be unique' do
 
-      VCR.use_cassette('echo_rest/order_options/1001-update', record: :none) do
-        visit edit_order_option_path(order_option_guid)
+        fill_in 'Sort Key', with: 'AAA'
+
+        VCR.use_cassette('echo_rest/order_options/1001-update-page-error', record: :none) do
+          click_on 'Save'
+        end
+
+        expect(page).to have_content('The option definition name [1001] must be unique')
       end
     end
 
-    it 'Displays an error message inidicating the name must be unique' do
+    context 'When successfully updating an Order Option' do
+      it 'Displays a success message and shows the updated Order Option' do
+        
+        fill_in 'Name', with: '1001 - UPDATE'
+        fill_in 'Sort Key', with: 'BBB'
+        fill_in 'ECHO Form XML', with: echo_form_update
 
-      fill_in 'Sort Key', with: 'AAA'
+        VCR.use_cassette('echo_rest/order_options/1001-update-page-update-ok', record: :none) do
+          click_on 'Save'
+        end
 
-      VCR.use_cassette('echo_rest/order_options/1001-update-page-error', record: :none) do
-        click_on 'Save'
+        expect(page).to have_content('Order Option was successfully updated')
+        expect(page).to have_content(echo_form_update)
+        expect(page).to have_content('1001 - UPDATE')
+        expect(page).to have_content('Scope: PROVIDER ')
+        expect(page).to have_content('Deprecated: false')
+        expect(page).to have_content('Sort Key: BBB')
       end
-
-      expect(page).to have_content('The option definition name [1001] must be unique')
-    end
-
-  end
-
-  context 'When successfully updating an Order Option' do
-    before do
-      login
-
-      VCR.use_cassette('echo_rest/order_options/1001-update', record: :none) do
-        visit edit_order_option_path(order_option_guid)
-      end
-    end
-
-    it 'Displays a success message and shows the updated Order Option' do
-
-      fill_in 'Name', with: '1001 - UPDATE'
-      fill_in 'Sort Key', with: 'BBB'
-      fill_in 'ECHO Form XML', with: echo_form_update
-
-      VCR.use_cassette('echo_rest/order_options/1001-update-page-update-ok', record: :none) do
-        click_on 'Save'
-      end
-
-      expect(page).to have_content('Order Option was successfully updated')
-      expect(page).to have_content(echo_form_update)
-      expect(page).to have_content('1001 - UPDATE')
-      expect(page).to have_content('Scope: PROVIDER ')
-      expect(page).to have_content('Deprecated: false')
-      expect(page).to have_content('Sort Key: BBB')
     end
   end
 end
