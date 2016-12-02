@@ -186,14 +186,12 @@ window.Chooser = (config) ->
         dispVal = undefined
         optVal = undefined
         if typeof tmpVal == 'object' and tmpVal.length == 2
-          dispVal = tmpVal[0]
-          optVal = tmpVal[1]
-        else if typeof tmpVal == 'object' and tmpVal.length == 1
-          dispVal = tmpVal[0]
           optVal = tmpVal[0]
+          dispVal = tmpVal[1]
+        else if typeof tmpVal == 'object' and tmpVal.length == 1
+          dispVal = optVal = tmpVal[0]
         else
-          dispVal = tmpVal
-          optVal = tmpVal
+          dispVal = optVal = tmpVal
         opt = $('<option>').val(optVal).text(dispVal)
         $(TO_LIST).append opt
         return
