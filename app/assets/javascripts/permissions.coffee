@@ -69,7 +69,7 @@ $(document).ready ->
           $.each entry_titles, (index, value)->
             opt_val = value.split('|')[1].trim()
             opts.push( [opt_val, value] )
-          collectionsChooser.val(opts);
+          collectionsChooser.setToVal(opts);
     ), 500
 
     # Show respective field based on selection
