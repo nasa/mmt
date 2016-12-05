@@ -2,7 +2,7 @@ $(document).ready ->
   $('#duplicate-order-items').tablesorter
     # Prevent sorting on the checkboxes
     headers:
-      0: 
+      0:
         sorter: false
       3:
         sorter: 'text'
@@ -17,10 +17,10 @@ $(document).ready ->
         element.closest('div').append(error)
       else
         error.insertAfter(element)
-        
+
     # This library handles focus oddly, this ensures that we scroll
     # to and focus on the first element with an error in the form
-    onfocusout: false    
+    onfocusout: false
     invalidHandler: (form, validator) ->
       if validator.numberOfInvalids() > 0
         validator.errorList[0].element.focus()

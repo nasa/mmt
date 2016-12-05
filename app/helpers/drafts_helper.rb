@@ -13,20 +13,6 @@ module DraftsHelper
     ['Cartesian', 'CARTESIAN'],
     ['Geodetic', 'GEODETIC']
   ]
-  ContactTypeOptions = [
-    ['Direct Line'],
-    ['Email'],
-    ['Facebook'],
-    ['Fax'],
-    ['Mobile'],
-    ['Modem'],
-    ['Primary'],
-    ['TDD/TTY Phone'],
-    ['Telephone'],
-    ['Twitter'],
-    ['U.S. toll free'],
-    ['Other']
-  ]
   ContactMechanismTypeOptions = [
     ['Direct Line'],
     ['Email'],

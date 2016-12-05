@@ -56,20 +56,23 @@ $(document).ready ->
     $urlElement = $relatedUrl.find('.url:first')
 
     if longName?
+      $longNameElement.val(longName)
       $longNameElement.attr('readonly', true)
     else
       $longNameElement.attr('readonly', false)
 
     if url?
+      $urlElement.val(url)
       $urlElement.attr('readonly', true)
     else
       $urlElement.attr('readonly', false)
 
+
   # Set placeholder for group filters
-  $('.provider-filter').select2(
+  $('.group-form .provider-filter').select2(
     placeholder: "Filter by provider"
   )
-  $('.member-filter').select2(
+  $('.group-form .member-filter').select2(
     tags: true
     placeholder: "Filter by member"
     matcher: (searchTerm, entry) ->

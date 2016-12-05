@@ -454,7 +454,7 @@ class DraftsController < ApplicationController
 
   def set_data_centers
     data_centers = cmr_client.get_controlled_keywords('providers')
-    data_centers = get_data_center_short_names_long_names_urls(data_centers) # TODO need to change this method name above
+    data_centers = get_data_center_short_names_long_names_urls(data_centers)
     @data_centers = data_centers.sort
   end
 

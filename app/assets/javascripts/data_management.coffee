@@ -18,16 +18,17 @@ $(document).ready ->
   $('#assignment-collections').tablesorter
     # Prevent sorting on the checkboxes
     headers:
-      0: 
+      0:
         sorter: false
       3:
         sorter: 'text'
+
 
   $('#data-quality-summary-form').validate
     errorClass: 'eui-banner--danger'
     errorElement: 'div'
     onkeyup: false
-    
+
     errorPlacement: (error, element) ->
       if element.hasClass('redactor')
         error.insertAfter(element.closest('.redactor-box'))
@@ -36,7 +37,7 @@ $(document).ready ->
 
     # This library handles focus oddly, this ensures that we scroll
     # to and focus on the first element with an error in the form
-    onfocusout: false    
+    onfocusout: false
     invalidHandler: (form, validator) ->
       if validator.numberOfInvalids() > 0
         validator.errorList[0].element.focus()
@@ -52,7 +53,7 @@ $(document).ready ->
     rules:
       name:
         required: true
-      summary: 
+      summary:
         required: true
 
     messages:
@@ -61,11 +62,12 @@ $(document).ready ->
       summary:
         required: 'Summary is required.'
 
+
   $('#data-quality-summary-assignments-form').validate
     errorClass: 'eui-banner--danger'
     errorElement: 'div'
     onkeyup: false
-    
+
     errorPlacement: (error, element) ->
       if element.attr('name') == 'catalog_item_guid[]'
         element.closest('fieldset').append(error)
@@ -82,7 +84,7 @@ $(document).ready ->
     rules:
       definition_guid:
         required: true
-      'catalog_item_guid[]': 
+      'catalog_item_guid[]':
         required: true
 
     messages:
@@ -91,11 +93,12 @@ $(document).ready ->
       'catalog_item_guid[]':
         required: 'You must select at least 1 collection.'
 
+
   $('#delete-data-quality-summary-assignments-form').validate
     errorClass: 'eui-banner--danger'
     errorElement: 'div'
     onkeyup: false
-    
+
     errorPlacement: (error, element) ->
       element.closest('fieldset').append(error)
 
@@ -107,7 +110,7 @@ $(document).ready ->
       return false
 
     rules:
-      'data_quality_summary_assignment[]': 
+      'data_quality_summary_assignment[]':
         required: true
 
     messages:
@@ -115,5 +118,5 @@ $(document).ready ->
         required: 'You must select at least 1 assignment.'
 
   # jQuery Validate has a 'feature' that means this only gets called on blur, we want on change
-  $('select').on 'change', ->
+  $('.data-quality-summary-form select').on 'change', ->
     $(this).valid()
