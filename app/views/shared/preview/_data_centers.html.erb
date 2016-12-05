@@ -89,10 +89,10 @@
                             <a href="mailto:<%= mechanism['Value'] %>" title="<%= mechanism['Value'] %>">Email</a>
                           <% when 'Twitter' %>
                             <i class="fa fa-twitter-square"></i>
-                            <%= mechanism['Value']%>
+                            <%= display_value_or_add_popover(mechanism['Value']) %>
                           <% when 'Facebook' %>
                             <i class="fa fa-facebook-square"></i>
-                            <%= mechanism['Value'] %>
+                            <%= display_value_or_add_popover(mechanism['Value']) %>
                           <% when 'Fax' %>
                             <i class="fa fa-fax"></i>
                             <%= mechanism['Value'] %>
