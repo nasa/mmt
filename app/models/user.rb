@@ -29,12 +29,12 @@ class User < ActiveRecord::Base
                   # Pull out only the acls that apply to this
                   good_acls = acls.select do |acl|
                     # If the ACL is an ingest ACL
-                    is_ingest_acl = acl['acl']['provider_object_identity']['target'] == 'INGEST_MANAGEMENT_ACL'
+                    is_ingest_acl = acl.fetch('acl', {}).fetch('provider_object_identity', {}).fetch('target', nil) == 'INGEST_MANAGEMENT_ACL'
 
                     # if access_control_entries includes at least one of the users group_ids
                     # and the UPDATE permission is found
-                    groups_with_update = acl['acl']['access_control_entries'].count do |entry|
-                      group_ids.include?(entry['sid']['group_sid']['group_guid']) && entry['permissions'].include?('UPDATE')
+                    groups_with_update = acl.fetch('acl', {}).fetch('access_control_entries', []).count do |entry|
+                      group_ids.include?(entry.fetch('sid', {}).fetch('group_sid', {}).fetch('group_guid', nil)) && entry.fetch('permissions', []).include?('UPDATE')
                     end
 
                     # Qualifications for a good provider
@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
                   end
 
                   # Get the provider_guids
-                  provider_guids = good_acls.map { |acl| acl['acl']['provider_object_identity']['provider_guid'] }
+                  provider_guids = good_acls.map { |acl| acl.fetch('acl', {}).fetch('provider_object_identity', {}).fetch('provider_guid', nil) }
 
                   # Get all providers
                   all_providers = cmr_client.get_all_providers.body
