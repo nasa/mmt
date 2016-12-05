@@ -96,7 +96,7 @@ class OrderPoliciesController < EchoSoapController
       payload[:Properties] = params.fetch('properties')
     end
 
-    order_items = params.fetch('collections_supporting_duplicate_order_items', [])
+    order_items = params.fetch('collections_supporting_duplicate_order_items_toList', [])
     unless order_items.empty?
       payload[:OrderSupportsDuplicateCatalogItems] = 'true'
       payload[:CollectionsSupportingDuplicateOrderItems] = order_items

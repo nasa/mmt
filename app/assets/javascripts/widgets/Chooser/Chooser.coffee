@@ -82,26 +82,35 @@ window.Chooser = (config) ->
     SELF = this
     # Construct each component
     OUTER_CONTAINER = $('<div class=\'Chooser\' id=\'' + config.id + '\'></div>')
-    FROM_CONTAINER = $('<div></div>')
-    TO_CONTAINER = $('<div></div>')
-    BUTTON_CONTAINER = $('<div></div>')
+    FROM_CONTAINER = $('<div>').addClass('from-container')
+    TO_CONTAINER = $('<div>').addClass('to-container')
+    BUTTON_CONTAINER = $('<div>').addClass('button-container')
     FROM_BOX = $('<div></div>')
     TO_BOX = $('<div></div>')
+
     addButtonText = if hasProp('addButton', 'object') then config.addButton.text else '&#x2192;'
     addButtonCssClass = if hasProp('addButton', 'object') then config.addButton.cssClass else ''
     ADD_BUTTON = $('<button title=\'add\' class=\'' + addButtonCssClass + '\'>' + addButtonText + '</button>')
     if hasProp('addButton') and config.addButton.arrowCssClass
       $(ADD_BUTTON).append ' <span class=\'' + config.addButton.arrowCssClass + '\'></span> '
+
     delButtonText = if hasProp('delButton', 'object') then config.delButton.text else '&#x2190;'
     delButtonCssClass = if hasProp('delButton', 'object') then config.delButton.cssClass else ''
     REMOVE_BUTTON = $('<button title=\'remove\' class=\'' + delButtonCssClass + '\'>' + delButtonText + '</button>')
     if hasProp('delButton') and config.delButton.arrowCssClass
       $(REMOVE_BUTTON).prepend ' <span class=\'' + config.delButton.arrowCssClass + '\'></span> '
+
     allowRemoveAll = if hasProp('allowRemoveAll', 'boolean') then config.allowRemoveAll else true
     if allowRemoveAll == true
-      REMOVE_ALL_BUTTON = $('<button title=\'remove all\'>&#x21C7;</button>')
+      delAllButtonText = if hasProp('delAllButton', 'object') then config.delAllButton.text else '&#x2190;'
+      delAllButtonCssClass = if hasProp('delAllButton', 'object') then config.delAllButton.cssClass else ''
+
+      REMOVE_ALL_BUTTON = $('<button title=\'remove all\' class=\'' + delAllButtonCssClass + '\'>' + delAllButtonText + '</button>')
+      if hasProp('delAllButton') and config.delAllButton.arrowCssClass
+        $(REMOVE_ALL_BUTTON).prepend ' <span class=\'' + config.delAllButton.arrowCssClass + '\'></span> '
+
     FROM_LIST = $('<select class=\'___fromList\' id=\'' + config.id + '_fromList' + '\' multiple size=\'5\'></select>')
-    TO_LIST = $('<select class=\'___toList\' name=\'' + config.id + '_toList' + '\' id=\'' + config.id + '_toList' + '\' multiple size=\'5\'></select>')
+    TO_LIST = $('<select class=\'___toList\' name=\'' + config.id + '_toList[]' + '\' id=\'' + config.id + '_toList' + '\' multiple size=\'5\'></select>')
     placeHolderText = if hasProp('filterText', 'string') then config.filterText else 'filter'
     FILTER_TEXTBOX = $('<input type=\'text\' placeholder=\'' + placeHolderText + '\'>')
     if !config.hasOwnProperty('resetSize')
@@ -109,7 +118,7 @@ window.Chooser = (config) ->
     if config.fromLabel
       FROM_LABEL = $('<label for=\'' + config.id + '_fromList' + '\'>' + config.fromLabel + '</label>')
       $(FROM_CONTAINER).append FROM_LABEL
-      $(FROM_CONTAINER).append '<br>'
+      # $(FROM_CONTAINER).append '<br>'
     if config.toLabel
       TO_LABEL = $('<label for=\'' + config.id + '_toList' + '\'>' + config.toLabel + '</label>')
       $(TO_CONTAINER).append TO_LABEL
