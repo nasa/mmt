@@ -68,8 +68,8 @@ $(document).ready ->
           entry_titles = $('#collection_selections').val().split("%%__%%")
           $.each entry_titles, (index, value)->
             opt_val = value.split('|')[1].trim()
-            opts.push( [value, opt_val] )
-          collectionsChooser.val(opts);
+            opts.push( [opt_val, value] )
+          collectionsChooser.setToVal(opts);
     ), 500
 
     # Show respective field based on selection
