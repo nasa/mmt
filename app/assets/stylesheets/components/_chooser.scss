@@ -6,6 +6,10 @@
   width: 100%;
   background: #fff;
 
+  label {
+    display: block;
+  }
+  
   .from-container {
     display: table-cell;
     width: 45%;

@@ -118,7 +118,7 @@ window.Chooser = (config) ->
     if config.fromLabel
       FROM_LABEL = $('<label for=\'' + config.id + '_fromList' + '\'>' + config.fromLabel + '</label>')
       $(FROM_CONTAINER).append FROM_LABEL
-      $(FROM_CONTAINER).append '<br>'
+      # $(FROM_CONTAINER).append '<br>'
     if config.toLabel
       TO_LABEL = $('<label for=\'' + config.id + '_toList' + '\'>' + config.toLabel + '</label>')
       $(TO_CONTAINER).append TO_LABEL
