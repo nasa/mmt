@@ -92,7 +92,7 @@ class EchoSoapController < ApplicationController
   end
 
   # Controller method that allows developers to get this data without
-  # making an HTTP connection (besides CMR)
+  # making an HTTP request (with the exception of the CMR call)
   def get_provider_collections(params = {})
     collection_params = {
       'provider' => current_user.provider_id

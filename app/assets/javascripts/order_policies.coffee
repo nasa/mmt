@@ -21,17 +21,17 @@ $(document).ready ->
       removeAdded: false,
       addButton: {
         cssClass: 'eui-btn nowrap',
-        arrowCssClass: 'fa fa-arrow-right',
+        arrowCssClass: 'fa fa-plus',
         text: ''
       },
       delButton: {
         cssClass: 'eui-btn nowrap',
-        arrowCssClass: 'fa fa-arrow-left',
+        arrowCssClass: 'fa fa-minus',
         text: ''
       },
       delAllButton: {
         cssClass: 'eui-btn nowrap',
-        arrowCssClass: 'fa fa-backward',
+        arrowCssClass: 'fa fa-trash',
         text: ''
       },
       allowRemoveAll: true,
@@ -51,7 +51,7 @@ $(document).ready ->
   $.ajax '/provider_collections?' + $.param('concept_id': selectedValues),
     success: (data) ->
       # Sets the selected values of the chooser
-      collectionsChooser.val(data)
+      collectionsChooser.setToVal(data)
     fail: (data) ->
       console.log data
 
