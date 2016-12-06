@@ -1,4 +1,6 @@
 class DataQualitySummariesController < EchoSoapController
+  include DataManagementHelper
+
   before_action :set_summary, only: [:show, :new, :edit]
   before_action :set_summaries, only: :index
 
@@ -64,7 +66,7 @@ class DataQualitySummariesController < EchoSoapController
     {
       'Guid' => params.fetch('id'),
       'Name' => params.fetch('name'),
-      'Summary' => params.fetch('summary'),
+      'Summary' => sanitize_for_echo(params.fetch('summary')),
       'OwnerProviderGuid' => current_provider_guid
     }
   end
