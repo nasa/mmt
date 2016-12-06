@@ -90,13 +90,13 @@ window.Chooser = (config) ->
 
     addButtonText = if hasProp('addButton', 'object') then config.addButton.text else '&#x2192;'
     addButtonCssClass = if hasProp('addButton', 'object') then config.addButton.cssClass else ''
-    ADD_BUTTON = $('<button title=\'add\' class=\'' + addButtonCssClass + '\'>' + addButtonText + '</button>')
+    ADD_BUTTON = $('<button title=\'add\' class=\'' + addButtonCssClass + '\'>' + addButtonText + '</button>').addClass('add_button')
     if hasProp('addButton') and config.addButton.arrowCssClass
       $(ADD_BUTTON).append ' <span class=\'' + config.addButton.arrowCssClass + '\'></span> '
 
     delButtonText = if hasProp('delButton', 'object') then config.delButton.text else '&#x2190;'
     delButtonCssClass = if hasProp('delButton', 'object') then config.delButton.cssClass else ''
-    REMOVE_BUTTON = $('<button title=\'remove\' class=\'' + delButtonCssClass + '\'>' + delButtonText + '</button>')
+    REMOVE_BUTTON = $('<button title=\'remove\' class=\'' + delButtonCssClass + '\'>' + delButtonText + '</button>').addClass('remove_button')
     if hasProp('delButton') and config.delButton.arrowCssClass
       $(REMOVE_BUTTON).prepend ' <span class=\'' + config.delButton.arrowCssClass + '\'></span> '
 
@@ -105,7 +105,7 @@ window.Chooser = (config) ->
       delAllButtonText = if hasProp('delAllButton', 'object') then config.delAllButton.text else '&#x2190;'
       delAllButtonCssClass = if hasProp('delAllButton', 'object') then config.delAllButton.cssClass else ''
 
-      REMOVE_ALL_BUTTON = $('<button title=\'remove all\' class=\'' + delAllButtonCssClass + '\'>' + delAllButtonText + '</button>')
+      REMOVE_ALL_BUTTON = $('<button title=\'remove all\' class=\'' + delAllButtonCssClass + '\'>' + delAllButtonText + '</button>').addClass('remove_all_button')
       if hasProp('delAllButton') and config.delAllButton.arrowCssClass
         $(REMOVE_ALL_BUTTON).prepend ' <span class=\'' + config.delAllButton.arrowCssClass + '\'></span> '
 
