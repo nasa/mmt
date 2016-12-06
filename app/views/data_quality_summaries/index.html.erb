@@ -18,8 +18,6 @@
     <section>
       <h2><%= current_user.provider_id %> Data Quality Summaries</h2>
 
-      <%= link_to 'Create a Data Quality Summary', new_data_quality_summary_path, class: 'eui-btn--green space-bot' %>
-
       <% if @summaries.empty? %>
         <p>No <%= current_user.provider_id %> Data Quality Summaries found.</p>
       <% else %>
