@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Viewing Data Quality Summary Assignments' do
+describe 'Viewing Data Quality Summary Assignments', js: true do
   context 'when viewing the data quality summary assignments page' do
     before do
       collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
@@ -19,13 +19,13 @@ describe 'Viewing Data Quality Summary Assignments' do
       expect(page).to have_content('MMT_2 Data Quality Summary Assignments')
 
       # We mocked the CMR above so we know how many collections to expect
-      expect(page).to have_selector("input[name='catalog_item_guid[]']", count: 6)
+      expect(page).to have_selector('#catalog_item_guid_fromList option', count: 6)
     end
 
     context 'when clicking the display selected assignments button', js: true do
       context ' with no collections selected', js: true do
         before do
-          click_on 'Display Selected Assignments'
+          click_on 'Display Assignments'
         end
 
         it 'displays validation errors within the form' do
@@ -35,17 +35,23 @@ describe 'Viewing Data Quality Summary Assignments' do
 
       context 'with collections selected' do
         before do
-          # Mark's Test
-          check 'catalog_item_guid_C1200060160-MMT_2'
+          within '#catalog_item_guid_fromList' do
+            # Mark's Test
+            find('option[value="C1200060160-MMT_2"]').select_option
 
-          # Matthew's Test
-          check 'catalog_item_guid_C1200019403-MMT_2'
+            # Matthew's Test
+            find('option[value="C1200019403-MMT_2"]').select_option
+          end
+
+          within '.button-container' do
+            find('.add_button').click
+          end
         end
 
         context 'when the collections have no assignemnts' do
           before do
             VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/empty', record: :none) do
-              click_on 'Display Selected Assignments'
+              click_on 'Display Assignments'
             end
           end
 
@@ -56,14 +62,20 @@ describe 'Viewing Data Quality Summary Assignments' do
 
         context 'when collections have assignments' do
           before do
-            # Mark's Test
-            check 'catalog_item_guid_C1200060160-MMT_2'
+            within '#catalog_item_guid_fromList' do
+              # Mark's Test
+              find('option[value="C1200060160-MMT_2"]').select_option
 
-            # Matthew's Test
-            check 'catalog_item_guid_C1200019403-MMT_2'
+              # Matthew's Test
+              find('option[value="C1200019403-MMT_2"]').select_option
+            end
+
+            within '.button-container' do
+              find('.add_button').click
+            end
 
             VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/list', record: :none) do
-              click_on 'Display Selected Assignments'
+              click_on 'Display Assignments'
             end
           end
 

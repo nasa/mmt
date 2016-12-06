@@ -20,15 +20,11 @@
     <section>
       <h2><%= current_user.provider_id %> Data Quality Summary Assignments</h2>
 
-      <%= link_to 'Create New Assignments', new_data_quality_summary_assignments_path, class: 'eui-btn--green' %>
-
-      <p>Select one or more collections below to view their assignments.</p>
-
       <%= form_tag(data_quality_summary_assignments_path, method: :put, class: "data-quality-summary-form", id: "data-quality-summary-assignments-form") do %>
         <%= render partial: "form" %>
 
         <fieldset class="align-r">
-          <%= submit_tag('Display Selected Assignments', class: 'eui-btn--blue') %>
+          <%= submit_tag('Display Assignments', class: 'eui-btn--blue') %>
         </fieldset>
       <% end %>
     </section>

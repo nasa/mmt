@@ -19,7 +19,7 @@ input {
 }
 
 fieldset {
-  background: $light-grey;
+  background: lighten($light-grey, 3%);
   border-left: 2px solid darken($light-grey, 10%);
   padding: 0;
   margin-bottom: 0.5em;

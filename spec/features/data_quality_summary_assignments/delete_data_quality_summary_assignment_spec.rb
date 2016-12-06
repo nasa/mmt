@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Deleting a Data Quality Summary Assignment' do
+describe 'Deleting a Data Quality Summary Assignment', js: true do
   before do
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
@@ -11,18 +11,26 @@ describe 'Deleting a Data Quality Summary Assignment' do
 
     visit data_quality_summary_assignments_path
 
-    # Mark's Test
-    check 'catalog_item_guid_C1200060160-MMT_2'
+    wait_for_ajax
 
-    # Matthew's Test
-    check 'catalog_item_guid_C1200019403-MMT_2'
+    within '#catalog_item_guid_fromList' do
+      # Mark's Test
+      find('option[value="C1200060160-MMT_2"]').select_option
+
+      # Matthew's Test
+      find('option[value="C1200019403-MMT_2"]').select_option
+    end
+
+    within '.button-container' do
+      find('.add_button').click
+    end
 
     VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/list', record: :none) do
-      click_on 'Display Selected Assignments'
+      click_on 'Display Assignments'
     end
   end
 
-  context 'when clicking delete without any assignments selected', js: true do
+  context 'when clicking delete without any assignments selected' do
     before do
       click_on 'Delete Selected Assignments'
     end
@@ -44,7 +52,7 @@ describe 'Deleting a Data Quality Summary Assignment' do
     end
 
     it 'deletes the selected assignment' do
-      expect(page).to have_content('1 data quality summary assignment deleted successfully, 0 data quality summary assignments failed to delete.')
+      expect(page).to have_content('Deleted 1 data quality summary assignment successfully.')
     end
   end
 end

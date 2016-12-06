@@ -25,6 +25,7 @@
         <%= render partial: "form" %>
 
         <fieldset class="align-r">
+          <%= link_to 'Cancel', :back, class: 'eui-btn' %>
           <%= submit_tag('Submit', class: 'eui-btn--blue') %>
         </fieldset>
       <% end %>

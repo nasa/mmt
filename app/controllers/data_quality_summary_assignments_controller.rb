@@ -15,11 +15,13 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
     success_count = 0
     error_count = 0
 
-    params.fetch('catalog_item_guid', {}).each do |catalog_item_guid|
+    params.fetch('catalog_item_guid_toList', {}).each do |catalog_item_guid|
       response = echo_client.create_data_quality_summary_assignment(token_with_client_id, current_provider_guid, params.fetch('definition_guid', nil), catalog_item_guid)
 
       success_count += 1 unless response.error?
       error_count += 1 if response.error?
+
+      puts response.body if response.error?
     end
     
     flash_messages = {}
@@ -34,7 +36,7 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
     @assignments = []
 
     # Filter the collections received from CMR to those returned from the users request
-    relevant_collections = @collections.select { |c| params.fetch('catalog_item_guid', []).include?(c.fetch('meta', {}).fetch('concept-id', nil)) }
+    relevant_collections = @collections.select { |c| params.fetch('catalog_item_guid_toList', []).include?(c.fetch('meta', {}).fetch('concept-id', nil)) }
 
     # Iterate through the collections and insert relevant data to avoid additional lookups in the view
     relevant_collections.each do |collection|
@@ -91,6 +93,5 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
     flash_messages[:error] = "Failed to delete #{error_count} #{'data quality summary assignment'.pluralize(error_count)}." if error_count > 0
 
     redirect_to data_quality_summary_assignments_path, flash: flash_messages
-
   end
 end
