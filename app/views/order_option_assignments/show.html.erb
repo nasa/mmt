@@ -1,0 +1,25 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item">Order Option Assignments</li>
+        </ol>
+      </div>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+      <h2>Show Order Option Assignments</h2>
+
+      What?
+
+      <%= form_tag(permissions_path, method: :post, class: 'order-option-assignments-form') %>
+
+    </section>
+  </div>
+</main>

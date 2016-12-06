@@ -1,0 +1,29 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item"><%= link_to 'Order Option Assignments', order_option_assignments_path %></li>
+        </ol>
+      </div>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+      <h2>Order Option Assignments</h2>
+
+      <%= form_tag(order_option_assignments_path, method: :post, id: 'order-options-assignment-form', class: 'order-option-assignments-form') %>
+
+      <div id="chooser-widget"></div>
+      <%= hidden_field_tag 'collection_selections', @collection_selections %>
+
+      <%= submit_tag 'Display Option Assignments', class: 'eui-btn--green', id: 'submit-display-options' %>
+      <%= link_to 'Delete Option Assignments', order_option_assignments_path, class: 'eui-btn--green' %>
+
+    </section>
+  </div>
+</main>

@@ -1,0 +1,71 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item">Order Option Assignments</li>
+        </ol>
+      </div>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+      <h2>New Option Assignment</h2>
+
+      <%= form_tag(new_order_option_assignment_path, method: :get, class: 'order-option-assignments-form') %>
+
+
+      Select one or more collections.
+
+      <table>
+        <tr>
+          <th>
+            <%= check_box_tag 'order-option-all-checkbox[]' %>
+          </th>
+          <th>
+            Collection
+          </th>
+          <th>
+            Short Name
+          </th>
+          <th>
+            Version ID
+          </th>
+          <th>
+            Option Definition Name
+          </th>
+        </tr>
+        <%@collections.each do |collection| %>
+            <tr>
+              <td>
+                <%= check_box_tag 'order-option-checkbox[]', collection['umm']['entry-title'] %>
+              </td>
+              <td>
+                <%=collection['umm']['entry-title']%>
+              </td>
+              <td>
+                <%=collection['umm']['short-name']%>
+              </td>
+              <td>
+                <%=collection['umm']['version-id']%>
+              </td>
+              <td>
+                <%=collection['option-assignments']%>
+              </td>
+            </tr>
+        <%end %>
+      </table>
+
+
+      <%= label_tag 'Option Definition' %>
+      <%= select_tag 'order-options', options_for_select(@order_option_select_values), id: 'order-options' %>
+
+      <%= submit_tag 'Add', class: 'eui-btn--green' %>
+
+    </section>
+  </div>
+</main>
