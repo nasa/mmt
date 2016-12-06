@@ -38,7 +38,8 @@ module Cmr
     end
 
     def get_order_option_assignments(id, token)
-      url = "/echo-rest/catalog_item_option_assignments.json?id[]=#{id}"
+      url = "/echo-rest/catalog_item_option_assignments.json?catalog_item[]=#{id}"
+
       get(url, {}, { 'Echo-Token' => token })
     end
 

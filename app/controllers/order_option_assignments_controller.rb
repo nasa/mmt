@@ -29,7 +29,8 @@ class OrderOptionAssignmentsController < ApplicationController
 
 
     @collections.each do |collection|
-      id = collection['umm']['concept-id']
+      id = collection['meta']['concept-id']
+
       response = cmr_client.get_order_option_assignments(id, echo_provider_token)
 
       if response.success?
