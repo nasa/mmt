@@ -42,9 +42,9 @@ $(document).ready ->
 
     collectionsChooser.init()
 
+    $('#chooser-loading-msg').hide()
+
   if $("#create-order-option-assignment-form").length > 0
-
-
 
     $("#order-option-all-checkbox_").on 'change', ->
         $("[name='order-option-checkbox[]']").prop 'checked', $(this).prop 'checked'

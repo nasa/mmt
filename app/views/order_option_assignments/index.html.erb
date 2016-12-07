@@ -18,6 +18,7 @@
 
       <%= form_tag(order_option_assignment_path('show'), method: :post, id: 'order-options-assignment-form', class: 'order-option-assignments-form') %>
 
+      <div id="chooser-loading-msg">Collections are loading. Please wait...</div>
       <div id="chooser-widget"></div>
       <%= hidden_field_tag 'collection_selections', @collection_selections %>
 

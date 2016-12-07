@@ -46,9 +46,9 @@ module Cmr
       url = "/echo-rest/catalog_item_option_assignments"
       content_type = { 'Content-Type' => 'application/json' }
       body = {
-          'option_assignment' => {
+          'catalog_item_option_assignment' => {
               'catalog_item_id' => id,
-              'option_def_id' => order_option
+              'option_definition_id' => order_option
           }
       }
       echo_security_token = { 'Echo-Token' => token }
