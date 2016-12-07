@@ -12,7 +12,7 @@ class ManagePermissionsController < ManageCmrController
 
     options = { 'include_full_acl' => true,
                 'identity_type' => type,
-                'page_size' => 100 # TODO: what is the appropriate number???
+                'page_size' => 50
               }
     options['permitted_group'] = group if group
     options['provider'] = current_user.provider_id if type == 'provider'
@@ -33,9 +33,8 @@ class ManagePermissionsController < ManageCmrController
 
     identity_type = "#{type}_identity"
     permissions.each do |perm|
-      # target = perm['acl'][identity_type]['target']
       target = perm.fetch('acl', {}).fetch(identity_type, {}).fetch('target', nil)
-      # group_permission = perm['acl']['group_permissions'].select { |group_perm| group_perm['group_id'] == group_id }
+
       group_permission = perm.fetch('acl', {}).fetch('group_permissions', []).select { |group_perm| group_perm['group_id'] == group_id }
       granted_permissions = group_permission[0].fetch('permissions', [])
 
@@ -97,8 +96,8 @@ class ManagePermissionsController < ManageCmrController
           # group is in the acl, but permissions need to be changed
           targets_to_update_perms << target
         end
-      else # there is an acl for the target, but it does not have the group
-        # so need to add group
+      else
+        # there is an acl for the target, but it does not have the group so need to add group
         targets_to_add_group << target if permissions_params.keys.include?(target)
       end
     end
@@ -128,8 +127,7 @@ class ManagePermissionsController < ManageCmrController
 
       next unless new_perm_obj
 
-      # update_permission_response = cmr_client.update_permission(new_perm_obj, concept_id, token)
-      update_permission_response = cmr_client.update_permission(new_perm_obj, concept_id, 'access_token_admin')
+      update_permission_response = cmr_client.update_permission(new_perm_obj, concept_id, token)
       log_target = target
       log_target = "#{current_user.provider_id} #{target}" if type == 'provider'
       if update_permission_response.success?
@@ -163,8 +161,7 @@ class ManagePermissionsController < ManageCmrController
     new_permissions = construct_new_permission_objects(permissions_to_create, type, group_id)
     identity_type = "#{type}_identity"
     new_permissions.each do |new_perm|
-      # new_perm_response = cmr_client.add_group_permissions(new_perm, token)
-      new_perm_response = cmr_client.add_group_permissions(new_perm, 'access_token_admin')
+      new_perm_response = cmr_client.add_group_permissions(new_perm, token)
 
       target = new_perm.fetch(identity_type, {}).fetch('target', nil)
       log_target = target
@@ -207,8 +204,7 @@ class ManagePermissionsController < ManageCmrController
     targets_to_delete.each { |perm| permissions_to_delete[perm] = selective_full_permission_info.fetch(perm, {}).fetch('permission_concept_id') }
 
     permissions_to_delete.each do |target, concept_id|
-      # delete_response = cmr_client.delete_permission(concept_id, token)
-      delete_response = cmr_client.delete_permission(concept_id, 'access_token_admin')
+      delete_response = cmr_client.delete_permission(concept_id, token)
 
       log_target = target
       log_target = "#{current_user.provider_id} #{target}" if type == 'provider'
@@ -222,6 +218,4 @@ class ManagePermissionsController < ManageCmrController
       end
     end
   end
-
-  # TODO: change to have type ('system') and identity_type ('system_identity')
 end

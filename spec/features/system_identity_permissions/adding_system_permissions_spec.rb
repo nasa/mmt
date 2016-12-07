@@ -30,7 +30,6 @@ describe 'Saving System Identity Permissions' do
 
   context 'when selecting and saving system permissions' do
     before do
-      # choose some permissions to choose
       check('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'create')
       check('system_permissions_METRIC_DATA_POINT_SAMPLE_', option: 'read')
       check('system_permissions_EXTENDED_SERVICE_', option: 'delete')

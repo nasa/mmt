@@ -19,7 +19,6 @@
         <% SystemIdentityPermissionsHelper::PermissionsOptions.each do |permission_option| %>
           <% if SystemIdentityPermissionsHelper.const_get(system_target[1] + '_PERMISSIONS').include?(permission_option) %>
             <td class="align-c">
-              <%# if @group_system_permissions_hash.fetch(system_target[1], {}).fetch('permissions', []).include?(permission_option) %>
               <% if @group_system_permissions.fetch(system_target[1], []).include?(permission_option) %>
                 <%= check_box_tag("system_permissions[#{system_target[1]}][]", permission_option, true) %>
               <% else %>
@@ -33,7 +32,6 @@
           <% end %>
         <% end %>
 
-        <%# if @group_system_permissions_hash.keys.include?(system_target[1]) %>
         <% if @group_system_permissions.keys.include?(system_target[1]) %>
           <%= hidden_field_tag("system_permissions[#{system_target[1]}][]", '') %>
         <% end %>

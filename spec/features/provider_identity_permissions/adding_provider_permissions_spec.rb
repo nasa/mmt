@@ -9,8 +9,8 @@ describe 'Saving Provider Identity Permissions', reset_provider: true do
       description: 'Group for creating provider object permissions',
       provider_id: 'MMT_2'
     )
+
     wait_for_cmr
-    puts "provider group: #{@provider_group}"
 
     @system_group = create_group(
       name: 'Test System Group for Provider Permissions',
@@ -19,16 +19,10 @@ describe 'Saving Provider Identity Permissions', reset_provider: true do
       admin: true
     )
 
-    puts "system group: #{@system_group.inspect}"
-    puts "permitted_group=#{@system_group['concept_id']}"
-
     wait_for_cmr
   end
 
   after :all do
-    puts "system group: #{@system_group.inspect}"
-    puts "permitted_group=#{@system_group['concept_id']}"
-
     # retrieve and delete the provider permissions for the system group
     # (they won't be removed by reset_provider)
     permissions_options = {
@@ -36,9 +30,9 @@ describe 'Saving Provider Identity Permissions', reset_provider: true do
       'permitted_group' => @system_group['concept_id']
     }
 
-    permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
-    puts "perms: #{permissions_response_items.inspect}"
-    permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token_admin') }
+    permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token').body.fetch('items', [])
+
+    permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token') }
 
     # delete the system group
     delete_group(concept_id: @system_group['concept_id'], admin: true)

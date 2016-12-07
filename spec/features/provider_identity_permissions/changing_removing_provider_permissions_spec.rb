@@ -43,7 +43,6 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
     }
 
     permissions = [provider_perm_1, provider_perm_2, provider_perm_3]
-    # permissions.each { |perm| p cmr_client.add_group_permissions(perm, 'access_token_admin').inspect }
     permissions.each { |perm| cmr_client.add_group_permissions(perm, 'access_token') }
 
     wait_for_cmr
@@ -54,7 +53,6 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
       login
 
       visit edit_provider_identity_permission_path(@group['concept_id'])
-      screenshot_and_save_page
     end
 
     it 'has the correct permissions checked' do

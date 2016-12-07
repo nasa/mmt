@@ -15,79 +15,102 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
     wait_for_cmr
   end
 
-  before do
-    login
-  end
-
-  context 'when visiting the provider identities index page' do
+  context 'when viewing the provider identities permisisons index page as an administrator' do
     before do
+      login_admin
+
       visit provider_identity_permissions_path
     end
 
-    it 'shows the table with the provider group' do
-      expect(page).to have_content('Provider Object Permissions')
-      expect(page).to have_content('Click on a Group to access provider object permissions for that group.')
+    it 'shows the table with system and provider groups' do
+      within '.provider-permissions-group-table' do
+        expect(page).to have_content(@group_name)
 
-      within '.provider-group-table' do
-        expect(page).to have_content("#{@group_name} #{@group_description} MMT_2 0")
+        # these are the bootstrapped CMR Administrators group, and the system groups we create on cmr setup
+        expect(page).to have_content('Administrators')
+        expect(page).to have_content('Administrators_2')
+        expect(page).to have_content('MMT Admins')
+        expect(page).to have_content('MMT Users')
       end
     end
   end
 
-  context 'when visiting the provider identities form for the group' do
+
+  context 'when visiting the provider identities permissions pages as a regular user' do
     before do
-      visit edit_provider_identity_permission_path(@group['concept_id'])
+      login
     end
 
-    it 'displays the page with the form and table of provider targets' do
-      expect(page).to have_content("Provider Object Permissions for #{@group_name}")
-      expect(page).to have_content("Set permissions for the #{@group_name} group by checking the appropriate boxes below and clicking 'Submit'.")
-
-      within '.provider-permissions-table' do
-        expect(page).to have_css('tbody > tr', count: ProviderIdentityPermissionsHelper::PROVIDER_TARGETS.count)
-        expect(page).to have_css('input[type=checkbox]', count: 100) # all checkboxes
-        expect(page).to have_css('input[type=checkbox][checked]', count: 0)
-        expect(page).to have_css('input[type=checkbox][disabled]', count: 54)
-        expect(page).to have_css('input[type=checkbox]:not([disabled])', count: 46)
-        expect(page).to have_css('input[type=checkbox]:not([checked])', count: 100)
-      end
-    end
-
-    context 'when clicking on available permissions' do
+    context 'when visiting the provider identities permissions index page' do
       before do
-        check('provider_permissions_GROUP_', option: 'read')
-        check('provider_permissions_INGEST_MANAGEMENT_ACL_', option: 'update')
-        check('provider_permissions_OPTION_DEFINITION_', option: 'create')
-        check('provider_permissions_PROVIDER_POLICIES_', option: 'delete')
+        visit provider_identity_permissions_path
       end
 
-      it 'checks the permissions' do
-        expect(page).to have_checked_field('provider_permissions_GROUP_', with: 'read')
-        expect(page).to have_checked_field('provider_permissions_INGEST_MANAGEMENT_ACL_', with: 'update')
-        expect(page).to have_checked_field('provider_permissions_OPTION_DEFINITION_', with: 'create')
-        expect(page).to have_checked_field('provider_permissions_PROVIDER_POLICIES_', with: 'delete')
+      it 'shows the table with the provider group' do
+        expect(page).to have_content('Provider Object Permissions')
+        expect(page).to have_content('Click on a Group to access provider object permissions for that group.')
+
+        within '.provider-permissions-group-table' do
+          expect(page).to have_content("#{@group_name} #{@group_description} MMT_2 0")
+        end
       end
     end
 
-    context 'when clicking the Check/Uncheck all box when it is unchecked', js: true do
+    context 'when visiting the provider identities form for the group' do
       before do
-        check('provider_acls_select_all')
+        visit edit_provider_identity_permission_path(@group['concept_id'])
       end
 
-      it 'checks all the available permissions checkboxes' do
+      it 'displays the page with the form and table of provider targets' do
+        expect(page).to have_content("Provider Object Permissions for #{@group_name}")
+        expect(page).to have_content("Set permissions for the #{@group_name} group by checking the appropriate boxes below and clicking 'Submit'.")
+
         within '.provider-permissions-table' do
-          expect(page).to have_css('input[type=checkbox]:checked', count: 46)
+          expect(page).to have_css('tbody > tr', count: ProviderIdentityPermissionsHelper::PROVIDER_TARGETS.count)
+          expect(page).to have_css('input[type=checkbox]', count: 100) # all checkboxes
+          expect(page).to have_css('input[type=checkbox][checked]', count: 0)
+          expect(page).to have_css('input[type=checkbox][disabled]', count: 54)
+          expect(page).to have_css('input[type=checkbox]:not([disabled])', count: 46)
+          expect(page).to have_css('input[type=checkbox]:not([checked])', count: 100)
         end
       end
 
-      context 'when clicking the Check/Uncheck all box when it is checked' do
+      context 'when clicking on available permissions' do
         before do
-          uncheck('provider_acls_select_all')
+          check('provider_permissions_GROUP_', option: 'read')
+          check('provider_permissions_INGEST_MANAGEMENT_ACL_', option: 'update')
+          check('provider_permissions_OPTION_DEFINITION_', option: 'create')
+          check('provider_permissions_PROVIDER_POLICIES_', option: 'delete')
         end
 
-        it 'unchecks all the boxes' do
+        it 'checks the permissions' do
+          expect(page).to have_checked_field('provider_permissions_GROUP_', with: 'read')
+          expect(page).to have_checked_field('provider_permissions_INGEST_MANAGEMENT_ACL_', with: 'update')
+          expect(page).to have_checked_field('provider_permissions_OPTION_DEFINITION_', with: 'create')
+          expect(page).to have_checked_field('provider_permissions_PROVIDER_POLICIES_', with: 'delete')
+        end
+      end
+
+      context 'when clicking the Check/Uncheck all box when it is unchecked', js: true do
+        before do
+          check('provider_acls_select_all')
+        end
+
+        it 'checks all the available permissions checkboxes' do
           within '.provider-permissions-table' do
-            expect(page).to have_css('input[type=checkbox]:checked', count: 0)
+            expect(page).to have_css('input[type=checkbox]:checked', count: 46)
+          end
+        end
+
+        context 'when clicking the Check/Uncheck all box when it is checked' do
+          before do
+            uncheck('provider_acls_select_all')
+          end
+
+          it 'unchecks all the boxes' do
+            within '.provider-permissions-table' do
+              expect(page).to have_css('input[type=checkbox]:checked', count: 0)
+            end
           end
         end
       end
