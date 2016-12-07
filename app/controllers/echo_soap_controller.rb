@@ -85,4 +85,35 @@ class EchoSoapController < ApplicationController
 
     @collections
   end
+
+  # Controller action tied to a route for retrieving provider collections
+  def provider_collections
+    render json: get_provider_collections(params.permit(:provider, :keyword, :page_size, :page_num, concept_id: []))
+  end
+
+  # Controller method that allows developers to get this data without
+  # making an HTTP request (with the exception of the CMR call)
+  def get_provider_collections(params = {})
+    collection_params = {
+      'provider' => current_user.provider_id
+    }.merge(params)
+
+    # Retreive the collections from CMR, allowing a few additional parameters
+    response = cmr_client.get_collections(collection_params, token)
+
+    if response.success?
+      # The chooser expects an array of arrays, so that's what we'll give it
+      response.body.fetch('items', []).map do |collection|
+        [
+          collection.fetch('meta', {}).fetch('concept-id'),
+          [
+            collection.fetch('umm', {}).fetch('short-name'),
+            collection.fetch('umm', {}).fetch('entry-title')
+          ].join(' | ')
+        ]
+      end
+    else
+      response.body
+    end
+  end
 end

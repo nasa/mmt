@@ -27,15 +27,24 @@
             <th>Scope</th>
             <th>Deprecated?</th>
             <th>Last Update</th>
+            <th colspan='2'>Action</th>
           </tr>
         </thead>
         <tbody>
         <% @order_options.each do |order_option| %>
           <tr>
-            <td><%= link_to order_option['Name'], order_option_path(order_option['Guid']) %></td>
+            <td><%=order_option['Name']%></td>
+
+
             <td><%= order_option['Scope'] %></td>
             <td><%= order_option['Deprecated'] %></td>
             <td><%= echo_formatted_date(order_option['LastUpdate']) %></td>
+            <td>
+              <%= link_to 'View', order_option_path(order_option['Guid']) %>
+            </td>
+            <td>
+              <%= link_to 'Edit', edit_order_option_path(order_option['Guid']) %>
+            </td>
           </tr>
           <% end %>
         </tbody>

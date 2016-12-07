@@ -22,14 +22,14 @@
 
       <p>Add a new Assignment by clicking the 'Create New Assignments' button below.</p>
       <%= link_to 'Create New Assignments', new_data_quality_summary_assignments_path, class: 'eui-btn--green' %>
-      
+
       <%= link_to 'Go Back', data_quality_summary_assignments_path, class: 'eui-btn--blue pull-right' %>
 
       <p>Select one or more collections below to delete their assignments.</p>
 
-      <%= form_tag(data_quality_summary_assignments_path, method: :delete, id: "delete-data-quality-summary-assignments-form") do %>
+      <%= form_tag(data_quality_summary_assignments_path, method: :delete, class: "data-quality-summary-form", id: "delete-data-quality-summary-assignments-form") do %>
         <fieldset>
-          <label for="data_quality_summary_assignment[]" class="eui-required-o">Assignments</label>
+          <label for="data_quality_summary_assignment[]" class="eui-required-o">Data Quality Summary Assignments</label>
 
           <table id="assignment-collections" class="tablesorter">
             <thead>
@@ -38,7 +38,7 @@
                 <th>Collection</th>
                 <th>Short Name</th>
                 <th>Version ID</th>
-                <th>Definition</th>
+                <th>Data Quality Summary</th>
               </tr>
             </thead>
             <tbody>

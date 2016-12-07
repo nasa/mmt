@@ -51,7 +51,6 @@ describe 'Creating Order Options' do
       within 'main header' do
         expect(page).to have_content('Create a New Order Option')
       end
-      # TODO when guid is available, add expectation for provider
     end
 
     it 'displays the new order option entry fields' do
@@ -68,7 +67,7 @@ describe 'Creating Order Options' do
         fill_in 'ECHO Form XML', with: echo_form
 
         VCR.use_cassette('echo_rest/order_options/create', record: :none) do
-          click_on 'Create'
+          click_on 'Save'
         end
       end
 
@@ -93,7 +92,7 @@ describe 'Creating Order Options' do
     context 'when attempting to create an order option with incomplete information' do
       context 'when submitting an invalid form', js: true do
         before do
-          click_on 'Create'
+          click_on 'Save'
         end
 
         it 'displays the correct error messages' do
@@ -111,7 +110,7 @@ describe 'Creating Order Options' do
           fill_in 'ECHO Form XML', with: bad_form
 
           VCR.use_cassette('echo_rest/order_options/create_with_error', record: :none) do
-            click_on 'Create'
+            click_on 'Save'
           end
         end
 
@@ -121,5 +120,6 @@ describe 'Creating Order Options' do
         end
       end
     end
+
   end
 end

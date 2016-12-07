@@ -1,5 +1,5 @@
 $(document).ready ->
-  $('.multiple').on 'click', '.add-new', (e) ->
+  $('.metadata-form .multiple').on 'click', '.add-new', (e) ->
     $('.select2-select').select2('destroy')
 
     simple = $(this).hasClass('new-simple')
@@ -138,7 +138,7 @@ $(document).ready ->
 
     newDiv
 
-  $('.multiple').on 'click', '.remove', ->
+  $('.metadata-form .multiple').on 'click', '.remove', ->
     multipleItem = $(this).closest('.multiple-item')
     $(multipleItem).remove()
 
@@ -265,7 +265,7 @@ $(document).ready ->
       $(element).trigger 'change'
 
   # Load State/Province field on Country select
-  $('select.country-select').change ->
+  $('.metadata-form select.country-select').change ->
     $parent = $(this).closest('.multiple-item')
     $select = $parent.find('.state-province-select')
     $text = $parent.find('.state-province-text-field')

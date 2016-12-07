@@ -55,7 +55,7 @@
 
 # Constructor
 window.Chooser = (config) ->
-  # Globals
+# Globals
   OUTER_CONTAINER = undefined
   FROM_CONTAINER = undefined
   TO_CONTAINER = undefined
@@ -73,34 +73,44 @@ window.Chooser = (config) ->
   TO_MESSAGE = undefined
   CHOOSER_OPTS_STORAGE_KEY = 'Chooser_opts_' + config.id
   PAGE_NUM = 1
+  SELF = undefined
 
   ###
   # init - initializes the widget.
   ###
   @init = ->
-    self = this
+    SELF = this
     # Construct each component
     OUTER_CONTAINER = $('<div class=\'Chooser\' id=\'' + config.id + '\'></div>')
-    FROM_CONTAINER = $('<div></div>')
-    TO_CONTAINER = $('<div></div>')
-    BUTTON_CONTAINER = $('<div></div>')
+    FROM_CONTAINER = $('<div>').addClass('from-container')
+    TO_CONTAINER = $('<div>').addClass('to-container')
+    BUTTON_CONTAINER = $('<div>').addClass('button-container')
     FROM_BOX = $('<div></div>')
     TO_BOX = $('<div></div>')
+
     addButtonText = if hasProp('addButton', 'object') then config.addButton.text else '&#x2192;'
     addButtonCssClass = if hasProp('addButton', 'object') then config.addButton.cssClass else ''
     ADD_BUTTON = $('<button title=\'add\' class=\'' + addButtonCssClass + '\'>' + addButtonText + '</button>')
     if hasProp('addButton') and config.addButton.arrowCssClass
       $(ADD_BUTTON).append ' <span class=\'' + config.addButton.arrowCssClass + '\'></span> '
+
     delButtonText = if hasProp('delButton', 'object') then config.delButton.text else '&#x2190;'
     delButtonCssClass = if hasProp('delButton', 'object') then config.delButton.cssClass else ''
     REMOVE_BUTTON = $('<button title=\'remove\' class=\'' + delButtonCssClass + '\'>' + delButtonText + '</button>')
     if hasProp('delButton') and config.delButton.arrowCssClass
       $(REMOVE_BUTTON).prepend ' <span class=\'' + config.delButton.arrowCssClass + '\'></span> '
+
     allowRemoveAll = if hasProp('allowRemoveAll', 'boolean') then config.allowRemoveAll else true
     if allowRemoveAll == true
-      REMOVE_ALL_BUTTON = $('<button title=\'remove all\'>&#x21C7;</button>')
+      delAllButtonText = if hasProp('delAllButton', 'object') then config.delAllButton.text else '&#x2190;'
+      delAllButtonCssClass = if hasProp('delAllButton', 'object') then config.delAllButton.cssClass else ''
+
+      REMOVE_ALL_BUTTON = $('<button title=\'remove all\' class=\'' + delAllButtonCssClass + '\'>' + delAllButtonText + '</button>')
+      if hasProp('delAllButton') and config.delAllButton.arrowCssClass
+        $(REMOVE_ALL_BUTTON).prepend ' <span class=\'' + config.delAllButton.arrowCssClass + '\'></span> '
+
     FROM_LIST = $('<select class=\'___fromList\' id=\'' + config.id + '_fromList' + '\' multiple size=\'5\'></select>')
-    TO_LIST = $('<select class=\'___toList\' name=\'' + config.id + '_toList' + '\' id=\'' + config.id + '_toList' + '\' multiple size=\'5\'></select>')
+    TO_LIST = $('<select class=\'___toList\' name=\'' + config.id + '_toList[]' + '\' id=\'' + config.id + '_toList' + '\' multiple size=\'5\'></select>')
     placeHolderText = if hasProp('filterText', 'string') then config.filterText else 'filter'
     FILTER_TEXTBOX = $('<input type=\'text\' placeholder=\'' + placeHolderText + '\'>')
     if !config.hasOwnProperty('resetSize')
@@ -108,7 +118,7 @@ window.Chooser = (config) ->
     if config.fromLabel
       FROM_LABEL = $('<label for=\'' + config.id + '_fromList' + '\'>' + config.fromLabel + '</label>')
       $(FROM_CONTAINER).append FROM_LABEL
-      $(FROM_CONTAINER).append '<br>'
+      # $(FROM_CONTAINER).append '<br>'
     if config.toLabel
       TO_LABEL = $('<label for=\'' + config.id + '_toList' + '\'>' + config.toLabel + '</label>')
       $(TO_CONTAINER).append TO_LABEL
@@ -145,7 +155,7 @@ window.Chooser = (config) ->
         if offset > 1 and offset < 5
           getRemoteData 'next'
       if firstOptPos >= upperBoundary
-        self.removeFromBottom()
+        SELF.removeFromBottom()
         PAGE_NUM = 1
       return
     $(TO_LIST).change ->
@@ -157,7 +167,7 @@ window.Chooser = (config) ->
           $(TO_LABEL).text config.toLabel
       if hasProp('attachTo', 'object')
         delimiter = if hasProp('delimiter', 'string') then config.delimiter else ','
-        $(config.attachTo).val self.val().join(delimiter)
+        $(config.attachTo).val SELF.val().join(delimiter)
       # Ensure each option has a title so that mouse hover reveals the full value
       # if it overflows the bounding box.
       $(TO_LIST).find('option').each (key, tmpVal) ->
@@ -174,30 +184,26 @@ window.Chooser = (config) ->
     return
 
   ###
-  # Returns the widget's "value" (selected values). Set's the
-  # widget's value if an array is passed in.
+  # Sets the values in the "TO" list.
   #
-  # @returns {*|jQuery}
   ###
-  @val = (valToSet) ->
-    if valToSet and typeof valToSet == 'object'
-      $(TO_LIST).empty()
-      $.each valToSet, (tmpKey, tmpVal) ->
-        dispVal = undefined
-        optVal = undefined
-        if typeof tmpVal == 'object' and tmpVal.length == 2
-          dispVal = tmpVal[0]
-          optVal = tmpVal[1]
-        else if typeof tmpVal == 'object' and tmpVal.length == 1
-          dispVal = tmpVal[0]
-          optVal = tmpVal[0]
-        else
-          dispVal = tmpVal
-          optVal = tmpVal
-        opt = $('<option>').val(optVal).text(dispVal)
-        $(TO_LIST).append opt
-        return
-      $(TO_LIST).trigger 'change'
+  @setToVal = (values) ->
+    setVal(values, $(TO_LIST))
+
+  ###
+  # Sets the values in the "FROM" list.
+  #
+  ###
+  @setFromVal = (values) ->
+    setVal(values, $(FROM_LIST))
+
+
+  ###
+  # Returns the widget's "value" (selected values).
+  #
+  # @returns {*|object}
+  ###
+  @val = () ->
     vals = $(TO_LIST).find('option').map((tmpKey, tmpVal) ->
       $(tmpVal).text()
     )
@@ -214,22 +220,7 @@ window.Chooser = (config) ->
   @getDOMNode = ->
     $ OUTER_CONTAINER
 
-  ###
-  # Adds values to the FROM list.
-  # @param list
-  ###
-  @addValues = (list) ->
-    setOrAddValues list
-    return
 
-  ###
-  # Overwrites existing values in FROM list with new ones.
-  # @param list
-  ###
-  @setValues = (list) ->
-    $(FROM_LIST).find('option').remove()
-    setOrAddValues list
-    return
 
   ###
   # Removes N values from top of FROM list.
@@ -276,6 +267,27 @@ window.Chooser = (config) ->
 
   # Private functions: -----------------------------
 
+  setVal = (values, which) ->
+    if values and typeof values == 'object'
+      $(which).empty()
+      $.each values, (tmpKey, tmpVal) ->
+        dispVal = undefined
+        optVal = undefined
+        if typeof tmpVal == 'object' and tmpVal.length == 2
+          optVal = tmpVal[0]
+          dispVal = tmpVal[1]
+        else if typeof tmpVal == 'object' and tmpVal.length == 1
+          dispVal = optVal = tmpVal[0]
+        else
+          dispVal = optVal = tmpVal
+        opt = $('<option>').val(optVal).text(dispVal)
+        $(which).append opt
+        return
+      $(which).trigger 'change'
+    vals = $(which).find('option').map((tmpKey, tmpVal) ->
+      $(tmpVal).text()
+    )
+
   ###
   # Trigger the filter textbox action.
   #
@@ -308,7 +320,7 @@ window.Chooser = (config) ->
       overwrite = true
       url += '?' + config.filterParm + '=' + $(FILTER_TEXTBOX).val()
     $.ajax('url': url).done((resp) ->
-      setOrAddValues resp, overwrite
+      SELF.setFromVal resp
       return
     ).fail (resp) ->
       console.error 'ERROR--->Could not retrieve values. Reason:'
@@ -319,31 +331,6 @@ window.Chooser = (config) ->
       return
     return
 
-  ###
-  # Sets or adds the values in the FROM list.
-  #
-  # @param list - the array of values.
-  # @param overwrite - whether or not to overwrite the existing values.
-  ###
-  setOrAddValues = (list, overwrite) ->
-    value = undefined
-    displayValue = undefined
-    if overwrite == true
-      $(FROM_LIST).find('option').remove()
-    $.each list, (tmpKey, tmpVal) ->
-      if typeof tmpVal == 'string'
-        value = displayValue = tmpVal
-      else if typeof tmpVal == 'object'
-        if tmpVal.length == 2
-          value = tmpVal[0]
-          displayValue = tmpVal[1]
-        else if tmpVal.length == 1
-          value = tmpVal[0]
-          displayValue = tmpVal[0]
-      newOpt = $('<option>').val(value).attr('title', displayValue).text(displayValue)
-      $(FROM_LIST).append newOpt
-      return
-    return
 
   ###
   # Add button click action.

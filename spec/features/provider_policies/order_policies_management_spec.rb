@@ -35,12 +35,14 @@ describe 'Viewing Order Policies', js: true do
         it 'displays the new order policies form' do
           expect(page).to have_content('New MMT_2 Order Policies')
 
+          wait_for_ajax
+          
           # Check that all 6 results appear on the page
-          expect(page).to have_selector('#duplicate-order-items tbody tr', count: 6)
+          expect(page).to have_selector('#collections_supporting_duplicate_order_items_fromList option', count: 6)
 
           # Check for 2 specific results
-          expect(page).to have_content('My testing title 02')
-          expect(page).to have_content('Test test title 03')
+          expect(page).to have_css('#collections_supporting_duplicate_order_items_fromList option[value="C1200189943-MMT_2"]')
+          expect(page).to have_css('#collections_supporting_duplicate_order_items_fromList option[value="C1200189951-MMT_2"]')
         end
 
         context 'when submitting an invalid order policies form' do
@@ -70,7 +72,9 @@ describe 'Viewing Order Policies', js: true do
             check 'Cancel'
 
             # Concept ID of the collection 'My testing title 02'
-            check 'C1200189943-MMT_2'
+            within '#collections_supporting_duplicate_order_items_fromList' do
+              find('option[value="C1200189943-MMT_2"]').select_option
+            end
 
             fill_in 'End Point', with: '/path_to.html'
 
@@ -91,7 +95,7 @@ describe 'Viewing Order Policies', js: true do
             expect(page).to have_content('Suspend Ordering Until: Ordering Not Suspended')
 
             expect(page).to have_content('CANCEL')
-            expect(page).to have_content('Override Status Notifications: No')
+            expect(page).to have_content('Always Send Status Updates: No')
 
             expect(page).to have_content('My testing title 02')
 
@@ -118,7 +122,7 @@ describe 'Viewing Order Policies', js: true do
 
               expect(page).to have_field('end_point', with: '/path_to.html')
 
-              expect(page).to have_checked_field('C1200189943-MMT_2')
+              expect(page).to have_css('#collections_supporting_duplicate_order_items_toList option[value="C1200189943-MMT_2"]')
             end
 
             context 'when submitting the updated values on the order policies form' do

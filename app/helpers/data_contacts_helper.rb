@@ -89,4 +89,15 @@ module DataContactsHelper
                       'LongName' => data_contact['ContactGroupDataCenter']['LongName'] }
     end
   end
+
+  def display_value_or_add_popover(value)
+    if value.length > 14
+      popover_link = link_to("#{value[0..12]}...", "javascript:void(0)", class: "webui-popover-link")
+      popover_content = content_tag(:div, value, class: "webui-popover-content")
+
+      popover_link + popover_content
+    else
+      value
+    end
+  end
 end

@@ -2,51 +2,42 @@
   display: table;
   border: 1px solid #ccc;
   padding: 10px;
+  margin-bottom: 20px;
   width: 100%;
-}
+  background: #fff;
 
+  label {
+    display: block;
+  }
+  
+  .from-container {
+    display: table-cell;
+    width: 45%;
 
-.Chooser div:nth-child(1) {
-  display: table-cell;
-  vertical-align: top;
-  width: 40%;
+    input {
+      width: 100%;
+    }
+  }
 
-}
+  .button-container {
+    display: table-cell;
+    width: 10%;
+    padding: 0 20px;
+    vertical-align: middle;
 
-.Chooser div:nth-child(1) select {
-  width: 100% !important;
-}
+    button {
+      display: block;
+      width: 100%;
+      margin-bottom: 5px;
+    }
+  }
 
+  .to-container {
+    display: table-cell;
+    width: 45%;
+  }
 
-.Chooser div:nth-child(2) {
-  display: table-cell;
-  width: 10%;
-  padding: 20px;
-  vertical-align: middle;
-}
-
-.Chooser div:nth-child(2) button {
-  display: block;
-  width: 100%;
-  margin-bottom: 5px;
-}
-
-
-.Chooser div:nth-child(3) {
-  display: table-cell;
-  width: 40%;
-  vertical-align: top;
-}
-
-
-.Chooser div:nth-child(3) select {
-  width: 100% !important;
-}
-
-.Chooser div:nth-child(1) input[type=text] {
-  width: 100%;
-}
-
-.Chooser span.to_message {
-  color: red;
+  span.to_message {
+    color: red;
+  }
 }

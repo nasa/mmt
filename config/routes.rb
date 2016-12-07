@@ -22,9 +22,6 @@ Rails.application.routes.draw do
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
 
-
-
-
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
@@ -44,6 +41,7 @@ Rails.application.routes.draw do
 
   get 'manage_metadata' => 'pages#manage_metadata', as: 'manage_metadata'
   get 'manage_cmr' => 'manage_cmr#manage_cmr', as: 'manage_cmr'
+  get 'provider_collections' => 'echo_soap#provider_collections'
   get 'new_record' => 'pages#new_record', as: 'new_record'
   post 'hide_notification' => 'pages#hide_notification', as: 'hide_notification'
 
@@ -63,7 +61,6 @@ Rails.application.routes.draw do
   get 'index-permissions' => 'pages#index-permissions', as: 'index-permissions'
   get 'new-permissions' => 'pages#new-permissions', as: 'new-permissions'
   get 'show-permissions' => 'pages#show-permissions', as: 'show-permissions'
-
 
   root 'welcome#index'
 end

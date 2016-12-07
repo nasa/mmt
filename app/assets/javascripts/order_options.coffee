@@ -11,7 +11,7 @@ $(document).ready ->
 
     # This library handles focus oddly, this ensures that we scroll
     # to and focus on the first element with an error in the form
-    onfocusout: false    
+    onfocusout: false
     invalidHandler: (form, validator) ->
       if validator.numberOfInvalids() > 0
         validator.errorList[0].element.focus()
