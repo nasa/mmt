@@ -313,8 +313,8 @@ class GroupsController < ApplicationController
   end
 
   def check_if_system_group_administrator
-    check_permission_options = { 'user_id' => current_user.urs_uid,
-                                 'system_object' => 'GROUP' }
+    check_permission_options = { user_id: current_user.urs_uid,
+                                 system_object: 'GROUP' }
 
     user_permission_response = cmr_client.check_user_permissions(check_permission_options, token)
     if user_permission_response.success?

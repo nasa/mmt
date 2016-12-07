@@ -9,8 +9,8 @@ class ManageCmrController < PagesController
   private
 
   def check_if_system_acl_administrator
-    check_permission_options = { 'user_id' => current_user.urs_uid,
-                                 'system_object' => 'ANY_ACL'}
+    check_permission_options = { user_id: current_user.urs_uid,
+                                 system_object: 'ANY_ACL'}
 
     user_permission_response = cmr_client.check_user_permissions(check_permission_options, token)
     if user_permission_response.success?
@@ -27,9 +27,9 @@ class ManageCmrController < PagesController
   end
 
   def check_if_current_provider_acl_administrator
-    check_permission_options = { 'provider' => current_user.provider_id,
-                                 'target' => 'PROVIDER_OBJECT_ACL',
-                                 'user_id' => current_user.urs_uid }
+    check_permission_options = { provider: current_user.provider_id,
+                                 target: 'PROVIDER_OBJECT_ACL',
+                                 user_id: current_user.urs_uid }
 
     user_permission_response = cmr_client.check_user_permissions(check_permission_options, token)
 

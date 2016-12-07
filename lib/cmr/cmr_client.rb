@@ -310,11 +310,6 @@ module Cmr
         url = '/access-control/permissions'
       end
 
-      # params = {}
-      # params['user_id'] = options[:user_id] if options[:user_id]
-      # # params['user_type']
-      # params['system_object'] = options[:system_object] if options[:system_object]
-
       get(url, options, token_header(token))
     end
 
