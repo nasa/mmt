@@ -78,6 +78,7 @@ class ProviderIdentityPermissionsController < ManagePermissionsController
 
   def redirect_unless_current_provider_acl_admin
     check_if_current_provider_acl_administrator
-    redirect_to manage_cmr_path unless @user_is_current_provider_acl_admin
+    check_if_system_acl_administrator
+    redirect_to manage_cmr_path unless @user_is_current_provider_acl_admin || @user_is_system_acl_admin
   end
 end

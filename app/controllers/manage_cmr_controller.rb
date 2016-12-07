@@ -27,9 +27,6 @@ class ManageCmrController < PagesController
   end
 
   def check_if_current_provider_acl_administrator
-    # provider
-    # target
-    # user_id
     check_permission_options = { 'provider' => current_user.provider_id,
                                  'target' => 'PROVIDER_OBJECT_ACL',
                                  'user_id' => current_user.urs_uid }
