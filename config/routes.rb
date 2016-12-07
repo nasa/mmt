@@ -13,7 +13,10 @@ Rails.application.routes.draw do
   get '/order_policies' => 'order_policies#index'
 
   resources :order_option_assignments
+  post '/order_option_assignments/show' => 'order_option_assignments#show'
   post '/order_option_assignments/new' => 'order_option_assignments#new'
+
+
 
   resources :data_quality_summaries
 

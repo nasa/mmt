@@ -4,7 +4,7 @@
       <div class="eui-breadcrumbs">
         <ol class="eui-breadcrumbs__list">
           <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item">Order Option Assignments</li>
+          <li class="eui-breadcrumbs__item"><%= link_to 'Order Option Assignments', order_option_assignments_path %></li>
         </ol>
       </div>
     </div>
@@ -14,11 +14,59 @@
 
   <div class="row row-content">
     <section>
-      <h2>Show Order Option Assignments</h2>
+      <h2>Order Option Assignments</h2>
 
-      What?
+      <%= form_tag(new_order_option_assignment_path, method: :post, id: 'create-order-option-assignment-form') %>
 
-      <%= form_tag(permissions_path, method: :post, class: 'order-option-assignments-form') %>
+      <%-#@collections %>
+
+
+      <%= check_box_tag 'show-no-assigned-options', id: 'show-no-assigned-options'%>
+      <%= label_tag 'show-no-assigned-options', 'Include selected collections with no assigned options?' %>
+      <table>
+        <tr>
+          <th>
+            <%= check_box_tag 'order-option-all-checkbox[]' %>
+          </th>
+          <th>
+            Collection
+          </th>
+          <th>
+            Short Name
+          </th>
+          <th>
+            Version ID
+          </th>
+          <th>
+            Option Definition Name
+          </th>
+        </tr>
+        <%@collections.each do |collection| %>
+            <tr>
+              <td>
+                <%= check_box_tag 'order-option-checkbox[]', collection['umm']['entry-title'] %>
+              </td>
+              <td>
+                <%=collection['umm']['entry-title']%>
+              </td>
+              <td>
+                <%=collection['umm']['short-name']%>
+              </td>
+              <td>
+                <%=collection['umm']['version-id']%>
+              </td>
+              <td>
+                <%=collection['option-assignments']%>
+              </td>
+            </tr>
+        <%end %>
+      </table>
+
+
+      <%= submit_tag 'Add New Option Assignment', class: 'eui-btn--green' %>
+      <%= link_to 'Cancel', order_option_assignments_path %>
+
+
 
     </section>
   </div>

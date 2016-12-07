@@ -3,9 +3,9 @@ $(document).ready ->
 
     collectionsChooser = new Chooser({
       id: 'collectionsChooser',
-      url: '/permission/all_collections',
+      url: '/provider_collections',
       nextPageParm: 'page_num',
-      filterParm: 'entry_id',
+      filterParm: 'keyword',
       filterChars: '1',
       endlessScroll: false,
       target: $('#chooser-widget'),
@@ -20,15 +20,20 @@ $(document).ready ->
       removeAdded: false,
       addButton: {
         cssClass: 'eui-btn nowrap',
-        arrowCssClass: 'eui-circle-right',
-        text: 'Add collection(s)'
+        arrowCssClass: 'fa fa-plus',
+        text: ''
       },
       delButton: {
         cssClass: 'eui-btn nowrap',
-        arrowCssClass: 'eui-circle-left',
-        text: 'Remove collection(s)'
+        arrowCssClass: 'fa fa-minus',
+        text: ''
       },
-      allowRemoveAll: false,
+      delAllButton: {
+        cssClass: 'eui-btn nowrap',
+        arrowCssClass: 'fa fa-trash',
+        text: ''
+      },
+      allowRemoveAll: true,
       errorCallback: ->
         $('<div class="eui-banner--danger">' +
             'A server error occurred. Unable to get collections.' +

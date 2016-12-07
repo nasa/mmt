@@ -16,7 +16,7 @@
     <section>
       <h2>Order Option Assignments</h2>
 
-      <%= form_tag(order_option_assignments_path, method: :post, id: 'order-options-assignment-form', class: 'order-option-assignments-form') %>
+      <%= form_tag(order_option_assignment_path('show'), method: :post, id: 'order-options-assignment-form', class: 'order-option-assignments-form') %>
 
       <div id="chooser-widget"></div>
       <%= hidden_field_tag 'collection_selections', @collection_selections %>

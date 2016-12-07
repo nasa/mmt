@@ -1,7 +1,5 @@
 class OrderOptionAssignmentsController < ApplicationController
 
-
-
   def index
 
     @collection_selections = []
@@ -16,43 +14,54 @@ class OrderOptionAssignmentsController < ApplicationController
 
   def show
 
-  end
-
-  def create
     entry_titles = []
 
     params[:collection_selections].split('%%__%%').each do |entry_title|
       entry_titles << entry_title.split('|')[1].strip
     end
 
-    @collections = get_collections_by_entry_titles(entry_titles)[0]
-
+    @collections = get_collections_by_entry_titles(entry_titles)
 
     @collections.each do |collection|
       id = collection['meta']['concept-id']
-
       response = cmr_client.get_order_option_assignments(id, echo_provider_token)
 
       if response.success?
-        # Add the option assignment here
+        collection['option-assignments'] = response.body
       else
-        if response.body['errors'] == ['Option assignment [null] does not exist']
-          collection['option-assignments'] = ''
-        else
-          Rails.logger.error("Order Option Assignment Retrieval Error: #{response.body}")
-          flash.now[:error] = response.body.inspect
-        end
+        Rails.logger.error("Order Option Assignment Retrieval Error: #{response.body}")
+        flash.now[:error] = response.body.inspect
       end
     end
 
-    @collections
+  end
+
+
+  def create
+    entry_titles = params['collection-checkbox']
+    order_option = params['order-options']
+
+    collections = get_collections_by_entry_titles(entry_titles)
+
+    collections.each do |collection|
+      id = collection['meta']['concept-id']
+      response = cmr_client.add_order_option_assignments(id, order_option, echo_provider_token)
+
+      if response.success?
+        flash[:success] = 'Order Option assignment successful.'
+      else
+        Rails.logger.error("Order Option Assignment Error: #{response.body}")
+        flash[:error] = response.body.inspect
+      end
+    end
+
+    redirect_to order_option_assignments_url
   end
 
   def new
-
     entry_titles = params['order-option-checkbox']
 
-    @collections = get_collections_by_entry_titles(entry_titles)[0]
+    @collections = get_collections_by_entry_titles(entry_titles)
 
     order_option_response = echo_client.get_order_options(echo_provider_token)
 
@@ -67,27 +76,18 @@ class OrderOptionAssignmentsController < ApplicationController
       opt = [ order_option['Name'], order_option['Guid']]
       @order_option_select_values << opt
     end
-
   end
-
 
   private
 
   def get_collections_by_entry_titles(entry_titles)
     # page_size default is 10, max is 2000
     query = { 'page_size' => 100, 'entry_title' => entry_titles }
-
     collections_response = cmr_client.get_collections(query, token).body
-    parse_get_collections_response(collections_response)
+
+    hits = collections_response['hits'].to_i
+    errors = collections_response.fetch('errors', [])
+    collections = collections_response.fetch('items', [])
   end
-
-  def parse_get_collections_response(response)
-    hits = response['hits'].to_i
-    errors = response.fetch('errors', [])
-    collections = response.fetch('items', [])
-
-    [collections, errors, hits]
-  end
-
 
 end

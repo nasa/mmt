@@ -39,8 +39,20 @@ module Cmr
 
     def get_order_option_assignments(id, token)
       url = "/echo-rest/catalog_item_option_assignments.json?catalog_item[]=#{id}"
-
       get(url, {}, { 'Echo-Token' => token })
+    end
+
+    def add_order_option_assignments(id, order_option, token)
+      url = "/echo-rest/catalog_item_option_assignments"
+      content_type = { 'Content-Type' => 'application/json' }
+      body = {
+          'option_assignment' => {
+              'catalog_item_id' => id,
+              'option_def_id' => order_option
+          }
+      }
+      echo_security_token = { 'Echo-Token' => token }
+      post(url, body.to_json, content_type.merge(echo_security_token))
     end
 
   end

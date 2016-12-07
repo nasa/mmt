@@ -16,7 +16,7 @@
     <section>
       <h2>New Option Assignment</h2>
 
-      <%= form_tag(new_order_option_assignment_path, method: :get, class: 'order-option-assignments-form') %>
+      <%= form_tag(order_option_assignments_path, method: :post, class: 'order-option-assignments-form') %>
 
 
       Select one or more collections.
@@ -42,7 +42,7 @@
         <%@collections.each do |collection| %>
             <tr>
               <td>
-                <%= check_box_tag 'order-option-checkbox[]', collection['umm']['entry-title'] %>
+                <%= check_box_tag 'collection-checkbox[]', collection['umm']['entry-title'] %>
               </td>
               <td>
                 <%=collection['umm']['entry-title']%>
