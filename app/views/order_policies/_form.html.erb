@@ -16,22 +16,20 @@
 
 <fieldset>
   <h3>Order Transactions</h3>
-  <div class="row">
-    <label for="supported_transactions[]" class="eui-required-o">Supported Transactions</label>
-  </div>
   <div class="row checkbox-group">
     <div>
-      <!-- SUBMIT is supported for all orders -->
-      <%= hidden_field_tag('supported_transactions[]', 'SUBMIT', value: 'SUBMIT', id: 'supported_transactions_submit') %>
-
       <label for="supported_transactions_cancel"><%= check_box_tag('supported_transactions[]', 'CANCEL', @policy.fetch('SupportedTransactions', {}).fetch('Item', []).include?('CANCEL'), id: 'supported_transactions_cancel') %>
-      Cancel</label><br />
+        Support Canceling Transactions
+      </label>
+
+      <p class="checkbox-form-description">Order submission is supported by default.</p>
     </div>
   </div>
 
   <div class="row">
-    <label>Status Update Notifications</label>
-    <br>
+    <label for="override_notification_enabled">Status Update Notifications</label>
+  </div>
+  <div class="row checkbox-group">
     <label><%= check_box_tag('override_notification_enabled', 1, @policy.fetch('overrideNotificationEnabled', 'false').downcase == 'true') %>
     Always send status updates</label>
   </div>
@@ -97,5 +95,6 @@
 </fieldset>
 
 <fieldset class="align-r">
+  <%= link_to 'Cancel', :back, class: 'eui-btn' %>
   <%= submit_tag('Submit', class: 'eui-btn--blue') %>
 </fieldset>

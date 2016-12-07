@@ -16,4 +16,8 @@
   }
 }
 
+.checkbox-form-description {
+  @extend .form-description;
 
+  margin: 5px 0;
+}
