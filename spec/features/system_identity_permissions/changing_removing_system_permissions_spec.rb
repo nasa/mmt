@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'Changing or Removing System Identity Permissions' do
   before :all do
-    @group_response = create_group(name: 'Test System Permissions Group 2', description: 'Group to test system permissions', admin: true)
+    @group_response = create_group(name: 'Test System Permissions Group 2', description: 'Group to test system permissions', provider_id: nil, admin: true)
 
     system_perm_1 = {
       'group_permissions' => [{
@@ -37,7 +37,7 @@ describe 'Changing or Removing System Identity Permissions' do
     }
 
     permissions = [system_perm_1, system_perm_2, system_perm_3]
-    permissions.each { |perm| cmr_client.add_group_permissions(perm, 'access_token_admin').body }
+    permissions.each { |perm| cmr_client.add_group_permissions(perm, 'access_token_admin') }
 
     wait_for_cmr
   end
@@ -62,9 +62,7 @@ describe 'Changing or Removing System Identity Permissions' do
 
   it 'has the correct permissions checked' do
     expect(page).to have_checked_field('system_permissions_SYSTEM_CALENDAR_EVENT_', with: 'update')
-
     expect(page).to have_checked_field('system_permissions_SYSTEM_INITIALIZER_', with: 'create')
-
     expect(page).to have_checked_field('system_permissions_SYSTEM_OPTION_DEFINITION_', with: 'create')
     expect(page).to have_checked_field('system_permissions_SYSTEM_OPTION_DEFINITION_', with: 'delete')
   end
@@ -75,7 +73,6 @@ describe 'Changing or Removing System Identity Permissions' do
       check('system_permissions_SYSTEM_CALENDAR_EVENT_', option: 'delete')
 
       uncheck('system_permissions_SYSTEM_INITIALIZER_', option: 'create')
-
       uncheck('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'delete')
 
       within '.system-permissions-form' do

@@ -12,14 +12,17 @@ class ProviderIdentityPermissionsController < ManagePermissionsController
     page = 1 if page < 1
 
     # filters for groups
+    # we ask for system groups, because in PUMP these ACLs can be set for system groups
+    # but if the user does not have the right permissions they will not be in the response
     filters = {
-      # TODO: is there a need to have system level permissions as well? - it is in PUMP
-      provider: current_user.provider_id,
+      # provider: current_user.provider_id,
+      provider: [current_user.provider_id, 'CMR'],
       page_size: RESULTS_PER_PAGE,
       page_num: page
     }
 
-    groups_response = cmr_client.get_cmr_groups(filters, token)
+    # groups_response = cmr_client.get_cmr_groups(filters, token)
+    groups_response = cmr_client.get_cmr_groups(filters, 'access_token_admin')
 
     if groups_response.success?
       group_list = groups_response.body.fetch('items', [])
@@ -39,7 +42,8 @@ class ProviderIdentityPermissionsController < ManagePermissionsController
     # @group_provider_permissions = assemble_permissions_for_table(group_provider_permissions_list, @group_id)
     @group_provider_permissions = assemble_permissions_for_table(group_provider_permissions_list, 'provider', @group_id)
 
-    group_response = cmr_client.get_group(@group_id, token)
+    # group_response = cmr_client.get_group(@group_id, token)
+    group_response = cmr_client.get_group(@group_id, 'access_token_admin')
     if group_response.success?
       @group = group_response.body
     else

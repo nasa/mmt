@@ -4,11 +4,11 @@
       <div class="eui-breadcrumbs">
         <ol class="eui-breadcrumbs__list">
           <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item">Provider Object Permissions</li>
-          <li class="eui-breadcrumbs__item current">@group.fetch('name', 'No Name')</li>
+          <li class="eui-breadcrumbs__item"><%= link_to 'Provider Object Permissions', provider_identity_permissions_path %></li>
+          <li class="eui-breadcrumbs__item current"><%= @group.fetch('name', 'No Name') %></li>
         </ol>
       </div>
-      <h2>Provider Object Permissions</h2>
+      <h2>Provider Object Permissions for <%= @group.fetch('name', 'No Name') %></h2>
       <p class="subnav current">
         <%= link_to 'Provider Object Permissions', provider_identity_permissions_path %>
       </p>
@@ -25,7 +25,7 @@
       <%= form_tag(provider_identity_permission_path(@group_id), method: :put, class: 'provider-permissions-form') %>
 
         <p>
-          Set permissions for the <%= @group.fetch('name', 'No Name') %> group by checking the appropriate boxes below and clicking 'Save'.
+          Set permissions for the <%= @group.fetch('name', 'No Name') %> group by checking the appropriate boxes below and clicking 'Submit'.
         </p>
         <%= render partial: 'provider_permissions_form' %>
     </section>

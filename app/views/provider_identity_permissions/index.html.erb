@@ -21,21 +21,21 @@
 
   <div class="row row-content">
     <section>
-      <p>Click on a Provider Group to access provider object permissions for that group.</p>
+      <p>Click on a Group to access provider object permissions for that group.</p>
 
       <%= page_entries_info @groups, entry_name: 'group' %>
 
       <table class="provider-group-table">
         <thead>
           <tr>
-            <th>Provider Group Name</th><th>Description</th><th>Number of Members</th>
+            <th>Provider Group Name</th><th>Description</th><th>Provider</th><th>Number of Members</th>
           </tr>
         </thead>
 
         <tbody>
           <% if @groups.blank? %>
             <tr>
-              <td colspan="3">
+              <td colspan="4">
                 There are no Provider Groups available at this time or you do not have the right permissions.
               </td>
             </tr>
@@ -46,6 +46,7 @@
                   <%= link_to "#{group['name']}", edit_provider_identity_permission_path(group['concept_id']) %>
                 </td>
                 <td><%= group['description'] %></td>
+                <td><%= group['provider_id'] %></td>
                 <td><%= group['member_count'] %></td>
               </tr>
             <% end %>

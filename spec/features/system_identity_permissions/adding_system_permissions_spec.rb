@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'Saving System Identity Permissions' do
   before :all do
-    @group_response = create_group(name: 'Test System Permissions Group 1', description: 'Group to test system permissions', admin: true)
+    @group_response = create_group(name: 'Test System Permissions Group 1', description: 'Group to test system permissions', provider_id: nil, admin: true)
   end
 
   before do

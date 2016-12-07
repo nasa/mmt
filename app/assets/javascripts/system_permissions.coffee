@@ -1,3 +1,5 @@
+# TODO: delete file
+
 $(document).ready ->
   if $('.system-permissions-form').length > 0 && $('.system-permissions-table').length > 0
 

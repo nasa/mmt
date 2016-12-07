@@ -287,7 +287,7 @@ module Cmr
 
       clear_cache
 
-      # ACLs for provider groups
+      ### ACLs for provider groups
       # Admin access to SEDAC
       resp = connection.post do |req| # this is not working properly
         req.url('http://localhost:3008/acls')
@@ -311,14 +311,14 @@ module Cmr
       # end
       # puts "registered users read access SEDAC 3008: #{resp.body}"
 
-      # MMT_1
+      # ACL for typical user for MMT_1 groups
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTUser"}}}],"provider_object_identity": {"provider_guid": "provguid3","target": "GROUP"}}}'
       end
-      # MMT_2
+      # ACL for typical user for MMT_2 groups
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
@@ -348,6 +348,23 @@ module Cmr
         req.body = '{"group_permissions": [{"group_id": "AG1200000001-CMR", "permissions": ["read", "create", "update", "delete"]}, {"user_type":"registered", "permissions":["read"]}], "system_identity": {"target": "ANY_ACL"}}'
       end
       puts "ANY_ACL CRUD access for Administrators_2 and read for registered users: #{resp.body}"
+
+      # ACL for typical user to manage Provider Identity ACLs for MMT_1
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "MMT_1"}}'
+      end
+      puts "ACL for CRUD permissions for typical user on Provider Identity ACLs for MMT_1 #{resp.body}"
+      # ACL for typical user to manage Provider Identity ACLs for MMT_2
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "MMT_2"}}'
+      end
+      puts "ACL for CRUD permissions for typical user on Provider Identity ACLs for MMT_2 #{resp.body}"
       # ACL for typical user to create catalog item ACLs for MMT_1
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
@@ -503,6 +520,12 @@ module Cmr
           req.headers['Content-Type'] = 'application/json'
           req.headers['Echo-token'] = 'mock-echo-system-token'
           req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "' + guid + '","target": "GROUP"}}}'
+        end
+        connection.post do |req|
+          req.url('http://localhost:3011/acls')
+          req.headers['Content-Type'] = 'application/json'
+          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "' + provider_id + '"}}'
         end
         connection.post do |req|
           req.url('http://localhost:3011/acls')
