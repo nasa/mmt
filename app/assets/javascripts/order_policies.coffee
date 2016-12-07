@@ -50,12 +50,14 @@ $(document).ready ->
 
     # Ping the same endpoint we use for populating the Chooser widget
     # to retrieve data specific to the selected values
-    $.ajax '/provider_collections?' + $.param('concept_id': selectedValues),
-      success: (data) ->
-        # Sets the selected values of the chooser
-        collectionsChooser.setToVal(data)
-      fail: (data) ->
-        console.log data
+    if selectedValues.length > 0
+      # Not providing any concept ids will result in all items coming back, avoid that
+      $.ajax '/provider_collections?' + $.param('concept_id': selectedValues),
+        success: (data) ->
+          # Sets the selected values of the chooser
+          collectionsChooser.setToVal(data)
+        fail: (data) ->
+          console.log data
 
     # On form submit, select all of the options in the 'Selected Collections' multiselect
     # so that it can be properly interpreted by the controller
@@ -107,7 +109,5 @@ $(document).ready ->
           required: 'Retry Attempts is required.'
         retry_wait_time:
           required: 'Retry Wait Time is required.'
-        'supported_transactions[]':
-          required: 'Supported Transactions is required.'
         end_point:
           required: 'End Point is required.'

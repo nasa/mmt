@@ -17,7 +17,7 @@
 <fieldset>
   <h3>Order Transactions</h3>
   <div class="row">
-    <label for="supported_transactions[]" class="eui-required-o">Supported Transactions</label>
+    <label for="supported_transactions[]">Supported Transactions</label>
   </div>
   <div class="row checkbox-group">
     <div>
@@ -97,5 +97,6 @@
 </fieldset>
 
 <fieldset class="align-r">
+  <%= link_to 'Cancel', :back, class: 'eui-btn' %>
   <%= submit_tag('Submit', class: 'eui-btn--blue') %>
 </fieldset>
