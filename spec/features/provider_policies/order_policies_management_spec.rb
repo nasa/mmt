@@ -95,7 +95,7 @@ describe 'Viewing Order Policies', js: true do
             expect(page).to have_content('Suspend Ordering Until: Ordering Not Suspended')
 
             expect(page).to have_content('CANCEL')
-            expect(page).to have_content('Override Status Notifications: No')
+            expect(page).to have_content('Always Send Status Updates: No')
 
             expect(page).to have_content('My testing title 02')
 
