@@ -87,8 +87,8 @@ describe 'Updating Order Options' do
       expect(page).to have_field('Description')
       expect(find_field('Description').value).to eq 'test'
 
-      expect(page).to have_field('ECHO Form XML')
-      expect(find_field('ECHO Form XML').value).to eq echo_form
+      expect(page).to have_field('Form XML')
+      expect(find_field('Form XML').value).to eq echo_form
     end
 
     context 'When updating the Order Option with the same name' do
@@ -111,7 +111,7 @@ describe 'Updating Order Options' do
       before do
         fill_in 'Name', with: '1001 - UPDATE'
         fill_in 'Sort Key', with: 'BBB'
-        fill_in 'ECHO Form XML', with: echo_form_update
+        fill_in 'Form XML', with: echo_form_update
 
         VCR.use_cassette('echo_rest/order_options/1001-update-page-update-ok', record: :none) do
           click_on 'Save'
