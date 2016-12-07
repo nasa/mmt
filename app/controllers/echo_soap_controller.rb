@@ -98,6 +98,9 @@ class EchoSoapController < ApplicationController
       'provider' => current_user.provider_id
     }.merge(params)
 
+    # Adds wildcard searching
+    collection_params['keyword'].concat('*') if collection_params.key?('keyword')
+
     # Retreive the collections from CMR, allowing a few additional parameters
     response = cmr_client.get_collections(collection_params, token)
 
