@@ -1,5 +1,4 @@
 module SystemIdentityPermissionsHelper
-
   SYSTEM_AUDIT_REPORT_PERMISSIONS = %w(read)
   METRIC_DATA_POINT_SAMPLE_PERMISSIONS = %w(read)
   SYSTEM_INITIALIZER_PERMISSIONS = %w(create)
@@ -51,5 +50,4 @@ module SystemIdentityPermissionsHelper
   ]
 
   PermissionsOptions = %w(create read update delete)
-
 end

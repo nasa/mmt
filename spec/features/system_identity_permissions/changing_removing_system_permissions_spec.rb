@@ -78,7 +78,9 @@ describe 'Changing or Removing System Identity Permissions' do
 
       uncheck('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'delete')
 
-      click_on 'Save'
+      within '.system-permissions-form' do
+        click_on 'Submit'
+      end
 
       wait_for_cmr
     end

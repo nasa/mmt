@@ -10,7 +10,7 @@
       </div>
       <h2>System Object Permissions for <%= @group.fetch('name', 'No Name') %></h2>
       <p class="subnav current">
-        <%= link_to 'Permissions', permissions_path %>
+        <%= link_to 'System Object Permissions', system_identity_permissions_path %>
       </p>
       <p class="subnav">
         <%= link_to 'Groups', groups_path %>
@@ -22,10 +22,9 @@
 
   <div class="row row-content">
     <section>
-      <!-- form opening -->
       <%= form_tag(system_identity_permission_path(@group_id), method: :put, class: 'system-permissions-form') %>
         <p>
-          Set permissions for the <%= @group.fetch('name', 'No Name') %> group by checking the appropriate boxes below and then clicking 'Save'.
+          Set permissions for the <%= @group.fetch('name', 'No Name') %> group by checking the appropriate boxes below and clicking 'Submit'.
         </p>
         <%= render partial: 'system_permissions_form' %>
     </section>

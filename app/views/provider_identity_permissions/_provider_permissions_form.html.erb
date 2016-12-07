@@ -1,0 +1,47 @@
+<%= check_box_tag :provider_acls_select_all, true, false, class: 'permissions-management-checkall' %>
+<%= label_tag :provider_acls_select_all, 'Check/Uncheck all permissions' %>
+
+<table class='provider-permissions-table permissions-management-table'>
+  <thead>
+    <tr>
+      <th>Provider Object</th><th class="align-c">Create</th><th class="align-c">Read</th>
+                              <th class="align-c">Update</th><th class="align-c">Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% ProviderIdentityPermissionsHelper::PROVIDER_TARGETS.each do |provider_target| %>
+      <tr>
+        <td>
+          <%= provider_target[0] %>
+        </td>
+
+        <% ProviderIdentityPermissionsHelper::PermissionsOptions.each do |permission_option| %>
+          <% if ProviderIdentityPermissionsHelper.const_get(provider_target[1] + '_PERMISSIONS').include?(permission_option) %>
+            <td class="align-c">
+              <% if @group_provider_permissions.fetch(provider_target[1], []).include?(permission_option) %>
+                <%= check_box_tag("provider_permissions[#{provider_target[1]}][]", permission_option, true) %>
+              <% else %>
+                <%= check_box_tag("provider_permissions[#{provider_target[1]}][]", permission_option, false) %>
+              <% end %>
+            </td>
+          <% else %>
+            <td class="align-c disabled">
+              <%= check_box_tag("provider_permissions[#{provider_target[1]}][]", permission_option, false, disabled: true) %>
+            </td>
+          <% end %>
+        <% end %>
+
+        <% if @group_provider_permissions.keys.include?(provider_target[1]) %>
+          <%= hidden_field_tag("provider_permissions[#{provider_target[1]}][]", '') %>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+
+<div class="row space-top">
+  <%= submit_tag('Submit', class: 'eui-btn--blue space-right') %>
+  <%= link_to 'Cancel', provider_identity_permissions_path %>
+</div>

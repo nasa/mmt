@@ -31,6 +31,10 @@
           <!-- show this link if user has all system ANY_ACL permissions -->
           <p><%= link_to 'System Object Permissions', system_identity_permissions_path %></p>
         <% end %>
+        <% if @user_is_current_provider_acl_admin %>
+          <!-- show this link if user has all PROVIDER_OBJECT_ACL permissions for current provider -->
+          <p><%= link_to 'Provider Object Permissions', provider_identity_permissions_path %></p>
+        <% end %>
         <p><%= link_to 'Collection Permissions', permissions_path %></p>
         <p><%= link_to 'Groups', groups_path %></p>
       </div>

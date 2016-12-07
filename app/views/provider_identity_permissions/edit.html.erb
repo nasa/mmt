@@ -1,0 +1,33 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item">Provider Object Permissions</li>
+          <li class="eui-breadcrumbs__item current">@group.fetch('name', 'No Name')</li>
+        </ol>
+      </div>
+      <h2>Provider Object Permissions</h2>
+      <p class="subnav current">
+        <%= link_to 'Provider Object Permissions', provider_identity_permissions_path %>
+      </p>
+      <p class="subnav">
+        <%= link_to 'Groups', groups_path %>
+      </p>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+      <%= form_tag(provider_identity_permission_path(@group_id), method: :put, class: 'provider-permissions-form') %>
+
+        <p>
+          Set permissions for the <%= @group.fetch('name', 'No Name') %> group by checking the appropriate boxes below and clicking 'Save'.
+        </p>
+        <%= render partial: 'provider_permissions_form' %>
+    </section>
+  </div>
+</main>

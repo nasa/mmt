@@ -36,7 +36,9 @@ describe 'Saving System Identity Permissions' do
       check('system_permissions_EXTENDED_SERVICE_', option: 'delete')
       check('system_permissions_TAG_GROUP_', option: 'update')
 
-      click_on 'Save'
+      within '.system-permissions-form' do
+        click_on 'Submit'
+      end
 
       wait_for_cmr
     end
