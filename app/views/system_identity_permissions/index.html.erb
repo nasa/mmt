@@ -7,13 +7,6 @@
           <li class="eui-breadcrumbs__item current">System Object Permissions</li>
         </ol>
       </div>
-      <h2>System Object Permissions</h2>
-      <p class="subnav current">
-        <%= link_to 'System Object Permissions', system_identity_permissions_path %>
-      </p>
-      <p class="subnav">
-        <%= link_to 'Groups', groups_path %>
-      </p>
     </div>
   </header>
 
@@ -21,39 +14,46 @@
 
   <div class="row row-content">
     <section>
-        <p>Click on a System Group to access the system object permissions for that group.</p>
+      <h2>System Object Permissions</h2>
 
-        <%= page_entries_info @groups, entry_name: 'group' %>
+      <p>Click on a System Group to access the system object permissions for that group.</p>
 
-        <table class="system-group-table">
-          <thead>
+      <%= page_entries_info @groups, entry_name: 'group' %>
+
+      <table class="system-group-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Number of Members</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% if @groups.blank? %>
             <tr>
-              <th>System Group Name</th><th>Description</th><th>Number of Members</th>
+              <td colspan="3">
+                There are no System Groups available at this time or you do not have permissions to see System Groups.
+              </td>
             </tr>
-          </thead>
-
-          <tbody>
-            <% if @groups.blank? %>
+          <% else %>
+            <% @groups.each do |group| %>
               <tr>
-                <td colspan="3">
-                  There are no System Groups available at this time or you do not have permissions to see System Groups.
+                <td>
+                  <%= link_to group['name'], edit_system_identity_permission_path(group['concept_id']) %>
+                  <% if check_if_system_group?(group, group['concept_id']) %>
+                    <span class="eui-badge--sm">SYS</span>
+                  <% end %>
                 </td>
+                <td><%= group['description'] %></td>
+                <td><%= group['member_count'] %></td>
               </tr>
-            <% else %>
-              <% @groups.each do |group| %>
-                <tr>
-                  <td>
-                    <%= link_to "#{group['name']}", edit_system_identity_permission_path(group['concept_id']) %>
-                  </td>
-                  <td><%= group['description'] %></td>
-                  <td><%= group['member_count'] %></td>
-                </tr>
-              <% end %>
             <% end %>
-          </tbody>
-        </table>
+          <% end %>
+        </tbody>
+      </table>
 
-        <%= paginate @groups %>
+      <%= paginate @groups %>
     </section>
   </div>
 </main>

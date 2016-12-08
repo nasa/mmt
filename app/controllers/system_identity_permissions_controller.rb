@@ -36,13 +36,12 @@ class SystemIdentityPermissionsController < ManagePermissionsController
   def edit
     @group_id = params[:id]
     @group = {}
-    # group_system_permissions = get_system_permissions(@group_id)
     group_system_permissions_list = get_permissions_for_identity_type('system', @group_id)
-    # @group_system_permissions_hash = assemble_permissions_for_table(group_system_permissions, @group_id)
+
+    # assemble system permissions for the table of checkboxes
     @group_system_permissions = assemble_permissions_for_table(group_system_permissions_list, 'system', @group_id)
 
-    # group_response = cmr_client.get_group(@group_id, token)
-    group_response = cmr_client.get_group(@group_id, 'access_token_admin')
+    group_response = cmr_client.get_group(@group_id, token)
     if group_response.success?
       @group = group_response.body
     else

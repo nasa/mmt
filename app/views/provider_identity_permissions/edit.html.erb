@@ -8,13 +8,6 @@
           <li class="eui-breadcrumbs__item current"><%= @group.fetch('name', 'No Name') %></li>
         </ol>
       </div>
-      <h2>Provider Object Permissions for <%= @group.fetch('name', 'No Name') %></h2>
-      <p class="subnav current">
-        <%= link_to 'Provider Object Permissions', provider_identity_permissions_path %>
-      </p>
-      <p class="subnav">
-        <%= link_to 'Groups', groups_path %>
-      </p>
     </div>
   </header>
 
@@ -22,6 +15,8 @@
 
   <div class="row row-content">
     <section>
+      <h2>Provider Object Permissions for <%= @group.fetch('name', 'No Name') %></h2>
+
       <%= form_tag(provider_identity_permission_path(@group_id), method: :put, class: 'provider-permissions-form') %>
 
         <p>

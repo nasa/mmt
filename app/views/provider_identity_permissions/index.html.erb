@@ -7,13 +7,6 @@
           <li class="eui-breadcrumbs__item current">Provider Object Permissions</li>
         </ol>
       </div>
-      <h2>Provider Object Permissions</h2>
-      <p class="subnav current">
-        <%= link_to 'Provider Object Permissions', provider_identity_permissions_path %>
-      </p>
-      <p class="subnav">
-        <%= link_to 'Groups', groups_path %>
-      </p>
     </div>
   </header>
 
@@ -21,6 +14,8 @@
 
   <div class="row row-content">
     <section>
+      <h2>Provider Object Permissions</h2>
+
       <p>Click on a Group to access provider object permissions for that group.</p>
 
       <%= page_entries_info @groups, entry_name: 'group' %>
@@ -28,7 +23,10 @@
       <table class="provider-permissions-group-table">
         <thead>
           <tr>
-            <th>Provider Group Name</th><th>Description</th><th>Provider</th><th>Number of Members</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Provider</th>
+            <th>Number of Members</th>
           </tr>
         </thead>
 
@@ -43,10 +41,13 @@
             <% @groups.each do |group| %>
               <tr>
                 <td>
-                  <%= link_to "#{group['name']}", edit_provider_identity_permission_path(group['concept_id']) %>
+                  <%= link_to group['name'], edit_provider_identity_permission_path(group['concept_id']) %>
+                  <% if check_if_system_group?(group, group['concept_id']) %>
+                    <span class="eui-badge--sm">SYS</span>
+                  <% end %>
                 </td>
                 <td><%= group['description'] %></td>
-                <td><%= group['provider_id'] %></td>
+                <td><%= group_provider(group) %></td>
                 <td><%= group['member_count'] %></td>
               </tr>
             <% end %>

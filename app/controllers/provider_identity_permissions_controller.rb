@@ -37,7 +37,7 @@ class ProviderIdentityPermissionsController < ManagePermissionsController
     @group = {}
     group_provider_permissions_list = get_permissions_for_identity_type('provider', @group_id)
 
-    # assemble group permissions
+    # assemble provider permissions for the table of checkboxes
     @group_provider_permissions = assemble_permissions_for_table(group_provider_permissions_list, 'provider', @group_id)
 
     group_response = cmr_client.get_group(@group_id, token)
@@ -56,7 +56,7 @@ class ProviderIdentityPermissionsController < ManagePermissionsController
 
     permissions_params.each { |_target, perms| perms.delete('') }
     all_provider_permissions = get_permissions_for_identity_type('provider')
-    # assemble permissions so they can be sorted
+    # assemble permissions so they can be sorted and updated
     selective_provider_permission_info = assemble_permissions_for_updating(all_provider_permissions, 'provider', @group_id)
 
     targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete = sort_permissions_to_update(selective_provider_permission_info, permissions_params)
