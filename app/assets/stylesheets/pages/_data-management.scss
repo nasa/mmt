@@ -5,3 +5,16 @@
 .last-updated {
   margin-top: 10px;
 }
+
+.show-unassigned-collections {
+  display: block;
+  font-weight: normal;
+}
+
+tr.unassigned-collection {
+  display: none;
+}
+
+.no-assignments-message {
+  background: #fff;
+}

@@ -143,6 +143,12 @@ $(document).ready ->
         'data_quality_summary_assignment[]':
           required: 'You must select at least 1 assignment.'
 
+    $('.toggle-unassigned-collections').change (event) ->
+      $('tr.unassigned-collection').toggle()
+
+      if $('tr.unassigned-collection').length > 0
+        $('.no-assignments-message').toggle()
+
   # jQuery Validate has a 'feature' that means this only gets called on blur, we want on change
   $('.data-quality-summary-form select').on 'change', ->
     $(this).valid()
