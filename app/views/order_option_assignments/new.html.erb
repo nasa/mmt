@@ -35,9 +35,6 @@
           <th>
             Version ID
           </th>
-          <th>
-            Option Definition Name
-          </th>
         </tr>
         <%@collections.each do |collection| %>
             <tr>
@@ -53,26 +50,44 @@
               <td>
                 <%=collection['umm']['version-id']%>
               </td>
-              <td>
-                <%if collection['option-assignments'].length > 0 %>
-                  <ul>
-                    <% collection['option-assignments'].each do |name| %>
-                      <li>
-                        <%=name %>
-                      </li>
-                    <%end%>
-                  </ul>
-                <%end%>
-              </td>
             </tr>
         <%end %>
       </table>
 
+      <div class="row space-top"></div>
 
-      <%= label_tag 'Option Definition' %>
-      <%= select_tag 'order-options', options_for_select(@order_option_select_values), id: 'order-options' %>
+      <div class="row space-top">
+        <div class="col-2">
+          <%= label_tag 'order-options', 'Option Definition'  %>
+        </div>
+        <div class="col-4">
+          <%= select_tag 'order-options', options_for_select(@order_option_select_values), id: 'order-options', class: 'half-width' %>
+        </div>
+      </div>
 
-      <%= submit_tag 'Add', class: 'eui-btn--green' %>
+
+      <div class="row space-top">
+        <div class="col-2">
+          <%= label_tag 'filter-xpath', 'Filter XPath' %>
+        </div>
+        <div class="col-4">
+          <%= text_field_tag 'filter-xpath' %>
+        </div>
+      </div>
+
+      <%= link_to '',"#collection-choice-modal", id: 'dummy-modal-link', class: 'display-modal', style: 'display: none;' %>
+      <div id='collection-choice-modal' class="eui-modal-content">
+        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <p>Please select at least one collection.</p>
+      </div>
+
+
+      <div class="row space-top">
+        <div class="col-4">
+        <%= submit_tag 'Submit', class: 'eui-btn--green' %>
+          <%= link_to 'Cancel', order_option_assignments_path %>
+        </div>
+      </div>
 
     </section>
   </div>

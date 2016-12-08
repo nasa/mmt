@@ -1,6 +1,6 @@
 $(document).ready ->
 
-  # Index page
+  # Index page -----------------------------------------------------------
   if $(".order-option-assignments-form").length > 0
 
     collectionsChooser = new Chooser({
@@ -46,8 +46,13 @@ $(document).ready ->
     $('#chooser-loading-msg').hide()
 
 
-  # Show page
+  # Show page -----------------------------------------------------------
   if $("#show-order-option-assignments-form").length > 0
+
+    $('.display-modal').leanModal
+      top: 200
+      overlay: 0.6
+      closeButton: '.modal-close'
 
     # check/uncheck all
     $("#order-option-all-checkbox_").on 'change', ->
@@ -71,12 +76,24 @@ $(document).ready ->
         # uncheck the collection if it's hidden
         $("#collections-table tbody tr.hidden-row").find("[name='order-option-checkbox[]']").prop 'checked', false
 
+    $("#show-order-option-assignments-form").submit ->
+      if ! $("[name='order-option-checkbox[]']").prop 'checked'
+        # "click" the dummy link to invoke the modal (there's no other way to do this)
+        $('#dummy-modal-link').click()
+        return false
 
 
-  # New assignment page
+
+  # New assignment page -----------------------------------------------------------
   if $("#new-order-option-assignment-form").length > 0
     $("#order-option-all-checkbox_").on 'change', ->
       $("[name='collection-checkbox[]']").prop 'checked', $(this).prop 'checked'
+
+    $("#new-order-option-assignment-form").submit ->
+      if ! $("[name='collection-checkbox[]']").prop 'checked'
+        # "click" the dummy link to invoke the modal (there's no other way to do this)
+        $('#dummy-modal-link').click()
+        return false
 
 
 

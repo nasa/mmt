@@ -20,15 +20,30 @@ class OrderOptionAssignmentsController < ApplicationController
       entry_titles << entry_title.split('|')[1].strip
     end
 
-    @collections = get_collections_by_entry_titles(entry_titles)
+    collections = get_collections_by_entry_titles(entry_titles)
 
-    @collections.each do |collection|
+    @collections_to_list = []
+
+    collections.each do |collection|
       id = collection['meta']['concept-id']
       response = cmr_client.get_order_option_assignments(id, echo_provider_token)
 
       if response.success?
         # Add an element to the collection
-        collection['option-assignments'] = get_order_option_names(response.body)
+        #collection['option-assignments'] = get_order_option_names(response.body)
+        option_names = get_order_option_names(response.body)
+
+        if option_names.length > 0
+          option_names.each do |option_name|
+            collection_copy = collection.clone
+            collection_copy['option-name'] = option_name
+            @collections_to_list << collection_copy
+          end
+        else
+          @collections_to_list << collection
+        end
+
+
       else
         Rails.logger.error("Order Option Assignment Retrieval Error: #{response.body}")
         flash.now[:error] = response.body.inspect
@@ -39,15 +54,16 @@ class OrderOptionAssignmentsController < ApplicationController
 
 
   def create
-    entry_titles = params['collection-checkbox']
-    order_option = params['order-options']
+    entry_titles = params.fetch('collection-checkbox', [])
+    order_option = params.fetch('order-options', '')
+    filter_xpath = params.fetch('filter-xpath', nil)
 
     collections = get_collections_by_entry_titles(entry_titles)
 
     errors = []
     collections.each do |collection|
       id = collection['meta']['concept-id']
-      response = cmr_client.add_order_option_assignments(id, order_option, echo_provider_token)
+      response = cmr_client.add_order_option_assignments(id, order_option, filter_xpath, echo_provider_token)
 
       if !response.success?
         errors << response.body.inspect
@@ -69,7 +85,14 @@ class OrderOptionAssignmentsController < ApplicationController
   end
 
   def new
-    entry_titles = params['order-option-checkbox']
+    entry_titles = params.fetch('order-option-checkbox', []).uniq
+
+    if entry_titles.length < 1
+      flash[:error] = "At least one collection must be selected"
+      redirect_to order_option_assignments_path
+      return
+    end
+
     @collections = get_collections_by_entry_titles(entry_titles)
     @order_option_select_values = get_order_options
 
@@ -144,5 +167,5 @@ class OrderOptionAssignmentsController < ApplicationController
     errors = collections_response.fetch('errors', [])
     collections = collections_response.fetch('items', [])
   end
-
+  
 end

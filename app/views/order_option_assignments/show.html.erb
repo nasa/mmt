@@ -42,8 +42,8 @@
         </thead>
 
         <tbody>
-          <%@collections.each do |collection| %>
-              <% disp_class = collection['option-assignments'].length < 1 ? 'class=hidden-row' : '' %>
+          <%@collections_to_list.each do |collection| %>
+              <% disp_class = collection['option-name'].blank? ? 'class=hidden-row' : '' %>
               <tr <%=disp_class%>>
                 <td>
                   <%= check_box_tag 'order-option-checkbox[]', collection['umm']['entry-title'] %>
@@ -58,15 +58,7 @@
                   <%=collection['umm']['version-id']%>
                 </td>
                 <td>
-                  <%if collection['option-assignments'].length > 0 %>
-                    <ul>
-                      <% collection['option-assignments'].each do |name| %>
-                        <li>
-                          <%=name %>
-                        </li>
-                      <%end%>
-                    </ul>
-                  <%end%>
+                  <%=collection['option-name']%>
                 </td>
               </tr>
           <%end %>
@@ -74,7 +66,14 @@
       </table>
 
 
-      <%= submit_tag 'Add New Option Assignment', class: 'eui-btn--green' %>
+      <%= link_to '',"#collection-choice-modal", id: 'dummy-modal-link', class: 'display-modal', style: 'display: none;' %>
+      <div id='collection-choice-modal' class="eui-modal-content">
+        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <p>Please select at least one collection.</p>
+      </div>
+
+
+      <%= submit_tag 'Add New Option Assignment', id: 'add-submit-button', class: 'eui-btn--green' %>
       <%= link_to 'Cancel', order_option_assignments_path %>
 
 
