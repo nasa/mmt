@@ -25,7 +25,9 @@ class ManageCmrController < PagesController
     if user_permission_response.success?
       permission = JSON.parse(user_permission_response.body) # why is this JSON but other CMR responses don't need to be parsed?
     else
-      Rails.logger.error("Check User System Permission Response Error for #{current_user.urs_uid}: #{user_permission_response.inspect}")
+      log_target = target
+      log_target = "#{current_user.provider_id} #{target}" if type == 'provider'
+      Rails.logger.error("Check User Permission for #{log_target} Response Error for #{current_user.urs_uid}: #{user_permission_response.inspect}")
       check_permission_error = Array.wrap(user_permission_response.body['errors'])[0]
       flash[:error] = check_permission_error
     end
