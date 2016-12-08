@@ -1,4 +1,4 @@
-class GroupsController < ApplicationController
+class GroupsController < ManageCmrController
   include GroupsHelper
 
   before_filter :groups_enabled?
@@ -310,18 +310,5 @@ class GroupsController < ApplicationController
       return true
     end
     false
-  end
-
-  def check_if_system_group_administrator
-    check_permission_options = { user_id: current_user.urs_uid, system_object: 'GROUP' }
-    user_permission_response = cmr_client.check_user_permissions(check_permission_options, token)
-    if user_permission_response.success?
-      permission = JSON.parse(user_permission_response.body) # why is this JSON but other CMR responses don't need to be parsed?
-      @user_is_system_group_admin = true if permission.fetch('GROUP', []).include?('create')
-    else
-      Rails.logger.error("Check User Permission Response for #{current_user.urs_uid}: #{user_permission_response.inspect}")
-      check_permission_error = Array.wrap(user_permission_response.body['errors'])[0]
-      flash[:error] = check_permission_error
-    end
   end
 end

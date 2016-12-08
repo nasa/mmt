@@ -67,5 +67,5 @@
 </table>
 <div class="row space-top">
   <%= submit_tag 'Save', class: 'eui-btn--blue space-right', id: 'permissions-save-button' %>
-  <%= link_to 'Cancel', (new_form ? permissions_path : permission_path(@permission_concept_id)) %>
+  <%= link_to 'Cancel', :back, class: 'eui-btn' %>
 </div>

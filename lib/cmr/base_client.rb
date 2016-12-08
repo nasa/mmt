@@ -66,7 +66,7 @@ module Cmr
     def build_connection
       Faraday.new(url: @root) do |conn|
         conn.response :logging
-        
+
         conn.use :instrumentation
 
         conn.response :events, content_type: /\bjson$/

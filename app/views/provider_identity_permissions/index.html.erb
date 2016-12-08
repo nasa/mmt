@@ -4,7 +4,7 @@
       <div class="eui-breadcrumbs">
         <ol class="eui-breadcrumbs__list">
           <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item current">System Object Permissions</li>
+          <li class="eui-breadcrumbs__item current">Provider Object Permissions</li>
         </ol>
       </div>
     </div>
@@ -14,17 +14,18 @@
 
   <div class="row row-content">
     <section>
-      <h2>System Object Permissions</h2>
+      <h2>Provider Object Permissions</h2>
 
-      <p>Click on a System Group to access the system object permissions for that group.</p>
+      <p>Click on a Group to access provider object permissions for that group.</p>
 
       <%= page_entries_info @groups, entry_name: 'group' %>
 
-      <table class="system-group-table">
+      <table class="provider-permissions-group-table">
         <thead>
           <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Provider</th>
             <th>Number of Members</th>
           </tr>
         </thead>
@@ -32,20 +33,21 @@
         <tbody>
           <% if @groups.blank? %>
             <tr>
-              <td colspan="3">
-                There are no System Groups available at this time or you do not have permissions to see System Groups.
+              <td colspan="4">
+                There are no Provider Groups available at this time or you do not have the right permissions.
               </td>
             </tr>
           <% else %>
             <% @groups.each do |group| %>
               <tr>
                 <td>
-                  <%= link_to group['name'], edit_system_identity_permission_path(group['concept_id']) %>
+                  <%= link_to group['name'], edit_provider_identity_permission_path(group['concept_id']) %>
                   <% if check_if_system_group?(group, group['concept_id']) %>
                     <span class="eui-badge--sm">SYS</span>
                   <% end %>
                 </td>
                 <td><%= group['description'] %></td>
+                <td><%= group_provider(group) %></td>
                 <td><%= group['member_count'] %></td>
               </tr>
             <% end %>

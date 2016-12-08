@@ -1,28 +1,27 @@
 module SystemIdentityPermissionsHelper
-
-  SYSTEM_AUDIT_REPORT_PERMISSIONS = %w(read)
-  METRIC_DATA_POINT_SAMPLE_PERMISSIONS = %w(read)
-  SYSTEM_INITIALIZER_PERMISSIONS = %w(create)
+  ANY_ACL_PERMISSIONS = %w(create read update delete)
   ARCHIVE_RECORD_PERMISSIONS = %w(delete)
   ERROR_MESSAGE_PERMISSIONS = %w(update)
-  TOKEN_PERMISSIONS = %w(read delete)
-  TOKEN_REVOCATION_PERMISSIONS = %w(create)
+  EVENT_NOTIFICATION_PERMISSIONS = %w(delete)
   EXTENDED_SERVICE_ACTIVATION_PERMISSIONS = %w(create)
+  EXTENDED_SERVICE_PERMISSIONS = %w(delete)
+  GROUP_PERMISSIONS = %w(create read)
+  INGEST_MANAGEMENT_ACL_PERMISSIONS = %w(read update)
+  METRIC_DATA_POINT_SAMPLE_PERMISSIONS = %w(read)
   ORDER_AND_ORDER_ITEMS_PERMISSIONS = %w(read delete)
   PROVIDER_PERMISSIONS = %w(create delete)
+  SYSTEM_AUDIT_REPORT_PERMISSIONS = %w(read)
+  SYSTEM_CALENDAR_EVENT_PERMISSIONS = %w(create update delete)
+  SYSTEM_INITIALIZER_PERMISSIONS = %w(create)
+  SYSTEM_OPTION_DEFINITION_DEPRECATION_PERMISSIONS = %w(create)
+  SYSTEM_OPTION_DEFINITION_PERMISSIONS = %w(create delete)
   TAG_GROUP_PERMISSIONS = %w(create update delete)
   TAXONOMY_PERMISSIONS = %w(create)
   TAXONOMY_ENTRY_PERMISSIONS = %w(create)
+  TOKEN_REVOCATION_PERMISSIONS = %w(create)
+  TOKEN_PERMISSIONS = %w(read delete)
   USER_CONTEXT_PERMISSIONS = %w(read)
   USER_PERMISSIONS = %w(read update delete)
-  GROUP_PERMISSIONS = %w(create read)
-  ANY_ACL_PERMISSIONS = %w(create read update delete)
-  EVENT_NOTIFICATION_PERMISSIONS = %w(delete)
-  EXTENDED_SERVICE_PERMISSIONS = %w(delete)
-  SYSTEM_OPTION_DEFINITION_PERMISSIONS = %w(create delete)
-  SYSTEM_OPTION_DEFINITION_DEPRECATION_PERMISSIONS = %w(create)
-  INGEST_MANAGEMENT_ACL_PERMISSIONS = %w(read update)
-  SYSTEM_CALENDAR_EVENT_PERMISSIONS = %w(create update delete)
 
   SYSTEM_TARGETS = [
     ['Any ACL', 'ANY_ACL'],
@@ -51,5 +50,4 @@ module SystemIdentityPermissionsHelper
   ]
 
   PermissionsOptions = %w(create read update delete)
-
 end

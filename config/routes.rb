@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/permission/all_collections' => 'permissions#get_all_collections'
 
   resources :system_identity_permissions, only: [:index, :edit, :update]
+  resources :provider_identity_permissions, only: [:index, :edit, :update]
 
   resource :order_policies, except: :show
   resources :order_options

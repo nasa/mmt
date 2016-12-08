@@ -34,9 +34,9 @@ describe 'System Identity Permissions pages and form' do
       visit edit_system_identity_permission_path(concept_id)
     end
 
-    it 'displays the page with the form and table with system targets' do
+    it 'displays the page with the form and table of system targets' do
       expect(page).to have_content('System Object Permissions for Administrators_2')
-      expect(page).to have_content("Set permissions for the Administrators_2 group by checking the appropriate boxes below and then clicking 'Save'.")
+      expect(page).to have_content("Set permissions for the Administrators_2 group by checking the appropriate boxes below and clicking 'Submit'.")
 
       within '.system-permissions-table' do
         expect(page).to have_css('tbody > tr', count: SystemIdentityPermissionsHelper::SYSTEM_TARGETS.count)
@@ -52,22 +52,16 @@ describe 'System Identity Permissions pages and form' do
       before do
         check('system_permissions_PROVIDER_', option: 'create')
         check('system_permissions_PROVIDER_', option: 'delete')
-
         check('system_permissions_SYSTEM_AUDIT_REPORT_', option: 'read')
-
         check('system_permissions_TAXONOMY_', option: 'create')
-
         check('system_permissions_USER_', option: 'update')
       end
 
       it 'checks the permissions' do
         expect(page).to have_checked_field('system_permissions_PROVIDER_', with: 'create')
         expect(page).to have_checked_field('system_permissions_PROVIDER_', with: 'delete')
-
         expect(page).to have_checked_field('system_permissions_SYSTEM_AUDIT_REPORT_', with: 'read')
-
         expect(page).to have_checked_field('system_permissions_TAXONOMY_', with: 'create')
-
         expect(page).to have_checked_field('system_permissions_USER_', with: 'update')
       end
     end
