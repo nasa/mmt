@@ -156,11 +156,11 @@ $(document).ready ->
         sorter: 'text'
 
   $('.redactor').redactor
+    formatting: ['h1', 'h2', 'h3', 'h4', 'h5']
     buttons: [
       'formatting'
       'bold'
       'italic'
-      'underline'
       'orderedlist'
       'unorderedlist'
       'horizontalrule'

@@ -106,13 +106,13 @@ describe 'Viewing Order Policies', js: true do
             expect(page).to have_content('<test> user provided xml </test>')
 
             # Button to edit order policies
-            expect(page).to have_content('Edit Order Policies')
+            expect(page).to have_content('Edit')
           end
 
           context 'when clicking the edit order policies button' do
             before do
               VCR.use_cassette('echo_soap/provider_service/order_policies/edit', record: :none) do
-                click_on 'Edit Order Policies'
+                click_on 'Edit'
               end
             end
 
@@ -153,7 +153,7 @@ describe 'Viewing Order Policies', js: true do
               context 'when clicking the remove order policies button' do
                 before do
                   VCR.use_cassette('echo_soap/provider_service/order_policies/destroy', record: :none) do
-                    click_on 'Remove Order Policies'
+                    click_on 'Delete'
 
                     # Confirmation Dialog
                     click_on 'Yes'

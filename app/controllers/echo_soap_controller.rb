@@ -49,6 +49,8 @@ class EchoSoapController < ApplicationController
     summary_guids.each do |guid|
       @summaries << echo_client.get_data_quality_summary_definition(token_with_client_id, guid)
     end
+
+    @summaries.sort_by! { |summary| summary.parsed_body['Name'].downcase }
   end
 
   # Get all of the collections for the current provider
