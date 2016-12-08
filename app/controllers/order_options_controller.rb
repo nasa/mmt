@@ -84,6 +84,9 @@ class OrderOptionsController < ApplicationController
     @order_option = params[:order_option]
     @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
 
+    # Scope will always be PROVIDER
+    @order_option['scope'] = 'PROVIDER'
+
     soap_xml_response = echo_client.deprecate_order_options(echo_provider_token,[params['id']])
     soap_response = Hash.from_xml(soap_xml_response.body)
 

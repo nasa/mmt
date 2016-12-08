@@ -57,14 +57,14 @@ describe 'Creating Order Options' do
       expect(page).to have_field('Name', type: 'text')
       expect(page).to have_field('Sort Key', type: 'text')
       expect(page).to have_field('Description', type: 'textarea')
-      expect(page).to have_field('ECHO Form XML', type: 'textarea')
+      expect(page).to have_field('Form XML', type: 'textarea')
     end
 
     context 'when creating an order option with complete information' do
       before do
         fill_in 'Name', with: option_name
         fill_in 'Description', with: option_description
-        fill_in 'ECHO Form XML', with: echo_form
+        fill_in 'Form XML', with: echo_form
 
         VCR.use_cassette('echo_rest/order_options/create', record: :none) do
           click_on 'Save'
@@ -107,7 +107,7 @@ describe 'Creating Order Options' do
         before do
           fill_in 'Name', with: option_name
           fill_in 'Description', with: option_description
-          fill_in 'ECHO Form XML', with: bad_form
+          fill_in 'Form XML', with: bad_form
 
           VCR.use_cassette('echo_rest/order_options/create_with_error', record: :none) do
             click_on 'Save'
