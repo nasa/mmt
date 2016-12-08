@@ -1,5 +1,7 @@
-<%= check_box_tag :system_acls_select_all, true, false, class: 'permissions-management-checkall'  %>
-<%= label_tag :system_acls_select_all, 'Check/Uncheck all permissions' %>
+<div class="checkbox-group">
+  <%= check_box_tag :system_acls_select_all, true, false, class: 'permissions-management-checkall'  %>
+  <%= label_tag :system_acls_select_all, 'Check/Uncheck all permissions' %>
+</div>
 
 <table class='system-permissions-table permissions-management-table'>
   <thead>
@@ -45,6 +47,6 @@
 </table>
 
 <div class="row space-top">
-  <%= submit_tag('Submit', class: 'eui-btn--blue space-right') %>
+  <%= submit_tag('Submit', class: 'eui-btn--blue') %>
   <%= link_to 'Cancel', :back, class: 'eui-btn' %>
 </div>
