@@ -74,11 +74,4 @@ class SystemIdentityPermissionsController < ManagePermissionsController
 
     redirect_to system_identity_permissions_path
   end
-
-  private
-
-  def redirect_unless_system_acl_admin
-    check_if_system_acl_administrator
-    redirect_to manage_cmr_path unless @user_is_system_acl_admin
-  end
 end
