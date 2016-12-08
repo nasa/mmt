@@ -76,6 +76,10 @@ describe 'Viewing Order Policies', js: true do
               find('option[value="C1200189943-MMT_2"]').select_option
             end
 
+            within '.button-container' do
+              find('.add_button').click
+            end
+
             fill_in 'End Point', with: '/path_to.html'
 
             fill_in 'properties', with: '<test>user provided xml</test>'
