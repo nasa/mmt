@@ -143,9 +143,9 @@ $(document).ready ->
         'data_quality_summary_assignment[]':
           required: 'You must select at least 1 assignment.'
 
-    # jQuery Validate has a 'feature' that means this only gets called on blur, we want on change
-    $('.data-quality-summary-form select').on 'change', ->
-      $(this).valid()
+  # jQuery Validate has a 'feature' that means this only gets called on blur, we want on change
+  $('.data-quality-summary-form select').on 'change', ->
+    $(this).valid()
 
   $('#assignment-collections').tablesorter
     # Prevent sorting on the checkboxes
