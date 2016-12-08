@@ -27,7 +27,8 @@ class OrderOptionAssignmentsController < ApplicationController
       response = cmr_client.get_order_option_assignments(id, echo_provider_token)
 
       if response.success?
-        collection['option-assignments'] = response.body
+        # Add an element to the collection
+        collection['option-assignments'] = get_order_option_names(response.body)
       else
         Rails.logger.error("Order Option Assignment Retrieval Error: #{response.body}")
         flash.now[:error] = response.body.inspect
@@ -71,15 +72,57 @@ class OrderOptionAssignmentsController < ApplicationController
     entry_titles = params['order-option-checkbox']
     @collections = get_collections_by_entry_titles(entry_titles)
     @order_option_select_values = get_order_options
+
+    @collections.each do |collection|
+      id = collection['meta']['concept-id']
+      response = cmr_client.get_order_option_assignments(id, echo_provider_token)
+
+      if response.success?
+        # Add an element to the collection
+        collection['option-assignments'] = get_order_option_names(response.body)
+      else
+        Rails.logger.error("Order Option Assignment Retrieval Error: #{response.body}")
+        flash.now[:error] = response.body.inspect
+      end
+    end
   end
 
   private
 
+  def get_order_option_names(option_defs)
+
+    if(option_defs.length < 1)
+      return []
+    end
+
+    names = []
+    guids = []
+
+    option_defs.each do |option_def|
+      guids <<  option_def['catalog_item_option_assignment']['option_definition_id']
+    end
+
+    order_option_response = echo_client.get_order_options(echo_provider_token, guids)
+
+    if order_option_response.success?
+      # Retreive the order options
+      order_option_list = order_option_response.parsed_body.fetch('Item', {})
+    end
+
+    order_option_list.each do |order_option|
+      if order_option.class.to_s == "Hash"
+        names << order_option['Name']
+      end
+    end
+    names
+  end
+
+
   def get_order_options
     order_option_response = echo_client.get_order_options(echo_provider_token)
     if order_option_response.success?
-      # Retreive the order options and sort by name, ignoring case
-      order_option_list = order_option_response.parsed_body.fetch('Item', {}).sort_by { |option| option['Name'].downcase }
+      # Retreive the order options
+      order_option_list = order_option_response.parsed_body.fetch('Item', {})
     end
     order_option_select_values = []
 

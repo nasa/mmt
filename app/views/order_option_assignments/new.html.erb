@@ -4,7 +4,7 @@
       <div class="eui-breadcrumbs">
         <ol class="eui-breadcrumbs__list">
           <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item">Order Option Assignments</li>
+          <li class="eui-breadcrumbs__item"><%= link_to 'Order Option Assignments', order_option_assignments_path %></li>
         </ol>
       </div>
     </div>
@@ -16,7 +16,7 @@
     <section>
       <h2>New Option Assignment</h2>
 
-      <%= form_tag(order_option_assignments_path, method: :post, class: 'order-option-assignments-form') %>
+      <%= form_tag(order_option_assignments_path, method: :post, id: 'new-order-option-assignment-form') %>
 
 
       Select one or more collections.
@@ -54,7 +54,15 @@
                 <%=collection['umm']['version-id']%>
               </td>
               <td>
-                <%=collection['option-assignments']%>
+                <%if collection['option-assignments'].length > 0 %>
+                  <ul>
+                    <% collection['option-assignments'].each do |name| %>
+                      <li>
+                        <%=name %>
+                      </li>
+                    <%end%>
+                  </ul>
+                <%end%>
               </td>
             </tr>
         <%end %>

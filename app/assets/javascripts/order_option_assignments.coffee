@@ -1,4 +1,6 @@
 $(document).ready ->
+
+  # Index page
   if $(".order-option-assignments-form").length > 0
 
     collectionsChooser = new Chooser({
@@ -41,17 +43,40 @@ $(document).ready ->
     })
 
     collectionsChooser.init()
-
     $('#chooser-loading-msg').hide()
 
-  if $("#create-order-option-assignment-form").length > 0
 
+  # Show page
+  if $("#show-order-option-assignments-form").length > 0
+
+    # check/uncheck all
     $("#order-option-all-checkbox_").on 'change', ->
-        $("[name='order-option-checkbox[]']").prop 'checked', $(this).prop 'checked'
+
+      top_checkbox = @
+
+      $("#collections-table tbody tr").not(".hidden-row").each ->
+        $(this).find("[name='order-option-checkbox[]']").prop 'checked', $(top_checkbox).prop 'checked'
 
     $("[name='order-option-checkbox[]']").on 'change', ->
       if ! $(this).prop 'checked'
         $("#order-option-all-checkbox_").prop 'checked', false
+
+
+    # show collections without options
+    $("#show-no-assigned-options").on 'change', ->
+      if $(this).prop('checked')
+        $('tr.hidden-row').removeClass('hidden-row').addClass('shown-row')
+      else
+        $('tr.shown-row').removeClass('shown-row').addClass('hidden-row')
+        # uncheck the collection if it's hidden
+        $("#collections-table tbody tr.hidden-row").find("[name='order-option-checkbox[]']").prop 'checked', false
+
+
+
+  # New assignment page
+  if $("#new-order-option-assignment-form").length > 0
+    $("#order-option-all-checkbox_").on 'change', ->
+      $("[name='collection-checkbox[]']").prop 'checked', $(this).prop 'checked'
 
 
 
