@@ -20,8 +20,7 @@ class SystemIdentityPermissionsController < ManagePermissionsController
       page_num: page
     }
 
-    # groups_response = cmr_client.get_cmr_groups(filters, token)
-    groups_response = cmr_client.get_cmr_groups(filters, 'access_token_admin')
+    groups_response = cmr_client.get_cmr_groups(filters, token)
 
     if groups_response.success?
       group_list = groups_response.body.fetch('items', [])
