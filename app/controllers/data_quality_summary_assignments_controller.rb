@@ -51,6 +51,8 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
 
         Array.wrap(assignment.parsed_body.fetch('Item', []))
       rescue
+        Rails.logger.error "Error retrieving data quality summary assignment for collection with guid '#{collection_guid}'"
+        
         # In the event of an error set assignments to an empty array
         []
       end
