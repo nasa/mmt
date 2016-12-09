@@ -96,8 +96,7 @@ class OrderOptionsController < ApplicationController
       error_code = soap_response.fetch('Envelope',{}).fetch('Body',{}).fetch('Fault',{}).fetch('detail',{}).fetch('InvalidStateFault',{}).fetch('ErrorCode',nil)
       if(error_code != 'OptionDefAlreadyDeprecated')
         flash[:error] = soap_response['Envelope']['Body']['Fault']['faultstring']
-        redirect_to edit_order_option_path
-        return
+        render :edit and return
       end
     end
 
@@ -115,7 +114,10 @@ class OrderOptionsController < ApplicationController
       Rails.logger.error("Update Order Option Error: #{response.inspect}")
       parsed_errors = Hash.from_xml(response.body)
       flash[:error] = parsed_errors['errors']['error'].inspect
-      redirect_to edit_order_option_path
+
+      @order_option_id = params[:id]
+
+      render :edit and return
     end
   end
 
