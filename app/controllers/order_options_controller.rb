@@ -83,6 +83,7 @@ class OrderOptionsController < ApplicationController
   def update
     @order_option = params[:order_option]
     @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
+    @order_option_id = params[:id]
 
     # Scope will always be PROVIDER
     @order_option['scope'] = 'PROVIDER'
@@ -100,7 +101,6 @@ class OrderOptionsController < ApplicationController
       end
     end
 
-
     # "Updating" an order option is simply recreating it once it has been deprecated via
     # ECHO SOAP API.
     response = cmr_client.create_order_option(@order_option, echo_provider_token)
@@ -114,10 +114,7 @@ class OrderOptionsController < ApplicationController
       Rails.logger.error("Update Order Option Error: #{response.inspect}")
       parsed_errors = Hash.from_xml(response.body)
       flash[:error] = parsed_errors['errors']['error'].inspect
-
-      @order_option_id = params[:id]
-
-      render :edit and return
+      render :edit
     end
   end
 
