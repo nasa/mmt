@@ -29,11 +29,20 @@ module Echo
       body.fetch(body.keys.first).fetch('result', {})
     end
 
-    def parsed_error
-      error = parsed_body.fetch('faultstring')
-      detail = parsed_body.fetch('detail', {}).fetch('SoapMessageValidationFault', '')
+    def error_type
+      parsed_body.fetch('detail', {}).keys.first
+    end
+    
+    def error_message
+      parsed_body.fetch('faultstring')
+    end
 
-      [error, detail].reject(&:empty?).join(': ')
+    def error_code
+      parsed_body.fetch('detail', {}).fetch(error_type, {}).fetch('ErrorCode', nil)
+    end
+
+    def error_id
+      parsed_body.fetch('detail', {}).fetch(error_type, {}).fetch('ErrorInstanceId', nil)
     end
 
     def headers

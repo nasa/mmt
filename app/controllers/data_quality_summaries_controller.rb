@@ -22,7 +22,7 @@ class DataQualitySummariesController < EchoSoapController
     response = echo_client.create_data_quality_summary_definition(token_with_client_id, @summary)
 
     if response.error?
-      flash[:error] ||= [*response.parsed_error].to_sentence
+      flash[:error] = response.error_message
 
       render :new
     else
@@ -38,7 +38,7 @@ class DataQualitySummariesController < EchoSoapController
     response = echo_client.update_data_quality_summary_definition(token_with_client_id, @summary)
 
     if response.error?
-      flash[:error] ||= [*response.parsed_error].to_sentence
+      flash[:error] = response.error_message
 
       render :edit
     else
@@ -52,7 +52,7 @@ class DataQualitySummariesController < EchoSoapController
     response = echo_client.remove_data_quality_summary_definition(token_with_client_id, params[:id])
 
     if response.error?
-      flash[:error] ||= [*response.parsed_error].to_sentence
+      flash[:error] = response.error_message
     else
       flash[:success] = 'Data Quality Summary successfully deleted'
     end

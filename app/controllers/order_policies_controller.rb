@@ -29,7 +29,7 @@ class OrderPoliciesController < EchoSoapController
     upsert_response = upsert_policy
 
     if upsert_response.error?
-      flash[:error] ||= [*upsert_response.parsed_error].to_sentence
+      flash[:error] = response.error_message
     else
       flash[:success] = 'Order Policies successfully created'
     end
@@ -42,7 +42,7 @@ class OrderPoliciesController < EchoSoapController
     upsert_response = upsert_policy
 
     if upsert_response.error?
-      flash[:error] ||= [*upsert_response.parsed_error].to_sentence
+      flash[:error] = response.error_message
     else
       flash[:success] = 'Order Policies successfully updated'
     end
@@ -54,7 +54,7 @@ class OrderPoliciesController < EchoSoapController
     response = echo_client.remove_provider_policies(token_with_client_id, current_provider_guid)
 
     if response.error?
-      flash[:error] = [*response.parsed_error].to_sentence if response.error?
+      flash[:error] = response.error_message
     else
       flash[:success] = 'Order Policies successfully removed'
     end

@@ -1,5 +1,4 @@
 class OrderOptionsController < ApplicationController
-
   RESULTS_PER_PAGE = 25
 
   def index
@@ -88,21 +87,18 @@ class OrderOptionsController < ApplicationController
     # Scope will always be PROVIDER
     @order_option['scope'] = 'PROVIDER'
 
-    soap_xml_response = echo_client.deprecate_order_options(echo_provider_token,[params['id']])
-    soap_response = Hash.from_xml(soap_xml_response.body)
+    soap_xml_response = echo_client.deprecate_order_options(echo_provider_token, Array.wrap(@order_option_id))
 
     # We have to deprecate the order before allowing to update. We will ignore the error it was already deprecated in case
     # the user tries to rename it something that already exists.
-    if(! soap_xml_response.success?)
-      error_code = soap_response.fetch('Envelope',{}).fetch('Body',{}).fetch('Fault',{}).fetch('detail',{}).fetch('InvalidStateFault',{}).fetch('ErrorCode',nil)
-      if(error_code != 'OptionDefAlreadyDeprecated')
-        flash[:error] = soap_response['Envelope']['Body']['Fault']['faultstring']
+    unless soap_xml_response.success?
+      if soap_xml_response.error_code != 'OptionDefAlreadyDeprecated'
+        flash[:error] = soap_xml_response.error_message
         render :edit and return
       end
     end
 
-    # "Updating" an order option is simply recreating it once it has been deprecated via
-    # ECHO SOAP API.
+    # "Updating" an order option is simply recreating it once it has been deprecated via ECHO SOAP API.
     response = cmr_client.create_order_option(@order_option, echo_provider_token)
 
     if response.success?
@@ -117,5 +113,4 @@ class OrderOptionsController < ApplicationController
       render :edit
     end
   end
-
 end

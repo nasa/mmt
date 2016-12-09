@@ -33,7 +33,7 @@
             <% @summaries.each_with_index do |summary, index| %>
               <tr>
                 <% if summary.error? %>
-                  <td colspan="4"><%= summary.parsed_error %></td>
+                  <td colspan="4"><%= summary.error_message %></td>
                 <% else %>
                   <td><%= link_to summary.parsed_body.fetch('Name', ''), data_quality_summary_path(summary.parsed_body.fetch('Guid')) %></td>
                   <td><%= strip_tags(summary.parsed_body.fetch('Summary', '')) %></td>

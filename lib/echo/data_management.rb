@@ -183,6 +183,5 @@ module Echo
       payload = wrap_with_envelope(builder)
       make_request(@url, payload)
     end
-
   end
 end
