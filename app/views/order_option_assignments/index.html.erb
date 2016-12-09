@@ -16,7 +16,7 @@
     <section>
       <h2>Order Option Assignments</h2>
 
-      <%= form_tag(order_option_assignment_path('show'), method: :post, id: 'order-options-assignment-form', class: 'order-option-assignments-form') %>
+      <%= form_tag(edit_order_option_assignment_path('edit'), method: :get, id: 'order-options-assignment-form', class: 'order-option-assignments-form') %>
 
       <div id="chooser-loading-msg">Collections are loading. Please wait...</div>
       <div id="chooser-widget"></div>

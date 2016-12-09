@@ -76,11 +76,25 @@ $(document).ready ->
         # uncheck the collection if it's hidden
         $("#collections-table tbody tr.hidden-row").find("[name='order-option-checkbox[]']").prop 'checked', false
 
-    $("#show-order-option-assignments-form").submit ->
-      if ! $("[name='order-option-checkbox[]']").prop 'checked'
-        # "click" the dummy link to invoke the modal (there's no other way to do this)
-        $('#dummy-modal-link').click()
-        return false
+
+    $('#show-order-option-assignments-form').validate
+      errorClass: 'eui-banner--danger'
+      errorElement: 'div'
+      onkeyup: false,
+      rules:
+        'order-option-checkbox[]':
+          required: (element) ->
+            $('input[name="order-option-checkbox[]"]:checked').length < 1
+      errorPlacement: (error, element) ->
+        if element.attr('name') == 'order-option-checkbox[]'
+          error.addClass('full-width')
+          $table = element.closest('table')
+          error.insertAfter($table)
+        else
+          error.insertAfter(element)
+      messages:
+        'order-option-checkbox[]':
+          'Please select at least one collection'
 
 
 
@@ -89,11 +103,25 @@ $(document).ready ->
     $("#order-option-all-checkbox_").on 'change', ->
       $("[name='collection-checkbox[]']").prop 'checked', $(this).prop 'checked'
 
-    $("#new-order-option-assignment-form").submit ->
-      if ! $("[name='collection-checkbox[]']").prop 'checked'
-        # "click" the dummy link to invoke the modal (there's no other way to do this)
-        $('#dummy-modal-link').click()
-        return false
+    $('#new-order-option-assignment-form').validate
+      errorClass: 'eui-banner--danger'
+      errorElement: 'div'
+      onkeyup: false,
+      rules:
+        'collection-checkbox[]':
+          required: (element) ->
+            $('input[name="collection-checkbox[]"]:checked').length < 1
+      errorPlacement: (error, element) ->
+        if element.attr('name') == 'collection-checkbox[]'
+          error.addClass('full-width')
+          $table = element.closest('table')
+          error.insertAfter($table)
+        else
+          error.insertAfter(element)
+      messages:
+        'collection-checkbox[]':
+          'Please select at least one collection'
+
 
 
 

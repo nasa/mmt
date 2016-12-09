@@ -14,69 +14,39 @@
 
   <div class="row row-content">
     <section>
-      <h2>Order Option Assignments</h2>
-
-      <%= form_tag(new_order_option_assignment_path, method: :post, id: 'show-order-option-assignments-form') %>
-
-      <%= check_box_tag 'show-no-assigned-options', id: 'show-no-assigned-options'%>
-      <%= label_tag 'show-no-assigned-options', 'Include selected collections with no assigned options?' %>
-      <table id="collections-table">
-        <thead>
-          <tr>
-            <th>
-              <%= check_box_tag 'order-option-all-checkbox[]' %>
-            </th>
-            <th>
-              Collection
-            </th>
-            <th>
-              Short Name
-            </th>
-            <th>
-              Version ID
-            </th>
-            <th>
-              Option Definition Name(s)
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <%@collections_to_list.each do |collection| %>
-              <% disp_class = collection['option-name'].blank? ? 'class=hidden-row' : '' %>
-              <tr <%=disp_class%>>
-                <td>
-                  <%= check_box_tag 'order-option-checkbox[]', collection['umm']['entry-title'] %>
-                </td>
-                <td>
-                  <%=collection['umm']['entry-title']%>
-                </td>
-                <td>
-                  <%=collection['umm']['short-name']%>
-                </td>
-                <td>
-                  <%=collection['umm']['version-id']%>
-                </td>
-                <td>
-                  <%=collection['option-name']%>
-                </td>
-              </tr>
-          <%end %>
-        </tbody>
-      </table>
+      <h2>Option Assignment</h2>
 
 
-      <%= link_to '',"#collection-choice-modal", id: 'dummy-modal-link', class: 'display-modal', style: 'display: none;' %>
-      <div id='collection-choice-modal' class="eui-modal-content">
-        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-        <p>Please select at least one collection.</p>
+      <div class="row">
+        <div class="col-2">
+          <label>Collection:</label>
+        </div>
+        <div class="col-8">
+          <%=params[:entry_title] %>
+        </div>
       </div>
 
+      <div class="row">
+        <div class="col-2">
+          <label>Option Definition:</label>
+        </div>
+        <div class="col-8">
+          <%=params[:option_def_name] %>
+        </div>
+      </div>
 
-      <%= submit_tag 'Add New Option Assignment', id: 'add-submit-button', class: 'eui-btn--green' %>
-      <%= link_to 'Cancel', order_option_assignments_path %>
+      <div class="row">
+        <div class="col-2">
+          <label>Filter XPath:</label>
+        </div>
+        <div class="col-8">
+          <%=params[:filter_xpath] %>
+        </div>
+      </div>
 
-
+      <div class="row space-top">
+        <%= link_to 'Cancel',  "javascript:history.back()" %>
+      </div>
 
     </section>
   </div>

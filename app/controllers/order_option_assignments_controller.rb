@@ -12,7 +12,7 @@ class OrderOptionAssignmentsController < ApplicationController
 
   end
 
-  def show
+  def edit
 
     entry_titles = []
 
@@ -26,29 +26,45 @@ class OrderOptionAssignmentsController < ApplicationController
 
     collections.each do |collection|
       id = collection['meta']['concept-id']
-      response = cmr_client.get_order_option_assignments(id, echo_provider_token)
+      assignments_response = cmr_client.get_order_option_assignments(id, echo_provider_token)
 
-      if response.success?
-        # Add an element to the collection
-        #collection['option-assignments'] = get_order_option_names(response.body)
-        option_names = get_order_option_names(response.body)
+      if assignments_response.success?
+        option_defs = get_order_option_defs(assignments_response.body)
 
-        if option_names.length > 0
-          option_names.each do |option_name|
-            collection_copy = collection.clone
-            collection_copy['option-name'] = option_name
-            @collections_to_list << collection_copy
+      if option_defs.length > 0
+        option_defs.each do |option_def|
+          collection_copy = collection.clone
+          collection_copy['option-def'] = option_def
+
+          # Sometimes this is returned as an Array
+          if option_def.class.to_s == "Array"
+            guid = option_def[1]
+          elsif option_def.class.to_s == "Hash"
+            guid = option_def.fetch('Guid','')
           end
-        else
-          @collections_to_list << collection
-        end
 
+          assignment = find_assignment(guid, assignments_response.body)[0]
+
+          if ! assignment.nil?
+            collection_copy['option-assignment-guid'] = assignment['catalog_item_option_assignment']['catalog_item_id']
+            # TODO: The ECHO client is not returning the filter XPath.
+            collection_copy['option-assignment-filter-xpath'] = assignment['catalog_item_option_assignment'].fetch('filter_xpath','')
+          end
+
+          @collections_to_list << collection_copy
+        end
+      else
+        @collections_to_list << collection
+      end
 
       else
-        Rails.logger.error("Order Option Assignment Retrieval Error: #{response.body}")
-        flash.now[:error] = response.body.inspect
+        Rails.logger.error("Order Option Assignment Retrieval Error: #{assignments_response.body}")
+        flash.now[:error] = assignments_response.body.inspect
       end
     end
+  end
+
+  def show
 
   end
 
@@ -102,7 +118,7 @@ class OrderOptionAssignmentsController < ApplicationController
 
       if response.success?
         # Add an element to the collection
-        collection['option-assignments'] = get_order_option_names(response.body)
+        collection['option-assignments'] = get_order_option_defs(response.body)
       else
         Rails.logger.error("Order Option Assignment Retrieval Error: #{response.body}")
         flash.now[:error] = response.body.inspect
@@ -112,17 +128,24 @@ class OrderOptionAssignmentsController < ApplicationController
 
   private
 
-  def get_order_option_names(option_defs)
+  def find_assignment(guid, body)
+    body.each do |item|
+      if item['catalog_item_option_assignment']['option_definition_id'] == guid
+        return item
+      end
+    end
+  end
 
-    if(option_defs.length < 1)
+  def get_order_option_defs(option_infos)
+
+    guids = []
+
+    if(option_infos.length < 1)
       return []
     end
 
-    names = []
-    guids = []
-
-    option_defs.each do |option_def|
-      guids <<  option_def['catalog_item_option_assignment']['option_definition_id']
+    option_infos.each do |option_info|
+      guids <<  option_info['catalog_item_option_assignment']['option_definition_id']
     end
 
     order_option_response = echo_client.get_order_options(echo_provider_token, guids)
@@ -131,13 +154,7 @@ class OrderOptionAssignmentsController < ApplicationController
       # Retreive the order options
       order_option_list = order_option_response.parsed_body.fetch('Item', {})
     end
-
-    order_option_list.each do |order_option|
-      if order_option.class.to_s == "Hash"
-        names << order_option['Name']
-      end
-    end
-    names
+    order_option_list
   end
 
 
@@ -167,5 +184,4 @@ class OrderOptionAssignmentsController < ApplicationController
     errors = collections_response.fetch('errors', [])
     collections = collections_response.fetch('items', [])
   end
-  
 end
