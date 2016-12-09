@@ -21,37 +21,41 @@
 
       Select one or more collections.
 
-      <table>
-        <tr>
-          <th>
-            <%= check_box_tag 'order-option-all-checkbox[]' %>
-          </th>
-          <th>
-            Collection
-          </th>
-          <th>
-            Short Name
-          </th>
-          <th>
-            Version ID
-          </th>
-        </tr>
-        <%@collections.each do |collection| %>
-            <tr>
-              <td>
-                <%= check_box_tag 'collection-checkbox[]', collection['umm']['entry-title'] %>
-              </td>
-              <td>
-                <%=collection['umm']['entry-title']%>
-              </td>
-              <td>
-                <%=collection['umm']['short-name']%>
-              </td>
-              <td>
-                <%=collection['umm']['version-id']%>
-              </td>
-            </tr>
-        <%end %>
+      <table id="collections-table">
+        <thead>
+          <tr>
+            <th>
+              <%= check_box_tag 'order-option-all-checkbox[]' %>
+            </th>
+            <th>
+              Collection
+            </th>
+            <th>
+              Short Name
+            </th>
+            <th>
+              Version ID
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <%@collections.each do |collection| %>
+              <tr>
+                <td>
+                  <%= check_box_tag 'collection-checkbox[]', collection['umm']['entry-title'] %>
+                </td>
+                <td>
+                  <%=collection['umm']['entry-title']%>
+                </td>
+                <td>
+                  <%=collection['umm']['short-name']%>
+                </td>
+                <td>
+                  <%=collection['umm']['version-id']%>
+                </td>
+              </tr>
+          <%end %>
+        </tbody>
       </table>
 
       <div class="row space-top"></div>

@@ -1,0 +1,58 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments
+    body:
+      encoding: UTF-8
+      string: '{"catalog_item_option_assignment":{"catalog_item_id":"C1200056652-MMT_2","option_definition_id":"C6F64596-7096-A932-7535-BDEF88B276C3","filter_xpath":"foo"}}'
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Echo-Token:
+      - access_token
+  response:
+    status:
+      code: 201
+      message: 
+    headers:
+      location:
+      - https://testbed.echo.nasa.gov/legacy-services/rest/catalog_item_option_assignments/8DD0701D-5B8E-9CA3-B49C-E9242883A3C3
+      content-type:
+      - application/xml; charset=utf-8
+      cache-control:
+      - no-cache
+      x-ua-compatible:
+      - IE=Edge,chrome=1
+      set-cookie:
+      - _EchoRestRails_session=BAh7BiIPc2Vzc2lvbl9pZCIlMjdjMzJkYWUwNGM1YmZmZTk1ZTRhNTRiY2RmMGRmNWI%3D--af73498a43306bce6c7aefb4737ededdc9a76c28;
+        path=/; HttpOnly
+      x-runtime:
+      - '0.281000'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+      transfer-encoding:
+      - chunked
+      date:
+      - Fri, 09 Dec 2016 19:19:35 GMT
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <catalog_item_option_assignment>
+          <id>8DD0701D-5B8E-9CA3-B49C-E9242883A3C3</id>
+          <catalog_item_id>C1200056652-MMT_2</catalog_item_id>
+          <option_definition_id>C6F64596-7096-A932-7535-BDEF88B276C3</option_definition_id>
+          <filter_xpath>foo</filter_xpath>
+        </catalog_item_option_assignment>
+    http_version: 
+  recorded_at: Fri, 09 Dec 2016 19:19:36 GMT
+recorded_with: VCR 3.0.1

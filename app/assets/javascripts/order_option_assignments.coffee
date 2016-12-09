@@ -46,6 +46,18 @@ $(document).ready ->
     $('#chooser-loading-msg').hide()
 
 
+    $('.order-option-assignments-form').validate
+      errorClass: 'eui-banner--danger'
+      errorElement: 'div'
+      onkeyup: false,
+      rules:
+        'collectionsChooser_toList[]':
+          required: true
+      messages:
+        'collectionsChooser_toList[]':
+          'Please select at least one collection'
+
+
   # Show page -----------------------------------------------------------
   if $("#show-order-option-assignments-form").length > 0
 
