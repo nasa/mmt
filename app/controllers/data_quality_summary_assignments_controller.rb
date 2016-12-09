@@ -44,14 +44,18 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
       collection_guid = collection.fetch('meta', {}).fetch('concept-id', nil)
       next if collection_guid.nil?
 
-      # Nothing, or an error returned from the ECHO API would prevent relavant data from being available
-      assignment = echo_client.get_data_quality_summary_assignments(token_with_client_id, collection_guid)
-      next if assignment.error? || assignment.parsed_body.nil?
-
       # Pull out the guid of the data quality summary definition
-      assignments = assignment.parsed_body.fetch('Item', {})
-      assignments = [assignments] unless assignments.is_a?(Array)
-      next if assignments.empty?
+      assignments = begin
+        # Nothing, or an error returned from the ECHO API would prevent relavant data from being available
+        assignment = echo_client.get_data_quality_summary_assignments(token_with_client_id, collection_guid)
+
+        Array.wrap(assignment.parsed_body.fetch('Item', []))
+      rescue
+        Rails.logger.error "Error retrieving data quality summary assignment for collection with guid '#{collection_guid}'"
+        
+        # In the event of an error set assignments to an empty array
+        []
+      end
 
       # Initialize the array to store the data quality summaries
       collection['data_quality_summaries'] = []

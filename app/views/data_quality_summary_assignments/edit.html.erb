@@ -24,6 +24,10 @@
         <fieldset>
           <label for="data_quality_summary_assignment[]" class="eui-required-o">Data Quality Summary Assignments</label>
 
+          <label for="show_unassigned_collections" class="space-bot space-top show-unassigned-collections">
+            <%= check_box_tag('show_unassigned_collections', nil, false, class: 'toggle-unassigned-collections') %> Include selected collections with no assigned summaries?
+          </label>
+
           <table id="assignment-collections" class="tablesorter">
             <thead>
               <tr>
@@ -35,24 +39,32 @@
               </tr>
             </thead>
             <tbody>
-              <% if @assignments.empty? %>
-                <tr>
+              <% @assignments.each do |collection| %>
+                <% if collection.fetch('data_quality_summaries', []).empty? %>
+                <tr class="unassigned-collection">
+                  <td></td>
+                  <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta').fetch('concept-id')), target: '_blank' %></td>
+                  <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
+                  <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
+                  <td></td>
+                </tr>
+                <% end %>
+                <% collection.fetch('data_quality_summaries', []).each do |assignment| %>
+                  <tr>
+                    <td class="align-c">
+                      <%= check_box_tag('data_quality_summary_assignment[]', assignment.fetch('AssignmentGuid'), false, id: "data_quality_summary_assignment_#{assignment.fetch('AssignmentGuid')}") %>
+                    </td>
+                    <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta').fetch('concept-id')), target: '_blank' %></td>
+                    <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
+                    <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
+                    <td><%= link_to assignment.fetch('Name'), data_quality_summary_path(assignment.fetch('Guid')) %></td>
+                  </tr>
+                <% end %>
+              <% end %>
+              <% if @assignments.sum { |c| c.fetch('data_quality_summaries', []).size } == 0 %>
+                <tr class="no-assignments-message">
                   <td colspan="5">No assignments found for the selected collections.</td>
                 </tr>
-              <% else %>
-                <% @assignments.each do |collection| %>
-                  <% collection.fetch('data_quality_summaries', []).each do |assignment| %>
-                    <tr>
-                      <td class="align-c">
-                        <%= check_box_tag('data_quality_summary_assignment[]', assignment.fetch('AssignmentGuid'), false, id: "data_quality_summary_assignment_#{assignment.fetch('AssignmentGuid')}") %>
-                      </td>
-                      <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta').fetch('concept-id')), target: '_blank' %></td>
-                      <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
-                      <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
-                      <td><%= link_to assignment.fetch('Name'), data_quality_summary_path(assignment.fetch('Guid')) %></td>
-                    </tr>
-                  <% end %>
-                <% end %>
               <% end %>
             </tbody>
             <tfoot>
@@ -64,7 +76,7 @@
         </fieldset>
 
         <% unless @assignments.empty? %>
-          <fieldset class="align-r">
+          <fieldset>
             <%= submit_tag('Delete Selected Assignments', class: 'eui-btn--red') %>
           </fieldset>
         <% end %>

@@ -58,6 +58,16 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
           it 'displays no results message' do
             expect(page).to have_content('No assignments found for the selected collections.')
           end
+
+          context 'when asking to display collections with no assignments' do
+            before do
+              check 'Include selected collections with no assigned summaries?'
+            end
+
+            it 'display the requested collections' do
+              expect(page).to have_selector('#assignment-collections tbody tr', count: 2)
+            end
+          end
         end
 
         context 'when collections have assignments' do
