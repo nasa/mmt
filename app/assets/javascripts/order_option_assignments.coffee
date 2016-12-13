@@ -8,9 +8,9 @@ $(document).ready ->
       nextPageParm: 'page_num',
       filterParm: 'short_name',
       target: $('#chooser-widget'),
-      fromLabel: 'Available collections',
-      toLabel: 'Selected collections',
-      uniqueMsg: 'Collection already added',
+      fromLabel: 'Available Collections',
+      toLabel: 'Selected Collections',
+      uniqueMsg: 'Collection is already selected',
       addButton: {
         cssClass: 'eui-btn nowrap',
         arrowCssClass: 'fa fa-plus',
@@ -44,7 +44,7 @@ $(document).ready ->
           required: true
       messages:
         'collectionsChooser_toList[]':
-          'Please select at least one collection'
+          'You must select at least 1 collection.'
 
     # select all of the items in the "to" list before submitting
     $('#submit-display-options').click ->
@@ -59,12 +59,14 @@ $(document).ready ->
       errorClass: 'eui-banner--danger'
       errorElement: 'div'
       onkeyup: false,
+
       rules:
         'order_option_assignment[]':
           required: true
       messages:
         'order_option_assignment[]':
-          'Please select at least one collection'
+          'You must select at least 1 assignment.'
+
       errorPlacement: (error, element) ->
         if element.attr('name') == 'order_option_assignment[]'
           error.addClass('full-width')
@@ -79,12 +81,6 @@ $(document).ready ->
       else
         $('tr.shown-row').removeClass('shown-row').addClass('hidden-row')
 
-    # invoke the confirmation dialog before deleting
-    $('#pre-delete-options-modal').click (e) ->
-      e.preventDefault()
-      if $('#edit-order-option-assignments-form').valid() == true
-        $("#delete-options-modal-invoker").click()
-
   # New assignment page -----------------------------------------------------------
   if $("#new-order-option-assignment-form").length > 0
 
@@ -94,9 +90,9 @@ $(document).ready ->
       nextPageParm: 'page_num',
       filterParm: 'short_name',
       target: $('#chooser-widget'),
-      fromLabel: 'Available collections',
-      toLabel: 'Selected collections',
-      uniqueMsg: 'Collection already added',
+      fromLabel: 'Available Collections',
+      toLabel: 'Selected Collections',
+      uniqueMsg: 'Collection is already selected',
       toMax: 100,
       addButton: {
         cssClass: 'eui-btn nowrap',
@@ -131,12 +127,31 @@ $(document).ready ->
       errorClass: 'eui-banner--danger'
       errorElement: 'div'
       onkeyup: false,
+
+      errorPlacement: (error, element) ->
+        if element.attr('name') == 'collectionsChooser_toList[]'
+          element.closest('fieldset').append(error)
+        else
+          error.insertAfter(element)
+
+      onfocusout: (error) ->
+        this.element(error)
+
+      highlight: (element, errorClass) ->
+        # Prevent highlighting the fields themselves
+        return false
+
       rules:
+        'order-options':
+          required: true
         'collectionsChooser_toList[]':
           required: true
+
       messages:
+        'order-options':
+          required: 'Order Option is required.'
         'collectionsChooser_toList[]':
-          'Please select at least one collection'
+          required: 'You must select at least 1 collection.'
 
     # select all of the items in the "to" list before submitting
     $('#submit-new-options').click ->

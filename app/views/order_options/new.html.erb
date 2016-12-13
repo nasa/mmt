@@ -1,24 +1,9 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to 'Order Options', order_options_path %></li>
-          <li class="eui-breadcrumbs__item">New Order Option</li>
-        </ol>
-      </div>
-      <h2>Create a New Order Option</h2>
-    </div>
-  </header>
-
-  <%= render 'shared/flash_messages' %>
-
-  <div class="row row-content">
-    <section>
-      <%= form_tag(order_options_path, method: :post, id: 'order-option-definition-form', class: 'order-options') do %>
-          <%= render partial: 'order_options_form', locals: { new_form: true } %>
-      <% end %>
-    </section>
-  </div>
-</main>
+<div class="row row-content">
+  <section>
+    <h2>New <%= current_user.provider_id %> Order Option</h2>
+    
+    <%= form_tag(order_options_path, method: :post, id: 'order-option-definition-form', class: 'order-options') do %>
+      <%= render partial: 'order_options_form', locals: { new_form: true } %>
+    <% end %>
+  </section>
+</div>

@@ -52,7 +52,7 @@
   <% end -%>
 </head>
 
-<body class="<%= (controller.action_name == 'manage_metadata' || controller.action_name == 'manage_cmr' ? 'dashboard' : '') %>">
+<body class="dashboard">
   <a href="#main-content" class="skip-nav">Skip to main content</a>
   
   <div class="wrapper">
@@ -60,6 +60,21 @@
 
     <div id="main-content">
       <main class="internal" role="main">
+        <header>
+          <%= render_breadcrumbs builder: ::EuiBreadcrumbsBuilder %>
+
+          <nav>
+            <div class="content">
+              <h2><%= link_to 'Manage Metadata', manage_metadata_path %></h2>
+              <h2 class="current"><%= link_to 'Manage CMR', manage_cmr_path %></h2>
+            </div>
+          </nav>
+        </header>
+
+        <%= render 'pages/notifications' %>
+
+        <%= render 'shared/flash_messages' %>
+
         <%= yield %>
       </main>
     </div>

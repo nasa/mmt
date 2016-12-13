@@ -1,52 +1,54 @@
-<div class="checkbox-group">
-  <%= check_box_tag :system_acls_select_all, true, false, class: 'permissions-management-checkall'  %>
-  <%= label_tag :system_acls_select_all, 'Check/Uncheck all permissions' %>
-</div>
+<fieldset class="checkbox-group">
+  <%= label_tag :system_acls_select_all do %>
+    <%= check_box_tag :system_acls_select_all, nil, false, class: 'permissions-management-checkall' %>
+    Check/Uncheck all permissions
+  <% end %>
+</fieldset>
 
-<table class='system-permissions-table permissions-management-table'>
-  <thead>
-    <tr>
-      <th>System Object</th>
-      <th class="align-c">Create</th>
-      <th class="align-c">Read</th>
-      <th class="align-c">Update</th>
-      <th class="align-c">Delete</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% SystemIdentityPermissionsHelper::SYSTEM_TARGETS.each do |system_target| %>
+<fieldset>
+  <table class='system-permissions-table permissions-management-table'>
+    <thead>
       <tr>
-        <td>
-          <%= system_target[0] %>
-        </td>
-
-        <% SystemIdentityPermissionsHelper::PermissionsOptions.each do |permission_option| %>
-          <% if SystemIdentityPermissionsHelper.const_get(system_target[1] + '_PERMISSIONS').include?(permission_option) %>
-            <td class="align-c">
-              <% if @group_system_permissions.fetch(system_target[1], []).include?(permission_option) %>
-                <%= check_box_tag("system_permissions[#{system_target[1]}][]", permission_option, true) %>
-              <% else %>
-                <%= check_box_tag("system_permissions[#{system_target[1]}][]", permission_option, false) %>
-              <% end %>
-            </td>
-          <% else %>
-            <td class="align-c disabled">
-              <%= check_box_tag("system_permissions[#{system_target[1]}][]", permission_option, false, disabled: true) %>
-            </td>
-          <% end %>
-        <% end %>
-
-        <% if @group_system_permissions.keys.include?(system_target[1]) %>
-          <%= hidden_field_tag("system_permissions[#{system_target[1]}][]", '') %>
-        <% end %>
+        <th>System Object</th>
+        <th class="align-c">Create</th>
+        <th class="align-c">Read</th>
+        <th class="align-c">Update</th>
+        <th class="align-c">Delete</th>
       </tr>
-    <% end %>
-  </tbody>
+    </thead>
+    <tbody>
+      <% SystemIdentityPermissionsHelper::SYSTEM_TARGETS.each do |system_target| %>
+        <tr>
+          <td>
+            <%= system_target[0] %>
+          </td>
 
-</table>
+          <% SystemIdentityPermissionsHelper::PermissionsOptions.each do |permission_option| %>
+            <% if SystemIdentityPermissionsHelper.const_get(system_target[1] + '_PERMISSIONS').include?(permission_option) %>
+              <td class="align-c">
+                <% if @group_system_permissions.fetch(system_target[1], []).include?(permission_option) %>
+                  <%= check_box_tag("system_permissions[#{system_target[1]}][]", permission_option, true) %>
+                <% else %>
+                  <%= check_box_tag("system_permissions[#{system_target[1]}][]", permission_option, false) %>
+                <% end %>
+              </td>
+            <% else %>
+              <td class="align-c disabled">
+                <%= check_box_tag("system_permissions[#{system_target[1]}][]", permission_option, false, disabled: true) %>
+              </td>
+            <% end %>
+          <% end %>
 
-<div class="row space-top">
+          <% if @group_system_permissions.keys.include?(system_target[1]) %>
+            <%= hidden_field_tag("system_permissions[#{system_target[1]}][]", '') %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</fieldset>
+
+<fieldset>
   <%= submit_tag('Submit', class: 'eui-btn--blue') %>
   <%= link_to 'Cancel', :back, class: 'eui-btn' %>
-</div>
+</fieldset>

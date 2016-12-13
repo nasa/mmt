@@ -22,7 +22,6 @@ describe 'Deleting Order Options' do
 
     context 'When clicking on a Delete link, it asks for confirmation before deleting.' do
       before do
-
         VCR.use_cassette('echo_rest/order_options/list', record: :none) do
           visit order_options_path
         end
@@ -41,13 +40,10 @@ describe 'Deleting Order Options' do
         expect(page).to have_link('No')
         expect(page).to have_link('Yes')
       end
-
     end
-
 
     context 'When clicking the No button on the confirmation dialog, it does not delete the order option.' do
       before do
-
         VCR.use_cassette('echo_rest/order_options/list', record: :none) do
           visit order_options_path
         end
@@ -68,7 +64,6 @@ describe 'Deleting Order Options' do
 
     context 'When clicking the Yes button on the confirmation dialog, it deletes the order option.' do
       before do
-
         VCR.use_cassette('echo_rest/order_options/list2', record: :none) do
           visit order_options_path
         end
@@ -90,11 +85,9 @@ describe 'Deleting Order Options' do
     end
 
     context 'When displays an error message if an order option cannot be deleted' do
-
-      let(:cell_text) {''}
+      let(:cell_text) { '' }
 
       before do
-
         VCR.use_cassette('echo_rest/order_options/list', record: :none) do
           visit order_options_path
         end
@@ -110,7 +103,6 @@ describe 'Deleting Order Options' do
         end
 
         cell_text = find('.order-options-table tbody tr:first-child td:first-child').text
-
       end
 
       it 'Displays an error message and lists the' do

@@ -17,8 +17,8 @@ describe 'Inviting users', reset_provider: true, js: true do
 
       visit new_group_path
 
-      fill_in 'Group Name', with: 'Test Group'
-      fill_in 'Group Description', with: 'Test Description'
+      fill_in 'Name', with: 'Test Group'
+      fill_in 'Description', with: 'Test Description'
     end
 
     context 'when inviting a user' do
@@ -29,7 +29,7 @@ describe 'Inviting users', reset_provider: true, js: true do
         fill_in 'invite_last_name', with: 'Last'
         fill_in 'invite_email', with: 'test@example.com'
 
-        click_on 'Invite User'
+        click_on 'invite-user-button'
 
         wait_for_ajax
 
@@ -91,7 +91,7 @@ describe 'Inviting users', reset_provider: true, js: true do
     before do
       login
 
-      visit edit_group_path(@group['concept_id'], add_members: true)
+      visit edit_group_path(@group['concept_id'])
     end
 
     context 'when inviting a user' do
@@ -102,7 +102,7 @@ describe 'Inviting users', reset_provider: true, js: true do
         fill_in 'invite_last_name', with: 'Last'
         fill_in 'invite_email', with: 'test@example.com'
 
-        click_on 'Invite User'
+        click_on 'invite-user-button'
         wait_for_ajax
 
         token

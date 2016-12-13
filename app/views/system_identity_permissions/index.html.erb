@@ -1,59 +1,45 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item current">System Object Permissions</li>
-        </ol>
-      </div>
-    </div>
-  </header>
+<div class="row row-content">
+  <section>
+    <h2>System Object Permissions</h2>
 
-  <%= render 'shared/flash_messages' %>
+    <p>Click on a System Group to access the system object permissions for that group.</p>
 
-  <div class="row row-content">
-    <section>
-      <h2>System Object Permissions</h2>
+    <% if @groups.any? %>
+      <%= page_entries_info @groups, entry_name: 'Group' %>
+    <% end %>
 
-      <p>Click on a System Group to access the system object permissions for that group.</p>
-
-      <%= page_entries_info @groups, entry_name: 'group' %>
-
-      <table class="system-group-table">
-        <thead>
+    <table class="system-group-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Members</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @groups.blank? %>
           <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Number of Members</th>
+            <td colspan="3">
+              There are no System Groups available at this time or you do not have permissions to see System Groups.
+            </td>
           </tr>
-        </thead>
-
-        <tbody>
-          <% if @groups.blank? %>
+        <% else %>
+          <% @groups.each do |group| %>
             <tr>
-              <td colspan="3">
-                There are no System Groups available at this time or you do not have permissions to see System Groups.
+              <td>
+                <%= link_to group['name'], edit_system_identity_permission_path(group['concept_id']) %>
+                <% if check_if_system_group?(group, group['concept_id']) %>
+                  <span class="eui-badge--sm">SYS</span>
+                <% end %>
               </td>
+              <td><%= group['description'] %></td>
+              <td><%= group['member_count'] %></td>
             </tr>
-          <% else %>
-            <% @groups.each do |group| %>
-              <tr>
-                <td>
-                  <%= link_to group['name'], edit_system_identity_permission_path(group['concept_id']) %>
-                  <% if check_if_system_group?(group, group['concept_id']) %>
-                    <span class="eui-badge--sm">SYS</span>
-                  <% end %>
-                </td>
-                <td><%= group['description'] %></td>
-                <td><%= group['member_count'] %></td>
-              </tr>
-            <% end %>
           <% end %>
-        </tbody>
-      </table>
+        <% end %>
+      </tbody>
+    </table>
 
-      <%= paginate @groups %>
-    </section>
-  </div>
-</main>
+    <%= paginate @groups %>
+  </section>
+</div>

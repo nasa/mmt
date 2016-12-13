@@ -1,26 +1,23 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to 'Order Option Assignments', order_option_assignments_path %></li>
-        </ol>
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Order Option Assignments</h2>
+
+    <%= link_to 'Create an Order Option Assignment', new_order_option_assignment_path, class: 'eui-btn--blue space-bot' %>
+
+    <h3>Manage Order Option Assignments</h3>
+
+    <p>To <em>view</em> or <em>remove</em> currently assigned Order Options select the collections to view below.</p>
+
+    <%= form_tag(edit_order_option_assignments_path, method: :post, id: 'order-option-assignments-form') %>
+
+    <fieldset>
+      <div class="row">
+        <div id="chooser-widget"></div>
       </div>
-    </div>
-  </header>
+    </fieldset>
 
-  <%= render 'shared/flash_messages' %>
-
-  <div class="row row-content">
-    <section>
-      <h2>Option Assignment Search</h2>
-
-      <%= form_tag(edit_order_option_assignments_path, method: :post, id: 'order-option-assignments-form') %>
-
-      <div id="chooser-widget"></div>
-
-      <%= submit_tag 'Display Assignments', class: 'eui-btn--blue', id: 'submit-display-options' %>
-    </section>
-  </div>
-</main>
+    <fieldset>
+      <%= button_tag 'Display Assignments', class: 'eui-btn', id: 'submit-display-options' %>
+    </fieldset>
+  </section>
+</div>

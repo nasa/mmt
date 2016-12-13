@@ -1,31 +1,35 @@
 $(document).ready ->
   # Validate group form
   if $('.group-form').length > 0
-    $('.required').on 'blur', () ->
-      $element = $(this)
-      if $element.val() == ''
-        id = $element.attr('id')
-        label = $("label[for='#{id}']")
-        field = label.text()
+    $('.group-form').validate
+      errorClass: 'eui-banner--danger'
+      errorElement: 'div'
+      onkeyup: false
 
-        message = '<i class="fa fa-exclamation-triangle"></i>'
-        message += "#{field} is required."
+      errorPlacement: (error, element) ->
+        if element.attr('type') == 'checkbox'
+          element.closest('div').append(error)
+        else
+          error.insertAfter(element)
+          
+      # This library handles focus oddly, this ensures that we scroll
+      # to and focus on the first element with an error in the form
+      onfocusout: false    
+      invalidHandler: (form, validator) ->
+        if validator.numberOfInvalids() > 0
+          validator.errorList[0].element.focus()
 
-        classes = 'eui-banner--danger validation-error'
-        classes += ' half-width' if $element.hasClass('half-width')
+      highlight: (element, errorClass) ->
+        # Prevent highlighting the fields themselves
+        return false
 
-        errorElement = $('<div/>',
-          id: "#{id}_error"
-          class: classes
-          html: message
-        )
-
-        # remove prior error message if it exists before adding current one
-        if $element.next().hasClass('validation-error')
-          $element.next().remove()
-
-        $(errorElement).insertAfter($element)
-      else
-        # remove error if field is no longer empty
-        $nextElement = $element.next()
-        $nextElement.remove() if $nextElement.hasClass('validation-error')
+      rules:
+        'group[name]':
+          required: true
+        'group[description]':
+          required: true
+      messages:
+        'group[name]':
+          required: 'Name is required.'
+        'group[description]':
+          required: 'Description is required.'

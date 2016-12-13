@@ -1,14 +1,19 @@
-<fieldset class="no-bg">
-  <div class="row">
-    <legend class="space-bot-sm">Add Members to Group</legend>
+<fieldset>
+  <h3>Members</h3>
+
+  <div class="row space-bot">
+    <div class="col-5">
+      <%= label_tag('filter-members', 'Filter Members') %>
+      <%= text_field_tag('filter_members', nil, id: 'filter-members', class: 'full-width', placeholder: 'Start typing members name...') %>
+    </div>
   </div>
-  <label for="filter-members">Filter Members</label>
-  <input type="text" id="filter-members" class="w30" placeholder="Enter user name"/>
+
   <div class="dual-select">
     <div class="dual-select__menu">
-      <%= label_tag('members_directory') %>
+      <%= label_tag('members_directory', 'Members Directory') %>
       <%= select_tag 'members_directory', options_for_user_select(@users_options), multiple: true %>
     </div>
+
     <div class="dual-select__actions">
       <button id="add-members" class="eui-btn">
         Add Member(s)
@@ -19,13 +24,13 @@
         Remove Member(s)
       </button>
     </div>
+
     <div class="dual-select__menu">
-      <%= label_tag('selected_members') %>
-      <%= select_tag 'selected_members', options_for_user_select(@selected_users), multiple: true %>
+      <%= label_tag('selected_members', 'Selected Members') %>
+      <%= select_tag 'group[members][]', options_for_user_select(@selected_users), id: 'selected_members', multiple: true %>
     </select>
     </div>
   </div>
 
   <%= link_to 'Member not listed?', '#invite-user-modal', class: 'display-modal display-invite-user-modal' %>
-
 </fieldset>

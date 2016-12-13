@@ -33,8 +33,8 @@ $(document).ready ->
         allowRemoveAll: true,
         errorCallback: ->
           $('<div class="eui-banner--danger">' +
-              'asdfasdf.' +
-              '</div>').prependTo '#main-content'
+            'A server error occurred. Unable to get collections.' +
+            '</div>').prependTo '#main-content'
       })
 
       collectionsChooser.init()

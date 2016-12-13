@@ -17,13 +17,11 @@
 <fieldset>
   <h3>Order Transactions</h3>
   <div class="row checkbox-group">
-    <div>
-      <label for="supported_transactions_cancel"><%= check_box_tag('supported_transactions[]', 'CANCEL', @policy.fetch('SupportedTransactions', []).include?('CANCEL'), id: 'supported_transactions_cancel') %>
-        Support Canceling Transactions
-      </label>
+    <label for="supported_transactions_cancel"><%= check_box_tag('supported_transactions[]', 'CANCEL', @policy.fetch('SupportedTransactions', []).include?('CANCEL'), id: 'supported_transactions_cancel') %>
+      Support Canceling Transactions
+    </label>
 
-      <p class="checkbox-form-description">Order submission is supported by default.</p>
-    </div>
+    <p class="checkbox-form-description">Order submission is supported by default.</p>
   </div>
 
   <div class="row">
@@ -94,7 +92,7 @@
   </div>
 </fieldset>
 
-<fieldset class="align-r">
-  <%= link_to 'Cancel', :back, class: 'eui-btn' %>
+<fieldset>
   <%= submit_tag('Submit', class: 'eui-btn--blue') %>
+  <%= link_to 'Cancel', :back, class: 'eui-btn' %>
 </fieldset>

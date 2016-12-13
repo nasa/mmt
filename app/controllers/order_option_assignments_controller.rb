@@ -1,7 +1,13 @@
-class OrderOptionAssignmentsController < ApplicationController
+class OrderOptionAssignmentsController < ManageCmrController
+  add_breadcrumb 'Order Option Assignments', :order_option_assignments_path
 
   def index
-    # stub
+  end
+
+  def new
+    add_breadcrumb 'New', new_order_option_assignment_path
+
+    @order_option_select_values = get_order_options
   end
 
   def edit
@@ -53,7 +59,6 @@ class OrderOptionAssignmentsController < ApplicationController
   end
 
   def show
-    # stub
   end
 
 
@@ -77,41 +82,28 @@ class OrderOptionAssignmentsController < ApplicationController
     flash_messages[:error] = "#{error_count} #{'Order Option assignment'.pluralize(error_count)} failed to save." if error_count > 0
 
     redirect_to order_option_assignments_path, flash: flash_messages
-
   end
-
-  def new
-    @order_option_select_values = get_order_options
-  end
-
 
   def destroy
-
     success_count = 0
     error_count = 0
 
-    assignment_guids = params.fetch(:order_option_assignment,[])
-
-    flash_messages = {}
-
-    if assignment_guids.length < 1
-      flash_messages[:error] = 'None of selected collections had any order option assignments.'
-    end
-
-    assignment_guids.each do |assignment_guid|
+    params.fetch(:order_option_assignment, []).each do |assignment_guid|
       response = cmr_client.delete_order_option_assignments(assignment_guid, echo_provider_token)
+
       success_count += 1 unless response.error?
       error_count += 1 if response.error?
     end
 
+    flash_messages = {}
     flash_messages[:success] = "Deleted #{success_count} #{'order option assignment'.pluralize(success_count)} successfully." if success_count > 0
     flash_messages[:error] = "Failed to delete #{error_count} #{'order option assignment'.pluralize(error_count)}." if error_count > 0
+    flash_messages[:notice] = 'No order option assignments provided to delete.' if error_count.zero? && success_count.zero?
 
     redirect_to order_option_assignments_path, flash: flash_messages
   end
 
   private
-
 
   def find_assignment(guid, body)
     body.each do |item|
@@ -122,8 +114,7 @@ class OrderOptionAssignmentsController < ApplicationController
   end
 
   def get_order_option_defs(option_infos)
-
-    return [] if(option_infos.length < 1)
+    return [] if option_infos.empty?
 
     guids = []
 
@@ -133,32 +124,31 @@ class OrderOptionAssignmentsController < ApplicationController
 
     order_option_response = echo_client.get_order_options(echo_provider_token, guids)
 
-    if order_option_response.success?
-      # Retreive the order options
-      order_option_list = order_option_response.parsed_body.fetch('Item', {})
-    else
-      Rails.logger.error(order_option_response.body)
-      flash[:error] = order_option_response.body.inspect
-    end
+    order_option_list = if order_option_response.success?
+                          # Retreive the order options
+                          order_option_response.parsed_body.fetch('Item', {})
+                        else
+                          Rails.logger.error(order_option_response.body)
+                          []
+                        end
 
     order_option_list
   end
 
-
   def get_order_options
     order_option_response = echo_client.get_order_options(echo_provider_token)
-    if order_option_response.success?
-      # Retreive the order options
-      order_option_list = order_option_response.parsed_body.fetch('Item', {})
-    else
-      Rails.logger.error(order_option_response.body)
-      flash[:error] = order_option_response.body.inspect
-    end
+    order_option_list = if order_option_response.success?
+                          # Retreive the order options
+                          order_option_response.parsed_body.fetch('Item', {})
+                        else
+                          Rails.logger.error(order_option_response.body)
+                          []
+                        end
 
     order_option_select_values = []
 
     order_option_list.each do |order_option|
-      opt = [ order_option['Name'], order_option['Guid']]
+      opt = [order_option['Name'], order_option['Guid']]
       order_option_select_values << opt
     end
 
@@ -170,8 +160,6 @@ class OrderOptionAssignmentsController < ApplicationController
     query = { 'page_size' => 2000, 'concept_id' => concept_ids }
     collections_response = cmr_client.get_collections(query, token).body
 
-    hits = collections_response['hits'].to_i
-    errors = collections_response.fetch('errors', [])
     collections = collections_response.fetch('items', [])
 
     matched_collections = []
@@ -184,8 +172,4 @@ class OrderOptionAssignmentsController < ApplicationController
     end
     matched_collections
   end
-
-
-
-
 end

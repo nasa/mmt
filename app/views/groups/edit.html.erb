@@ -1,39 +1,12 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item">
-            <%= link_to 'Manage CMR', manage_cmr_path %>
-          </li>
-          <li class="eui-breadcrumbs__item">
-            <%= link_to 'Groups', groups_path %>
-          </li>
-          <li class="eui-breadcrumbs__item">
-            <%= link_to @group['name'], group_path %>
-          </li>
-        </ol>
-      </div>
-      <div class="group-header">
-        <h2>Edit <%= @group['name'] %></h2>
-        <% if @is_system_group %>
-          <span class="eui-badge--sm">SYS</span>
-        <% end %>
-      </div>
-      <p class="subnav">
-        <%= link_to 'Permissions', permissions_path %>
-      </p>
-      <p class="subnav current">
-        <%= link_to 'Groups', groups_path %>
-      </p>
-    </div>
-  </header>
+<div class="row row-content">
+  <section>
+    <h2>
+      Edit <%= @group.fetch('name') %>
+      <% if check_if_system_group?(@group, @concept_id) %>
+      <small><span class="eui-badge--sm">SYS</span></small>
+      <% end %>
+    </h2>
 
-  <%= render 'shared/flash_messages' %>
-
-  <div class="row row-content">
-    <section>
-      <%= render 'form' %>
-    </section>
-  </div>
-</main>
+    <%= render 'form' %>
+  </section>
+</div>

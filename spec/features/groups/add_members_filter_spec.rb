@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe 'Add members filtering', js: true do
-  context 'when viewing the add members form' do
+describe 'Groups Member Filtering', js: true do
+  context 'when viewing the group form' do
     before do
       login
       visit new_group_path

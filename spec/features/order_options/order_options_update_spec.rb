@@ -97,7 +97,9 @@ describe 'Updating Order Options' do
         fill_in 'Sort Key', with: 'AAA'
 
         VCR.use_cassette('echo_rest/order_options/1001-update-page-error', record: :none) do
-          click_on 'Save'
+          within '.order-options' do
+            click_on 'Submit'
+          end
         end
       end
 
@@ -114,7 +116,9 @@ describe 'Updating Order Options' do
         fill_in 'Form XML', with: echo_form_update
 
         VCR.use_cassette('echo_rest/order_options/1001-update-page-update-ok', record: :none) do
-          click_on 'Save'
+          within '.order-options' do
+            click_on 'Submit'
+          end
         end
       end
 

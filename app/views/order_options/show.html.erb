@@ -1,45 +1,25 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to 'Order Options', order_options_path %></li>
-          <li class="eui-breadcrumbs__item"><%= @order_option['name'] %></li>
-        </ol>
-      </div>
+<div class="row row-content">
+  <section>
+    <h2><%= @order_option.fetch('name', nil) %></h2>
+
+    <p>
+      <label>Last Update:</label> <%= @order_option['last_update'] %> |
+      <label>Scope:</label> <%= @order_option['scope'] %> |
+      <label>Deprecated:</label> <%= @order_option['deprecated'] %> |
+      <label>Sort Key:</label> <%= @order_option['sort_key'] %>
+    </p>
+
+    <p>
+      <label>Description:</label>
+      <%= @order_option['description'] %>
+    </p>
+
+    <div class="row">
+      <label>Form XML:</label>
+
+      <pre><%= @order_option['form'] %></pre>
     </div>
-  </header>
 
-  <%= render 'shared/flash_messages' %>
-
-  <div class="row row-content">
-    <section>
-      <%= link_to 'Edit Order Option', edit_order_option_path(@order_option['id']), class: 'eui-btn--blue space-right' %>
-
-      <h2><%= @order_option['name'] %></h2>
-      <p>
-        <label>Last Update:</label> <%= @order_option['last_update'] %> |
-        <label>Scope:</label> <%= @order_option['scope'] %> |
-        <label>Deprecated:</label> <%= @order_option['deprecated'] %> |
-        <label>Sort Key:</label> <%= @order_option['sort_key'] %>
-      </p>
-
-      <p>
-        <!-- Description -->
-        <label>Description:</label>
-        <%= @order_option['description'] %>
-      </p>
-
-      <div class="row">
-        <label>
-          Form XML:
-        </label>
-        <div class="content-box">
-          <pre><%= @order_option['form'] %></pre>
-        </div>
-      </div>
-
-    </section>
-  </div>
-</main>
+    <%= link_to 'Edit', edit_order_option_path(@order_option['id']), class: 'eui-btn' %>
+  </section>
+</div>

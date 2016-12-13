@@ -16,17 +16,14 @@ Rails.application.routes.draw do
   resources :order_option_assignments, except: :edit
   post '/order_option_assignments/edit' => 'order_option_assignments#edit'
 
-
   resources :data_quality_summaries
 
   resource :data_quality_summary_assignments, except: :show
   get '/data_quality_summary_assignments' => 'data_quality_summary_assignments#index'
 
   resources :groups
-  delete '/groups/:id/remove_members' => 'groups#remove_members', as: 'remove_members'
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
-
 
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
@@ -45,9 +42,12 @@ Rails.application.routes.draw do
 
   get 'search' => 'search#index', as: 'search'
 
+  # TODO: Create a manage_metadata controller like the manage_cmr controller below
   get 'manage_metadata' => 'pages#manage_metadata', as: 'manage_metadata'
-  get 'manage_cmr' => 'manage_cmr#manage_cmr', as: 'manage_cmr'
-  get 'provider_collections' => 'echo_soap#provider_collections'
+
+  resource :manage_cmr, only: :show, controller: 'manage_cmr'
+
+  get 'provider_collections' => 'manage_cmr#provider_collections'
   get 'new_record' => 'pages#new_record', as: 'new_record'
   post 'hide_notification' => 'pages#hide_notification', as: 'hide_notification'
 

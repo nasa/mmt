@@ -43,6 +43,7 @@ gem 'font-awesome-rails'
 
 gem 'momentjs-rails'
 gem 'bootstrap3-datetimepicker-rails'
+gem 'breadcrumbs_on_rails'
 
 gem 'faker'
 

@@ -14,6 +14,11 @@
   <div class="row row-content">
     <section>
       <h2><%= current_user.provider_id %> Drafts</h2>
+
+      <% if @drafts.any? %>
+        <p><%= page_entries_info @drafts, entry_name: 'Draft' %></p>
+      <% end %>
+
       <table id="open_drafts">
         <thead>
           <tr>
@@ -47,6 +52,8 @@
         <% end %>
         </tbody>
       </table>
+
+      <%= paginate @drafts %>
     </section>
   </div>
 </main>

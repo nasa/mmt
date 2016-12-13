@@ -1,8 +1,12 @@
 require 'rexml/document'
 
-class OrderPoliciesController < EchoSoapController
+class OrderPoliciesController < ManageCmrController
+  include EchoSoap
+
   before_action :set_collections, only: [:index, :new, :edit]
   before_action :set_policy, only: [:index, :new, :edit]
+
+  add_breadcrumb 'Order Policies', :order_policies_path
 
   def index
     set_policy
@@ -17,11 +21,15 @@ class OrderPoliciesController < EchoSoapController
   def new
     set_policy
 
+    add_breadcrumb 'New', new_order_policies_path
+    
     redirect_to edit_order_policies_path, flash: { notice: "Order Policies already exist for #{current_user.provider_id}." } unless @policy.empty?
   end
 
   def edit
     set_policy
+
+    add_breadcrumb 'Edit', edit_order_policies_path
   end
 
   def create

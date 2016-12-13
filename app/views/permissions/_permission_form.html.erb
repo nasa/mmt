@@ -1,16 +1,19 @@
 <!-- new_form is local passed in for new or edit -->
 
-<div class="row">
-  <%= label_tag 'permission_name', 'Name', class: 'required eui-required-o' %>
-  <br>
-  <%= text_field_tag 'permission_name', @permission_name, class: 'half-width', readonly: !new_form, maxlength: 100 %>
-</div>
-<%= label_tag 'collection_options', 'Collections', class: 'required eui-required-o' %>
-<%= select_tag 'collection_options', options_for_select(PermissionsHelper::CollectionsOptions, @collection_options) %>
-<%= hidden_field_tag 'collection_selections', @collection_selections %>
-<div id="chooser-widget" style="display: none;"></div>
+<fieldset>
+  <div class="row">
+    <%= label_tag 'permission_name', 'Name', class: 'required eui-required-o' %>
+    <%= text_field_tag 'permission_name', @permission_name, class: 'full-width', readonly: !new_form, maxlength: 100 %>
+  </div>
+</fieldset>
 
-<!-- not yet implemented -->
+<fieldset>
+  <%= label_tag 'collection_options', 'Collections', class: 'required eui-required-o' %>
+  <%= select_tag 'collection_options', options_for_select(PermissionsHelper::CollectionsOptions, @collection_options), class: 'full-width' %>
+  <%= hidden_field_tag 'collection_selections', @collection_selections %>
+  <div id="chooser-widget" style="display: none;"></div>
+</fieldset>
+
 <!-- <fieldset id="collections-constraint-values" class="is-hidden is-white">
   <div class="row">
     <label for="collections-constraint-min">Min</label>
@@ -24,12 +27,12 @@
     <label for="undefined-val">Include undefined value</label>
   </div>
 </fieldset> -->
-<hr>
 
-<%= label_tag 'granule_options', 'Granules', class: 'required eui-required-o' %>
-<%= select_tag 'granule_options', options_for_select(PermissionsHelper::GranulesOptions, @granule_options) %>
+<fieldset>
+  <%= label_tag 'granule_options', 'Granules', class: 'required eui-required-o' %>
+  <%= select_tag 'granule_options', options_for_select(PermissionsHelper::GranulesOptions, @granule_options), class: 'full-width' %>
+</fieldset>
 
-<!-- not yet implemented -->
 <!-- <fieldset id="granules-constraint-values" class="is-hidden is-white">
   <div class="row">
     <label for="granules-constraint-min">Min</label>
@@ -44,28 +47,29 @@
   </div>
 </fieldset> -->
 
-<hr>
+<fieldset>
+  <table class="space-top align-c" id="permission-form-groups-table">
+    <caption class="required eui-required-o">Group Permissions</caption>
+    <thead>
+      <tr>
+        <th class="align-c half-width"><label for="search_groups_">Search</label></th>
+        <th class="align-c half-width"><label for="search_and_order_groups_">Search and Order</label></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="search_groups_cell">
+          <%= select_tag 'search_groups[]', options_for_select(@groups, @search_groups), multiple: 'multiple', class: 'permission-group required'  %>
+        </td>
+        <td id="search_and_order_groups_cell">
+          <%= select_tag 'search_and_order_groups[]', options_for_select(@groups, @search_and_order_groups), multiple: 'multiple', class: 'permission-group required'  %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</fieldset>
 
-<table class="space-top align-c" id="permission-form-groups-table">
-  <caption class="required eui-required-o">Group Permissions</caption>
-  <thead>
-    <tr>
-      <th class="align-c half-width"><label for="search_groups_">Search</label></th>
-      <th class="align-c half-width"><label for="search_and_order_groups_">Search and Order</label></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="search_groups_cell">
-        <%= select_tag 'search_groups[]', options_for_select(@groups, @search_groups), multiple: 'multiple', class: 'permission-group required'  %>
-      </td>
-      <td id="search_and_order_groups_cell">
-        <%= select_tag 'search_and_order_groups[]', options_for_select(@groups, @search_and_order_groups), multiple: 'multiple', class: 'permission-group required'  %>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<div class="row space-top">
-  <%= submit_tag 'Save', class: 'eui-btn--blue space-right', id: 'permissions-save-button' %>
+<fieldset>
+  <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'permissions-save-button' %>
   <%= link_to 'Cancel', :back, class: 'eui-btn' %>
-</div>
+</fieldset>

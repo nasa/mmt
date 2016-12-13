@@ -1,24 +1,9 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to 'Order Options', order_options_path %></li>
-          <li class="eui-breadcrumbs__item">New Order Option</li>
-        </ol>
-      </div>
-      <h2>Edit Order Option</h2>
-    </div>
-  </header>
+<div class="row row-content">
+  <section>
+    <h2>Editing <%= @order_option.fetch('name', nil) %></h2>
 
-  <%= render 'shared/flash_messages' %>
-
-  <div class="row row-content">
-    <section>
-      <%= form_tag(order_option_path(@order_option_id), method: :put, id: 'order-option-definition-form', class: 'order-options') do %>
-          <%= render partial: 'order_options_form', locals: { new_form: false } %>
-      <% end %>
-    </section>
-  </div>
-</main>
+    <%= form_tag(order_option_path(@order_option_id), method: :put, id: 'order-option-definition-form', class: 'order-options') do %>
+      <%= render partial: 'order_options_form', locals: { new_form: false } %>
+    <% end %>
+  </section>
+</div>

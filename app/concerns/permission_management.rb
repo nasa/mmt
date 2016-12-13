@@ -1,9 +1,8 @@
-class ManagePermissionsController < ManageCmrController
-
-  private
-  # These methods are used by both SystemIdentityPermissionsController and
-  # ProviderIdentityPermissionsController. Eventually we will migrate these methods
-  # to a class/module for Cmr
+# These methods are used by both SystemIdentityPermissionsController and
+# ProviderIdentityPermissionsController. Eventually we will migrate these methods
+# to a class/module for Cmr
+module PermissionManagement
+  extend ActiveSupport::Concern
 
   # for the methods below, some require type (i.e. 'provider' or 'system') and
   # some require identity_type (i.e. 'provider_identity' or 'system_identity')

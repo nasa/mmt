@@ -57,16 +57,16 @@ $(document).ready ->
     .on 'keydown', ->
       false
 
-    $('.system-group-checkbox:not([readonly])').on 'change', ->
-      $box = $(this)
-      provider = $('.provider-context > span').text()
-      $title = $('.new-group-title')
-      $span = $('.new-group-badge')
-      if $box.prop 'checked'
-        $title.text($title.text().replace provider, 'CMR')
-        $span.text('SYS')
-        $span.addClass('eui-badge--sm')
-      else
-        $title.text($title.text().replace 'CMR', provider)
-        $span.text('')
-        $span.removeClass('eui-badge--sm')
+    # $('.system-group-checkbox:not([readonly])').on 'change', ->
+    #   $box = $(this)
+    #   provider = $('.provider-context > span').text()
+    #   $title = $('.new-group-title')
+    #   $span = $('.new-group-badge')
+    #   if $box.prop 'checked'
+    #     $title.text($title.text().replace provider, 'CMR')
+    #     $span.text('SYS')
+    #     $span.addClass('eui-badge--sm')
+    #   else
+    #     $title.text($title.text().replace 'CMR', provider)
+    #     $span.text('')
+    #     $span.removeClass('eui-badge--sm')

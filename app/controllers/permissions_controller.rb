@@ -1,6 +1,8 @@
-class PermissionsController < ApplicationController
+class PermissionsController < ManageCmrController
 
   skip_before_filter :is_logged_in, only: [:get_all_collections]
+
+  add_breadcrumb 'Collection Permissions', :permissions_path
 
   RESULTS_PER_PAGE = 10
 
@@ -43,9 +45,11 @@ class PermissionsController < ApplicationController
     permission_response = cmr_client.get_permission(@permission_concept_id, token)
 
     if permission_response.success?
-      permission = permission_response.body
+      permission = permission_response.body 
 
       set_catalog_item_identity(permission)
+
+      add_breadcrumb @permission_name, permissions_path(@permission_concept_id)
 
       search_groups_list, search_and_order_groups_list = parse_group_permission_ids(permission['group_permissions'])
 
@@ -79,6 +83,8 @@ class PermissionsController < ApplicationController
 
   def new
     @groups = get_groups_for_permissions
+
+    add_breadcrumb 'New', new_permissions_path
   end
 
 
@@ -161,6 +167,9 @@ class PermissionsController < ApplicationController
       permission = permission_response.body
 
       set_catalog_item_identity(permission)
+
+      add_breadcrumb @permission_name, permissions_path(@permission_concept_id)
+      add_breadcrumb 'Edit', edit_permission_path(@permission_concept_id)
 
       @search_groups, @search_and_order_groups = parse_group_permission_ids(permission['group_permissions'])
       @groups = get_groups_for_permissions

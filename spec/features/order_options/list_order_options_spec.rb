@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Listing Order Options' do
+describe 'Listing Order Options', js: true do
   context 'when viewing the index page' do
     before do
       login
@@ -17,7 +17,7 @@ describe 'Listing Order Options' do
     end
 
     it 'displays the pagination information header' do
-      expect(page).to have_content('Showing order options 1 - 25 of 28')
+      expect(page).to have_content('Showing Order Options 1 - 25 of 28')
     end
 
     it 'displays the pagination navigation' do
@@ -53,7 +53,7 @@ describe 'Listing Order Options' do
       end
 
       it 'displays the pagination information for page two' do
-        expect(page).to have_content('Showing order options 26 - 28 of 28')
+        expect(page).to have_content('Showing Order Options 26 - 28 of 28')
       end
 
       it 'lists all the available order options' do

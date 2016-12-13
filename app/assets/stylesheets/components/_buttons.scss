@@ -4,6 +4,7 @@
 
 .eui-btn {
   border: 1px solid rgba($black, 0.15);
+  color: $black !important;
 
   &:link,
   &:visited {
@@ -15,7 +16,7 @@
   @extend .eui-btn;
 
   background-color: $red;
-  color: $white;
+  color: $white !important;
 
   &:link,
   &:visited {

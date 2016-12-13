@@ -1,4 +1,4 @@
-<% if @notifications.size > 1 %>
+<% if defined?(@notifications) && @notifications.size > 1 %>
   <div class="eui-banner--warn eui-banner__dismiss">
     <p class="eui-banner__message">
       <a title="Display all calendar events" href="#" class="multiple-events">Multiple calendar events have been found. Click here to see all messages.</a>
@@ -13,7 +13,7 @@
       </p>
     <% end %>
   </div>
-<% elsif @notifications.size == 1 %>
+<% elsif defined?(@notifications) && @notifications.size == 1 %>
   <% notification = @notifications.first %>
   <div class="eui-banner--warn eui-banner__dismiss">
     <p class="eui-banner__message">
