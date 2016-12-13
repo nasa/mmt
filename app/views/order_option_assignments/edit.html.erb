@@ -16,7 +16,7 @@
     <section>
       <h2>Order Option Assignments</h2>
 
-      <%= form_tag(new_order_option_assignment_path, method: :get, id: 'show-order-option-assignments-form') %>
+      <%= form_tag(new_order_option_assignment_path, method: :get, id: 'edit-order-option-assignments-form') %>
 
       <%= check_box_tag 'show-no-assigned-options', id: 'show-no-assigned-options'%>
       <%= label_tag 'show-no-assigned-options', 'Include selected collections with no assigned options?' %>
@@ -24,7 +24,7 @@
         <thead>
           <tr>
             <th>
-              <%= check_box_tag 'order-option-all-checkbox[]' %>
+              <%= check_box_tag 'order-option-all-checkbox' %>
             </th>
             <th>
               Collection
@@ -45,22 +45,10 @@
         </thead>
 
         <tbody>
-          <%@collections_to_list.each do |collection| %>
-              <%
-                option_def = collection.fetch('option-def',{})
-                option_def_name = ''
-
-                if option_def.class.to_s == "Hash"
-                  option_def_name = option_def.fetch('Name','')
-                else
-                  option_def_name = ''
-                end
-
-                disp_class = option_def_name.blank? ? 'class=hidden-row' : ''
-              %>
-              <tr <%=disp_class%>>
+          <% @collections_to_list.each do |collection| %>
+              <tr <%= collection['option-def'].nil? ? 'class=hidden-row' : '' %>>
                 <td>
-                  <%= check_box_tag 'order-option-checkbox[]', collection['umm']['entry-title'] %>
+                  <%= check_box_tag 'order-option-checkbox[]', collection['meta']['concept-id'] %>
                 </td>
                 <td>
                   <%=collection['umm']['entry-title']%>
@@ -72,26 +60,28 @@
                   <%=collection['umm']['version-id']%>
                 </td>
                 <td>
-                  <%=option_def_name %>
+                  <%=collection.fetch('option-def',{}).fetch('Name','') %>
                 </td>
                 <td>
-                  <% if ! option_def_name.blank? %>
-                    <%= link_to 'View',  order_option_assignment_url({
-                      :entry_title => collection['umm']['entry-title'],
-                      :option_def_name => collection.fetch('option-def',{}).fetch('Name', ''),
-                      :filter_xpath => collection['option-assignment-filter-xpath']
-                      }
-                    ) %>
-                  <% end %>
+                  <% if ! collection['option-def'].nil? %>
+                      <%-# link_to 'View',  order_option_assignment_url(collection['meta']['concept-id']) %>
 
+                      <%= link_to 'View',  order_option_assignment_url(collection['meta']['concept-id'], {
+                          :entry_title => collection['umm']['entry-title'],
+                          :option_def_name => collection['option-def']['Name'],
+                          :filter_xpath => collection['option-assignment-filter-xpath']
+                      }) %>
+
+
+                  <% end %>
                 </td>
               </tr>
           <%end %>
         </tbody>
       </table>
 
-      <%= submit_tag 'Add New Option Assignment', id: 'add-submit-button', class: 'eui-btn--green' %>
-      <%= link_to 'Cancel', order_option_assignments_path %>
+      <%= submit_tag 'Submit', id: 'add-submit-button', class: 'eui-btn--green' %>
+      <%= link_to 'Cancel', order_option_assignments_path, class: 'eui-btn' %>
 
     </section>
   </div>

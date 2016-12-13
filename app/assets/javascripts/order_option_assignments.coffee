@@ -16,8 +16,6 @@ $(document).ready ->
       showNumChosen: true,
       forceUnique: true,
       uniqueMsg: 'Collection already added',
-      attachTo: $('#collection_selections'),
-      delimiter: "%%__%%",
       filterText: "Filter collections",
       removeAdded: false,
       addButton: {
@@ -43,8 +41,6 @@ $(document).ready ->
     })
 
     collectionsChooser.init()
-    $('#chooser-loading-msg').hide()
-
 
     $('.order-option-assignments-form').validate
       errorClass: 'eui-banner--danger'
@@ -58,8 +54,12 @@ $(document).ready ->
           'Please select at least one collection'
 
 
-  # Show page -----------------------------------------------------------
-  if $("#show-order-option-assignments-form").length > 0
+    $('#submit-display-options').click ->
+      $('#collectionsChooser_toList option').prop 'selected', true
+
+
+  # Edit page -----------------------------------------------------------
+  if $("#edit-order-option-assignments-form").length > 0
 
     $('.display-modal').leanModal
       top: 200
@@ -67,16 +67,15 @@ $(document).ready ->
       closeButton: '.modal-close'
 
     # check/uncheck all
-    $("#order-option-all-checkbox_").on 'change', ->
-
+    $("#order-option-all-checkbox").on 'change', ->
       top_checkbox = @
-
       $("#collections-table tbody tr").not(".hidden-row").each ->
         $(this).find("[name='order-option-checkbox[]']").prop 'checked', $(top_checkbox).prop 'checked'
 
+    # Uncheck the "check all" if not all checkboxes are  checked
     $("[name='order-option-checkbox[]']").on 'change', ->
       if ! $(this).prop 'checked'
-        $("#order-option-all-checkbox_").prop 'checked', false
+        $("#order-option-all-checkbox").prop 'checked', false
 
 
     # show collections without options
@@ -89,7 +88,7 @@ $(document).ready ->
         $("#collections-table tbody tr.hidden-row").find("[name='order-option-checkbox[]']").prop 'checked', false
 
 
-    $('#show-order-option-assignments-form').validate
+    $('#edit-order-option-assignments-form').validate
       errorClass: 'eui-banner--danger'
       errorElement: 'div'
       onkeyup: false,
@@ -112,7 +111,7 @@ $(document).ready ->
 
   # New assignment page -----------------------------------------------------------
   if $("#new-order-option-assignment-form").length > 0
-    $("#order-option-all-checkbox_").on 'change', ->
+    $("#order-option-all-checkbox").on 'change', ->
       $("[name='collection-checkbox[]']").prop 'checked', $(this).prop 'checked'
 
     $('#new-order-option-assignment-form').validate

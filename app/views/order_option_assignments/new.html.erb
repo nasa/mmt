@@ -25,7 +25,7 @@
         <thead>
           <tr>
             <th>
-              <%= check_box_tag 'order-option-all-checkbox[]' %>
+              <%= check_box_tag 'order-option-all-checkbox' %>
             </th>
             <th>
               Collection
@@ -42,7 +42,7 @@
           <%@collections.each do |collection| %>
               <tr>
                 <td>
-                  <%= check_box_tag 'collection-checkbox[]', collection['umm']['entry-title'] %>
+                  <%= check_box_tag 'collection-checkbox[]', collection['meta']['concept-id'] %>
                 </td>
                 <td>
                   <%=collection['umm']['entry-title']%>
@@ -82,7 +82,7 @@
       <div class="row space-top">
         <div class="col-4">
         <%= submit_tag 'Submit', class: 'eui-btn--green' %>
-          <%= link_to 'Cancel', order_option_assignments_path %>
+          <%= link_to 'Cancel', order_option_assignments_path, class: 'eui-btn' %>
         </div>
       </div>
 

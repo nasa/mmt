@@ -5,7 +5,7 @@ http_interactions:
     uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments
     body:
       encoding: UTF-8
-      string: '{"catalog_item_option_assignment":{"catalog_item_id":"C1200056652-MMT_2","option_definition_id":"C6F64596-7096-A932-7535-BDEF88B276C3","filter_xpath":"foo"}}'
+      string: '{"catalog_item_option_assignment":{"catalog_item_id":"C1200056652-MMT_2","option_definition_id":"4D5A696D-9DF2-7033-A02A-0A638098B35D","filter_xpath":"foo"}}'
     headers:
       User-Agent:
       - Faraday v0.8.11
@@ -23,7 +23,7 @@ http_interactions:
       message: 
     headers:
       location:
-      - https://testbed.echo.nasa.gov/legacy-services/rest/catalog_item_option_assignments/8DD0701D-5B8E-9CA3-B49C-E9242883A3C3
+      - https://testbed.echo.nasa.gov/legacy-services/rest/catalog_item_option_assignments/0324ADDA-8ED6-D891-51B6-54E34C8E3BBE
       content-type:
       - application/xml; charset=utf-8
       cache-control:
@@ -31,10 +31,10 @@ http_interactions:
       x-ua-compatible:
       - IE=Edge,chrome=1
       set-cookie:
-      - _EchoRestRails_session=BAh7BiIPc2Vzc2lvbl9pZCIlMjdjMzJkYWUwNGM1YmZmZTk1ZTRhNTRiY2RmMGRmNWI%3D--af73498a43306bce6c7aefb4737ededdc9a76c28;
+      - _EchoRestRails_session=BAh7BiIPc2Vzc2lvbl9pZCIlMGE3MGMzMzA5M2JiZjUyNWRkZDExYzgzMjFjZDJmYzE%3D--c8eb34aad869392910adf5affae1e1f0629e27fe;
         path=/; HttpOnly
       x-runtime:
-      - '0.281000'
+      - '0.189000'
       server:
       - Jetty(9.2.z-SNAPSHOT)
       connection:
@@ -42,17 +42,17 @@ http_interactions:
       transfer-encoding:
       - chunked
       date:
-      - Fri, 09 Dec 2016 19:19:35 GMT
+      - Mon, 12 Dec 2016 23:47:53 GMT
     body:
       encoding: UTF-8
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
         <catalog_item_option_assignment>
-          <id>8DD0701D-5B8E-9CA3-B49C-E9242883A3C3</id>
+          <id>0324ADDA-8ED6-D891-51B6-54E34C8E3BBE</id>
           <catalog_item_id>C1200056652-MMT_2</catalog_item_id>
-          <option_definition_id>C6F64596-7096-A932-7535-BDEF88B276C3</option_definition_id>
+          <option_definition_id>4D5A696D-9DF2-7033-A02A-0A638098B35D</option_definition_id>
           <filter_xpath>foo</filter_xpath>
         </catalog_item_option_assignment>
     http_version: 
-  recorded_at: Fri, 09 Dec 2016 19:19:36 GMT
+  recorded_at: Mon, 12 Dec 2016 23:47:54 GMT
 recorded_with: VCR 3.0.1

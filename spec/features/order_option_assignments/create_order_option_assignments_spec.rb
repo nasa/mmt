@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'Creating Order Option Assignments' do
 
+
   before do
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
@@ -31,6 +32,9 @@ describe 'Creating Order Option Assignments' do
 
     before do
 
+      collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+
       within '#collectionsChooser' do
         select('lorem | ipsum', from: 'Available collections')
 
@@ -48,8 +52,6 @@ describe 'Creating Order Option Assignments' do
 
     it 'Displays the selected collections and their assigned Order Option definition names' do
       expect(page).to have_content('Include selected collections with no assigned options?')
-
-      page.should have_selector('table tbody tr', :count => 10)
 
       within('#collections-table tbody') do
         expect(page).to have_content '1001 V5'
@@ -82,7 +84,7 @@ describe 'Creating Order Option Assignments' do
         click_on 'Display Option Assignments'
       end
 
-      click_on 'Add New Option Assignment'
+      click_on 'Submit'
 
     end
 
@@ -111,11 +113,13 @@ describe 'Creating Order Option Assignments' do
 
 
       within '#collections-table tbody' do
-        first('input[value=ipsum]').click
+        first('input[value=C1200056652-MMT_2]').click
       end
 
+
+
       VCR.use_cassette('echo_rest/order_option_assignments/display-step-2', record: :none) do
-        click_on 'Add New Option Assignment'
+        click_on 'Submit'
       end
 
       click_on 'Submit'
@@ -159,15 +163,15 @@ describe 'Creating Order Option Assignments' do
 
 
       within '#collections-table tbody' do
-        first('input[value=ipsum]').click
+        first('input[value=C1200056652-MMT_2]').click
       end
 
       VCR.use_cassette('echo_rest/order_option_assignments/display-step-2', record: :none) do
-        click_on 'Add New Option Assignment'
+        click_on 'Submit'
       end
 
       within '#collections-table tbody' do
-        first('input[value=ipsum]').click
+        first('input[value=C1200056652-MMT_2]').click
       end
 
       select 'James-AAAA000000', from: 'Option Definition'
@@ -203,18 +207,18 @@ describe 'Creating Order Option Assignments' do
 
 
       within '#collections-table tbody' do
-        first('input[value=ipsum]').click
+        first('input[value=C1200056652-MMT_2]').click
       end
 
       VCR.use_cassette('echo_rest/order_option_assignments/display-step-2', record: :none) do
-        click_on 'Add New Option Assignment'
+        click_on 'Submit'
       end
 
       within '#collections-table tbody' do
-        first('input[value=ipsum]').click
+        first('input[value=C1200056652-MMT_2]').click
       end
 
-      select 'James-5000 V2', from: 'Option Definition'
+      select '1001-D V2', from: 'Option Definition'
       fill_in 'Filter XPath', with: 'foo'
 
       VCR.use_cassette('echo_rest/order_option_assignments/create-success', record: :none) do

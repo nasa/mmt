@@ -29,10 +29,10 @@ http_interactions:
       x-ua-compatible:
       - IE=Edge,chrome=1
       set-cookie:
-      - _EchoRestRails_session=BAh7BiIPc2Vzc2lvbl9pZCIlNDFkYWVhNzIwMTdjOTAzZmVjM2ZiYjAyOWJmZmFmNDA%3D--358feaedbbb0a42f78b05fa59adf1a1615a8a7cd;
+      - _EchoRestRails_session=BAh7BiIPc2Vzc2lvbl9pZCIlZjNhZTRmODZhMGExYThhMTUzZGUxOGNlN2JjYmE5OWQ%3D--07437f9724da244e5460cfbd13243e2aa5d40c6d;
         path=/; HttpOnly
       x-runtime:
-      - '0.314000'
+      - '0.289000'
       server:
       - Jetty(9.2.z-SNAPSHOT)
       connection:
@@ -40,13 +40,13 @@ http_interactions:
       transfer-encoding:
       - chunked
       date:
-      - Fri, 09 Dec 2016 19:11:19 GMT
+      - Mon, 12 Dec 2016 23:43:12 GMT
     body:
       encoding: UTF-8
       string: "<errors><error>Deprecated option definitions may not be assigned to
         catalog items.</error></errors>"
     http_version: 
-  recorded_at: Fri, 09 Dec 2016 19:11:19 GMT
+  recorded_at: Mon, 12 Dec 2016 23:43:12 GMT
 - request:
     method: post
     uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
@@ -68,7 +68,7 @@ http_interactions:
       message: 
     headers:
       date:
-      - Fri, 09 Dec 2016 19:11:19 GMT
+      - Mon, 12 Dec 2016 23:43:13 GMT
       accept:
       - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
       soapaction:
@@ -76,7 +76,7 @@ http_interactions:
       content-type:
       - text/xml; charset=UTF-8
       content-length:
-      - '93732'
+      - '95439'
       server:
       - Jetty(9.2.z-SNAPSHOT)
       connection:
@@ -896,7 +896,7 @@ http_interactions:
                 &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
                 &lt;/range&gt;
               &lt;/ui&gt;
-            &lt;/form&gt;</ns3:Form><ns3:Description>test</ns3:Description><ns3:LastUpdate>2016-11-22T13:16:58.647Z</ns3:LastUpdate></ns3:Item><ns3:Item><ns3:Guid>C7EB886C-5790-76E0-0E51-D2CFD6985AC6</ns3:Guid><ns3:Name>1001 - UPDATE</ns3:Name><ns3:Scope>PROVIDER</ns3:Scope><ns3:Deprecated>false</ns3:Deprecated><ns3:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
+            &lt;/form&gt;</ns3:Form><ns3:Description>test</ns3:Description><ns3:LastUpdate>2016-11-22T13:16:58.647Z</ns3:LastUpdate></ns3:Item><ns3:Item><ns3:Guid>C7EB886C-5790-76E0-0E51-D2CFD6985AC6</ns3:Guid><ns3:Name>1001 - UPDATE</ns3:Name><ns3:Scope>PROVIDER</ns3:Scope><ns3:Deprecated>true</ns3:Deprecated><ns3:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
               &lt;model&gt;
                 &lt;instance&gt;
                   &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
@@ -924,7 +924,7 @@ http_interactions:
                 &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
                 &lt;/range&gt;
               &lt;/ui&gt;
-            &lt;/form&gt;</ns3:Form><ns3:Description>test</ns3:Description><ns3:SortKey>BBB</ns3:SortKey><ns3:LastUpdate>2016-12-01T13:53:27.479Z</ns3:LastUpdate></ns3:Item><ns3:Item><ns3:Guid>139F0076-4826-B1F9-9A4A-EB3400305097</ns3:Guid><ns3:Name>1001 V5</ns3:Name><ns3:Scope>PROVIDER</ns3:Scope><ns3:Deprecated>false</ns3:Deprecated><ns3:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
+            &lt;/form&gt;</ns3:Form><ns3:Description>test</ns3:Description><ns3:SortKey>BBB</ns3:SortKey><ns3:LastUpdate>2016-12-11T01:39:25.148Z</ns3:LastUpdate></ns3:Item><ns3:Item><ns3:Guid>139F0076-4826-B1F9-9A4A-EB3400305097</ns3:Guid><ns3:Name>1001 V5</ns3:Name><ns3:Scope>PROVIDER</ns3:Scope><ns3:Deprecated>false</ns3:Deprecated><ns3:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
               &lt;model&gt;
                 &lt;instance&gt;
                   &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
@@ -1624,7 +1624,35 @@ http_interactions:
                 &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
                 &lt;/range&gt;
               &lt;/ui&gt;
-            &lt;/form&gt;</ns3:Form><ns3:Description>test</ns3:Description><ns3:SortKey>asdf7</ns3:SortKey><ns3:LastUpdate>2016-12-07T16:33:35.242Z</ns3:LastUpdate></ns3:Item></ns2:result></ns2:GetCatalogItemOptionDefinitions2Response></SOAP-ENV:Body></SOAP-ENV:Envelope>
+            &lt;/form&gt;</ns3:Form><ns3:Description>test</ns3:Description><ns3:SortKey>asdf7</ns3:SortKey><ns3:LastUpdate>2016-12-07T16:33:35.242Z</ns3:LastUpdate></ns3:Item><ns3:Item><ns3:Guid>34920B0B-24B2-E534-32A4-4E6F71857937</ns3:Guid><ns3:Name>1001 - UPDATE FIRST</ns3:Name><ns3:Scope>PROVIDER</ns3:Scope><ns3:Deprecated>false</ns3:Deprecated><ns3:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
+              &lt;model&gt;
+                &lt;instance&gt;
+                  &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
+                    &lt;prov:filename&gt;data_update.txt&lt;/prov:filename&gt;
+                    &lt;prov:filesize&gt;20&lt;/prov:filesize&gt;
+                  &lt;/prov:options&gt;
+                &lt;/instance&gt;
+              &lt;/model&gt;
+              &lt;ui&gt;
+                &lt;input label="File Name" ref="prov:filename" type="xsd:string"&gt;
+                  &lt;constraints&gt;
+                    &lt;constraint&gt;
+                      &lt;xpath&gt;string-length(prov:filename) &amp;lt; 25&lt;/xpath&gt;
+                      &lt;alert&gt;File names must be less than 25 characters&lt;/alert&gt;
+                    &lt;/constraint&gt;
+                    &lt;constraint&gt;
+                      &lt;pattern&gt;^[A-Za-z]+[A-Za-z0-9]*\.?[A-Za-z0-9]*$&lt;/pattern&gt;
+                      &lt;alert&gt;
+                        File names must start with a letter and
+                        not contain illegal characters
+                      &lt;/alert&gt;
+                    &lt;/constraint&gt;
+                  &lt;/constraints&gt;
+                &lt;/input&gt;
+                &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
+                &lt;/range&gt;
+              &lt;/ui&gt;
+            &lt;/form&gt;</ns3:Form><ns3:Description>test</ns3:Description><ns3:SortKey>AAA</ns3:SortKey><ns3:LastUpdate>2016-12-11T01:39:24.672Z</ns3:LastUpdate></ns3:Item></ns2:result></ns2:GetCatalogItemOptionDefinitions2Response></SOAP-ENV:Body></SOAP-ENV:Envelope>
     http_version: 
-  recorded_at: Fri, 09 Dec 2016 19:11:20 GMT
+  recorded_at: Mon, 12 Dec 2016 23:43:13 GMT
 recorded_with: VCR 3.0.1

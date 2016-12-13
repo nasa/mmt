@@ -1,27 +1,28 @@
 class OrderOptionAssignmentsController < ApplicationController
 
-  def index
+  before_action :ensure_correct_permission
 
-    @collection_selections = []
 
-    if echo_provider_token.class == Hash
-      if echo_provider_token['faultstring']
-        flash.now[:error] = echo_provider_token['faultstring']
-      end
+  def ensure_correct_permission
+
+    # We are detecting this error because ECHO may not allow the current
+    # user to act on behalf of their current provider. This will display
+    # that message to the user on the index page, something like
+    # "User [john] may not act on behalf of provider [MMT_1]"
+    if echo_provider_token.class == Hash && echo_provider_token['faultstring']
+      flash.now[:error] = echo_provider_token['faultstring']
+      render :index
     end
+  end
 
+
+  def index
+    # stub
   end
 
   def edit
 
-    entry_titles = []
-
-    params[:collection_selections].split('%%__%%').each do |entry_title|
-      entry_titles << entry_title.split('|')[1].strip
-    end
-
-    collections = get_collections_by_entry_titles(entry_titles)
-
+    collections = find_collections_by_concept_ids(params['collectionsChooser_toList'])
     @collections_to_list = []
 
     collections.each do |collection|
@@ -29,21 +30,23 @@ class OrderOptionAssignmentsController < ApplicationController
       assignments_response = cmr_client.get_order_option_assignments(id, echo_provider_token)
 
       if assignments_response.success?
-        option_defs = get_order_option_defs(assignments_response.body)
+        option_defs = Array.wrap(get_order_option_defs(assignments_response.body))
 
       if option_defs.length > 0
         option_defs.each do |option_def|
           collection_copy = collection.clone
-          collection_copy['option-def'] = option_def
 
-          # Sometimes this is returned as an Array
-          if option_def.class.to_s == "Array"
-            guid = option_def[1]
-          elsif option_def.class.to_s == "Hash"
-            guid = option_def.fetch('Guid','')
+          # Sometimes this is returned as a 2-element Array
+          if option_def.class.to_s == 'Array'
+            option_def = {
+                'Name' => option_def[0],
+                'Guid' => option_def[1]
+            }
           end
 
-          assignment = find_assignment(guid, assignments_response.body)[0]
+          collection_copy['option-def'] = option_def
+
+          assignment = find_assignment(option_def['Guid'], assignments_response.body)[0]
 
           if ! assignment.nil?
             collection_copy['option-assignment-guid'] = assignment['catalog_item_option_assignment']['catalog_item_id']
@@ -65,23 +68,23 @@ class OrderOptionAssignmentsController < ApplicationController
   end
 
   def show
-
+    # stub
   end
 
 
   def create
-    entry_titles = params.fetch('collection-checkbox', [])
+    concept_ids = params.fetch('collection-checkbox', [])
     order_option = params.fetch('order-options', '')
     filter_xpath = params.fetch('filter-xpath', nil)
 
-    collections = get_collections_by_entry_titles(entry_titles)
+    collections = find_collections_by_concept_ids(concept_ids)
 
     errors = []
     collections.each do |collection|
       id = collection['meta']['concept-id']
       response = cmr_client.add_order_option_assignments(id, order_option, filter_xpath, echo_provider_token)
 
-      if !response.success?
+      if response.error?
         errors << response.body.inspect
         Rails.logger.error("Order Option Assignment Error: #{response.body}")
         flash[:error] = response.body.inspect
@@ -93,7 +96,7 @@ class OrderOptionAssignmentsController < ApplicationController
       redirect_to order_option_assignments_url
     else
       flash[:error] = errors.uniq.join ', '
-      @collections = get_collections_by_entry_titles(entry_titles)
+      @collections = find_collections_by_concept_ids(concept_ids)
       @order_option_select_values = get_order_options
       render new_order_option_assignment_path
     end
@@ -101,15 +104,16 @@ class OrderOptionAssignmentsController < ApplicationController
   end
 
   def new
-    entry_titles = params.fetch('order-option-checkbox', []).uniq
 
-    if entry_titles.length < 1
+    concept_ids = params.fetch('order-option-checkbox', []).uniq
+
+    if concept_ids.length < 1
       flash[:error] = "At least one collection must be selected"
       redirect_to order_option_assignments_path
       return
     end
 
-    @collections = get_collections_by_entry_titles(entry_titles)
+    @collections = find_collections_by_concept_ids(concept_ids)
     @order_option_select_values = get_order_options
 
     @collections.each do |collection|
@@ -175,13 +179,24 @@ class OrderOptionAssignmentsController < ApplicationController
   end
 
 
-  def get_collections_by_entry_titles(entry_titles)
+  def find_collections_by_concept_ids(concept_ids)
     # page_size default is 10, max is 2000
-    query = { 'page_size' => 100, 'entry_title' => entry_titles }
+    query = { 'page_size' => 2000, 'entry_title' => concept_ids }
     collections_response = cmr_client.get_collections(query, token).body
 
     hits = collections_response['hits'].to_i
     errors = collections_response.fetch('errors', [])
     collections = collections_response.fetch('items', [])
+
+    matched_collections = []
+    collections.each do |collection|
+      concept_ids.each do |concept_id|
+        if collection['meta']['concept-id'] == concept_id
+          matched_collections << collection
+        end
+      end
+    end
+    matched_collections
   end
+
 end
