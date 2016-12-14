@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Creating Order Option Assignments' do
+describe 'Viewing and Creating Order Option Assignments' do
 
 
   before do
@@ -18,7 +18,7 @@ describe 'Creating Order Option Assignments' do
   context 'When trying to display option assignments without selecting any collections', js: true do
 
     before do
-      click_on 'Display Option Assignments'
+      click_on 'Submit'
     end
 
     it 'displays validation errors within the form' do
@@ -44,7 +44,7 @@ describe 'Creating Order Option Assignments' do
       end
 
       VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
-        click_on 'Display Option Assignments'
+        click_on 'Submit'
       end
 
 
@@ -72,16 +72,8 @@ describe 'Creating Order Option Assignments' do
 
     before do
 
-      within '#collectionsChooser' do
-        select('lorem | ipsum', from: 'Available collections')
-
-        within ".button-container" do
-          find('button[title=add]').click
-        end
-      end
-
       VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
-        click_on 'Display Option Assignments'
+        visit new_order_option_assignment_path
       end
 
       click_on 'Submit'
@@ -93,62 +85,16 @@ describe 'Creating Order Option Assignments' do
     end
 
   end
-
-
-  context 'When attempting to complete an order option assignment', js: true do
-
-    before do
-
-      within '#collectionsChooser' do
-        select('lorem | ipsum', from: 'Available collections')
-
-        within ".button-container" do
-          find('button[title=add]').click
-        end
-      end
-
-      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
-        click_on 'Display Option Assignments'
-      end
-
-
-      within '#collections-table tbody' do
-        first('input[value=C1200056652-MMT_2]').click
-      end
-
-
-
-      VCR.use_cassette('echo_rest/order_option_assignments/display-step-2', record: :none) do
-        click_on 'Submit'
-      end
-
-      click_on 'Submit'
-
-    end
-
-    it 'contains a single row with the collection name' do
-
-      page.should have_selector('table tbody tr', :count => 1)
-
-      within('#collections-table tbody') do
-        expect(page).to have_content 'ipsum'
-      end
-
-      expect(page).to have_field('Option Definition')
-      expect(page).to have_field('Filter XPath')
-    end
-
-    it 'Displays an error message and does not submit the form' do
-      expect(page).to have_content('Please select at least one collection')
-    end
-  end
-
 
 
   context 'When creating an option assignemnt with a deprecated order option', js: true do
 
     before do
 
+      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
+        visit new_order_option_assignment_path
+      end
+
       within '#collectionsChooser' do
         select('lorem | ipsum', from: 'Available collections')
 
@@ -157,25 +103,8 @@ describe 'Creating Order Option Assignments' do
         end
       end
 
-      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
-        click_on 'Display Option Assignments'
-      end
 
-
-      within '#collections-table tbody' do
-        first('input[value=C1200056652-MMT_2]').click
-      end
-
-      VCR.use_cassette('echo_rest/order_option_assignments/display-step-2', record: :none) do
-        click_on 'Submit'
-      end
-
-      within '#collections-table tbody' do
-        first('input[value=C1200056652-MMT_2]').click
-      end
-
-      select 'James-AAAA000000', from: 'Option Definition'
-      fill_in 'Filter XPath', with: 'foo'
+      select 'Opt A02', from: 'Option Definition'
 
       VCR.use_cassette('echo_rest/order_option_assignments/create-error', record: :none) do
         click_on 'Submit'
@@ -193,6 +122,10 @@ describe 'Creating Order Option Assignments' do
 
     before do
 
+      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
+        visit new_order_option_assignment_path
+      end
+
       within '#collectionsChooser' do
         select('lorem | ipsum', from: 'Available collections')
 
@@ -201,25 +134,7 @@ describe 'Creating Order Option Assignments' do
         end
       end
 
-      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
-        click_on 'Display Option Assignments'
-      end
-
-
-      within '#collections-table tbody' do
-        first('input[value=C1200056652-MMT_2]').click
-      end
-
-      VCR.use_cassette('echo_rest/order_option_assignments/display-step-2', record: :none) do
-        click_on 'Submit'
-      end
-
-      within '#collections-table tbody' do
-        first('input[value=C1200056652-MMT_2]').click
-      end
-
-      select '1001-D V2', from: 'Option Definition'
-      fill_in 'Filter XPath', with: 'foo'
+      select 'Opt A04', from: 'Option Definition'
 
       VCR.use_cassette('echo_rest/order_option_assignments/create-success', record: :none) do
         click_on 'Submit'

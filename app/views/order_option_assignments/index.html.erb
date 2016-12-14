@@ -14,13 +14,13 @@
 
   <div class="row row-content">
     <section>
-      <h2>Order Option Assignments</h2>
+      <h2>Option Assignment Search</h2>
 
-      <%= form_tag(edit_order_option_assignments_path, method: :get, id: 'order-options-assignment-form', class: 'order-option-assignments-form') %>
+      <%= form_tag(edit_order_option_assignments_path, method: :get, id: 'order-option-assignments-form') %>
 
       <div id="chooser-widget"></div>
 
-      <%= submit_tag 'Display Option Assignments', class: 'eui-btn--blue', id: 'submit-display-options' %>
+      <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'submit-display-options' %>
       <%-# link_to 'Delete Option Assignments', order_option_assignments_path, class: 'eui-btn--green' %>
 
     </section>

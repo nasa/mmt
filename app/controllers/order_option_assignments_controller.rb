@@ -21,37 +21,24 @@ class OrderOptionAssignmentsController < ApplicationController
   end
 
   def edit
-
     collections = find_collections_by_concept_ids(params['collectionsChooser_toList'])
     @collections_to_list = []
 
     collections.each do |collection|
       id = collection['meta']['concept-id']
-      assignments_response = cmr_client.get_order_option_assignments(id, echo_provider_token)
-
+      options = { 'catalog_item[]' => id }
+      assignments_response = cmr_client.get_order_option_assignments(options, echo_provider_token)
       if assignments_response.success?
         option_defs = Array.wrap(get_order_option_defs(assignments_response.body))
 
       if option_defs.length > 0
         option_defs.each do |option_def|
           collection_copy = collection.clone
-
-          # Sometimes this is returned as a 2-element Array
-          if option_def.class.to_s == 'Array'
-            option_def = {
-                'Name' => option_def[0],
-                'Guid' => option_def[1]
-            }
-          end
-
           collection_copy['option-def'] = option_def
-
           assignment = find_assignment(option_def['Guid'], assignments_response.body)[0]
 
-          if ! assignment.nil?
+          unless assignment.nil?
             collection_copy['option-assignment-guid'] = assignment['catalog_item_option_assignment']['catalog_item_id']
-            # TODO: The ECHO client is not returning the filter XPath.
-            collection_copy['option-assignment-filter-xpath'] = assignment['catalog_item_option_assignment'].fetch('filter_xpath','')
           end
 
           @collections_to_list << collection_copy
@@ -61,9 +48,23 @@ class OrderOptionAssignmentsController < ApplicationController
       end
 
       else
-        Rails.logger.error("Order Option Assignment Retrieval Error: #{assignments_response.body}")
+        Rails.logger.error(assignments_response.body)
         flash.now[:error] = assignments_response.body.inspect
       end
+
+      empty_assignment_cnt = 0
+      @collections_to_list.each do |collection|
+        if collection['option-def'].nil?
+          empty_assignment_cnt += 1
+        end
+      end
+
+      @all_empty_assignments = false
+
+      if empty_assignment_cnt == @collections_to_list.length
+        @all_empty_assignments = true
+      end
+
     end
   end
 
@@ -73,16 +74,13 @@ class OrderOptionAssignmentsController < ApplicationController
 
 
   def create
-    concept_ids = params.fetch('collection-checkbox', [])
-    order_option = params.fetch('order-options', '')
-    filter_xpath = params.fetch('filter-xpath', nil)
-
-    collections = find_collections_by_concept_ids(concept_ids)
+    @order_option = params.fetch('order-options', '')
+    @collections = find_collections_by_concept_ids(params['collectionsChooser_toList'])
 
     errors = []
-    collections.each do |collection|
+    @collections.each do |collection|
       id = collection['meta']['concept-id']
-      response = cmr_client.add_order_option_assignments(id, order_option, filter_xpath, echo_provider_token)
+      response = cmr_client.add_order_option_assignments(id, @order_option, echo_provider_token)
 
       if response.error?
         errors << response.body.inspect
@@ -96,8 +94,10 @@ class OrderOptionAssignmentsController < ApplicationController
       redirect_to order_option_assignments_url
     else
       flash[:error] = errors.uniq.join ', '
-      @collections = find_collections_by_concept_ids(concept_ids)
+      @order_option = params.fetch('order-options', '')
+      @collections = find_collections_by_concept_ids(params['collectionsChooser_toList'])
       @order_option_select_values = get_order_options
+      @chosen_collections = build_collections_array(@collections)
       render new_order_option_assignment_path
     end
 
@@ -105,32 +105,24 @@ class OrderOptionAssignmentsController < ApplicationController
 
   def new
 
-    concept_ids = params.fetch('order-option-checkbox', []).uniq
-
-    if concept_ids.length < 1
-      flash[:error] = "At least one collection must be selected"
-      redirect_to order_option_assignments_path
-      return
-    end
-
-    @collections = find_collections_by_concept_ids(concept_ids)
     @order_option_select_values = get_order_options
 
-    @collections.each do |collection|
-      id = collection['meta']['concept-id']
-      response = cmr_client.get_order_option_assignments(id, echo_provider_token)
 
-      if response.success?
-        # Add an element to the collection
-        collection['option-assignments'] = get_order_option_defs(response.body)
-      else
-        Rails.logger.error("Order Option Assignment Retrieval Error: #{response.body}")
-        flash.now[:error] = response.body.inspect
-      end
-    end
   end
 
   private
+
+
+  def build_collections_array(collections)
+    items = []
+    collections.each do |collection|
+      items << [
+          collection['meta']['concept-id'],
+          collection['umm']['short-name'] + " | " + collection['umm']['entry-title']
+      ]
+    end
+    items
+  end
 
   def find_assignment(guid, body)
     body.each do |item|
@@ -142,11 +134,9 @@ class OrderOptionAssignmentsController < ApplicationController
 
   def get_order_option_defs(option_infos)
 
-    guids = []
+    return [] if(option_infos.length < 1)
 
-    if(option_infos.length < 1)
-      return []
-    end
+    guids = []
 
     option_infos.each do |option_info|
       guids <<  option_info['catalog_item_option_assignment']['option_definition_id']
@@ -157,7 +147,11 @@ class OrderOptionAssignmentsController < ApplicationController
     if order_option_response.success?
       # Retreive the order options
       order_option_list = order_option_response.parsed_body.fetch('Item', {})
+    else
+      Rails.logger.error(order_option_response.body)
+      flash[:error] = order_option_response.body.inspect
     end
+
     order_option_list
   end
 
@@ -167,7 +161,11 @@ class OrderOptionAssignmentsController < ApplicationController
     if order_option_response.success?
       # Retreive the order options
       order_option_list = order_option_response.parsed_body.fetch('Item', {})
+    else
+      Rails.logger.error(order_option_response.body)
+      flash[:error] = order_option_response.body.inspect
     end
+
     order_option_select_values = []
 
     order_option_list.each do |order_option|
@@ -177,11 +175,10 @@ class OrderOptionAssignmentsController < ApplicationController
 
     order_option_select_values
   end
-
-
+  
   def find_collections_by_concept_ids(concept_ids)
     # page_size default is 10, max is 2000
-    query = { 'page_size' => 2000, 'entry_title' => concept_ids }
+    query = { 'page_size' => 2000, 'concept_id' => concept_ids }
     collections_response = cmr_client.get_collections(query, token).body
 
     hits = collections_response['hits'].to_i

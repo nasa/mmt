@@ -14,7 +14,7 @@
 
   <div class="row row-content">
     <section>
-      <h2>Order Option Assignments</h2>
+      <h2>Option Assignments</h2>
 
       <%= form_tag(new_order_option_assignment_path, method: :get, id: 'edit-order-option-assignments-form') %>
 
@@ -24,7 +24,7 @@
         <thead>
           <tr>
             <th>
-              <%= check_box_tag 'order-option-all-checkbox' %>
+              <input type="checkbox" name="order-option-all-checkbox" class="checkall" data-group="order-option-checkbox[]">
             </th>
             <th>
               Collection
@@ -38,13 +38,17 @@
             <th>
               Option Definition Name
             </th>
-            <th>
-
-            </th>
           </tr>
         </thead>
 
         <tbody>
+          <%if @all_empty_assignments %>
+            <tr id="no-assignments-msg" >
+              <td colspan="6">
+                No assignments found for the selected collections
+              </td>
+            </tr>
+            <% end %>
           <% @collections_to_list.each do |collection| %>
               <tr <%= collection['option-def'].nil? ? 'class=hidden-row' : '' %>>
                 <td>
@@ -62,25 +66,11 @@
                 <td>
                   <%=collection.fetch('option-def',{}).fetch('Name','') %>
                 </td>
-                <td>
-                  <% if ! collection['option-def'].nil? %>
-                      <%-# link_to 'View',  order_option_assignment_url(collection['meta']['concept-id']) %>
-
-                      <%= link_to 'View',  order_option_assignment_url(collection['meta']['concept-id'], {
-                          :entry_title => collection['umm']['entry-title'],
-                          :option_def_name => collection['option-def']['Name'],
-                          :filter_xpath => collection['option-assignment-filter-xpath']
-                      }) %>
-
-
-                  <% end %>
-                </td>
               </tr>
           <%end %>
         </tbody>
       </table>
 
-      <%= submit_tag 'Submit', id: 'add-submit-button', class: 'eui-btn--blue' %>
       <%= link_to 'Cancel', order_option_assignments_path, class: 'eui-btn' %>
 
     </section>

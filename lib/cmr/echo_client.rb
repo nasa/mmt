@@ -37,12 +37,12 @@ module Cmr
       get(url, {}, { 'Echo-Token' => token })
     end
 
-    def get_order_option_assignments(id, token)
-      url = "/echo-rest/catalog_item_option_assignments.json?catalog_item[]=#{id}"
-      get(url, {}, { 'Echo-Token' => token })
+    def get_order_option_assignments(options, token)
+      url = '/echo-rest/catalog_item_option_assignments.json'
+      get(url, options, { 'Echo-Token' => token })
     end
 
-    def add_order_option_assignments(id, order_option, filter_xpath, token)
+    def add_order_option_assignments(id, order_option, token)
       url = "/echo-rest/catalog_item_option_assignments"
       content_type = { 'Content-Type' => 'application/json' }
       body = {
@@ -51,12 +51,6 @@ module Cmr
               'option_definition_id' => order_option
           }
       }
-
-      # filter_xpath is an optional parameter
-      if ! filter_xpath.nil?
-        body['catalog_item_option_assignment']['filter_xpath'] = filter_xpath
-      end
-
       echo_security_token = { 'Echo-Token' => token }
       post(url, body.to_json, content_type.merge(echo_security_token))
     end

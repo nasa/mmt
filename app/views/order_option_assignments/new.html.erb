@@ -21,42 +21,9 @@
 
       Select one or more collections.
 
-      <table id="collections-table">
-        <thead>
-          <tr>
-            <th>
-              <%= check_box_tag 'order-option-all-checkbox' %>
-            </th>
-            <th>
-              Collection
-            </th>
-            <th>
-              Short Name
-            </th>
-            <th>
-              Version ID
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <%@collections.each do |collection| %>
-              <tr>
-                <td>
-                  <%= check_box_tag 'collection-checkbox[]', collection['meta']['concept-id'] %>
-                </td>
-                <td>
-                  <%=collection['umm']['entry-title']%>
-                </td>
-                <td>
-                  <%=collection['umm']['short-name']%>
-                </td>
-                <td>
-                  <%=collection['umm']['version-id']%>
-                </td>
-              </tr>
-          <%end %>
-        </tbody>
-      </table>
+      <div id="chooser-widget"></div>
+
+      <%= hidden_field_tag 'chosen-collections', @chosen_collections.to_json %>
 
       <div class="row space-top"></div>
 
@@ -65,24 +32,15 @@
           <%= label_tag 'order-options', 'Option Definition'  %>
         </div>
         <div class="col-4">
-          <%= select_tag 'order-options', options_for_select(@order_option_select_values), id: 'order-options', class: 'half-width' %>
+          <%= select_tag 'order-options', options_for_select(@order_option_select_values, @order_option), id: 'order-options', class: 'half-width' %>
         </div>
       </div>
 
 
       <div class="row space-top">
-        <div class="col-2">
-          <%= label_tag 'filter-xpath', 'Filter XPath' %>
-        </div>
         <div class="col-4">
-          <%= text_field_tag 'filter-xpath' %>
-        </div>
-      </div>
-
-      <div class="row space-top">
-        <div class="col-4">
-        <%= submit_tag 'Submit', class: 'eui-btn--blue' %>
-          <%= link_to 'Cancel', order_option_assignments_path, class: 'eui-btn' %>
+        <%= submit_tag 'Submit', id: 'submit-new-options', class: 'eui-btn--blue' %>
+        <%= link_to 'Cancel', order_option_assignments_path, class: 'eui-btn' %>
         </div>
       </div>
 
