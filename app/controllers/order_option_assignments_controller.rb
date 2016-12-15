@@ -33,7 +33,7 @@ class OrderOptionAssignmentsController < ApplicationController
 
       else
         Rails.logger.error(assignments_response.body)
-        flash.now[:error] = assignments_response.body.inspect
+        flash[:error] = assignments_response.body['errors'].inspect
       end
 
       empty_assignment_cnt = 0
