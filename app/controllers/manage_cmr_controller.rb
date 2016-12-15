@@ -64,10 +64,7 @@ class ManageCmrController < PagesController
     permission = check_if_administrator_of('provider', 'PROVIDER_OBJECT_ACL')
 
     granted_permissions = permission.fetch('PROVIDER_OBJECT_ACL', [])
-    # for some reason, even if the user has 'create' permissions, the check only responds with read update and delete
-    # but retrieving all acls for the provider shows 'create' in the group_permissions
-    # hopefully this will be resolved, and we can add 'create' to this check
-    needed_permissions = %w(read update delete)
+    needed_permissions = %w(create read update delete)
     if !granted_permissions.blank? && needed_permissions.all? { |perm| granted_permissions.include?(perm) }
       @user_is_current_provider_acl_admin = true
     end
