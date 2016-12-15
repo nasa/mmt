@@ -113,7 +113,7 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
 
     it 'Displays an error message' do
-      expect(page).to have_content('Deprecated option definitions may not be assigned to catalog items.')
+      expect(page).to have_content('0 Order Option assignments created successfully, 1 Order Option assignment failed to save.')
     end
   end
 
@@ -143,7 +143,7 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
 
     it 'Displays a success message' do
-      expect(page).to have_content('Order Option assignment successful.')
+      expect(page).to have_content('1 Order Option assignment created successfully, 0 Order Option assignments failed to save. ')
     end
 
   end

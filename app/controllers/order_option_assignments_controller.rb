@@ -1,21 +1,5 @@
 class OrderOptionAssignmentsController < ApplicationController
 
-  before_action :ensure_correct_permission
-
-
-  def ensure_correct_permission
-
-    # We are detecting this error because ECHO may not allow the current
-    # user to act on behalf of their current provider. This will display
-    # that message to the user on the index page, something like
-    # "User [john] may not act on behalf of provider [MMT_1]"
-    if echo_provider_token.class == Hash && echo_provider_token['faultstring']
-      flash.now[:error] = echo_provider_token['faultstring']
-      render :index
-    end
-  end
-
-
   def index
     # stub
   end
@@ -31,21 +15,21 @@ class OrderOptionAssignmentsController < ApplicationController
       if assignments_response.success?
         option_defs = Array.wrap(get_order_option_defs(assignments_response.body))
 
-      if option_defs.length > 0
-        option_defs.each do |option_def|
-          collection_copy = collection.clone
-          collection_copy['option-def'] = option_def
-          assignment = find_assignment(option_def['Guid'], assignments_response.body)[0]
+        if option_defs.length > 0
+          option_defs.each do |option_def|
+            collection_copy = collection.clone
+            collection_copy['option-def'] = option_def
+            assignment = find_assignment(option_def['Guid'], assignments_response.body)[0]
 
-          unless assignment.nil?
-            collection_copy['option-assignment-guid'] = assignment['catalog_item_option_assignment']['catalog_item_id']
+            unless assignment.nil?
+              collection_copy['option-assignment-guid'] = assignment['catalog_item_option_assignment']['catalog_item_id']
+            end
+
+            @collections_to_list << collection_copy
           end
-
-          @collections_to_list << collection_copy
+        else
+          @collections_to_list << collection
         end
-      else
-        @collections_to_list << collection
-      end
 
       else
         Rails.logger.error(assignments_response.body)
@@ -74,55 +58,30 @@ class OrderOptionAssignmentsController < ApplicationController
 
 
   def create
+    success_count = 0
+    error_count = 0
     @order_option = params.fetch('order-options', '')
-    @collections = find_collections_by_concept_ids(params['collectionsChooser_toList'])
 
-    errors = []
-    @collections.each do |collection|
-      id = collection['meta']['concept-id']
-      response = cmr_client.add_order_option_assignments(id, @order_option, echo_provider_token)
+    params['collectionsChooser_toList'].each do |concept_id|
+      response = cmr_client.add_order_option_assignments(concept_id, @order_option, echo_provider_token)
+      success_count += 1 unless response.error?
+      error_count += 1 if response.error?
 
       if response.error?
-        errors << response.body.inspect
         Rails.logger.error("Order Option Assignment Error: #{response.body}")
-        flash[:error] = response.body.inspect
       end
     end
 
-    if errors.empty?
-      flash[:success] = 'Order Option assignment successful.'
-      redirect_to order_option_assignments_url
-    else
-      flash[:error] = errors.uniq.join ', '
-      @order_option = params.fetch('order-options', '')
-      @collections = find_collections_by_concept_ids(params['collectionsChooser_toList'])
-      @order_option_select_values = get_order_options
-      @chosen_collections = build_collections_array(@collections)
-      render new_order_option_assignment_path
-    end
+    redirect_to order_option_assignments_path, notice: "#{success_count} #{'Order Option assignment'.pluralize(success_count)} created successfully, #{error_count} #{'Order Option assignment'.pluralize(error_count)} failed to save."
 
   end
 
   def new
-
     @order_option_select_values = get_order_options
-
-
   end
 
   private
 
-
-  def build_collections_array(collections)
-    items = []
-    collections.each do |collection|
-      items << [
-          collection['meta']['concept-id'],
-          collection['umm']['short-name'] + " | " + collection['umm']['entry-title']
-      ]
-    end
-    items
-  end
 
   def find_assignment(guid, body)
     body.each do |item|
@@ -175,7 +134,7 @@ class OrderOptionAssignmentsController < ApplicationController
 
     order_option_select_values
   end
-  
+
   def find_collections_by_concept_ids(concept_ids)
     # page_size default is 10, max is 2000
     query = { 'page_size' => 2000, 'concept_id' => concept_ids }
