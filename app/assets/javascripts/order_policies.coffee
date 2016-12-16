@@ -55,7 +55,7 @@ $(document).ready ->
       $.ajax '/provider_collections?' + $.param('concept_id': selectedValues),
         success: (data) ->
           # Sets the selected values of the chooser
-          collectionsChooser.setToVal(data)
+          collectionsChooser.setToVal(data.items)
         fail: (data) ->
           console.log data
 
