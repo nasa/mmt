@@ -119,7 +119,7 @@ class EchoSoapController < ApplicationController
 
     if response.success?
       # The chooser expects an array of arrays, so that's what we'll give it
-      response.body.fetch('items', []).map do |collection|
+      collections = response.body.fetch('items', []).map do |collection|
         [
           collection.fetch('meta', {}).fetch('concept-id'),
           [
@@ -128,6 +128,11 @@ class EchoSoapController < ApplicationController
           ].join(' | ')
         ]
       end
+
+      {
+        'hits': response.body.fetch('hits', 0),
+        'items': collections
+      }
     else
       response.body
     end

@@ -320,7 +320,7 @@ window.Chooser = (config) ->
       overwrite = true
       url += '?' + config.filterParm + '=' + $(FILTER_TEXTBOX).val()
     $.ajax('url': url).done((resp) ->
-      SELF.setFromVal resp
+      SELF.setFromVal resp.items
       return
     ).fail (resp) ->
       console.error 'ERROR--->Could not retrieve values. Reason:'
