@@ -24,7 +24,7 @@
         <thead>
           <tr>
             <th>
-              <input type="checkbox" name="order-option-all-checkbox" class="checkall" data-group="order-option-checkbox[]">
+              <%= check_box_tag  'order-option-all-checkbox', '', false, class: 'checkall', data: {'group' => 'order-option-checkbox[]'} %>
             </th>
             <th>
               Collection

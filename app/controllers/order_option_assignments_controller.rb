@@ -72,7 +72,11 @@ class OrderOptionAssignmentsController < ApplicationController
       end
     end
 
-    redirect_to order_option_assignments_path, notice: "#{success_count} #{'Order Option assignment'.pluralize(success_count)} created successfully, #{error_count} #{'Order Option assignment'.pluralize(error_count)} failed to save."
+    flash_messages = {}
+    flash_messages[:success] = "#{success_count} #{'Order Option assignment'.pluralize(success_count)} created successfully." if success_count > 0
+    flash_messages[:error] = "#{error_count} #{'Order Option assignment'.pluralize(error_count)} failed to save." if error_count > 0
+
+    redirect_to order_option_assignments_path, flash: flash_messages
 
   end
 
@@ -154,5 +158,4 @@ class OrderOptionAssignmentsController < ApplicationController
     end
     matched_collections
   end
-
 end
