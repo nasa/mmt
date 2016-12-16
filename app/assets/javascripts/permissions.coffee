@@ -13,7 +13,7 @@ $(document).ready ->
       if collectionsChooser == null
         collectionsChooser = new Chooser({
           id: 'collectionsChooser',
-          url: '/provider_collections',
+          url: '/permission/all_collections',
           nextPageParm: 'page_num',
           filterParm: 'short_name',
           filterChars: '1',
