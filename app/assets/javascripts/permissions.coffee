@@ -13,9 +13,9 @@ $(document).ready ->
       if collectionsChooser == null
         collectionsChooser = new Chooser({
           id: 'collectionsChooser',
-          url: '/permission/all_collections',
+          url: '/provider_collections',
           nextPageParm: 'page_num',
-          filterParm: 'entry_id',
+          filterParm: 'short_name',
           filterChars: '1',
           endlessScroll: false,
           target: $('#chooser-widget'),

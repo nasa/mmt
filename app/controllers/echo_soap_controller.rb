@@ -90,7 +90,7 @@ class EchoSoapController < ApplicationController
 
   # Controller action tied to a route for retrieving provider collections
   def provider_collections
-    render json: get_provider_collections(params.permit(:provider, :keyword, :page_size, :page_num, concept_id: []))
+    render json: get_provider_collections(params.permit(:provider, :keyword, :page_size, :page_num, :short_name, concept_id: []))
   end
 
   # Controller method that allows developers to get this data without
@@ -99,6 +99,17 @@ class EchoSoapController < ApplicationController
     collection_params = {
       'provider' => current_user.provider_id
     }.merge(params)
+
+    if collection_params.key?('short_name')
+      collection_params['short_name'].concat('*')
+
+      # In order to search with the wildcard parameter we need to tell CMR to use it
+      collection_params['options'] = {
+        'short_name' => {
+          'pattern' => true
+        }
+      }
+    end
 
     # Adds wildcard searching
     collection_params['keyword'].concat('*') if collection_params.key?('keyword')
