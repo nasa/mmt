@@ -8,7 +8,7 @@ $(document).ready ->
         id: 'collections_supporting_duplicate_order_items',
         url: '/provider_collections',
         nextPageParm: 'page_num',
-        filterParm: 'keyword',
+        filterParm: 'short_name',
         uniqueIdentifierParam: 'concept_id',
         filterChars: '1',
         endlessScroll: false,

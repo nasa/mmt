@@ -1,7 +1,4 @@
 class PermissionsController < ApplicationController
-
-  skip_before_filter :is_logged_in, only: [:get_all_collections]
-
   RESULTS_PER_PAGE = 10
 
   def index
@@ -225,43 +222,7 @@ class PermissionsController < ApplicationController
     end
   end
 
-  def get_all_collections
-    collections, @errors, hits = get_collections_for_provider(params)
-
-    @option_data = []
-    collections.each do |collection|
-      opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
-      @option_data << opt
-    end
-
-    if @errors.length > 0
-      render :json => { :success => false }
-    else
-      respond_to do |format|
-        format.json { render json: @option_data }
-      end
-    end
-  end
-
   private
-
-  def get_collections_for_provider(params)
-    # page_size default is 10, max is 2000
-
-    query = { 'provider' => current_user.provider_id,
-              'page_size' => 500 }
-
-    if params.key?('entry_id')
-      query['keyword'] = params['entry_id'] + '*'
-    end
-
-    if params.key?('page_num')
-      query['page_num'] = params['page_num']
-    end
-
-    collections_response = cmr_client.get_collections(query, token).body
-    parse_get_collections_response(collections_response)
-  end
 
   def get_collections_by_entry_titles(entry_titles)
     # page_size default is 10, max is 2000
