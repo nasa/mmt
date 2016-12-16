@@ -21,13 +21,15 @@ $(document).ready ->
           target: $('#chooser-widget'),
           fromLabel: 'Available collections',
           toLabel: 'Selected collections',
+          toMax: 200, # NEW - max number of opts you can choose
+          showNumLoaded: true, # NEW
           showNumChosen: true,
           forceUnique: true,
           uniqueMsg: 'Collection already added',
           attachTo: $('#collection_selections'),
           delimiter: "%%__%%",
-          filterText: "Filter collections",
-          removeAdded: false,
+          filterText: "Enter text to narrow search results",
+          removeAdded: true,
           addButton: {
             cssClass: 'eui-btn nowrap',
             arrowCssClass: 'eui-circle-right',

@@ -73,7 +73,9 @@ window.Chooser = (config) ->
   TO_MESSAGE = undefined
   CHOOSER_OPTS_STORAGE_KEY = 'Chooser_opts_' + config.id
   PAGE_NUM = 1
+  NUM_LOADED = undefined
   SELF = undefined
+
 
   ###
   # init - initializes the widget.
@@ -115,10 +117,14 @@ window.Chooser = (config) ->
     FILTER_TEXTBOX = $('<input type=\'text\' placeholder=\'' + placeHolderText + '\'>')
     if !config.hasOwnProperty('resetSize')
       config.resetSize = 50
+
     if config.fromLabel
       FROM_LABEL = $('<label for=\'' + config.id + '_fromList' + '\'>' + config.fromLabel + '</label>')
       $(FROM_CONTAINER).append FROM_LABEL
-      # $(FROM_CONTAINER).append '<br>'
+
+    if config.showNumLoaded
+      NUM_LOADED = $('<span>').attr('id',config.id + '_numLoaded').appendTo $(FROM_LABEL)
+
     if config.toLabel
       TO_LABEL = $('<label for=\'' + config.id + '_toList' + '\'>' + config.toLabel + '</label>')
       $(TO_CONTAINER).append TO_LABEL
@@ -158,6 +164,8 @@ window.Chooser = (config) ->
         SELF.removeFromBottom()
         PAGE_NUM = 1
       return
+
+
     $(TO_LIST).change ->
       numChosen = $(TO_LIST).find('option').length
       if hasProp('toLabel') and hasProp('showNumChosen')
@@ -174,6 +182,12 @@ window.Chooser = (config) ->
         $(tmpVal).attr 'title', $(tmpVal).text()
         return
       return
+
+    $(FROM_LIST).change ->
+      if config.showNumLoaded
+        $(NUM_LOADED).text(' ('+ $(FROM_LIST).find('option').length + ')')
+
+
     $(FILTER_TEXTBOX).keyup initFilter
     $(FROM_LIST).dblclick ->
       $(ADD_BUTTON).click()
@@ -267,6 +281,14 @@ window.Chooser = (config) ->
 
   # Private functions: -----------------------------
 
+  flashToMsg = (msg) ->
+    $(TO_MESSAGE).text(msg)
+    setTimeout (->
+      $(TO_MESSAGE).text ''
+      return
+    ), 2000
+
+
   setVal = (values, which) ->
     if values and typeof values == 'object'
       $(which).empty()
@@ -320,6 +342,7 @@ window.Chooser = (config) ->
       overwrite = true
       url += '?' + config.filterParm + '=' + $(FILTER_TEXTBOX).val()
     $.ajax('url': url).done((resp) ->
+      SELF.setFromVal resp
       SELF.setFromVal resp.items
       return
     ).fail (resp) ->
@@ -339,8 +362,16 @@ window.Chooser = (config) ->
   ###
   addButtonClick = (e) ->
     e.preventDefault()
+
     msg = if hasProp('uniqueMsg', 'string') then config.uniqueMsg else 'Value already added'
+
     removeAdded = if hasProp('removeAdded', 'boolean') then config.removeAdded else true
+
+    if hasProp('toMax', 'number') && $(FROM_LIST).find('option:selected').length > config.toMax
+      flashToMsg('Please select fewer than ' + config.toMax + ' items.')
+      return
+
+
     $(FROM_LIST).find('option:selected').each (tmpKey, tmpVal) ->
       clonedOpt = $(tmpVal).clone()
       if config.forceUnique
