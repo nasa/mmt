@@ -15,7 +15,7 @@ $(document).ready ->
           id: 'collectionsChooser',
           url: '/permission/all_collections',
           nextPageParm: 'page_num',
-          filterParm: 'entry_id',
+          filterParm: 'short_name',
           filterChars: '1',
           endlessScroll: false,
           target: $('#chooser-widget'),
