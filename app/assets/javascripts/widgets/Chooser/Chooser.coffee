@@ -26,6 +26,11 @@
 # filterText (string):     Text for the filter textbox placeholder (default is "filter")
 # removeAdded (boolean):   Remove selections from the FROM list as they are added to the TO list. Default is true,
 # allowRemoveALl (boolean): Show the remove all button
+# lowerFromLabel (string):  Text to display under the FROM list. Can be used with a template, e.g.,
+#                           'Showing {{x}} of {{n}} items.' where x is the number of items loaded in the FROM list
+#                           and x is the total number of hits that come back from the server (both are optional).
+# toMax (int):              Max number of items that can be moved from left to right at a time. This is for performance
+#                           reasons, as hundreds of items could take a long time to move because each item is cloned.
 #
 # Public methods:
 #
@@ -385,33 +390,27 @@ window.Chooser = (config) ->
       return
 
 
-    $(FROM_LIST).find('option:selected').each (tmpKey, tmpVal) ->
-      clonedOpt = $(tmpVal).clone()
-      if config.forceUnique
-        fromListVal = $(tmpVal).attr('value')
-        toListVal = $(TO_LIST).find('option').filter () ->
-          if fromListVal == $(this).val()
-            return true
-        toListVal = $(toListVal).val();
-        if toListVal != fromListVal
-          $(TO_LIST).append clonedOpt
-          if removeAdded
-            $(tmpVal).remove()
-        else
-          $(TO_MESSAGE).text msg
-          setTimeout (->
-            $(TO_MESSAGE).text ''
-            return
-          ), 2000
-      else
-        $(TO_LIST).append clonedOpt
-        if removeAdded
-          $(tmpVal).remove()
+    if hasProp("removeAdded", "boolean") && config.removeAdded
+      $(FROM_LIST).find('option:selected').appendTo($(TO_LIST))
+    else
+      $(FROM_LIST).find('option:selected').clone().appendTo($(TO_LIST))
+
+    if ( hasProp('forceUnique', 'boolean') && hasProp('removeAdded', 'boolean') ) && ( config.forceUnique && ! config.removeAdded )
+
+      found = []
+      $(TO_LIST).find('option').each () ->
+        if($.inArray(this.value, found) != -1)
+          flashToMsg(msg)
+          $(this).remove()
+        found.push(this.value)
+        return
+
       $(TO_LIST).trigger 'change'
       # This is a hack in order to accommodate picky libraries like validate
       $(TO_LIST).find('option:first').prop 'selected', true
       $(TO_LIST).find('option:first').click()
       return
+
     return
 
   ###
@@ -424,9 +423,9 @@ window.Chooser = (config) ->
   removeButtonClick = (e, remAll) ->
     e.preventDefault()
     query = if remAll then 'option' else 'option:selected'
+
     $(TO_LIST).find(query).each (tmpKey, tmpVal) ->
       fromListVal = $(tmpVal).attr('value')
-      #toListVal = $(TO_LIST).find('option[value=\'' + fromListVal + '\']').attr('value')
       toListVal = $(TO_LIST).find('option').filter () ->
         if fromListVal == $(this).val()
           return true

@@ -22,23 +22,28 @@ $(document).ready ->
           fromLabel: 'Available collections',
           toLabel: 'Selected collections',
           lowerFromLabel: 'Showing {{x}} of {{n}} collections.'
-          toMax: 200, # NEW - max number of opts you can choose
+          toMax: 500, # NEW - max number of opts you can choose
           showNumChosen: true,
           forceUnique: true,
           uniqueMsg: 'Collection already added',
           attachTo: $('#collection_selections'),
           delimiter: "%%__%%",
           filterText: "Enter text to narrow search results",
-          removeAdded: true,
+          removeAdded: false,
           addButton: {
             cssClass: 'eui-btn nowrap',
-            arrowCssClass: 'eui-circle-right',
-            text: 'Add collection(s)'
+            arrowCssClass: 'fa fa-plus',
+            text: ''
           },
           delButton: {
             cssClass: 'eui-btn nowrap',
-            arrowCssClass: 'eui-circle-left',
-            text: 'Remove collection(s)'
+            arrowCssClass: 'fa fa-minus',
+            text: ''
+          },
+          delAllButton: {
+            cssClass: 'eui-btn nowrap',
+            arrowCssClass: 'fa fa-trash',
+            text: ''
           },
           allowRemoveAll: true,
           errorCallback: ->
