@@ -21,8 +21,8 @@ $(document).ready ->
           target: $('#chooser-widget'),
           fromLabel: 'Available collections',
           toLabel: 'Selected collections',
+          lowerFromLabel: 'Showing {{x}} of {{n}} collections.'
           toMax: 200, # NEW - max number of opts you can choose
-          showNumLoaded: true, # NEW
           showNumChosen: true,
           forceUnique: true,
           uniqueMsg: 'Collection already added',
@@ -40,7 +40,7 @@ $(document).ready ->
             arrowCssClass: 'eui-circle-left',
             text: 'Remove collection(s)'
           },
-          allowRemoveAll: false,
+          allowRemoveAll: true,
           errorCallback: ->
             $('<div class="eui-banner--danger">' +
                 'A server error occurred. Unable to get collections.' +

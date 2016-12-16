@@ -73,7 +73,8 @@ window.Chooser = (config) ->
   TO_MESSAGE = undefined
   CHOOSER_OPTS_STORAGE_KEY = 'Chooser_opts_' + config.id
   PAGE_NUM = 1
-  NUM_LOADED = undefined
+  LOWER_FROM_LABEL = undefined
+  TOTAL_HITS = undefined
   SELF = undefined
 
 
@@ -118,29 +119,37 @@ window.Chooser = (config) ->
     if !config.hasOwnProperty('resetSize')
       config.resetSize = 50
 
-    if config.fromLabel
-      FROM_LABEL = $('<label for=\'' + config.id + '_fromList' + '\'>' + config.fromLabel + '</label>')
-      $(FROM_CONTAINER).append FROM_LABEL
+    if hasProp('fromLabel', 'string')
+      FROM_LABEL = $('<label>').attr('for', config.id + '_fromList').text(config.fromLabel)
 
-    if config.showNumLoaded
-      NUM_LOADED = $('<span>').attr('id',config.id + '_numLoaded').appendTo $(FROM_LABEL)
+    if hasProp('lowerFromLabel', 'string')
+      LOWER_FROM_LABEL = $('<p>').addClass('form-description')
 
     if config.toLabel
       TO_LABEL = $('<label for=\'' + config.id + '_toList' + '\'>' + config.toLabel + '</label>')
       $(TO_CONTAINER).append TO_LABEL
+
+
     # Assemble the components
     $(OUTER_CONTAINER).append FROM_CONTAINER
     $(OUTER_CONTAINER).append BUTTON_CONTAINER
     $(OUTER_CONTAINER).append TO_CONTAINER
+
+    $(FROM_CONTAINER).append FROM_LABEL
     $(FROM_CONTAINER).append FILTER_TEXTBOX
     $(FROM_CONTAINER).append FROM_LIST
+    $(FROM_CONTAINER).append LOWER_FROM_LABEL
+
     $(TO_CONTAINER).append TO_LIST
+
     $(BUTTON_CONTAINER).append ADD_BUTTON
     $(BUTTON_CONTAINER).append REMOVE_BUTTON
     $(BUTTON_CONTAINER).append REMOVE_ALL_BUTTON
     $(OUTER_CONTAINER).appendTo $(config.target)
+
     TO_MESSAGE = $('<span class=\'to_message\'></span>')
     $(TO_CONTAINER).append TO_MESSAGE
+
     $(ADD_BUTTON).click addButtonClick
     $(REMOVE_BUTTON).click removeButtonClick
     $(REMOVE_ALL_BUTTON).click removeAllButtonClick
@@ -184,8 +193,12 @@ window.Chooser = (config) ->
       return
 
     $(FROM_LIST).change ->
-      if config.showNumLoaded
-        $(NUM_LOADED).text(' ('+ $(FROM_LIST).find('option').length + ')')
+
+      if hasProp("lowerFromLabel")
+        lowerFromLabelText = config.lowerFromLabel
+        lowerFromLabelText = lowerFromLabelText.replace '{{x}}', $(FROM_LIST).find('option').length
+        lowerFromLabelText = lowerFromLabelText.replace '{{n}}', TOTAL_HITS
+        $(LOWER_FROM_LABEL).text(lowerFromLabelText)
 
 
     $(FILTER_TEXTBOX).keyup initFilter
@@ -342,7 +355,7 @@ window.Chooser = (config) ->
       overwrite = true
       url += '?' + config.filterParm + '=' + $(FILTER_TEXTBOX).val()
     $.ajax('url': url).done((resp) ->
-      SELF.setFromVal resp
+      TOTAL_HITS = resp.hits
       SELF.setFromVal resp.items
       return
     ).fail (resp) ->
