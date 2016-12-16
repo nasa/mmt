@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   # PUMPness
   resources :permissions
+  get '/permission/all_collections' => 'permissions#get_all_collections'
 
   resources :system_identity_permissions, only: [:index, :edit, :update]
   resources :provider_identity_permissions, only: [:index, :edit, :update]
