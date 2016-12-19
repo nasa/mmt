@@ -59,17 +59,16 @@ $(document).ready ->
 
 
   # Edit page -----------------------------------------------------------
-  if $("#edit-order-option-assignments-form").length > 0
+  if $("#edit-order-option-assignments-page").length > 0
 
-    # show collections without options
+    #show collections without options
     $("#show-no-assigned-options").on 'change', ->
       $("#no-assignments-msg").toggle()
       if $(this).prop('checked')
         $('tr.hidden-row').removeClass('hidden-row').addClass('shown-row')
       else
         $('tr.shown-row').removeClass('shown-row').addClass('hidden-row')
-        # uncheck the collection if it's hidden
-        $("#collections-table tbody tr.hidden-row").find("[name='order-option-checkbox[]']").prop 'checked', false
+
 
 
   # New assignment page -----------------------------------------------------------

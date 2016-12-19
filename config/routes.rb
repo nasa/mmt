@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resource :order_option_assignments, only: :edit
   resources :order_option_assignments, except: :edit
+  post '/order_option_assignments/edit' => 'order_option_assignments#edit'
 
 
   resources :data_quality_summaries
