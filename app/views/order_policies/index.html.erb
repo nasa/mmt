@@ -47,7 +47,7 @@
             <!-- TRANSACTIONS SUPPORTED -->
             <div class="content-box">
               <h3>Order Transactions Supported</h3>
-              <%= [*@policy.fetch('SupportedTransactions', {}).fetch('Item', [])].to_sentence %>
+              <%= Array.wrap(@policy.fetch('SupportedTransactions', [])).to_sentence %>
 
               <p><span class="inline-label">Always Send Status Updates:</span> <%= @policy.fetch('overrideNotificationEnabled', 'false').downcase == "true" ? "Yes" : "No" %></p>
             </div>

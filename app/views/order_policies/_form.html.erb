@@ -18,7 +18,7 @@
   <h3>Order Transactions</h3>
   <div class="row checkbox-group">
     <div>
-      <label for="supported_transactions_cancel"><%= check_box_tag('supported_transactions[]', 'CANCEL', @policy.fetch('SupportedTransactions', {}).fetch('Item', []).include?('CANCEL'), id: 'supported_transactions_cancel') %>
+      <label for="supported_transactions_cancel"><%= check_box_tag('supported_transactions[]', 'CANCEL', @policy.fetch('SupportedTransactions', []).include?('CANCEL'), id: 'supported_transactions_cancel') %>
         Support Canceling Transactions
       </label>
 
