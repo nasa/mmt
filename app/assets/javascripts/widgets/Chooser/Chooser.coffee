@@ -127,7 +127,7 @@ window.Chooser = (config) ->
     if hasProp('fromLabel', 'string')
       FROM_LABEL = $('<label>').attr('for', config.id + '_fromList').text(config.fromLabel)
 
-    if hasProp('lowerFromLabel', 'string')
+    if ! hasProp('lowerFromLabel') || hasProp('lowerFromLabel', 'string')
       LOWER_FROM_LABEL = $('<p>').addClass('form-description')
 
     if config.toLabel
@@ -198,13 +198,13 @@ window.Chooser = (config) ->
       return
 
     $(FROM_LIST).change ->
-
-      if hasProp("lowerFromLabel")
-        lowerFromLabelText = config.lowerFromLabel
-        lowerFromLabelText = lowerFromLabelText.replace '{{x}}', $(FROM_LIST).find('option').length
-        lowerFromLabelText = lowerFromLabelText.replace '{{n}}', TOTAL_HITS
+      if ! hasProp('lowerFromLabel') || hasProp('lowerFromLabel', 'string')
+        x = $(FROM_LIST).find('option').length
+        n = TOTAL_HITS
+        lowerFromLabelText = config.lowerFromLabel || 'Shwoing {{x}} of {{n}} ' + pluralize('item', n)
+        lowerFromLabelText = lowerFromLabelText.replace '{{x}}', x
+        lowerFromLabelText = lowerFromLabelText.replace '{{n}}', n
         $(LOWER_FROM_LABEL).text(lowerFromLabelText)
-
 
     $(FILTER_TEXTBOX).keyup initFilter
     $(FROM_LIST).dblclick ->
@@ -385,6 +385,9 @@ window.Chooser = (config) ->
 
     removeAdded = if hasProp('removeAdded', 'boolean') then config.removeAdded else true
 
+    if ! hasProp('toMax')
+      config.toMax = 500
+
     if hasProp('toMax', 'number') && $(FROM_LIST).find('option:selected').length > config.toMax
       flashToMsg('Please select fewer than ' + config.toMax + ' items.')
       return
@@ -472,5 +475,20 @@ window.Chooser = (config) ->
         true
     else
       false
+
+
+  ###
+  # Convenience method to handle logic of plural words.
+  #
+  # Examples:
+  # pluraize('item', 4) --> items
+  # pluraize('item', 1) --> item
+  # pluraize('item', 0) --> items
+  ###
+  pluralize = (word, count) ->
+    if count > 1 || count < 1
+      return word + 's'
+    else
+      return word
 
   return

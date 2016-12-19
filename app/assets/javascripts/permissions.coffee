@@ -21,8 +21,6 @@ $(document).ready ->
           target: $('#chooser-widget'),
           fromLabel: 'Available collections',
           toLabel: 'Selected collections',
-          lowerFromLabel: 'Showing {{x}} of {{n}} collections.'
-          toMax: 500, # NEW - max number of opts you can choose
           showNumChosen: true,
           forceUnique: true,
           uniqueMsg: 'Collection already added',
