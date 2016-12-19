@@ -385,12 +385,13 @@ window.Chooser = (config) ->
 
     removeAdded = if hasProp('removeAdded', 'boolean') then config.removeAdded else true
 
-    if ! hasProp('toMax')
-      config.toMax = 500
-
-    if hasProp('toMax', 'number') && $(FROM_LIST).find('option:selected').length > config.toMax
-      flashToMsg('Please select fewer than ' + config.toMax + ' items.')
-      return
+    if ! hasProp('toMax') || hasProp('toMax', 'number')
+      if ! hasProp('toMax')
+        # set a default
+        config.toMax = 500
+      if $(FROM_LIST).find('option:selected').length > config.toMax
+        flashToMsg('Please select fewer than ' + config.toMax + ' items.')
+        return
 
 
     if hasProp("removeAdded", "boolean") && config.removeAdded
