@@ -29,12 +29,12 @@ class OrderPoliciesController < EchoSoapController
     upsert_response = upsert_policy
 
     if upsert_response.error?
-      flash[:error] = response.error_message
+      @policy.deep_stringify_keys!
+      flash[:error] = upsert_response.error_message
+      render :new
     else
-      flash[:success] = 'Order Policies successfully created'
+      redirect_to order_policies_path, flash: { success: 'Order Policies successfully created' }
     end
-
-    redirect_to order_policies_path
   end
 
   def update
@@ -42,12 +42,12 @@ class OrderPoliciesController < EchoSoapController
     upsert_response = upsert_policy
 
     if upsert_response.error?
-      flash[:error] = response.error_message
+      @policy.deep_stringify_keys!
+      flash[:error] = upsert_response.error_message
+      render :edit
     else
-      flash[:success] = 'Order Policies successfully updated'
+      redirect_to order_policies_path, flash: { success: 'Order Policies successfully updated' }
     end
-
-    redirect_to order_policies_path
   end
 
   def destroy
@@ -73,13 +73,19 @@ class OrderPoliciesController < EchoSoapController
 
     # Default value in case of error
     @policy = {} if defined?(@policy).nil?
+
+    # This comes to us as a Hash containing 'Item' but is returned as a simple array. For the purposes
+    # of rendering this and DRYing up the code, we'll convert this here so its the same in all uses
+    if @policy.key?('SupportedTransactions')
+      @policy['SupportedTransactions'] = @policy.fetch('SupportedTransactions', {}).fetch('Item', [])
+    end
   end
 
   def generate_upsert_payload
     # SUBMIT is given to all orders, no need to select it
     provided_supported_transactions = %w(SUBMIT)
 
-    payload = {
+    @policy = {
       RetryAttempts: params.fetch('retry_attempts'),
       RetryWaitTime: params.fetch('retry_wait_time'),
       EndPoint: params.fetch('end_point'),
@@ -93,24 +99,24 @@ class OrderPoliciesController < EchoSoapController
     }
 
     unless params.fetch('properties').empty?
-      payload[:Properties] = params.fetch('properties')
+      @policy[:Properties] = params.fetch('properties')
     end
 
     order_items = params.fetch('collections_supporting_duplicate_order_items_toList', [])
     unless order_items.empty?
-      payload[:OrderSupportsDuplicateCatalogItems] = 'true'
-      payload[:CollectionsSupportingDuplicateOrderItems] = order_items
+      @policy[:OrderSupportsDuplicateCatalogItems] = 'true'
+      @policy[:CollectionsSupportingDuplicateOrderItems] = order_items
     end
 
     unless params.fetch('max_items_per_order').empty?
-      payload[:MaxItemsPerOrder] = params.fetch('max_items_per_order')
+      @policy[:MaxItemsPerOrder] = params.fetch('max_items_per_order')
     end
 
     unless params.fetch('ordering_suspended_until_date').empty?
-      payload[:OrderingSuspendedUntilDate] = params.fetch('ordering_suspended_until_date')
+      @policy[:OrderingSuspendedUntilDate] = params.fetch('ordering_suspended_until_date')
     end
 
-    payload
+    @policy
   end
 
   def upsert_policy
