@@ -75,7 +75,7 @@ class OrderPoliciesController < EchoSoapController
     @policy = {} if defined?(@policy).nil?
 
     # This comes to us as a Hash containing 'Item' but is returned as a simple array. For the purposes
-    # rendering this and DRYing up the code, we'll convert this here so its the same in all uses
+    # of rendering this and DRYing up the code, we'll convert this here so its the same in all uses
     if @policy.key?('SupportedTransactions')
       @policy['SupportedTransactions'] = @policy.fetch('SupportedTransactions', {}).fetch('Item', [])
     end
