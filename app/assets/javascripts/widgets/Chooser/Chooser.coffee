@@ -102,7 +102,7 @@ window.Chooser = (config) ->
     setDefault('removeAdded', false)
     setDefault('allowRemoveAll', true)
     setDefault('lowerFromLabel', 'Showing {{x}} of {{n}} item{{s}}')
-    setDefault('toMax', 500)
+    setDefault('toMax', false)
     setDefault('endlessScroll', false)
     setDefault('uniqueMsg', 'Value already added')
     setDefault('delimiter', ',')
