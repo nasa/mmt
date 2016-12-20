@@ -8,19 +8,13 @@ $(document).ready ->
         id: 'collections_supporting_duplicate_order_items',
         url: '/provider_collections',
         nextPageParm: 'page_num',
-        filterParm: 'keyword',
+        filterParm: 'short_name',
         uniqueIdentifierParam: 'concept_id',
-        filterChars: '1',
-        endlessScroll: false,
         target: $('#order-policies-chooser-widget'),
         fromLabel: 'Available Collections',
         toLabel: 'Selected Collections',
-        showNumChosen: true,
-        forceUnique: true,
         uniqueMsg: 'Collection is already selected.',
         attachTo: $('#order-policies-collection-selections'),
-        filterText: "Filter Collections...",
-        removeAdded: false,
         addButton: {
           cssClass: 'eui-btn nowrap',
           arrowCssClass: 'fa fa-plus',
@@ -55,7 +49,7 @@ $(document).ready ->
       $.ajax '/provider_collections?' + $.param('concept_id': selectedValues),
         success: (data) ->
           # Sets the selected values of the chooser
-          collectionsChooser.setToVal(data)
+          collectionsChooser.setToVal(data.items)
         fail: (data) ->
           console.log data
 

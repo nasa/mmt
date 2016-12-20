@@ -238,7 +238,7 @@ class PermissionsController < ApplicationController
       render :json => { :success => false }
     else
       respond_to do |format|
-        format.json { render json: @option_data }
+        format.json { render json: { hits: hits, items: @option_data } }
       end
     end
   end
@@ -249,10 +249,21 @@ class PermissionsController < ApplicationController
     # page_size default is 10, max is 2000
 
     query = { 'provider' => current_user.provider_id,
-              'page_size' => 500 }
+              'page_size' => 25 }
 
     if params.key?('entry_id')
       query['keyword'] = params['entry_id'] + '*'
+    end
+
+    if params.key?('short_name')
+      query['short_name'] = params['short_name'].concat('*')
+
+      # In order to search with the wildcard parameter we need to tell CMR to use it
+      query['options'] = {
+        'short_name' => {
+          'pattern' => true
+        }
+      }
     end
 
     if params.key?('page_num')

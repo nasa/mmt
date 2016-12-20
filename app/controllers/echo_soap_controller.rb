@@ -90,15 +90,27 @@ class EchoSoapController < ApplicationController
 
   # Controller action tied to a route for retrieving provider collections
   def provider_collections
-    render json: get_provider_collections(params.permit(:provider, :keyword, :page_size, :page_num, concept_id: []))
+    render json: get_provider_collections(params.permit(:provider, :keyword, :page_size, :page_num, :short_name, concept_id: []))
   end
 
   # Controller method that allows developers to get this data without
   # making an HTTP request (with the exception of the CMR call)
   def get_provider_collections(params = {})
     collection_params = {
-      'provider' => current_user.provider_id
+      'provider' => current_user.provider_id,
+      'page_size' => 25
     }.merge(params)
+
+    if collection_params.key?('short_name')
+      collection_params['short_name'].concat('*')
+
+      # In order to search with the wildcard parameter we need to tell CMR to use it
+      collection_params['options'] = {
+        'short_name' => {
+          'pattern' => true
+        }
+      }
+    end
 
     # Adds wildcard searching
     collection_params['keyword'].concat('*') if collection_params.key?('keyword')
@@ -108,7 +120,7 @@ class EchoSoapController < ApplicationController
 
     if response.success?
       # The chooser expects an array of arrays, so that's what we'll give it
-      response.body.fetch('items', []).map do |collection|
+      collections = response.body.fetch('items', []).map do |collection|
         [
           collection.fetch('meta', {}).fetch('concept-id'),
           [
@@ -117,6 +129,11 @@ class EchoSoapController < ApplicationController
           ].join(' | ')
         ]
       end
+
+      {
+        'hits': response.body.fetch('hits', 0),
+        'items': collections
+      }
     else
       response.body
     end

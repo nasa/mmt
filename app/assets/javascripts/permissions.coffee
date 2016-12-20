@@ -15,30 +15,29 @@ $(document).ready ->
           id: 'collectionsChooser',
           url: '/permission/all_collections',
           nextPageParm: 'page_num',
-          filterParm: 'entry_id',
-          filterChars: '1',
-          endlessScroll: false,
+          filterParm: 'short_name',
           target: $('#chooser-widget'),
           fromLabel: 'Available collections',
           toLabel: 'Selected collections',
-          showNumChosen: true,
-          forceUnique: true,
           uniqueMsg: 'Collection already added',
           attachTo: $('#collection_selections'),
           delimiter: "%%__%%",
-          filterText: "Filter collections",
-          removeAdded: false,
           addButton: {
             cssClass: 'eui-btn nowrap',
-            arrowCssClass: 'eui-circle-right',
-            text: 'Add collection(s)'
+            arrowCssClass: 'fa fa-plus',
+            text: ''
           },
           delButton: {
             cssClass: 'eui-btn nowrap',
-            arrowCssClass: 'eui-circle-left',
-            text: 'Remove collection(s)'
+            arrowCssClass: 'fa fa-minus',
+            text: ''
           },
-          allowRemoveAll: false,
+          delAllButton: {
+            cssClass: 'eui-btn nowrap',
+            arrowCssClass: 'fa fa-trash',
+            text: ''
+          },
+          allowRemoveAll: true,
           errorCallback: ->
             $('<div class="eui-banner--danger">' +
                 'A server error occurred. Unable to get collections.' +
