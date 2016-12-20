@@ -79,6 +79,10 @@ class OrderPoliciesController < EchoSoapController
     if @policy.key?('SupportedTransactions')
       @policy['SupportedTransactions'] = @policy.fetch('SupportedTransactions', {}).fetch('Item', [])
     end
+
+    if @policy.key?('CollectionsSupportingDuplicateOrderItems')
+      @policy['CollectionsSupportingDuplicateOrderItems'] = @policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', [])
+    end
   end
 
   def generate_upsert_payload
