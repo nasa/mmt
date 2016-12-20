@@ -17,15 +17,20 @@
 # size (int):              Height of select control in number of options.
 # resetSize (int):         When user scrolls to top, the entire list is trimmed to this size. Not required,
 #                          default is 50.
-# rememberLast:            Remember the last values entered. Uses browser's session storage.
 # filterChars (sting):     Number of characters to allow typing into filter textbox before AJAX call is triggered.
-#                          Default is 3.
+#                          Default is 1.
 # showNumChosen (int):     Always show the number of chosen items in the "to" list.
 # attachTo (element):      DOM element where a value can be stored (hidden or text input).
 # errorCallback (function): Callback function to execute if an AJAX error occurs.
 # filterText (string):     Text for the filter textbox placeholder (default is "filter")
 # removeAdded (boolean):   Remove selections from the FROM list as they are added to the TO list. Default is true,
-# allowRemoveALl (boolean): Show the remove all button
+# allowRemoveAll (boolean): Show the remove all button
+# lowerFromLabel (string):  Text to display under the FROM list. Can be used with a template, e.g.,
+#                           'Showing {{x}} of {{n}} items.' where x is the number of items loaded in the FROM list
+#                           and x is the total number of hits that come back from the server (both are optional).
+# toMax (int or boolean):   Total number of items that can be in the right ("to") box. Default: 500. Set to false
+#                           allow any number. A message is displayed if the user attempts to add more than the max.
+#
 #
 # Public methods:
 #
@@ -73,74 +78,110 @@ window.Chooser = (config) ->
   TO_MESSAGE = undefined
   CHOOSER_OPTS_STORAGE_KEY = 'Chooser_opts_' + config.id
   PAGE_NUM = 1
+  LOWER_FROM_LABEL = undefined
+  TOTAL_HITS = undefined
   SELF = undefined
+
 
   ###
   # init - initializes the widget.
   ###
   @init = ->
     SELF = this
+
+    # Set defaults:
+    setDefault('id', 'Chooser_' + Math.random().toString(36).slice(2))
+    setDefault('fromLabel', 'Available')
+    setDefault('toLabel', 'Selected')
+    setDefault('forceUnique', true)
+    setDefault('size', 5)
+    setDefault('filterChars', 1)
+    setDefault('resetSize', 50)
+    setDefault('showNumChosen', true)
+    setDefault('filterText', 'Enter text to narrow search results')
+    setDefault('removeAdded', false)
+    setDefault('allowRemoveAll', true)
+    setDefault('lowerFromLabel', 'Showing {{x}} of {{n}} item{{s}}')
+    setDefault('toMax', false)
+    setDefault('endlessScroll', false)
+    setDefault('uniqueMsg', 'Value already added')
+    setDefault('delimiter', ',')
+
+
     # Construct each component
-    OUTER_CONTAINER = $('<div class=\'Chooser\' id=\'' + config.id + '\'></div>')
+    OUTER_CONTAINER = $('<div>').addClass('Chooser').attr('id', config.id)
     FROM_CONTAINER = $('<div>').addClass('from-container')
     TO_CONTAINER = $('<div>').addClass('to-container')
     BUTTON_CONTAINER = $('<div>').addClass('button-container')
-    FROM_BOX = $('<div></div>')
-    TO_BOX = $('<div></div>')
+    FROM_BOX = $('<div>')
+    TO_BOX = $('<div>')
 
     addButtonText = if hasProp('addButton', 'object') then config.addButton.text else '&#x2192;'
     addButtonCssClass = if hasProp('addButton', 'object') then config.addButton.cssClass else ''
-    ADD_BUTTON = $('<button title=\'add\' class=\'' + addButtonCssClass + '\'>' + addButtonText + '</button>').addClass('add_button')
+    ADD_BUTTON = $('<button>').attr('title', 'add').addClass(addButtonCssClass).addClass('add_button').text(addButtonText)
     if hasProp('addButton') and config.addButton.arrowCssClass
-      $(ADD_BUTTON).append ' <span class=\'' + config.addButton.arrowCssClass + '\'></span> '
+      $(ADD_BUTTON).append('<span>').addClass(config.addButton.arrowCssClass)
 
     delButtonText = if hasProp('delButton', 'object') then config.delButton.text else '&#x2190;'
     delButtonCssClass = if hasProp('delButton', 'object') then config.delButton.cssClass else ''
-    REMOVE_BUTTON = $('<button title=\'remove\' class=\'' + delButtonCssClass + '\'>' + delButtonText + '</button>').addClass('remove_button')
+    REMOVE_BUTTON = $('<button>').attr('title', 'remove').addClass(delButtonCssClass).addClass('remove_button').text(delButtonText)
     if hasProp('delButton') and config.delButton.arrowCssClass
-      $(REMOVE_BUTTON).prepend ' <span class=\'' + config.delButton.arrowCssClass + '\'></span> '
+      $(REMOVE_BUTTON).prepend('<span>').addClass(config.delButton.arrowCssClass)
 
     allowRemoveAll = if hasProp('allowRemoveAll', 'boolean') then config.allowRemoveAll else true
     if allowRemoveAll == true
       delAllButtonText = if hasProp('delAllButton', 'object') then config.delAllButton.text else '&#x2190;'
       delAllButtonCssClass = if hasProp('delAllButton', 'object') then config.delAllButton.cssClass else ''
 
-      REMOVE_ALL_BUTTON = $('<button title=\'remove all\' class=\'' + delAllButtonCssClass + '\'>' + delAllButtonText + '</button>').addClass('remove_all_button')
+      REMOVE_ALL_BUTTON = $('<button>').attr('title', 'remove all').addClass(delAllButtonCssClass).addClass('remove_all_button').text(delAllButtonText)
       if hasProp('delAllButton') and config.delAllButton.arrowCssClass
-        $(REMOVE_ALL_BUTTON).prepend ' <span class=\'' + config.delAllButton.arrowCssClass + '\'></span> '
+        $(REMOVE_ALL_BUTTON).prepend('<span>').addClass(config.delAllButton.arrowCssClass)
 
-    FROM_LIST = $('<select class=\'___fromList\' id=\'' + config.id + '_fromList' + '\' multiple size=\'5\'></select>')
-    TO_LIST = $('<select class=\'___toList\' name=\'' + config.id + '_toList[]' + '\' id=\'' + config.id + '_toList' + '\' multiple size=\'5\'></select>')
+    FROM_LIST = $('<select>').addClass('___fromList').attr('id', config.id + '_fromList').attr( 'multiple', true).attr('size', config.size)
+    TO_LIST = $('<select>').addClass('___toList').attr('name', config.id + '_toList[]').attr('id', config.id + '_toList').attr('multiple', true).attr('size', config.size)
     placeHolderText = if hasProp('filterText', 'string') then config.filterText else 'filter'
-    FILTER_TEXTBOX = $('<input type=\'text\' placeholder=\'' + placeHolderText + '\'>')
+    FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', placeHolderText)
+
     if !config.hasOwnProperty('resetSize')
       config.resetSize = 50
-    if config.fromLabel
-      FROM_LABEL = $('<label for=\'' + config.id + '_fromList' + '\'>' + config.fromLabel + '</label>')
-      $(FROM_CONTAINER).append FROM_LABEL
-      # $(FROM_CONTAINER).append '<br>'
+
+    if hasProp('fromLabel', 'string')
+      FROM_LABEL = $('<label>').attr('for', config.id + '_fromList').text(config.fromLabel)
+
+    if ! hasProp('lowerFromLabel') || hasProp('lowerFromLabel', 'string')
+      LOWER_FROM_LABEL = $('<p>').addClass('form-description')
+
     if config.toLabel
-      TO_LABEL = $('<label for=\'' + config.id + '_toList' + '\'>' + config.toLabel + '</label>')
+      TO_LABEL = $('<label>').attr('for', config.id + '_toList').text(config.toLabel)
       $(TO_CONTAINER).append TO_LABEL
+
+
     # Assemble the components
     $(OUTER_CONTAINER).append FROM_CONTAINER
     $(OUTER_CONTAINER).append BUTTON_CONTAINER
     $(OUTER_CONTAINER).append TO_CONTAINER
+
+    $(FROM_CONTAINER).append FROM_LABEL
     $(FROM_CONTAINER).append FILTER_TEXTBOX
     $(FROM_CONTAINER).append FROM_LIST
+    $(FROM_CONTAINER).append LOWER_FROM_LABEL
+
     $(TO_CONTAINER).append TO_LIST
+
     $(BUTTON_CONTAINER).append ADD_BUTTON
     $(BUTTON_CONTAINER).append REMOVE_BUTTON
     $(BUTTON_CONTAINER).append REMOVE_ALL_BUTTON
     $(OUTER_CONTAINER).appendTo $(config.target)
-    TO_MESSAGE = $('<span class=\'to_message\'></span>')
+
+    TO_MESSAGE = $('<span>').addClass('to_message')
     $(TO_CONTAINER).append TO_MESSAGE
+
     $(ADD_BUTTON).click addButtonClick
     $(REMOVE_BUTTON).click removeButtonClick
     $(REMOVE_ALL_BUTTON).click removeAllButtonClick
     getRemoteData 'first'
     $(FROM_LIST).on 'scroll', (evt) ->
-      if hasProp('endlessScroll', 'boolean') and config.endlessScroll == false
+      if config.endlessScroll == false
         return
       lowerBoundary = $(this).position().top + parseInt($(this).css('height'))
       upperBoundary = $(this).position().top
@@ -158,6 +199,8 @@ window.Chooser = (config) ->
         SELF.removeFromBottom()
         PAGE_NUM = 1
       return
+
+
     $(TO_LIST).change ->
       numChosen = $(TO_LIST).find('option').length
       if hasProp('toLabel') and hasProp('showNumChosen')
@@ -166,22 +209,36 @@ window.Chooser = (config) ->
         else
           $(TO_LABEL).text config.toLabel
       if hasProp('attachTo', 'object')
-        delimiter = if hasProp('delimiter', 'string') then config.delimiter else ','
-        $(config.attachTo).val SELF.val().join(delimiter)
+        $(config.attachTo).val SELF.val().join(config.delimiter)
       # Ensure each option has a title so that mouse hover reveals the full value
       # if it overflows the bounding box.
       $(TO_LIST).find('option').each (key, tmpVal) ->
         $(tmpVal).attr 'title', $(tmpVal).text()
         return
       return
+
+    $(FROM_LIST).change ->
+      if ! hasProp('lowerFromLabel') || hasProp('lowerFromLabel', 'string')
+        x = $(FROM_LIST).find('option').length
+        n = TOTAL_HITS
+
+        lowerFromLabelText = config.lowerFromLabel
+        lowerFromLabelText = lowerFromLabelText.replace '{{x}}', x
+        lowerFromLabelText = lowerFromLabelText.replace '{{n}}', n
+        lowerFromLabelText = lowerFromLabelText.replace('{{s}}', pluralize(n))
+        $(LOWER_FROM_LABEL).text(lowerFromLabelText)
+      return
+
     $(FILTER_TEXTBOX).keyup initFilter
+
     $(FROM_LIST).dblclick ->
       $(ADD_BUTTON).click()
       return
+
     $(TO_LIST).dblclick ->
       $(REMOVE_BUTTON).click()
       return
-    return
+
 
   ###
   # Sets the values in the "TO" list.
@@ -267,6 +324,14 @@ window.Chooser = (config) ->
 
   # Private functions: -----------------------------
 
+  flashToMsg = (msg) ->
+    $(TO_MESSAGE).text(msg)
+    setTimeout (->
+      $(TO_MESSAGE).text ''
+      return
+    ), 2000
+
+
   setVal = (values, which) ->
     if values and typeof values == 'object'
       $(which).empty()
@@ -307,19 +372,28 @@ window.Chooser = (config) ->
   # @param type
   ###
   getRemoteData = (type) ->
+
     url = config.url
+
+    queryJoinChar = '?'
+
+    if url.match(/\?/)
+      queryJoinChar = '&'
+
     overwrite = false
     if type == 'first'
       overwrite = true
-      url += '?' + config.nextPageParm + '=1'
+      url += queryJoinChar + config.nextPageParm + '=1'
       PAGE_NUM = 1
     else if type == 'next'
       PAGE_NUM++
-      url += '?' + config.nextPageParm + '=' + PAGE_NUM
+      url += queryJoinChar + config.nextPageParm + '=' + PAGE_NUM
     else if type == 'filter'
       overwrite = true
-      url += '?' + config.filterParm + '=' + $(FILTER_TEXTBOX).val()
+      url += queryJoinChar + config.filterParm + '=' + $(FILTER_TEXTBOX).val()
+
     $.ajax('url': url).done((resp) ->
+      TOTAL_HITS = resp.hits
       SELF.setFromVal resp.items
       return
     ).fail (resp) ->
@@ -339,35 +413,40 @@ window.Chooser = (config) ->
   ###
   addButtonClick = (e) ->
     e.preventDefault()
-    msg = if hasProp('uniqueMsg', 'string') then config.uniqueMsg else 'Value already added'
+
     removeAdded = if hasProp('removeAdded', 'boolean') then config.removeAdded else true
-    $(FROM_LIST).find('option:selected').each (tmpKey, tmpVal) ->
-      clonedOpt = $(tmpVal).clone()
-      if config.forceUnique
-        fromListVal = $(tmpVal).attr('value')
-        toListVal = $(TO_LIST).find('option').filter () ->
-          if fromListVal == $(this).val()
-            return true
-        toListVal = $(toListVal).val();
-        if toListVal != fromListVal
-          $(TO_LIST).append clonedOpt
-          if removeAdded
-            $(tmpVal).remove()
-        else
-          $(TO_MESSAGE).text msg
-          setTimeout (->
-            $(TO_MESSAGE).text ''
-            return
-          ), 2000
-      else
-        $(TO_LIST).append clonedOpt
-        if removeAdded
-          $(tmpVal).remove()
+
+    if ! hasProp('toMax') || hasProp('toMax', 'number')
+
+      toListSize = $(TO_LIST).find('option').length
+      fromListSize = $(FROM_LIST).find('option:selected').length
+
+      if (toListSize + fromListSize) > config.toMax
+        flashToMsg('Only ' + config.toMax + ' items may be selected.')
+        return
+
+
+    if hasProp("removeAdded", "boolean") && config.removeAdded
+      $(FROM_LIST).find('option:selected').appendTo($(TO_LIST))
+    else
+      $(FROM_LIST).find('option:selected').clone().appendTo($(TO_LIST))
+
+    if ( hasProp('forceUnique', 'boolean') && hasProp('removeAdded', 'boolean') ) && ( config.forceUnique && ! config.removeAdded )
+
+      found = []
+      $(TO_LIST).find('option').each () ->
+        if($.inArray(this.value, found) != -1)
+          flashToMsg(config.uniqueMsg)
+          $(this).remove()
+        found.push(this.value)
+        return
+
       $(TO_LIST).trigger 'change'
       # This is a hack in order to accommodate picky libraries like validate
       $(TO_LIST).find('option:first').prop 'selected', true
       $(TO_LIST).find('option:first').click()
       return
+
     return
 
   ###
@@ -380,9 +459,9 @@ window.Chooser = (config) ->
   removeButtonClick = (e, remAll) ->
     e.preventDefault()
     query = if remAll then 'option' else 'option:selected'
+
     $(TO_LIST).find(query).each (tmpKey, tmpVal) ->
       fromListVal = $(tmpVal).attr('value')
-      #toListVal = $(TO_LIST).find('option[value=\'' + fromListVal + '\']').attr('value')
       toListVal = $(TO_LIST).find('option').filter () ->
         if fromListVal == $(this).val()
           return true
@@ -429,5 +508,30 @@ window.Chooser = (config) ->
         true
     else
       false
+
+
+  ###
+  # Sets a default value for a configuration property.
+  # Example: setDefault('someMax', 200) sets config.max to 200 unless
+  # it was already set.
+  ###
+  setDefault = (name, value) ->
+    if ! hasProp(name)
+      config[name] = value
+
+
+  ###
+  # Convenience method to handle logic of plural words.
+  #
+  # Examples:
+  # pluraize(4) --> 's'
+  # pluraize(1) --> ''
+  # pluraize(0) --> 's'
+  ###
+  pluralize = (count) ->
+    if count > 1 || count < 1
+      return 's'
+    else
+      return ''
 
   return

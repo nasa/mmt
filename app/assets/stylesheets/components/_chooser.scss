@@ -35,9 +35,15 @@
   .to-container {
     display: table-cell;
     width: 45%;
+
+    select {
+      height: 187px;
+    }
   }
 
   span.to_message {
     color: red;
+    font-size: 0.9em;
+    margin: 0;
   }
 }

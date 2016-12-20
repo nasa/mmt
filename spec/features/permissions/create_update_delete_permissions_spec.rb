@@ -50,17 +50,17 @@ describe 'Creating Permissions', js: true do
         # selecting each individually as it seems more robust.
         # I was using `page.all('#collectionsChooser_fromList > option').select`, and that worked previously but is not working now
         select('lorem_223', from: 'Available collections')
-        click_button 'Add collection(s)'
+        find('button[title=add]').click
         select('ID_1', from: 'Available collections')
-        click_button 'Add collection(s)'
+        find('button[title=add]').click
         select("Matthew'sTest_2", from: 'Available collections')
-        click_button 'Add collection(s)'
+        find('button[title=add]').click
         select('testing 02_01', from: 'Available collections')
-        click_button 'Add collection(s)'
+        find('button[title=add]').click
         select('testing 03_002', from: 'Available collections')
-        click_button 'Add collection(s)'
+        find('button[title=add]').click
         select('New Testy Test_02', from: 'Available collections')
-        click_button 'Add collection(s)'
+        find('button[title=add]').click
       end
 
       select('No Access to Granules', from: 'Granules')
