@@ -1,5 +1,4 @@
 $(document).ready ->
-
   # Index page -----------------------------------------------------------
   if $("#order-option-assignments-form").length > 0
 
@@ -7,17 +6,11 @@ $(document).ready ->
       id: 'collectionsChooser',
       url: '/provider_collections',
       nextPageParm: 'page_num',
-      filterParm: 'keyword',
-      filterChars: '1',
-      endlessScroll: false,
+      filterParm: 'short_name',
       target: $('#chooser-widget'),
       fromLabel: 'Available collections',
       toLabel: 'Selected collections',
-      showNumChosen: true,
-      forceUnique: true,
       uniqueMsg: 'Collection already added',
-      filterText: "Filter collections",
-      removeAdded: false,
       addButton: {
         cssClass: 'eui-btn nowrap',
         arrowCssClass: 'fa fa-plus',
@@ -57,7 +50,6 @@ $(document).ready ->
     $('#submit-display-options').click ->
       $('#collectionsChooser_toList option').prop 'selected', true
 
-
   # Edit page -----------------------------------------------------------
   if $("#edit-order-option-assignments-page").length > 0
 
@@ -69,8 +61,6 @@ $(document).ready ->
       else
         $('tr.shown-row').removeClass('shown-row').addClass('hidden-row')
 
-
-
   # New assignment page -----------------------------------------------------------
   if $("#new-order-option-assignment-form").length > 0
 
@@ -78,17 +68,12 @@ $(document).ready ->
       id: 'collectionsChooser',
       url: '/provider_collections',
       nextPageParm: 'page_num',
-      filterParm: 'keyword',
-      filterChars: '1',
-      endlessScroll: false,
+      filterParm: 'short_name',
       target: $('#chooser-widget'),
       fromLabel: 'Available collections',
       toLabel: 'Selected collections',
-      showNumChosen: true,
-      forceUnique: true,
       uniqueMsg: 'Collection already added',
-      filterText: "Filter collections",
-      removeAdded: false,
+      toMax: 100,
       addButton: {
         cssClass: 'eui-btn nowrap',
         arrowCssClass: 'fa fa-plus',
@@ -132,8 +117,3 @@ $(document).ready ->
     # select all of the items in the "to" list before submitting
     $('#submit-new-options').click ->
       $('#collectionsChooser_toList option').prop 'selected', true
-
-
-
-
-

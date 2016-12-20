@@ -15,7 +15,7 @@ $(document).ready ->
         toLabel: 'Selected Collections',
         uniqueMsg: 'Collection is already selected.',
         attachTo: $('#data-quality-summary-assignment-collection-selections'),
-        toMax: 150,
+        toMax: 100,
         addButton: {
           cssClass: 'eui-btn nowrap',
           arrowCssClass: 'fa fa-plus',
