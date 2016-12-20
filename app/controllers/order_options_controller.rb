@@ -113,4 +113,19 @@ class OrderOptionsController < ApplicationController
       render :edit
     end
   end
+
+  def destroy
+    response = cmr_client.delete_order_option(params[:id], echo_provider_token)
+    if response.success?
+      order_option_response = Hash.from_xml(response.body)
+      flash[:success] = 'Order Option was successfully deleted.'
+      redirect_to order_options_path
+    else
+      Rails.logger.error("Delete Order Option Error: #{response.inspect}")
+      parsed_errors = Hash.from_xml(response.body)
+      flash[:error] = parsed_errors['errors']['error'].inspect
+      redirect_to order_options_path
+    end
+  end
+
 end
