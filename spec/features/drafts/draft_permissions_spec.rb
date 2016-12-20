@@ -2,19 +2,21 @@
 
 require 'rails_helper'
 
-describe 'Draft permissions', js: true, reset_provider: true do
-  short_name = 'Tropical Forests'
-  entry_title = 'Tropical Forest Observation Record'
-  provider = 'MMT_2'
+describe 'Draft permissions' do
+  let(:short_name)  { 'Draft Title' }
+  let(:entry_title) { 'Tropical Forest Observation Record' }
+  let(:provider)    { 'MMT_2' }
 
   before do
     login
-    create(:draft, entry_title: entry_title, short_name: short_name, provider_id: provider)
+
+    create(:full_draft, entry_title: entry_title, short_name: short_name, draft_entry_title: entry_title, draft_short_name: short_name, provider_id: provider)
   end
 
-  let(:draft) { Draft.find_by(entry_title: entry_title) }
+  let(:draft) { Draft.first }
+  # let(:draft) { Draft.find_by(entry_title: entry_title) }
 
-  context 'when the draft provider is in the users available providers' do
+  context 'when the draft provider is in the users available providers', js: true do
     before do
       user = User.first
       user.provider_id = 'MMT_1'
@@ -35,6 +37,7 @@ describe 'Draft permissions', js: true, reset_provider: true do
       context 'when clicking on warning banner link' do
         before do
           click_on 'You need to change your current provider to view this draft'
+
           wait_for_ajax
         end
 
@@ -43,7 +46,8 @@ describe 'Draft permissions', js: true, reset_provider: true do
         end
 
         it 'goes to the draft preview page' do
-          expect(page).to have_content("#{entry_title} DRAFT RECORD")
+          expect(page).to have_content("#{short_name}_1")
+          expect(page).to have_content('DRAFT RECORD')
           expect(page).to have_content('Publish Draft')
           expect(page).to have_content('Delete Draft')
         end
@@ -52,7 +56,8 @@ describe 'Draft permissions', js: true, reset_provider: true do
 
     context 'when trying to visit the edit draft collection information page directly' do
       before do
-        visit "/drafts/#{draft.id}/edit/collection_information"
+        # visit "/drafts/#{draft.id}/edit/collection_information"
+        visit draft_edit_form_path(draft, 'collection_information', anchor: 'collection-information')
       end
 
       it 'displays warning banner link to change provider' do
@@ -63,6 +68,7 @@ describe 'Draft permissions', js: true, reset_provider: true do
       context 'when clicking on warning banner link' do
         before do
           click_on 'You need to change your current provider to edit this draft'
+
           wait_for_ajax
         end
 

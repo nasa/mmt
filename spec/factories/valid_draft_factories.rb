@@ -760,37 +760,66 @@ FactoryGirl.define do
         'Type' => 'ATLANTIC OCEAN'
       }],
       'TemporalExtents' => [{
-          'TemporalRangeType' => 'SingleDateTime', 'PrecisionOfSeconds' => 1, 'EndsAtPresentFlag' => false, 'SingleDateTimes' => ['2015-07-01T00:00:00Z', '2015-12-25T00:00:00Z']
-        },
-        {
-          'TemporalRangeType' => 'RangeDateTime', 'PrecisionOfSeconds' => 10, 'EndsAtPresentFlag' => false, 'RangeDateTimes' => [{
-            'BeginningDateTime' => '2014-07-01T00:00:00Z', 'EndingDateTime' => '2014-08-01T00:00:00Z'
+          'TemporalRangeType'  => 'SingleDateTime',
+          'PrecisionOfSeconds' => 1,
+          'EndsAtPresentFlag'  => false,
+          'SingleDateTimes'    => ['2015-07-01T00:00:00Z', '2015-12-25T00:00:00Z']
+        }, {
+          'TemporalRangeType'  => 'RangeDateTime',
+          'PrecisionOfSeconds' => 10,
+          'EndsAtPresentFlag'  => false,
+          'RangeDateTimes' => [{
+            'BeginningDateTime' => '2014-07-01T00:00:00Z',
+            'EndingDateTime'    => '2014-08-01T00:00:00Z'
           }, {
-            'BeginningDateTime' => '2015-07-01T00:00:00Z', 'EndingDateTime' => '2015-08-01T00:00:00Z'
+            'BeginningDateTime' => '2015-07-01T00:00:00Z',
+            'EndingDateTime'    => '2015-08-01T00:00:00Z'
           }]
-        },
-        {
-          'TemporalRangeType' => 'PeriodicDateTime', 'PrecisionOfSeconds' => 30, 'EndsAtPresentFlag' => false,
+        }, {
+          'TemporalRangeType'  => 'PeriodicDateTime',
+          'PrecisionOfSeconds' => 30,
+          'EndsAtPresentFlag'  => false,
           'PeriodicDateTimes' => [{
-            'Name' => 'test 1 Periodic Extent', 'StartDate' => '2015-07-01T00:00:00Z', 'EndDate' => '2015-08-01T00:00:00Z', 'DurationUnit' => 'DAY', 'DurationValue' => 5, 'PeriodCycleDurationUnit' => 'DAY', 'PeriodCycleDurationValue' => 1
+            'Name'                     => 'test 1 Periodic Extent',
+            'StartDate'                => '2015-07-01T00:00:00Z',
+            'EndDate'                  => '2015-08-01T00:00:00Z',
+            'DurationUnit'             => 'DAY',
+            'DurationValue'            => 5,
+            'PeriodCycleDurationUnit'  => 'DAY',
+            'PeriodCycleDurationValue' => 1
           }, {
-            'Name' => 'test 2 Periodic Extent', 'StartDate' => '2016-07-01T00:00:00Z', 'EndDate' => '2016-08-01T00:00:00Z', 'DurationUnit' => 'MONTH', 'DurationValue' => 4, 'PeriodCycleDurationUnit' => 'MONTH', 'PeriodCycleDurationValue' => 2
-          }, ]
-        }
-      ],
+            'Name'                     => 'test 2 Periodic Extent',
+            'StartDate'                => '2016-07-01T00:00:00Z',
+            'EndDate'                  => '2016-08-01T00:00:00Z',
+            'DurationUnit'             => 'MONTH',
+            'DurationValue'            => 4,
+            'PeriodCycleDurationUnit'  => 'MONTH',
+            'PeriodCycleDurationValue' => 2
+          }]
+        }],
       'TemporalKeywords' => ['Monthly Climatology', 'Weekly Climatology'],
       'PaleoTemporalCoverages' => [{
-        'StartDate' => '50 Ga', 'EndDate' => '25 Ga',
+        'StartDate' => '50 Ga',
+        'EndDate'   => '25 Ga',
         'ChronostratigraphicUnits' => [{
-          'Eon' => 'test 1 Eon', 'Era' => 'test 1 Era', 'Epoch' => 'test 1 Epoch', 'Stage' => 'test 1 Stage',
-          'DetailedClassification' => 'test 1 Detailed Classification', 'Period' => 'test 1 Period'
+          'Eon'                    => 'test 1 Eon',
+          'Era'                    => 'test 1 Era',
+          'Epoch'                  => 'test 1 Epoch',
+          'Stage'                  => 'test 1 Stage',
+          'DetailedClassification' => 'test 1 Detailed Classification',
+          'Period'                 => 'test 1 Period'
         }, {
-          'Eon' => 'test 2 Eon', 'Era' => 'test 2 Era', 'Epoch' => 'test 2 Epoch', 'Stage' => 'test 2 Stage',
-          'DetailedClassification' => 'test 2 Detailed Classification', 'Period' => 'test 2 Period'
+          'Eon'                    => 'test 2 Eon',
+          'Era'                    => 'test 2 Era',
+          'Epoch'                  => 'test 2 Epoch',
+          'Stage'                  => 'test 2 Stage',
+          'DetailedClassification' => 'test 2 Detailed Classification',
+          'Period'                 => 'test 2 Period'
         }, {
           'Eon' => 'test 3 Eon text 1'
         }]
       }],
-      "ISOTopicCategories" => ["farming", "climatologyMeteorologyAtmosphere", "health"]}}
+      'ISOTopicCategories' => %w(farming climatologyMeteorologyAtmosphere health)
+    }}
   end
 end

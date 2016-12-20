@@ -1,3 +1,4 @@
+require 'faker'
 require 'factory_girl'
 
 namespace :drafts do
