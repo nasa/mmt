@@ -249,7 +249,7 @@ class PermissionsController < ApplicationController
     # page_size default is 10, max is 2000
 
     query = { 'provider' => current_user.provider_id,
-              'page_size' => 500 }
+              'page_size' => 25 }
 
     if params.key?('entry_id')
       query['keyword'] = params['entry_id'] + '*'

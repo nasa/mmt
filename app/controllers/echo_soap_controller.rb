@@ -97,7 +97,8 @@ class EchoSoapController < ApplicationController
   # making an HTTP request (with the exception of the CMR call)
   def get_provider_collections(params = {})
     collection_params = {
-      'provider' => current_user.provider_id
+      'provider' => current_user.provider_id,
+      'page_size' => 25
     }.merge(params)
 
     if collection_params.key?('short_name')
