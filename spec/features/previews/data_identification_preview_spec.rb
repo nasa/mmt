@@ -30,10 +30,6 @@ describe 'Data identification preview' do
       end
 
       it 'displays the metadata' do
-        within '.collection-details' do
-          expect(page).to have_content 'Collection Progress: In work'
-        end
-
         within '.data-identification-preview' do
           within '.data-dates-table' do
             within all('tr')[0] do

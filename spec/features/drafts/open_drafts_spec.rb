@@ -54,7 +54,7 @@ describe 'Open Drafts listings' do
 
         it 'the record is opened for view/edit' do
           expect(page).to have_content('Draft Record')
-          expect(page).to have_content('<Untitled Collection Record>')
+          expect(page).to have_content('Entry Title Not Provided')
         end
       end
     end

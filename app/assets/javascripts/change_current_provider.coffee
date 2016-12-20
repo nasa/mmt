@@ -58,5 +58,4 @@ $(document).ready ->
       method: 'post'
       dataType: 'json'
       success: (data, status, xhr) ->
-
         $("##{actionLink}")[0].click()

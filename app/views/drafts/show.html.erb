@@ -1,68 +1,12 @@
 <main class="internal record" role="main">
   <header>
-    <div class="content">
-      <div class="collection-basics">
-        <div class="eui-breadcrumbs">
-          <ol class="eui-breadcrumbs__list">
-            <li class="eui-breadcrumbs__item">
-              <%= link_to 'Manage Metadata', manage_metadata_path %>
-            </li>
-            <li class="eui-breadcrumbs__item">
-              <%= link_to 'Drafts', drafts_path %>
-            </li>
-            <li class="eui-breadcrumbs__item">
-              <%= display_entry_id(@draft.draft, 'draft') %>
-            </li>
-          </ol>
-        </div>
-        <h2><%= display_entry_id(@draft.draft, 'draft') %></h2>
-        <p class="subtitle"><%= @draft.display_entry_title %></p>
-        <p class="subnav current">Draft Record</p>
-      </div>
-
-      <% unless @user_permissions == 'none' %>
-        <div class="collection-details">
-          <!-- Only display version if one exists. -->
-          <% if @draft.draft["Version"] %>
-            <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_version' }) do %>
-              <%= content_tag :span, "Version #{@draft.draft['Version']}", :class => "eui-badge version" %>
-            <% end %>
-          <% end %>
-          <!-- Only display data language if one exists. -->
-          <% if @draft.draft["DataLanguage"] %>
-            <%= link_to draft_edit_form_path(@draft, 'collection_information', { anchor: 'draft_data_language' }) do %>
-              <%= content_tag :span,  @draft.draft['DataLanguage'], :class => "eui-badge language" %>
-            <% end %>
-          <% end %>
-          <!-- Only display CollectionDataType if it is NRT. -->
-          <% if @draft.draft["CollectionDataType"] == "NEAR_REAL_TIME" %>
-            <%= link_to draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-data-type' }) do %>
-              <%= content_tag :span, 'NRT' , :class => "eui-badge nrt" %>
-            <% end %>
-          <% end %>
-          <!-- Only display CollectionProgress if it exists. -->
-          <% if @draft.draft["CollectionProgress"] && DraftsHelper::CollectionProgressOptions.flatten.include?(@draft.draft["CollectionProgress"]) %>
-            <p>Collection Progress:
-              <%= link_to map_value_onto_display_string(@draft.draft['CollectionProgress'], DraftsHelper::CollectionProgressOptions), draft_edit_form_path(@draft, 'data_identification', { anchor: 'collection-progress' }) %>
-            </p>
-          <% end %>
-
-          <div class="quality-score disabled">
-            <div class="badges">
-              <i class="fa fa-star fa-lg"></i>
-              <i class="fa fa-star fa-lg"></i>
-              <i class="fa fa-star fa-lg"></i>
-              <i class="fa fa-star fa-lg"></i>
-              <i class="fa fa-star-o fa-lg"></i>
-            </div>
-            <div class="score-info">
-              <p>Quality Score: <strong>20</strong></p>
-              <p>Required fields not complete</p>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
+    <%= render partial: 'cmr_metadata_preview/metadata_header', locals: {
+      metadata: @draft.draft,
+      is_mmt: true,
+      editable: true,
+      draft: @draft,
+      user_permissions: @user_permissions
+    } %>
   </header>
 
   <%= render 'shared/flash_messages' %>
@@ -154,7 +98,7 @@
 
       <%= render partial: 'drafts/progress/preview_progress', locals: { draft: @draft, metadata_errors: @errors || @ingest_errors } %>
 
-      <%= render partial: 'shared/preview/metadata_preview', locals: { metadata: @draft.draft } %>
+      <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @draft.draft, editable: true } %>
 
     </div>
   <% end %>
