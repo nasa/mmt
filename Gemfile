@@ -44,6 +44,8 @@ gem 'font-awesome-rails'
 gem 'momentjs-rails'
 gem 'bootstrap3-datetimepicker-rails'
 
+gem 'faker'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -72,7 +74,6 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
-  gem 'faker'
   gem 'fuubar'
   gem 'launchy'
   gem 'poltergeist'
