@@ -66,7 +66,7 @@
             </thead>
             <tbody>
               <% if @policy.key?('CollectionsSupportingDuplicateOrderItems') %>
-                <% @collections.select{ |c| [*@policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', [])].include?(c.fetch('meta', {}).fetch('concept-id', nil)) }.each do |collection| %>
+                <% @collections.select{ |c| [*@policy.fetch('CollectionsSupportingDuplicateOrderItems', [])].include?(c.fetch('meta', {}).fetch('concept-id', nil)) }.each do |collection| %>
                   <tr>
                     <td><%= collection.fetch('umm', {}).fetch('entry-title', '') %></td>
                     <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>

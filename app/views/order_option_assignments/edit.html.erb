@@ -1,0 +1,72 @@
+<main class="internal" role="main">
+  <header>
+    <div class="content">
+      <div class="eui-breadcrumbs">
+        <ol class="eui-breadcrumbs__list">
+          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
+          <li class="eui-breadcrumbs__item"><%= link_to 'Order Option Assignments', order_option_assignments_path %></li>
+        </ol>
+      </div>
+    </div>
+  </header>
+
+  <%= render 'shared/flash_messages' %>
+
+  <div class="row row-content">
+    <section>
+      <h2>Option Assignments</h2>
+
+      <div id="edit-order-option-assignments-page">
+
+        <%= check_box_tag 'show-no-assigned-options', id: 'show-no-assigned-options'%>
+        <%= label_tag 'show-no-assigned-options', 'Include selected collections with no assigned options?' %>
+        <table id="collections-table">
+          <thead>
+            <tr>
+              <th>
+                Collection
+              </th>
+              <th>
+                Short Name
+              </th>
+              <th>
+                Version ID
+              </th>
+              <th>
+                Option Definition Name
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <%if @all_empty_assignments %>
+              <tr id="no-assignments-msg" >
+                <td colspan="6">
+                  No assignments found for the selected collections
+                </td>
+              </tr>
+              <% end %>
+            <% @collections_to_list.each do |collection| %>
+                <tr <%= collection['option-def'].nil? ? 'class=hidden-row' : '' %>>
+                  <td>
+                    <%=collection['umm']['entry-title']%>
+                  </td>
+                  <td>
+                    <%=collection['umm']['short-name']%>
+                  </td>
+                  <td>
+                    <%=collection['umm']['version-id']%>
+                  </td>
+                  <td>
+                    <%=collection.fetch('option-def',{}).fetch('Name','') %>
+                  </td>
+                </tr>
+            <%end %>
+          </tbody>
+        </table>
+
+      </div>
+
+    </section>
+  </div>
+</main>
