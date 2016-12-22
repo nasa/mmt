@@ -111,9 +111,8 @@ class DraftsController < ApplicationController
       # Delete draft
       @draft.destroy
 
-      xml = MultiXml.parse(ingested.body)
-      concept_id = xml['result']['concept_id']
-      revision_id = xml['result']['revision_id']
+      concept_id = ingested.body['concept-id']
+      revision_id = ingested.body['revision-id']
 
       # instantiate and deliver notification email
       DraftMailer.draft_published_notification(user_info, concept_id, revision_id, short_name, version).deliver_now
