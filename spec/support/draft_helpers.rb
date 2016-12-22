@@ -55,9 +55,10 @@ module Helpers
 
         # Synchronous way of waiting for CMR to complete the ingest work
         wait_for_cmr
-        
+
         # Retrieve the concept from CMR so that we can create a new draft, if test requires it
-        concept_response = cmr_client.get_concept(parsed_ingest_response['result']['concept_id'], 'token', parsed_ingest_response['result']['revision_id'])
+        # concept_response = cmr_client.get_concept(parsed_ingest_response['result']['concept_id'], 'token', parsed_ingest_response['result']['revision_id'])
+        concept_response = cmr_client.get_concept(parsed_ingest_response['result']['concept_id'], 'token', parsed_ingest_response['result']['revision_id']).body
 
         raise Array.wrap(concept_response.body['errors']).join(' /// ') if concept_response.key?('errors')
 

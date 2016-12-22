@@ -2,6 +2,19 @@ class CollectionsController < ApplicationController
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
+  # This list is a combination of Content-Type and Accept Header content types from
+  # CMR ingest and search. It includes all types that are listed for ingest, but not
+  # for search as we do not expect to use those types.
+  COLLECTION_HEADER_CONTENT_TYPES = {
+    'UMM JSON' => "#{Rails.configuration.umm_version}; charset=utf-8",
+    'DIF 10' => 'dif10+xml',
+    'DIF 9' => 'dif+xml',
+    'ECHO 10' => 'echo10+xml',
+    'ISO 19115 (MENDS)' => 'iso19115+xml',
+    'ISO 19115 SMAP' => 'iso:smap+xml',
+    'native' => 'metadata+xml'
+  }
+
   def show
     @language_codes = cmr_client.get_language_codes
     @draft = Draft.where(provider_id: @provider_id, native_id: @native_id).first
@@ -41,8 +54,11 @@ class CollectionsController < ApplicationController
   def revert
     latest_revision_id = @revisions.first['meta']['revision-id']
 
+    # ingested = cmr_client.ingest_collection(@collection.to_json, @provider_id, @native_id, token, @collection_format)
+    # @collection = @collection.to_json if @collection_format.include?('umm+json')
     # Ingest revision
-    ingested = cmr_client.ingest_collection(@collection.to_json, @provider_id, @native_id, token)
+    metadata = @collection_format.include?('umm+json') ? @collection.to_json : @collection
+    ingested = cmr_client.ingest_collection(metadata, @provider_id, @native_id, token, @collection_format)
 
     if ingested.success?
       flash[:success] = 'Revision was successfully created'
@@ -105,8 +121,20 @@ class CollectionsController < ApplicationController
         @old_revision = true
       end
 
-      # retrieve metadata (umm-json with umm-c version)
-      @collection = cmr_client.get_concept(@concept_id, token, revision_id)
+      # # set content-type as umm-json with our current umm-c version
+      # content_type = COLLECTION_HEADER_CONTENT_TYPES['UMM JSON']
+      # # but if we are reverting, we should get the collection in it's native format, so set content-type appropriately
+      # content_type = COLLECTION_HEADER_CONTENT_TYPES['native'] if params[:action] == 'revert'
+
+      # set accept content-type as umm-json with our current umm-c version
+      content_type = "application/#{Rails.configuration.umm_version}; charset=utf-8"
+      # but if we are reverting, we should get the collection in it's native format, so set content-type appropriately
+      content_type = 'application/metadata+xml; charset=utf-8' if params[:action] == 'revert'
+
+      # @collection = cmr_client.get_concept(@concept_id, token, revision_id, content_type)
+      collection_response = cmr_client.get_concept(@concept_id, token, revision_id, content_type)
+      @collection = collection_response.body
+      @collection_format = collection_response.headers.fetch('content-type', '')
     else
       # concept wasn't found, CMR might be a little slow
       # Take the user to a blank page with a message the collection doesn't exist yet,
