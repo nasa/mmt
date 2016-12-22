@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe 'Search drafts results', js: true do
-  short_name = 'id_123'
-  entry_title = 'Aircraft Flux-Filtered: Univ. Col. (FIFE)'
+  let(:short_name)  { 'id_123' }
+  let(:entry_title) { 'Aircraft Flux-Filtered: Univ. Col. (FIFE)' }
 
   before :each do
     login

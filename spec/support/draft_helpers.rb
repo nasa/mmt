@@ -51,20 +51,13 @@ module Helpers
 
         raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
 
-        # parsed_ingest_response = MultiXml.parse(ingest_response.body)
-
         # Synchronous way of waiting for CMR to complete the ingest work
         wait_for_cmr
-        # puts ingest_response.inspect
+
         # Retrieve the concept from CMR so that we can create a new draft, if test requires it
         concept_id = ingest_response.body['concept-id']
         revision_id = ingest_response.body['revision-id']
         content_type = "application/#{Rails.configuration.umm_version}; charset=utf-8"
-        # concept_response = cmr_client.get_concept(parsed_ingest_response['result']['concept_id'], 'token', parsed_ingest_response['result']['revision_id'])
-        # concept_response = cmr_client.get_concept(parsed_ingest_response['result']['concept_id'], 'token', parsed_ingest_response['result']['revision_id']).body
-        # concept_response = cmr_client.get_concept(ingest_response.body['result']['concept_id'], 'token', ingest_response.body['result']['revision_id']).body
-        # concept_response = cmr_client.get_concept(ingest_response.body['concept-id'], 'token', ingest_response.body['revision-id'].to_s, content_type).body
-        # concept_response = cmr_client.get_concept(concept_id, 'token', revision_id, content_type).body
         concept_response = cmr_client.get_concept(concept_id, 'token', revision_id, content_type)
 
         raise Array.wrap(concept_response.body['errors']).join(' /// ') if concept_response.body.key?('errors')
@@ -75,7 +68,6 @@ module Helpers
           Draft.create_from_collection(concept_response.body, user, native_id)
         end
 
-        # return [parsed_ingest_response, concept_response]
         return [ingest_response.body, concept_response]
       end
     end
