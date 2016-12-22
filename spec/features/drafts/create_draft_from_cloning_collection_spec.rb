@@ -9,14 +9,14 @@ describe 'Create new draft from cloning a collection', js: true do
   context 'when editing a CMR collection' do
     before do
       login
-      ingest_response, @concept = publish_draft
+      ingest_response, @concept_response = publish_draft
 
       # fill_in 'Quick Find', with: short_name
       # click_on 'Find'
       # expect(page).to have_content(short_name)
       # click_on short_name
 
-      visit collection_path(ingest_response['result']['concept_id'])
+      visit collection_path(ingest_response['concept-id'])
 
       click_on 'Clone this Record'
 
@@ -38,12 +38,12 @@ describe 'Create new draft from cloning a collection', js: true do
 
     it 'displays the draft preview page' do
       expect(page).to have_content('DRAFT RECORD')
-      expect(page).to have_content("#{@concept['EntryTitle']} - Cloned")
+      expect(page).to have_content("#{@concept_response.body['EntryTitle']} - Cloned")
     end
 
     it 'appends " - Cloned" to the metadata' do
       within '.collection-basics' do
-        expect(page).to have_content("#{@concept['EntryTitle']} - Cloned")
+        expect(page).to have_content("#{@concept_response.body['EntryTitle']} - Cloned")
       end
     end
 

@@ -9,9 +9,9 @@ describe 'Delete collection', js: true do
 
   context 'when viewing a published collection' do
     before do
-      ingest_response, @concept = publish_draft
+      ingest_response, concept_response = publish_draft
 
-      visit collection_path(ingest_response['result']['concept_id'])
+      visit collection_path(ingest_response['concept-id'])
     end
 
     context 'when the collection has no granules' do
@@ -22,7 +22,7 @@ describe 'Delete collection', js: true do
       context 'when clicking the delete link' do
         before do
           click_on 'Delete Record'
-          
+
           within '#delete-record-modal' do
             click_on 'Yes'
           end
@@ -85,15 +85,15 @@ describe 'Delete collection', js: true do
 
   context 'when viewing a published collection with a non url encoded native id' do
     before do
-      ingest_response, _concept = publish_draft(native_id: 'not & url, encoded / native id')
+      ingest_response, _concept_response = publish_draft(native_id: 'not & url, encoded / native id')
 
-      visit collection_path(ingest_response['result']['concept_id'])
+      visit collection_path(ingest_response['concept-id'])
     end
 
     context 'when clicking the delete link' do
       before do
         click_on 'Delete Record'
-        
+
         within '#delete-record-modal' do
           click_on 'Yes'
         end

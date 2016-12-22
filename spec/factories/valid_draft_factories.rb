@@ -1,3 +1,5 @@
+require 'faker'
+
 FactoryGirl.define do
   factory :full_draft, class: Draft do
     transient do
@@ -623,7 +625,7 @@ FactoryGirl.define do
         'Topic'          => 'DATA ANALYSIS AND VISUALIZATION',
         'Term'           => 'GEOGRAPHIC INFORMATION SYSTEMS',
         'VariableLevel1' => 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
-      }], 
+      }],
         'AncillaryKeywords' => ['Ancillary keyword 1', 'Ancillary keyword 2'], 'AdditionalAttributes' => [{
         'Name'                     => 'Attribute 1',
         'Description'              => 'Description',

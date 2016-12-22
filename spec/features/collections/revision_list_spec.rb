@@ -7,9 +7,9 @@ describe 'Revision list', js: true do
     before do
       login
 
-      ingest_response, @concept = publish_draft(revision_count: 2)
+      ingest_response, @concept_response = publish_draft(revision_count: 2)
 
-      visit collection_path(ingest_response['result']['concept_id'])
+      visit collection_path(ingest_response['concept-id'])
     end
 
     it 'displays the number of revisions' do
@@ -27,7 +27,7 @@ describe 'Revision list', js: true do
       end
 
       it 'displays the collection entry title' do
-        expect(page).to have_content(@concept['ShortName'])
+        expect(page).to have_content(@concept_response.body['ShortName'])
       end
 
       it 'displays when the revision was made' do
@@ -66,12 +66,12 @@ describe 'Revision list', js: true do
 
     context 'when searching for the collection' do
       before do
-        full_search(keyword: @concept['EntryTitle'], provider: 'MMT_2')
+        full_search(keyword: @concept_response.body['EntryTitle'], provider: 'MMT_2')
       end
 
       it 'only displays the latest revision' do
         within '#collection_search_results' do
-          expect(page).to have_content(@concept['EntryTitle'], count: 1)
+          expect(page).to have_content(@concept_response.body['EntryTitle'], count: 1)
         end
       end
     end

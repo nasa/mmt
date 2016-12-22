@@ -10,14 +10,14 @@ describe 'Collections permissions', js: true do
 
     context 'when the collections provider is in the users available providers' do
       before do
-        ingest_response, concept = publish_draft(revision_count: 2)
+        ingest_response, concept_response = publish_draft(revision_count: 2)
 
         user = User.first
         user.provider_id = 'MMT_1'
         user.available_providers = %w(MMT_1 MMT_2)
         user.save
 
-        visit collection_path(ingest_response['result']['concept_id'])
+        visit collection_path(ingest_response['concept-id'])
       end
 
       it 'displays the action links' do
@@ -208,9 +208,9 @@ describe 'Collections permissions', js: true do
 
     context 'when the collections provider is not in the users available providers' do
       before do
-        ingest_response, concept = publish_draft(revision_count: 2, provider_id: 'SEDAC')
+        ingest_response, concept_response = publish_draft(revision_count: 2, provider_id: 'SEDAC')
 
-        visit collection_path(ingest_response['result']['concept_id'])
+        visit collection_path(ingest_response['concept-id'])
       end
 
       it 'does not display the action links' do

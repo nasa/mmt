@@ -93,7 +93,7 @@ module Cmr
 
     def get_concept(concept_id, token, revision_id = nil, content_type)
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
+        url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}"
       else
         url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       end

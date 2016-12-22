@@ -9,9 +9,9 @@ describe 'Reverting to previous collections', js: true do
 
   context 'when the latest revision is a published collection' do
     before do
-     ingest_response, concept = publish_draft(revision_count: 2)
+      ingest_response, @concept_response = publish_draft(revision_count: 2)
 
-     visit collection_path(ingest_response['result']['concept_id'])
+      visit collection_path(ingest_response['concept-id'])
 
       within '.cta' do
         click_on 'Revisions'
@@ -45,10 +45,13 @@ describe 'Reverting to previous collections', js: true do
         # Do something to the revision so it fails
         # Add a new field to the metadata, similar to a field name changing
         # and old metadata still having the old field name
-        new_metadata = build(:full_draft).draft
-        new_metadata['BadField'] = 'Not going to work'
+        # new_metadata = build(:full_draft).draft
+        # new_metadata['BadField'] = 'Not going to work'
+        new_concept = @concept_response.deep_dup
+        new_concept.body['BadField'] = 'Not going to work'
 
-        allow_any_instance_of(Cmr::CmrClient).to receive(:get_concept).and_return(new_metadata)
+        # allow_any_instance_of(Cmr::CmrClient).to receive(:get_concept).and_return(new_metadata)
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_concept).and_return(new_concept)
 
         click_on 'Revert to this Revision'
         click_on 'Yes'
@@ -65,9 +68,9 @@ describe 'Reverting to previous collections', js: true do
 
   context 'when the latest revision is a deleted collection' do
     before do
-      ingest_response, concept = publish_draft
+      ingest_response, concept_response = publish_draft
 
-      visit collection_path(ingest_response['result']['concept_id'])
+      visit collection_path(ingest_response['concept-id'])
 
       click_on 'Delete Record'
       click_on 'Yes'
