@@ -18,52 +18,69 @@
 
       <div id="edit-order-option-assignments-page">
 
+        <%= form_tag(order_option_assignments_path, method: :delete) %>
+
         <%= check_box_tag 'show-no-assigned-options', id: 'show-no-assigned-options'%>
         <%= label_tag 'show-no-assigned-options', 'Include selected collections with no assigned options?' %>
-        <table id="collections-table">
-          <thead>
-            <tr>
-              <th>
-                Collection
-              </th>
-              <th>
-                Short Name
-              </th>
-              <th>
-                Version ID
-              </th>
-              <th>
-                Option Definition Name
-              </th>
-            </tr>
-          </thead>
 
-          <tbody>
-            <%if @all_empty_assignments %>
-              <tr id="no-assignments-msg" >
-                <td colspan="6">
-                  No assignments found for the selected collections
-                </td>
+        <fieldset>
+          <table id="collections-table">
+            <thead>
+              <tr>
+                <th class="align-c">
+                  <input type="checkbox" name="checkall" class="checkall" data-group="order_option_assignment[]" />
+                </th>
+                <th>
+                  Collection
+                </th>
+                <th>
+                  Short Name
+                </th>
+                <th>
+                  Version ID
+                </th>
+                <th>
+                  Option Definition Name
+                </th>
               </tr>
-              <% end %>
-            <% @collections_to_list.each do |collection| %>
-                <tr <%= collection['option-def'].nil? ? 'class=hidden-row' : '' %>>
-                  <td>
-                    <%=collection['umm']['entry-title']%>
-                  </td>
-                  <td>
-                    <%=collection['umm']['short-name']%>
-                  </td>
-                  <td>
-                    <%=collection['umm']['version-id']%>
-                  </td>
-                  <td>
-                    <%=collection.fetch('option-def',{}).fetch('Name','') %>
+            </thead>
+
+            <tbody>
+              <%if @all_empty_assignments %>
+                <tr id="no-assignments-msg" >
+                  <td colspan="7">
+                    No assignments found for the selected collections
                   </td>
                 </tr>
-            <%end %>
-          </tbody>
-        </table>
+                <% end %>
+              <% @collections_to_list.each do |collection| %>
+                  <tr <%= collection['option-def'].nil? ? 'class=hidden-row' : '' %>>
+                    <td class="align-c">
+                      <% unless collection['option-def'].nil? %>
+                          <%= check_box_tag('order_option_assignment[]', collection['option-assignment-guid'], false) %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%=collection['umm']['entry-title']%>
+                    </td>
+                    <td>
+                      <%=collection['umm']['short-name']%>
+                    </td>
+                    <td>
+                      <%=collection['umm']['version-id']%>
+                    </td>
+                    <td>
+                      <%=collection.fetch('option-def',{}).fetch('Name','') %>
+                    </td>
+                  </tr>
+              <%end %>
+            </tbody>
+          </table>
+        </fieldset>
+
+        <fieldset>
+          <%= submit_tag('Delete Selected Assignments', class: 'eui-btn--red') %>
+        </fieldset>
 
       </div>
 

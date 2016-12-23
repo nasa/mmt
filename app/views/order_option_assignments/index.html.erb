@@ -20,8 +20,20 @@
 
       <div id="chooser-widget"></div>
 
-      <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'submit-display-options' %>
-      <%-# link_to 'Delete Option Assignments', order_option_assignments_path, class: 'eui-btn--green' %>
+      <%= hidden_field_tag 'order_option_assignments_path', order_option_assignments_path %>
+
+      <%= submit_tag 'Display Assignments', class: 'eui-btn--blue', id: 'submit-display-options' %>
+      <%= submit_tag 'Delete Option Assignments', class: 'eui-btn--red', id: 'pre-delete-options-modal' %>
+      <%= link_to '', '#delete-options-modal', id: 'delete-options-modal-invoker',  class: 'display-modal', stye: 'display: none' %>
+
+      <div id='delete-options-modal' class="eui-modal-content">
+        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <p>Are you sure you want to delete all of the order option assignments for the selected collections?</p>
+        <p>
+          <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+          <%= submit_tag 'Yes', id: 'submit-delete-options', class: 'eui-btn--blue spinner'%>
+        </p>
+      </div>
 
     </section>
   </div>

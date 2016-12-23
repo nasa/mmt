@@ -47,8 +47,20 @@ $(document).ready ->
           'Please select at least one collection'
 
     # select all of the items in the "to" list before submitting
-    $('#submit-display-options').click ->
+    $('#submit-display-options, #submit-delete-options').click ->
       $('#collectionsChooser_toList option').prop 'selected', true
+
+
+    $('#pre-delete-options-modal').click (e) ->
+      e.preventDefault()
+      if $('#order-option-assignments-form').valid() == true
+        $("#delete-options-modal-invoker").click()
+
+
+    $('#submit-delete-options').click ->
+      $('#order-option-assignments-form').append( $('<input>').attr('type', 'hidden').attr('name', '_method').val('delete') )
+      $('#order-option-assignments-form').attr('action', $('#order_option_assignments_path').val())
+
 
   # Edit page -----------------------------------------------------------
   if $("#edit-order-option-assignments-page").length > 0

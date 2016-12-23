@@ -18,7 +18,7 @@ describe 'Viewing and Creating Order Option Assignments' do
   context 'When trying to display option assignments without selecting any collections', js: true do
 
     before do
-      click_on 'Submit'
+      click_on 'Display Assignments'
     end
 
     it 'displays validation errors within the form' do
@@ -44,7 +44,7 @@ describe 'Viewing and Creating Order Option Assignments' do
       end
 
       VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
-        click_on 'Submit'
+        click_on 'Display Assignments'
       end
 
 
