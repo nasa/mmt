@@ -37,6 +37,11 @@ module Cmr
       get(url, {}, { 'Echo-Token' => token })
     end
 
+    def delete_order_option(id, token)
+      url = "/echo-rest/option_definitions/#{id}"
+      delete(url, nil, nil, { 'Echo-Token' => token })
+    end
+
     def get_order_option_assignments(options, token)
       url = '/echo-rest/catalog_item_option_assignments.json'
       get(url, options, { 'Echo-Token' => token })
