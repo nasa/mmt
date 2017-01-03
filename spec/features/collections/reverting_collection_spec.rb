@@ -112,30 +112,37 @@ describe 'Reverting to previous collections', js: true do
       click_on 'Find'
       click_link short_name
 
+      @collection_concept = current_path.sub('/collections/', '')
+
       within '.cta' do
         click_on 'Revisions'
       end
     end
 
     context 'when reverting the collection' do
-      before do
+      it 'displays a success message' do
         click_on 'Revert to this Revision', match: :first
         find('.not-current-provider-link').click
 
         wait_for_ajax
         wait_for_cmr
-      end
 
-      it 'reverts the collection' do
         expect(page).to have_content('Revision was successfully created')
       end
 
-      it 'the collection metadata format is echo10'
-      # I am not quite sure that we can test this in rspec:
-      # the format of a collection is not shown to the user in any way
-      # the only ways to verify would be to make a request and examine the response header
-      # or to visit the cmr concept id url with '.native' and examine the downloaded metadata
-      # neither option seems appropriate within our test suite.
+      it 'the collection metadata format being ingested is echo10' do
+        expected_content_type = 'application/echo10+xml; charset=utf-8'
+
+        revert_success = "{\"concept-id\":\"#{@collection_concept}\", \"revision-id\":3}"
+        revert_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(revert_success)))
+
+        expect_any_instance_of(Cmr::CmrClient).to receive(:ingest_collection).with(kind_of(String), 'LARC', anything, anything, expected_content_type).and_return(revert_response)
+
+        click_on 'Revert to this Revision', match: :first
+        find('.not-current-provider-link').click
+
+        wait_for_ajax
+      end
     end
   end
 end

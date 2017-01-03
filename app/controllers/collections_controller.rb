@@ -47,7 +47,7 @@ class CollectionsController < ApplicationController
 
     if ingested.success?
       flash[:success] = 'Revision was successfully created'
-       Rails.logger.info("Audit Log: Revision for draft with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
+      Rails.logger.info("Audit Log: Revision for draft with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
       redirect_to collection_revisions_path(revision_id: latest_revision_id.to_i + 1)
     else
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
