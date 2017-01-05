@@ -80,13 +80,8 @@ module Cmr
         'Content-Type' => "application/#{Rails.configuration.umm_version}; charset=utf-8"
       }
 
-      if content_type
-        # if content type is passed (from a revision with a different format),
-        # set headers for the content type and potentially older metadata record
-        headers['Content-Type'] = content_type
-        headers['Cmr-Validate-Umm-C'] = 'false'
-        headers['Cmr-Skip-Sanitize-Umm-C'] = 'true'
-      end
+      # content_type is passed if we are reverting to a revision with a different format
+      headers['Content-Type'] = content_type if content_type
 
       put(url, metadata, headers.merge(token_header(token)))
     end
