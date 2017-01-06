@@ -18,7 +18,7 @@
 
       <div id="edit-order-option-assignments-page">
 
-        <%= form_tag(order_option_assignments_path, method: :delete) %>
+        <%= form_tag(order_option_assignments_path, method: :delete, id: 'edit-order-option-assignments-form') %>
 
         <%= check_box_tag 'show-no-assigned-options', id: 'show-no-assigned-options'%>
         <%= label_tag 'show-no-assigned-options', 'Include selected collections with no assigned options?' %>
@@ -79,7 +79,22 @@
         </fieldset>
 
         <fieldset>
-          <%= submit_tag('Delete Selected Assignments', class: 'eui-btn--red') %>
+
+          <%= submit_tag 'Delete Selected Assignments', class: 'eui-btn--red', id: 'pre-delete-options-modal' %>
+
+          <%= link_to '', '#delete-options-modal', id: 'delete-options-modal-invoker',  class: 'display-modal', stye: 'display: none' %>
+
+          <div id='delete-options-modal' class="eui-modal-content">
+            <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+            <p>Are you sure you want to delete the option assignments for the selected collections?</p>
+            <p>
+              <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+              <%= submit_tag 'Yes', id: 'submit-delete-options', class: 'eui-btn--blue spinner'%>
+            </p>
+          </div>
+
+
+
         </fieldset>
 
       </div>

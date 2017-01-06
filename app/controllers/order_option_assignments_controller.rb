@@ -84,33 +84,13 @@ class OrderOptionAssignmentsController < ApplicationController
     @order_option_select_values = get_order_options
   end
 
-  #---------
-  # This method can be called from the index page OR the edit page
-  #---------
+
   def destroy
 
     success_count = 0
     error_count = 0
-    assignment_guids = []
 
-    # If coming from the edit page, specific option assignment IDs will be passed in
-    if params.fetch(:order_option_assignment,[]).length > 0
-      assignment_guids = params.fetch(:order_option_assignment,[])
-    # If coming from the index page, collection IDs will be passed in, so we must get all
-    # of the option assignment IDs for each collection
-    elsif params.fetch(:collectionsChooser_toList,[]).length > 0
-      collections = find_collections_by_concept_ids(params['collectionsChooser_toList'])
-      collections.each do |collection|
-        id = collection['meta']['concept-id']
-        options = { 'catalog_item[]' => id }
-        assignments_response = cmr_client.get_order_option_assignments(options, echo_provider_token)
-        if assignments_response.success?
-          assignments_response.body.each do |assignment|
-            assignment_guids <<  assignment['catalog_item_option_assignment']['id']
-          end
-        end
-      end
-    end
+    assignment_guids = params.fetch(:order_option_assignment,[])
 
     flash_messages = {}
 
@@ -204,4 +184,8 @@ class OrderOptionAssignmentsController < ApplicationController
     end
     matched_collections
   end
+
+
+
+
 end
