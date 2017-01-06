@@ -47,7 +47,7 @@ $(document).ready ->
           'Please select at least one collection'
 
     # select all of the items in the "to" list before submitting
-    $('#submit-display-options, #submit-delete-options').click ->
+    $('#submit-display-options').click ->
       $('#collectionsChooser_toList option').prop 'selected', true
 
 
