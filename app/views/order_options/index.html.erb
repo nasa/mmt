@@ -31,6 +31,20 @@
             <td><%= order_option['Deprecated'].humanize %></td>
             <td><%= echo_formatted_date(order_option['LastUpdate']) %></td>
             <td>
+              <%= link_to 'View', order_option_path(order_option['Guid']) %>
+            </td>
+            <td>
+              <%= link_to 'Deprecate', "#deprecate-option-modal-#{index}", class: 'display-modal' %>
+              <div id="deprecate-option-modal-<%= index %>" class="eui-modal-content">
+                <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+                <p>Are you sure you want to deprecate the order option named '<%=order_option['Name']%>'?</p>
+                <p>
+                  <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                  <%= link_to 'Yes', order_option_deprecate_path(order_option['Guid']), method: :post, class: 'eui-btn--blue spinner' %>
+                </p>
+              </div>
+            </td>
+            <td>
               <%= link_to 'Edit', edit_order_option_path(order_option['Guid']) %>
             </td>
             <td>
