@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :order_options
   get '/order_policies' => 'order_policies#index'
 
-  resource :order_option_assignments, only: :edit
+  resource :order_option_assignments, only: [:edit, :destroy]
   resources :order_option_assignments, except: :edit
   post '/order_option_assignments/edit' => 'order_option_assignments#edit'
 

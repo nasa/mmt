@@ -19,10 +19,10 @@ class OrderOptionAssignmentsController < ApplicationController
           option_defs.each do |option_def|
             collection_copy = collection.clone
             collection_copy['option-def'] = option_def
-            assignment = find_assignment(option_def['Guid'], assignments_response.body)[0]
+            assignment = find_assignment(option_def['Guid'], assignments_response.body)
 
             unless assignment.nil?
-              collection_copy['option-assignment-guid'] = assignment['catalog_item_option_assignment']['catalog_item_id']
+              collection_copy['option-assignment-guid'] = assignment['catalog_item_option_assignment']['id']
             end
 
             @collections_to_list << collection_copy
@@ -82,6 +82,32 @@ class OrderOptionAssignmentsController < ApplicationController
 
   def new
     @order_option_select_values = get_order_options
+  end
+
+
+  def destroy
+
+    success_count = 0
+    error_count = 0
+
+    assignment_guids = params.fetch(:order_option_assignment,[])
+
+    flash_messages = {}
+
+    if assignment_guids.length < 1
+      flash_messages[:error] = 'None of selected collections had any order option assignments.'
+    end
+
+    assignment_guids.each do |assignment_guid|
+      response = cmr_client.delete_order_option_assignments(assignment_guid, echo_provider_token)
+      success_count += 1 unless response.error?
+      error_count += 1 if response.error?
+    end
+
+    flash_messages[:success] = "Deleted #{success_count} #{'order option assignment'.pluralize(success_count)} successfully." if success_count > 0
+    flash_messages[:error] = "Failed to delete #{error_count} #{'order option assignment'.pluralize(error_count)}." if error_count > 0
+
+    redirect_to order_option_assignments_path, flash: flash_messages
   end
 
   private
@@ -158,4 +184,8 @@ class OrderOptionAssignmentsController < ApplicationController
     end
     matched_collections
   end
+
+
+
+
 end

@@ -60,5 +60,10 @@ module Cmr
       post(url, body.to_json, content_type.merge(echo_security_token))
     end
 
+    def delete_order_option_assignments(option_assignment_guid, token)
+      url = "/echo-rest/catalog_item_option_assignments/#{option_assignment_guid}"
+      delete(url, nil, nil, { 'Echo-Token' => token })
+    end
+
   end
 end
