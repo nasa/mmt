@@ -79,10 +79,6 @@ $(document).ready ->
       else
         $('tr.shown-row').removeClass('shown-row').addClass('hidden-row')
 
-    # Invoke the checkboxes change event when "check all" is checked so validation works.
-    $("[name=checkall]").change ->
-      $('[name="order_option_assignment[]"]').change().valid()
-
     # invoke the confirmation dialog before deleting
     $('#pre-delete-options-modal').click (e) ->
       e.preventDefault()
