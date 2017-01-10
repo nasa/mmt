@@ -67,29 +67,37 @@ module Cmr
       post(url, draft_metadata, headers)
     end
 
-    def ingest_collection(metadata, provider_id, native_id, token)
+    def ingest_collection(metadata, provider_id, native_id, token, content_type = nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
       else
         url = "/ingest/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
       end
+
       headers = {
-        'Content-Type' => "application/#{Rails.configuration.umm_version};charset=utf-8"
+        'Accept' => 'application/json',
+        'Content-Type' => "application/#{Rails.configuration.umm_version}; charset=utf-8"
       }
+
+      # content_type is passed if we are reverting to a revision with a different format
+      headers['Content-Type'] = content_type if content_type
+
       put(url, metadata, headers.merge(token_header(token)))
     end
 
-    def get_concept(concept_id, token, revision_id = nil)
+    def get_concept(concept_id, token, revision_id = nil, content_type)
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
+        url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}"
       else
         url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
       end
+
       headers = {
-        'Accept' => "application/#{Rails.configuration.umm_version}; charset=utf-8"
+        'Accept' => content_type
       }
-      get(url, {}, headers.merge(token_header(token))).body
+
+      get(url, {}, headers.merge(token_header(token)))
     end
 
     def delete_collection(provider_id, native_id, token)

@@ -12,7 +12,7 @@ describe 'Manage CMR provider holdings', js: true do
       user.available_providers = %w(MMT_1)
       user.save
 
-      ingest_response, @concept = publish_draft(provider_id: 'MMT_1')
+      ingest_response, @concept_response = publish_draft(provider_id: 'MMT_1')
 
       visit manage_cmr_path
 
@@ -24,7 +24,7 @@ describe 'Manage CMR provider holdings', js: true do
       expect(page.current_path).to eq(provider_holding_path('MMT_1'))
       # within '#collections' do
 
-      #     expect(page).to have_content("#{@concept['EntryTitle']} 0")
+      #     expect(page).to have_content("#{@concept_response.body['EntryTitle']} 0")
 
       # end
     end
@@ -38,7 +38,7 @@ describe 'Manage CMR provider holdings', js: true do
 
       @holdings = cmr_client.get_provider_holdings(false, 'MMT_2').body
 
-      # ingest_response, @concept = publish_draft
+      # ingest_response, @concept_response = publish_draft
 
       visit manage_cmr_path
 
@@ -66,7 +66,7 @@ describe 'Manage CMR provider holdings', js: true do
         expect(page).to have_content("MMT_2 Holdings")
         # within '#collections' do
         #   within all('tr')[1] do
-        #     expect(page).to have_content("#{@concept['EntryTitle']} 0")
+        #     expect(page).to have_content("#{@concept_response.body['EntryTitle']} 0")
         #   end
         # end
       end

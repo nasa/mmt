@@ -7,9 +7,9 @@ describe 'Downloading Collection XML', js: true do
     before do
       login
 
-      ingest_response, @concept = publish_draft
+      ingest_response, concept_response = publish_draft
 
-      @concept_id = ingest_response['result']['concept_id']
+      @concept_id = ingest_response['concept-id']
       visit collection_path(@concept_id)
     end
 

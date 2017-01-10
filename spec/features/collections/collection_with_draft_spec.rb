@@ -10,9 +10,9 @@ describe 'Collection with draft' do
 
     context 'when the collections provider is the users current provider', js: true do
       before do
-        ingest_response, @concept = publish_draft(include_new_draft: true)
+        ingest_response, @concept_response = publish_draft(include_new_draft: true)
 
-        visit collection_path(ingest_response['result']['concept_id'])
+        visit collection_path(ingest_response['concept-id'])
       end
 
       it 'displays a message that a draft exists' do
@@ -25,21 +25,21 @@ describe 'Collection with draft' do
         end
 
         it 'displays the draft' do
-          expect(page).to have_content("#{@concept['ShortName']}_1 #{@concept['EntryTitle']} DRAFT RECORD")
+          expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']} DRAFT RECORD")
         end
       end
     end
 
     context 'when the collections provider is in the users available providers', js: true do
       before do
-        ingest_response, @concept = publish_draft(include_new_draft: true)
+        ingest_response, @concept_response = publish_draft(include_new_draft: true)
 
         user = User.first
         user.provider_id = 'MMT_1'
         user.available_providers = %w(MMT_1 MMT_2)
         user.save
 
-        visit collection_path(ingest_response['result']['concept_id'])
+        visit collection_path(ingest_response['concept-id'])
       end
 
       it 'displays a message that a draft exists' do
@@ -67,7 +67,7 @@ describe 'Collection with draft' do
           end
 
           it 'displays the draft' do
-            expect(page).to have_content("#{@concept['ShortName']}_1 #{@concept['EntryTitle']} DRAFT RECORD")
+            expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']} DRAFT RECORD")
           end
         end
       end
@@ -75,14 +75,14 @@ describe 'Collection with draft' do
 
     context 'when the collections provider is not in the users available providers' do
       before do
-        ingest_response, @concept = publish_draft(include_new_draft: true)
+        ingest_response, @concept_response = publish_draft(include_new_draft: true)
 
         user = User.first
         user.provider_id = 'SEDAC'
         user.available_providers = %w(SEDAC)
         user.save
 
-        visit collection_path(ingest_response['result']['concept_id'])
+        visit collection_path(ingest_response['concept-id'])
       end
 
       it 'does not display a message that a draft exists' do

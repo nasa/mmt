@@ -9,7 +9,7 @@ describe 'Create new draft from collection' do
   context 'when editing a CMR collection' do
     before do
       login
-      ingest_response, @concept = publish_draft
+      ingest_response, @concept_response = publish_draft
 
       # fill_in 'Quick Find', with: short_name
       # click_on 'Find'
@@ -19,7 +19,7 @@ describe 'Create new draft from collection' do
         # click_on short_name
       # end
 
-      visit collection_path(ingest_response['result']['concept_id'])
+      visit collection_path(ingest_response['concept-id'])
 
       click_on 'Edit Record'
 
@@ -45,7 +45,7 @@ describe 'Create new draft from collection' do
 
     # it 'displays the draft preview page' do
       # expect(page).to have_content('DRAFT RECORD')
-      expect(page).to have_content(@concept['EntryTitle'])
+      expect(page).to have_content(@concept_response.body['EntryTitle'])
     end
   end
 
