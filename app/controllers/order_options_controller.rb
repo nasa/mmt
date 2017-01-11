@@ -145,7 +145,7 @@ class OrderOptionsController < ManageCmrController
     soap_xml_response = echo_client.deprecate_order_options(echo_provider_token, Array.wrap(params[:id]))
 
     if soap_xml_response.success?
-      flash[:success] = 'Order Option successfully deprecated.'
+      flash[:success] = 'Order Option was successfully deprecated.'
     else
       if soap_xml_response.error_code == 'OptionDefAlreadyDeprecated'
         flash[:error] = soap_xml_response.error_message
