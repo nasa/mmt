@@ -20,13 +20,13 @@ describe 'Deprecating Order Options' do
 
     context 'When clicking on a Deprecate link, it asks for confirmation before deprecating.' do
       before do
-        within '.order-options-table tbody tr:first-child' do
+        within '.order-options-table tbody tr:nth-child(3)' do
           click_on 'Deprecate'
         end
       end
       it 'Asks for confirmation before deprecating' do
-        cell_text = find('.order-options-table tbody tr:first-child td:first-child').text
-        expect(page).to have_selector('#deprecate-option-modal-0', visible: true)
+        cell_text = find('.order-options-table tbody tr:nth-child(3) td:first-child').text
+        expect(page).to have_selector('#deprecate-option-modal-2', visible: true)
         expect(page).to have_content("Are you sure you want to deprecate the order option named '#{cell_text}'?")
         expect(page).to have_link('No')
         expect(page).to have_link('Yes')
@@ -39,17 +39,17 @@ describe 'Deprecating Order Options' do
           visit order_options_path
         end
 
-        within '.order-options-table tbody tr:first-child' do
+        within '.order-options-table tbody tr:nth-child(3)' do
           click_on 'Deprecate'
         end
 
-        within('#deprecate-option-modal-0') do
+        within('#deprecate-option-modal-2') do
           click_on 'No'
         end
       end
 
       it 'Hides the dialog after clicking \'No\'.' do
-        expect(page).to have_selector('#deprecate-option-modal-0', visible: false)
+        expect(page).to have_selector('#deprecate-option-modal-2', visible: false)
       end
     end
 
@@ -68,27 +68,6 @@ describe 'Deprecating Order Options' do
 
       it 'Asks for confirmation before deprecating' do
         expect(page).to have_content('Order Option was successfully deprecated.')
-      end
-    end
-
-    context 'When trying to deprecate an order option that cannot be deprecated' do
-      let(:cell_text) {''}
-      before do
-        within '.order-options-table tbody tr:first-child' do
-          click_on 'Deprecate'
-        end
-
-        within('#deprecate-option-modal-0') do
-          VCR.use_cassette('echo_rest/order_options/deprecate-fail', record: :none) do
-            click_on 'Yes'
-          end
-        end
-        cell_text = find('.order-options-table tbody tr:first-child td:first-child').text
-      end
-
-      it 'Displays an error message and lists the order options' do
-        expect(page).to have_content('Option definition [C7EB886C-5790-76E0-0E51-D2CFD6985AC6] is already deprecated')
-        expect(page).to have_content(cell_text)
       end
     end
   end
