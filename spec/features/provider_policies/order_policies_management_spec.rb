@@ -10,8 +10,6 @@ describe 'Viewing Order Policies', js: true do
 
     context 'when viewing the order policies page' do
       before do
-        click_on 'Manage CMR'
-
         VCR.use_cassette('echo_soap/provider_service/order_policies/empty', record: :none) do
           visit order_policies_path
         end

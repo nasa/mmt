@@ -48,7 +48,7 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
 
       it 'shows the table with the provider group' do
         expect(page).to have_content('Provider Object Permissions')
-        expect(page).to have_content('Click on a Group to access provider object permissions for that group.')
+        expect(page).to have_content('Click on a Group to access the provider object permissions for that group.')
 
         within '.provider-permissions-group-table' do
           expect(page).to have_content("#{@group_name} #{@group_description} MMT_2 0")

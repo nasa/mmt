@@ -65,13 +65,10 @@ class GroupsController < ManageCmrController
   def create
     @group = group_params
 
-    # members = params[:selected_members] || []
     @is_system_group = params[:system_group]
 
     if valid_group?(@group)
       @group['provider_id'] = current_user.provider_id unless @is_system_group
-      # from CMR docs on group fields: members - Optional. May be specified in create and update operations
-      # @group['members'] = members unless members.blank?
 
       group_creation_response = cmr_client.create_group(@group, token)
 
@@ -114,7 +111,6 @@ class GroupsController < ManageCmrController
 
         @selected_users = all_users.select { |user| group_member_uids.include?(user[:uid]) }
         @users_options = all_users - @selected_users
-        # @selected_users = []
       else
         Rails.logger.error("Group Members Request: #{group_members_response.inspect}")
 

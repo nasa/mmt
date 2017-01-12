@@ -82,7 +82,7 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
 
       it 'displays a success message and no error message on the index page' do
         expect(page).to have_content('Provider Object Permissions')
-        expect(page).to have_content('Click on a Group to access provider object permissions for that group.')
+        expect(page).to have_content('Click on a Group to access the provider object permissions for that group.')
 
         expect(page).to have_content('Provider Object Permissions were saved.')
         expect(page).to have_no_content('permissions were unable to be saved.')

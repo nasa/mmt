@@ -28,6 +28,9 @@ describe 'Deleting Order Option Assignments' do
     end
   end
 
+  # I've created MMT-789. We've implemented a confirmation modal that is displayed on click
+  # of this button. This error message is displayed when 'Yes' is clicked in the modal. This test
+  # fails because the modal does not disappear.
   # context 'When trying to delete option assignments without selecting any collections', js: true do
   #   before do
   #     click_on 'Delete Selected Assignments'
