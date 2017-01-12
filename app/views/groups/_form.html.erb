@@ -1,17 +1,75 @@
 <% new_form = params[:action] == 'new' || params[:action] == 'create' %>
-<% path = new_form ? groups_path : group_path %>
-<% method = new_form ? :post : :put %>
 
-<%= form_tag(path, method: method, class: 'group-form') do %>
-  <%= render partial: 'group_form', locals: { new_form: new_form } %>
+<fieldset>
+  <div class="row">
+    <%= label_tag('group[name]', 'Name', class: 'eui-required-o') %>
+  </div>
+  <div class="row">
+    <%= text_field_tag('group[name]', @group['name'], class: 'full-width required', readonly: !new_form) %>
+    <p class="form-description">Group names cannot be modified after creation.</p>
+  </div>
+</fieldset>
 
-  <%= render partial: 'add_members_form' %>
-
-  <fieldset>
-    <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'new-group-submit' %>
-    <%= link_to 'Cancel', :back, class: 'eui-btn' %>
-  </fieldset>
+<% if @user_is_system_group_admin %>    
+<fieldset>
+  <div class="row checkbox-group">
+    <!-- checkbox to ask if user wants to create system level group -->
+    <%= check_box_tag(:system_group, true, @is_system_group, class: 'system-group-checkbox', readonly: !new_form) %>
+    <%= label_tag(:system_group, 'System Level Group?') %>
+  </div>
+</fieldset>
 <% end %>
+
+<fieldset>
+  <div class="row">
+    <%= label_tag('group[description]', 'Description', class: 'eui-required-o') %>
+  </div>
+  <div class="row">
+    <%= text_area_tag('group[description]', @group['description'], cols: 30, rows: 3, class: 'required') %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <h3>Members</h3>
+
+  <div class="row space-bot">
+    <div class="col-5">
+      <%= label_tag('filter-members', 'Filter Members') %>
+      <%= text_field_tag('filter_members', nil, id: 'filter-members', class: 'full-width', placeholder: 'Start typing members name...') %>
+    </div>
+  </div>
+
+  <div class="dual-select">
+    <div class="dual-select__menu">
+      <%= label_tag('members_directory', 'Members Directory') %>
+      <%= select_tag 'members_directory', options_for_user_select(@users_options), multiple: true %>
+    </div>
+
+    <div class="dual-select__actions">
+      <button id="add-members" class="eui-btn">
+        Add Member(s)
+        <span class="eui-circle-right"></span>
+      </button>
+      <button id="remove-members" class="eui-btn">
+        <span class="eui-circle-left"></span>
+        Remove Member(s)
+      </button>
+    </div>
+
+    <div class="dual-select__menu">
+      <%= label_tag('selected_members', 'Selected Members') %>
+      <%= select_tag 'group[members][]', options_for_user_select(@selected_users), id: 'selected_members', multiple: true %>
+    </select>
+    </div>
+  </div>
+
+  <%= link_to 'Member not listed?', '#invite-user-modal', class: 'display-modal display-invite-user-modal' %>
+</fieldset>
+
+<fieldset>
+  <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'new-group-submit' %>
+  <%= link_to 'Cancel', :back, class: 'eui-btn' %>
+</fieldset>
 
 <div id='invite-user-modal' class="eui-modal-content">
   <a href="#" class="modal-close float-r">

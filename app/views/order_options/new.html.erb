@@ -3,7 +3,7 @@
     <h2>New <%= current_user.provider_id %> Order Option</h2>
     
     <%= form_tag(order_options_path, method: :post, id: 'order-option-definition-form', class: 'order-options') do %>
-      <%= render partial: 'order_options_form', locals: { new_form: true } %>
+      <%= render partial: 'form', locals: { new_form: true } %>
     <% end %>
   </section>
 </div>

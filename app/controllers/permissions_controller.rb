@@ -7,8 +7,8 @@ class PermissionsController < ManageCmrController
   RESULTS_PER_PAGE = 10
 
   def index
-    page = params['page'].to_i || 1
-    page = 1 if page < 1
+    # Default the page to 1
+    page = params.fetch('page', 1)
 
     @opts = {
       'provider' => current_user.provider_id,
@@ -18,23 +18,15 @@ class PermissionsController < ManageCmrController
       'include_full_acl' => true
     }
 
-    #@opts.delete('page')
+    permissions_response = cmr_client.get_permissions_for_provider(@opts, token)
 
-    provider_id = current_user.provider_id
-    response = cmr_client.get_permissions_for_provider(@opts, token)
+    @permissions = if permissions_response.success?
+                     construct_permissions_summaries(permissions_response.body['items'])
+                   else
+                     []
+                   end
 
-    if response.success?
-      @permissions = response.body['items']
-      @permissions = construct_permissions_summaries(@permissions)
-      hits = response.body['hits']
-      @permissions = response.body['items']
-      @permissions = construct_permissions_summaries(@permissions)
-      @permissions = Kaminari.paginate_array(@permissions, total_count: hits).page(page).per(RESULTS_PER_PAGE)
-    else
-      Rails.logger.error("Error getting permissions: #{response.inspect}")
-      error = Array.wrap(response.body['errors'])[0]
-      flash[:error] = error
-    end
+    @permissions = Kaminari.paginate_array(@permissions, total_count: permissions_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show

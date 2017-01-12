@@ -3,6 +3,6 @@
     <h2>New Permission</h2>
     
     <%= form_tag(permissions_path, method: :post, class: 'permission-form') %>
-      <%= render partial: 'permission_form', locals: { new_form: true } %>
+      <%= render partial: 'form', locals: { new_form: true } %>
   </section>
 </div>
