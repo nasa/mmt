@@ -48,7 +48,7 @@ describe 'Deprecating Order Options' do
         end
       end
 
-      it 'Asks for confirmation before deprecating' do
+      it 'Hides the dialog after clicking \'No\'.' do
         expect(page).to have_selector('#deprecate-option-modal-0', visible: false)
       end
     end

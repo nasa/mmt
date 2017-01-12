@@ -140,6 +140,7 @@ class OrderOptionsController < ManageCmrController
     if soap_xml_response.success?
       flash[:success] = 'Order Option was successfully deprecated.'
     else
+      Rails.logger.error("Deprecate Order Option Error: #{soap_xml_response.error_message}")
       flash[:error] = soap_xml_response.error_message
     end
     redirect_to order_options_path
