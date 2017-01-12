@@ -14,17 +14,17 @@ describe 'Creating System Level Groups' do
       expect(page).to have_unchecked_field('system_group')
     end
 
-    # context 'when clicking the system group checkbox', js: true do
-    #   before do
-    #     check 'System Level Group?'
-    #   end
+    context 'when clicking the system group checkbox', js: true do
+      before do
+        check 'System Level Group?'
+      end
 
-    #   it 'changes the New Group header title' do
-    #     expect(page).to have_content('New Group for CMR')
-    #     expect(page).to have_content('SYS')
-    #     expect(page).to have_css('span.eui-badge--sm')
-    #   end
-    # end
+      it 'changes the New Group header title' do
+        expect(page).to have_content('New CMR Group')
+        expect(page).to have_content('SYS')
+        expect(page).to have_css('span.eui-badge--sm')
+      end
+    end
 
     context 'when creating the system level group', js: true do
       # Because this is a system level group, it never gets cleaned up, we need to ensure

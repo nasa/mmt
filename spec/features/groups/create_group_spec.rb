@@ -9,7 +9,7 @@ describe 'Groups', reset_provider: true do
     end
 
     it 'displays the new group form' do
-      expect(page).to have_content('New Group')
+      expect(page).to have_content('New MMT_2 Group')
 
       expect(page).to have_field('Name', type: 'text')
       

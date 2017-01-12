@@ -2,8 +2,12 @@
    Groups
 \* ===================================================== */
 
-.group-header {
-  h2 {
-    display: inline;
+h2 {
+  #badge-container {
+    display: none;
+
+    .eui-badge--sm {
+      vertical-align: middle;
+    }
   }
 }
