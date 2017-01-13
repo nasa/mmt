@@ -6,7 +6,6 @@
 
 nav {
   @include row();
-  background: rgba($true-black, 0.3);
   border-bottom: 1px solid $dolphin-grey;
   margin-bottom: 0;
 

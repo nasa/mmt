@@ -1,5 +1,9 @@
-class ProviderIdentityPermissionsController < ManagePermissionsController
+class ProviderIdentityPermissionsController < ManageCmrController
+  include PermissionManagement
+
   before_filter :redirect_unless_current_provider_acl_admin, only: [:index, :edit, :update]
+
+  add_breadcrumb 'Provider Object Permissions', :provider_identity_permissions_path
 
   RESULTS_PER_PAGE = 25
 
@@ -43,6 +47,9 @@ class ProviderIdentityPermissionsController < ManagePermissionsController
     group_response = cmr_client.get_group(@group_id, token)
     if group_response.success?
       @group = group_response.body
+
+      add_breadcrumb @group.fetch('name', 'No Name'), group_path(@group_id)
+      add_breadcrumb 'Edit', provider_identity_permissions_path(@group_id)
     else
       Rails.logger.error("Retrieve Group Error: #{group_response.inspect}")
       flash[:error] = Array.wrap(group_response.body['errors'])[0]

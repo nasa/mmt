@@ -1,25 +1,30 @@
-class OrderOptionsController < ApplicationController
+class OrderOptionsController < ManageCmrController
+  include EchoSoap
+
+  add_breadcrumb 'Order Options', :order_options_path
+
   RESULTS_PER_PAGE = 25
 
   def index
-    # Initialize an empty order options list
-    @order_options = []
-
     # Default the page to 1
     page = params.fetch('page', 1)
 
     order_option_response = echo_client.get_order_options(echo_provider_token)
 
-    if order_option_response.success?
-      # Retreive the order options and sort by name, ignoring case
-      order_option_list = order_option_response.parsed_body.fetch('Item', {}).sort_by { |option| option['Name'].downcase }
+    order_option_list = if order_option_response.success?
+                          # Retreive the order options and sort by name, ignoring case
+                          order_option_response.parsed_body.fetch('Item', []).sort_by { |option| option['Name'].downcase }
+                        else
+                          []
+                        end
 
-      @order_options = Kaminari.paginate_array(order_option_list, total_count: order_option_list.count).page(page).per(RESULTS_PER_PAGE)
-    end
+    @order_options = Kaminari.paginate_array(order_option_list, total_count: order_option_response.parsed_body.fetch('Item', []).count).page(page).per(RESULTS_PER_PAGE)
   end
 
   def new
     @order_option = {}
+
+    add_breadcrumb 'New', new_order_option_path
   end
 
   def create
@@ -55,6 +60,7 @@ class OrderOptionsController < ApplicationController
         @order_option['sort_key'] = 'n/a'
       end
 
+      add_breadcrumb @order_option.fetch('name', nil), order_option_path(order_option_id)
     else
       Rails.logger.error("Get Order Option Definition Error: #{response.inspect}")
 
@@ -70,6 +76,9 @@ class OrderOptionsController < ApplicationController
     response = cmr_client.get_order_option(@order_option_id, echo_provider_token)
     if response.success?
       @order_option = Hash.from_xml(response.body)['option_definition']
+
+      add_breadcrumb @order_option.fetch('name', nil), order_option_path(@order_option_id)
+      add_breadcrumb 'Edit', edit_order_option_path(@order_option_id)
     else
       Rails.logger.error("Get Order Option Definition Error: #{response.inspect}")
 
@@ -86,6 +95,9 @@ class OrderOptionsController < ApplicationController
 
     # Scope will always be PROVIDER
     @order_option['scope'] = 'PROVIDER'
+
+    add_breadcrumb @order_option.fetch('name', nil), order_option_path(@order_option_id)
+    add_breadcrumb 'Edit', edit_order_option_path(@order_option_id)
 
     soap_xml_response = echo_client.deprecate_order_options(echo_provider_token, Array.wrap(@order_option_id))
 

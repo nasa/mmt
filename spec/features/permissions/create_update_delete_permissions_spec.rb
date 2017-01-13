@@ -71,7 +71,7 @@ describe 'Creating Permissions', js: true do
         select('All Registered Users', from: 'Search and Order')
       end
 
-      click_on 'Save'
+      click_on 'Submit'
     end
 
     it 'displays a success message' do
@@ -79,11 +79,8 @@ describe 'Creating Permissions', js: true do
     end
 
     it 'redirects to the permission show page and displays the permission information' do
-      within 'main > header' do
-        expect(page).to have_content(permission_name)
-        expect(page).to have_content('Permission Type: Search & Order | MMT_2')
-      end
-
+      expect(page).to have_content(permission_name)
+      expect(page).to have_content('Permission Type | Search & Order | MMT_2')
       expect(page).to have_content('Collections | 6 Selected Collections')
       expect(page).to have_content("lorem_223, ID_1, Matthew'sTest_2, testing 02_01, testing 03_002, New Testy Test_02")
 
@@ -100,7 +97,7 @@ describe 'Creating Permissions', js: true do
 
     context 'when clicking the edit permission button' do
       before do
-        click_on 'Edit Permission'
+        click_on 'Edit'
       end
 
       it 'populates the form with the permission information' do
@@ -136,7 +133,7 @@ describe 'Creating Permissions', js: true do
           end
           select('Group 2', from: 'Search and Order')
 
-          click_on 'Save'
+          click_on 'Submit'
         end
 
         it 'displays a success message' do
@@ -144,11 +141,8 @@ describe 'Creating Permissions', js: true do
         end
 
         it 'redirects to the permission show page and displays the permission information' do
-          within 'main > header' do
-            expect(page).to have_content(permission_name)
-            expect(page).to have_content('Permission Type: Search & Order | MMT_2')
-          end
-
+          expect(page).to have_content(permission_name)
+          expect(page).to have_content('Permission Type | Search & Order | MMT_2')
           expect(page).to have_content('Collections | All Collections')
           expect(page).to have_content('Granules | All Granules in Selected Collection Records')
 
@@ -164,7 +158,7 @@ describe 'Creating Permissions', js: true do
 
         context 'when deleting the permission with negative confirmation' do
           before do
-            click_on 'Delete Permission'
+            click_on 'Delete'
             click_on 'No'
 
           end
@@ -174,8 +168,8 @@ describe 'Creating Permissions', js: true do
             expect(page).to have_no_content('Are you sure you want to delete this permission?')
             expect(page).to have_selector('#delete-permission-modal', visible: false)
             expect(page).to have_content(permission_name)
-            expect(page).to have_link('Edit Permission')
-            expect(page).to have_link('Delete Permission')
+            expect(page).to have_link('Edit')
+            expect(page).to have_link('Delete')
 
           end
 
@@ -188,7 +182,7 @@ describe 'Creating Permissions', js: true do
             delete_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(delete_success)))
             allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(delete_response) # method name being received must match the cmr_client delete method
 
-            click_on 'Delete Permission'
+            click_on 'Delete'
             click_on 'Yes'
 
           end

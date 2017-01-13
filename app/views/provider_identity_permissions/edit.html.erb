@@ -1,28 +1,12 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to 'Provider Object Permissions', provider_identity_permissions_path %></li>
-          <li class="eui-breadcrumbs__item current"><%= @group.fetch('name', 'No Name') %></li>
-        </ol>
-      </div>
-    </div>
-  </header>
+<div class="row row-content">
+  <section>
+    <h2><%= @group.fetch('name', 'No Name') %> Provider Object Permissions</h2>
 
-  <%= render 'shared/flash_messages' %>
+    <%= form_tag(provider_identity_permission_path(@group_id), method: :put, class: 'provider-permissions-form') %>
 
-  <div class="row row-content">
-    <section>
-      <h2>Provider Object Permissions for <%= @group.fetch('name', 'No Name') %></h2>
-
-      <%= form_tag(provider_identity_permission_path(@group_id), method: :put, class: 'provider-permissions-form') %>
-
-        <p>
-          Set permissions for the <%= @group.fetch('name', 'No Name') %> group by checking the appropriate boxes below and clicking 'Submit'.
-        </p>
-        <%= render partial: 'provider_permissions_form' %>
-    </section>
-  </div>
-</main>
+      <p>
+        Set permissions for the <%= @group.fetch('name', 'No Name') %> group by checking the appropriate boxes below and clicking 'Submit'.
+      </p>
+      <%= render partial: 'form' %>
+  </section>
+</div>

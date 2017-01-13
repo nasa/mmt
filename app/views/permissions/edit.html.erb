@@ -1,30 +1,10 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to 'Permissions & Groups', permissions_path %></li>
-          <li class="eui-breadcrumbs__item current"><%= @permission_name %></li>
-        </ol>
-      </div>
-      <h2><%= @permission_name %></h2>
-      <p class="subnav current">
-        <%= link_to 'Permissions', permissions_path %>
-      </p>
-      <p class="subnav">
-        <%= link_to 'Groups', groups_path %>
-      </p>
-    </div>
-  </header>
-  <%= render 'shared/flash_messages' %>
+<div class="row row-content">
+  <section>
+    <h2>Edit <%= @permission_name %></h2>
 
-  <div class="row row-content">
-    <section>
-      <%= form_tag(permission_path(@permission_concept_id), method: :put, class: 'permission-form') %>
-        <%= hidden_field_tag 'permission_provider', @permission_provider %>
-        <%= render partial: 'permission_form', locals: { new_form: false } %>
-
-    </section>
-  </div>
-</main>
+    <%= form_tag(permission_path(@permission_concept_id), method: :put, class: 'permission-form') do %>
+      <%= hidden_field_tag 'permission_provider', @permission_provider %>
+      <%= render partial: 'form', locals: { new_form: false } %>
+    <% end %>
+  </section>
+</div>

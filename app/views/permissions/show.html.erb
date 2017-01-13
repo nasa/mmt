@@ -1,103 +1,83 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to 'Permissions & Groups', permissions_path %></li>
-        </ol>
-      </div>
-      <h2><%= @permission_name || '<No Name>' %></h2>
-      <p class="subtitle"><strong>Permission Type:</strong><%= " #{@permission_type || '<type>'} | #{@permission_provider || '<provider>'}" %></p>
+<div class="row row-content">
+  <section>
+    <h2><%= @permission_name %></h2>
 
-      <p class="subnav current"><%= link_to 'Permissions', permissions_path %></p>
-      <p class="subnav"><%= link_to 'Groups', groups_path %></p>
-    </div>
-  </header>
+    <p>
+      <b>Permission Type | <%= " #{@permission_type || '<type>'} | #{@permission_provider || '<provider>'}" %></b>
+      <br>
+      <%= @collection_entry_ids.join(', ') unless @collection_entry_ids.blank? %>
+    </p>
+    <p>
+      <b>Collections | <%= @collection_entry_ids.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Collections" %></b>
+      <br>
+      <%= @collection_entry_ids.join(', ') unless @collection_entry_ids.blank? %>
+    </p>
+    <p>
+      <b>Granules | <%= @granule_options ? 'All Granules in Selected Collection Records' : 'No Access to Granules' %></b>
+    </p>
 
-  <%= render 'shared/flash_messages' %>
-
-  <div class="row row-content">
-    <section>
-      <div class="flex-center">
-
-        <%= link_to 'Edit Permission', edit_permission_path(@permission_concept_id), class: 'eui-btn--blue space-right' %>
-
-        <%= link_to 'Delete Permission',"#delete-permission-modal", class: 'display-modal' %>
-        <div id='delete-permission-modal' class="eui-modal-content">
-          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-          <p>Are you sure you want to delete this permission?</p>
-          <p>
-            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <%= link_to 'Yes',@permission, method: :delete, class: 'eui-btn--blue spinner' %>
-          </p>
-        </div>
-      </div>
-
-      <hr>
-
-      <p>
-        <b>Collections | <%= @collection_entry_ids.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Collections" %></b>
-        <br>
-        <%= @collection_entry_ids.join(', ') unless @collection_entry_ids.blank? %>
-      </p>
-      <p>
-        <b>Granules | <%= @granule_options ? 'All Granules in Selected Collection Records' : 'No Access to Granules' %></b>
-      </p>
-
-      <hr>
-
-      <table class="space-top align-c" id="permission-groups-table">
-        <thead>
+    <table class="space-top space-bot align-c" id="permission-groups-table">
+      <thead>
+        <tr>
+          <th class="align-l">Groups</th>
+          <th class="align-c">Search</th>
+          <th class="align-c">Order</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @search_groups.blank? && @search_and_order_groups.blank? %>
           <tr>
-            <th class="align-l">Groups</th>
-            <th class="align-c">Search</th>
-            <th class="align-c">Order</th>
+            <td colspan="3">
+              No Groups listed.
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          <% if @search_groups.blank? && @search_and_order_groups.blank? %>
+        <% else %>
+
+          <!-- Search & Order groups -->
+          <% @search_and_order_groups.each do |search_and_order_group| %>
             <tr>
-              <td colspan="3">
-                No Groups listed.
+              <td class="cell-primary-cta">
+                <% if search_and_order_group[:concept_id] %>
+                  <%= link_to search_and_order_group[:name], group_path(search_and_order_group[:concept_id]) %> (<%= search_and_order_group[:num_members] %>)
+                <% else %>
+                  <%= search_and_order_group[:name] %>
+                <% end %>
               </td>
+              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Search allowed for this group</span></i></td>
+              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Order is also allowed for this group</span></i></td>
             </tr>
-          <% else %>
-
-            <!-- Search & Order groups -->
-            <% @search_and_order_groups.each do |search_and_order_group| %>
-              <tr>
-                <td class="cell-primary-cta">
-                  <% if search_and_order_group[:concept_id] %>
-                    <p><%= link_to search_and_order_group[:name], group_path(search_and_order_group[:concept_id]) %> (<%= search_and_order_group[:num_members] %>)</p>
-                  <% else %>
-                    <p><%= search_and_order_group[:name] %></p>
-                  <% end %>
-                </td>
-                <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Search allowed for this group</span></i></td>
-                <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Order is also allowed for this group</span></i></td>
-              </tr>
-            <% end %>
-
-            <!-- Search Groups -->
-            <% @search_groups.each do |search_group| %>
-              <tr>
-                <td class="cell-primary-cta">
-                  <% if search_group[:concept_id] %>
-                    <p><%= link_to search_group[:name], group_path(search_group[:concept_id]) %> (<%= search_group[:num_members] %>)</p>
-                  <% else %>
-                    <p><%= search_group[:name] %></p>
-                  <% end %>
-                </td>
-                <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Only search is allowed for this group</span></i></td>
-                <td><span class="is-invisible">Order is not allowed for this group</span></td>
-              </tr>
-            <% end %>
-
           <% end %>
-        </tbody>
-      </table>
 
-    </section>
-  </div>
-</main>
+          <!-- Search Groups -->
+          <% @search_groups.each do |search_group| %>
+            <tr>
+              <td class="cell-primary-cta">
+                <% if search_group[:concept_id] %>
+                  <%= link_to search_group[:name], group_path(search_group[:concept_id]) %> (<%= search_group[:num_members] %>)
+                <% else %>
+                  <%= search_group[:name] %>
+                <% end %>
+              </td>
+              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Only search is allowed for this group</span></i></td>
+              <td><span class="is-invisible">Order is not allowed for this group</span></td>
+            </tr>
+          <% end %>
+
+        <% end %>
+      </tbody>
+    </table>
+
+
+    <%= link_to 'Edit', edit_permission_path(@permission_concept_id), class: 'eui-btn' %>
+
+    <%= link_to 'Delete',"#delete-permission-modal", class: 'display-modal eui-btn eui-btn--red' %>
+    <div id='delete-permission-modal' class="eui-modal-content">
+      <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+      <p>Are you sure you want to delete this permission?</p>
+      <p>
+        <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+        <%= link_to 'Yes', @permission, method: :delete, class: 'eui-btn--blue spinner' %>
+      </p>
+    </div>
+  </section>
+</div>

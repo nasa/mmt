@@ -1,49 +1,14 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to 'Order Option Assignments', order_option_assignments_path %></li>
-        </ol>
-      </div>
-    </div>
-  </header>
+<div class="row row-content">
+  <section>
+    <h2>New <%= current_user.provider_id %> Order Option Assignments</h2>
 
-  <%= render 'shared/flash_messages' %>
+    <%= form_tag(order_option_assignments_path, method: :post, id: "new-order-option-assignment-form") do %>
+      <%= render partial: "form" %>
 
-  <div class="row row-content">
-    <section>
-      <h2>New Option Assignment</h2>
-
-      <%= form_tag(order_option_assignments_path, method: :post, id: 'new-order-option-assignment-form') %>
-
-
-      Select one or more collections.
-
-      <div id="chooser-widget"></div>
-
-      <%= hidden_field_tag 'chosen-collections', @chosen_collections.to_json %>
-
-      <div class="row space-top"></div>
-
-      <div class="row space-top">
-        <div class="col-2">
-          <%= label_tag 'order-options', 'Option Definition'  %>
-        </div>
-        <div class="col-4">
-          <%= select_tag 'order-options', options_for_select(@order_option_select_values, @order_option), id: 'order-options', class: 'half-width' %>
-        </div>
-      </div>
-
-
-      <div class="row space-top">
-        <div class="col-4">
-        <%= submit_tag 'Submit', id: 'submit-new-options', class: 'eui-btn--blue' %>
-        <%= link_to 'Cancel', order_option_assignments_path, class: 'eui-btn' %>
-        </div>
-      </div>
-
-    </section>
-  </div>
-</main>
+      <fieldset>
+        <%= submit_tag('Submit', class: 'eui-btn--blue') %>
+        <%= link_to 'Cancel', :back, class: 'eui-btn' %>
+      </fieldset>
+    <% end %>
+  </section>
+</div>

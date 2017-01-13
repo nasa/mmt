@@ -2,14 +2,14 @@ require 'rails_helper'
 
 describe 'Filtering groups', reset_provider: true, js: true do
   before :all do
-    group_1 = create_group(
+    create_group(
       name: 'Group 1',
       description: 'test group',
       provider_id: 'MMT_2',
       members: %w(abcd)
     )
 
-    group_2 = create_group(
+    create_group(
       name: 'Group 2',
       description: 'test group 2',
       provider_id: 'MMT_2',
@@ -27,7 +27,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
     context 'when searching' do
       context 'by provider' do
         before do
-          select 'MMT_2', from: 'Provider'
+          select 'MMT_2', from: 'provider-group-filter'
           click_on 'Apply Filter'
         end
 
@@ -47,8 +47,8 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
       context 'by member' do
         before do
-          select 'Alien Bobcat', from: 'Member'
-          select 'Quail Racoon', from: 'Member'
+          select 'Alien Bobcat', from: 'member-group-filter'
+          select 'Quail Racoon', from: 'member-group-filter'
           click_on 'Apply Filter'
         end
 

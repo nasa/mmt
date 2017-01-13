@@ -1,11 +1,16 @@
-class DataQualitySummaryAssignmentsController < EchoSoapController
+class DataQualitySummaryAssignmentsController < ManageCmrController
+  include EchoSoap
+
   before_action :set_collections
   before_action :set_summaries, only: [:new, :edit]
+
+  add_breadcrumb 'Data Quality Summary Assignments', :data_quality_summary_assignments_path
 
   def index
   end
 
   def new
+    add_breadcrumb 'New', new_data_quality_summary_assignments_path
   end
 
   def edit
@@ -20,8 +25,6 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
 
       success_count += 1 unless response.error?
       error_count += 1 if response.error?
-
-      puts response.body if response.error?
     end
     
     flash_messages = {}
@@ -77,7 +80,7 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
 
       @assignments << collection
     end
-
+ 
     render action: :edit
   end
 
@@ -95,6 +98,7 @@ class DataQualitySummaryAssignmentsController < EchoSoapController
     flash_messages = {}
     flash_messages[:success] = "Deleted #{success_count} #{'data quality summary assignment'.pluralize(success_count)} successfully." if success_count > 0
     flash_messages[:error] = "Failed to delete #{error_count} #{'data quality summary assignment'.pluralize(error_count)}." if error_count > 0
+    flash_messages[:notice] = 'No data quality summary assignments provided to delete.' if error_count.zero? && success_count.zero?
 
     redirect_to data_quality_summary_assignments_path, flash: flash_messages
   end

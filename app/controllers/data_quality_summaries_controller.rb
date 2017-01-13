@@ -1,19 +1,55 @@
-class DataQualitySummariesController < EchoSoapController
+class DataQualitySummariesController < ManageCmrController
   include DataManagementHelper
+  include EchoSoap
 
   before_action :set_summary, only: [:show, :new, :edit]
-  before_action :set_summaries, only: :index
+
+  add_breadcrumb 'Data Quality Summaries', :data_quality_summaries_path
+
+  RESULTS_PER_PAGE = 25
 
   def index
+    response = echo_client.get_data_quality_summary_definition_name_guids(token_with_client_id, current_provider_guid)
+
+    summary_guids = []
+    # No ruby idioms exist that will allow us to ensure this is a list, because it
+    # is a list of dictionaries, not a list of strings
+    unless response.error? || response.parsed_body.nil?
+      parsed_response = response.parsed_body.fetch('Item', [])
+      if parsed_response.is_a?(Hash)
+        summary_guids << parsed_response.fetch('Guid', nil)
+      else
+        parsed_response.each do |item|
+          summary_guids << item.fetch('Guid', nil)
+        end
+      end
+      summary_guids = summary_guids.reject(&:blank?)
+    end
+
+    summary_list = []
+    summary_guids.each do |guid|
+      summary_list << echo_client.get_data_quality_summary_definition(token_with_client_id, guid)
+    end
+
+    summary_list.sort_by! { |summary| summary.parsed_body.fetch('Name', '').downcase }
+
+    # Default the page to 1
+    page = params.fetch('page', 1)
+
+    @summaries = Kaminari.paginate_array(summary_list, total_count: summary_list.count).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
+    add_breadcrumb @summary.fetch('Name'), data_quality_summary_path(@summary.fetch('Guid', nil))
   end
 
   def new
+    add_breadcrumb 'New', new_data_quality_summary_path
   end
 
   def edit
+    add_breadcrumb @summary.fetch('Name'), data_quality_summary_path(@summary.fetch('Guid', nil))
+    add_breadcrumb 'Edit', edit_data_quality_summary_path(@summary.fetch('Guid', nil))
   end
 
   def create

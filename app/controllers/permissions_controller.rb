@@ -1,12 +1,14 @@
-class PermissionsController < ApplicationController
+class PermissionsController < ManageCmrController
 
   skip_before_filter :is_logged_in, only: [:get_all_collections]
+
+  add_breadcrumb 'Collection Permissions', :permissions_path
 
   RESULTS_PER_PAGE = 10
 
   def index
-    page = params['page'].to_i || 1
-    page = 1 if page < 1
+    # Default the page to 1
+    page = params.fetch('page', 1)
 
     @opts = {
       'provider' => current_user.provider_id,
@@ -16,23 +18,15 @@ class PermissionsController < ApplicationController
       'include_full_acl' => true
     }
 
-    #@opts.delete('page')
+    permissions_response = cmr_client.get_permissions_for_provider(@opts, token)
 
-    provider_id = current_user.provider_id
-    response = cmr_client.get_permissions_for_provider(@opts, token)
+    @permissions = if permissions_response.success?
+                     construct_permissions_summaries(permissions_response.body['items'])
+                   else
+                     []
+                   end
 
-    if response.success?
-      @permissions = response.body['items']
-      @permissions = construct_permissions_summaries(@permissions)
-      hits = response.body['hits']
-      @permissions = response.body['items']
-      @permissions = construct_permissions_summaries(@permissions)
-      @permissions = Kaminari.paginate_array(@permissions, total_count: hits).page(page).per(RESULTS_PER_PAGE)
-    else
-      Rails.logger.error("Error getting permissions: #{response.inspect}")
-      error = Array.wrap(response.body['errors'])[0]
-      flash[:error] = error
-    end
+    @permissions = Kaminari.paginate_array(@permissions, total_count: permissions_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
@@ -43,9 +37,11 @@ class PermissionsController < ApplicationController
     permission_response = cmr_client.get_permission(@permission_concept_id, token)
 
     if permission_response.success?
-      permission = permission_response.body
+      permission = permission_response.body 
 
       set_catalog_item_identity(permission)
+
+      add_breadcrumb @permission_name, permissions_path(@permission_concept_id)
 
       search_groups_list, search_and_order_groups_list = parse_group_permission_ids(permission['group_permissions'])
 
@@ -79,6 +75,8 @@ class PermissionsController < ApplicationController
 
   def new
     @groups = get_groups_for_permissions
+
+    add_breadcrumb 'New', new_permissions_path
   end
 
 
@@ -161,6 +159,9 @@ class PermissionsController < ApplicationController
       permission = permission_response.body
 
       set_catalog_item_identity(permission)
+
+      add_breadcrumb @permission_name, permissions_path(@permission_concept_id)
+      add_breadcrumb 'Edit', edit_permission_path(@permission_concept_id)
 
       @search_groups, @search_and_order_groups = parse_group_permission_ids(permission['group_permissions'])
       @groups = get_groups_for_permissions

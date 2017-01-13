@@ -10,15 +10,12 @@ describe 'Viewing Order Policies', js: true do
 
     context 'when viewing the order policies page' do
       before do
-        click_on 'Manage CMR'
-
         VCR.use_cassette('echo_soap/provider_service/order_policies/empty', record: :none) do
-          click_on 'Order Policies'
+          visit order_policies_path
         end
       end
 
       it 'displays the create order policies button' do
-        expect(page).to have_content('No MMT_2 Order Policies found.')
         expect(page).to have_content('Create Order Policies')
       end
 
@@ -163,7 +160,6 @@ describe 'Viewing Order Policies', js: true do
                 it 'deletes the order policies' do
                   expect(page).to have_content('Order Policies successfully removed')
 
-                  expect(page).to have_content('No MMT_2 Order Policies found.')
                   expect(page).to have_content('Create Order Policies')
                 end
               end

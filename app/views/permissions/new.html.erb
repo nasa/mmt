@@ -1,29 +1,8 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item"><%= link_to 'Permissions & Groups', permissions_path %></li>
-          <li class="eui-breadcrumbs__item current">New Permission</li>
-        </ol>
-      </div>
-      <h2>New Permission</h2>
-      <p class="subnav current">
-        <%= link_to 'Permissions', permissions_path %>
-      </p>
-      <p class="subnav">
-        <%= link_to 'Groups', groups_path %>
-      </p>
-    </div>
-  </header>
-
-  <%= render 'shared/flash_messages' %>
-
-  <div class="row row-content">
-    <section>
-      <%= form_tag(permissions_path, method: :post, class: 'permission-form') %>
-        <%= render partial: 'permission_form', locals: { new_form: true } %>
-    </section>
-  </div>
-</main>
+<div class="row row-content">
+  <section>
+    <h2>New Permission</h2>
+    
+    <%= form_tag(permissions_path, method: :post, class: 'permission-form') %>
+      <%= render partial: 'form', locals: { new_form: true } %>
+  </section>
+</div>

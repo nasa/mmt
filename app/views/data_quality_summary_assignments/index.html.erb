@@ -1,32 +1,19 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item">
-            <%= link_to 'Manage CMR', manage_cmr_path %>
-          </li>
-          <li class="eui-breadcrumbs__item">
-            <%= link_to 'Data Quality Summary Assignments', data_quality_summary_assignments_path %>
-          </li>
-        </ol>
-      </div>
-    </div>
-  </header>
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Data Quality Summary Assignments</h2>
 
-  <%= render 'shared/flash_messages' %>
+    <%= link_to 'Create a Data Quality Summary Assignment', new_data_quality_summary_assignments_path, class: 'eui-btn--blue space-bot' %>
 
-  <div class="row row-content">
-    <section>
-      <h2><%= current_user.provider_id %> Data Quality Summary Assignments</h2>
+    <h3>Manage Data Quality Summary Assignments</h3>
 
-      <%= form_tag(data_quality_summary_assignments_path, method: :put, class: "data-quality-summary-form", id: "data-quality-summary-assignments-form") do %>
-        <%= render partial: "form" %>
+    <p>To <em>view</em> or <em>remove</em> currently assigned Data Quality Summaries select the collections to view below.</p>
 
-        <fieldset>
-          <%= submit_tag('Display Assignments', class: 'eui-btn--blue') %>
-        </fieldset>
-      <% end %>
-    </section>
-  </div>
-</main>
+    <%= form_tag(data_quality_summary_assignments_path, method: :put, class: "data-quality-summary-form", id: "data-quality-summary-assignments-form") do %>
+      <%= render partial: "form" %>
+
+      <fieldset>
+        <%= button_tag 'Display Assignments', class: 'eui-btn' %>
+      </fieldset>
+    <% end %>
+  </section>
+</div>

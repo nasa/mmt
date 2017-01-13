@@ -4,12 +4,11 @@ class GroupsController < ManageCmrController
   before_filter :groups_enabled?
   before_filter :check_if_system_group_administrator, except: [:index, :show, :destroy]
 
+  add_breadcrumb 'Groups', :groups_path
+
   RESULTS_PER_PAGE = 25
 
   def index
-    # initialize empty group list
-    @groups = []
-
     @filters = params[:filters] || {}
     if @filters['member']
       @filters['options'] = { 'member' => { 'and' => true } }
@@ -17,24 +16,22 @@ class GroupsController < ManageCmrController
 
     @filters[:page_size] = RESULTS_PER_PAGE
 
-    # default page to 1
-    page = params.fetch('page', 1).to_i
-    # prevent kaminari error with page_entries_info if page < 1 and @groups = []
-    page = 1 if page < 1
-    @filters[:page_num] = page
+    # Default the page to 1
+    page = params.fetch('page', 1)
+
+    @filters[:page_num] = page.to_i
 
     groups_response = cmr_client.get_cmr_groups(@filters, token)
 
     @users = urs_users
 
-    if groups_response.success?
-      group_list = groups_response.body['items']
+    group_list = if groups_response.success?
+                   groups_response.body.fetch('items', [])
+                 else
+                   []
+                 end
 
-      @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
-    else
-      Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
-      flash[:error] = Array.wrap(groups_response.body['errors'])[0]
-    end
+    @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
@@ -43,6 +40,9 @@ class GroupsController < ManageCmrController
 
     if group_response.success?
       @group = group_response.body
+
+      add_breadcrumb @group.fetch('name'), group_path(@concept_id)
+
       request_group_members(@concept_id)
     else
       Rails.logger.error("Get Group Error: #{group_response.inspect}")
@@ -58,19 +58,19 @@ class GroupsController < ManageCmrController
     @selected_users = []
 
     @is_system_group = false # initially set checkbox to unchecked
+
+    add_breadcrumb 'New', new_group_path
   end
 
   def create
-    group = params[:group]
-    members = params[:selected_members] || []
+    @group = group_params
+
     @is_system_group = params[:system_group]
 
-    if valid_group?(group)
-      group['provider_id'] = current_user.provider_id unless @is_system_group
-      # from CMR docs on group fields: members - Optional. May be specified in create and update operations
-      group['members'] = members unless members.blank?
+    if valid_group?(@group)
+      @group['provider_id'] = current_user.provider_id unless @is_system_group
 
-      group_creation_response = cmr_client.create_group(group, token)
+      group_creation_response = cmr_client.create_group(@group, token)
 
       if group_creation_response.success?
         concept_id = group_creation_response.body['concept_id']
@@ -83,33 +83,34 @@ class GroupsController < ManageCmrController
 
         group_creation_error = Array.wrap(group_creation_response.body['errors'])[0]
         flash[:error] = group_creation_error
-        @group = group
-        set_previously_selected_members(members)
+        set_previously_selected_members(group_params.fetch('members', []))
         render :new
       end
     else
-      @group = group
-      set_previously_selected_members(members)
+      set_previously_selected_members(group_params.fetch('members', []))
       render :new
     end
   end
 
   def edit
-    concept_id = params[:id]
-    group_response = cmr_client.get_group(concept_id, token)
+    @concept_id = params[:id]
+    group_response = cmr_client.get_group(@concept_id, token)
+    all_users = urs_users
 
     if group_response.success?
       @group = group_response.body
-      @is_system_group = check_if_system_group?(@group, concept_id)
 
-      group_members_response = cmr_client.get_group_members(concept_id, token)
+      add_breadcrumb @group.fetch('name'), group_path(@concept_id)
+      add_breadcrumb 'Edit', edit_group_path(@concept_id)
+
+      @is_system_group = check_if_system_group?(@group, @concept_id)
+
+      group_members_response = cmr_client.get_group_members(@concept_id, token)
       if group_members_response.success?
         group_member_uids = group_members_response.body
 
-        all_users = urs_users
-        selected_users = all_users.select { |user| group_member_uids.include?(user[:uid]) }
-        @users_options = all_users - selected_users
-        @selected_users = []
+        @selected_users = all_users.select { |user| group_member_uids.include?(user[:uid]) }
+        @users_options = all_users - @selected_users
       else
         Rails.logger.error("Group Members Request: #{group_members_response.inspect}")
 
@@ -124,54 +125,24 @@ class GroupsController < ManageCmrController
   end
 
   def update
-    concept_id = params[:id]
-    group = params[:group]
-    members = params[:selected_members]
-    @is_system_group = params[:system_group]
 
-    if group
-      if valid_group?(group)
-        group['provider_id'] = current_user.provider_id unless @is_system_group
-        update_response = cmr_client.update_group(concept_id, group, token)
+    @group = group_params
+    @is_system_group = params.fetch(:system_group, false)
 
-        if update_response.success?
-          flash[:success] = 'Group was successfully updated.'
-          concept_id = update_response.body['concept_id']
-          redirect_to group_path(concept_id)
-        else
-          Rails.logger.error("Group Update Error: #{update_response.inspect}")
+    @group['provider_id'] = current_user.provider_id unless @is_system_group
+    update_response = cmr_client.update_group(params[:id], @group, token)
 
-          flash[:error] = Array.wrap(update_response.body['errors'])[0]
-          @group = group
-          render :edit
-        end
-      else
-        @group = group
-        render :edit
-      end
-    elsif members
-      # params[:group] is empty, user clicked on the 'Add Members' button and is just adding members
-      add_members_to_group(members, concept_id)
-      redirect_to group_path(concept_id)
+    if update_response.success?
+      redirect_to group_path(update_response.body.fetch('concept_id', nil)), flash: { success: 'Group was successfully updated.' }
+    else
+      Rails.logger.error("Group Update Error: #{update_response.inspect}")
+
+      flash[:error] = Array.wrap(update_response.body['errors'])[0]
+
+      set_previously_selected_members(@group.fetch('members', []))
+
+      render :edit
     end
-  end
-
-  def remove_members
-    members = params[:members]
-
-    unless members.empty?
-      remove_members = cmr_client.remove_group_members(params[:id], members, token)
-
-      if remove_members.success?
-        flash[:success] = 'Members successfully removed.'
-      else
-        Rails.logger.error("Remove Members Error: #{remove_members.inspect}")
-
-        flash[:error] = Array.wrap(remove_members.body['errors'])[0]
-      end
-    end
-
-    redirect_to group_path(params[:id])
   end
 
   def destroy
@@ -213,6 +184,10 @@ class GroupsController < ManageCmrController
 
   private
 
+  def group_params
+    params.require(:group).permit(:name, :description, :provider_id, members: [])
+  end
+
   def set_previously_selected_members(members)
     all_users = urs_users
     selected = []
@@ -224,16 +199,16 @@ class GroupsController < ManageCmrController
   end
 
   def request_group_members(concept_id)
-    @members = []
+    @selected_users = []
 
     group_members_response = cmr_client.get_group_members(concept_id, token)
     if group_members_response.success?
       group_members_uids = group_members_response.body
 
       # match uids in group from cmr to all users
-      @members = urs_users.select { |user| group_members_uids.include?(user[:uid]) }
+      @selected_users = urs_users.select { |user| group_members_uids.include?(user[:uid]) }
 
-      @members.sort_by { |user| user[:name].downcase }
+      @selected_users.sort_by { |user| user[:name].downcase }
     else
       # Log error message
       Rails.logger.error("Get Group Members Error: #{group_members_response.inspect}")
@@ -242,22 +217,7 @@ class GroupsController < ManageCmrController
       flash[:error] = get_group_members_error
     end
 
-    @members
-  end
-
-  def add_members_to_group(members, concept_id)
-    return if members.empty?
-
-    add_members_response = cmr_client.add_group_members(concept_id, members, token)
-    if add_members_response.success?
-      flash[:success] = 'Members successfully added.'
-    else
-      # Log error message
-      Rails.logger.error("Add Members to Group Error: #{add_members_response.inspect}")
-
-      add_members_error = Array.wrap(add_members_response.body['errors'])[0]
-      flash[:error] = add_members_error
-    end
+    @selected_users
   end
 
   def map_urs_users(urs_users)

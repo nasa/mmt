@@ -8,14 +8,13 @@ describe 'Groups list page', reset_provider: true do
       end
 
       context 'when viewing the groups page' do
-
         context 'when there are no groups' do
           before do
             visit groups_path
           end
 
           it 'does not show any groups' do
-            expect(page).to have_content('No groups found at this time.')
+            expect(page).to have_content('No groups found.')
           end
 
           context 'when there are groups under the pagination limit' do
@@ -107,7 +106,7 @@ describe 'Groups list page', reset_provider: true do
           end
 
           it 'displays the pagination information for page 1' do
-            expect(page).to have_content('Showing groups 1 - 25 of 31')
+            expect(page).to have_content('Showing Groups 1 - 25 of 31')
             within '.eui-pagination' do
               # first, 1, 2, next, last
               expect(page).to have_selector('li', count: 5)
@@ -128,7 +127,7 @@ describe 'Groups list page', reset_provider: true do
             end
 
             it 'displays the pagination information for page 2' do
-              expect(page).to have_content('Showing groups 26 - 31 of 31')
+              expect(page).to have_content('Showing Groups 26 - 31 of 31')
               within '.eui-pagination' do
                 # first, previous, 1, 2, last
                 expect(page).to have_selector('li', count: 5)

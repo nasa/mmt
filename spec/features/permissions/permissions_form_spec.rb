@@ -24,7 +24,7 @@ describe 'Permissions form', js: true do
 
     context 'when attempting to create a permission with invalid information' do
       before do
-        click_on 'Save'
+        click_on 'Submit'
       end
 
       it 'displays validation errors on the form' do
@@ -38,7 +38,7 @@ describe 'Permissions form', js: true do
     context 'when attempting to create a permission with empty collection selection' do
       before do
         select 'Selected Collections', from: 'Collections'
-        click_on 'Save'
+        click_on 'Submit'
       end
 
       it 'displays the appropriate validation errors' do

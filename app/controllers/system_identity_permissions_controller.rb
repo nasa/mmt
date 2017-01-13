@@ -1,7 +1,11 @@
-class SystemIdentityPermissionsController < ManagePermissionsController
+class SystemIdentityPermissionsController < ManageCmrController
+  include PermissionManagement
+
   before_filter :redirect_unless_system_acl_admin, only: [:index, :edit, :update]
 
   RESULTS_PER_PAGE = 25
+
+  add_breadcrumb 'System Object Permissions', :system_identity_permissions_path
 
   def index
     # Initialize an empty group list
@@ -43,6 +47,9 @@ class SystemIdentityPermissionsController < ManagePermissionsController
     group_response = cmr_client.get_group(@group_id, token)
     if group_response.success?
       @group = group_response.body
+
+      add_breadcrumb @group.fetch('name', 'No Name'), group_path(@group_id)
+      add_breadcrumb 'Edit', provider_identity_permissions_path(@group_id)
     else
       Rails.logger.error("Retrieve Group Error: #{group_response.inspect}")
       flash[:error] = Array.wrap(group_response.body['errors'])[0]

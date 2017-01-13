@@ -3,11 +3,13 @@ class DraftsController < ApplicationController
   before_action :load_umm_schema, except: [:subregion_options]
   before_filter :ensure_correct_draft_provider, only: [:edit, :show]
 
+  RESULTS_PER_PAGE = 25
+
   # GET /drafts
   # GET /drafts.json
   def index
     @drafts = current_user.drafts.where(provider_id: current_user.provider_id)
-                                  .order('updated_at DESC')
+                                  .order('updated_at DESC').page(params[:page]).per(RESULTS_PER_PAGE)
   end
 
   # GET /drafts/1

@@ -1,79 +1,83 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item"><%= link_to 'Manage CMR', manage_cmr_path %></li>
-          <li class="eui-breadcrumbs__item current">Groups</li>
-        </ol>
-      </div>
+<div class="row row-content">
+  <section>
+    <h2>Groups</h2>
 
-      <h2>Groups</h2>
-      <p class="subnav"><%= link_to 'Permissions', permissions_path %></p>
-      <p class="subnav current">Groups</p>
-    </div>
-  </header>
+    <%= link_to 'Create a Group', new_group_path, class: 'eui-btn--blue space-bot' %>
 
-  <%= render 'shared/flash_messages' %>
-
-  <div class="row row-content">
-    <section>
-      <%= link_to 'New Group', new_group_path, class: 'eui-btn--blue space-bot space-top-5' %>
-
+    <% if @groups.any? %>
       <%= form_tag(groups_path, method: :get, class: 'group-form') do %>
-        <div class="group-filters">
-          <span class="label">Refine group listing</span>
-          <!-- Filter by provider -->
-          <%= label_tag 'filters_provider_', 'Provider', class: 'is-invisible' %>
-          <%= select_tag 'filters[provider][]', options_for_select(@provider_ids, @filters['provider']), style: 'width: 40%', class: 'select2-select provider-filter', multiple: 'multiple' %>
+        <fieldset>
+          <div class="row">
+            <label>Refine Groups Listing</label>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <!-- Filter by provider -->
 
-          <!-- Filter by member -->
-          <%= label_tag 'filters_member_', 'Member', class: 'is-invisible' %>
-          <%= select_tag 'filters[member][]', options_for_user_select(@users, @filters['member']), style: 'width: 40%', class: 'select2-select member-filter', multiple: 'multiple' %>
+              <%= select_tag 'filters[provider][]', options_for_select(@provider_ids, @filters['provider']), class: 'full-width select2-select provider-filter', id: 'provider-group-filter', multiple: 'multiple' %>
+            </div>
+            <div class="col-5">
+              <!-- Filter by member -->
 
-          <!-- Apply all filters button -->
-          <%= submit_tag 'Apply Filter', class: 'eui-btn--blue' %>
-        </div>
+              <%= select_tag 'filters[member][]', options_for_user_select(@users, @filters['member']), class: 'full-width select2-select member-filter', id: 'member-group-filter', multiple: 'multiple' %>
+            </div>
+            <div class="col-2 align-c">
+              <!-- Apply all filters button -->
+              <%= submit_tag 'Apply Filters', class: 'eui-btn' %>
+            </div>
+          </div>
+        </fieldset>
       <% end %>
 
-      <p><%= page_entries_info @groups, entry_name: 'group' %></p>
+      <p><%= page_entries_info @groups, entry_name: 'Group' %></p>
+    <% end %>
 
-      <table class="groups-table">
-        <thead>
+    <table class="groups-table">
+      <thead>
+        <tr>
+          <th>Group Name</th>
+          <th>Description</th>
+          <th>Provider</th>
+          <th>Members</th>
+          <th colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @groups.empty? %>
           <tr>
-            <th>Group Name</th>
-            <th>Description</th>
-            <th>Provider</th>
-            <th>Members</th>
+            <td colspan="5">No groups found.</td>
           </tr>
-        </thead>
-
-        <tbody>
-          <% if @groups.blank? %>
+        <% else %>
+          <% @groups.each_with_index do |group, index| %>
             <tr>
-              <td colspan="4">No groups found at this time.</td>
+              <td>
+                <%= link_to group['name'], group_path(group['concept_id']) %>
+                <% if check_if_system_group?(group, group['concept_id']) %>
+                  <span class="eui-badge--sm">SYS</span>
+                <% end %>
+              </td>
+              <!-- TODO need to put a limit or char cutoff for description? -->
+              <td><%= group['description'] %></td>
+              <td><%= group_provider(group) %></td>
+              <td><%= group['member_count'] %></td>
+              <td><%= link_to 'Edit', edit_group_path(group['concept_id']) %></td>
+              <td>
+                <%= link_to 'Delete', "#delete-group-modal-#{index}", class: 'display-modal' %>
+                <div id="delete-group-modal-<%= index %>" class="eui-modal-content">
+                  <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+                    <p>Are you sure you want to delete the group named '<%= group['name'] %>'?</p>
+                  <p>
+                    <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                    <%= link_to 'Yes', group_path(group['concept_id']), method: :delete, class: 'eui-btn--blue spinner' %>
+                  </p>
+                </div>
+              </td>
             </tr>
-          <% else %>
-            <% @groups.each do |group| %>
-              <tr>
-                <td>
-                  <%= link_to group['name'], group_path(group['concept_id']) %>
-                  <% if check_if_system_group?(group, group['concept_id']) %>
-                    <span class="eui-badge--sm">SYS</span>
-                  <% end %>
-                </td>
-                <!-- TODO need to put a limit or char cutoff for description? -->
-                <td><%= group['description'] %></td>
-                <td><%= group_provider(group) %></td>
-                <td><%= group['member_count'] %></td>
-              </tr>
-            <% end %>
           <% end %>
-        </tbody>
-      </table>
+        <% end %>
+      </tbody>
+    </table>
 
-      <%= paginate @groups %>
-
-    </section>
-  </div>
-</main>
+    <%= paginate @groups %>
+  </section>
+</div>

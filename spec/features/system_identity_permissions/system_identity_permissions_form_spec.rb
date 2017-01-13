@@ -35,7 +35,7 @@ describe 'System Identity Permissions pages and form' do
     end
 
     it 'displays the page with the form and table of system targets' do
-      expect(page).to have_content('System Object Permissions for Administrators_2')
+      expect(page).to have_content('Administrators_2 System Object Permissions')
       expect(page).to have_content("Set permissions for the Administrators_2 group by checking the appropriate boxes below and clicking 'Submit'.")
 
       within '.system-permissions-table' do

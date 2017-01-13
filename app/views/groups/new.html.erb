@@ -1,35 +1,17 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item">
-            <%= link_to 'Manage CMR', manage_cmr_path %>
-          </li>
-          <li class="eui-breadcrumbs__item">
-            <%= link_to 'Groups', groups_path %>
-          </li>
-        </ol>
-      </div>
-      <div class="group-header">
-        <h2 class="new-group-title">New Group for <%= current_user.provider_id %></h2>
-        <% if @user_is_system_group_admin %>
-          <span class="new-group-badge"></span>
-        <% end %>
-      </div>
-      <p class="subnav">
-        <%= link_to 'Permissions', permissions_path %></p>
-      <p class="subnav current">
-        <%= link_to 'Groups', groups_path %>
-      </p>
-    </div>
-  </header>
+<div class="row row-content">
+  <section>
+    <h2>
+    New <span class="provider-context"><%= current_user.provider_id %></span> Group
+    <% if @user_is_system_group_admin %>
+      <small id="badge-container"><span class="eui-badge eui-badge--sm">SYS</span></small>
+    <% end %>
+    </h2>
 
-  <%= render 'shared/flash_messages' %>
 
-  <div class="row row-content">
-    <section>
+    <%= form_tag(groups_path, method: :post, class: 'group-form') do %>
       <%= render 'form' %>
-    </section>
-  </div>
-</main>
+    <% end %>
+
+    <%= render 'invite_form' %>
+  </section>
+</div>

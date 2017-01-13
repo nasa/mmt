@@ -8,14 +8,12 @@ describe 'Creating a Data Quality Summary Assignment', js: true do
     login
 
     User.first.update(provider_id: 'MMT_2')
-
-    visit manage_cmr_path
   end
 
   context 'when viewing the new data quality summary assignment form' do
     before do
       VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/create', record: :none) do
-        click_on 'Create a Summary Assignment'
+        visit new_data_quality_summary_assignments_path
       end
     end
 
