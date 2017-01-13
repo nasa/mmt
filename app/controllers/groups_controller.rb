@@ -109,7 +109,7 @@ class GroupsController < ManageCmrController
       if group_members_response.success?
         group_member_uids = group_members_response.body
 
-        @selected_users = all_users.select { |user| group_member_uids.include?(user[:uid]) }
+        @selected_users = all_users.select { |user| group_member_uids.include?(user['uid']) }
         @users_options = all_users - @selected_users
       else
         Rails.logger.error("Group Members Request: #{group_members_response.inspect}")
@@ -192,7 +192,7 @@ class GroupsController < ManageCmrController
     all_users = urs_users
     selected = []
     not_selected = []
-    all_users.each { |user| members.include?(user[:uid]) ? selected << user : not_selected << user }
+    all_users.each { |user| members.include?(user['uid']) ? selected << user : not_selected << user }
 
     @users_options = not_selected
     @selected_users = selected
@@ -206,9 +206,9 @@ class GroupsController < ManageCmrController
       group_members_uids = group_members_response.body
 
       # match uids in group from cmr to all users
-      @selected_users = urs_users.select { |user| group_members_uids.include?(user[:uid]) }
+      @selected_users = urs_users.select { |user| group_members_uids.include?(user['uid']) }
 
-      @selected_users.sort_by { |user| user[:name].downcase }
+      @selected_users.sort_by { |user| user['first_name'].downcase }
     else
       # Log error message
       Rails.logger.error("Get Group Members Error: #{group_members_response.inspect}")
@@ -220,23 +220,12 @@ class GroupsController < ManageCmrController
     @selected_users
   end
 
-  def map_urs_users(urs_users)
-    # get users into hash with name, email, uid
-    urs_users.map do |_uid, user|
-      {
-        name: "#{user['first_name']} #{user['last_name']}",
-        email: user['email_address'],
-        uid: user['uid']
-      }
-    end
-  end
-
   def urs_users
     urs_users = []
 
     users_response = cmr_client.get_urs_users
     if users_response.success?
-      urs_users = map_urs_users(users_response.body.sort_by { |_uid, user| user['first_name'].downcase })
+      urs_users = users_response.body.fetch('users', [{}]).sort_by { |user| user.fetch('first_name', '').downcase }
     else
       # Log error message
       Rails.logger.error("Users Request Error: #{users_response.inspect}")

@@ -91,15 +91,15 @@ http_interactions:
       - '0.419510'
     body:
       encoding: UTF-8
-      string: '{"abcd":{"uid":"abcd","first_name":"Alien","last_name":"Bobcat","email_address":"aaaa.dddd@nasa.gov","country":"United
-        States","affiliation":"OTHER"},"efgh":{"uid":"efgh","first_name":"Edward","last_name":"Figaro","email_address":"eeee.ffff@nasa.gov","country":"United
-        States","affiliation":"Government"},"ijkl":{"uid":"ijkl","first_name":"Igor","last_name":"Jupiter","middle_initial":"K","email_address":"iiii.k.jjjj@nasa.gov","country":"United
-        States","user_type":"Production User","affiliation":"EED"},"mnop":{"uid":"mnop","first_name":"Marsupial","last_name":"Narwal","email_address":"mmmm.nnnn@nasa.gov","country":"United
+      string: '{"users":[{"uid":"abcd","first_name":"Alien","last_name":"Bobcat","email_address":"aaaa.dddd@nasa.gov","country":"United
+        States","affiliation":"OTHER"},{"uid":"efgh","first_name":"Edward","last_name":"Figaro","email_address":"eeee.ffff@nasa.gov","country":"United
+        States","affiliation":"Government"},{"uid":"ijkl","first_name":"Igor","last_name":"Jupiter","middle_initial":"K","email_address":"iiii.k.jjjj@nasa.gov","country":"United
+        States","user_type":"Production User","affiliation":"EED"},{"uid":"mnop","first_name":"Marsupial","last_name":"Narwal","email_address":"mmmm.nnnn@nasa.gov","country":"United
         States","study_area":"Other","user_type":"Production User","affiliation":"COMMERCIAL","organization":"ECHO
-        Development","member_groups":["echo"]},"qrst":{"uid":"qrst","first_name":"Quail","last_name":"Racoon","email_address":"qqqq.rrrr@nasa.gov","country":"United
-        States","affiliation":"Other"},"uvw":{"uid":"uvw","first_name":"Ukulele","last_name":"Vulcan","email_address":"uuuu.vvvv@nasa.gov","country":"United
-        States","study_area":"Global Biosphere","user_type":"Science Team","affiliation":"Government"},"xyz":{"uid":"xyz","first_name":"Xavier","last_name":"Yellow","email_address":"xxxx.yyyy@nasa.gov","country":"United
-        States","affiliation":"GOVERNMENT"}}'
+        Development","member_groups":["echo"]},{"uid":"qrst","first_name":"Quail","last_name":"Racoon","email_address":"qqqq.rrrr@nasa.gov","country":"United
+        States","affiliation":"Other"},{"uid":"uvw","first_name":"Ukulele","last_name":"Vulcan","email_address":"uuuu.vvvv@nasa.gov","country":"United
+        States","study_area":"Global Biosphere","user_type":"Science Team","affiliation":"Government"},{"uid":"xyz","first_name":"Xavier","last_name":"Yellow","email_address":"xxxx.yyyy@nasa.gov","country":"United
+        States","affiliation":"GOVERNMENT"}]}'
     http_version:
   recorded_at: Mon, 07 Mar 2016 20:02:39 GMT
 recorded_with: VCR 3.0.1
