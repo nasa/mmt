@@ -15,7 +15,7 @@
           <th>Scope</th>
           <th>Deprecated?</th>
           <th>Last Update</th>
-          <th colspan="2">Action</th>
+          <th colspan="3">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -30,9 +30,6 @@
             <td><%= order_option['Scope'].humanize %></td>
             <td><%= order_option['Deprecated'].humanize %></td>
             <td><%= echo_formatted_date(order_option['LastUpdate']) %></td>
-            <td>
-              <%= link_to 'View', order_option_path(order_option['Guid']) %>
-            </td>
             <td>
               <% unless order_option['Deprecated'] == 'true' %>
                 <%= link_to 'Deprecate', "#deprecate-option-modal-#{index}", class: 'display-modal' %>
