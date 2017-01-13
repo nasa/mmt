@@ -1,7 +1,7 @@
 <div class="row row-content">
   <section>
     <h2>
-      <%= @group.fetch('name') %> 
+      <%= @group.fetch('name') %>
       <% if check_if_system_group?(@group, @concept_id) %>
       <small><span class="eui-badge--sm">SYS</span></small>
       <% end %>
@@ -22,8 +22,8 @@
         <tbody>
           <% @selected_users.each do |member| %>
             <tr>
-              <td class="align-l"><%= member[:name] %></td>
-              <td class="align-l"><%= member[:email] %></td>
+              <td class="align-l"><%= "#{member['first_name']} #{member['last_name']}" %></td>
+              <td class="align-l"><%= member['email_address'] %></td>
             </tr>
           <% end %>
         </tbody>
@@ -42,7 +42,7 @@
           <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
           <%= link_to 'Yes', group_path(name: @group['name']), method: :delete, class: 'eui-btn--blue spinner' %>
         </p>
-      </div>  
+      </div>
     </div>
   </section>
 </div>
