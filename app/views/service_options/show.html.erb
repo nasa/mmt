@@ -1,0 +1,22 @@
+<div class="row row-content">
+  <section>
+    <h2><%= @service_option.fetch('Name') %></h2>
+
+    <p>
+      <span class="inline-label">Last Updated:</span> <%= echo_formatted_date(@service_option.fetch('LastUpdate')) %>
+    </p>
+
+    <p>
+      <span class="inline-label">Description:</span>
+      <%= @service_option.fetch('Description') %>
+    </p>
+
+    <div class="row">
+      <span class="inline-label">Form XML:</span>
+
+      <pre><%= @service_option.fetch('Form') %></pre>
+    </div>
+
+    <%= link_to 'Edit', edit_service_option_path(@service_option.fetch('Guid')), class: 'eui-btn' %>
+  </section>
+</div>
