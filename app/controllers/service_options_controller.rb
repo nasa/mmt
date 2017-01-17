@@ -34,6 +34,11 @@ class ServiceOptionsController < ManageCmrController
     add_breadcrumb 'New', new_service_option_path
   end
 
+  def edit
+    add_breadcrumb @service_option.fetch('Name'), service_option_path(@service_option.fetch('Guid', nil))
+    add_breadcrumb 'Edit', edit_service_option_path(@service_option.fetch('Guid', nil))
+  end
+
   def create
     @service_option = generate_payload
 
@@ -47,6 +52,20 @@ class ServiceOptionsController < ManageCmrController
       flash[:success] = 'Service Option successfully created'
 
       redirect_to service_option_path(response.parsed_body['Item'])
+    end
+  end
+
+  def update
+    @service_option = generate_payload
+
+    response = echo_client.update_service_option(token_with_client_id, @service_option)
+
+    if response.error?
+      flash[:error] = response.error_message
+
+      render :edit
+    else
+      redirect_to service_option_path(params[:id]), flash: { success: 'Service Option successfully updated' }
     end
   end
 

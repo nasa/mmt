@@ -76,5 +76,27 @@ module Echo
 
       make_request(@url, payload)
     end
+
+    # Updates existing service option definitions.
+    def update_service_option(token, payload)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:UpdateServiceOptionDefinitions, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:serviceOptionDefinitions) do
+          builder.ns3(:Item) do
+            builder.ns3(:Guid, payload.fetch('Guid')) if payload.key?('Guid')
+            builder.ns3(:ProviderGuid, payload.fetch('ProviderGuid')) if payload.key?('ProviderGuid')
+            builder.ns3(:Name, payload.fetch('Name')) if payload.key?('Name')
+            builder.ns3(:Description, payload.fetch('Description')) if payload.key?('Description')
+            builder.ns3(:Form, payload.fetch('Form')) if payload.key?('Form')
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
   end
 end
