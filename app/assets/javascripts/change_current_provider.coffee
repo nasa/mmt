@@ -31,6 +31,10 @@ $(document).ready ->
         'Viewing this draft'
       when 'edit-draft'
         'Editing this draft'
+      when 'edit-group'
+        'Editing this group'
+      when 'delete-group'
+        'Deleting this group'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)

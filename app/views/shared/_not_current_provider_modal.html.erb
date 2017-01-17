@@ -19,5 +19,11 @@
       <%= link_to 'Yes', draft_path(options[:draft_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-view-draft-link' %>
       <%= link_to 'Yes', edit_draft_path(options[:draft_id], form: options[:draft_form]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-draft-link' %>
     <% end %>
+
+    <% if options[:group] %>
+      <%= link_to 'Yes', edit_group_path(edit_group: true), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-group-link' %>
+      <%= link_to 'Yes', group_path(name: options[:group][:name]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-group-link' %>
+      <%= link_to 'Yes', collection_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-collection-link' %>
+    <% end %>
   </p>
 </div>
