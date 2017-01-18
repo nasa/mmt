@@ -4,4 +4,7 @@ div#edit-order-option-assignments-page {
     display: none;
   }
 
+  .tablesorter thead th.header {
+    cursor: pointer;
+  }
 }
