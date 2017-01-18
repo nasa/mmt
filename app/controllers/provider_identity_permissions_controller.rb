@@ -44,6 +44,9 @@ class ProviderIdentityPermissionsController < ManageCmrController
     # assemble provider permissions for the table of checkboxes
     @group_provider_permissions = assemble_permissions_for_table(group_provider_permissions_list, 'provider', @group_id)
 
+    # get assembled group management permissions for table
+    @group_management_permissions = set_group_management_permissions(@group_id)
+
     group_response = cmr_client.get_group(@group_id, token)
     if group_response.success?
       @group = group_response.body
@@ -59,9 +62,16 @@ class ProviderIdentityPermissionsController < ManageCmrController
   def update
     @group_id = params[:id]
     permissions_params = params[:provider_permissions]
-    redirect_to provider_identity_permissions_path and return if permissions_params.nil?
+    group_management_params = params[:group_management] # if only one #=> {"AG1200000212-MMT_1"=>["delete"]}
 
-    permissions_params.each { |_target, perms| perms.delete('') }
+    redirect_to provider_identity_permissions_path and return if permissions_params.nil? && group_management_params.nil?
+    # what happens if permissions_params is nil but group mgmt params is not?
+    # test it out with everything empty.
+    # probably have to skip the provider perms in some way?
+    # test by checking off all permissions, saving, and then submitting with all boxes empty again.
+      # currently seems like it'll work
+
+    permissions_params.each { |_target, perms| perms.delete('') } unless permissions_params.nil?
     all_provider_permissions = get_permissions_for_identity_type('provider')
     # assemble permissions so they can be sorted and updated
     selective_provider_permission_info = assemble_permissions_for_updating(all_provider_permissions, 'provider', @group_id)
@@ -74,6 +84,13 @@ class ProviderIdentityPermissionsController < ManageCmrController
     create_permissions(targets_to_create, permissions_params, 'provider', @group_id, successes, fails)
     delete_permissions(targets_to_delete, selective_provider_permission_info, 'provider', successes, fails)
     update_permissions(all_provider_permissions, permissions_params, targets_to_add_group, targets_to_update_perms, targets_to_remove_group, 'provider', @group_id, successes, fails)
+
+    group_management_params.each { |_concept, perms| perms.delete('') } unless group_management_params.nil?
+    all_group_management_permissions_list = get_permissions_for_identity_type('single_instance')
+    # all_group_management_permissions = assemble_group_management_permissions_for_updating(all_group_management_permissions_list, group_management_params, @group_id)
+    group_management_perms_to_update = assemble_new_group_management_perms(all_group_management_permissions_list, group_management_params, @group_id)
+    # fail
+    update_group_management_permissions(group_management_perms_to_update, successes, fails)
 
     flash[:success] = 'Provider Object Permissions were saved.' unless successes.blank?
     flash[:error] = "#{fails.join(', ')} permissions were unable to be saved." unless fails.blank?
