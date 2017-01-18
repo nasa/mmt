@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   resources :provider_identity_permissions, only: [:index, :edit, :update]
 
   resource :order_policies, except: :show
+
   resources :order_options
+  post '/order_options/:id/deprecate' => 'order_options#deprecate', as: 'order_option_deprecate'
+
   get '/order_policies' => 'order_policies#index'
 
   resource :order_option_assignments, only: [:edit, :destroy]
