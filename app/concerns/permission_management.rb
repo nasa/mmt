@@ -198,6 +198,38 @@ module PermissionManagement
     permission_objects
   end
 
+  def construct_permission_object(group_id, perms, target, options =  { type: type })
+    new_perm = {
+      'group_permissions' => [{
+          'group_id' => group_id,
+          'permissions' => perms
+      }]
+    }
+
+    identity_type = "#{options[:type]}_identity"
+    new_perm[identity_type] = construct_acl_identity(target, options)
+
+    new_perm
+  end
+
+  def construct_acl_identity(target, options = {})
+    # all acl identity have a target
+    acl_identity = { 'target' => target }
+
+    case options[:type]
+    when 'provider'
+      # provider identity acls require a provider_id
+      acl_identity['provider_id'] = current_user.provider_id
+    when 'single_instance'
+      # single instance identity (management group) acls require a target_id
+      acl_identity['target_id'] = options[:target_id]
+    # when 'catalog_item'
+      # TODO how to have catalog item acls use this method
+    end
+
+    acl_identity
+  end
+
   def delete_permissions(targets_to_delete, selective_full_permission_info, type, successes, fails)
     permissions_to_delete = {}
     targets_to_delete.each { |perm| permissions_to_delete[perm] = selective_full_permission_info.fetch(perm, {}).fetch('permission_concept_id') }

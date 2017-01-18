@@ -1,8 +1,10 @@
 class GroupsController < ManageCmrController
   include GroupsHelper
+  include PermissionManagement
 
   before_filter :groups_enabled?
   before_filter :check_if_system_group_administrator, except: [:index, :show, :destroy]
+  before_filter :set_system_and_provider_groups, only: [:new, :create, :edit, :update]
 
   add_breadcrumb 'Groups', :groups_path
 
@@ -44,6 +46,8 @@ class GroupsController < ManageCmrController
       add_breadcrumb @group.fetch('name'), group_path(@concept_id)
 
       request_group_members(@concept_id)
+
+      @management_groups = get_management_groups(@concept_id)
     else
       Rails.logger.error("Get Group Error: #{group_response.inspect}")
       flash[:error] = Array.wrap(group_response.body['errors'])[0]
@@ -59,6 +63,8 @@ class GroupsController < ManageCmrController
 
     @is_system_group = false # initially set checkbox to unchecked
 
+    # set_system_and_provider_groups
+
     add_breadcrumb 'New', new_group_path
   end
 
@@ -66,6 +72,9 @@ class GroupsController < ManageCmrController
     @group = group_params
 
     @is_system_group = params[:system_group]
+    @management_group_concept_id = params[:group].delete('initial_management_group')
+
+    # error_messages = []
 
     if valid_group?(@group)
       @group['provider_id'] = current_user.provider_id unless @is_system_group
@@ -73,8 +82,31 @@ class GroupsController < ManageCmrController
       group_creation_response = cmr_client.create_group(@group, token)
 
       if group_creation_response.success?
+        success_messages = []
         concept_id = group_creation_response.body['concept_id']
-        flash[:success] = 'Group was successfully created.'
+        # flash[:success] = 'Group was successfully created.'
+        success_messages << 'Group was successfully created.'
+
+        single_instance_identity_object = construct_permission_object(
+                                            @management_group,
+                                            SingleInstanceIdentityPermissionsHelper::GROUP_MANAGEMENT_PERMISSIONS,
+                                            'GROUP_MANAGEMENT',
+                                            type: 'single_instance',
+                                            target_id: concept_id
+                                            )
+
+        management_group_response = cmr_client.add_group_permissions(single_instance_identity_object, token)
+        if management_group_response.success?
+          Rails.logger.info("Single Instance Identity ACL for #{@management_group} to manage #{concept_id} successfully created by #{current_user.urs_uid}")
+          success_messages << 'Initial Managment Group permission was successfully created.'
+        else
+          Rails.logger.error("Create Single Instance Identity ACL error: #{management_group_response.inspect}")
+          # error_messages << Array.wrap(management_group_response.body['errors'])[0]
+          flash[:error] = Array.wrap(management_group_response.body['errors'])[0]
+        end
+
+        flash[:success] = success_messages.join(', ') unless success_messages.blank?
+        # flash[:error] = error_messages.join(', ') unless error_messages.blank?
 
         redirect_to group_path(concept_id)
       else
@@ -84,10 +116,12 @@ class GroupsController < ManageCmrController
         group_creation_error = Array.wrap(group_creation_response.body['errors'])[0]
         flash[:error] = group_creation_error
         set_previously_selected_members(group_params.fetch('members', []))
+        # set_system_and_provider_groups
         render :new
       end
     else
       set_previously_selected_members(group_params.fetch('members', []))
+      # set_system_and_provider_groups
       render :new
     end
   end
@@ -117,6 +151,10 @@ class GroupsController < ManageCmrController
         error = Array.wrap(group_members_response.body['errors'])[0]
         flash[:error] = error
       end
+
+      management_groups = get_management_groups(@concept_id)
+      @management_group_concept_id = management_groups.first.fetch('concept_id', nil) unless management_groups.blank?
+      # byebug
     else
       Rails.logger.error("Error retrieving group to edit: #{group_response.inspect}")
       flash[:error] = Array.wrap(group_response.body['errors'])[0]
@@ -243,11 +281,67 @@ class GroupsController < ManageCmrController
     urs_users
   end
 
+  def set_system_and_provider_groups #(error_messages)
+    @system_groups = []
+    @provider_groups = []
+
+    filters = { provider: 'CMR', page_size: 50 }
+    # get system groups
+    # use @user_is_system_group_admin as a check first?
+    if @user_is_system_group_admin
+      system_groups_response = cmr_client.get_cmr_groups(filters, token)
+      if system_groups_response.success?
+        @system_groups = system_groups_response.body['items']
+      else
+        Rails.logger.error("Get System Groups Error: #{system_groups_response.inspect}")
+        # error_messages << Array.wrap(system_groups_response.body['errors'])[0]
+      end
+    end
+
+    # get provider groups
+    filters[:provider] = current_user.provider_id
+    provider_groups_response = cmr_client.get_cmr_groups(filters, token)
+    if provider_groups_response.success?
+      @provider_groups = provider_groups_response.body['items']
+    else
+      Rails.logger.error("Get Provider Groups Error: #{provider_groups_response.inspect}")
+      # error_messages << Array.wrap(provider_groups_response.body['errors'])[0]
+    end
+  end
+
+  def get_management_groups(concept_id)
+    all_management_permissions = get_permissions_for_identity_type('single_instance')
+    management_permissions = all_management_permissions.select { |acl| acl['acl']['single_instance_identity']['target_id'] == @concept_id }
+
+    management_concept_ids = []
+
+    management_permissions.each do |acl|
+      acl['acl']['group_permissions'].each do |group_perm|
+        management_concept_ids << group_perm['group_id']
+      end
+    end
+
+    management_groups = []
+    # can't just grab all groups at once, need to loop through and grab each group
+    management_concept_ids.each do |management_concept_id|
+      group_response = cmr_client.get_group(management_concept_id, token)
+      next unless group_response.success?
+
+      group = group_response.body
+      group['concept_id'] = concept_id
+      management_groups << group
+    end
+
+    management_groups
+  end
+
   def groups_enabled?
     redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
   end
 
   def valid_group?(group)
+    # TODO: add requirement for management group OR delete this method and implementations
+    # b/c handled by jquery validate (and won't let it submit if invalid) ?
     case
     when group[:name].empty? && group[:description].empty?
       flash[:error] = 'Group Name and Description are required.'
