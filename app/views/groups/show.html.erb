@@ -33,7 +33,7 @@
     <% end %>
 
     <div class="row">
-      <% if current_user.provider_id == @group['provider_id'] %>
+      <% if current_user.provider_id == @group['provider_id'] || check_if_system_group?(@group, @concept_id) %>
       <%= link_to 'Edit', edit_group_path(@concept_id), class: 'eui-btn' %>
       <%= link_to 'Delete', '#delete-group-modal', class: 'display-modal eui-btn eui-btn--red' %>
       <% elsif current_user.available_providers.include?(@group['provider_id']) %>
