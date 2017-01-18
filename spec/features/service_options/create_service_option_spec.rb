@@ -3,8 +3,6 @@ require 'rails_helper'
 describe 'Creating a Service Option' do
   before do
     login
-
-    User.first.update(provider_id: 'MMT_2')
   end
 
   context 'when viewing the new service option form' do

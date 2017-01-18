@@ -3,8 +3,6 @@ require 'rails_helper'
 describe 'Updating a Service Option' do
   before do
     login
-
-    User.first.update(provider_id: 'MMT_2')
   end
 
   context 'when viewing the edit service option form' do
