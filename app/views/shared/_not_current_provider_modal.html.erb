@@ -21,9 +21,8 @@
     <% end %>
 
     <% if options[:group] %>
-      <%= link_to 'Yes', edit_group_path(edit_group: true), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-group-link' %>
-      <%= link_to 'Yes', group_path(name: options[:group][:name]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-group-link' %>
-      <%= link_to 'Yes', collection_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-collection-link' %>
+      <%= link_to 'Yes', edit_group_path(id: options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-group-link' %>
+      <%= link_to 'Yes', group_path(id: options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-group-link' %>
     <% end %>
   </p>
 </div>
