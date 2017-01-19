@@ -31,18 +31,30 @@ $(document).ready ->
     $('#selected_members option').prop 'selected', true
 
   # Filtering users
+  $holdSelect = $("<select>").attr('id', 'members_directory_hold')
+  $holdSelect.hide()
+  $('.group-form').append($holdSelect)
+
   $('#filter-members').on 'input', ->
     $selectListOptions = $('#members_directory option')
+    $holdSelectListOptions = $('#members_directory_hold option')
 
     # get filterText
     filterText = this.value.toLowerCase()
 
-    # for each option, if text or value matches filterText
+    # for each option, if text or value does not match filterText, move it
     for option in $selectListOptions
       value = option.value.toLowerCase()
       text = option.text.toLowerCase()
 
+      if !(value.match(filterText) || text.match(filterText))
+        $(option).appendTo("#members_directory_hold")
+
+    # for each option, if text or value DOES match filterText, move it back
+    for option in $holdSelectListOptions
+      value = option.value.toLowerCase()
+      text = option.text.toLowerCase()
+
       if value.match(filterText) || text.match(filterText)
-        $(option).show()
+        $(option).appendTo("#members_directory")
       else
-        $(option).hide()
