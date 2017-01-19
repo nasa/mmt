@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Listing Order Options', js: true do
+describe 'Listing Order Options' do
   context 'when viewing the index page' do
     before do
       login

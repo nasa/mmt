@@ -15,7 +15,7 @@
           <th>Scope</th>
           <th>Deprecated?</th>
           <th>Last Update</th>
-          <th colspan="2">Action</th>
+          <th colspan="3">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -26,21 +26,34 @@
       <% else %>
         <% @order_options.each_with_index do |order_option, index| %>
           <tr>
-            <td><%= link_to order_option['Name'], order_option_path(order_option['Guid']) %></td>
-            <td><%= order_option['Scope'].humanize %></td>
-            <td><%= order_option['Deprecated'].humanize %></td>
-            <td><%= echo_formatted_date(order_option['LastUpdate']) %></td>
+            <td><%= link_to order_option.fetch('Name'), order_option_path(order_option.fetch('Guid')) %></td>
+            <td><%= order_option.fetch('Scope').humanize %></td>
+            <td><%= order_option.fetch('Deprecated').humanize %></td>
+            <td><%= echo_formatted_date(order_option.fetch('LastUpdate')) %></td>
             <td>
-              <%= link_to 'Edit', edit_order_option_path(order_option['Guid']) %>
+              <% unless order_option.fetch('Deprecated', 'false') == 'true' %>
+                <%= link_to 'Deprecate', "#deprecate-option-modal-#{index}", class: 'display-modal' %>
+                <div id="deprecate-option-modal-<%= index %>" class="eui-modal-content">
+                  <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+                  <p>Are you sure you want to deprecate the order option named '<%=order_option.fetch('Name')%>'?</p>
+                  <p>
+                    <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                    <%= link_to 'Yes', order_option_deprecate_path(order_option.fetch('Guid')), method: :post, class: 'eui-btn--blue spinner' %>
+                  </p>
+                </div>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to 'Edit', edit_order_option_path(order_option.fetch('Guid')) %>
             </td>
             <td>
               <%= link_to 'Delete', "#delete-option-modal-#{index}", class: 'display-modal' %>
               <div id="delete-option-modal-<%= index %>" class="eui-modal-content">
                 <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                <p>Are you sure you want to delete the order option named '<%=order_option['Name']%>'?</p>
+                <p>Are you sure you want to delete the order option named '<%=order_option.fetch('Name')%>'?</p>
                 <p>
                   <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                  <%= link_to 'Yes', order_option_path(order_option['Guid']), method: :delete, class: 'eui-btn--blue spinner' %>
+                  <%= link_to 'Yes', order_option_path(order_option.fetch('Guid')), method: :delete, class: 'eui-btn--blue spinner' %>
                 </p>
               </div>
             </td>

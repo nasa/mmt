@@ -3,25 +3,24 @@
     <h2><%= @order_option.fetch('name') %></h2>
 
     <p>
-      <label>Last Update:</label> <%= @order_option.fetch('last_update') %> |
-      <label>Scope:</label> <%= @order_option.fetch('scope') %> |
-      <label>Deprecated:</label> <%= @order_option.fetch('deprecated') %> |
-      <label>Sort Key:</label> <%= @order_option.fetch('sort_key') %>
+      <span class="inline-label">Last Update:</span> <%= echo_formatted_date(@order_option.fetch('last_update')) %> |
+      <span class="inline-label">Scope:</span> <%= @order_option.fetch('scope') %> |
+      <span class="inline-label">Deprecated:</span> <%= @order_option.fetch('deprecated') %> |
+      <span class="inline-label">Sort Key:</span> <%= @order_option.fetch('sort_key') %>
     </p>
 
     <p>
-      <label>Description:</label>
+      <span class="inline-label">Description:</span>
       <%= @order_option.fetch('description') %>
     </p>
 
     <div class="row">
-      <label>Form XML:</label>
+      <span class="inline-label">Form XML:</span>
 
       <pre><%= @order_option.fetch('form') %></pre>
     </div>
 
     <%= link_to 'Edit', edit_order_option_path(@order_option.fetch('id')), class: 'eui-btn' %>
-
     <%= link_to 'Delete', "#delete-order-option-modal", class: 'display-modal eui-btn eui-btn--red' %>
     <div id="delete-order-option-modal" class="eui-modal-content">
       <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
@@ -31,5 +30,18 @@
         <%= link_to 'Yes', order_option_path(@order_option.fetch('id')), method: :delete, class: 'eui-btn--blue spinner' %>
       </p>
     </div>
+
+    <% unless @order_option.fetch('deprecated', false) %>
+      <%= link_to 'Deprecate', "#deprecate-order-option-modal", class: 'display-modal eui-btn eui-btn--red' %>
+      <div id="deprecate-order-option-modal" class="eui-modal-content">
+        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <p>Are you sure you want to deprecate this order option?</p>
+        <p>
+          <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+          <%= link_to 'Yes', order_option_deprecate_path(@order_option.fetch('id')), method: :post, class: 'eui-btn--blue spinner' %>
+        </p>
+      </div>
+    <% end %>
+
   </section>
 </div>

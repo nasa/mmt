@@ -54,6 +54,14 @@ $(document).ready ->
   # Edit page -----------------------------------------------------------
   if $("#edit-order-option-assignments-page").length > 0
 
+    $('.tablesorter').tablesorter
+      # Prevent sorting on the checkboxes
+      headers:
+        0:
+          sorter: false
+        3:
+          sorter: 'text'
+
     # Form validation
     $('#edit-order-option-assignments-form').validate
       errorClass: 'eui-banner--danger'

@@ -58,6 +58,159 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
   end
 
+  context 'When sorting option assignments', js: true do
+    before do
+      collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+
+      within '#collectionsChooser' do
+        page.all(:xpath, "//select[@id='collectionsChooser_fromList']/option").each do |e|
+          select(e.text, from: 'Available Collections')
+        end
+
+        within '.button-container' do
+          find('button[title=add]').click
+        end
+      end
+
+      VCR.use_cassette('echo_rest/order_option_assignments/display-sort', record: :none) do
+        click_on 'Display Assignments'
+      end
+
+      check 'Include selected collections with no assigned options?'
+
+    end
+
+
+    # Collection column
+    context 'When clicking on the Collection column' do
+      before do
+        find('#collections-table thead th:nth-child(2)').click
+      end
+
+      it 'It sorts the table by Collections in ascending order' do
+        within('#collections-table tbody') do
+          first_cell = find('#collections-table tbody tr:first-child td:nth-child(2)')
+          last_cell = find('#collections-table tbody tr:last-child td:nth-child(2)')
+          expect(first_cell).to have_content 'ipsum'
+          expect(last_cell).to have_content 'Testy long entry title'
+        end
+      end
+    end
+
+    context 'When clicking again on the Collection column' do
+      before do
+        find('#collections-table thead th:nth-child(2)').click
+        find('#collections-table thead th:nth-child(2)').click
+      end
+
+      it 'It sorts the table by Collections in descending order' do
+        within('#collections-table tbody') do
+          first_cell = find('#collections-table tbody tr:first-child td:nth-child(2)')
+          last_cell = find('#collections-table tbody tr:last-child td:nth-child(2)')
+          expect(first_cell).to have_content 'Testy long entry title'
+          expect(last_cell).to have_content 'ipsum'
+        end
+      end
+    end
+
+    # Short Name column
+    context 'When clicking on the Short Name column' do
+      before do
+        find('#collections-table thead th:nth-child(3)').click
+      end
+
+      it 'It sorts the table by Short Name in ascending order' do
+        within('#collections-table tbody') do
+          first_cell = find('#collections-table tbody tr:first-child td:nth-child(3)')
+          last_cell = find('#collections-table tbody tr:last-child td:nth-child(3)')
+          expect(first_cell).to have_content 'ID'
+          expect(last_cell).to have_content 'testing 03'
+        end
+      end
+    end
+
+    context 'When clicking again on the Short Name column' do
+      before do
+        find('#collections-table thead th:nth-child(3)').click
+        find('#collections-table thead th:nth-child(3)').click
+      end
+
+      it 'It sorts the table by Short Name in descending order' do
+        within('#collections-table tbody') do
+          first_cell = find('#collections-table tbody tr:first-child td:nth-child(3)')
+          last_cell = find('#collections-table tbody tr:last-child td:nth-child(3)')
+          expect(first_cell).to have_content 'testing 03'
+          expect(last_cell).to have_content 'ID'
+        end
+      end
+    end
+
+    # Version ID column
+    context 'When clicking on the Version ID column' do
+      before do
+        find('#collections-table thead th:nth-child(4)').click
+      end
+
+      it 'It sorts the table by Version ID in ascending order' do
+        within('#collections-table tbody') do
+          first_cell = find('#collections-table tbody tr:first-child td:nth-child(4)')
+          last_cell = find('#collections-table tbody tr:last-child td:nth-child(4)')
+          expect(first_cell).to have_content '002'
+          expect(last_cell).to have_content '223'
+        end
+      end
+    end
+
+    context 'When clicking again on the Version ID column' do
+      before do
+        find('#collections-table thead th:nth-child(4)').click
+        find('#collections-table thead th:nth-child(4)').click
+      end
+
+      it 'It sorts the table by Version ID in descending order' do
+        within('#collections-table tbody') do
+          first_cell = find('#collections-table tbody tr:first-child td:nth-child(4)')
+          last_cell = find('#collections-table tbody tr:last-child td:nth-child(4)')
+          expect(first_cell).to have_content '223'
+          expect(last_cell).to have_content '02'
+        end
+      end
+    end
+
+    # Option Definition column
+    context 'When clicking on the Option Definition column' do
+      before do
+        find('#collections-table thead th:nth-child(5)').click
+      end
+
+      it 'It sorts the table by Option Definition in ascending order' do
+        within('#collections-table tbody') do
+          first_cell = find('#collections-table tbody tr:first-child td:nth-child(5)')
+          last_cell = find('#collections-table tbody tr:last-child td:nth-child(5)')
+          expect(first_cell).to have_content ''
+          expect(last_cell).to have_content 'Opt A07'
+        end
+      end
+    end
+
+    context 'When clicking again on the Option Definition column' do
+      before do
+        find('#collections-table thead th:nth-child(5)').click
+        find('#collections-table thead th:nth-child(5)').click
+      end
+
+      it 'It sorts the table by Option Definition in descending order' do
+        within('#collections-table tbody') do
+          first_cell = find('#collections-table tbody tr:first-child td:nth-child(5)')
+          last_cell = find('#collections-table tbody tr:last-child td:nth-child(5)')
+          expect(first_cell).to have_content 'Opt A07'
+          expect(last_cell).to have_content ''
+        end
+      end
+    end
+  end
+
   context 'When attempting to make an option assignment without selecting any collections', js: true do
     before do
       VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do

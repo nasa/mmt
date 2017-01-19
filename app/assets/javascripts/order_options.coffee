@@ -32,10 +32,10 @@ $(document).ready ->
 
     messages:
       'order_option[name]':
-        required: 'Order Option Name is required.'
+        required: 'Name is required.'
       'order_option[description]':
         required: 'Description is required.'
       'order_option[scope]':
         required: 'Scope is required.'
       'order_option[form]':
-        required: 'ECHO Form XML is required.'
+        required: 'Form XML is required.'

@@ -80,3 +80,9 @@ section {
     float: right;
   }
 }
+
+// Items are packed toward the start line
+.flex-row--start {
+  display: flex;
+  justify-content: flex-start;
+}

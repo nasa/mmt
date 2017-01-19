@@ -99,9 +99,9 @@ describe 'Creating Order Options' do
 
         it 'displays the correct error messages' do
           expect(page).to have_css('.eui-banner--danger')
-          expect(page).to have_content('Order Option Name is required.')
+          expect(page).to have_content('Name is required.')
           expect(page).to have_content('Description is required.')
-          expect(page).to have_content('ECHO Form XML is required.')
+          expect(page).to have_content('Form XML is required.')
         end
       end
 

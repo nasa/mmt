@@ -2,7 +2,7 @@ class DataQualitySummariesController < ManageCmrController
   include DataManagementHelper
   include EchoSoap
 
-  before_action :set_summary, only: [:show, :new, :edit]
+  before_action :set_summary, only: [:show, :edit]
 
   add_breadcrumb 'Data Quality Summaries', :data_quality_summaries_path
 
@@ -44,6 +44,8 @@ class DataQualitySummariesController < ManageCmrController
   end
 
   def new
+    @summary = {}
+
     add_breadcrumb 'New', new_data_quality_summary_path
   end
 
@@ -62,9 +64,7 @@ class DataQualitySummariesController < ManageCmrController
 
       render :new
     else
-      flash[:success] = 'Data Quality Summary successfully created'
-
-      redirect_to data_quality_summary_path(response.parsed_body)
+      redirect_to data_quality_summary_path(response.parsed_body), flash: { success: 'Data Quality Summary successfully created' }
     end
   end
 
@@ -78,9 +78,7 @@ class DataQualitySummariesController < ManageCmrController
 
       render :edit
     else
-      flash[:success] = 'Data Quality Summary successfully updated'
-
-      redirect_to data_quality_summary_path(response.parsed_body)
+      redirect_to data_quality_summary_path(response.parsed_body), flash: { success: 'Data Quality Summary successfully updated' }
     end
   end
 
@@ -100,9 +98,9 @@ class DataQualitySummariesController < ManageCmrController
 
   def generate_payload
     {
-      'Guid' => params.fetch('id'),
-      'Name' => params.fetch('name'),
-      'Summary' => sanitize_for_echo(params.fetch('summary')),
+      'Guid'              => params.fetch('id'),
+      'Name'              => params.fetch('name'),
+      'Summary'           => sanitize_for_echo(params.fetch('summary')),
       'OwnerProviderGuid' => current_provider_guid
     }
   end
@@ -111,7 +109,5 @@ class DataQualitySummariesController < ManageCmrController
     result = echo_client.get_data_quality_summary_definition(token_with_client_id, params[:id])
 
     @summary = result.parsed_body unless result.error?
-
-    @summary = {} if defined?(@summary).nil?
   end
 end

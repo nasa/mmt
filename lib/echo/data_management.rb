@@ -52,7 +52,7 @@ module Echo
       make_request(@url, payload)
     end
 
-    # Updates a data quality summary definition for use in describing the quality information 
+    # Updates a data quality summary definition for use in describing the quality information
     # associated with one or more catalog items.
     def update_data_quality_summary_definition(token, payload)
       builder = Builder::XmlMarkup.new
@@ -82,7 +82,7 @@ module Echo
         builder.ns2(:token, token)
 
         builder.ns2(:guids) do
-          [*guids].each do |g|
+          Array.wrap(guids).each do |g|
             builder.ns3(:Item, g)
           end
         end
@@ -133,7 +133,7 @@ module Echo
         builder.ns2(:token, token)
 
         builder.ns2(:guids) do
-          [*guids].each do |g|
+          Array.wrap(guids).each do |g|
             builder.ns3(:Item, g)
           end
         end
@@ -151,11 +151,11 @@ module Echo
         builder.ns2(:token, token)
 
         if guids.nil?
-          # Providing nil will return all providers (NOT an empty string, only nil)
+          # Providing nil will return all order options (NOT an empty string, only nil)
           builder.ns2(:optionGuids, 'xsi:nil': true)
         else
           builder.ns2(:optionGuids) do
-            [*guids].each do |g|
+            Array.wrap(guids).each do |g|
               builder.ns3(:Item, g)
             end
           end
@@ -174,7 +174,7 @@ module Echo
       builder.ns2(:SetCatalogItemOptionDefinitionsDeprecated, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
         builder.ns2(:token, token)
         builder.ns2(:optionGuids) do
-          [*guids].each do |guid|
+          Array.wrap(guids).each do |guid|
             builder.ns3(:Item, guid)
           end
         end

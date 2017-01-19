@@ -8,7 +8,6 @@ class OrderOptionsController < ManageCmrController
   def index
     # Default the page to 1
     page = params.fetch('page', 1)
-
     order_option_response = echo_client.get_order_options(echo_provider_token)
 
     order_option_list = if order_option_response.success?
@@ -63,7 +62,6 @@ class OrderOptionsController < ManageCmrController
       add_breadcrumb @order_option.fetch('name', nil), order_option_path(order_option_id)
     else
       Rails.logger.error("Get Order Option Definition Error: #{response.inspect}")
-
       parsed_errors = Hash.from_xml(response.body)
       flash[:error] = parsed_errors['errors']['error'].inspect
       redirect_to order_options_path
@@ -72,7 +70,6 @@ class OrderOptionsController < ManageCmrController
 
   def edit
     @order_option_id = params[:id]
-
     response = cmr_client.get_order_option(@order_option_id, echo_provider_token)
     if response.success?
       @order_option = Hash.from_xml(response.body)['option_definition']
@@ -81,7 +78,6 @@ class OrderOptionsController < ManageCmrController
       add_breadcrumb 'Edit', edit_order_option_path(@order_option_id)
     else
       Rails.logger.error("Get Order Option Definition Error: #{response.inspect}")
-
       parsed_errors = Hash.from_xml(response.body)
       flash[:error] = parsed_errors['errors']['error'].inspect
       redirect_to order_options_path
@@ -92,7 +88,6 @@ class OrderOptionsController < ManageCmrController
     @order_option = params[:order_option]
     @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
     @order_option_id = params[:id]
-
     # Scope will always be PROVIDER
     @order_option['scope'] = 'PROVIDER'
 
@@ -140,4 +135,14 @@ class OrderOptionsController < ManageCmrController
     end
   end
 
+  def deprecate
+    soap_xml_response = echo_client.deprecate_order_options(echo_provider_token, Array.wrap(params[:id]))
+    if soap_xml_response.success?
+      flash[:success] = 'Order Option was successfully deprecated.'
+    else
+      Rails.logger.error("Deprecate Order Option Error: #{soap_xml_response.error_message}")
+      flash[:error] = soap_xml_response.error_message
+    end
+    redirect_to order_options_path
+  end
 end
