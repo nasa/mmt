@@ -83,7 +83,7 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
         uncheck('provider_permissions_AUTHENTICATOR_DEFINITION_', option: 'delete')
         uncheck('provider_permissions_PROVIDER_ORDER_TRACKING_ID_', option: 'update')
         uncheck('provider_permissions_OPTION_ASSIGNMENT_', option: 'read')
-        
+
         uncheck("group_management_#{@managed_group['concept_id']}_", option: 'update')
         uncheck("group_management_#{@managed_group['concept_id']}_", option: 'delete')
 

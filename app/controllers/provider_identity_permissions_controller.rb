@@ -3,9 +3,9 @@ class ProviderIdentityPermissionsController < ManageCmrController
 
   before_filter :redirect_unless_current_provider_acl_admin, only: [:index, :edit, :update]
 
-  add_breadcrumb 'Provider Object Permissions', :provider_identity_permissions_path
-
   RESULTS_PER_PAGE = 25
+
+  add_breadcrumb 'Provider Object Permissions', :provider_identity_permissions_path
 
   def index
     # initialize empty group list
@@ -62,7 +62,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
   def update
     @group_id = params[:id]
     permissions_params = params[:provider_permissions]
-    group_management_params = params[:group_management] # if only one #=> {"AG1200000212-MMT_1"=>["delete"]}
+    group_management_params = params[:group_management]
 
     redirect_to provider_identity_permissions_path and return if permissions_params.nil? && group_management_params.nil?
     # what happens if permissions_params is nil but group mgmt params is not?
@@ -87,9 +87,8 @@ class ProviderIdentityPermissionsController < ManageCmrController
 
     group_management_params.each { |_concept, perms| perms.delete('') } unless group_management_params.nil?
     all_group_management_permissions_list = get_permissions_for_identity_type('single_instance')
-    # all_group_management_permissions = assemble_group_management_permissions_for_updating(all_group_management_permissions_list, group_management_params, @group_id)
     group_management_perms_to_update = assemble_new_group_management_perms(all_group_management_permissions_list, group_management_params, @group_id)
-    # fail
+
     update_group_management_permissions(group_management_perms_to_update, successes, fails)
 
     flash[:success] = 'Provider Object Permissions were saved.' unless successes.blank?

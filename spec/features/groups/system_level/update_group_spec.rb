@@ -19,7 +19,7 @@ describe 'Updating System Level Groups', js: true do
 
     after :all do
       # System level groups need to be cleaned up to avoid attempting to create
-      # a group with the same name in a nother test (Random names don't seem to be reliable)
+      # a group with the same name in another test (Random names don't seem to be reliable)
       delete_group(concept_id: @group['concept_id'], admin: true)
     end
 

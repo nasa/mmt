@@ -4,7 +4,23 @@ require 'rails_helper'
 
 describe 'Changing or Removing System Identity Permissions' do
   before :all do
-    @group_response = create_group(name: 'Test System Permissions Group 2', description: 'Group to test system permissions', provider_id: nil, admin: true)
+    @group_response = create_group(
+      name: 'Test System Permissions Group 2',
+      description: 'Group to test system permissions',
+      provider_id: nil,
+      admin: true
+    )
+
+    wait_for_cmr
+
+    @managed_group_name = 'Managed Group for System Object Permissions'
+    @managed_group = create_group(
+      name: @managed_group_name,
+      description: 'Group 2 for system object permissions management',
+      management_group: @group_response['concept_id']
+    )
+
+    wait_for_cmr
 
     system_perm_1 = {
       'group_permissions' => [{
@@ -52,42 +68,53 @@ describe 'Changing or Removing System Identity Permissions' do
     permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token_admin') }
 
     delete_group(concept_id: @group_response['concept_id'], admin: true)
+    delete_group(concept_id: @managed_group['concept_id'], admin: true)
   end
 
-  before do
-    login_admin
-
-    visit edit_system_identity_permission_path(@group_response['concept_id'])
-  end
-
-  it 'has the correct permissions checked' do
-    expect(page).to have_checked_field('system_permissions_SYSTEM_CALENDAR_EVENT_', with: 'update')
-    expect(page).to have_checked_field('system_permissions_SYSTEM_INITIALIZER_', with: 'create')
-    expect(page).to have_checked_field('system_permissions_SYSTEM_OPTION_DEFINITION_', with: 'create')
-    expect(page).to have_checked_field('system_permissions_SYSTEM_OPTION_DEFINITION_', with: 'delete')
-  end
-
-  context 'when changing and removing system permissions' do
+  context 'when visiting the system object permissions page for a system group that manages another group' do
     before do
-      check('system_permissions_SYSTEM_CALENDAR_EVENT_', option: 'create')
-      check('system_permissions_SYSTEM_CALENDAR_EVENT_', option: 'delete')
+      login_admin
 
-      uncheck('system_permissions_SYSTEM_INITIALIZER_', option: 'create')
-      uncheck('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'delete')
-
-      within '.system-permissions-form' do
-        click_on 'Submit'
-      end
-
-      wait_for_cmr
+      visit edit_system_identity_permission_path(@group_response['concept_id'])
     end
 
-    it 'displays a success message and no error message on the index page' do
-      expect(page).to have_content('System Object Permissions')
-      expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
+    it 'has the correct permissions checked' do
+      expect(page).to have_checked_field('system_permissions_SYSTEM_CALENDAR_EVENT_', with: 'update')
+      expect(page).to have_checked_field('system_permissions_SYSTEM_INITIALIZER_', with: 'create')
+      expect(page).to have_checked_field('system_permissions_SYSTEM_OPTION_DEFINITION_', with: 'create')
+      expect(page).to have_checked_field('system_permissions_SYSTEM_OPTION_DEFINITION_', with: 'delete')
+    end
 
-      expect(page).to have_content('System Object Permissions were saved.')
-      expect(page).to have_no_content('permissions were unable to be saved.')
+    it 'has the single instance identity group management permissions checked' do
+      expect(page).to have_checked_field("group_management_#{@managed_group['concept_id']}_", with: 'update')
+      expect(page).to have_checked_field("group_management_#{@managed_group['concept_id']}_", with: 'delete')
+    end
+
+    context 'when changing and removing system permissions' do
+      before do
+        check('system_permissions_SYSTEM_CALENDAR_EVENT_', option: 'create')
+        check('system_permissions_SYSTEM_CALENDAR_EVENT_', option: 'delete')
+
+        uncheck('system_permissions_SYSTEM_INITIALIZER_', option: 'create')
+        uncheck('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'delete')
+
+        uncheck("group_management_#{@managed_group['concept_id']}_", option: 'update')
+        uncheck("group_management_#{@managed_group['concept_id']}_", option: 'delete')
+
+        within '.system-permissions-form' do
+          click_on 'Submit'
+        end
+
+        wait_for_cmr
+      end
+
+      it 'displays a success message and no error message on the index page' do
+        expect(page).to have_content('System Object Permissions')
+        expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
+
+        expect(page).to have_content('System Object Permissions were saved.')
+        expect(page).to have_no_content('permissions were unable to be saved.')
+      end
     end
   end
 end

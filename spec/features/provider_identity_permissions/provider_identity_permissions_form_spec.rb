@@ -71,7 +71,7 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
         visit edit_provider_identity_permission_path(@group['concept_id'])
       end
 
-      it 'displays the page with the form and table of provider and management group targets' do
+      it 'displays the page with the form and table of provider and group management targets' do
         expect(page).to have_content("#{@group_name} Provider Object Permissions")
         expect(page).to have_content("Set permissions for the #{@group_name} group by checking the appropriate boxes below and clicking 'Submit'.")
 
