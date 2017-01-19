@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe 'Groups', reset_provider: true do
+  before :all do
+    @group = create_group(
+      name: 'Generic Initial Management Group for Tests',
+      description: 'Group for Initial Managment Group'
+    )
+  end
+
   context 'when visiting the new group form' do
     before do
       login
@@ -12,10 +19,10 @@ describe 'Groups', reset_provider: true do
       expect(page).to have_content('New MMT_2 Group')
 
       expect(page).to have_field('Name', type: 'text')
-      
-      # test that it does not have 'System Level Group?' checkbox?
-      expect(page).to have_no_unchecked_field('System Level Group?')
       expect(page).to have_field('Description', type: 'textarea')
+      expect(page).to have_field('Initial Management Group', type: 'select')
+
+      expect(page).to have_no_unchecked_field('System Level Group?')
     end
 
     context 'when submitting an invalid group form', js: true do
@@ -28,6 +35,7 @@ describe 'Groups', reset_provider: true do
       it 'displays validation errors within the form' do
         expect(page).to have_content('Name is required.')
         expect(page).to have_content('Description is required.')
+        expect(page).to have_content('Initial Management Group is required.')
       end
     end
 
@@ -35,10 +43,12 @@ describe 'Groups', reset_provider: true do
       context 'when submitting the form with members', js: true do
         let(:group_name)        { 'NASA Test Group With Members' }
         let(:group_description) { 'NASA is seriously the coolest, with the coolest members!' }
+        let(:initial_management_group) { 'Generic Initial Management Group for Tests' }
 
         before do
           fill_in 'Name', with: group_name
           fill_in 'Description', with: group_description
+          select(initial_management_group, from: 'Initial Management Group')
 
           select('Marsupial Narwal', from: 'Members Directory')
           select('Quail Racoon', from: 'Members Directory')
@@ -54,6 +64,7 @@ describe 'Groups', reset_provider: true do
 
         it 'saves the group with members' do
           expect(page).to have_content('Group was successfully created.')
+          expect(page).to have_content(initial_management_group)
 
           within '#group-members' do
             expect(page).to have_selector('tbody > tr', count: 3)
@@ -64,10 +75,12 @@ describe 'Groups', reset_provider: true do
       context 'when submitting the form without members' do
         let(:group_name)        { 'NASA Test Group' }
         let(:group_description) { 'NASA is seriously the coolest.' }
+        let(:initial_management_group) { 'Generic Initial Management Group for Tests' }
 
         before do
           fill_in 'Name', with: group_name
           fill_in 'Description', with: group_description
+          select(initial_management_group, from: 'Initial Management Group')
 
           within '.group-form' do
             click_on 'Submit'
@@ -78,6 +91,8 @@ describe 'Groups', reset_provider: true do
 
         it 'saves the group without members' do
           expect(page).to have_content('Group was successfully created.')
+
+          expect(page).to have_content(initial_management_group)
 
           expect(page).not_to have_selector('table.group-members')
           expect(page).to have_content("#{group_name} has no members.")

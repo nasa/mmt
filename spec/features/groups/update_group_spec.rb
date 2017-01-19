@@ -12,8 +12,9 @@ describe 'Adding members to existing group', reset_provider: true, js: true do
       visit edit_group_path(group['concept_id'])
     end
 
-    it 'the name field is disabled' do
+    it 'the name and initial management group fields are disabled' do
       expect(page).to have_field('group_name', readonly: true)
+      expect(page).to have_field('Initial Management Group', disabled: true)
     end
 
     context 'when modifying the description' do

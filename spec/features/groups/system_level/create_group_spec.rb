@@ -1,7 +1,15 @@
 # MMT-561
 require 'rails_helper'
 
-describe 'Creating System Level Groups' do
+describe 'Creating System Level Groups', reset_provider: true do
+  before :all do
+    @group_name = 'Generic Provider Initial Management Group for Tests'
+    @group = create_group(
+      name: @group_name,
+      description: 'Group for Initial Managment Group'
+    )
+  end
+
   context 'when viewing new groups form as an admin user' do
     before do
       login_admin
@@ -14,6 +22,10 @@ describe 'Creating System Level Groups' do
       expect(page).to have_unchecked_field('system_group')
     end
 
+    it 'shows provider and system level groups in the Inital Management Group select dropdown' do
+      expect(page).to have_select('Initial Management Group', with_options: ['Administrators', 'Administrators_2', @group_name])
+    end
+
     context 'when clicking the system group checkbox', js: true do
       before do
         check 'System Level Group?'
@@ -23,6 +35,14 @@ describe 'Creating System Level Groups' do
         expect(page).to have_content('New CMR Group')
         expect(page).to have_content('SYS')
         expect(page).to have_css('span.eui-badge--sm')
+      end
+
+      it 'changes the Initial Management Group options to only have system groups' do
+        expect(page).to have_select('Initial Management Group', with_options: ['Administrators', 'Administrators_2'])
+
+        within '#group_initial_management_group' do
+          expect(page).to have_no_content(@group_name)
+        end
       end
     end
 
@@ -38,6 +58,7 @@ describe 'Creating System Level Groups' do
         fill_in 'Name', with: group_name
         check 'System Level Group?'
         fill_in 'Description', with: group_description
+        select('Administrators_2', from: 'Initial Management Group')
 
         # choose users
         select('Alien Bobcat', from: 'Members Directory')
@@ -56,6 +77,7 @@ describe 'Creating System Level Groups' do
 
         expect(page).to have_content(group_name)
         expect(page).to have_content(group_description)
+        expect(page).to have_content('Administrators_2')
 
         # SYS badge
         expect(page).to have_content('SYS')

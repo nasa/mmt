@@ -32,11 +32,8 @@
 <fieldset>
   <div class="row">
     <%= label_tag('group[initial_management_group]', 'Initial Management Group', class: 'eui-required-o') %>
-    <!-- populate management_group for edit view -->
     <%= select_tag('group[initial_management_group]', options_for_select(set_provider_and_system_group_options, @management_group_concept_id),
-                   class: 'initial-management-group-select required', id: 'initial-management-group-select',
-                   disabled: !new_form ) %>
-                   <!-- readonly: !new_form ) %> -->
+                   class: 'initial-management-group-select required', disabled: !new_form ) %>
 
     <% if new_form %>
       <%= hidden_field_tag('system_group_options', options_for_select(set_system_group_options)) %>

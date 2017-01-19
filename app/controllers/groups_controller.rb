@@ -88,7 +88,7 @@ class GroupsController < ManageCmrController
         success_messages << 'Group was successfully created.'
 
         single_instance_identity_object = construct_permission_object(
-                                            @management_group,
+                                            @management_group_concept_id,
                                             SingleInstanceIdentityPermissionsHelper::GROUP_MANAGEMENT_PERMISSIONS,
                                             'GROUP_MANAGEMENT',
                                             type: 'single_instance',
@@ -97,7 +97,7 @@ class GroupsController < ManageCmrController
 
         management_group_response = cmr_client.add_group_permissions(single_instance_identity_object, token)
         if management_group_response.success?
-          Rails.logger.info("Single Instance Identity ACL for #{@management_group} to manage #{concept_id} successfully created by #{current_user.urs_uid}")
+          Rails.logger.info("Single Instance Identity ACL for #{@management_group_concept_id} to manage #{concept_id} successfully created by #{current_user.urs_uid}")
           success_messages << 'Initial Managment Group permission was successfully created.'
         else
           Rails.logger.error("Create Single Instance Identity ACL error: #{management_group_response.inspect}")
@@ -153,7 +153,9 @@ class GroupsController < ManageCmrController
       end
 
       management_groups = get_management_groups(@concept_id)
+      puts "management_groups: #{management_groups}"
       @management_group_concept_id = management_groups.first.fetch('concept_id', nil) unless management_groups.blank?
+      puts "management group concept: #{@management_group_concept_id}"
       # byebug
     else
       Rails.logger.error("Error retrieving group to edit: #{group_response.inspect}")
@@ -311,7 +313,7 @@ class GroupsController < ManageCmrController
 
   def get_management_groups(concept_id)
     all_management_permissions = get_permissions_for_identity_type('single_instance')
-    management_permissions = all_management_permissions.select { |acl| acl['acl']['single_instance_identity']['target_id'] == @concept_id }
+    management_permissions = all_management_permissions.select { |acl| acl['acl']['single_instance_identity']['target_id'] == concept_id }
 
     management_concept_ids = []
 
@@ -328,7 +330,7 @@ class GroupsController < ManageCmrController
       next unless group_response.success?
 
       group = group_response.body
-      group['concept_id'] = concept_id
+      group['concept_id'] = management_concept_id
       management_groups << group
     end
 

@@ -41,7 +41,7 @@ $(document).ready ->
       # Toggle the display of the SYS badge
       $('#badge-container').toggle()
 
-      $initialManagementGroup = $('#initial-management-group-select')
+      $initialManagementGroup = $('#group_initial_management_group')
 
       # Toggle the provider based on whether or not the
       # System Level Group checkbox is checked
