@@ -69,6 +69,18 @@ class ServiceOptionsController < ManageCmrController
     end
   end
 
+  def destroy
+    response = echo_client.remove_service_option(token_with_client_id, params[:id])
+
+    if response.error?
+      flash[:error] = response.error_message
+    else
+      flash[:success] = 'Service Option successfully deleted'
+    end
+
+    redirect_to service_options_path
+  end
+
   private
 
   def service_option_params
