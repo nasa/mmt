@@ -5,7 +5,7 @@ describe 'Viewing a Service Option' do
     login
   end
 
-  context 'when viewing the new service option form' do
+  context 'when viewing the service option' do
     let(:guid) { 'F0452F1C-C22F-335A-7284-546AF8A325E4' }
 
     before do
@@ -21,7 +21,11 @@ describe 'Viewing a Service Option' do
     end
 
     it 'displays the edit button' do
-      expect(page).to have_link('Edit', edit_service_option_path(guid))
+      expect(page).to have_link('Edit', href: edit_service_option_path(guid))
+    end
+
+    it 'displays the delete button' do
+      expect(page).to have_link('Delete')
     end
   end
 end
