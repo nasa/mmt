@@ -75,14 +75,18 @@
                 </td>
               <% elsif current_user.available_providers.include?(group['provider_id']) %>
                 <td>
-                  <%= link_to 'Edit', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': group['provider_id'], record_action: 'edit-group' } %>
+                  <%= link_to 'Edit', "#not-current-provider-modal-#{index}", class: 'display-modal not-current-provider', data: { 'provider': group['provider_id'], record_action: 'edit-group' } %>
                 </td>
                 <td>
-                  <%= link_to 'Delete', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': group['provider_id'], record_action: 'delete-group' } %>
+                  <%= link_to 'Delete', "#not-current-provider-modal-#{index}", class: 'display-modal not-current-provider', data: { 'provider': group['provider_id'], record_action: 'delete-group' } %>
                 </td>
                 <%= render partial: 'shared/not_current_provider_modal', locals: {
+                  modal_index: index,
                   options: { group: group, name: group['name'], concept_id: group['concept_id'] }
                   } %>
+              <% else %>
+                <td></td>
+                <td></td>
               <% end %>
             </tr>
           <% end %>
