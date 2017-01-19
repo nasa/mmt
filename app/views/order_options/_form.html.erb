@@ -19,8 +19,6 @@
 <fieldset>
   <div class="row">
     <%= label_tag('order_option[description]', 'Description', class: 'eui-required-o') %>
-  </div>
-  <div class="row">
     <%= text_area_tag('order_option[description]', @order_option['description'], class: 'required') %>
   </div>
 </fieldset>
@@ -28,8 +26,6 @@
 <fieldset>
   <div class="row">
     <%= label_tag('order_option[form]', 'Form XML', class: 'eui-required-o') %>
-  </div>
-  <div class="row">
     <%= text_area_tag('order_option[form]', @order_option['form'], class: 'required textarea-tall') %>
   </div>  
 </fieldset>

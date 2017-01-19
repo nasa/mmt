@@ -3,19 +3,19 @@
     <h2><%= @order_option.fetch('name') %></h2>
 
     <p>
-      <label>Last Update:</label> <%= @order_option.fetch('last_update') %> |
-      <label>Scope:</label> <%= @order_option.fetch('scope') %> |
-      <label>Deprecated:</label> <%= @order_option.fetch('deprecated') %> |
-      <label>Sort Key:</label> <%= @order_option.fetch('sort_key') %>
+      <span class="inline-label">Last Update:</span> <%= echo_formatted_date(@order_option.fetch('last_update')) %> |
+      <span class="inline-label">Scope:</span> <%= @order_option.fetch('scope') %> |
+      <span class="inline-label">Deprecated:</span> <%= @order_option.fetch('deprecated') %> |
+      <span class="inline-label">Sort Key:</span> <%= @order_option.fetch('sort_key') %>
     </p>
 
     <p>
-      <label>Description:</label>
+      <span class="inline-label">Description:</span>
       <%= @order_option.fetch('description') %>
     </p>
 
     <div class="row">
-      <label>Form XML:</label>
+      <span class="inline-label">Form XML:</span>
 
       <pre><%= @order_option.fetch('form') %></pre>
     </div>
