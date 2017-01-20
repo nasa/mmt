@@ -9,8 +9,9 @@ $(document).ready ->
   $('a.not-current-provider').on 'click', (element) ->
     provider = $(element.target).data('provider')
     action = $(element.target).data('recordAction')
+    href = $(this).attr('href')
 
-    $modal = $('#not-current-provider-modal')
+    $modal = $(href)
     $link = $modal.find('a.not-current-provider-link')
     $link.data('provider', provider)
 
@@ -31,6 +32,10 @@ $(document).ready ->
         'Viewing this draft'
       when 'edit-draft'
         'Editing this draft'
+      when 'edit-group'
+        'Editing this group'
+      when 'delete-group'
+        'Deleting this group'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
@@ -39,6 +44,10 @@ $(document).ready ->
   $('a.not-current-provider-link').on 'click', (element) ->
     provider = $(element.target).data('provider')
     linkType = $(element.target).data('type')
+    index = $(element.target).data('index')
+
+    link = "#not-current-provider-#{linkType}-link"
+    link += "-#{index}" if index != false
 
     $.ajax
       url: "/set_provider?provider_id=#{provider}"
@@ -46,7 +55,7 @@ $(document).ready ->
       dataType: 'json'
       success: (data, status, xhr) ->
         # Click the link that the user needs
-        $("#not-current-provider-#{linkType}-link")[0].click()
+        $(link)[0].click()
 
   # change current provider from banner link
   $('#change-current-provider-banner-link').on 'click', (element) ->

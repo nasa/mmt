@@ -60,18 +60,34 @@
               <td><%= group['description'] %></td>
               <td><%= group_provider(group) %></td>
               <td><%= group['member_count'] %></td>
-              <td><%= link_to 'Edit', edit_group_path(group['concept_id']) %></td>
-              <td>
-                <%= link_to 'Delete', "#delete-group-modal-#{index}", class: 'display-modal' %>
-                <div id="delete-group-modal-<%= index %>" class="eui-modal-content">
-                  <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                    <p>Are you sure you want to delete the group named '<%= group['name'] %>'?</p>
-                  <p>
-                    <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                    <%= link_to 'Yes', group_path(group['concept_id']), method: :delete, class: 'eui-btn--blue spinner' %>
-                  </p>
-                </div>
-              </td>
+              <% if current_user.provider_id == group['provider_id'] || check_if_system_group?(group, group['concept_id']) %>
+                <td><%= link_to 'Edit', edit_group_path(group['concept_id']) %></td>
+                <td>
+                  <%= link_to 'Delete', "#delete-group-modal-#{index}", class: 'display-modal' %>
+                  <div id="delete-group-modal-<%= index %>" class="eui-modal-content">
+                    <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+                      <p>Are you sure you want to delete the group named '<%= group['name'] %>'?</p>
+                    <p>
+                      <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                      <%= link_to 'Yes', group_path(group['concept_id']), method: :delete, class: 'eui-btn--blue spinner' %>
+                    </p>
+                  </div>
+                </td>
+              <% elsif current_user.available_providers.include?(group['provider_id']) %>
+                <td>
+                  <%= link_to 'Edit', "#not-current-provider-modal-#{index}", class: 'display-modal not-current-provider', data: { 'provider': group['provider_id'], record_action: 'edit-group' } %>
+                </td>
+                <td>
+                  <%= link_to 'Delete', "#not-current-provider-modal-#{index}", class: 'display-modal not-current-provider', data: { 'provider': group['provider_id'], record_action: 'delete-group' } %>
+                </td>
+                <%= render partial: 'shared/not_current_provider_modal', locals: {
+                  modal_index: index,
+                  options: { group: group, name: group['name'], concept_id: group['concept_id'] }
+                  } %>
+              <% else %>
+                <td></td>
+                <td></td>
+              <% end %>
             </tr>
           <% end %>
         <% end %>
