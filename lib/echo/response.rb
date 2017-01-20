@@ -26,7 +26,7 @@ module Echo
 
       return body.fetch('Fault', {}) if status >= 400
 
-      result = body.fetch(body.keys.first).fetch('result', {})
+      result = body.fetch(body.keys.first, {}).fetch('result', {})
       result = {} if result.nil?
       result
     end

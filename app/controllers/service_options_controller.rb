@@ -21,7 +21,7 @@ class ServiceOptionsController < ManageCmrController
                             []
                           end
 
-    @service_options = Kaminari.paginate_array(service_option_list, total_count: service_option_response.parsed_body.fetch('Item', []).count).page(page).per(RESULTS_PER_PAGE)
+    @service_options = Kaminari.paginate_array(service_option_list, total_count: service_option_list.count).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
