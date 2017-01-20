@@ -543,12 +543,7 @@ FactoryGirl.define do
         'RelatedUrl' => {
           'URLs'        => ['http://example.com', 'http://another-example.com'],
           'Description' => 'Example Description',
-          'MimeType'    => 'text/html',
-          'Title'       => 'Example related URL Title 1',
-          'FileSize' => {
-            'Size' => 42,
-            'Unit' => 'MB'
-          }
+          'Title'       => 'Example related URL Title 1'
         }
       }, {
         'Version' => 'v2',
@@ -557,12 +552,7 @@ FactoryGirl.define do
         'RelatedUrl' => {
           'URLs'        => ['http://example2.com', 'http://another-example2.com'],
           'Description' => 'Example 2 Description',
-          'MimeType'    => 'text/html',
-          'Title'       => 'Example 2 related URL Title',
-          'FileSize' => {
-            'Size' => 42,
-            'Unit' => 'MB'
-          }
+          'Title'       => 'Example 2 related URL Title'
         }
       }],
       'CollectionProgress' => 'IN WORK',

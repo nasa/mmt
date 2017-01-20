@@ -23,7 +23,6 @@ $(document).ready ->
         # Prevent highlighting the fields themselves
         return false
 
-      # TODO: what happens on 'edit' when mgmt group is disabled?
       rules:
         'group[name]':
           required: true
