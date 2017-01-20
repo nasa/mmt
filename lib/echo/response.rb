@@ -26,13 +26,15 @@ module Echo
 
       return body.fetch('Fault', {}) if status >= 400
 
-      body.fetch(body.keys.first).fetch('result', {})
+      result = body.fetch(body.keys.first).fetch('result', {})
+      result = {} if result.nil?
+      result
     end
 
     def error_type
       parsed_body.fetch('detail', {}).keys.first
     end
-    
+
     def error_message
       parsed_body.fetch('faultstring')
     end
