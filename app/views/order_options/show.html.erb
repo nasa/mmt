@@ -23,7 +23,7 @@
     <%= link_to 'Edit', edit_order_option_path(@order_option.fetch('id')), class: 'eui-btn' %>
 
     <% unless @order_option.fetch('deprecated', false) %>
-        <%= link_to 'Deprecate', "#deprecate-order-option-modal", class: 'display-modal eui-btn eui-btn' %>
+        <%= link_to 'Deprecate', "#deprecate-order-option-modal", class: 'display-modal eui-btn' %>
         <div id="deprecate-order-option-modal" class="eui-modal-content">
           <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
           <p>Are you sure you want to deprecate this order option? This action cannot be undone.</p>
