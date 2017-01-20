@@ -66,6 +66,7 @@ class SystemIdentityPermissionsController < ManageCmrController
 
     redirect_to system_identity_permissions_path and return if permissions_params.nil? && group_management_params.nil?
 
+    permissions_params ||= {}
     permissions_params.each { |_target, perms| perms.delete('') } unless permissions_params.nil?
     all_system_permissions = get_permissions_for_identity_type(type: 'system')
     # assemble permissions so they can be sorted and updated
@@ -109,13 +110,11 @@ class SystemIdentityPermissionsController < ManageCmrController
 
     group_management_params.each { |_concept, perms| perms.delete('') } unless group_management_params.nil?
     all_group_management_permissions_list = get_permissions_for_identity_type(type: 'single_instance')
-    # group_management_perms_to_update = assemble_new_group_management_perms(all_group_management_permissions_list, group_management_params, @group_id)
     group_management_perms_to_update = assemble_new_group_management_perms(
                                         all_group_management_perms: all_group_management_permissions_list,
                                         group_management_params: group_management_params,
                                         group_id: @group_id
                                        )
-    # update_group_management_permissions(group_management_perms_to_update, successes, fails)
     update_group_management_permissions(
       group_management_perms: group_management_perms_to_update,
       successes: successes,

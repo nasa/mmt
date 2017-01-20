@@ -63,8 +63,6 @@ class GroupsController < ManageCmrController
 
     @is_system_group = false # initially set checkbox to unchecked
 
-    # set_system_and_provider_groups
-
     add_breadcrumb 'New', new_group_path
   end
 
@@ -116,12 +114,10 @@ class GroupsController < ManageCmrController
         group_creation_error = Array.wrap(group_creation_response.body['errors'])[0]
         flash[:error] = group_creation_error
         set_previously_selected_members(group_params.fetch('members', []))
-        # set_system_and_provider_groups
         render :new
       end
     else
       set_previously_selected_members(group_params.fetch('members', []))
-      # set_system_and_provider_groups
       render :new
     end
   end
@@ -153,10 +149,7 @@ class GroupsController < ManageCmrController
       end
 
       management_groups = get_management_groups(@concept_id)
-      # puts "management_groups: #{management_groups}"
       @management_group_concept_id = management_groups.first.fetch('concept_id', nil) unless management_groups.blank?
-      # puts "management group concept: #{@management_group_concept_id}"
-      # byebug
     else
       Rails.logger.error("Error retrieving group to edit: #{group_response.inspect}")
       flash[:error] = Array.wrap(group_response.body['errors'])[0]

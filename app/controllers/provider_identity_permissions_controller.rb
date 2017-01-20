@@ -65,12 +65,8 @@ class ProviderIdentityPermissionsController < ManageCmrController
     group_management_params = params[:group_management]
 
     redirect_to provider_identity_permissions_path and return if permissions_params.nil? && group_management_params.nil?
-    # what happens if permissions_params is nil but group mgmt params is not?
-    # test it out with everything empty.
-    # probably have to skip the provider perms in some way?
-    # test by checking off all permissions, saving, and then submitting with all boxes empty again.
-      # currently seems like it'll work
 
+    permissions_params ||= {}
     permissions_params.each { |_target, perms| perms.delete('') } unless permissions_params.nil?
     all_provider_permissions = get_permissions_for_identity_type(type: 'provider')
     # assemble permissions so they can be sorted and updated
@@ -119,8 +115,6 @@ class ProviderIdentityPermissionsController < ManageCmrController
                                         group_management_params: group_management_params,
                                         group_id: @group_id
                                        )
-
-    # update_group_management_permissions(group_management_perms_to_update, successes, fails)
     update_group_management_permissions(
       group_management_perms: group_management_perms_to_update,
       successes: successes,

@@ -97,6 +97,8 @@ module PermissionManagement
   end
 
   def sort_permissions_to_update(assembled_all_permissions:, permissions_params:)
+    permissions_params ||= {}
+
     targets_to_add_group = []
     targets_to_update_perms = []
     targets_to_remove_group = []
@@ -131,30 +133,7 @@ module PermissionManagement
     [targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete]
   end
 
-  # def update_permission_objects(all_permissions:, permissions_params:, targets_to_add_group: [], targets_to_update_perms: [], targets_to_remove_group: [], type:, group_id:, successes: [], fails:[])
-  #   identity_type = "#{type}_identity"
-  #   updated_permission_objects = []
-  #
-  #   all_permissions.each do |full_perm|
-  #     concept_id = full_perm['concept_id']
-  #     acl_object = full_perm.fetch('acl', {})
-  #     target = acl_object.fetch(identity_type, {}).fetch('target', nil)
-  #     new_perms = permissions_params[target]
-  #     if targets_to_add_group.include?(target)
-  #       new_perm_obj = edit_permission_object(acl_object, 'add', new_perms, group_id)
-  #     elsif targets_to_remove_group.include?(target)
-  #       new_perm_obj = edit_permission_object(acl_object, 'remove', new_perms, group_id)
-  #     elsif targets_to_update_perms.include?(target)
-  #       new_perm_obj = edit_permission_object(acl_object, 'replace', new_perms, group_id)
-  #     end
-  #
-  #     updated_permission_objects << new_perm_obj if new_perm_obj
-  #   end
-  #
-  #   updated_permission_objects
-  # end
   # sort and update target permissions
-  # def update_permissions(all_permissions, permissions_params, targets_to_add_group, targets_to_update_perms, targets_to_remove_group, type, group_id, successes, fails)
   def update_target_permissions(all_permissions:, permissions_params:, targets_to_add_group: [], targets_to_update_perms: [], targets_to_remove_group: [], type:, group_id:, successes: [], fails:[])
     identity_type = "#{type}_identity"
 
@@ -200,42 +179,6 @@ module PermissionManagement
         fails: fails
       )
     end
-    #
-    #   # make above into an update method for provider/system perms
-    #   # make below a generic update list response
-    #   update_permission_response = cmr_client.update_permission(new_perm_obj, concept_id, token)
-    #   log_target = target
-    #   log_target = "#{current_user.provider_id} #{target}" if type == 'provider'
-    #   if update_permission_response.success?
-    #     Rails.logger.info("#{type.capitalize} Identity ACL for #{log_target} successfully updated by #{current_user}")
-    #     successes << target
-    #   else
-    #     Rails.logger.error("Update #{type.capitalize} Identity ACL for #{log_target} error: #{update_permission_response.inspect}")
-    #     fails << target
-    #   end
-    # end
-
-    # permissions_to_update = update_permission_objects(
-    #                           all_permissions: all_provider_permissions,
-    #                           permissions_params: permissions_params,
-    #                           targets_to_add_group: targets_to_add_group,
-    #                           targets_to_update_perms: targets_to_update_perms,
-    #                           targets_to_remove_group: targets_to_remove_group,
-    #                           type: 'provider',
-    #                           group_id: @group_id,
-    #                           successes: successes,
-    #                           fails: fails
-    #                         )
-    #
-    # permissions_to_update.each do |update_perm|
-    #   log_target = update_perm.fetch('identity_type', {}).fetch('target', '')
-    #   log_target = "#{current_user.provider_id} #{log_target}"
-    #
-    #   update_permission(
-    #     acl_object: update_perm,
-    #     concept_id:
-    #   )
-    # end
   end
 
   def update_permission(acl_object:, concept_id:, identity_type:, log_target:, successes: [], fails: [])
@@ -249,7 +192,6 @@ module PermissionManagement
     end
   end
 
-  # def edit_permission_object(perm_object:, action:, new_perms:, group_id:)
   def edit_permission_object(permission_object:, action:, new_permissions:, group_id:)
     if action == 'remove'
       permission_object['group_permissions'] = permission_object['group_permissions'].reject { |group_perm| group_perm['group_id'] == group_id }
@@ -257,14 +199,12 @@ module PermissionManagement
       permission_object['group_permissions'] << { 'group_id' => group_id, 'permissions' => new_permissions }
     elsif action == 'replace'
       # run remove then add
-      # permission_object = edit_permission_object(permission_object, 'remove', new_permissions, group_id)
       permission_object = edit_permission_object(
                             permission_object: permission_object,
                             action: 'remove',
                             new_permissions: new_permissions,
                             group_id: group_id
                           )
-      # permission_object = edit_permission_object(permission_object, 'add', new_permissions, group_id)
       permission_object = edit_permission_object(
                             permission_object: permission_object,
                             action: 'add',
@@ -277,9 +217,7 @@ module PermissionManagement
   end
 
   def create_target_permissions(targets_to_create:, permissions_params:, identity_type:, group_id:, successes: [], fails: [])
-
     permissions_to_create = permissions_params.select { |target, _perms| targets_to_create.include?(target) }
-    # identity_type = "#{type}_identity"
 
     permissions_to_create.each do |target, perms|
       new_perm = construct_permission_object(
@@ -291,7 +229,6 @@ module PermissionManagement
 
       new_perm_response = cmr_client.add_group_permissions(new_perm, token)
 
-      # target = new_perm.fetch(identity_type, {}).fetch('target', nil)
       log_target = target
       log_target = "#{current_user.provider_id} #{target}" if identity_type == 'provider_identity'
 
@@ -303,51 +240,8 @@ module PermissionManagement
         fails << target
       end
     end
-
-    # new_permissions = construct_new_permissions(permissions_to_create, type, group_id)
-    # identity_type = "#{type}_identity"
-    # new_permissions.each do |new_perm|
-    #   new_perm_response = cmr_client.add_group_permissions(new_perm, token)
-    #
-    #   target = new_perm.fetch(identity_type, {}).fetch('target', nil)
-    #   log_target = target
-    #   log_target = "#{current_user.provider_id} #{target}" if type == 'provider'
-    #
-    #   if new_perm_response.success?
-    #     Rails.logger.info("Create #{type.capitalize} Identity ACL for #{log_target} successfully created by #{current_user.urs_uid}")
-    #     successes << target
-    #   else
-    #     Rails.logger.error("Create #{type.capitalize} Identity ACL for #{log_target} error: #{new_perm_response.inspect}")
-    #     fails << target
-    #   end
-    # end
   end
 
-  # def construct_new_permissions(permissions, type, group_id)
-  #   permission_objects = []
-  #
-  #   identity_type = "#{type}_identity"
-  #   permissions.each do |target, perms|
-  #     # new_perm = {
-  #     #   'group_permissions' => [{
-  #     #     'group_id' => group_id,
-  #     #     'permissions' => perms
-  #     #   }],
-  #     #   identity_type => {
-  #     #     'target' => target
-  #     #   }
-  #     # }
-  #     # new_perm[identity_type]['provider_id'] = current_user.provider_id if type == 'provider'
-  #
-  #     new_perm = construct_permission_object(group_id, perms, target, type: type)
-  #
-  #     permission_objects << new_perm
-  #   end
-  #
-  #   permission_objects
-  # end
-
-  # def construct_permission_object(group_id, perms, target, options = { type: type })
   def construct_permission_object(group_id:, permissions:, target:, identity_type:, target_id: nil)
     new_perm = {
       'group_permissions' => [{
@@ -368,30 +262,10 @@ module PermissionManagement
       # TODO try to have catalog item acls use this method
     end
 
-    # identity_type = "#{options[:type]}_identity"
-    # new_perm[identity_type] = construct_acl_identity(target, options)
     new_perm[identity_type] = acl_identity
 
     new_perm
   end
-
-  # def construct_acl_identity(target, options = {})
-  #   # all acl identity have a target
-  #   acl_identity = { 'target' => target }
-  #
-  #   case options[:type]
-  #   when 'provider'
-  #     # provider identity acls require a provider_id
-  #     acl_identity['provider_id'] = current_user.provider_id
-  #   when 'single_instance'
-  #     # single instance identity (management group) acls require a target_id
-  #     acl_identity['target_id'] = options[:target_id]
-  #   # when 'catalog_item'
-  #     # TODO how to have catalog item acls use this method
-  #   end
-  #
-  #   acl_identity
-  # end
 
   def delete_target_permissions(targets_to_delete:, assembled_permissions:, identity_type:, successes: [], fails: [])
     permissions_to_delete = {}
@@ -436,7 +310,7 @@ module PermissionManagement
       end
 
       matching_group_permission.first['permissions'] = new_permissions
-      # new_perm['target_id'] = acl
+
       new_perm['acl'] = acl
       new_perm['concept_id'] = perm['concept_id']
       new_perm['target_group_name'] = target_group_name
@@ -450,24 +324,9 @@ module PermissionManagement
 
   def update_group_management_permissions(group_management_perms:, successes: [], fails: [])
     group_management_perms.each do |new_group_perm|
-      # fail
+
       concept_id = new_group_perm['concept_id']
       new_acl = new_group_perm['acl']
-
-      # update_permission_response = cmr_client.update_permission(new_acl, concept_id, token)
-      #
-      #
-      # # log_target = target
-      # log_target = "#{new_group_perm['target_group_name']} (#{new_group_perm['target_id']})"
-      # if update_permission_response.success?
-      #   # Rails.logger.info("#{type.capitalize} Identity ACL for #{log_target} successfully updated by #{current_user}")
-      #   Rails.logger.info("Single Instance Identity ACL for target #{log_target} by group #{@group_id} successfully updated by #{current_user}")
-      #   successes << "Group Management for [#{new_group_perm['target_group_name']}]"
-      # else
-      #   # Rails.logger.error("Update #{type.capitalize} Identity ACL for #{log_target} error: #{update_permission_response.inspect}")
-      #   Rails.logger.error("Update Single Instance Identity ACL for target #{log_target} by group #{@group_id} error: #{update_permission_response.inspect}")
-      #   fails << "Group Management for [#{new_group_perm['target_group_name']}]"
-      # end
 
       update_permission(
         acl_object: new_acl,
