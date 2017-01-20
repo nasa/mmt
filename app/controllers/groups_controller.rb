@@ -4,7 +4,7 @@ class GroupsController < ManageCmrController
 
   before_filter :groups_enabled?
   before_filter :check_if_system_group_administrator, except: [:index, :show, :destroy]
-  before_filter :set_system_and_provider_groups, only: [:new, :create, :edit, :update]
+  before_filter :set_system_and_provider_groups, except: [:index, :show, :destroy]
 
   add_breadcrumb 'Groups', :groups_path
 
@@ -72,51 +72,41 @@ class GroupsController < ManageCmrController
     @is_system_group = params[:system_group]
     @management_group_concept_id = params[:group].delete('initial_management_group')
 
-    # error_messages = []
+    @group['provider_id'] = current_user.provider_id unless @is_system_group
 
-    if valid_group?(@group)
-      @group['provider_id'] = current_user.provider_id unless @is_system_group
+    group_creation_response = cmr_client.create_group(@group, token)
 
-      group_creation_response = cmr_client.create_group(@group, token)
+    if group_creation_response.success?
+      success_messages = []
+      success_messages << 'Group was successfully created.'
+      concept_id = group_creation_response.body['concept_id']
 
-      if group_creation_response.success?
-        success_messages = []
-        concept_id = group_creation_response.body['concept_id']
-        # flash[:success] = 'Group was successfully created.'
-        success_messages << 'Group was successfully created.'
+      single_instance_identity_object = construct_permission_object(
+                                          group_id: @management_group_concept_id,
+                                          permissions: SingleInstanceIdentityPermissionsHelper::GROUP_MANAGEMENT_PERMISSIONS,
+                                          target: 'GROUP_MANAGEMENT',
+                                          identity_type: 'single_instance_identity',
+                                          target_id: concept_id
+                                        )
 
-        single_instance_identity_object = construct_permission_object(
-                                            group_id: @management_group_concept_id,
-                                            permissions: SingleInstanceIdentityPermissionsHelper::GROUP_MANAGEMENT_PERMISSIONS,
-                                            target: 'GROUP_MANAGEMENT',
-                                            identity_type: 'single_instance_identity',
-                                            target_id: concept_id
-                                          )
-
-        management_group_response = cmr_client.add_group_permissions(single_instance_identity_object, token)
-        if management_group_response.success?
-          Rails.logger.info("Single Instance Identity ACL for #{@management_group_concept_id} to manage #{concept_id} successfully created by #{current_user.urs_uid}")
-          success_messages << 'Initial Managment Group permission was successfully created.'
-        else
-          Rails.logger.error("Create Single Instance Identity ACL error: #{management_group_response.inspect}")
-          # error_messages << Array.wrap(management_group_response.body['errors'])[0]
-          flash[:error] = Array.wrap(management_group_response.body['errors'])[0]
-        end
-
-        flash[:success] = success_messages.join(', ') unless success_messages.blank?
-        # flash[:error] = error_messages.join(', ') unless error_messages.blank?
-
-        redirect_to group_path(concept_id)
+      management_group_response = cmr_client.add_group_permissions(single_instance_identity_object, token)
+      if management_group_response.success?
+        Rails.logger.info("Single Instance Identity ACL for #{@management_group_concept_id} to manage #{concept_id} successfully created by #{current_user.urs_uid}")
+        success_messages << 'Initial Managment Group permission was successfully created.'
       else
-        # Log error message
-        Rails.logger.error("Group Creation Error: #{group_creation_response.inspect}")
-
-        group_creation_error = Array.wrap(group_creation_response.body['errors'])[0]
-        flash[:error] = group_creation_error
-        set_previously_selected_members(group_params.fetch('members', []))
-        render :new
+        Rails.logger.error("Create Single Instance Identity ACL error: #{management_group_response.inspect}")
+        flash[:error] = Array.wrap(management_group_response.body['errors'])[0]
       end
+
+      flash[:success] = success_messages.join(', ') unless success_messages.blank?
+
+      redirect_to group_path(concept_id)
     else
+      # Log error message
+      Rails.logger.error("Group Creation Error: #{group_creation_response.inspect}")
+
+      group_creation_error = Array.wrap(group_creation_response.body['errors'])[0]
+      flash[:error] = group_creation_error
       set_previously_selected_members(group_params.fetch('members', []))
       render :new
     end
@@ -276,13 +266,12 @@ class GroupsController < ManageCmrController
     urs_users
   end
 
-  def set_system_and_provider_groups #(error_messages)
+  def set_system_and_provider_groups
     @system_groups = []
     @provider_groups = []
 
     filters = { provider: 'CMR', page_size: 50 }
     # get system groups
-    # use @user_is_system_group_admin as a check first?
     if @user_is_system_group_admin
       system_groups_response = cmr_client.get_cmr_groups(filters, token)
       if system_groups_response.success?
@@ -332,21 +321,5 @@ class GroupsController < ManageCmrController
 
   def groups_enabled?
     redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
-  end
-
-  def valid_group?(group)
-    # TODO: add requirement for management group OR delete this method and implementations
-    # b/c handled by jquery validate (and won't let it submit if invalid) ?
-    case
-    when group[:name].empty? && group[:description].empty?
-      flash[:error] = 'Group Name and Description are required.'
-    when group[:name].empty?
-      flash[:error] = 'Group Name is required.'
-    when group[:description].empty?
-      flash[:error] = 'Group Description is required.'
-    else
-      return true
-    end
-    false
   end
 end

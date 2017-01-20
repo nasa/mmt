@@ -66,7 +66,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
 
     redirect_to provider_identity_permissions_path and return if permissions_params.nil? && group_management_params.nil?
 
-    permissions_params ||= {}
+    permissions_params ||= {} # permissions_params might be nil even if group_management_params are not
     permissions_params.each { |_target, perms| perms.delete('') } unless permissions_params.nil?
     all_provider_permissions = get_permissions_for_identity_type(type: 'provider')
     # assemble permissions so they can be sorted and updated

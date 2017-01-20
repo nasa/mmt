@@ -66,7 +66,7 @@ class SystemIdentityPermissionsController < ManageCmrController
 
     redirect_to system_identity_permissions_path and return if permissions_params.nil? && group_management_params.nil?
 
-    permissions_params ||= {}
+    permissions_params ||= {} # permissions_params might be nil even if group_management_params are not
     permissions_params.each { |_target, perms| perms.delete('') } unless permissions_params.nil?
     all_system_permissions = get_permissions_for_identity_type(type: 'system')
     # assemble permissions so they can be sorted and updated
