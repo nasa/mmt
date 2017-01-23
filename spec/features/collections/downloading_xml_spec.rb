@@ -22,7 +22,7 @@ describe 'Downloading Collection XML', js: true do
         link = "http://localhost:3003/concepts/#{@concept_id}"
         token = 'access_token:81FEem91NlTQreWv2UgtXQ'
 
-        expect(page).to have_link('Native', href: "#{link}?token=#{token}")
+        expect(page).to have_link('Native', href: "#{link}.native?token=#{token}")
         expect(page).to have_link('ATOM', href: "#{link}.atom?token=#{token}")
         expect(page).to have_link('ECHO 10', href: "#{link}.echo10?token=#{token}")
         expect(page).to have_link('ISO 19115 (MENDS)', href: "#{link}.iso?token=#{token}")

@@ -123,11 +123,16 @@ class ApplicationController < ActionController::Base
   end
 
   def token_with_client_id
-    services = Rails.configuration.services
-    config = services['earthdata'][Rails.configuration.cmr_env]
-    client_id = services['urs'][Rails.env.to_s][config['urs_root']]
+    if Rails.env.development? && params[:controller] == 'collections' && params[:action] == 'show'
+      # in development, only for download_xml links, we need to use the tokens created on local cmr setup
+      'ABC-2'
+    else
+      services = Rails.configuration.services
+      config = services['earthdata'][Rails.configuration.cmr_env]
+      client_id = services['urs'][Rails.env.to_s][config['urs_root']]
 
-    "#{token}:#{client_id}"
+      "#{token}:#{client_id}"
+    end
   end
   helper_method :token_with_client_id
 
