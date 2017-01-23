@@ -126,7 +126,7 @@ class ApplicationController < ActionController::Base
     services = Rails.configuration.services
     config = services['earthdata'][Rails.configuration.cmr_env]
     client_id = services['urs'][Rails.env.to_s][config['urs_root']]
-
+    
     "#{token}:#{client_id}"
   end
   helper_method :token_with_client_id
