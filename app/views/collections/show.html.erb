@@ -74,7 +74,7 @@
               <% elsif current_user.available_providers.include?(@provider_id) %>
                 <%= link_to 'Clone this Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'clone' } %> |
               <% end %>
-              <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= @collection_link %>" data-token="<%= Rails.env.development? ? 'ABC-2' : token_with_client_id %>">Download XML</a>
+              <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= @collection_link %>" data-token="<%= token_with_client_id %>">Download XML</a>
               <% if current_user.provider_id == @provider_id %>
                 | <%= link_to 'Delete Record', "#delete-record-modal", class: 'display-modal delete-collection' %>
               <% elsif current_user.available_providers.include?(@provider_id) %>
