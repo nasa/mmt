@@ -79,7 +79,7 @@
 
         <h3>Custom Properties</h3>
         <% if @policy.key?('Properties') %>
-          <pre><%= @pretty_properties %></pre>
+          <pre><%= @policy.fetch('Properties', '') %></pre>
         <% else %>
           <p>This order policy contains no custom properties</p>
         <% end %>

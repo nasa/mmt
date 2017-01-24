@@ -1,5 +1,3 @@
-require 'rexml/document'
-
 class OrderPoliciesController < ManageCmrController
   include EchoSoap
 
@@ -10,12 +8,6 @@ class OrderPoliciesController < ManageCmrController
 
   def index
     set_policy
-
-    if @policy.key?('Properties')
-      # If the policy has additional properties, this will prettify them for display/readability
-      xml_doc = REXML::Document.new(@policy.fetch('Properties'))
-      xml_doc.write(@pretty_properties = '', 4)
-    end
   end
 
   def new
