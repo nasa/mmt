@@ -3,9 +3,9 @@ class ProviderIdentityPermissionsController < ManageCmrController
 
   before_filter :redirect_unless_current_provider_acl_admin, only: [:index, :edit, :update]
 
-  RESULTS_PER_PAGE = 25
-
   add_breadcrumb 'Provider Object Permissions', :provider_identity_permissions_path
+
+  RESULTS_PER_PAGE = 25
 
   def index
     # initialize empty group list

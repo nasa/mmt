@@ -3,8 +3,8 @@ class GroupsController < ManageCmrController
   include PermissionManagement
 
   before_filter :groups_enabled?
-  before_filter :check_if_system_group_administrator, except: [:index, :show, :destroy]
-  before_filter :set_system_and_provider_groups, except: [:index, :show, :destroy]
+  before_filter :check_if_system_group_administrator, :set_system_and_provider_groups, except: [:index, :show, :destroy]
+  # before_filter :set_system_and_provider_groups, except: [:index, :show, :destroy]
 
   add_breadcrumb 'Groups', :groups_path
 
@@ -90,12 +90,31 @@ class GroupsController < ManageCmrController
                                         )
 
       management_group_response = cmr_client.add_group_permissions(single_instance_identity_object, token)
+
       if management_group_response.success?
         Rails.logger.info("Single Instance Identity ACL for #{@management_group_concept_id} to manage #{concept_id} successfully created by #{current_user.urs_uid}")
         success_messages << 'Initial Managment Group permission was successfully created.'
-      else
+      else # TODO: mock an error response to verify and for tests
         Rails.logger.error("Create Single Instance Identity ACL error: #{management_group_response.inspect}")
-        flash[:error] = Array.wrap(management_group_response.body['errors'])[0]
+        # flash[:error] = Array.wrap(management_group_response.body['errors'])[0]
+
+        delete_group_response = cmr_client.delete_group(concept_id, token)
+
+        if delete_group_response.success?
+          # success_messages.clear
+          # form data is still available so will populate the form
+          flash[:error] = 'There was an issue creating the group. Please try again.'
+
+          render :new and return
+        else
+          # Just successfully created a group, but failed on creating a single
+          # instance identity (group management) acl, and then failed on deleting
+          # the group
+          Rails.logger.error("Group Deletion Error: #{delete_group_response.inspect}")
+          flash[:error] = "Group #{@group['name']} was created but there were some issues. Please delete this group and try again."
+
+          redirect_to group_path(concept_id) and return
+        end
       end
 
       flash[:success] = success_messages.join(', ') unless success_messages.blank?
@@ -104,10 +123,10 @@ class GroupsController < ManageCmrController
     else
       # Log error message
       Rails.logger.error("Group Creation Error: #{group_creation_response.inspect}")
-
       group_creation_error = Array.wrap(group_creation_response.body['errors'])[0]
       flash[:error] = group_creation_error
       set_previously_selected_members(group_params.fetch('members', []))
+
       render :new
     end
   end

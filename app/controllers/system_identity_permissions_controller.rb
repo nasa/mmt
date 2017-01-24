@@ -3,9 +3,9 @@ class SystemIdentityPermissionsController < ManageCmrController
 
   before_filter :redirect_unless_system_acl_admin, only: [:index, :edit, :update]
 
-  RESULTS_PER_PAGE = 25
-
   add_breadcrumb 'System Object Permissions', :system_identity_permissions_path
+
+  RESULTS_PER_PAGE = 25
 
   def index
     # Initialize an empty group list
