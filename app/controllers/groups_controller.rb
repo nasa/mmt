@@ -89,28 +89,20 @@ class GroupsController < ManageCmrController
                                           target_id: concept_id
                                         )
 
-      # fail
       management_group_response = cmr_client.add_group_permissions(single_instance_identity_object, token)
-      # mocking error
-      # {"errors":["The Acl Identity [single-instance:ag1200000180-mmt_1:group_management] must be unique. The following concepts with the same acl identity were found: [ACL1200000181-CMR]."]}
-      # mock_group_management_error = '{"errors":["The Acl Identity [single-instance:ag1200000180-mmt_1:group_management] must be unique. The following concepts with the same acl identity were found: [ACL1200000181-CMR]."]}'
-      # management_group_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(mock_group_management_error)))
+
       if management_group_response.success?
         Rails.logger.info("Single Instance Identity ACL for #{@management_group_concept_id} to manage #{concept_id} successfully created by #{current_user.urs_uid}")
         success_messages << 'Initial Managment Group permission was successfully created.'
-      else # TODO: mock an error response to verify and for tests
+      else
         Rails.logger.error("Create Single Instance Identity ACL error: #{management_group_response.inspect}")
-        # flash[:error] = Array.wrap(management_group_response.body['errors'])[0]
 
         delete_group_response = cmr_client.delete_group(concept_id, token)
-        # mock deleting error
-        # mock_delete_group_error = '{"errors":["You do not have permission to delete system-level access control group [Test Groupy Group]."]}'
-        # delete_group_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(mock_delete_group_error)))
+
         if delete_group_response.success?
-          # success_messages.clear
-          # form data is still available so will populate the form
-          flash[:error] = 'There was an issue creating the group. Please try again.'
+          # form data is still available to populate the form
           set_previously_selected_members(group_params.fetch('members', []))
+          flash[:error] = 'There was an issue creating the group. Please try again.'
 
           render :new and return
         else
@@ -129,8 +121,6 @@ class GroupsController < ManageCmrController
       redirect_to group_path(concept_id)
     else
       # Log error message
-      # fail
-      # mock_group_management_error = '{"errors":["A provider group with name [Group 4] already exists with concept id [AG1200000179-MMT_1] for provider [MMT_1]."]}'
       Rails.logger.error("Group Creation Error: #{group_creation_response.inspect}")
       group_creation_error = Array.wrap(group_creation_response.body['errors'])[0]
       flash[:error] = group_creation_error
