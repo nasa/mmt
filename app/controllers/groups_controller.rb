@@ -4,7 +4,6 @@ class GroupsController < ManageCmrController
 
   before_filter :groups_enabled?
   before_filter :check_if_system_group_administrator, :set_system_and_provider_groups, except: [:index, :show, :destroy]
-  # before_filter :set_system_and_provider_groups, except: [:index, :show, :destroy]
 
   add_breadcrumb 'Groups', :groups_path
 
