@@ -1,6 +1,6 @@
 module Helpers
   module GroupHelper
-    def create_group(provider_id: 'MMT_2', name: random_group_name, description: random_group_description, members: [], admin: false)
+    def create_group(provider_id: 'MMT_2', name: random_group_name, description: random_group_description, management_group: 'AG1200000001-CMR', members: [], admin: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
         group_params = {
           'name'        => name,
@@ -11,10 +11,29 @@ module Helpers
 
         # If members were provided, include them in the payload
         group_params['members'] = members if members.any?
-        
+
         group_response = cmr_client.create_group(group_params, admin ? 'access_token_admin' : 'access_token')
 
         raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
+
+        wait_for_cmr
+
+        concept_id = group_response.body['concept_id']
+
+        single_instance_identity_object = {
+          'group_permissions' => [{
+            'group_id' => management_group, # default management group is Administrators_2 created on setup cmr
+            'permissions' => ['update', 'delete']
+          }],
+          'single_instance_identity' => {
+            'target' => 'GROUP_MANAGEMENT',
+            'target_id' => concept_id
+          }
+        }
+        # create the single_instance_identity acl for the initial management group for the group
+        management_group_response = cmr_client.add_group_permissions(single_instance_identity_object, admin ? 'access_token_admin' : 'access_token')
+
+        raise Array.wrap(management_group_response.body['errors']).join(' /// ') if management_group_response.body.key?('errors')
 
         wait_for_cmr
 

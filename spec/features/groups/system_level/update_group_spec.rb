@@ -14,11 +14,12 @@ describe 'Updating System Level Groups', js: true do
         admin: true,
         members: %w(abcd mnop qrst uvw)
       )
+      # default management group for create_group is 'Administrators_2'
     end
 
     after :all do
       # System level groups need to be cleaned up to avoid attempting to create
-      # a group with the same name in a nother test (Random names don't seem to be reliable)
+      # a group with the same name in another test (Random names don't seem to be reliable)
       delete_group(concept_id: @group['concept_id'], admin: true)
     end
 
@@ -38,6 +39,12 @@ describe 'Updating System Level Groups', js: true do
       expect(page).to have_field('Name', with: @group_name)
       expect(page).to have_checked_field('System Level Group?')
       expect(page).to have_field('Description', with: @group_description)
+
+      expect(page).to have_select('Initial Management Group', disabled: true)
+      # since Initial Management Group is disabled, cannot match value using 'selected' or 'with'
+      within '#group_initial_management_group' do
+        have_css('option', value: 'AG1200000001-CMR', selected: true)
+      end
     end
 
     it 'has the approprate fields disabled' do
@@ -47,6 +54,8 @@ describe 'Updating System Level Groups', js: true do
       uncheck 'System Level Group?'
 
       expect(page).to have_checked_field('System Level Group?')
+
+      expect(page).to have_select('Initial Management Group', disabled: true)
     end
 
     context 'when updating the system level group' do
@@ -67,6 +76,7 @@ describe 'Updating System Level Groups', js: true do
 
         expect(page).to have_content(@group_name)
         expect(page).to have_content(new_group_description)
+        expect(page).to have_content('Administrators_2')
 
         # SYS badge
         expect(page).to have_content('SYS')

@@ -10,7 +10,7 @@
   </div>
 </fieldset>
 
-<% if @user_is_system_group_admin %>    
+<% if @user_is_system_group_admin %>
 <fieldset>
   <div class="row checkbox-group">
     <!-- checkbox to ask if user wants to create system level group -->
@@ -26,6 +26,19 @@
   </div>
   <div class="row">
     <%= text_area_tag('group[description]', @group['description'], cols: 30, rows: 3, class: 'required') %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <div class="row">
+    <%= label_tag('group[initial_management_group]', 'Initial Management Group', class: 'eui-required-o') %>
+    <%= select_tag('group[initial_management_group]', options_for_select(set_provider_and_system_group_options, @management_group_concept_id),
+                   class: 'initial-management-group-select required', disabled: !new_form ) %>
+
+    <% if new_form %>
+      <%= hidden_field_tag('system_group_options', options_for_select(set_system_group_options)) %>
+      <%= hidden_field_tag('provider_and_system_group_options', options_for_select(set_provider_and_system_group_options)) %>
+    <% end %>
   </div>
 </fieldset>
 

@@ -1,0 +1,8 @@
+/* ===================================================== *\
+   Cursor
+\* ===================================================== */
+
+.tablesorter thead th.header {
+  // for tablesorter th cells in columns that are being sorted on
+  cursor: pointer;
+}

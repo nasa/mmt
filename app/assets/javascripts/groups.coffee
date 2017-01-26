@@ -26,7 +26,7 @@ $(document).ready ->
       lastName = $('#invite_last_name').val('')
       email = $('#invite_email').val('')
 
-    # We're using 'readonly' instead 'disabled' which still 
+    # We're using 'readonly' instead 'disabled' which still
     # allows the following actions so we're manually disabling them
     $('.system-group-checkbox[readonly]')
       .on 'click', ->
@@ -41,9 +41,19 @@ $(document).ready ->
       # Toggle the display of the SYS badge
       $('#badge-container').toggle()
 
-      # Toggle the provider based on whether or not the 
+      $initialManagementGroup = $('#group_initial_management_group')
+
+      # Toggle the provider based on whether or not the
       # System Level Group checkbox is checked
       if this.checked
-        $('h2 .provider-context').text('CMR')        
+        $('h2 .provider-context').text('CMR')
+
+        # show only system groups in initial management group select if creating a system group
+        system_group_options = $('#system_group_options').val()
+        $initialManagementGroup.empty().append(system_group_options)
       else
         $('h2 .provider-context').text(provider)
+
+        # show provider and system groups in initial management group select if creating a provider group
+        provider_and_system_group_options = $('#provider_and_system_group_options').val()
+        $initialManagementGroup.empty().append(provider_and_system_group_options)
