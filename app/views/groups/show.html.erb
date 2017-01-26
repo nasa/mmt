@@ -9,14 +9,12 @@
 
     <p><%= @group.fetch('description') %></p>
 
-    <h4>Management Group(s)</h4>
-      <% if @management_groups.blank? %>
-        <p>No Management Groups found.</p>
-      <% else %>
-        <% @management_groups.each do |management_group| %>
-          <p><%= management_group.fetch('name', '') %></p>
-        <% end %>
-      <% end %>
+    <h4>Management Groups</h4>
+    <% if @management_groups.blank? %>
+      <p>No Management Groups found.</p>
+    <% else %>
+      <p><%= @management_groups.map { |group| group['name'] }.to_sentence %></p>
+    <% end %>
 
     <h3>Members</h3>
 

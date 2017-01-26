@@ -76,8 +76,6 @@ class GroupsController < ManageCmrController
     group_creation_response = cmr_client.create_group(@group, token)
 
     if group_creation_response.success?
-      success_messages = []
-      success_messages << 'Group was successfully created.'
       concept_id = group_creation_response.body['concept_id']
 
       single_instance_identity_object = construct_permission_object(
@@ -92,7 +90,6 @@ class GroupsController < ManageCmrController
 
       if management_group_response.success?
         Rails.logger.info("Single Instance Identity ACL for #{@management_group_concept_id} to manage #{concept_id} successfully created by #{current_user.urs_uid}")
-        success_messages << 'Initial Managment Group permission was successfully created.'
       else
         Rails.logger.error("Create Single Instance Identity ACL error: #{management_group_response.inspect}")
 
@@ -114,8 +111,7 @@ class GroupsController < ManageCmrController
           redirect_to group_path(concept_id) and return
         end
       end
-
-      flash[:success] = success_messages.join(', ') unless success_messages.blank?
+      flash[:success] = 'Group was successfully created.'
 
       redirect_to group_path(concept_id)
     else
