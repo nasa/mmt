@@ -23,10 +23,27 @@
     <span>(Inclusive)</span>
   </div>
   <div class="row">
-    <input type="checkbox" name="undefined-val" id="undefind-val">
+    <input type="checkbox" name="undefined-val" id="undefined-val">
     <label for="undefined-val">Include undefined value</label>
   </div>
 </fieldset> -->
+<fieldset>
+    <div class="row">
+      <div class="col-6">
+        <%= label_tag 'collection_access_value', 'Collections Access Constraint Filter' do %>
+          Collections Access Constraint Filter
+          <%= label_tag 'collection_access_value[min_value]', 'Minimum Access Constraint Value' %>
+          <%= number_field_tag 'collection_access_value[min_value]', @collection_access_value[:min_value], class: 'full-width' %>
+          <%= label_tag 'collection_access_value[max_value]', 'Maximum Access Constraint Value' %>
+          <%= number_field_tag 'collection_access_value[max_value]', @collection_access_value[:max_value], class: 'full-width' %>
+          <%= label_tag 'collection_access_value[include_undefined_value]' do %>
+          <%= check_box_tag('collection_access_value[include_undefined_value]', true, @collection_access_value[:include_undefined_value] ) %>
+          Include Undefined
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+</fieldset>
 
 <fieldset>
   <%= label_tag 'granule_options', 'Granules', class: 'required eui-required-o' %>

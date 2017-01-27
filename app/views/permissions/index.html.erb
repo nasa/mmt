@@ -25,14 +25,14 @@
           <% @permissions.each_with_index do |permission, index| %>
             <tr>
               <td>
-                <%= link_to permission["name"], permission_path(permission['concept_id'])  %>
+                <%= link_to permission['name'], permission_path(permission['concept_id'])  %>
               </td>
               <td>
-                <%= permission["permission_summary"] %>
+                <%= permission['permission_summary'] %>
               </td>
               <td><%= link_to 'Edit', edit_permission_path(permission['concept_id']) %></td>
               <td>
-                <%= link_to 'Delete',"#delete-permission-modal-#{index}", class: 'display-modal' %>
+                <%= link_to 'Delete', "#delete-permission-modal-#{index}", class: 'display-modal' %>
 
                 <div id='delete-permission-modal-<%= index %>' class="eui-modal-content">
                   <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
