@@ -12,12 +12,17 @@
       <%= @collection_entry_ids.to_sentence unless @collection_entry_ids.blank? %>
       <p>
         <% unless @collection_access_value.blank? %>
-          <%= display_access_constraints(@collection_access_value) %>
+          Collections <%= display_access_constraints(@collection_access_value) %>
         <% end %>
       </p>
     </p>
     <p>
       <b>Granules | <%= @granule_options ? 'All Granules in Selected Collection Records' : 'No Access to Granules' %></b>
+      <p>
+        <% unless @granule_access_value.blank? %>
+          Granules <%= display_access_constraints(@granule_access_value) %>
+        <% end %>
+      </p>
     </p>
 
     <table class="space-top space-bot align-c" id="permission-groups-table">
