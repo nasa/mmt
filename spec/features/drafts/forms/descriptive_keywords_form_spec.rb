@@ -19,6 +19,7 @@ describe 'Descriptive keywords form', js: true do
 
       # Science keywords
       add_science_keywords
+      add_science_keywords_suggestion
 
       # Ancillary Keywords
       within '.multiple.ancillary-keywords' do
@@ -71,6 +72,7 @@ describe 'Descriptive keywords form', js: true do
       expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
       expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
       expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
+      expect(page).to have_no_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS > MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
 
       # Ancillary Keywords
       within '.multiple.ancillary-keywords' do

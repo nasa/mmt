@@ -543,6 +543,18 @@ module Helpers
       click_on 'Add Keyword'
     end
 
+
+    def add_science_keywords_suggestion
+      choose_keyword 'EARTH SCIENCE SERVICES'
+      choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
+      choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
+
+      find('#science-keyword-search').set('mobile')
+      find('#science-keyword-search').click()
+      find('.tt-open').click()
+    end
+
+
     def add_location_keywords
       choose_keyword 'GEOGRAPHIC REGION'
       choose_keyword 'ARCTIC'
@@ -559,5 +571,10 @@ module Helpers
       script = "$('.eui-item-list-pane li.item:contains(#{text}) > a').click()"
       page.execute_script(script)
     end
+
+    def enter_keyword_search(text)
+      script = "$('.eui-item-list-pane')"
+    end
+
   end
 end

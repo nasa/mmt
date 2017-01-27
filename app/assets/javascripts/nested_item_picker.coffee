@@ -126,7 +126,7 @@ $(document).ready ->
 
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
-      result = picker.getValues(true)
+      result = picker.getFinalValues()
       selectedValues = result[0]
       isFinal = result[1]
       selectedValues = selectedValues[0].split(' > ')

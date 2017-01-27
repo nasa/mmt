@@ -33,7 +33,15 @@
   options = $.extend({}, @getDefaults(), @$element.data(), options)
   options
 
-@NestedItemPicker::getValues = (getIsFinalOption) ->
+
+@NestedItemPicker::getFinalValues = () ->
+  return @_getAllValues(true)
+
+@NestedItemPicker::getValues = () ->
+  return @_getAllValues(false)
+
+
+@NestedItemPicker::_getAllValues = (getIsFinalOption) ->
   pickerElement = @$element
   values = []
   items = []
