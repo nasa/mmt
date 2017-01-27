@@ -80,6 +80,7 @@ class PermissionsController < ManageCmrController
 
   def new
     @collection_access_value = {}
+    @granule_access_value = {}
     @groups = get_groups_for_permissions # check comments in methods. want to try and consolidate what is used for other controllers
 
     add_breadcrumb 'New', new_permissions_path
@@ -121,11 +122,11 @@ class PermissionsController < ManageCmrController
     # end
     #############################################
 
+    # fail
 
     # TODO: can do this without passing in provider_id?
     # should add text on form to say it will be for current provider?
     request_object = construct_request_object(current_user.provider_id)
-    # fail
 
     response = cmr_client.add_group_permissions(request_object, token)
 
@@ -384,12 +385,44 @@ class PermissionsController < ManageCmrController
     @collection_access_value = params[:collection_access_value] || {}
     unless @collection_access_value.blank?
     # if params[:collection_access_value]
-      # collection_identifier = req_obj.fetch('collection_identifier', {})
-      @collection_access_value['min_value'] = @collection_access_value['min_value'].to_f if @collection_access_value['min_value']
-      @collection_access_value['max_value'] = @collection_access_value['max_value'].to_f if @collection_access_value['max_value']
+      # @collection_access_value['min_value'] = @collection_access_value['min_value'].to_f unless @collection_access_value['min_value'].blank?
+      # @collection_access_value['max_value'] = @collection_access_value['max_value'].to_f unless @collection_access_value['max_value'].blank?
+      # @collection_access_value['include_undefined_value'] = true if @collection_access_value['include_undefined_value'] == 'true'
+
+      @collection_access_value.each do |key, val|
+        if val.blank?
+          @collection_access_value.delete(key)
+        elsif val == 'true'
+          @collection_access_value[key] = true
+        else
+          @collection_access_value[key] = val.to_f
+        end
+      end
+
       collection_identifier['access_value'] = @collection_access_value
     end
     req_obj['catalog_item_identity']['collection_identifier'] = collection_identifier unless collection_identifier.blank?
+
+    granule_identifier = req_obj.fetch('granule_identifier', {})
+    @granule_access_value = params[:granule_access_value] || {}
+    unless @granule_access_value.blank?
+      # @granule_access_value['min_value'] = @granule_access_value['min_value'].to_f unless @granule_access_value['min_value'].blank?
+      # @granule_access_value['max_value'] = @granule_access_value['max_value'].to_f unless @granule_access_value['max_value'].blank?
+      # @granule_access_value['include_undefined_value'] = true if @granule_access_value['include_undefined_value'] == 'true'
+
+      @granule_access_value.each do |key, val|
+        if val.blank?
+          @granule_access_value.delete(key)
+        elsif val == 'true'
+          @granule_access_value[key] = true
+        else
+          @granule_access_value[key] = val.to_f
+        end
+      end
+
+      granule_identifier['access_value'] = @granule_access_value
+    end
+    req_obj['catalog_item_identity']['granule_identifier'] = granule_identifier unless granule_identifier.blank?
     # fail
 
     search_groups = params[:search_groups] || []
@@ -588,6 +621,8 @@ class PermissionsController < ManageCmrController
         @collection_selections = selected_collections.join(delimiter)
       end
     end
+
+    @granule_access_value = catalog_item_identity.fetch('granule_identifier', {}).fetch('access_value', {})
 
     # need to check collection_identifier for access_value (and entry_titles - as above)
       # entry titles is an array

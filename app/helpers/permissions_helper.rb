@@ -17,19 +17,15 @@ module PermissionsHelper
       409 => 'This permission could not be created because there is already another permission with the same name.',
       403 => 'You are not authorized to create a permission. Please contact your system administrator.'
   }
+  # 401 comes in as {"errors"=>["Permission to create ACL is denied"]}
 
-  def display_access_constraints(access_value) # want 'type' for Collection/Granule?
+  def display_access_constraints(access_value)
     display_text = "Access Constraint Filter: "
     filters = []
     if access_value['min_value'] && access_value['max_value']
-      range = "Match range #{access_value['min_value']} to #{access_value['max_value']}"
-            # else
-            #   'no'
-      filters << range
+      filters << "Match range #{access_value['min_value']} to #{access_value['max_value']}"
     end
-    # match_undefined = access_value['include_undefined_value'] == 'true' ? 'yes' : nil
     filters << 'Include Undefined' if access_value['include_undefined_value'] == true
-    # fail
 
     display_text << filters.join(', ')
     display_text

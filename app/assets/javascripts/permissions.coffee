@@ -80,10 +80,12 @@ $(document).ready ->
         $('#chooser-widget').hide()
 
     $('#granule_options').on 'change', ->
-      if $(this).val() == 'access-constraint-granule'
-        $('#granules-constraint-values').removeClass 'is-hidden'
+      if $(this).val() == 'all-granules'
+        # $('#granules-constraint-values').removeClass 'is-hidden'
+        $('#granule_constraint_values').removeClass 'is-hidden'
       else
-        $('#granules-constraint-values').addClass 'is-hidden'
+        # $('#granules-constraint-values').addClass 'is-hidden'
+        $('#granule_constraint_values').addClass 'is-hidden'
 
 
 
@@ -105,7 +107,7 @@ $(document).ready ->
 
       # This library handles focus oddly, this ensures that we scroll
       # to and focus on the first element with an error in the form
-      onfocusout: false    
+      onfocusout: false
       invalidHandler: (form, validator) ->
         if validator.numberOfInvalids() > 0
           validator.errorList[0].element.focus()
