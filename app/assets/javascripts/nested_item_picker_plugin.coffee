@@ -33,10 +33,11 @@
   options = $.extend({}, @getDefaults(), @$element.data(), options)
   options
 
-@NestedItemPicker::getValues = ->
+@NestedItemPicker::getValues = (getIsFinalOption) ->
   pickerElement = @$element
   values = []
   items = []
+  isFinalOption = false
 
   itemElements = pickerElement.find('.eui-item-path > li').not('.eui-item-path > li.list-title')
   $.each itemElements, (index, element) ->
@@ -45,6 +46,7 @@
   finalOption = pickerElement.find('.final-option-selected')
   parentItems = items.slice()
   if finalOption.length > 0
+    isFinalOption = true
     $.each finalOption, (index, option) ->
       items = parentItems.slice()
       items.push option.text
@@ -52,7 +54,11 @@
   else
     values.push items.join(' > ')
 
-  values
+
+  if getIsFinalOption
+    [values, isFinalOption]
+  else
+    values
 
 @NestedItemPicker::resetPicker = ->
   @$element.find('.eui-item-path > li.list-title').click()
