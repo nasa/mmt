@@ -363,7 +363,7 @@ class PermissionsController < ManageCmrController
     }
 
     # set collection_identifier
-    collection_identifier = req_obj.fetch('collection_identifier', {})
+    collection_identifier = req_obj.fetch('catalog_item_identity', {}).fetch('collection_identifier', {})
     if params[:collection_options] == 'selected-ids-collections'
       # The split character below is determined by the Chooser widget configuration. We are using this unusual
       # delimiter because collection entry titles could contain commas.
@@ -399,30 +399,32 @@ class PermissionsController < ManageCmrController
         end
       end
 
-      collection_identifier['access_value'] = @collection_access_value
+      collection_identifier['access_value'] = @collection_access_value unless @collection_access_value.blank?
     end
     req_obj['catalog_item_identity']['collection_identifier'] = collection_identifier unless collection_identifier.blank?
 
-    granule_identifier = req_obj.fetch('granule_identifier', {})
     @granule_access_value = params[:granule_access_value] || {}
-    unless @granule_access_value.blank?
-      # @granule_access_value['min_value'] = @granule_access_value['min_value'].to_f unless @granule_access_value['min_value'].blank?
-      # @granule_access_value['max_value'] = @granule_access_value['max_value'].to_f unless @granule_access_value['max_value'].blank?
-      # @granule_access_value['include_undefined_value'] = true if @granule_access_value['include_undefined_value'] == 'true'
+    if granule_applicable
+      granule_identifier = req_obj.fetch('catalog_item_identity', {}).fetch('granule_identifier', {})
+      unless @granule_access_value.blank?
+        # @granule_access_value['min_value'] = @granule_access_value['min_value'].to_f unless @granule_access_value['min_value'].blank?
+        # @granule_access_value['max_value'] = @granule_access_value['max_value'].to_f unless @granule_access_value['max_value'].blank?
+        # @granule_access_value['include_undefined_value'] = true if @granule_access_value['include_undefined_value'] == 'true'
 
-      @granule_access_value.each do |key, val|
-        if val.blank?
-          @granule_access_value.delete(key)
-        elsif val == 'true'
-          @granule_access_value[key] = true
-        else
-          @granule_access_value[key] = val.to_f
+        @granule_access_value.each do |key, val|
+          if val.blank?
+            @granule_access_value.delete(key)
+          elsif val == 'true'
+            @granule_access_value[key] = true
+          else
+            @granule_access_value[key] = val.to_f
+          end
         end
-      end
 
-      granule_identifier['access_value'] = @granule_access_value
+        granule_identifier['access_value'] = @granule_access_value unless @granule_access_value.blank?
+      end
+      req_obj['catalog_item_identity']['granule_identifier'] = granule_identifier unless granule_identifier.blank?
     end
-    req_obj['catalog_item_identity']['granule_identifier'] = granule_identifier unless granule_identifier.blank?
     # fail
 
     search_groups = params[:search_groups] || []
