@@ -32,5 +32,9 @@
         <% end %>
       </tbody>
     </table>
+
+    <% if policy(:service_entry).edit? %>
+      <%= link_to 'Edit', edit_service_entry_path(@service_entry.fetch('Guid')), class: 'eui-btn' %>
+    <% end %>
   </section>
 </div>

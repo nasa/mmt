@@ -48,7 +48,7 @@ describe 'Updating a Service Option' do
           end
         end
 
-        it 'creates the service option and displays a confirmation message' do
+        it 'updates the service option and displays a confirmation message' do
           expect(page).to have_content('Service Option successfully updated')
         end
       end

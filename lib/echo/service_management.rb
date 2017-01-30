@@ -88,6 +88,37 @@ module Echo
       make_request(@url, payload)
     end
 
+    # Updates existing service entries.
+    def update_service_entry(token, payload)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:UpdateServiceEntries, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:serviceEntries) do
+          builder.ns3(:Item) do
+            builder.ns3(:Guid, payload.fetch('Guid')) if payload.key?('Guid')
+            builder.ns3(:ProviderGuid, payload.fetch('ProviderGuid')) if payload.key?('ProviderGuid')
+            builder.ns3(:Name, payload.fetch('Name')) if payload.key?('Name')
+            builder.ns3(:Url, payload.fetch('Url')) if payload.key?('Url')
+            builder.ns3(:Description, payload.fetch('Description')) if payload.key?('Description')
+            builder.ns3(:EntryType, payload.fetch('EntryType')) if payload.key?('EntryType')
+
+            if payload.key?('TagGuids') && payload.fetch('TagGuids', []).any?
+              builder.ns3(:TagGuids) do
+                Array.wrap(payload.fetch('TagGuids', [])).each do |g|
+                  builder.ns3(:Item, g)
+                end
+              end
+            end
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
+
     # Gets the names and guids of the service option definitions indicated. If guids
     # is null then all of the service option definition names will be retrieved. If
     # the token is on behalf of a provider then all of the provider's service option

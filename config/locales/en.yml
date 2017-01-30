@@ -41,3 +41,5 @@ en:
     service_entry_policy:
       new?: 'You are not permitted to create new Service Entries.'
       create?: 'You are not permitted to create new Service Entries.'
+      edit?: 'You are not permitted to update Service Entries.'
+      update?: 'You are not permitted to update Service Entries.'

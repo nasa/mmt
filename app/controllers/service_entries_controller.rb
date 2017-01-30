@@ -41,6 +41,13 @@ class ServiceEntriesController < ManageCmrController
     add_breadcrumb 'New', new_service_entry_path
   end
 
+  def edit
+    authorize :service_entry
+
+    add_breadcrumb @service_entry.fetch('Name'), service_entry_path(@service_entry.fetch('Guid', nil))
+    add_breadcrumb 'Edit', edit_service_entry_path(@service_entry.fetch('Guid', nil))
+  end
+
   def create
     authorize :service_entry
 
@@ -58,6 +65,36 @@ class ServiceEntriesController < ManageCmrController
 
       redirect_to service_entry_path(response.parsed_body)
     end
+  end
+
+  def update
+    authorize :service_entry
+
+    @service_entry = generate_payload
+
+    response = echo_client.update_service_entry(token_with_client_id, @service_entry)
+
+    if response.error?
+      flash[:error] = response.error_message
+
+      render :edit
+    else
+      redirect_to service_entry_path(params[:id]), flash: { success: 'Service Entry successfully updated' }
+    end
+  end
+
+  def destroy
+    authorize :service_entry
+
+    response = echo_client.remove_service_entry(token_with_client_id, params[:id])
+
+    if response.error?
+      flash[:error] = response.error_message
+    else
+      flash[:success] = 'Service Entry successfully deleted'
+    end
+
+    redirect_to service_entries_path
   end
 
   private
