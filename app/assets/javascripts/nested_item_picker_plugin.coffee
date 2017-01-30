@@ -35,13 +35,13 @@
 
 
 @NestedItemPicker::getFinalValues = () ->
-  return @_getAllValues(true)
+
 
 @NestedItemPicker::getValues = () ->
-  return @_getAllValues(false)
+  return @getFinalValues()[0]
 
 
-@NestedItemPicker::_getAllValues = (getIsFinalOption) ->
+@NestedItemPicker::getFinalValues = () ->
   pickerElement = @$element
   values = []
   items = []
@@ -62,11 +62,7 @@
   else
     values.push items.join(' > ')
 
-
-  if getIsFinalOption
-    [values, isFinalOption]
-  else
-    values
+  [values, isFinalOption]
 
 @NestedItemPicker::resetPicker = ->
   @$element.find('.eui-item-path > li.list-title').click()
