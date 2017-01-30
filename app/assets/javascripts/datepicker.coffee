@@ -1,5 +1,5 @@
 $(document).ready ->
-  $('body').on 'focus', 'input[type="datetime"]', ->
+  $('.metadata-form').on 'focus', 'input[type="datetime"]', ->
     pickerOpts =
       startView: 2
       format: 'yyyy-mm-dd'

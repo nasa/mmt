@@ -1,6 +1,23 @@
 $(document).ready ->
+  $('.track-orders-form .datetimepicker').datetimepicker
+    timeZone: 'UTC'
+    format: 'YYYY-MM-DD[T]HH:mm:ss'
+    showClear: true
+    showClose: true
+    useCurrent: false
+    icons:
+      time: 'fa fa-clock-o'
+      date: 'fa fa-calendar'
+      up: 'fa fa-chevron-up'
+      down: 'fa fa-chevron-down'
+      previous: 'fa fa-chevron-left'
+      next: 'fa fa-chevron-right'
+      today: 'fa fa-calendar-check-o'
+      clear: 'fa fa-trash-o'
+      close: 'fa fa-close'
+
   $('.datetimepicker').datetimepicker
-    # Prevents the picker from adjusting the time displayed to 
+    # Prevents the picker from adjusting the time displayed to
     # the users local timezone. This requires moment-timezone.js
     timeZone: 'UTC'
 
