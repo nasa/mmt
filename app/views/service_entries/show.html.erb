@@ -1,0 +1,36 @@
+<div class="row row-content">
+  <section>
+    <h2><%= @service_entry['Name'] %></h2>
+
+    <p>
+      <span class="inline-label">URL:</span>
+      <%= @service_entry['Url'] %>
+    </p>
+
+    <p>
+      <span class="inline-label">Description:</span>
+      <%= @service_entry['Description'] %>
+    </p>
+
+    <table class="space-top space-bot" id="tag-list">
+      <thead>
+        <tr>
+          <th>Associated Collections</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if collections_from_service_entry_tags(@service_entry).empty? %>
+          <tr>
+            <td>No collections are associated with <%= @service_entry['Name'] %>.</td>
+          </tr>
+        <% else %>
+          <% collections_from_service_entry_tags(@service_entry).each do |collection| %>
+            <tr>
+              <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {}).fetch('concept-id')), target: '_blank' %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+</div>
