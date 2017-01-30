@@ -43,3 +43,4 @@ en:
       create?: 'You are not permitted to create new Service Entries.'
       edit?: 'You are not permitted to update Service Entries.'
       update?: 'You are not permitted to update Service Entries.'
+      destroy?: 'You are not permitted to delete Service Entries.'

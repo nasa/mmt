@@ -15,4 +15,8 @@ class ServiceEntryPolicy < ProviderPolicy
   def update?
     user_has_permission_to('update', 'EXTENDED_SERVICE')
   end
+
+  def destroy?
+    user_has_permission_to('delete', 'EXTENDED_SERVICE')
+  end
 end

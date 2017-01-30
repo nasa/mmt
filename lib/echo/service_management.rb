@@ -119,6 +119,25 @@ module Echo
       make_request(@url, payload)
     end
 
+    # Removes service entries.
+    def remove_service_entry(token, guids)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:RemoveServiceEntries, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+
+        builder.ns2(:serviceEntryGuids) do
+          Array.wrap(guids).each do |g|
+            builder.ns3(:Item, g)
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
+
     # Gets the names and guids of the service option definitions indicated. If guids
     # is null then all of the service option definition names will be retrieved. If
     # the token is on behalf of a provider then all of the provider's service option
