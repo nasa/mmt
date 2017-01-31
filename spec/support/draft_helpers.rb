@@ -571,10 +571,5 @@ module Helpers
       script = "$('.eui-item-list-pane li.item:contains(#{text}) > a').click()"
       page.execute_script(script)
     end
-
-    def enter_keyword_search(text)
-      script = "$('.eui-item-list-pane')"
-    end
-
   end
 end

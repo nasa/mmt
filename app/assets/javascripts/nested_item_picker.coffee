@@ -126,17 +126,8 @@ $(document).ready ->
 
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
-      result = picker.getFinalValues()
-      selectedValues = result[0]
-      isFinal = result[1]
-      selectedValues = selectedValues[0].split(' > ')
-      keyword = selectedValues.filter (value) ->
-        value != ''
-
-      # if the keyword is final, remove the last term from the picker,
-      # which will be replaced by the suggestion
-      if(isFinal)
-        keyword.pop()
+      keyword = picker.getParents()
+      keyword.push(suggestion) unless suggestion == keyword[keyword.length - 1]
 
       # prevent adding final option twice (when it is selected and also searched for)
       keyword.push(suggestion) unless suggestion == keyword[keyword.length - 1]

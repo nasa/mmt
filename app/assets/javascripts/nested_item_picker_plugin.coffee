@@ -34,25 +34,31 @@
   options
 
 
-@NestedItemPicker::getFinalValues = () ->
+@NestedItemPicker::getParents = () ->
+  pickerElement = @$element
+  values = []
+  items = []
+  parents = []
 
+  itemElements = pickerElement.find('.eui-item-path > li').not('.eui-item-path > li.list-title')
+  $.each itemElements, (index, element) ->
+    items.push $(element).text()
+  items
 
 @NestedItemPicker::getValues = () ->
-  return @getFinalValues()[0]
-
-
-@NestedItemPicker::getFinalValues = () ->
   pickerElement = @$element
   values = []
   items = []
   isFinalOption = false
 
   itemElements = pickerElement.find('.eui-item-path > li').not('.eui-item-path > li.list-title')
+
   $.each itemElements, (index, element) ->
     items.push $(element).text()
 
   finalOption = pickerElement.find('.final-option-selected')
-  parentItems = items.slice()
+
+  parentItems = @getParents()
   if finalOption.length > 0
     isFinalOption = true
     $.each finalOption, (index, option) ->
@@ -62,7 +68,7 @@
   else
     values.push items.join(' > ')
 
-  [values, isFinalOption]
+  values
 
 @NestedItemPicker::resetPicker = ->
   @$element.find('.eui-item-path > li.list-title').click()
