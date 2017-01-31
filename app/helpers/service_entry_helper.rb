@@ -8,7 +8,7 @@ module ServiceEntryHelper
   def tag_guids_for_tag_group(service_entry, tag_group)
     guids = service_entry_tags(service_entry)
 
-    return [] if guids.empty?
+    return [] if guids.blank?
 
     # The first element of the tag strings ARE the tag group. We'll group
     # by that value and return the requested group. This saves a fair amount
@@ -22,7 +22,7 @@ module ServiceEntryHelper
   def concept_ids_from_service_entry_tags(service_entry)
     guids = tag_guids_for_tag_group(service_entry, 'DATASET')
 
-    return [] if guids.empty?
+    return [] if guids.blank?
 
     guids.map { |guid| guid.split('_', 3).last }
   end
@@ -32,7 +32,7 @@ module ServiceEntryHelper
   def collections_from_service_entry_tags(service_entry)
     concept_ids = concept_ids_from_service_entry_tags(service_entry)
 
-    return [] if concept_ids.empty?
+    return [] if concept_ids.blank?
 
     cmr_client.get_collections(concept_id: concept_ids).body.fetch('items', [])
   end
