@@ -33,7 +33,6 @@ $(document).ready ->
       clear: 'fa fa-trash-o'
       close: 'fa fa-close'
 
-  $('.track-orders-form .datetimepicker').datetimepicker(
-    Object.assign({}, datetimepickerDefaults, format: 'YYYY-MM-DD[T]HH:mm:ss', minDate: false))
+  $('.track-orders-form .datetimepicker').datetimepicker($.extend(datetimepickerDefaults, {format: 'YYYY-MM-DD[T]HH:mm:ss', minDate: false}))
 
   $('.datetimepicker').datetimepicker(datetimepickerDefaults)
