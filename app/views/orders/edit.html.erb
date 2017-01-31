@@ -19,7 +19,7 @@
           <td colspan="8">No <%= current_user.provider_id %> orders found.</td>
         </tr>
       <% else %>
-        <% @orders.each_with_index do |order, index| %>
+        <% @orders.each_with_index do |order| %>
           <tr>
             <td><%= order['state'] %></td>
             <td><%= order['creation_date'] %></td>
