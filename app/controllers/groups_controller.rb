@@ -69,7 +69,7 @@ class GroupsController < ManageCmrController
     @group = group_params
 
     @is_system_group = params[:system_group]
-    @management_group_concept_id = params[:group].delete('initial_management_group')
+    @management_group_concept_id = @group.delete('initial_management_group')
 
     @group['provider_id'] = current_user.provider_id unless @is_system_group
 
@@ -220,7 +220,7 @@ class GroupsController < ManageCmrController
   private
 
   def group_params
-    params.require(:group).permit(:name, :description, :provider_id, members: [])
+    params.require(:group).permit(:name, :description, :provider_id, :initial_management_group, members: [])
   end
 
   def set_previously_selected_members(members)
@@ -306,22 +306,29 @@ class GroupsController < ManageCmrController
   end
 
   def get_management_groups(concept_id)
-    all_management_permissions = get_permissions_for_identity_type(type: 'single_instance')
-    management_permissions = all_management_permissions.select { |acl| acl['acl']['single_instance_identity']['target_id'] == concept_id }
+    query = { 'include_full_acl' => true,
+              'identity_type' => 'single_instance',
+              'target_id' => concept_id }
+
+    management_permission_response = cmr_client.get_permissions(query, token)
 
     management_concept_ids = []
 
-    management_permissions.each do |acl|
-      acl['acl']['group_permissions'].each do |group_perm|
-        management_concept_ids << group_perm['group_id']
+    if management_permission_response.success?
+      # Single Instance ACLs are unique by target id so there should only be one per target group
+      management_permission = management_permission_response.body['items'].first.fetch('acl', {})
+      management_permission.fetch('group_permissions', []).each do |group_permission|
+        management_concept_ids << group_permission.fetch('group_id', nil)
       end
+    else
+      Rails.logger.error("Get Management Groups (Single Instance) ACL for group #{concept_id} Error: #{management_permission_response.inspect}")
     end
 
     management_groups = []
     # can't just grab all groups at once, need to loop through and grab each group
     management_concept_ids.each do |management_concept_id|
       group_response = cmr_client.get_group(management_concept_id, token)
-      next unless group_response.success?
+      next if group_response.error?
 
       group = group_response.body
       group['concept_id'] = management_concept_id
