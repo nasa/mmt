@@ -14,7 +14,7 @@ class OrdersController < ManageCmrController
 
     payload = {}
     payload['states'] = params.fetch('states', nil)
-    payload['states'] = ['VALIDATED', 'NOT_VALIDATED', 'QUOTING', 'QUOTE_REJECTED', 'QUOTE_FAILED', 'QUOTED', 'SUBMITTING', 'SUBMIT_REJECTED', 'SUBMIT_FAILED', 'PROCESSING', 'CANCELLING', 'CANCELLED', 'CLOSED'] if payload['states'].nil?
+    payload['states'] = OrdersHelper::ORDER_STATES if payload['states'].nil?
     payload['date_type'] = params.fetch('date_type', nil)
     payload['from_date'] = params.fetch('from_date', nil)
     payload['to_date'] = params.fetch('to_date', nil)

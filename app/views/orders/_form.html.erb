@@ -8,7 +8,7 @@
 <fieldset>
   <div class="row">
     <label for="state">Filter by Order State</label>
-    <%= select_tag('states', options_for_select(['VALIDATED', 'NOT_VALIDATED', 'QUOTING', 'QUOTE_REJECTED', 'QUOTE_FAILED', 'QUOTED', 'SUBMITTING', 'SUBMIT_REJECTED', 'SUBMIT_FAILED', 'PROCESSING', 'CANCELLING', 'CANCELLED', 'CLOSED'], nil), class: 'full-width', multiple: true) %>
+    <%= select_tag('states', options_for_select(OrdersHelper::ORDER_STATES, nil), class: 'full-width', multiple: true) %>
   </div>
 </fieldset>
 
