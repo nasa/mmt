@@ -22,7 +22,7 @@
 <fieldset>
   <div class="row">
     <label for="date_type" class="eui-required-o">Filter by Date/Time of</label>
-    <%= select_tag('date_type', options_for_select([ ['Creation date', 'CREATION_DATE'], ['Submission date', 'SUBMISSION_DATE'], ['Updated Date', 'LAST_UPDATE_DATE']], nil), include_blank: true, class: 'full-width') %>
+    <%= select_tag('date_type', options_for_select([ ['Creation date', 'CREATION_DATE'], ['Submission date', 'SUBMISSION_DATE'], ['Updated Date', 'LAST_UPDATE_DATE']], nil), prompt: 'Select a date type', class: 'full-width') %>
   </div>
 
   <div class="row">
