@@ -127,7 +127,6 @@ $(document).ready ->
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
       keyword = picker.getParents()
-      keyword.push(suggestion) unless suggestion == keyword[keyword.length - 1]
 
       # prevent adding final option twice (when it is selected and also searched for)
       keyword.push(suggestion) unless suggestion == keyword[keyword.length - 1]

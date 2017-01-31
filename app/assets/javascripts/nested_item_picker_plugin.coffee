@@ -48,19 +48,12 @@
 @NestedItemPicker::getValues = () ->
   pickerElement = @$element
   values = []
-  items = []
-  isFinalOption = false
-
-  itemElements = pickerElement.find('.eui-item-path > li').not('.eui-item-path > li.list-title')
-
-  $.each itemElements, (index, element) ->
-    items.push $(element).text()
+  items = @getParents()
 
   finalOption = pickerElement.find('.final-option-selected')
 
   parentItems = @getParents()
   if finalOption.length > 0
-    isFinalOption = true
     $.each finalOption, (index, option) ->
       items = parentItems.slice()
       items.push option.text
