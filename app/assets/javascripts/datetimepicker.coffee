@@ -1,5 +1,5 @@
 $(document).ready ->
-  datetimepickerDefaults =
+  $('.datetimepicker').datetimepicker
     # Prevents the picker from adjusting the time displayed to
     # the users local timezone. This requires moment-timezone.js
     timeZone: 'UTC'
@@ -32,7 +32,3 @@ $(document).ready ->
       today: 'fa fa-calendar-check-o'
       clear: 'fa fa-trash-o'
       close: 'fa fa-close'
-
-  $('.track-orders-form .datetimepicker').datetimepicker($.extend(datetimepickerDefaults, {format: 'YYYY-MM-DD[T]HH:mm:ss', minDate: false}))
-
-  $('.datetimepicker').datetimepicker(datetimepickerDefaults)

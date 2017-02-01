@@ -15,8 +15,6 @@ $(document).ready ->
       return false
 
     rules:
-      definition_guid:
-        required: true
       'date_type':
         required: true
       'from_date':
@@ -25,8 +23,6 @@ $(document).ready ->
         required: true
 
     messages:
-      definition_guid:
-        required: 'Data Quality Summary is required.'
       'date_type':
         required: 'Date type is required.'
       'from_date':

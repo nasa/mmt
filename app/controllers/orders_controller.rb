@@ -48,8 +48,8 @@ class OrdersController < ManageCmrController
     end
 
     # if user_id param is supplied, filter orders by given user_id
-    if params.fetch('user_id') != ''
-      @orders.select!{ |order| order['user_id'] == params.fetch('user_id') }
+    unless params['user_id'].empty?
+      @orders.select!{ |order| order['user_id'] == params['user_id'] }
     end
 
     render action: :edit

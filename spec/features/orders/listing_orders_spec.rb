@@ -8,6 +8,22 @@ describe 'Searching Orders' do
       visit orders_path
     end
 
+    context 'when their are no results' do
+      before do
+        select 'Creation date', from: 'date_type'
+        fill_in 'From', with: '2017-01-31T00:00:00'
+        fill_in 'To', with: '2017-02-01T00:00:00'
+
+        VCR.use_cassette('echo_soap/order_management_service/no_results', record: :none) do
+          click_on 'Display Orders'
+        end
+      end
+
+      it 'displays no orders' do
+        expect(page).to have_content 'No MMT_2 orders found'
+      end
+    end
+
     context 'when searching by order state and date' do
       before do
         select 'SUBMIT_FAILED', from: 'states'
