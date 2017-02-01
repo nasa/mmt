@@ -48,7 +48,6 @@
 @NestedItemPicker::getValues = () ->
   pickerElement = @$element
   values = []
-  items = @getParents()
 
   finalOption = pickerElement.find('.final-option-selected')
 
@@ -59,7 +58,7 @@
       items.push option.text
       values.push items.join(' > ')
   else
-    values.push items.join(' > ')
+    values.push parentItems.join(' > ')
 
   values
 
