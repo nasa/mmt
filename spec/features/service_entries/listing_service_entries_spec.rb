@@ -13,6 +13,8 @@ describe 'Listing Service Entries', reset_provider: true do
   context 'when viewing the index page' do
     before do
       login
+
+      visit manage_cmr_path
     end
 
     it 'does not display a create button' do

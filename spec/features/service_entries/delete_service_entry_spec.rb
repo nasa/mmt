@@ -29,10 +29,6 @@ describe 'Deleting a Service Entry', reset_provider: true do
         end
       end
 
-      it 'displays the delete button' do
-        expect(page).to have_link('Delete')
-      end
-
       context 'when clicking the delete link' do
         before do
           click_link 'Delete'
