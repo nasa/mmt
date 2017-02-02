@@ -4,6 +4,25 @@ module Echo
   # and are managed by any user with the necessary EXTENDED_SERVICE ACL privileges
   # for that provider.
   class ServiceManagement < Base
+    # Returns the service tags associated with a list of tag guids.
+    # NOTE: To be used when CMR-3793 is completed.
+    def get_tags(token, tag_guids)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:GetTags, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:tagGuids) do
+          Array.wrap(tag_guids).each do |g|
+            builder.ns3(:Item, g)
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
+
     # Returns the service tags associated with a tag group.
     def get_tags_by_tag_group(token, tag_guid)
       builder = Builder::XmlMarkup.new

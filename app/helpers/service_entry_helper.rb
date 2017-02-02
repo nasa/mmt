@@ -1,20 +1,28 @@
 # :nodoc:
 module ServiceEntryHelper
+  # Tags are derived strings separated by '_'. This will
+  # return all of the parts it is comprised of
+  def service_tag_parts(service_tag_guid)
+    service_tag_guid.split('_', 3)
+  end
+
+  # Extracts the different ways this value can be returned into a single method
   def service_entry_tags(service_entry)
     # TagGuids comes back as a hash or nil
     (service_entry['TagGuids'] || {}).fetch('Item', [])
   end
 
+  # Retrieve all the tag guids for a provided service entry and tag group
   def tag_guids_for_tag_group(service_entry, tag_group)
-    guids = service_entry_tags(service_entry)
+    @guids ||= service_entry_tags(service_entry)
 
-    return [] if guids.blank?
+    return [] if @guids.blank?
 
     # The first element of the tag strings ARE the tag group. We'll group
     # by that value and return the requested group. This saves a fair amount
     # of logic from having to be copy and pasted sifting out only the guids we
     # need for a particular operation
-    Array.wrap(guids).group_by { |guid| guid.split('_', 3).first }[tag_group]
+    Array.wrap(@guids).group_by { |guid| service_tag_parts(guid).first }[tag_group] || []
   end
 
   # Extract only the concept ID from the tag guid which is part of a derived
@@ -24,7 +32,7 @@ module ServiceEntryHelper
 
     return [] if guids.blank?
 
-    guids.map { |guid| guid.split('_', 3).last }
+    guids.map { |guid| service_tag_parts(guid).last }
   end
 
   # Provided a service entry this will pull out concept ids from tag guids and
@@ -47,6 +55,15 @@ module ServiceEntryHelper
       Rails.logger.error "Error retrieving tags for tag group SERVICE-INTERFACE: #{tags_response.error_message}"
 
       []
+    end
+  end
+
+  # There are no endpoints that currently exist to retreive virtual tag
+  # information. CMR-3793 has been created to preven the following method
+  def service_interface_tag(tag_guid)
+    # Loop through all service interface tags looking for the guid provided
+    service_interface_tags.each do |interface_tag|
+      return interface_tag if tag_guid == interface_tag['Guid']
     end
   end
 end

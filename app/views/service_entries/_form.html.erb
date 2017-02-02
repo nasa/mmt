@@ -33,7 +33,7 @@
 <fieldset id="service-implementation-container">
   <div class="row">
     <%= label_tag('service_entry[service_interface_guid]', 'Service Interface', class: 'eui-required-o') %>
-    <%= select_tag('service_entry[service_interface_guid]', options_for_select(service_interface_tags.map { |tag| [tag['Value'], tag['Guid']] }, @service_entry['EntryType']), class: 'required', prompt: 'Select a Service Interface') %>
+    <%= select_tag('service_entry[service_interface_guid]', options_for_select(service_interface_tags.map { |tag| [tag['Value'], tag['Guid']] }, tag_guids_for_tag_group(@service_entry, 'SERVICE-INTERFACE').first), class: 'required', prompt: 'Select a Service Interface') %>
   </div>
 </fieldset>
 

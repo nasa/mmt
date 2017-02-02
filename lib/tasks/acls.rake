@@ -55,9 +55,12 @@ namespace :acls do
     task :prepare, [:username, :group_name] => :environment do |_task, args|
       args.with_defaults(group_name: "#{args.username.upcase} Testing Group")
 
-      Rake::Task['acls:groups:create'].invoke(args.group_name, "Group created for #{args.username}.", args.username, 'CMR')
+      # Give the username the necessary permissions
       Rake::Task['acls:groups:mmt_users'].invoke(args.username)
       Rake::Task['acls:groups:admins'].invoke(args.username)
+
+      # Create the group
+      Rake::Task['acls:groups:create'].invoke(args.group_name, "Group created for #{args.username}.", args.username, 'CMR')
     end
   end
 

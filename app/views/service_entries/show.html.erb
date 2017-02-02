@@ -3,6 +3,20 @@
     <h2><%= @service_entry['Name'] %></h2>
 
     <p>
+      <span class="inline-label">Type:</span>
+      <%= @service_entry['EntryType'] %>
+    </p>
+
+    <% if @service_entry['EntryType'] == 'SERVICE_IMPLEMENTATION' %>
+    <p>
+      <span class="inline-label">Interface:</span>
+      <% tag_guids_for_tag_group(@service_entry, 'SERVICE-INTERFACE').each do |guid| %>
+        <%= link_to service_interface_tag(guid)['Value'], service_entry_path(service_tag_parts(service_interface_tag(guid)['Guid']).last), target: '_blank' %>
+      <% end %>
+    </p>
+    <% end %>
+
+    <p>
       <span class="inline-label">URL:</span>
       <%= @service_entry['Url'] %>
     </p>
