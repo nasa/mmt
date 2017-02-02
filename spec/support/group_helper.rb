@@ -54,7 +54,7 @@ module Helpers
       # requests come in quickly
       category = %w(galaxy moon star star_cluster).sample
 
-      Faker::Space.send(category)
+      Faker::Space.unique.send(category)
     end
 
     def random_group_description

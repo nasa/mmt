@@ -7,7 +7,7 @@
       <% end %>
     </h2>
 
-    <%= form_tag(group_path(@concept_id), method: :put, class: 'group-form') do %>
+    <%= form_tag(group_path(params[:id]), method: :put, class: 'group-form') do %>
       <%= render 'form' %>
     <% end %>
 
