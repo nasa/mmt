@@ -1,7 +1,8 @@
+# :nodoc:
 module EchoHelper
-  def echo_formatted_date(date, format: '%A, %B %d, %Y at %l:%M %P')
+  def echo_formatted_date(date, format: '%A, %B %d, %Y at %l:%M %P', default: nil)
     DateTime.parse(date).strftime(format)
   rescue
-    date.to_s
+    default || date.to_s
   end
 end
