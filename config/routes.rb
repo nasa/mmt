@@ -26,6 +26,9 @@ Rails.application.routes.draw do
 
   resources :service_options
 
+  resource :orders, except: :show
+  get '/orders' => 'orders#index'
+
   resources :groups
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'

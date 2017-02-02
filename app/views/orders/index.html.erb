@@ -1,0 +1,15 @@
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Orders</h2>
+
+    <h3>Provider Order Search</h3>
+
+    <%= form_tag(orders_path, method: :put, class: "track-orders-form", id: "track-orders-form") do %>
+      <%= render partial: "form" %>
+
+      <fieldset>
+        <%= button_tag 'Display Orders', class: 'eui-btn--blue' %>
+      </fieldset>
+    <% end %>
+  </section>
+</div>
