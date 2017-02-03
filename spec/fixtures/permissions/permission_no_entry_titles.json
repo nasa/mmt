@@ -7,12 +7,19 @@
     "permissions" : [ "read", "order" ]
   }, {
     "group_id" : "AG1200000070-MMT_2",
-    "permissions" : [ "read", "order" ]
+    "permissions" : [ "read" ]
   } ],
   "catalog_item_identity" : {
     "name" : "Test Permission 1",
     "provider_id" : "MMT_2",
     "granule_applicable" : true,
-    "collection_applicable" : true
+    "collection_applicable" : true,
+    "granule_identifier": {
+      "access_value": {
+        "min_value": 1.1,
+        "max_value": 8.8,
+        "include_undefined_value": true
+      }
+    }
   }
 }
