@@ -42,7 +42,7 @@ module ServiceEntryHelper
 
     return [] if concept_ids.blank?
 
-    cmr_client.get_collections(concept_id: concept_ids).body.fetch('items', [])
+    cmr_client.get_collections({ concept_id: concept_ids }, token).body.fetch('items', [])
   end
 
   # Method to retrieve Service Interface tags for use with Service Implementations.
