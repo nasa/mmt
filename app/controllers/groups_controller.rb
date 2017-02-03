@@ -161,7 +161,6 @@ class GroupsController < ManageCmrController
   end
 
   def update
-
     @group = group_params
     @is_system_group = params.fetch(:system_group, false)
 
