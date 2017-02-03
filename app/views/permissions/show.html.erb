@@ -8,7 +8,6 @@
     <p>
       <b>Collections | <%= @collection_entry_ids.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Collections" %></b>
       <br>
-      <%#= @collection_entry_ids.join(', ') unless @collection_entry_ids.blank? %>
       <%= @collection_entry_ids.to_sentence unless @collection_entry_ids.blank? %>
       <p>
         <% unless @collection_access_value.blank? %>

@@ -277,13 +277,8 @@ module Cmr
       # (if they are specified) to identify collections, we need to parse the entry titles of the permissions and encode
       # them properly in case of non-standard characters, or they will cause 500 errors when we are retrieving the
       # collections by entry title
-      # if response.success? && response.body.fetch('catalog_item_identity', {})['collection_identifier']
-      #   entry_titles = response.body['catalog_item_identity']['collection_identifier']['entry_titles']
-      #   entry_titles.map! { |entry_title| entry_title.force_encoding('ISO-8859-1').encode('UTF-8') }
-      # end
-      if response.success? # && entry_titles # response.body.fetch('catalog_item_identity', {})['collection_identifier']
+      if response.success?
         entry_titles = response.body.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', nil)
-        # entry_titles = response.body['catalog_item_identity']['collection_identifier']['entry_titles']
         entry_titles.map! { |entry_title| entry_title.force_encoding('ISO-8859-1').encode('UTF-8') } if entry_titles
       end
 
