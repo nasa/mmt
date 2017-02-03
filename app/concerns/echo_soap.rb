@@ -1,3 +1,4 @@
+# :nodoc:
 module EchoSoap
   extend ActiveSupport::Concern
 

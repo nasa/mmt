@@ -1,6 +1,6 @@
 $(document).ready ->
   $('.datetimepicker').datetimepicker
-    # Prevents the picker from adjusting the time displayed to 
+    # Prevents the picker from adjusting the time displayed to
     # the users local timezone. This requires moment-timezone.js
     timeZone: 'UTC'
 

@@ -99,7 +99,7 @@ GEM
     factory_girl_rails (4.6.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
-    faker (1.6.6)
+    faker (1.7.2)
       i18n (~> 0.5)
     faraday (0.8.11)
       multipart-post (~> 1.2.0)
@@ -115,7 +115,7 @@ GEM
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     hike (1.2.3)
-    i18n (0.7.0)
+    i18n (0.8.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -164,6 +164,8 @@ GEM
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     rack (1.6.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -317,6 +319,7 @@ DEPENDENCIES
   neat
   pg
   poltergeist
+  pundit
   rack_session_access
   rails (= 4.2.7.1)
   rspec-rails

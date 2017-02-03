@@ -24,7 +24,11 @@ Rails.application.routes.draw do
   resource :data_quality_summary_assignments, except: :show
   get '/data_quality_summary_assignments' => 'data_quality_summary_assignments#index'
 
+  resources :service_entries
   resources :service_options
+
+  resource :orders, except: :show
+  get '/orders' => 'orders#index'
 
   resources :groups
   post '/invite_user' => 'groups#invite', as: 'invite_user'

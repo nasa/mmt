@@ -1,5 +1,5 @@
 <main class="dashboard" role="main">
-  <article id="manage-cmr" class="row-content flex-row--start" role="article">
+  <article class="row-content flex-row--start" role="article">
     <section class="eui-callout-box">
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Provider Information</h3>
@@ -27,8 +27,7 @@
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Orders</h3>
         <p><%= link_to 'Order Policies', order_policies_path %></p>
-        <!-- TODO placeholder for Track Orders -->
-        <!--<p><a href="#">Track Orders</a></p>-->
+        <p><%= link_to 'Track Orders', orders_path %></p>
         <p><%= link_to 'View Order Options', order_options_path %></p>
         <p><%= link_to 'Create an Order Option', new_order_option_path %></p>
         <p><%= link_to 'View Order Option Assignments', order_option_assignments_path %></p>
@@ -37,7 +36,7 @@
     </section>
   </article>
 
-  <article id="manage-cmr" class="row-content flex-row--start" role="article">
+  <article class="row-content flex-row--start" role="article">
     <section class="eui-callout-box">
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Data Quality Summaries</h3>
@@ -51,6 +50,10 @@
     <section class="eui-callout-box">
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Service Management</h3>
+        <p><%= link_to 'View Service Entries', service_entries_path %></p>
+        <% if policy(:service_entry).create? %>
+          <p><%= link_to 'Create a Service Entry', new_service_entry_path %></p>
+        <% end %>
         <p><%= link_to 'View Service Options', service_options_path %></p>
         <p><%= link_to 'Create a Service Option', new_service_option_path %></p>
       </div>

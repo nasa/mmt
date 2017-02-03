@@ -1,0 +1,36 @@
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Orders</h2>
+
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th>Created</th>
+          <th>Submitted</th>
+          <th>Updated</th>
+          <th>User ID</th>
+          <th>Contact Name</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% if @orders.empty? %>
+        <tr>
+          <td colspan="8">No <%= current_user.provider_id %> orders found.</td>
+        </tr>
+      <% else %>
+        <% @orders.each_with_index do |order| %>
+          <tr>
+            <td><%= order['state'] %></td>
+            <td><%= echo_formatted_date(order['creation_date']) %></td>
+            <td><%= echo_formatted_date(order['submitted_date']) %></td>
+            <td><%= echo_formatted_date(order['updated_date']) %></td>
+            <td><%= order['user_id'] %></td>
+            <td><%= order['contact_name'] %></td>
+          </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+</div>

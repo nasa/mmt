@@ -53,7 +53,6 @@ describe 'Publishing revision of collection with non url encoded native id' do
           #     find('.remove').trigger(:click)
           #   end
           # end
-          # byebug
 
           # open_accordions
 

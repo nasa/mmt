@@ -126,14 +126,12 @@ $(document).ready ->
 
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
-      selectedValues = picker.getValues()
-      selectedValues = selectedValues[0].split(' > ')
-      keyword = selectedValues.filter (value) ->
-        value != ''
+      keyword = picker.getParents()
+
       # prevent adding final option twice (when it is selected and also searched for)
       keyword.push(suggestion) unless suggestion == keyword[keyword.length - 1]
-      keyword = [keyword.join(' > ')]
 
+      keyword = [keyword.join(' > ')]
       if picker.options.data_type == 'science'
         addKeyword('science', keyword)
       else if picker.options.data_type == 'location'
