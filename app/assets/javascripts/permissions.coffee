@@ -81,10 +81,8 @@ $(document).ready ->
 
     $('#granule_options').on 'change', ->
       if $(this).val() == 'all-granules'
-        # $('#granules-constraint-values').removeClass 'is-hidden'
         $('#granule_constraint_values').removeClass 'is-hidden'
       else
-        # $('#granules-constraint-values').addClass 'is-hidden'
         $('#granule_constraint_values').addClass 'is-hidden'
 
 
@@ -92,11 +90,11 @@ $(document).ready ->
     $('.min-max-value').on 'blur', ->
       $currentAccessVal = $(this)
       $currentCol = $currentAccessVal.closest('.min-max-col')
-      # $row = $currentAccessVal.closest('.min-max-row')
       $otherAccessVal = $currentCol.siblings('.min-max-col').find('.min-max-value')
+
       $currentLabel = $("label[for='" + $currentAccessVal.attr('id') + "']")
       $otherLabel = $("label[for='" + $otherAccessVal.attr('id') + "']")
-      # debugger
+
       if $currentAccessVal.val() == '' && $otherAccessVal.val() == ''
         # both inputs are empty so are not required
         $currentLabel.removeClass 'eui-required-o'
@@ -105,7 +103,6 @@ $(document).ready ->
         # at least one input is not empty, so both should be required
         $currentLabel.addClass 'eui-required-o'
         $otherLabel.addClass 'eui-required-o'
-
 
 
     # Validate new permissions form with jquery validation plugin
@@ -131,7 +128,6 @@ $(document).ready ->
       # This library handles focus oddly, this ensures that we scroll
       # to and focus on the first element with an error in the form
       onfocusout: false
-
       invalidHandler: (form, validator) ->
         if validator.numberOfInvalids() > 0
           validator.errorList[0].element.focus()
@@ -140,18 +136,6 @@ $(document).ready ->
         # Prevent highlighting the fields themselves
         return false
 
-    #   rules: {
-    # // at least 15€ when bonus material is included
-    # pay_what_you_want: {
-    #   required: true
-    #   min: {
-    #     // min needs a parameter passed to it
-    #     param: 15,
-    #     depends: function(element) {
-    #       return $("#bonus-material").is(":checked");
-    #     }
-    #   }
-    # }
       rules:
         permission_name:
           required: true
@@ -168,18 +152,6 @@ $(document).ready ->
             $('#collection_access_value_min_value').val() != ''
           number: true
           greaterThan: $('#collection_access_value_min_value')
-          # min:
-            # TODO: this depends is not working. documentation to prove there is an issue they didn't fix
-            # use the conditionally adding the rules
-              # using rules.add( ) ?
-            # but first test on granule access values too
-            # depends: (element) ->
-            #   debugger
-            #   $('#collection_access_value_min_value').val() != null
-            # requires a param
-            # param: $('#collection_access_value_min_value').val()
-            # depends: (elem) ->
-            #   $('#collection_access_value_min_value').val() != ''
         granule_options:
           required: true
         'granule_access_value[min_value]':
@@ -225,7 +197,7 @@ $(document).ready ->
           required: 'Please specify at least one Search group or one Search & Order group.'
 
       groups:
-        # this should make it so only one message is shown for both elements
+        # this should make it so only one message is shown for each group of elements
         permission_group: 'search_groups[] search_and_order_groups[]'
         collection_access_value_group: 'collection_access_value[min_value] collection_access_value[max_value]'
         graunle_access_value_group: 'granule_access_value[min_value] granule_access_value[max_value]'
@@ -236,7 +208,7 @@ $(document).ready ->
       # are defining our own method to ensure the Max is greater than the Min
       $minInput = arg
       minimum = arg.val()
-      # debugger
+
       return true if value == '' || minimum == ''
       parseFloat(value) > parseFloat(minimum)
     , 'Maxmimum value must be greater than Minimum value.' # default message

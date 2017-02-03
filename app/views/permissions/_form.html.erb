@@ -37,7 +37,7 @@
   <%= select_tag 'granule_options', options_for_select(PermissionsHelper::GranulesOptions, @granule_options), class: 'full-width' %>
 </fieldset>
 
-<fieldset id="granule_constraint_values" class="is-hidden">
+<fieldset id="granule_constraint_values" class="<%= hide_granule_constraint_values? %>">
   <%= label_tag 'granule_constraint_values', 'Granules Access Constraint Filter', class: 'space-bot' %>
   <div class="row min-max-row">
     <div class="col-6 min-max-col">

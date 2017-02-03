@@ -40,8 +40,9 @@ class PermissionsController < ManageCmrController
     if permission_response.success?
       permission = permission_response.body
 
-      set_catalog_item_identity(permission) # sets @permission_name, @collection_options, @granule_options, @collection_entry_ids, @permission_provider
-                          # need to add collection and granule access values
+      # sets @permission_name, @collection_options, @granule_options, @collection_entry_ids,
+      # @permission_provider, @collection_access_value, and @granule_access_value
+      set_catalog_item_identity(permission)
 
       add_breadcrumb @permission_name, permissions_path(@permission_concept_id)
 
@@ -86,9 +87,6 @@ class PermissionsController < ManageCmrController
 
 
   def create
-
-    # TODO: can do this without passing in provider_id?
-    # should add text on form to say it will be for current provider?
     request_object = construct_request_object(current_user.provider_id)
 
     response = cmr_client.add_group_permissions(request_object, token)
@@ -104,17 +102,8 @@ class PermissionsController < ManageCmrController
 
       # Look up the error code. If we have a friendly version, use it. Otherwise,
       # just use the error message as it comes back from the CMR.
-      friendly_error_message = PermissionsHelper::ErrorCodeMessages[response.status]
-
-      # can change to ||= ?
-      if !friendly_error_message.blank?
-        permission_creation_error = friendly_error_message
-      else
-        permission_creation_error = Array.wrap(response.body['errors'])[0]
-      end
-
-      # error_message = PermissionsHelper::ErrorCodeMessages[response.status]
-      # error_message ||= Array.wrap(response.body['errors'])[0]
+      permission_creation_error = PermissionsHelper::ErrorCodeMessages[response.status]
+      permission_creation_error ||= Array.wrap(response.body['errors'])[0]
 
       flash.now[:error] = permission_creation_error
 
@@ -169,8 +158,6 @@ class PermissionsController < ManageCmrController
       Rails.logger.error("Permission Update Error: #{update_response.inspect}")
       permission_update_error = Array.wrap(update_response.body['errors'])[0]
 
-      # TODO: ask about error message, if 403 corresponds to this and match can be changed
-      # TODO change to match on 403 response. currently this response from cmr is 400
       if permission_update_error == 'Permission to update ACL is denied'
         flash[:error] = 'You are not authorized to update permissions. Please contact your system administrator.'
         # opt1 send back to show page
@@ -229,7 +216,6 @@ class PermissionsController < ManageCmrController
   private
 
   def get_collections_for_provider(params)
-    # TODO: can this be consolidated with what is in ManageCmrController ?
     # page_size default is 10, max is 2000
 
     query = { 'provider' => current_user.provider_id,
@@ -275,7 +261,6 @@ class PermissionsController < ManageCmrController
   end
 
   def get_groups
-    # TODO: can we reuse something from groups controller/helper? what about provider/system acls?
     filters = {}
     filters['provider'] = current_user.provider_id;
     groups_response = cmr_client.get_cmr_groups(filters, token)
@@ -296,8 +281,6 @@ class PermissionsController < ManageCmrController
   end
 
   def get_groups_for_permissions
-    # TODO: does this need to be separate methods?
-
     groups_for_permissions_select = get_groups
 
     # add options for registered users and guest users
@@ -339,53 +322,35 @@ class PermissionsController < ManageCmrController
         entry_titles << parts[1].strip
       end
 
-      # req_obj['catalog_item_identity']['collection_identifier'] = {}
-      # req_obj['catalog_item_identity']['collection_identifier']['entry_titles'] = entry_titles
-      # collection_identifier = req_obj.fetch('collection_identifier', {})
       collection_identifier['entry_titles'] = entry_titles
     end
 
     @collection_access_value = params[:collection_access_value] || {}
-    unless @collection_access_value.blank?
-    # if params[:collection_access_value]
-      # @collection_access_value['min_value'] = @collection_access_value['min_value'].to_f unless @collection_access_value['min_value'].blank?
-      # @collection_access_value['max_value'] = @collection_access_value['max_value'].to_f unless @collection_access_value['max_value'].blank?
-      # @collection_access_value['include_undefined_value'] = true if @collection_access_value['include_undefined_value'] == 'true'
-
-      @collection_access_value.each do |key, val|
-        if val.blank?
-          @collection_access_value.delete(key)
-        elsif val == 'true'
-          @collection_access_value[key] = true
-        else
-          @collection_access_value[key] = val.to_f
-        end
+    @collection_access_value.each do |key, val|
+      if val.blank?
+        @collection_access_value.delete(key)
+      elsif val == 'true'
+        @collection_access_value[key] = true
+      else
+        @collection_access_value[key] = val.to_f
       end
-
-      collection_identifier['access_value'] = @collection_access_value unless @collection_access_value.blank?
     end
+    collection_identifier['access_value'] = @collection_access_value unless @collection_access_value.blank?
     req_obj['catalog_item_identity']['collection_identifier'] = collection_identifier unless collection_identifier.blank?
 
     @granule_access_value = params[:granule_access_value] || {}
     if granule_applicable
       granule_identifier = req_obj.fetch('catalog_item_identity', {}).fetch('granule_identifier', {})
-      unless @granule_access_value.blank?
-        # @granule_access_value['min_value'] = @granule_access_value['min_value'].to_f unless @granule_access_value['min_value'].blank?
-        # @granule_access_value['max_value'] = @granule_access_value['max_value'].to_f unless @granule_access_value['max_value'].blank?
-        # @granule_access_value['include_undefined_value'] = true if @granule_access_value['include_undefined_value'] == 'true'
-
-        @granule_access_value.each do |key, val|
-          if val.blank?
-            @granule_access_value.delete(key)
-          elsif val == 'true'
-            @granule_access_value[key] = true
-          else
-            @granule_access_value[key] = val.to_f
-          end
+      @granule_access_value.each do |key, val|
+        if val.blank?
+          @granule_access_value.delete(key)
+        elsif val == 'true'
+          @granule_access_value[key] = true
+        else
+          @granule_access_value[key] = val.to_f
         end
-
-        granule_identifier['access_value'] = @granule_access_value unless @granule_access_value.blank?
       end
+      granule_identifier['access_value'] = @granule_access_value unless @granule_access_value.blank?
       req_obj['catalog_item_identity']['granule_identifier'] = granule_identifier unless granule_identifier.blank?
     end
 
@@ -422,8 +387,7 @@ class PermissionsController < ManageCmrController
       permission_summary = {}
       permission_summary_list = []
 
-      # group_permissions = perm['acl']['group_permissions']
-      group_permissions = perm.fetch('acl', {}).fetch('group_permissions', {})
+      group_permissions = perm['acl']['group_permissions']
       group_permissions.each do |group_perm|
         perm_list = group_perm['permissions']
         perm_list.each do |type|
@@ -437,13 +401,6 @@ class PermissionsController < ManageCmrController
       end
 
       perm['permission_summary'] = permission_summary_list.join ' & '
-
-      # TODO: change test to
-      # if ['read', 'order'].all? { |permission| perm_list.include?(permission) }
-      #   permission_summary = 'Search & Order'
-      # elsif perm_list.include?('read')
-      #   permission_summary = 'Search'
-      # end
     end
 
     permissions
@@ -503,7 +460,11 @@ class PermissionsController < ManageCmrController
       @granule_options = catalog_item_identity['granule_applicable']
     else
       # set options to populate edit form dropdowns
-      @collection_options = catalog_item_identity['collection_identifier'] ? 'selected-ids-collections' : 'all-collections'
+      @collection_options = if catalog_item_identity.fetch('collection_identifier', {}).fetch('entry_titles', nil)
+                              'selected-ids-collections'
+                            else
+                              'all-collections'
+                            end
       @granule_options = catalog_item_identity['granule_applicable'] ? 'all-granules' : 'no-access'
     end
 
