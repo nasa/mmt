@@ -238,17 +238,6 @@ module Cmr
       post(url, request_object.to_json, token_header(token))
     end
 
-    def get_permissions_for_provider(opts, token)
-      # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
-      if Rails.env.development? || Rails.env.test?
-        url = 'http://localhost:3011/acls'
-      else
-        url = '/access-control/acls'
-      end
-
-      response = get(url, opts, token_header(token))
-    end
-
     def get_permissions(options, token)
       # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
       if Rails.env.development? || Rails.env.test?
@@ -260,6 +249,7 @@ module Cmr
       response = get(url, options, token_header(token))
     end
 
+    # def retrieve_permission(concept_id, token)
     def get_permission(concept_id, token)
       # Example: curl -i "http://localhost:3011/acls/#{concept_id}"
       if Rails.env.development? || Rails.env.test?
@@ -287,9 +277,14 @@ module Cmr
       # (if they are specified) to identify collections, we need to parse the entry titles of the permissions and encode
       # them properly in case of non-standard characters, or they will cause 500 errors when we are retrieving the
       # collections by entry title
-      if response.success? && response.body.fetch('catalog_item_identity', {})['collection_identifier']
-        entry_titles = response.body['catalog_item_identity']['collection_identifier']['entry_titles']
-        entry_titles.map! { |entry_title| entry_title.force_encoding('ISO-8859-1').encode('UTF-8') }
+      # if response.success? && response.body.fetch('catalog_item_identity', {})['collection_identifier']
+      #   entry_titles = response.body['catalog_item_identity']['collection_identifier']['entry_titles']
+      #   entry_titles.map! { |entry_title| entry_title.force_encoding('ISO-8859-1').encode('UTF-8') }
+      # end
+      if response.success? # && entry_titles # response.body.fetch('catalog_item_identity', {})['collection_identifier']
+        entry_titles = response.body.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', nil)
+        # entry_titles = response.body['catalog_item_identity']['collection_identifier']['entry_titles']
+        entry_titles.map! { |entry_title| entry_title.force_encoding('ISO-8859-1').encode('UTF-8') } if entry_titles
       end
 
       response
@@ -301,10 +296,21 @@ module Cmr
       else
         url = "/access-control/acls/#{concept_id}"
       end
-      headers = {
-        'Content-Type' => 'application/json'
-      }
+
+      headers = { 'Content-Type' => 'application/json' }
+
       put(url, request_object.to_json, headers.merge(token_header(token)))
+    end
+
+    def delete_permission(concept_id, token)
+      # curl -XDELETE -i -H "Echo-Token: mock-echo-system-token" https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200000000-CMR
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/acls/#{concept_id}"
+      else
+        url = "/access-control/acls/#{concept_id}"
+      end
+
+      delete(url, {}, nil, token_header(token))
     end
 
     def check_user_permissions(options, token)
@@ -318,18 +324,9 @@ module Cmr
         url = '/access-control/permissions'
       end
 
-      get(url, options, token_header(token))
-    end
+      headers = { 'Accept' => "application/json; charset=utf-8" }
 
-    def delete_permission(concept_id, token)
-      # curl -XDELETE -i -H "Echo-Token: mock-echo-system-token" https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200000000-CMR
-      if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3011/acls/#{concept_id}"
-      else
-        url = "/access-control/acls/#{concept_id}"
-      end
-      response = delete(url, {}, nil, token_header(token))
+      get(url, options, headers.merge(token_header(token)))
     end
-
   end
 end

@@ -14,33 +14,22 @@
   <div id="chooser-widget" style="display: none;"></div>
 </fieldset>
 
-<!-- <fieldset id="collections-constraint-values" class="is-hidden is-white">
-  <div class="row">
-    <label for="collections-constraint-min">Min</label>
-    <input type="number" id="collections-constraint-min" class="space-right">
-    <label for="collections-constraint-Max">Max</label>
-    <input type="number" id="collections-constraint-max">
-    <span>(Inclusive)</span>
-  </div>
-  <div class="row">
-    <input type="checkbox" name="undefined-val" id="undefined-val">
-    <label for="undefined-val">Include undefined value</label>
-  </div>
-</fieldset> -->
 <fieldset id="collection_constraint_values">
   <%= label_tag 'collection_constraint_values', 'Collections Access Constraint Filter', class: 'space-bot' %>
-  <div class="row">
-    <div class="col-6">
+  <div class="row min-max-row">
+    <div class="col-6 min-max-col">
       <%= label_tag 'collection_access_value[min_value]', 'Minimum Access Constraint Value' %>
-      <%= number_field_tag 'collection_access_value[min_value]', @collection_access_value['min_value'], class: 'full-width' %>
+      <%= number_field_tag 'collection_access_value[min_value]', @collection_access_value['min_value'], class: 'full-width min-max-value min-value collection-access-value-group' %>
+    </div>
+    <div class="col-6 min-max-col">
       <%= label_tag 'collection_access_value[max_value]', 'Maximum Access Constraint Value' %>
-      <%= number_field_tag 'collection_access_value[max_value]', @collection_access_value['max_value'], class: 'full-width' %>
-      <%= label_tag 'collection_access_value[include_undefined_value]' do %>
-        <%= check_box_tag 'collection_access_value[include_undefined_value]', true, @collection_access_value['include_undefined_value'] %>
-        Include Undefined
-      <% end %>
+      <%= number_field_tag 'collection_access_value[max_value]', @collection_access_value['max_value'], class: 'full-width min-max-value max-value collection-access-value-group' %>
     </div>
   </div>
+  <%= label_tag 'collection_access_value[include_undefined_value]' do %>
+    <%= check_box_tag 'collection_access_value[include_undefined_value]', true, @collection_access_value['include_undefined_value'] %>
+    Include Undefined
+  <% end %>
 </fieldset>
 
 <fieldset>
@@ -48,33 +37,22 @@
   <%= select_tag 'granule_options', options_for_select(PermissionsHelper::GranulesOptions, @granule_options), class: 'full-width' %>
 </fieldset>
 
-<!-- <fieldset id="granules-constraint-values" class="is-hidden is-white">
-  <div class="row">
-    <label for="granules-constraint-min">Min</label>
-    <input type="number" id="granules-constraint-min" class="space-right">
-    <label for="granules-constraint-Max">Max</label>
-    <input type="number" id="granules-constraint-max">
-    <span>(Inclusive)</span>
-  </div>
-  <div class="row">
-    <input type="checkbox" name="undefined-val" id="undefined-val">
-    <label for="undefined-val">Include undefined value</label>
-  </div>
-</fieldset> -->
 <fieldset id="granule_constraint_values" class="is-hidden">
   <%= label_tag 'granule_constraint_values', 'Granules Access Constraint Filter', class: 'space-bot' %>
-  <div class="row">
-    <div class="col-6">
+  <div class="row min-max-row">
+    <div class="col-6 min-max-col">
       <%= label_tag 'granule_access_value[min_value]', 'Minimum Access Constraint Value' %>
-      <%= number_field_tag 'granule_access_value[min_value]', @granule_access_value['min_value'], class: 'full-width' %>
+      <%= number_field_tag 'granule_access_value[min_value]', @granule_access_value['min_value'], class: 'full-width min-max-value min-value granule-access-value-group' %>
+    </div>
+    <div class="col-6 min-max-col">
       <%= label_tag 'granule_access_value[max_value]', 'Maximum Access Constraint Value' %>
-      <%= number_field_tag 'granule_access_value[max_value]', @granule_access_value['max_value'], class: 'full-width' %>
-      <%= label_tag 'granule_access_value[include_undefined_value]' do %>
-        <%= check_box_tag 'granule_access_value[include_undefined_value]', true, @granule_access_value['include_undefined_value'] %>
-        Include Undefined
-      <% end %>
+      <%= number_field_tag 'granule_access_value[max_value]', @granule_access_value['max_value'], class: 'full-width min-max-value max-value granule-access-value-group' %>
     </div>
   </div>
+  <%= label_tag 'granule_access_value[include_undefined_value]' do %>
+    <%= check_box_tag 'granule_access_value[include_undefined_value]', true, @granule_access_value['include_undefined_value'] %>
+    Include Undefined
+  <% end %>
 </fieldset>
 
 <fieldset>
