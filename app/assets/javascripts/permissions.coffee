@@ -183,14 +183,14 @@ $(document).ready ->
           required: 'Minimum and Maximum values must be specified together.'
         'collection_access_value[max_value]':
           required: 'Minimum and Maximum values must be specified together.'
-          greaterThan: 'Maxmimum value must be greater than Minimum value.'
+          greaterThan: 'Maximum value must be greater than Minimum value.'
         granule_options:
           required: 'Granules must be specified.'
         'granule_access_value[min_value]':
           required: 'Minimum and Maximum values must be specified together.'
         'granule_access_value[max_value]':
           required: 'Minimum and Maximum values must be specified together.'
-          greaterThan: 'Maxmimum value must be greater than Minimum value.'
+          greaterThan: 'Maximum value must be greater than Minimum value.'
         'search_groups[]':
           required: 'Please specify at least one Search group or one Search & Order group.'
         'search_and_order_groups[]':
@@ -211,7 +211,7 @@ $(document).ready ->
 
       return true if value == '' || minimum == ''
       parseFloat(value) > parseFloat(minimum)
-    , 'Maxmimum value must be greater than Minimum value.' # default message
+    , 'Maximum value must be greater than Minimum value.' # default message
 
 
     visitedPermissionGroupSelect = []

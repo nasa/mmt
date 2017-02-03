@@ -1,4 +1,5 @@
 # test for new permissions form and validation, implemented in MMT-507 and 152/153
+# 509, 512
 
 require 'rails_helper'
 
@@ -116,7 +117,7 @@ describe 'Collection Permissions form', js: true do
 
       it 'displays the appropriate validation errors for the Min and Max fields' do
         within '#collection_constraint_values' do
-          expect(page).to have_content('Maxmimum value must be greater than Minimum value.')
+          expect(page).to have_content('Maximum value must be greater than Minimum value.')
         end
         within '#granule_constraint_values' do
           expect(page).to have_content('Maxmimum value must be greater than Minimum value.')
