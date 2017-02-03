@@ -316,8 +316,12 @@ class GroupsController < ManageCmrController
 
     if management_permission_response.success?
       # Single Instance ACLs are unique by target id so there should only be one per target group
-      management_permission = management_permission_response.body['items'].first.fetch('acl', {})
-      management_permission.fetch('group_permissions', []).each do |group_permission|
+      management_permission = management_permission_response.body['items'].first
+
+      return [] if management_permission.nil?
+
+      acl_body = management_permission.fetch('acl', {})
+      acl_body.fetch('group_permissions', []).each do |group_permission|
         management_concept_ids << group_permission.fetch('group_id', nil)
       end
     else
