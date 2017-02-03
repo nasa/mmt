@@ -3,7 +3,7 @@
 
 require 'rails_helper'
 
-describe 'Creating Permissions', js: true do
+describe 'Creating Collection Permissions', js: true do
   permission_name = 'Test Permission 1'
 
   context 'when creating a new permission with complete information' do
@@ -63,12 +63,18 @@ describe 'Creating Permissions', js: true do
         find('button[title=add]').click
       end
 
+      within '#collection_constraint_values' do
+        fill_in('Minimum Access Constraint Value', with: 5)
+        fill_in('Maximum Access Constraint Value', with: 25)
+        check('Include Undefined')
+      end
+
       select('No Access to Granules', from: 'Granules')
 
       within '#permission-form-groups-table' do
         select('All Guest Users', from: 'Search')
-        select('Group 1', from: 'Search')
         select('All Registered Users', from: 'Search and Order')
+        select('Group 1', from: 'Search and Order')
       end
 
       click_on 'Submit'
@@ -81,10 +87,13 @@ describe 'Creating Permissions', js: true do
     it 'redirects to the permission show page and displays the permission information' do
       expect(page).to have_content(permission_name)
       expect(page).to have_content('Permission Type | Search & Order | MMT_2')
+
       expect(page).to have_content('Collections | 6 Selected Collections')
-      expect(page).to have_content("lorem_223, ID_1, Matthew'sTest_2, testing 02_01, testing 03_002, New Testy Test_02")
+      expect(page).to have_content("lorem_223, ID_1, Matthew'sTest_2, testing 02_01, testing 03_002, and New Testy Test_02")
+      expect(page).to have_content('Collections Access Constraint Filter: Match range 5.0 to 25.0, Include Undefined')
 
       expect(page).to have_content('Granules | No Access to Granules')
+      expect(page).to have_no_content('Granules Access Constraint Filter')
 
       within '#permission-groups-table' do
         # TODO is there a way to test the icons?
@@ -110,10 +119,12 @@ describe 'Creating Permissions', js: true do
 
         within '#search_groups_cell' do
           expect(page).to have_css('li.select2-selection__choice', text: 'All Guest Users')
-          expect(page).to have_css('li.select2-selection__choice', text: 'Group 1')
         end
 
-        expect(page).to have_select('Search and Order', selected: 'All Registered Users')
+        within '#search_and_order_groups_cell' do
+          expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
+          expect(page).to have_css('li.select2-selection__choice', text: 'Group 1')
+        end
       end
 
       context 'when updating the permission' do
@@ -126,12 +137,23 @@ describe 'Creating Permissions', js: true do
           allow_any_instance_of(Cmr::CmrClient).to receive(:update_permission).and_return(update_response)
 
           select('All Collections', from: 'Collections')
-          select('All Granules', from: 'Granules')
+          within '#collection_constraint_values' do
+            fill_in('Minimum Access Constraint Value', with: '')
+            fill_in('Maximum Access Constraint Value', with: '')
+            uncheck('Include Undefined')
+          end
 
-          within '#search_groups_cell' do
+          select('All Granules', from: 'Granules')
+          within '#granule_constraint_values' do
+            fill_in('Minimum Access Constraint Value', with: 1.1)
+            fill_in('Maximum Access Constraint Value', with: 8.8)
+            check('Include Undefined')
+          end
+
+          select('Group 2', from: 'Search and Order')
+          within '#search_and_order_groups_cell' do
             page.find('.select2-selection__choice[title="Group 1"] > .select2-selection__choice__remove').click
           end
-          select('Group 2', from: 'Search and Order')
 
           click_on 'Submit'
         end
@@ -143,8 +165,13 @@ describe 'Creating Permissions', js: true do
         it 'redirects to the permission show page and displays the permission information' do
           expect(page).to have_content(permission_name)
           expect(page).to have_content('Permission Type | Search & Order | MMT_2')
+
           expect(page).to have_content('Collections | All Collections')
+          expect(page).to have_no_content('Collections Access Constraint Filter')
+
           expect(page).to have_content('Granules | All Granules in Selected Collection Records')
+          expect(page).to have_content('Granules Access Constraint Filter: Match range 1.1 to 8.8, Include Undefined')
+
 
           within '#permission-groups-table' do
             # TODO is there a way to test the icons?
@@ -153,45 +180,36 @@ describe 'Creating Permissions', js: true do
             expect(page).to have_content('Group 2 (8)')
           end
         end
+      end
+    end
 
-        #context with stub for tests for deleting a permission
+    context 'when deleting the permission with negative confirmation' do
+      before do
+        click_on 'Delete'
+        click_on 'No'
+      end
 
-        context 'when deleting the permission with negative confirmation' do
-          before do
-            click_on 'Delete'
-            click_on 'No'
+      it 'closes the confirmation dialog and does not delete the permission' do
+        expect(page).to have_no_content('Are you sure you want to delete this permission?')
+        expect(page).to have_selector('#delete-permission-modal', visible: false)
+        expect(page).to have_content(permission_name)
+        expect(page).to have_link('Edit')
+        expect(page).to have_link('Delete')
+      end
+    end
 
-          end
+    context 'when deleting the permission with positive confirmation' do
+      before do
+        delete_success = '{"revision_id":3,"concept_id":"ACL12345-CMR"}' # should make sure that concept_id is with underscore, not dash. the CMR docs have dash in the delete response, but everything else is underscore
+        delete_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(delete_success)))
+        allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(delete_response) # method name being received must match the cmr_client delete method
 
-          it 'closes the confirmation dialog and does not delete the permission' do
+        click_on 'Delete'
+        click_on 'Yes'
+      end
 
-            expect(page).to have_no_content('Are you sure you want to delete this permission?')
-            expect(page).to have_selector('#delete-permission-modal', visible: false)
-            expect(page).to have_content(permission_name)
-            expect(page).to have_link('Edit')
-            expect(page).to have_link('Delete')
-
-          end
-
-        end
-
-
-        context 'when deleting the permission with positive confirmation' do
-          before do
-            delete_success = '{"revision_id":3,"concept_id":"ACL12345-CMR"}' # should make sure that concept_id is with underscore, not dash. the CMR docs have dash in the delete response, but everything else is underscore
-            delete_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(delete_success)))
-            allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(delete_response) # method name being received must match the cmr_client delete method
-
-            click_on 'Delete'
-            click_on 'Yes'
-
-          end
-
-          it 'redirects to the index page and does not display the current permission' do
-            expect(page).to have_no_content(permission_name)
-          end
-
-        end
+      it 'redirects to the index page and does not display the current permission' do
+        expect(page).to have_no_content(permission_name)
       end
     end
   end

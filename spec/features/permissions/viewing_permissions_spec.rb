@@ -3,7 +3,7 @@
 
 require 'rails_helper'
 
-describe 'Viewing Permissions' do
+describe 'Viewing Collection Permissions' do
   before do
     login
   end
