@@ -114,8 +114,14 @@ describe 'Collection Permissions form', js: true do
         click_on 'Submit'
       end
 
-      it 'displays the appropriate validation errors for the Min and Max fields'
-      # TODO: need to get this working properly first
+      it 'displays the appropriate validation errors for the Min and Max fields' do
+        within '#collection_constraint_values' do
+          expect(page).to have_content('Maxmimum value must be greater than Minimum value.')
+        end
+        within '#granule_constraint_values' do
+          expect(page).to have_content('Maxmimum value must be greater than Minimum value.')
+        end
+      end
     end
   end
 end

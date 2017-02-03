@@ -162,17 +162,12 @@ $(document).ready ->
             # field should be required if min has a value
             $('#collection_access_value_max_value').val() != ''
           number: true
-          # max:
-          #   # requires a param passed to it
-            # param: $('#collection_access_value_max_value').val()
-            # depends: (element) ->
-            #   debugger
-            #   $('#collection_access_value_max_value').val() != ''
         'collection_access_value[max_value]':
           required: (element) ->
             # field should be required if max has a value
             $('#collection_access_value_min_value').val() != ''
           number: true
+          greaterThan: $('#collection_access_value_min_value')
           # min:
             # TODO: this depends is not working. documentation to prove there is an issue they didn't fix
             # use the conditionally adding the rules
@@ -188,15 +183,16 @@ $(document).ready ->
         granule_options:
           required: true
         'granule_access_value[min_value]':
-          number: true
           required: (element) ->
             # field should be required if max has a value
             $('#granule_access_value_max_value').val() != ''
-        'granule_access_value[max_value]':
           number: true
+        'granule_access_value[max_value]':
           required: (element) ->
             # field should be required if min has a value
             $('#granule_access_value_min_value').val() != ''
+          number: true
+          greaterThan: $('#granule_access_value_min_value')
         'search_groups[]':
           required: (element) ->
             # field is required if the other field has no value/selection
@@ -213,16 +209,16 @@ $(document).ready ->
           required: 'Collections must be specified.'
         'collection_access_value[min_value]':
           required: 'Minimum and Maximum values must be specified together.'
-          # max: 'Minimum value must be less than the Maximum value.'
         'collection_access_value[max_value]':
           required: 'Minimum and Maximum values must be specified together.'
-          # min: 'Maximum value must be greater than the Minimum value.'
+          greaterThan: 'Maxmimum value must be greater than Minimum value.'
         granule_options:
           required: 'Granules must be specified.'
         'granule_access_value[min_value]':
           required: 'Minimum and Maximum values must be specified together.'
         'granule_access_value[max_value]':
           required: 'Minimum and Maximum values must be specified together.'
+          greaterThan: 'Maxmimum value must be greater than Minimum value.'
         'search_groups[]':
           required: 'Please specify at least one Search group or one Search & Order group.'
         'search_and_order_groups[]':
@@ -233,6 +229,17 @@ $(document).ready ->
         permission_group: 'search_groups[] search_and_order_groups[]'
         collection_access_value_group: 'collection_access_value[min_value] collection_access_value[max_value]'
         graunle_access_value_group: 'granule_access_value[min_value] granule_access_value[max_value]'
+
+    $.validator.addMethod 'greaterThan', (value, elem, arg) ->
+      # the built in max and min methods didn't seem to work with the depends
+      # condition or possibly with comparing values dynamically, so here we
+      # are defining our own method to ensure the Max is greater than the Min
+      $minInput = arg
+      minimum = arg.val()
+      # debugger
+      return true if value == '' || minimum == ''
+      parseFloat(value) > parseFloat(minimum)
+    , 'Maxmimum value must be greater than Minimum value.' # default message
 
 
     visitedPermissionGroupSelect = []
