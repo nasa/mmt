@@ -86,39 +86,6 @@ class PermissionsController < ManageCmrController
 
 
   def create
-    # hasError = false # TODO: can all this hasError stuff be removed?
-    #                   # jquery validation should take care of it all
-    # msg = ''
-    # if params[:permission_name].blank?
-    #   hasError = true
-    #   msg = 'Permission Name is required.'
-    # elsif params[:collection_options].blank? || params[:collection_options] == 'select'
-    #   hasError = true
-    #   msg = 'Collections must be specified.'
-    # elsif params[:granule_options].blank? || params[:granule_options] == 'select'
-    #   hasError = true
-    #   msg = 'Granules must be specified.'
-    # elsif params[:search_groups].nil? && params[:search_and_order_groups].nil?
-    #   hasError = true
-    #   msg = 'Please specify at least one Search group or one Search & Order group.'
-    # end
-    #
-    # if hasError == true
-    #   Rails.logger.error("Permission Creation Error: #{msg}")
-    #   flash.now[:error] = msg
-    #   @permission_name = params[:permission_name]
-    #
-    #   @collection_options = params[:collection_options]
-    #   @collection_selections = params[:collection_selections]
-    #   @granule_options = params[:granule_options]
-    #
-    #   @groups = get_groups_for_permissions
-    #   @search_groups = params[:search_groups]
-    #   @search_and_order_groups = params[:search_and_order_groups]
-    #
-    #   render :new and return
-    # end
-    #############################################
 
     # TODO: can do this without passing in provider_id?
     # should add text on form to say it will be for current provider?
@@ -374,7 +341,7 @@ class PermissionsController < ManageCmrController
 
       # req_obj['catalog_item_identity']['collection_identifier'] = {}
       # req_obj['catalog_item_identity']['collection_identifier']['entry_titles'] = entry_titles
-      collection_identifier = req_obj.fetch('collection_identifier', {})
+      # collection_identifier = req_obj.fetch('collection_identifier', {})
       collection_identifier['entry_titles'] = entry_titles
     end
 
@@ -421,41 +388,14 @@ class PermissionsController < ManageCmrController
       end
       req_obj['catalog_item_identity']['granule_identifier'] = granule_identifier unless granule_identifier.blank?
     end
-    # fail
 
     search_groups = params[:search_groups] || []
     search_groups.each do |search_group|
-      # if search_group == 'guest' || search_group == 'registered'
-      #   search_permission = {
-      #     'user_type' => search_group,
-      #     'permissions'=> ['read'] # aka "search"
-      #   }
-      # else
-      #   search_permission = {
-      #       'group_id'=> search_group,
-      #       'permissions'=> ['read'] # aka "search"
-      #   }
-      # end
-      #
-      # req_obj['group_permissions'] << search_permission
       req_obj['group_permissions'] << construct_request_group_permission(search_group, ['read']) # aka 'search'
     end
 
     search_and_order_groups = params[:search_and_order_groups] || []
     search_and_order_groups.each do |search_and_order_group|
-      # if search_and_order_group == 'guest' || search_and_order_group == 'registered'
-      #   search_and_order_permission = {
-      #       'user_type' => search_and_order_group,
-      #       'permissions'=> ['read', 'order'] # aka "search"
-      #   }
-      # else
-      #   search_and_order_permission = {
-      #       'group_id'=> search_and_order_group,
-      #       'permissions'=> ['read', 'order'] # aka "search"
-      #   }
-      # end
-      #
-      # req_obj['group_permissions'] << search_and_order_permission
       req_obj['group_permissions'] << construct_request_group_permission(search_and_order_group, ['read', 'order']) # aka 'search'
     end
 
@@ -470,16 +410,14 @@ class PermissionsController < ManageCmrController
     else
       group_permission['group_id'] = group_id
     end
+
     group_permission['permissions'] = permissions
 
     group_permission
   end
 
-  # create summary for Index (if Search or Search & Order)
+  # create summary for Index table (Search or Search & Order)
   def construct_permissions_summaries(permissions)
-    # for index
-    # only needs to know if Search OR Search & Order
-    # Search through the permissions of each group and create a summary for display
     permissions.each do |perm|
       permission_summary = {}
       permission_summary_list = []
@@ -555,10 +493,8 @@ class PermissionsController < ManageCmrController
   end
 
   def set_catalog_item_identity(permission)
-    # parsing for show or edit actions
     show = params[:action] == 'show' ? true : false
 
-    # catalog_item_identity = permission['catalog_item_identity']
     catalog_item_identity = permission.fetch('catalog_item_identity', {})
     @permission_name = catalog_item_identity['name']
 
@@ -570,30 +506,6 @@ class PermissionsController < ManageCmrController
       @collection_options = catalog_item_identity['collection_identifier'] ? 'selected-ids-collections' : 'all-collections'
       @granule_options = catalog_item_identity['granule_applicable'] ? 'all-granules' : 'no-access'
     end
-
-    # if catalog_item_identity['collection_identifier']
-    #   entry_titles = catalog_item_identity['collection_identifier']['entry_titles']
-    #
-    #   collections, errors, hits = get_collections_by_entry_titles(entry_titles)
-    #
-    #   if show
-    #     @collection_entry_ids = []
-    #     collections.each do |collection|
-    #       @collection_entry_ids << collection['umm']['entry-id']
-    #     end
-    #   else
-    #     selected_collections = []
-    #     delimiter = '%%__%%'
-    #     collections.each do |collection|
-    #       # widget needs entry_id | entry_title
-    #       opt = collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title']
-    #       selected_collections << opt
-    #     end
-    #     # the hidden input can only handle text, so the widget is currently using the delimiter to separate the
-    #     # collection display values
-    #     @collection_selections = selected_collections.join(delimiter)
-    #   end
-    # end
 
     collection_identifier = catalog_item_identity.fetch('collection_identifier', {})
     @collection_access_value = collection_identifier.fetch('access_value', {})
@@ -621,12 +533,6 @@ class PermissionsController < ManageCmrController
     end
 
     @granule_access_value = catalog_item_identity.fetch('granule_identifier', {}).fetch('access_value', {})
-
-    # need to check collection_identifier for access_value (and entry_titles - as above)
-      # entry titles is an array
-      # access_value is an object w/ keys: min_value, max_value, and include_undefined_value
-    # need to check granule_identifier for access_value
-      # access_value is an object w/ keys: min_value, max_value, and include_undefined_value
 
     @permission_provider = catalog_item_identity['provider_id']
   end
