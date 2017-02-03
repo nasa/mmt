@@ -1,4 +1,4 @@
-# MMT-507, 508, 152, 153, 170, 171
+# MMT-507, 508, 152, 153, 170, 171, 509, 512
 # tests for create, show, edit, update
 
 require 'rails_helper'

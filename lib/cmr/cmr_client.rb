@@ -249,7 +249,6 @@ module Cmr
       response = get(url, options, token_header(token))
     end
 
-    # def retrieve_permission(concept_id, token)
     def get_permission(concept_id, token)
       # Example: curl -i "http://localhost:3011/acls/#{concept_id}"
       if Rails.env.development? || Rails.env.test?
