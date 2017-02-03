@@ -61,6 +61,14 @@ class ManageCmrController < PagesController
 
   private
 
+  # Sets an array of actions that the current user has permission to take
+  # on the provided policy_name. This passes through Pundit and exists for
+  # displaying a list of objects on an index page in conjuction with actions_table_header
+  # within the application_helper
+  def set_allowed_actions(policy_name, actions)
+    @allowed_actions = actions.select { |action| policy(policy_name).send("#{action}?") }
+  end
+
   def check_if_administrator_of(type, target)
     # set default permission (similar to cmr response if no permissions)
     permission = { target => [] }

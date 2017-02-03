@@ -50,6 +50,10 @@
     <section class="eui-callout-box">
       <div class="eui-callout-box-content">
         <h3 class="eui-callout-box__title">Service Management</h3>
+        <p><%= link_to 'View Service Entries', service_entries_path %></p>
+        <% if policy(:service_entry).create? %>
+          <p><%= link_to 'Create a Service Entry', new_service_entry_path %></p>
+        <% end %>
         <p><%= link_to 'View Service Options', service_options_path %></p>
         <p><%= link_to 'Create a Service Option', new_service_option_path %></p>
       </div>

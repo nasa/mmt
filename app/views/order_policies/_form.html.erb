@@ -48,7 +48,7 @@
 <fieldset>
   <h3>Order Catalog Items</h3>
 
-  <p class="form-description">Select collections for which duplicate catalog items will be allowed.</p>
+  <p class="form-description space-bot">Select collections for which duplicate catalog items will be allowed.</p>
 
   <!-- Hidden fields that represent the underlying array of selected collections -->
   <% Array.wrap(@policy.fetch('CollectionsSupportingDuplicateOrderItems', [])).each do |collection| %>

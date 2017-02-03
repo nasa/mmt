@@ -144,4 +144,31 @@ This isn't an issue normally but with MMT we run a number of services locally wh
 
 For calls to CMR that are asyncronous, we do have a method of waiting for those to finish, syncronously. Within the [spec/helpers/cmr_helper.rb](spec/helpers/cmr_helper.rb) we have a method called `wait_for_cmr` that makes two calls to CMR and ElasticSearch to ensure all work is complete. This should ONLY be used within tests. 
 
-###### * PLEASE ENSURE ALL TESTS PASS BEFORE SUBMITTING A PULL REQUEST *
+### Testing against ACLs
+When testing functionality in the browser that requires specific permissions you'll need to ensure your environment is setup properly and you're able to assign yourself the permissions necessary. This includes:
+
+1. Creating a Group
+2. Add your URS account as a member of the group
+3. Give your URS account access to the MMT Users Group
+
+This provides access to the Provider Object Permissions pages.
+
+4. Give your URS account access to the MMT Admins Group
+
+This gives you permission to view system level groups.
+
+From here you'll need to visit the Provider Object Permissions page, and find your group, from here you'll be able to modify permissions of the group so that you can test functionality associated with any of the permissions. 
+
+##### Automating ACL Group Management
+To run the above steps automatically there is a provided rake task to do the heavy lifting.
+
+    rake acls:testing:prepare[URS_USERNAME]
+    
+Replacing URS_USERNAME with your own username. An example:
+
+    $ rake acls:testing:prepare[test_user]
+    [Success] Group `RABBOTT Testing Group` created.
+    [Success] Added test_user to MMT Users
+    [Success] Added test_user to MMT Admins
+
+From here I'm able to visit `/provider_identity_permissions` and see my newly created group. Clicking on it allows me to grant myself Provider Level Access to the necessary targets for testing.

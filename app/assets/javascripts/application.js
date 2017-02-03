@@ -28,5 +28,6 @@
 //= require jquery-validate/jquery.validate.min
 //= require jquery.webui-popover/jquery.webui-popover.min
 //= require redactor/redactor.min
+//= require jquery-textcounter/textcounter.min
 
 //= require_tree .

@@ -1,10 +1,22 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
 
   before_action :is_logged_in
   before_action :setup_query
   before_action :refresh_urs_if_needed, except: [:logout, :refresh_token]
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  # By default Pundit calls the current_user method during authorization
+  # but for our calls to the CMR ACL we need user information as well as
+  # the users valid token. This provides our policies with the ability to
+  # retrieve the authenticated user but also to their token
+  def pundit_user
+    UserContext.new(current_user, token)
+  end
 
   protected
 
@@ -29,10 +41,12 @@ class ApplicationController < ActionController::Base
   def cmr_client
     @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
   end
+  helper_method :cmr_client
 
   def echo_client
     @echo_client ||= Echo::Client.client_for_environment(Rails.configuration.echo_env, Rails.configuration.services)
   end
+  helper_method :echo_client
 
   def edsc_map_path
     service_configs = Rails.configuration.services
@@ -115,12 +129,14 @@ class ApplicationController < ActionController::Base
   def token
     session[:access_token]
   end
+  helper_method :token
 
   def echo_provider_token
     set_provider_context_token if session.fetch('echo_provider_token', nil).nil?
 
     session[:echo_provider_token]
   end
+  helper_method :echo_provider_token
 
   def token_with_client_id
     if Rails.env.development? && params[:controller] == 'collections' && params[:action] == 'show'
@@ -289,5 +305,15 @@ class ApplicationController < ActionController::Base
     elsif TEMPORAL_INFORMATION_FIELDS.include? fields.first
       'temporal_information'
     end
+  end
+
+  private
+
+  # Custom error messaging for Pundit
+  def user_not_authorized(exception)
+    policy_name = exception.policy.class.to_s.underscore
+
+    flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
+    redirect_to(request.referrer || manage_cmr_path)
   end
 end
