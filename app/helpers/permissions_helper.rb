@@ -10,14 +10,12 @@ module PermissionsHelper
     ['- Select -', nil],
     ['All Collections','all-collections'],
     ['Selected Collections', 'selected-ids-collections']
-    #['Collections with an Access Constraint Value', 'access-constraint-collections' ]
   ]
 
   ErrorCodeMessages = {
       409 => 'This permission could not be created because there is already another permission with the same name.',
       403 => 'You are not authorized to create a permission. Please contact your system administrator.'
   }
-  # 401 comes in as {"errors"=>["Permission to create ACL is denied"]}
 
   def display_access_constraints(access_value)
     display_text = "Access Constraint Filter: "
@@ -29,5 +27,9 @@ module PermissionsHelper
 
     display_text << filters.join(', ')
     display_text
+  end
+
+  def hide_granule_constraint_values?
+    @granule_access_value.blank? && @granule_options != 'all-granules' ? 'is-hidden' : nil
   end
 end
