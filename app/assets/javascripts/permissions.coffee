@@ -88,12 +88,31 @@ $(document).ready ->
         $('#granule_constraint_values').addClass 'is-hidden'
 
 
+    # add or remove required icons for access value min and max fields if at least one has an input value
+    $('.min-max-value').on 'blur', ->
+      $currentAccessVal = $(this)
+      $currentCol = $currentAccessVal.closest('.min-max-col')
+      # $row = $currentAccessVal.closest('.min-max-row')
+      $otherAccessVal = $currentCol.siblings('.min-max-col').find('.min-max-value')
+      $currentLabel = $("label[for='" + $currentAccessVal.attr('id') + "']")
+      $otherLabel = $("label[for='" + $otherAccessVal.attr('id') + "']")
+      # debugger
+      if $currentAccessVal.val() == '' && $otherAccessVal.val() == ''
+        # both inputs are empty so are not required
+        $currentLabel.removeClass 'eui-required-o'
+        $otherLabel.removeClass 'eui-required-o'
+      else
+        # at least one input is not empty, so both should be required
+        $currentLabel.addClass 'eui-required-o'
+        $otherLabel.addClass 'eui-required-o'
+
+
 
     # Validate new permissions form with jquery validation plugin
     $('.permission-form').validate
       errorClass: 'eui-banner--danger'
       errorElement: 'div'
-      onkeyup: false,
+      onkeyup: false
 
       errorPlacement: (error, element) ->
         if element.attr('id') == 'search_groups_' || element.attr('id') == 'search_and_order_groups_'
@@ -102,12 +121,17 @@ $(document).ready ->
           error.addClass('full-width')
           $table = element.closest('table')
           error.insertAfter($table)
+        else if element.hasClass('min-max-value')
+          $row = element.closest('.min-max-row')
+          error.addClass('full-width')
+          error.insertAfter($row)
         else
           error.insertAfter(element)
 
       # This library handles focus oddly, this ensures that we scroll
       # to and focus on the first element with an error in the form
       onfocusout: false
+
       invalidHandler: (form, validator) ->
         if validator.numberOfInvalids() > 0
           validator.errorList[0].element.focus()
@@ -116,16 +140,63 @@ $(document).ready ->
         # Prevent highlighting the fields themselves
         return false
 
+    #   rules: {
+    # // at least 15€ when bonus material is included
+    # pay_what_you_want: {
+    #   required: true
+    #   min: {
+    #     // min needs a parameter passed to it
+    #     param: 15,
+    #     depends: function(element) {
+    #       return $("#bonus-material").is(":checked");
+    #     }
+    #   }
+    # }
       rules:
         permission_name:
           required: true
         collection_options:
           required: true
-          valueNotEquals: 'select'
+        'collection_access_value[min_value]':
+          required: (element) ->
+            # field should be required if min has a value
+            $('#collection_access_value_max_value').val() != ''
+          number: true
+          # max:
+          #   # requires a param passed to it
+            # param: $('#collection_access_value_max_value').val()
+            # depends: (element) ->
+            #   debugger
+            #   $('#collection_access_value_max_value').val() != ''
+        'collection_access_value[max_value]':
+          required: (element) ->
+            # field should be required if max has a value
+            $('#collection_access_value_min_value').val() != ''
+          number: true
+          # min:
+            # TODO: this depends is not working. documentation to prove there is an issue they didn't fix
+            # use the conditionally adding the rules
+              # using rules.add( ) ?
+            # but first test on granule access values too
+            # depends: (element) ->
+            #   debugger
+            #   $('#collection_access_value_min_value').val() != null
+            # requires a param
+            # param: $('#collection_access_value_min_value').val()
+            # depends: (elem) ->
+            #   $('#collection_access_value_min_value').val() != ''
         granule_options:
           required: true
-          valueNotEquals: 'select'
-        # could not make require_from_group work, so adding our own dependency
+        'granule_access_value[min_value]':
+          number: true
+          required: (element) ->
+            # field should be required if max has a value
+            $('#granule_access_value_max_value').val() != ''
+        'granule_access_value[max_value]':
+          number: true
+          required: (element) ->
+            # field should be required if min has a value
+            $('#granule_access_value_min_value').val() != ''
         'search_groups[]':
           required: (element) ->
             # field is required if the other field has no value/selection
@@ -139,11 +210,19 @@ $(document).ready ->
         permission_name:
           required: 'Permission Name is required.'
         collection_options:
-          # we are using the valueNotEquals method, so need to use that message
-          valueNotEquals: 'Collections must be specified.'
+          required: 'Collections must be specified.'
+        'collection_access_value[min_value]':
+          required: 'Minimum and Maximum values must be specified together.'
+          # max: 'Minimum value must be less than the Maximum value.'
+        'collection_access_value[max_value]':
+          required: 'Minimum and Maximum values must be specified together.'
+          # min: 'Maximum value must be greater than the Minimum value.'
         granule_options:
-          # we are using the valueNotEquals method, so need to use that message
-          valueNotEquals: 'Granules must be specified.'
+          required: 'Granules must be specified.'
+        'granule_access_value[min_value]':
+          required: 'Minimum and Maximum values must be specified together.'
+        'granule_access_value[max_value]':
+          required: 'Minimum and Maximum values must be specified together.'
         'search_groups[]':
           required: 'Please specify at least one Search group or one Search & Order group.'
         'search_and_order_groups[]':
@@ -152,12 +231,9 @@ $(document).ready ->
       groups:
         # this should make it so only one message is shown for both elements
         permission_group: 'search_groups[] search_and_order_groups[]'
+        collection_access_value_group: 'collection_access_value[min_value] collection_access_value[max_value]'
+        graunle_access_value_group: 'granule_access_value[min_value] granule_access_value[max_value]'
 
-
-    # adding a method so the collections and granules default values ('select') are not valid
-    $.validator.addMethod 'valueNotEquals', (value, elem, arg) ->
-      arg != value
-    , 'Selection is required.' # this is the default message used if not specified in the messages options object
 
     visitedPermissionGroupSelect = []
 

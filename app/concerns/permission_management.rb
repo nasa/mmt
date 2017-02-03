@@ -6,13 +6,14 @@ module PermissionManagement
 
   # for the methods below, some require type (i.e. 'provider' or 'system') and
   # some require identity_type (i.e. 'provider_identity' or 'system_identity')
+
   def get_permissions_for_identity_type(type:, group_id: nil)
     permissions_list = []
 
     options = { 'include_full_acl' => true,
                 'identity_type' => type,
-                'page_size' => 50
-              }
+                'page_size' => 50 }
+
     options['permitted_group'] = group_id if group_id
     options['provider'] = current_user.provider_id if type == 'provider'
 

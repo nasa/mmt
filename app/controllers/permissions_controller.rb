@@ -1,4 +1,3 @@
-# TODO: change to CollectionPermissions
 class PermissionsController < ManageCmrController
   include PermissionManagement
 
@@ -20,8 +19,7 @@ class PermissionsController < ManageCmrController
       'include_full_acl' => true
     }
 
-    # TODO: change to collection_permissions
-    permissions_response = cmr_client.get_permissions_for_provider(@opts, token)
+    permissions_response = cmr_client.get_permissions(@opts, token)
 
     @permissions = if permissions_response.success?
                      construct_permissions_summaries(permissions_response.body['items'])
@@ -121,8 +119,6 @@ class PermissionsController < ManageCmrController
     #   render :new and return
     # end
     #############################################
-
-    # fail
 
     # TODO: can do this without passing in provider_id?
     # should add text on form to say it will be for current provider?
