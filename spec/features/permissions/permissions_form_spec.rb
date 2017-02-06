@@ -23,8 +23,8 @@ describe 'Collection Permissions form', js: true do
       expect(page).to have_field('Search and Order', type: 'select', visible: false)
 
       within '#collection_constraint_values' do
-        expect(page).to have_field('Minimum Access Constraint Value', type: 'number')
-        expect(page).to have_field('Maximum Access Constraint Value', type: 'number')
+        expect(page).to have_field('Minimum Access Constraint Value')
+        expect(page).to have_field('Maximum Access Constraint Value')
         expect(page).to have_unchecked_field('Include Undefined')
       end
     end
@@ -40,13 +40,12 @@ describe 'Collection Permissions form', js: true do
 
       it 'displays the granule constraint fields' do
         within '#granule_constraint_values' do
-          expect(page).to have_field('Minimum Access Constraint Value', type: 'number')
-          expect(page).to have_field('Maximum Access Constraint Value', type: 'number')
+          expect(page).to have_field('Minimum Access Constraint Value')
+          expect(page).to have_field('Maximum Access Constraint Value')
           expect(page).to have_unchecked_field('Include Undefined')
         end
       end
     end
-
 
     context 'when attempting to create a permission with invalid information' do
       before do
