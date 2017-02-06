@@ -120,7 +120,7 @@ describe 'Collection Permissions form', js: true do
           expect(page).to have_content('Maximum value must be greater than Minimum value.')
         end
         within '#granule_constraint_values' do
-          expect(page).to have_content('Maxmimum value must be greater than Minimum value.')
+          expect(page).to have_content('Maximum value must be greater than Minimum value.')
         end
       end
     end
