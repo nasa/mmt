@@ -7,7 +7,7 @@
     "permissions" : [ "read", "order" ]
   }, {
     "group_id" : "AG1200000069-MMT_2",
-    "permissions" : [ "read" ]
+    "permissions" : [ "read", "order" ]
   }],
   "catalog_item_identity" : {
     "name" : "Test Permission 1",
@@ -22,7 +22,12 @@
         "My testing title 02",
         "Test test title 03",
         "Testy long entry title"
-      ]
+      ],
+      "access_value": {
+        "min_value": 5.0,
+        "max_value": 25.0,
+        "include_undefined_value": true
+      }
     }
   }
 }

@@ -3,7 +3,7 @@
 
 require 'rails_helper'
 
-describe 'Viewing Permissions' do # need js? don't think so
+describe 'Viewing Collection Permissions' do
   before do
     login
   end
@@ -11,7 +11,7 @@ describe 'Viewing Permissions' do # need js? don't think so
   context 'when viewing the permissions index page' do
     before do
       all_permissions_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/permissions/get_permissions_full.json'))))
-      allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions_for_provider).and_return(all_permissions_response)
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions).and_return(all_permissions_response)
 
       visit permissions_path
     end

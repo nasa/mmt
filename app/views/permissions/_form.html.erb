@@ -9,43 +9,55 @@
 
 <fieldset>
   <%= label_tag 'collection_options', 'Collections', class: 'required eui-required-o' %>
-  <%= select_tag 'collection_options', options_for_select(PermissionsHelper::CollectionsOptions, @collection_options), class: 'full-width' %>
+  <%= select_tag 'collection_options', options_for_select(PermissionsHelper::CollectionsOptions, @collection_options), class: 'full-width', prompt: '-- Select an Option --' %>
   <%= hidden_field_tag 'collection_selections', @collection_selections %>
-  <div id="chooser-widget" style="display: none;"></div>
+  <div id="chooser-widget" class="is_hidden"></div>
 </fieldset>
 
-<!-- <fieldset id="collections-constraint-values" class="is-hidden is-white">
-  <div class="row">
-    <label for="collections-constraint-min">Min</label>
-    <input type="number" id="collections-constraint-min" class="space-right">
-    <label for="collections-constraint-Max">Max</label>
-    <input type="number" id="collections-constraint-max">
-    <span>(Inclusive)</span>
+<fieldset id="collection_constraint_values">
+  <h3 class="space-bot">Collections Access Constraint Filter</h3>
+  <div class="row min-max-row">
+    <div class="col-6 min-max-col">
+      <%= label_tag 'collection_access_value[min_value]', 'Minimum Access Constraint Value' %>
+      <%= text_field_tag 'collection_access_value[min_value]', @collection_access_value['min_value'], class: 'full-width min-max-value collection-access-value-group' %>
+    </div>
+    <div class="col-6 min-max-col">
+      <%= label_tag 'collection_access_value[max_value]', 'Maximum Access Constraint Value' %>
+      <%= text_field_tag 'collection_access_value[max_value]', @collection_access_value['max_value'], class: 'full-width min-max-value collection-access-value-group' %>
+    </div>
   </div>
-  <div class="row">
-    <input type="checkbox" name="undefined-val" id="undefind-val">
-    <label for="undefined-val">Include undefined value</label>
+  <div class="row checkbox-group">
+    <%= label_tag 'collection_access_value[include_undefined_value]' do %>
+      <%= check_box_tag 'collection_access_value[include_undefined_value]', true, @collection_access_value['include_undefined_value'] %>
+      Include Undefined
+    <% end %>
   </div>
-</fieldset> -->
+</fieldset>
 
 <fieldset>
   <%= label_tag 'granule_options', 'Granules', class: 'required eui-required-o' %>
-  <%= select_tag 'granule_options', options_for_select(PermissionsHelper::GranulesOptions, @granule_options), class: 'full-width' %>
+  <%= select_tag 'granule_options', options_for_select(PermissionsHelper::GranulesOptions, @granule_options), class: 'full-width', prompt: '-- Select an Option --' %>
 </fieldset>
 
-<!-- <fieldset id="granules-constraint-values" class="is-hidden is-white">
-  <div class="row">
-    <label for="granules-constraint-min">Min</label>
-    <input type="number" id="granules-constraint-min" class="space-right">
-    <label for="granules-constraint-Max">Max</label>
-    <input type="number" id="granules-constraint-max">
-    <span>(Inclusive)</span>
+<fieldset id="granule_constraint_values" class="<%= hide_granule_constraint_values?(@granule_access_value, @granule_options) %>">
+  <h3 class="space-bot">Granules Access Constraint Filter</h3>
+  <div class="row min-max-row">
+    <div class="col-6 min-max-col">
+      <%= label_tag 'granule_access_value[min_value]', 'Minimum Access Constraint Value' %>
+      <%= text_field_tag 'granule_access_value[min_value]', @granule_access_value['min_value'], class: 'full-width min-max-value granule-access-value-group' %>
+    </div>
+    <div class="col-6 min-max-col">
+      <%= label_tag 'granule_access_value[max_value]', 'Maximum Access Constraint Value' %>
+      <%= text_field_tag 'granule_access_value[max_value]', @granule_access_value['max_value'], class: 'full-width min-max-value granule-access-value-group' %>
+    </div>
   </div>
-  <div class="row">
-    <input type="checkbox" name="undefined-val" id="undefined-val">
-    <label for="undefined-val">Include undefined value</label>
+  <div class="row checkbox-group">
+    <%= label_tag 'granule_access_value[include_undefined_value]' do %>
+      <%= check_box_tag 'granule_access_value[include_undefined_value]', true, @granule_access_value['include_undefined_value'] %>
+      Include Undefined
+    <% end %>
   </div>
-</fieldset> -->
+</fieldset>
 
 <fieldset>
   <table class="space-top align-c" id="permission-form-groups-table">
