@@ -6,23 +6,17 @@ module ServiceEntryHelper
     service_tag_guid.split('_', 3)
   end
 
-  # Extracts the different ways this value can be returned into a single method
-  def service_entry_tags(service_entry)
-    # TagGuids comes back as a hash or nil
-    (service_entry['TagGuids'] || {}).fetch('Item', [])
-  end
-
   # Retrieve all the tag guids for a provided service entry and tag group
   def tag_guids_for_tag_group(service_entry, tag_group)
-    @guids ||= service_entry_tags(service_entry)
+    guids = service_entry['TagGuids']
 
-    return [] if @guids.blank?
+    return [] if guids.blank?
 
     # The first element of the tag strings ARE the tag group. We'll group
     # by that value and return the requested group. This saves a fair amount
     # of logic from having to be copy and pasted sifting out only the guids we
     # need for a particular operation
-    Array.wrap(@guids).group_by { |guid| service_tag_parts(guid).first }[tag_group] || []
+    Array.wrap(guids).group_by { |guid| service_tag_parts(guid).first }[tag_group] || []
   end
 
   # Extract only the concept ID from the tag guid which is part of a derived

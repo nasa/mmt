@@ -125,5 +125,8 @@ class ServiceEntriesController < ManageCmrController
     result = echo_client.get_service_entries(echo_provider_token, params[:id])
 
     @service_entry = result.parsed_body.fetch('Item', {}) unless result.error?
+
+    # To ensure a consistent value here we're converting to an array
+    @service_entry['TagGuids'] = (@service_entry['TagGuids'] || {}).fetch('Item', [])
   end
 end
