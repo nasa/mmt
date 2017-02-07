@@ -8,9 +8,6 @@ class SystemIdentityPermissionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
-    # Initialize an empty group list
-    @groups = []
-
     # Default the page to 1
     page = params.fetch('page', 1).to_i
 
@@ -26,14 +23,15 @@ class SystemIdentityPermissionsController < ManageCmrController
 
     groups_response = cmr_client.get_cmr_groups(filters, token)
 
-    if groups_response.success?
-      group_list = groups_response.body.fetch('items', [])
+    group_list = if groups_response.success?
+                   groups_response.body.fetch('items', [])
+                 else
+                   Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
+                   flash[:error] = Array.wrap(groups_response.body['errors'])[0]
+                   []
+                 end
 
-      @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
-    else
-      Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
-      flash[:error] = Array.wrap(groups_response.body['errors'])[0]
-    end
+    @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end
 
   def edit

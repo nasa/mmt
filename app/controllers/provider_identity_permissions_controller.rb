@@ -8,9 +8,6 @@ class ProviderIdentityPermissionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
-    # initialize empty group list
-    @groups = []
-
     # default the page to 1
     page = params.fetch('page', 1).to_i
     # prevent error with page_entries_info when page < 1 and @groups = []
@@ -27,13 +24,15 @@ class ProviderIdentityPermissionsController < ManageCmrController
 
     groups_response = cmr_client.get_cmr_groups(filters, token)
 
-    if groups_response.success?
-      group_list = groups_response.body.fetch('items', [])
-      @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
-    else
-      Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
-      flash[:error] = Array.wrap(groups_response.body['errors'])[0]
-    end
+    group_list = if groups_response.success?
+                    group_list = groups_response.body.fetch('items', [])
+                  else
+                    Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
+                    flash[:error] = Array.wrap(groups_response.body['errors'])[0]
+                    []
+                  end
+
+    @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end
 
   def edit
