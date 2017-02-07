@@ -90,7 +90,117 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
           end
 
           it 'displays the correct list of assignments' do
+            #fail
             expect(page).to have_selector('#assignment-collections tbody tr', count: 2)
+          end
+
+          context 'When clicking on the Collection column' do
+            before do
+              find('#assignment-collections thead th:nth-child(2)').click
+            end
+
+            it 'It sorts the table by Collections in ascending order' do
+              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(2)')
+              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(2)')
+              expect(first_cell).to have_content "Mark's Test"
+              expect(last_cell).to have_content "Matthew's Test"
+            end
+          end
+
+          context 'When clicking again on the Collection column' do
+            before do
+              find('#assignment-collections thead th:nth-child(2)').click
+              find('#assignment-collections thead th:nth-child(2)').click
+            end
+
+            it 'It sorts the table by Collections in descending order' do
+              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(2)')
+              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(2)')
+              expect(first_cell).to have_content "Matthew's Test"
+              expect(last_cell).to have_content "Mark's Test"
+            end
+          end
+
+          context 'When clicking on the Short Name column' do
+            before do
+              find('#assignment-collections thead th:nth-child(3)').click
+            end
+
+            it 'It sorts the table by Short Name in ascending order' do
+              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(3)')
+              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(3)')
+              expect(first_cell).to have_content 'ID'
+              expect(last_cell).to have_content "Matthew'sTest"
+            end
+          end
+
+          context 'When clicking again on the Short Name column' do
+            before do
+              find('#assignment-collections thead th:nth-child(3)').click
+              find('#assignment-collections thead th:nth-child(3)').click
+            end
+
+            it 'It sorts the table by Short Name in descending order' do
+              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(3)')
+              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(3)')
+              expect(first_cell).to have_content "Matthew'sTest"
+              expect(last_cell).to have_content 'ID'
+            end
+          end
+
+          context 'When clicking on the Version ID column' do
+            before do
+              find('#assignment-collections thead th:nth-child(4)').click
+            end
+
+            it 'It sorts the table by Version ID in ascending order' do
+              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(4)')
+              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(4)')
+              expect(first_cell).to have_content '1'
+              expect(last_cell).to have_content '2'
+            end
+          end
+
+          context 'When clicking again on the Version ID column' do
+            before do
+              find('#assignment-collections thead th:nth-child(4)').click
+              find('#assignment-collections thead th:nth-child(4)').click
+            end
+
+            it 'It sorts the table by Version ID in descending order' do
+              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(4)')
+              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(4)')
+              expect(first_cell).to have_content '2'
+              expect(last_cell).to have_content '1'
+            end
+          end
+
+          context 'When clicking on the Data Quality Summary column' do
+            before do
+              find('#assignment-collections thead th:nth-child(5)').click
+            end
+
+            it 'It sorts the table by Data Quality Summary in ascending order' do
+              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(5)')
+              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(5)')
+              expect(first_cell).to have_content 'DQS #1'
+              expect(last_cell).to have_content 'DQS #1'
+            end
+          end
+
+          # This should be the same as the case above since these cells have the same content
+          context 'When clicking again on the Data Quality Summary column' do
+            before do
+              find('#assignment-collections thead th:nth-child(5)').click
+              find('#assignment-collections thead th:nth-child(5)').click
+            end
+
+            it 'It sorts the table by Data Quality Summary in descending order' do
+              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(5)')
+              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(5)')
+              expect(first_cell).to have_content 'DQS #1'
+              expect(last_cell).to have_content 'DQS #1'
+            end
           end
         end
       end
