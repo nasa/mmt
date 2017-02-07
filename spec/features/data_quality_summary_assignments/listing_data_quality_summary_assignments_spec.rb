@@ -90,7 +90,6 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
           end
 
           it 'displays the correct list of assignments' do
-            #fail
             expect(page).to have_selector('#assignment-collections tbody tr', count: 2)
           end
 
