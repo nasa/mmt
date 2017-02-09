@@ -62,22 +62,38 @@ describe 'System Identity Permissions pages and form' do
     end
 
     context 'when visiting the system identities index page' do
-      before do
-        visit system_identity_permissions_path
+      context 'when there are system groups' do
+        before do
+          visit system_identity_permissions_path
+        end
+
+        it 'shows the page with table of system level groups' do
+          expect(page).to have_content('System Object Permissions')
+          expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
+
+          within '.system-group-table' do
+            # these are the bootstrapped CMR Administrators group, and the system groups we create on cmr setup
+            expect(page).to have_content('Administrators')
+            expect(page).to have_content('Administrators_2')
+            expect(page).to have_content('MMT Admins')
+            expect(page).to have_content('MMT Users')
+            expect(page).to have_content(@group_name)
+            expect(page).to have_content(@managed_group_name)
+          end
+        end
       end
 
-      it 'shows the page with table of system level groups' do
-        expect(page).to have_content('System Object Permissions')
-        expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
+      context 'when no system groups are returned' do
+        before do
+          failure = '{"errors":["An Internal Error has occurred."]}'
+          failure_response = Cmr::Response.new(Faraday::Response.new(status: 500, body: JSON.parse(failure)))
+          allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).and_return(failure_response)
 
-        within '.system-group-table' do
-          # these are the bootstrapped CMR Administrators group, and the system groups we create on cmr setup
-          expect(page).to have_content('Administrators')
-          expect(page).to have_content('Administrators_2')
-          expect(page).to have_content('MMT Admins')
-          expect(page).to have_content('MMT Users')
-          expect(page).to have_content(@group_name)
-          expect(page).to have_content(@managed_group_name)
+          visit system_identity_permissions_path
+        end
+
+        it 'does not show any groups' do
+          expect(page).to have_content('There are no System Groups available at this time or you do not have permissions to see System Groups.')
         end
       end
     end

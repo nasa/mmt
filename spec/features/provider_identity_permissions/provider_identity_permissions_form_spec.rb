@@ -51,7 +51,7 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
       login
     end
 
-    context 'when visiting the provider identities permissions index page' do
+    context 'when there are groups' do
       before do
         visit provider_identity_permissions_path
       end
@@ -63,6 +63,20 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
         within '.provider-permissions-group-table' do
           expect(page).to have_content("#{@group_name} #{@group_description} MMT_2 0")
         end
+      end
+    end
+
+    context 'when no groups are returned' do
+      before do
+        failure = '{"errors":["An Internal Error has occurred."]}'
+        failure_response = Cmr::Response.new(Faraday::Response.new(status: 500, body: JSON.parse(failure)))
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).and_return(failure_response)
+
+        visit provider_identity_permissions_path
+      end
+
+      it 'does not show any groups' do
+        expect(page).to have_content('There are no Provider Groups available at this time or you do not have the right permissions.')
       end
     end
 
