@@ -6,10 +6,14 @@ class OrdersController < ManageCmrController
   def index
   end
 
+  def show
+    @order = generate_order(params['id'])
+  end
+
   def edit
   end
 
-  def update
+  def search
     @orders = []
 
     payload = {}
@@ -30,6 +34,7 @@ class OrdersController < ManageCmrController
       order_info = echo_client.get_orders(echo_provider_token, guid['OrderGuid']).parsed_body
 
       item = order_info.fetch('Item', {})
+      order['guid'] = guid['OrderGuid']
       order['state'] = item.fetch('State', '')
       order['creation_date'] = item.fetch('CreationDate', '')
       order['submitted_date'] = item.fetch('SubmissionDate', '')
@@ -51,7 +56,64 @@ class OrdersController < ManageCmrController
     unless params['user_id'].empty?
       @orders.select!{ |order| order['user_id'] == params['user_id'] }
     end
+  end
 
-    render action: :edit
+  private
+
+  def generate_order(guid)
+    order_info = echo_client.get_orders(echo_provider_token, guid).parsed_body.fetch('Item', {})
+    order = {}
+
+    order['guid'] = guid
+    order['state'] = order_info.fetch('State', '')
+    order['order_price'] = order_info.fetch('OrderPrice', '')
+    order['creation_date'] = order_info.fetch('CreationDate', '')
+    order['submission_date'] = order_info.fetch('SubmissionDate', '')
+    order['last_update_date'] = order_info.fetch('LastUpdateDate', '')
+    user = echo_client.get_user_names(echo_provider_token, order_info.fetch('OwnerGuid', '')).parsed_body
+
+    order['owner'] = order['user_id'] = user.fetch('Item', {}).fetch('Name', '')
+    order['user_id'] = user.fetch('Item', {}).fetch('Name', '')
+
+    order['notify_level'] = order_info.fetch('NotifyLevel', '')
+    order['user_domain'] = order_info.fetch('UserDomain', '')
+    order['user_region'] = order_info.fetch('UserRegion', '')
+    order['client_identity'] = order_info.fetch('ClientIdentity', '')
+
+    order['contact_information'] = generate_contact_info(order_info.fetch('ContactAddress', {}))
+
+    order['shipping_information'] = generate_contact_info(order_info.fetch('ShippingAddress', {}))
+
+    order['billing_information'] = generate_contact_info(order_info.fetch('BillingAddress', {}))
+
+    order
+  end
+
+  def generate_contact_info(contact_address)
+    contact_information = {}
+
+    contact_information['role'] = contact_address.fetch('Role', '')
+    contact_information['name'] = "#{contact_address.fetch('FirstName', '')} #{contact_address.fetch('LastName', '')}"
+    contact_information['organization'] = contact_address.fetch('Organization', '')
+
+    address = contact_address.fetch('Address', {})
+    contact_information['address'] = {}
+    contact_information['address']['street1'] = address.fetch('Street1', '')
+    contact_information['address']['street2'] = address.fetch('Street2', '')
+    contact_information['address']['street3'] = address.fetch('Street3', '')
+    contact_information['address']['city'] = address.fetch('City', '')
+    contact_information['address']['state'] = address.fetch('State', '')
+    contact_information['address']['zip'] = address.fetch('Zip', '')
+    contact_information['address']['country'] = address.fetch('Country', '')
+    contact_information['address']['special_instructions'] = address.fetch('SpecialInstructions', '')
+
+    phones = contact_address.fetch('Phones', {}).fetch('Item', {})
+    contact_information['phone'] = {}
+    contact_information['phone']['number'] = phones.fetch('Number', '')
+    contact_information['phone']['type'] = phones.fetch('PhoneNumberType', '')
+
+    contact_information['email'] = contact_address.fetch('Email', '')
+
+    contact_information
   end
 end

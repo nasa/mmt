@@ -29,3 +29,6 @@ $(document).ready ->
         required: 'From date is required.'
       'to_date':
         required: 'To date is required.'
+
+  $('a.show-option-selection').on 'click', ->
+    $(this).siblings('.option-selection-content').toggle()
