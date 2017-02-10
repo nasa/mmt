@@ -225,3 +225,9 @@ $(document).ready ->
       messages:
         'service_entries_toList[]':
           required: 'You must select at least 1 service entry.'
+
+  $('#service-option-assignments').tablesorter
+    # Prevent sorting on the checkboxes
+    headers:
+      3:
+        sorter: 'text'

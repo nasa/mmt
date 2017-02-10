@@ -4,7 +4,7 @@
 
     <%= form_tag(service_option_assignments_path, method: :delete, class: "service-option-form", id: "delete-service-option-assignments-form") do %>
       <fieldset>
-        <table id="service-option-assignments">
+        <table id="service-option-assignments" class="tablesorter">
           <thead>
             <tr>
               <th>Service Implementation</th>
@@ -12,7 +12,7 @@
               <th>Short Name</th>
               <th>Version ID</th>
               <th>Granules Only?</th>
-              <th>Option Definition</th>
+              <th>Service Option</th>
             </tr>
           </thead>
           <tbody>
@@ -39,11 +39,6 @@
               </tr>
             <% end %>
           </tbody>
-          <tfoot>
-            <tr>
-              <th colspan="6">Select one or more service entries.</th>
-            </tr>
-          </tfoot>
         </table>
       </fieldset>
     <% end %>
