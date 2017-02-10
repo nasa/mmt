@@ -25,11 +25,10 @@ class ProviderOrdersController < ManageCmrController
 
     item_guids = Array.wrap(name_guids).map { |name_guid| name_guid.fetch('Guid', '') }
 
-    items = echo_client.get_order_items(echo_provider_token, item_guids).parsed_body
+    items = echo_client.get_order_items(echo_provider_token, item_guids).parsed_body.fetch('Item', {})
 
     catalog_items = []
-    Array.wrap(items).each do |item|
-      order_item = item.fetch('Item', {})
+    Array.wrap(items).each do |order_item|
       order_item_detail = order_item.fetch('OrderItemDetail', {})
 
       catalog_item = {}

@@ -72,8 +72,7 @@ class OrdersController < ManageCmrController
     order['last_update_date'] = order_info.fetch('LastUpdateDate', '')
     user = echo_client.get_user_names(echo_provider_token, order_info.fetch('OwnerGuid', '')).parsed_body
 
-    order['owner'] = order['user_id'] = user.fetch('Item', {}).fetch('Name', '')
-    order['user_id'] = user.fetch('Item', {}).fetch('Name', '')
+    order['owner'] = user.fetch('Item', {}).fetch('Name', '')
 
     order['notify_level'] = order_info.fetch('NotifyLevel', '')
     order['user_domain'] = order_info.fetch('UserDomain', '')
