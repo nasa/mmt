@@ -60,7 +60,6 @@ class ServiceEntriesController < ManageCmrController
 
       render :new
     else
-
       flash[:success] = 'Service Entry successfully created'
 
       redirect_to service_entry_path(response.parsed_body)
@@ -72,7 +71,7 @@ class ServiceEntriesController < ManageCmrController
 
     @service_entry = generate_payload
 
-    response = echo_client.update_service_entry(token_with_client_id, @service_entry)
+    response = echo_client.update_service_entry(echo_provider_token, @service_entry)
 
     if response.error?
       flash[:error] = response.error_message
@@ -86,7 +85,7 @@ class ServiceEntriesController < ManageCmrController
   def destroy
     authorize :service_entry
 
-    response = echo_client.remove_service_entry(token_with_client_id, params[:id])
+    response = echo_client.remove_service_entry(echo_provider_token, params[:id])
 
     if response.error?
       flash[:error] = response.error_message

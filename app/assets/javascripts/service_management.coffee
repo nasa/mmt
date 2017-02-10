@@ -59,7 +59,6 @@ $(document).ready ->
         url: '/provider_collections',
         nextPageParm: 'page_num',
         filterParm: 'short_name',
-        uniqueIdentifierParam: 'concept_id',
         target: $('#service-entry-chooser-widget'),
         fromLabel: 'Available Collections',
         toLabel: 'Selected Collections',
@@ -155,5 +154,74 @@ $(document).ready ->
         'service_entry[service_interface_guid]':
           required: 'Service Interface is required when creating a Service Implementation.'
 
-    $('#service_entry_entry_type').on 'change', ->
-      manageEntryTypeFields($(this).val())
+  if $("#service-option-assignments-form").length > 0
+    # widget for choosing collections
+    serviceEntryChooser = null
+
+    if serviceEntryChooser == null
+      serviceEntryChooser = new Chooser({
+        id: 'service_entries',
+        url: '/service_implementations_with_datasets',
+        nextPageParm: 'page_num',
+        filterParm: 'name',
+        target: $('#service-option-assignment-chooser-widget'),
+        fromLabel: 'Available Service Entries',
+        toLabel: 'Selected Service Entries',
+        uniqueMsg: 'Service Entry is already selected.',
+        attachTo: $('#service-entry-selections'),
+        toMax: 100,
+        addButton: {
+          cssClass: 'eui-btn nowrap',
+          arrowCssClass: 'fa fa-plus',
+          text: ''
+        },
+        delButton: {
+          cssClass: 'eui-btn nowrap',
+          arrowCssClass: 'fa fa-minus',
+          text: ''
+        },
+        delAllButton: {
+          cssClass: 'eui-btn nowrap',
+          arrowCssClass: 'fa fa-trash',
+          text: ''
+        },
+        allowRemoveAll: true,
+        errorCallback: ->
+          $('<div class="eui-banner--danger">' +
+            'A server error occurred. Unable to get service entries.' +
+            '</div>').prependTo '#main-content'
+      })
+
+      serviceEntryChooser.init()
+
+    # On form submit, select all of the options in the 'Selected Service Entries' multiselect
+    # so that it can be properly interpreted by the controller
+    $('#service-option-assignments-form').on 'submit', ->
+      $('#service_entries_toList option').prop('selected', true)
+
+    $('#service-option-assignments-form').validate
+      errorClass: 'eui-banner--danger'
+      errorElement: 'div'
+      onkeyup: false
+
+      errorPlacement: (error, element) ->
+        error.insertAfter(element)
+
+      # This library handles focus oddly, this ensures that we scroll
+      # to and focus on the first element with an error in the form
+      onfocusout: false
+      invalidHandler: (form, validator) ->
+        if validator.numberOfInvalids() > 0
+          validator.errorList[0].element.focus()
+
+      highlight: (element, errorClass) ->
+        # Prevent highlighting the fields themselves
+        return false
+
+      rules:
+        'service_entries_toList[]':
+          required: true
+
+      messages:
+        'service_entries_toList[]':
+          required: 'You must select at least 1 service entry.'

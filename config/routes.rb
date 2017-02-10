@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
   resources :service_entries
   resources :service_options
+  resource :service_option_assignments, except: :show
+  get '/service_option_assignments' => 'service_option_assignments#index'
 
   resources :orders do
     collection do
@@ -60,7 +62,10 @@ Rails.application.routes.draw do
 
   resource :manage_cmr, only: :show, controller: 'manage_cmr'
 
+  # API Endpoints for Chooser implementations
   get 'provider_collections' => 'manage_cmr#provider_collections'
+  get 'service_implementations_with_datasets' => 'manage_cmr#service_implementations_with_datasets'
+
   get 'new_record' => 'pages#new_record', as: 'new_record'
   post 'hide_notification' => 'pages#hide_notification', as: 'hide_notification'
 

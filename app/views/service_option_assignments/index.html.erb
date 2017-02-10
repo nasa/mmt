@@ -1,0 +1,23 @@
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Service Option Assignments</h2>
+
+    <h3>Manage Service Option Assignments</h3>
+
+    <p>To <em>view</em> or <em>remove</em> currently assigned Service Options select the service entries to view below.</p>
+
+    <%= form_tag(service_option_assignments_path, method: :put, class: "service-option-form", id: "service-option-assignments-form") do %>
+      <fieldset>
+        <p class="form-description space-bot"><strong>NOTE</strong> that only service implementations which have dataset tags will be presented.</p>
+
+        <div class="row">
+          <div id="service-option-assignment-chooser-widget"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <%= button_tag 'Display Assignments', class: 'eui-btn' %>
+      </fieldset>
+    <% end %>
+  </section>
+</div>

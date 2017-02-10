@@ -270,5 +270,23 @@ module Echo
 
       make_request(@url, payload)
     end
+
+    # Retrieves service option assignments associated with a service.
+    def get_service_option_assignments_by_service(token, service_guids)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:GetServiceOptionAssignmentsByService, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:serviceEntryGuids) do
+          Array.wrap(service_guids).each do |g|
+            builder.ns3(:Item, g)
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
   end
 end

@@ -1,12 +1,13 @@
 class ManageCmrController < PagesController
+  include EchoSoap
+
   before_filter :set_notifications, only: :show
   before_filter :check_if_system_acl_administrator, only: :show
   before_filter :check_if_current_provider_acl_administrator, only: :show
 
   layout 'manage_cmr'
 
-  def show
-  end
+  def show; end
 
   # Controller action tied to a route for retrieving provider collections
   def provider_collections
@@ -53,6 +54,40 @@ class ManageCmrController < PagesController
       {
         'hits': response.body.fetch('hits', 0),
         'items': collections
+      }
+    else
+      response.body
+    end
+  end
+
+  def service_implementations_with_datasets
+    render json: get_service_implementations_with_datasets(params.permit(:name))
+  end
+
+  def get_service_implementations_with_datasets(params = {})
+    # Retrieve all service entries for the current provider
+    response = echo_client.get_service_entries_by_provider(echo_provider_token, current_provider_guid)
+
+    if response.success?
+      service_entries = Array.wrap(response.parsed_body.fetch('Item', [])).sort_by { |option| option['Name'].downcase }
+
+      # Allow filtering the results by name (This is really slow and now recommended, but is a necessary feature)
+      unless params.fetch('name', nil).blank?
+        service_entries.select! { |s| s['Name'].downcase.start_with?(params['name'].downcase) }
+      end
+
+      # Filter down our list of all service entries that belong to the current provider to
+      # just those with EntryType of SERVICE_IMPLEMENTATION and that have collections assigned to them
+      service_entries.select! do |s|
+        s['EntryType'] == 'SERVICE_IMPLEMENTATION' &&
+          (s['TagGuids'] || {}).fetch('Item', []).any? { |t| t.split('_', 3).include?('DATASET') }
+      end
+
+      {
+        'hits': service_entries.count,
+        'items': service_entries.map do |entry|
+          [entry['Guid'], entry['Name']]
+        end
       }
     else
       response.body
