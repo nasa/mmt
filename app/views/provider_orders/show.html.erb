@@ -47,7 +47,7 @@
             <td><%= catalog_item['local_granule_id'] %></td>
             <td>
               <%= catalog_item['option_selection']['name'] %>
-              <%= link_to 'show/hide', '#', class: 'show-option-selection' %>
+              <%= link_to 'show/hide', 'javascript:void(0);', class: 'show-option-selection' %>
               <div class="option-selection-content is-hidden">
                 <textarea name="option-selection-<%= catalog_item['item_guid'] %>" cols="75" rows="18" readonly="readonly">
                   <%= catalog_item['option_selection']['content'].strip %>
