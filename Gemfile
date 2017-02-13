@@ -49,6 +49,9 @@ gem 'faker'
 
 gem 'pundit'
 
+gem 'libxml-to-hash', :git => "https://github.com/johannesthoma/libxml-to-hash"
+
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

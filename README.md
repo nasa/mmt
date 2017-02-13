@@ -172,3 +172,29 @@ Replacing URS_USERNAME with your own username. An example:
     [Success] Added test_user to MMT Admins
 
 From here I'm able to visit `/provider_identity_permissions` and see my newly created group. Clicking on it allows me to grant myself Provider Level Access to the necessary targets for testing.
+
+### Replicating SIT Collections Locally
+Often we need collections to exist in our local CMR that already exist in SIT for the purposes of sending collection ids (concept ids) as part of a payload to the ECHO API that doesn't run locally, but instead on testbed. In order to do this the collection concept ids have to match those on SIT so we cannot simply download and ingest them. A rake task exists to replicate collections locally for this purpose.
+
+    $ rake collections:replicate
+    
+The task accepts two parameters
+
+- **provider:** The provider id to replicate collections for *default: MMT_2*
+- **page_size:** The number of collections to request *default: 25*
+
+##### Examples
+
+    $ rake collections:replicate[provider=MMT_1,amount=10]
+    
+Will download at most 10 collections from MMT_1.
+
+    $ rake collections:replicate[provider=SEDAC]
+
+Will download at most 25 collections from SEDAC.
+
+**NOTE** Some providers have permissions set on their collections and make require a token to view/download collections. You can set an ENV variable named 
+
+    CMR_SIT_TOKEN 
+   
+that if set, will be provided to CMR when downloading collections. 
