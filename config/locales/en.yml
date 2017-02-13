@@ -44,3 +44,5 @@ en:
       edit?: 'You are not permitted to update Service Entries.'
       update?: 'You are not permitted to update Service Entries.'
       destroy?: 'You are not permitted to delete Service Entries.'
+    service_option_assignment_policy:
+      destroy?: 'You are not permitted to delete Service Option Assignments.'

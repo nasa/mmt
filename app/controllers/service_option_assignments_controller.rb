@@ -2,7 +2,7 @@
 class ServiceOptionAssignmentsController < ManageCmrController
   include EchoSoap
 
-  before_action :set_collections
+  # before_action :set_collections
 
   add_breadcrumb 'Service Option Assignments', :service_option_assignments_path
 
@@ -15,7 +15,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
     assignments_response = echo_client.get_service_option_assignments_by_service(echo_provider_token, params['service_entries_toList'])
 
     if assignments_response.success?
-      service_option_associations = assignments_response.parsed_body.fetch('Item', [])
+      service_option_associations = Array.wrap(assignments_response.parsed_body.fetch('Item', []))
 
       # Collect all of the guids/ids we'll need to lookup in order to populate the table in the view
       collection_ids       = service_option_associations.map { |a| a['CatalogItemGuid'] }.compact
@@ -33,7 +33,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
       # Retrieve all service entries associated with the requested service implementations
       assignment_service_entries_response = echo_client.get_service_entries(echo_provider_token, service_entry_guids)
       assignment_service_entries = if service_entry_guids.any? && assignment_service_entries_response.success?
-                                     assignment_service_entries_response.parsed_body['Item'] || []
+                                     Array.wrap(assignment_service_entries_response.parsed_body['Item'])
                                    else
                                      []
                                    end
@@ -41,7 +41,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
       # Retrieve all service options associated with the requested service implementations
       assignment_service_options_response = echo_client.get_service_options(echo_provider_token, service_option_guids)
       assignment_service_options = if service_option_guids.any? && assignment_service_options_response.success?
-                                     assignment_service_options_response.parsed_body['Item'] || []
+                                     Array.wrap(assignment_service_options_response.parsed_body['Item'])
                                    else
                                      []
                                    end
@@ -59,5 +59,17 @@ class ServiceOptionAssignmentsController < ManageCmrController
     end
 
     render action: :edit
+  end
+
+  def destroy
+    authorize :service_option_assignment
+
+    response = echo_client.remove_service_option_assignments(echo_provider_token, params.fetch('service_option_assignment', []))
+
+    if response.success?
+      redirect_to service_option_assignments_path, flash: { success: 'Successfully deleted the selected service option assignments.' }
+    else
+      redirect_to service_option_assignments_path, flash: { error: response.error_message }
+    end
   end
 end

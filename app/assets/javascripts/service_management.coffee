@@ -229,5 +229,31 @@ $(document).ready ->
   $('#service-option-assignments').tablesorter
     # Prevent sorting on the checkboxes
     headers:
-      3:
+      0:
+        sorter: false
+      4:
         sorter: 'text'
+
+  if $("#delete-service-option-assignments-form").length > 0
+    $('#delete-service-option-assignments-form').validate
+      errorClass: 'eui-banner--danger'
+      errorElement: 'div'
+      onkeyup: false
+
+      errorPlacement: (error, element) ->
+        element.closest('fieldset').append(error)
+
+      onfocusout: (error) ->
+        this.element(error)
+
+      highlight: (element, errorClass) ->
+        # Prevent highlighting the fields themselves
+        return false
+
+      rules:
+        'service_option_assignment[]':
+          required: true
+
+      messages:
+        'service_option_assignment[]':
+          required: 'You must select at least 1 assignment.'

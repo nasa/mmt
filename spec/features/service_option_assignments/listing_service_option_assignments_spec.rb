@@ -87,56 +87,18 @@ describe 'Viewing Service Option Assignments', js: true do
           context 'when sorting by service implementation' do
             context 'in ascending order' do
               before do
-                find('#service-option-assignments thead th:nth-child(1)').click
-              end
-
-              it 'sorts has the correct value in the first row' do
-                within '#service-option-assignments tbody tr:first-child td:nth-child(1)' do
-                  expect(page).to have_content('Deimos')
-                end
-              end
-
-              it 'sorts has the correct value in the last row' do
-                within '#service-option-assignments tbody tr:last-child td:nth-child(1)' do
-                  expect(page).to have_content('Polaris')
-                end
-              end
-
-              context 'in descending order' do
-                before do
-                  find('#service-option-assignments thead th:nth-child(1)').click
-                end
-
-                it 'sorts has the correct value in the first row' do
-                  within '#service-option-assignments tbody tr:first-child td:nth-child(1)' do
-                    expect(page).to have_content('Polaris')
-                  end
-                end
-
-                it 'sorts has the correct value in the last row' do
-                  within '#service-option-assignments tbody tr:last-child td:nth-child(1)' do
-                    expect(page).to have_content('Deimos')
-                  end
-                end
-              end
-            end
-          end
-
-          context 'when sorting by service collection entry title' do
-            context 'in ascending order' do
-              before do
                 find('#service-option-assignments thead th:nth-child(2)').click
               end
 
               it 'sorts has the correct value in the first row' do
                 within '#service-option-assignments tbody tr:first-child td:nth-child(2)' do
-                  expect(page).to have_content('ipsum')
+                  expect(page).to have_content('Deimos')
                 end
               end
 
               it 'sorts has the correct value in the last row' do
                 within '#service-option-assignments tbody tr:last-child td:nth-child(2)' do
-                  expect(page).to have_content('Testy long entry title')
+                  expect(page).to have_content('Polaris')
                 end
               end
 
@@ -147,20 +109,20 @@ describe 'Viewing Service Option Assignments', js: true do
 
                 it 'sorts has the correct value in the first row' do
                   within '#service-option-assignments tbody tr:first-child td:nth-child(2)' do
-                    expect(page).to have_content('Testy long entry title')
+                    expect(page).to have_content('Polaris')
                   end
                 end
 
                 it 'sorts has the correct value in the last row' do
                   within '#service-option-assignments tbody tr:last-child td:nth-child(2)' do
-                    expect(page).to have_content('ipsum')
+                    expect(page).to have_content('Deimos')
                   end
                 end
               end
             end
           end
 
-          context 'when sorting by service collection short name' do
+          context 'when sorting by service collection entry title' do
             context 'in ascending order' do
               before do
                 find('#service-option-assignments thead th:nth-child(3)').click
@@ -168,13 +130,13 @@ describe 'Viewing Service Option Assignments', js: true do
 
               it 'sorts has the correct value in the first row' do
                 within '#service-option-assignments tbody tr:first-child td:nth-child(3)' do
-                  expect(page).to have_content('ID')
+                  expect(page).to have_content('ipsum')
                 end
               end
 
               it 'sorts has the correct value in the last row' do
                 within '#service-option-assignments tbody tr:last-child td:nth-child(3)' do
-                  expect(page).to have_content('New Testy Test')
+                  expect(page).to have_content('Testy long entry title')
                 end
               end
 
@@ -185,20 +147,20 @@ describe 'Viewing Service Option Assignments', js: true do
 
                 it 'sorts has the correct value in the first row' do
                   within '#service-option-assignments tbody tr:first-child td:nth-child(3)' do
-                    expect(page).to have_content('New Testy Test')
+                    expect(page).to have_content('Testy long entry title')
                   end
                 end
 
                 it 'sorts has the correct value in the last row' do
                   within '#service-option-assignments tbody tr:last-child td:nth-child(3)' do
-                    expect(page).to have_content('ID')
+                    expect(page).to have_content('ipsum')
                   end
                 end
               end
             end
           end
 
-          context 'when sorting by service collection version id' do
+          context 'when sorting by service collection short name' do
             context 'in ascending order' do
               before do
                 find('#service-option-assignments thead th:nth-child(4)').click
@@ -206,13 +168,13 @@ describe 'Viewing Service Option Assignments', js: true do
 
               it 'sorts has the correct value in the first row' do
                 within '#service-option-assignments tbody tr:first-child td:nth-child(4)' do
-                  expect(page).to have_content('02')
+                  expect(page).to have_content('ID')
                 end
               end
 
               it 'sorts has the correct value in the last row' do
                 within '#service-option-assignments tbody tr:last-child td:nth-child(4)' do
-                  expect(page).to have_content('223')
+                  expect(page).to have_content('New Testy Test')
                 end
               end
 
@@ -223,20 +185,20 @@ describe 'Viewing Service Option Assignments', js: true do
 
                 it 'sorts has the correct value in the first row' do
                   within '#service-option-assignments tbody tr:first-child td:nth-child(4)' do
-                    expect(page).to have_content('223')
+                    expect(page).to have_content('New Testy Test')
                   end
                 end
 
                 it 'sorts has the correct value in the last row' do
                   within '#service-option-assignments tbody tr:last-child td:nth-child(4)' do
-                    expect(page).to have_content('02')
+                    expect(page).to have_content('ID')
                   end
                 end
               end
             end
           end
 
-          context 'when sorting by service collection granules only' do
+          context 'when sorting by service collection version id' do
             context 'in ascending order' do
               before do
                 find('#service-option-assignments thead th:nth-child(5)').click
@@ -244,13 +206,13 @@ describe 'Viewing Service Option Assignments', js: true do
 
               it 'sorts has the correct value in the first row' do
                 within '#service-option-assignments tbody tr:first-child td:nth-child(5)' do
-                  expect(page).to have_content('No')
+                  expect(page).to have_content('02')
                 end
               end
 
               it 'sorts has the correct value in the last row' do
                 within '#service-option-assignments tbody tr:last-child td:nth-child(5)' do
-                  expect(page).to have_content('Yes')
+                  expect(page).to have_content('223')
                 end
               end
 
@@ -261,20 +223,20 @@ describe 'Viewing Service Option Assignments', js: true do
 
                 it 'sorts has the correct value in the first row' do
                   within '#service-option-assignments tbody tr:first-child td:nth-child(5)' do
-                    expect(page).to have_content('Yes')
+                    expect(page).to have_content('223')
                   end
                 end
 
                 it 'sorts has the correct value in the last row' do
                   within '#service-option-assignments tbody tr:last-child td:nth-child(5)' do
-                    expect(page).to have_content('No')
+                    expect(page).to have_content('02')
                   end
                 end
               end
             end
           end
 
-          context 'when sorting by service collection service option' do
+          context 'when sorting by service collection granules only' do
             context 'in ascending order' do
               before do
                 find('#service-option-assignments thead th:nth-child(6)').click
@@ -282,13 +244,13 @@ describe 'Viewing Service Option Assignments', js: true do
 
               it 'sorts has the correct value in the first row' do
                 within '#service-option-assignments tbody tr:first-child td:nth-child(6)' do
-                  expect(page).to have_content('Ligula Vulputate')
+                  expect(page).to have_content('No')
                 end
               end
 
               it 'sorts has the correct value in the last row' do
                 within '#service-option-assignments tbody tr:last-child td:nth-child(6)' do
-                  expect(page).to have_content('Risus Malesuada Sit')
+                  expect(page).to have_content('Yes')
                 end
               end
 
@@ -299,12 +261,50 @@ describe 'Viewing Service Option Assignments', js: true do
 
                 it 'sorts has the correct value in the first row' do
                   within '#service-option-assignments tbody tr:first-child td:nth-child(6)' do
-                    expect(page).to have_content('Risus Malesuada Sit')
+                    expect(page).to have_content('Yes')
                   end
                 end
 
                 it 'sorts has the correct value in the last row' do
                   within '#service-option-assignments tbody tr:last-child td:nth-child(6)' do
+                    expect(page).to have_content('No')
+                  end
+                end
+              end
+            end
+          end
+
+          context 'when sorting by service collection service option' do
+            context 'in ascending order' do
+              before do
+                find('#service-option-assignments thead th:nth-child(7)').click
+              end
+
+              it 'sorts has the correct value in the first row' do
+                within '#service-option-assignments tbody tr:first-child td:nth-child(7)' do
+                  expect(page).to have_content('Ligula Vulputate')
+                end
+              end
+
+              it 'sorts has the correct value in the last row' do
+                within '#service-option-assignments tbody tr:last-child td:nth-child(7)' do
+                  expect(page).to have_content('Risus Malesuada Sit')
+                end
+              end
+
+              context 'in descending order' do
+                before do
+                  find('#service-option-assignments thead th:nth-child(7)').click
+                end
+
+                it 'sorts has the correct value in the first row' do
+                  within '#service-option-assignments tbody tr:first-child td:nth-child(7)' do
+                    expect(page).to have_content('Risus Malesuada Sit')
+                  end
+                end
+
+                it 'sorts has the correct value in the last row' do
+                  within '#service-option-assignments tbody tr:last-child td:nth-child(7)' do
                     expect(page).to have_content('Ligula Vulputate')
                   end
                 end

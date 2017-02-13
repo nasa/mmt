@@ -27,7 +27,7 @@
               <% if collection.fetch('data_quality_summaries', []).empty? %>
                 <tr class="unassigned-collection">
                   <td></td>
-                  <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta', {}.fetch('concept-id', nil)), target: '_blank' %></td>
+                  <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta', {}).fetch('concept-id', nil)), target: '_blank' %></td>
                   <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
                   <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
                   <td></td>
