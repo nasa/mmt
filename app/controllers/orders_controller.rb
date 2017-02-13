@@ -1,8 +1,6 @@
 class OrdersController < ManageCmrController
   add_breadcrumb 'Track Orders', :orders_path
 
-  RESULTS_PER_PAGE = 25
-
   def index
   end
 
