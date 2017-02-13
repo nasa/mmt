@@ -61,5 +61,42 @@ module Echo
 
       make_request(@url, payload)
     end
+
+    def get_order_item_names_by_provider_order(token, provider_order_guids)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:GetOrderItemNamesByProviderOrder, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:providerOrderGuids) do
+          Array.wrap(provider_order_guids).each do |guid|
+            builder.ns3(:Item) do
+              builder.ns3(:ProviderGuid, guid.fetch('ProviderGuid'))
+              builder.ns3(:OrderGuid, guid.fetch('OrderGuid'))
+            end
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
+
+    def get_order_items(token, item_guids)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:GetOrderItems, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:orderItemGuids) do
+          Array.wrap(item_guids).each do |guid|
+            builder.ns3(:Item, guid)
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
   end
 end

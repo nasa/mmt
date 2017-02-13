@@ -1,0 +1,56 @@
+<table>
+  <tbody>
+    <tr>
+      <td>Role:</td>
+      <td><%= contact_information['role'] %></td>
+    </tr>
+    <tr>
+      <td>Name:</td>
+      <td><%= contact_information['name'] %></td>
+    </tr>
+    <tr>
+      <td>Organization:</td>
+      <td><%= contact_information['organization'] %></td>
+    </tr>
+    <tr>
+      <td>Address:</td>
+      <td>
+        <% unless contact_information['address']['street1'].empty? %>
+          <p>
+            <%= contact_information['address']['street1'] %>
+          </p>
+        <% end %>
+        <% unless contact_information['address']['street2'].empty? %>
+          <p>
+            <%= contact_information['address']['street2'] %>
+          </p>
+        <% end %>
+        <% unless contact_information['address']['street3'].empty? %>
+          <p>
+            <%= contact_information['address']['street3'] %>
+          </p>
+        <% end %>
+        <% unless contact_information['address']['city'].empty? %>
+          <p>
+            <%= contact_information['address']['city'] %>
+            <%= contact_information['address']['state'] %>
+            <%= contact_information['address']['zip'] %>
+          </p>
+        <% end %>
+        <% unless contact_information['address']['country'].empty? %>
+          <p>
+            <%= contact_information['address']['country'] %>
+          </p>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>Phone:</td>
+      <td><%= contact_information['phone']['number'] %> (<%= contact_information['phone']['type'] %>)</td>
+    </tr>
+    <tr>
+      <td>Email:</td>
+      <td><%= contact_information['email'] %></td>
+    </tr>
+  </tbody>
+</table>

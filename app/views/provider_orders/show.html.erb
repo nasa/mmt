@@ -1,0 +1,87 @@
+<div class="row row-content">
+  <section>
+    <h2>Provider Order</h2>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>Order Guid:</td>
+          <td><%= @provider_order['guid'] %></td>
+        </tr>
+        <tr>
+          <td>Provider ID:</td>
+          <td><%= @provider_order['provider_id'] %></td>
+        </tr>
+        <tr>
+          <td>Tracking ID:</td>
+          <td><%= @provider_order['tracking_id'] %></td>
+        </tr>
+        <tr>
+          <td>Provider Order State:</td>
+          <td><%= @provider_order['provider_order_state'] %></td>
+        </tr>
+        <tr>
+          <td>Closed Date:</td>
+          <td><%= @provider_order['closed_date'] %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Catalog Items</h3>
+    <table id="catalog-items-table">
+      <thead>
+        <tr>
+          <th>Catalog Item</th>
+          <th>Status</th>
+          <th>Data Granule ID</th>
+          <th>Local Granule ID</th>
+          <th>Option Selection</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @provider_order['catalog_items'].each do |catalog_item| %>
+          <tr>
+            <td><%= catalog_item['item_guid'] %></td>
+            <td><%= catalog_item['status'] %></td>
+            <td><%= catalog_item['data_granule_id'] %></td>
+            <td><%= catalog_item['local_granule_id'] %></td>
+            <td>
+              <%= catalog_item['option_selection']['name'] %>
+              <%= link_to 'show/hide', 'javascript:void(0);', class: 'show-option-selection' %>
+              <div class="option-selection-content is-hidden">
+                <textarea name="option-selection-<%= catalog_item['item_guid'] %>" cols="75" rows="18" readonly="readonly">
+                  <%= catalog_item['option_selection']['content'].strip %>
+                </textarea>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <h3>Status Messages</h3>
+    <ul>
+      <% @provider_order['status_messages'].each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+
+    <h3>Receipt</h3>
+    <table>
+      <tbody>
+        <tr>
+          <td>Acceptance Date:</td>
+          <td><%= @provider_order['receipt']['acceptance_date'] %></td>
+        </tr>
+        <tr>
+          <td>Estimated Ship Date:</td>
+          <td><%= @provider_order['receipt']['estimated_ship_date'] %></td>
+        </tr>
+        <tr>
+          <td>Last Cancel Date:</td>
+          <td><%= @provider_order['receipt']['latest_cancel_date'] %></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

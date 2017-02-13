@@ -27,8 +27,12 @@ Rails.application.routes.draw do
   resources :service_entries
   resources :service_options
 
-  resource :orders, except: :show
-  get '/orders' => 'orders#index'
+  resources :orders do
+    collection do
+      put 'search'
+    end
+  end
+  resources :provider_orders, only: :show
 
   resources :groups
   post '/invite_user' => 'groups#invite', as: 'invite_user'

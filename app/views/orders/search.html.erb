@@ -11,6 +11,7 @@
           <th>Updated</th>
           <th>User ID</th>
           <th>Contact Name</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -21,12 +22,13 @@
       <% else %>
         <% @orders.each_with_index do |order| %>
           <tr>
-            <td><%= order['state'] %></td>
+            <td><%= link_to order['state'], order_path(order['guid']) %></td>
             <td><%= echo_formatted_date(order['creation_date']) %></td>
             <td><%= echo_formatted_date(order['submitted_date']) %></td>
             <td><%= echo_formatted_date(order['updated_date']) %></td>
             <td><%= order['user_id'] %></td>
             <td><%= order['contact_name'] %></td>
+            <td><%= link_to 'View Provider Order', provider_order_path(order['guid']) %></td>
           </tr>
           <% end %>
         <% end %>

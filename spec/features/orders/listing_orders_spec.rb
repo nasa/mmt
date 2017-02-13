@@ -39,6 +39,8 @@ describe 'Searching Orders' do
 
       it 'displays the matching orders' do
         expect(page).to have_selector('.orders-table tbody tr', count: 2)
+        expect(page).to have_link('View Provider Order', href: '/provider_orders/order_guid_1')
+        expect(page).to have_link('SUBMITTED_WITH_EXCEPTIONS', href: '/orders/order_guid_1')
       end
     end
 
