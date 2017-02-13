@@ -1,6 +1,9 @@
+require 'libxml_to_hash'
+
 module Echo
   # Custom response wrapper for Echo to handle parsing the body appropriately
   class Response
+
     def initialize(faraday_response)
       @response = faraday_response
     end
@@ -22,7 +25,11 @@ module Echo
     end
 
     def parsed_body
-      body = Hash.from_xml(self.body).fetch('Envelope', {}).fetch('Body', {})
+      # the libxml_to_hash gem helps us parse much larger xml files (and do it faster)
+      # it will create nodes for xml tags that have attributes as well as values
+      # but that doesn't seem to cause issues with the Echo SOAP responses
+
+      body = Hash.from_libxml(self.body).fetch('Envelope', {}).fetch('Body', {})
 
       return body.fetch('Fault', {}) if status >= 400
 
