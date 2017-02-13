@@ -74,4 +74,20 @@ describe 'Listing Order Options' do
       end
     end
   end
+
+  context 'when viewing the index page with a large xml response that breaks REXML' do
+    before do
+      login
+
+      VCR.use_cassette('echo_soap/data_management_service/option_definitions/big_list', record: :none) do
+        visit order_options_path
+      end
+    end
+
+    it 'lists all the available order options' do
+      within '.order-options-table' do
+        expect(page).to have_selector('tbody tr', count: 25)
+      end
+    end
+  end
 end

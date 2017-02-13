@@ -34,14 +34,12 @@ class OrderOptionsController < ManageCmrController
     response = cmr_client.create_order_option(@order_option, echo_provider_token)
 
     if response.success?
-      order_option_response = Hash.from_xml(response.body)
-      order_option_id = order_option_response['option_definition']['id']
+      order_option_id = response.parsed_body['option_definition']['id']
       flash[:success] = 'Order Option was successfully created.'
       redirect_to order_option_path(order_option_id)
     else
       Rails.logger.error("Create Order Option Error: #{response.inspect}")
-      parsed_errors = Hash.from_xml(response.body)
-      flash.now[:error] = parsed_errors['errors']['error'].inspect
+      flash.now[:error] = response.parsed_body['errors']['error']
       render :new
     end
   end
@@ -51,17 +49,14 @@ class OrderOptionsController < ManageCmrController
 
     response = cmr_client.get_order_option(order_option_id, echo_provider_token)
     if response.success?
-      @order_option = Hash.from_xml(response.body)['option_definition']
+      @order_option = response.parsed_body['option_definition']
 
-      if @order_option['sort_key'].blank?
-        @order_option['sort_key'] = 'n/a'
-      end
+      @order_option['sort_key'] = 'n/a' if @order_option['sort_key'].blank?
 
       add_breadcrumb @order_option.fetch('name', nil), order_option_path(order_option_id)
     else
       Rails.logger.error("Get Order Option Definition Error: #{response.inspect}")
-      parsed_errors = Hash.from_xml(response.body)
-      flash[:error] = parsed_errors['errors']['error'].inspect
+      flash[:error] = response.parsed_body['errors']['error']
       redirect_to order_options_path
     end
   end
@@ -70,14 +65,13 @@ class OrderOptionsController < ManageCmrController
     @order_option_id = params[:id]
     response = cmr_client.get_order_option(@order_option_id, echo_provider_token)
     if response.success?
-      @order_option = Hash.from_xml(response.body)['option_definition']
+      @order_option = response.parsed_body['option_definition']
 
       add_breadcrumb @order_option.fetch('name', nil), order_option_path(@order_option_id)
       add_breadcrumb 'Edit', edit_order_option_path(@order_option_id)
     else
       Rails.logger.error("Get Order Option Definition Error: #{response.inspect}")
-      parsed_errors = Hash.from_xml(response.body)
-      flash[:error] = parsed_errors['errors']['error'].inspect
+      flash[:error] = response.parsed_body['errors']['error']
       redirect_to order_options_path
     end
   end
@@ -107,14 +101,12 @@ class OrderOptionsController < ManageCmrController
     response = cmr_client.create_order_option(@order_option, echo_provider_token)
 
     if response.success?
-      order_option_response = Hash.from_xml(response.body)
-      order_option_id = order_option_response['option_definition']['id']
+      order_option_id = response.parsed_body['option_definition']['id']
       flash[:success] = 'Order Option was successfully updated.'
       redirect_to order_option_path(order_option_id)
     else
       Rails.logger.error("Update Order Option Error: #{response.inspect}")
-      parsed_errors = Hash.from_xml(response.body)
-      flash[:error] = parsed_errors['errors']['error'].inspect
+      flash[:error] = response.parsed_body['errors']['error']
       render :edit
     end
   end
@@ -122,13 +114,11 @@ class OrderOptionsController < ManageCmrController
   def destroy
     response = cmr_client.delete_order_option(params[:id], echo_provider_token)
     if response.success?
-      order_option_response = Hash.from_xml(response.body)
       flash[:success] = 'Order Option was successfully deleted.'
       redirect_to order_options_path
     else
       Rails.logger.error("Delete Order Option Error: #{response.inspect}")
-      parsed_errors = Hash.from_xml(response.body)
-      flash[:error] = parsed_errors['errors']['error'].inspect
+      flash[:error] = response.parsed_body['errors']['error']
       redirect_to order_options_path
     end
   end
