@@ -4,6 +4,24 @@ class ServiceOptionAssignmentsController < ManageCmrController
 
   def index; end
 
+  def new
+    authorize :service_option_assignment
+
+    @service_entries = begin
+      get_service_implementations_with_datasets.map { |option| [option['Name'], option['Guid']] }
+    rescue
+      []
+    end
+
+    service_option_response = echo_client.get_service_options_names(echo_provider_token)
+    @service_options = if service_option_response.success?
+                         # Retreive the service options and sort by name, ignoring case
+                         Array.wrap(service_option_response.parsed_body.fetch('Item', [])).sort_by { |option| option['Name'].downcase }.map { |option| [option['Name'], option['Guid']] }
+                       else
+                         []
+                       end
+  end
+
   def update
     # Initialize the assignments array for the view
     @assignments = []

@@ -9,6 +9,17 @@ $(document).ready ->
         # Disable the field to prevent it from appearing in the params hash
         $('#service_entry_service_interface_guid').attr("disabled", true)
 
+  dynamicChooserUrl = (serviceEntryGuid) ->
+    '/datasets_for_service_implementation?service_interface_guid=' + serviceEntryGuid
+
+  populateDynamicChooser = (chooserObj, serviceEntryGuid) ->
+    # Don't do anything if no guid was provided
+    if typeof serviceEntryGuid != "undefined"
+      # Set the url to include the service entry guid selected
+      chooserObj.setConfig('url', dynamicChooserUrl(serviceEntryGuid))
+
+      # Updates the left side of the chooser by retreiving fresh data
+      chooserObj.getRemoteData('first')
 
   if $("#service-option-form").length > 0
     $('#service-option-form').validate
@@ -260,3 +271,91 @@ $(document).ready ->
       messages:
         'service_option_assignment[]':
           required: 'You must select at least 1 assignment.'
+
+
+  if $("#new-service-option-assignment-form").length > 0
+    $('#new-service-option-assignment-form').validate
+      errorClass: 'eui-banner--danger'
+      errorElement: 'div'
+      onkeyup: false
+
+      errorPlacement: (error, element) ->
+        error.insertAfter(element)
+
+      # This library handles focus oddly, this ensures that we scroll
+      # to and focus on the first element with an error in the form
+      onfocusout: false
+      invalidHandler: (form, validator) ->
+        if validator.numberOfInvalids() > 0
+          validator.errorList[0].element.focus()
+
+      highlight: (element, errorClass) ->
+        # Prevent highlighting the fields themselves
+        return false
+
+      rules:
+        'service_entry_guid':
+          required: true
+        'service_option_definition_guid':
+          required: true
+        'service_option_assignment_catalog_guid_toList':
+          required: true
+
+      messages:
+        'service_entry_guid':
+          required: 'Service Implementation is required.'
+        'service_option_definition_guid':
+          required: 'Service Option is required.'
+        'service_option_assignment_catalog_guid_toList':
+          required: 'You must select at least 1 collection'
+
+    # widget for choosing collections
+    serviceOptionAssignmentCollectionsChooser = null
+
+    if serviceOptionAssignmentCollectionsChooser == null
+      serviceOptionAssignmentCollectionsChooser = new Chooser({
+        id: 'service_option_assignment_catalog_guid',
+        url: dynamicChooserUrl($('#service_entry_guid').val()),
+        nextPageParm: 'page_num',
+        filterParm: 'short_name',
+        target: $('#dynamic-service-option-assignment-chooser-widget'),
+        fromLabel: 'Available Collections',
+        toLabel: 'Selected Collections',
+        uniqueMsg: 'Collection is already selected.',
+        attachTo: $('#service-option-assignment-collection-selections'),
+        toMax: 100,
+        addButton: {
+          cssClass: 'eui-btn nowrap',
+          arrowCssClass: 'fa fa-plus',
+          text: ''
+        },
+        delButton: {
+          cssClass: 'eui-btn nowrap',
+          arrowCssClass: 'fa fa-minus',
+          text: ''
+        },
+        delAllButton: {
+          cssClass: 'eui-btn nowrap',
+          arrowCssClass: 'fa fa-trash',
+          text: ''
+        },
+        allowRemoveAll: true,
+        errorCallback: ->
+          $('<div class="eui-banner--danger">' +
+            'A server error occurred. Unable to get collections.' +
+            '</div>').prependTo '#main-content'
+      })
+
+      serviceOptionAssignmentCollectionsChooser.init()
+
+      # Update the Chooser on page load
+      populateDynamicChooser(serviceOptionAssignmentCollectionsChooser, $('#service_entry_guid').val())
+
+    # On form submit, select all of the options in the 'Selected Collections' multiselect
+    # so that it can be properly interpreted by the controller
+    $('#service-entry-form').on 'submit', ->
+      $('#tag_guids_toList option').prop('selected', true)
+
+    # Update the Chooser when the service interface is modified
+    $('#service_entry_guid').on 'change', ->
+      populateDynamicChooser(serviceOptionAssignmentCollectionsChooser, $(this).val())

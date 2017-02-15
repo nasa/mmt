@@ -45,4 +45,6 @@ en:
       update?: 'You are not permitted to update Service Entries.'
       destroy?: 'You are not permitted to delete Service Entries.'
     service_option_assignment_policy:
+      new?: 'You are not permitted to create new Service Option Assignments.'
+      create?: 'You are not permitted to create new Service Option Assignments.'
       destroy?: 'You are not permitted to delete Service Option Assignments.'

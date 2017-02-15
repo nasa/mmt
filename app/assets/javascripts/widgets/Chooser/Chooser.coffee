@@ -179,7 +179,7 @@ window.Chooser = (config) ->
     $(ADD_BUTTON).click addButtonClick
     $(REMOVE_BUTTON).click removeButtonClick
     $(REMOVE_ALL_BUTTON).click removeAllButtonClick
-    getRemoteData 'first'
+    SELF.getRemoteData 'first'
     $(FROM_LIST).on 'scroll', (evt) ->
       if config.endlessScroll == false
         return
@@ -194,7 +194,7 @@ window.Chooser = (config) ->
         dist = lowerBoundary - lastOptPos
         offset = lastOptHeight - dist
         if offset > 1 and offset < 5
-          getRemoteData 'next'
+          SELF.getRemoteData 'next'
       if firstOptPos >= upperBoundary
         SELF.removeFromBottom()
         PAGE_NUM = 1
@@ -239,6 +239,12 @@ window.Chooser = (config) ->
       $(REMOVE_BUTTON).click()
       return
 
+  ###
+  # Set provided config values
+  #
+  ###  
+  @setConfig = (key, value) ->
+    config[key] = value
 
   ###
   # Sets the values in the "TO" list.
@@ -360,9 +366,9 @@ window.Chooser = (config) ->
   ###
   initFilter = (e) ->
     if $(this).val().length >= config.filterChars
-      getRemoteData 'filter'
+      SELF.getRemoteData 'filter'
     else
-      getRemoteData 'first'
+      SELF.getRemoteData 'first'
     return
 
 
@@ -371,9 +377,11 @@ window.Chooser = (config) ->
   #
   # @param type
   ###
-  getRemoteData = (type) ->
+  @getRemoteData = (type) ->
 
     url = config.url
+
+    console.log(url)
 
     queryJoinChar = '?'
 
@@ -392,6 +400,7 @@ window.Chooser = (config) ->
       overwrite = true
       url += queryJoinChar + config.filterParm + '=' + $(FILTER_TEXTBOX).val()
 
+    console.log(url)
     $.ajax('url': url).done((resp) ->
       TOTAL_HITS = resp.hits
       SELF.setFromVal resp.items
