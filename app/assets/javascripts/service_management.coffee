@@ -298,7 +298,7 @@ $(document).ready ->
           required: true
         'service_option_definition_guid':
           required: true
-        'service_option_assignment_catalog_guid_toList':
+        'service_option_assignment_catalog_guid_toList[]':
           required: true
 
       messages:
@@ -306,7 +306,7 @@ $(document).ready ->
           required: 'Service Implementation is required.'
         'service_option_definition_guid':
           required: 'Service Option is required.'
-        'service_option_assignment_catalog_guid_toList':
+        'service_option_assignment_catalog_guid_toList[]':
           required: 'You must select at least 1 collection'
 
     # widget for choosing collections
