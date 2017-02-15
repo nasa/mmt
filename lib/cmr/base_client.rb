@@ -18,12 +18,14 @@ module Cmr
 
     protected
 
+    # ABC-1: Admin
+    # ABC-2: Typical
     def token_header(token, use_real = false)
       if (Rails.env.development? || Rails.env.test?) && !use_real
         mock_token = 'ABC-2'
-        if Rails.env.test? && token == 'access_token_admin'
-          mock_token = 'ABC-1'
-        end
+
+        mock_token = 'ABC-1' if token == 'access_token_admin'
+
         token.present? ? { 'Echo-Token' => mock_token } : {}
       else
         token.present? ? { 'Echo-Token' => "#{token}:#{@client_id}" } : {}

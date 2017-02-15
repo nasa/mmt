@@ -2,7 +2,6 @@ module Cmr
   # Wraps a Faraday::Response object with helper methods and methods specific to
   # interpreting ECHO responses
   class Response
-
     def initialize(faradayResponse)
       @response = faradayResponse
     end
