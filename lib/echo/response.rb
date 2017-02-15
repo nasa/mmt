@@ -3,7 +3,6 @@ require 'libxml_to_hash'
 module Echo
   # Custom response wrapper for Echo to handle parsing the body appropriately
   class Response
-
     def initialize(faraday_response)
       @response = faraday_response
     end
@@ -24,12 +23,13 @@ module Echo
       @response.body
     end
 
-    def parsed_body
+    def parsed_body(parser: 'xml')
       # the libxml_to_hash gem helps us parse much larger xml files (and do it faster)
       # it will create nodes for xml tags that have attributes as well as values
-      # but that doesn't seem to cause issues with the Echo SOAP responses
+      # which is problematic for the order policies endpoints and for the
+      # order options REST endpoints
 
-      body = Hash.from_libxml(self.body).fetch('Envelope', {}).fetch('Body', {})
+      body = Hash.send("from_#{parser}", self.body).fetch('Envelope', {}).fetch('Body', {})
 
       return body.fetch('Fault', {}) if status >= 400
 
