@@ -83,5 +83,48 @@
         </tr>
       </tbody>
     </table>
+
+    <%= link_to 'Cancel Order', '#cancel-provider-order-modal', class: 'display-modal eui-btn eui-btn--red' %>
+    <div id="cancel-provider-order-modal" class="eui-modal-content">
+      <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+
+      <h3>Cancel Provider Catalog Items</h3>
+      <%= form_tag(provider_order_path, method: :delete, id: "cancel-provider-order-form") do %>
+        <%= hidden_field_tag 'provider_tracking_id', @provider_order['tracking_id'] %>
+
+        <fieldset>
+          <div class="row">
+            <label for="order_guid">Order Guid</label>
+            <%= text_field_tag 'order_guid', @provider_order['guid'], class: 'full-width', readonly: true %>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <div class="row">
+            <label for="provider_guid">Provider Guid</label>
+            <%= text_field_tag 'provider_guid', @provider_order['provider_guid'], class: 'full-width', readonly: true %>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <div class="row">
+            <label for="catalog_items">Catalog Items</label>
+            <%= select_tag 'catalog_items', options_for_select(@provider_order['catalog_items'].select { |item| !['CANCELLED', 'CLOSED'].include? item['status'] }.map { |item| item['item_guid'] }, nil), class: 'full-width', multiple: true %>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <div class="row">
+            <label for="status_message">Status Message</label>
+            <%= text_field_tag 'status_message', nil, class: 'full-width' %>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <%= submit_tag 'Cancel Items', class: 'eui-btn eui-btn--red' %>
+          <%= submit_tag 'Close Items', class: 'eui-btn eui-btn--red' %>
+        </fieldset>
+      <% end %>
+    </div>
   </section>
 </div>
