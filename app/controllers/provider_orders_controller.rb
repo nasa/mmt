@@ -12,12 +12,11 @@ class ProviderOrdersController < ManageCmrController
     status_message = params['status_message']
     method = params['commit'] == 'Cancel Items' ? 'cancelled' : 'closed'
 
-    # result = nil
-    result= if method == 'cancelled'
-      echo_client.accept_provider_order_cancellation(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
-    else
-      echo_client.close_provider_order(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
-    end
+    result = if method == 'cancelled'
+               echo_client.accept_provider_order_cancellation(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
+             else
+               echo_client.close_provider_order(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
+             end
 
     if result.success?
       flash[:success] = "Items successfully #{method}"
@@ -69,7 +68,7 @@ class ProviderOrdersController < ManageCmrController
       catalog_items << catalog_item
     end
 
-    order['catalog_items'] = catalog_items.sort { |a,b| a['item_guid'] <=> b['item_guid'] }
+    order['catalog_items'] = catalog_items.sort { |a, b| a['item_guid'] <=> b['item_guid'] }
     order['status_messages'] = provider_order.fetch('StatusMessage', '').split("\n")
 
     receipt = {}
