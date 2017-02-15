@@ -4,7 +4,6 @@ module Echo
   # This service also allows providers to take actions to the order directly,
   # such as cancelling and closing an order or updating an order status
   # message.
-
   class OrderProcessing < Base
     # Enables a provider to accept the user's request for cancelling order.
     # The provider can also use this transaction directly to cancel an order in
@@ -54,6 +53,5 @@ module Echo
 
       make_request(@url, payload)
     end
-
   end
 end
