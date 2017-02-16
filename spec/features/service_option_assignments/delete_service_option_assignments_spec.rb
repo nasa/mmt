@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Deleting a Service Option Assignment', js: true do
+describe 'Deleting a Service Option Assignment', reset_provider: true, js: true do
   before :all do
     # create a group
     @service_option_assignment_group = create_group(name: 'Service Option Association Group for Permissions [DELETE]', members: ['testuser'])
@@ -16,14 +16,15 @@ describe 'Deleting a Service Option Assignment', js: true do
   end
 
   before do
+    service_entries_by_provider_response = Echo::Response.new(Faraday::Response.new(status: 200, body: File.read('spec/fixtures/service_management/service_entries_by_provider.xml')))
+    allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_entries_by_provider).and_return(service_entries_by_provider_response)
+
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
 
     login
 
-    VCR.use_cassette('echo_soap/service_management_service/service_option_assignments/service_entries_list', record: :none) do
-      visit service_option_assignments_path
-    end
+    visit service_option_assignments_path
 
     wait_for_ajax
 

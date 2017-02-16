@@ -50,6 +50,9 @@ $(document).ready ->
     # Make sure to display the correct form fields
     manageEntryTypeFields($('#service_entry_entry_type').val())
 
+    $('#service_entry_entry_type').on 'change', ->
+      manageEntryTypeFields($(this).val())
+
     # widget for choosing collections
     collectionsChooser = null
 

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Viewing Service Option Assignments', js: true do
+describe 'Viewing Service Option Assignments', reset_provider: true, js: true do
   context 'when viewing the service option assignments page' do
     before do
       # This is hit via an ajax call and cannot be done with VCR because the ajax call ends up
