@@ -39,7 +39,7 @@
                   <%= link_to 'Deprecate', "#deprecate-option-modal-#{index}", class: 'display-modal' %>
                   <div id="deprecate-option-modal-<%= index %>" class="eui-modal-content">
                     <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                    <p>Are you sure you want to deprecate the order option named '<%=order_option['Name']%>'? This action cannot be undone.</p>
+                    <p>Are you sure you want to deprecate the order option named '<%= order_option['Name'] %>'? This action cannot be undone.</p>
                     <p>
                       <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
                       <%= link_to 'Yes', order_option_deprecate_path(order_option['Guid']), method: :post, class: 'eui-btn--blue spinner' %>
@@ -51,7 +51,7 @@
               <%= link_to 'Delete', "#delete-option-modal-#{index}", class: 'display-modal' %>
               <div id="delete-option-modal-<%= index %>" class="eui-modal-content">
                 <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                <p>Are you sure you want to delete the order option named '<%=order_option['Name']%>'?</p>
+                <p>Are you sure you want to delete the order option named '<%= order_option['Name'] %>'?</p>
                 <p>
                   <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
                   <%= link_to 'Yes', order_option_path(order_option['Guid']), method: :delete, class: 'eui-btn--blue spinner' %>
