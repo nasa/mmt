@@ -381,8 +381,6 @@ window.Chooser = (config) ->
 
     url = config.url
 
-    console.log(url)
-
     queryJoinChar = '?'
 
     if url.match(/\?/)
@@ -400,7 +398,6 @@ window.Chooser = (config) ->
       overwrite = true
       url += queryJoinChar + config.filterParm + '=' + $(FILTER_TEXTBOX).val()
 
-    console.log(url)
     $.ajax('url': url).done((resp) ->
       TOTAL_HITS = resp.hits
       SELF.setFromVal resp.items

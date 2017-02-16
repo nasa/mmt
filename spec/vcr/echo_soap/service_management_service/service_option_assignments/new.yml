@@ -1,0 +1,70 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/ServiceManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitionNames
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:optionGuids
+        xsi:nil="true"/></ns2:GetServiceOptionDefinitionNames><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      strict-transport-security:
+      - max-age=31536000
+      date:
+      - Thu, 16 Feb 2017 17:01:18 GMT
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml; charset=UTF-8
+      content-length:
+      - '3574'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns3:GetServiceOptionDefinitionNamesResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10/types" xmlns:ns3="http://echo.nasa.gov/echo/v10"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result><ns2:Item><ns2:Name>Sem</ns2:Name><ns2:Guid>10DC6461-FCD2-E167-BF08-1F75C7D63274</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Mollis
+        Cursus Ullamcorper Ornare</ns2:Name><ns2:Guid>2A306BA5-ABFE-B7B0-8AC0-813F0229F5F7</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Sollicitudin
+        Tortor Consectetur</ns2:Name><ns2:Guid>8B623CCD-C7E5-9086-80AA-3433BB31C528</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Risus
+        Malesuada Sit</ns2:Name><ns2:Guid>EF9E9B03-0ED5-1D2C-ACC8-FA2489DDD0B8</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Ipsum
+        Vulputate Tellus Fusce</ns2:Name><ns2:Guid>178A2F9C-C5DC-387F-46CF-8B79F27258EC</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Sit
+        Purus Fusce</ns2:Name><ns2:Guid>A2DC0EA0-8088-DE49-F418-B790773F087F</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Fusce
+        Magna Lorem</ns2:Name><ns2:Guid>10C431C9-ED88-2105-2364-E59343DB2344</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Pellentesque
+        Ullamcorper Egestas</ns2:Name><ns2:Guid>B3FE3D91-1F38-5614-A04A-4724BCE0B91D</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Pellentesque
+        Mollis Quam Vehicula Ligula</ns2:Name><ns2:Guid>C5BBA232-A779-296A-6921-1F1B5287EFFC</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Ornare
+        Cursus Venenatissss</ns2:Name><ns2:Guid>A5E5598B-76A6-1A7C-B4CB-F01268A819A8</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Nullam
+        Bibendum Tortor Cras</ns2:Name><ns2:Guid>49760922-5767-5280-D0F0-9E897F353D0C</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Tortor
+        Parturient Fusce</ns2:Name><ns2:Guid>4ACBFCF2-87B1-2A1A-6ED7-6B8F1AE3BF5A</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Dolor
+        Tortor Elit Commodo Vehicula</ns2:Name><ns2:Guid>BF40578F-8B27-648F-7D9A-F14D64CA2ED8</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Vestibulum
+        Ridiculus</ns2:Name><ns2:Guid>A700514B-9AB7-EA4A-3971-277F3891C3D4</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Inceptos
+        Fermentum Nullam</ns2:Name><ns2:Guid>756A3241-39BB-93A1-6EE2-3FB675CD528E</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Tristique
+        Mattis Ornare Dapibus Ligula</ns2:Name><ns2:Guid>84E0DBC0-5A45-E766-40D7-5EFE61CDF2E1</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Praesent
+        commodo cursus magna, vel scelerisque nisl consectetur et</ns2:Name><ns2:Guid>1B16E888-2A28-78A3-971D-6B5E13AEF3F3</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Mollis
+        Vehicula</ns2:Name><ns2:Guid>3ACB563E-B982-7005-DECE-26A967E463FA</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Mollis
+        VehiculaMalesuada Tellus Egestas Ridiculus</ns2:Name><ns2:Guid>7B06B36E-723D-4C12-BF01-D31C44FFB459</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Ligula
+        Vulputate</ns2:Name><ns2:Guid>7D16785B-72AF-2660-810E-EB81AE6455F3</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Inceptos
+        Nibh Sem</ns2:Name><ns2:Guid>3CC2C209-1D0D-4A18-679B-D94F2D741789</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Tristique
+        Vulputate Sem Magna</ns2:Name><ns2:Guid>11CF8CC1-6B2F-CE7E-28E2-D95F7BCBB7BC</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Inceptos
+        Mattis Quam Sollicitudin</ns2:Name><ns2:Guid>937F9783-4904-B895-FEA6-E9279F39AEB4</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Bibendum
+        Mollis Lorem Elit Condimentum</ns2:Name><ns2:Guid>35FB523D-EE0A-E32A-733E-F2DA6ED49107</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Fusce
+        Tortor Magna Porta</ns2:Name><ns2:Guid>E06772E3-2019-406F-0A7C-830DC174C15D</ns2:Guid></ns2:Item></ns3:result></ns3:GetServiceOptionDefinitionNamesResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Thu, 16 Feb 2017 17:01:25 GMT
+recorded_with: VCR 3.0.1

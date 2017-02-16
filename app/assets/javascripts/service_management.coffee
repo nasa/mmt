@@ -307,7 +307,7 @@ $(document).ready ->
         'service_option_definition_guid':
           required: 'Service Option is required.'
         'service_option_assignment_catalog_guid_toList[]':
-          required: 'You must select at least 1 collection'
+          required: 'You must select at least 1 collection.'
 
     # widget for choosing collections
     serviceOptionAssignmentCollectionsChooser = null
@@ -353,8 +353,8 @@ $(document).ready ->
 
     # On form submit, select all of the options in the 'Selected Collections' multiselect
     # so that it can be properly interpreted by the controller
-    $('#service-entry-form').on 'submit', ->
-      $('#tag_guids_toList option').prop('selected', true)
+    $('#new-service-option-assignment-form').on 'submit', ->
+      $('#service_option_assignment_catalog_guid_toList option').prop('selected', true)
 
     # Update the Chooser when the service interface is modified
     $('#service_entry_guid').on 'change', ->

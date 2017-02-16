@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/ServiceManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:AddServiceOptionAssignments
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:serviceOptionAssignments><ns3:Item><ns3:ServiceOptionDefinitionGuid>3ACB563E-B982-7005-DECE-26A967E463FA</ns3:ServiceOptionDefinitionGuid><ns3:ServiceEntryGuid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:ServiceEntryGuid><ns3:CatalogItemGuid>C1200060160-MMT_2</ns3:CatalogItemGuid><ns3:AppliesOnlyToGranules>false</ns3:AppliesOnlyToGranules></ns3:Item><ns3:Item><ns3:ServiceOptionDefinitionGuid>3ACB563E-B982-7005-DECE-26A967E463FA</ns3:ServiceOptionDefinitionGuid><ns3:ServiceEntryGuid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:ServiceEntryGuid><ns3:CatalogItemGuid>C1200019403-MMT_2</ns3:CatalogItemGuid><ns3:AppliesOnlyToGranules>false</ns3:AppliesOnlyToGranules></ns3:Item></ns2:serviceOptionAssignments></ns2:AddServiceOptionAssignments><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      strict-transport-security:
+      - max-age=31536000
+      date:
+      - Thu, 16 Feb 2017 13:11:41 GMT
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml; charset=UTF-8
+      content-length:
+      - '508'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns3:AddServiceOptionAssignmentsResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10/types" xmlns:ns3="http://echo.nasa.gov/echo/v10"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result><ns2:Item>6000705A-4D82-8150-082A-92409EDC6BD3</ns2:Item><ns2:Item>BFA2FDCA-A793-EC08-27FF-5B0FA2DA1636</ns2:Item></ns3:result></ns3:AddServiceOptionAssignmentsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Thu, 16 Feb 2017 13:11:41 GMT
+recorded_with: VCR 3.0.1

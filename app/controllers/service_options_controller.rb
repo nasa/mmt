@@ -47,7 +47,7 @@ class ServiceOptionsController < ManageCmrController
 
       render :new
     else
-      flash[:success] = 'Service Option successfully created'
+      flash[:success] = 'Service Option successfully created.'
 
       redirect_to service_option_path(response.parsed_body['Item'])
     end
