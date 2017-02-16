@@ -8,6 +8,13 @@ GIT
       jquery-rails
       rails (~> 4.2.7.1)
 
+GIT
+  remote: https://github.com/johannesthoma/libxml-to-hash
+  revision: c216e816474e909357a606ebc6fb08172ec3524a
+  specs:
+    libxml-to-hash (0.2.2)
+      libxml-ruby
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -137,6 +144,7 @@ GEM
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (3.16.14.15)
+    libxml-ruby (3.0.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -314,6 +322,7 @@ DEPENDENCIES
   json-schema
   kaminari
   launchy
+  libxml-to-hash!
   momentjs-rails
   multi_xml
   neat
