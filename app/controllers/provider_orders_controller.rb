@@ -71,14 +71,6 @@ class ProviderOrdersController < ManageCmrController
     order['catalog_items'] = catalog_items.sort { |a, b| a['item_guid'] <=> b['item_guid'] }
     order['status_messages'] = provider_order.fetch('StatusMessage', '').split("\n")
 
-    receipt = {}
-    order_receipt = provider_order.fetch('OrderReceipt', {})
-    receipt['acceptance_date'] = order_receipt.fetch('AcceptanceDate', '')
-    receipt['estimated_ship_date'] = order_receipt.fetch('EstimatedShipDate', '')
-    receipt['latest_cancel_date'] = order_receipt.fetch('LatestCancelDate', '')
-
-    order['receipt'] = receipt
-
     order
   end
 end
