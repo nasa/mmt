@@ -30,6 +30,11 @@ module Echo
         [@base_url, services_configs['order_management']['wsdl']].join('/')
       )
 
+      services << OrderProcessing.new(
+        [@base_url, services_configs['order_processing']['path']].join('/'),
+        [@base_url, services_configs['order_processing']['wsdl']].join('/')
+      )
+
       services << UserService.new(
         [@base_url, services_configs['user_service']['path']].join('/'),
         [@base_url, services_configs['user_service']['wsdl']].join('/')

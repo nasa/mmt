@@ -52,8 +52,10 @@ class OrdersController < ManageCmrController
 
     # if user_id param is supplied, filter orders by given user_id
     unless params['user_id'].empty?
-      @orders.select!{ |order| order['user_id'] == params['user_id'] }
+      @orders.select! { |order| order['user_id'] == params['user_id'] }
     end
+
+    @orders.sort { |a, b| a['creation_date'] <=> b['creation_date'] }
   end
 
   private
