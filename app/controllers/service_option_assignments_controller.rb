@@ -4,6 +4,39 @@ class ServiceOptionAssignmentsController < ManageCmrController
 
   def index; end
 
+  def new
+    authorize :service_option_assignment
+
+    set_service_entries
+    set_service_options
+  end
+
+  def create
+    authorize :service_option_assignment
+
+    payload = service_option_assignment_params.fetch('service_option_assignment_catalog_guid_toList', []).map do |catalog_item_guid|
+      {
+        'CatalogItemGuid'             => catalog_item_guid,
+        'ServiceEntryGuid'            => service_option_assignment_params[:service_entry_guid],
+        'AppliesOnlyToGranules'       => (service_option_assignment_params[:applies_only_to_granules] || false),
+        'ServiceOptionDefinitionGuid' => service_option_assignment_params[:service_option_definition_guid]
+      }
+    end
+
+    response = echo_client.create_service_option_assignments(echo_provider_token, payload)
+
+    if response.success?
+      redirect_to service_option_assignments_path, flash: { success: 'Service Option Assignments successfully created' }
+    else
+      flash[:error] = response.error_message
+
+      set_service_entries
+      set_service_options
+
+      render :new
+    end
+  end
+
   def update
     # Initialize the assignments array for the view
     @assignments = []
@@ -67,5 +100,29 @@ class ServiceOptionAssignmentsController < ManageCmrController
     else
       redirect_to service_option_assignments_path, flash: { error: response.error_message }
     end
+  end
+
+  private
+
+  def service_option_assignment_params
+    params.permit(:service_entry_guid, :service_option_definition_guid, :applies_only_to_granules, service_option_assignment_catalog_guid_toList: [])
+  end
+
+  def set_service_entries
+    @service_entries = begin
+      get_service_implementations_with_datasets.map { |option| [option['Name'], option['Guid']] }
+    rescue
+      []
+    end
+  end
+
+  def set_service_options
+    service_option_response = echo_client.get_service_options_names(echo_provider_token)
+    @service_options = if service_option_response.success?
+                         # Retreive the service options and sort by name, ignoring case
+                         Array.wrap(service_option_response.parsed_body.fetch('Item', [])).sort_by { |option| option['Name'].downcase }.map { |option| [option['Name'], option['Guid']] }
+                       else
+                         []
+                       end
   end
 end

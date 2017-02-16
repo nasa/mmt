@@ -18,7 +18,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
     success_count = 0
     error_count = 0
 
-    params.fetch('catalog_item_guid_toList', {}).each do |catalog_item_guid|
+    params.fetch('catalog_item_guid_toList', []).each do |catalog_item_guid|
       response = echo_client.create_data_quality_summary_assignment(token_with_client_id, current_provider_guid, params.fetch('definition_guid', nil), catalog_item_guid)
 
       success_count += 1 unless response.error?

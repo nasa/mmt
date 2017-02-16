@@ -1,5 +1,7 @@
+# :nodoc:
 class ManageCmrController < PagesController
   include EchoSoap
+  include ChooserEndpoints
 
   before_filter :set_notifications, only: :show
   before_filter :check_if_system_acl_administrator, only: :show
@@ -9,89 +11,34 @@ class ManageCmrController < PagesController
 
   def show; end
 
-  # Controller action tied to a route for retrieving provider collections
-  def provider_collections
-    render json: get_provider_collections(params.permit(:provider, :keyword, :page_size, :page_num, :short_name, concept_id: []))
+  # JSON representation of the get_provider_collections method for use with the Chooser
+  def provider_collections(options = {})
+    collections = get_provider_collections(params.merge(options).permit(:provider, :keyword, :page_size, :page_num, :short_name, concept_id: []))
+
+    render_collections_for_chooser(collections)
+  rescue
+    collections
   end
   
-  # Controller method that allows developers to get this data without
-  # making an HTTP request (with the exception of the CMR call)
-  def get_provider_collections(params = {})
-    collection_params = {
-      'provider' => current_user.provider_id,
-      'page_size' => 25
-    }.merge(params)
-
-    if collection_params.key?('short_name')
-      collection_params['short_name'].concat('*')
-
-      # In order to search with the wildcard parameter we need to tell CMR to use it
-      collection_params['options'] = {
-        'short_name' => {
-          'pattern' => true
-        }
-      }
-    end
-
-    # Adds wildcard searching
-    collection_params['keyword'].concat('*') if collection_params.key?('keyword')
-
-    # Retreive the collections from CMR, allowing a few additional parameters
-    response = cmr_client.get_collections(collection_params, token)
-
-    if response.success?
-      # The chooser expects an array of arrays, so that's what we'll give it
-      collections = response.body.fetch('items', []).map do |collection|
-        [
-          collection.fetch('meta', {}).fetch('concept-id'),
-          [
-            collection.fetch('umm', {}).fetch('short-name'),
-            collection.fetch('umm', {}).fetch('entry-title')
-          ].join(' | ')
-        ]
-      end
-
-      {
-        'hits': response.body.fetch('hits', 0),
-        'items': collections
-      }
-    else
-      response.body
-    end
-  end
-
+  # JSON representation of the get_service_implementations_with_datasets method for use with the Chooser
   def service_implementations_with_datasets
-    render json: get_service_implementations_with_datasets(params.permit(:name))
+    service_entries = get_service_implementations_with_datasets(params.permit(:name))
+
+    render json: {
+      'hits': service_entries.count,
+      'items': service_entries.map do |entry|
+        [entry['Guid'], entry['Name']]
+      end
+    }
+  rescue
+    render json: service_entries
   end
 
-  def get_service_implementations_with_datasets(params = {})
-    # Retrieve all service entries for the current provider
-    response = echo_client.get_service_entries_by_provider(echo_provider_token, current_provider_guid)
+  # JSON representation of the get_service_implementations_with_datasets method for use with the Chooser
+  def datasets_for_service_implementation
+    collections = get_datasets_for_service_implementation(params.permit(:service_interface_guid, :short_name))
 
-    if response.success?
-      service_entries = Array.wrap(response.parsed_body.fetch('Item', [])).sort_by { |option| option['Name'].downcase }
-
-      # Allow filtering the results by name (This is really slow and now recommended, but is a necessary feature)
-      unless params.fetch('name', nil).blank?
-        service_entries.select! { |s| s['Name'].downcase.start_with?(params['name'].downcase) }
-      end
-
-      # Filter down our list of all service entries that belong to the current provider to
-      # just those with EntryType of SERVICE_IMPLEMENTATION and that have collections assigned to them
-      service_entries.select! do |s|
-        s['EntryType'] == 'SERVICE_IMPLEMENTATION' &&
-          (s['TagGuids'] || {}).fetch('Item', []).any? { |t| t.split('_', 3).include?('DATASET') }
-      end
-
-      {
-        'hits': service_entries.count,
-        'items': service_entries.map do |entry|
-          [entry['Guid'], entry['Name']]
-        end
-      }
-    else
-      response.body
-    end
+    render_collections_for_chooser(collections)
   end
 
   private

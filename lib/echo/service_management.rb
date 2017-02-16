@@ -289,6 +289,30 @@ module Echo
       make_request(@url, payload)
     end
 
+    # Creates new service option assignment.
+    def create_service_option_assignments(token, assignments)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:AddServiceOptionAssignments, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+
+        builder.ns2(:serviceOptionAssignments) do
+          Array.wrap(assignments).each do |assignment|
+            builder.ns3(:Item) do
+              builder.ns3(:ServiceOptionDefinitionGuid, assignment.fetch('ServiceOptionDefinitionGuid')) if assignment.key?('ServiceOptionDefinitionGuid')
+              builder.ns3(:ServiceEntryGuid, assignment.fetch('ServiceEntryGuid')) if assignment.key?('ServiceEntryGuid')
+              builder.ns3(:CatalogItemGuid, assignment.fetch('CatalogItemGuid')) if assignment.key?('CatalogItemGuid')
+              builder.ns3(:AppliesOnlyToGranules, assignment.fetch('AppliesOnlyToGranules')) if assignment.key?('AppliesOnlyToGranules')
+            end
+          end
+        end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
+
     # Removes existing service option assignments.
     def remove_service_option_assignments(token, guids)
       builder = Builder::XmlMarkup.new
@@ -307,6 +331,5 @@ module Echo
 
       make_request(@url, payload)
     end
-
   end
 end

@@ -4,8 +4,7 @@ namespace :acls do
   namespace :users do
     desc 'Add a provided username to CMR'
     task :create, [:username] => :environment do |_task, args|
-      puts "Adding #{args.username} to your local CMR (password is defaulted to `password`)"
-      print_result(cmr_client.add_users_to_local_cmr([args.username], get_token))
+      print_result(cmr_client.add_users_to_local_cmr([args.username], get_token), "Added #{args.username} to your local CMR (password is defaulted to `password`)")
     end
   end
 

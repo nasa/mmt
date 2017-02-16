@@ -5,8 +5,6 @@ require 'rails_helper'
 describe 'Viewing Service Option Assignments', reset_provider: true, js: true do
   context 'when viewing the service option assignments page' do
     before do
-      # This is hit via an ajax call and cannot be done with VCR because the ajax call ends up
-      # in a different thread, and VCR is not threadsafe
       service_entries_by_provider_response = Echo::Response.new(Faraday::Response.new(status: 200, body: File.read('spec/fixtures/service_management/service_entries_by_provider.xml')))
       allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_entries_by_provider).and_return(service_entries_by_provider_response)
 
@@ -15,9 +13,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true do
 
       login
 
-      VCR.use_cassette('echo_soap/service_management_service/service_option_assignments/service_entries_list', record: :none) do
-        visit service_option_assignments_path
-      end
+      visit service_option_assignments_path
 
       wait_for_ajax
     end
