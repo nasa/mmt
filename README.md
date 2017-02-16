@@ -197,4 +197,10 @@ Will download at most 25 collections from SEDAC.
 
     CMR_SIT_TOKEN 
    
-that if set, will be provided to CMR when downloading collections. 
+that if set, will be provided to CMR when downloading collections. This variable is set by adding the following line to your **~/.bash_profile**
+
+    export CMR_SIT_TOKEN=""
+
+After adding the line and saving the file, don't forget to source the file.
+
+    source ~/.bash_profile

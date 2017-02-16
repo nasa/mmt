@@ -8,6 +8,8 @@ namespace :collections do
 
     puts "Requesting #{args.page_size} #{args.provider} collections from SIT..."
 
+    collections_ingested = 0
+
     cmr_sit_connection = Faraday.new(url: 'https://cmr.sit.earthdata.nasa.gov')
     cmr_sit_response = cmr_sit_connection.get('/search/collections.umm-json', provider: args.provider, page_size: args.page_size) do |cmr_request|
       cmr_request.headers['Client-Id'] = 'MMT'
@@ -58,6 +60,7 @@ namespace :collections do
           parsed_response = Hash.from_libxml(response.body)
 
           if response.success?
+            collections_ingested += 1
             puts "[Success] Created #{args.provider} collection with concept-id #{parsed_response['result']['concept_id']}\n\n"
           else
             puts "[Failure] #{parsed_response['errors']['error']}\n\n"
@@ -67,6 +70,8 @@ namespace :collections do
         end
       end
     end
+
+    puts "Successfully ingested #{collections_ingested} collections."
   end
 
   def cmr_client
