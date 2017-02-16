@@ -21,7 +21,7 @@ class ProviderOrdersController < ManageCmrController
     if result.success?
       flash[:success] = "Items successfully #{method}"
     else
-      flash[:error] = result.parsed_body['faultstring']
+      flash[:error] = result.error_message
     end
 
     redirect_to provider_order_path(params['order_guid'])
