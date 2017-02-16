@@ -10,8 +10,6 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
 
       login
 
-      User.first.update(provider_id: 'MMT_2')
-
       visit data_quality_summary_assignments_path
     end
 

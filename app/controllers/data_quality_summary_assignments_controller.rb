@@ -1,6 +1,4 @@
 class DataQualitySummaryAssignmentsController < ManageCmrController
-  include EchoSoap
-
   before_action :set_collections
   before_action :set_summaries, only: [:new, :edit]
 

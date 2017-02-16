@@ -1,0 +1,244 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/ServiceManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionAssignmentsByService
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:serviceEntryGuids><ns3:Item>3E5F3D05-C8F5-C540-4484-F3E67A7D5E62</ns3:Item><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item></ns2:serviceEntryGuids></ns2:GetServiceOptionAssignmentsByService><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      strict-transport-security:
+      - max-age=31536000
+      date:
+      - Fri, 10 Feb 2017 14:30:00 GMT
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml; charset=UTF-8
+      content-length:
+      - '1938'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionAssignmentsByServiceResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result><ns3:Item><ns3:Guid>DF3FE345-B684-27C4-4DD8-3A758DDC16FD</ns3:Guid><ns3:ServiceOptionDefinitionGuid>7D16785B-72AF-2660-810E-EB81AE6455F3</ns3:ServiceOptionDefinitionGuid><ns3:ServiceEntryGuid>3E5F3D05-C8F5-C540-4484-F3E67A7D5E62</ns3:ServiceEntryGuid><ns3:CatalogItemGuid>C1200060160-MMT_2</ns3:CatalogItemGuid><ns3:AppliesOnlyToGranules>true</ns3:AppliesOnlyToGranules></ns3:Item><ns3:Item><ns3:Guid>D2179704-6378-4E39-A325-A17B35A4FC68</ns3:Guid><ns3:ServiceOptionDefinitionGuid>EF9E9B03-0ED5-1D2C-ACC8-FA2489DDD0B8</ns3:ServiceOptionDefinitionGuid><ns3:ServiceEntryGuid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:ServiceEntryGuid><ns3:CatalogItemGuid>C1200190013-MMT_2</ns3:CatalogItemGuid><ns3:AppliesOnlyToGranules>false</ns3:AppliesOnlyToGranules></ns3:Item><ns3:Item><ns3:Guid>535A087F-7D7D-5A46-6724-13CD03E16E15</ns3:Guid><ns3:ServiceOptionDefinitionGuid>7D16785B-72AF-2660-810E-EB81AE6455F3</ns3:ServiceOptionDefinitionGuid><ns3:ServiceEntryGuid>3E5F3D05-C8F5-C540-4484-F3E67A7D5E62</ns3:ServiceEntryGuid><ns3:CatalogItemGuid>C1200056652-MMT_2</ns3:CatalogItemGuid><ns3:AppliesOnlyToGranules>true</ns3:AppliesOnlyToGranules></ns3:Item><ns3:Item><ns3:Guid>832062BB-F1B9-7667-1036-636A8772CC09</ns3:Guid><ns3:ServiceOptionDefinitionGuid>EF9E9B03-0ED5-1D2C-ACC8-FA2489DDD0B8</ns3:ServiceOptionDefinitionGuid><ns3:ServiceEntryGuid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:ServiceEntryGuid><ns3:CatalogItemGuid>C1200019403-MMT_2</ns3:CatalogItemGuid><ns3:AppliesOnlyToGranules>false</ns3:AppliesOnlyToGranules></ns3:Item></ns2:result></ns2:GetServiceOptionAssignmentsByServiceResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Fri, 10 Feb 2017 14:30:00 GMT
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/ServiceManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceEntries
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:serviceEntryGuids><ns3:Item>3E5F3D05-C8F5-C540-4484-F3E67A7D5E62</ns3:Item><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item><ns3:Item>3E5F3D05-C8F5-C540-4484-F3E67A7D5E62</ns3:Item><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item></ns2:serviceEntryGuids></ns2:GetServiceEntries><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      strict-transport-security:
+      - max-age=31536000
+      date:
+      - Fri, 10 Feb 2017 14:30:01 GMT
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml; charset=UTF-8
+      content-length:
+      - '3578'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceEntriesResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result><ns3:Item><ns3:Guid>3E5F3D05-C8F5-C540-4484-F3E67A7D5E62</ns3:Guid><ns3:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns3:ProviderGuid><ns3:Name>Deimos</ns3:Name><ns3:Url>http://wunschgleason.biz/theo</ns3:Url><ns3:Description>Numquam
+        quibusdam non aut dolores est distinctio sit.</ns3:Description><ns3:EntryType>SERVICE_IMPLEMENTATION</ns3:EntryType><ns3:TagGuids><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200060160-MMT_2</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200019403-MMT_2</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200189943-MMT_2</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200189951-MMT_2</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200190013-MMT_2</ns3:Item><ns3:Item>SERVICE-INTERFACE_A7BFE51D-9120-EE58-5DD2-F02ED45175AB</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200056652-MMT_2</ns3:Item></ns3:TagGuids></ns3:Item><ns3:Item><ns3:Guid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Guid><ns3:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns3:ProviderGuid><ns3:Name>Polaris</ns3:Name><ns3:Url>http://fritsch.io/dallas</ns3:Url><ns3:Description>Et
+        nostrum voluptas perferendis eos omnis libero nam.</ns3:Description><ns3:EntryType>SERVICE_IMPLEMENTATION</ns3:EntryType><ns3:TagGuids><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200019403-MMT_2</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200190013-MMT_2</ns3:Item><ns3:Item>SERVICE-INTERFACE_102DF03A-D4F8-793A-D920-E6D1B11F8A24</ns3:Item></ns3:TagGuids></ns3:Item><ns3:Item><ns3:Guid>3E5F3D05-C8F5-C540-4484-F3E67A7D5E62</ns3:Guid><ns3:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns3:ProviderGuid><ns3:Name>Deimos</ns3:Name><ns3:Url>http://wunschgleason.biz/theo</ns3:Url><ns3:Description>Numquam
+        quibusdam non aut dolores est distinctio sit.</ns3:Description><ns3:EntryType>SERVICE_IMPLEMENTATION</ns3:EntryType><ns3:TagGuids><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200060160-MMT_2</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200019403-MMT_2</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200189943-MMT_2</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200189951-MMT_2</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200190013-MMT_2</ns3:Item><ns3:Item>SERVICE-INTERFACE_A7BFE51D-9120-EE58-5DD2-F02ED45175AB</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200056652-MMT_2</ns3:Item></ns3:TagGuids></ns3:Item><ns3:Item><ns3:Guid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Guid><ns3:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns3:ProviderGuid><ns3:Name>Polaris</ns3:Name><ns3:Url>http://fritsch.io/dallas</ns3:Url><ns3:Description>Et
+        nostrum voluptas perferendis eos omnis libero nam.</ns3:Description><ns3:EntryType>SERVICE_IMPLEMENTATION</ns3:EntryType><ns3:TagGuids><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200019403-MMT_2</ns3:Item><ns3:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200190013-MMT_2</ns3:Item><ns3:Item>SERVICE-INTERFACE_102DF03A-D4F8-793A-D920-E6D1B11F8A24</ns3:Item></ns3:TagGuids></ns3:Item></ns2:result></ns2:GetServiceEntriesResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Fri, 10 Feb 2017 14:30:01 GMT
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/ServiceManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitions
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:optionGuids><ns3:Item>7D16785B-72AF-2660-810E-EB81AE6455F3</ns3:Item><ns3:Item>EF9E9B03-0ED5-1D2C-ACC8-FA2489DDD0B8</ns3:Item><ns3:Item>7D16785B-72AF-2660-810E-EB81AE6455F3</ns3:Item><ns3:Item>EF9E9B03-0ED5-1D2C-ACC8-FA2489DDD0B8</ns3:Item></ns2:optionGuids></ns2:GetServiceOptionDefinitions><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      strict-transport-security:
+      - max-age=31536000
+      date:
+      - Fri, 10 Feb 2017 14:30:01 GMT
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml; charset=UTF-8
+      content-length:
+      - '8798'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitionsResponse xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result><ns3:Item><ns3:Guid>7D16785B-72AF-2660-810E-EB81AE6455F3</ns3:Guid><ns3:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns3:ProviderGuid><ns3:Name>Ligula Vulputate</ns3:Name><ns3:Description>Nullam id dolor id nibh ultricies vehicula ut id elit. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum.</ns3:Description><ns3:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
+                    &lt;model&gt;
+                      &lt;instance&gt;
+                        &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
+                          &lt;prov:filename&gt;data.txt&lt;/prov:filename&gt;
+                          &lt;prov:filesize&gt;10&lt;/prov:filesize&gt;
+                        &lt;/prov:options&gt;
+                      &lt;/instance&gt;
+                    &lt;/model&gt;
+                    &lt;ui&gt;
+                      &lt;input label="File Name" ref="prov:filename" type="xsd:string"&gt;
+                        &lt;constraints&gt;
+                          &lt;constraint&gt;
+                            &lt;xpath&gt;string-length(prov:filename) &amp;lt; 25&lt;/xpath&gt;
+                            &lt;alert&gt;File names must be less than 25 characters&lt;/alert&gt;
+                          &lt;/constraint&gt;
+                          &lt;constraint&gt;
+                            &lt;pattern&gt;^[A-Za-z]+[A-Za-z0-9]*\.?[A-Za-z0-9]*$&lt;/pattern&gt;
+                            &lt;alert&gt;
+                              File names must start with a letter and
+                              not contain illegal characters
+                            &lt;/alert&gt;
+                          &lt;/constraint&gt;
+                        &lt;/constraints&gt;
+                      &lt;/input&gt;
+                      &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
+                      &lt;/range&gt;
+                    &lt;/ui&gt;
+                  &lt;/form&gt;</ns3:Form><ns3:LastUpdate>2017-01-19T20:34:22.060Z</ns3:LastUpdate></ns3:Item><ns3:Item><ns3:Guid>EF9E9B03-0ED5-1D2C-ACC8-FA2489DDD0B8</ns3:Guid><ns3:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns3:ProviderGuid><ns3:Name>Risus Malesuada Sit</ns3:Name><ns3:Description>Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Nulla vitae elit libero, a pharetra augue.</ns3:Description><ns3:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
+                    &lt;model&gt;
+                      &lt;instance&gt;
+                        &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
+                          &lt;prov:filename&gt;data.txt&lt;/prov:filename&gt;
+                          &lt;prov:filesize&gt;10&lt;/prov:filesize&gt;
+                        &lt;/prov:options&gt;
+                      &lt;/instance&gt;
+                    &lt;/model&gt;
+                    &lt;ui&gt;
+                      &lt;input label="File Name" ref="prov:filename" type="xsd:string"&gt;
+                        &lt;constraints&gt;
+                          &lt;constraint&gt;
+                            &lt;xpath&gt;string-length(prov:filename) &amp;lt; 25&lt;/xpath&gt;
+                            &lt;alert&gt;File names must be less than 25 characters&lt;/alert&gt;
+                          &lt;/constraint&gt;
+                          &lt;constraint&gt;
+                            &lt;pattern&gt;^[A-Za-z]+[A-Za-z0-9]*\.?[A-Za-z0-9]*$&lt;/pattern&gt;
+                            &lt;alert&gt;
+                              File names must start with a letter and
+                              not contain illegal characters
+                            &lt;/alert&gt;
+                          &lt;/constraint&gt;
+                        &lt;/constraints&gt;
+                      &lt;/input&gt;
+                      &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
+                      &lt;/range&gt;
+                    &lt;/ui&gt;
+                  &lt;/form&gt;</ns3:Form><ns3:LastUpdate>2017-01-17T17:02:18.735Z</ns3:LastUpdate></ns3:Item><ns3:Item><ns3:Guid>7D16785B-72AF-2660-810E-EB81AE6455F3</ns3:Guid><ns3:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns3:ProviderGuid><ns3:Name>Ligula Vulputate</ns3:Name><ns3:Description>Nullam id dolor id nibh ultricies vehicula ut id elit. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum.</ns3:Description><ns3:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
+                    &lt;model&gt;
+                      &lt;instance&gt;
+                        &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
+                          &lt;prov:filename&gt;data.txt&lt;/prov:filename&gt;
+                          &lt;prov:filesize&gt;10&lt;/prov:filesize&gt;
+                        &lt;/prov:options&gt;
+                      &lt;/instance&gt;
+                    &lt;/model&gt;
+                    &lt;ui&gt;
+                      &lt;input label="File Name" ref="prov:filename" type="xsd:string"&gt;
+                        &lt;constraints&gt;
+                          &lt;constraint&gt;
+                            &lt;xpath&gt;string-length(prov:filename) &amp;lt; 25&lt;/xpath&gt;
+                            &lt;alert&gt;File names must be less than 25 characters&lt;/alert&gt;
+                          &lt;/constraint&gt;
+                          &lt;constraint&gt;
+                            &lt;pattern&gt;^[A-Za-z]+[A-Za-z0-9]*\.?[A-Za-z0-9]*$&lt;/pattern&gt;
+                            &lt;alert&gt;
+                              File names must start with a letter and
+                              not contain illegal characters
+                            &lt;/alert&gt;
+                          &lt;/constraint&gt;
+                        &lt;/constraints&gt;
+                      &lt;/input&gt;
+                      &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
+                      &lt;/range&gt;
+                    &lt;/ui&gt;
+                  &lt;/form&gt;</ns3:Form><ns3:LastUpdate>2017-01-19T20:34:22.060Z</ns3:LastUpdate></ns3:Item><ns3:Item><ns3:Guid>EF9E9B03-0ED5-1D2C-ACC8-FA2489DDD0B8</ns3:Guid><ns3:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns3:ProviderGuid><ns3:Name>Risus Malesuada Sit</ns3:Name><ns3:Description>Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Nulla vitae elit libero, a pharetra augue.</ns3:Description><ns3:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
+                    &lt;model&gt;
+                      &lt;instance&gt;
+                        &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
+                          &lt;prov:filename&gt;data.txt&lt;/prov:filename&gt;
+                          &lt;prov:filesize&gt;10&lt;/prov:filesize&gt;
+                        &lt;/prov:options&gt;
+                      &lt;/instance&gt;
+                    &lt;/model&gt;
+                    &lt;ui&gt;
+                      &lt;input label="File Name" ref="prov:filename" type="xsd:string"&gt;
+                        &lt;constraints&gt;
+                          &lt;constraint&gt;
+                            &lt;xpath&gt;string-length(prov:filename) &amp;lt; 25&lt;/xpath&gt;
+                            &lt;alert&gt;File names must be less than 25 characters&lt;/alert&gt;
+                          &lt;/constraint&gt;
+                          &lt;constraint&gt;
+                            &lt;pattern&gt;^[A-Za-z]+[A-Za-z0-9]*\.?[A-Za-z0-9]*$&lt;/pattern&gt;
+                            &lt;alert&gt;
+                              File names must start with a letter and
+                              not contain illegal characters
+                            &lt;/alert&gt;
+                          &lt;/constraint&gt;
+                        &lt;/constraints&gt;
+                      &lt;/input&gt;
+                      &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
+                      &lt;/range&gt;
+                    &lt;/ui&gt;
+                  &lt;/form&gt;</ns3:Form><ns3:LastUpdate>2017-01-17T17:02:18.735Z</ns3:LastUpdate></ns3:Item></ns2:result></ns2:GetServiceOptionDefinitionsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Fri, 10 Feb 2017 14:30:01 GMT
+recorded_with: VCR 3.0.1

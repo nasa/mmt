@@ -9,8 +9,9 @@ describe 'Viewing and Creating Order Option Assignments' do
 
     login
 
-    User.first.update(provider_id: 'MMT_2')
     visit order_option_assignments_path
+
+    wait_for_ajax
   end
 
   context 'When trying to display option assignments without selecting any collections', js: true do

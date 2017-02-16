@@ -1,6 +1,4 @@
 class OrderOptionsController < ManageCmrController
-  include EchoSoap
-
   add_breadcrumb 'Order Options', :order_options_path
 
   RESULTS_PER_PAGE = 25
