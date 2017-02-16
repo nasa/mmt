@@ -5,6 +5,28 @@ class ProviderOrdersController < ManageCmrController
     @provider_order = generate_provider_order(params['id'])
   end
 
+  def destroy
+    order_guid = params['order_guid']
+    provider_tracking_id = params['provider_tracking_id']
+    catalog_items = params['catalog_items']
+    status_message = params['status_message']
+    method = params['commit'] == 'Cancel Items' ? 'cancelled' : 'closed'
+
+    result = if method == 'cancelled'
+               echo_client.accept_provider_order_cancellation(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
+             else
+               echo_client.close_provider_order(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
+             end
+
+    if result.success?
+      flash[:success] = "Items successfully #{method}"
+    else
+      flash[:error] = result.error_message
+    end
+
+    redirect_to provider_order_path(params['order_guid'])
+  end
+
   private
 
   def generate_provider_order(guid)
@@ -14,7 +36,9 @@ class ProviderOrdersController < ManageCmrController
     order = {}
 
     order['guid'] = order_info['Guid']
-    order['provider_id'] = echo_client.get_provider_names(echo_provider_token, provider_order.fetch('Guid', {}).fetch('ProviderGuid', '')).parsed_body.fetch('Item', {}).fetch('Name', '')
+    provider_guid = echo_client.get_provider_names(echo_provider_token, provider_order.fetch('Guid', {}).fetch('ProviderGuid', '')).parsed_body.fetch('Item', {})
+    order['provider_guid'] = provider_guid.fetch('Guid', '')
+    order['provider_id'] = provider_guid.fetch('Name', '')
 
     order['tracking_id'] = provider_order['ProviderTrackingId']
     order['provider_order_state'] = provider_order['State']
@@ -44,7 +68,7 @@ class ProviderOrdersController < ManageCmrController
       catalog_items << catalog_item
     end
 
-    order['catalog_items'] = catalog_items
+    order['catalog_items'] = catalog_items.sort { |a, b| a['item_guid'] <=> b['item_guid'] }
     order['status_messages'] = provider_order.fetch('StatusMessage', '').split("\n")
 
     receipt = {}

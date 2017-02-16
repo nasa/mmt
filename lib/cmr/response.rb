@@ -22,6 +22,10 @@ module Cmr
       @response.body
     end
 
+    def parsed_body
+      Hash.from_xml(body)
+    end
+
     def headers
       @response.headers
     end

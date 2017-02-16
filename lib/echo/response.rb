@@ -1,3 +1,5 @@
+require 'libxml_to_hash'
+
 module Echo
   # Custom response wrapper for Echo to handle parsing the body appropriately
   class Response
@@ -21,8 +23,13 @@ module Echo
       @response.body
     end
 
-    def parsed_body
-      body = Hash.from_xml(self.body).fetch('Envelope', {}).fetch('Body', {})
+    def parsed_body(parser: 'xml')
+      # the libxml_to_hash gem helps us parse much larger xml files (and do it faster)
+      # it will create nodes for xml tags that have attributes as well as values
+      # which is problematic for the order policies endpoints and for the
+      # order options REST endpoints
+
+      body = Hash.send("from_#{parser}", self.body).fetch('Envelope', {}).fetch('Body', {})
 
       return body.fetch('Fault', {}) if status >= 400
 
