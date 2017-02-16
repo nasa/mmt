@@ -1,6 +1,5 @@
 #:nodoc:
 class ServiceEntriesController < ManageCmrController
-  include EchoSoap
   include ServiceTags
 
   before_action :set_service_entry, only: [:show, :edit]

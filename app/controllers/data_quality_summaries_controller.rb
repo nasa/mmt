@@ -1,6 +1,5 @@
 class DataQualitySummariesController < ManageCmrController
   include DataManagementHelper
-  include EchoSoap
 
   before_action :set_summary, only: [:show, :edit]
 

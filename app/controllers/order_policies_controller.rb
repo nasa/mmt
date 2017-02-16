@@ -1,6 +1,4 @@
 class OrderPoliciesController < ManageCmrController
-  include EchoSoap
-
   before_action :set_collections, only: [:index, :new, :edit]
   before_action :set_policy, only: [:index, :new, :edit]
 

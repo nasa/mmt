@@ -1,7 +1,5 @@
 #:nodoc:
 class ServiceOptionsController < ManageCmrController
-  include EchoSoap
-
   before_action :set_service_option, only: [:show, :edit]
 
   add_breadcrumb 'Service Options', :service_options_path

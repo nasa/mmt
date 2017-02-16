@@ -1,9 +1,5 @@
 # :nodoc:
 class ServiceOptionAssignmentsController < ManageCmrController
-  include EchoSoap
-
-  # before_action :set_collections
-
   add_breadcrumb 'Service Option Assignments', :service_option_assignments_path
 
   def index; end
