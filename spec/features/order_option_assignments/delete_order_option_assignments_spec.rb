@@ -9,11 +9,11 @@ describe 'Deleting Order Option Assignments' do
 
     login
 
-    User.first.update(provider_id: 'MMT_2')
-
     VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
       visit order_option_assignments_path
     end
+
+    wait_for_ajax
 
     within '#collectionsChooser' do
       select('lorem | ipsum', from: 'Available Collections')
