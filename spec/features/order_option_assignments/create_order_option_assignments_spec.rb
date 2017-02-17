@@ -226,7 +226,7 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
   end
 
-  context 'When creating an option assignemnt with a deprecated order option', js: true do
+  context 'When creating an option assignment with a deprecated order option', js: true do
     before do
       VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
         visit new_order_option_assignment_path
@@ -252,7 +252,7 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
   end
 
-  context 'When successfully creating an option assignemnt', js: true do
+  context 'When successfully creating an option assignment', js: true do
     before do
       VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
         visit new_order_option_assignment_path
@@ -275,6 +275,18 @@ describe 'Viewing and Creating Order Option Assignments' do
 
     it 'Displays a success message' do
       expect(page).to have_content('1 Order Option assignment created successfully. ')
+    end
+  end
+
+  context 'when viewing the create option assignment page when the provider only has one order option', js: true do
+    before do
+      VCR.use_cassette('echo_soap/data_management_service/option_definitions/single_list', record: :none) do
+        visit new_order_option_assignment_path
+      end
+    end
+
+    it 'displays the page with the appropriate order option' do
+      expect(page).to have_select('Option Definition', with_options: ['MYD14.005'])
     end
   end
 end
