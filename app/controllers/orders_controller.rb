@@ -55,7 +55,7 @@ class OrdersController < ManageCmrController
       @orders.select! { |order| order['user_id'] == params['user_id'] }
     end
 
-    @orders.sort { |a, b| a['creation_date'] <=> b['creation_date'] }
+    @orders.sort! { |a, b| a['creation_date'] <=> b['creation_date'] }
   end
 
   private

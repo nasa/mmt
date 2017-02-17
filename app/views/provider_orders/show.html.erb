@@ -39,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @provider_order['catalog_items'].each do |catalog_item| %>
+        <% @provider_order['catalog_items'].each_with_index do |catalog_item, index| %>
           <tr>
             <td><%= catalog_item['item_guid'] %></td>
             <td><%= catalog_item['status'] %></td>
@@ -47,11 +47,13 @@
             <td><%= catalog_item['local_granule_id'] %></td>
             <td>
               <%= catalog_item['option_selection']['name'] %>
-              <%= link_to 'show/hide', 'javascript:void(0);', class: 'show-option-selection' %>
-              <div class="option-selection-content is-hidden">
-                <textarea name="option-selection-<%= catalog_item['item_guid'] %>" cols="75" rows="18" readonly="readonly">
-                  <%= catalog_item['option_selection']['content'].strip %>
-                </textarea>
+              <%= link_to 'show', "#option-select-modal-#{index}", class: 'display-modal' %>
+
+              <div id="option-select-modal-<%= index %>" class="eui-modal-content">
+                <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+
+                <h3><%= catalog_item['option_selection']['name'] %></h3>
+                <pre><%= catalog_item['option_selection']['content'] %></pre>
               </div>
             </td>
           </tr>
@@ -65,24 +67,6 @@
         <li><%= message %></li>
       <% end %>
     </ul>
-
-    <h3>Receipt</h3>
-    <table>
-      <tbody>
-        <tr>
-          <td>Acceptance Date:</td>
-          <td><%= @provider_order['receipt']['acceptance_date'] %></td>
-        </tr>
-        <tr>
-          <td>Estimated Ship Date:</td>
-          <td><%= @provider_order['receipt']['estimated_ship_date'] %></td>
-        </tr>
-        <tr>
-          <td>Last Cancel Date:</td>
-          <td><%= @provider_order['receipt']['latest_cancel_date'] %></td>
-        </tr>
-      </tbody>
-    </table>
 
     <%= link_to 'Cancel Order', '#cancel-provider-order-modal', class: 'display-modal eui-btn eui-btn--red' %>
     <div id="cancel-provider-order-modal" class="eui-modal-content">
