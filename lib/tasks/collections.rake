@@ -50,7 +50,7 @@ namespace :collections do
             req.headers['concept-id'] = collection_concept_id
 
             # Ingesting to local CMR so we can set the token with those we've created
-            req.headers['Echo-token'] = get_token
+            req.headers['Echo-token'] = get_collections_token
 
             # The body here is the xml downloaded from SIT that represents this collection
             req.body = collection_details.text
@@ -79,7 +79,7 @@ namespace :collections do
   end
 
   # For use in local CMR only. Any other environment will not recognize these tokens
-  def get_token(admin: false)
+  def get_collections_token(admin: false)
     admin ? 'ABC-1' : 'ABC-2'
   end
 end
