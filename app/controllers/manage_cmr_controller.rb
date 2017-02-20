@@ -36,7 +36,7 @@ class ManageCmrController < PagesController
 
   # JSON representation of the get_service_implementations_with_datasets method for use with the Chooser
   def datasets_for_service_implementation
-    collections = get_datasets_for_service_implementation(params.permit(:service_interface_guid, :short_name))
+    collections = get_datasets_for_service_implementation(params.permit(:service_interface_guid, :page_size, :page_num, :short_name))
 
     render_collections_for_chooser(collections)
   end

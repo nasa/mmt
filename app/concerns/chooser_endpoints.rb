@@ -72,7 +72,9 @@ module ChooserEndpoints
 
   # Retrieve collections from CMR based on concept ids assigned to a provided service interface
   def get_datasets_for_service_implementation(params = {})
-    response = echo_client.get_service_entries(echo_provider_token, params['service_interface_guid'])
+    # service_interface_guid is not a permitted param for CMR but we need it for this call
+    # so we'll use delete to pop the value from the params hash
+    response = echo_client.get_service_entries(echo_provider_token, params.delete('service_interface_guid'))
 
     if response.success?
       service_entries = Array.wrap(response.parsed_body.fetch('Item', []))
@@ -82,7 +84,12 @@ module ChooserEndpoints
       end
 
       if dataset_guids.any?
-        get_provider_collections(concept_id: dataset_guids.flatten.map { |guid| guid.split('_', 3).last })
+        # Merge any provided (permitted) params with the conecpt ids retrieved
+        cmr_params = {
+          concept_id: dataset_guids.flatten.map { |guid| guid.split('_', 3).last }
+        }.merge(params)
+
+        get_provider_collections(cmr_params)
       else
         {}
       end
