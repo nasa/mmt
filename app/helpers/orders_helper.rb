@@ -1,3 +1,4 @@
+# :nodoc:
 module OrdersHelper
   ORDER_STATES = %w(
     VALIDATED
@@ -13,5 +14,5 @@ module OrdersHelper
     CANCELLING
     CANCELLED
     CLOSED
-  )
+  ).freeze
 end
