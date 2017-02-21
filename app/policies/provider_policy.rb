@@ -31,7 +31,7 @@ class ProviderPolicy < ApplicationPolicy
   def provider_permissions_for_target(target)
     # set options
     check_permission_options = {
-      # URS ID of the user (e.g. test_user)
+      # URS ID of the user
       user_id: @user.user.urs_uid,
 
       # Current provider (e.g. MMT_2)

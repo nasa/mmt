@@ -166,10 +166,10 @@ To run the above steps automatically there is a provided rake task to do the hea
     
 Replacing URS_USERNAME with your own username. An example:
 
-    $ rake acls:testing:prepare[test_user]
-    [Success] Group `RABBOTT Testing Group` created.
-    [Success] Added test_user to MMT Users
-    [Success] Added test_user to MMT Admins
+    $ rake acls:testing:prepare[username]
+    [Success] Group `USERNAME Testing Group` created.
+    [Success] Added username to MMT Users
+    [Success] Added username to MMT Admins
 
 From here I'm able to visit `/provider_identity_permissions` and see my newly created group. Clicking on it allows me to grant myself Provider Level Access to the necessary targets for testing.
 
