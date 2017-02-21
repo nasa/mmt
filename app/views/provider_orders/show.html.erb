@@ -18,7 +18,13 @@
         </tr>
         <tr>
           <td>Provider Order State:</td>
-          <td><%= @provider_order['provider_order_state'] %></td>
+          <td>
+            <%= @provider_order['provider_order_state'] %>
+            
+            <% if policy(:provider_order).resubmit? && state_is_terminal(@provider_order['provider_order_state']) %>  
+              <%= link_to 'Resubmit', resubmit_provider_order_path(@provider_order['guid']), method: :post, class: 'eui-btn--link', role: 'button' %>
+            <% end %>
+          </td>
         </tr>
         <tr>
           <td>Closed Date:</td>

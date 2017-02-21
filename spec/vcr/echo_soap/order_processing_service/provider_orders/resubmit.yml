@@ -1,0 +1,178 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/OrderManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:ResubmitProviderOrder
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:orderGuid>FF330AD3-1A89-871C-AC94-B689A5C95723</ns2:orderGuid><ns2:providerTrackingId/></ns2:ResubmitProviderOrder><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      strict-transport-security:
+      - max-age=31536000
+      date:
+      - Mon, 20 Feb 2017 21:09:19 GMT
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml; charset=UTF-8
+      content-length:
+      - '418'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:ResubmitProviderOrderResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result>84A9BB66-71C6-965F-AEC7-3F55DCFBA734</ns2:result></ns2:ResubmitProviderOrderResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Mon, 20 Feb 2017 21:09:20 GMT
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/OrderManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetOrders
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:orderGuids><ns3:Item>FF330AD3-1A89-871C-AC94-B689A5C95723</ns3:Item></ns2:orderGuids></ns2:GetOrders><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      strict-transport-security:
+      - max-age=31536000
+      date:
+      - Mon, 20 Feb 2017 21:09:20 GMT
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml; charset=UTF-8
+      content-length:
+      - '3711'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetOrdersResponse xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result><ns3:Item><ns3:OwnerGuid>9C8EBA20-C49C-533E-2C06-4D3C6B11B9BF</ns3:OwnerGuid><ns3:UserDomain>OTHER</ns3:UserDomain><ns3:UserRegion>USA</ns3:UserRegion><ns3:Guid>FF330AD3-1A89-871C-AC94-B689A5C95723</ns3:Guid><ns3:State>SUBMITTED_WITH_EXCEPTIONS</ns3:State><ns3:CreationDate>2017-02-20T17:28:41.049Z</ns3:CreationDate><ns3:SubmissionDate>2017-02-20T17:28:46.366Z</ns3:SubmissionDate><ns3:LastUpdateDate>2017-02-20T17:28:46.366Z</ns3:LastUpdateDate><ns3:ShippingAddress><ns3:Guid>EEC0F3AE-4D08-75FD-C683-76E5475D12C5</ns3:Guid><ns3:Role>Order Contact</ns3:Role><ns3:FirstName>Ryan</ns3:FirstName><ns3:LastName>LastName</ns3:LastName><ns3:Address><ns3:Guid>8BA879C6-6A76-2733-D650-5DC852E881B4</ns3:Guid><ns3:UsFormat>true</ns3:UsFormat><ns3:Country>United States</ns3:Country></ns3:Address><ns3:Phones><ns3:Item><ns3:Guid>4C70D529-98D7-C4A7-8857-4D52983BE533</ns3:Guid><ns3:Number>0000000000</ns3:Number><ns3:PhoneNumberType>BUSINESS</ns3:PhoneNumberType></ns3:Item></ns3:Phones><ns3:Email>email@email.com</ns3:Email></ns3:ShippingAddress><ns3:BillingAddress><ns3:Guid>D1FA5839-BBD1-ACEF-C860-4B15952FFED8</ns3:Guid><ns3:Role>Order Contact</ns3:Role><ns3:FirstName>Ryan</ns3:FirstName><ns3:LastName>LastName</ns3:LastName><ns3:Address><ns3:Guid>C56E781B-0642-4509-7361-F1CCF9C02F1D</ns3:Guid><ns3:UsFormat>true</ns3:UsFormat><ns3:Country>United States</ns3:Country></ns3:Address><ns3:Phones><ns3:Item><ns3:Guid>6323FF4D-1D6F-7F85-0750-BD17FF267100</ns3:Guid><ns3:Number>0000000000</ns3:Number><ns3:PhoneNumberType>BUSINESS</ns3:PhoneNumberType></ns3:Item></ns3:Phones><ns3:Email>email@email.com</ns3:Email></ns3:BillingAddress><ns3:ContactAddress><ns3:Guid>D2FC7C7F-2D89-BC2B-B32E-70667B9282F6</ns3:Guid><ns3:Role>Order Contact</ns3:Role><ns3:FirstName>Ryan</ns3:FirstName><ns3:LastName>LastName</ns3:LastName><ns3:Address><ns3:Guid>B8AE8FEF-98ED-DC83-AA68-B6AC68178D7C</ns3:Guid><ns3:UsFormat>true</ns3:UsFormat><ns3:Country>United States</ns3:Country></ns3:Address><ns3:Phones><ns3:Item><ns3:Guid>3AC29D77-D6DA-40D4-F466-20E23E5A340A</ns3:Guid><ns3:Number>0000000000</ns3:Number><ns3:PhoneNumberType>BUSINESS</ns3:PhoneNumberType></ns3:Item></ns3:Phones><ns3:Email>email@email.com</ns3:Email></ns3:ContactAddress><ns3:NotifyLevel>INFO</ns3:NotifyLevel><ns3:ClientIdentity>Mw9_IJ-1U-zSz8uKSrgVlQ</ns3:ClientIdentity><ns3:OrderPrice>0.0</ns3:OrderPrice><ns3:ProviderOrders><ns3:Item><ns3:Guid><ns3:ProviderGuid>248ED694-06AA-7DF0-E269-640DE00B628E</ns3:ProviderGuid><ns3:OrderGuid>FF330AD3-1A89-871C-AC94-B689A5C95723</ns3:OrderGuid></ns3:Guid><ns3:State>SUBMIT_FAILED</ns3:State><ns3:StatusMessage>Mon Feb 20 12:28:43 EST 2017 : ECHO: Transitioning from state [null] to state [NOT_VALIDATED]
+        Mon Feb 20 12:28:46 EST 2017 : ECHO: Transitioning from state [NOT_VALIDATED] to state [VALIDATED]
+        Mon Feb 20 12:28:46 EST 2017 : ECHO: Transitioning from state [VALIDATED] to state [SUBMITTING]
+        Mon Feb 20 12:28:46 EST 2017 : The provider does not support order submission.
+        Mon Feb 20 12:28:46 EST 2017 : ECHO: Transitioning from state [SUBMITTING] to state [SUBMIT_FAILED]
+        Mon Feb 20 16:04:51 EST 2017 : This order has been resubmitted as order [0E75AE75-2949-5062-EDDF-356CF9CBAC04]
+        Mon Feb 20 16:09:20 EST 2017 : This order has been resubmitted as order [84A9BB66-71C6-965F-AEC7-3F55DCFBA734]
+        </ns3:StatusMessage></ns3:Item></ns3:ProviderOrders></ns3:Item></ns2:result></ns2:GetOrdersResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Mon, 20 Feb 2017 21:09:20 GMT
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/OrderManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetOrderItemNamesByProviderOrder
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:providerOrderGuids><ns3:Item><ns3:ProviderGuid>248ED694-06AA-7DF0-E269-640DE00B628E</ns3:ProviderGuid><ns3:OrderGuid>FF330AD3-1A89-871C-AC94-B689A5C95723</ns3:OrderGuid></ns3:Item></ns2:providerOrderGuids></ns2:GetOrderItemNamesByProviderOrder><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      strict-transport-security:
+      - max-age=31536000
+      date:
+      - Mon, 20 Feb 2017 21:09:21 GMT
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml; charset=UTF-8
+      content-length:
+      - '519'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetOrderItemNamesByProviderOrderResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result><ns3:Item><ns3:Name>G46444-NSIDC_ECS</ns3:Name><ns3:Guid>BA2AAEA1-78AC-4DA0-B594-A99DFB857E1A</ns3:Guid></ns3:Item></ns2:result></ns2:GetOrderItemNamesByProviderOrderResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Mon, 20 Feb 2017 21:09:21 GMT
+- request:
+    method: post
+    uri: https://testbed.echo.nasa.gov/echo-v10/OrderManagementServicePortImpl
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetOrderItems
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:orderItemGuids><ns3:Item>BA2AAEA1-78AC-4DA0-B594-A99DFB857E1A</ns3:Item></ns2:orderItemGuids></ns2:GetOrderItems><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Content-Type:
+      - text/xml
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      strict-transport-security:
+      - max-age=31536000
+      date:
+      - Mon, 20 Feb 2017 21:09:21 GMT
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      soapaction:
+      - '""'
+      content-type:
+      - text/xml; charset=UTF-8
+      content-length:
+      - '1075'
+      server:
+      - Jetty(9.2.z-SNAPSHOT)
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetOrderItemsResponse
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result><ns3:Item><ns3:Guid>BA2AAEA1-78AC-4DA0-B594-A99DFB857E1A</ns3:Guid><ns3:ItemGuid>G46444-NSIDC_ECS</ns3:ItemGuid><ns3:QuantityOrdered>1</ns3:QuantityOrdered><ns3:OrderItemDetail><ns3:OwningProviderOrderGuid><ns3:ProviderGuid>248ED694-06AA-7DF0-E269-640DE00B628E</ns3:ProviderGuid><ns3:OrderGuid>FF330AD3-1A89-871C-AC94-B689A5C95723</ns3:OrderGuid></ns3:OwningProviderOrderGuid><ns3:State>NOT_SET</ns3:State><ns3:GranuleUR>SC:AA_L2A.001:3118390</ns3:GranuleUR><ns3:ProducerGranuleId>AMSR_A_L2A_BrightnessTemperatures_V01_200303221952_A.hdf</ns3:ProducerGranuleId><ns3:DatasetId>AMSR/ADEOS-II
+        L2A Global Swath Spatially-Resampled Brightness Temperatures (Tb) V001</ns3:DatasetId></ns3:OrderItemDetail></ns3:Item></ns2:result></ns2:GetOrderItemsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Mon, 20 Feb 2017 21:09:21 GMT
+recorded_with: VCR 3.0.1

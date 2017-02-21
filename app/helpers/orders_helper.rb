@@ -15,4 +15,15 @@ module OrdersHelper
     CANCELLED
     CLOSED
   ).freeze
+
+  TERMINAL_ORDER_STATES = %w(
+    CANCELLED
+    CLOSED
+    SUBMIT_FAILED
+    SUBMIT_REJECTED
+  ).freeze
+
+  def state_is_terminal(order_state)
+    OrdersHelper::TERMINAL_ORDER_STATES.include?(order_state)
+  end
 end

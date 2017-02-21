@@ -1,3 +1,4 @@
+# :nodoc:
 class ProviderOrdersController < ManageCmrController
   add_breadcrumb 'Track Orders', :orders_path
 
@@ -27,6 +28,24 @@ class ProviderOrdersController < ManageCmrController
     redirect_to provider_order_path(params['order_guid'])
   end
 
+  def resubmit
+    authorize :provider_order
+
+    response = echo_client.resubmit_order(echo_provider_token, params[:id])
+
+    if response.error?
+      flash[:error] = response.error_message
+
+      @provider_order = generate_provider_order(params['id'])
+
+      render :show
+    else
+      flash[:success] = 'Order successfully resubmitted'
+
+      redirect_to provider_order_path(params[:id])
+    end
+  end
+
   private
 
   def generate_provider_order(guid)
@@ -36,9 +55,10 @@ class ProviderOrdersController < ManageCmrController
     order = {}
 
     order['guid'] = order_info['Guid']
-    provider_guid = echo_client.get_provider_names(echo_provider_token, provider_order.fetch('Guid', {}).fetch('ProviderGuid', '')).parsed_body.fetch('Item', {})
-    order['provider_guid'] = provider_guid.fetch('Guid', '')
-    order['provider_id'] = provider_guid.fetch('Name', '')
+
+    provider_guid = provider_order.fetch('Guid', {}).fetch('ProviderGuid', nil)
+    order['provider_guid'] = get_provider_guid(provider_guid)
+    order['provider_id'] = get_provider_name(provider_guid)
 
     order['tracking_id'] = provider_order['ProviderTrackingId']
     order['provider_order_state'] = provider_order['State']

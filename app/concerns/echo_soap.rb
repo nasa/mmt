@@ -2,24 +2,38 @@
 module EchoSoap
   extend ActiveSupport::Concern
 
-  def get_provider_guid(provider_id)
+  def get_provider(provider_id)
     # Dont bother searching if the provided information is nil
-    return nil if provider_id.nil?
+    return {} if provider_id.nil?
 
-    result = echo_client.get_provider_names(token_with_client_id, nil).parsed_body
+    @result ||= echo_client.get_provider_names(token_with_client_id, nil).parsed_body
 
     # The result is nil if there is nothing to return
-    if result
-      providers = result.fetch('Item', [])
+    if @result
+      providers = @result.fetch('Item', [])
 
       # Look for the current provider in the list, this will get us the guid we need
       providers.each do |provider|
         # If we find the provider we're looking for, ask ECHO for the DQSDs
-        if provider.fetch('Name', nil) == provider_id
-          return provider.fetch('Guid', nil)
-        end
+        return provider if provider.fetch('Name', nil) == provider_id
       end
     end
+    
+    {}
+  end
+
+  def get_provider_guid(provider_id)
+    # Dont bother searching if the provided information is nil
+    return nil if provider_id.nil?
+
+    get_provider(provider_id).fetch('Guid', nil)
+  end
+
+  def get_provider_name(provider_id)
+    # Dont bother searching if the provided information is nil
+    return nil if provider_id.nil?
+
+    get_provider(provider_id).fetch('Name', nil)
   end
 
   def current_provider_guid

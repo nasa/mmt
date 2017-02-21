@@ -98,5 +98,25 @@ module Echo
 
       make_request(@url, payload)
     end
+
+    # Enables a provider to resubmit the user's order on behalf of the user. Re-submission is only allowed
+    # for orders in a final state. A status message about the re-submission of an order is automatically
+    # generated when re-submission is successful.
+    #
+    # Only one of orderId or providerTrackingId should be used. If providerTrackingId is non-null, it will
+    # be used to find the order. Otherwise the orderId will be used.
+    def resubmit_order(token, provider_order_guid)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:ResubmitProviderOrder, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:orderGuid, provider_order_guid)
+        builder.ns2(:providerTrackingId, nil)
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
   end
 end
