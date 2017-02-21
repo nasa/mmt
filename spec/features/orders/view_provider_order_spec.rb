@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Viewing Provider Order Information' do
+describe 'Viewing Provider Order Information', js: true do
   order_guid = 'test_order_guid'
 
   context 'when viewing provider order information' do
@@ -34,9 +34,9 @@ describe 'Viewing Provider Order Information' do
       expect(page).to have_content('Fri Feb 03 10:20:43 EST 2017 : ECHO: Transitioning from state [SUBMITTING] to state [PROCESSING]')
     end
 
-    context 'when clicking show/hide for a catalog item', js: true do
+    context 'when clicking show for a catalog item', js: true do
       before do
-        click_on 'show'
+        click_on 'Show'
       end
 
       it 'shows the Option Selection' do

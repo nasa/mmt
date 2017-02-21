@@ -57,8 +57,9 @@ class ProviderOrdersController < ManageCmrController
     order['guid'] = order_info['Guid']
 
     provider_guid = provider_order.fetch('Guid', {}).fetch('ProviderGuid', nil)
-    order['provider_guid'] = get_provider_guid(provider_guid)
-    order['provider_id'] = get_provider_name(provider_guid)
+    provider = get_provider_by_guid(provider_guid)
+    order['provider_guid'] = provider['Guid']
+    order['provider_id'] = provider['Name']
 
     order['tracking_id'] = provider_order['ProviderTrackingId']
     order['provider_order_state'] = provider_order['State']
