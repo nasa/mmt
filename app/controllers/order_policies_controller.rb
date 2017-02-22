@@ -60,6 +60,28 @@ class OrderPoliciesController < ManageCmrController
     redirect_to order_policies_path
   end
 
+  def url_exists
+    is_valid = false
+    url_string = params[:url].gsub(/^https/, 'http')
+    url = URI.parse(url_string)
+    url.scheme == 'http'
+    req = Net::HTTP.new(url.host, url.port)
+    path = url.path if url.path.present?
+    begin
+      res = req.request_head(path || '/')
+    rescue => err
+      Rails.logger.error('Invalid endpoint: ' + err.inspect)
+    end
+
+    if !res.nil? && res.code == '200'
+      Rails.logger.info("HTTP status code '#{res.code}' returned for endpoint #{url_string}")
+      is_valid = true
+    end
+    render :json => { :is_valid => is_valid }
+  end
+
+
+
   private
 
   def set_policy
@@ -124,4 +146,6 @@ class OrderPoliciesController < ManageCmrController
   def upsert_policy
     echo_client.set_provider_policies(token_with_client_id, current_provider_guid, generate_upsert_payload)
   end
+
+
 end
