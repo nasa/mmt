@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Viewing Provider Order Information', js: true do
+describe 'Viewing Provider Order Information' do
   order_guid = 'test_order_guid'
 
   context 'when viewing provider order information' do
