@@ -81,6 +81,13 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"provider-id": "MMT_2", "short-name": "MMT_2", "cmr-only": true}'
       end
+      # Provider NSIDC_ECS
+      connection.post do |req|
+        req.url('http://localhost:3002/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"provider-id": "NSIDC_ECS", "short-name": "NSIDC_ECS", "cmr-only": true}'
+      end
 
       ### Create a provider in Mock Echo
       # Provider SEDAC
@@ -110,6 +117,13 @@ module Cmr
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '[{"provider":{"id":"provguid4","provider_id":"MMT_2"}}]'
+      end
+      # Provider NSIDC_ECS
+      connection.post do |req|
+        req.url('http://localhost:3008/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '[{"provider":{"id":"provguid4","provider_id":"NSIDC_ECS"}}]'
       end
 
       clear_cache
@@ -327,6 +341,7 @@ module Cmr
         req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "MMT_1"}}'
       end
       puts "ACL for CRUD permissions for typical user on Provider Identity ACLs for MMT_1 #{resp.body}"
+
       # ACL for regular users to manage Provider Identity ACLs for MMT_2
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
@@ -335,6 +350,16 @@ module Cmr
         req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "MMT_2"}}'
       end
       puts "ACL for CRUD permissions for typical user on Provider Identity ACLs for MMT_2 #{resp.body}"
+
+      # ACL for regular users to manage Provider Identity ACLs for NSIDC_ECS
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "NSIDC_ECS"}}'
+      end
+      puts "ACL for CRUD permissions for typical user on Provider Identity ACLs for NSIDC_ECS #{resp.body}"
+
       # ACL for typical user to create catalog item ACLs for MMT_1
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
@@ -343,6 +368,7 @@ module Cmr
         req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "MMT_1"}}'
       end
       puts "ACL for typical user to read and create catalog item ACLs for MMT_1 #{resp.body}"
+
       # ACL for typical user to create catalog item ACLs for MMT_2
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
@@ -351,7 +377,6 @@ module Cmr
         req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "MMT_2"}}'
       end
       puts "ACL for typical user to read and create catalog item ACLs for MMT_2 #{resp.body}"
-
 
       ## this is temporary and for Permissions tests
       # ACL for typical user to create groups (access control groups) for LARC
@@ -362,6 +387,7 @@ module Cmr
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTUser"}}}],"provider_object_identity": {"provider_guid": "provguid2","target": "GROUP"}}}'
       end
       puts "ACL for typical user to read and create groups for LARC #{resp.body}"
+
       # ACL for typical user to create catalog item ACLs for LARC
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')

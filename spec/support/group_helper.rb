@@ -14,20 +14,19 @@ module Helpers
 
         group_response = cmr_client.create_group(group_params, admin ? 'access_token_admin' : 'access_token')
 
-        wait_for_cmr
-
         concept_id = group_response.body['concept_id']
 
         single_instance_identity_object = {
           'group_permissions' => [{
             'group_id' => management_group, # default management group is Administrators_2 created on setup cmr
-            'permissions' => ['update', 'delete']
+            'permissions' => %w(update delete)
           }],
           'single_instance_identity' => {
             'target' => 'GROUP_MANAGEMENT',
             'target_id' => concept_id
           }
         }
+
         # create the single_instance_identity acl for the initial management group for the group
         management_group_response = cmr_client.add_group_permissions(single_instance_identity_object, admin ? 'access_token_admin' : 'access_token')
 

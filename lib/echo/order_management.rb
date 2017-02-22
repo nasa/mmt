@@ -6,36 +6,36 @@ module Echo
   # science data from data providers registered in ECHO. Client applications
   # build an order using the Order Management Service in a similar fashion
   # to that of using a shopping cart at typical retail website.
-
   class OrderManagement < Base
     # Returns all of the provider guids that are in one of the given states and within the given temporal range for the provider being acted as. Only users acting as providers can access this operation.
 
     # Only the following provider order states can be searched by providers
-      #
-      # PROCESSING
-      # CANCELLING
-      # SUBMIT_FAILED
-      # SUBMIT_REJECTED
-      # CANCELLED
-      # CLOSED
+    #
+    # PROCESSING
+    # CANCELLING
+    # SUBMIT_FAILED
+    # SUBMIT_REJECTED
+    # CANCELLED
+    # CLOSED
+    #
     # Only the following provider temporal types can be searched by providers
     #
-      # CREATION_DATE
-      # SUBMISSION_DATE
-      # LAST_UPDATE
+    # CREATION_DATE
+    # SUBMISSION_DATE
+    # LAST_UPDATE
     def get_provider_order_guids_by_state_date_and_provider(token, payload)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetProviderOrderGuidsByStateDateAndProvider, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
         builder.ns2(:token, token)
         builder.ns2(:states) do
-          Array.wrap(payload.fetch('states')).each do |state|
+          Array.wrap(payload['states']).each do |state|
             builder.ns3(:Item, state)
           end
         end
-        builder.ns2(:dateType, payload.fetch('date_type'))
-        builder.ns2(:from, payload.fetch('from_date'))
-        builder.ns2(:to, payload.fetch('to_date'))
+        builder.ns2(:dateType, payload['date_type'])
+        builder.ns2(:from, payload['from_date'])
+        builder.ns2(:to, payload['to_date'])
       end
 
       payload = wrap_with_envelope(builder)
@@ -70,8 +70,8 @@ module Echo
         builder.ns2(:providerOrderGuids) do
           Array.wrap(provider_order_guids).each do |guid|
             builder.ns3(:Item) do
-              builder.ns3(:ProviderGuid, guid.fetch('ProviderGuid'))
-              builder.ns3(:OrderGuid, guid.fetch('OrderGuid'))
+              builder.ns3(:ProviderGuid, guid['ProviderGuid'])
+              builder.ns3(:OrderGuid, guid['OrderGuid'])
             end
           end
         end
@@ -92,6 +92,26 @@ module Echo
             builder.ns3(:Item, guid)
           end
         end
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
+
+    # Enables a provider to resubmit the user's order on behalf of the user. Re-submission is only allowed
+    # for orders in a final state. A status message about the re-submission of an order is automatically
+    # generated when re-submission is successful.
+    #
+    # Only one of orderId or providerTrackingId should be used. If providerTrackingId is non-null, it will
+    # be used to find the order. Otherwise the orderId will be used.
+    def resubmit_order(token, provider_order_guid)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:ResubmitProviderOrder, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:orderGuid, provider_order_guid)
+        builder.ns2(:providerTrackingId, nil)
       end
 
       payload = wrap_with_envelope(builder)

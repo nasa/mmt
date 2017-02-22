@@ -34,7 +34,11 @@ Rails.application.routes.draw do
       put 'search'
     end
   end
-  resources :provider_orders, only: [:show, :destroy]
+  resources :provider_orders, only: [:show, :destroy] do
+    member do
+      post 'resubmit'
+    end
+  end
 
   resources :groups
   post '/invite_user' => 'groups#invite', as: 'invite_user'

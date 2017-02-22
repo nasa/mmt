@@ -2,32 +2,56 @@
 module EchoSoap
   extend ActiveSupport::Concern
 
+  # Get the provider data from ECHO by the provider Guid
+  def get_provider_by_guid(provider_guid)
+    # Dont bother searching if the provided information is nil
+    return {} if provider_guid.nil?
+
+    @result ||= echo_client.get_provider_names(token_with_client_id, provider_guid)
+
+    # The result is nil if there is nothing to return
+    return @result.parsed_body.fetch('Item', {}) if @result.success?
+
+    {}
+  end
+
+  # Get the provider data from ECHO by the provider Name
+  def get_provider(provider_id)
+    # Dont bother searching if the provided information is nil
+    return {} if provider_id.nil?
+
+    @result ||= echo_client.get_provider_names(token_with_client_id, nil)
+
+    # The result is nil if there is nothing to return
+    if @result.success?
+      providers = @result.parsed_body.fetch('Item', {})
+
+      # Look for the current provider in the list, this will get us the guid we need
+      Array.wrap(providers).each do |provider|
+        # If we find the provider we're looking for, ask ECHO for the DQSDs
+        return provider if provider.fetch('Name', nil) == provider_id
+      end
+    end
+    
+    {}
+  end
+
   def get_provider_guid(provider_id)
     # Dont bother searching if the provided information is nil
     return nil if provider_id.nil?
 
-    result = echo_client.get_provider_names(token_with_client_id, nil).parsed_body
+    get_provider(provider_id).fetch('Guid', nil)
+  end
 
-    # The result is nil if there is nothing to return
-    if result
-      providers = result.fetch('Item', [])
+  def get_provider_name(provider_id)
+    # Dont bother searching if the provided information is nil
+    return nil if provider_id.nil?
 
-      # Look for the current provider in the list, this will get us the guid we need
-      providers.each do |provider|
-        # If we find the provider we're looking for, ask ECHO for the DQSDs
-        if provider.fetch('Name', nil) == provider_id
-          return provider.fetch('Guid', nil)
-        end
-      end
-    end
+    get_provider(provider_id).fetch('Name', nil)
   end
 
   def current_provider_guid
-    if @current_provider_guid.nil?
-      @current_provider_guid = get_provider_guid(current_user.provider_id)
-    end
-
-    @current_provider_guid
+    @current_provider_guid ||= get_provider_guid(current_user.provider_id)
   end
 
   def set_summaries

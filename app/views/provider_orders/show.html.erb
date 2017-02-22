@@ -18,7 +18,13 @@
         </tr>
         <tr>
           <td>Provider Order State:</td>
-          <td><%= @provider_order['provider_order_state'] %></td>
+          <td>
+            <%= @provider_order['provider_order_state'] %>
+            
+            <% if policy(:provider_order).resubmit? && state_is_terminal(@provider_order['provider_order_state']) %>  
+              <%= link_to 'Resubmit', resubmit_provider_order_path(@provider_order['guid']), method: :post, class: 'eui-btn--link', role: 'button' %>
+            <% end %>
+          </td>
         </tr>
         <tr>
           <td>Closed Date:</td>
@@ -46,8 +52,11 @@
             <td><%= catalog_item['data_granule_id'] %></td>
             <td><%= catalog_item['local_granule_id'] %></td>
             <td>
+            <% if catalog_item['option_selection']['content'].blank? %>
+              NOT_SET
+            <% else %>
               <%= catalog_item['option_selection']['name'] %>
-              <%= link_to 'show', "#option-select-modal-#{index}", class: 'display-modal' %>
+              <%= link_to 'Show', "#option-select-modal-#{index}", class: 'display-modal' %>
 
               <div id="option-select-modal-<%= index %>" class="eui-modal-content">
                 <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
@@ -55,6 +64,7 @@
                 <h3><%= catalog_item['option_selection']['name'] %></h3>
                 <pre><%= catalog_item['option_selection']['content'] %></pre>
               </div>
+            <% end %>
             </td>
           </tr>
         <% end %>
