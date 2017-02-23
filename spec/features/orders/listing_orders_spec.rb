@@ -15,7 +15,9 @@ describe 'Searching Orders' do
         fill_in 'To', with: '2017-02-01T00:00:00'
 
         VCR.use_cassette('echo_soap/order_management_service/no_results', record: :none) do
-          click_on 'Display Orders'
+          within '#track-orders-form' do
+            click_on 'Submit'
+          end
         end
       end
 
@@ -29,7 +31,9 @@ describe 'Searching Orders' do
         fill_in 'Order GUID', with: 'order_guid'
 
         VCR.use_cassette('echo_soap/order_management_service/search_by_guid', record: :none) do
-          click_on 'Display Orders'
+          within '#order-by-guid-form' do
+            click_on 'Submit'
+          end
         end
       end
 
@@ -54,7 +58,9 @@ describe 'Searching Orders' do
         fill_in 'To', with: '2017-01-31T00:00:00'
 
         VCR.use_cassette('echo_soap/order_management_service/search_by_state_and_date', record: :none) do
-          click_on 'Display Orders'
+          within '#track-orders-form' do
+            click_on 'Submit'
+          end
         end
       end
 
@@ -84,7 +90,9 @@ describe 'Searching Orders' do
 
         # user filtering is done after the soap call, so the cassette would be the same as search by date
         VCR.use_cassette('echo_soap/order_management_service/search_by_date', record: :none) do
-          click_on 'Display Orders'
+          within '#track-orders-form' do
+            click_on 'Submit'
+          end
         end
       end
 
@@ -100,7 +108,9 @@ describe 'Searching Orders' do
         fill_in 'To', with: '2017-01-31T00:00:00'
 
         VCR.use_cassette('echo_soap/order_management_service/search_by_date', record: :none) do
-          click_on 'Display Orders'
+          within '#track-orders-form' do
+            click_on 'Submit'
+          end
         end
       end
 

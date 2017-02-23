@@ -1,16 +1,5 @@
 <fieldset>
   <div class="row">
-    <label for="order_guid" class="">Order GUID</label>
-    <%= text_field_tag('order_guid', nil, class: 'full-width') %>
-
-    <p class="form-description">If you do not know your order guid you can search for your order below.</p>
-  </div>
-</fieldset>
-
-<h3>Order Search</h3>
-
-<fieldset>
-  <div class="row">
     <label for="state">Filter by Order State</label>
     <%= select_tag('states', options_for_select(OrdersHelper::ORDER_STATES, nil), class: 'full-width', multiple: true) %>
   </div>
@@ -39,4 +28,8 @@
       <%= datetime_field_tag('to_date', nil, class: 'full-width datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SS', data: { 'date-format' => 'YYYY-MM-DD[T]HH:mm:ss', 'date-min-date' => false }) %>
     </div>
   </div>
+</fieldset>
+
+<fieldset>
+  <%= button_tag 'Submit', class: 'eui-btn--blue' %>
 </fieldset>
