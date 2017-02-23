@@ -23,24 +23,6 @@ $(document).ready ->
 
   if $("#service-option-form").length > 0
     $('#service-option-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false
-
-      errorPlacement: (error, element) ->
-        error.insertAfter(element)
-
-      # This library handles focus oddly, this ensures that we scroll
-      # to and focus on the first element with an error in the form
-      onfocusout: false
-      invalidHandler: (form, validator) ->
-        if validator.numberOfInvalids() > 0
-          validator.errorList[0].element.focus()
-
-      highlight: (element, errorClass) ->
-        # Prevent highlighting the fields themselves
-        return false
-
       rules:
         'service_option[name]':
           required: true
@@ -123,24 +105,6 @@ $(document).ready ->
       $('#tag_guids_toList option').prop('selected', true)
 
     $('#service-entry-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false
-
-      errorPlacement: (error, element) ->
-        error.insertAfter(element)
-
-      # This library handles focus oddly, this ensures that we scroll
-      # to and focus on the first element with an error in the form
-      onfocusout: false
-      invalidHandler: (form, validator) ->
-        if validator.numberOfInvalids() > 0
-          validator.errorList[0].element.focus()
-
-      highlight: (element, errorClass) ->
-        # Prevent highlighting the fields themselves
-        return false
-
       rules:
         'service_entry[name]':
           required: true
@@ -214,24 +178,6 @@ $(document).ready ->
       $('#service_entries_toList option').prop('selected', true)
 
     $('#service-option-assignments-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false
-
-      errorPlacement: (error, element) ->
-        error.insertAfter(element)
-
-      # This library handles focus oddly, this ensures that we scroll
-      # to and focus on the first element with an error in the form
-      onfocusout: false
-      invalidHandler: (form, validator) ->
-        if validator.numberOfInvalids() > 0
-          validator.errorList[0].element.focus()
-
-      highlight: (element, errorClass) ->
-        # Prevent highlighting the fields themselves
-        return false
-
       rules:
         'service_entries_toList[]':
           required: true
@@ -250,19 +196,8 @@ $(document).ready ->
 
   if $("#delete-service-option-assignments-form").length > 0
     $('#delete-service-option-assignments-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false
-
       errorPlacement: (error, element) ->
         element.closest('fieldset').append(error)
-
-      onfocusout: (error) ->
-        this.element(error)
-
-      highlight: (element, errorClass) ->
-        # Prevent highlighting the fields themselves
-        return false
 
       rules:
         'service_option_assignment[]':
@@ -275,24 +210,6 @@ $(document).ready ->
 
   if $("#new-service-option-assignment-form").length > 0
     $('#new-service-option-assignment-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false
-
-      errorPlacement: (error, element) ->
-        error.insertAfter(element)
-
-      # This library handles focus oddly, this ensures that we scroll
-      # to and focus on the first element with an error in the form
-      onfocusout: false
-      invalidHandler: (form, validator) ->
-        if validator.numberOfInvalids() > 0
-          validator.errorList[0].element.focus()
-
-      highlight: (element, errorClass) ->
-        # Prevent highlighting the fields themselves
-        return false
-
       rules:
         'service_entry_guid':
           required: true

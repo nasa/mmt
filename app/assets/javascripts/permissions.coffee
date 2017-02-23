@@ -107,10 +107,6 @@ $(document).ready ->
 
     # Validate new permissions form with jquery validation plugin
     $('.permission-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false
-
       errorPlacement: (error, element) ->
         if element.attr('id') == 'search_groups_' || element.attr('id') == 'search_and_order_groups_'
           # error placement is trickier with the groups because of select2 and the table
@@ -124,17 +120,6 @@ $(document).ready ->
           error.insertAfter($row)
         else
           error.insertAfter(element)
-
-      # This library handles focus oddly, this ensures that we scroll
-      # to and focus on the first element with an error in the form
-      onfocusout: false
-      invalidHandler: (form, validator) ->
-        if validator.numberOfInvalids() > 0
-          validator.errorList[0].element.focus()
-
-      highlight: (element, errorClass) ->
-        # Prevent highlighting the fields themselves
-        return false
 
       rules:
         permission_name:
