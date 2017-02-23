@@ -1,9 +1,13 @@
-<!-- <fieldset>
+<fieldset>
   <div class="row">
     <label for="order_guid" class="">Order GUID</label>
     <%= text_field_tag('order_guid', nil, class: 'full-width') %>
+
+    <p class="form-description">If you do not know your order guid you can search for your order below.</p>
   </div>
-</fieldset> -->
+</fieldset>
+
+<h3>Order Search</h3>
 
 <fieldset>
   <div class="row">
@@ -20,7 +24,7 @@
 </fieldset>
 
 <fieldset>
-  <div class="row">
+  <div class="row space-bot">
     <label for="date_type" class="eui-required-o">Filter by Date/Time of</label>
     <%= select_tag('date_type', options_for_select([ ['Creation date', 'CREATION_DATE'], ['Submission date', 'SUBMISSION_DATE'], ['Updated Date', 'LAST_UPDATE_DATE']], nil), prompt: 'Select a date type', class: 'full-width') %>
   </div>

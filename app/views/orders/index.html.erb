@@ -2,8 +2,6 @@
   <section>
     <h2><%= current_user.provider_id %> Orders</h2>
 
-    <h3>Provider Order Search</h3>
-
     <%= form_tag(search_orders_path, method: :put, class: "track-orders-form", id: "track-orders-form") do %>
       <%= render partial: "form" %>
 

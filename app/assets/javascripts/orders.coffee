@@ -1,4 +1,7 @@
 $(document).ready ->
+  searchFiltersRequired = ->
+    $('#order_guid').val() == ''
+
   $('#track-orders-form').validate
     errorClass: 'eui-banner--danger'
     errorElement: 'div'
@@ -16,11 +19,14 @@ $(document).ready ->
 
     rules:
       'date_type':
-        required: true
+        required: 
+          depends: searchFiltersRequired
       'from_date':
-        required: true
+        required: 
+          depends: searchFiltersRequired
       'to_date':
-        required: true
+        required: 
+          depends: searchFiltersRequired
 
     messages:
       'date_type':
