@@ -112,7 +112,7 @@ describe 'Creating Collection Permissions', js: true do
         allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group1_id, 'access_token').and_return(group1_response)
 
         associated_permission_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/permissions/associated_permissions.json'))))
-        allow_any_instance_of(Cmr::CmrClient).to receive(:get_group_permissions).with(group1_id, 'access_token').and_return(associated_permission_response)
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions).with(group1_id, 'access_token').and_return(associated_permission_response)
 
         click_on 'Group 1'
       end
