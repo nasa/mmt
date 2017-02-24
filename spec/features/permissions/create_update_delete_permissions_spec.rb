@@ -103,6 +103,24 @@ describe 'Creating Collection Permissions', js: true do
       end
     end
 
+    context 'when viewing the group show page' do
+      before do
+        group1 = '{"name":"Group 1","description":"desc gp 1","provider_id":"MMT_2","num_members":2}'
+        group1_id = 'AG1200000069-MMT_2'
+        group1_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(group1)))
+
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group1_id, 'access_token').and_return(group1_response)
+
+        associated_permission_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/permissions/associated_permissions.json'))))
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_group_permissions).with(group1_id, 'access_token').and_return(associated_permission_response)
+
+        click_on 'Group 1'
+      end
+
+      it 'displays the associated permission' do
+        expect(page).to have_content 'Associated Permissions Test Permission 1'
+      end
+    end
 
     context 'when clicking the edit permission button' do
       before do

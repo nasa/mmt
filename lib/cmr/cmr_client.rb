@@ -238,6 +238,16 @@ module Cmr
       post(url, request_object.to_json, token_header(token))
     end
 
+    def get_group_permissions(group_id, token)
+      # curl -i -H "Echo-Token: mock-echo-system-token" "http://localhost:3011/acls/search" -d "permitted_group[]=AG1200000074-MMT_1&identity_type[]=catalog_item"
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3011/acls?permitted_group[]=#{group_id}&identity_type[]=catalog_item"
+      else
+        url = "/access-control/acls?permitted_group[]=#{group_id}&identity_type[]=catalog_item"
+      end
+      get(url, {}, token_header(token))
+    end
+
     def get_permissions(options, token)
       # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
       if Rails.env.development? || Rails.env.test?
