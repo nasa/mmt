@@ -1,3 +1,5 @@
+require 'faraday_middleware'
+
 class OrderPoliciesController < ManageCmrController
   before_action :set_collections, only: [:index, :new, :edit]
   before_action :set_policy, only: [:index, :new, :edit]
@@ -61,25 +63,35 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def url_exists
-    is_valid = false
-    url_string = params[:url].gsub(/^https/, 'http')
-    url = URI.parse(url_string)
-    url.scheme == 'http'
-    req = Net::HTTP.new(url.host, url.port)
-    path = url.path if url.path.present?
+    message = nil
+    url = params[:url]
+
+    # This ensures we try to hit an external endpoint (without the protocol,
+    # it will be interpreted as an internal link)
+    if url !~ /^http|https\:\/\//i
+      url = 'http://' + url
+    end
+
+    conn = Faraday.new(:url => url) do |c|
+      c.use FaradayMiddleware::FollowRedirects, limit: 3
+      c.use Faraday::Response::RaiseError # raise exceptions on 40x, 50x responses
+      c.use Faraday::Adapter::NetHttp
+    end
+
     begin
-      res = req.request_head(path || '/')
+      response = conn.head
+      if response.env[:response].status == 200
+        message = 'Test endpoint connection was successful.'
+      else
+        message = "Test Endpoint Connection failed. Reason: endpoint returned an HTTP status of #{response.env[:response].status}"
+      end
     rescue => err
       Rails.logger.error('Invalid endpoint: ' + err.inspect)
+      message = 'Test Endpoint Connection failed: Invalid endpoint.'
     end
 
-    if !res.nil? && res.code == '200'
-      Rails.logger.info("HTTP status code '#{res.code}' returned for endpoint #{url_string}")
-      is_valid = true
-    end
-    render :json => { :is_valid => is_valid }
+    render :json => { :message => message }
   end
-
 
 
   private

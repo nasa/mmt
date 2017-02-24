@@ -15,10 +15,7 @@ $(document).ready ->
         url: '/order_policies/url_exists'
         success: (response) ->
           $('#modal-link').click()
-          msg = 'Test endpoint connection failed.'
-          if response.is_valid == true
-            msg = 'Test endpoint connection was successful.'
-          $('#modal-message').text msg
+          $('#modal-message').text response.message
         error: (req, status, error) ->
           console.error(status, error)
       )

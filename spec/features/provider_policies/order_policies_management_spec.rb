@@ -165,6 +165,43 @@ describe 'Viewing Order Policies', js: true do
               end
             end
           end
+
+          context 'when clicking on the Test Endpoint Connection button' do
+            context 'when the endpoint is invalid' do
+              before do
+                click_on 'Test Endpoint Connection'
+                wait_for_ajax
+              end
+
+              it 'should display a message that the endpoint test was not successful' do
+                expect(page).to have_content('Test Endpoint Connection failed: Invalid endpoint.')
+              end
+            end
+
+            context 'when the endpoint is valid' do
+              before do
+
+                VCR.use_cassette('echo_soap/provider_service/order_policies/edit', record: :none) do
+                  click_on 'Edit'
+                end
+
+                fill_in 'End Point', with: 'nasa.gov'
+
+                VCR.use_cassette('echo_soap/provider_service/order_policies/updated-url', record: :none) do
+                  click_on 'Submit'
+                end
+
+                VCR.use_cassette('echo_soap/provider_service/order_policies/url-check', record: :none) do
+                  click_on 'Test Endpoint Connection'
+                  wait_for_ajax
+                end
+              end
+
+              it 'should display a message that the endpoint test was successful' do
+                expect(page).to have_content('Test endpoint connection was successful.')
+              end
+            end
+          end
         end
       end
     end
