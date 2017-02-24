@@ -42,7 +42,8 @@ class GroupsController < ManageCmrController
     if group_response.success?
       @group = group_response.body
 
-      @permissions = cmr_client.get_group_permissions(@concept_id, token).body.fetch('items', [])
+      options = { 'permitted_group' => @concept_id, 'identity_type' => 'catalog_item' }
+      @permissions = cmr_client.get_permissions(options, token).body.fetch('items', [])
 
       add_breadcrumb @group.fetch('name'), group_path(@concept_id)
 
