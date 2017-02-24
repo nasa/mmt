@@ -1,3 +1,4 @@
+# :nodoc:
 class OrdersController < ManageCmrController
   add_breadcrumb 'Track Orders', :orders_path
 
@@ -14,48 +15,56 @@ class OrdersController < ManageCmrController
   def search
     @orders = []
 
-    payload = {}
-    payload['states'] = params.fetch('states', nil)
-    payload['states'] = OrdersHelper::ORDER_STATES if payload['states'].nil?
-    payload['date_type'] = params.fetch('date_type', nil)
-    payload['from_date'] = params.fetch('from_date', nil)
-    payload['to_date'] = params.fetch('to_date', nil)
+    # Order Guid takes precedence over filters, if an order_guid is present
+    # search for that rather than using the filters
+    order_guids = if params['order_guid'].present?
+                    params['order_guid']
+                  else
+                    # Search for orders based on the provided filters
+                    payload = {
+                      'states'    => (params['states'] || OrdersHelper::ORDER_STATES),
+                      'date_type' => params['date_type'],
+                      'from_date' => params['from_date'],
+                      'to_date'   => params['to_date']
+                    }
 
-    # Get order guids
-    order_guids = echo_client.get_provider_order_guids_by_state_date_and_provider(echo_provider_token, payload).parsed_body
+                    # Request orders from ECHO
+                    order_search_result = echo_client.get_provider_order_guids_by_state_date_and_provider(echo_provider_token, payload)
 
-    # For each order guid, get order information
-    @orders = []
-    Array.wrap(order_guids.fetch('Item', [])).each do |guid|
-      order = {}
+                    # Pull out just the Guids for the returned orders
+                    order_search_result.parsed_body.fetch('Item', []).map { |guid| guid['OrderGuid'] }
+                  end
 
-      order_info = echo_client.get_orders(echo_provider_token, guid['OrderGuid']).parsed_body
+    # Request the returned objects from ECHO
+    order_objects = echo_client.get_orders(echo_provider_token, order_guids).parsed_body
 
-      item = order_info.fetch('Item', {})
-      order['guid'] = guid['OrderGuid']
-      order['state'] = item.fetch('State', '')
-      order['creation_date'] = item.fetch('CreationDate', '')
-      order['submitted_date'] = item.fetch('SubmissionDate', '')
-      order['updated_date'] = item.fetch('LastUpdateDate', '')
-      contact_address = item.fetch('ContactAddress', {})
-      first_name = contact_address.fetch('FirstName', '')
-      last_name = contact_address.fetch('LastName', '')
-      order['contact_name'] = "#{first_name} #{last_name}"
+    # Construct the full order hashes
+    @orders = Array.wrap(order_objects.fetch('Item', [])).map do |order_obj|
+      order = {
+        'guid'           => order_obj['Guid'],
+        'state'          => order_obj['State'],
+        'creation_date'  => order_obj['CreationDate'],
+        'submitted_date' => order_obj['SubmissionDate'],
+        'updated_date'   => order_obj['LastUpdateDate']
+      }
+
+      contact_address = order_obj.fetch('ContactAddress', {})
+      order['contact_name'] = "#{contact_address['FirstName']} #{contact_address['LastName']}".strip
 
       # Add user_id to order information
-      user = echo_client.get_user_names(echo_provider_token, item.fetch('OwnerGuid')).parsed_body
+      user = echo_client.get_user_names(echo_provider_token, order_obj.fetch('OwnerGuid')).parsed_body
 
       order['user_id'] = user.fetch('Item', {}).fetch('Name', '')
 
-      @orders << order
+      order
     end
 
-    # if user_id param is supplied, filter orders by given user_id
-    unless params['user_id'].empty?
+    # if user_id param is supplied and we're not searching by guid, filter orders by given user_id
+    unless params['order_guid'].present? || params['user_id'].empty?
       @orders.select! { |order| order['user_id'] == params['user_id'] }
     end
 
-    @orders.sort! { |a, b| a['creation_date'] <=> b['creation_date'] }
+    @orders.sort_by! { |order| order['creation_date'] }
   end
 
   private
@@ -92,7 +101,7 @@ class OrdersController < ManageCmrController
     contact_information = {}
 
     contact_information['role'] = contact_address.fetch('Role', '')
-    contact_information['name'] = "#{contact_address.fetch('FirstName', '')} #{contact_address.fetch('LastName', '')}"
+    contact_information['name'] = "#{contact_address.fetch('FirstName', '')} #{contact_address.fetch('LastName', '')}".strip
     contact_information['organization'] = contact_address.fetch('Organization', '')
 
     address = contact_address.fetch('Address', {})

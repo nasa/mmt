@@ -1,10 +1,3 @@
-<!-- <fieldset>
-  <div class="row">
-    <label for="order_guid" class="">Order GUID</label>
-    <%= text_field_tag('order_guid', nil, class: 'full-width') %>
-  </div>
-</fieldset> -->
-
 <fieldset>
   <div class="row">
     <label for="state">Filter by Order State</label>
@@ -20,7 +13,7 @@
 </fieldset>
 
 <fieldset>
-  <div class="row">
+  <div class="row space-bot">
     <label for="date_type" class="eui-required-o">Filter by Date/Time of</label>
     <%= select_tag('date_type', options_for_select([ ['Creation date', 'CREATION_DATE'], ['Submission date', 'SUBMISSION_DATE'], ['Updated Date', 'LAST_UPDATE_DATE']], nil), prompt: 'Select a date type', class: 'full-width') %>
   </div>
@@ -35,4 +28,8 @@
       <%= datetime_field_tag('to_date', nil, class: 'full-width datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SS', data: { 'date-format' => 'YYYY-MM-DD[T]HH:mm:ss', 'date-min-date' => false }) %>
     </div>
   </div>
+</fieldset>
+
+<fieldset>
+  <%= button_tag 'Submit', class: 'eui-btn--blue' %>
 </fieldset>
