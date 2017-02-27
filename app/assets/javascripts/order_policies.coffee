@@ -14,9 +14,9 @@ $(document).ready ->
           url: $('#order-policy-endpoint').text()
         url: '/order_policies/url_exists'
         success: (response) ->
-          $('#modal-link').click()
           $('#modal-message').text response.message
         error: (req, status, error) ->
+          $('#modal-message').text 'A server-side error occurred.'
           console.error(status, error)
       )
 

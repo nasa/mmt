@@ -86,11 +86,10 @@
 
         <%= link_to 'Edit', edit_order_policies_path, class: 'eui-btn' %>
 
-        <%= button_tag 'Test Endpoint Connection', class: 'eui-btn', type: 'button', id: 'test-endpoint-connection' %>
-        <%= link_to 'modal',"#test-endpoint-modal", id: 'modal-link', class: 'display-modal is-invisible' %>
+        <%= link_to 'Test Endpoint Connection', '#test-endpoint-modal', id: 'test-endpoint-connection', class: 'eui-btn display-modal' %>
         <div id="test-endpoint-modal" class="eui-modal-content">
           <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-          <p id="modal-message"></p>
+          <p id="modal-message">Please wait...</p>
           <p>
             <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
           </p>

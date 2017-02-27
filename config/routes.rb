@@ -16,7 +16,6 @@ Rails.application.routes.draw do
   get '/order_policies' => 'order_policies#index'
   post '/order_policies/url_exists' => 'order_policies#url_exists'
 
-
   resource :order_option_assignments, only: [:edit, :destroy]
   resources :order_option_assignments, except: :edit
   post '/order_option_assignments/edit' => 'order_option_assignments#edit'

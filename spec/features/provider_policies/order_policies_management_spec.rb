@@ -201,6 +201,54 @@ describe 'Viewing Order Policies', js: true do
                 expect(page).to have_content('Test endpoint connection was successful.')
               end
             end
+
+            context 'when the endpoint is just a random string' do
+              before do
+
+                VCR.use_cassette('echo_soap/provider_service/order_policies/edit', record: :none) do
+                  click_on 'Edit'
+                end
+
+                fill_in 'End Point', with: 'foo bar baz'
+
+                VCR.use_cassette('echo_soap/provider_service/order_policies/updated-url-2', record: :none) do
+                  click_on 'Submit'
+                end
+
+                VCR.use_cassette('echo_soap/provider_service/order_policies/url-check-2', record: :none) do
+                  click_on 'Test Endpoint Connection'
+                  wait_for_ajax
+                end
+              end
+
+              it 'should display a message that the endpoint test was successful' do
+                expect(page).to have_content('Test Endpoint Connection failed: Invalid endpoint.')
+              end
+            end
+
+            context 'when the endpoint is a blank string' do
+              before do
+
+                VCR.use_cassette('echo_soap/provider_service/order_policies/edit', record: :none) do
+                  click_on 'Edit'
+                end
+
+                fill_in 'End Point', with: ' '
+
+                VCR.use_cassette('echo_soap/provider_service/order_policies/updated-url-3', record: :none) do
+                  click_on 'Submit'
+                end
+
+                VCR.use_cassette('echo_soap/provider_service/order_policies/url-check-3', record: :none) do
+                  click_on 'Test Endpoint Connection'
+                  wait_for_ajax
+                end
+              end
+
+              it 'should display a message that the endpoint test was successful' do
+                expect(page).to have_content('Test Endpoint Connection failed: Invalid endpoint.')
+              end
+            end
           end
         end
       end
