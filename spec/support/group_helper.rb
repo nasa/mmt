@@ -14,8 +14,6 @@ module Helpers
 
         group_response = cmr_client.create_group(group_params, admin ? 'access_token_admin' : 'access_token')
 
-        puts group_response.inspect
-
         concept_id = group_response.body['concept_id']
 
         single_instance_identity_object = {
