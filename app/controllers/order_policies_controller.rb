@@ -64,12 +64,21 @@ class OrderPoliciesController < ManageCmrController
 
   def url_exists
     message = nil
-    url = params[:url]
+    uri = nil
+    url = nil
 
-    # This ensures we try to hit an external endpoint (without the protocol,
-    # it will be interpreted as an internal link)
-    if url !~ /^http|https\:\/\//i
-      url = 'http://' + url
+    begin
+      uri = URI.parse(params[:url])
+    rescue => err
+      message = 'Test Endpoint Connection failed: Invalid endpoint.'
+      render :json => { :message => message }
+      return
+    end
+
+    if uri.scheme.nil?
+      url = 'http://' + uri.to_s
+    else
+      url = uri.to_s
     end
 
     conn = Faraday.new(:url => url) do |c|
@@ -92,7 +101,6 @@ class OrderPoliciesController < ManageCmrController
 
     render :json => { :message => message }
   end
-
 
   private
 
