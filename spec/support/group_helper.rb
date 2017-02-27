@@ -14,6 +14,8 @@ module Helpers
 
         group_response = cmr_client.create_group(group_params, admin ? 'access_token_admin' : 'access_token')
 
+        puts group_response.inspect
+
         concept_id = group_response.body['concept_id']
 
         single_instance_identity_object = {
@@ -83,6 +85,29 @@ module Helpers
 
         return response.body
       end
+    end
+
+    def add_associated_permissions_to_group(group_id, name, provider_id)
+      permission_params = {
+        'group_permissions' => [
+          {
+            'group_id' => group_id,
+            'permissions' => ['read']
+          }
+        ],
+        'catalog_item_identity' => {
+          'name' => name,
+          'provider_id' => provider_id,
+          'granule_applicable' => false,
+          'collection_applicable' => true
+        }
+      }
+
+      response = cmr_client.add_group_permissions(permission_params, 'access_token')
+
+      wait_for_cmr
+
+      return response.body
     end
 
     def remove_group_permissions(concept_id)
