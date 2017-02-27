@@ -122,15 +122,13 @@ $(document).ready ->
   $('.redactor').redactor
     formatting: ['p', 'h1', 'h2', 'h3', 'h4', 'h5']
     buttons: [
-      'formatting'
+      'format'
       'bold'
       'italic'
-      'orderedlist'
-      'unorderedlist'
+      'lists'
       'horizontalrule'
       'indent'
       'outdent'
-      'alignment'
     ]
     blurCallback: (e) ->
       this.core.getTextarea().valid()
