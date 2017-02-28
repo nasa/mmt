@@ -15,6 +15,11 @@ describe 'Resubmitting Provider Orders' do
       end
     end
 
+    after do
+      # Reset the provider to the test provider
+      User.first.update(provider_id: 'MMT_2')
+    end
+
     context 'without permissions to resubmit orders' do
       it 'does not display a resubmit link' do
         expect(page).not_to have_link('Resubmit')
