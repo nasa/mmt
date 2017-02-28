@@ -46,22 +46,11 @@ $(document).ready ->
       $('#catalog_item_guid_toList option').prop('selected', true)
 
     $('#data-quality-summary-assignments-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false
-
       errorPlacement: (error, element) ->
         if element.attr('name') == 'catalog_item_guid_toList[]'
           element.closest('fieldset').append(error)
         else
           error.insertAfter(element)
-
-      onfocusout: (error) ->
-        this.element(error)
-
-      highlight: (element, errorClass) ->
-        # Prevent highlighting the fields themselves
-        return false
 
       rules:
         definition_guid:
@@ -77,26 +66,11 @@ $(document).ready ->
 
   if $("#data-quality-summary-form").length > 0
     $('#data-quality-summary-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false
-
       errorPlacement: (error, element) ->
         if element.hasClass('redactor')
           error.insertAfter(element.closest('.redactor-box'))
         else
           error.insertAfter(element)
-
-      # This library handles focus oddly, this ensures that we scroll
-      # to and focus on the first element with an error in the form
-      onfocusout: false
-      invalidHandler: (form, validator) ->
-        if validator.numberOfInvalids() > 0
-          validator.errorList[0].element.focus()
-
-      highlight: (element, errorClass) ->
-        # Prevent highlighting the fields themselves
-        return false
 
       # This allows even hidden fields to be validated, in this case the redactor
       # WYSIWYG plugin below hides the text area and is therefore ignored by validate
@@ -116,19 +90,8 @@ $(document).ready ->
 
   if $("#delete-data-quality-summary-assignments-form").length > 0
     $('#delete-data-quality-summary-assignments-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false
-
       errorPlacement: (error, element) ->
         element.closest('fieldset').append(error)
-
-      onfocusout: (error) ->
-        this.element(error)
-
-      highlight: (element, errorClass) ->
-        # Prevent highlighting the fields themselves
-        return false
 
       rules:
         'data_quality_summary_assignment[]':
@@ -159,15 +122,13 @@ $(document).ready ->
   $('.redactor').redactor
     formatting: ['p', 'h1', 'h2', 'h3', 'h4', 'h5']
     buttons: [
-      'formatting'
+      'format'
       'bold'
       'italic'
-      'orderedlist'
-      'unorderedlist'
+      'lists'
       'horizontalrule'
       'indent'
       'outdent'
-      'alignment'
     ]
     blurCallback: (e) ->
       this.core.getTextarea().valid()

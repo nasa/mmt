@@ -1,19 +1,14 @@
 $(document).ready ->
+  $('#order-by-guid-form').validate
+    rules:
+      'order_guid':
+        required: true
+
+    messages:
+      'order_guid':
+        required: 'Order GUID is required.'
+
   $('#track-orders-form').validate
-    errorClass: 'eui-banner--danger'
-    errorElement: 'div'
-    onkeyup: false
-
-    errorPlacement: (error, element) ->
-      error.insertAfter(element)
-
-    onfocusout: (error) ->
-      this.element(error)
-
-    highlight: (element, errorClass) ->
-      # Prevent highlighting the fields themselves
-      return false
-
     rules:
       'date_type':
         required: true
@@ -30,24 +25,7 @@ $(document).ready ->
       'to_date':
         required: 'To date is required.'
 
-  $('a.show-option-selection').on 'click', ->
-    $(this).siblings('.option-selection-content').toggle()
-
   $('#cancel-provider-order-form').validate
-    errorClass: 'eui-banner--danger'
-    errorElement: 'div'
-    onkeyup: false
-
-    errorPlacement: (error, element) ->
-      error.insertAfter(element)
-
-    onfocusout: (error) ->
-      this.element(error)
-
-    highlight: (element, errorClass) ->
-      # Prevent highlighting the fields themselves
-      return false
-
     rules:
       'catalog_items[]':
         required: true

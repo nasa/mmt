@@ -79,8 +79,14 @@ class ServiceOptionAssignmentsController < ManageCmrController
       # add new keys containing full objects to the assignments array that we use to populate
       # the table within the view
       service_option_associations.each do |association|
+        # Look for the collection by concept-id. If no collection is found we will ignore this association
+        collection = assignment_collections.find { |c| c.fetch('meta', {}).fetch('concept-id', nil) == association['CatalogItemGuid'] }
+
+        # Ignore collections that cannot be found on CMR
+        next if collection.nil?
+
         @assignments << {
-          'CatalogItem' => assignment_collections.find { |c| c.fetch('meta', {}).fetch('concept-id', nil) == association['CatalogItemGuid'] },
+          'CatalogItem' => collection,
           'ServiceEntry' => assignment_service_entries.find { |c| c['Guid'] == association['ServiceEntryGuid'] },
           'ServiceOption' => assignment_service_options.find { |c| c['Guid'] == association['ServiceOptionDefinitionGuid'] }
         }.merge(association)

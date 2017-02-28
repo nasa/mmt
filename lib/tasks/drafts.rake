@@ -1,5 +1,6 @@
 require 'faker'
 require 'factory_girl'
+require 'csv'
 
 namespace :drafts do
   desc 'Load full draft into database'
@@ -53,6 +54,31 @@ namespace :drafts do
       puts "Loaded draft with invalid picklists, ID: #{new_draft.id}"
     else
       puts "Did not load draft with invalid picklists, it was already loaded, ID: #{found_draft.first.id}"
+    end
+  end
+
+  desc 'Load draft dump for debugging'
+  task load_drafts_dump: :environment do
+    Draft.destroy_all
+    filename = File.join(Rails.root, 'tmp', 'drafts_dump.csv')
+    if File.file?(filename)
+      CSV.foreach(filename) do |row|
+        draft = Draft.new do |d|
+          # Draft(id: integer, user_id: integer, draft: text, created_at: datetime, updated_at: datetime, short_name: string, entry_title: string, provider_id: string, native_id: string)
+          d.id = row[0]
+          d.user_id = row[1]
+          d.draft = eval(row[2])
+          d.created_at = row[3]
+          d.updated_at = row[4]
+          d.short_name = row[5]
+          d.entry_title = row[6]
+          d.provider_id = row[7]
+          d.native_id = row[8]
+        end
+        draft.save
+      end
+    else
+      puts "You are missing the drafts dump CSV file (#{Rails.root}/tmp/drafts_dump.csv)"
     end
   end
 end

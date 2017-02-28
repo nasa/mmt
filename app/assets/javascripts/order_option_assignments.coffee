@@ -37,9 +37,6 @@ $(document).ready ->
     collectionsChooser.init()
 
     $('#order-option-assignments-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false,
       rules:
         'collectionsChooser_toList[]':
           required: true
@@ -65,9 +62,11 @@ $(document).ready ->
 
     # Form validation
     $('#edit-order-option-assignments-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false,
+      errorPlacement: (error, element) ->
+        if element.attr('name') == 'order_option_assignment[]'
+          error.addClass('full-width')
+          $table = element.closest('table')
+          error.insertAfter($table)
 
       rules:
         'order_option_assignment[]':
@@ -75,12 +74,6 @@ $(document).ready ->
       messages:
         'order_option_assignment[]':
           'You must select at least 1 assignment.'
-
-      errorPlacement: (error, element) ->
-        if element.attr('name') == 'order_option_assignment[]'
-          error.addClass('full-width')
-          $table = element.closest('table')
-          error.insertAfter($table)
 
     #show/hide collections without options
     $("#show-no-assigned-options").on 'change', ->
@@ -133,22 +126,11 @@ $(document).ready ->
       collectionsChooser.setToVal(chosen_collections)
 
     $('#new-order-option-assignment-form').validate
-      errorClass: 'eui-banner--danger'
-      errorElement: 'div'
-      onkeyup: false,
-
       errorPlacement: (error, element) ->
         if element.attr('name') == 'collectionsChooser_toList[]'
           element.closest('fieldset').append(error)
         else
           error.insertAfter(element)
-
-      onfocusout: (error) ->
-        this.element(error)
-
-      highlight: (element, errorClass) ->
-        # Prevent highlighting the fields themselves
-        return false
 
       rules:
         'order-options':
