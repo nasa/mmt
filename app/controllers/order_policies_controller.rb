@@ -61,7 +61,13 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def url_exists
-    render :json => { :message => Cmr::Util.url_exists(params[:url]) }
+    message = 'Test Endpoint Connection failed: Invalid endpoint.'
+
+    if UrlUtil.exists?(params[:url])
+      message = 'Test endpoint connection was successful.'
+    end
+
+    render :json => { :message => message }
   end
 
   private
