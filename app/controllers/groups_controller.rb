@@ -381,6 +381,6 @@ class GroupsController < ManageCmrController
       response = cmr_client.get_collections(permission_params, token)
     end
 
-    @permissions.sort! { |a, b| a['name'] <=> b['name'] }
+    @permissions.sort_by! { |perm| perm['name'] }
   end
 end
