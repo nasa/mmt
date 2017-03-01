@@ -1,4 +1,25 @@
 $(document).ready ->
+
+  if $('.order-policy').length > 0
+
+    $('#test-endpoint-modal').leanModal
+      top: 200
+      overlay: 0.6
+      closeButton: '.modal-close'
+
+    $('#test-endpoint-connection').click ->
+      $.ajax(
+        type: 'post'
+        data:
+          url: $('#order-policy-endpoint').text()
+        url: '/order_policies/url_exists'
+        success: (response) ->
+          $('#modal-message').text response.message
+        error: (req, status, error) ->
+          $('#modal-message').text 'A server-side error occurred.'
+          console.error(status, error)
+      )
+
   if $("#order-policies-form").length > 0
     # widget for choosing collections
     collectionsChooser = null

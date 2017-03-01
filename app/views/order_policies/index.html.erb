@@ -17,7 +17,7 @@
           <!-- ROUTING LOCATION -->
           <div class="content-box">
             <h3>Routing Location</h3>
-            <p><span class="inline-label">End Point:</span> <%= @policy.fetch('EndPoint') %></p>
+            <p><span class="inline-label">End Point:</span> <span id="order-policy-endpoint"><%= @policy.fetch('EndPoint')%></span></p>
             <p><span class="inline-label">Suspend Ordering Until:</span> 
               <% if @policy.has_key?('OrderingSuspendedUntilDate') %>
               <%= echo_formatted_date(@policy.fetch('OrderingSuspendedUntilDate')) %>
@@ -85,6 +85,15 @@
         <% end %>
 
         <%= link_to 'Edit', edit_order_policies_path, class: 'eui-btn' %>
+
+        <%= link_to 'Test Endpoint Connection', '#test-endpoint-modal', id: 'test-endpoint-connection', class: 'eui-btn display-modal' %>
+        <div id="test-endpoint-modal" class="eui-modal-content">
+          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p id="modal-message">Please wait...</p>
+          <p>
+            <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
+          </p>
+        </div>
 
         <%= link_to 'Delete', "#delete-summary-modal", class: 'display-modal eui-btn eui-btn--red' %>
         <div id="delete-summary-modal" class="eui-modal-content">
