@@ -246,7 +246,7 @@ module Cmr
         url = '/access-control/acls'
       end
       # options = {'provider' => provider_id, 'include_full_acl' => true}
-      response = get(url, options, token_header(token))
+      get(url, options, token_header(token))
     end
 
     def get_permission(concept_id, token)
@@ -265,7 +265,7 @@ module Cmr
       headers = {
         # 'Content-Type' => "application/json; charset=utf-8",
         # 'Accept' => "charset=utf-8"
-        'Accept' => "application/json; charset=utf-8"
+        'Accept' => 'application/json; charset=utf-8'
         # 'Accept' => "charset=UTF-8"
         # 'Accept' => "application/json; charset=UTF-8"
       }
@@ -318,7 +318,7 @@ module Cmr
         url = '/access-control/permissions'
       end
 
-      headers = { 'Accept' => "application/json; charset=utf-8" }
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
 
       get(url, options, headers.merge(token_header(token)))
     end

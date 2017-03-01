@@ -16,8 +16,18 @@
       <p><%= @management_groups.map { |group| group['name'] }.to_sentence %></p>
     <% end %>
 
-    <h3>Members</h3>
+    <h4>Associated Permissions</h4>
+    <% if @permissions.blank? %>
+      <p>No associated permissions found.</p>
+    <% else %>
+      <ul>
+        <% @permissions.each do |permission| %>
+          <li><%= link_to permission['name'], permission_path(permission['concept_id']) %></li>
+        <% end %>
+      </ul>
+    <% end %>
 
+    <h3>Members</h3>
     <% if @selected_users.any? %>
       <table class="space-top space-bot" id="group-members">
         <thead>

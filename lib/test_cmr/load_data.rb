@@ -123,7 +123,7 @@ module Cmr
         req.url('http://localhost:3008/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '[{"provider":{"id":"provguid4","provider_id":"NSIDC_ECS"}}]'
+        req.body = '[{"provider":{"id":"provguid5","provider_id":"NSIDC_ECS"}}]'
       end
 
       clear_cache
@@ -308,6 +308,13 @@ module Cmr
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTUser"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "GROUP"}}}'
+      end
+      # ACL for typical user for NSIDC_ECS groups
+      connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTUser"}}}],"provider_object_identity": {"provider_guid": "provguid5","target": "GROUP"}}}'
       end
 
       clear_cache

@@ -103,7 +103,6 @@ describe 'Creating Collection Permissions', js: true do
       end
     end
 
-
     context 'when clicking the edit permission button' do
       before do
         click_on 'Edit'

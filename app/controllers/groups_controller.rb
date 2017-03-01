@@ -42,6 +42,8 @@ class GroupsController < ManageCmrController
     if group_response.success?
       @group = group_response.body
 
+      set_permissions
+
       add_breadcrumb @group.fetch('name'), group_path(@concept_id)
 
       request_group_members(@concept_id)
@@ -344,5 +346,41 @@ class GroupsController < ManageCmrController
 
   def groups_enabled?
     redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
+  end
+
+  # Get all of the permissions for the current group
+  def set_permissions
+    # Initialize the permissions array to provide to the view
+    @permissions = []
+
+    # Default the params that we'll send to CMR
+    permission_params = {
+      'permitted_group' => @concept_id,
+      'identity_type' => 'catalog_item',
+      page_num: 1,
+      page_size: 50
+    }
+
+    # Retrieve the first page of permissions
+    response = cmr_client.get_permissions(permission_params, token)
+
+    # Request permissions
+    until response.error? || response.body['items'].empty?
+      # Add the retrieved permissions to our array
+      @permissions.concat(response.body['items'])
+
+      # Tests within this controller family mock the response of `get_collections`
+      # which means that the criteria set to break on will never be met and will
+      # result in an infinite loop
+      break if Rails.env.test?
+
+      # Increment the page number
+      permission_params[:page_num] += 1
+
+      # Request the next page
+      response = cmr_client.get_collections(permission_params, token)
+    end
+
+    @permissions.sort_by! { |perm| perm['name'] }
   end
 end
