@@ -1,3 +1,4 @@
+# :nodoc:
 class PermissionsController < ManageCmrController
   include PermissionManagement
 
@@ -84,7 +85,6 @@ class PermissionsController < ManageCmrController
 
     add_breadcrumb 'New', new_permissions_path
   end
-
 
   def create
     request_object = construct_request_object(current_user.provider_id)
@@ -180,7 +180,6 @@ class PermissionsController < ManageCmrController
     end
   end
 
-
   def destroy
     response = cmr_client.delete_permission(params[:id], token)
     if response.success?
@@ -200,12 +199,12 @@ class PermissionsController < ManageCmrController
 
     @option_data = []
     collections.each do |collection|
-      opt = [ collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title'] ]
+      opt = [collection['umm']['entry-title'], collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title']]
       @option_data << opt
     end
 
     if @errors.length > 0
-      render :json => { :success => false }
+      render json: { success: false }
     else
       respond_to do |format|
         format.json { render json: { hits: hits, items: @option_data } }
@@ -221,9 +220,7 @@ class PermissionsController < ManageCmrController
     query = { 'provider' => current_user.provider_id,
               'page_size' => 25 }
 
-    if params.key?('entry_id')
-      query['keyword'] = params['entry_id'] + '*'
-    end
+    query['keyword'] = params['entry_id'] + '*' if params.key?('entry_id')
 
     if params.key?('short_name')
       query['short_name'] = params['short_name'].concat('*')
@@ -236,17 +233,19 @@ class PermissionsController < ManageCmrController
       }
     end
 
-    if params.key?('page_num')
-      query['page_num'] = params['page_num']
-    end
+    query['page_num'] = params['page_num'] if params.key?('page_num')
 
     collections_response = cmr_client.get_collections(query, token).body
     parse_get_collections_response(collections_response)
   end
 
-  def get_collections_by_entry_titles(entry_titles)
+  def get_collections_by_entry_titles_and_provider_id(entry_titles, provider_id)
     # page_size default is 10, max is 2000
-    query = { 'page_size' => 100, 'entry_title' => entry_titles }
+    query = {
+      'page_size' => 100,
+      'entry_title' => entry_titles,
+      'provider_id' => provider_id
+    }
 
     collections_response = cmr_client.get_collections(query, token).body
     parse_get_collections_response(collections_response)
@@ -262,7 +261,7 @@ class PermissionsController < ManageCmrController
 
   def get_groups
     filters = {}
-    filters['provider'] = current_user.provider_id;
+    filters['provider'] = current_user.provider_id
     groups_response = cmr_client.get_cmr_groups(filters, token)
     groups_for_permissions_select = []
 
@@ -291,7 +290,6 @@ class PermissionsController < ManageCmrController
   end
 
   def construct_request_object(provider)
-
     collection_applicable = false
     if params[:collection_options] == 'all-collections' || params[:collection_options] == 'selected-ids-collections'
       collection_applicable = true
@@ -299,7 +297,7 @@ class PermissionsController < ManageCmrController
     granule_applicable = params[:granule_options] == 'all-granules' ? true : false
 
     req_obj = {
-      'group_permissions' => Array.new,
+      'group_permissions' => [],
       'catalog_item_identity' => {
         'name' => params[:permission_name],
         'provider_id' => provider,
@@ -361,7 +359,7 @@ class PermissionsController < ManageCmrController
 
     search_and_order_groups = params[:search_and_order_groups] || []
     search_and_order_groups.each do |search_and_order_group|
-      req_obj['group_permissions'] << construct_request_group_permission(search_and_order_group, ['read', 'order']) # aka 'search'
+      req_obj['group_permissions'] << construct_request_group_permission(search_and_order_group, %w(read order)) # aka 'search'
     end
 
     req_obj
@@ -412,7 +410,7 @@ class PermissionsController < ManageCmrController
     search_and_order_groups = []
 
     group_permissions.each do |group_perm|
-      if group_perm['permissions'] == ['read', 'order']
+      if group_perm['permissions'] == %w(read order)
         # add the group id or user type to the list
         search_and_order_groups << (group_perm['group_id'] || group_perm['user_type'])
       elsif group_perm['permissions'] == ['read']
@@ -455,6 +453,8 @@ class PermissionsController < ManageCmrController
     catalog_item_identity = permission.fetch('catalog_item_identity', {})
     @permission_name = catalog_item_identity['name']
 
+    @permission_provider = catalog_item_identity['provider_id']
+
     if show
       @collection_options = catalog_item_identity['collection_applicable']
       @granule_options = catalog_item_identity['granule_applicable']
@@ -472,7 +472,7 @@ class PermissionsController < ManageCmrController
     @collection_access_value = collection_identifier.fetch('access_value', {})
     entry_titles = collection_identifier.fetch('entry_titles', nil)
     unless entry_titles.blank?
-      collections, errors, hits = get_collections_by_entry_titles(entry_titles)
+      collections, _errors, _hits = get_collections_by_entry_titles_and_provider_id(entry_titles, @permission_provider)
 
       if show
         @collection_entry_ids = []
@@ -494,7 +494,5 @@ class PermissionsController < ManageCmrController
     end
 
     @granule_access_value = catalog_item_identity.fetch('granule_identifier', {}).fetch('access_value', {})
-
-    @permission_provider = catalog_item_identity['provider_id']
   end
 end
