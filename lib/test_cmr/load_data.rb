@@ -123,7 +123,7 @@ module Cmr
         req.url('http://localhost:3008/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '[{"provider":{"id":"provguid4","provider_id":"NSIDC_ECS"}}]'
+        req.body = '[{"provider":{"id":"provguid5","provider_id":"NSIDC_ECS"}}]'
       end
 
       clear_cache
