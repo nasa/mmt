@@ -238,11 +238,10 @@ class GroupsController < ManageCmrController
 
 
   def set_previously_selected_members(member_uids)
-    all_users = urs_users
     @members = []
     @users_options = []
 
-    all_users.each do |user|
+    urs_users.each do |user|
       if member_uids.include?(user['uid'])
         @members << user
         member_uids.delete(user['uid'])
@@ -261,8 +260,7 @@ class GroupsController < ManageCmrController
     if group_members_response.success?
       group_members_uids = group_members_response.body
 
-      all_users = urs_users.sort_by { |user| user['first_name'].downcase }
-      all_users.each do |user|
+      urs_users.each do |user|
         if group_members_uids.include?(user['uid'])
           @members << user
           group_members_uids.delete(user['uid'])
@@ -278,8 +276,6 @@ class GroupsController < ManageCmrController
       get_group_members_error = Array.wrap(group_members_response.body['errors'])[0]
       flash[:error] = get_group_members_error
     end
-
-    @members
   end
 
   def urs_users
