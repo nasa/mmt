@@ -32,7 +32,7 @@ class OrdersController < ManageCmrController
                     order_search_result = echo_client.get_provider_order_guids_by_state_date_and_provider(echo_provider_token, payload)
 
                     # Pull out just the Guids for the returned orders
-                    order_search_result.parsed_body.fetch('Item', []).map { |guid| guid['OrderGuid'] }
+                    Array.wrap(order_search_result.parsed_body.fetch('Item', [])).map { |guid| guid['OrderGuid'] }
                   end
 
     # Request the returned objects from ECHO
