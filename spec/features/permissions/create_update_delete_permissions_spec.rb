@@ -3,7 +3,7 @@
 
 require 'rails_helper'
 
-describe 'Creating Collection Permissions', js: true do
+describe 'Creating Collection Permissions', reset_provider: true, js: true do
   permission_name = 'Test Permission 1'
 
   context 'when creating a new permission with complete information' do
@@ -13,6 +13,7 @@ describe 'Creating Collection Permissions', js: true do
       # stub for collections
       collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
       # stub for a list of groups
       groups_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/permissions/get_cmr_groups_response.json'))))

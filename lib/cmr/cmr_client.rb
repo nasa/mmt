@@ -11,6 +11,19 @@ module Cmr
       get(url, options, token_header(token))
     end
 
+    def get_collections_by_post(query, token = nil)
+      # search collections via POST
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/collections.umm-json'
+      else
+        url = '/search/collections.umm-json'
+      end
+
+      headers = { 'Content-Type' => 'application/x-www-form-urlencoded' }
+
+      post(url, query.to_query, headers.merge(token_header(token)))
+    end
+
     def get_providers
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3002/providers'
