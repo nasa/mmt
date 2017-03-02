@@ -239,16 +239,22 @@ class PermissionsController < ManageCmrController
     parse_get_collections_response(collections_response)
   end
 
-  def get_collections_by_entry_titles_and_provider_id(entry_titles, provider_id)
+  def get_collections_by_entry_titles(entry_titles, provider_id)
     # page_size default is 10, max is 2000
     query = {
-      'page_size' => 100,
+      'page_size' => entry_titles.count,
       'entry_title' => entry_titles,
       'provider_id' => provider_id
     }
 
-    collections_response = cmr_client.get_collections(query, token).body
-    parse_get_collections_response(collections_response)
+    collections_response = cmr_client.get_collections_by_post(query, token)
+    parse_get_collections_response(collections_response.body)
+
+    # we previously used the GET method for searching collections by entry title,
+    # but that may have been too large for Jetty. we are using the POST method
+    # until/unless CMR changes collection permissions to utilize concept ids or entry ids
+    # collections_response = cmr_client.get_collections(query, token).body
+    # parse_get_collections_response(collections_response)
   end
 
   def parse_get_collections_response(response)
@@ -472,7 +478,7 @@ class PermissionsController < ManageCmrController
     @collection_access_value = collection_identifier.fetch('access_value', {})
     entry_titles = collection_identifier.fetch('entry_titles', nil)
     unless entry_titles.blank?
-      collections, _errors, _hits = get_collections_by_entry_titles_and_provider_id(entry_titles, @permission_provider)
+      collections, _errors, _hits = get_collections_by_entry_titles(entry_titles, @permission_provider)
 
       if show
         @collection_entry_ids = []
