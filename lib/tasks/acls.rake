@@ -29,16 +29,20 @@ namespace :acls do
       print_result(cmr_client.add_group_members('AG1200000001-CMR', [args.username, 'typical'], get_acls_token(admin: true)), "Added #{args.username} to Administrators_2")
     end
 
+    desc 'Create a new Group'
     task :create, [:name, :description, :members, :provider] => :environment do |_task, args|
       args.with_defaults(members: [])
       args.with_defaults(provider: 'MMT_2')
 
       group_params = {
         'name'        => args.name,
-        'description' => args.description,
-        'members'     => [args.members]
+        'description' => args.description
       }
 
+      # Add members if any were provided
+      group_params['members'] = [args.members] if args.members.any?
+
+      # CMR as a provider is a system group and provider_id is then ignored
       group_params['provider_id'] = args.provider unless args.provider == 'CMR'
 
       print_result(cmr_client.create_group(group_params, get_acls_token), "Group `#{args.name}` created.")
