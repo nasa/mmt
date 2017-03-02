@@ -72,10 +72,14 @@
 
     <div class="dual-select__menu">
       <%= label_tag('selected_members', 'Selected Members') %>
-      <%= select_tag 'group[members][]', options_for_user_select(@selected_users), id: 'selected_members', multiple: true %>
+      <%= select_tag 'group[members][]', options_for_user_select(@members), id: 'selected_members', multiple: true %>
     </select>
     </div>
   </div>
+
+  <% unless @non_authorized_members.blank? %>
+    <%= hidden_field_tag('non_authorized_members', @non_authorized_members.join('; ')) %>
+  <% end %>
 
   <%= link_to 'Member not listed?', '#invite-user-modal', class: 'display-modal display-invite-user-modal' %>
 </fieldset>

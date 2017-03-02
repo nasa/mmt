@@ -28,23 +28,29 @@
     <% end %>
 
     <h3>Members</h3>
-    <% if @selected_users.any? %>
+    <% if @members.any? %>
       <table class="space-top space-bot" id="group-members">
         <thead>
           <tr>
-            <th class="">Member Name</th>
+            <th>Member Name</th>
             <th>Email</th>
+            <th>Earthdata Login Username</th>
           </tr>
         </thead>
         <tbody>
-          <% @selected_users.each do |member| %>
+          <% @members.each do |member| %>
             <tr>
               <td class="align-l"><%= "#{member['first_name']} #{member['last_name']}" %></td>
               <td class="align-l"><%= member['email_address'] %></td>
+              <td class="align-l"><%= member['uid'] %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
+
+      <% unless @non_authorized_members.blank? %>
+        <p class="form-description space-bot">MMT cannot populate empty member information cells because those users have not authorized MMT to access their Earthdata Login profile.</p>
+      <% end %>
     <% else %>
       <p><%= @group.fetch('name', nil) %> has no members.</p>
     <% end %>

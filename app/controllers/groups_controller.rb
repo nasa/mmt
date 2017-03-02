@@ -60,7 +60,7 @@ class GroupsController < ManageCmrController
     @group = {}
 
     @users_options = urs_users
-    @selected_users = []
+    @members = []
 
     @is_system_group = false # initially set checkbox to unchecked
 
@@ -144,8 +144,7 @@ class GroupsController < ManageCmrController
       if group_members_response.success?
         group_member_uids = group_members_response.body
 
-        @selected_users = all_users.select { |user| group_member_uids.include?(user['uid']) }
-        @users_options = all_users - @selected_users
+        set_previously_selected_members(group_member_uids)
       else
         Rails.logger.error("Group Members Request: #{group_members_response.inspect}")
 
@@ -166,7 +165,19 @@ class GroupsController < ManageCmrController
     @group = group_params
     @is_system_group = params.fetch(:system_group, false)
 
+    if params[:non_authorized_members]
+      non_authorized_members = params[:non_authorized_members].split('; ')
+      if @group['members']
+        @group['members'] += non_authorized_members
+      else
+        @group['members'] = non_authorized_members
+      end
+    elsif @group['members'].nil?
+      @group['members'] = []
+    end
+
     @group['provider_id'] = current_user.provider_id unless @is_system_group
+
     update_response = cmr_client.update_group(params[:id], @group, token)
 
     if update_response.success?
@@ -225,27 +236,39 @@ class GroupsController < ManageCmrController
     params.require(:group).permit(:name, :description, :provider_id, :initial_management_group, members: [])
   end
 
-  def set_previously_selected_members(members)
-    all_users = urs_users
-    selected = []
-    not_selected = []
-    all_users.each { |user| members.include?(user['uid']) ? selected << user : not_selected << user }
 
-    @users_options = not_selected
-    @selected_users = selected
+  def set_previously_selected_members(member_uids)
+    @members = []
+    @users_options = []
+
+    urs_users.each do |user|
+      if member_uids.include?(user['uid'])
+        @members << user
+        member_uids.delete(user['uid'])
+      else
+        @users_options << user
+      end
+    end
+
+    @non_authorized_members = member_uids unless member_uids.empty?
   end
 
   def request_group_members(concept_id)
-    @selected_users = []
+    @members = []
 
     group_members_response = cmr_client.get_group_members(concept_id, token)
     if group_members_response.success?
       group_members_uids = group_members_response.body
 
-      # match uids in group from cmr to all users
-      @selected_users = urs_users.select { |user| group_members_uids.include?(user['uid']) }
+      urs_users.each do |user|
+        if group_members_uids.include?(user['uid'])
+          @members << user
+          group_members_uids.delete(user['uid'])
+        end
+      end
 
-      @selected_users.sort_by { |user| user['first_name'].downcase }
+      @non_authorized_members = group_members_uids.sort.map { |uid| { 'uid' => uid } }
+      @members += @non_authorized_members
     else
       # Log error message
       Rails.logger.error("Get Group Members Error: #{group_members_response.inspect}")
@@ -253,8 +276,6 @@ class GroupsController < ManageCmrController
       get_group_members_error = Array.wrap(group_members_response.body['errors'])[0]
       flash[:error] = get_group_members_error
     end
-
-    @selected_users
   end
 
   def urs_users
@@ -292,7 +313,6 @@ class GroupsController < ManageCmrController
         @system_groups = system_groups_response.body['items']
       else
         Rails.logger.error("Get System Groups Error: #{system_groups_response.inspect}")
-        # error_messages << Array.wrap(system_groups_response.body['errors'])[0]
       end
     end
 
@@ -303,7 +323,6 @@ class GroupsController < ManageCmrController
       @provider_groups = provider_groups_response.body['items']
     else
       Rails.logger.error("Get Provider Groups Error: #{provider_groups_response.inspect}")
-      # error_messages << Array.wrap(provider_groups_response.body['errors'])[0]
     end
   end
 
