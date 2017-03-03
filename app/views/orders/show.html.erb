@@ -18,15 +18,15 @@
         </tr>
         <tr>
           <td>Created:</td>
-          <td><%= @order['creation_date'] %></td>
+          <td><%= echo_formatted_date(@order['creation_date'], default: '') %></td>
         </tr>
         <tr>
           <td>Submitted:</td>
-          <td><%= @order['submission_date'] %></td>
+          <td><%= echo_formatted_date(@order['submission_date'], default: '') %></td>
         </tr>
         <tr>
           <td>Updated:</td>
-          <td><%= @order['last_update_date'] %></td>
+          <td><%= echo_formatted_date(@order['last_update_date'], default: 'Never Updated') %></td>
         </tr>
         <tr>
           <td>Owner:</td>

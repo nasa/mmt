@@ -28,7 +28,7 @@
         </tr>
         <tr>
           <td>Closed Date:</td>
-          <td><%= @provider_order['closed_date'] %></td>
+          <td><%= echo_formatted_date(@provider_order['closed_date'], default: 'Not Closed') %></td>
         </tr>
       </tbody>
     </table>
@@ -74,7 +74,7 @@
     <h3>Status Messages</h3>
     <ul>
       <% @provider_order['status_messages'].each do |message| %>
-        <li><%= message %></li>
+        <li><b><%= echo_formatted_date(message[0]) %>:</b> <%= message[1] %></li>
       <% end %>
     </ul>
 
