@@ -28,7 +28,7 @@
         </tr>
         <tr>
           <td>Closed Date:</td>
-          <td><%= @provider_order['closed_date'] %></td>
+          <td><%= echo_formatted_date(@provider_order['closed_date'], default: 'Not Closed') %></td>
         </tr>
       </tbody>
     </table>
@@ -74,10 +74,11 @@
     <h3>Status Messages</h3>
     <ul>
       <% @provider_order['status_messages'].each do |message| %>
-        <li><%= message %></li>
+        <li><b><%= echo_formatted_date(message[0]) %>:</b> <%= message[1] %></li>
       <% end %>
     </ul>
 
+    <% unless ['CANCELLED', 'CLOSED'].include?(@provider_order['provider_order_state']) %>
     <%= link_to 'Cancel Order', '#cancel-provider-order-modal', class: 'display-modal eui-btn eui-btn--red' %>
     <div id="cancel-provider-order-modal" class="eui-modal-content">
       <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
@@ -120,5 +121,6 @@
         </fieldset>
       <% end %>
     </div>
+    <% end %>
   </section>
 </div>
