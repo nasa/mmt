@@ -24,15 +24,11 @@
                     <%= check_box_tag('service_option_assignment[]', assignment.fetch('Guid'), false, id: "service_option_assignment_#{assignment.fetch('Guid')}") %>
                   </td>
                   <td><%= link_to assignment.fetch('ServiceEntry', {})['Name'], service_entry_path(assignment['ServiceEntryGuid']), target: '_blank' %></td>
-                  <% if assignment['CatalogItem'] %>
                   <td>
                     <%= link_to assignment.fetch('CatalogItem', {}).fetch('umm', {}).fetch('entry-title', ''), collection_path(assignment.fetch('CatalogItem', {}).fetch('meta', {}).fetch('concept-id', nil)), target: '_blank' %>
                   </td>
                   <td><%= assignment.fetch('CatalogItem', {}).fetch('umm', {}).fetch('short-name', '') %></td>
                   <td><%= assignment.fetch('CatalogItem', {}).fetch('umm', {}).fetch('version-id', '') %></td>
-                  <% else %>
-                  <td colspan=3><%= assignment['CatalogItemGuid'] %></td>
-                  <% end %>
                   <td><%= assignment['AppliesOnlyToGranules'] == 'true' ? 'Yes' : 'No' %></td>
                   <td><%= link_to assignment.fetch('ServiceOption', {})['Name'], service_option_path(assignment['ServiceOptionDefinitionGuid']), target: '_blank' %></td>
                 </tr>

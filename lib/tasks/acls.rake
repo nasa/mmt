@@ -40,7 +40,7 @@ namespace :acls do
       }
 
       # Add members if any were provided
-      group_params['members'] = [args.members] if args.members.any?
+      group_params['members'] = Array.wrap(args.members) if Array.wrap(args.members).any?
 
       # CMR as a provider is a system group and provider_id is then ignored
       group_params['provider_id'] = args.provider unless args.provider == 'CMR'
