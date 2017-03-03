@@ -82,13 +82,35 @@ class ServiceOptionAssignmentsController < ManageCmrController
         # Look for the collection by concept-id. If no collection is found we will ignore this association
         collection = assignment_collections.find { |c| c.fetch('meta', {}).fetch('concept-id', nil) == association['CatalogItemGuid'] }
 
-        # Ignore collections that cannot be found on CMR
-        next if collection.nil?
+        # Ignore associations where the collection no longer exists
+        if collection.nil?
+          Rails.logger.debug "Collection with concept-id `#{association['CatalogItemGuid']}` not found in #{assignment_collections.map { |c| c.fetch('meta', {}).fetch('concept-id', nil) }}"
 
+          next
+        end
+
+        # Ignore associations where the service entry no longer exists
+        service_entry = assignment_service_entries.find { |c| c['Guid'] == association['ServiceEntryGuid'] }
+        if service_entry.nil?
+          Rails.logger.debug "Service Entry with guid `#{association['ServiceEntryGuid']}` not found in #{assignment_service_entries.map { |s| s['Guid'] }}"
+          
+          next
+        end
+
+        # Ignore associations where the service option no longer exists
+        service_option = assignment_service_options.find { |c| c['Guid'] == association['ServiceOptionDefinitionGuid'] }
+        if service_option.nil?
+          Rails.logger.debug "Service Option with guid `#{association['ServiceOptionDefinitionGuid']}` not found in #{assignment_service_options.map { |s| s['Guid'] }}"
+
+          next
+        end
+
+        # Merge fully qualified objects in with the association object guids and
+        # push th record to the instance variable
         @assignments << {
-          'CatalogItem' => collection,
-          'ServiceEntry' => assignment_service_entries.find { |c| c['Guid'] == association['ServiceEntryGuid'] },
-          'ServiceOption' => assignment_service_options.find { |c| c['Guid'] == association['ServiceOptionDefinitionGuid'] }
+          'CatalogItem'   => collection,
+          'ServiceEntry'  => service_entry,
+          'ServiceOption' => service_option
         }.merge(association)
       end
     end
