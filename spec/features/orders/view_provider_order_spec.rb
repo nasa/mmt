@@ -27,11 +27,11 @@ describe 'Viewing Provider Order Information' do
       end
 
       # Status Messages
-      expect(page).to have_content('Fri Feb 03 10:20:36 EST 2017 : ECHO: Transitioning from state [null] to state [NOT_VALIDATED]')
-      expect(page).to have_content('Fri Feb 03 10:20:37 EST 2017 : ECHO: Transitioning from state [NOT_VALIDATED] to state [VALIDATED]')
-      expect(page).to have_content('Fri Feb 03 10:20:37 EST 2017 : ECHO: Transitioning from state [VALIDATED] to state [SUBMITTING]')
-      expect(page).to have_content('Fri Feb 03 10:20:43 EST 2017 : Order received')
-      expect(page).to have_content('Fri Feb 03 10:20:43 EST 2017 : ECHO: Transitioning from state [SUBMITTING] to state [PROCESSING]')
+      expect(page).to have_content('Friday, February 03, 2017 at 10:20 am: ECHO: Transitioning from state [null] to state [NOT_VALIDATED]')
+      expect(page).to have_content('Friday, February 03, 2017 at 10:20 am: ECHO: Transitioning from state [NOT_VALIDATED] to state [VALIDATED]')
+      expect(page).to have_content('Friday, February 03, 2017 at 10:20 am: ECHO: Transitioning from state [VALIDATED] to state [SUBMITTING]')
+      expect(page).to have_content('Friday, February 03, 2017 at 10:20 am: Order received')
+      expect(page).to have_content('Friday, February 03, 2017 at 10:20 am: ECHO: Transitioning from state [SUBMITTING] to state [PROCESSING]')
     end
 
     context 'when clicking show for a catalog item', js: true do
