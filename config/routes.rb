@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   post '/order_options/:id/deprecate' => 'order_options#deprecate', as: 'order_option_deprecate'
 
   get '/order_policies' => 'order_policies#index'
-  post '/order_policies/url_exists' => 'order_policies#url_exists'
+  post '/order_policies/test_endpoint_connection' => 'order_policies#test_endpoint_connection'
 
   resource :order_option_assignments, only: [:edit, :destroy]
   resources :order_option_assignments, except: :edit

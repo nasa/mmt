@@ -116,5 +116,18 @@ module Echo
 
       make_request(@url, payload)
     end
+
+    def test_endpoint_connection(token, provider_guid)
+      builder = Builder::XmlMarkup.new
+
+      builder.ns2(:TestEndpointConnection, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
+        builder.ns2(:token, token)
+        builder.ns2(:providerGuid, provider_guid)
+      end
+
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
+    end
   end
 end

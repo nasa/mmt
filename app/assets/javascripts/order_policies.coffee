@@ -8,11 +8,12 @@ $(document).ready ->
       closeButton: '.modal-close'
 
     $('#test-endpoint-connection').click ->
+      $('#modal-message').text 'Please wait...'
       $.ajax(
         type: 'post'
         data:
           url: $('#order-policy-endpoint').text()
-        url: '/order_policies/url_exists'
+        url: '/order_policies/test_endpoint_connection'
         success: (response) ->
           $('#modal-message').text response.message
         error: (req, status, error) ->
