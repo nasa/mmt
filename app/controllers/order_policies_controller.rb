@@ -60,12 +60,14 @@ class OrderPoliciesController < ManageCmrController
     redirect_to order_policies_path
   end
 
-  def url_exists
-    message = 'Test Endpoint Connection failed: Invalid endpoint.'
+  def test_endpoint_connection
+    response = echo_client.test_endpoint_connection(token_with_client_id, current_provider_guid)
 
-    if UrlUtil.exists?(params[:url])
-      message = 'Test endpoint connection was successful.'
-    end
+      if response.error?
+        message = response.error_message
+      else
+        message = 'Test endpoint connection was successful.'
+      end
 
     render :json => { :message => message }
   end

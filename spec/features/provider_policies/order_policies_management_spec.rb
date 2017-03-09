@@ -167,34 +167,26 @@ describe 'Viewing Order Policies', js: true do
           end
 
           context 'when clicking on the Test Endpoint Connection button' do
-            context 'when the endpoint is invalid' do
-              before do
-                click_on 'Test Endpoint Connection'
-                wait_for_ajax
-              end
-
-              it 'should display a message that the endpoint test was not successful' do
-                expect(page).to have_content('Test Endpoint Connection failed: Invalid endpoint.')
-              end
-            end
-
             context 'when the endpoint is valid' do
               before do
+                mock_response = Echo::Response.new(Faraday::Response.new(status: 200, body: '<?xml version="1.0" encoding="UTF-8"?>
+                  <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/>
+                      <SOAP-ENV:Body><ns2:TestEndpointConnectionResponse xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"/></SOAP-ENV:Body>
+                  </SOAP-ENV:Envelope>'))
+
+                allow_any_instance_of(Echo::Provider).to receive(:test_endpoint_connection).and_return(mock_response)
 
                 VCR.use_cassette('echo_soap/provider_service/order_policies/edit', record: :none) do
                   click_on 'Edit'
                 end
 
-                fill_in 'End Point', with: 'nasa.gov'
-
-                VCR.use_cassette('echo_soap/provider_service/order_policies/updated-url', record: :none) do
+                fill_in 'End Point', with: 'http://f5eil01v.edn.ecs.nasa.gov/dev07/ewoc/services/OrderFulfillmentPort'
+                VCR.use_cassette('echo_soap/provider_service/order_policies/updated-url-1', record: :none) do
                   click_on 'Submit'
                 end
 
-                VCR.use_cassette('echo_soap/provider_service/order_policies/url-check', record: :none) do
-                  click_on 'Test Endpoint Connection'
-                  wait_for_ajax
-                end
+                click_on 'Test Endpoint Connection'
+                wait_for_ajax
               end
 
               it 'should display a message that the endpoint test was successful' do
@@ -202,51 +194,44 @@ describe 'Viewing Order Policies', js: true do
               end
             end
 
-            context 'when the endpoint is just a random string' do
+            context 'when the endpoint is invalid' do
               before do
+                mock_response = Echo::Response.new(Faraday::Response.new(status: 500, body: '<?xml version="1.0" encoding="UTF-8"?>
+                  <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/>
+                      <SOAP-ENV:Body>
+                          <SOAP-ENV:Fault>
+                              <faultcode>SOAP-ENV:Client</faultcode>
+                              <faultstring>The endpoint is not a valid URL.</faultstring>
+                              <detail>
+                                  <ns4:ValidationFault xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults">
+                                      <ns4:ErrorCode>ProviderPoliciesInvalid</ns4:ErrorCode><ns4:OpsMessage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                                      <ns4:SystemMessage>The endpoint is not a valid URL.</ns4:SystemMessage>
+                                      <ns4:Timestamp>2017-03-03T18:42:23.635Z</ns4:Timestamp>
+                                      <ns4:ErrorInstanceId>3C7B4E56-ACDA-4E54-359D-17F0AA52F54F</ns4:ErrorInstanceId>
+                                      <ns4:ObjectType>Endpoint</ns4:ObjectType>
+                                  </ns4:ValidationFault>
+                              </detail>
+                          </SOAP-ENV:Fault>
+                      </SOAP-ENV:Body>
+                  </SOAP-ENV:Envelope>'))
+
+                allow_any_instance_of(Echo::Provider).to receive(:test_endpoint_connection).and_return(mock_response)
 
                 VCR.use_cassette('echo_soap/provider_service/order_policies/edit', record: :none) do
                   click_on 'Edit'
                 end
 
-                fill_in 'End Point', with: 'foo bar baz'
-
+                fill_in 'End Point', with: 'fail .com'
                 VCR.use_cassette('echo_soap/provider_service/order_policies/updated-url-2', record: :none) do
                   click_on 'Submit'
                 end
 
-                VCR.use_cassette('echo_soap/provider_service/order_policies/url-check-2', record: :none) do
-                  click_on 'Test Endpoint Connection'
-                  wait_for_ajax
-                end
+                click_on 'Test Endpoint Connection'
+                wait_for_ajax
               end
 
-              it 'should display a message that the endpoint test was successful' do
-                expect(page).to have_content('Test Endpoint Connection failed: Invalid endpoint.')
-              end
-            end
-
-            context 'when the endpoint is a blank string' do
-              before do
-
-                VCR.use_cassette('echo_soap/provider_service/order_policies/edit', record: :none) do
-                  click_on 'Edit'
-                end
-
-                fill_in 'End Point', with: ' '
-
-                VCR.use_cassette('echo_soap/provider_service/order_policies/updated-url-3', record: :none) do
-                  click_on 'Submit'
-                end
-
-                VCR.use_cassette('echo_soap/provider_service/order_policies/url-check-3', record: :none) do
-                  click_on 'Test Endpoint Connection'
-                  wait_for_ajax
-                end
-              end
-
-              it 'should display a message that the endpoint test was successful' do
-                expect(page).to have_content('Test Endpoint Connection failed: Invalid endpoint.')
+              it 'should display a message that the endpoint test was unsuccessful' do
+                expect(page).to have_content('The endpoint is not a valid URL.')
               end
             end
           end
