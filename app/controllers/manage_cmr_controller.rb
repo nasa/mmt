@@ -19,7 +19,7 @@ class ManageCmrController < PagesController
   rescue
     collections
   end
-  
+
   # JSON representation of the get_service_implementations_with_datasets method for use with the Chooser
   def service_implementations_with_datasets
     service_entries = get_service_implementations_with_datasets(params.permit(:name))

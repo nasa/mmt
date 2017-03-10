@@ -4,7 +4,7 @@
 require 'rails_helper'
 
 describe 'Collection Permissions form', js: true do
-  context 'when visiting new permission page' do
+  context 'when visiting new collection permission page as a regular user' do
     before do
       login
 
@@ -12,7 +12,7 @@ describe 'Collection Permissions form', js: true do
     end
 
     it 'indicates this is a new permission page' do
-      expect(page).to have_content('New Permission')
+      expect(page).to have_content('New Collection Permission')
     end
 
     it 'displays the new permission entry fields' do
@@ -121,6 +121,28 @@ describe 'Collection Permissions form', js: true do
         within '#granule_constraint_values' do
           expect(page).to have_content('Maximum value must be greater than Minimum value.')
         end
+      end
+    end
+  end
+
+  context 'when visiting new collection permission page as an admin' do
+    before do
+      login_admin
+
+      visit new_permission_path
+    end
+
+    it 'indicates this is a new permission page' do
+      expect(page).to have_content('New Collection Permission')
+    end
+
+    it 'displays system groups as options in the Groups Permissions table select' do
+      within '#search_groups_cell' do
+        expect(page).to have_select('search_groups_', with_options: ['Administrators', 'Administrators_2'])
+      end
+
+      within '#search_and_order_groups_cell' do
+        expect(page).to have_select('search_and_order_groups_', with_options: ['Administrators', 'Administrators_2'])
       end
     end
   end

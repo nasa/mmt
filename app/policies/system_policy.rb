@@ -1,5 +1,5 @@
 # :nodoc:
-class ProviderPolicy < ApplicationPolicy
+class SystemPolicy < ApplicationPolicy
   def index?
     true
   end
@@ -28,17 +28,14 @@ class ProviderPolicy < ApplicationPolicy
     false
   end
 
-  def provider_permissions_for_target(target)
+  def system_permissions_for_target(target)
     # set options
     check_permission_options = {
       # URS ID of the user
       user_id: @user.user.urs_uid,
 
-      # Current provider (e.g. MMT_2)
-      provider: @user.user.provider_id,
-
-      # The resource to get this users permissions on (e.g. OPTION_DEFINITION)
-      target: target
+      # The resource to get this users permissions on (e.g. ANY_ACL)
+      system_object: target
     }
 
     @user_permission_response ||= cmr_client.check_user_permissions(check_permission_options, @user.token)
@@ -50,7 +47,7 @@ class ProviderPolicy < ApplicationPolicy
       # Return the permission, default to an empty array
       permission_body[target] || []
     else
-      Rails.logger.error("Error retrieving Provider #{target} permission for #{@user.user.provider_id} for #{@user.user.urs_uid}: #{@user_permission_response.inspect}")
+      Rails.logger.error("Error retrieving System #{target} permission for #{@user.user.urs_uid}: #{@user_permission_response.inspect}")
 
       # Default response (no permissions)
       []
@@ -58,9 +55,9 @@ class ProviderPolicy < ApplicationPolicy
   end
 
   def user_has_permission_to(action, target)
-    granted_permissions = provider_permissions_for_target(target)
+    granted_permissions = system_permissions_for_target(target)
 
-    Rails.logger.debug("#{@user.user.urs_uid} has #{granted_permissions} permissions on Provider #{target} for #{@user.user.provider_id}.")
+    Rails.logger.debug("#{@user.user.urs_uid} has #{granted_permissions} permissions on System #{target}.")
 
     return false if granted_permissions.empty?
 

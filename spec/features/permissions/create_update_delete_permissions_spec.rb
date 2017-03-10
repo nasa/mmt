@@ -6,7 +6,7 @@ require 'rails_helper'
 describe 'Creating Collection Permissions', reset_provider: true, js: true do
   permission_name = 'Test Permission 1'
 
-  context 'when creating a new permission with complete information' do
+  context 'when creating a new collection permission with complete information' do
     before do
       login
 

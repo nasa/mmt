@@ -6,7 +6,7 @@ class PermissionsController < ManageCmrController
 
   add_breadcrumb 'Collection Permissions', :permissions_path
 
-  RESULTS_PER_PAGE = 10
+  RESULTS_PER_PAGE = 25
 
   def index
     # Default the page to 1
@@ -268,6 +268,9 @@ class PermissionsController < ManageCmrController
   def get_groups
     filters = {}
     filters['provider'] = current_user.provider_id
+    # get groups for provider AND System Groups if user has Read permissions on System Groups
+    filters['provider'] = [current_user.provider_id, 'CMR'] if policy(:system_group).read?
+
     groups_response = cmr_client.get_cmr_groups(filters, token)
     groups_for_permissions_select = []
 
