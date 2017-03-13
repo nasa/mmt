@@ -26,9 +26,6 @@ describe 'Viewing and Creating Order Option Assignments' do
 
   context 'When displaying option assignments', js: true do
     before do
-      # collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-      # allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
-
       within '#collectionsChooser' do
         select('lorem_223 | ipsum', from: 'Available Collections')
 
@@ -61,9 +58,6 @@ describe 'Viewing and Creating Order Option Assignments' do
 
   context 'When sorting option assignments', js: true do
     before do
-      # collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-      # allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
-
       within '#collectionsChooser' do
         page.all(:xpath, "//select[@id='collectionsChooser_fromList']/option").each do |e|
           select(e.text, from: 'Available Collections')
@@ -79,9 +73,7 @@ describe 'Viewing and Creating Order Option Assignments' do
       end
 
       check 'Include selected collections with no assigned options?'
-
     end
-
 
     # Collection column
     context 'When clicking on the Collection column' do
