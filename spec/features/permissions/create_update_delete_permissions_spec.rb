@@ -16,7 +16,7 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
       # stub for a list of groups
-      groups_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/permissions/get_cmr_groups_response.json'))))
+      groups_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/collection_permissions/get_cmr_groups_response.json'))))
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).and_return(groups_response)
 
       # stub for create permission response
@@ -26,8 +26,8 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
       allow_any_instance_of(Cmr::CmrClient).to receive(:add_group_permissions).and_return(create_response)
 
       # stub for get permission with the concept id we are providing above
-      permission_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/permissions/permission_with_entry_titles.json'))))
-      allow_any_instance_of(Cmr::CmrClient).to receive(:get_permission).with('ACL12345-CMR', 'access_token').and_return(permission_response)
+      permission_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/collection_permissions/permission_with_entry_titles.json'))))
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_permission).with(permission_concept_id, 'access_token').and_return(permission_response)
 
       # stub for 2 of the groups
       group1 = '{"name":"Group 1","description":"desc gp 1","provider_id":"MMT_2","num_members":2}'
@@ -82,7 +82,7 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
     end
 
     it 'displays a success message' do
-      expect(page).to have_content('Permission was successfully created.')
+      expect(page).to have_content('Permission was successfully created.') # TODO: add Collection
     end
 
     it 'redirects to the permission show page and displays the permission information' do
@@ -149,12 +149,12 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
       end
     end
 
-    context 'when clicking the edit permission button' do
+    context 'when clicking the edit button' do
       before do
         click_on 'Edit'
       end
 
-      it 'populates the form with the permission information' do
+      it 'populates the form with the collection permission information' do
         expect(page).to have_field('Name', with: permission_name, readonly: true)
 
         expect(page).to have_select('Collections', selected: 'Selected Collections')
@@ -172,9 +172,9 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
         end
       end
 
-      context 'when updating the permission' do
+      context 'when updating the collection permission' do
         before do
-          permission_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/permissions/permission_no_entry_titles.json'))))
+          permission_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/collection_permissions/permission_no_entry_titles.json'))))
           allow_any_instance_of(Cmr::CmrClient).to receive(:get_permission).and_return(permission_response)
 
           update_success = '{"revision_id":2,"concept_id":"ACL12345-CMR"}'
@@ -204,7 +204,7 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
         end
 
         it 'displays a success message' do
-          expect(page).to have_content('Permission was successfully updated.')
+          expect(page).to have_content('Permission was successfully updated.') # TODO: add Collection
         end
 
         it 'redirects to the permission show page and displays the permission information' do
@@ -228,7 +228,7 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
       end
     end
 
-    context 'when deleting the permission with negative confirmation' do
+    context 'when deleting the collection permission with negative confirmation' do
       before do
         click_on 'Delete'
         click_on 'No'
@@ -243,7 +243,7 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
       end
     end
 
-    context 'when deleting the permission with positive confirmation' do
+    context 'when deleting the collection permission with positive confirmation' do
       before do
         delete_success = '{"revision_id":3,"concept_id":"ACL12345-CMR"}' # should make sure that concept_id is with underscore, not dash. the CMR docs have dash in the delete response, but everything else is underscore
         delete_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(delete_success)))
@@ -253,7 +253,8 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
         click_on 'Yes'
       end
 
-      it 'redirects to the index page and does not display the current permission' do
+      # TODO: is there a flash message?
+      it 'redirects to the index page and does not display the current collection permission' do
         expect(page).to have_no_content(permission_name)
       end
     end

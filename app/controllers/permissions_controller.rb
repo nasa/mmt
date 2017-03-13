@@ -391,23 +391,21 @@ class PermissionsController < ManageCmrController
   # create summary for Index table (Search or Search & Order)
   def construct_permissions_summaries(permissions)
     permissions.each do |perm|
-      permission_summary = {}
-      permission_summary_list = []
+      is_search_perm = false
+      is_search_and_order_perm = false
 
       group_permissions = perm['acl']['group_permissions']
       group_permissions.each do |group_perm|
         perm_list = group_perm['permissions']
-        perm_list.each do |type|
-          permission_summary[type] = type
+        if perm_list.include?('read') && perm_list.include?('order')
+          is_search_and_order_perm = true
+        elsif perm_list.include?('read')
+          is_search_perm = true
         end
       end
 
-      permission_summary.keys.each do |key|
-        key = 'search' if key == 'read'
-        permission_summary_list << key.capitalize
-      end
-
-      perm['permission_summary'] = permission_summary_list.join ' & '
+      perm['permission_summary'] = 'Search' if is_search_perm
+      perm['permission_summary'] = 'Search & Order' if is_search_and_order_perm
     end
 
     permissions
@@ -419,10 +417,10 @@ class PermissionsController < ManageCmrController
     search_and_order_groups = []
 
     group_permissions.each do |group_perm|
-      if group_perm['permissions'] == %w(read order)
+      if group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order')
         # add the group id or user type to the list
         search_and_order_groups << (group_perm['group_id'] || group_perm['user_type'])
-      elsif group_perm['permissions'] == ['read']
+      elsif group_perm['permissions'].include?('read')
         # add the group id or user type to the list
         search_groups << (group_perm['group_id'] || group_perm['user_type'])
       end
