@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       put 'search'
     end
   end
-  resources :provider_orders, only: [:show, :destroy] do
+  resources :provider_orders, only: [:show, :edit, :destroy] do
     member do
       post 'resubmit'
     end

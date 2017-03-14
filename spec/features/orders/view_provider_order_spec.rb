@@ -41,7 +41,7 @@ describe 'Viewing Provider Order Information' do
       expect(page).to have_content('Friday, February 03, 2017 at 10:20 am: Order received')
       expect(page).to have_content('Friday, February 03, 2017 at 10:20 am: ECHO: Transitioning from state [SUBMITTING] to state [PROCESSING]')
 
-      expect(page).to have_link('Cancel Order')
+      expect(page).to have_link('Manage Order Items')
     end
 
     context 'when clicking show for a catalog item', js: true do
@@ -65,7 +65,7 @@ describe 'Viewing Provider Order Information' do
     end
 
     it 'does not display a cancel button' do
-      expect(page).to_not have_link('Cancel Order')
+      expect(page).to_not have_link('Manage Order Items')
     end
   end
 
@@ -79,7 +79,7 @@ describe 'Viewing Provider Order Information' do
     end
 
     it 'does not display a cancel button' do
-      expect(page).to_not have_link('Cancel Order')
+      expect(page).to_not have_link('Manage Order Items')
     end
   end
 end
