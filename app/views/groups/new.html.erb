@@ -2,7 +2,7 @@
   <section>
     <h2>
     New <span class="provider-context"><%= current_user.provider_id %></span> Group
-    <% if @user_is_system_group_admin %>
+    <% if policy(:system_group).new? %>
       <small id="badge-container"><span class="eui-badge eui-badge--sm">SYS</span></small>
     <% end %>
     </h2>

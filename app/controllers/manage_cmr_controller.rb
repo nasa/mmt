@@ -79,16 +79,6 @@ class ManageCmrController < PagesController
     permission
   end
 
-  def check_if_system_group_administrator
-    permission = check_if_administrator_of('system', 'GROUP')
-
-    granted_permissions = permission.fetch('GROUP', [])
-    needed_permissions = %w(read create)
-    if !granted_permissions.blank? && needed_permissions.all? { |perm| granted_permissions.include?(perm) }
-      @user_is_system_group_admin = true
-    end
-  end
-
   def check_if_system_acl_administrator
     permission = check_if_administrator_of('system', 'ANY_ACL')
 
