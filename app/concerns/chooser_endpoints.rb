@@ -4,6 +4,9 @@ module ChooserEndpoints
   extend ActiveSupport::Concern
 
   def render_collections_for_chooser(collections)
+    # sort the collections by entry ID
+    collections['items'].sort!{ |a,b| a['umm']['entry-id'].downcase <=> b['umm']['entry-id'].downcase }
+
     # The chooser expects an array of arrays, so that's what we'll give it
     render json: {
       'hits': collections.fetch('hits', 0),
