@@ -79,6 +79,13 @@
       </tr>
     </tbody>
   </table>
+
+  <% unless @hidden_search_groups.blank? %>
+    <%= hidden_field_tag('hidden_search_groups', @hidden_search_groups.join('; ')) %>
+  <% end %>
+  <% unless @hidden_search_and_order_groups.blank? %>
+    <%= hidden_field_tag('hidden_search_and_order_groups', @hidden_search_and_order_groups.join('; ')) %>
+  <% end %>
 </fieldset>
 
 <fieldset>

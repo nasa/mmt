@@ -97,7 +97,6 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
       expect(page).to have_no_content('Granules Access Constraint Filter')
 
       within '#permission-groups-table' do
-        # TODO is there a way to test the icons?
         expect(page).to have_content('All Guest Users')
         expect(page).to have_content('All Registered Users')
         expect(page).to have_content('Group 1 (2)')
@@ -219,7 +218,6 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
 
 
           within '#permission-groups-table' do
-            # TODO is there a way to test the icons?
             expect(page).to have_content('All Guest Users')
             expect(page).to have_content('All Registered Users')
             expect(page).to have_content('Group 2 (8)')

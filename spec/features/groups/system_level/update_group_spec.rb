@@ -35,7 +35,6 @@ describe 'Updating System Level Groups', js: true do
       expect(page).to have_content('SYS')
       expect(page).to have_css('span.eui-badge--sm')
 
-      # expect(page).to have_content("Edit #{@group_name}")
       expect(page).to have_field('Name', with: @group_name)
       expect(page).to have_checked_field('System Level Group?')
       expect(page).to have_field('Description', with: @group_description)

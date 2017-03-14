@@ -48,10 +48,10 @@ class PermissionsController < ManageCmrController
       add_breadcrumb @permission_name, permissions_path(@permission_concept_id)
 
       # separate search_groups and search_and_order_groups from acl group_permissions
-      search_groups_list, search_and_order_groups_list = parse_group_permission_ids(permission['group_permissions'])
+      search_groups_list, search_and_order_groups_list, hidden_search_groups, hidden_search_and_order_groups = parse_group_permission_ids(permission['group_permissions'])
 
-      @permission_type = 'Search' unless search_groups_list.blank?
-      @permission_type = 'Search & Order' unless search_and_order_groups_list.blank?
+      @permission_type = 'Search' unless search_groups_list.blank? && hidden_search_groups.blank?
+      @permission_type = 'Search & Order' unless search_and_order_groups_list.blank? && hidden_search_and_order_groups.blank?
 
       group_retrieval_error_messages = []
 
@@ -133,7 +133,7 @@ class PermissionsController < ManageCmrController
       add_breadcrumb @permission_name, permissions_path(@permission_concept_id)
       add_breadcrumb 'Edit', edit_permission_path(@permission_concept_id)
 
-      @search_groups, @search_and_order_groups = parse_group_permission_ids(permission['group_permissions'])
+      @search_groups, @search_and_order_groups, @hidden_search_groups, @hidden_search_and_order_groups = parse_group_permission_ids(permission['group_permissions'])
       @groups = get_groups_for_permissions
     else
       Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
@@ -174,6 +174,8 @@ class PermissionsController < ManageCmrController
         @groups = get_groups_for_permissions
         @search_groups = params[:search_groups]
         @search_and_order_groups = params[:search_and_order_groups]
+        @hidden_search_groups = params[:hidden_search_groups].split('; ') if params[:hidden_search_groups]
+        @hidden_search_and_order_groups = params[:hidden_search_and_order_groups].split('; ') if params[:hidden_search_and_order_groups]
 
         render :edit
       end
@@ -362,12 +364,20 @@ class PermissionsController < ManageCmrController
     end
 
     search_groups = params[:search_groups] || []
+    # if there are hidden groups, add them
+    hidden_search_groups = params[:hidden_search_groups].split('; ') if params[:hidden_search_groups]
+    search_groups += hidden_search_groups if hidden_search_groups
     search_groups.each do |search_group|
       req_obj['group_permissions'] << construct_request_group_permission(search_group, ['read']) # aka 'search'
     end
 
     search_and_order_groups = params[:search_and_order_groups] || []
+    # if there are hidden groups, add them
+    hidden_search_and_order_groups = params[:hidden_search_and_order_groups].split('; ') if params[:hidden_search_and_order_groups]
+    search_and_order_groups += hidden_search_and_order_groups if hidden_search_and_order_groups
     search_and_order_groups.each do |search_and_order_group|
+      # PUMP allows for other permissions (Create, Update, Delete) but we don't use them
+      # because those permissions are actually controlled by INGEST_MANAGEMENT_ACL
       req_obj['group_permissions'] << construct_request_group_permission(search_and_order_group, %w(read order)) # aka 'search'
     end
 
@@ -416,17 +426,33 @@ class PermissionsController < ManageCmrController
     search_groups = []
     search_and_order_groups = []
 
+    # we need hidden groups if the user is updating a group with system groups
+    # and they don't have READ access for system groups
+    hidden_search_groups = []
+    hidden_search_and_order_groups = []
+
     group_permissions.each do |group_perm|
-      if group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order')
-        # add the group id or user type to the list
-        search_and_order_groups << (group_perm['group_id'] || group_perm['user_type'])
-      elsif group_perm['permissions'].include?('read')
-        # add the group id or user type to the list
-        search_groups << (group_perm['group_id'] || group_perm['user_type'])
+      if !(group_perm['group_id'] =~ /(-CMR)$/) || (group_perm['user_type']) || (group_perm['group_id'] =~ /(-CMR)$/ && policy(:system_group).read?)
+        # group is not a system group
+        # OR group is guest or registered
+        # OR group is a system group and user has READ access
+        if group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order')
+          search_and_order_groups << (group_perm['group_id'] || group_perm['user_type'])
+        elsif group_perm['permissions'].include?('read')
+          search_groups << (group_perm['group_id'] || group_perm['user_type'])
+        end
+      elsif
+        # group is a system group and user does NOT have READ access
+        if group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order')
+          hidden_search_and_order_groups << (group_perm['group_id'])
+        elsif group_perm['permissions'].include?('read')
+          hidden_search_groups << (group_perm['group_id'])
+        end
+
       end
     end
 
-    [search_groups, search_and_order_groups]
+    [search_groups, search_and_order_groups, hidden_search_groups, hidden_search_and_order_groups]
   end
 
   # set up group hash for show page
