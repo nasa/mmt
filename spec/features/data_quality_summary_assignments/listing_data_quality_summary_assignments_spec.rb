@@ -62,8 +62,8 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
               check 'Include selected collections with no assigned summaries?'
             end
 
-            it 'display the requested collections' do
-              expect(page).to have_selector('#assignment-collections tbody tr', count: 2)
+            it 'displays the requested collections' do
+              expect(page).to have_selector('#assignment-collections tbody tr', count: 3)
             end
           end
         end

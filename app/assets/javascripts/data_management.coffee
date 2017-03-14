@@ -102,10 +102,19 @@ $(document).ready ->
           required: 'You must select at least 1 assignment.'
 
     $('.toggle-unassigned-collections').change (event) ->
-      $('tr.unassigned-collection').toggle()
+      if $(this).prop('checked') == true
+        $('tr.unassigned-collection').show()
+      else
+        $('tr.unassigned-collection').hide()
 
       if $('tr.unassigned-collection').length > 0
-        $('.no-assignments-message').toggle()
+        $('.no-assignments-message').show()
+      else
+        $('.no-assignments-message').hide()
+
+    # trigger the change event on the checkbox when the page loads in case the checkbox
+    # is already checked (this can happen when the user hits the back button)
+    $('.toggle-unassigned-collections').trigger 'change'
 
   # jQuery Validate has a 'feature' that means this only gets called on blur, we want on change
   $('.data-quality-summary-form select').on 'change', ->
