@@ -50,6 +50,7 @@ module EchoSoap
     get_provider(provider_id).fetch('Name', nil)
   end
 
+  # Retrieve the current provider guid based on the provider id
   def current_provider_guid
     @current_provider_guid ||= get_provider_guid(current_user.provider_id)
   end

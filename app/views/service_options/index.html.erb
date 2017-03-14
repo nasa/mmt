@@ -12,18 +12,20 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>Last Update</th>
           <th colspan="2">Actions</th>
         </tr>
       </thead>
       <tbody>
       <% if @service_options.empty? %>
         <tr>
-          <td colspan="2">No <%= current_user.provider_id %> Service Options found.</td>
+          <td colspan="3">No <%= current_user.provider_id %> Service Options found.</td>
         </tr>
       <% else %>
         <% @service_options.each_with_index do |service_option, index| %>
           <tr>
             <td><%= link_to service_option['Name'], service_option_path(service_option['Guid']) %></td>
+            <td><%= echo_formatted_date(service_option['LastUpdate'], default: 'Never Updated') %></td>
             <td>
               <%= link_to 'Edit', edit_service_option_path(service_option['Guid']) %>
             </td>

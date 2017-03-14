@@ -10,11 +10,11 @@ class ServiceOptionsController < ManageCmrController
     # Default the page to 1
     page = params.fetch('page', 1)
 
-    service_option_response = echo_client.get_service_options_names(echo_provider_token)
+    service_option_response = echo_client.get_service_options(echo_provider_token)
 
     service_option_list = if service_option_response.success?
                             # Retreive the service options and sort by name, ignoring case
-                            Array.wrap(service_option_response.parsed_body.fetch('Item', [])).sort_by { |option| option['Name'].downcase }
+                            Array.wrap(service_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).select { |option| option['ProviderGuid'] == current_provider_guid }.sort_by { |option| option['Name'].downcase }
                           else
                             []
                           end
