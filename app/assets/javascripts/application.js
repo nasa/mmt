@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-tablesorter/jquery.tablesorter.min
+//= require jquery-tablesorter/jquery.tablesorter.widget-filter.min
 //= require eui-1.0.0/eui
 //= require bootstrap-datepicker-1.6.0/bootstrap-datepicker.min
 //= require moment

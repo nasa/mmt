@@ -11,41 +11,12 @@
       </section>
     </div>
   </div>
+  
   <div class="row row-content">
     <section>
       <h2>Data Providers</h2>
-      <table id='public-holdings'>
-        <thead>
-        <tr>
-          <th>Provider Name</th>
-          <th>Collections</th>
-          <th>Granules</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% if @providers.blank? %>
-          <tr>
-            <td colspan="4">
-              No public holdings found
-            </td>
-          </tr>
-        <% else %>
-          <% @providers.each do |row| %>
-            <tr class='<%= cycle("alt", "") %>'>
-              <td>
-                <%= link_to row['short_name'], welcome_collections_path(provider_id: row['provider_id'], provider_name: row['short_name'])%>
-              </td>
-              <td class="align-r">
-                <%= number_with_delimiter(row['collection_count']) %>
-              </td>
-              <td class="align-r">
-                <%= number_with_delimiter(row['granule_count']) %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-        </tbody>
-      </table>
+      
+      <%= render partial: 'shared/provider_holdings/providers', locals: { providers: @providers } %>
     </section>
   </div>
 </main>

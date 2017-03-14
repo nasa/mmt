@@ -1,35 +1,21 @@
 class WelcomeController < ApplicationController
+  include ProviderHoldings
+
   skip_before_filter :is_logged_in, :setup_query
+
   before_filter :redirect_if_logged_in
 
   # Skip all filters for status
   skip_filter *_process_action_callbacks.map(&:filter), only: [:status]
 
   def index
-    providers = Hash[cmr_client.get_providers.body.map { |p| [p['provider-id'], { 'provider_id' => p['provider-id'], 'short_name' => p['short-name'] }] }]
-
-    holdings = cmr_client.get_provider_holdings.body
-
-    providers.each do |id, values|
-      holding = holdings.select { |h| h['provider-id'] == id }
-      values['collection_count'] = holding.size
-      values['granule_count'] = holding.map { |h| h['granule-count'] }.inject(:+) || 0
-    end
-
-    @providers = providers.values.sort { |x, y| x['short_name'] <=> y['short_name'] }
+    set_data_providers  
   end
 
   def collections
-    provider_id = params[:provider_id] || ''
-    @provider_name = params[:provider_name] || ''
+    add_breadcrumb "#{params['provider_id']} Holdings"
 
-    begin
-      @provider_description = cmr_client.get_echo_provider_holdings(provider_id).body['provider']['description_of_holdings']
-    rescue
-      # rescue statement required, but no action needed
-    end
-
-    @collections = cmr_client.get_provider_holdings(false, provider_id).body.map { |q| { id: q['concept-id'], title: q['entry-title'], granules: q['granule-count'] } }.sort { |x, y| x['entry-title'] <=> y['entry-title'] }
+    set_provider_holdings(params[:provider_id])
   end
 
   # Small, light weight check if the app is running
