@@ -16,7 +16,7 @@ describe 'Deleting Order Option Assignments' do
     wait_for_ajax
 
     within '#collectionsChooser' do
-      select('lorem | ipsum', from: 'Available Collections')
+      select('lorem_223 | ipsum', from: 'Available Collections')
 
       within ".button-container" do
         find('button[title=add]').click
