@@ -6,11 +6,16 @@ class ProviderOrdersController < ManageCmrController
     @provider_order = generate_provider_order(params['id'])
   end
 
+  def edit
+    @provider_order = generate_provider_order(params['id'])
+  end
+
   def destroy
     order_guid = params['order_guid']
     provider_tracking_id = params['provider_tracking_id']
     catalog_items = params['catalog_items']
     status_message = params['status_message']
+
     method = params['commit'] == 'Cancel Items' ? 'cancelled' : 'closed'
 
     result = if method == 'cancelled'
@@ -20,7 +25,7 @@ class ProviderOrdersController < ManageCmrController
              end
 
     if result.success?
-      flash[:success] = "Items successfully #{method}"
+      flash[:success] = "#{'Item'.pluralize(catalog_items.count)} successfully #{method}"
     else
       flash[:error] = result.error_message
     end

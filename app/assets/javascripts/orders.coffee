@@ -36,4 +36,15 @@ $(document).ready ->
       'catalog_items[]':
         required: 'You must select at least 1 catalog item.'
       'status_message':
-        required: 'Status message is required.'
+        required: 'Status message is required.' 
+
+  $('#cancel-provider-order-form').on 'keyup keypress', (e) ->
+    keyCode = e.keyCode || e.which
+
+    # This form has two submit buttons, and the controller takes
+    # an action based on which button was pressed, so this disables
+    # pressing enter on the form to submit it
+    if keyCode == 13
+      e.preventDefault()
+
+      return false
