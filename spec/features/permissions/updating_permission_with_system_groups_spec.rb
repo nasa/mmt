@@ -77,11 +77,11 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
 
       it 'does not display the system groups on the form' do
         within '#search_groups_cell' do
-          expect(page).to have_no_css('li.select2-selection__choice', text: 'Administrators_2')
+          expect(page).to have_no_css('li.select2-selection__choice', text: 'Administrators_2 (SYS)')
         end
 
         within '#search_and_order_groups_cell' do
-          expect(page).to have_no_css('li.select2-selection__choice', text: 'Administrators')
+          expect(page).to have_no_css('li.select2-selection__choice', text: 'Administrators (SYS)')
         end
       end
 
@@ -133,8 +133,8 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
 
             it 'displays the system groups' do
               within '#permission-groups-table' do
-                expect(page).to have_content('Administrators')
-                expect(page).to have_content('Administrators_2')
+                expect(page).to have_content('Administrators SYS')
+                expect(page).to have_content('Administrators_2 SYS')
               end
             end
 
@@ -157,11 +157,11 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
 
               it 'displays the system groups on the form' do
                 within '#search_groups_cell' do
-                  expect(page).to have_css('li.select2-selection__choice', text: 'Administrators_2')
+                  expect(page).to have_css('li.select2-selection__choice', text: 'Administrators_2 (SYS)')
                 end
 
                 within '#search_and_order_groups_cell' do
-                  expect(page).to have_css('li.select2-selection__choice', text: 'Administrators')
+                  expect(page).to have_css('li.select2-selection__choice', text: 'Administrators (SYS)')
                 end
               end
 
@@ -176,7 +176,7 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
                   end
 
                   within '#search_and_order_groups_cell' do
-                    page.find('.select2-selection__choice[title="Administrators"] > .select2-selection__choice__remove').click
+                    page.find('.select2-selection__choice[title="Administrators (SYS)"] > .select2-selection__choice__remove').click
                   end
 
                   click_on 'Submit'
@@ -193,8 +193,7 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
                   within '#permission-groups-table' do
                     expect(page).to have_content(@group_name)
                     expect(page).to have_content('All Registered Users')
-                    expect(page).to have_content('Administrators')
-                    expect(page).to have_content('Administrators_2')
+                    expect(page).to have_content('Administrators_2 SYS')
                   end
                 end
               end

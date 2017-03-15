@@ -46,7 +46,11 @@
             <tr>
               <td class="cell-primary-cta">
                 <% if search_and_order_group[:concept_id] %>
-                  <%= link_to search_and_order_group[:name], group_path(search_and_order_group[:concept_id]) %> (<%= search_and_order_group[:num_members] %>)
+                  <%= link_to search_and_order_group[:name], group_path(search_and_order_group[:concept_id]) %>
+                  <% if check_if_system_group?(search_and_order_group, search_and_order_group[:concept_id]) %>
+                    <span class="eui-badge--sm">SYS</span>
+                  <% end %>
+                  (<%= search_and_order_group[:num_members] %>)
                 <% else %>
                   <%= search_and_order_group[:name] %>
                 <% end %>
@@ -61,7 +65,11 @@
             <tr>
               <td class="cell-primary-cta">
                 <% if search_group[:concept_id] %>
-                  <%= link_to search_group[:name], group_path(search_group[:concept_id]) %> (<%= search_group[:num_members] %>)
+                  <%= link_to search_group[:name], group_path(search_group[:concept_id]) %>
+                  <% if check_if_system_group?(search_group, search_group[:concept_id]) %>
+                    <span class="eui-badge--sm">SYS</span>
+                  <% end %>
+                  (<%= search_group[:num_members] %>)
                 <% else %>
                   <%= search_group[:name] %>
                 <% end %>
@@ -74,7 +82,6 @@
         <% end %>
       </tbody>
     </table>
-
 
     <%= link_to 'Edit', edit_permission_path(@permission_concept_id), class: 'eui-btn' %>
 

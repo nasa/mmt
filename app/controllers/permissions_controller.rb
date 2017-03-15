@@ -1,6 +1,7 @@
 # :nodoc:
 class PermissionsController < ManageCmrController
   include PermissionManagement
+  include GroupsHelper
 
   skip_before_filter :is_logged_in, only: [:get_all_collections]
 
@@ -70,7 +71,6 @@ class PermissionsController < ManageCmrController
       end
 
       flash[:error] = group_retrieval_error_messages.join('; ') if group_retrieval_error_messages.length > 0
-
     else
       Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
       error = Array.wrap(permission_response.body['errors'])[0]
@@ -279,6 +279,7 @@ class PermissionsController < ManageCmrController
     if groups_response.success?
       tmp_groups = groups_response.body['items']
       tmp_groups.each do |group|
+        group['name'] += ' (SYS)' if check_if_system_group?(group, group['concept_id'])
         opt = [group['name'], group['concept_id']]
         groups_for_permissions_select << opt
       end
