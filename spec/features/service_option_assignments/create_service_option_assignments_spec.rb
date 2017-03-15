@@ -108,13 +108,18 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
         expect(page).to have_field('Service Implementation')
         expect(page).to have_field('Service Option')
         expect(page).to have_field('Granules Only?')
-        
+
         # Check that all 6 results appear on the page
         expect(page).to have_selector('#service_option_assignment_catalog_guid_fromList option', count: 6)
 
         # Check for 2 specific results
         expect(page).to have_css('#service_option_assignment_catalog_guid_fromList option[value="C1200189943-MMT_2"]')
         expect(page).to have_css('#service_option_assignment_catalog_guid_fromList option[value="C1200189951-MMT_2"]')
+
+        # Check that collections in Chooser are showing version
+        within '#dynamic-service-option-assignment-chooser-widget' do
+          expect(page).to have_select('service_option_assignment_catalog_guid_fromList', with_options: ["lorem_223 | ipsum", "ID_1 | Mark's Test", "Matthew'sTest_2 | Matthew's Test", "testing 02_01 | My testing title 02", "testing 03_002 | Test test title 03", "New Testy Test_02 | Testy long entry title"])
+        end
       end
 
       context 'when submitting the service option assignment form' do

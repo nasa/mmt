@@ -26,11 +26,8 @@ describe 'Viewing and Creating Order Option Assignments' do
 
   context 'When displaying option assignments', js: true do
     before do
-      collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
-
       within '#collectionsChooser' do
-        select('lorem | ipsum', from: 'Available Collections')
+        select('lorem_223 | ipsum', from: 'Available Collections')
 
         within '.button-container' do
           find('button[title=add]').click
@@ -61,9 +58,6 @@ describe 'Viewing and Creating Order Option Assignments' do
 
   context 'When sorting option assignments', js: true do
     before do
-      collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
-
       within '#collectionsChooser' do
         page.all(:xpath, "//select[@id='collectionsChooser_fromList']/option").each do |e|
           select(e.text, from: 'Available Collections')
@@ -79,9 +73,7 @@ describe 'Viewing and Creating Order Option Assignments' do
       end
 
       check 'Include selected collections with no assigned options?'
-
     end
-
 
     # Collection column
     context 'When clicking on the Collection column' do
@@ -233,7 +225,7 @@ describe 'Viewing and Creating Order Option Assignments' do
       end
 
       within '#collectionsChooser' do
-        select('lorem | ipsum', from: 'Available Collections')
+        select('lorem_223 | ipsum', from: 'Available Collections')
 
         within '.button-container' do
           find('button[title=add]').click
@@ -259,7 +251,7 @@ describe 'Viewing and Creating Order Option Assignments' do
       end
 
       within '#collectionsChooser' do
-        select('lorem | ipsum', from: 'Available Collections')
+        select('lorem_223 | ipsum', from: 'Available Collections')
 
         within '.button-container' do
           find('button[title=add]').click
@@ -287,6 +279,12 @@ describe 'Viewing and Creating Order Option Assignments' do
 
     it 'displays the page with the appropriate order option' do
       expect(page).to have_select('Option Definition', with_options: ['MYD14.005'])
+    end
+
+    it 'displays the collections in the chooser with entry id that includes version' do
+      within '#collectionsChooser' do
+        expect(page).to have_select('collectionsChooser_fromList', with_options: ["lorem_223 | ipsum", "ID_1 | Mark's Test", "Matthew'sTest_2 | Matthew's Test", "testing 02_01 | My testing title 02", "testing 03_002 | Test test title 03", "New Testy Test_02 | Testy long entry title"])
+      end
     end
   end
 end

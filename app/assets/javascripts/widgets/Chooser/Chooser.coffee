@@ -227,6 +227,11 @@ window.Chooser = (config) ->
         lowerFromLabelText = lowerFromLabelText.replace '{{n}}', n
         lowerFromLabelText = lowerFromLabelText.replace('{{s}}', pluralize(n))
         $(LOWER_FROM_LABEL).text(lowerFromLabelText)
+      # Ensure each option has a title so that mouse hover reveals the full value
+      # if it overflows the bounding box.
+      $(FROM_LIST).find('option').each (key, tmpVal) ->
+        $(tmpVal).attr 'title', $(tmpVal).text()
+        return
       return
 
     $(FILTER_TEXTBOX).keyup initFilter
@@ -242,7 +247,7 @@ window.Chooser = (config) ->
   ###
   # Set provided config values
   #
-  ###  
+  ###
   @setConfig = (key, value) ->
     config[key] = value
 
