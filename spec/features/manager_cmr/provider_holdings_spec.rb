@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Manage CMR provider holdings', js: true do
+describe 'Manage CMR provider holdings', reset_provider: true, js: true do
   before do
     login
   end
@@ -12,21 +12,16 @@ describe 'Manage CMR provider holdings', js: true do
       user.available_providers = %w(MMT_1)
       user.save
 
-      ingest_response, @concept_response = publish_draft(provider_id: 'MMT_1')
-
-      visit manage_cmr_path
-
-      click_on 'Holdings Report'
+      VCR.use_cassette('provider_holdings/mmt_1', record: :none) do
+        visit provider_holdings_path
+      end
     end
 
     it 'displays the available provider holdings' do
+      expect(page).to have_content('MMT_1 Holdings')
 
+      # Ensure that the user was redirected since they only have 1 provider
       expect(page.current_path).to eq(provider_holding_path('MMT_1'))
-      # within '#collections' do
-
-      #     expect(page).to have_content("#{@concept_response.body['EntryTitle']} 0")
-
-      # end
     end
   end
 
@@ -36,39 +31,29 @@ describe 'Manage CMR provider holdings', js: true do
       user.available_providers = %w(MMT_1 MMT_2)
       user.save
 
-      @holdings = cmr_client.get_provider_holdings(false, 'MMT_2').body
-
-      # ingest_response, @concept_response = publish_draft
-
-      visit manage_cmr_path
-
-      click_on 'Holdings Report'
+      visit provider_holdings_path
     end
 
     it 'displays a list of available providers' do
-      within '#provider-holdings' do
-        within all('tr')[1] do
-          # Don't test number of collections in MMT_1 because it will fail locally if the developer has published collections
+      within '#data-providers' do
+        within all('tr')[2] do
           expect(page).to have_content('MMT_1')
         end
-        within all('tr')[2] do
-          expect(page).to have_content("MMT_2 #{@holdings.count} 0")
+        within all('tr')[3] do
+          expect(page).to have_content('MMT_2')
         end
       end
     end
 
     context 'when selecting a provider' do
       before do
-        click_on 'MMT_2'
+        VCR.use_cassette('provider_holdings/mmt_2', record: :none) do
+          click_on 'MMT_2'
+        end
       end
 
       it 'displays the available provider holdings' do
-        expect(page).to have_content("MMT_2 Holdings")
-        # within '#collections' do
-        #   within all('tr')[1] do
-        #     expect(page).to have_content("#{@concept_response.body['EntryTitle']} 0")
-        #   end
-        # end
+        expect(page).to have_content('MMT_2 Holdings')
       end
     end
   end

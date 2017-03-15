@@ -1,52 +1,7 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item">
-            <%= link_to 'Manage CMR', manage_cmr_path %>
-          </li>
-          <li class="eui-breadcrumbs__item">
-            All Provider Holdings
-          </li>
-        </ol>
-      </div>
-    </div>
-  </header>
-  <div class="row row-content">
-    <section>
-      <table id='provider-holdings'>
-        <thead>
-        <tr>
-          <th>Provider Name</th>
-          <th>Collections</th>
-          <th>Granules</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% if @providers.blank? %>
-          <tr>
-            <td colspan="4">
-              No provider holdings found
-            </td>
-          </tr>
-        <% else %>
-          <% @providers.each do |provider| %>
-            <tr class='<%= cycle("alt", "") %>'>
-              <td>
-                <%= link_to provider['short_name'], provider_holding_path(provider['provider_id']) %>
-              </td>
-              <td class="align-r">
-                <%= number_with_delimiter(provider['collection_count']) %>
-              </td>
-              <td class="align-r">
-                <%= number_with_delimiter(provider['granule_count']) %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-        </tbody>
-      </table>
-    </section>
-  </div>
-</main>
+<div class="row row-content">
+  <section>
+    <h2>Data Providers</h2>
+    
+    <%= render partial: 'shared/provider_holdings/providers', locals: { providers: @providers } %>
+  </section>
+</div>

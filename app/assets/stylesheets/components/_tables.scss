@@ -56,20 +56,26 @@ table caption {
 table.tablesorter {
   thead {
     tr {
-      th.headerSortUp:after,
-      th.headerSortDown:after,
-      th.header:after {
-        font-family: FontAwesome;
+      th:not(.sorter-false) {
+        &.tablesorter-headerAsc:after,
+        &.tablesorter-headerDesc:after,
+        &.tablesorter-header:after {
+          font-family: FontAwesome;
+        }
+        &.tablesorter-header:after {
+          content: " \f0dc";
+        }
+        &.tablesorter-headerAsc:after {
+          content: " \f0de";
+        }
+        &.tablesorter-headerDesc:after {
+          content: " \f0dd";
+        }
       }
-      th.header:after {
-        content: " \f0dc";
+
+      div.tablesorter-header-inner {
+        display: inline;
       }
-      th.headerSortUp:after {
-        content: " \f0de";
-      }
-      th.headerSortDown:after {
-        content: " \f0dd";
-      }  
     }
   }
 }
