@@ -92,13 +92,13 @@ class PermissionsController < ManageCmrController
     response = cmr_client.add_group_permissions(request_object, token)
 
     if response.success?
-      flash[:success] = 'Permission was successfully created.'
-      Rails.logger.info("#{current_user.urs_uid} CREATED catalog item ACL for #{current_user.provider_id}. #{response.body}")
+      flash[:success] = 'Collection Permission was successfully created.'
+      Rails.logger.info("#{current_user.urs_uid} CREATED catalog item ACL (Collection Permission) for #{current_user.provider_id}. #{response.body}")
 
       concept_id = response.body['concept_id']
       redirect_to permission_path(concept_id)
     else
-      Rails.logger.error("Permission Creation Error: #{response.inspect}")
+      Rails.logger.error("Collection Permission Creation Error: #{response.inspect}")
 
       # Look up the error code. If we have a friendly version, use it. Otherwise,
       # just use the error message as it comes back from the CMR.
@@ -150,12 +150,12 @@ class PermissionsController < ManageCmrController
     update_response = cmr_client.update_permission(request_object, concept_id, token)
 
     if update_response.success?
-      flash[:success] = 'Permission was successfully updated.'
-      Rails.logger.info("#{current_user.urs_uid} UPDATED catalog item ACL for #{permission_provider}. #{response.body}")
+      flash[:success] = 'Collection Permission was successfully updated.'
+      Rails.logger.info("#{current_user.urs_uid} UPDATED catalog item ACL (Collection Permission) for #{permission_provider}. #{response.body}")
 
       redirect_to permission_path(concept_id)
     else
-      Rails.logger.error("Permission Update Error: #{update_response.inspect}")
+      Rails.logger.error("Collection Permission Update Error: #{update_response.inspect}")
       permission_update_error = Array.wrap(update_response.body['errors'])[0]
 
       if permission_update_error == 'Permission to update ACL is denied'
@@ -185,7 +185,7 @@ class PermissionsController < ManageCmrController
   def destroy
     response = cmr_client.delete_permission(params[:id], token)
     if response.success?
-      flash[:success] = 'Permission was successfully deleted.'
+      flash[:success] = 'Collection Permission was successfully deleted.'
       Rails.logger.info("#{current_user.urs_uid} DELETED catalog item ACL for #{current_user.provider_id}. #{response.body}")
       redirect_to permissions_path
     else

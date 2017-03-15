@@ -82,7 +82,7 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
     end
 
     it 'displays a success message' do
-      expect(page).to have_content('Permission was successfully created.') # TODO: add Collection
+      expect(page).to have_content('Collection Permission was successfully created.')
     end
 
     it 'redirects to the permission show page and displays the permission information' do
@@ -203,7 +203,7 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
         end
 
         it 'displays a success message' do
-          expect(page).to have_content('Permission was successfully updated.') # TODO: add Collection
+          expect(page).to have_content('Collection Permission was successfully updated.')
         end
 
         it 'redirects to the permission show page and displays the permission information' do
@@ -251,8 +251,12 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
         click_on 'Yes'
       end
 
-      # TODO: is there a flash message?
+      it 'displays a success message' do
+          expect(page).to have_content('Collection Permission was successfully deleted.')
+      end
+
       it 'redirects to the index page and does not display the current collection permission' do
+        expect(page).to have_css('h2', text: 'Collection Permissions')
         expect(page).to have_no_content(permission_name)
       end
     end
