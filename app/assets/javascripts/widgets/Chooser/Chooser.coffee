@@ -559,8 +559,8 @@ window.Chooser = (config) ->
   ###
   sortOptions = (selectElem) ->
     sorted = $(selectElem).find('option').sort( (a,b) ->
-      an = $(a).text()
-      bn = $(b).text()
+      an = $(a).text().toLowerCase()
+      bn = $(b).text().toLowerCase()
       if(an > bn)
         return 1
       if(an < bn)

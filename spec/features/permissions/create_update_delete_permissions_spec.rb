@@ -104,6 +104,25 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
       end
     end
 
+    context 'when using the Chooser widget' do
+      before do
+        click_on 'Edit'
+        select('Selected Collections', from: 'Collections')
+      end
+
+      it 'sorts the left and right panels of the chooser widget in alphabetical order' do
+        first_left_opt = find('#collectionsChooser_fromList option:first-child')
+        last_left_opt = find('#collectionsChooser_fromList option:last-child')
+        expect(first_left_opt).to have_content 'ID_1 | Mark\'s Test'
+        expect(last_left_opt).to have_content 'testing 03_002 | Test test title 03'
+
+        first_right_opt = find('#collectionsChooser_fromList option:first-child')
+        last_right_opt = find('#collectionsChooser_fromList option:last-child')
+        expect(first_right_opt).to have_content 'ID_1 | Mark\'s Test'
+        expect(last_right_opt).to have_content 'testing 03_002 | Test test title 03'
+      end
+    end
+
     context 'when clicking the edit permission button' do
       before do
         click_on 'Edit'
