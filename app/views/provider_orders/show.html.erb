@@ -79,7 +79,7 @@
     </ul>
 
     <% unless ['CANCELLED', 'CLOSED'].include?(@provider_order['provider_order_state']) %>
-    <%= link_to 'Manage Order Items', edit_provider_order_path(@provider_order['guid']), class: 'eui-btn' %>
+    <%= link_to 'Manage Order Items', edit_provider_order_path(@provider_order['guid']), class: 'eui-btn--blue' %>
     <% end %>
   </section>
 </div>
