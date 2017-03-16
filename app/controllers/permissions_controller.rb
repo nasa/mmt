@@ -1,12 +1,13 @@
 # :nodoc:
 class PermissionsController < ManageCmrController
   include PermissionManagement
+  include GroupsHelper
 
   skip_before_filter :is_logged_in, only: [:get_all_collections]
 
   add_breadcrumb 'Collection Permissions', :permissions_path
 
-  RESULTS_PER_PAGE = 10
+  RESULTS_PER_PAGE = 25
 
   def index
     # Default the page to 1
@@ -48,10 +49,10 @@ class PermissionsController < ManageCmrController
       add_breadcrumb @permission_name, permissions_path(@permission_concept_id)
 
       # separate search_groups and search_and_order_groups from acl group_permissions
-      search_groups_list, search_and_order_groups_list = parse_group_permission_ids(permission['group_permissions'])
+      search_groups_list, search_and_order_groups_list, hidden_search_groups, hidden_search_and_order_groups = parse_group_permission_ids(permission['group_permissions'])
 
-      @permission_type = 'Search' unless search_groups_list.blank?
-      @permission_type = 'Search & Order' unless search_and_order_groups_list.blank?
+      @permission_type = 'Search' unless search_groups_list.blank? && hidden_search_groups.blank?
+      @permission_type = 'Search & Order' unless search_and_order_groups_list.blank? && hidden_search_and_order_groups.blank?
 
       group_retrieval_error_messages = []
 
@@ -70,7 +71,6 @@ class PermissionsController < ManageCmrController
       end
 
       flash[:error] = group_retrieval_error_messages.join('; ') if group_retrieval_error_messages.length > 0
-
     else
       Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
       error = Array.wrap(permission_response.body['errors'])[0]
@@ -92,13 +92,13 @@ class PermissionsController < ManageCmrController
     response = cmr_client.add_group_permissions(request_object, token)
 
     if response.success?
-      flash[:success] = 'Permission was successfully created.'
-      Rails.logger.info("#{current_user.urs_uid} CREATED catalog item ACL for #{current_user.provider_id}. #{response.body}")
+      flash[:success] = 'Collection Permission was successfully created.'
+      Rails.logger.info("#{current_user.urs_uid} CREATED catalog item ACL (Collection Permission) for #{current_user.provider_id}. #{response.body}")
 
       concept_id = response.body['concept_id']
       redirect_to permission_path(concept_id)
     else
-      Rails.logger.error("Permission Creation Error: #{response.inspect}")
+      Rails.logger.error("Collection Permission Creation Error: #{response.inspect}")
 
       # Look up the error code. If we have a friendly version, use it. Otherwise,
       # just use the error message as it comes back from the CMR.
@@ -133,7 +133,7 @@ class PermissionsController < ManageCmrController
       add_breadcrumb @permission_name, permissions_path(@permission_concept_id)
       add_breadcrumb 'Edit', edit_permission_path(@permission_concept_id)
 
-      @search_groups, @search_and_order_groups = parse_group_permission_ids(permission['group_permissions'])
+      @search_groups, @search_and_order_groups, @hidden_search_groups, @hidden_search_and_order_groups = parse_group_permission_ids(permission['group_permissions'])
       @groups = get_groups_for_permissions
     else
       Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
@@ -150,12 +150,12 @@ class PermissionsController < ManageCmrController
     update_response = cmr_client.update_permission(request_object, concept_id, token)
 
     if update_response.success?
-      flash[:success] = 'Permission was successfully updated.'
-      Rails.logger.info("#{current_user.urs_uid} UPDATED catalog item ACL for #{permission_provider}. #{response.body}")
+      flash[:success] = 'Collection Permission was successfully updated.'
+      Rails.logger.info("#{current_user.urs_uid} UPDATED catalog item ACL (Collection Permission) for #{permission_provider}. #{response.body}")
 
       redirect_to permission_path(concept_id)
     else
-      Rails.logger.error("Permission Update Error: #{update_response.inspect}")
+      Rails.logger.error("Collection Permission Update Error: #{update_response.inspect}")
       permission_update_error = Array.wrap(update_response.body['errors'])[0]
 
       if permission_update_error == 'Permission to update ACL is denied'
@@ -174,6 +174,8 @@ class PermissionsController < ManageCmrController
         @groups = get_groups_for_permissions
         @search_groups = params[:search_groups]
         @search_and_order_groups = params[:search_and_order_groups]
+        @hidden_search_groups = params[:hidden_search_groups].split('; ') if params[:hidden_search_groups]
+        @hidden_search_and_order_groups = params[:hidden_search_and_order_groups].split('; ') if params[:hidden_search_and_order_groups]
 
         render :edit
       end
@@ -183,7 +185,7 @@ class PermissionsController < ManageCmrController
   def destroy
     response = cmr_client.delete_permission(params[:id], token)
     if response.success?
-      flash[:success] = 'Permission was successfully deleted.'
+      flash[:success] = 'Collection Permission was successfully deleted.'
       Rails.logger.info("#{current_user.urs_uid} DELETED catalog item ACL for #{current_user.provider_id}. #{response.body}")
       redirect_to permissions_path
     else
@@ -268,12 +270,16 @@ class PermissionsController < ManageCmrController
   def get_groups
     filters = {}
     filters['provider'] = current_user.provider_id
+    # get groups for provider AND System Groups if user has Read permissions on System Groups
+    filters['provider'] = [current_user.provider_id, 'CMR'] if policy(:system_group).read?
+
     groups_response = cmr_client.get_cmr_groups(filters, token)
     groups_for_permissions_select = []
 
     if groups_response.success?
       tmp_groups = groups_response.body['items']
       tmp_groups.each do |group|
+        group['name'] += ' (SYS)' if check_if_system_group?(group, group['concept_id'])
         opt = [group['name'], group['concept_id']]
         groups_for_permissions_select << opt
       end
@@ -359,12 +365,20 @@ class PermissionsController < ManageCmrController
     end
 
     search_groups = params[:search_groups] || []
+    # if there are hidden groups, add them
+    hidden_search_groups = params[:hidden_search_groups].split('; ') if params[:hidden_search_groups]
+    search_groups += hidden_search_groups if hidden_search_groups
     search_groups.each do |search_group|
       req_obj['group_permissions'] << construct_request_group_permission(search_group, ['read']) # aka 'search'
     end
 
     search_and_order_groups = params[:search_and_order_groups] || []
+    # if there are hidden groups, add them
+    hidden_search_and_order_groups = params[:hidden_search_and_order_groups].split('; ') if params[:hidden_search_and_order_groups]
+    search_and_order_groups += hidden_search_and_order_groups if hidden_search_and_order_groups
     search_and_order_groups.each do |search_and_order_group|
+      # PUMP allows for other permissions (Create, Update, Delete) but we don't use them
+      # because those permissions are actually controlled by INGEST_MANAGEMENT_ACL
       req_obj['group_permissions'] << construct_request_group_permission(search_and_order_group, %w(read order)) # aka 'search'
     end
 
@@ -388,23 +402,21 @@ class PermissionsController < ManageCmrController
   # create summary for Index table (Search or Search & Order)
   def construct_permissions_summaries(permissions)
     permissions.each do |perm|
-      permission_summary = {}
-      permission_summary_list = []
+      is_search_perm = false
+      is_search_and_order_perm = false
 
       group_permissions = perm['acl']['group_permissions']
       group_permissions.each do |group_perm|
         perm_list = group_perm['permissions']
-        perm_list.each do |type|
-          permission_summary[type] = type
+        if perm_list.include?('read') && perm_list.include?('order')
+          is_search_and_order_perm = true
+        elsif perm_list.include?('read')
+          is_search_perm = true
         end
       end
 
-      permission_summary.keys.each do |key|
-        key = 'search' if key == 'read'
-        permission_summary_list << key.capitalize
-      end
-
-      perm['permission_summary'] = permission_summary_list.join ' & '
+      perm['permission_summary'] = 'Search' if is_search_perm
+      perm['permission_summary'] = 'Search & Order' if is_search_and_order_perm
     end
 
     permissions
@@ -415,17 +427,33 @@ class PermissionsController < ManageCmrController
     search_groups = []
     search_and_order_groups = []
 
+    # we need hidden groups if the user is updating a group with system groups
+    # and they don't have READ access for system groups
+    hidden_search_groups = []
+    hidden_search_and_order_groups = []
+
     group_permissions.each do |group_perm|
-      if group_perm['permissions'] == %w(read order)
-        # add the group id or user type to the list
-        search_and_order_groups << (group_perm['group_id'] || group_perm['user_type'])
-      elsif group_perm['permissions'] == ['read']
-        # add the group id or user type to the list
-        search_groups << (group_perm['group_id'] || group_perm['user_type'])
+      if !(group_perm['group_id'] =~ /(-CMR)$/) || (group_perm['user_type']) || (group_perm['group_id'] =~ /(-CMR)$/ && policy(:system_group).read?)
+        # group is not a system group
+        # OR group is guest or registered
+        # OR group is a system group and user has READ access
+        if group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order')
+          search_and_order_groups << (group_perm['group_id'] || group_perm['user_type'])
+        elsif group_perm['permissions'].include?('read')
+          search_groups << (group_perm['group_id'] || group_perm['user_type'])
+        end
+      elsif
+        # group is a system group and user does NOT have READ access
+        if group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order')
+          hidden_search_and_order_groups << (group_perm['group_id'])
+        elsif group_perm['permissions'].include?('read')
+          hidden_search_groups << (group_perm['group_id'])
+        end
+
       end
     end
 
-    [search_groups, search_and_order_groups]
+    [search_groups, search_and_order_groups, hidden_search_groups, hidden_search_and_order_groups]
   end
 
   # set up group hash for show page

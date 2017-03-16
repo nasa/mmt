@@ -34,4 +34,8 @@ class ApplicationPolicy
   def destroy?
     false
   end
+
+  def cmr_client
+    @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
+  end
 end

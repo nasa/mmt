@@ -4,18 +4,18 @@
 require 'rails_helper'
 
 describe 'Collection Permissions form', js: true do
-  context 'when visiting new permission page' do
+  context 'when visiting new collection permission page as a regular user' do
     before do
       login
 
       visit new_permission_path
     end
 
-    it 'indicates this is a new permission page' do
-      expect(page).to have_content('New Permission')
+    it 'indicates this is a new collection permission page' do
+      expect(page).to have_content('New Collection Permission')
     end
 
-    it 'displays the new permission entry fields' do
+    it 'displays the new collection permission entry fields' do
       expect(page).to have_field('Name', type: 'text')
       expect(page).to have_field('Collections', type: 'select')
       expect(page).to have_field('Granules', type: 'select')
@@ -47,7 +47,7 @@ describe 'Collection Permissions form', js: true do
       end
     end
 
-    context 'when attempting to create a permission with invalid information' do
+    context 'when attempting to create a collection permission with invalid information' do
       before do
         click_on 'Submit'
       end
@@ -60,7 +60,7 @@ describe 'Collection Permissions form', js: true do
       end
     end
 
-    context 'when attempting to create a permission with empty collection selection' do
+    context 'when attempting to create a collection permission with empty collection selection' do
       before do
         select 'Selected Collections', from: 'Collections'
         click_on 'Submit'
@@ -74,7 +74,7 @@ describe 'Collection Permissions form', js: true do
       end
     end
 
-    context 'when attempting to submit a permission with conditionally required fields partially filled in' do
+    context 'when attempting to submit a collection permission with conditionally required fields partially filled in' do
       before do
         within '#collection_constraint_values' do
           fill_in('Maximum Access Constraint Value', with: 5)
@@ -98,7 +98,7 @@ describe 'Collection Permissions form', js: true do
       end
     end
 
-    context 'when attempting to submit a permission with incorrect Min and Max values' do
+    context 'when attempting to submit a collection permission with incorrect Min and Max values' do
       before do
         within '#collection_constraint_values' do
           fill_in('Minimum Access Constraint Value', with: 20)
@@ -121,6 +121,28 @@ describe 'Collection Permissions form', js: true do
         within '#granule_constraint_values' do
           expect(page).to have_content('Maximum value must be greater than Minimum value.')
         end
+      end
+    end
+  end
+
+  context 'when visiting new collection permission page as an admin' do
+    before do
+      login_admin
+
+      visit new_permission_path
+    end
+
+    it 'indicates this is a new collection permission page' do
+      expect(page).to have_content('New Collection Permission')
+    end
+
+    it 'displays system groups as options in the Groups Permissions table select' do
+      within '#search_groups_cell' do
+        expect(page).to have_select('search_groups_', with_options: ['Administrators', 'Administrators_2'])
+      end
+
+      within '#search_and_order_groups_cell' do
+        expect(page).to have_select('search_and_order_groups_', with_options: ['Administrators', 'Administrators_2'])
       end
     end
   end

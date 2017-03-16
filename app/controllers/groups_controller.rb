@@ -3,7 +3,7 @@ class GroupsController < ManageCmrController
   include PermissionManagement
 
   before_filter :groups_enabled?
-  before_filter :check_if_system_group_administrator, :set_system_and_provider_groups, except: [:index, :show, :destroy]
+  before_filter :set_system_and_provider_groups, except: [:index, :show, :destroy]
 
   add_breadcrumb 'Groups', :groups_path
 
@@ -307,7 +307,7 @@ class GroupsController < ManageCmrController
 
     filters = { provider: 'CMR', page_size: 50 }
     # get system groups
-    if @user_is_system_group_admin
+    if policy(:system_group).create?
       system_groups_response = cmr_client.get_cmr_groups(filters, token)
       if system_groups_response.success?
         @system_groups = system_groups_response.body['items']
