@@ -8,6 +8,7 @@ $(document).ready ->
       closeButton: '.modal-close'
 
     $('#test-endpoint-connection').click ->
+      $('#test-endpoint-dialog-button').text 'Cancel'
       $('#modal-message').text 'Please wait...'
       $.ajax(
         type: 'post'
@@ -16,8 +17,10 @@ $(document).ready ->
         url: '/order_policies/test_endpoint_connection'
         success: (response) ->
           $('#modal-message').text response.message
+          $('#test-endpoint-dialog-button').text 'Ok'
         error: (req, status, error) ->
-          $('#modal-message').text 'A server-side error occurred.'
+          $('#modal-message').text 'Test endpoint connection failed. Please try again.'
+          $('#test-endpoint-dialog-button').text 'Ok'
           console.error(status, error)
       )
 
