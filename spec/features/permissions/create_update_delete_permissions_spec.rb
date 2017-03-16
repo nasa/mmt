@@ -252,7 +252,7 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
       end
 
       it 'displays a success message' do
-          expect(page).to have_content('Collection Permission was successfully deleted.')
+        expect(page).to have_content('Collection Permission was successfully deleted.')
       end
 
       it 'redirects to the index page and does not display the current collection permission' do
