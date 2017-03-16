@@ -25,8 +25,10 @@ class UsersController < ApplicationController
 
     set_provider_context_token
 
+    session[:return_to] = request.referer
+
     respond_to do |format|
-      format.html { redirect_to manage_metadata_path }
+      format.html { redirect_to session[:return_to] }
       format.json { render json: nil, status: :ok }
     end
   end
