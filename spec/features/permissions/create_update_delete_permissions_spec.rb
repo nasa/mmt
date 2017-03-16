@@ -104,6 +104,51 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
       end
     end
 
+    context 'when using the Chooser widget' do
+      before do
+        click_on 'Edit'
+        select('Selected Collections', from: 'Collections')
+      end
+
+      it 'sorts the left and right panels of the chooser widget in alphabetical order' do
+        expect(page).to have_css('#collectionsChooser_fromList option:first-child', text: "ID_1 | Mark's Test")
+        expect(page).to have_css('#collectionsChooser_fromList option:last-child', text: 'testing 03_002 | Test test title 03')
+
+        expect(page).to have_css('#collectionsChooser_toList option:first-child', text: "ID_1 | Mark's Test")
+        expect(page).to have_css('#collectionsChooser_toList option:last-child', text: 'testing 03_002 | Test test title 03')
+      end
+    end
+
+    context 'when adding and removing items between panels in the Chooser widget' do
+      before do
+        click_on 'Edit'
+        select 'Selected Collections', from: 'Collections'
+
+        # Remove and add back the first option
+        select "ID_1 | Mark's Test", from: 'Selected collections'
+        find('button[title=remove]').click
+        select "ID_1 | Mark's Test", from: 'Available collections'
+        find('button[title=add]').click
+
+        # Remove and add back the second option
+        select "lorem_223 | ipsum", from: 'Selected collections'
+        find('button[title=remove]').click
+        select "lorem_223 | ipsum", from: 'Available collections'
+        find('button[title=add]').click
+      end
+
+      it 'maintains the sort order on the right panel of the chooser widget' do
+        # "From" list (the order always remains the same since items are not removed when added to the right side)
+        expect(page).to have_css('#collectionsChooser_fromList option:first-child', text: "ID_1 | Mark's Test")
+        expect(page).to have_css('#collectionsChooser_fromList option:last-child', text: 'testing 03_002 | Test test title 03')
+
+        # "To" list
+        expect(page).to have_css('#collectionsChooser_toList option:first-child', text: "ID_1 | Mark's Test")
+        expect(page).to have_css('#collectionsChooser_toList option:last-child', text: 'testing 03_002 | Test test title 03')
+        expect(page).to have_css('#collectionsChooser_toList option:nth-child(2)', text: 'lorem_223 | ipsum')
+      end
+    end
+
     context 'when clicking the edit permission button' do
       before do
         click_on 'Edit'

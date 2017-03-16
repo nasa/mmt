@@ -4,18 +4,19 @@ module ChooserEndpoints
   extend ActiveSupport::Concern
 
   def render_collections_for_chooser(collections)
+
     # The chooser expects an array of arrays, so that's what we'll give it
     render json: {
-      'hits': collections.fetch('hits', 0),
-      'items': collections.fetch('items', []).map do |collection|
-        [
-          collection.fetch('meta', {}).fetch('concept-id'),
+        'hits': collections.fetch('hits', 0),
+        'items': collections.fetch('items', []).map do |collection|
           [
-            collection.fetch('umm', {}).fetch('entry-id'),
-            collection.fetch('umm', {}).fetch('entry-title')
-          ].join(' | ')
-        ]
-      end
+              collection.fetch('meta', {}).fetch('concept-id'),
+              [
+                  collection.fetch('umm', {}).fetch('entry-id'),
+                  collection.fetch('umm', {}).fetch('entry-title')
+              ].join(' | ')
+          ]
+        end
     }
   end
 

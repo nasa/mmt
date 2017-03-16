@@ -363,6 +363,7 @@ window.Chooser = (config) ->
     vals = $(which).find('option').map((tmpKey, tmpVal) ->
       $(tmpVal).text()
     )
+    sortOptions(which)
 
   ###
   # Trigger the filter textbox action.
@@ -453,6 +454,10 @@ window.Chooser = (config) ->
         return
 
       $(TO_LIST).trigger 'change'
+
+      # Sort the list every time
+      sortOptions(TO_LIST)
+
       # This is a hack in order to accommodate picky libraries like validate
       $(TO_LIST).find('option:first').prop 'selected', true
       $(TO_LIST).find('option:first').click()
@@ -483,6 +488,10 @@ window.Chooser = (config) ->
       $(tmpVal).remove()
       return
     $(TO_LIST).trigger 'change'
+
+    # Sort the list every time
+    sortOptions(TO_LIST)
+
     # This is a hack in order to accommodate picky libraries like validate
     $(TO_LIST).find('option:first').prop 'selected', true
     $(TO_LIST).find('option:first').click()
@@ -544,5 +553,22 @@ window.Chooser = (config) ->
       return 's'
     else
       return ''
+
+  ###
+  # Sorts a list of select options alphabetically by the option text
+  ###
+  sortOptions = (selectElem) ->
+    sorted = $(selectElem).find('option').sort( (a,b) ->
+      an = $(a).text().toLowerCase()
+      bn = $(b).text().toLowerCase()
+      if(an > bn)
+        return 1
+      if(an < bn)
+        return -1
+      return 0
+    ).clone()
+
+    $(selectElem).find("option").remove()
+    $(selectElem).append(sorted)
 
   return
