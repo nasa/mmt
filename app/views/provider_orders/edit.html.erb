@@ -28,7 +28,7 @@
           <p>Are you sure you want to cancel the selected items?</p>
           <p>
             <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <%= submit_tag 'Yes', class: 'eui-btn--blue spinner', value: 'Cancel' %>
+            <%= submit_tag 'Yes', name: 'cancel', class: 'eui-btn--blue spinner' %>
           </p>
         </div>
 
@@ -38,7 +38,7 @@
           <p>Are you sure you want to close the selected items?</p>
           <p>
             <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <%= submit_tag 'Yes', class: 'eui-btn--blue spinner', value: 'Close' %>
+            <%= submit_tag 'Yes', name: 'close', class: 'eui-btn--blue spinner' %>
           </p>
         </div>
       </fieldset>

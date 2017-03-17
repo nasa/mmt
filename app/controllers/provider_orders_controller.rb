@@ -16,7 +16,7 @@ class ProviderOrdersController < ManageCmrController
     catalog_items = params['catalog_items']
     status_message = params['status_message']
 
-    method = params['commit'] == 'Cancel' ? 'cancelled' : 'closed'
+    method = params['cancel'] == 'Yes' ? 'cancelled' : 'closed'
 
     result = if method == 'cancelled'
                echo_client.accept_provider_order_cancellation(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
