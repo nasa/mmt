@@ -3,7 +3,7 @@
     <h2><%= @permission_name %></h2>
 
     <p>
-      <b>Permission Type | <%= " #{@permission_type || '<type>'} | #{@permission_provider || '<provider>'}" %></b>
+      <b>Permission Type | <%= " #{@permission_type || 'No Permission Type Selected'} | #{@permission_provider || '<provider>'}" %></b>
     </p>
     <p>
       <b>Collections | <%= @collection_entry_ids.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Collections" %></b>
