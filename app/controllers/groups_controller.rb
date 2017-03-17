@@ -371,11 +371,13 @@ class GroupsController < ManageCmrController
   def set_permissions
     # Initialize the permissions array to provide to the view
     @permissions = []
+    all_permissions = []
 
     # Default the params that we'll send to CMR
     permission_params = {
       'permitted_group' => @concept_id,
       'identity_type' => 'catalog_item',
+      'include_full_acl' => true,
       page_num: 1,
       page_size: 50
     }
@@ -386,7 +388,7 @@ class GroupsController < ManageCmrController
     # Request permissions
     until response.error? || response.body['items'].empty?
       # Add the retrieved permissions to our array
-      @permissions.concat(response.body['items'])
+      all_permissions.concat(response.body['items'])
 
       # Tests within this controller family mock the response of `get_collections`
       # which means that the criteria set to break on will never be met and will
@@ -398,6 +400,16 @@ class GroupsController < ManageCmrController
 
       # Request the next page
       response = cmr_client.get_collections(permission_params, token)
+    end
+
+    all_permissions.each do |perm|
+      group_permissions = perm.fetch('acl', {}).fetch('group_permissions', [{}])
+
+      # collection permissions should show as associated permission on the group page
+      # only if the group has Search or Search and Order permissions
+      if group_permissions.any? { |group_perm| group_perm['group_id'] == @concept_id && (group_perm['permissions'].include?('read') || (group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order'))) }
+        @permissions << perm
+      end
     end
 
     @permissions.sort_by! { |perm| perm['name'] }

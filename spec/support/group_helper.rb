@@ -87,12 +87,12 @@ module Helpers
       end
     end
 
-    def add_associated_permissions_to_group(group_id, name, provider_id)
+    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: [ 'read' ])
       permission_params = {
         'group_permissions' => [
           {
             'group_id' => group_id,
-            'permissions' => ['read']
+            'permissions' => permissions
           }
         ],
         'catalog_item_identity' => {
