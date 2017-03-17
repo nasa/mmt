@@ -268,8 +268,12 @@ class PermissionsController < ManageCmrController
   end
 
   def get_groups
-    filters = {}
-    filters['provider'] = current_user.provider_id
+    # we need to specify page_size, otherwise the default is 10
+    filters = {
+      'provider' => current_user.provider_id,
+      'page_size' => 100
+    }
+
     # get groups for provider AND System Groups if user has Read permissions on System Groups
     filters['provider'] = [current_user.provider_id, 'CMR'] if policy(:system_group).read?
 
