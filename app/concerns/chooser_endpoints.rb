@@ -4,7 +4,6 @@ module ChooserEndpoints
   extend ActiveSupport::Concern
 
   def render_collections_for_chooser(collections)
-
     # The chooser expects an array of arrays, so that's what we'll give it
     render json: {
         'hits': collections.fetch('hits', 0),
