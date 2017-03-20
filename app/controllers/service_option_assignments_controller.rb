@@ -44,7 +44,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
     assignments_response = echo_client.get_service_option_assignments_by_service(echo_provider_token, params['service_entries_toList'])
 
     if assignments_response.success?
-      service_option_associations = Array.wrap(assignments_response.parsed_body.fetch('Item', []))
+      service_option_associations = Array.wrap(assignments_response.parsed_body(parser: 'libxml').fetch('Item', []))
 
       # Collect all of the guids/ids we'll need to lookup in order to populate the table in the view
       collection_ids       = service_option_associations.map { |a| a['CatalogItemGuid'] }.compact
@@ -62,7 +62,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
       # Retrieve all service entries associated with the requested service implementations
       assignment_service_entries_response = echo_client.get_service_entries(echo_provider_token, service_entry_guids)
       assignment_service_entries = if service_entry_guids.any? && assignment_service_entries_response.success?
-                                     Array.wrap(assignment_service_entries_response.parsed_body['Item'])
+                                     Array.wrap(assignment_service_entries_response.parsed_body(parser: 'libxml')['Item'])
                                    else
                                      []
                                    end
@@ -70,7 +70,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
       # Retrieve all service options associated with the requested service implementations
       assignment_service_options_response = echo_client.get_service_options(echo_provider_token, service_option_guids)
       assignment_service_options = if service_option_guids.any? && assignment_service_options_response.success?
-                                     Array.wrap(assignment_service_options_response.parsed_body['Item'])
+                                     Array.wrap(assignment_service_options_response.parsed_body(parser: 'libxml')['Item'])
                                    else
                                      []
                                    end
@@ -148,7 +148,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
     service_option_response = echo_client.get_service_options_names(echo_provider_token)
     @service_options = if service_option_response.success?
                          # Retreive the service options and sort by name, ignoring case
-                         Array.wrap(service_option_response.parsed_body.fetch('Item', [])).sort_by { |option| option['Name'].downcase }.map { |option| [option['Name'], option['Guid']] }
+                         Array.wrap(service_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option['Name'].downcase }.map { |option| [option['Name'], option['Guid']] }
                        else
                          []
                        end
