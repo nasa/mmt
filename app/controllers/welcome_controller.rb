@@ -13,9 +13,9 @@ class WelcomeController < ApplicationController
   end
 
   def collections
-    add_breadcrumb "#{params['provider_id']} Holdings"
-
     set_provider_holdings(params[:provider_id])
+
+    add_breadcrumb "#{@provider['provider_id']} Holdings", provider_holding_path(@provider['provider_id'])
   end
 
   # Small, light weight check if the app is running

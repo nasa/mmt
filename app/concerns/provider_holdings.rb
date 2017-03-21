@@ -1,3 +1,5 @@
+require 'enumerator'
+
 # Controller methods that allows developers to get this data without
 # making an HTTP request (with the exception of the CMR call)
 module ProviderHoldings
@@ -30,28 +32,41 @@ module ProviderHoldings
 
     @provider = provider_holdings_response.body.fetch('provider', {})
 
-    if provider_holdings_response.success?
-      content_type = "application/#{Rails.configuration.umm_version}; charset=utf-8"
+    return if provider_holdings_response.error?
+    
+    provider_holdings_response = cmr_client.get_provider_holdings(false, @provider['provider_id'], token)
 
-      add_breadcrumb @provider['provider_id'], provider_holding_path(@provider['provider_id'])
-      
-      provider_holdings_response = cmr_client.get_provider_holdings(false, @provider['provider_id'], token)
+    return if provider_holdings_response.error?
 
-      # Prevent processing the request if an error occurred
-      return if provider_holdings_response.error?
+    concept_ids = provider_holdings_response.body.map { |c| c['concept-id'] }
 
-      provider_holdings_response.body.each do |collection|
-        concept_id = collection['concept-id']
-        title = collection['entry-title']
-        granules = collection['granule-count']
+    return if concept_ids.empty?
 
-        collection_info = cmr_client.get_concept(concept_id, token, content_type).body
+    # Slice the concept ids into groups of either 2000 (CMR max page size) or the
+    # the total number of concept ids, whichever is smaller
+    concept_ids.each_slice([concept_ids.count, 2000].min) do |ids|
+      search_options = {
+        concept_id: provider_holdings_response.body.map { |c| c['concept-id'] },
+        include_granule_counts: true,
+        page_size: ids.count
+      }
+
+      collection_search_response = cmr_client.search_collections(search_options, token)
+
+      next if collection_search_response.error?
+
+      collection_search_response.body.fetch('feed', {}).fetch('entry', []).each do |collection|
+        concept_id = collection['id']
+        title = collection['title']
+        granules = collection['granule_count']
+        short_name = collection['short_name']
+        version = collection['version_id']
 
         @collections << {
           'id'         => concept_id,
           'title'      => title,
-          'short_name' => collection_info['ShortName'],
-          'version'    => collection_info['Version'],
+          'short_name' => short_name,
+          'version'    => version,
           'granules'   => granules
         }
       end

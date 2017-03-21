@@ -24,6 +24,16 @@ module Cmr
       post(url, query.to_query, headers.merge(token_header(token)))
     end
 
+    def search_collections(options, token)
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/collections.json'
+      else
+        url = '/search/collections.json'
+      end
+
+      get(url, options, token_header(token))
+    end
+
     def get_providers
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3002/providers'
