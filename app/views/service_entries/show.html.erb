@@ -11,7 +11,9 @@
     <p>
       <span class="inline-label">Interface:</span>
       <% tag_guids_for_tag_group(@service_entry, 'SERVICE-INTERFACE').each do |guid| %>
-        <%= link_to service_interface_tag(guid)['Value'], service_entry_path(service_tag_parts(service_interface_tag(guid)['Guid']).last), target: '_blank' %>
+        <% if service_interface_tag_exists(guid) %>
+          <%= link_to service_interface_tag(guid)['Value'], service_entry_path(service_tag_parts(service_interface_tag(guid)['Guid']).last), target: '_blank' %>
+        <% end %>
       <% end %>
     </p>
     <% end %>

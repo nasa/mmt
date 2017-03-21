@@ -59,5 +59,12 @@ module ServiceEntryHelper
     service_interface_tags.each do |interface_tag|
       return interface_tag if tag_guid == interface_tag['Guid']
     end
+
+    nil
+  end
+
+  # Determine if the provided tag_guid exists
+  def service_interface_tag_exists(tag_guid)
+    !service_interface_tag(tag_guid).nil?
   end
 end
