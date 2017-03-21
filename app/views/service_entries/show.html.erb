@@ -31,18 +31,22 @@
     <table class="space-top space-bot" id="tag-list">
       <thead>
         <tr>
-          <th>Associated Collections</th>
+          <th>Collection</th>
+          <th>Short Name</th>
+          <th>Version</th>
         </tr>
       </thead>
       <tbody>
         <% if collections_from_service_entry_tags(@service_entry).empty? %>
           <tr>
-            <td>No collections are associated with <%= @service_entry['Name'] %>.</td>
+            <td colspan="3">No collections are associated with <%= @service_entry['Name'] %>.</td>
           </tr>
         <% else %>
           <% collections_from_service_entry_tags(@service_entry).each do |collection| %>
             <tr>
               <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {}).fetch('concept-id')), target: '_blank' %></td>
+              <td><%= collection.fetch('umm', {}).fetch('short-name') %></td>
+              <td><%= collection.fetch('umm', {}).fetch('version-id') %></td>
             </tr>
           <% end %>
         <% end %>
