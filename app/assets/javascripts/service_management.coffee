@@ -143,9 +143,9 @@ $(document).ready ->
         nextPageParm: 'page_num',
         filterParm: 'name',
         target: $('#service-option-assignment-chooser-widget'),
-        fromLabel: 'Available Service Entries',
-        toLabel: 'Selected Service Entries',
-        uniqueMsg: 'Service Entry is already selected.',
+        fromLabel: 'Available Service Implementations',
+        toLabel: 'Selected Service Implementations',
+        uniqueMsg: 'Service Implementation is already selected.',
         attachTo: $('#service-entry-selections'),
         toMax: 100,
         addButton: {
