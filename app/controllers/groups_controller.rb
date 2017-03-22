@@ -390,11 +390,6 @@ class GroupsController < ManageCmrController
       # Add the retrieved permissions to our array
       all_permissions.concat(response.body['items'])
 
-      # Tests within this controller family mock the response of `get_collections`
-      # which means that the criteria set to break on will never be met and will
-      # result in an infinite loop
-      break if Rails.env.test?
-
       # Increment the page number
       permission_params[:page_num] += 1
 

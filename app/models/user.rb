@@ -29,15 +29,10 @@ class User < ActiveRecord::Base
 
     providers = []
 
-    # Request collections
+    # Request the permissions for the current user
     until permissions_response.error? || permissions_response.body['items'].empty?
       # Concatenate this page of providers to the full list
       providers.push(*permissions_response.body.fetch('items', []).map { |permission| permission.fetch('acl', {}).fetch('provider_identity', {})['provider_id'] })
-
-      # Tests within this controller family mock the response of `get_collections`
-      # which means that the criteria set to break on will never be met and will
-      # result in an infinite loop
-      break if Rails.env.test?
 
       # Increment the page number
       permission_options[:page_num] += 1
