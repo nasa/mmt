@@ -32,9 +32,9 @@ class UsersController < ApplicationController
   end
 
   def refresh_providers
-    current_user.provider_id = nil
-    current_user.save
-    current_user.set_available_providers
+    current_user.update(provider_id: nil)
+    current_user.set_available_providers(token)
+
     redirect_to manage_metadata_path
   end
 end

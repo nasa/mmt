@@ -102,7 +102,7 @@ class ApplicationController < ActionController::Base
     return unless current_user.available_providers.nil?
 
     # The user has no available providers, but does have an echo_id
-    current_user.set_available_providers
+    current_user.set_available_providers(token)
   end
 
   def refresh_urs_if_needed
