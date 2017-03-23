@@ -33,13 +33,23 @@ describe 'Listing Service Options' do
 
     it 'sorts the list correctly' do
       # First row
-      within '.service-options-table tbody tr:nth-child(1) td:nth-child(1)' do
-        expect(page).to have_content('Bibendum Mollis Lorem Elit Condimentum')
+      within '.service-options-table tbody tr:nth-child(1)' do
+        within 'td:nth-child(1)' do
+          expect(page).to have_content('Bibendum Mollis Lorem Elit Condimentum')
+        end
+        within 'td:nth-child(2)' do
+          expect(page).to have_content('Tuesday, January 17, 2017 at 6:34 pm')
+        end
       end
 
       # Last row
-      within '.service-options-table tbody tr:last-child td:nth-child(1)' do
-        expect(page).to have_content('Venenatis Sem Lorem Ornare')
+      within '.service-options-table tbody tr:last-child' do
+        within 'td:nth-child(1)' do
+          expect(page).to have_content('Tristique Vulputate Sem Magna')
+        end
+        within 'td:nth-child(2)' do
+          expect(page).to have_content('Tuesday, January 17, 2017 at 5:06 pm')
+        end
       end
     end
 
