@@ -4,7 +4,7 @@ module Helpers
       login(admin: true)
     end
 
-    def login(admin: false)
+    def login(admin: false, providers: 'MMT_2')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#login' do
         # Mock calls to URS and login Test User
         if admin
@@ -108,8 +108,10 @@ module Helpers
 
         # This is a setter on the User model, because we're only supplying it
         # provider it will assign provider_id for us.
-        user.providers = %w(MMT_2)
-        user.save
+        if Array.wrap(providers).any?
+          user.providers = %w(MMT_2)
+          user.save
+        end
 
         # after the user authenticates with URS
         visit '/urs_callback?code=auth_code_here'

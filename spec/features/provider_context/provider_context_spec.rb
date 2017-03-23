@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'Provider context', js: true do
   context 'when the user has multiple possible provider contexts' do
     before do
-      login
+      login(providers: nil)
     end
 
     before :all do
@@ -53,7 +53,7 @@ describe 'Provider context', js: true do
 
             expect(page).to have_content('Earthdata Login')
 
-            login
+            login(providers: nil)
           end
 
           it 'displays their last used provider context' do
@@ -91,7 +91,7 @@ describe 'Provider context', js: true do
 
   context 'when the user only has one provider' do
     before do
-      login
+      login(providers: nil)
     end
 
     before :all do
@@ -136,7 +136,7 @@ describe 'Provider context', js: true do
 
   context 'when the user has no providers' do
     before do
-      login
+      login(providers: nil)
     end
 
     before :all do
