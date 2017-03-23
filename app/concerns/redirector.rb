@@ -3,8 +3,9 @@ module Redirector
 
   routes = Rails.application.routes.url_helpers
 
-  # Add any controller names we want to exclude here. For anything in this map,
-  # the user will be redirected to the Manage Metadata page
+  # Add any redirects we want to customize here, e.g., if the "index" action
+  # for a given path is "/provider_orders", we will redirect to the '/orders'
+  # path.
   ROUTE_EXCEPTIONS = {
     'pages' => routes.manage_metadata_path,
     'provider_orders' => routes.orders_path
