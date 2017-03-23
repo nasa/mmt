@@ -26,7 +26,20 @@ class UsersController < ApplicationController
 
     set_provider_context_token
 
-    session[:return_to] = get_redirect_route(request.referer)
+    # Add any controller names we want to exclude here. For anything in this list,
+    # the user will be redirected to the Manage Metadata page
+    route_exceptions = %w(pages)
+
+    # Get the controller name from the original path
+    controller_name = Rails.application.routes.recognize_path(request.referer)[:controller]
+
+    # Return the user to the "index" action of the original controller they were on,
+    # unless it's in the exception list.
+    if route_exceptions.include?(controller_name)
+      session[:return_to] = manage_metadata_path
+    else
+      session[:return_to] = '/' + controller_name
+    end
 
     respond_to do |format|
       format.html { redirect_to session[:return_to] }
