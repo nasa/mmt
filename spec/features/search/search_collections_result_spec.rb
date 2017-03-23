@@ -8,7 +8,7 @@ describe 'Search published results', js: true do
   let(:entry_title) { '2008 Environmental Performance Index (EPI)' }
   let(:provider)    { 'SEDAC' }
 
-  before :each do
+  before do
     login
   end
 

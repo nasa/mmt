@@ -5,9 +5,17 @@ require 'rails_helper'
 describe 'Provider context', js: true do
   context 'when the user has multiple possible provider contexts' do
     before do
-      VCR.use_cassette('provider_context/multiple_providers', record: :none) do
-        login
-      end
+      login(providers: nil)
+    end
+
+    before :all do
+      clear_provider_context_permissions
+
+      add_provider_context_permission(%w(MMT_1 MMT_2))
+    end
+
+    after :all do
+      delete_provider_context_permission('MMT_1')
     end
 
     context 'when a user logs in for the first time' do
@@ -42,10 +50,10 @@ describe 'Provider context', js: true do
         context 'when the user logs in again' do
           before do
             click_on 'Logout'
+
             expect(page).to have_content('Earthdata Login')
-            VCR.use_cassette('provider_context/multiple_providers', record: :none) do
-              login
-            end
+
+            login(providers: nil)
           end
 
           it 'displays their last used provider context' do
@@ -60,10 +68,12 @@ describe 'Provider context', js: true do
     context 'when a user changes their provider context' do
       before do
         select 'MMT_1', from: 'select_provider'
+
         wait_for_ajax
 
         click_on 'Change Provider'
         select 'MMT_2', from: 'select_provider'
+
         wait_for_ajax
       end
 
@@ -81,8 +91,17 @@ describe 'Provider context', js: true do
 
   context 'when the user only has one provider' do
     before do
-      # By default the user only has one provider
-      login
+      login(providers: nil)
+    end
+
+    before :all do
+      clear_provider_context_permissions
+
+      add_provider_context_permission('MMT_2')
+    end
+
+    after :all do
+      delete_provider_context_permission('MMT_1')
     end
 
     it 'saves the provider as the users provider' do
@@ -98,10 +117,11 @@ describe 'Provider context', js: true do
 
     context 'when a user refreshes their available providers' do
       before do
-        click_on 'Change Provider'
-        VCR.use_cassette('provider_context/multiple_providers', record: :none) do
-          click_on 'Refresh your available providers'
-        end
+        click_on 'Refresh your available providers'
+      end
+
+      before :all do
+        add_provider_context_permission('MMT_1')
       end
 
       it 'saves the available providers' do
@@ -116,9 +136,11 @@ describe 'Provider context', js: true do
 
   context 'when the user has no providers' do
     before do
-      VCR.use_cassette('provider_context/no_providers', record: :none) do
-        login
-      end
+      login(providers: nil)
+    end
+
+    before :all do
+      clear_provider_context_permissions
     end
 
     it 'displays a message' do

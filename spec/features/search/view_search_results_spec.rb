@@ -6,7 +6,7 @@ describe 'Viewing search results', js: true do
   short_name = 'CIESIN_SEDAC_ESI_2000'
 
   context 'when selecting a collection from search results' do
-    before :each do
+    before do
       login
       fill_in 'Quick Find', with: short_name
       click_on 'Find'

@@ -15,44 +15,35 @@ class User < ActiveRecord::Base
     self.provider_id = providers.first if providers.size == 1
   end
 
-  def set_available_providers
+  def set_available_providers(token = nil)
     cmr_client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
 
-    # Get groups the user belongs to
-    groups = cmr_client.get_groups(echo_id).body
-    group_ids = groups.map { |group| group['group']['id'] }
+    permission_options = {
+      permitted_user: urs_uid,
+      target: 'PROVIDER_CONTEXT',
+      include_full_acl: true,
+      page_size: 2000,
+      page_num: 1
+    }
+    permissions_response = cmr_client.get_permissions(permission_options, token)
 
-    providers = if group_ids && !group_ids.empty?
-                  # Get all ACLs
-                  acls = cmr_client.get_provider_acls.body
+    providers = []
 
-                  # Pull out only the acls that apply to this
-                  good_acls = acls.select do |acl|
-                    # If the ACL is an ingest ACL
-                    is_ingest_acl = acl.fetch('acl', {}).fetch('provider_object_identity', {}).fetch('target', nil) == 'INGEST_MANAGEMENT_ACL'
+    # Request the permissions for the current user
+    until permissions_response.error? || permissions_response.body['items'].empty?
+      # Concatenate this page of providers to the full list
+      providers.push(*permissions_response.body.fetch('items', []).map { |permission| permission.fetch('acl', {}).fetch('provider_identity', {})['provider_id'] })
 
-                    # if access_control_entries includes at least one of the users group_ids
-                    # and the UPDATE permission is found
-                    groups_with_update = acl.fetch('acl', {}).fetch('access_control_entries', []).count do |entry|
-                      group_ids.include?(entry.fetch('sid', {}).fetch('group_sid', {}).fetch('group_guid', nil)) && entry.fetch('permissions', []).include?('UPDATE')
-                    end
+      # Increment the page number
+      permission_options[:page_num] += 1
 
-                    # Qualifications for a good provider
-                    is_ingest_acl && groups_with_update > 0
-                  end
+      # Request the next page
+      permissions_response = cmr_client.get_permissions(permission_options, token)
+    end
 
-                  # Get the provider_guids
-                  provider_guids = good_acls.map { |acl| acl.fetch('acl', {}).fetch('provider_object_identity', {}).fetch('provider_guid', nil) }
+    self.providers = providers
 
-                  # Get all providers
-                  all_providers = cmr_client.get_all_providers.body
-
-                  # Find provider_ids for provider_guids and sort
-                  all_providers.select { |provider| provider_guids.include? provider['provider']['id'] }.map { |provider| provider['provider']['provider_id'] }.sort
-                end
-
-    # Call the above setter to handle additional logic involved with providers
-    self.providers = providers || []
+    Rails.logger.info "Available providers for #{urs_uid}: #{providers}"
 
     save
   end
