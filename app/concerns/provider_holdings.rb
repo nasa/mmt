@@ -42,11 +42,11 @@ module ProviderHoldings
 
     return if concept_ids.empty?
 
-    # Slice the concept ids into groups of either 2000 (CMR max page size) or the
-    # the total number of concept ids, whichever is smaller
-    concept_ids.each_slice([concept_ids.count, 2000].min) do |ids|
+    # Slice the concept ids into groups of either 50 (most effecient size in
+    # loose testing) or the total number of concept ids, whichever is smaller
+    concept_ids.each_slice([concept_ids.count, 50].min) do |ids|
       search_options = {
-        concept_id: provider_holdings_response.body.map { |c| c['concept-id'] },
+        concept_id: ids,
         include_granule_counts: true,
         page_size: ids.count
       }
