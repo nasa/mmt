@@ -109,7 +109,7 @@ module Helpers
         # This is a setter on the User model, because we're only supplying it
         # provider it will assign provider_id for us.
         if Array.wrap(providers).any?
-          user.providers = %w(MMT_2)
+          user.providers = Array.wrap(providers)
           user.save
         end
 

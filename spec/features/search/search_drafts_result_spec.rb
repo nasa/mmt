@@ -6,7 +6,7 @@ describe 'Search drafts results', js: true do
   let(:short_name)  { 'id_123' }
   let(:entry_title) { 'Aircraft Flux-Filtered: Univ. Col. (FIFE)' }
 
-  before :each do
+  before do
     login
     create(:draft, entry_title: entry_title, short_name: short_name)
   end
