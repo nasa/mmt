@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include SetProviderHelper
   skip_before_filter :is_logged_in, except: [:set_provider, :refresh_providers]
   skip_before_filter :setup_query
 
@@ -25,7 +26,7 @@ class UsersController < ApplicationController
 
     set_provider_context_token
 
-    session[:return_to] = request.referer
+    session[:return_to] = get_redirect_route(request.referer)
 
     respond_to do |format|
       format.html { redirect_to session[:return_to] }
