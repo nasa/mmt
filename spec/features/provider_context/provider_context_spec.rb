@@ -86,6 +86,57 @@ describe 'Provider context', js: true do
           expect(page).to have_content('MMT_2')
         end
       end
+
+      context 'if user is on the search orders result page' do
+        before do
+          visit orders_path
+
+          fill_in 'Order GUID', with: 'ABC'
+
+          VCR.use_cassette('provider_context/order_search', record: :none) do
+            within '.order-by-guid-form' do
+              click_on 'Submit'
+            end
+          end
+
+          within '#user-info' do
+            click_on 'Change Provider'
+          end
+
+          select 'MMT_1', from: 'select_provider'
+          wait_for_ajax
+        end
+
+        it 'redirects to the orders index page when switching provider context' do
+          expect(page).to have_current_path(orders_path, only_path: true)
+        end
+      end
+
+
+      context 'if user is on a groups detail page' do
+        before do
+          VCR.use_cassette('provider_context/groups_list', record: :none) do
+            visit groups_path
+          end
+
+          VCR.use_cassette('provider_context/groups_detail', record: :none) do
+            within '.groups-table' do
+              click_on 'Group 1'
+            end
+          end
+
+          within '#user-info' do
+            click_on 'Change Provider'
+          end
+
+          select 'MMT_1', from: 'select_provider'
+          wait_for_ajax
+        end
+
+        it 'redirects to the groups listing page when switching provider context' do
+          expect(page).to have_current_path(groups_path, only_path: true)
+        end
+      end
     end
   end
 

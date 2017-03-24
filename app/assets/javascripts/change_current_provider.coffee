@@ -77,13 +77,15 @@ $(document).ready ->
       dataType: 'json'
     ).done( (response) ->
       $('#select_provider').empty()
-      $('#select_provider').append( $('<option>').text('Select Provider') );
-      $.each(response.items, (i,v) ->
-        $('#select_provider').append( $('<option>').val(v).text(v) );
-        $('span.refresh-providers.spinner').remove()
-        $('a.refresh-providers.spinner').show()
+      $('#select_provider').append( $('<option>').text('Select Provider') )
 
-    )).fail( (response) ->
+      $.each(response.items, (i,v) ->
+        $('#select_provider').append( $('<option>').val(v).text(v) )
+      )
+
+      $('span.refresh-providers.spinner').remove()
+      $('a.refresh-providers.spinner').show()
+    ).fail( (response) ->
       console.error(response)
     )
 

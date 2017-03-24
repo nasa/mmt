@@ -36,6 +36,8 @@ class UsersController < ApplicationController
     current_user.update(provider_id: nil)
     current_user.set_available_providers(token)
 
-    redirect_to manage_metadata_path
+    respond_to do |format|
+      format.json { render json: { items: current_user.available_providers } }
+    end
   end
 end
