@@ -143,17 +143,17 @@ class PermissionsController < ManageCmrController
   end
 
   def update
-    concept_id = params[:id]
+    @permission_concept_id = params[:id]
     permission_provider = params[:permission_provider]
 
     request_object = construct_request_object(permission_provider)
-    update_response = cmr_client.update_permission(request_object, concept_id, token)
+    update_response = cmr_client.update_permission(request_object, @permission_concept_id, token)
 
     if update_response.success?
       flash[:success] = 'Collection Permission was successfully updated.'
       Rails.logger.info("#{current_user.urs_uid} UPDATED catalog item ACL (Collection Permission) for #{permission_provider}. #{response.body}")
 
-      redirect_to permission_path(concept_id)
+      redirect_to permission_path(@permission_concept_id)
     else
       Rails.logger.error("Collection Permission Update Error: #{update_response.inspect}")
       permission_update_error = Array.wrap(update_response.body['errors'])[0]
@@ -161,7 +161,7 @@ class PermissionsController < ManageCmrController
       if permission_update_error == 'Permission to update ACL is denied'
         flash[:error] = 'You are not authorized to update permissions. Please contact your system administrator.'
         # opt1 send back to show page
-        redirect_to permission_path(concept_id)
+        redirect_to permission_path(@permission_concept_id)
       else
         flash[:error] = permission_update_error
         # opt2 parse/grab data, render edit with flash message
@@ -269,6 +269,8 @@ class PermissionsController < ManageCmrController
 
   def get_groups
     # we need to specify page_size, otherwise the default is 10
+    # the maximum number of groups we expect from one provider and all system groups
+    # is ~40, so 100 should be more than sufficient
     filters = {
       'provider' => current_user.provider_id,
       'page_size' => 100
@@ -306,9 +308,10 @@ class PermissionsController < ManageCmrController
   end
 
   def construct_request_object(provider)
-    collection_applicable = false
     if params[:collection_options] == 'all-collections' || params[:collection_options] == 'selected-ids-collections'
       collection_applicable = true
+    else # 'no-access'
+      collection_applicable = false
     end
     granule_applicable = params[:granule_options] == 'all-granules' ? true : false
 
@@ -339,21 +342,23 @@ class PermissionsController < ManageCmrController
       collection_identifier['entry_titles'] = entry_titles
     end
 
-    @collection_access_value = params[:collection_access_value] || {}
-    @collection_access_value.each do |key, val|
-      if val.blank?
-        @collection_access_value.delete(key)
-      elsif val == 'true'
-        @collection_access_value[key] = true
-      else
-        @collection_access_value[key] = val.to_f
+    if collection_applicable
+      @collection_access_value = params[:collection_access_value] || {}
+      @collection_access_value.each do |key, val|
+        if val.blank?
+          @collection_access_value.delete(key)
+        elsif val == 'true'
+          @collection_access_value[key] = true
+        else
+          @collection_access_value[key] = val.to_f
+        end
       end
+      collection_identifier['access_value'] = @collection_access_value unless @collection_access_value.blank?
+      req_obj['catalog_item_identity']['collection_identifier'] = collection_identifier unless collection_identifier.blank?
     end
-    collection_identifier['access_value'] = @collection_access_value unless @collection_access_value.blank?
-    req_obj['catalog_item_identity']['collection_identifier'] = collection_identifier unless collection_identifier.blank?
 
-    @granule_access_value = params[:granule_access_value] || {}
     if granule_applicable
+      @granule_access_value = params[:granule_access_value] || {}
       granule_identifier = req_obj.fetch('catalog_item_identity', {}).fetch('granule_identifier', {})
       @granule_access_value.each do |key, val|
         if val.blank?
@@ -453,7 +458,6 @@ class PermissionsController < ManageCmrController
         elsif group_perm['permissions'].include?('read')
           hidden_search_groups << (group_perm['group_id'])
         end
-
       end
     end
 
@@ -498,11 +502,16 @@ class PermissionsController < ManageCmrController
       @granule_options = catalog_item_identity['granule_applicable']
     else
       # set options to populate edit form dropdowns
-      @collection_options = if catalog_item_identity.fetch('collection_identifier', {}).fetch('entry_titles', nil)
-                              'selected-ids-collections'
-                            else
-                              'all-collections'
+      @collection_options = if catalog_item_identity['collection_applicable'] == true
+                              if catalog_item_identity.fetch('collection_identifier', {}).fetch('entry_titles', nil)
+                                'selected-ids-collections'
+                              else
+                                'all-collections'
+                              end
+                            else # catalog_item_identity['collection_applicable'] == false
+                              'no-access'
                             end
+
       @granule_options = catalog_item_identity['granule_applicable'] ? 'all-granules' : 'no-access'
     end
 
