@@ -73,11 +73,23 @@ $(document).ready ->
 
     # Show respective field based on selection
     $('#collection_options').on 'change', ->
-      if $(this).val() == 'selected-ids-collections'
+      collectionOptions = $(this).val()
+      # if $(this).val() == 'selected-ids-collections'
+      #   $('#chooser-widget').show()
+      #   start_widget()
+      # else
+      #   $('#chooser-widget').hide()
+
+      if collectionOptions == 'selected-ids-collections'
         $('#chooser-widget').show()
         start_widget()
+        $('#collection_constraint_values').removeClass 'is-hidden'
+      else if collectionOptions == 'all-collections'
+        $('#chooser-widget').hide()
+        $('#collection_constraint_values').removeClass 'is-hidden'
       else
         $('#chooser-widget').hide()
+        $('#collection_constraint_values').addClass 'is-hidden'
 
     $('#granule_options').on 'change', ->
       if $(this).val() == 'all-granules'
