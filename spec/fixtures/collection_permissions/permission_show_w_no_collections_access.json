@@ -1,0 +1,18 @@
+{
+  "group_permissions" : [ {
+    "user_type" : "guest",
+    "permissions" : [ "read" ]
+  }, {
+    "user_type" : "registered",
+    "permissions" : [ "read", "order" ]
+  }, {
+    "group_id" : "AG1200000071-MMT_2",
+    "permissions" : [ "read", "order" ]
+  } ],
+  "catalog_item_identity" : {
+    "name" : "Testing Permission No Collections",
+    "provider_id" : "MMT_2",
+    "granule_applicable" : true,
+    "collection_applicable" : false
+  }
+}

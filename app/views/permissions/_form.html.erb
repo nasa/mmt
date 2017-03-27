@@ -14,7 +14,6 @@
   <div id="chooser-widget" class="is_hidden"></div>
 </fieldset>
 
-<!-- <fieldset id="collection_constraint_values"> -->
 <fieldset id="collection_constraint_values" class="<%= hide_access_constraint_values?(@collection_options) %>">
   <h3 class="space-bot">Collections Access Constraint Filter</h3>
   <div class="row min-max-row">
@@ -40,7 +39,6 @@
   <%= select_tag 'granule_options', options_for_select(PermissionsHelper::GranulesOptions, @granule_options), class: 'full-width', prompt: '-- Select an Option --' %>
 </fieldset>
 
-<!-- <fieldset id="granule_constraint_values" class="<%#= hide_granule_constraint_values?(@granule_access_value, @granule_options) %>"> -->
 <fieldset id="granule_constraint_values" class="<%= hide_access_constraint_values?(@granule_options) %>">
   <h3 class="space-bot">Granules Access Constraint Filter</h3>
   <div class="row min-max-row">
