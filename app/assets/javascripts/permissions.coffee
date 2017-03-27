@@ -74,11 +74,6 @@ $(document).ready ->
     # Show respective field based on selection
     $('#collection_options').on 'change', ->
       collectionOptions = $(this).val()
-      # if $(this).val() == 'selected-ids-collections'
-      #   $('#chooser-widget').show()
-      #   start_widget()
-      # else
-      #   $('#chooser-widget').hide()
 
       if collectionOptions == 'selected-ids-collections'
         $('#chooser-widget').show()

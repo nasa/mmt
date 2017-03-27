@@ -180,12 +180,7 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
           update_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(update_success)))
           allow_any_instance_of(Cmr::CmrClient).to receive(:update_permission).and_return(update_response)
 
-          select('All Collections', from: 'Collections')
-          within '#collection_constraint_values' do
-            fill_in('Minimum Access Constraint Value', with: '')
-            fill_in('Maximum Access Constraint Value', with: '')
-            uncheck('Include Undefined')
-          end
+          select('No Access to Collections', from: 'Collections')
 
           select('All Granules', from: 'Granules')
           within '#granule_constraint_values' do
@@ -210,7 +205,7 @@ describe 'Creating Collection Permissions', reset_provider: true, js: true do
           expect(page).to have_content(permission_name)
           expect(page).to have_content('Permission Type | Search & Order | MMT_2')
 
-          expect(page).to have_content('Collections | All Collections')
+          expect(page).to have_content('Collections | No Access to Collections')
           expect(page).to have_no_content('Collections Access Constraint Filter')
 
           expect(page).to have_content('Granules | All Granules in Selected Collection Records')

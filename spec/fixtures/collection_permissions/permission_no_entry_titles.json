@@ -13,7 +13,7 @@
     "name" : "Test Permission 1",
     "provider_id" : "MMT_2",
     "granule_applicable" : true,
-    "collection_applicable" : true,
+    "collection_applicable" : false,
     "granule_identifier": {
       "access_value": {
         "min_value": 1.1,
