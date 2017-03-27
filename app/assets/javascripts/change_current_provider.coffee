@@ -79,8 +79,8 @@ $(document).ready ->
       $('#select_provider').empty()
       $('#select_provider').append( $('<option>').text('Select Provider') )
 
-      $.each(response.items, (i,v) ->
-        $('#select_provider').append( $('<option>').val(v).text(v) )
+      $.each(response.items, (index,value) ->
+        $('#select_provider').append( $('<option>').val(value).text(value) )
       )
 
       $('span.refresh-providers.spinner').remove()
