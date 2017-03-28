@@ -1,4 +1,4 @@
-# MMT-272
+# MMT-272, MMT-717
 
 require 'rails_helper'
 
@@ -112,18 +112,11 @@ describe 'Provider context', js: true do
         end
       end
 
-
-      context 'if user is on a groups detail page' do
+      context 'if user is on the permissions creation page' do
         before do
-          VCR.use_cassette('provider_context/groups_list', record: :none) do
-            visit groups_path
-          end
+          visit permissions_path
 
-          VCR.use_cassette('provider_context/groups_detail', record: :none) do
-            within '.groups-table' do
-              click_on 'Group 1'
-            end
-          end
+          click_on 'Create a Permission'
 
           within '#user-info' do
             click_on 'Change Provider'
@@ -133,8 +126,8 @@ describe 'Provider context', js: true do
           wait_for_ajax
         end
 
-        it 'redirects to the groups listing page when switching provider context' do
-          expect(page).to have_current_path(groups_path, only_path: true)
+        it 'redirects to the permissions index page when switching provider context' do
+          expect(page).to have_current_path(permissions_path, only_path: true)
         end
       end
     end
