@@ -218,13 +218,10 @@ def all_required_fields
       'LongName' => 'test 1 P LongName'
     }],
     'Abstract' => 'This is a long description of the collection',
-    'DataDates' => [{
-      'Type' => 'CREATE',
-      'Date' => '2015-07-01T00:00:00Z'
-    }],
     'ShortName' => '12345',
     'Version' => '1',
     'EntryTitle' => 'Required Fields Only Draft',
+    'CollectionProgress' => 'IN WORK',
     'DataCenters' => [{
       'Roles' => ['DISTRIBUTOR'],
       'ShortName' => 'AARHUS-HYDRO',

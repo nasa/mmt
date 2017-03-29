@@ -68,7 +68,7 @@ describe 'Draft form help text', js: true do
       end
 
       it 'displays the validation clue in the modal' do
-        expect(page).to have_content('Maximum Length: 80')
+        expect(page).to have_content('Maximum Length: 85')
       end
     end
 

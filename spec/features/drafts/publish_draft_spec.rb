@@ -75,6 +75,7 @@ describe 'Publishing draft records', js: true do
     end
   end
 
+  # TODO These two tests are failing because CMR is not failing the ingest
   context 'when publishing a draft that passes schema validation but CMR rejects with errors' do
     before do
       login

@@ -17,6 +17,7 @@ describe 'Collection Information form', js: true do
 
       fill_in 'Short Name', with: '12345'
       fill_in 'Version', with: 'v2'
+      fill_in 'Version Description', with: 'v2 description'
       fill_in 'Entry Title', with: 'Draft Title'
       fill_in 'Abstract', with: 'This is a long description of the collection'
       fill_in 'Purpose', with: 'This is the purpose field'
@@ -35,6 +36,7 @@ describe 'Collection Information form', js: true do
     it 'populates the form with the values' do
       expect(page).to have_field('Short Name', with: '12345')
       expect(page).to have_field('Version', with: 'v2')
+      expect(page).to have_field('Version Description', with: 'v2 description')
       expect(page).to have_field('Entry Title', with: 'Draft Title')
       expect(page).to have_field('Abstract', with: 'This is a long description of the collection')
       expect(page).to have_field('Purpose', with: 'This is the purpose field')

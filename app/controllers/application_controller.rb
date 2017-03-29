@@ -227,6 +227,7 @@ class ApplicationController < ActionController::Base
   COLLECTION_INFORMATION_FIELDS = %w(
     ShortName
     Version
+    VersionDescription
     EntryTitle
     Abstract
     Purpose
