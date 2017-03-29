@@ -16,31 +16,35 @@ http_interactions:
       - text/xml
   response:
     status:
-      code: 503
+      code: 500
       message: 
     headers:
       x-secret-message:
       - HELLO
       strict-transport-security:
       - max-age=31536000;
-      cache-control:
-      - no-cache
+      accept:
+      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
       content-type:
-      - text/html
+      - text/xml; charset=UTF-8
+      date:
+      - Wed, 29 Mar 2017 16:19:36 GMT
+      server:
+      - nginx/1.10.2
+      soapaction:
+      - '""'
       content-length:
-      - '107'
+      - '941'
       connection:
       - close
-      date:
-      - Tue, 28 Mar 2017 12:58:07 GMT
-      server:
-      - lighttpd
     body:
       encoding: UTF-8
-      string: |
-        <html><body><h1>503 Service Unavailable</h1>
-        No server is available to handle this request.
-        </body></html>
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Client</faultcode><faultstring>Could
+        not find order with guid [ABC].</faultstring><detail><ns4:ItemNotFoundFault
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns4:ErrorCode>OrderNotFound</ns4:ErrorCode><ns4:OpsMessage
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><ns4:SystemMessage>Could
+        not find order with guid [ABC].</ns4:SystemMessage><ns4:Timestamp>2017-03-29T16:19:08.714Z</ns4:Timestamp><ns4:ErrorInstanceId>221378BE-D155-F822-7195-7F12F6783A37</ns4:ErrorInstanceId><ns4:Arguments><ns4:Argument><ns4:Name>OrderGuid</ns4:Name><ns4:Value>ABC</ns4:Value></ns4:Argument></ns4:Arguments></ns4:ItemNotFoundFault></detail></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
     http_version: 
-  recorded_at: Tue, 28 Mar 2017 12:58:07 GMT
+  recorded_at: Wed, 29 Mar 2017 16:19:08 GMT
 recorded_with: VCR 3.0.1
