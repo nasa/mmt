@@ -8,8 +8,6 @@ module PermissionsHelper
   GranulesOptions = [
     ['All Granules', 'all-granules'],
     ['No Access to Granules', 'no-access']
-    # ['All Granules in Selected Collections','all-granules-in-collections'],
-    # ['Granules with an Access Constraint Value','access-constraint-granule']
   ].freeze
 
   ErrorCodeMessages = {
