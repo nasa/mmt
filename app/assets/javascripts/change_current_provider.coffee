@@ -70,7 +70,7 @@ $(document).ready ->
         $("##{actionLink}")[0].click()
 
 
-  $('#refresh_available_providers_link').on 'click', (element) ->
+  $('#refresh-available-providers-link').on 'click', (element) ->
     $.ajax(
       url: '/refresh_providers'
       method: 'get'

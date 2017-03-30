@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe 'Provider context', js: true do
+  let(:order_guid) { 'FF330AD3-1A89-871C-AC94-B689A5C95723' }
+
   context 'when the user has multiple possible provider contexts' do
     before do
       login(providers: nil)
@@ -87,16 +89,14 @@ describe 'Provider context', js: true do
         end
       end
 
-      context 'if user is on the search orders result page' do
+      # This is the exception case (see redirector.rb)
+      context 'if user is on the provider order details page' do
         before do
-          visit orders_path
+          # The order guid belongs to NSIDC_ECS
+          User.first.update(provider_id: 'NSIDC_ECS')
 
-          fill_in 'Order GUID', with: 'ABC'
-
-          VCR.use_cassette('provider_context/order_search', record: :none) do
-            within '.order-by-guid-form' do
-              click_on 'Submit'
-            end
+          VCR.use_cassette('echo_soap/order_processing_service/provider_orders/terminal_order', record: :none) do
+            visit provider_order_path(order_guid)
           end
 
           within '#user-info' do
