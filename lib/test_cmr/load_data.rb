@@ -443,7 +443,7 @@ module Cmr
                 req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
               end
               content_type = 'application/echo10+xml'
-              content_type = 'application/dif10+xml' if obj[:type] == 'dif'
+              content_type = 'application/dif10+xml' if obj[:type] == 'dif10'
               req.headers['Content-Type'] = content_type
               req.headers['Echo-token'] = 'mock-echo-system-token'
               req.body = metadata
