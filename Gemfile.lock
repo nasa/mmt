@@ -1,7 +1,7 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 31f20f7bbebf9933da7c5315e3744ed455fbb799
-  branch: MMT-889
+  revision: 0bb9b413543017fa05fa07e52d2bfdfc0cc8cf97
+  branch: master
   specs:
     cmr_metadata_preview (0.0.1)
       coffee-rails (~> 4.1.0)
