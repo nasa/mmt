@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def groups_enabled?
+    redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
+  end
+
   def setup_query
     @query ||= {}
     @provider_ids ||= cmr_client.get_providers.body.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
