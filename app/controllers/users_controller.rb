@@ -1,5 +1,7 @@
+# :nodoc:
 class UsersController < ApplicationController
-  include Redirector
+  include ProviderContextRedirector
+
   skip_before_filter :is_logged_in, except: [:set_provider, :refresh_providers]
   skip_before_filter :setup_query
 

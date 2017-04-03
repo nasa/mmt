@@ -1,5 +1,4 @@
 $(document).ready ->
-
   $('.display-modal').leanModal
     top: 200
     overlay: 0.6
@@ -53,11 +52,12 @@ $(document).ready ->
       url: "/set_provider?provider_id=#{provider}"
       method: 'post'
       dataType: 'json'
+      
       success: (data, status, xhr) ->
         # Click the link that the user needs
         $(link)[0].click()
 
-  # change current provider from banner link
+  # Change current provider
   $('#change-current-provider-banner-link').on 'click', (element) ->
     provider = $(element.target).data('provider')
     actionLink = $(element.target).data('actionLink')
@@ -66,26 +66,22 @@ $(document).ready ->
       url: "/set_provider?provider_id=#{provider}"
       method: 'post'
       dataType: 'json'
+
       success: (data, status, xhr) ->
         $("##{actionLink}")[0].click()
 
-
   $('#refresh-available-providers-link').on 'click', (element) ->
-    $.ajax(
+    $.ajax
       url: '/refresh_providers'
       method: 'get'
       dataType: 'json'
-    ).done( (response) ->
-      $('#select_provider').empty()
-      $('#select_provider').append( $('<option>').text('Select Provider') )
 
-      $.each(response.items, (index,value) ->
-        $('#select_provider').append( $('<option>').val(value).text(value) )
-      )
+      success: (response) ->
+        $('#select_provider').empty()
+        $('#select_provider').append($('<option>').text('Select Provider'))
 
-      $('span.refresh-providers.spinner').remove()
-      $('a.refresh-providers.spinner').show()
-    ).fail( (response) ->
-      console.error(response)
-    )
+        $.each response.items, (index, value) ->
+          $('#select_provider').append($('<option>').val(value).text(value))
 
+        $('span.refresh-providers.spinner').remove()
+        $('a.refresh-providers.spinner').show()

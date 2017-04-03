@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'Provider context', js: true do
+describe 'Provider context', reset_provider: true, js: true do
   let(:order_guid) { 'FF330AD3-1A89-871C-AC94-B689A5C95723' }
 
-  context 'when the user has multiple possible provider contexts' do
+  context 'when the user has multiple providers' do
     before do
       login(providers: nil)
     end
