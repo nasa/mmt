@@ -7,6 +7,13 @@ class ManageCmrController < PagesController
   before_filter :check_if_system_acl_administrator, only: :show
   before_filter :check_if_current_provider_acl_administrator, only: :show
 
+  # These are json respones for ajax calls that user wouldnt get to without being logged in.
+  skip_before_filter :is_logged_in, only: [
+    :provider_collections,
+    :service_implementations_with_datasets,
+    :datasets_for_service_implementation
+  ]
+
   layout 'manage_cmr'
 
   def show; end
