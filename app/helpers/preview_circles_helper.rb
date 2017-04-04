@@ -23,6 +23,10 @@ module PreviewCirclesHelper
         required: true,
         anchor: 'collection-information'
       },
+      'VersionDescription' => {
+        required: false,
+        anchor: 'collection-information'
+      },
       'EntryTitle' => {
         required: true,
         anchor: 'collection-information'
@@ -54,7 +58,7 @@ module PreviewCirclesHelper
     },
     'data_identification' => {
       'DataDates' => {
-        required: true,
+        required: false,
         anchor: 'data-dates'
       },
       'CollectionDataType' => {
@@ -66,7 +70,7 @@ module PreviewCirclesHelper
         anchor: 'processing-level'
       },
       'CollectionProgress' => {
-        required: false,
+        required: true,
         anchor: 'collection-progress'
       },
       'Quality' => {

@@ -392,15 +392,18 @@ describe 'Data validation for a form', js: true do
   context 'when there is an array of simple objects' do
     before do
       within 'section.metadata' do
-        click_on 'Distribution Information'
+        click_on 'Acquisition Information'
       end
 
       open_accordions
+
+      fill_in 'draft_platforms_0_short_name', with: 'short_name'
+      fill_in 'draft_platforms_0_instruments_0_short_name', with: 'short_name'
     end
 
     it 'validation of a single object in an array of simple objects does work' do
-      fill_in 'draft_related_urls_0_urls_0', with: '::abc'
-      expect(page).to have_content('URLs is an invalid URI')
+      fill_in 'draft_platforms_0_instruments_0_operational_modes_0', with: 'this is a really long string that is too long'
+      expect(page).to have_content('OperationalModes is too long')
 
       within '.nav-top' do
         click_on 'Done'
@@ -408,9 +411,9 @@ describe 'Data validation for a form', js: true do
       # Reject
       click_on 'No'
 
-      expect(page).to have_content('URLs is an invalid URI')
-      fill_in 'draft_related_urls_0_urls_0', with: 'http://nasa.gov'
-      expect(page).to have_no_content('URLs is an invalid URI')
+      expect(page).to have_content('OperationalModes is too long')
+      fill_in 'draft_platforms_0_instruments_0_operational_modes_0', with: 'Short string'
+      expect(page).to have_no_content('OperationalModes is too long')
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do
@@ -421,10 +424,10 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'validation of subsequent objects in an array of simple objects does work' do
-      fill_in 'draft_related_urls_0_urls_0', with: 'http://nasa.gov'
-      click_on 'Add another URL'
-      fill_in 'draft_related_urls_0_urls_1', with: '::abc'
-      expect(page).to have_content('URLs is an invalid URI')
+      fill_in 'draft_platforms_0_instruments_0_operational_modes_0', with: 'Short string'
+      click_on 'Add another Operational Mode'
+      fill_in 'draft_platforms_0_instruments_0_operational_modes_1', with: 'this is a really long string that is too long'
+      expect(page).to have_content('OperationalModes is too long')
 
       within '.nav-top' do
         click_on 'Done'
@@ -432,8 +435,8 @@ describe 'Data validation for a form', js: true do
       # Reject
       click_on 'No'
 
-      expect(page).to have_content('URLs is an invalid URI')
-      fill_in 'draft_related_urls_0_urls_1', with: 'http://nasa.gov'
+      expect(page).to have_content('OperationalModes is too long')
+      fill_in 'draft_platforms_0_instruments_0_operational_modes_1', with: 'Short string'
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do

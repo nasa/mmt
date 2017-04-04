@@ -30,6 +30,19 @@
       </div>
     </div>
 
+    <!-- Version Description -->
+    <div class="row">
+      <div class="col-12">
+        <%= mmt_text_field(
+          name: 'version_description',
+          title: 'Version Description',
+          prefix: 'draft_',
+          value: draft.draft['VersionDescription'],
+          help: 'properties/VersionDescription',
+          validate: true
+         ) %>
+      </div>
+    </div>
 
     <!-- Entry Title [r] -->
     <div class="row">

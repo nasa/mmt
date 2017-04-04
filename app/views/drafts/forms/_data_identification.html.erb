@@ -11,15 +11,14 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <!-- DataDates [r] -->
+    <!-- DataDates -->
     <div class="row">
       <div class="col-12">
         <%= render partial: 'drafts/forms/type', locals: {
             type: 'date',
             values: draft.draft['DataDates'] || [{}],
             name_prefix: 'draft_|data_dates|_',
-            multiple: true,
-            options: { always_required: true } } %>
+            multiple: true } %>
       </div>
     </div>
   </div>
@@ -121,7 +120,8 @@
           prefix: 'draft_',
           value: draft.draft['CollectionProgress'],
           options: DraftsHelper::CollectionProgressOptions,
-          help: 'properties/CollectionProgress'
+          help: 'properties/CollectionProgress',
+          always_required: true
         ) %>
       </div>
     </div>
