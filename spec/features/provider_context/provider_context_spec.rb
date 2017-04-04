@@ -1,9 +1,11 @@
-# MMT-272
+# MMT-272, MMT-717
 
 require 'rails_helper'
 
-describe 'Provider context', js: true do
-  context 'when the user has multiple possible provider contexts' do
+describe 'Provider context', reset_provider: true, js: true do
+  let(:order_guid) { 'FF330AD3-1A89-871C-AC94-B689A5C95723' }
+
+  context 'when the user has multiple providers' do
     before do
       login(providers: nil)
     end
@@ -84,6 +86,48 @@ describe 'Provider context', js: true do
       it 'displays the new provider context' do
         within '.eui-badge--sm.daac' do
           expect(page).to have_content('MMT_2')
+        end
+      end
+
+      # This is the exception case (see redirector.rb)
+      context 'if user is on the provider order details page' do
+        before do
+          # The order guid belongs to NSIDC_ECS
+          User.first.update(provider_id: 'NSIDC_ECS')
+
+          VCR.use_cassette('echo_soap/order_processing_service/provider_orders/terminal_order', record: :none) do
+            visit provider_order_path(order_guid)
+          end
+
+          within '#user-info' do
+            click_on 'Change Provider'
+          end
+
+          select 'MMT_1', from: 'select_provider'
+          wait_for_ajax
+        end
+
+        it 'redirects to the orders index page when switching provider context' do
+          expect(page).to have_current_path(orders_path, only_path: true)
+        end
+      end
+
+      context 'if user is on the permissions creation page' do
+        before do
+          visit permissions_path
+
+          click_on 'Create a Permission'
+
+          within '#user-info' do
+            click_on 'Change Provider'
+          end
+
+          select 'MMT_1', from: 'select_provider'
+          wait_for_ajax
+        end
+
+        it 'redirects to the permissions index page when switching provider context' do
+          expect(page).to have_current_path(permissions_path, only_path: true)
         end
       end
     end

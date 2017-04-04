@@ -1,4 +1,7 @@
+# :nodoc:
 class UsersController < ApplicationController
+  include ProviderContextRedirector
+
   skip_before_filter :is_logged_in, except: [:set_provider, :refresh_providers]
   skip_before_filter :setup_query
 
@@ -26,7 +29,7 @@ class UsersController < ApplicationController
     set_provider_context_token
 
     respond_to do |format|
-      format.html { redirect_to manage_metadata_path }
+      format.html { redirect_to get_redirect_route(request.referer) }
       format.json { render json: nil, status: :ok }
     end
   end
@@ -35,6 +38,8 @@ class UsersController < ApplicationController
     current_user.update(provider_id: nil)
     current_user.set_available_providers(token)
 
-    redirect_to manage_metadata_path
+    respond_to do |format|
+      format.json { render json: { items: current_user.available_providers } }
+    end
   end
 end
