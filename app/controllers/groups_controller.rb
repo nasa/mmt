@@ -2,7 +2,6 @@ class GroupsController < ManageCmrController
   include GroupsHelper
   include PermissionManagement
 
-  before_filter :groups_enabled?
   before_filter :set_system_and_provider_groups, except: [:index, :show, :destroy]
 
   add_breadcrumb 'Groups', :groups_path
@@ -361,10 +360,6 @@ class GroupsController < ManageCmrController
     end
 
     management_groups
-  end
-
-  def groups_enabled?
-    redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
   end
 
   # Get all of the permissions for the current group
