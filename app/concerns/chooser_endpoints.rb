@@ -5,17 +5,19 @@ module ChooserEndpoints
 
   def render_collections_for_chooser(collections)
     # The chooser expects an array of arrays, so that's what we'll give it
+    items = collections.fetch('items', [])
+
     render json: {
-        'hits': collections.fetch('hits', 0),
-        'items': collections.fetch('items', []).map do |collection|
+      'hits': collections.fetch('hits', 0),
+      'items': items.map do |collection|
+        [
+          collection.fetch('meta', {}).fetch('concept-id'),
           [
-              collection.fetch('meta', {}).fetch('concept-id'),
-              [
-                  collection.fetch('umm', {}).fetch('entry-id'),
-                  collection.fetch('umm', {}).fetch('entry-title')
-              ].join(' | ')
-          ]
-        end
+            collection.fetch('umm', {}).fetch('short-name'),
+            collection.fetch('umm', {}).fetch('entry-title')
+          ].join(' | ')
+        ]
+      end
     }
   end
 
