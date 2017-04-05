@@ -290,7 +290,7 @@ class PermissionsController < ManageCmrController
       # Add the retrieved groups
       all_groups.concat(groups_response.body['items'])
 
-      # Tests within this controller family mock the response of `get_collections`
+      # Tests within this controller family mock the response of `get_cmr_groups`
       # which means that the criteria set to break on will never be met and will
       # result in an infinite loop
       break if Rails.env.test?
