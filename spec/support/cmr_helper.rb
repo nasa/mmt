@@ -16,9 +16,13 @@ module Helpers
         # Refresh the ElasticSearch index
         elastic_conn = Faraday.new(url: 'http://localhost:9210')
         elastic_response = elastic_conn.get('_refresh')
-        
+
         Rails.logger.error "Error refreshing ElasticSearch [#{elastic_response.status}] #{elastic_response.body}" unless elastic_response.success?
       end
+    end
+
+    def cmr_success_response(response_body)
+      Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(response_body)))
     end
   end
 end
