@@ -269,29 +269,43 @@ class PermissionsController < ManageCmrController
 
   def get_groups
     # we need to specify page_size, otherwise the default is 10
-    # the maximum number of groups we expect from one provider and all system groups
-    # is ~40, so 100 should be more than sufficient
+    # the maximum number of groups we expect from one provider and all system groups is ~40
+    all_groups = []
+    groups_for_permissions_select = []
+
     filters = {
       'provider' => current_user.provider_id,
-      'page_size' => 100
+      'page_num' => 1,
+      'page_size' => 50
     }
 
     # get groups for provider AND System Groups if user has Read permissions on System Groups
     filters['provider'] = [current_user.provider_id, 'CMR'] if policy(:system_group).read?
 
+    # Retrieve the first page of groups
     groups_response = cmr_client.get_cmr_groups(filters, token)
-    groups_for_permissions_select = []
 
-    if groups_response.success?
-      tmp_groups = groups_response.body['items']
-      tmp_groups.each do |group|
-        group['name'] += ' (SYS)' if check_if_system_group?(group, group['concept_id'])
-        opt = [group['name'], group['concept_id']]
-        groups_for_permissions_select << opt
-      end
-    else
-      Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
-      flash[:error] = Array.wrap(groups_response.body['errors'])[0]
+    # Request groups
+    until groups_response.error? || groups_response.body['items'].blank?
+      # Add the retrieved groups
+      all_groups.concat(groups_response.body['items'])
+
+      # Tests within this controller family mock the response of `get_collections`
+      # which means that the criteria set to break on will never be met and will
+      # result in an infinite loop
+      break if Rails.env.test?
+
+      # Increment page number
+      filters['page_num'] += 1
+
+      # Request the next page
+      groups_response = cmr_client.get_cmr_groups(filters, token)
+    end
+
+    all_groups.each do |group|
+      group['name'] += ' (SYS)' if check_if_system_group?(group, group['concept_id'])
+      group_option = [group['name'], group['concept_id']]
+      groups_for_permissions_select << group_option
     end
 
     groups_for_permissions_select
@@ -308,11 +322,12 @@ class PermissionsController < ManageCmrController
   end
 
   def construct_request_object(provider)
-    if params[:collection_options] == 'all-collections' || params[:collection_options] == 'selected-ids-collections'
-      collection_applicable = true
-    else # 'no-access'
-      collection_applicable = false
-    end
+    collection_applicable = if params[:collection_options] == 'all-collections' || params[:collection_options] == 'selected-ids-collections'
+                              true
+                            else # 'no-access'
+                              false
+                            end
+
     granule_applicable = params[:granule_options] == 'all-granules' ? true : false
 
     req_obj = {
@@ -508,7 +523,7 @@ class PermissionsController < ManageCmrController
                               else
                                 'all-collections'
                               end
-                            else # catalog_item_identity['collection_applicable'] == false
+                            else
                               'no-access'
                             end
 
