@@ -40,4 +40,41 @@ namespace :cmr do
     cmr = Cmr::Local.new
     cmr.reset_provider(args[:provider_id])
   end
+
+  desc 'Export assets for the metadata preview gem'
+  task :export_assets do
+    js_asset_output_file = Rails.root.to_s + '/application.js'
+
+    puts '== JavaScript'
+    begin
+      puts 'Compiling CoffeeScript...'
+
+      required_js_assets = %w(cards preview)
+
+      files_to_compile = []
+      Dir.chdir File.join(Rails.root.to_s, 'app', 'assets', 'javascripts') do
+        Find.find(Dir.pwd) do |path|
+          if FileTest.directory? path
+            if File.basename(path)[0] == ?.
+              Find.prune
+            else
+              next
+            end
+          elsif path =~ /\.coffee$/ and required_js_assets.include?(File.basename(path, '.*'))
+            files_to_compile << path
+          end
+        end
+
+        contents = `cat #{files_to_compile.join(' ')} | coffee -cw --stdio`
+
+        puts 'Compressing...'
+
+        File.write(js_asset_output_file, Uglifier.compile(contents))
+      end
+    rescue => e
+      puts "Failed to commpile JavaScript: #{e}"
+    end
+
+    puts 'Done!'
+  end
 end
