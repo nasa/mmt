@@ -13,7 +13,7 @@ module ChooserEndpoints
         [
           collection.fetch('meta', {}).fetch('concept-id'),
           [
-            collection.fetch('umm', {}).fetch('short-name'),
+            collection.fetch('umm', {}).fetch('entry-id'),
             collection.fetch('umm', {}).fetch('entry-title')
           ].join(' | ')
         ]
