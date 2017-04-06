@@ -3,7 +3,21 @@
 require 'rails_helper'
 
 describe 'Viewing Collection Permissions', reset_provider: true do
+  let(:group1_id) { 'AG1200000069-MMT_2' }
+  let(:group2_id) { 'AG1200000070-MMT_2' }
+  let(:group3_id) { 'AG1200000071-MMT_2' }
+
   before do
+    # stubs for 3 groups
+    group1_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/group1.json'))
+    allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group1_id, 'access_token').and_return(group1_response)
+
+    group2_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/group2.json'))
+    allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group2_id, 'access_token').and_return(group2_response)
+
+    group3_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/group3.json'))
+    allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group3_id, 'access_token').and_return(group3_response)
+
     login
   end
 
@@ -12,133 +26,7 @@ describe 'Viewing Collection Permissions', reset_provider: true do
   # MMT only uses the View and Order permissions because the others don't
   # change any access privileges. We should test both
 
-  context 'when viewing the collection permissions index page' do
-    context 'when the collection permissions only have Read and Order permissions' do
-      before do
-        all_permissions_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/get_permissions_index_regular.json'))
-        allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions).and_return(all_permissions_response)
-
-        visit permissions_path
-      end
-
-      it 'displays the table of collection permissions with the correct summaries' do
-        within '#custom-permissions-table' do
-          within 'tbody > tr:nth-child(1)' do
-            expect(page).to have_content('perm 01')
-            expect(page).to have_content('Search & Order')
-          end
-
-          within 'tbody > tr:nth-child(2)' do
-            expect(page).to have_content('perm 02')
-            expect(page).to have_content('Search & Order')
-          end
-
-          within 'tbody > tr:nth-child(3)' do
-            expect(page).to have_content('perm 03')
-            expect(page).to have_content('Search & Order')
-          end
-
-          within 'tbody > tr:nth-child(4)' do
-            expect(page).to have_content('perm 04')
-            expect(page).to have_content('Search')
-          end
-
-          within 'tbody > tr:nth-child(5)' do
-            expect(page).to have_content('perm 05')
-            expect(page).to have_content('Search & Order')
-          end
-
-          within 'tbody > tr:nth-child(6)' do
-            expect(page).to have_content('perm 06')
-            expect(page).to have_content('Search & Order')
-          end
-
-          within 'tbody > tr:nth-child(7)' do
-            expect(page).to have_content('perm 07')
-            expect(page).to have_content('Search & Order')
-          end
-        end
-      end
-    end
-
-    context 'when the collection permissions also have Create, Update, and Delete permissions in alternative order' do
-      before do
-        all_permissions_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/get_permissions_index_w_permutations.json'))
-        allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions).and_return(all_permissions_response)
-
-        visit permissions_path
-      end
-
-      it 'displays the table of collection permissions with the correct summaries' do
-        within '#custom-permissions-table' do
-          within 'tbody > tr:nth-child(1)' do
-            expect(page).to have_content('Test colperm 20')
-
-            within 'td:nth-child(2)' do
-              expect(page).to have_content('Search & Order')
-              expect(page).to have_no_content('Create')
-            end
-          end
-
-          within 'tbody > tr:nth-child(2)' do
-            expect(page).to have_content('Test colperm 21')
-
-            within 'td:nth-child(2)' do
-              expect(page).to have_content('Search')
-            end
-          end
-
-          within 'tbody > tr:nth-child(3)' do
-            expect(page).to have_content('Test colperm 22')
-
-            within 'td:nth-child(2)' do
-              expect(page).to have_content('Search & Order')
-              expect(page).to have_no_content('Delete')
-              expect(page).to have_no_content('Create')
-              expect(page).to have_no_content('Update')
-            end
-          end
-
-          within 'tbody > tr:nth-child(4)' do
-            expect(page).to have_content('Test colperm 23')
-
-            within 'td:nth-child(2)' do
-              expect(page).to have_content('Search')
-            end
-          end
-
-          within 'tbody > tr:nth-child(5)' do
-            expect(page).to have_content('Test colperm 24')
-
-            within 'td:nth-child(2)' do
-              expect(page).to have_content('Search & Order')
-              expect(page).to have_no_content('Delete')
-              expect(page).to have_no_content('Update')
-              expect(page).to have_no_content('Create')
-            end
-          end
-        end
-      end
-    end
-  end
-
   context 'when viewing the collection permission show page', js: true do
-    let(:group1_id) { 'AG1200000069-MMT_2' }
-    let(:group2_id) { 'AG1200000070-MMT_2' }
-    let(:group3_id) { 'AG1200000071-MMT_2' }
-
-    before do
-      # stubs for 3 groups
-      group1_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/group1.json'))
-      allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group1_id, 'access_token').and_return(group1_response)
-
-      group2_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/group2.json'))
-      allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group2_id, 'access_token').and_return(group2_response)
-
-      group3_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/group3.json'))
-      allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group3_id, 'access_token').and_return(group3_response)
-    end
-
     context 'when the collection permission only has read and order permissions' do
       before do
         @collection_permission_1_name = 'Testing Collection Permission 01'
