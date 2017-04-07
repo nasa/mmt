@@ -79,7 +79,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Feature Toggle for groups
-  config.groups_enabled = false
+  config.groups_enabled = true
 
   config.cmr_env = 'ops'
   config.echo_env = 'ops'

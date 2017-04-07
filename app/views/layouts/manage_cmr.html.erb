@@ -66,7 +66,9 @@
           <nav>
             <div class="content">
               <h2><%= link_to 'Manage Metadata', manage_metadata_path %></h2>
+              <% if Rails.configuration.groups_enabled %>
               <h2 class="current"><%= link_to 'Manage CMR', manage_cmr_path %></h2>
+              <% end %>
             </div>
           </nav>
         </header>
