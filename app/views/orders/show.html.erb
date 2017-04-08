@@ -6,64 +6,64 @@
       <tbody>
         <tr>
           <td>Order Guid:</td>
-          <td><%= @order['guid'] %></td>
+          <td><%= params['id'] %></td>
         </tr>
         <tr>
           <td>State:</td>
-          <td><%= @order['state'] %></td>
+          <td><%= @order['State'] %></td>
         </tr>
         <tr>
           <td>Price:</td>
-          <td><%= @order['order_price'] %></td>
+          <td><%= @order['OrderPrice'] %></td>
         </tr>
         <tr>
           <td>Created:</td>
-          <td><%= echo_formatted_date(@order['creation_date'], default: '') %></td>
+          <td><%= echo_formatted_date(@order['CreationDate'], default: '') %></td>
         </tr>
         <tr>
           <td>Submitted:</td>
-          <td><%= echo_formatted_date(@order['submission_date'], default: '') %></td>
+          <td><%= echo_formatted_date(@order['SubmissionDate'], default: '') %></td>
         </tr>
         <tr>
           <td>Updated:</td>
-          <td><%= echo_formatted_date(@order['last_update_date'], default: 'Never Updated') %></td>
+          <td><%= echo_formatted_date(@order['LastUpdateDate'], default: 'Never Updated') %></td>
         </tr>
         <tr>
           <td>Owner:</td>
-          <td><%= @order['owner'] %></td>
+          <td><%= order_owner(@order['OwnerGuid']) %></td>
         </tr>
         <tr>
           <td>Notification Level:</td>
-          <td><%= @order['notify_level'] %></td>
+          <td><%= @order['NotifyLevel'] %></td>
         </tr>
         <tr>
           <td>Affiliation:</td>
-          <td><%= @order['user_domain'] %></td>
+          <td><%= @order['UserDomain'] %></td>
         </tr>
         <tr>
           <td>User Region:</td>
-          <td><%= @order['user_region'] %></td>
+          <td><%= @order['UserRegion'] %></td>
         </tr>
         <tr>
           <td>Client Identity:</td>
-          <td><%= @order['client_identity'] %></td>
+          <td><%= @order['ClientIdentity'] %></td>
         </tr>
       </tbody>
     </table>
 
     <h3>Contact Information</h3>
     <div id="contact-information">
-      <%= render partial: 'contact_information', locals: { contact_information: @order['contact_information'] } %>
+      <%= render partial: 'contact_information', locals: { contact_information: contact_info(@order['ContactAddress']) } %>
     </div>
 
     <h3>Shipping Information</h3>
     <div id="shipping-information">
-      <%= render partial: 'contact_information', locals: { contact_information: @order['shipping_information'] } %>
+      <%= render partial: 'contact_information', locals: { contact_information: contact_info(@order['ShippingAddress']) } %>
     </div>
 
     <h3>Billing Information</h3>
     <div id="billing-information">
-      <%= render partial: 'contact_information', locals: { contact_information: @order['billing_information'] } %>
+      <%= render partial: 'contact_information', locals: { contact_information: contact_info(@order['BillingAddress']) } %>
     </div>
   </section>
 </div>
