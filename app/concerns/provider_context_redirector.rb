@@ -7,11 +7,22 @@ module ProviderContextRedirector
   # Add any redirects we want to customize here, e.g., if the "index" action
   # for a given path is "/provider_orders", we will redirect to the '/orders'
   # path.
-  ROUTE_EXCEPTIONS = {
-    'manage_cmr'      => routes.manage_cmr_path,
-    'pages'           => routes.manage_metadata_path,
-    'provider_orders' => routes.orders_path
-  }.freeze
+  ROUTE_EXCEPTIONS = %w(
+    manage_cmr
+    pages
+    provider_orders
+  ).freeze
+
+  def route_exception_path(original_path)
+    case original_path
+    when 'manage_cmr'
+      manage_cmr_path
+    when 'pages'
+      manage_metadata_path
+    when 'provider_orders'
+      orders_path
+    end
+  end
 
   def get_redirect_route(original_route)
     # Get the controller name from the original path
@@ -19,7 +30,7 @@ module ProviderContextRedirector
 
     # Return the user to the "index" action of the original controller they were on,
     # unless it's in the exception list.
-    ROUTE_EXCEPTIONS.include?(controller_name) ? ROUTE_EXCEPTIONS[controller_name] : url_for(action: 'index', controller: controller_name)
+    ROUTE_EXCEPTIONS.include?(controller_name) ? route_exception_path(controller_name) : url_for(action: 'index', controller: controller_name)
   rescue ActionController::UrlGenerationError
     # If we missed any route exceptions fallback to manage metadata
     Rails.application.routes.url_helpers.manage_metadata_path
