@@ -253,16 +253,25 @@ module Helpers
         fill_in 'Issue Identification', with: 'Citation issue identification'
         fill_in 'Data Presentation Form', with: 'Citation data presentation form'
         fill_in 'Other Citation Details', with: 'Citation other details'
-        fill_in 'DOI', with: 'Citation DOI'
-        fill_in 'Authority', with: 'Citation DOI Authority'
-        add_related_urls(RelatedUrlFieldsHelper::COLLECTION_CITATION_FORM, true)
+        within '.online-resource' do
+          fill_in 'Name', with: 'Online Resource Name'
+          fill_in 'Linkage', with: 'http://www.example.com'
+          fill_in 'Description', with: 'Online Resource Description'
+          fill_in 'Protocol', with: 'http'
+          fill_in 'Application Profile', with: 'website'
+          fill_in 'Function', with: 'information'
+        end
 
         click_on 'Add another Collection Citation'
         within '.multiple-item-1' do
           fill_in 'Version', with: 'v2'
           fill_in 'draft_collection_citations_1_title', with: 'Citation title 1' # Title
           fill_in 'Creator', with: 'Citation creator 1'
-          add_related_urls(RelatedUrlFieldsHelper::COLLECTION_CITATION_FORM, true)
+          within '.online-resource' do
+            fill_in 'Name', with: 'Online Resource Name 1'
+            fill_in 'Linkage', with: 'http://www.example.com/1'
+            fill_in 'Description', with: 'Online Resource Description 1'
+          end
         end
       end
     end
@@ -297,7 +306,14 @@ module Helpers
         fill_in 'Pages', with: 'Publication reference pages'
         fill_in 'ISBN', with: '1234567890123'
         fill_in 'Other Reference Details', with: 'Publication reference details'
-        add_related_urls(RelatedUrlFieldsHelper::PUBLICATION_REFERENCE_FORM, true)
+        within '.online-resource' do
+          fill_in 'Name', with: 'Online Resource Name'
+          fill_in 'Linkage', with: 'http://www.example.com'
+          fill_in 'Description', with: 'Online Resource Description'
+          fill_in 'Protocol', with: 'http'
+          fill_in 'Application Profile', with: 'website'
+          fill_in 'Function', with: 'information'
+        end
 
         click_on 'Add another Publication Reference'
         within '.multiple-item-1' do
@@ -359,7 +375,7 @@ module Helpers
         end
 
         add_characteristics
-        add_sensors(platform)
+        add_instrument_children(platform)
 
         click_on 'Add another Instrument'
         within '.multiple-item-1' do
@@ -368,16 +384,16 @@ module Helpers
       end
     end
 
-    def add_sensors(platform)
-      within '.multiple.sensors' do
-        fill_in "draft_platforms_#{platform}_instruments_0_sensors_0_short_name", with: 'Sensor short name'
-        fill_in "draft_platforms_#{platform}_instruments_0_sensors_0_long_name", with: 'Sensor long name'
-        fill_in "draft_platforms_#{platform}_instruments_0_sensors_0_technique", with: 'Sensor technique'
+    def add_instrument_children(platform)
+      within '.multiple.instrument-children' do
+        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_short_name", with: 'Instrument Child short name'
+        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_long_name", with: 'Instrument Child long name'
+        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_technique", with: 'Instrument Child technique'
         add_characteristics
 
-        click_on 'Add another Sensor'
+        click_on 'Add another Instrument Child'
         within '.multiple-item-1' do
-          fill_in "draft_platforms_#{platform}_instruments_0_sensors_1_short_name", with: 'Sensor short name 1'
+          fill_in "draft_platforms_#{platform}_instruments_0_composed_of_1_short_name", with: 'Instrument Child short name 1'
         end
       end
     end

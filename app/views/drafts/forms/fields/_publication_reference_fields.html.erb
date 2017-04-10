@@ -164,27 +164,22 @@
     value: publication_reference['OtherReferenceDetails'],
     help: 'definitions/PublicationReferenceType/properties/OtherReferenceDetails',
     validate: true
-   ) %>
+  ) %>
 
-
-  <!-- RelatedUrl - only one -->
+  <!-- OnlineResource -->
   <%= mmt_label(
-    name: 'related_url',
-    title: 'Publication URL',
+    name: 'online_resource',
+    title: 'Online Resource',
     prefix: name_prefix
   ) %>
   <%= mmt_help_icon(
-    title: 'Publication URL',
-    help: 'definitions/PublicationReferenceType/properties/RelatedUrl'
+    title: 'Online Resource',
+    help: 'definitions/ResourceCitationType/properties/OnlineResource'
   ) %>
   <%= render partial: 'drafts/forms/type', locals: {
-      type: 'related_url',
-      values: publication_reference['RelatedUrl'] || {},
-      name_prefix: "#{name_prefix}|related_url|_",
-      multiple: false,
-      options: {
-        related_url_title: 'Publication URLs',
-        related_url_form_type: RelatedUrlFieldsHelper::PUBLICATION_REFERENCE_FORM
-      }
-    } %>
+    type: 'online_resource',
+    values: publication_reference['OnlineResource'] || {},
+    name_prefix: "#{name_prefix}|online_resource|_",
+    multiple: false
+  } %>
 </div>

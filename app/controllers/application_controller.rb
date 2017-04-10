@@ -235,6 +235,7 @@ class ApplicationController < ActionController::Base
   )
   COLLECTION_CITATIONS_FIELDS = %w(
     CollectionCitations
+    DOI
   )
   DATA_IDENTIFICATION_FIELDS = %w(
     DataDates

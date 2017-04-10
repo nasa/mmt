@@ -76,6 +76,11 @@ $(document).ready ->
     e.stopImmediatePropagation()
 
   incrementElementIndex = (newDiv, multipleIndex, simple, type) ->
+    # 'type' is different with composed_of/instrument_children
+    # than the rest of the forms. If we see instrument_children
+    # here we really want to increment the composed_of index
+    type = 'composed_of' if type == 'instrument_children'
+
     # Find the index that needs to be incremented
     if simple
       firstElement = $(newDiv).find('select, input, textarea').first()

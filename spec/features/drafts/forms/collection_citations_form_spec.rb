@@ -14,9 +14,14 @@ describe 'Collection citations form', js: true do
       within '.metadata' do
         click_on 'Collection Citations', match: :first
       end
+      open_accordions
 
       # Collection Citations
       add_collection_citations
+
+      # DOI
+      fill_in 'DOI', with: 'Citation DOI'
+      fill_in 'Authority', with: 'Citation DOI Authority'
 
       within '.nav-top' do
         click_on 'Save'
@@ -33,7 +38,7 @@ describe 'Collection citations form', js: true do
     it 'populates the form with the values' do
       #### Collection Citations
       within '.multiple.collection-citations' do
-        within first('.multiple-item-0') do
+        within '.multiple-item-0' do
           expect(page).to have_field('Version', with: 'v1')
           expect(page).to have_field('Title', with: 'Citation title')
           expect(page).to have_field('Creator', with: 'Citation creator')
@@ -45,28 +50,33 @@ describe 'Collection citations form', js: true do
           expect(page).to have_field('Issue Identification', with: 'Citation issue identification')
           expect(page).to have_field('Data Presentation Form', with: 'Citation data presentation form')
           expect(page).to have_field('Other Citation Details', with: 'Citation other details')
-          expect(page).to have_field('DOI', with: 'Citation DOI')
-          expect(page).to have_field('Authority', with: 'Citation DOI Authority')
 
-          within '.related-url' do
-            expect(page).to have_selector('input.url[value="http://example.com"]')
-            expect(page).to have_selector('input.url[value="http://another-example.com"]')
-            expect(page).to have_field('Description', with: 'Example Description')
-            expect(page).to have_field('Title', with: 'Example Title')
+          within '.online-resource' do
+            expect(page).to have_field('Name', with: 'Online Resource Name')
+            expect(page).to have_field('Linkage', with: 'http://www.example.com')
+            expect(page).to have_field('Description', with: 'Online Resource Description')
+            expect(page).to have_field('Protocol', with: 'http')
+            expect(page).to have_field('Application Profile', with: 'website')
+            expect(page).to have_field('Function', with: 'information')
           end
         end
-        within all('.multiple-item-1')[1] do
+        within '.multiple-item-1' do
           expect(page).to have_field('Version', with: 'v2')
           expect(page).to have_field('Title', with: 'Citation title 1')
           expect(page).to have_field('Creator', with: 'Citation creator 1')
 
-          within '.related-url' do
-            expect(page).to have_selector('input.url[value="http://example.com"]')
-            expect(page).to have_selector('input.url[value="http://another-example.com"]')
-            expect(page).to have_field('Description', with: 'Example Description')
-            expect(page).to have_field('Title', with: 'Example Title')
+          within '.online-resource' do
+            expect(page).to have_field('Name', with: 'Online Resource Name 1')
+            expect(page).to have_field('Linkage', with: 'http://www.example.com/1')
+            expect(page).to have_field('Description', with: 'Online Resource Description 1')
           end
         end
+      end
+
+      #### DOI
+      within '.doi' do
+        expect(page).to have_field('DOI', with: 'Citation DOI')
+        expect(page).to have_field('Authority', with: 'Citation DOI Authority')
       end
     end
   end

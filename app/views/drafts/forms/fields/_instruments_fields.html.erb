@@ -93,22 +93,21 @@
   <% end %>
   </div>
 
-
-  <!-- Sensors -->
+  <!-- ComposedOf -->
   <%= mmt_label(
-    name: 'sensors',
-    title: 'Sensors',
+    name:'composed_of',
+    title: 'Composed Of',
     prefix: name_prefix
   ) %>
   <%= mmt_help_icon(
-    title: 'Sensors',
-    help: 'definitions/SensorType'
+    title: 'Composed Of',
+    help: 'definitions/InstrumentChildType'
   ) %>
   <%= render partial: 'drafts/forms/type', locals: {
-      type: 'sensors',
-      values: instruments['Sensors'] || [{}],
-      name_prefix: "#{name_prefix}sensors_",
-      multiple: true,
-      options: {} } %>
-
+    type: 'instrument_child',
+    values: instruments['ComposedOf'] || [{}],
+    name_prefix: "#{name_prefix}|composed_of|_",
+    multiple: true,
+    options: {}
+  } %>
 </div>

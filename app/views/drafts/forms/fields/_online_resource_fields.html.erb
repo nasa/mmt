@@ -1,0 +1,67 @@
+<div class="row sub-fields">
+  <!-- Name -->
+  <%= mmt_text_field(
+    name: 'name',
+    title: 'Name',
+    prefix: name_prefix,
+    value: online_resource['Name'],
+    help: 'definitions/OnlineResourceType/properties/Name',
+    validate: true,
+    required: true
+   ) %>
+
+  <!-- Linkage -->
+  <%= mmt_text_field(
+    name: 'linkage',
+    title: 'Linkage',
+    prefix: name_prefix,
+    value: online_resource['Linkage'],
+    help: 'definitions/OnlineResourceType/properties/Linkage',
+    validate: true,
+    required: true
+   ) %>
+
+  <!-- Description -->
+  <%= mmt_text_field(
+    name: 'description',
+    title: 'Description',
+    prefix: name_prefix,
+    value: online_resource['Description'],
+    help: 'definitions/OnlineResourceType/properties/Description',
+    validate: true,
+    required: true
+  ) %>
+
+  <!-- Protocol -->
+  <%= mmt_text_field(
+    name: 'protocol',
+    title: 'Protocol',
+    prefix: name_prefix,
+    value: online_resource['Protocol'],
+    help: 'definitions/OnlineResourceType/properties/Protocol',
+    validate: true,
+    required: false
+  ) %>
+
+  <!-- ApplicationProfile -->
+  <%= mmt_text_field(
+    name: 'application_profile',
+    title: 'Application Profile',
+    prefix: name_prefix,
+    value: online_resource['ApplicationProfile'],
+    help: 'definitions/OnlineResourceType/properties/ApplicationProfile',
+    validate: true,
+    required: false
+  ) %>
+
+  <!-- Function -->
+  <%= mmt_text_field(
+    name: 'function',
+    title: 'Function',
+    prefix: name_prefix,
+    value: online_resource['Function'],
+    help: 'definitions/OnlineResourceType/properties/Function',
+    validate: true,
+    required: false
+  ) %>
+</div>

@@ -71,7 +71,7 @@ FactoryGirl.define do
           }],
           'Technique'       => 'test 1 PI Technique',
           'NumberOfSensors' => 234,
-          'Sensors' => [{
+          'ComposedOf' => [{
             'ShortName' => 'test 1 PS ShortName',
             'LongName'  => 'test 1 PS LongName',
             'Technique' => 'test 1 PS Technique',
@@ -125,7 +125,7 @@ FactoryGirl.define do
           }],
           'Technique'       => 'test 1d PI Technique',
           'NumberOfSensors' => 345,
-          'Sensors' => [{
+          'ComposedOf' => [{
             'ShortName' => 'test 1d PS ShortName',
             'LongName'  => 'test 1d PS LongName',
             'Technique' => 'test 1d PS Technique',
@@ -197,7 +197,7 @@ FactoryGirl.define do
           }],
           'Technique'       => 'test a1 PI Technique',
           'NumberOfSensors' => 456,
-          'Sensors' => [{
+          'ComposedOf' => [{
             'ShortName' => 'test a1 PS ShortName',
             'LongName'  => 'test a1 PS LongName',
             'Technique' => 'test a1 PS Technique',
@@ -251,7 +251,7 @@ FactoryGirl.define do
           }],
           'Technique'       => 'test a1d PI Technique',
           'NumberOfSensors' => 567,
-          'Sensors' => [{
+          'ComposedOf' => [{
             'ShortName' => 'test a1d PS ShortName',
             'LongName'  => 'test a1d PS LongName',
             'Technique' => 'test a1d PS Technique',
@@ -537,25 +537,25 @@ FactoryGirl.define do
         'IssueIdentification'  => 'Citation issue identification',
         'DataPresentationForm' => 'Citation data presentation form',
         'OtherCitationDetails' => 'Citation other details',
-        'DOI' => {
-          'DOI'       => 'Citation DOI',
-          'Authority' => 'Citation DOI Authority'
-        },
-        'RelatedUrl' => {
-          'URLs'        => ['http://example.com', 'http://another-example.com'],
+        'OnlineResource' => {
+          'Linkage' => 'http://example.com',
           'Description' => 'Example Description',
-          'Title'       => 'Example related URL Title 1'
+          'Name' => 'Example related URL Title 1'
         }
       }, {
         'Version' => 'v2',
         'Title'   => 'Citation title 1',
         'Creator' => 'Citation creator 1',
-        'RelatedUrl' => {
-          'URLs'        => ['http://example2.com', 'http://another-example2.com'],
+        'OnlineResource' => {
+          'Linkage' => 'http://example2.com',
           'Description' => 'Example 2 Description',
-          'Title'       => 'Example 2 related URL Title'
+          'Name' => 'Example 2 related URL Title'
         }
       }],
+      'DOI' => {
+        'DOI'       => 'Citation DOI',
+        'Authority' => 'Citation DOI Authority'
+      },
       'CollectionProgress' => 'IN WORK',
       'Quality'            => 'Metadata quality summary',
       'UseConstraints'     => 'These are some use constraints',
@@ -589,20 +589,16 @@ FactoryGirl.define do
         'Pages'                 => 'Publication reference pages',
         'ISBN'                  => '1234567890123',
         'OtherReferenceDetails' => 'Publication reference details',
-        'RelatedUrl' => {
-          'URLs'        => ['http://example.com', 'http://another-example.com'],
+        'OnlineResource' => {
+          'Linkage' => 'http://example.com',
           'Description' => 'Example Description',
-          'MimeType'    => 'text/html',
-          'Title'       => 'Example URL Title',
-          'FileSize' => {
-            'Size' => 42,
-            'Unit' => 'MB'
-          }
+          'Name' => 'Example URL Title'
         }
       }, {
         'Title' => 'Publication reference title 1',
         'ISBN'  => '9876543210987'
-      }], 'ScienceKeywords' => [{
+      }],
+      'ScienceKeywords' => [{
         'Category' => 'EARTH SCIENCE SERVICES',
         'Topic'    => 'DATA ANALYSIS AND VISUALIZATION',
         'Term'     => 'GEOGRAPHIC INFORMATION SYSTEMS'

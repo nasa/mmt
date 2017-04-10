@@ -1,5 +1,5 @@
-<fieldset class="eui-accordion" id="collection-citation">
-  <div class="eui-accordion__header disable-toggle">
+<fieldset class="eui-accordion is-closed" id="collection-citation">
+  <div class="eui-accordion__header">
     <h3 class="eui-accordion__title">Collection Citations</h3>
     <%= mmt_help_icon(
       title: 'CollectionCitations',
@@ -14,11 +14,41 @@
           <%= render partial: 'drafts/forms/type', locals: {
               type: 'collection_citation',
               values: draft.draft['CollectionCitations'] || [{}],
-              name_prefix: "draft_|collection_citations|_",
+              name_prefix: 'draft_|collection_citations|_',
               multiple: true,
               options: {} } %>
         </div>
       </div>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="eui-accordion is-closed" id="doi">
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title">DOI</h3>
+    <%= mmt_help_icon(
+      title: 'DOI',
+      help: 'properties/DOI'
+    ) %>
+  </div>
+  <div class="eui-accordion__body">
+    <!-- DOI -->
+    <%= mmt_label(
+      name: 'doi',
+      title: 'DOI',
+      prefix: 'draft_doi_',
+    ) %>
+    <%= mmt_help_icon(
+      title: 'DOI',
+      help: 'definitions/DoiType'
+    ) %>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'doi',
+          values: draft.draft['DOI'] || {},
+          name_prefix: 'draft_doi_',
+          multiple: false,
+          options: {} } %>
     </div>
   </div>
 </fieldset>
