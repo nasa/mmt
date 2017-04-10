@@ -58,7 +58,7 @@ Rails.application.routes.draw do
   get 'subregion_options' => 'drafts#subregion_options'
 
   get 'welcome/index'
-  get 'welcome/collections/:provider_id' => 'welcome#collections', as: 'data_provider_collections'
+  # get 'welcome/collections/:provider_id' => 'welcome#collections', as: 'data_provider_collections'
 
   get 'search' => 'search#index', as: 'search'
 
