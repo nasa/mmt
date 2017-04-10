@@ -59,13 +59,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :edsc_map_path
 
-  def clear_session
-    store_oauth_token
-    store_profile
-    session[:last_point] = nil
-    session[:return_to] = nil
-  end
-
   def store_oauth_token(json = {})
     session[:access_token] = json['access_token']
     session[:refresh_token] = json['refresh_token']
@@ -136,7 +129,7 @@ class ApplicationController < ActionController::Base
   helper_method :token
 
   def echo_provider_token
-    set_provider_context_token if session.fetch('echo_provider_token', nil).nil?
+    set_provider_context_token if session[:echo_provider_token].nil?
 
     session[:echo_provider_token]
   end
