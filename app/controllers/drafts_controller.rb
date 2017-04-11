@@ -298,6 +298,7 @@ class DraftsController < ApplicationController
         end
       end
 
+      # TODO look at this
       related_urls = metadata['RelatedUrls'] || []
       related_urls.each do |related_url|
         mime_type = related_url['MimeType']

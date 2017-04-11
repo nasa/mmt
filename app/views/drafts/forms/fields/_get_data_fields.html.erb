@@ -1,0 +1,53 @@
+<div class="row sub-fields">
+  <div class="col-6">
+    <%= mmt_select(
+      name: 'format',
+      title: 'Format',
+      prefix: name_prefix,
+      value: get_data['Format'],
+      options: DraftsHelper::GetDataTypeFormatOptions,
+      help: 'definitions/GetDataType/properties/Format',
+      validate: true,
+      required: true
+    ) %>
+
+    <%= mmt_text_field(
+      name: 'size',
+      title: 'Size',
+      prefix: name_prefix,
+      value: get_data['Size'],
+      help: 'definitions/GetDataType/properties/Size',
+      validate: true,
+      required: true
+    ) %>
+
+    <%= mmt_select(
+      name: 'unit',
+      title: 'Unit',
+      prefix: name_prefix,
+      value: get_data['Unit'],
+      options: DraftsHelper::FileSizeUnitTypeOptions,
+      help: 'definitions/GetDataType/properties/Unit',
+      validate: true,
+      required: true
+    ) %>
+
+    <%= mmt_text_field(
+      name: 'fees',
+      title: 'Fees',
+      prefix: name_prefix,
+      value: get_data['Fees'],
+      help: 'definitions/GetDataType/properties/Fees',
+      validate: true
+    ) %>
+
+    <%= mmt_text_field(
+      name: 'checksum',
+      title: 'Checksum',
+      prefix: name_prefix,
+      value: get_data['Checksum'],
+      help: 'definitions/GetDataType/properties/Checksum',
+      validate: true
+    ) %>
+  </div>
+</div>

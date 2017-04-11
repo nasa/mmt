@@ -78,6 +78,22 @@ module DraftsHelper
     ['TB'],
     ['PB']
   ]
+  GetDataTypeFormatOptions = [
+    ['ascii'],
+    ['binary'],
+    ['GRIB'],
+    ['BUFR'],
+    ['HDF4'],
+    ['HDF5'],
+    ['HDF-EOS4'],
+    ['HDF-EOS5'],
+    ['jpeg'],
+    ['png'],
+    ['tiff'],
+    ['geotiff'],
+    ['kml'],
+    ['Not provided']
+  ]
   GranuleSpatialRepresentationOptions = [
     ['Cartesian', 'CARTESIAN'],
     ['Geodetic', 'GEODETIC'],
@@ -131,6 +147,13 @@ module DraftsHelper
     ['4'],
     ['NA']
   ]
+  ProtocolOptions = [
+    ['HTTP'],
+    ['HTTPS'],
+    ['FTP'],
+    ['FTPS'],
+    ['Not provided']
+  ]
   RoleOptions = [
     ['Resource Provider', 'RESOURCEPROVIDER'],
     ['Custodian', 'CUSTODIAN'],
@@ -158,6 +181,90 @@ module DraftsHelper
     ['Vertical', 'VERTICAL'],
     ['Orbital', 'ORBITAL'],
     ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
+  ]
+  URLContentTypeOptions = [
+    ['Collection URL', 'CollectionURL'],
+    ['Publication URL', 'PublicationURL'],
+    ['DataCenter URL', 'DataCenterURL'],
+    ['Distribution URL', 'DistributionURL'],
+    ['DataContact URL', 'DataContactURL'],
+    ['Visualization URL', 'VisualizationURL']
+  ]
+  URLTypeOptions = [
+    ['Get Data', 'GET DATA'],
+    ['Get Service', 'GET SERVICE'],
+    ['Get Related Visualization', 'GET RELATED VISUALIZATION'],
+    ['Data Set Landing Page', 'DATA SET LANDING PAGE'],
+    ['DOI', 'DOI'],
+    ['Extended Metadata', 'EXTENDED METADATA'],
+    ['Professional Home Page', 'PROFESSIONAL HOME PAGE'],
+    ['Project Home Page', 'PROJECT HOME PAGE'],
+    ['View Related Information', 'VIEW RELATED INFORMATION'],
+    ['Home Page', 'HOME PAGE']
+  ]
+  URLSubtypeOptions = [
+    ['Datacast URL', 'DATACAST URL'],
+    ['Earthdata Search', 'EARTHDATA SEARCH'],
+    ['ECHO', 'ECHO'],
+    ['EDG', 'EDG'],
+    ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
+    ['GDS', 'GDS'],
+    ['Giovanni', 'GIOVANNI'],
+    ['KML', 'KML'],
+    ['LAADS', 'LAADS'],
+    ['LANCE', 'LANCE'],
+    ['LAS', 'LAS'],
+    ['Mirador', 'MIRADOR'],
+    ['MODAPS', 'MODAPS'],
+    ['NOAA Class', 'NOAA CLASS'],
+    ['On Line Archive', 'ON-LINE ARCHIVE'],
+    ['Reverb', 'REVERB'],
+    ['Access Map Viewer', 'ACCESS MAP VIEWER'],
+    ['Access Mobile App', 'ACCESS MOBILE APP'],
+    ['Access Web Service', 'ACCESS WEB SERVICE'],
+    ['DIF', 'DIF'],
+    ['Map Service', 'MAP SERVICE'],
+    ['NOMADS', 'NOMADS'],
+    ['OPeNDAP Data', 'OPENDAP DATA'],
+    ['OPeNDAP Data (Dods)', 'OPENDAP DATA (DODS)'],
+    ['OPeNDAP Directory (Dods)', 'OPENDAP DIRECTORY (DODS)'],
+    ['Open Search', 'OpenSearch'],
+    ['SERF', 'SERF'],
+    ['Software Package', 'SOFTWARE PACKAGE'],
+    ['SSW', 'SSW'],
+    ['Subsetter', 'SUBSETTER'],
+    ['Threads Catalog', 'THREADS CATALOG'],
+    ['Threads Data', 'THREADS DATA'],
+    ['Thredds Directory', 'THREDDS DIRECTORY'],
+    ['Web Coverage Service (WCS)', 'WEB COVERAGE SERVICE (WCS)'],
+    ['Web Feature Service (WFS)', 'WEB FEATURE SERVICE (WFS)'],
+    ['Web Map For Time Series', 'WEB MAP FOR TIME SERIES'],
+    ['Web Map Service (WMS)', 'WEB MAP SERVICE (WMS)'],
+    ['Workflow (Service Chain)', 'WORKFLOW (SERVICE CHAIN)'],
+    ['GIBS', 'GIBS'],
+    ['Algorithm Theoretical Basis Document', 'ALGORITHM THEORETICAL BASIS DOCUMENT'],
+    ['Calibration Data Documentation', 'CALIBRATION DATA DOCUMENTATION'],
+    ['Data Quality', 'DATA QUALITY'],
+    ['Case Study', 'CASE STUDY'],
+    ['Data Usage', 'DATA USAGE'],
+    ['Deliverables Checklist', 'DELIVERABLES CHECKLIST'],
+    ['General Documentation', 'GENERAL DOCUMENTATION'],
+    ['How To', 'HOW-TO'],
+    ['PI Documentation', 'PI DOCUMENTATION'],
+    ['Processing History', 'PROCESSING HISTORY'],
+    ['Production Version History', 'PRODUCTION VERSION HISTORY'],
+    ['Product Quality Assessment', 'PRODUCT QUALITY ASSESSMENT'],
+    ['Product Usage', 'PRODUCT USAGE'],
+    ['Product History', 'PRODUCT HISTORY'],
+    ['Publications', 'PUBLICATIONS'],
+    ['Radiometric And Geometric Calibration Methods', 'RADIOMETRIC AND GEOMETRIC CALIBRATION METHODS'],
+    ['Read Me', 'READ-ME'],
+    ['Recipe', 'RECIPE'],
+    ['Requirements And Design', 'REQUIREMENTS AND DESIGN'],
+    ['Science Data Product Software Documentation', 'SCIENCE DATA PRODUCT SOFTWARE DOCUMENTATION'],
+    ['Science Data Product Validation', 'SCIENCE DATA PRODUCT VALIDATION'],
+    ['User Feedback', 'USER FEEDBACK'],
+    ["User's Guide", "USER'S GUIDE"]
   ]
 
   SINGLE_FIELDSET_FORMS = %w(
