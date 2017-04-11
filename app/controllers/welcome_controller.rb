@@ -9,14 +9,14 @@ class WelcomeController < ApplicationController
   skip_filter *_process_action_callbacks.map(&:filter), only: [:status]
 
   def index
-    set_data_providers  
+    # set_data_providers  
   end
 
-  def collections
-    set_provider_holdings(params[:provider_id])
+  # def collections
+  #   set_provider_holdings(params[:provider_id])
 
-    add_breadcrumb "#{@provider['provider_id']} Holdings", provider_holding_path(@provider['provider_id'])
-  end
+  #   add_breadcrumb "#{@provider['provider_id']} Holdings", provider_holding_path(@provider['provider_id'])
+  # end
 
   # Small, light weight check if the app is running
   def status
