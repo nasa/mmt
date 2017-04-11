@@ -58,6 +58,9 @@ Rails.application.routes.draw do
   get 'subregion_options' => 'drafts#subregion_options'
 
   get 'welcome/index'
+  # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
+  # causing issues with load times but before we can solve that we need to discuss the implemntation
+  # requirements going forward.
   # get 'welcome/collections/:provider_id' => 'welcome#collections', as: 'data_provider_collections'
 
   get 'search' => 'search#index', as: 'search'

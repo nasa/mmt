@@ -8,6 +8,10 @@ class WelcomeController < ApplicationController
   # Skip all filters for status
   skip_filter *_process_action_callbacks.map(&:filter), only: [:status]
 
+  # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
+  # causing issues with load times but before we can solve that we need to discuss the implemntation
+  # requirements going forward.
+
   def index
     # set_data_providers  
   end
