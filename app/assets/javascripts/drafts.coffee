@@ -97,7 +97,7 @@ $(document).ready ->
       $(newDiv).attr 'id', id
 
     # Loop through newDiv and increment the correct index
-    $.each $(newDiv).find("select, input, textarea, label, div[id^='draft_#{type}_#{multipleIndex}']"), (index, field) ->
+    $.each $(newDiv).find("select, input, textarea, label, div[id*='_#{type}_#{multipleIndex}']"), (index, field) ->
       if $(field).is('input, textarea, select')
         name = $(field).attr('name')
         if name != undefined
