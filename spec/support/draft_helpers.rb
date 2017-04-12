@@ -363,7 +363,7 @@ module Helpers
         fill_in "draft_platforms_#{platform}_instruments_0_short_name", with: 'Instrument short name'
         fill_in "draft_platforms_#{platform}_instruments_0_long_name", with: 'Instrument long name'
         fill_in "draft_platforms_#{platform}_instruments_0_technique", with: 'Instrument technique'
-        fill_in 'Number Of Sensors', with: 2468
+        fill_in 'Number Of Instruments', with: 2468
         within '.multiple.operational-modes' do
           within '.multiple-item-0' do
             find('.operational-mode').set 'Instrument mode 1'

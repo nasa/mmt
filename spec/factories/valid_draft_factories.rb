@@ -70,7 +70,7 @@ FactoryGirl.define do
             'DataType'    => 'test 2 PI DataType'
           }],
           'Technique'       => 'test 1 PI Technique',
-          'NumberOfSensors' => 234,
+          'NumberOfInstruments' => 234,
           'ComposedOf' => [{
             'ShortName' => 'test 1 PS ShortName',
             'LongName'  => 'test 1 PS LongName',
@@ -124,7 +124,7 @@ FactoryGirl.define do
             'DataType'    => 'test 2d PI DataType'
           }],
           'Technique'       => 'test 1d PI Technique',
-          'NumberOfSensors' => 345,
+          'NumberOfInstruments' => 345,
           'ComposedOf' => [{
             'ShortName' => 'test 1d PS ShortName',
             'LongName'  => 'test 1d PS LongName',
@@ -196,7 +196,7 @@ FactoryGirl.define do
             'DataType'    => 'test a2 PI DataType'
           }],
           'Technique'       => 'test a1 PI Technique',
-          'NumberOfSensors' => 456,
+          'NumberOfInstruments' => 456,
           'ComposedOf' => [{
             'ShortName' => 'test a1 PS ShortName',
             'LongName'  => 'test a1 PS LongName',
@@ -250,7 +250,7 @@ FactoryGirl.define do
             'DataType'    => 'test a2d PI DataType'
           }],
           'Technique'       => 'test a1d PI Technique',
-          'NumberOfSensors' => 567,
+          'NumberOfInstruments' => 567,
           'ComposedOf' => [{
             'ShortName' => 'test a1d PS ShortName',
             'LongName'  => 'test a1d PS LongName',

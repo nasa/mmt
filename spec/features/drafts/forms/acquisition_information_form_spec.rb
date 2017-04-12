@@ -77,7 +77,7 @@ describe 'Acquisition information form', js: true do
           expect(page).to have_field('draft_platforms_0_instruments_0_short_name', with: 'Instrument short name')
           expect(page).to have_field('draft_platforms_0_instruments_0_long_name', with: 'Instrument long name')
           expect(page).to have_field('draft_platforms_0_instruments_0_technique', with: 'Instrument technique')
-          expect(page).to have_field('Number Of Sensors', with: 2468)
+          expect(page).to have_field('Number Of Instruments', with: 2468)
           expect(page).to have_selector('input.operational-mode[value="Instrument mode 1"]')
           expect(page).to have_selector('input.operational-mode[value="Instrument mode 2"]')
           # Characteristics
@@ -135,7 +135,7 @@ describe 'Acquisition information form', js: true do
           expect(page).to have_field('draft_platforms_1_instruments_0_short_name', with: 'Instrument short name')
           expect(page).to have_field('draft_platforms_1_instruments_0_long_name', with: 'Instrument long name')
           expect(page).to have_field('draft_platforms_1_instruments_0_technique', with: 'Instrument technique')
-          expect(page).to have_field('Number Of Sensors', with: 2468)
+          expect(page).to have_field('Number Of Instruments', with: 2468)
           expect(page).to have_selector('input.operational-mode[value="Instrument mode 1"]')
           expect(page).to have_selector('input.operational-mode[value="Instrument mode 2"]')
           # Characteristics

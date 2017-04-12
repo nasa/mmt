@@ -12,6 +12,7 @@ class UmmSchema18To19 < ActiveRecord::Migration
             next unless instrument.key?('Sensors')
 
             instrument['ComposedOf'] = instrument.delete('Sensors')
+            instrument['NumberOfInstruments'] = instrument.delete('NumberOfSensors') if instrument.key?('NumberOfSensors')
           end
         end
       end
