@@ -40,3 +40,6 @@ todo
 cmr_logs.log
 
 node_modules/
+
+# Build folder for CMR Metadata Preview
+cmr_metadata_preview/*

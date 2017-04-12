@@ -34,47 +34,77 @@ namespace :cmr do
   end
 
   desc 'Delete provider used in tests'
-  task :reset_test_provider, [:provider_id] => ['tmp:cache:clear'] do |task, args|
+  task :reset_test_provider, [:provider_id] => ['tmp:cache:clear'] do |_task, args|
     args.with_defaults(provider_id: 'MMT_2')
 
     cmr = Cmr::Local.new
     cmr.reset_provider(args[:provider_id])
   end
 
-  desc 'Export assets for the metadata preview gem'
-  task :export_assets do
-    js_asset_output_file = Rails.root.to_s + '/application.js'
+  namespace :preview do
+    desc 'Export assets for the metadata preview gem'
+    task compile_js: :environment do
+      js_asset_output_file = File.join(Rails.root.to_s, 'cmr_metadata_preview', 'application.js')
 
-    puts '== JavaScript'
-    begin
-      puts 'Compiling CoffeeScript...'
+      puts '== JavaScript'
 
-      required_js_assets = %w(cards preview)
+      puts "\nCompiling dependencies..."
 
-      files_to_compile = []
-      Dir.chdir File.join(Rails.root.to_s, 'app', 'assets', 'javascripts') do
-        Find.find(Dir.pwd) do |path|
-          if FileTest.directory? path
-            if File.basename(path)[0] == ?.
-              Find.prune
-            else
-              next
+      dependencies = [
+        File.join(Rails.root.to_s, 'vendor', 'assets', 'javascripts', 'eui-1.0.0', 'eui.js')
+      ]
+
+      jquery = Rails.application.config.assets.paths.select { |p| p.include?('jquery-rails') }
+      dependencies.unshift(File.join(jquery.first, 'jquery.js')) if jquery.any?
+
+      js_to_uglify = dependencies.sort.map do |file|
+        puts "- Reading #{file}"
+
+        IO.read(file)
+      end.join("\n")
+
+      begin
+        puts "\nCompiling CoffeeScript..."
+
+        required_js_assets = %w(cards preview)
+
+        files_to_compile = []
+
+        Dir.chdir File.join(Rails.root.to_s, 'app', 'assets', 'javascripts') do
+          Find.find(Dir.pwd) do |path|
+            if FileTest.directory? path
+              if File.basename(path)[0] == ?.
+                Find.prune
+              else
+                next
+              end
+            elsif path =~ /\.coffee$/ && required_js_assets.include?(File.basename(path, '.*'))
+              puts "- Compiling #{path}"
+
+              files_to_compile << path
             end
-          elsif path =~ /\.coffee$/ and required_js_assets.include?(File.basename(path, '.*'))
-            files_to_compile << path
           end
+
+          contents = `cat #{files_to_compile.join(' ')} | coffee -c --stdio`
+
+          puts "\nCompressing..."
+
+          compressed_file = Uglifier.compile(js_to_uglify + contents)
+
+          puts "\nWriting to disk..."
+          directory = File.dirname(js_asset_output_file)
+
+          FileUtils.mkdir_p(directory) unless File.directory?(directory)
+
+          File.write(js_asset_output_file, compressed_file)
+
+          puts "- Compressed file available at #{js_asset_output_file}"
         end
-
-        contents = `cat #{files_to_compile.join(' ')} | coffee -cw --stdio`
-
-        puts 'Compressing...'
-
-        File.write(js_asset_output_file, Uglifier.compile(contents))
+      rescue => e
+        puts "Failed to commpile JavaScript: #{e}"
       end
-    rescue => e
-      puts "Failed to commpile JavaScript: #{e}"
-    end
 
-    puts 'Done!'
+      puts "\nDone!"
+    end
   end
 end
