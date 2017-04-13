@@ -94,12 +94,27 @@ module DraftsHelper
     ['Larger Citation Works', 'LARGER CITATION WORKS']
   ]
   MimeTypeOptions = [
-    ['application/msword'],
-    ['application/pdf'],
+    ['application/json'],
     ['application/xml'],
+    ['application/x-netcdf'],
+    ['application/gml+xml'],
+    ['application/vnd.google-earch.kml+xml'],
+    ['image/gif'],
+    ['image/tiff'],
+    ['image/bmp'],
+    ['text/csv'],
+    ['text/xml'],
+    ['application/pdf'],
+    ['application/x-hdf'],
+    ['application/xhdf5'],
+    ['application/octet-stream'],
+    ['application/vnd.google-earth.kmz'],
     ['image/jpeg'],
+    ['image/png'],
+    ['image/vnd.collada+xml'],
     ['text/html'],
-    ['text/plain']
+    ['text/plain'],
+    ['Not provided']
   ]
   ProcessingLevelIdOptions = [
     ['Not Provided'],
@@ -147,7 +162,6 @@ module DraftsHelper
 
   SINGLE_FIELDSET_FORMS = %w(
     collection_information
-    collection_citations
     data_centers
     data_contacts
   )

@@ -77,7 +77,7 @@ describe 'Acquisition information form', js: true do
           expect(page).to have_field('draft_platforms_0_instruments_0_short_name', with: 'Instrument short name')
           expect(page).to have_field('draft_platforms_0_instruments_0_long_name', with: 'Instrument long name')
           expect(page).to have_field('draft_platforms_0_instruments_0_technique', with: 'Instrument technique')
-          expect(page).to have_field('Number Of Sensors', with: 2468)
+          expect(page).to have_field('Number Of Instruments', with: 2468)
           expect(page).to have_selector('input.operational-mode[value="Instrument mode 1"]')
           expect(page).to have_selector('input.operational-mode[value="Instrument mode 2"]')
           # Characteristics
@@ -97,11 +97,11 @@ describe 'Acquisition information form', js: true do
               expect(page).to have_field('Data Type', with: 'Characteristics data type 1')
             end
           end
-          # Sensors
-          within first('.multiple.sensors') do
-            expect(page).to have_field('draft_platforms_0_instruments_0_sensors_0_short_name', with: 'Sensor short name')
-            expect(page).to have_field('draft_platforms_0_instruments_0_sensors_0_long_name', with: 'Sensor long name')
-            expect(page).to have_field('draft_platforms_0_instruments_0_sensors_0_technique', with: 'Sensor technique')
+          # Instrument Child
+          within first('.multiple.instrument-children') do
+            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_0_short_name', with: 'Instrument Child short name')
+            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_0_long_name', with: 'Instrument Child long name')
+            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_0_technique', with: 'Instrument Child technique')
             # Characteristics
             within first('.multiple.characteristics') do
               within '.multiple-item-0' do
@@ -120,8 +120,8 @@ describe 'Acquisition information form', js: true do
               end
             end
 
-            # Sensor 2
-            expect(page).to have_field('draft_platforms_0_instruments_0_sensors_1_short_name', with: 'Sensor short name 1')
+            # Instrument Child 2
+            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_1_short_name', with: 'Instrument Child short name 1')
           end
 
           # Instrument 2
@@ -135,7 +135,7 @@ describe 'Acquisition information form', js: true do
           expect(page).to have_field('draft_platforms_1_instruments_0_short_name', with: 'Instrument short name')
           expect(page).to have_field('draft_platforms_1_instruments_0_long_name', with: 'Instrument long name')
           expect(page).to have_field('draft_platforms_1_instruments_0_technique', with: 'Instrument technique')
-          expect(page).to have_field('Number Of Sensors', with: 2468)
+          expect(page).to have_field('Number Of Instruments', with: 2468)
           expect(page).to have_selector('input.operational-mode[value="Instrument mode 1"]')
           expect(page).to have_selector('input.operational-mode[value="Instrument mode 2"]')
           # Characteristics
@@ -155,11 +155,11 @@ describe 'Acquisition information form', js: true do
               expect(page).to have_field('Data Type', with: 'Characteristics data type 1')
             end
           end
-          # Sensors
-          within first('.multiple.sensors') do
-            expect(page).to have_field('draft_platforms_1_instruments_0_sensors_0_short_name', with: 'Sensor short name')
-            expect(page).to have_field('draft_platforms_1_instruments_0_sensors_0_long_name', with: 'Sensor long name')
-            expect(page).to have_field('draft_platforms_1_instruments_0_sensors_0_technique', with: 'Sensor technique')
+          # Instrument Child
+          within first('.multiple.instrument-children') do
+            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_0_short_name', with: 'Instrument Child short name')
+            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_0_long_name', with: 'Instrument Child long name')
+            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_0_technique', with: 'Instrument Child technique')
             # Characteristics
             within first('.multiple.characteristics') do
               within '.multiple-item-0' do
@@ -178,8 +178,8 @@ describe 'Acquisition information form', js: true do
               end
             end
 
-            # Sensor 2
-            expect(page).to have_field('draft_platforms_1_instruments_0_sensors_1_short_name', with: 'Sensor short name 1')
+            # Instrument Child 2
+            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_1_short_name', with: 'Instrument Child short name 1')
           end
 
           # Instrument 2

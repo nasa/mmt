@@ -98,6 +98,10 @@ module PreviewCirclesHelper
       'CollectionCitations' => {
         required: false,
         anchor: 'collection-citation'
+      },
+      'DOI' => {
+        required: false,
+        anchor: 'doi'
       }
     },
     'descriptive_keywords' => {

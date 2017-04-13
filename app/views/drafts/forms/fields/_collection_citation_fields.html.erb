@@ -121,45 +121,22 @@
     validate: true
    ) %>
 
-  <!-- DOI -->
+
+  <!-- OnlineResource -->
   <%= mmt_label(
-    name: 'doi',
-    title: 'DOI',
+    name: 'online_resource',
+    title: 'Online Resource',
     prefix: name_prefix
   ) %>
   <%= mmt_help_icon(
-    title: 'DOI',
-    help: 'definitions/ResourceCitationType/properties/DOI'
-  ) %>
-  <div class="row sub-fields">
-    <%= render partial: 'drafts/forms/type', locals: {
-        type: 'doi',
-        values: collection_citation['DOI'] || {},
-        name_prefix: "#{name_prefix}doi_",
-        multiple: false,
-        options: {} } %>
-  </div>
-
-
-  <!-- RelatedUrl - only one -->
-  <%= mmt_label(
-    name: 'related_url',
-    title: 'Collection URL',
-    prefix: name_prefix
-  ) %>
-  <%= mmt_help_icon(
-    title: 'Collection URL',
-    help: 'definitions/ResourceCitationType/properties/RelatedUrl'
+    title: 'Online Resource',
+    help: 'definitions/ResourceCitationType/properties/OnlineResource'
   ) %>
   <%= render partial: 'drafts/forms/type', locals: {
-      type: 'related_url',
-      values: collection_citation['RelatedUrl'] || {},
-      name_prefix: "#{name_prefix}|related_url|_",
-      multiple: false,
-      options: {
-        related_url_title: 'Collection URLs',
-        related_url_form_type: RelatedUrlFieldsHelper::COLLECTION_CITATION_FORM
-      }
-    } %>
+    type: 'online_resource',
+    values: collection_citation['OnlineResource'] || {},
+    name_prefix: "#{name_prefix}|online_resource|_",
+    multiple: false
+  } %>
 
 </div>
