@@ -75,12 +75,13 @@ describe 'Collection Permissions Index page', reset_provider: true do
           end
         end
 
-        context 'when the collection permissions also have Create, Update, and Delete permissions in alternative order' do
+        context 'when the collection permissions also have Create, Update, and Delete permissions, permissions in alternative order, and empty permissions' do
           before do
             collection_permission_4 = add_associated_permissions_to_group(group_id: group1_id, name: 'Testing Collection Permission Index empty permissions 01', permissions: [ ])
             collection_permission_5 = add_associated_permissions_to_group(group_id: group2_id, name: 'Testing Collection Permission Index Permutations 02', permissions: [ 'order', 'read', 'create' ])
             collection_permission_6 = add_associated_permissions_to_group(group_id: group3_id, name: 'Testing Collection Permission Index Permutations 03', permissions: [ 'read' ])
             collection_permission_7 = add_associated_permissions_to_group(group_id: group1_id, name: 'Testing Collection Permission Index Permutations 04', permissions: [ 'delete', 'update', 'order', 'read', 'create' ])
+            collection_permission_8 = add_associated_permissions_to_group(group_id: group2_id, name: 'Testing Collection Permission Index Permutations 05', permissions: [ 'order' ])
 
             visit permissions_path
           end
@@ -125,6 +126,14 @@ describe 'Collection Permissions Index page', reset_provider: true do
               end
 
               within 'tbody > tr:nth-child(5)' do
+                expect(page).to have_content('Testing Collection Permission Index Permutations 05')
+
+                within 'td:nth-child(2)' do
+                  expect(page).to have_content('Search & Order')
+                end
+              end
+
+              within 'tbody > tr:nth-child(6)' do
                 expect(page).to have_content('Testing Collection Permission Index Regular 01')
 
                 within 'td:nth-child(2)' do
@@ -133,7 +142,7 @@ describe 'Collection Permissions Index page', reset_provider: true do
                 end
               end
 
-              within 'tbody > tr:nth-child(6)' do
+              within 'tbody > tr:nth-child(7)' do
                 expect(page).to have_content('Testing Collection Permission Index Regular 02')
 
                 within 'td:nth-child(2)' do
@@ -141,7 +150,7 @@ describe 'Collection Permissions Index page', reset_provider: true do
                 end
               end
 
-              within 'tbody > tr:nth-child(7)' do
+              within 'tbody > tr:nth-child(8)' do
                 expect(page).to have_content('Testing Collection Permission Index Regular 03')
 
                 within 'td:nth-child(2)' do

@@ -61,6 +61,46 @@ describe 'Collection Permissions form', js: true do
       end
     end
 
+    context 'when selecting a group for Search Groups' do
+      before do
+        select('All Guest Users', from: 'Search')
+        # wait_for_jQuery
+      end
+
+      it 'selects the group in the Search Groups input' do
+        within '#search_groups_cell' do
+          expect(page).to have_css('li.select2-selection__choice', text: 'All Guest Users')
+        end
+      end
+
+      it 'disables the selected option in the Search & Order Groups input'# do
+      #   within '#search_and_order_groups_cell' do
+      #     page.find('#search_and_order_groups_').click
+      #     expect(page).to have_css('option[disabled]', text: 'All Guest Users')
+      #     expect(page).to have_css('option[disabled]')
+      #   end
+      # end
+
+      context 'when unselecting the group' do
+        before do
+          within '#search_groups_cell' do
+            page.find('.select2-selection__choice[title="All Guest Users"] > .select2-selection__choice__remove').click
+          end
+        end
+
+        it 'unselects the group from the Search Groups input' do
+          expect(page).to have_no_css('li.select2-selection__choice', text: 'All Guest Users')
+        end
+
+        it 'enables the unselected option in the other select input' do
+          within '#search_and_order_groups_cell' do
+            expect(page).to have_no_css('option[disabled]', text: 'All Guest Users')
+            expect(page).to have_css('option', text: 'All Guest Users')
+          end
+        end
+      end
+    end
+
     context 'when attempting to create a collection permission with invalid information' do
       before do
         click_on 'Submit'
