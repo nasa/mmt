@@ -74,7 +74,7 @@ class PermissionsController < ManageCmrController
     else
       Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
       error = Array.wrap(permission_response.body['errors'])[0]
-      flash[:error] = error
+      flash[:error] = error.capitalize
     end
   end
 
@@ -105,7 +105,7 @@ class PermissionsController < ManageCmrController
       permission_creation_error = PermissionsHelper::ErrorCodeMessages[response.status]
       permission_creation_error ||= Array.wrap(response.body['errors'])[0]
 
-      flash.now[:error] = permission_creation_error
+      flash.now[:error] = permission_creation_error.capitalize
 
       @permission_name = params[:permission_name]
 
@@ -140,7 +140,7 @@ class PermissionsController < ManageCmrController
       @groups = get_groups_for_permissions
     else
       Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
-      flash[:error] = Array.wrap(permission_response.body['errors'])[0]
+      flash[:error] = Array.wrap(permission_response.body['errors'])[0].capitalize
       redirect_to permissions_path
     end
   end
@@ -166,7 +166,7 @@ class PermissionsController < ManageCmrController
         # opt1 send back to show page
         redirect_to permission_path(@permission_concept_id)
       else
-        flash[:error] = permission_update_error
+        flash[:error] = permission_update_error.capitalize
         # opt2 parse/grab data, render edit with flash message
         @permission_name = params[:permission_name]
 
@@ -194,7 +194,7 @@ class PermissionsController < ManageCmrController
     else
       Rails.logger.error("Permission Deletion Error: #{response.inspect}")
       permission_deletion_error = Array.wrap(response.body['errors'])[0]
-      flash[:error] = permission_deletion_error
+      flash[:error] = permission_deletion_error.capitalize
       render :show
     end
   end
