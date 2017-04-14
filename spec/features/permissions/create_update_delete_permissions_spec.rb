@@ -226,7 +226,6 @@ describe 'Collection Permissions', reset_provider: true, js: true do
   context 'when deleting a collection permission' do
     before do
       @collection_permission_to_delete = add_associated_permissions_to_group(group_id: group3_id, name: 'Testing Delete Collection Permission 01')
-      puts "colperm to delete: #{@collection_permission_to_delete}"
 
       visit permission_path(@collection_permission_to_delete['concept_id'])
 
