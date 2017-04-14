@@ -73,13 +73,11 @@ describe 'Collection Permissions form', js: true do
         end
       end
 
-      it 'disables the selected option in the Search & Order Groups input'# do
-      #   within '#search_and_order_groups_cell' do
-      #     page.find('#search_and_order_groups_').click
-      #     expect(page).to have_css('option[disabled]', text: 'All Guest Users')
-      #     expect(page).to have_css('option[disabled]')
-      #   end
-      # end
+      it 'disables the selected option in the Search & Order Groups input' do
+        within '#search_and_order_groups_cell' do
+          expect(page).to have_css('option[disabled]', text: 'All Guest Users')
+        end
+      end
 
       context 'when unselecting the group' do
         before do
