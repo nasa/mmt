@@ -174,6 +174,9 @@ class PermissionsController < ManageCmrController
         @collection_selections = params[:collection_selections]
         @granule_options = params[:granule_options]
 
+        @collection_access_value = params[:collection_access_value] || {}
+        @granule_access_value = params[:granule_access_value] || {}
+
         @groups = get_groups_for_permissions
         @search_groups = params[:search_groups]
         @search_and_order_groups = params[:search_and_order_groups]
