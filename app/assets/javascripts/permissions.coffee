@@ -53,7 +53,7 @@ $(document).ready ->
                   return true
                 return false
             messages:
-              required: 'Please specify collections.'
+              required: 'You must select at least 1 collection.'
 
 
     # show the Chooser widget if a refresh of the page has "selected collections" as the dropdown value
@@ -208,7 +208,6 @@ $(document).ready ->
     visitedPermissionGroupSelect = []
 
     validateSelect2s = (selectDropdown) ->
-      # check if the visited array has both select2 fields, and if so validate on close
       if visitedPermissionGroupSelect.indexOf('search_groups') != -1 && visitedPermissionGroupSelect.indexOf('search_and_order_groups') != -1
         $(selectDropdown).valid()
 
@@ -224,8 +223,10 @@ $(document).ready ->
     .on 'select2:open', (e) ->
       visitedPermissionGroupSelect.push 'search_groups' unless visitedPermissionGroupSelect.indexOf('search_groups') != -1
     .on 'select2:close', (e) ->
+      # check if the visited array has both select2 fields, and if so validate on close
       validateSelect2s(this)
     .on 'change', (e) ->
+      # check if the visited array has both select2 fields, and if so validate on close
       validateSelect2s(this)
     .on 'select2:select', (e) ->
       # when a group is selected, disable the option in the other dropdown
@@ -241,8 +242,10 @@ $(document).ready ->
     .on 'select2:open', (e) ->
       visitedPermissionGroupSelect.push 'search_and_order_groups' unless visitedPermissionGroupSelect.indexOf('search_and_order_groups') != -1
     .on 'select2:close', (e) ->
+      # check if the visited array has both select2 fields, and if so validate on close
       validateSelect2s(this)
     .on 'change', (e) ->
+      # check if the visited array has both select2 fields, and if so validate on close
       validateSelect2s(this)
     .on 'select2:select', (e) ->
       # when a group is selected, disable the option in the other dropdown

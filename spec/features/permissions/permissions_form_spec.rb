@@ -63,8 +63,16 @@ describe 'Collection Permissions form', js: true do
 
     context 'when selecting a group for Search Groups' do
       before do
-        select('All Guest Users', from: 'Search')
-        # wait_for_jQuery
+        # Using the standard Capybara 'select _, from _' method does not trigger the
+        # correct select2 event needed for our form event handlers, so we need
+        # to find more specific elements of select2 to choose our selection and
+        # trigger the appropriate event.
+        within '#search_groups_cell' do
+          page.find('ul.select2-selection__rendered').click
+          page.find('.select2-search__field').native.send_keys('gue')
+        end
+
+        page.find('ul#select2-search_groups_-results li.select2-results__option--highlighted').click
       end
 
       it 'selects the group in the Search Groups input' do
@@ -120,7 +128,7 @@ describe 'Collection Permissions form', js: true do
 
       it 'displays the appropriate validation errors' do
         expect(page).to have_content('Permission Name is required.')
-        expect(page).to have_content('Please specify collections.')
+        expect(page).to have_content('You must select at least 1 collection.')
         expect(page).to have_content('Granules must be specified.')
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end
