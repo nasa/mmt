@@ -44,29 +44,6 @@ module PermissionManagement
     assembled_permissions
   end
 
-  def set_group_management_permissions_for_table(group_id)
-    group_management_permissions = get_permissions_for_identity_type(type: 'single_instance', group_id: group_id)
-
-    assembled_group_management_permissions = []
-
-    group_management_permissions.each do |perm|
-      target_group = {}
-      target_id = perm.fetch('acl', {}).fetch('single_instance_identity', {}).fetch('target_id', nil)
-
-      target_group_response = cmr_client.get_group(target_id, token)
-      target_group = target_group_response.body if target_group_response.success?
-
-      group_permission = perm.fetch('acl', {}).fetch('group_permissions', []).select { |group_perm| group_perm['group_id'] == group_id }
-      granted_permissions = group_permission[0].fetch('permissions', [])
-      target_group['granted_permissions'] = granted_permissions
-      target_group['concept_id'] = target_id
-
-      assembled_group_management_permissions << target_group
-    end
-
-    assembled_group_management_permissions
-  end
-
   def assemble_permissions_for_updating(full_permissions:, type:, group_id:)
     assembled_permissions = {}
 
@@ -256,9 +233,6 @@ module PermissionManagement
     when 'provider_identity'
       # provider identity acls require a provider_id
       acl_identity['provider_id'] = current_user.provider_id
-    when 'single_instance_identity'
-      # single instance identity (management group) acls require a target_id
-      acl_identity['target_id'] = target_id
     # when 'catalog_item_identity'
       # TODO try to have catalog item acls use this method
     end
@@ -285,58 +259,6 @@ module PermissionManagement
         Rails.logger.error("Delete #{identity_type.titleize} Identity ACL for #{log_target} error: #{delete_response.inspect}")
         fails << target
       end
-    end
-  end
-
-  def assemble_new_group_management_perms(all_group_management_perms:, group_management_params:, group_id:)
-    new_management_acls = []
-
-    all_group_management_perms.each do |perm|
-      new_perm = {}
-
-      acl = perm.fetch('acl', {})
-      target_id = acl.fetch('single_instance_identity', {}).fetch('target_id', nil)
-
-      matching_group_permission = acl.fetch('group_permissions', []).select { |group_perm| group_perm['group_id'] == group_id }
-      next if matching_group_permission.blank? # current group is not one of the management groups
-
-      current_permissions = matching_group_permission[0].fetch('permissions', [])
-      new_permissions = group_management_params[target_id]
-      next if new_permissions == current_permissions
-
-      target_group_response = cmr_client.get_group(target_id, token)
-      if target_group_response.success?
-        target_group_name = target_group_response.body.fetch('name', nil)
-        # name = target_group.fetch('name', nil)
-      end
-
-      matching_group_permission.first['permissions'] = new_permissions
-
-      new_perm['acl'] = acl
-      new_perm['concept_id'] = perm['concept_id']
-      new_perm['target_group_name'] = target_group_name
-      new_perm['target_id'] = target_id
-
-      new_management_acls << new_perm
-    end
-
-    new_management_acls
-  end
-
-  def update_group_management_permissions(group_management_perms:, successes: [], fails: [])
-    group_management_perms.each do |new_group_perm|
-
-      concept_id = new_group_perm['concept_id']
-      new_acl = new_group_perm['acl']
-
-      update_permission(
-        acl_object: new_acl,
-        concept_id: concept_id,
-        identity_type: 'single_instance_identity',
-        log_target: "Group Management for #{new_group_perm['target_group_name']}",
-        successes: successes,
-        fails: fails
-      )
     end
   end
 end

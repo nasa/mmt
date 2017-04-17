@@ -9,13 +9,6 @@
 
     <p><%= @group.fetch('description') %></p>
 
-    <h4>Management Groups</h4>
-    <% if @management_groups.blank? %>
-      <p>No Management Groups found.</p>
-    <% else %>
-      <p><%= @management_groups.map { |group| group['name'] }.to_sentence %></p>
-    <% end %>
-
     <h4>Associated Permissions</h4>
     <% if @permissions.blank? %>
       <p>No associated permissions found.</p>

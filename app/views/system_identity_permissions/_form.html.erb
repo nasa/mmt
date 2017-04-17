@@ -44,33 +44,6 @@
           <% end %>
         </tr>
       <% end %>
-
-      <% @group_management_permissions.each do |group_management_permission| %>
-        <!-- Group Management (Single Instance Identity) Permissions -->
-        <tr>
-          <td><%= "Group Management for [#{group_management_permission['name']}]" %></td>
-
-          <% SystemIdentityPermissionsHelper::PermissionsOptions.each do |permission_option| %>
-            <% if SingleInstanceIdentityPermissionsHelper::GROUP_MANAGEMENT_PERMISSIONS.include?(permission_option) %>
-              <td class="align-c">
-                <% if group_management_permission['granted_permissions'].include?(permission_option) %>
-                  <%= check_box_tag("group_management[#{group_management_permission['concept_id']}][]", permission_option, true) %>
-                <% else %>
-                  <%= check_box_tag("group_management[#{group_management_permission['concept_id']}][]", permission_option, false) %>
-                <% end %>
-              </td>
-            <% else %>
-              <td class="align-c disabled">
-                <%= check_box_tag("group_management[#{group_management_permission['concept_id']}][]", permission_option, false, disabled: true) %>
-              </td>
-            <% end %>
-          <% end %>
-
-          <% unless group_management_permission['granted_permissions'].blank? %>
-            <%= hidden_field_tag("group_management[#{group_management_permission['concept_id']}][]", '') %>
-          <% end %>
-        </tr>
-      <% end %>
     </tbody>
   </table>
 </fieldset>
