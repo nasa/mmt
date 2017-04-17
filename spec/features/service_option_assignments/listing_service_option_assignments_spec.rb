@@ -9,7 +9,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true do
       allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_entries_by_provider).and_return(service_entries_by_provider_response)
 
       collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
       login
 

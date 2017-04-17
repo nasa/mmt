@@ -94,7 +94,7 @@ module EchoSoap
     }
 
     # Retrieve the first page of collections
-    response = cmr_client.get_collections(collection_params, token)
+    response = cmr_client.get_collections_by_post(collection_params, token)
 
     # Request collections
     until response.error? || response.body['items'].empty?
@@ -110,7 +110,7 @@ module EchoSoap
       collection_params[:page_num] += 1
 
       # Request the next page
-      response = cmr_client.get_collections(collection_params, token)
+      response = cmr_client.get_collections_by_post(collection_params, token)
     end
 
     @collections

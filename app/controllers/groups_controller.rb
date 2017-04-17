@@ -389,7 +389,7 @@ class GroupsController < ManageCmrController
       permission_params[:page_num] += 1
 
       # Request the next page
-      response = cmr_client.get_collections(permission_params, token)
+      response = cmr_client.get_permissions(permission_params, token)
     end
 
     all_permissions.each do |perm|

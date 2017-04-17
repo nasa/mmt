@@ -1,8 +1,8 @@
+# :nodoc:
 class OrderOptionAssignmentsController < ManageCmrController
   add_breadcrumb 'Order Option Assignments', :order_option_assignments_path
 
-  def index
-  end
+  def index; end
 
   def new
     add_breadcrumb 'New', new_order_option_assignment_path
@@ -11,17 +11,18 @@ class OrderOptionAssignmentsController < ManageCmrController
   end
 
   def edit
-    collections = find_collections_by_concept_ids(params['collectionsChooser_toList'])
+    collections = get_provider_collections(concept_id: params['collectionsChooser_toList'])
+
     @collections_to_list = []
 
-    collections.each do |collection|
+    collections.fetch('items', []).each do |collection|
       id = collection['meta']['concept-id']
       options = { 'catalog_item[]' => id }
       assignments_response = cmr_client.get_order_option_assignments(options, echo_provider_token)
       if assignments_response.success?
         option_defs = Array.wrap(get_order_option_defs(assignments_response.body))
 
-        if option_defs.length > 0
+        if !option_defs.empty?
           option_defs.each do |option_def|
             collection_copy = collection.clone
             collection_copy['option-def'] = option_def
@@ -43,10 +44,8 @@ class OrderOptionAssignmentsController < ManageCmrController
       end
 
       empty_assignment_cnt = 0
-      @collections_to_list.each do |collection|
-        if collection['option-def'].nil?
-          empty_assignment_cnt += 1
-        end
+      @collections_to_list.each do |coll|
+        empty_assignment_cnt += 1 if coll['option-def'].nil?
       end
 
       @all_empty_assignments = false
@@ -54,13 +53,10 @@ class OrderOptionAssignmentsController < ManageCmrController
       if empty_assignment_cnt == @collections_to_list.length
         @all_empty_assignments = true
       end
-
     end
   end
 
-  def show
-  end
-
+  def show; end
 
   def create
     success_count = 0
@@ -119,7 +115,7 @@ class OrderOptionAssignmentsController < ManageCmrController
     guids = []
 
     option_infos.each do |option_info|
-      guids <<  option_info['catalog_item_option_assignment']['option_definition_id']
+      guids << option_info['catalog_item_option_assignment']['option_definition_id']
     end
 
     order_option_response = echo_client.get_order_options(echo_provider_token, guids)
@@ -153,23 +149,5 @@ class OrderOptionAssignmentsController < ManageCmrController
     end
 
     order_option_select_values
-  end
-
-  def find_collections_by_concept_ids(concept_ids)
-    # page_size default is 10, max is 2000
-    query = { 'page_size' => 2000, 'concept_id' => concept_ids }
-    collections_response = cmr_client.get_collections(query, token).body
-
-    collections = collections_response.fetch('items', [])
-
-    matched_collections = []
-    collections.each do |collection|
-      concept_ids.each do |concept_id|
-        if collection['meta']['concept-id'] == concept_id
-          matched_collections << collection
-        end
-      end
-    end
-    matched_collections
   end
 end

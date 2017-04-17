@@ -13,7 +13,7 @@ describe 'Updating a Service Entry', reset_provider: true do
   before do
     # collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
     collections_response = cmr_success_response(File.read('spec/fixtures/cmr_search.json'))
-    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
     login
   end

@@ -37,7 +37,7 @@ describe 'Search Form', js: true do
     login
 
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: cmr_search_response))
-    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
   end
 
   # MMT-300

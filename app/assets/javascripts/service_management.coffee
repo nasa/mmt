@@ -60,7 +60,6 @@ $(document).ready ->
         toLabel: 'Selected Collections',
         uniqueMsg: 'Collection is already selected.',
         attachTo: $('#service-entry-collection-selections'),
-        toMax: 100,
         addButton: {
           cssClass: 'eui-btn nowrap',
           arrowCssClass: 'fa fa-plus',
