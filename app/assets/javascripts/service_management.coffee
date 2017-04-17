@@ -91,7 +91,11 @@ $(document).ready ->
     # to retrieve data specific to the selected values
     if selectedValues.length > 0
       # Not providing any concept ids will result in all items coming back, avoid that
-      $.ajax '/provider_collections?' + $.param('concept_id': selectedValues) + '&page_size=' + selectedValues.length,
+      $.ajax '/provider_collections',
+        method: 'POST'
+        data: 
+          concept_id: selectedValues
+          page_size: selectedValues.length
         success: (data) ->
           # Sets the selected values of the chooser
           collectionsChooser.setToVal(data.items)
