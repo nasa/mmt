@@ -4,41 +4,7 @@ require 'rails_helper'
 
 describe 'System Identity Permissions pages and form' do
   # concept_id for Administrators_2 group created on cmr setup
-  # let(:concept_id) { 'AG1200000001-CMR' }
-
-  before :all do
-    @group_name = random_group_name
-    group_description = random_group_description
-    @group = create_group(
-      name: @group_name,
-      description: group_description,
-      provider_id: nil,
-      admin: true
-    )
-    # default management group for create_group is 'Administrators_2'
-
-    wait_for_cmr
-
-    @managed_group_name = random_group_name
-    managed_group_description = random_group_description
-
-    @managed_group = create_group(
-      name: @managed_group_name,
-      description: managed_group_description,
-      provider_id: nil, # System Level groups do not have a provider_id
-      management_group: @group['concept_id'],
-      admin: true
-    )
-
-    wait_for_cmr
-  end
-
-  after :all do
-    # System level groups need to be cleaned up to avoid attempting to create
-    # a group with the same name in another test (Random names don't seem to be reliable)
-    delete_group(concept_id: @group['concept_id'], admin: true)
-    delete_group(concept_id: @managed_group['concept_id'], admin: true)
-  end
+  let(:concept_id) { 'AG1200000001-CMR' }
 
   context 'when logging in as a regular user' do
     before do
@@ -77,8 +43,6 @@ describe 'System Identity Permissions pages and form' do
             expect(page).to have_content('Administrators_2')
             expect(page).to have_content('MMT Admins')
             expect(page).to have_content('MMT Users')
-            expect(page).to have_content(@group_name)
-            expect(page).to have_content(@managed_group_name)
           end
         end
       end
@@ -98,49 +62,22 @@ describe 'System Identity Permissions pages and form' do
       end
     end
 
-    context 'when visiting the system identities form for the System Group that manages another group' do
+    context 'when visiting the system identities form for a System Group' do
       before do
-        visit edit_system_identity_permission_path(@group['concept_id'])
-      end
-
-      it 'displays the page with the form and table of system and group management targets' do
-        expect(page).to have_content("#{@group_name} System Object Permissions")
-        expect(page).to have_content("Set permissions for the #{@group_name} group by checking the appropriate boxes below and clicking 'Submit'.")
-
-        within '.system-permissions-table' do
-          expect(page).to have_css('tbody > tr', count: (SystemIdentityPermissionsHelper::SYSTEM_TARGETS.count + 1))
-          expect(page).to have_css('input[type=checkbox]', count: 96) # all checkboxes
-          expect(page).to have_css('input[type=checkbox][checked]', count: 2)
-          expect(page).to have_css('input[type=checkbox][disabled]', count: 56)
-          expect(page).to have_css('input[type=checkbox]:not([disabled])', count: 40)
-          expect(page).to have_css('input[type=checkbox]:not([checked])', count: 94)
-
-          expect(page).to have_content("Group Management for [#{@managed_group_name}]")
-        end
-      end
-
-      it 'displays the checked single instance identity group management permissions' do
-        expect(page).to have_checked_field("group_management_#{@managed_group['concept_id']}_", with: 'update')
-        expect(page).to have_checked_field("group_management_#{@managed_group['concept_id']}_", with: 'delete')
-      end
-    end
-
-    context 'when visiting the system identities form for the System Group that does not manage another group' do
-      before do
-        visit edit_system_identity_permission_path(@managed_group['concept_id'])
+        visit edit_system_identity_permission_path(concept_id)
       end
 
       it 'displays the form and table of system targets' do
-        expect(page).to have_content("#{@managed_group_name} System Object Permissions")
-        expect(page).to have_content("Set permissions for the #{@managed_group_name} group by checking the appropriate boxes below and clicking 'Submit'.")
+        expect(page).to have_content('Administrators_2 System Object Permissions')
+        expect(page).to have_content("Set permissions for the Administrators_2 group by checking the appropriate boxes below and clicking 'Submit'.")
 
         within '.system-permissions-table' do
           expect(page).to have_css('tbody > tr', count: SystemIdentityPermissionsHelper::SYSTEM_TARGETS.count)
           expect(page).to have_css('input[type=checkbox]', count: 92) # all checkboxes
-          expect(page).to have_css('input[type=checkbox][checked]', count: 0)
+          expect(page).to have_css('input[type=checkbox][checked]', count: 6) # Administrators_2 should have ANY_ACL and GROUP permissions
           expect(page).to have_css('input[type=checkbox][disabled]', count: 54)
           expect(page).to have_css('input[type=checkbox]:not([disabled])', count: 38)
-          expect(page).to have_css('input[type=checkbox]:not([checked])', count: 92)
+          expect(page).to have_css('input[type=checkbox]:not([checked])', count: 86)
 
           expect(page).to have_no_content('Group Management for')
         end

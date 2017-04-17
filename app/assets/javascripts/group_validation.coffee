@@ -7,12 +7,8 @@ $(document).ready ->
           required: true
         'group[description]':
           required: true
-        'group[initial_management_group]':
-          required: true
       messages:
         'group[name]':
           required: 'Name is required.'
         'group[description]':
           required: 'Description is required.'
-        'group[initial_management_group]':
-          required: 'Initial Management Group is required.'
