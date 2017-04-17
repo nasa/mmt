@@ -240,7 +240,7 @@ class PermissionsController < ManageCmrController
 
     query['page_num'] = params['page_num'] if params.key?('page_num')
 
-    collections_response = cmr_client.get_collections(query, token).body
+    collections_response = cmr_client.get_collections_by_post(query, token).body
     parse_get_collections_response(collections_response)
   end
 

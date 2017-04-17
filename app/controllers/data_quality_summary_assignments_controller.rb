@@ -1,18 +1,17 @@
+# :nodoc:
 class DataQualitySummaryAssignmentsController < ManageCmrController
   before_action :set_collections
   before_action :set_summaries, only: [:new, :edit]
 
   add_breadcrumb 'Data Quality Summary Assignments', :data_quality_summary_assignments_path
 
-  def index
-  end
+  def index; end
 
   def new
     add_breadcrumb 'New', new_data_quality_summary_assignments_path
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     success_count = 0

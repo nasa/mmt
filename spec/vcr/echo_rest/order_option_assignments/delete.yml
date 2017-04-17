@@ -40,12 +40,12 @@ http_interactions:
       - Fri, 23 Dec 2016 00:34:21 GMT
     body:
       encoding: UTF-8
-      string: '[{"catalog_item_option_assignment":{"catalog_item_id":"C1200056652-MMT_2","id":"A913CBBD-3DD0-5FE2-BB76-A742C5CC988E","option_definition_id":"930D19CF-B93F-8388-40D6-F601357CF344"}},{"catalog_item_option_assignment":{"catalog_item_id":"C1200056652-MMT_2","id":"60D3B2E7-6F28-8EDF-47AB-1A840E2C3494","option_definition_id":"56199BF0-72E3-6537-9752-3592462B7AE3"}}]'
+      string: '[{"catalog_item_option_assignment":{"catalog_item_id":"C1200056652-MMT_2","id":"541D55D0-CC71-111A-6A28-3EF9412CFDC0","option_definition_id":"930D19CF-B93F-8388-40D6-F601357CF344"}},{"catalog_item_option_assignment":{"catalog_item_id":"C1200056652-MMT_2","id":"60D3B2E7-6F28-8EDF-47AB-1A840E2C3494","option_definition_id":"56199BF0-72E3-6537-9752-3592462B7AE3"}}]'
     http_version: 
   recorded_at: Fri, 23 Dec 2016 00:34:21 GMT
 - request:
     method: delete
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments/A913CBBD-3DD0-5FE2-BB76-A742C5CC988E
+    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments/541D55D0-CC71-111A-6A28-3EF9412CFDC0
     body:
       encoding: US-ASCII
       string: ''
@@ -74,48 +74,6 @@ http_interactions:
         path=/; HttpOnly
       x-runtime:
       - '0.096000'
-      server:
-      - Jetty(9.2.z-SNAPSHOT)
-      connection:
-      - close
-      date:
-      - Fri, 23 Dec 2016 00:34:21 GMT
-    body:
-      encoding: US-ASCII
-      string: ''
-    http_version: 
-  recorded_at: Fri, 23 Dec 2016 00:34:21 GMT
-- request:
-    method: delete
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments/60D3B2E7-6F28-8EDF-47AB-1A840E2C3494
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Faraday v0.8.11
-      Content-Type:
-      - application/json
-      Client-Id:
-      - MMT
-      Echo-ClientId:
-      - MMT
-      Echo-Token:
-      - access_token
-  response:
-    status:
-      code: 204
-      message: 
-    headers:
-      cache-control:
-      - no-cache
-      x-ua-compatible:
-      - IE=Edge,chrome=1
-      set-cookie:
-      - _EchoRestRails_session=BAh7BiIPc2Vzc2lvbl9pZCIlNTE5NTJiOWU1MzUyZDk1NTllZDQ0YjdmOGFiZTFiODA%3D--4cc5a5eb6a4b682c530d9bd2c6735f9cf3ec4ce4;
-        path=/; HttpOnly
-      x-runtime:
-      - '0.059000'
       server:
       - Jetty(9.2.z-SNAPSHOT)
       connection:

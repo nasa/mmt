@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'Viewing and Creating Order Option Assignments' do
   before do
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
     login
 

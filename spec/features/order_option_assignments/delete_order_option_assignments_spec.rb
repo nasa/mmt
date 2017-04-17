@@ -5,25 +5,23 @@ require 'rails_helper'
 describe 'Deleting Order Option Assignments' do
   before do
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
     login
 
-    VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
-      visit order_option_assignments_path
-    end
+    visit order_option_assignments_path
 
     wait_for_ajax
 
     within '#collectionsChooser' do
       select('lorem_223 | ipsum', from: 'Available Collections')
 
-      within ".button-container" do
+      within '.button-container' do
         find('button[title=add]').click
       end
     end
 
-    VCR.use_cassette('echo_rest/order_option_assignments/display2', record: :none) do
+    VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
       click_on 'Display Assignments'
     end
   end
@@ -63,7 +61,7 @@ describe 'Deleting Order Option Assignments' do
 
     context 'When accepting the confirmation dialog', js: true do
       before do
-        VCR.use_cassette('echo_rest/order_option_assignments/delete2', record: :none) do
+        VCR.use_cassette('echo_rest/order_option_assignments/delete', record: :none) do
           click_on 'Yes'
         end
       end
