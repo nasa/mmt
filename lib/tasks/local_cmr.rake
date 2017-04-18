@@ -101,10 +101,30 @@ namespace :cmr do
           puts "- Compressed file available at #{js_asset_output_file}"
         end
       rescue => e
-        puts "Failed to commpile JavaScript: #{e}"
+        puts "Failed to compile JavaScript: #{e}"
       end
 
       puts "\nDone!"
+    end
+
+    desc 'Export UMM version for cmr metadata preview gem'
+    task umm_version: :environment do
+      begin
+        umm_version_file = File.join(Rails.root.to_s, 'cmr_metadata_preview', '.umm_version.json')
+
+        umm_version = { umm_version: Rails.configuration.umm_version }
+
+        directory = File.dirname(umm_version_file)
+        FileUtils.mkdir_p(directory) unless File.directory?(directory)
+
+        File.write(umm_version_file, umm_version.to_json)
+
+        puts 'Created .umm_version.json file for cmr_metadata_preview.'
+      rescue => e
+        puts "Failed to write .umm_version.json file: #{e}"
+      end
+
+      puts "Done!"
     end
   end
 end
