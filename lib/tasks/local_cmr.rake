@@ -112,7 +112,6 @@ namespace :cmr do
       begin
         umm_version_file = File.join(Rails.root.to_s, 'cmr_metadata_preview', '.umm-version')
 
-        # umm_version = Rails.configuration.umm_version
         full_umm_version = Rails.configuration.umm_version
         umm_version_number = /version=(\d+\.\d)$/.match(full_umm_version)[1]
 
