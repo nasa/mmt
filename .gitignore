@@ -43,3 +43,6 @@ node_modules/
 
 # Build folder for CMR Metadata Preview
 cmr_metadata_preview/*
+
+# Ignore coffeelint configuration
+coffeelint.json
