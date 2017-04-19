@@ -61,6 +61,52 @@ describe 'Collection Permissions form', js: true do
       end
     end
 
+    context 'when selecting a group for Search Groups' do
+      before do
+        # Using the standard Capybara 'select _, from _' method does not trigger the
+        # correct select2 event needed for our form event handlers, so we need
+        # to find more specific elements of select2 to choose our selection and
+        # trigger the appropriate event.
+        within '#search_groups_cell' do
+          page.find('ul.select2-selection__rendered').click
+          page.find('.select2-search__field').native.send_keys('gue')
+        end
+
+        page.find('ul#select2-search_groups_-results li.select2-results__option--highlighted').click
+      end
+
+      it 'selects the group in the Search Groups input' do
+        within '#search_groups_cell' do
+          expect(page).to have_css('li.select2-selection__choice', text: 'All Guest Users')
+        end
+      end
+
+      it 'disables the selected option in the Search & Order Groups input' do
+        within '#search_and_order_groups_cell' do
+          expect(page).to have_css('option[disabled]', text: 'All Guest Users')
+        end
+      end
+
+      context 'when unselecting the group' do
+        before do
+          within '#search_groups_cell' do
+            page.find('.select2-selection__choice[title="All Guest Users"] > .select2-selection__choice__remove').click
+          end
+        end
+
+        it 'unselects the group from the Search Groups input' do
+          expect(page).to have_no_css('li.select2-selection__choice', text: 'All Guest Users')
+        end
+
+        it 'enables the unselected option in the other select input' do
+          within '#search_and_order_groups_cell' do
+            expect(page).to have_no_css('option[disabled]', text: 'All Guest Users')
+            expect(page).to have_css('option', text: 'All Guest Users')
+          end
+        end
+      end
+    end
+
     context 'when attempting to create a collection permission with invalid information' do
       before do
         click_on 'Submit'
@@ -82,7 +128,7 @@ describe 'Collection Permissions form', js: true do
 
       it 'displays the appropriate validation errors' do
         expect(page).to have_content('Permission Name is required.')
-        expect(page).to have_content('Please specify collections.')
+        expect(page).to have_content('You must select at least 1 collection.')
         expect(page).to have_content('Granules must be specified.')
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end

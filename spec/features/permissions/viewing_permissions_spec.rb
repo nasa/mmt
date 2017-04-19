@@ -147,7 +147,7 @@ describe 'Viewing Collection Permissions', reset_provider: true do
     end
 
     # PUMP can also add group permissions where the group has empty permissions so we should test that as well
-    context 'when the collection permission has create, update, and delete permissions as well as groups with empty permissions' do
+    context 'when the collection permission also has create, update, and delete permissions, permissions in alternative order, and groups with empty permissions' do
       before do
         # while we can use stubbed groups for collection permissions, it seems
         # that we need to have ingested collections to create a collection
@@ -175,7 +175,7 @@ describe 'Viewing Collection Permissions', reset_provider: true do
             permissions: []
           }, {
             group_id: group1_id,
-            permissions: [ 'delete', 'update', 'order', 'read', 'create' ]
+            permissions: [ 'order' ]
           }],
           catalog_item_identity: {
             'name': @collection_permission_2_name,

@@ -53,7 +53,7 @@ $(document).ready ->
                   return true
                 return false
             messages:
-             required: 'Please specify collections.'
+              required: 'You must select at least 1 collection.'
 
 
     # show the Chooser widget if a refresh of the page has "selected collections" as the dropdown value
@@ -68,7 +68,7 @@ $(document).ready ->
           $.each entry_titles, (index, value)->
             opt_val = value.split('|')[1].trim()
             opts.push( [opt_val, value] )
-          collectionsChooser.setToVal(opts);
+          collectionsChooser.setToVal(opts)
     ), 500
 
     # Show respective field based on selection
@@ -205,27 +205,67 @@ $(document).ready ->
       parseFloat(value) > parseFloat(minimum)
     , 'Maximum value must be greater than Minimum value.' # default message
 
-
     visitedPermissionGroupSelect = []
+
+    validateSelect2s = (selectDropdown) ->
+      if visitedPermissionGroupSelect.indexOf('search_groups') != -1 && visitedPermissionGroupSelect.indexOf('search_and_order_groups') != -1
+        $(selectDropdown).valid()
+
+    toggleSelectOption = (selectId, optionValue, action) ->
+      $targetOption = $(selectId).find('option[value="' + optionValue + '"]')
+      disabledValue = action == 'disable' ? true : false
+      $targetOption.prop('disabled', disabledValue)
+
+      # need to call this again, or the disabled/enabled state doesn't display properly when this is triggered multiple times
+      $(selectId).select2()
 
     $('#search_groups_').select2()
     .on 'select2:open', (e) ->
-      # add the id to visited array on open
-      id = $(this).attr('id')
-      visitedPermissionGroupSelect.push id unless visitedPermissionGroupSelect.indexOf(id) != -1
+      visitedPermissionGroupSelect.push 'search_groups' unless visitedPermissionGroupSelect.indexOf('search_groups') != -1
     .on 'select2:close', (e) ->
       # check if the visited array has both select2 fields, and if so validate on close
-      if visitedPermissionGroupSelect.indexOf('#search_groups_') != -1 && visitedPermissionGroupSelect.indexOf('#search_and_order_groups_') != -1
-        $(this).valid()
+      validateSelect2s(this)
+    .on 'change', (e) ->
+      # check if the visited array has both select2 fields, and if so validate on close
+      validateSelect2s(this)
+    .on 'select2:select', (e) ->
+      # when a group is selected, disable the option in the other dropdown
+      selectedValue = e.params.data.id
+      toggleSelectOption('#search_and_order_groups_', selectedValue, 'disable')
+    .on 'select2:unselect', (e) ->
+      # when a group is unselected, enable the option in the other dropdown
+      unselectedValue = e.params.data.id
+      toggleSelectOption('#search_and_order_groups_', unselectedValue, 'enable')
+
 
     $('#search_and_order_groups_').select2()
     .on 'select2:open', (e) ->
-      id = $(this).attr('id')
-      visitedPermissionGroupSelect.push id unless visitedPermissionGroupSelect.indexOf(id) != -1
+      visitedPermissionGroupSelect.push 'search_and_order_groups' unless visitedPermissionGroupSelect.indexOf('search_and_order_groups') != -1
     .on 'select2:close', (e) ->
       # check if the visited array has both select2 fields, and if so validate on close
-      if visitedPermissionGroupSelect.indexOf('search_groups_') != -1 && visitedPermissionGroupSelect.indexOf('search_and_order_groups_') != -1
-        $(this).valid()
+      validateSelect2s(this)
+    .on 'change', (e) ->
+      # check if the visited array has both select2 fields, and if so validate on close
+      validateSelect2s(this)
+    .on 'select2:select', (e) ->
+      # when a group is selected, disable the option in the other dropdown
+      selectedValue = e.params.data.id
+      toggleSelectOption('#search_groups_', selectedValue, 'disable')
+    .on 'select2:unselect', (e) ->
+      # when a group is unselected, enable the option in the other dropdown
+      unselectedValue = e.params.data.id
+      toggleSelectOption('#search_groups_', unselectedValue, 'enable')
+
+
+    # on load, run through the select2 dropdowns to test for already selected values and disable the options in the other dropdown
+    $selectedSearchGroupOptions = $('#search_groups_').find('option:selected')
+    $selectedSearchOrderGroupOptions = $('#search_and_order_groups_').find('option:selected')
+
+    $selectedSearchGroupOptions.each (index, option) ->
+      toggleSelectOption('#search_and_order_groups_', $(option).val(), 'disable')
+    $selectedSearchOrderGroupOptions.each (index, option) ->
+      toggleSelectOption('#search_groups_', $(option).val(), 'disable')
+
 
     $('#permissions-save-button').click( ->
       $('#collectionsChooser_toList').find('option:first').prop('selected', true)

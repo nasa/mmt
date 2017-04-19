@@ -398,14 +398,20 @@ class PermissionsController < ManageCmrController
     # if there are hidden groups, add them
     hidden_search_groups = params[:hidden_search_groups].split('; ') if params[:hidden_search_groups]
     search_groups += hidden_search_groups if hidden_search_groups
-    search_groups.each do |search_group|
-      req_obj['group_permissions'] << construct_request_group_permission(search_group, ['read']) # aka 'search'
-    end
 
     search_and_order_groups = params[:search_and_order_groups] || []
     # if there are hidden groups, add them
     hidden_search_and_order_groups = params[:hidden_search_and_order_groups].split('; ') if params[:hidden_search_and_order_groups]
     search_and_order_groups += hidden_search_and_order_groups if hidden_search_and_order_groups
+
+    search_groups.each do |search_group|
+      # we are preventing a user from selecting a group for both search AND search & order
+      # if that still happens, we should only keep the group as a search_and_order_group in the ACL
+      next if search_and_order_groups.include?(search_group)
+
+      req_obj['group_permissions'] << construct_request_group_permission(search_group, ['read']) # aka 'search'
+    end
+
     search_and_order_groups.each do |search_and_order_group|
       # PUMP allows for other permissions (Create, Update, Delete) but we don't use them
       # because those permissions are actually controlled by INGEST_MANAGEMENT_ACL
@@ -438,7 +444,9 @@ class PermissionsController < ManageCmrController
       group_permissions = perm['acl']['group_permissions']
       group_permissions.each do |group_perm|
         perm_list = group_perm['permissions']
-        if perm_list.include?('read') && perm_list.include?('order')
+        if perm_list.include?('order')
+          # we only need to check for 'order', because PUMP allows for assigning a group only 'order' permissions,
+          # and we should assume that group also has 'search' (aka 'read') permissions
           is_search_and_order_perm = true
         elsif perm_list.include?('read')
           is_search_perm = true
@@ -467,14 +475,18 @@ class PermissionsController < ManageCmrController
         # group is not a system group
         # OR group is guest or registered
         # OR group is a system group and user has READ access
-        if group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order')
+        if group_perm['permissions'].include?('order')
+          # we only need to check for 'order', because PUMP allows for assigning a group only 'order' permissions,
+          # and we should assume that group also has 'search' (aka 'read') permissions
           search_and_order_groups << (group_perm['group_id'] || group_perm['user_type'])
         elsif group_perm['permissions'].include?('read')
           search_groups << (group_perm['group_id'] || group_perm['user_type'])
         end
-      elsif
+      else
         # group is a system group and user does NOT have READ access
-        if group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order')
+        if group_perm['permissions'].include?('order')
+          # we only need to check for 'order', because PUMP allows for assigning a group only 'order' permissions,
+          # and we should assume that group also has 'search' (aka 'read') permissions
           hidden_search_and_order_groups << (group_perm['group_id'])
         elsif group_perm['permissions'].include?('read')
           hidden_search_groups << (group_perm['group_id'])

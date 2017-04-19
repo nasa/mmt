@@ -1,6 +1,5 @@
 module Helpers
   module AjaxHelpers
-
     def wait_for_ajax
       still_working = true
       while still_working
@@ -14,10 +13,10 @@ module Helpers
       Timeout.timeout(secs) do
         loop until finished_all_jQuery_requests?
       end
-   end
+    end
 
-   def finished_all_jQuery_requests?
+    def finished_all_jQuery_requests?
       page.evaluate_script('jQuery.active').zero?
-   end
+    end
   end
 end

@@ -83,7 +83,7 @@ describe 'Collection Permissions', reset_provider: true, js: true do
           permissions: [ 'read', 'order' ]
         }, {
           group_id: "AG1200000069-MMT_2",
-          permissions: [ 'read', 'order' ]
+          permissions: [ 'order' ]
         }],
         catalog_item_identity: {
           'name': 'Collection Permission to Edit 01',
