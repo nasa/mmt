@@ -276,16 +276,16 @@ class GroupsController < ManageCmrController
       response = cmr_client.get_permissions(permission_params, token)
     end
 
-    all_permissions.each do |perm|
-      group_permissions = perm.fetch('acl', {}).fetch('group_permissions', [{}])
+    all_permissions.each do |permission|
+      group_permissions = permission.fetch('acl', {}).fetch('group_permissions', [{}])
 
       # collection permissions should show as associated permission on the group page
-      # only if the group has Search or Search and Order permissions
-      if group_permissions.any? { |group_perm| group_perm['group_id'] == @concept_id && (group_perm['permissions'].include?('read') || (group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order'))) }
-        @permissions << perm
+      # only if the group has Search or Search & Order permissions (if a group has only Order permissions, that implies having Search)
+      if group_permissions.any? { |group_permission| group_permission['group_id'] == @concept_id && (group_permission['permissions'].include?('read') || group_permission['permissions'].include?('order')) }
+        @permissions << permission
       end
     end
 
-    @permissions.sort_by! { |perm| perm['name'] }
+    @permissions.sort_by! { |permission| permission['name'] }
   end
 end
