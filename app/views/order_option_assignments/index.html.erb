@@ -8,16 +8,16 @@
 
     <p>To <em>view</em> or <em>remove</em> currently assigned Order Options select the collections to view below.</p>
 
-    <%= form_tag(edit_order_option_assignments_path, method: :post, id: 'order-option-assignments-form') %>
+    <%= form_tag(edit_order_option_assignments_path, method: :post, id: 'order-option-assignments-form') do %>
+      <fieldset>
+        <div class="row">
+          <div id="chooser-widget"></div>
+        </div>
+      </fieldset>
 
-    <fieldset>
-      <div class="row">
-        <div id="chooser-widget"></div>
-      </div>
-    </fieldset>
-
-    <fieldset>
-      <%= button_tag 'Display Assignments', class: 'eui-btn', id: 'submit-display-options' %>
-    </fieldset>
+      <fieldset>
+        <%= button_tag 'Display Assignments', class: 'eui-btn' %>
+      </fieldset>
+    <% end %>
   </section>
 </div>
