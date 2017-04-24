@@ -13,7 +13,7 @@ describe 'Groups Associated Permissions', reset_provider: true do
       add_associated_permissions_to_group(group_id: group_id, name: 'Test Permission 2', permissions: [ 'read', 'order' ])
       add_associated_permissions_to_group(group_id: group_id, name: 'Test Permission 3', permissions: [])
       add_associated_permissions_to_group(group_id: group_id, name: 'Test Permission 4', permissions: [ 'create', 'update', 'delete'])
-
+      add_associated_permissions_to_group(group_id: group_id, name: 'Test Permission 5', permissions: [ 'order' ])
 
       visit group_path(group_id)
     end
@@ -23,6 +23,7 @@ describe 'Groups Associated Permissions', reset_provider: true do
 
       expect(page).to have_content 'Test Permission 1'
       expect(page).to have_content 'Test Permission 2'
+      expect(page).to have_content 'Test Permission 5'
       expect(page).to have_no_content 'Test Permission 3'
       expect(page).to have_no_content 'Test Permission 4'
     end
