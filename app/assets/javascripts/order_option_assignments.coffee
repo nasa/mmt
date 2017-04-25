@@ -95,7 +95,7 @@ $(document).ready ->
       fromLabel: 'Available Collections',
       toLabel: 'Selected Collections',
       uniqueMsg: 'Collection is already selected',
-      toMax: 100,
+      toMax: 25,
       addButton: {
         cssClass: 'eui-btn nowrap',
         arrowCssClass: 'fa fa-plus',
