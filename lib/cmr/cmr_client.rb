@@ -169,7 +169,7 @@ module Cmr
 
     ### CMR Bulk Updates, via CMR Ingest
 
-    def get_bulk_updates_tasks_list(provider_id, token)
+    def get_bulk_updates_tasks_list(provider_id, filters, token)
       # ingest/providers/<provider-id>/bulk-update/collections/status
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3002/providers/#{provider_id}/bulk-update/collections/status"
@@ -179,7 +179,7 @@ module Cmr
 
       headers = { 'Accept' => 'application/json; charset=utf-8' }
 
-      get(url, {}, headers.merge(token_header(token)))
+      get(url, filters, headers.merge(token_header(token)))
     end
 
     def bulk_updates_task_status(provider_id, task_id, token)
