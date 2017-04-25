@@ -65,9 +65,9 @@ Rails.application.routes.draw do
 
   get 'search' => 'search#index', as: 'search'
 
-  # TODO: Create a manage_metadata controller like the manage_cmr controller below
-  get 'manage_metadata' => 'pages#manage_metadata', as: 'manage_metadata'
+  resource :bulk_updates_search, only: [:new]
 
+  resource :manage_metadata, only: :show, controller: 'manage_metadata'
   resource :manage_cmr, only: :show, controller: 'manage_cmr'
 
   # API Endpoints for Chooser implementations

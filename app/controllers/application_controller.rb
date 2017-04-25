@@ -24,6 +24,10 @@ class ApplicationController < ActionController::Base
     redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
   end
 
+  def bulk_updates_enabled?
+    redirect_to manage_metadata_path unless Rails.configuration.bulk_updates_enabled
+  end
+
   def setup_query
     @query ||= {}
     @provider_ids ||= cmr_client.get_providers.body.map { |provider| [provider['short-name'], provider['provider-id']] }.sort

@@ -81,6 +81,9 @@ Rails.application.configure do
   # Feature Toggle for groups
   config.groups_enabled = true
 
+  # Feature Toggle for bulk updates
+  config.bulk_updates_enabled = true
+
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
   config.analytics_id = 'UA-62340125-5'

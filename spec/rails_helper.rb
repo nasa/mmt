@@ -126,6 +126,7 @@ RSpec.configure do |config|
   config.order = :random
 
   # Helpers
+  config.include Helpers::ControllerHelpers
   config.include Helpers::AjaxHelpers
   config.include Helpers::CmrHelper
   config.include Helpers::DateHelpers
