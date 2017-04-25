@@ -1,62 +1,38 @@
-<div id="main-content">
-  <main class="internal" role="main">
-    <header>
-      <%= render_breadcrumbs builder: ::EuiBreadcrumbsBuilder %>
+<div class="row row-content">
+  <section>
+    <h2>Bulk Update Task <%= @concept_id %></h2>
 
-      <nav>
-        <div class="content">
-          <h2 class="current"><%= link_to 'Manage Metadata', manage_metadata_path %></h2>
-          <% if Rails.configuration.groups_enabled %>
-          <h2><%= link_to 'Manage CMR', manage_cmr_path %></h2>
+    <h3>Task Status: <%= @task.fetch('task-status', 'Unknown') %></h3>
+    <h4>Status Message: <%= @task.fetch('status_message', 'Unknown') %></h4>
+
+  </section>
+  <section>
+    <% if @task.fetch('collection-statuses', []).blank? %>
+      <h4>No Bulk Update Errors for this Task</h4>
+      <!-- TODO put this in table or keep out of table? -->
+    <% else %>
+
+      <h4>Bulk Update Errors</h4>
+      <table class="space-top space-bot" id="bulk-update-task-errors-table">
+        <thead>
+          <tr>
+            <th>Collection Concept ID</th> <!-- TODO should we be requesting and displaying other info? i.e. entry title, entry id... -->
+            <th>Status</th>
+            <th>Status Message</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @task['collection-statuses'].each do |task_error| %>
+            <tr>
+              <td><%= link_to @concept_id, collection_path(@concept_id) %></td>
+              <td><%= task_error.fetch('status', 'Unknown') %></td>
+              <td><%= task_error.fetch('status-message', 'Unknown') %></td>
+            </tr>
           <% end %>
-        </div>
-      </nav>
-    </header>
+        </tbody>
+      </table>
 
-    <%= render 'shared/flash_messages' %>
-
-
-    <!-- tags opened above probably can be removed after rebasing with Manage Metadata Controller changes -->
-    <div class="row row-content">
-      <section>
-        <h2>Bulk Update Task <%= @concept_id %></h2>
-
-        <h3>Task Status: <%= @task_status %></h3>
-        <h4>Status Message: <%= @status_message %></h4>
-
-      </section>
-      <section>
-        <% if @task_errors.blank? %>
-          <h4>No Bulk Update Errors for this Task</h4>
-          <!-- TODO put this in table or keep out of table? -->
-        <% else %>
-
-          <h4>Bulk Update Errors</h4>
-          <table class="space-top space-bot" id="bulk-update-task-errors-table">
-            <thead>
-              <tr>
-                <th>Collection Concept ID</th> <!-- TODO should we be requesting and displaying other info? i.e. entry title, entry id... -->
-                <th>Status</th>
-                <th>Status Message</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <% @task_errors.each do |task_error| %>
-                <tr>
-                  <td><%= link_to @concept_id, collection_path(@concept_id) %></td>
-                  <td><%= task_error.fetch('status', 'unknown') %></td>
-                  <td><%= task_error.fetch('status-message', 'unknown') %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-
-        <% end %>
-      </section>
-    </div>
-
-
-    <!-- tags below can also be removed when tags above are removed -->
-  </main>
+    <% end %>
+  </section>
 </div>
