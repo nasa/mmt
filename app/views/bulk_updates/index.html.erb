@@ -1,0 +1,54 @@
+<div id="main-content">
+  <main class="internal" role="main">
+    <header>
+      <%= render_breadcrumbs builder: ::EuiBreadcrumbsBuilder %>
+
+      <nav>
+        <div class="content">
+          <h2 class="current"><%= link_to 'Manage Metadata', manage_metadata_path %></h2>
+          <% if Rails.configuration.groups_enabled %>
+          <h2><%= link_to 'Manage CMR', manage_cmr_path %></h2>
+          <% end %>
+        </div>
+      </nav>
+    </header>
+
+    <%= render 'shared/flash_messages' %>
+
+
+    <!-- tags opened above probably can be removed after rebasing with Manage Metadata Controller changes -->
+    <div class="row row-content">
+      <section>
+        <h2>Bulk Updates for <%= @provider_id %></h2>
+
+        <!-- <h3>Bulk Updates Status: <%#= @http_status %></h3> -->
+
+        <table class="bulk-updates-tasks-table">
+          <thead>
+            <tr>
+              <th>Task ID</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @tasks.blank? %>
+              <tr>
+                <td colspan="2">No tasks found</td>
+              </tr>
+            <% else %>
+              <% @tasks.each do |task| %>
+                <tr>
+                  <td><%= link_to task.fetch('task-id', nil), bulk_update_path(task.fetch('task-id', nil)) %></td>
+                  <td><%= task.fetch('status', nil) %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+
+    <!-- tags below can also be removed when tags above are removed -->
+  </main>
+</div>
