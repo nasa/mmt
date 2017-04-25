@@ -26,7 +26,9 @@ module ChooserEndpoints
     collection_params = {
       'provider' => current_user.provider_id,
       'page_size' => 25
-    }.merge(params)
+    }.stringify_keys.merge(params.stringify_keys)
+
+    Rails.logger.debug "Provider Collection Request parameters: #{collection_params}" unless request.xhr?
 
     if collection_params.key?('short_name')
       collection_params['short_name'].concat('*')
