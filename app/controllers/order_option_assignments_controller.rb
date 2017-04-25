@@ -11,7 +11,7 @@ class OrderOptionAssignmentsController < ManageCmrController
   end
 
   def edit
-    collections = get_provider_collections(concept_id: params['collectionsChooser_toList'])
+    collections = get_provider_collections(concept_id: params['collectionsChooser_toList'], page_size: params['collectionsChooser_toList'].count)
 
     @collections_to_list = []
 
