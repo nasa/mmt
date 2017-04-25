@@ -1,7 +1,7 @@
 
 FactoryGirl.define do
   factory :user, class: User do
-    urs_uid 'someuser'
+    urs_uid 'testuser'
     provider_id 'MMT_2'
     available_providers %w(MMT_2)
 

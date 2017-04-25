@@ -1,3 +1,4 @@
+# :nodoc:
 class GroupsController < ManageCmrController
   include GroupsHelper
   include PermissionManagement

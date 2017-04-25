@@ -1,0 +1,82 @@
+<main class="dashboard" role="main">
+  <article id="metadata" class="row-content flex-row--start" role="article">
+    <section class="eui-callout-box col-left">
+      <h3 class="eui-callout-box__title">Create New Record</h3>
+      <div class="eui-callout-box__list">
+        <%= form_tag(new_record_path, method: 'get', enforce_utf8: false) do %>
+          <div class="question-group">
+            <div class="row">
+              <%= radio_button_tag(:type, "new_collection", true, id: 'new-collection') %>
+              <%= image_tag "collection.png", alt: "" %>
+              <label for="new-collection">
+                New Collection Record
+              </label>
+            </div>
+            <div class="row">
+              <%= radio_button_tag(:type, "new_service", nil, disabled: true, id: 'new-service') %>
+              <!-- <%= image_tag "services.png", alt: "" %> -->
+              <label class="disabled" for="new-service">New Service Record</label><span class="coming-soon">Coming Soon</span>
+            </div>
+          </div>
+          <div class="question-group">
+            <div class="row">
+              <%= radio_button_tag(:type, "from_template", nil, disabled: true, id: 'from-template') %>
+              <label class="disabled" for="from-template">From Template</label><span class="coming-soon">Coming Soon</span>
+              <!-- <select name="select-template" class="single-select">
+                <option value="Select Template">Select Template</option>
+              </select> -->
+            </div>
+            <div class="row">
+              <%= radio_button_tag(:type, "blank_record", nil, disabled: true, id: 'blank-record') %>
+              <label class="disabled" for="blank-record">From Blank Record</label><span class="coming-soon">Coming Soon</span>
+            </div>
+            <div class="row">
+              <p><strong>OR</strong> use search to find an existing record to use as a basis for a new record</p>
+            </div>
+          </div>
+          <div class="row">
+            <input type="submit" class="eui-btn--blue submit" value="Create Record">
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="eui-callout-box col-left">
+      <div class="open-drafts">
+        <h3 class="eui-callout-box__title">Your <%= current_user.provider_id %> Drafts</h2>
+        <div class="eui-callout-box__list">
+          <ul>
+            <% unless @drafts.any? %>
+            <%= current_user.provider_id %> has no drafts to display. 
+            <% end %>
+            <% @drafts[0..@draft_display_max_count-1].each do |draft| %>
+              <li>
+                <p>
+                  <%= time_tag draft.updated_at, draft.updated_at.strftime("%Y-%m-%d") %> |
+                  <%= link_to draft.display_short_name, draft_path(draft) %> </br>
+                  &nbsp;<%= draft.display_entry_title.truncate(32) %>
+                </p>
+              </li>
+            <% end %>
+            <% if @drafts.size > @draft_display_max_count %>
+              <li>
+                <%= link_to 'More', drafts_path %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <% if Rails.configuration.bulk_updates_enabled %>
+      <section class="eui-callout-box col-left">
+        <h3 class="eui-callout-box__title">Your Bulk Updates</h3>
+        <div class="eui-callout-box__list">
+          <p>There are no bulk update operations to display.</p>
+
+          <%= link_to 'Initiate a Bulk Update', new_bulk_updates_search_path, class: 'eui-btn--blue space-top' %>
+        </div>
+      </section>
+    <% end %>
+  </article>
+</main>

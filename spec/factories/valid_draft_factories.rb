@@ -5,6 +5,7 @@ FactoryGirl.define do
     transient do
       draft_short_name nil
       draft_entry_title nil
+      version nil
     end
 
     native_id 'full_draft_id'
@@ -291,7 +292,7 @@ FactoryGirl.define do
       }],
       'Abstract'     => 'This is a long description of the collection',
       'ShortName'    => draft_short_name || "#{Faker::Number.number(6)}_#{Faker::Superhero.name}",
-      'Version'      => '1',
+      'Version'      => version || '1',
       'VersionDescription' => 'Version 1 Description',
       'EntryTitle'   => draft_entry_title || "#{Faker::Number.number(6)}_#{Faker::Name.title}",
       'Purpose'      => 'This is the purpose field',
