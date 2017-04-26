@@ -7,9 +7,9 @@ describe 'Viewing the Bulk Updates Index Page', reset_provider: true do
 
   context 'when there are bulk updates' do
     before do
-    #   when the endpoint accepts and returns real data we will need to create some bulk updates
-
-    visit bulk_updates_path
+      # when the endpoint accepts and returns real data we will need to create some bulk updates
+      
+      visit bulk_updates_path
     end
 
     it 'displays the page with a list of bulk updates' do
