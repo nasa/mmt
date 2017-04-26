@@ -2,7 +2,7 @@
   <section>
     <h2>Bulk Updates for <%= @provider_id %></h2>
 
-    <table class="bulk-updates-tasks-table">
+    <table class="bulk-updates-list-table">
       <thead>
         <tr>
           <th>Task ID</th>
@@ -17,7 +17,7 @@
         <% else %>
           <% @tasks.each do |task| %>
             <tr>
-              <td><%= link_to task.fetch('task-id', nil), bulk_update_path(task.fetch('task-id', nil)) %></td>
+              <td><%= link_to task.fetch('task-id', nil), bulk_update_path(task.fetch('task-id', 'not found')) %></td>
               <td><%= task.fetch('status', nil) %></td>
             </tr>
           <% end %>

@@ -19,9 +19,9 @@ describe BulkUpdatesController, reset_provider: true do
       # this is what we need to test against because of the response dummy data
       expect(assigns(:tasks)).to eq(
         [
-          { "task-id" => "ABCDEF123","status" => "IN_PROGRESS" },
-          { "task-id" => "12345678","status" => "COMPLETE" },
-          { "task-id" => "XYZ123456","status" => "COMPLETE" }
+          { 'task-id' => 'ABCDEF123', 'status' => 'IN_PROGRESS' },
+          { 'task-id' => '12345678', 'status' => 'COMPLETE' },
+          { 'task-id' => 'XYZ123456', 'status' => 'COMPLETE' }
         ]
       )
     end
@@ -44,13 +44,16 @@ describe BulkUpdatesController, reset_provider: true do
 
       # this is what we need to test against because of the response dummy data
       expect(assigns(:task)).to eq(
-        { "status" => 200,
-          "task-status" => "COMPLETE",
-          "status-message" => "The bulk update completed with 2 errors",
-          "collection-statuses" => [
-            { "concept-id" => "C1-PROV","status-message" => "Missing required properties" },
-            {"concept-id" => "C2-PROV","status-message" => "Invalid XML" }
-          ] })
+        {
+          'status' => 200,
+          'task-status' => 'COMPLETE',
+          'status-message' => 'The bulk update completed with 2 errors',
+          'collection-statuses' => [
+            { 'concept-id' => 'C1-PROV','status-message' => 'Missing required properties' },
+            {'concept-id' => 'C2-PROV','status-message' => 'Invalid XML' }
+          ]
+        }
+      )
     end
   end
 end
