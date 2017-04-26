@@ -17,8 +17,9 @@
         <% else %>
           <% @tasks.each do |task| %>
             <tr>
-              <td><%= link_to task.fetch('task-id', nil), bulk_update_path(task.fetch('task-id', 'not found')) %></td>
-              <td><%= task.fetch('status', nil) %></td>
+              <% next unless task['task-id'] %>
+              <td><%= link_to task['task-id'], bulk_update_path(task['task-id'] %></td>
+              <td><%= task['status'] %></td>
             </tr>
           <% end %>
         <% end %>
