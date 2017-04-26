@@ -1,19 +1,19 @@
 <div class="row row-content">
   <section>
-    <h2>Bulk Update Task <%= @concept_id %></h2>
+    <h2>Bulk Update <%= @task_id %></h2>
 
     <h3>Task Status: <%= @task.fetch('task-status', 'Unknown') %></h3>
     <h4>Status Message: <%= @task.fetch('status_message', 'Unknown') %></h4>
 
   </section>
   <section>
-    <% if @task.fetch('collection-statuses', []).blank? %>
+    <% if @task.fetch('collection-statuses', nil).blank? %>
       <h4>No Bulk Update Errors for this Task</h4>
       <!-- TODO put this in table or keep out of table? -->
     <% else %>
 
       <h4>Bulk Update Errors</h4>
-      <table class="space-top space-bot" id="bulk-update-task-errors-table">
+      <table class="space-top space-bot" id="bulk-update-errors-table">
         <thead>
           <tr>
             <th>Collection Concept ID</th> <!-- TODO should we be requesting and displaying other info? i.e. entry title, entry id... -->
@@ -25,7 +25,7 @@
         <tbody>
           <% @task['collection-statuses'].each do |task_error| %>
             <tr>
-              <td><%= link_to @concept_id, collection_path(@concept_id) %></td>
+              <td><%= link_to @task_id, collection_path(@task_id) %></td>
               <td><%= task_error.fetch('status', 'Unknown') %></td>
               <td><%= task_error.fetch('status-message', 'Unknown') %></td>
             </tr>

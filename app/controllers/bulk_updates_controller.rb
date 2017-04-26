@@ -17,30 +17,30 @@ class BulkUpdatesController < ManageMetadataController
     # page = params.fetch('page', 1)
     # @filters[:page_num] = page.to_i
 
-    bulk_updates_jobs_response = cmr_client.get_bulk_updates_tasks_list(@provider_id, filters, token)
+    bulk_updates_list_response = cmr_client.get_bulk_updates_list(@provider_id, filters, token)
 
-    if bulk_updates_jobs_response.success?
-      @tasks = bulk_updates_jobs_response.body.fetch('tasks', [])
+    if bulk_updates_list_response.success?
+      @tasks = bulk_updates_list_response.body.fetch('tasks', [])
     else
-      Rails.logger.error("Error retrieving Bulk Updates Jobs List: #{bulk_updates_jobs_response.inspect}")
-      flash[:error] = Array.wrap(bulk_updates_jobs_response.body['errors'])[0]
+      Rails.logger.error("Error retrieving Bulk Updates Jobs List: #{bulk_updates_list_response.inspect}")
+      flash[:error] = Array.wrap(bulk_updates_list_response.body['errors'])[0]
     end
   end
 
   def show
-    @concept_id = params[:id]
+    @task_id = params[:id]
     @provider_id = current_user.provider_id
 
     @task = {}
 
-    task_status_response = cmr_client.bulk_updates_task_status(@provider_id, @concept_id, token)
-    if task_status_response.success?
-      @task = task_status_response.body
+    bulk_update_status_response = cmr_client.get_bulk_update_status(@provider_id, @task_id, token)
+    if bulk_update_status_response.success?
+      @task = bulk_update_status_response.body
 
-      add_breadcrumb @concept_id, bulk_update_path(@concept_id)
+      add_breadcrumb @task_id, bulk_update_path(@task_id)
     else
-      Rails.logger.error("Error retrieving Bulk Update Task: #{task_status_response.inspect}")
-      flash[:error] = Array.wrap(task_status_response.body['errors'])[0]
+      Rails.logger.error("Error retrieving Bulk Update Task: #{bulk_update_status_response.inspect}")
+      flash[:error] = Array.wrap(bulk_update_status_response.body['errors'])[0]
     end
   end
 end
