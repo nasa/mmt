@@ -47,7 +47,7 @@
         <div class="eui-callout-box__list">
           <ul>
             <% unless @drafts.any? %>
-            <%= current_user.provider_id %> has no drafts to display.
+              <%= current_user.provider_id %> has no drafts to display.
             <% end %>
             <% @drafts[0..@draft_display_max_count-1].each do |draft| %>
               <li>
@@ -72,7 +72,11 @@
       <section class="eui-callout-box col-left">
         <h3 class="eui-callout-box__title">Your Bulk Updates</h3>
         <div class="eui-callout-box__list">
-          <%= link_to 'Bulk Updates', bulk_updates_path %>
+          <div class="question-group">
+            <div class="row">
+              <%= link_to 'Bulk Updates', bulk_updates_path %>
+            </div>
+          </div>
 
           <%= link_to 'Initiate a Bulk Update', new_bulk_updates_search_path, class: 'eui-btn--blue space-top' %>
         </div>

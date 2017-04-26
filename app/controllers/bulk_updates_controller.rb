@@ -1,5 +1,6 @@
 # :nodoc:
 class BulkUpdatesController < ManageMetadataController
+  before_filter :bulk_updates_enabled?
 
   add_breadcrumb 'Bulk Updates', :bulk_updates_path
 
@@ -17,13 +18,12 @@ class BulkUpdatesController < ManageMetadataController
     # page = params.fetch('page', 1)
     # @filters[:page_num] = page.to_i
 
-    bulk_updates_list_response = cmr_client.get_bulk_updates_list(@provider_id, filters, token)
+    bulk_updates_list_response = cmr_client.get_bulk_updates(@provider_id, filters, token)
 
     if bulk_updates_list_response.success?
       @tasks = bulk_updates_list_response.body.fetch('tasks', [])
     else
       Rails.logger.error("Error retrieving Bulk Updates Jobs List: #{bulk_updates_list_response.inspect}")
-      flash[:error] = Array.wrap(bulk_updates_list_response.body['errors'])[0]
     end
   end
 
@@ -33,14 +33,13 @@ class BulkUpdatesController < ManageMetadataController
 
     @task = {}
 
-    bulk_update_status_response = cmr_client.get_bulk_update_status(@provider_id, @task_id, token)
+    bulk_update_status_response = cmr_client.get_bulk_update(@provider_id, @task_id, token)
     if bulk_update_status_response.success?
       @task = bulk_update_status_response.body
 
       add_breadcrumb @task_id, bulk_update_path(@task_id)
     else
       Rails.logger.error("Error retrieving Bulk Update Task: #{bulk_update_status_response.inspect}")
-      flash[:error] = Array.wrap(bulk_update_status_response.body['errors'])[0]
     end
   end
 end
