@@ -1,15 +1,16 @@
 <div class="row row-content">
   <section>
-    <h2>
-      Bulk Update <%= @task_id %>
-      <span class="bulk-update-status eui-badge--sm"><%= @task.fetch('task-status') %></span>
-    </h2>
-    <p class="bulk-update-status-message"><%= @task.fetch('status-message', 'Status not retrieved') %></p>
+    <h2>Bulk Update <%= @task_id %></h2>
 
+    <div class="row">
+      <label class="bulk-update-status"><%= @task.fetch('task-status') %></label>
+
+      <p class="bulk-update-status-message"><%= @task.fetch('status-message', nil) %></p>
+    </div>
   </section>
 
   <section>
-    <% unless @task.fetch('collection-statuses', nil).blank? %>
+    <% unless @task.fetch('collection-statuses', []).blank? %>
       <h4>Bulk Update Errors</h4>
       <table class="space-top space-bot" id="bulk-update-errors-table">
         <thead>
@@ -22,7 +23,7 @@
         </thead>
 
         <tbody>
-          <% @task['collection-statuses'].each do |task_error| %>
+          <% @task.fetch('collection-statuses', []).each do |task_error| %>
             <tr>
               <!-- TODO: we are using concept ids for all collection information while
                    the endpoint is still returning dummy data. once there are real concept ids
@@ -30,7 +31,7 @@
               <td><%= link_to task_error['concept-id'], collection_path(task_error['concept-id']) %></td>
               <td><%= task_error['concept-id'] %></td>
               <td><%= task_error['concept-id'] %></td>
-              <td><%= task_error.fetch('status-message', 'Unknown') %></td>
+              <td><%= task_error.fetch('status-message', nil) %></td>
             </tr>
           <% end %>
         </tbody>

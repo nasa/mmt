@@ -18,7 +18,7 @@ describe 'Viewing a bulk update', reset_provider: true do
 
       it 'displays the bulk update information' do
         expect(page).to have_content("Bulk Update #{task_id}")
-        expect(page).to have_css('.eui-badge--sm', text: 'COMPLETE')
+        expect(page).to have_content('COMPLETE')
         expect(page).to have_content('The bulk update completed with 2 errors')
       end
 

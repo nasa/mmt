@@ -169,7 +169,7 @@ module Cmr
 
     ### CMR Bulk Updates, via CMR Ingest
 
-    def get_bulk_updates(provider_id, filters, token)
+    def get_bulk_updates(provider_id, token, filters = {})
       # ingest/providers/<provider-id>/bulk-update/collections/status
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3002/providers/#{provider_id}/bulk-update/collections/status"
