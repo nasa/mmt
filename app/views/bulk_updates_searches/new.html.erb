@@ -45,9 +45,9 @@
           <% if @collections.any? %>
           <% @collections.each do |collection| %>
           <tr>
-            <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {}).fetch('concept-id')), target: '_blank' %></td>
-            <td><%= collection.fetch('umm', {}).fetch('short-name') %></td>
-            <td><%= collection.fetch('umm', {}).fetch('version-id') %></td>
+            <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {})['concept-id']), target: '_blank' %></td>
+            <td><%= collection.fetch('umm', {})['short-name'] %></td>
+            <td><%= collection.fetch('umm', {})['version-id'] %></td>
           </tr>
           <% end %>
           <% else %>
