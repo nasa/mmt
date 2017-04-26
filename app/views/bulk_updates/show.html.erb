@@ -1,23 +1,22 @@
 <div class="row row-content">
   <section>
-    <h2>Bulk Update <%= @task_id %></h2>
-
-    <h3>Task Status: <%= @task.fetch('task-status', 'Unknown') %></h3>
-    <h4>Status Message: <%= @task.fetch('status_message', 'Unknown') %></h4>
+    <h2>
+      Bulk Update <%= @task_id %>
+      <span class="bulk-update-status eui-badge--sm"><%= @task.fetch('task-status') %></span>
+    </h2>
+    <p class="bulk-update-status-message"><%= @task.fetch('status-message', 'Status not retrieved') %></p>
 
   </section>
-  <section>
-    <% if @task.fetch('collection-statuses', nil).blank? %>
-      <h4>No Bulk Update Errors for this Task</h4>
-      <!-- TODO put this in table or keep out of table? -->
-    <% else %>
 
+  <section>
+    <% unless @task.fetch('collection-statuses', nil).blank? %>
       <h4>Bulk Update Errors</h4>
       <table class="space-top space-bot" id="bulk-update-errors-table">
         <thead>
           <tr>
-            <th>Collection Concept ID</th> <!-- TODO should we be requesting and displaying other info? i.e. entry title, entry id... -->
-            <th>Status</th>
+            <th>Entry Title</th>
+            <th>Short Name</th>
+            <th>Version</th>
             <th>Status Message</th>
           </tr>
         </thead>
@@ -25,8 +24,12 @@
         <tbody>
           <% @task['collection-statuses'].each do |task_error| %>
             <tr>
-              <td><%= link_to @task_id, collection_path(@task_id) %></td>
-              <td><%= task_error.fetch('status', 'Unknown') %></td>
+              <!-- TODO: we are using concept ids for all collection information while
+                   the endpoint is still returning dummy data. once there are real concept ids
+                   we will populate with actual collection information -->
+              <td><%= link_to task_error['concept-id'], collection_path(task_error['concept-id']) %></td>
+              <td><%= task_error['concept-id'] %></td>
+              <td><%= task_error['concept-id'] %></td>
               <td><%= task_error.fetch('status-message', 'Unknown') %></td>
             </tr>
           <% end %>

@@ -34,7 +34,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
           click_button 'Submit'
         end
       end
-      
+
       it 'displays an appropriate error message' do
         expect(page).to have_content('Search Query is required.')
       end
