@@ -54,13 +54,12 @@ describe 'Delete collection', js: true do
   end
 
   context 'when viewing a published collection with granules' do
+    let(:short_name) { 'MIRCCMF' }
     before do
       # Set the users provider to be LARC, in order to see collection with granules
       user = User.first
       user.provider_id = 'LARC'
       user.save
-
-      short_name = 'ACR3L2DM'
 
       fill_in 'Quick Find', with: short_name
       click_on 'Find'
