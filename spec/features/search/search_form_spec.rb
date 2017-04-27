@@ -4,8 +4,8 @@ require 'json'
 require 'rails_helper'
 
 describe 'Search Form', js: true do
-  let(:short_name)  { 'ACR3L2DM' }
-  let(:entry_title) { 'ACRIM III Level 2 Daily Mean Data V001' }
+  let(:short_name)  { 'MIRCCMF' }
+  let(:entry_title) { 'MISR FIRSTLOOK radiometric camera-by-camera Cloud Mask V001' }
 
   let(:cmr_search_response) { {
     "hits": 1,

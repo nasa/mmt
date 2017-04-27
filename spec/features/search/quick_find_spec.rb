@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 describe 'Quick find search', js: true do
-  short_name = 'ACR3L2DM'
-
+  let(:short_name) { 'MIRCCMF' }
   before do
     login
   end

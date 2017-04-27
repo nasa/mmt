@@ -259,13 +259,13 @@ describe 'Search published results', js: true do
     end
 
     it 'displays collection results' do
-      expect(page).to have_search_query(34, 'Provider Id: LARC')
+      expect(page).to have_search_query(27, 'Provider Id: LARC')
     end
 
     it 'displays expected data' do
-      expect(page).to have_content('ACR3L2DM')
+      expect(page).to have_content('MIRCCMF')
       expect(page).to have_content('1')
-      expect(page).to have_content('ACRIM III Level 2 Daily Mean Data V001')
+      expect(page).to have_content('MISR FIRSTLOOK radiometric camera-by-camera Cloud Mask V001')
       expect(page).to have_content('LARC')
       # expect(page).to have_content(today_string)
     end
