@@ -3,9 +3,9 @@
     <h2>Bulk Update <%= @task_id %></h2>
 
     <div class="row">
-      <label class="bulk-update-status"><%= @task.fetch('task-status') %></label>
+      <label class="bulk-update-status"><%= @task['task-status'] %></label>
 
-      <p class="bulk-update-status-message"><%= @task.fetch('status-message', nil) %></p>
+      <p class="bulk-update-status-message"><%= @task['status-message'] %></p>
     </div>
   </section>
 
@@ -31,7 +31,7 @@
               <td><%= link_to task_error['concept-id'], collection_path(task_error['concept-id']) %></td>
               <td><%= task_error['concept-id'] %></td>
               <td><%= task_error['concept-id'] %></td>
-              <td><%= task_error.fetch('status-message', nil) %></td>
+              <td><%= task_error['status-message'] %></td>
             </tr>
           <% end %>
         </tbody>
