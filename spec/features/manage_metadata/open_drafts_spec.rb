@@ -1,12 +1,11 @@
 # MMT-57
 
 require 'rails_helper'
-
-draft_display_max_count = 5 # Should agree with @draft_display_max_count found in pages_controller
-
 # Basic draft creation and retrieval via the list on the Manage Metadata page are tested in draft_creation_spec.rb
 
-describe 'Open Drafts listings' do
+describe 'Open Drafts listings on the Manage Metadata page', reset_provider: true do
+  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_metadata_controller
+
   before do
     login
   end
@@ -27,18 +26,18 @@ describe 'Open Drafts listings' do
         create(:draft, user_id: current_user_id)
       end
 
-      visit '/manage_metadata'
+      visit manage_metadata_path
     end
 
     it '"More" is displayed' do
       within('.open-drafts') do
-        expect(page).to have_content('More')
+        expect(page).to have_link('More')
       end
     end
 
     context 'when "More" is clicked on' do
       before do
-        within('.open-drafts') do
+        within '.open-drafts' do
           click_on 'More'
         end
       end

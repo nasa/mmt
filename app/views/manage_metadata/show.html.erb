@@ -71,14 +71,36 @@
     <% if Rails.configuration.bulk_updates_enabled %>
       <section class="eui-callout-box col-left">
         <h3 class="eui-callout-box__title">Your Bulk Updates</h3>
-        <div class="eui-callout-box__list">
+        <div class="eui-callout-box__list bulk-update-callout">
           <div class="question-group">
             <div class="row">
-              <%= link_to 'Bulk Updates', bulk_updates_path %>
+              <ul>
+                <% if @bulk_updates.blank? %>
+                  <%= current_user.provider_id %> has no bulk updates to display.
+                <% else %>
+                  <% @bulk_updates[0..@draft_display_max_count].each do |bulk_update| %>
+                    <li>
+                      <p>
+                        <%= link_to bulk_update['task-id'], bulk_update_path(bulk_update['task-id']) %> |
+                        <%= bulk_update['status'] %>
+                      </p>
+                    </li>
+                  <% end %>
+                  <!-- because of the fixed response, this conditional is disabled to
+                        access the link, and should be enabled when the responses are using real data -->
+                  <%# if @bulk_updates.size > @draft_display_max_count %>
+                    <li>
+                      <%= link_to 'More', bulk_updates_path %>
+                    </li>
+                  <%# end %>
+                <% end %>
+              </ul>
             </div>
           </div>
 
-          <%= link_to 'Initiate a Bulk Update', new_bulk_updates_search_path, class: 'eui-btn--blue space-top' %>
+          <div class="row">
+            <%= link_to 'Initiate a Bulk Update', new_bulk_updates_search_path, class: 'eui-btn--blue space-top' %>
+          </div>
         </div>
       </section>
     <% end %>

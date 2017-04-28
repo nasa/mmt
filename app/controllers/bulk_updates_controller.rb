@@ -5,15 +5,7 @@ class BulkUpdatesController < ManageMetadataController
   add_breadcrumb 'Bulk Updates', :bulk_updates_path
 
   def index
-    @tasks = []
-
-    bulk_updates_list_response = cmr_client.get_bulk_updates(current_user.provider_id, token)
-
-    if bulk_updates_list_response.success?
-      @tasks = bulk_updates_list_response.body.fetch('tasks', [])
-    else
-      Rails.logger.error("Error retrieving Bulk Updates Jobs List: #{bulk_updates_list_response.inspect}")
-    end
+    @tasks = retrieve_bulk_updates
   end
 
   def show
