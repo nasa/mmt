@@ -40,7 +40,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :groups
+  resources :groups do
+    collection do
+      get 'urs_search'
+      get 'provided_urs_users'
+    end
+  end
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
 

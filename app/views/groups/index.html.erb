@@ -10,19 +10,17 @@
           <div class="row">
             <label>Refine Groups Listing</label>
           </div>
+
           <div class="row">
-            <div class="col-5">
-              <!-- Filter by provider -->
-
-              <%= select_tag 'filters[provider][]', options_for_select(@provider_ids, @filters['provider']), class: 'full-width select2-select provider-filter', id: 'provider-group-filter', multiple: 'multiple' %>
+            <div class="col-5" id="groups-provider-filter">
+              <%= select_tag 'filters[provider][]', options_for_select(@provider_ids, @filters['provider']), class: 'full-width select2-select provider-filter', id: 'provider-group-filter', multiple: 'multiple', data: { placeholder: 'Filter By Provider'} %>
             </div>
-            <div class="col-5">
-              <!-- Filter by member -->
 
-              <%= select_tag 'filters[member][]', options_for_user_select(@users, @filters['member']), class: 'full-width select2-select member-filter', id: 'member-group-filter', multiple: 'multiple' %>
+            <div class="col-5" id="groups-member-filter">
+              <%= select_tag 'filters[member][]', options_for_select([], @filters['member']), class: 'full-width urs_autocomplete', id: 'member-group-filter', multiple: 'multiple', data: { placeholder: 'Filter By User'} %>
             </div>
+
             <div class="col-2 align-c">
-              <!-- Apply all filters button -->
               <%= submit_tag 'Apply Filters', class: 'eui-btn' %>
             </div>
           </div>

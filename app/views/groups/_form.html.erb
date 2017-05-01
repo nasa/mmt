@@ -25,49 +25,17 @@
     <%= label_tag('group[description]', 'Description', class: 'eui-required-o') %>
   </div>
   <div class="row">
-    <%= text_area_tag('group[description]', @group['description'], cols: 30, rows: 3, class: 'required') %>
+    <%= text_area_tag('group[description]', @group['description'], cols: 30, rows: 3, class: 'required textcounter', maxlength: 255) %>
   </div>
 </fieldset>
 
 <fieldset>
-  <h3>Members</h3>
-
   <div class="row space-bot">
-    <div class="col-5">
-      <%= label_tag('filter-members', 'Filter Members') %>
-      <%= text_field_tag('filter_members', nil, id: 'filter-members', class: 'full-width', placeholder: 'Start typing members name...') %>
-    </div>
+    <%= label_tag('group_members', 'Members') %>
+    <%= select_tag 'group[members]', options_for_select(@members), id: 'group_members', class: 'urs_autocomplete', multiple: true %>
   </div>
 
-  <div class="dual-select">
-    <div class="dual-select__menu">
-      <%= label_tag('members_directory', 'Members Directory') %>
-      <%= select_tag 'members_directory', options_for_user_select(@users_options), multiple: true %>
-    </div>
-
-    <div class="dual-select__actions">
-      <button id="add-members" class="eui-btn">
-        Add Member(s)
-        <span class="eui-circle-right"></span>
-      </button>
-      <button id="remove-members" class="eui-btn">
-        <span class="eui-circle-left"></span>
-        Remove Member(s)
-      </button>
-    </div>
-
-    <div class="dual-select__menu">
-      <%= label_tag('selected_members', 'Selected Members') %>
-      <%= select_tag 'group[members][]', options_for_user_select(@members), id: 'selected_members', multiple: true %>
-    </select>
-    </div>
-  </div>
-
-  <% unless @non_authorized_members.blank? %>
-    <%= hidden_field_tag('non_authorized_members', @non_authorized_members.join('; ')) %>
-  <% end %>
-
-  <%= link_to 'Member not listed?', '#invite-user-modal', class: 'display-modal display-invite-user-modal' %>
+  <%= link_to 'Member not listed?', '#invite-user-modal', class: 'eui-btn--link display-modal display-invite-user-modal' %>
 </fieldset>
 
 <fieldset>

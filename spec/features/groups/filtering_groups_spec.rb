@@ -6,14 +6,14 @@ describe 'Filtering groups', reset_provider: true, js: true do
       name: 'Group 1',
       description: 'test group',
       provider_id: 'MMT_2',
-      members: %w(abcd)
+      members: %w(qhw5mjoxgs2vjptmvzco)
     )
 
     create_group(
       name: 'Group 2',
       description: 'test group 2',
       provider_id: 'MMT_2',
-      members: %w(abcd qrst)
+      members: %w(qhw5mjoxgs2vjptmvzco rarxd5taqea)
     )
   end
 
@@ -47,14 +47,34 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
       context 'by member' do
         before do
-          select 'Alien Bobcat', from: 'member-group-filter'
-          select 'Quail Racoon', from: 'member-group-filter'
+          within '#groups-member-filter' do
+            VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
+              page.find('ul.select2-selection__rendered').click
+              page.find('.select2-search__field').native.send_keys('rarxd5taqea')
+            end
+          end
+          
+          wait_for_ajax
+          page.find('ul#select2-member-group-filter-results li.select2-results__option--highlighted').click
+
+          within '#groups-member-filter' do
+            VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
+              page.find('ul.select2-selection__rendered').click
+              page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
+            end
+          end
+          
+          wait_for_ajax
+          page.find('ul#select2-member-group-filter-results li.select2-results__option--highlighted').click
+
+          # select 'Alien Bobcat', from: 'member-group-filter'
+          # select 'Quail Racoon', from: 'member-group-filter'
           click_on 'Apply Filter'
         end
 
         it 'displays the search params' do
-          expect(page).to have_css('li.select2-selection__choice', text: 'Alien Bobcat')
-          expect(page).to have_css('li.select2-selection__choice', text: 'Quail Racoon')
+          expect(page).to have_css('li.select2-selection__choice', text: '06dutmtxyfxma Sppfwzsbwz ')
+          expect(page).to have_css('li.select2-selection__choice', text: 'Rvrhzxhtra Vetxvbpmxf')
 
           within '.groups-table' do
             within all('tr')[1] do
