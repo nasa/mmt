@@ -48,14 +48,38 @@ describe 'Updating groups', reset_provider: true, js: true do
 
     context 'when adding members' do
       before do
-        select('Marsupial Narwal', from: 'Members Directory')
-        select('Quail Racoon', from: 'Members Directory')
-        select('Ukulele Vulcan', from: 'Members Directory')
-        click_on 'Add Member(s)'
+        VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
+          page.find('ul.select2-selection__rendered').click
+          page.find('.select2-search__field').native.send_keys('rarxd5taqea')
+
+          wait_for_ajax
+          
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+        end
+
+        VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
+          page.find('ul.select2-selection__rendered').click
+          page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
+
+          wait_for_ajax
+          
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+        end
+
+        VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
+          page.find('ul.select2-selection__rendered').click
+          page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
+
+          wait_for_ajax
+          
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+        end
 
         within '.group-form' do
           click_on 'Submit'
         end
+
+        wait_for_cmr
       end
 
       it 'displays the group members' do
@@ -64,10 +88,11 @@ describe 'Updating groups', reset_provider: true, js: true do
         within '#group-members' do
           expect(page).to have_selector('tbody > tr', count: 3)
 
-          expect(page).to have_content('Marsupial Narwal')
-          expect(page).to have_content('Quail Racoon')
-          expect(page).to have_content('Ukulele Vulcan')
+          expect(page).to have_content('Execktamwrwcqs 02Wvhznnzjtrunff')
+          expect(page).to have_content('06dutmtxyfxma Sppfwzsbwz')
+          expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
         end
+
         # message should only show if there are members that have not authorized MMT
         expect(page).to have_no_content('MMT cannot populate empty member information cells because those users have not authorized MMT to access their Earthdata Login profile.')
       end
@@ -76,12 +101,10 @@ describe 'Updating groups', reset_provider: true, js: true do
         before do
           click_on 'Edit'
 
-          select('Quail Racoon', from: 'Selected Members')
-          select('Ukulele Vulcan', from: 'Selected Members')
-
-          click_on 'Remove Member(s)'
-
           within '.group-form' do
+            find('.select2-selection__choice[title="Execktamwrwcqs 02Wvhznnzjtrunff"] span.select2-selection__choice__remove').click
+            find('.select2-selection__choice[title="06dutmtxyfxma Sppfwzsbwz"] span.select2-selection__choice__remove').click
+
             click_on 'Submit'
           end
         end
@@ -90,14 +113,13 @@ describe 'Updating groups', reset_provider: true, js: true do
           within '#group-members' do
             expect(page).to have_selector('tbody > tr', count: 1)
 
-            expect(page).to have_content('Marsupial Narwal')
+            expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
           end
           # message should only show if there are members that have not authorized MMT
           expect(page).to have_no_content('MMT cannot populate empty member information cells because those users have not authorized MMT to access their Earthdata Login profile.')
         end
       end
     end
-
   end
 
   context 'when viewing a group that has group members that have not authorized MMT' do
@@ -124,9 +146,24 @@ describe 'Updating groups', reset_provider: true, js: true do
         visit edit_group_path(@group['concept_id'])
 
         fill_in 'Description', with: 'New Testing Description'
-        select('Alien Bobcat', from: 'Members Directory')
-        select('Quail Racoon', from: 'Members Directory')
-        click_on 'Add Member(s)'
+
+        VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
+          page.find('ul.select2-selection__rendered').click
+          page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
+
+          wait_for_ajax
+          
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+        end
+
+        VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
+          page.find('ul.select2-selection__rendered').click
+          page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
+
+          wait_for_ajax
+          
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+        end
 
         within '.group-form' do
           click_on 'Submit'
@@ -138,8 +175,8 @@ describe 'Updating groups', reset_provider: true, js: true do
 
         within '#group-members' do
           expect(page).to have_selector('tbody > tr', count: 4)
-          expect(page).to have_content('Alien Bobcat aaaa.dddd@nasa.gov abcd')
-          expect(page).to have_content('Quail Racoon qqqq.rrrr@nasa.gov qrst')
+          expect(page).to have_content('Execktamwrwcqs 02Wvhznnzjtrunff pvblvweo@hqdybllrn.sghjz q6ddmkhivmuhk')
+          expect(page).to have_content('06dutmtxyfxma Sppfwzsbwz jkbvtdzjtheltsmgx@ybgcztxabzqnzmmvf.ygen qhw5mjoxgs2vjptmvzco')
 
           expect(page).to have_content('non_auth_user_1')
           expect(page).to have_content('non_auth_user_2')

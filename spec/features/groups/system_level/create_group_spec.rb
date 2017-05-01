@@ -40,10 +40,23 @@ describe 'Creating System Level Groups', reset_provider: true do
         check 'System Level Group?'
         fill_in 'Description', with: group_description
 
-        # choose users
-        select('Alien Bobcat', from: 'Members Directory')
-        select('Quail Racoon', from: 'Members Directory')
-        click_on 'Add Member(s)'
+        VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
+          page.find('ul.select2-selection__rendered').click
+          page.find('.select2-search__field').native.send_keys('rarxd5taqea')
+
+          wait_for_ajax
+          
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+        end
+
+        VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
+          page.find('ul.select2-selection__rendered').click
+          page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
+
+          wait_for_ajax
+          
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+        end
 
         within '.group-form' do
           click_on 'Submit'
@@ -63,8 +76,10 @@ describe 'Creating System Level Groups', reset_provider: true do
         expect(page).to have_css('span.eui-badge--sm')
 
         within '#group-members' do
-          expect(page).to have_content('Alien Bobcat')
-          expect(page).to have_content('Quail Racoon')
+          expect(page).to have_selector('tbody > tr', count: 2)
+
+          expect(page).to have_content('06dutmtxyfxma Sppfwzsbwz')
+          expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
         end
       end
     end

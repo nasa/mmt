@@ -21,14 +21,17 @@ module Cmr
       Cmr::Response.new(connection.get('/api/users', {}, 'Authorization' => "Bearer #{client_token}"))
     end
 
+    def search_urs_users(query)
+      client_token = get_client_token
+      Cmr::Response.new(connection.get('/api/users', { search: query }, 'Authorization' => "Bearer #{client_token}"))
+    end
+
     protected
 
     def get_client_token
       # URS API says that the client token expires in 3600 (1 hr)
       # so cache token for one hour, and if needed will run request again
-      client_access = Rails.cache.fetch('client_token', expires_in: 55.minutes) do
-        Cmr::Response.new(connection.post('/oauth/token?grant_type=client_credentials'))
-      end
+      client_access = Cmr::Response.new(connection.post('/oauth/token?grant_type=client_credentials'))
 
       if client_access.success?
         client_access_token = client_access.body['access_token']
@@ -36,6 +39,7 @@ module Cmr
         # Log error message
         Rails.logger.error("Client Token Request Error: #{client_access.inspect}")
       end
+      
       client_access_token
     end
 
