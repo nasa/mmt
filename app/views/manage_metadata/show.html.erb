@@ -70,7 +70,7 @@
 
     <% if Rails.configuration.bulk_updates_enabled %>
       <section class="eui-callout-box col-left">
-        <h3 class="eui-callout-box__title">Your Bulk Updates</h3>
+        <h3 class="eui-callout-box__title">Your <%= current_user.provider_id %> Bulk Updates</h3>
         <div class="eui-callout-box__list bulk-update-callout">
           <div class="question-group">
             <div class="row">
