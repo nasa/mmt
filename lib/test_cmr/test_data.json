@@ -170,7 +170,7 @@
   "granule": null
 }, {
   // 35
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000300-LARC/13.echo10",
+  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C43677707-LARC/24.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
@@ -195,7 +195,7 @@
   "granule": null
 }, {
   // 40
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000282-LARC/13.echo10",
+  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C66215277-LARC/24.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
@@ -205,7 +205,7 @@
   "granule": null
 }, {
   // 42
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000283-LARC/13.echo10",
+  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C73016614-LARC/23.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
