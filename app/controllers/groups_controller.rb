@@ -1,7 +1,10 @@
 # :nodoc:
 class GroupsController < ManageCmrController
   include GroupsHelper
+  include GroupEndpoints
   include PermissionManagement
+
+  skip_before_filter :is_logged_in, :setup_query, :setup_query, :refresh_urs_if_needed, only: [:urs_search, :provided_urs_users]
 
   add_breadcrumb 'Groups', :groups_path
 
@@ -9,6 +12,7 @@ class GroupsController < ManageCmrController
 
   def index
     @filters = params[:filters] || {}
+    
     if @filters['member']
       @filters['options'] = { 'member' => { 'and' => true } }
     end
@@ -21,8 +25,6 @@ class GroupsController < ManageCmrController
     @filters[:page_num] = page.to_i
 
     groups_response = cmr_client.get_cmr_groups(@filters, token)
-
-    @users = urs_users
 
     group_list = if groups_response.success?
                    groups_response.body.fetch('items', [])
@@ -40,11 +42,11 @@ class GroupsController < ManageCmrController
     if group_response.success?
       @group = group_response.body
 
+      request_group_members(@concept_id)
+
       set_permissions
 
       add_breadcrumb @group.fetch('name'), group_path(@concept_id)
-
-      request_group_members(@concept_id)
     else
       Rails.logger.error("Get Group Error: #{group_response.inspect}")
       redirect_to groups_path, flash: { error: Array.wrap(group_response.body['errors'])[0] }
@@ -54,7 +56,6 @@ class GroupsController < ManageCmrController
   def new
     @group = {}
 
-    @users_options = urs_users
     @members = []
 
     @is_system_group = false # initially set checkbox to unchecked
@@ -85,7 +86,6 @@ class GroupsController < ManageCmrController
   def edit
     @concept_id = params[:id]
     group_response = cmr_client.get_group(@concept_id, token)
-    all_users = urs_users
 
     if group_response.success?
       @group = group_response.body
@@ -114,18 +114,11 @@ class GroupsController < ManageCmrController
 
   def update
     @group = group_params
-    @is_system_group = params.fetch(:system_group, false)
 
-    if params[:non_authorized_members]
-      non_authorized_members = params[:non_authorized_members].split('; ')
-      if @group['members']
-        @group['members'] += non_authorized_members
-      else
-        @group['members'] = non_authorized_members
-      end
-    elsif @group['members'].nil?
-      @group['members'] = []
-    end
+    # Append non authorized users if any were provided
+    (@group['members'] << params[:non_authorized_members]).flatten! unless params[:non_authorized_members].blank?
+
+    @is_system_group = params[:system_group] || false
 
     @group['provider_id'] = current_user.provider_id unless @is_system_group
 
@@ -176,75 +169,49 @@ class GroupsController < ManageCmrController
     @added = @invite.accept_invite(cmr_client, current_user.urs_uid, token)
   end
 
+  def urs_search
+    render json: render_users_from_urs(
+      search_urs(params[:search])
+    )
+  end
+
+  def provided_urs_users
+    render json: render_users_from_urs(
+      retrieve_urs_users(params[:uids])
+    )
+  end
+
   private
 
   def group_params
     params.require(:group).permit(:name, :description, :provider_id, members: [])
   end
 
+  def set_members(group_member_uids)
+    @members = retrieve_urs_users(group_member_uids).sort_by { |member| member['first_name'] }
+    @non_authorized_members = group_member_uids.reject { |uid| @members.map { |m| m['uid'] }.include?(uid) }.reject(&:blank?).map { |uid| { 'uid' => uid } }
+  end
 
-  def set_previously_selected_members(member_uids)
-    @members = []
-    @users_options = []
+  def set_previously_selected_members(group_member_uids)
+    set_members(group_member_uids)
 
-    urs_users.each do |user|
-      if member_uids.include?(user['uid'])
-        @members << user
-        member_uids.delete(user['uid'])
-      else
-        @users_options << user
-      end
-    end
-
-    @non_authorized_members = member_uids unless member_uids.empty?
+    @members.map! { |m| [urs_user_full_name(m), m['uid']] }
   end
 
   def request_group_members(concept_id)
     @members = []
 
     group_members_response = cmr_client.get_group_members(concept_id, token)
+
     if group_members_response.success?
-      group_members_uids = group_members_response.body
+      group_member_uids = group_members_response.body
 
-      urs_users.each do |user|
-        if group_members_uids.include?(user['uid'])
-          @members << user
-          group_members_uids.delete(user['uid'])
-        end
-      end
+      set_members(group_member_uids)
 
-      @non_authorized_members = group_members_uids.sort.map { |uid| { 'uid' => uid } }
-      @members += @non_authorized_members
+      (@members << @non_authorized_members).flatten!
     else
-      # Log error message
       Rails.logger.error("Get Group Members Error: #{group_members_response.inspect}")
-
-      get_group_members_error = Array.wrap(group_members_response.body['errors'])[0]
-      flash[:error] = get_group_members_error
     end
-  end
-
-  def urs_users
-    urs_users = []
-
-    users_response = cmr_client.get_urs_users
-    if users_response.success?
-      urs_users = users_response.body.fetch('users', [{}]).sort_by { |user| user.fetch('first_name', '').downcase }
-    else
-      # Log error message
-      Rails.logger.error("Users Request Error: #{users_response.inspect}")
-
-      # error should be json, but URS has given an html response for a 500 error
-      if users_response.body['error']
-        users_response_error = Array.wrap(users_response.body['error'])[0]
-      else
-        # error is related to getting users from URS
-        users_response_error = 'An unexpected URS error has occurred.'
-      end
-      flash[:error] = users_response_error
-    end
-
-    urs_users
   end
 
   # Get all of the permissions for the current group

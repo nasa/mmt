@@ -79,24 +79,3 @@ $(document).ready ->
       if $urlElement.val() == ''
         $urlContentTypeElement.find('option').first().prop 'selected', true
         $urlContentTypeElement.trigger('change')
-
-
-  # Set placeholder for group filters
-  $('.group-form .provider-filter').select2(
-    placeholder: "Filter by provider"
-  )
-  $('.group-form .member-filter').select2(
-    tags: true
-    placeholder: "Filter by member"
-    matcher: (searchTerm, entry) ->
-      return entry if searchTerm.term == undefined
-
-      term = searchTerm.term.toLowerCase()
-      text = entry.text.toLowerCase()
-      value = entry.id.toLowerCase()
-
-      if value.match(term) || text.match(term)
-        entry
-      else
-        false
-  )

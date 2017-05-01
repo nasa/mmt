@@ -4,83 +4,25 @@ describe 'Groups Member Filtering', js: true do
   context 'when viewing the group form' do
     before do
       login
+      
       visit new_group_path
     end
 
-    context 'when filtering with a name' do
+    context 'when filtering by a uid' do
       context 'when adding text to the filter members text field' do
         before do
-          fill_in 'Filter Members', with: 'QUAIL'
+          VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
+            page.find('ul.select2-selection__rendered').click
+            page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
+
+            wait_for_ajax
+            
+            page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+          end
         end
 
         it 'filters the members directory list' do
-          within '#members_directory' do
-            expect(page).to have_selector('option', visible: true, count: 1)
-          end
-        end
-
-        context 'when removing the text from the filter members text field' do
-          before do
-            fill_in 'Filter Members', with: ''
-          end
-
-          it 'resets the members directory list' do
-            within '#members_directory' do
-              expect(page).to have_selector('option', visible: false, count: 7)
-            end
-          end
-        end
-      end
-    end
-
-    context 'when filtering with an email' do
-      context 'when adding text to the filter members text field' do
-        before do
-          fill_in 'Filter Members', with: 'qqqq.rrrr@nasa.gov'
-        end
-
-        it 'filters the members directory list' do
-          within '#members_directory' do
-            expect(page).to have_selector('option', visible: true, count: 1)
-          end
-        end
-
-        context 'when removing the text from the filter members text field' do
-          before do
-            fill_in 'Filter Members', with: ''
-          end
-
-          it 'resets the members directory list' do
-            within '#members_directory' do
-              expect(page).to have_selector('option', visible: true, count: 7)
-            end
-          end
-        end
-      end
-    end
-
-    context 'when filtering with a uid' do
-      context 'when adding text to the filter members text field' do
-        before do
-          fill_in 'Filter Members', with: 'qrst'
-        end
-
-        it 'filters the members directory list' do
-          within '#members_directory' do
-            expect(page).to have_selector('option', visible: true, count: 1)
-          end
-        end
-
-        context 'when removing the text from the filter members text field' do
-          before do
-            fill_in 'Filter Members', with: ''
-          end
-
-          it 'resets the members directory list' do
-            within '#members_directory' do
-              expect(page).to have_selector('option', visible: true, count: 7)
-            end
-          end
+          expect(page).to have_css('li.select2-selection__choice', count: 1)
         end
       end
     end
