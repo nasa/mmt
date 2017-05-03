@@ -67,8 +67,6 @@ describe 'Filtering groups', reset_provider: true, js: true do
           wait_for_ajax
           page.find('ul#select2-member-group-filter-results li.select2-results__option--highlighted').click
 
-          # select 'Alien Bobcat', from: 'member-group-filter'
-          # select 'Quail Racoon', from: 'member-group-filter'
           click_on 'Apply Filter'
         end
 

@@ -67,7 +67,9 @@ describe 'Groups', reset_provider: true do
           end
 
           within '.group-form' do
-            click_on 'Submit'
+            VCR.use_cassette('urs/multiple_users', record: :none) do
+              click_on 'Submit'
+            end
           end
 
           wait_for_cmr
