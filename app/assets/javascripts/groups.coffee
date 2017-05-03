@@ -48,7 +48,7 @@ $(document).ready ->
 
   .on 'select2:select', (event) ->
     # Sort the selected members each time a new one is added
-    $(this).next('.select2-selection__rendered li.select2-selection__choice')
+    $(this).next().find('.select2-selection__rendered li.select2-selection__choice')
       .sort(select2Sorter)
     .prependTo('.select2-selection__rendered')
 

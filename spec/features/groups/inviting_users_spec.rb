@@ -25,9 +25,9 @@ describe 'Inviting users', reset_provider: true, js: true do
       before do
         click_on 'Member not listed'
 
-        fill_in 'invite_first_name', with: 'First'
-        fill_in 'invite_last_name', with: 'Last'
-        fill_in 'invite_email', with: 'test@example.com'
+        fill_in 'invite_first_name', with: 'Execktamwrwcqs'
+        fill_in 'invite_last_name', with: '02Wvhznnzjtrunff'
+        fill_in 'invite_email', with: 'pvblvweo@hqdybllrn.sghjz'
 
         click_on 'invite-user-button'
 
@@ -56,7 +56,9 @@ describe 'Inviting users', reset_provider: true, js: true do
 
       context 'when the user accepts the invite' do
         before do
-          visit accept_invite_path(token: token)
+          VCR.use_cassette('urs/search/q6ddmkhivmuhk-email', record: :none) do
+            visit accept_invite_path(token: token)
+          end
         end
 
         it 'sets the UserInvite to inactive' do
@@ -75,7 +77,6 @@ describe 'Inviting users', reset_provider: true, js: true do
   end
 
   context 'when adding users to an existing group' do
-
     before :all do
       @group_name = 'Test Group For New Invites'
       @group_description = 'Group to invite users to'
@@ -91,18 +92,23 @@ describe 'Inviting users', reset_provider: true, js: true do
     before do
       login
 
-      visit edit_group_path(@group['concept_id'])
+      VCR.use_cassette('urs/q6ddmkhivmuhk', record: :none) do
+        visit edit_group_path(@group['concept_id'])
+      end
     end
 
     context 'when inviting a user' do
       before do
         click_on 'Member not listed'
 
-        fill_in 'invite_first_name', with: 'First'
-        fill_in 'invite_last_name', with: 'Last'
-        fill_in 'invite_email', with: 'test@example.com'
+        fill_in 'invite_first_name', with: 'Execktamwrwcqs'
+        fill_in 'invite_last_name', with: '02Wvhznnzjtrunff'
+        fill_in 'invite_email', with: 'pvblvweo@hqdybllrn.sghjz'
 
-        click_on 'invite-user-button'
+        VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
+          click_on 'invite-user-button'
+        end
+
         wait_for_ajax
 
         token
@@ -128,7 +134,9 @@ describe 'Inviting users', reset_provider: true, js: true do
 
       context 'when the user accepts the invite' do
         before do
-          visit accept_invite_path(token: token)
+          VCR.use_cassette('urs/search/q6ddmkhivmuhk-email', record: :none) do
+            visit accept_invite_path(token: token)
+          end
         end
 
         it 'sets the UserInvite to inactive' do

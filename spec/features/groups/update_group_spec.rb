@@ -76,7 +76,9 @@ describe 'Updating groups', reset_provider: true, js: true do
         end
 
         within '.group-form' do
-          click_on 'Submit'
+          VCR.use_cassette('urs/multiple_users', record: :none) do
+            click_on 'Submit'
+          end
         end
 
         wait_for_cmr
@@ -99,13 +101,17 @@ describe 'Updating groups', reset_provider: true, js: true do
 
       context 'when removing members' do
         before do
-          click_on 'Edit'
+          VCR.use_cassette('urs/multiple_users', record: :none) do
+            click_on 'Edit'
 
-          within '.group-form' do
-            find('.select2-selection__choice[title="Execktamwrwcqs 02Wvhznnzjtrunff"] span.select2-selection__choice__remove').click
-            find('.select2-selection__choice[title="06dutmtxyfxma Sppfwzsbwz"] span.select2-selection__choice__remove').click
+            within '.group-form' do
+              find('.select2-selection__choice[title="Execktamwrwcqs 02Wvhznnzjtrunff"] span.select2-selection__choice__remove').click
+              find('.select2-selection__choice[title="06dutmtxyfxma Sppfwzsbwz"] span.select2-selection__choice__remove').click
 
-            click_on 'Submit'
+              VCR.use_cassette('urs/rarxd5taqea', record: :none) do
+                click_on 'Submit'
+              end
+            end
           end
         end
 
@@ -124,9 +130,15 @@ describe 'Updating groups', reset_provider: true, js: true do
 
   context 'when viewing a group that has group members that have not authorized MMT' do
     before do
-      response = cmr_client.add_group_members(@group['concept_id'], ['non_auth_user_1', 'non_auth_user_2'], 'access_token')
+      cmr_client.add_group_members(@group['concept_id'], %w(non_auth_user_1 non_auth_user_2), 'access_token')
 
-      visit group_path(@group['concept_id'])
+      # within '#group-members' do
+        VCR.use_cassette('urs/multiple_users', record: :none) do
+          VCR.use_cassette('urs/non_authorized_users', record: :none) do
+            visit group_path(@group['concept_id'])
+          end
+        end
+      # end
     end
 
     it 'shows the group information and members, including users that have not authorized MMT' do
@@ -143,7 +155,9 @@ describe 'Updating groups', reset_provider: true, js: true do
 
     context 'when updating the group' do
       before do
-        visit edit_group_path(@group['concept_id'])
+        VCR.use_cassette('urs/non_authorized_users', record: :none) do
+          visit edit_group_path(@group['concept_id'])
+        end
 
         fill_in 'Description', with: 'New Testing Description'
 
@@ -166,7 +180,9 @@ describe 'Updating groups', reset_provider: true, js: true do
         end
 
         within '.group-form' do
-          click_on 'Submit'
+          VCR.use_cassette('urs/mixed_authorization', record: :none) do
+            click_on 'Submit'
+          end
         end
       end
 
