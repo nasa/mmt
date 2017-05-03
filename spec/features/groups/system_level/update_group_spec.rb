@@ -12,7 +12,7 @@ describe 'Updating System Level Groups', js: true do
         description: @group_description,
         provider_id: nil, # System Level groups do not have a provider_id
         admin: true,
-        members: %w(abcd mnop qrst uvw)
+        members: %w(rarxd5taqea qhw5mjoxgs2vjptmvzco q6ddmkhivmuhk)
       )
     end
 
@@ -25,7 +25,9 @@ describe 'Updating System Level Groups', js: true do
     before do
       login_admin
 
-      visit edit_group_path(@group['concept_id'])
+      VCR.use_cassette('urs/multiple_users', record: :none) do
+        visit edit_group_path(@group['concept_id'])
+      end
     end
 
     it 'displays the page and populated fields on the form' do
@@ -55,7 +57,9 @@ describe 'Updating System Level Groups', js: true do
         fill_in 'Description', with: new_group_description
 
         within '.group-form' do
-          click_on 'Submit'
+          VCR.use_cassette('urs/multiple_users', record: :none) do
+            click_on 'Submit'
+          end
         end
 
         wait_for_cmr
@@ -72,10 +76,9 @@ describe 'Updating System Level Groups', js: true do
         expect(page).to have_css('span.eui-badge--sm')
 
         within '#group-members' do
-          expect(page).to have_content('Alien Bobcat')
-          expect(page).to have_content('Marsupial Narwal')
-          expect(page).to have_content('Quail Racoon')
-          expect(page).to have_content('Ukulele Vulcan')
+          expect(page).to have_content('Execktamwrwcqs 02Wvhznnzjtrunff')
+          expect(page).to have_content('06dutmtxyfxma Sppfwzsbwz')
+          expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
         end
       end
     end

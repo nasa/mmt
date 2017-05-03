@@ -16,9 +16,9 @@ module Cmr
       Cmr::Response.new(connection.get(endpoint, { client_id: @client_id }, 'Authorization' => "Bearer #{token}"))
     end
 
-    def get_urs_users
+    def get_urs_users(uids)
       client_token = get_client_token
-      Cmr::Response.new(connection.get('/api/users', {}, 'Authorization' => "Bearer #{client_token}"))
+      Cmr::Response.new(connection.get('/api/users', { uids: uids.sort }, 'Authorization' => "Bearer #{client_token}"))
     end
 
     def search_urs_users(query)

@@ -27,10 +27,10 @@ module GroupEndpoints
   end
 
   def retrieve_urs_users(uids)
-    users_response = cmr_client.get_urs_users
+    users_response = cmr_client.get_urs_users(uids)
 
     if users_response.success?
-      users_response.body.fetch('users', []).select { |u| uids.include?(u['uid']) }
+      users_response.body.fetch('users', [])
     else
       []
     end

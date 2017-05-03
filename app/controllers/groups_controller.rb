@@ -4,7 +4,7 @@ class GroupsController < ManageCmrController
   include GroupEndpoints
   include PermissionManagement
 
-  skip_before_filter :is_logged_in, :setup_query, :setup_query, :refresh_urs_if_needed, only: [:urs_search, :provided_urs_users]
+  skip_before_filter :is_logged_in, :setup_query, :refresh_urs_if_needed, only: [:urs_search, :provided_urs_users]
 
   add_breadcrumb 'Groups', :groups_path
 
@@ -113,6 +113,7 @@ class GroupsController < ManageCmrController
   end
 
   def update
+    params[:group][:members] ||= []
     @group = group_params
 
     # Append non authorized users if any were provided
@@ -166,7 +167,12 @@ class GroupsController < ManageCmrController
 
   def accept_invite
     @invite = UserInvite.where(token: params[:token]).first
-    @added = @invite.accept_invite(cmr_client, current_user.urs_uid, token)
+
+    urs_search_response = cmr_client.search_urs_users(@invite.user_email)
+
+    recipient_uid = urs_search_response.body.fetch('users', []).find { |user| user['email_address'] == @invite.user_email }['uid']
+
+    @added = recipient_uid && @invite.accept_invite(cmr_client, recipient_uid, token)
   end
 
   def urs_search
@@ -184,11 +190,16 @@ class GroupsController < ManageCmrController
   private
 
   def group_params
-    params.require(:group).permit(:name, :description, :provider_id, members: [])
+    params.require(:group).permit(:name, :description, :provider_id, :members, members: [])
   end
 
   def set_members(group_member_uids)
-    @members = retrieve_urs_users(group_member_uids).sort_by { |member| member['first_name'] }
+    @members = if group_member_uids.any?
+                 retrieve_urs_users(group_member_uids).sort_by { |member| member['first_name'] }
+               else
+                 []
+               end
+               
     @non_authorized_members = group_member_uids.reject { |uid| @members.map { |m| m['uid'] }.include?(uid) }.reject(&:blank?).map { |uid| { 'uid' => uid } }
   end
 
