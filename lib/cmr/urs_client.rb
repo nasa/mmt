@@ -17,8 +17,11 @@ module Cmr
     end
 
     def get_urs_users(uids)
+      # Ensures a consistent query string for VCR
+      uids.sort! if Rails.env.test?
+
       client_token = get_client_token
-      Cmr::Response.new(connection.get('/api/users', { uids: uids.sort }, 'Authorization' => "Bearer #{client_token}"))
+      Cmr::Response.new(connection.get('/api/users', { uids: uids }, 'Authorization' => "Bearer #{client_token}"))
     end
 
     def search_urs_users(query)
