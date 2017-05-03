@@ -40,28 +40,19 @@ describe 'Groups', reset_provider: true do
           fill_in 'Description', with: group_description
 
           VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
-            page.find('ul.select2-selection__rendered').click
             page.find('.select2-search__field').native.send_keys('rarxd5taqea')
-
-            wait_for_ajax
             
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end
 
           VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
-            page.find('ul.select2-selection__rendered').click
             page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
-
-            wait_for_ajax
             
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end
 
           VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
-            page.find('ul.select2-selection__rendered').click
             page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
-
-            wait_for_ajax
             
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end
