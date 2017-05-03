@@ -6,7 +6,6 @@ describe ManageMetadataController do
       sign_in
 
       get :show
-
     end
 
     it 'renders the #show view' do

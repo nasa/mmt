@@ -12,10 +12,7 @@ describe 'Groups Member Filtering', js: true do
       context 'when adding text to the filter members text field' do
         before do
           VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
-            page.find('ul.select2-selection__rendered').click
             page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
-
-            wait_for_ajax
             
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end

@@ -102,4 +102,51 @@ http_interactions:
         xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result>access_token</ns3:result></ns3:GetProviderContextTokenResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
     http_version: 
   recorded_at: Tue, 15 Nov 2016 14:40:33 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/oauth/token?grant_type=client_credentials
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Authorization:
+      - Basic authorization==
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      server:
+      - nginx/1.8.0
+      date:
+      - Mon, 07 Mar 2016 20:02:38 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - close
+      status:
+      - 200 OK
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      etag:
+      - '"55070640ba17db7ac5b873164c11ba1b"'
+      cache-control:
+      - max-age=0, private, must-revalidate
+      x-request-id:
+      - a74f47a3-0af1-4d9a-bdad-074f430e88f1
+      x-runtime:
+      - '0.022110'
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"access_token","token_type":"Bearer","expires_in":3600}'
+    http_version:
+  recorded_at: Mon, 07 Mar 2016 20:02:38 GMT
 recorded_with: VCR 2.9.3

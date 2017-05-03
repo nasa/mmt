@@ -29,12 +29,12 @@ describe BulkUpdatesController, reset_provider: true do
 
     context 'When bulk updates are disabled' do
       before do
+        sign_in
+
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
       it 'redirects the user to the manage metadata page' do
-        sign_in
-
         get :index
 
         expect(response).to redirect_to(manage_metadata_path)
@@ -75,12 +75,12 @@ describe BulkUpdatesController, reset_provider: true do
 
     context 'When bulk updates are disabled' do
       before do
+        sign_in
+        
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
       it 'redirects the user to the manage metadata page' do
-        sign_in
-
         get :show, id: 1
 
         expect(response).to redirect_to(manage_metadata_path)
