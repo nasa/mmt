@@ -12,10 +12,14 @@ class GroupsController < ManageCmrController
 
   def index
     @filters = params[:filters] || {}
-    
-    if @filters['member']
-      @filters['options'] = { 'member' => { 'and' => true } }
-    end
+
+    @member_filter_details = if @filters['member']
+                               @filters['options'] = { 'member' => { 'and' => true } }
+
+                               retrieve_urs_users(@filters['member']).map { |m| [urs_user_full_name(m), m['uid']] }
+                             else
+                               []
+                             end
 
     @filters[:page_size] = RESULTS_PER_PAGE
 
@@ -190,7 +194,7 @@ class GroupsController < ManageCmrController
   private
 
   def group_params
-    params.require(:group).permit(:name, :description, :provider_id, :members, members: [])
+    params.require(:group).permit(:name, :description, :provider_id, members: [])
   end
 
   def set_members(group_member_uids)

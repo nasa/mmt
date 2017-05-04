@@ -50,7 +50,7 @@ $(document).ready ->
     # Sort the selected members each time a new one is added
     $(this).next().find('.select2-selection__rendered li.select2-selection__choice')
       .sort(select2Sorter)
-    .prependTo('.select2-selection__rendered')
+    .prependTo($(this).parent('.select2-selection__rendered'))
 
   setCurrentGroupMembers()
 
