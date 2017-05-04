@@ -182,6 +182,149 @@ module DraftsHelper
     ['Orbital', 'ORBITAL'],
     ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
   ]
+  URLContentTypeMap = {
+    'CollectionURL' => {
+      'text' => 'Collection URL',
+      'types' => {
+        'DATA SET LANDING PAGE' => {
+          'text' => 'Data Set Landing Page',
+          'subtypes' => []
+        },
+        'DOI' => {
+          'text' => 'DOI',
+          'subtypes' => []
+        },
+        'EXTENDED METADATA' => {
+          'text' => 'Extended Metadata',
+          'subtypes' => []
+        },
+        'PROFESSIONAL HOME PAGE' => {
+          'text' => 'Professional Home Page',
+          'subtypes' => []
+        },
+        'PROJECT HOME PAGE' => {
+          'text' => 'Project Home Page',
+          'subtypes' => []
+        }
+      }
+    },
+    'PublicationURL' => {
+      'text' => 'Publication URL',
+      'types' => {
+        'VIEW RELATED INFORMATION' => {
+          'text' => 'View Related Information',
+          'subtypes' => [
+            ['Algorithm Theoretical Basis Document', 'ALGORITHM THEORETICAL BASIS DOCUMENT'],
+            ['Calibration Data Documentation', 'CALIBRATION DATA DOCUMENTATION'],
+            ['Case Study', 'CASE STUDY'],
+            ['Data Quality', 'DATA QUALITY'],
+            ['Data Usage', 'DATA USAGE'],
+            ['Deliverables Checklist', 'DELIVERABLES CHECKLIST'],
+            ['General Documentation', 'GENERAL DOCUMENTATION'],
+            ['How To', 'HOW-TO'],
+            ['PI Documentation', 'PI DOCUMENTATION'],
+            ['Processing History', 'PROCESSING HISTORY'],
+            ['Production Version History', 'PRODUCTION VERSION HISTORY'],
+            ['Product Quality Assessment', 'PRODUCT QUALITY ASSESSMENT'],
+            ['Product Usage', 'PRODUCT USAGE'],
+            ['Product History', 'PRODUCT HISTORY'],
+            ['Publications', 'PUBLICATIONS'],
+            ['Radiometric And Geometric Calibration Methods', 'RADIOMETRIC AND GEOMETRIC CALIBRATION METHODS'],
+            ['Read Me', 'READ-ME'],
+            ['Recipe', 'RECIPE'],
+            ['Requirements And Design', 'REQUIREMENTS AND DESIGN'],
+            ['Science Data Product Software Documentation', 'SCIENCE DATA PRODUCT SOFTWARE DOCUMENTATION'],
+            ['Science Data Product Validation', 'SCIENCE DATA PRODUCT VALIDATION'],
+            ['User Feedback', 'USER FEEDBACK'],
+            ["User's Guide", "USER'S GUIDE"]
+          ]
+        }
+      }
+    },
+    'DataCenterURL' => {
+      'text' => 'Data Center URL',
+      'types' => {
+        'HOME PAGE' => {
+          'text' => 'Home Page',
+          'subtypes' => []
+        }
+      }
+    },
+    'DataContactURL' => {
+      'text' => 'Data Contact URL',
+      'types' => {
+        'HOME PAGE' => {
+          'text' => 'Home Page',
+          'subtypes' => []
+        }
+      }
+    },
+    'DistributionURL' => {
+      'text' => 'Distribution URL',
+      'types' => {
+        'GET DATA' => {
+          'text' => 'Get Data',
+          'subtypes' => [
+            ['Access Map Viewer', 'ACCESS MAP VIEWER'],
+            ['Access Mobile App', 'ACCESS MOBILE APP'],
+            ['Access Web Service', 'ACCESS WEB SERVICE'],
+            ['DIF', 'DIF'],
+            ['Map Service', 'MAP SERVICE'],
+            ['NOMADS', 'NOMADS'],
+            ['OPeNDAP Data', 'OPENDAP DATA'],
+            ['OPeNDAP Data (Dods)', 'OPENDAP DATA (DODS)'],
+            ['OPeNDAP Directory (Dods)', 'OPENDAP DIRECTORY (DODS)'],
+            ['Open Search', 'OpenSearch'],
+            ['SERF', 'SERF'],
+            ['Software Package', 'SOFTWARE PACKAGE'],
+            ['SSW', 'SSW'],
+            ['Subsetter', 'SUBSETTER'],
+            ['Threads Catalog', 'THREADS CATALOG'],
+            ['Threads Data', 'THREADS DATA'],
+            ['Thredds Directory', 'THREDDS DIRECTORY'],
+            ['Web Coverage Service (WCS)', 'WEB COVERAGE SERVICE (WCS)'],
+            ['Web Feature Service (WFS)', 'WEB FEATURE SERVICE (WFS)'],
+            ['Web Map For Time Series', 'WEB MAP FOR TIME SERIES'],
+            ['Web Map Service (WMS)', 'WEB MAP SERVICE (WMS)'],
+            ['Workflow (Service Chain)', 'WORKFLOW (SERVICE CHAIN)']
+          ]
+        },
+        'GET SERVICE' => {
+          'text' => 'Get Service',
+          'subtypes' => [
+            ['Datacast URL', 'DATACAST URL'],
+            ['Earthdata Search', 'EARTHDATA SEARCH'],
+            ['ECHO', 'ECHO'],
+            ['EDG', 'EDG'],
+            ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
+            ['GDS', 'GDS'],
+            ['GIOVANNI', 'GIOVANNI'],
+            ['KML', 'KML'],
+            ['LAADS', 'LAADS'],
+            ['LANCE', 'LANCE'],
+            ['LAS', 'LAS'],
+            ['Mirador', 'MIRADOR'],
+            ['MODAPS', 'MODAPS'],
+            ['NOAA Class', 'NOAA CLASS'],
+            ['On Line Archive', 'ON-LINE ARCHIVE'],
+            ['Reverb', 'REVERB']
+          ]
+        }
+      }
+    },
+    'VisualizationURL' => {
+      'text' => 'Visualization URL',
+      'types' => {
+        'GET RELATED VISUALIZATION' => {
+          'text' => 'Get Related Visualization',
+          'subtypes' => [
+            ['GIBS', 'GIBS'],
+            ['GIOVANNI', 'GIOVANNI']
+          ]
+        }
+      }
+    }
+  }
   URLContentTypeOptions = [
     ['Collection URL', 'CollectionURL'],
     ['Publication URL', 'PublicationURL'],

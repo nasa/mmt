@@ -9,7 +9,6 @@
     help: 'definitions/RelatedUrlType/properties/Description',
     validate: true,
     required_level: options[:required_level],
-    required: true
   ) %>
 
   <div class="row">
@@ -23,7 +22,8 @@
         help: 'definitions/RelatedUrlType/properties/URLContentType',
         validate: true,
         required_level: options[:required_level],
-        required: true
+        required: true,
+        classes: 'related-url-content-type-select'
       ) %>
 
       <%= mmt_select(
@@ -35,7 +35,8 @@
         help: 'definitions/RelatedUrlType/properties/Type',
         validate: true,
         required_level: options[:required_level],
-        required: true
+        required: true,
+        classes: 'related-url-type-select'
       ) %>
 
       <%= mmt_select(
@@ -46,7 +47,8 @@
         options: DraftsHelper::URLSubtypeOptions,
         help: 'definitions/RelatedUrlType/properties/Subtype',
         validate: true,
-        required_level: options[:required_level]
+        required_level: options[:required_level],
+        classes: 'related-url-subtype-select'
       ) %>
     </div>
   </div>
@@ -58,40 +60,45 @@
     value: related_url['URL'],
     help: 'definitions/RelatedUrlType/properties/URL',
     validate: true,
+    required: true,
     required_level: options[:required_level]
   ) %>
 
-  <%= mmt_label(
-    name: 'get_data',
-    title: 'Get Data',
-    prefix: name_prefix
-  ) %>
-  <%= mmt_help_icon(
-    title: 'Get Data',
-    help: 'definitions/RelatedUrlType/properties/GetData'
-  ) %>
-  <%= render partial: 'drafts/forms/type', locals: {
-      type: 'get_data',
-      values: related_url['GetData'] || {},
-      name_prefix: "#{name_prefix}|get_data|_",
-      multiple: false,
-      options: {}
-    } %>
+  <div class="get-data-fields" style="<%= 'display: none;' unless related_url['Type'] == 'GET DATA' %>">
+    <%= mmt_label(
+      name: 'get_data',
+      title: 'Get Data',
+      prefix: name_prefix
+    ) %>
+    <%= mmt_help_icon(
+      title: 'Get Data',
+      help: 'definitions/RelatedUrlType/properties/GetData'
+    ) %>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'get_data',
+        values: related_url['GetData'] || {},
+        name_prefix: "#{name_prefix}|get_data|_",
+        multiple: false,
+        options: {}
+      } %>
+  </div>
 
-  <%= mmt_label(
-    name: 'get_service',
-    title: 'Get Service',
-    prefix: name_prefix
-  ) %>
-  <%= mmt_help_icon(
-    title: 'Get Service',
-    help: 'definitions/RelatedUrlType/properties/GetService'
-  ) %>
-  <%= render partial: 'drafts/forms/type', locals: {
-      type: 'get_service',
-      values: related_url['GetService'] || {},
-      name_prefix: "#{name_prefix}|get_service|_",
-      multiple: false,
-      options: {}
-    } %>
+  <div class="get-service-fields" style="<%= 'display: none;' unless related_url['Type'] == 'GET SERVICE' %>">
+    <%= mmt_label(
+      name: 'get_service',
+      title: 'Get Service',
+      prefix: name_prefix
+    ) %>
+    <%= mmt_help_icon(
+      title: 'Get Service',
+      help: 'definitions/RelatedUrlType/properties/GetService'
+    ) %>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'get_service',
+        values: related_url['GetService'] || {},
+        name_prefix: "#{name_prefix}|get_service|_",
+        multiple: false,
+        options: {}
+      } %>
+  </div>
 </div>

@@ -21,6 +21,7 @@ class DraftsController < ApplicationController
     set_country_codes
     set_language_codes
     @errors = validate_metadata
+    logger.info @errors
   end
 
   # GET /drafts/new
@@ -298,18 +299,48 @@ class DraftsController < ApplicationController
         end
       end
 
-      # TODO look at this
+      # TODO this needs to happen every time RelatedUrls shows up in the metadata
       related_urls = metadata['RelatedUrls'] || []
       related_urls.each do |related_url|
-        mime_type = related_url['MimeType']
-        if mime_type && !DraftsHelper::MimeTypeOptions.flatten.include?(mime_type)
+        url_content_type = related_url['URLContentType']
+        if url_content_type && !DraftsHelper::URLContentTypeOptions.flatten.include?(url_content_type)
           errors << "The property '#/RelatedUrls' was invalid"
         end
 
-        file_size = related_url['FileSize'] || {}
-        unit = file_size['Unit']
-        if unit && !DraftsHelper::FileSizeUnitTypeOptions.flatten.include?(unit)
+        type = related_url['Type']
+        if type && !DraftsHelper::URLTypeOptions.flatten.include?(type)
           errors << "The property '#/RelatedUrls' was invalid"
+        end
+
+        subtype = related_url['Subtype']
+        if subtype && !DraftsHelper::URLSubtypeOptions.flatten.include?(subtype)
+          errors << "The property '#/RelatedUrls' was invalid"
+        end
+
+        if type == 'GET DATA'
+          get_data = related_url.fetch('GetData', {})
+
+          format = get_data['Format']
+          if format && !DraftsHelper::GetDataTypeFormatOptions.flatten.include?(format)
+            errors << "The property '#/RelatedUrls' was invalid"
+          end
+
+          unit = get_data['Unit']
+          if unit && !DraftsHelper::FileSizeUnitTypeOptions.flatten.include?(unit)
+            errors << "The property '#/RelatedUrls' was invalid"
+          end
+        elsif type == 'GET SERVICE'
+          get_service = related_url.fetch('GetService', {})
+
+          mime_type = get_service['MimeType']
+          if mime_type && !DraftsHelper::MimeTypeOptions.flatten.include?(mime_type)
+            errors << "The property '#/RelatedUrls' was invalid"
+          end
+
+          protocol = get_service['Protocol']
+          if protocol && !DraftsHelper::ProtocolOptions.flatten.include?(protocol)
+            errors << "The property '#/RelatedUrls' was invalid"
+          end
         end
       end
 

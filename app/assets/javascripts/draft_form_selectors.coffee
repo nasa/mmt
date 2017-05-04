@@ -152,3 +152,80 @@ $(document).ready ->
     $fieldset.find(".#{content} .geometry-type").hide()
 
     $fieldset.find(".#{content}").hide()
+
+  # Handle RelatedURL URLContentType select
+  $('.related-url-content-type-select').change ->
+    handleContentTypeSelect($(this))
+
+  # Handle RelatedURL Type select
+  $('.related-url-type-select').change ->
+    handleTypeSelect($(this))
+
+  handleContentTypeSelect = (selector) ->
+    contentTypeValue = $(selector).val()
+
+    $typeSelect = $(selector).siblings('.related-url-type-select')
+    $subtypeSelect = $(selector).siblings('.related-url-subtype-select')
+
+    typeValue = $typeSelect.val()
+    subtypeValue = $subtypeSelect.val()
+
+    $typeSelect.find('option').remove()
+    $subtypeSelect.find('option').remove()
+    $typeSelect.append($("<option />").val('').text('Select Type'))
+    $subtypeSelect.append($("<option />").val('').text('Select Subtype'))
+
+    if contentTypeValue?.length > 0
+      types = urlContentTypeMap[contentTypeValue]?.types
+
+      for k, v of types
+        $typeSelect.append($("<option />").val(k).text(v.text))
+
+      # if only one Type option exists, select that option
+      if $typeSelect.find('option').length == 2
+        $typeSelect.find('option').last().prop 'selected', true
+      else
+        $typeSelect.val(typeValue)
+        $typeSelect.trigger('change')
+
+      # if only one Subtype option exists, select that option
+      if $subtypeSelect.find('option').length == 2
+        $subtypeSelect.find('option').last().prop 'selected', true
+      else
+        $subtypeSelect.val(subtypeValue)
+
+  handleTypeSelect = (selector) ->
+    typeValue = $(selector).val()
+    if typeValue?.length > 0
+      $parent = $(selector).parents('.multiple-item.eui-accordion')
+
+      $parent.find('.get-data-fields, .get-service-fields').hide()
+
+      switch typeValue
+        when 'GET DATA'
+          $parent.find('.get-data-fields').show()
+          $parent.find('.get-service-fields').find('input, select').val ''
+        when 'GET SERVICE'
+          $parent.find('.get-service-fields').show()
+          $parent.find('.get-data-fields').find('input, select').val ''
+
+      $subtypeSelect = $(selector).siblings('.related-url-subtype-select')
+      contentTypeValue = $(selector).siblings('.related-url-content-type-select').val()
+      subtypeValue = $subtypeSelect.val()
+
+      subtypes = urlContentTypeMap[contentTypeValue].types[typeValue].subtypes
+
+      $subtypeSelect.find('option').remove()
+      $subtypeSelect.append($("<option />").val('').text('Select Subtype'))
+      for subtype in subtypes
+        $subtypeSelect.append($("<option />").val(subtype[1]).text(subtype[0]))
+
+      # if only one Subtype option exists, select that option
+      if $subtypeSelect.find('option').length == 2
+        $subtypeSelect.find('option').last().prop 'selected', true
+      else
+        $subtypeSelect.val(subtypeValue)
+
+  # Update all the url content type select fields on pagge load
+  $('.related-url-content-type-select').each ->
+    handleContentTypeSelect($(this))

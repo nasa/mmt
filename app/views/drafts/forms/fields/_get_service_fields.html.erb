@@ -53,17 +53,17 @@
     ) %>
 
     <%= mmt_label(
-      name: 'uri_',
+      name: 'uri_0',
       title: 'URI',
-      prefix: 'draft_'
+      prefix: name_prefix
     ) %>
     <%= mmt_help_icon(
       title: 'URI',
-      help: 'properties/GetServiceType/properties/URI'
+      help: 'definitions/GetServiceType/properties/URI'
     ) %>
     <div class="row">
       <% uris = get_service['URI'] || [nil] %>
-      <div class="multiple simple-multiple uris">
+      <div class="multiple simple-multiple uri">
         <% uris.each_with_index do |uri, index| %>
           <div class="multiple-item multiple-item-<%= index %>">
             <%= text_field_tag(name_to_param("#{name_prefix}uri_#{index}"), uri, class: 'half-width uri simple-multiple-field validate', data: { level: remove_pipes(name_prefix) }) %>

@@ -42,7 +42,7 @@ describe 'Progress circles', js: true do
 
         open_accordions
 
-        add_related_urls(RelatedUrlFieldsHelper::DISTRIBUTION_FORM)
+        add_related_urls('distribution_form')
 
         within '.nav-top' do
           click_on 'Done'
@@ -77,8 +77,6 @@ describe 'Progress circles', js: true do
         within '.nav-top' do
           click_on 'Done'
         end
-        # Accept modal
-        click_on 'Yes'
       end
 
       it 'fills in that correct circle in grey' do
@@ -104,6 +102,8 @@ describe 'Progress circles', js: true do
         within '.nav-top' do
           click_on 'Done'
         end
+        # Accept modal
+        click_on 'Yes'
       end
 
       it 'fills in the correct circle in red' do

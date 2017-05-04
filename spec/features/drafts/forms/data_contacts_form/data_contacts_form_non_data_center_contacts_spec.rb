@@ -80,10 +80,26 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
               expect(page).to have_field('Country', with: 'United States')
             end
             within '.multiple.related-urls > .multiple-item-0' do
-              expect(page).to have_selector('input.url[value="http://example.com"]')
-              expect(page).to have_selector('input.url[value="http://another-example.com"]')
               expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('URL Content Type', with: 'CollectionURL')
+              expect(page).to have_field('Type', with: 'DATA SET LANDING PAGE')
+              expect(page).to have_field('URL', with: 'http://example.com')
+            end
+
+            within '.multiple.related-urls> .multiple-item-1' do
+              expect(page).to have_field('Description', with: 'Example Description 2')
+              expect(page).to have_field('URL Content Type', with: 'DistributionURL')
+              expect(page).to have_field('Type', with: 'GET SERVICE')
+              expect(page).to have_field('Subtype', with: 'EARTHDATA SEARCH')
+              expect(page).to have_field('URL', with: 'https://search.earthdata.nasa.gov')
+
+              expect(page).to have_field('Mime Type', with: 'Not provided')
+              expect(page).to have_field('Protocol', with: 'HTTPS')
+              expect(page).to have_field('Full Name', with: 'Service name')
+              expect(page).to have_field('Data ID', with: 'data id')
+              expect(page).to have_field('Data Type', with: 'data type')
+              expect(page).to have_selector('input.uri[value="uri1"]')
+              expect(page).to have_selector('input.uri[value="uri2"]')
             end
           end
         end
@@ -166,10 +182,26 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
             end
 
             within '.multiple.related-urls > .multiple-item-0' do
-              expect(page).to have_selector('input.url[value="http://example.com"]')
-              expect(page).to have_selector('input.url[value="http://another-example.com"]')
               expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('URL Content Type', with: 'CollectionURL')
+              expect(page).to have_field('Type', with: 'DATA SET LANDING PAGE')
+              expect(page).to have_field('URL', with: 'http://example.com')
+            end
+
+            within '.multiple.related-urls> .multiple-item-1' do
+              expect(page).to have_field('Description', with: 'Example Description 2')
+              expect(page).to have_field('URL Content Type', with: 'DistributionURL')
+              expect(page).to have_field('Type', with: 'GET SERVICE')
+              expect(page).to have_field('Subtype', with: 'EARTHDATA SEARCH')
+              expect(page).to have_field('URL', with: 'https://search.earthdata.nasa.gov')
+
+              expect(page).to have_field('Mime Type', with: 'Not provided')
+              expect(page).to have_field('Protocol', with: 'HTTPS')
+              expect(page).to have_field('Full Name', with: 'Service name')
+              expect(page).to have_field('Data ID', with: 'data id')
+              expect(page).to have_field('Data Type', with: 'data type')
+              expect(page).to have_selector('input.uri[value="uri1"]')
+              expect(page).to have_selector('input.uri[value="uri2"]')
             end
           end
         end

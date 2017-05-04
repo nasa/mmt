@@ -18,7 +18,7 @@ describe 'Distribution information form', js: true do
       click_on 'Expand All'
 
       # Complete RelatedUrl fields
-      add_related_urls(RelatedUrlFieldsHelper::DISTRIBUTION_FORM)
+      add_related_urls('distribution_form')
 
       # Complete Distribution fields
       within '.multiple.distributions' do
@@ -63,19 +63,26 @@ describe 'Distribution information form', js: true do
 
     it 'populates the form with the values' do
       within '.multiple.related-urls > .multiple-item-0' do
-        expect(page).to have_selector('input.url[value="http://example.com"]')
-        expect(page).to have_selector('input.url[value="http://another-example.com"]')
         expect(page).to have_field('Description', with: 'Example Description')
-        expect(page).to have_field('Mime Type', with: 'text/html')
-        expect(page).to have_field('Title', with: 'Example Title')
-        within '.file-size' do
-          expect(page).to have_field('Size', with: '42.0')
-          expect(page).to have_field('Unit', with: 'MB')
-        end
+        expect(page).to have_field('URL Content Type', with: 'CollectionURL')
+        expect(page).to have_field('Type', with: 'DATA SET LANDING PAGE')
+        expect(page).to have_field('URL', with: 'http://example.com')
       end
 
       within '.multiple.related-urls> .multiple-item-1' do
-        expect(page).to have_selector('input.url[value="http://example.com/1"]')
+        expect(page).to have_field('Description', with: 'Example Description 2')
+        expect(page).to have_field('URL Content Type', with: 'DistributionURL')
+        expect(page).to have_field('Type', with: 'GET SERVICE')
+        expect(page).to have_field('Subtype', with: 'EARTHDATA SEARCH')
+        expect(page).to have_field('URL', with: 'https://search.earthdata.nasa.gov')
+
+        expect(page).to have_field('Mime Type', with: 'Not provided')
+        expect(page).to have_field('Protocol', with: 'HTTPS')
+        expect(page).to have_field('Full Name', with: 'Service name')
+        expect(page).to have_field('Data ID', with: 'data id')
+        expect(page).to have_field('Data Type', with: 'data type')
+        expect(page).to have_selector('input.uri[value="uri1"]')
+        expect(page).to have_selector('input.uri[value="uri2"]')
       end
 
       within '.multiple.distributions > .multiple-item-0' do

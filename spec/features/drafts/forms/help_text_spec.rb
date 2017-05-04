@@ -36,7 +36,7 @@ describe 'Draft form help text', js: true do
 
         open_accordions
 
-        click_on 'Help modal for URLs'
+        click_on 'Help modal for Related URLs'
       end
 
       it 'displays the validation clue in the modal' do
