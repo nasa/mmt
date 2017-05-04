@@ -245,23 +245,27 @@
   "granule": null
 }, {
   // 50
-  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1200060318-DEMO_PROV",
+  // non-ASCII characters collection
+  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1200233357-MMT_1/1.dif10",
   "ingest_count": 1,
   "granule": null,
-  "type": "dif10"
-}, {
-  // not url friendly native id
-  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1000000279-EDF_DEV06/5",
-  "ingest_count": 1,
-  "granule": null
+  "type": "dif10",
+  "test_case": " non-ASCII characters collection"
 }, {
   // 51
+  // not url friendly native id
+  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1000000279-EDF_DEV06/5.echo10",
+  "ingest_count": 1,
+  "granule": null,
+  "test_case": " not url friendly native id"
+}, {
+  // 52
   "collection": "https://cmr.uat.earthdata.nasa.gov/search/concepts/C1215718270-GES_DISC/6",
   "ingest_count": 1,
   "granule": null,
   "type": "dif10"
 }, {
-  // 52
+  // 53
   "collection": "https://cmr.uat.earthdata.nasa.gov/search/concepts/C1215139660-GES_DISC",
   "ingest_count": 1,
   "granule": null,
