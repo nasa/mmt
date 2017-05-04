@@ -1,8 +1,5 @@
+# :nodoc:
 module GroupsHelper
-  def options_for_user_select(users, selected = nil)
-    options_for_select(users.map { |user| ["#{user['first_name']} #{user['last_name']} | #{user['email_address']}", user['uid']] }, selected)
-  end
-
   def check_if_system_group?(group, concept_id)
     group['provider_id'].nil? && concept_id =~ /(CMR)$/ ? true : false
   end

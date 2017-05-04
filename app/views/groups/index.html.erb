@@ -17,7 +17,7 @@
             </div>
 
             <div class="col-5" id="groups-member-filter">
-              <%= select_tag 'filters[member][]', options_for_select([], @filters['member']), class: 'full-width urs_autocomplete', id: 'member-group-filter', multiple: 'multiple', data: { placeholder: 'Filter By User'} %>
+              <%= select_tag 'filters[member][]', options_for_select(@member_filter_details, @filters['member']), class: 'full-width urs_autocomplete', id: 'member-group-filter', multiple: 'multiple', data: { placeholder: 'Filter By User'} %>
             </div>
 
             <div class="col-2 align-c">
