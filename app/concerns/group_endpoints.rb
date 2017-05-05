@@ -17,6 +17,8 @@ module GroupEndpoints
   end
 
   def search_urs(query)
+    return [] if query.blank?
+
     urs_response = cmr_client.search_urs_users(query)
 
     if urs_response.success?
@@ -27,6 +29,8 @@ module GroupEndpoints
   end
 
   def retrieve_urs_users(uids)
+    return [] if uids.blank?
+
     users_response = cmr_client.get_urs_users(uids)
 
     if users_response.success?
