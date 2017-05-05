@@ -2,11 +2,17 @@ select2GroupMemberFormatter = (result) ->
   result.text + ' <small><b>' + result.id + '</b></small>'
 
 select2Sorter = (a, b) ->
-  if (a.title > b.title)
+  if (a > b)
     return 1
-  if (a.title < b.title)
+  if (a < b)
     return -1
   return 0
+
+select2HTMLSorter = (a, b) ->
+  select2Sorter(a.title, b.title)
+
+select2JSONSorter = (a, b) ->
+  select2Sorter(a.text, b.text)
 
 setCurrentGroupMembers = ->
   $.each $('.urs_autocomplete'), ->
@@ -44,13 +50,13 @@ $(document).ready ->
 
     sorter: (data) ->
       # Sort the search results
-      data.sort select2Sorter
+      data.sort select2JSONSorter
 
   .on 'select2:select', (event) ->
     # Sort the selected members each time a new one is added
     $(this).next().find('.select2-selection__rendered li.select2-selection__choice')
-      .sort(select2Sorter)
-    .prependTo($(this).parent('.select2-selection__rendered'))
+      .sort(select2HTMLSorter)
+    .prependTo($(this).parent().find('.select2-selection__rendered'))
 
   setCurrentGroupMembers()
 
