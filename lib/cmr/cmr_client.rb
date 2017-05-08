@@ -195,6 +195,19 @@ module Cmr
       get(url, {}, headers.merge(token_header(token)))
     end
 
+    def create_bulk_update(provider_id, params, token)
+      # ingest/providers/<provider-id>/bulk-update/collections
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3002/providers/#{provider_id}/bulk-update/collections"
+      else
+        url = "ingest/providers/#{provider_id}/bulk-update/collections"
+      end
+
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+
+      post(url, params.to_json, headers.merge(token_header(token)))
+    end
+
     ### CMR Groups, via Access Control
 
     def get_cmr_groups(options, token)

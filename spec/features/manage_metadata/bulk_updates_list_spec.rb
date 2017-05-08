@@ -9,33 +9,9 @@ describe 'Bulk Updates callout box on the Manage Metadata page' do
     visit manage_metadata_path
   end
 
-  context 'when there are bulk updates' do
+  context 'when there are no bulk updates' do
     it 'displays the bulk updates' do
-      expect(page).to have_content('ABCDEF123 | IN_PROGRESS')
-      expect(page).to have_content('12345678 | COMPLETE')
-      expect(page).to have_content('12345678 | COMPLETE')
-    end
-
-    context "when more than #{draft_display_max_count} bulk updates exist" do
-      it 'displays the "More" link for bulk updates' do
-        within '.bulk-update-callout' do
-          expect(page).to have_link('More')
-        end
-      end
-
-      context 'when clicking on the "More" link for bulk updates' do
-        before do
-          within '.bulk-update-callout' do
-            click_on 'More'
-          end
-        end
-
-        it 'displays the Bulk Updates Index page' do
-          expect(page).to have_content('MMT_2 Bulk Updates')
-          expect(page).to have_css('table.bulk-updates-list-table')
-        end
-      end
-
+      expect(page).to have_content('No MMT_2 Bulk Updates found.')
     end
   end
 
@@ -52,8 +28,4 @@ describe 'Bulk Updates callout box on the Manage Metadata page' do
       expect(page).to have_css('form#bulk-updates-search')
     end
   end
-
-  # We should test this scenario when the bulk updates response endpoint is functional
-  # and does not return a fixed response
-  # context 'when no bulk updates exist'
 end

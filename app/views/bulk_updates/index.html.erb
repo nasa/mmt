@@ -12,7 +12,7 @@
       <tbody>
         <% if @tasks.blank? %>
           <tr>
-            <td colspan="2">No tasks found</td>
+            <td colspan="2">No <%= current_user.provider_id %> Bulk Updates found.</td>
           </tr>
         <% else %>
           <% @tasks.each do |task| %>

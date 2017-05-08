@@ -76,7 +76,7 @@
             <div class="row">
               <ul>
                 <% if @bulk_updates.blank? %>
-                  <%= current_user.provider_id %> has no bulk updates to display.
+                  No <%= current_user.provider_id %> Bulk Updates found.
                 <% else %>
                   <% @bulk_updates[0..@draft_display_max_count].each do |bulk_update| %>
                     <li>
@@ -86,13 +86,11 @@
                       </p>
                     </li>
                   <% end %>
-                  <!-- because of the fixed response, this conditional is disabled to
-                        access the link, and should be enabled when the responses are using real data -->
-                  <%# if @bulk_updates.size > @draft_display_max_count %>
+                  <% if @bulk_updates.size > @draft_display_max_count %>
                     <li>
                       <%= link_to 'More', bulk_updates_path %>
                     </li>
-                  <%# end %>
+                  <% end %>
                 <% end %>
               </ul>
             </div>
