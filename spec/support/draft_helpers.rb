@@ -185,33 +185,45 @@ module Helpers
 
     def add_related_urls(type = nil, button_type = nil)
       within '.multiple.related-urls' do
-        fill_in 'Description', with: 'Example Description'
-        select 'Collection URL', from: 'URL Content Type'
-        select 'Data Set Landing Page', from: 'Type'
-        fill_in 'URL', with: 'http://example.com'
+        if type == 'data_contact'
+          fill_in 'Description', with: 'Example Description'
+          select 'Data Contact URL', from: 'URL Content Type'
+          select 'Home Page', from: 'Type'
+          fill_in 'URL', with: 'http://example.com'
+        elsif type == 'data_center'
+          fill_in 'Description', with: 'Example Description'
+          select 'Data Center URL', from: 'URL Content Type'
+          select 'Home Page', from: 'Type'
+          fill_in 'URL', with: 'http://example.com'
+        else
+          fill_in 'Description', with: 'Example Description'
+          select 'Collection URL', from: 'URL Content Type'
+          select 'Data Set Landing Page', from: 'Type'
+          fill_in 'URL', with: 'http://example.com'
 
-        button_title = 'Related URL'
-        button_title = 'Distribution URL' if type == 'distribution_form'
-        button_type += ' ' unless button_type.nil?
-        # Add another RelatedUrl
-        click_on "Add another #{button_type}#{button_title}"
+          button_title = 'Related URL'
+          button_title = 'Distribution URL' if type == 'distribution_form'
+          button_type += ' ' unless button_type.nil?
+          # Add another RelatedUrl
+          click_on "Add another #{button_type}#{button_title}"
 
-        within '.multiple-item.eui-accordion.multiple-item-1' do
-          fill_in 'Description', with: 'Example Description 2'
-          select 'Distribution URL', from: 'URL Content Type'
-          select 'Get Service', from: 'Type'
-          select 'Earthdata Search', from: 'Subtype'
-          fill_in 'URL', with: 'https://search.earthdata.nasa.gov'
+          within '.multiple-item.eui-accordion.multiple-item-1' do
+            fill_in 'Description', with: 'Example Description 2'
+            select 'Distribution URL', from: 'URL Content Type'
+            select 'Get Service', from: 'Type'
+            select 'Earthdata Search', from: 'Subtype'
+            fill_in 'URL', with: 'https://search.earthdata.nasa.gov'
 
-          # Get Service fields
-          select 'Not provided', from: 'Mime Type'
-          select 'HTTPS', from: 'Protocol'
-          fill_in 'Full Name', with: 'Service name'
-          fill_in 'Data ID', with: 'data id'
-          fill_in 'Data Type', with: 'data type'
-          fill_in 'URI', with: 'uri1'
-          click_on 'Add another URI'
-          all('input.uri').last.set('uri2')
+            # Get Service fields
+            select 'Not provided', from: 'Mime Type'
+            select 'HTTPS', from: 'Protocol'
+            fill_in 'Full Name', with: 'Service name'
+            fill_in 'Data ID', with: 'data id'
+            fill_in 'Data Type', with: 'data type'
+            fill_in 'URI', with: 'uri1'
+            click_on 'Add another URI'
+            all('input.uri').last.set('uri2')
+          end
         end
       end
     end

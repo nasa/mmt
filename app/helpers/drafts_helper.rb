@@ -328,10 +328,16 @@ module DraftsHelper
   URLContentTypeOptions = [
     ['Collection URL', 'CollectionURL'],
     ['Publication URL', 'PublicationURL'],
-    ['DataCenter URL', 'DataCenterURL'],
+    ['Data Center URL', 'DataCenterURL'],
     ['Distribution URL', 'DistributionURL'],
-    ['DataContact URL', 'DataContactURL'],
+    ['Data Contact URL', 'DataContactURL'],
     ['Visualization URL', 'VisualizationURL']
+  ]
+  URLContentTypeDataCenterOptions = [
+    ['Data Center URL', 'DataCenterURL']
+  ]
+  URLContentTypeDataContactOptions = [
+    ['Data Contact URL', 'DataContactURL']
   ]
   URLTypeOptions = [
     ['Get Data', 'GET DATA'],

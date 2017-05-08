@@ -1,4 +1,6 @@
 <% always_required = options[:always_required] || false %>
+<% url_content_type_options = options.fetch(:url_content_type_options, DraftsHelper::URLContentTypeOptions) %>
+
 
 <div class="row sub-fields">
   <%= mmt_text_field(
@@ -18,7 +20,7 @@
         title: 'URL Content Type',
         prefix: name_prefix,
         value: related_url['URLContentType'],
-        options: DraftsHelper::URLContentTypeOptions,
+        options: url_content_type_options,
         help: 'definitions/RelatedUrlType/properties/URLContentType',
         validate: true,
         required_level: options[:required_level],

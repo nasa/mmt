@@ -332,15 +332,9 @@ FactoryGirl.define do
           }],
           'RelatedUrls' => [{
             'Description' => 'Related URL 1 Description',
-            'URLContentType' => 'CollectionURL',
-            'Type' => 'DATA SET LANDING PAGE',
+            'URLContentType' => 'DataCenterURL',
+            'Type' => 'HOME PAGE',
             'URL' => 'http://example.com/'
-          }, {
-            'Description' => 'Related URL 2 Description',
-            'URLContentType' => 'DistributionURL',
-            'Type' => 'GET SERVICE',
-            'Subtype' => 'EARTHDATA SEARCH',
-            'URL' => 'https://search.earthdata.nasa.gov/'
           }]
         }
       }, {
@@ -372,15 +366,9 @@ FactoryGirl.define do
           }],
           'RelatedUrls' => [{
             'Description' => 'Related URL 1 Description',
-            'URLContentType' => 'CollectionURL',
-            'Type' => 'DATA SET LANDING PAGE',
+            'URLContentType' => 'DataCenterURL',
+            'Type' => 'HOME PAGE',
             'URL' => 'http://example.com/'
-          }, {
-            'Description' => 'Related URL 2 Description',
-            'URLContentType' => 'DistributionURL',
-            'Type' => 'GET SERVICE',
-            'Subtype' => 'EARTHDATA SEARCH',
-            'URL' => 'https://search.earthdata.nasa.gov/'
           }]
         },
         'ContactPersons' => [{
@@ -413,15 +401,9 @@ FactoryGirl.define do
             }],
             'RelatedUrls' => [{
               'Description' => 'Related URL 1 Description',
-              'URLContentType' => 'CollectionURL',
-              'Type' => 'DATA SET LANDING PAGE',
+              'URLContentType' => 'DataContactURL',
+              'Type' => 'HOME PAGE',
               'URL' => 'http://example.com/'
-            }, {
-              'Description' => 'Related URL 2 Description',
-              'URLContentType' => 'DistributionURL',
-              'Type' => 'GET SERVICE',
-              'Subtype' => 'EARTHDATA SEARCH',
-              'URL' => 'https://search.earthdata.nasa.gov/'
             }]
           }
         }],
@@ -453,15 +435,9 @@ FactoryGirl.define do
             }],
             'RelatedUrls' => [{
               'Description' => 'Related URL 1 Description',
-              'URLContentType' => 'CollectionURL',
-              'Type' => 'DATA SET LANDING PAGE',
+              'URLContentType' => 'DataContactURL',
+              'Type' => 'HOME PAGE',
               'URL' => 'http://example.com/'
-            }, {
-              'Description' => 'Related URL 2 Description',
-              'URLContentType' => 'DistributionURL',
-              'Type' => 'GET SERVICE',
-              'Subtype' => 'EARTHDATA SEARCH',
-              'URL' => 'https://search.earthdata.nasa.gov/'
             }]
           }
         }]
@@ -497,15 +473,9 @@ FactoryGirl.define do
           }],
           'RelatedUrls' => [{
             'Description' => 'Related URL 1 Description',
-            'URLContentType' => 'CollectionURL',
-            'Type' => 'DATA SET LANDING PAGE',
+            'URLContentType' => 'DataContactURL',
+            'Type' => 'HOME PAGE',
             'URL' => 'http://example.com/'
-          }, {
-            'Description' => 'Related URL 2 Description',
-            'URLContentType' => 'DistributionURL',
-            'Type' => 'GET SERVICE',
-            'Subtype' => 'EARTHDATA SEARCH',
-            'URL' => 'https://search.earthdata.nasa.gov/'
           }]
         }
       }],
@@ -538,15 +508,9 @@ FactoryGirl.define do
           }],
           'RelatedUrls' => [{
             'Description' => 'Related URL 1 Description',
-            'URLContentType' => 'CollectionURL',
-            'Type' => 'DATA SET LANDING PAGE',
+            'URLContentType' => 'DataContactURL',
+            'Type' => 'HOME PAGE',
             'URL' => 'http://example.com/'
-          }, {
-            'Description' => 'Related URL 2 Description',
-            'URLContentType' => 'DistributionURL',
-            'Type' => 'GET SERVICE',
-            'Subtype' => 'EARTHDATA SEARCH',
-            'URL' => 'https://search.earthdata.nasa.gov/'
           }]
         }
       }],
