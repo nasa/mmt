@@ -634,7 +634,28 @@ FactoryGirl.define do
         'URLContentType' => 'DistributionURL',
         'Type' => 'GET SERVICE',
         'Subtype' => 'EARTHDATA SEARCH',
-        'URL' => 'https://search.earthdata.nasa.gov/'
+        'URL' => 'https://search.earthdata.nasa.gov/',
+        'GetService' => {
+          'MimeType' => 'Not provided',
+          'Protocol' => 'HTTPS',
+          'FullName' => 'Earthdata Search',
+          'DataID' => 'data_id',
+          'DataType' => 'data type',
+          'URI' => ['uri']
+        }
+      }, {
+        'Description' => 'Related URL 3 Description',
+        'URLContentType' => 'DistributionURL',
+        'Type' => 'GET DATA',
+        'Subtype' => 'DIF',
+        'URL' => 'https://example.com/',
+        'GetData' => {
+          'Format' => 'ascii',
+          'Size' => 42,
+          'Unit' => 'KB',
+          'Fees' => '0',
+          'Checksum' => 'sdfgfgksghafgsdvbasf'
+        }
       }],
       'Distributions' => [{},
       {
