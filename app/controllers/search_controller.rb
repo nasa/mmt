@@ -62,8 +62,9 @@ class SearchController < ApplicationController
     unless query['keyword'] && query['keyword'].empty?
       query['keyword'] = query['keyword'].strip.gsub(/\s+/, '* ') + '*'
     end
-    
-    collections = cmr_client.get_collections(query, token).body
+
+    collections = cmr_client.get_collections_by_post(query, token).body
+
     hits = collections['hits'].to_i
     if collections['errors']
       errors = collections['errors']

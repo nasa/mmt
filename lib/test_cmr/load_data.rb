@@ -18,6 +18,8 @@ module Cmr
         setup_cmr
       end
       insert_metadata(retrieve_metadata_uris)
+
+      additional_cmr_setup
     end
 
     def wait_for_cmr
@@ -143,6 +145,7 @@ module Cmr
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
       # Provider LARC
+      # ACL to give all guest and all registered users READ access on LARC collections, through a collection permission (catalog item acl) in mock echo
       connection.post do |req|
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
@@ -195,7 +198,7 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"system_object_identity": {"target": "GROUP"}}}'
       end
-      puts "Created ACL admin user: #{resp.body}"
+      puts "ACL for system group access for admin user in mock echo: #{resp.body}"
       # mock-echo-system-token
       resp = connection.post do |req|
         req.url('http://localhost:3008/acls')
@@ -203,7 +206,7 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "mock-admin-group-guid"}}}],"system_object_identity": {"target": "GROUP"}}}'
       end
-      puts "Created ACL mock-echo-system-token: #{resp.body}"
+      puts "ACL for system group access for mock-echo-system-token in mock echo: #{resp.body}"
 
       clear_cache
 
@@ -215,7 +218,7 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"name": "Administrators_2", "description": "The group of users that manages the CMR."}'
       end
-      puts "Created system level group: #{resp.body}"
+      puts "Created system level group in access control: #{resp.body}"
       # Create SEDAC group
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
@@ -223,7 +226,7 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"name": "SEDAC Test Group", "description": "Test group for provider", "provider_id": "SEDAC"}'
       end
-      puts "Created SEDAC group: #{resp.body}"
+      puts "Created SEDAC group in access control: #{resp.body}"
 
       clear_cache
 
@@ -254,11 +257,11 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "AG1200000001-CMR","permissions": ["read", "create"]}], "system_identity": {"target": "GROUP"}}'
       end
-      puts "acl for system level groups for Administrators_2 #{resp.body}"
+      puts "acl for system level groups for Administrators_2 in access control #{resp.body}"
 
       clear_cache
 
-      ## Add groups in new groups API so it can provide the SIDS
+      ## Add groups into access control so it can provide the SIDS
       # Administrative Users, that use token ABC-1
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
@@ -286,14 +289,7 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ","CREATE"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "GROUP"}}}'
       end
-      puts "admin access SEDAC 3008: #{resp.body}"
-      # resp = connection.post do |req| # this also was not working
-      #   req.url('http://localhost:3008/acls')
-      #   req.headers['Content-Type'] = 'application/json'
-      #   req.headers['Echo-token'] = 'mock-echo-system-token'
-      #   req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "GROUP"}}}'
-      # end
-      # puts "admin read access SEDAC 3008: #{resp.body}"
+      puts "ACL for admin access to SEDAC provider groups in mock echo: #{resp.body}"
 
       # ACL for typical user for MMT_1 groups
       connection.post do |req|
@@ -358,12 +354,12 @@ module Cmr
       end
       puts "ACL for CRUD permissions for typical user on Provider Identity ACLs for MMT_2 #{resp.body}"
 
-      # ACL for regular users to manage Provider Identity ACLs for NSIDC_ECS
+      # ACL for admin and regular users to manage Provider Identity ACLs for NSIDC_ECS
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "NSIDC_ECS"}}'
+        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}, {"group_id": "guidMMTAdmin", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "NSIDC_ECS"}}'
       end
       puts "ACL for CRUD permissions for typical user on Provider Identity ACLs for NSIDC_ECS #{resp.body}"
 
@@ -413,7 +409,42 @@ module Cmr
       end
       puts "ACL for typical user to read and create catalog item ACLs for LARC #{resp.body}"
 
+      # ACL in access control for admin and typical user to create catalog item ACLs for NSIDC_ECS
+      resp = connection.post do |req|
+        req.url('http://localhost:3011/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"group_permissions": [{"group_id": "guidMMTUser", "permissions": ["read", "create", "update", "delete"]}, {"group_id": "guidMMTAdmin", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "NSIDC_ECS"}}'
+      end
+      puts "ACL for admin and typical user to read and create catalog item ACLs for NSIDC_ECS, via access control #{resp.body}"
+
       clear_cache
+    end
+
+    def additional_cmr_setup
+      # we are running these later in the sequence because one of the ACLs is for a single entry title, which is best to create after the collection has been ingested
+      clear_cache
+
+      resp = connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid5"}}}'
+      end
+      puts "ACL for admin user to read collections for NSIDC_ECS, via mock echo #{resp.body}"
+
+      # ACL (collection permission, aka catalog item acl) for NSIDC_ECS for access to a single entry title for all guest and all registered users, via access control
+      resp = connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}, {"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid5", "collection_identifier": { "collection_ids": [ { "data_set_id": "Near-Real-Time SSMIS EASE-Grid Daily Global Ice Concentration and Snow Extent V004" } ] }}}}'
+      end
+      puts "Collection Permission for single entry title for NSIDC_ECS, via access control #{resp.body}"
+
+      clear_cache
+
+      reindex_permitted_groups
     end
 
     def clear_cache
@@ -423,6 +454,15 @@ module Cmr
       connection.post do |req|
         req.url('http://localhost:3011/caches/clear-cache?token=mock-echo-system-token')
       end
+    end
+
+    def reindex_permitted_groups
+      # this method reindexes groups, which may be required when ACLs are added or changed in mock echo
+      resp = connection.post do |req|
+        req.url('http://localhost:3002/jobs/reindex-collection-permitted-groups')
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+      end
+      puts "reindexed permitted groups #{resp.inspect}"
     end
 
     def retrieve_metadata_uris
@@ -440,11 +480,14 @@ module Cmr
               # collection with not url friendly native id
               encoded_bad_native_id = URI.encode('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
               req.url("http://localhost:3002/providers/LARC/collections/#{encoded_bad_native_id}")
+            elsif collection_uri.include? 'NSIDC_ECS'
+              req.url("http://localhost:3002/providers/NSIDC_ECS/collections/collection#{index}")
             elsif collection_uri.include? 'SEDAC'
               req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
             else #collection_uri.include? 'LARC'
               req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
             end
+
             content_type = 'application/echo10+xml'
             content_type = 'application/dif10+xml' if obj[:type] == 'dif10'
             req.headers['Content-Type'] = content_type

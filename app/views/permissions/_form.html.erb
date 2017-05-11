@@ -11,7 +11,11 @@
   <%= label_tag 'collection_options', 'Collections', class: 'required eui-required-o' %>
   <%= select_tag 'collection_options', options_for_select(PermissionsHelper::CollectionsOptions, @collection_options), class: 'full-width', prompt: '-- Select an Option --' %>
   <%= hidden_field_tag 'collection_selections', @collection_selections %>
-  <div id="chooser-widget" class="is_hidden"></div>
+  <div id="chooser-widget" class="is-hidden"></div>
+
+  <% unless @hidden_entry_titles.blank? %>
+    <%= hidden_field_tag('hidden_collections', @hidden_entry_titles.join(';;; ')) %>
+  <% end %>
 </fieldset>
 
 <fieldset id="collection_constraint_values" class="<%= hide_access_constraint_values?(@collection_options) %>">

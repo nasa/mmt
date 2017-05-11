@@ -49,7 +49,7 @@ $(document).ready ->
         $('#collectionsChooser_toList').rules 'add',
             required:
               depends: ->
-                if $('#collection_options').val() == 'selected-ids-collections'
+                if $('#collection_options').val() == 'selected-ids-collections' && $('#hidden_collections').length == 0
                   return true
                 return false
             messages:
@@ -59,7 +59,7 @@ $(document).ready ->
     # show the Chooser widget if a refresh of the page has "selected collections" as the dropdown value
     setTimeout ( ->
       if $('#collection_options').val() == 'selected-ids-collections'
-        $('#chooser-widget').show()
+        $('#chooser-widget').removeClass 'is-hidden'
         start_widget()
 
         if $('#collection_selections').val()? && $('#collection_selections').val().length > 0
@@ -76,14 +76,14 @@ $(document).ready ->
       collectionOptions = $(this).val()
 
       if collectionOptions == 'selected-ids-collections'
-        $('#chooser-widget').show()
+        $('#chooser-widget').removeClass 'is-hidden'
         start_widget()
         $('#collection_constraint_values').removeClass 'is-hidden'
       else if collectionOptions == 'all-collections'
-        $('#chooser-widget').hide()
+        $('#chooser-widget').addClass 'is-hidden'
         $('#collection_constraint_values').removeClass 'is-hidden'
       else
-        $('#chooser-widget').hide()
+        $('#chooser-widget').addClass 'is-hidden'
         $('#collection_constraint_values').addClass 'is-hidden'
 
     $('#granule_options').on 'change', ->
