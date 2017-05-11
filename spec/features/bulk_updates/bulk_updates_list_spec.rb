@@ -10,7 +10,7 @@ describe 'Viewing the Bulk Updates Index Page', reset_provider: true do
       visit bulk_updates_path
     end
 
-    it 'displays the page with a list of bulk updates' do
+    it 'displays an appropriate message' do
       expect(page).to have_content('MMT_2 Bulk Updates')
 
       within '.bulk-updates-list-table' do

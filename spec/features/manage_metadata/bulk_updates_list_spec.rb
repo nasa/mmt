@@ -10,7 +10,7 @@ describe 'Bulk Updates callout box on the Manage Metadata page' do
   end
 
   context 'when there are no bulk updates' do
-    it 'displays the bulk updates' do
+    it 'displays an appropriate message' do
       expect(page).to have_content('No MMT_2 Bulk Updates found.')
     end
   end
