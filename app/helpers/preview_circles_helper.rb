@@ -120,7 +120,7 @@ module PreviewCirclesHelper
     },
     'distribution_information' => {
       'RelatedUrls' => {
-        required: true,
+        required: false,
         anchor: 'related-urls'
       },
       'Distributions' => {

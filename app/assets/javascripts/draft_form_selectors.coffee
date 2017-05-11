@@ -104,15 +104,11 @@ $(document).ready ->
 
     disabledValues = ['STRING', 'BOOLEAN']
     if disabledValues.indexOf(value) != -1
-      $begin.prop 'disabled', true
-      $end.prop 'disabled', true
-      $begin.addClass('disabled')
-      $end.addClass('disabled')
+      disableField($begin)
+      disableField($end)
     else
-      $begin.prop 'disabled', false
-      $end.prop 'disabled', false
-      $begin.removeClass('disabled')
-      $end.removeClass('disabled')
+      enableField($begin)
+      enableField($end)
 
   # Handle Data Contacts Type selector
   $('.data-contact-type-select').change ->
@@ -153,6 +149,14 @@ $(document).ready ->
 
     $fieldset.find(".#{content}").hide()
 
+  enableField = (field) ->
+    $(field).prop 'disabled', false
+    $(field).removeClass('disabled')
+
+  disableField = (field) ->
+    $(field).prop 'disabled', true
+    $(field).addClass('disabled')
+
   # Handle RelatedURL URLContentType select
   $('.related-url-content-type-select').change ->
     handleContentTypeSelect($(this))
@@ -167,6 +171,9 @@ $(document).ready ->
     $typeSelect = $(selector).siblings('.related-url-type-select')
     $subtypeSelect = $(selector).siblings('.related-url-subtype-select')
 
+    disableField($typeSelect)
+    disableField($subtypeSelect)
+
     typeValue = $typeSelect.val()
     subtypeValue = $subtypeSelect.val()
 
@@ -180,18 +187,19 @@ $(document).ready ->
 
       for k, v of types
         $typeSelect.append($("<option />").val(k).text(v.text))
+        $typeSelect.val(typeValue) if typeValue == k
 
       # if only one Type option exists, select that option
       if $typeSelect.find('option').length == 2
-        $typeSelect.find('option').last().prop 'selected', true
-      else
-        $typeSelect.val(typeValue)
-        $typeSelect.trigger('change')
+        $typeSelect.find('option').first().remove()
+        $typeSelect.find('option').first().prop 'selected', true
+      $typeSelect.trigger('change')
+      enableField($typeSelect)
 
       # if only one Subtype option exists, select that option
       if $subtypeSelect.find('option').length == 2
         $subtypeSelect.find('option').last().prop 'selected', true
-      else
+      else if $subtypeSelect.find('option').length > 1
         $subtypeSelect.val(subtypeValue)
 
   handleTypeSelect = (selector) ->
@@ -213,18 +221,28 @@ $(document).ready ->
       contentTypeValue = $(selector).siblings('.related-url-content-type-select').val()
       subtypeValue = $subtypeSelect.val()
 
+      disableField($subtypeSelect)
+
       subtypes = urlContentTypeMap[contentTypeValue].types[typeValue].subtypes
 
       $subtypeSelect.find('option').remove()
       $subtypeSelect.append($("<option />").val('').text('Select Subtype'))
       for subtype in subtypes
         $subtypeSelect.append($("<option />").val(subtype[1]).text(subtype[0]))
+        $subtypeSelect.val(subtypeValue) if subtypeValue == subtype[1]
 
       # if only one Subtype option exists, select that option
       if $subtypeSelect.find('option').length == 2
-        $subtypeSelect.find('option').last().prop 'selected', true
+        $subtypeSelect.find('option').first().remove()
+        $subtypeSelect.find('option').first().prop 'selected', true
+
+      # Enable the field if any options exist
+      else if $subtypeSelect.find('option').length > 1
+        enableField($subtypeSelect)
       else
-        $subtypeSelect.val(subtypeValue)
+        # if no options exist
+        $subtypeSelect.find('option').text 'No available subtype'
+        $subtypeSelect.find('option').first().prop 'selected', true
 
   # Update all the url content type select fields on pagge load
   $('.related-url-content-type-select').each ->

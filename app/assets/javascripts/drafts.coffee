@@ -63,8 +63,11 @@ $(document).ready ->
     $(newDiv).find('select, input, textarea').removeAttr 'disabled'
     $(newDiv).find('select, input, textarea').removeAttr 'readonly'
     $(newDiv).find('select, input, textarea').not('input[type="hidden"]')[0].focus()
-
     $(newDiv).find('.data-contact-type').hide()
+
+    # diable RelatedURLs Type and Subtype fields
+    $(newDiv).find('.related-url-type-select, .related-url-subtype-select').addClass 'disabled'
+    $(newDiv).find('.related-url-type-select, .related-url-subtype-select').prop 'disabled', true
 
     # Remove points from preview link
     $.each $(newDiv).find('.spatial-preview-link'), ->

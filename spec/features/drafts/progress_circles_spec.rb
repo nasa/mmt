@@ -37,20 +37,20 @@ describe 'Progress circles', js: true do
     context 'when completing a required field' do
       before do
         within '.metadata' do
-          click_on 'Distribution Information'
+          click_on 'Collection Information'
         end
 
-        open_accordions
-
-        add_related_urls('distribution_form')
+        fill_in 'Short Name', with: 'short_name'
 
         within '.nav-top' do
           click_on 'Done'
         end
+
+        click_on 'Yes'
       end
 
       it 'fills in that correct circle in green' do
-        within '#distribution-information a[title="Related Urls - Required field complete"]' do
+        within '#collection-information a[title="Short Name - Required field complete"]' do
           expect(page).to have_css('.eui-required.icon-green')
         end
       end
