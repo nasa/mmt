@@ -88,7 +88,6 @@ class PermissionsController < ManageCmrController
 
   def create
     request_object = construct_request_object(current_user.provider_id)
-
     response = cmr_client.add_group_permissions(request_object, token)
 
     if response.success?
@@ -257,12 +256,6 @@ class PermissionsController < ManageCmrController
 
     collections_response = cmr_client.get_collections_by_post(query, token)
     parse_get_collections_response(collections_response.body)
-
-    # we previously used the GET method for searching collections by entry title,
-    # but that may have been too large for Jetty. we are using the POST method
-    # until/unless CMR changes collection permissions to utilize concept ids or entry ids
-    # collections_response = cmr_client.get_collections(query, token).body
-    # parse_get_collections_response(collections_response)
   end
 
   def parse_get_collections_response(response)
@@ -361,6 +354,9 @@ class PermissionsController < ManageCmrController
       end
 
       collection_identifier['entry_titles'] = entry_titles
+      if params[:hidden_collections]
+        collection_identifier['entry_titles'] += params[:hidden_collections].split(';;; ')
+      end
     end
 
     if collection_applicable
@@ -554,23 +550,37 @@ class PermissionsController < ManageCmrController
     unless entry_titles.blank?
       collections, _errors, _hits = get_collections_by_entry_titles(entry_titles, @permission_provider)
 
+      retrieved_collections = []
+
       if show
         @collection_entry_ids = []
         collections.each do |collection|
+          # we need to compare entry titles that we retrieved to compare against what was provided by the collection permission
+          # because it is currently possible that a user editing the collection permission does not have access to all collections it applies to
+          retrieved_collections << collection['umm']['entry-title']
+
           @collection_entry_ids << collection['umm']['entry-id']
         end
       else
         selected_collections = []
         delimiter = '%%__%%'
+
         collections.each do |collection|
+          # we need to compare entry titles that we retrieved to compare against what was provided by the collection permission
+          # because it is currently possible that a user editing the collection permission does not have access to all collections it applies to
+          retrieved_collections << collection['umm']['entry-title']
+
           # widget needs entry_id | entry_title
           opt = collection['umm']['entry-id'] + ' | ' + collection['umm']['entry-title']
           selected_collections << opt
         end
+
         # the hidden input can only handle text, so the widget is currently using the delimiter to separate the
         # collection display values
         @collection_selections = selected_collections.join(delimiter)
       end
+
+      @hidden_entry_titles = entry_titles - retrieved_collections
     end
 
     @granule_access_value = catalog_item_identity.fetch('granule_identifier', {}).fetch('access_value', {})

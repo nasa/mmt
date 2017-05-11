@@ -1,3 +1,5 @@
+<%= render 'hidden_collections_notification' %>
+
 <div class="row row-content">
   <section>
     <h2><%= @permission_name %></h2>
@@ -8,7 +10,7 @@
     <p>
       <b>Collections |
         <% if @collection_options %>
-          <%= @collection_entry_ids.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Collections" %>
+          <%= @collection_entry_ids.blank? && @hidden_entry_titles.blank? ? 'All Collections' : "#{@collection_entry_ids.count + @hidden_entry_titles.count} Selected Collections" %>
         <% else %>
           No Access to Collections
         <% end %>

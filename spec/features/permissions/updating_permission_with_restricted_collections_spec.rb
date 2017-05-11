@@ -1,0 +1,311 @@
+# There was a possibility of a user destructively updating a Collection Permission
+# when there are selected collections that they do not have access to see. We need
+# to test and make sure that scenario has been prevented
+
+require 'rails_helper'
+
+describe 'Updating Collection Permissions when collections are not accessible by the user', js: true do
+  # this collection should be visible to all Registered users
+  let(:entry_title_visible_to_all) { 'Near-Real-Time SSMIS EASE-Grid Daily Global Ice Concentration and Snow Extent V004' }
+  let(:entry_id_visible_to_all) { 'NISE_4' }
+
+  # these collections should only be visible to admin users
+  let(:restricted_entry_title_1) { 'MODIS/Aqua Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005' }
+  let(:restricted_entry_id_1) { 'MYD29E1D_5' }
+  let(:restricted_entry_title_2) { 'AMSR-E/Aqua Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V003' }
+  let(:restricted_entry_id_2) { 'AE_SI12_3' }
+
+  before :all do
+    @collection_permission_some_restricted_name = "Testing Collection Permission with SOME restricted collections #{rand(1000)}"
+
+    collection_permission_some_restricted = {
+      group_permissions: [{
+        user_type: 'registered',
+        permissions: [ "read", "order" ]
+      }],
+      catalog_item_identity: {
+        "name": @collection_permission_some_restricted_name,
+        "provider_id": "NSIDC_ECS",
+        "collection_applicable": true,
+        "granule_applicable": true,
+        "collection_identifier": {
+          "entry_titles": [
+            "MODIS/Aqua Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005",
+            "AMSR-E/Aqua Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V003",
+            "Near-Real-Time SSMIS EASE-Grid Daily Global Ice Concentration and Snow Extent V004"
+          ]
+        }
+      }
+    }
+
+    @collection_permission_some_restricted = cmr_client.add_group_permissions(collection_permission_some_restricted, 'access_token_admin').body
+
+    wait_for_cmr
+
+    @collection_permission_all_restricted_name = "Testing Collection Permission with ALL restricted collections #{rand(1000)}"
+
+    collection_permission_all_restricted = {
+      group_permissions: [{
+        user_type: 'registered',
+        permissions: [ "read", "order" ]
+      }],
+      catalog_item_identity: {
+        "name": @collection_permission_all_restricted_name,
+        "provider_id": "NSIDC_ECS",
+        "collection_applicable": true,
+        "granule_applicable": false,
+        "collection_identifier": {
+          "entry_titles": [
+            "MODIS/Aqua Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005",
+            "AMSR-E/Aqua Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V003"
+          ]
+        }
+      }
+    }
+
+    @collection_permission_all_restricted = cmr_client.add_group_permissions(collection_permission_all_restricted, 'access_token_admin').body
+
+    wait_for_cmr
+  end
+
+  # need to delete?
+
+  context 'when logging in as a user that has restricted access to the provider collections' do
+    before do
+      login
+
+      User.first.update(provider_id: 'NSIDC_ECS')
+    end
+
+    context 'when updating a collection permission and the user has no access to any of the selected collections' do
+      before do
+        visit edit_permission_path(@collection_permission_all_restricted['concept_id'])
+      end
+
+      it 'displays the collection permission edit form with 0 of 2 selected collections' do
+        expect(page).to have_field('Name', with: @collection_permission_all_restricted_name, readonly: true)
+
+        expect(page).to have_select('Collections', selected: 'Selected Collections')
+
+        # we should only see the open access collection in the Available Collections
+        expect(page).to have_css('#collectionsChooser_fromList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
+
+        # we should not see the restricted collections in the Available Collections
+        expect(page).to have_no_css('#collectionsChooser_fromList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
+        expect(page).to have_no_css('#collectionsChooser_fromList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
+
+        # we should not see the open access collection in the Selected Collections
+        expect(page).to have_no_css('#collectionsChooser_toList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
+
+        # we should not see the restricted collections in the Selected Collections
+        expect(page).to have_no_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
+        expect(page).to have_no_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
+
+        expect(page).to have_select('Granules', selected: 'No Access to Granules')
+
+        within '#search_and_order_groups_cell' do
+          expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
+        end
+      end
+
+      it 'displays a notification that there are undisplayed collections' do
+        expect(page).to have_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
+      end
+
+      context 'when updating the collection permission with no changes' do
+        before do
+          click_on 'Submit'
+        end
+
+        it 'displays a notification that there are undisplayed collections' do
+          expect(page).to have_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
+        end
+
+        it 'successfully updates the collection permission without a validation error and redirects to the show page and displaying the collection permission information with 0 of 2 selected collections' do
+          expect(page).to have_no_content('You must select at least 1 collection.')
+
+          expect(page).to have_content('Collection Permission was successfully updated.')
+
+          expect(page).to have_content(@collection_permission_all_restricted_name)
+
+          expect(page).to have_content('Collections | 2 Selected Collections')
+
+          # we should not see the entry ids of selected collections in the collection permission
+          expect(page).to have_no_content(restricted_entry_id_1)
+          expect(page).to have_no_content(restricted_entry_id_2)
+
+          expect(page).to have_content('Granules | No Access to Granules')
+
+          within '#permission-groups-table' do
+            expect(page).to have_content('All Registered Users')
+          end
+        end
+
+        context 'when then updating the collection permission by adding a collection' do
+          before do
+            visit edit_permission_path(@collection_permission_all_restricted['concept_id'])
+
+            select('NISE_4', from: 'Available collections')
+            find('button[title=add]').click
+
+            click_on 'Submit'
+          end
+
+          it 'successfully updates the collection permission and redirects to the show page and displaying the collection permission information with 1 of 3 collections' do
+            expect(page).to have_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
+
+            expect(page).to have_content('Collection Permission was successfully updated.')
+
+            expect(page).to have_content(@collection_permission_all_restricted_name)
+
+            expect(page).to have_content('Collections | 3 Selected Collections')
+            # new entry id that we expect to see
+            expect(page).to have_content(entry_id_visible_to_all)
+
+            # entry ids in the collection permission we do not expect to see
+            expect(page).to have_no_content(restricted_entry_id_1)
+            expect(page).to have_no_content(restricted_entry_id_2)
+
+            expect(page).to have_content('Granules | No Access to Granules')
+
+            within '#permission-groups-table' do
+              expect(page).to have_content('All Registered Users')
+            end
+          end
+        end
+      end
+    end
+
+    context 'when updating a collection permission and the user has access to some of the selected collections' do
+      before do
+        visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
+      end
+
+      it 'displays the collection permission with 1 of 3 selected collection' do
+        expect(page).to have_field('Name', with: @collection_permission_some_restricted_name, readonly: true)
+
+        expect(page).to have_select('Collections', selected: 'Selected Collections')
+
+        # we should only see the open access collection in the Available Collections
+        expect(page).to have_css('#collectionsChooser_fromList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
+
+        # we should not see the restricted collections in the Available Collections
+        expect(page).to have_no_css('#collectionsChooser_fromList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
+        expect(page).to have_no_css('#collectionsChooser_fromList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
+
+        # we should see the open access collection in the Selected Collections
+        expect(page).to have_css('#collectionsChooser_toList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
+
+        # we should not see the restricted collections in the Selected Collections
+        expect(page).to have_no_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
+        expect(page).to have_no_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
+
+        expect(page).to have_select('Granules', selected: 'All Granules')
+
+        within '#search_and_order_groups_cell' do
+          expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
+        end
+      end
+
+      it 'displays a notification that there are undisplayed collections' do
+        expect(page).to have_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
+      end
+
+      context 'when updating the collection permission with no changes' do
+        before do
+          click_on 'Submit'
+        end
+
+        it 'displays a notification that there are undisplayed collections' do
+          expect(page).to have_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
+        end
+
+        it 'successfully updates the collection permission and redirects to the show page and displaying the collection permission information with 1 of 3 selected collections' do
+          expect(page).to have_content('Collection Permission was successfully updated.')
+
+          expect(page).to have_content(@collection_permission_some_restricted_name)
+
+          expect(page).to have_content('Collections | 3 Selected Collections')
+          # entry id that we expect to see
+          expect(page).to have_content(entry_id_visible_to_all)
+
+          # entry ids in the collection permission we do not expect to see
+          expect(page).to have_no_content(restricted_entry_id_1)
+          expect(page).to have_no_content(restricted_entry_id_2)
+
+          expect(page).to have_content('Granules | All Granules in Selected Collection Records')
+
+          within '#permission-groups-table' do
+            expect(page).to have_content('All Registered Users')
+          end
+        end
+      end
+    end
+  end
+
+  context 'when logging in as an admin user that has full access to the provider collections' do
+    before do
+      login_admin
+
+      User.first.update(provider_id: 'NSIDC_ECS')
+    end
+
+    context 'when viewing the edit form of the collection permission that has some restricted collections' do
+      before do
+        visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
+      end
+
+      it 'displays the collection permission with 3 of 3 selected collection' do
+        expect(page).to have_field('Name', with: @collection_permission_some_restricted_name, readonly: true)
+
+        expect(page).to have_select('Collections', selected: 'Selected Collections')
+
+        # we should see all 3 collections in the Available Collections
+        expect(page).to have_css('#collectionsChooser_fromList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
+        expect(page).to have_css('#collectionsChooser_fromList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
+        expect(page).to have_css('#collectionsChooser_fromList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
+
+        # we should see all 3 collections in the Selected Collections
+        expect(page).to have_css('#collectionsChooser_toList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
+        expect(page).to have_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
+        expect(page).to have_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
+
+        expect(page).to have_select('Granules', selected: 'All Granules')
+
+        within '#search_and_order_groups_cell' do
+          expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
+        end
+      end
+
+      it 'does not display a notification that there are undisplayed collections' do
+        expect(page).to have_no_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
+      end
+    end
+
+    context 'when viewing the show page of the collection permission that has some restricted collections' do
+      before do
+        visit permission_path(@collection_permission_some_restricted['concept_id'])
+      end
+
+      it 'does not display a notification that there are undisplayed collections' do
+        expect(page).to have_no_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
+      end
+
+      it 'displays the collection permission information with 3 of 3 selected collections' do
+        expect(page).to have_content(@collection_permission_some_restricted_name)
+
+        expect(page).to have_content('Collections | 3 Selected Collections')
+        # we should see all 3 entry ids
+        expect(page).to have_content(entry_id_visible_to_all)
+        expect(page).to have_content(restricted_entry_id_1)
+        expect(page).to have_content(restricted_entry_id_2)
+
+        expect(page).to have_content('Granules | All Granules in Selected Collection Records')
+
+        within '#permission-groups-table' do
+          expect(page).to have_content('All Registered Users')
+        end
+      end
+    end
+  end
+end
