@@ -389,15 +389,22 @@ describe 'Invalid picklists', js: true do
 
     it 'displays a summary error' do
       within '.summary-errors' do
+        expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
         expect(page).to have_content('Mime Type value [badmimetype] does not match a valid selection option')
-        expect(page).to have_content('Unit value [bits] does not match a valid selection option', count: 2)
+        expect(page).to have_content('Protocol value [badprotocol] does not match a valid selection option')
+        expect(page).to have_content('Format value [badformat] does not match a valid selection option')
+        expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
+        expect(page).to have_content('Unit value [bits] does not match a valid selection option')
       end
     end
 
     it 'displays an inline error' do
       within '.related-urls' do
+        expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
         expect(page).to have_content('Mime Type value [badmimetype] does not match a valid selection option')
-        expect(page).to have_content('Unit value [bits] does not match a valid selection option')
+        expect(page).to have_content('Protocol value [badprotocol] does not match a valid selection option')
+        expect(page).to have_content('Format value [badformat] does not match a valid selection option')
+        expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
       end
       within '.distributions' do
         expect(page).to have_content('Unit value [bits] does not match a valid selection option')
@@ -405,11 +412,16 @@ describe 'Invalid picklists', js: true do
     end
 
     it 'displays an unselectable invalid option' do
-      within '.multiple.related-urls > .multiple-item-0 .mime_type-select' do
-        expect(page).to have_css('option[disabled][selected]', text: 'badmimetype')
+      within '.multiple.related-urls > .multiple-item-0 .related-url-content-type-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'badcontenttype')
       end
-      within '.multiple.related-urls > .multiple-item-1 .unit-select' do
-        expect(page).to have_css('option[disabled][selected]', text: 'bits')
+      within '.multiple.related-urls > .multiple-item-1' do
+        expect(page).to have_css('option[disabled][selected]', text: 'badmimetype')
+        expect(page).to have_css('option[disabled][selected]', text: 'badprotocol')
+      end
+      within '.multiple.related-urls > .multiple-item-2' do
+        expect(page).to have_css('option[disabled][selected]', text: 'badformat')
+        expect(page).to have_css('option[disabled][selected]', text: 'badunit')
       end
       within '.distributions .unit-select' do
         expect(page).to have_css('option[disabled][selected]', text: 'bits')

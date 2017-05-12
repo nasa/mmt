@@ -99,12 +99,22 @@ FactoryGirl.define do
           'Id' => '5'
         },
         'RelatedUrls' => [{
-          'MimeType' => 'badmimetype',
-          'URLs' => ['http://example.com/']
+          'URLContentType' => 'badcontenttype'
         }, {
-          'URLs' => ['http://example.com/'],
-          'FileSize' => {
-            'Unit' => 'bits'
+          'URLContentType' => 'DistributionURL',
+          'Type' => 'GET SERVICE',
+          'Subtype' => 'EARTHDATA SEARCH',
+          'GetService' => {
+            'MimeType' => 'badmimetype',
+            'Protocol' => 'badprotocol'
+          }
+        }, {
+          'URLContentType' => 'DistributionURL',
+          'Type' => 'GET DATA',
+          'Subtype' => 'DIF',
+          'GetData' => {
+            'Format' => 'badformat',
+            'Unit' => 'badunit'
           }
         }],
         'Distributions' => [{
@@ -231,9 +241,6 @@ def all_required_fields
       'Id' => '5',
       'ProcessingLevelDescription' => 'Level 5 Description'
     },
-    'RelatedUrls' => [{
-      'URLs' => ['http://example.com/']
-    }],
     'ScienceKeywords' => [{
       'Category' => 'EARTH SCIENCE SERVICES',
       'Topic' => 'DATA ANALYSIS AND VISUALIZATION',

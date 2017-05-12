@@ -1,7 +1,7 @@
-<!-- Related URL [r] -->
+<!-- Related URL -->
 <fieldset class="eui-accordion is-closed" id="related-urls">
   <div class="eui-accordion__header">
-    <h3 class="eui-accordion__title eui-required-o">Distribution URLs</h3>
+    <h3 class="eui-accordion__title">Distribution URLs</h3>
     <%= mmt_help_icon(
       title: 'Related URLs',
       help: 'properties/RelatedUrls'
@@ -20,9 +20,8 @@
             name_prefix: 'draft_|related_urls|_',
             multiple: true,
             options: {
-              always_required: true,
+              always_required: false,
               related_url_title: 'Distribution URLs',
-              related_url_form_type: RelatedUrlFieldsHelper::DISTRIBUTION_FORM
             }
           } %>
       </div>

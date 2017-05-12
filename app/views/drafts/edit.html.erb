@@ -70,6 +70,8 @@
         <script>
           // Load json-schema for field validation
           var globalJsonSchema = <%= raw @json_schema.to_json %>;
+
+          var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
         </script>
 
         </br>

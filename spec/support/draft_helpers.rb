@@ -121,7 +121,7 @@ module Helpers
         fill_in 'Contact Instructions', with: 'Email only'
         add_contact_mechanisms
         add_addresses
-        add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize, single, button_type)
+        add_related_urls(type, button_type)
       end
     end
 
@@ -183,58 +183,46 @@ module Helpers
       end
     end
 
-    def add_related_urls(type, single = nil, button_type = nil)
-      within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
-        if type.include? 'title'
-          fill_in 'Title', with: 'Example Title'
-        end
-        if type.include? 'description'
+    def add_related_urls(type = nil, button_type = nil)
+      within '.multiple.related-urls' do
+        if type == 'data_contact'
           fill_in 'Description', with: 'Example Description'
-        end
+          select 'Data Contact URL', from: 'URL Content Type'
+          select 'Home Page', from: 'Type'
+          fill_in 'URL', with: 'http://example.com'
+        elsif type == 'data_center'
+          fill_in 'Description', with: 'Example Description'
+          select 'Data Center URL', from: 'URL Content Type'
+          select 'Home Page', from: 'Type'
+          fill_in 'URL', with: 'http://example.com'
+        else
+          fill_in 'Description', with: 'Example Description'
+          select 'Collection URL', from: 'URL Content Type'
+          select 'Data Set Landing Page', from: 'Type'
+          fill_in 'URL', with: 'http://example.com'
 
-        if type.include? 'relation'
-          fill_in 'Relation', with: 'Example Relation'
-          all('input.relation').last.set('Example Relation 2')
-        end
-
-        if type.include? 'urls'
-          within '.multiple.urls' do
-            within '.multiple-item-0' do
-              find('.url').set 'http://example.com'
-              click_on 'Add another URL'
-            end
-            within '.multiple-item-1' do
-              find('.url').set 'http://another-example.com'
-            end
-          end
-        end
-
-        if type.include? 'mime_type'
-          select 'text/html', from: 'Mime Type'
-        end
-
-        if type.include? 'file_size'
-          within '.file-size' do
-            fill_in 'Size', with: '42'
-            select 'MB', from: 'Unit'
-          end
-        end
-
-        unless single
           button_title = 'Related URL'
-          button_title = 'Distribution URL' if type == RelatedUrlFieldsHelper::DISTRIBUTION_FORM
+          button_title = 'Distribution URL' if type == 'distribution_form'
           button_type += ' ' unless button_type.nil?
           # Add another RelatedUrl
           click_on "Add another #{button_type}#{button_title}"
 
-          if type.include? 'urls'
-            within '.multiple-item-1' do
-              within '.multiple.urls' do
-                within '.multiple-item-0' do
-                  find('.url').set 'http://example.com/1'
-                end
-              end
-            end
+          within '.multiple-item.eui-accordion.multiple-item-1' do
+            fill_in 'Description', with: 'Example Description 2'
+            select 'Distribution URL', from: 'URL Content Type'
+            select 'Get Service', from: 'Type'
+            select 'Earthdata Search', from: 'Subtype'
+            fill_in 'URL', with: 'https://search.earthdata.nasa.gov'
+
+            # Get Service fields
+            select 'Not provided', from: 'Mime Type'
+            select 'HTTPS', from: 'Protocol'
+            fill_in 'Full Name', with: 'Service name'
+            fill_in 'Data ID', with: 'data id'
+            fill_in 'Data Type', with: 'data type'
+            fill_in 'URI', with: 'uri1'
+            click_on 'Add another URI'
+            all('input.uri').last.set('uri2')
           end
         end
       end

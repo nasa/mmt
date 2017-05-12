@@ -331,11 +331,10 @@ FactoryGirl.define do
             'Country'         => 'United States'
           }],
           'RelatedUrls' => [{
-            'URLs'        => ['http://example.com', 'http://another-example.com'],
-            'Description' => 'Example Description',
-            'Title'       => 'Example Title'
-          }, {
-            'URLs' => ['http://example1.com/1']
+            'Description' => 'Related URL 1 Description',
+            'URLContentType' => 'DataCenterURL',
+            'Type' => 'HOME PAGE',
+            'URL' => 'http://example.com/'
           }]
         }
       }, {
@@ -366,11 +365,10 @@ FactoryGirl.define do
             'Country'         => 'United States'
           }],
           'RelatedUrls' => [{
-            'URLs'        => ['http://example.com', 'http://another-example.com'],
-            'Description' => 'Example Description',
-            'Title'       => 'Example Title'
-            }, {
-            'URLs' => ['http://example2.com/1']
+            'Description' => 'Related URL 1 Description',
+            'URLContentType' => 'DataCenterURL',
+            'Type' => 'HOME PAGE',
+            'URL' => 'http://example.com/'
           }]
         },
         'ContactPersons' => [{
@@ -402,11 +400,10 @@ FactoryGirl.define do
               'Country'         => 'United States'
             }],
             'RelatedUrls' => [{
-              'URLs'        => ['http://example.com', 'http://another-example.com'],
-              'Description' => 'Example Description',
-              'Title'       => 'Example Title'
-            }, {
-              'URLs' => ['http://example.com/1']
+              'Description' => 'Related URL 1 Description',
+              'URLContentType' => 'DataContactURL',
+              'Type' => 'HOME PAGE',
+              'URL' => 'http://example.com/'
             }]
           }
         }],
@@ -437,11 +434,10 @@ FactoryGirl.define do
               'Country'         => 'United States'
             }],
             'RelatedUrls' => [{
-              'URLs'        => ['http://example.com', 'http://another-example.com'],
-              'Description' => 'Example Description',
-              'Title'       => 'Example Title'
-            }, {
-              'URLs' => ['http://example.com/1']
+              'Description' => 'Related URL 1 Description',
+              'URLContentType' => 'DataContactURL',
+              'Type' => 'HOME PAGE',
+              'URL' => 'http://example.com/'
             }]
           }
         }]
@@ -476,11 +472,10 @@ FactoryGirl.define do
             'Country'         => 'United States'
           }],
           'RelatedUrls' => [{
-            'URLs'        => ['http://example.com', 'http://another-example.com'],
-            'Description' => 'Example Description',
-            'Title'       => 'Example Title'
-          }, {
-            'URLs' => ['http://example.com/1']
+            'Description' => 'Related URL 1 Description',
+            'URLContentType' => 'DataContactURL',
+            'Type' => 'HOME PAGE',
+            'URL' => 'http://example.com/'
           }]
         }
       }],
@@ -512,11 +507,10 @@ FactoryGirl.define do
             'Country'         => 'United States'
           }],
           'RelatedUrls' => [{
-            'URLs'        => ['http://example.com', 'http://another-example.com'],
-            'Description' => 'Example Description',
-            'Title'       => 'Example Title'
-          }, {
-            'URLs' => ['http://example.com/1']
+            'Description' => 'Related URL 1 Description',
+            'URLContentType' => 'DataContactURL',
+            'Type' => 'HOME PAGE',
+            'URL' => 'http://example.com/'
           }]
         }
       }],
@@ -631,24 +625,36 @@ FactoryGirl.define do
         'DataType' => 'STRING'
       }],
       'RelatedUrls' => [{
-        'URLs' => ['http://example.com']
+        'Description' => 'Related URL 1 Description',
+        'URLContentType' => 'CollectionURL',
+        'Type' => 'DATA SET LANDING PAGE',
+        'URL' => 'http://example.com/'
       }, {
-        'Description' => 'test 1 Description',
-        'URLs'        => ['http://example.com/1', 'http://example.com/a'],
-        'Title'       => 'test 1 Title',
-        'MimeType'    => 'text/html',
-        'FileSize' => {
-          'Size' => 123,
-          'Unit' => 'MB'
+        'Description' => 'Related URL 2 Description',
+        'URLContentType' => 'DistributionURL',
+        'Type' => 'GET SERVICE',
+        'Subtype' => 'EARTHDATA SEARCH',
+        'URL' => 'https://search.earthdata.nasa.gov/',
+        'GetService' => {
+          'MimeType' => 'Not provided',
+          'Protocol' => 'HTTPS',
+          'FullName' => 'Earthdata Search',
+          'DataID' => 'data_id',
+          'DataType' => 'data type',
+          'URI' => ['uri']
         }
       }, {
-        'Description' => 'test 2 Description',
-        'URLs'     => ['http://example.com/2', 'http://example.com/b'],
-        'Title'    => 'test 2 Title',
-        'MimeType' => 'text/html',
-        'FileSize' => {
-          'Size' => 321,
-          'Unit' => 'PB'
+        'Description' => 'Related URL 3 Description',
+        'URLContentType' => 'DistributionURL',
+        'Type' => 'GET DATA',
+        'Subtype' => 'DIF',
+        'URL' => 'https://example.com/',
+        'GetData' => {
+          'Format' => 'ascii',
+          'Size' => 42,
+          'Unit' => 'KB',
+          'Fees' => '0',
+          'Checksum' => 'sdfgfgksghafgsdvbasf'
         }
       }],
       'Distributions' => [{},

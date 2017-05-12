@@ -298,17 +298,28 @@ class DraftsController < ApplicationController
         end
       end
 
-      related_urls = metadata['RelatedUrls'] || []
-      related_urls.each do |related_url|
-        mime_type = related_url['MimeType']
-        if mime_type && !DraftsHelper::MimeTypeOptions.flatten.include?(mime_type)
-          errors << "The property '#/RelatedUrls' was invalid"
+      # [RelatedURLs]
+      # [DataCenters][][ContactInformation][RelatedURLs]
+      # [DataCenters][][ContactGroups][][ContactInformation][RelatedURLs]
+      # [DataCenters][][ContactPersons][][ContactInformation][RelatedURLs]
+      related_urls = metadata.fetch('RelatedURLs', [])
+      validate_related_urls_picklists(related_urls, errors)
+
+      data_centers = metadata.fetch('DataCenters', [])
+      data_centers.each do |data_center|
+        contact_information = data_center.fetch('ContactInformation', {})
+        validate_related_urls_picklists(contact_information.fetch('RelatedURLs', []), errors)
+
+        contact_groups = data_center.fetch('ContactGroups', [])
+        contact_groups.each do |contact_group|
+          group_information = contact_group.fetch('ContactInformation', {})
+          validate_related_urls_picklists(group_information.fetch('RelatedURLs', []), errors)
         end
 
-        file_size = related_url['FileSize'] || {}
-        unit = file_size['Unit']
-        if unit && !DraftsHelper::FileSizeUnitTypeOptions.flatten.include?(unit)
-          errors << "The property '#/RelatedUrls' was invalid"
+        contact_persons = data_center.fetch('ContactPersons', [])
+        contact_persons.each do |contact_person|
+          person_information = contact_person.fetch('ContactInformation', {})
+          validate_related_urls_picklists(person_information.fetch('RelatedURLs', []), errors)
         end
       end
 
@@ -394,6 +405,51 @@ class DraftsController < ApplicationController
     end
 
     errors
+  end
+
+  def validate_related_urls_picklists(metadata, errors)
+    metadata.each do |related_url|
+      url_content_type = related_url['URLContentType']
+      if url_content_type && !DraftsHelper::URLContentTypeOptions.flatten.include?(url_content_type)
+        errors << "The property '#/RelatedUrls' was invalid"
+      end
+
+      type = related_url['Type']
+      if type && !DraftsHelper::URLTypeOptions.flatten.include?(type)
+        errors << "The property '#/RelatedUrls' was invalid"
+      end
+
+      subtype = related_url['Subtype']
+      if subtype && !DraftsHelper::URLSubtypeOptions.flatten.include?(subtype)
+        errors << "The property '#/RelatedUrls' was invalid"
+      end
+
+      if type == 'GET DATA'
+        get_data = related_url.fetch('GetData', {})
+
+        format = get_data['Format']
+        if format && !DraftsHelper::GetDataTypeFormatOptions.flatten.include?(format)
+          errors << "The property '#/RelatedUrls' was invalid"
+        end
+
+        unit = get_data['Unit']
+        if unit && !DraftsHelper::FileSizeUnitTypeOptions.flatten.include?(unit)
+          errors << "The property '#/RelatedUrls' was invalid"
+        end
+      elsif type == 'GET SERVICE'
+        get_service = related_url.fetch('GetService', {})
+
+        mime_type = get_service['MimeType']
+        if mime_type && !DraftsHelper::MimeTypeOptions.flatten.include?(mime_type)
+          errors << "The property '#/RelatedUrls' was invalid"
+        end
+
+        protocol = get_service['Protocol']
+        if protocol && !DraftsHelper::ProtocolOptions.flatten.include?(protocol)
+          errors << "The property '#/RelatedUrls' was invalid"
+        end
+      end
+    end
   end
 
   def set_science_keywords
