@@ -171,6 +171,7 @@ class PermissionsController < ManageCmrController
 
         @collection_options = params[:collection_options]
         @collection_selections = params[:collection_selections]
+        @hidden_entry_titles = params[:hidden_collections]
         @granule_options = params[:granule_options]
 
         @collection_access_value = params[:collection_access_value] || {}
@@ -354,9 +355,7 @@ class PermissionsController < ManageCmrController
       end
 
       collection_identifier['entry_titles'] = entry_titles
-      if params[:hidden_collections]
-        collection_identifier['entry_titles'] += params[:hidden_collections].split(';;; ')
-      end
+      collection_identifier['entry_titles'] += params.fetch('hidden_collections', [])
     end
 
     if collection_applicable

@@ -52,9 +52,9 @@
 
   <!-- Hidden fields that represent the underlying array of selected collections -->
   <% Array.wrap(@policy.fetch('CollectionsSupportingDuplicateOrderItems', [])).each do |collection| %>
-  <%= hidden_field_tag('collections_supporting_duplicate_order_items[]', collection, class: 'selected-collection') %>
+    <%= hidden_field_tag('collections_supporting_duplicate_order_items[]', collection, class: 'selected-collection') %>
   <% end %>
-  
+
   <div id="order-policies-chooser-widget"></div>
 
   <div class="row">

@@ -13,8 +13,8 @@
   <%= hidden_field_tag 'collection_selections', @collection_selections %>
   <div id="chooser-widget" class="is-hidden"></div>
 
-  <% unless @hidden_entry_titles.blank? %>
-    <%= hidden_field_tag('hidden_collections', @hidden_entry_titles.join(';;; ')) %>
+  <% Array.wrap(@hidden_entry_titles).each do |entry_title| %>
+    <%= hidden_field_tag('hidden_collections[]', entry_title, class: 'hidden-collection') %>
   <% end %>
 </fieldset>
 

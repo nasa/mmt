@@ -4,7 +4,7 @@
 
 require 'rails_helper'
 
-describe 'Updating Collection Permissions when collections are not accessible by the user', js: true do
+describe 'Updating Collection Permissions when collections are not accessible by the user' do
   # this collection should be visible to all Registered users
   let(:entry_title_visible_to_all) { 'Near-Real-Time SSMIS EASE-Grid Daily Global Ice Concentration and Snow Extent V004' }
   let(:entry_id_visible_to_all) { 'NISE_4' }
@@ -77,7 +77,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
       User.first.update(provider_id: 'NSIDC_ECS')
     end
 
-    context 'when updating a collection permission and the user has no access to any of the selected collections' do
+    context 'when updating a collection permission and the user has no access to any of the selected collections', js: true do
       before do
         visit edit_permission_path(@collection_permission_all_restricted['concept_id'])
       end
@@ -108,17 +108,9 @@ describe 'Updating Collection Permissions when collections are not accessible by
         end
       end
 
-      it 'displays a notification that there are undisplayed collections' do
-        expect(page).to have_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
-      end
-
       context 'when updating the collection permission with no changes' do
         before do
           click_on 'Submit'
-        end
-
-        it 'displays a notification that there are undisplayed collections' do
-          expect(page).to have_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
         end
 
         it 'successfully updates the collection permission without a validation error and redirects to the show page and displaying the collection permission information with 0 of 2 selected collections' do
@@ -128,7 +120,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
           expect(page).to have_content(@collection_permission_all_restricted_name)
 
-          expect(page).to have_content('Collections | 2 Selected Collections')
+          expect(page).to have_content('Collections | 0 Selected Collections')
 
           # we should not see the entry ids of selected collections in the collection permission
           expect(page).to have_no_content(restricted_entry_id_1)
@@ -152,13 +144,11 @@ describe 'Updating Collection Permissions when collections are not accessible by
           end
 
           it 'successfully updates the collection permission and redirects to the show page and displaying the collection permission information with 1 of 3 collections' do
-            expect(page).to have_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
-
             expect(page).to have_content('Collection Permission was successfully updated.')
 
             expect(page).to have_content(@collection_permission_all_restricted_name)
 
-            expect(page).to have_content('Collections | 3 Selected Collections')
+            expect(page).to have_content('Collections | 1 Selected Collections')
             # new entry id that we expect to see
             expect(page).to have_content(entry_id_visible_to_all)
 
@@ -176,7 +166,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
       end
     end
 
-    context 'when updating a collection permission and the user has access to some of the selected collections' do
+    context 'when updating a collection permission and the user has access to some of the selected collections', js: true do
       before do
         visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
       end
@@ -207,17 +197,9 @@ describe 'Updating Collection Permissions when collections are not accessible by
         end
       end
 
-      it 'displays a notification that there are undisplayed collections' do
-        expect(page).to have_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
-      end
-
       context 'when updating the collection permission with no changes' do
         before do
           click_on 'Submit'
-        end
-
-        it 'displays a notification that there are undisplayed collections' do
-          expect(page).to have_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
         end
 
         it 'successfully updates the collection permission and redirects to the show page and displaying the collection permission information with 1 of 3 selected collections' do
@@ -225,7 +207,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
           expect(page).to have_content(@collection_permission_some_restricted_name)
 
-          expect(page).to have_content('Collections | 3 Selected Collections')
+          expect(page).to have_content('Collections | 1 Selected Collections')
           # entry id that we expect to see
           expect(page).to have_content(entry_id_visible_to_all)
 
@@ -250,7 +232,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
       User.first.update(provider_id: 'NSIDC_ECS')
     end
 
-    context 'when viewing the edit form of the collection permission that has some restricted collections' do
+    context 'when viewing the edit form of the collection permission that has some restricted collections', js: true do
       before do
         visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
       end
@@ -276,19 +258,11 @@ describe 'Updating Collection Permissions when collections are not accessible by
           expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
         end
       end
-
-      it 'does not display a notification that there are undisplayed collections' do
-        expect(page).to have_no_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
-      end
     end
 
     context 'when viewing the show page of the collection permission that has some restricted collections' do
       before do
         visit permission_path(@collection_permission_some_restricted['concept_id'])
-      end
-
-      it 'does not display a notification that there are undisplayed collections' do
-        expect(page).to have_no_css('.eui-banner--info', text: 'There are selected collections not shown because you do not have acccess.')
       end
 
       it 'displays the collection permission information with 3 of 3 selected collections' do
