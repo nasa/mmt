@@ -140,7 +140,7 @@ module Cmr
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "INGEST_MANAGEMENT_ACL"}}}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid1","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
       # Provider LARC
       connection.post do |req|
@@ -153,7 +153,7 @@ module Cmr
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid2","target": "INGEST_MANAGEMENT_ACL"}}}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid2","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
       # Provider MMT_1
       connection.post do |req|
@@ -166,7 +166,7 @@ module Cmr
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid3","target": "INGEST_MANAGEMENT_ACL"}}}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid3","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
       # Provider MMT_2
       connection.post do |req|
@@ -179,7 +179,7 @@ module Cmr
         req.url('http://localhost:3008/acls')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "INGEST_MANAGEMENT_ACL"}}}'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
 
       clear_cache
@@ -435,47 +435,39 @@ module Cmr
         collection_uri = obj[:collection]
         metadata = connection.get(collection_uri).body
         obj[:ingest_count].times do
-          if !(collection_uri.include? 'EDF_DEV06')
-            response = connection.put do |req|
-              if collection_uri.include? 'SEDAC'
-                req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
-              else #collection_uri.include? 'LARC'
-                req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
-              end
-              content_type = 'application/echo10+xml'
-              content_type = 'application/dif10+xml' if obj[:type] == 'dif10'
-              req.headers['Content-Type'] = content_type
-              req.headers['Echo-token'] = 'mock-echo-system-token'
-              req.body = metadata
-            end
-
-            # Ingest a granules if available
-            if obj[:granule]
-              granule_metadata = connection.get(obj[:granule].first).body
-              response = connection.put do |req|
-                req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
-                req.headers['Content-Type'] = 'application/echo10+xml'
-                req.headers['Echo-token'] = 'mock-echo-system-token'
-                req.body = granule_metadata
-              end
-            end
-
-            if response.success?
-              added += 1
-              puts "Loaded #{added} collections"
-            else
-              puts response.inspect
-            end
-          else
-            # collection with not url friendly native id
-            encoded_bad_native_id = URI.encode('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
-            response = connection.put do |req|
+          response = connection.put do |req|
+            if collection_uri.include? 'EDF_DEV06'
+              # collection with not url friendly native id
+              encoded_bad_native_id = URI.encode('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
               req.url("http://localhost:3002/providers/LARC/collections/#{encoded_bad_native_id}")
+            elsif collection_uri.include? 'SEDAC'
+              req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
+            else #collection_uri.include? 'LARC'
+              req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
+            end
+            content_type = 'application/echo10+xml'
+            content_type = 'application/dif10+xml' if obj[:type] == 'dif10'
+            req.headers['Content-Type'] = content_type
+            req.headers['Echo-token'] = 'mock-echo-system-token'
+            req.body = metadata
+          end
+
+          # Ingest a granules if available
+          if obj[:granule]
+            granule_metadata = connection.get(obj[:granule].first).body
+            response = connection.put do |req|
+              req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
               req.headers['Content-Type'] = 'application/echo10+xml'
               req.headers['Echo-token'] = 'mock-echo-system-token'
-              req.body = metadata
+              req.body = granule_metadata
             end
-            puts response.success? ? 'added collection with a not url friendly native id' : response.inspect
+          end
+
+          if response.success?
+            added += 1
+            puts "Loaded #{added} collections#{obj[:test_case]}"
+          else
+            puts response.inspect
           end
         end
       end
@@ -525,7 +517,7 @@ module Cmr
           req.url('http://localhost:3008/acls')
           req.headers['Content-Type'] = 'application/json'
           req.headers['Echo-token'] = 'mock-echo-system-token'
-          req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","DELETE"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "' + guid + '","target": "INGEST_MANAGEMENT_ACL"}}}'
+          req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "' + guid + '","target": "INGEST_MANAGEMENT_ACL"}}}'
         end
         connection.post do |req|
           req.url('http://localhost:3008/acls')

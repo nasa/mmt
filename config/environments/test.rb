@@ -3,10 +3,9 @@ Rails.application.configure do
 
   # Precompile assets before running the test suite
   # config.assets.compress = true
-  # config.assets.compile = false
-  # config.assets.digest = true
-  # config.action_controller.asset_host = "http://localhost:3000"
-  # config.assets.prefix = 'assets_test'
+  # config.action_controller.asset_host = 'http://localhost:3000'
+  # config.assets.digest = false
+  # config.assets.prefix = '/test_assets'
 
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that
@@ -50,6 +49,9 @@ Rails.application.configure do
 
   # Feature Toggle for groups
   config.groups_enabled = true
+
+  # Feature Toggle for bulk updates
+  config.bulk_updates_enabled = true
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'

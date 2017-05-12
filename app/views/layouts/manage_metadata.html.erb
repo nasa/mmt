@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"  lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"  lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"  lang="en"> <![endif]-->
+<!--[if gt IE 8]><html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <title>Metadata Management Tool</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+
+  <%= csrf_meta_tag %>
+
+  <%= render partial: 'shared/assets' %>
+</head>
+
+<body class="dashboard">
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
+
+  <div class="wrapper">
+    <%= render 'shared/header' %>
+
+    <div id="main-content">
+      <main class="internal" role="main">
+        <header>
+          <%= render_breadcrumbs builder: ::EuiBreadcrumbsBuilder %>
+
+          <nav>
+            <div class="content">
+              <h2 class="current"><%= link_to 'Manage Metadata', manage_metadata_path %></h2>
+              <% if Rails.configuration.groups_enabled %>
+                <h2><%= link_to 'Manage CMR', manage_cmr_path %></h2>
+              <% end %>
+            </div>
+          </nav>
+        </header>
+
+        <%= render 'pages/notifications' %>
+
+        <%= render 'shared/flash_messages' %>
+
+        <%= yield %>
+      </main>
+    </div>
+
+    <div class="push">
+      <!-- For pushing the footer to the bottom of a page with minimal content -->
+    </div>
+  </div>
+
+  <%= render 'shared/footer' %>
+
+  <%= javascript_include_tag "netinsight_2.3/ntpagetag" unless Rails.env.test? %>
+</body>
+</html>

@@ -26,7 +26,9 @@ module ChooserEndpoints
     collection_params = {
       'provider' => current_user.provider_id,
       'page_size' => 25
-    }.merge(params)
+    }.stringify_keys.merge(params.stringify_keys)
+
+    Rails.logger.debug "Provider Collection Request parameters: #{collection_params}" unless request.xhr?
 
     if collection_params.key?('short_name')
       collection_params['short_name'].concat('*')
@@ -43,7 +45,7 @@ module ChooserEndpoints
     collection_params['keyword'].concat('*') if collection_params.key?('keyword')
 
     # Retreive the collections from CMR, allowing a few additional parameters
-    cmr_client.get_collections(collection_params, token).body
+    cmr_client.get_collections_by_post(collection_params, token).body
   end
 
   # Retreive only service implementation that have datasets assigned to them

@@ -45,6 +45,8 @@ Rails.application.routes.draw do
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
 
+  resources :bulk_updates, only: [:index, :show]
+
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
@@ -58,17 +60,21 @@ Rails.application.routes.draw do
   get 'subregion_options' => 'drafts#subregion_options'
 
   get 'welcome/index'
-  get 'welcome/collections/:provider_id' => 'welcome#collections', as: 'data_provider_collections'
+  # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
+  # causing issues with load times but before we can solve that we need to discuss the implemntation
+  # requirements going forward.
+  # get 'welcome/collections/:provider_id' => 'welcome#collections', as: 'data_provider_collections'
 
   get 'search' => 'search#index', as: 'search'
 
-  # TODO: Create a manage_metadata controller like the manage_cmr controller below
-  get 'manage_metadata' => 'pages#manage_metadata', as: 'manage_metadata'
+  resource :bulk_updates_search, only: [:new]
 
+  resource :manage_metadata, only: :show, controller: 'manage_metadata'
   resource :manage_cmr, only: :show, controller: 'manage_cmr'
 
   # API Endpoints for Chooser implementations
   get 'provider_collections' => 'manage_cmr#provider_collections'
+  post 'provider_collections' => 'manage_cmr#provider_collections'
   get 'service_implementations_with_datasets' => 'manage_cmr#service_implementations_with_datasets'
   get 'datasets_for_service_implementation' => 'manage_cmr#datasets_for_service_implementation'
 

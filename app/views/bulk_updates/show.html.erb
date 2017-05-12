@@ -1,0 +1,42 @@
+<div class="row row-content">
+  <section>
+    <h2>Bulk Update <%= @task_id %></h2>
+
+    <div class="row">
+      <label class="bulk-update-status"><%= @task['task-status'] %></label>
+
+      <p class="bulk-update-status-message"><%= @task['status-message'] %></p>
+    </div>
+  </section>
+
+  <section>
+    <% unless @task.fetch('collection-statuses', []).blank? %>
+      <h4>Bulk Update Errors</h4>
+      <table class="space-top space-bot" id="bulk-update-errors-table">
+        <thead>
+          <tr>
+            <th>Entry Title</th>
+            <th>Short Name</th>
+            <th>Version</th>
+            <th>Status Message</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @task.fetch('collection-statuses', []).each do |task_error| %>
+            <tr>
+              <!-- TODO: we are using concept ids for all collection information while
+                   the endpoint is still returning dummy data. once there are real concept ids
+                   we will populate with actual collection information -->
+              <td><%= link_to task_error['concept-id'], collection_path(task_error['concept-id']) %></td>
+              <td><%= task_error['concept-id'] %></td>
+              <td><%= task_error['concept-id'] %></td>
+              <td><%= task_error['status-message'] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    <% end %>
+  </section>
+</div>

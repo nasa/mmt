@@ -4,8 +4,8 @@ require 'json'
 require 'rails_helper'
 
 describe 'Search Form', js: true do
-  let(:short_name)  { 'ACR3L2DM' }
-  let(:entry_title) { 'ACRIM III Level 2 Daily Mean Data V001' }
+  let(:short_name)  { 'MIRCCMF' }
+  let(:entry_title) { 'MISR FIRSTLOOK radiometric camera-by-camera Cloud Mask V001' }
 
   let(:cmr_search_response) { {
     "hits": 1,
@@ -37,7 +37,7 @@ describe 'Search Form', js: true do
     login
 
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: cmr_search_response))
-    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
   end
 
   # MMT-300

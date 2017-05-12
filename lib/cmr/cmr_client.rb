@@ -1,5 +1,18 @@
 module Cmr
   class CmrClient < BaseClient
+
+    def get_language_codes
+      # Will be replaced by CMR at some point
+      codes = File.readlines(File.join(Rails.root, 'lib', 'assets', 'language_codes')).map do |line|
+        parts = line.split('|')
+        { parts[3] => parts[0] }
+      end
+
+      codes.reduce({}, :merge)
+    end
+
+    ### CMR Search
+
     # umm-json gives us shorter version of metadata in the 'umm' portion. but it has entry-id
     # umm_json gives us the metadata record in the 'umm' portion. but that does not include entry-id
     def get_collections(options = {}, token = nil)
@@ -34,6 +47,45 @@ module Cmr
       get(url, options, token_header(token))
     end
 
+    def get_concept(concept_id, token, content_type, revision_id = nil)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}"
+      else
+        url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
+      end
+
+      headers = {
+        'Accept' => content_type
+      }
+
+      get(url, {}, headers.merge(token_header(token)))
+    end
+
+    # This method will be replaced by the work from CMR-2053, including granule counts in umm-json searches
+    def get_granule_count(collection_id, token)
+      if Rails.env.development? || Rails.env.test?
+        url = 'http://localhost:3003/collections.json'
+      else
+        url = '/search/collections.json'
+      end
+      options = {
+        concept_id: collection_id,
+        include_granule_counts: true
+      }
+      get(url, options, token_header(token)).body['feed']['entry'].first
+    end
+
+    def get_controlled_keywords(type)
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3003/keywords/#{type}"
+      else
+        url = "/search/keywords/#{type}"
+      end
+      get(url).body
+    end
+
+    ### Providers, via CMR Ingest and CMR Search
+
     def get_providers
       if Rails.env.development? || Rails.env.test?
         url = 'http://localhost:3002/providers'
@@ -66,14 +118,7 @@ module Cmr
       response
     end
 
-    def get_controlled_keywords(type)
-      if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3003/keywords/#{type}"
-      else
-        url = "/search/keywords/#{type}"
-      end
-      get(url).body
-    end
+    ### CMR Ingest
 
     def translate_collection(draft_metadata, from_format, to_format, skip_validation = false)
       if Rails.env.development? || Rails.env.test?
@@ -109,20 +154,6 @@ module Cmr
       put(url, metadata, headers.merge(token_header(token)))
     end
 
-    def get_concept(concept_id, token, content_type, revision_id = nil)
-      if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}"
-      else
-        url = "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
-      end
-
-      headers = {
-        'Accept' => content_type
-      }
-
-      get(url, {}, headers.merge(token_header(token)))
-    end
-
     def delete_collection(provider_id, native_id, token)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       if Rails.env.development? || Rails.env.test?
@@ -136,29 +167,48 @@ module Cmr
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
-    # This method will be replaced by the work from CMR-2053, including granule counts in umm-json searches
-    def get_granule_count(collection_id, token)
+    ### CMR Bulk Updates, via CMR Ingest
+
+    def get_bulk_updates(provider_id, token, filters = {})
+      # ingest/providers/<provider-id>/bulk-update/collections/status
       if Rails.env.development? || Rails.env.test?
-        url = 'http://localhost:3003/collections.json'
+        url = "http://localhost:3002/providers/#{provider_id}/bulk-update/collections/status"
       else
-        url = '/search/collections.json'
-      end
-      options = {
-        concept_id: collection_id,
-        include_granule_counts: true
-      }
-      get(url, options, token_header(token)).body['feed']['entry'].first
-    end
-
-    def get_language_codes
-      # Will be replaced by CMR at some point
-      codes = File.readlines(File.join(Rails.root, 'lib', 'assets', 'language_codes')).map do |line|
-        parts = line.split('|')
-        { parts[3] => parts[0] }
+        url = "ingest/providers/#{provider_id}/bulk-update/collections/status"
       end
 
-      codes.reduce({}, :merge)
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+
+      get(url, filters, headers.merge(token_header(token)))
     end
+
+    def get_bulk_update(provider_id, task_id, token)
+      # ingest/providers/<provider-id>/bulk-update/collections/status/<task-id>
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3002/providers/#{provider_id}/bulk-update/collections/status/#{task_id}"
+      else
+        url = "ingest/providers/#{provider_id}/bulk-update/collections/status/#{task_id}"
+      end
+
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+
+      get(url, {}, headers.merge(token_header(token)))
+    end
+
+    def create_bulk_update(provider_id, params, token)
+      # ingest/providers/<provider-id>/bulk-update/collections
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3002/providers/#{provider_id}/bulk-update/collections"
+      else
+        url = "ingest/providers/#{provider_id}/bulk-update/collections"
+      end
+
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+
+      post(url, params.to_json, headers.merge(token_header(token)))
+    end
+
+    ### CMR Groups, via Access Control
 
     def get_cmr_groups(options, token)
       if Rails.env.development? || Rails.env.test?
@@ -250,6 +300,8 @@ module Cmr
       end
       get(url, {}, token_header(token))
     end
+
+    ### CMR Permissions (aka ACLs), via Access Control
 
     def add_group_permissions(request_object, token)
       # Example: curl -XPOST -i -H "Content-Type: application/json" -H "Echo-Token: XXXXX" https://cmr.sit.earthdata.nasa.gov/access-control/acls -d \

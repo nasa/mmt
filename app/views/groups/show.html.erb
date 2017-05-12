@@ -3,18 +3,11 @@
     <h2>
       <%= @group.fetch('name') %>
       <% if check_if_system_group?(@group, @concept_id) %>
-      <small><span class="eui-badge--sm">SYS</span></small>
+        <small><span class="eui-badge--sm">SYS</span></small>
       <% end %>
     </h2>
 
     <p><%= @group.fetch('description') %></p>
-
-    <h4>Management Groups</h4>
-    <% if @management_groups.blank? %>
-      <p>No Management Groups found.</p>
-    <% else %>
-      <p><%= @management_groups.map { |group| group['name'] }.to_sentence %></p>
-    <% end %>
 
     <h4>Associated Permissions</h4>
     <% if @permissions.blank? %>

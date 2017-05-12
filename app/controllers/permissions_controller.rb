@@ -74,7 +74,7 @@ class PermissionsController < ManageCmrController
     else
       Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
       error = Array.wrap(permission_response.body['errors'])[0]
-      flash[:error] = error
+      flash[:error] = error.capitalize
     end
   end
 
@@ -105,13 +105,16 @@ class PermissionsController < ManageCmrController
       permission_creation_error = PermissionsHelper::ErrorCodeMessages[response.status]
       permission_creation_error ||= Array.wrap(response.body['errors'])[0]
 
-      flash.now[:error] = permission_creation_error
+      flash.now[:error] = permission_creation_error.capitalize
 
       @permission_name = params[:permission_name]
 
       @collection_options = params[:collection_options]
       @collection_selections = params[:collection_selections]
       @granule_options = params[:granule_options]
+
+      @collection_access_value = params[:collection_access_value] || {}
+      @granule_access_value = params[:granule_access_value] || {}
 
       @groups = get_groups_for_permissions
       @search_groups = params[:search_groups]
@@ -137,23 +140,23 @@ class PermissionsController < ManageCmrController
       @groups = get_groups_for_permissions
     else
       Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
-      flash[:error] = Array.wrap(permission_response.body['errors'])[0]
+      flash[:error] = Array.wrap(permission_response.body['errors'])[0].capitalize
       redirect_to permissions_path
     end
   end
 
   def update
-    concept_id = params[:id]
+    @permission_concept_id = params[:id]
     permission_provider = params[:permission_provider]
 
     request_object = construct_request_object(permission_provider)
-    update_response = cmr_client.update_permission(request_object, concept_id, token)
+    update_response = cmr_client.update_permission(request_object, @permission_concept_id, token)
 
     if update_response.success?
       flash[:success] = 'Collection Permission was successfully updated.'
       Rails.logger.info("#{current_user.urs_uid} UPDATED catalog item ACL (Collection Permission) for #{permission_provider}. #{response.body}")
 
-      redirect_to permission_path(concept_id)
+      redirect_to permission_path(@permission_concept_id)
     else
       Rails.logger.error("Collection Permission Update Error: #{update_response.inspect}")
       permission_update_error = Array.wrap(update_response.body['errors'])[0]
@@ -161,15 +164,18 @@ class PermissionsController < ManageCmrController
       if permission_update_error == 'Permission to update ACL is denied'
         flash[:error] = 'You are not authorized to update permissions. Please contact your system administrator.'
         # opt1 send back to show page
-        redirect_to permission_path(concept_id)
+        redirect_to permission_path(@permission_concept_id)
       else
-        flash[:error] = permission_update_error
+        flash[:error] = permission_update_error.capitalize
         # opt2 parse/grab data, render edit with flash message
         @permission_name = params[:permission_name]
 
         @collection_options = params[:collection_options]
         @collection_selections = params[:collection_selections]
         @granule_options = params[:granule_options]
+
+        @collection_access_value = params[:collection_access_value] || {}
+        @granule_access_value = params[:granule_access_value] || {}
 
         @groups = get_groups_for_permissions
         @search_groups = params[:search_groups]
@@ -191,7 +197,7 @@ class PermissionsController < ManageCmrController
     else
       Rails.logger.error("Permission Deletion Error: #{response.inspect}")
       permission_deletion_error = Array.wrap(response.body['errors'])[0]
-      flash[:error] = permission_deletion_error
+      flash[:error] = permission_deletion_error.capitalize
       render :show
     end
   end
@@ -237,7 +243,7 @@ class PermissionsController < ManageCmrController
 
     query['page_num'] = params['page_num'] if params.key?('page_num')
 
-    collections_response = cmr_client.get_collections(query, token).body
+    collections_response = cmr_client.get_collections_by_post(query, token).body
     parse_get_collections_response(collections_response)
   end
 
@@ -269,27 +275,43 @@ class PermissionsController < ManageCmrController
 
   def get_groups
     # we need to specify page_size, otherwise the default is 10
+    # the maximum number of groups we expect from one provider and all system groups is ~40
+    all_groups = []
+    groups_for_permissions_select = []
+
     filters = {
       'provider' => current_user.provider_id,
-      'page_size' => 100
+      'page_num' => 1,
+      'page_size' => 50
     }
 
     # get groups for provider AND System Groups if user has Read permissions on System Groups
     filters['provider'] = [current_user.provider_id, 'CMR'] if policy(:system_group).read?
 
+    # Retrieve the first page of groups
     groups_response = cmr_client.get_cmr_groups(filters, token)
-    groups_for_permissions_select = []
 
-    if groups_response.success?
-      tmp_groups = groups_response.body['items']
-      tmp_groups.each do |group|
-        group['name'] += ' (SYS)' if check_if_system_group?(group, group['concept_id'])
-        opt = [group['name'], group['concept_id']]
-        groups_for_permissions_select << opt
-      end
-    else
-      Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
-      flash[:error] = Array.wrap(groups_response.body['errors'])[0]
+    # Request groups
+    until groups_response.error? || groups_response.body['items'].blank?
+      # Add the retrieved groups
+      all_groups.concat(groups_response.body['items'])
+
+      # Tests within this controller family mock the response of `get_cmr_groups`
+      # which means that the criteria set to break on will never be met and will
+      # result in an infinite loop
+      break if Rails.env.test?
+
+      # Increment page number
+      filters['page_num'] += 1
+
+      # Request the next page
+      groups_response = cmr_client.get_cmr_groups(filters, token)
+    end
+
+    all_groups.each do |group|
+      group['name'] += ' (SYS)' if check_if_system_group?(group, group['concept_id'])
+      group_option = [group['name'], group['concept_id']]
+      groups_for_permissions_select << group_option
     end
 
     groups_for_permissions_select
@@ -306,10 +328,12 @@ class PermissionsController < ManageCmrController
   end
 
   def construct_request_object(provider)
-    collection_applicable = false
-    if params[:collection_options] == 'all-collections' || params[:collection_options] == 'selected-ids-collections'
-      collection_applicable = true
-    end
+    collection_applicable = if params[:collection_options] == 'all-collections' || params[:collection_options] == 'selected-ids-collections'
+                              true
+                            else # 'no-access'
+                              false
+                            end
+
     granule_applicable = params[:granule_options] == 'all-granules' ? true : false
 
     req_obj = {
@@ -339,21 +363,23 @@ class PermissionsController < ManageCmrController
       collection_identifier['entry_titles'] = entry_titles
     end
 
-    @collection_access_value = params[:collection_access_value] || {}
-    @collection_access_value.each do |key, val|
-      if val.blank?
-        @collection_access_value.delete(key)
-      elsif val == 'true'
-        @collection_access_value[key] = true
-      else
-        @collection_access_value[key] = val.to_f
+    if collection_applicable
+      @collection_access_value = params[:collection_access_value] || {}
+      @collection_access_value.each do |key, val|
+        if val.blank?
+          @collection_access_value.delete(key)
+        elsif val == 'true'
+          @collection_access_value[key] = true
+        else
+          @collection_access_value[key] = val.to_f
+        end
       end
+      collection_identifier['access_value'] = @collection_access_value unless @collection_access_value.blank?
+      req_obj['catalog_item_identity']['collection_identifier'] = collection_identifier unless collection_identifier.blank?
     end
-    collection_identifier['access_value'] = @collection_access_value unless @collection_access_value.blank?
-    req_obj['catalog_item_identity']['collection_identifier'] = collection_identifier unless collection_identifier.blank?
 
-    @granule_access_value = params[:granule_access_value] || {}
     if granule_applicable
+      @granule_access_value = params[:granule_access_value] || {}
       granule_identifier = req_obj.fetch('catalog_item_identity', {}).fetch('granule_identifier', {})
       @granule_access_value.each do |key, val|
         if val.blank?
@@ -372,14 +398,20 @@ class PermissionsController < ManageCmrController
     # if there are hidden groups, add them
     hidden_search_groups = params[:hidden_search_groups].split('; ') if params[:hidden_search_groups]
     search_groups += hidden_search_groups if hidden_search_groups
-    search_groups.each do |search_group|
-      req_obj['group_permissions'] << construct_request_group_permission(search_group, ['read']) # aka 'search'
-    end
 
     search_and_order_groups = params[:search_and_order_groups] || []
     # if there are hidden groups, add them
     hidden_search_and_order_groups = params[:hidden_search_and_order_groups].split('; ') if params[:hidden_search_and_order_groups]
     search_and_order_groups += hidden_search_and_order_groups if hidden_search_and_order_groups
+
+    search_groups.each do |search_group|
+      # we are preventing a user from selecting a group for both search AND search & order
+      # if that still happens, we should only keep the group as a search_and_order_group in the ACL
+      next if search_and_order_groups.include?(search_group)
+
+      req_obj['group_permissions'] << construct_request_group_permission(search_group, ['read']) # aka 'search'
+    end
+
     search_and_order_groups.each do |search_and_order_group|
       # PUMP allows for other permissions (Create, Update, Delete) but we don't use them
       # because those permissions are actually controlled by INGEST_MANAGEMENT_ACL
@@ -412,7 +444,9 @@ class PermissionsController < ManageCmrController
       group_permissions = perm['acl']['group_permissions']
       group_permissions.each do |group_perm|
         perm_list = group_perm['permissions']
-        if perm_list.include?('read') && perm_list.include?('order')
+        if perm_list.include?('order')
+          # we only need to check for 'order', because PUMP allows for assigning a group only 'order' permissions,
+          # and we should assume that group also has 'search' (aka 'read') permissions
           is_search_and_order_perm = true
         elsif perm_list.include?('read')
           is_search_perm = true
@@ -441,19 +475,22 @@ class PermissionsController < ManageCmrController
         # group is not a system group
         # OR group is guest or registered
         # OR group is a system group and user has READ access
-        if group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order')
+        if group_perm['permissions'].include?('order')
+          # we only need to check for 'order', because PUMP allows for assigning a group only 'order' permissions,
+          # and we should assume that group also has 'search' (aka 'read') permissions
           search_and_order_groups << (group_perm['group_id'] || group_perm['user_type'])
         elsif group_perm['permissions'].include?('read')
           search_groups << (group_perm['group_id'] || group_perm['user_type'])
         end
-      elsif
+      else
         # group is a system group and user does NOT have READ access
-        if group_perm['permissions'].include?('read') && group_perm['permissions'].include?('order')
+        if group_perm['permissions'].include?('order')
+          # we only need to check for 'order', because PUMP allows for assigning a group only 'order' permissions,
+          # and we should assume that group also has 'search' (aka 'read') permissions
           hidden_search_and_order_groups << (group_perm['group_id'])
         elsif group_perm['permissions'].include?('read')
           hidden_search_groups << (group_perm['group_id'])
         end
-
       end
     end
 
@@ -498,11 +535,16 @@ class PermissionsController < ManageCmrController
       @granule_options = catalog_item_identity['granule_applicable']
     else
       # set options to populate edit form dropdowns
-      @collection_options = if catalog_item_identity.fetch('collection_identifier', {}).fetch('entry_titles', nil)
-                              'selected-ids-collections'
+      @collection_options = if catalog_item_identity['collection_applicable'] == true
+                              if catalog_item_identity.fetch('collection_identifier', {}).fetch('entry_titles', nil)
+                                'selected-ids-collections'
+                              else
+                                'all-collections'
+                              end
                             else
-                              'all-collections'
+                              'no-access'
                             end
+
       @granule_options = catalog_item_identity['granule_applicable'] ? 'all-granules' : 'no-access'
     end
 

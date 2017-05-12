@@ -14,7 +14,7 @@ module Helpers
     end
 
     # Publishes a draft and returns the new created collection as well as the most recent draft
-    def publish_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil)
+    def publish_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil, version: nil)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_draft' do
         user = User.where(urs_uid: 'testuser').first
 
@@ -31,6 +31,7 @@ module Helpers
           # Conditional additions to the draft attributes
           draft_attributes[:draft_short_name] = short_name unless short_name.nil?
           draft_attributes[:draft_entry_title] = entry_title unless entry_title.nil?
+          draft_attributes[:version] = version unless version.nil?
 
           # Create a new draft with the provided attributes
           # NOTE: We don't save the draft object, there is no reason to hit the database

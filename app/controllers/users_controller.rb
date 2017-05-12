@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def logout
-    clear_session
+    reset_session
 
     respond_to do |format|
       format.html { redirect_to root_url }
@@ -22,9 +22,13 @@ class UsersController < ApplicationController
   end
 
   def set_provider
+    # Clear the currently set provider context token incase the call to create
+    # the new one fails -- we don't want to leave the value set.
+    session.delete(:echo_provider_token)
+
     provider_id = params[:provider_id] || params[:select_provider]
-    current_user.provider_id = provider_id
-    current_user.save
+
+    current_user.update(provider_id: provider_id)
 
     set_provider_context_token
 

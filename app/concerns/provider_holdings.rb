@@ -10,7 +10,7 @@ module ProviderHoldings
 
     providers.each do |provider|
       # Request the collections that belong to this provider
-      holdings_response = cmr_client.get_provider_holdings(true, provider['provider-id'], token)
+      holdings_response = cmr_client.get_provider_holdings(false, provider['provider-id'], token)
 
       # No additional work is necessary on error
       next if holdings_response.error?
@@ -34,7 +34,7 @@ module ProviderHoldings
 
     return if provider_holdings_response.error?
     
-    provider_holdings_response = cmr_client.get_provider_holdings(true, @provider['provider_id'], token)
+    provider_holdings_response = cmr_client.get_provider_holdings(false, @provider['provider_id'], token)
 
     return if provider_holdings_response.error?
 

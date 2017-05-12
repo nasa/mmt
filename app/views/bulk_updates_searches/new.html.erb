@@ -1,0 +1,65 @@
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Bulk Update Collection Search</h2>
+
+    <%= form_tag(new_bulk_updates_search_path, method: :get, id: 'bulk-updates-search') do %>
+      <fieldset>
+        <div class="row">
+          <div class="col-5">
+            <%= label_tag('field', 'Search Field', class: 'eui-required-o') %><br />
+          </div>
+          <div class="col-5">
+            <%= label_tag('bulk_update_search[query]', 'Search Query', class: 'eui-required-o') %><br />
+          </div>
+          <div class="col-2">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-5">
+            <%= select_tag(:field, options_for_select(BulkUpdatesHelper::SEARCHABLE_KEYS, params[:field]), class: 'full-width required') %>
+          </div>
+          <div class="col-5">
+            <%= text_field_tag(:query, params[:query], class: 'full-width required') %>
+          </div>
+          <div class="col-2 align-c">
+            <%= submit_tag 'Submit', name: nil, class: 'eui-btn--blue' %>
+          </div>
+        </div>
+      </fieldset>
+    <% end %>
+
+    <% if params[:query] %>
+      <% if @collections.any? %>
+        <p><%= page_entries_info @collections, entry_name: 'Collections' %></p>
+      <% end %>
+
+      <table id="bulk-updates-search-results">
+        <thead>
+          <tr>
+            <th>Collection</th>
+            <th>Short Name</th>
+            <th>Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @collections.any? %>
+          <% @collections.each do |collection| %>
+          <tr>
+            <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {})['concept-id']), target: '_blank' %></td>
+            <td><%= collection.fetch('umm', {})['short-name'] %></td>
+            <td><%= collection.fetch('umm', {})['version-id'] %></td>
+          </tr>
+          <% end %>
+          <% else %>
+          <tr>
+            <td colspan="3">No collections found.</td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%= paginate @collections %>
+    <% end %>
+
+  </section>
+</div>

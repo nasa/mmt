@@ -24,6 +24,10 @@ class ApplicationController < ActionController::Base
     redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
   end
 
+  def bulk_updates_enabled?
+    redirect_to manage_metadata_path unless Rails.configuration.bulk_updates_enabled
+  end
+
   def setup_query
     @query ||= {}
     @provider_ids ||= cmr_client.get_providers.body.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
@@ -58,13 +62,6 @@ class ApplicationController < ActionController::Base
     "#{edsc_root}/search/map"
   end
   helper_method :edsc_map_path
-
-  def clear_session
-    store_oauth_token
-    store_profile
-    session[:last_point] = nil
-    session[:return_to] = nil
-  end
 
   def store_oauth_token(json = {})
     session[:access_token] = json['access_token']
@@ -136,7 +133,7 @@ class ApplicationController < ActionController::Base
   helper_method :token
 
   def echo_provider_token
-    set_provider_context_token if session.fetch('echo_provider_token', nil).nil?
+    set_provider_context_token if session[:echo_provider_token].nil?
 
     session[:echo_provider_token]
   end

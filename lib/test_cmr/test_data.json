@@ -130,173 +130,142 @@
   "type": "dif10"
 }, {
   // 26
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C179031504-LARC/20.echo10",
-  "ingest_count": 2,
-  "granule": ["https://cmr.earthdata.nasa.gov:443/search/concepts/G186001504-LARC/3"]
-}, {
-  // 27
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C61787524-LARC/20.echo10",
-  "ingest_count": 1,
-  "granule": null
-}, {
-  // 28
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C185127378-LARC/20.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 29
+  // 27
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C183897339-LARC/20.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 30
+  // 28
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C179031521-LARC/21.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 31
+  // 29
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C43677744-LARC/20.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 32
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C135857530-LARC/20.echo10",
-  "ingest_count": 1,
-  "granule": null
+  // 30, 31
+  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C135857530-LARC/23.echo10",
+  "ingest_count": 2,
+  "granule": ["https://cmr.earthdata.nasa.gov:443/search/concepts/G186614502-LARC"]
 }, {
-  // 33
+  // 32
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000301-LARC/13.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 34
+  // 33
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000421-LARC/6.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 35
+  // 34
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C43677702-LARC/22.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 36
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000300-LARC/13.echo10",
+  // 35
+  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C43677707-LARC/24.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 37
+  // 36
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000423-LARC/5.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 38
+  // 37
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000281-LARC/13.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 39
+  // 38
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000440-LARC/6.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 40
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000240-LARC/16.echo10",
-  "ingest_count": 1,
-  "granule": null
-}, {
-  // 41
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000280-LARC/13.echo10",
-  "ingest_count": 1,
-  "granule": null
-}, {
-  // 42
+  // 39
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000420-LARC/5.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 43
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000201-LARC/16.echo10",
+  // 40
+  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C66215277-LARC/24.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 44
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000200-LARC/16.echo10",
-  "ingest_count": 1,
-  "granule": null
-}, {
-  // 45
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000282-LARC/13.echo10",
-  "ingest_count": 1,
-  "granule": null
-}, {
-  // 46
+  // 41
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000422-LARC/5.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 47
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000220-LARC/16.echo10",
+  // 42
+  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C73016614-LARC/23.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 48
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000283-LARC/13.echo10",
-  "ingest_count": 1,
-  "granule": null
-}, {
-  // 49
+  // 43
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000443-LARC/6.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 50
+  // 44
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C179031451-LARC/20.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 51
+  // 45
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C179031533-LARC/20.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 52
+  // 46
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C179031507-LARC/20.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 53
+  // 47
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C179031446-LARC/20.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 54
+  // 48
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C179031461-LARC/21.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 55
+  // 49
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C179031454-LARC/21.echo10",
   "ingest_count": 1,
   "granule": null
 }, {
-  // 56
-  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1200060318-DEMO_PROV",
+  // 50
+  // non-ASCII characters collection
+  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1200233357-MMT_1/1.dif10",
   "ingest_count": 1,
   "granule": null,
-  "type": "dif10"
+  "type": "dif10",
+  "test_case": " non-ASCII characters collection"
 }, {
-  // 57
-  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1000000279-EDF_DEV06/5",
+  // 51
+  // not url friendly native id
+  "collection": "https://cmr.sit.earthdata.nasa.gov/search/concepts/C1000000279-EDF_DEV06/5.echo10",
   "ingest_count": 1,
-  "granule": null
+  "granule": null,
+  "test_case": " not url friendly native id"
 }, {
-  // 58
+  // 52
   "collection": "https://cmr.uat.earthdata.nasa.gov/search/concepts/C1215718270-GES_DISC/6",
   "ingest_count": 1,
   "granule": null,
   "type": "dif10"
 }, {
-  // 59
+  // 53
   "collection": "https://cmr.uat.earthdata.nasa.gov/search/concepts/C1215139660-GES_DISC",
   "ingest_count": 1,
   "granule": null,

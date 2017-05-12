@@ -6,7 +6,13 @@
       <b>Permission Type | <%= " #{@permission_type || 'No Permission Type Selected'} | #{@permission_provider || '<provider>'}" %></b>
     </p>
     <p>
-      <b>Collections | <%= @collection_entry_ids.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Collections" %></b>
+      <b>Collections |
+        <% if @collection_options %>
+          <%= @collection_entry_ids.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Collections" %>
+        <% else %>
+          No Access to Collections
+        <% end %>
+      </b>
       <br>
       <%= @collection_entry_ids.to_sentence unless @collection_entry_ids.blank? %>
       <p>

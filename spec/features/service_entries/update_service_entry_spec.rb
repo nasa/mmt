@@ -11,8 +11,9 @@ describe 'Updating a Service Entry', reset_provider: true do
   end
 
   before do
-    collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(collections_response)
+    # collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+    collections_response = cmr_success_response(File.read('spec/fixtures/cmr_search.json'))
+    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
     login
   end
@@ -55,7 +56,7 @@ describe 'Updating a Service Entry', reset_provider: true do
         expect(page).to have_content('Editing Wolf 359')
 
         wait_for_ajax
-        
+
         # Check that all 6 results appear on the page
         expect(page).to have_selector('#tag_guids_fromList option', count: 6)
 
@@ -66,6 +67,43 @@ describe 'Updating a Service Entry', reset_provider: true do
 
       it 'displays a disabled entry type field' do
         expect(page).to have_field('Type', disabled: true)
+      end
+
+      context 'when using the Chooser widget' do
+        it 'sorts the left and right panels of the chooser widget in alphabetical order' do
+          expect(page).to have_css('#tag_guids_fromList option:first-child', text: "ID_1 | Mark's Test")
+          expect(page).to have_css('#tag_guids_fromList option:last-child', text: 'testing 03_002 | Test test title 03')
+
+          expect(page).to have_css('#tag_guids_toList option:first-child', text: "ID_1 | Mark's Test")
+          expect(page).to have_css('#tag_guids_toList option:last-child', text: 'testing 03_002 | Test test title 03')
+        end
+      end
+
+      context 'when adding and removing items between panels in the Chooser widget' do
+        before do
+          # Remove and add back the first option
+          select "ID_1 | Mark's Test", from: 'tag_guids_fromList'
+          find('button[title=remove]').click
+          select "ID_1 | Mark's Test", from: 'tag_guids_toList'
+          find('button[title=add]').click
+
+          # Remove and add back the second option
+          select "lorem_223 | ipsum", from: 'tag_guids_fromList'
+          find('button[title=remove]').click
+          select "lorem_223 | ipsum", from: 'tag_guids_toList'
+          find('button[title=add]').click
+        end
+
+        it 'maintains the sort order on the right panel of the chooser widget' do
+          # "From" list (the order always remains the same since items are not removed when added to the right side)
+          expect(page).to have_css('#tag_guids_fromList option:first-child', text: "ID_1 | Mark's Test")
+          expect(page).to have_css('#tag_guids_fromList option:last-child', text: 'testing 03_002 | Test test title 03')
+
+          # "To" list
+          expect(page).to have_css('#tag_guids_toList option:first-child', text: "ID_1 | Mark's Test")
+          expect(page).to have_css('#tag_guids_toList option:nth-child(2)', text: 'lorem_223 | ipsum')
+          expect(page).to have_css('#tag_guids_toList option:last-child', text: 'testing 03_002 | Test test title 03')
+        end
       end
 
       context 'when submitting the service entry form' do

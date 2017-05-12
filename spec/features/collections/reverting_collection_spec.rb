@@ -101,7 +101,7 @@ describe 'Reverting to previous collections', js: true do
   end
 
   context 'when the revision is a format other than umm json' do
-    let(:short_name) { 'ACR3L2DM' }
+    let(:short_name) { 'MIRCCMF' }
 
     before do
       user = User.first

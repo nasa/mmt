@@ -1,14 +1,13 @@
 module PermissionsHelper
-  GranulesOptions = [
-    ['No Access to Granules', 'no-access'],
-    ['All Granules', 'all-granules']
-    #['All Granules in Selected Collections','all-granules-in-collections'],
-    #['Granules with an Access Constraint Value','access-constraint-granule']
-  ].freeze
-
   CollectionsOptions = [
     ['All Collections', 'all-collections'],
-    ['Selected Collections', 'selected-ids-collections']
+    ['Selected Collections', 'selected-ids-collections'],
+    ['No Access to Collections', 'no-access']
+  ].freeze
+
+  GranulesOptions = [
+    ['All Granules', 'all-granules'],
+    ['No Access to Granules', 'no-access']
   ].freeze
 
   ErrorCodeMessages = {
@@ -29,7 +28,7 @@ module PermissionsHelper
     display_text
   end
 
-  def hide_granule_constraint_values?(granule_access_value, granule_options)
-    granule_access_value.blank? && granule_options != 'all-granules' ? 'is-hidden' : nil
+  def hide_access_constraint_values?(option_value)
+    option_value.nil? || option_value == 'no-access' ? 'is-hidden' : nil
   end
 end

@@ -52,7 +52,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
       service_option_guids = service_option_associations.map { |a| a['ServiceOptionDefinitionGuid'] }.compact
 
       # Retrieve all collections associated with the requested service implementations
-      assignment_collections_response = cmr_client.get_collections({ concept_id: collection_ids, page_size: collection_ids.count }, token)
+      assignment_collections_response = cmr_client.get_collections_by_post({ concept_id: collection_ids, page_size: collection_ids.count }, token)
       assignment_collections = if collection_ids.any? && assignment_collections_response.success?
                                  assignment_collections_response.body['items'] || []
                                else

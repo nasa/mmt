@@ -126,6 +126,7 @@ RSpec.configure do |config|
   config.order = :random
 
   # Helpers
+  config.include Helpers::ControllerHelpers
   config.include Helpers::AjaxHelpers
   config.include Helpers::CmrHelper
   config.include Helpers::DateHelpers
@@ -135,7 +136,8 @@ RSpec.configure do |config|
   config.include Helpers::UserHelpers
 
   # Precompile assets before running the test suite
-  # config.before :suite do
-  #   %x[bundle exec rake assets:precompile]
+  # config.before(:suite) do
+  #   Rails.application.load_tasks
+  #   Rake::Task["assets:precompile"].invoke
   # end
 end

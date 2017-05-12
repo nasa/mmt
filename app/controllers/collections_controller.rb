@@ -128,7 +128,7 @@ class CollectionsController < ApplicationController
     # TODO: this has to go
     attempts = 0
     while attempts < 20
-      revisions = cmr_client.get_collections({ concept_id: concept_id, all_revisions: true }, token).body['items']
+      revisions = cmr_client.get_collections_by_post({ concept_id: concept_id, all_revisions: true }, token).body['items']
       revisions.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
       latest = revisions.first
       break if latest && !revision_id
