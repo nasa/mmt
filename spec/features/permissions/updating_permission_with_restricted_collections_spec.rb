@@ -68,8 +68,6 @@ describe 'Updating Collection Permissions when collections are not accessible by
     wait_for_cmr
   end
 
-  # need to delete?
-
   context 'when logging in as a user that has restricted access to the provider collections' do
     before do
       login
