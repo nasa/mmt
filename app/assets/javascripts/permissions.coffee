@@ -49,7 +49,7 @@ $(document).ready ->
         $('#collectionsChooser_toList').rules 'add',
             required:
               depends: ->
-                if $('#collection_options').val() == 'selected-ids-collections' && $('#hidden_collections').length == 0
+                if $('#collection_options').val() == 'selected-ids-collections' && $('.hidden-collection').length == 0
                   return true
                 return false
             messages:
