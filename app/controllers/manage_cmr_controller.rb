@@ -3,7 +3,6 @@ class ManageCmrController < PagesController
   include EchoSoap
   include ChooserEndpoints
 
-  before_filter :set_notifications, only: :show
   before_filter :check_if_system_acl_administrator, only: :show
   before_filter :check_if_current_provider_acl_administrator, only: :show
   before_filter :groups_enabled?

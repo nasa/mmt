@@ -2,8 +2,6 @@
 class ManageMetadataController < PagesController
   include BulkUpdates
 
-  before_filter :set_notifications
-
   layout 'manage_metadata'
 
   def show
