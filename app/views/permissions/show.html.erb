@@ -1,34 +1,6 @@
 <div class="row row-content">
   <section>
-    <h2><%= @permission_name %></h2>
-
-    <p>
-      <b>Permission Type | <%= " #{@permission_type || 'No Permission Type Selected'} | #{@permission_provider || '<provider>'}" %></b>
-    </p>
-    <p>
-      <b>Collections |
-        <% if @collection_options %>
-          <%= @collection_entry_ids.blank? && @hidden_entry_titles.blank? ? 'All Collections' : "#{@collection_entry_ids.count} Selected Collections" %>
-        <% else %>
-          No Access to Collections
-        <% end %>
-      </b>
-      <br>
-      <%= @collection_entry_ids.to_sentence unless @collection_entry_ids.blank? %>
-      <p>
-        <% unless @collection_access_value.blank? %>
-          Collections <%= display_access_constraints(@collection_access_value) %>
-        <% end %>
-      </p>
-    </p>
-    <p>
-      <b>Granules | <%= @granule_options ? 'All Granules in Selected Collection Records' : 'No Access to Granules' %></b>
-      <p>
-        <% unless @granule_access_value.blank? %>
-          Granules <%= display_access_constraints(@granule_access_value) %>
-        <% end %>
-      </p>
-    </p>
+    <h2><%= @permission.fetch('catalog_item_identity', {})['name'] %></h2>
 
     <table class="space-top space-bot align-c" id="permission-groups-table">
       <thead>
@@ -39,55 +11,89 @@
         </tr>
       </thead>
       <tbody>
-        <% if @search_groups.blank? && @search_and_order_groups.blank? %>
+        <% if @permission.fetch('group_permissions', []).blank? %>
           <tr>
             <td colspan="3">
               No Groups listed.
             </td>
           </tr>
         <% else %>
+          <% @permission.fetch('group_permissions', []).select { |permission, groups| (%w(read order) & permission.fetch('permissions', {})).any? }.group_by { |permission| permission.fetch('permissions', []) }.each do |permissions, groups| %>
 
-          <!-- Search & Order groups -->
-          <% @search_and_order_groups.each do |search_and_order_group| %>
-            <tr>
-              <td class="cell-primary-cta">
-                <% if search_and_order_group[:concept_id] %>
-                  <%= link_to search_and_order_group[:name], group_path(search_and_order_group[:concept_id]) %>
-                  <% if check_if_system_group?(search_and_order_group, search_and_order_group[:concept_id]) %>
-                    <span class="eui-badge--sm">SYS</span>
+            <% groups.select { |group| group.key?('user_type') || group.key?('group') }.each do |group| %>
+              <tr>
+                <td class="cell-primary-cta">
+                  <% if group.key?('group_id') %>
+                    <%= link_to group['group']['name'], group_path(group['group_id']) %>
+
+                    <% if check_if_system_group?(group, group['group_id']) %>
+                      <span class="eui-badge--sm">SYS</span>
+                    <% end %>
+                  <% else %>
+                    <% if group['user_type'] == 'guest' %>
+                    All Guest Users
+                    <% elsif group['user_type'] == 'registered' %>
+                    All Registered Users
+                    <% end %>
                   <% end %>
-                  (<%= search_and_order_group[:num_members] %>)
-                <% else %>
-                  <%= search_and_order_group[:name] %>
-                <% end %>
-              </td>
-              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Search allowed for this group</span></i></td>
-              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Order is also allowed for this group</span></i></td>
-            </tr>
-          <% end %>
-
-          <!-- Search Groups -->
-          <% @search_groups.each do |search_group| %>
-            <tr>
-              <td class="cell-primary-cta">
-                <% if search_group[:concept_id] %>
-                  <%= link_to search_group[:name], group_path(search_group[:concept_id]) %>
-                  <% if check_if_system_group?(search_group, search_group[:concept_id]) %>
-                    <span class="eui-badge--sm">SYS</span>
+                </td>
+                <td>
+                  <% if permissions.include?('read') || permissions.include?('order') %>
+                    <i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Search allowed for this group</span></i>
                   <% end %>
-                  (<%= search_group[:num_members] %>)
-                <% else %>
-                  <%= search_group[:name] %>
-                <% end %>
-              </td>
-              <td><i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Only search is allowed for this group</span></i></td>
-              <td><span class="is-invisible">Order is not allowed for this group</span></td>
-            </tr>
-          <% end %>
+                </td>
+                <td>
+                  <% if permissions.include?('order') %>
+                    <i class="eui-icon eui-check-o icon-green icon--md"><span class="is-invisible">Order is also allowed for this group</span></i>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
 
+          <% end %>
         <% end %>
       </tbody>
     </table>
+
+    <div class="row">
+      <div class="col-6" id="collection-constraint-summary">
+        <label>Collections</label>
+        <p><%= collection_constraint_summary(@permission) %></p>
+
+        <% if @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}).any? && @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', []).any? %>
+          <%= button_tag 'Toggle Collection Highlighting', class: 'eui-btn eui-btn--sm highlight-collections', title: 'Toggle the highlighting of collections that satisfy the constraint filters.', data: @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}) %>
+        <% end %>
+      </div>
+      
+      <div class="col-6" id="granule-constraint-summary">
+        <label>Granules</label>
+        <p><%= granule_constraint_summary(@permission) %></p>
+      </div>
+    </div>
+
+    <% if @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', []).any? %>
+    <table id="permission-collection-list">
+      <thead>
+        <tr>
+          <th>Collection</th>
+          <th>Short Name</th>
+          <th>Version</th>
+          <th>Access Constraint</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <% permission_collections(@permission).fetch('items', []).each do |collection| %>
+        <tr>
+          <td><%= link_to collection.fetch('umm', {})['EntryTitle'], collection_path(collection.fetch('meta', {})['concept-id']), target: '_blank' %></td>
+          <td><%= collection.fetch('umm', {})['ShortName'] %></td>
+          <td><%= collection.fetch('umm', {})['Version'] %></td>
+          <td class="access-constraint"><%= collection.fetch('umm', {}).fetch('AccessConstraints', {})['Value'] %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <% end %>
 
     <%= link_to 'Edit', edit_permission_path(@permission_concept_id), class: 'eui-btn' %>
 

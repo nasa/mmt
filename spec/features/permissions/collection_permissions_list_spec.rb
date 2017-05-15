@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 
 describe 'Collection Permissions Index page', reset_provider: true do
@@ -39,124 +38,27 @@ describe 'Collection Permissions Index page', reset_provider: true do
         end
       end
 
-      context 'when the collection permissions only have Read and Order permissions' do
+      context 'when there are permissions' do
         before do
-          collection_permission_1 = add_associated_permissions_to_group(group_id: group1_id, name: 'Testing Collection Permission Index Regular 01', permissions: [ 'read' ])
-          collection_permission_2 = add_associated_permissions_to_group(group_id: group2_id, name: 'Testing Collection Permission Index Regular 02', permissions: [ 'read', 'order' ])
-          collection_permission_3 = add_associated_permissions_to_group(group_id: group3_id, name: 'Testing Collection Permission Index Regular 03', permissions: [ 'read', 'order' ])
+          add_associated_permissions_to_group(group_id: group1_id, name: 'Testing Collection Permission Index Regular 01', permissions: %w(read))
+          add_associated_permissions_to_group(group_id: group2_id, name: 'Testing Collection Permission Index Regular 02', permissions: %w(read order))
+          add_associated_permissions_to_group(group_id: group3_id, name: 'Testing Collection Permission Index Regular 03', permissions: %w(read order))
 
           visit permissions_path
         end
 
-        it 'displays the table of collection permissions with the correct summaries' do
+        it 'displays the table of collection permissions' do
           within '#custom-permissions-table' do
             within 'tbody > tr:nth-child(1)' do
               expect(page).to have_content('Testing Collection Permission Index Regular 01')
-
-              within 'td:nth-child(2)' do
-                expect(page).to have_content('Search')
-                expect(page).to have_no_content('Order')
-              end
             end
 
             within 'tbody > tr:nth-child(2)' do
               expect(page).to have_content('Testing Collection Permission Index Regular 02')
-              within 'td:nth-child(2)' do
-                expect(page).to have_content('Search & Order')
-              end
             end
 
             within 'tbody > tr:nth-child(3)' do
               expect(page).to have_content('Testing Collection Permission Index Regular 03')
-              within 'td:nth-child(2)' do
-                expect(page).to have_content('Search & Order')
-              end
-            end
-          end
-        end
-
-        context 'when the collection permissions also have Create, Update, and Delete permissions, permissions in alternative order, and empty permissions' do
-          before do
-            collection_permission_4 = add_associated_permissions_to_group(group_id: group1_id, name: 'Testing Collection Permission Index empty permissions 01', permissions: [ ])
-            collection_permission_5 = add_associated_permissions_to_group(group_id: group2_id, name: 'Testing Collection Permission Index Permutations 02', permissions: [ 'order', 'read', 'create' ])
-            collection_permission_6 = add_associated_permissions_to_group(group_id: group3_id, name: 'Testing Collection Permission Index Permutations 03', permissions: [ 'read' ])
-            collection_permission_7 = add_associated_permissions_to_group(group_id: group1_id, name: 'Testing Collection Permission Index Permutations 04', permissions: [ 'delete', 'update', 'order', 'read', 'create' ])
-            collection_permission_8 = add_associated_permissions_to_group(group_id: group2_id, name: 'Testing Collection Permission Index Permutations 05', permissions: [ 'order' ])
-
-            visit permissions_path
-          end
-
-          it 'displays the table of collections with the correct summaries' do
-            within '#custom-permissions-table' do
-              within 'tbody > tr:nth-child(1)' do
-                expect(page).to have_content('Testing Collection Permission Index empty permissions 01')
-
-                within 'td:nth-child(2)' do
-                  expect(page).to have_no_content('Search')
-                  expect(page).to have_no_content('Order')
-                end
-              end
-
-              within 'tbody > tr:nth-child(2)' do
-                expect(page).to have_content('Testing Collection Permission Index Permutations 02')
-
-                within 'td:nth-child(2)' do
-                  expect(page).to have_content('Search & Order')
-                end
-              end
-
-              within 'tbody > tr:nth-child(3)' do
-                expect(page).to have_content('Testing Collection Permission Index Permutations 03')
-
-                within 'td:nth-child(2)' do
-                  expect(page).to have_content('Search')
-                  expect(page).to have_no_content('Order')
-                end
-              end
-
-              within 'tbody > tr:nth-child(4)' do
-                expect(page).to have_content('Testing Collection Permission Index Permutations 04')
-
-                within 'td:nth-child(2)' do
-                  expect(page).to have_content('Search & Order')
-                  expect(page).to have_no_content('Create')
-                  expect(page).to have_no_content('Update')
-                  expect(page).to have_no_content('Delete')
-                end
-              end
-
-              within 'tbody > tr:nth-child(5)' do
-                expect(page).to have_content('Testing Collection Permission Index Permutations 05')
-
-                within 'td:nth-child(2)' do
-                  expect(page).to have_content('Search & Order')
-                end
-              end
-
-              within 'tbody > tr:nth-child(6)' do
-                expect(page).to have_content('Testing Collection Permission Index Regular 01')
-
-                within 'td:nth-child(2)' do
-                  expect(page).to have_content('Search')
-                  expect(page).to have_no_content('Order')
-                end
-              end
-
-              within 'tbody > tr:nth-child(7)' do
-                expect(page).to have_content('Testing Collection Permission Index Regular 02')
-
-                within 'td:nth-child(2)' do
-                  expect(page).to have_content('Search & Order')
-                end
-              end
-
-              within 'tbody > tr:nth-child(8)' do
-                expect(page).to have_content('Testing Collection Permission Index Regular 03')
-
-                within 'td:nth-child(2)' do
-                  expect(page).to have_content('Search & Order')
-                end
-              end
             end
           end
         end

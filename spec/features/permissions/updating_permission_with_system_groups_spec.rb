@@ -12,19 +12,19 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
     original_collection_permission = {
       group_permissions: [{
         group_id: @group['concept_id'],
-        permissions: [ "read", "order" ]
+        permissions: %w(read order)
       }, {
         group_id: 'AG1200000000-CMR', # Administrators
-        permissions: [ "read", "order"]
+        permissions: %w(read order)
       }, {
         group_id: 'AG1200000001-CMR', # Administrators_2
-        permissions: [ "read" ]
+        permissions: ['read']
       }],
       catalog_item_identity: {
-        "name": @collection_permission_name,
-        "provider_id": "MMT_2",
-        "collection_applicable": true,
-        "granule_applicable": false
+        'name': @collection_permission_name,
+        'provider_id': 'MMT_2',
+        'collection_applicable': true,
+        'granule_applicable': false
       }
     }
 
@@ -42,10 +42,10 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
 
     it 'displays the collection permission' do
       expect(page).to have_content(@collection_permission_name)
-      expect(page).to have_content('Permission Type | Search & Order | MMT_2')
 
-      expect(page).to have_content('Collections | All Collections')
-      expect(page).to have_content('Granules | No Access to Granules')
+      within '#granule-constraint-summary' do
+        expect(page).to have_content('This permission does not grant access to granules.')
+      end
 
       within '#permission-groups-table' do
         expect(page).to have_content(@group_name)
@@ -67,8 +67,8 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
       it 'displays the permission information on the form' do
         expect(page).to have_field('Name', with: @collection_permission_name, readonly: true)
 
-        expect(page).to have_select('Collections', selected: 'All Collections')
-        expect(page).to have_select('Granules', selected: 'No Access to Granules')
+        expect(page).to have_checked_field('Collections')
+        expect(page).to have_unchecked_field('Granules')
 
         within '#search_and_order_groups_cell' do
           expect(page).to have_css('li.select2-selection__choice', text: @group_name)
@@ -87,7 +87,7 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
 
       context 'when submitting the updates' do
         before do
-          select('All Granules', from: 'Granules')
+          check('Granules')
           select('All Registered Users', from: 'Search and Order')
 
           click_on 'Submit'
@@ -95,10 +95,6 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
 
         it 'displays the updated collection permission' do
           expect(page).to have_content(@collection_permission_name)
-          expect(page).to have_content('Permission Type | Search & Order | MMT_2')
-
-          expect(page).to have_content('Collections | All Collections')
-          expect(page).to have_content('Granules | All Granules in Selected Collection Records')
 
           within '#permission-groups-table' do
             expect(page).to have_content(@group_name)
@@ -108,8 +104,6 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
 
         context 'when logging out and logging in as an admin user' do
           before do
-            visit logout_path
-
             login_admin
           end
 
@@ -120,10 +114,6 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
 
             it 'displays the permission information' do
               expect(page).to have_content(@collection_permission_name)
-              expect(page).to have_content('Permission Type | Search & Order | MMT_2')
-
-              expect(page).to have_content('Collections | All Collections')
-              expect(page).to have_content('Granules | All Granules in Selected Collection Records')
 
               within '#permission-groups-table' do
                 expect(page).to have_content(@group_name)
@@ -146,8 +136,8 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
               it 'displays the permission information on the form' do
                 expect(page).to have_field('Name', with: @collection_permission_name, readonly: true)
 
-                expect(page).to have_select('Collections', selected: 'All Collections')
-                expect(page).to have_select('Granules', selected: 'All Granules')
+                expect(page).to have_checked_field('Collections')
+                expect(page).to have_checked_field('Granules')
 
                 within '#search_and_order_groups_cell' do
                   expect(page).to have_css('li.select2-selection__choice', text: @group_name)
@@ -167,11 +157,11 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
 
               context 'when submitting the updates' do
                 before do
-                  select('No Access to Granules', from: 'Granules')
+                  uncheck('Granules')
 
-                  within '#collection_constraint_values' do
-                    fill_in('Minimum Access Constraint Value', with: 5)
-                    fill_in('Maximum Access Constraint Value', with: 25)
+                  within '#collection-access-constraints-container' do
+                    fill_in('Minimum Value', with: 5)
+                    fill_in('Maximum Value', with: 25)
                     check('Include Undefined')
                   end
 
@@ -184,11 +174,15 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
 
                 it 'displays the updated collection permission information' do
                   expect(page).to have_content(@collection_permission_name)
-                  expect(page).to have_content('Permission Type | Search & Order | MMT_2')
 
-                  expect(page).to have_content('Collections | All Collections')
-                  expect(page).to have_content('Collections Access Constraint Filter: Match range 5.0 to 25.0, Include Undefined')
-                  expect(page).to have_content('Granules | No Access to Granules')
+                  within '#collection-constraint-summary' do
+                    expect(page).to have_content('between 5.0 and 25.0')
+                    expect(page).to have_content('(or are undefined)')
+                  end
+
+                  within '#granule-constraint-summary' do
+                    expect(page).to have_content('This permission does not grant access to granules.')
+                  end
 
                   within '#permission-groups-table' do
                     expect(page).to have_content(@group_name)

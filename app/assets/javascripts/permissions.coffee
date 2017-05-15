@@ -1,97 +1,135 @@
-$(document).ready ->
-  if $(".permission-form").length > 0
+# Handle the enabling and disabling of the granule
+# access constraints form fields
+handleGranuleConstraintState = (granulesEnabled) ->
+  $('#granule-access-constraints-container :input').attr('disabled', !granulesEnabled)
+  $('#granule-access-constraints-container').toggleClass('disabled', !granulesEnabled)
 
-    $('.display-modal').leanModal
-      top: 200
-      overlay: 0.6
-      closeButton: '.modal-close'
+# Handle the hiding and showing of the collection chooser
+handleCollectionOptions = (selectedCollections) ->
+  $('#chooser-widget :input').attr('disabled', !selectedCollections)
+  
+  if selectedCollections
+    $('#chooser-widget').removeClass('is_hidden').fadeIn(100)
+  else
+    $('#chooser-widget').fadeOut(100)
+
+$(document).ready ->
+  $('#permission-collection-list').tablesorter
+    widgets: ['zebra', 'filter']
+    headers:
+      2:
+        sorter: 'text'
+      3:
+        sorter: 'text'
+
+  # 'Toggle Collection Highlighting' button functionality for the
+  # collection list displayed on the permission show page
+  $('.highlight-collections').on 'click', ->
+    constraintMinimum = parseFloat($(this).data('min-value'))
+    constraintMaximum = parseFloat($(this).data('max-value'))
+    includeUndefinedValue = $(this).data('include-undefined-value')
+
+    $.each $('#permission-collection-list').find('td.access-constraint'), (index, element) ->
+      constraintValue = parseFloat($(element).html())
+
+      # If the minimum and maximum are the same, and the value matches
+      if (constraintMinimum == constraintMaximum && constraintValue == constraintMinimum) ||
+
+          # If the minimum and maximum are not the same but the value is in between them
+          (constraintValue >= constraintMinimum & constraintValue <= constraintMaximum) ||
+
+          # If including undefined values and value is undefined
+          (includeUndefinedValue && isNaN(constraintValue))
+
+        $(this).closest('tr').toggleClass('selected')
+      else
+        # Otherwise fade the row out
+        $(this).closest('tr').toggleClass('disabled')
+
+  if $(".permission-form").length > 0
+    handleGranuleConstraintState($('input[name=granule_applicable]').is(':checked'))
+    handleCollectionOptions($('input[name=collection_option]:checked').val() == 'selected')
 
     # widget for choosing collections
     collectionsChooser = null
 
-    start_widget = ->
-      if collectionsChooser == null
-        collectionsChooser = new Chooser({
-          id: 'collectionsChooser',
-          url: '/permission/all_collections',
-          nextPageParm: 'page_num',
-          filterParm: 'short_name',
-          target: $('#chooser-widget'),
-          fromLabel: 'Available collections',
-          toLabel: 'Selected collections',
-          uniqueMsg: 'Collection already added',
-          attachTo: $('#collection_selections'),
-          delimiter: "%%__%%",
-          addButton: {
-            cssClass: 'eui-btn nowrap',
-            arrowCssClass: 'fa fa-plus',
-            text: ''
-          },
-          delButton: {
-            cssClass: 'eui-btn nowrap',
-            arrowCssClass: 'fa fa-minus',
-            text: ''
-          },
-          delAllButton: {
-            cssClass: 'eui-btn nowrap',
-            arrowCssClass: 'fa fa-trash',
-            text: ''
-          },
-          allowRemoveAll: true,
-          errorCallback: ->
-            $('<div class="eui-banner--danger">' +
-                'A server error occurred. Unable to get collections.' +
-                '</div>').prependTo '#main-content'
-        })
+    if collectionsChooser == null
+      collectionsChooser = new Chooser({
+        id: 'collectionsChooser',
+        url: '/entry_title_collections',
+        nextPageParm: 'page_num',
+        filterParm: 'short_name',
+        target: $('#chooser-widget'),
+        fromLabel: 'Available Collections',
+        toLabel: 'Selected Collections',
+        uniqueMsg: 'Collection already added',
+        attachTo: $('#collection_selections'),
+        delimiter: "%%__%%",
+        addButton: {
+          cssClass: 'eui-btn nowrap',
+          arrowCssClass: 'fa fa-plus',
+          text: ''
+        },
+        delButton: {
+          cssClass: 'eui-btn nowrap',
+          arrowCssClass: 'fa fa-minus',
+          text: ''
+        },
+        delAllButton: {
+          cssClass: 'eui-btn nowrap',
+          arrowCssClass: 'fa fa-trash',
+          text: ''
+        },
+        allowRemoveAll: true,
+        errorCallback: ->
+          $('<div class="eui-banner--danger">' +
+              'A server error occurred. Unable to get collections.' +
+              '</div>').prependTo '#main-content'
+      })
 
-        collectionsChooser.init()
+      collectionsChooser.init()
 
-        $('#collectionsChooser_toList').rules 'add',
-            required:
-              depends: ->
-                if $('#collection_options').val() == 'selected-ids-collections' && $('.hidden-collection').length == 0
-                  return true
-                return false
-            messages:
-              required: 'You must select at least 1 collection.'
+    # Form an array of the values that were previously selected
+    selectedValues = ($(element).val() for element in $('.permission-form .selected-collection'))
 
+    # Ping the same endpoint we use for populating the Chooser widget
+    # to retrieve data specific to the selected values
+    if selectedValues.length > 0
+      # Not providing any concept ids will result in all items coming back, avoid that
+      $.ajax '/entry_title_collections',
+        method: 'POST'
+        data: 
+          entry_title: selectedValues
+          page_size: selectedValues.length
+        success: (data) ->
+          # Sets the selected values of the chooser
+          collectionsChooser.setToVal(data.items)
+        fail: (data) ->
+          console.log data
 
-    # show the Chooser widget if a refresh of the page has "selected collections" as the dropdown value
-    setTimeout ( ->
-      if $('#collection_options').val() == 'selected-ids-collections'
-        $('#chooser-widget').removeClass 'is-hidden'
-        start_widget()
+    # On form submit, select all of the options in the 'Selected Collections' multiselect
+    # so that it can be properly interpreted by the controller
+    $('.permission-form').on 'submit', ->
+      $('#collectionsChooser_toList option').prop('selected', true)
 
-        if $('#collection_selections').val()? && $('#collection_selections').val().length > 0
-          opts = []
-          entry_titles = $('#collection_selections').val().split("%%__%%")
-          $.each entry_titles, (index, value)->
-            opt_val = value.split('|')[1].trim()
-            opts.push( [opt_val, value] )
-          collectionsChooser.setToVal(opts)
-    ), 500
+    $('input[name=granule_applicable]').on 'change', ->
+      handleGranuleConstraintState($(this).is(':checked'))
 
-    # Show respective field based on selection
-    $('#collection_options').on 'change', ->
-      collectionOptions = $(this).val()
+    $('input[name=collection_option]').on 'change', ->
+      handleCollectionOptions($(this).val() == 'selected')
 
-      if collectionOptions == 'selected-ids-collections'
-        $('#chooser-widget').removeClass 'is-hidden'
-        start_widget()
-        $('#collection_constraint_values').removeClass 'is-hidden'
-      else if collectionOptions == 'all-collections'
-        $('#chooser-widget').addClass 'is-hidden'
-        $('#collection_constraint_values').removeClass 'is-hidden'
-      else
-        $('#chooser-widget').addClass 'is-hidden'
-        $('#collection_constraint_values').addClass 'is-hidden'
+    # 'Clear Collection/Granule Filters'
+    $('.clear-filters').on 'click', (event) ->
+      $('#' + $(this).data('container') + ' :input').val('')
+      $('#' + $(this).data('container') + ' :checkbox').attr('checked', false)
+      
+      event.preventDefault()
 
     $('#granule_options').on 'change', ->
       if $(this).val() == 'all-granules'
         $('#granule_constraint_values').removeClass 'is-hidden'
       else
         $('#granule_constraint_values').addClass 'is-hidden'
-
 
     # add or remove required icons for access value min and max fields if at least one has an input value
     $('.min-max-value').on 'blur', ->
@@ -111,7 +149,6 @@ $(document).ready ->
         $currentLabel.addClass 'eui-required-o'
         $otherLabel.addClass 'eui-required-o'
 
-
     # Validate new permissions form with jquery validation plugin
     $('.permission-form').validate
       errorPlacement: (error, element) ->
@@ -125,14 +162,23 @@ $(document).ready ->
           $row = element.closest('.min-max-row')
           error.addClass('full-width')
           error.insertAfter($row)
+        else if element.is(':checkbox')
+          error.insertAfter(element.closest('.checkbox-group'))
         else
           error.insertAfter(element)
 
       rules:
         permission_name:
           required: true
-        collection_options:
-          required: true
+        collection_applicable:
+          required: ->
+            !$('input[name=granule_applicable]').is(':checked')
+        granule_applicable:
+          required: ->
+            !$('input[name=collection_applicable]').is(':checked')
+        'collectionsChooser_toList[]':
+          required: ->
+            $('input[name=collection_option]:checked').val() == 'selected' && $('.hidden-collection').length == 0
         'collection_access_value[min_value]':
           required: (element) ->
             # field should be required if min has a value
@@ -143,9 +189,7 @@ $(document).ready ->
             # field should be required if max has a value
             $('#collection_access_value_min_value').val() != ''
           number: true
-          greaterThan: $('#collection_access_value_min_value')
-        granule_options:
-          required: true
+          greaterThanOrEqual: $('#collection_access_value_min_value')
         'granule_access_value[min_value]':
           required: (element) ->
             # field should be required if max has a value
@@ -156,7 +200,7 @@ $(document).ready ->
             # field should be required if min has a value
             $('#granule_access_value_min_value').val() != ''
           number: true
-          greaterThan: $('#granule_access_value_min_value')
+          greaterThanOrEqual: $('#granule_access_value_min_value')
         'search_groups[]':
           required: (element) ->
             # field is required if the other field has no value/selection
@@ -169,20 +213,22 @@ $(document).ready ->
       messages:
         permission_name:
           required: 'Permission Name is required.'
-        collection_options:
-          required: 'Collections must be specified.'
+        collection_applicable:
+          required: 'Permission must apply to Collections or Granules.'
+        granule_applicable:
+          required: 'Permission must apply to Collections or Granules.'
+        'collectionsChooser_toList[]':
+          required: 'You must select at least 1 collection.'
         'collection_access_value[min_value]':
           required: 'Minimum and Maximum values must be specified together.'
         'collection_access_value[max_value]':
           required: 'Minimum and Maximum values must be specified together.'
-          greaterThan: 'Maximum value must be greater than Minimum value.'
-        granule_options:
-          required: 'Granules must be specified.'
+          greaterThanOrEqual: 'Maximum value must be greater than or equal to Minimum value.'
         'granule_access_value[min_value]':
           required: 'Minimum and Maximum values must be specified together.'
         'granule_access_value[max_value]':
           required: 'Minimum and Maximum values must be specified together.'
-          greaterThan: 'Maximum value must be greater than Minimum value.'
+          greaterThanOrEqual: 'Maximum value must be greater than or equal to Minimum value.'
         'search_groups[]':
           required: 'Please specify at least one Search group or one Search & Order group.'
         'search_and_order_groups[]':
@@ -193,8 +239,9 @@ $(document).ready ->
         permission_group: 'search_groups[] search_and_order_groups[]'
         collection_access_value_group: 'collection_access_value[min_value] collection_access_value[max_value]'
         graunle_access_value_group: 'granule_access_value[min_value] granule_access_value[max_value]'
+        applies_to: 'collection_applicable granule_applicable'
 
-    $.validator.addMethod 'greaterThan', (value, elem, arg) ->
+    $.validator.addMethod 'greaterThanOrEqual', (value, elem, arg) ->
       # the built in max and min methods didn't seem to work with the depends
       # condition or possibly with comparing values dynamically, so here we
       # are defining our own method to ensure the Max is greater than the Min
@@ -202,8 +249,8 @@ $(document).ready ->
       minimum = arg.val()
 
       return true if value == '' || minimum == ''
-      parseFloat(value) > parseFloat(minimum)
-    , 'Maximum value must be greater than Minimum value.' # default message
+      parseFloat(value) >= parseFloat(minimum)
+    , 'Maximum value must be greater than or equal to Minimum value.' # default message
 
     visitedPermissionGroupSelect = []
 
@@ -265,9 +312,3 @@ $(document).ready ->
       toggleSelectOption('#search_and_order_groups_', $(option).val(), 'disable')
     $selectedSearchOrderGroupOptions.each (index, option) ->
       toggleSelectOption('#search_groups_', $(option).val(), 'disable')
-
-
-    $('#permissions-save-button').click( ->
-      $('#collectionsChooser_toList').find('option:first').prop('selected', true)
-      $('#collectionsChooser_toList').find('option:first').click()
-    )

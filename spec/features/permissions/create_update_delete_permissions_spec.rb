@@ -32,14 +32,14 @@ describe 'Collection Permissions', reset_provider: true, js: true do
 
       fill_in('Name', with: new_collection_permission_name)
 
-      select('All Collections', from: 'Collections')
-      within '#collection_constraint_values' do
-        fill_in('Minimum Access Constraint Value', with: 5)
-        fill_in('Maximum Access Constraint Value', with: 25)
+      check('Collections')
+      within '#collection-access-constraints-container' do
+        fill_in('Minimum Value', with: 5)
+        fill_in('Maximum Value', with: 25)
         check('Include Undefined')
       end
 
-      select('No Access to Granules', from: 'Granules')
+      uncheck('Granules')
 
       within '#permission-form-groups-table' do
         select('All Guest Users', from: 'Search')
@@ -56,18 +56,20 @@ describe 'Collection Permissions', reset_provider: true, js: true do
       expect(page).to have_content('Collection Permission was successfully created.')
 
       expect(page).to have_content(new_collection_permission_name)
-      expect(page).to have_content('Permission Type | Search & Order | MMT_2')
 
-      expect(page).to have_content('Collections | All Collections')
-      expect(page).to have_content('Collections Access Constraint Filter: Match range 5.0 to 25.0, Include Undefined')
+      within '#collection-constraint-summary' do
+        expect(page).to have_content('between 5.0 and 25.0')
+        expect(page).to have_content('(or are undefined)')
+      end
 
-      expect(page).to have_content('Granules | No Access to Granules')
-      expect(page).to have_no_content('Granules Access Constraint Filter')
+      within '#granule-constraint-summary' do
+        expect(page).to have_content('This permission does not grant access to granules.')
+      end
 
       within '#permission-groups-table' do
         expect(page).to have_content('All Guest Users')
         expect(page).to have_content('All Registered Users')
-        expect(page).to have_content('Group 1 (2)')
+        expect(page).to have_content('Group 1')
       end
     end
   end
@@ -123,10 +125,10 @@ describe 'Collection Permissions', reset_provider: true, js: true do
       it 'populates the form with the collection permission information' do
         expect(page).to have_field('Name', with: 'Collection Permission to Edit 01', readonly: true)
 
-        expect(page).to have_select('Collections', selected: 'All Collections')
-        expect(page).to have_no_css('#collectionsChooser')
+        expect(page).to have_field('collection_applicable')
+        expect(page).to have_field('granule_applicable')
 
-        expect(page).to have_select('Granules', selected: 'No Access to Granules')
+        expect(page).to have_no_css('#collectionsChooser')
 
         within '#search_groups_cell' do
           expect(page).to have_css('li.select2-selection__choice', text: 'All Guest Users')
@@ -140,12 +142,12 @@ describe 'Collection Permissions', reset_provider: true, js: true do
 
       context 'when updating the collection permission to have no access to collections' do
         before do
-          select('No Access to Collections', from: 'Collections')
+          uncheck('Collections')
 
-          select('All Granules', from: 'Granules')
-          within '#granule_constraint_values' do
-            fill_in('Minimum Access Constraint Value', with: 1.1)
-            fill_in('Maximum Access Constraint Value', with: 8.8)
+          check('Granules')
+          within '#granule-access-constraints-container' do
+            fill_in('Minimum Value', with: 1.1)
+            fill_in('Maximum Value', with: 8.8)
             check('Include Undefined')
           end
 
@@ -159,17 +161,20 @@ describe 'Collection Permissions', reset_provider: true, js: true do
         it 'successfully updates the collection permission and redirects to the show page and displaying the collection permission information' do
           expect(page).to have_content('Collection Permission to Edit 01')
 
-          expect(page).to have_content('Collections | No Access to Collections')
-          expect(page).to have_no_content('Collections Access Constraint Filter')
+          within '#collection-constraint-summary' do
+            expect(page).to have_content('This permission does not grant access to collections.')
+          end
 
-          expect(page).to have_content('Granules | All Granules in Selected Collection Records')
-          expect(page).to have_content('Granules Access Constraint Filter: Match range 1.1 to 8.8, Include Undefined')
+          within '#granule-constraint-summary' do
+            expect(page).to have_content('between 1.1 and 8.8')
+            expect(page).to have_content('(or are undefined)')
+          end
 
           within '#permission-groups-table' do
             expect(page).to have_content('All Guest Users')
             expect(page).to have_content('All Registered Users')
-            expect(page).to have_content('Group 1 (2)')
-            expect(page).to have_content('Group 2 (8)')
+            expect(page).to have_content('Group 1')
+            expect(page).to have_content('Group 2')
           end
         end
 
@@ -177,21 +182,23 @@ describe 'Collection Permissions', reset_provider: true, js: true do
           before do
             visit edit_permission_path(@collection_permission_for_edit['concept_id'])
 
-            select('Selected Collections', from: 'Collections')
+            choose('Selected Collections')
+
             # choose the collections
             within '#collectionsChooser' do
               # selecting each individually as it seems more robust.
-              select(@entry_id_1, from: 'Available collections')
+              select(@entry_id_1, from: 'Available Collections')
               find('button[title=add]').click
-              select(@entry_id_2, from: 'Available collections')
+              select(@entry_id_2, from: 'Available Collections')
               find('button[title=add]').click
-              select(@entry_id_3, from: 'Available collections')
+              select(@entry_id_3, from: 'Available Collections')
               find('button[title=add]').click
             end
 
             within '#search_and_order_groups_cell' do
               page.find('.select2-selection__choice[title="Group 1"] > .select2-selection__choice__remove').click
             end
+
             select('Group 3', from: 'Search and Order')
 
             click_on 'Submit'
@@ -202,20 +209,12 @@ describe 'Collection Permissions', reset_provider: true, js: true do
           it 'successfully updates the collection permission and redirects to the show page and displaying the collection permission information' do
             expect(page).to have_content('Collection Permission to Edit 01')
 
-            expect(page).to have_content('Collections | 3 Selected Collections')
-            expect(page).to have_content(@entry_id_1)
-            expect(page).to have_content(@entry_id_2)
-            expect(page).to have_content(@entry_id_3)
-
-            expect(page).to have_content('Granules | All Granules in Selected Collection Records')
-            expect(page).to have_content('Granules Access Constraint Filter: Match range 1.1 to 8.8, Include Undefined')
-
             within '#permission-groups-table' do
               expect(page).to have_content('All Guest Users')
               expect(page).to have_content('All Registered Users')
-              expect(page).to have_content('Group 2 (8)')
-              expect(page).to have_content('Group 3 (4)')
-              expect(page).to have_no_content('Group 1 (2)')
+              expect(page).to have_content('Group 2')
+              expect(page).to have_content('Group 3')
+              expect(page).to have_no_content('Group 1')
             end
           end
         end

@@ -1,4 +1,5 @@
 module Helpers
+  # :nodoc:
   module GroupHelper
     def create_group(provider_id: 'MMT_2', name: random_group_name, description: random_group_description, members: [], admin: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
@@ -48,6 +49,16 @@ module Helpers
       current_path.sub('/groups/', '')
     end
 
+    def add_group_permissions(permission_params)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_group_permissions' do
+        response = cmr_client.add_group_permissions(permission_params, 'access_token')
+
+        wait_for_cmr
+
+        return response.body
+      end
+    end
+
     def add_permissions_to_group(group_id, permissions, target, provider_id)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
@@ -69,27 +80,25 @@ module Helpers
       end
     end
 
-    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: [ 'read' ])
-      permission_params = {
-        'group_permissions' => [
-          {
-            'group_id' => group_id,
-            'permissions' => permissions
+    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: ['read'])
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
+        permission_params = {
+          group_permissions: [
+            {
+              group_id: group_id,
+              permissions: permissions
+            }
+          ],
+          catalog_item_identity: {
+            name: name,
+            provider_id: provider_id,
+            granule_applicable: false,
+            collection_applicable: true
           }
-        ],
-        'catalog_item_identity' => {
-          'name' => name,
-          'provider_id' => provider_id,
-          'granule_applicable' => false,
-          'collection_applicable' => true
         }
-      }
 
-      response = cmr_client.add_group_permissions(permission_params, 'access_token')
-
-      wait_for_cmr
-
-      return response.body
+        return add_group_permissions(permission_params)
+      end
     end
 
     def remove_group_permissions(concept_id)

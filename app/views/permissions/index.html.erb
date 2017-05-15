@@ -12,14 +12,13 @@
       <thead>
         <tr>
           <th>Permission Name</th>
-          <th>Permission Type</th>
           <th colspan="2">Actions</th>
         </tr>
       </thead>
       <tbody>
         <% if @permissions.blank? %>
           <tr>
-            <td colspan="4">No permissions found.</td>
+            <td colspan="3">No permissions found.</td>
           </tr>
         <% else %>
           <% @permissions.each_with_index do |permission, index| %>
@@ -27,11 +26,8 @@
               <td>
                 <%= link_to permission['name'], permission_path(permission['concept_id'])  %>
               </td>
-              <td>
-                <%= permission['permission_summary'] %>
-              </td>
-              <td><%= link_to 'Edit', edit_permission_path(permission['concept_id']) %></td>
-              <td>
+              <td class="align-c"><%= link_to 'Edit', edit_permission_path(permission['concept_id']) %></td>
+              <td class="align-c">
                 <%= link_to 'Delete', "#delete-permission-modal-#{index}", class: 'display-modal' %>
 
                 <div id='delete-permission-modal-<%= index %>' class="eui-modal-content">

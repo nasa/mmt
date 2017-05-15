@@ -24,6 +24,15 @@ table {
   th[colspan] {
     text-align: center;
   }
+
+  th {
+    white-space: nowrap;
+  }
+
+  tr.selected {
+    border-left: 3px solid $ocean-blue;
+    font-weight: bold;
+  }
 }
 
 .cell-primary-cta {

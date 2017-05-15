@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   # Returns an appropriate TH tag for the provided actions that are provided
-  # given a users access. 
+  # given a users access.
   def actions_table_header(actions)
     return if actions.empty?
 

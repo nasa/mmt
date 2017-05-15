@@ -17,46 +17,35 @@ describe 'Collection Permissions form', js: true do
 
     it 'displays the new collection permission entry fields' do
       expect(page).to have_field('Name', type: 'text')
-      expect(page).to have_field('Collections', type: 'select')
-      expect(page).to have_field('Granules', type: 'select')
+      
+      expect(page).to have_field('collection_applicable')
+      expect(page).to have_field('granule_applicable')
+
+      expect(page).to have_field('collection_option_all')
+      expect(page).to have_field('collection_option_selected')
+
+      expect(page).to have_field('collection_access_value[min_value]')
+      expect(page).to have_field('collection_access_value[max_value]')
+      expect(page).to have_field('collection_access_value[include_undefined_value]')
+
+      expect(page).to have_field('granule_access_value[min_value]', disabled: true)
+      expect(page).to have_field('granule_access_value[max_value]', disabled: true)
+      expect(page).to have_field('granule_access_value[include_undefined_value]', disabled: true)
+
       expect(page).to have_field('Search', type: 'select', visible: false)
       expect(page).to have_field('Search and Order', type: 'select', visible: false)
     end
 
-    it 'has the appropriate collections and granules options' do
-      expect(page).to have_select('collection_options', with_options: ['All Collections', 'Selected Collections', 'No Access to Collections'])
-      expect(page).to have_select('granule_options', with_options: ['All Granules', 'No Access to Granules'])
-    end
-
-    it 'does not display the collections or granules access constraint fields' do
-      expect(page).to have_no_selector('fieldset#collection_constraint_values')
-      expect(page).to have_no_selector('fieldset#granule_constraint_values')
-    end
-
-    context 'when selecting an option with access to collections' do
+    context 'when acl applies to granules' do
       before do
-        select('All Collections', from: 'Collections')
+        check('Granules')
       end
 
       it 'displays the collections access constraint fields' do
-        within '#collection_constraint_values' do
-          expect(page).to have_field('Minimum Access Constraint Value')
-          expect(page).to have_field('Maximum Access Constraint Value')
-          expect(page).to have_unchecked_field('Include Undefined')
-        end
-      end
-    end
-
-    context "when selecting the 'All Granules' option" do
-      before do
-        select('All Granules', from: 'Granules')
-      end
-
-      it 'displays the granules access constraint fields' do
-        within '#granule_constraint_values' do
-          expect(page).to have_field('Minimum Access Constraint Value')
-          expect(page).to have_field('Maximum Access Constraint Value')
-          expect(page).to have_unchecked_field('Include Undefined')
+        within '#granule-access-constraints-container' do
+          expect(page).to have_field('granule_access_value[min_value]', disabled: false)
+          expect(page).to have_field('granule_access_value[max_value]', disabled: false)
+          expect(page).to have_field('granule_access_value[include_undefined_value]', disabled: false)
         end
       end
     end
@@ -114,46 +103,45 @@ describe 'Collection Permissions form', js: true do
 
       it 'displays validation errors on the form' do
         expect(page).to have_content('Permission Name is required.')
-        expect(page).to have_content('Collections must be specified.')
-        expect(page).to have_content('Granules must be specified.')
+        expect(page).to have_content('Permission must apply to Collections or Granules.')
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end
     end
 
     context 'when attempting to create a collection permission with empty collection selection' do
       before do
-        select 'Selected Collections', from: 'Collections'
+        choose 'Selected Collections'
+
         click_on 'Submit'
       end
 
       it 'displays the appropriate validation errors' do
         expect(page).to have_content('Permission Name is required.')
+        expect(page).to have_content('Permission must apply to Collections or Granules.')
         expect(page).to have_content('You must select at least 1 collection.')
-        expect(page).to have_content('Granules must be specified.')
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end
     end
 
     context 'when attempting to submit a collection permission with conditionally required fields partially filled in' do
       before do
-        select('All Collections', from: 'Collections')
-        within '#collection_constraint_values' do
-          fill_in('Maximum Access Constraint Value', with: 5)
+        within '#collection-access-constraints-container' do
+          fill_in('Maximum Value', with: 5)
         end
 
-        select('All Granules', from: 'Granules')
-        within '#granule_constraint_values' do
-          fill_in('Minimum Access Constraint Value', with: 0)
+        check('Granules')
+        within '#granule-access-constraints-container' do
+          fill_in('Minimum Value', with: 0)
         end
 
         click_on 'Submit'
       end
 
       it 'displays validation errors for the conditionally required fields' do
-        within '#collection_constraint_values' do
+        within '#collection-access-constraints-container' do
           expect(page).to have_content('Minimum and Maximum values must be specified together.')
         end
-        within '#granule_constraint_values' do
+        within '#granule-access-constraints-container' do
           expect(page).to have_content('Minimum and Maximum values must be specified together.')
         end
       end
@@ -161,27 +149,26 @@ describe 'Collection Permissions form', js: true do
 
     context 'when attempting to submit a collection permission with incorrect Min and Max values' do
       before do
-        select('All Collections', from: 'Collections')
-        within '#collection_constraint_values' do
-          fill_in('Minimum Access Constraint Value', with: 20)
-          fill_in('Maximum Access Constraint Value', with: 5)
+        within '#collection-access-constraints-container' do
+          fill_in('Minimum Value', with: 20)
+          fill_in('Maximum Value', with: 5)
         end
 
-        select('All Granules', from: 'Granules')
-        within '#granule_constraint_values' do
-          fill_in('Minimum Access Constraint Value', with: 9)
-          fill_in('Maximum Access Constraint Value', with: 1)
+        check('Granules')
+        within '#granule-access-constraints-container' do
+          fill_in('Minimum Value', with: 9)
+          fill_in('Maximum Value', with: 1)
         end
 
         click_on 'Submit'
       end
 
       it 'displays the appropriate validation errors for the Min and Max fields' do
-        within '#collection_constraint_values' do
-          expect(page).to have_content('Maximum value must be greater than Minimum value.')
+        within '#collection-access-constraints-container' do
+          expect(page).to have_content('Maximum value must be greater than or equal to Minimum value.')
         end
-        within '#granule_constraint_values' do
-          expect(page).to have_content('Maximum value must be greater than Minimum value.')
+        within '#granule-access-constraints-container' do
+          expect(page).to have_content('Maximum value must be greater than or equal to Minimum value.')
         end
       end
     end
