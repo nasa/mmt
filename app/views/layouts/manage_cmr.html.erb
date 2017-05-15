@@ -17,7 +17,7 @@
 
 <body class="dashboard">
   <a href="#main-content" class="skip-nav">Skip to main content</a>
-  
+
   <div class="wrapper">
     <%= render 'shared/header' %>
 
@@ -36,7 +36,8 @@
           </nav>
         </header>
 
-        <%= render 'pages/notifications' %>
+        <!-- Earthdata Staus App banner -->
+        <div id="earthdata-notification-banner"></div>
 
         <%= render 'shared/flash_messages' %>
 
@@ -50,7 +51,7 @@
   </div>
 
   <%= render 'shared/footer' %>
-
+  <%= javascript_include_tag "https://status.earthdata.nasa.gov/assets/banner_widget.js" unless Rails.env.test? %>
   <%= javascript_include_tag "netinsight_2.3/ntpagetag" unless Rails.env.test? %>
 </body>
 </html>

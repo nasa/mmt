@@ -79,7 +79,6 @@ Rails.application.routes.draw do
   get 'datasets_for_service_implementation' => 'manage_cmr#datasets_for_service_implementation'
 
   get 'new_record' => 'pages#new_record', as: 'new_record'
-  post 'hide_notification' => 'pages#hide_notification', as: 'hide_notification'
 
   get 'login' => 'users#login', as: 'login'
   get 'logout' => 'users#logout'
