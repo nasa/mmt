@@ -3,7 +3,6 @@ Rails.application.routes.draw do
 
   # PUMPness
   resources :permissions
-  get '/permission/all_collections' => 'permissions#get_all_collections'
 
   resources :system_identity_permissions, only: [:index, :edit, :update]
   resources :provider_identity_permissions, only: [:index, :edit, :update]
@@ -75,6 +74,11 @@ Rails.application.routes.draw do
   # API Endpoints for Chooser implementations
   get 'provider_collections' => 'manage_cmr#provider_collections'
   post 'provider_collections' => 'manage_cmr#provider_collections'
+
+  # These two endpoints exist ONLY for permissions (CMR-3858 will solve this)
+  get 'entry_title_collections' => 'manage_cmr#entry_title_collections'
+  post 'entry_title_collections' => 'manage_cmr#entry_title_collections'
+
   get 'service_implementations_with_datasets' => 'manage_cmr#service_implementations_with_datasets'
   get 'datasets_for_service_implementation' => 'manage_cmr#datasets_for_service_implementation'
 

@@ -72,54 +72,15 @@ describe 'Viewing Collection Permissions', reset_provider: true do
 
       it 'displays the permission show page with appropriate information and groups' do
         expect(page).to have_content(@collection_permission_1_name)
-        expect(page).to have_content('Permission Type | Search & Order | MMT_2')
 
-        expect(page).to have_content('Collections | All Collections')
-        expect(page).to have_no_content('Collections Access Constraint Filter')
-
-        expect(page).to have_content('Granules | All Granules in Selected Collection Records')
-        expect(page).to have_content('Granules Access Constraint Filter: Match range 1.1 to 8.8, Include Undefined')
+        within '#granule-constraint-summary' do
+          expect(page).to have_content('between 1.1 and 8.8')
+          expect(page).to have_content('(or are undefined)')
+        end
 
         within '#permission-groups-table' do
-          # Search and Order groups
-          within 'tbody > tr:nth-child(1)' do
-            within 'td:nth-child(1)' do
-              expect(page).to have_content('All Registered Users')
-            end
-            within 'td:nth-child(2)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-            within 'td:nth-child(3)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-          end
-
-          within 'tbody > tr:nth-child(2)' do
-            within 'td:nth-child(1)' do
-              expect(page).to have_content('Group 1 (2)')
-            end
-            within 'td:nth-child(2)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-            within 'td:nth-child(3)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-          end
-
-          within 'tbody > tr:nth-child(3)' do
-            within 'td:nth-child(1)' do
-              expect(page).to have_content('Group 3 (4)')
-            end
-            within 'td:nth-child(2)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-            within 'td:nth-child(3)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-          end
-
           # Search only groups
-          within 'tbody > tr:nth-child(4)' do
+          within 'tbody > tr:nth-child(1)' do
             within 'td:nth-child(1)' do
               expect(page).to have_content('All Guest Users')
             end
@@ -131,15 +92,52 @@ describe 'Viewing Collection Permissions', reset_provider: true do
             end
           end
 
-          within 'tbody > tr:nth-child(5)' do
+          within 'tbody > tr:nth-child(2)' do
             within 'td:nth-child(1)' do
-              expect(page).to have_content('Group 2 (8)')
+              expect(page).to have_content('Group 2')
             end
             within 'td:nth-child(2)' do
               expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
             end
             within 'td:nth-child(3)' do
               expect(page).to have_no_css('i.eui-icon.eui-check-o.icon-green')
+            end
+          end
+
+          # Search and Order groups
+          within 'tbody > tr:nth-child(3)' do
+            within 'td:nth-child(1)' do
+              expect(page).to have_content('All Registered Users')
+            end
+            within 'td:nth-child(2)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+            within 'td:nth-child(3)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+          end
+
+          within 'tbody > tr:nth-child(4)' do
+            within 'td:nth-child(1)' do
+              expect(page).to have_content('Group 1')
+            end
+            within 'td:nth-child(2)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+            within 'td:nth-child(3)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+          end
+
+          within 'tbody > tr:nth-child(5)' do
+            within 'td:nth-child(1)' do
+              expect(page).to have_content('Group 3')
+            end
+            within 'td:nth-child(2)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+            within 'td:nth-child(3)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
             end
           end
         end
@@ -206,57 +204,14 @@ describe 'Viewing Collection Permissions', reset_provider: true do
 
       it 'displays the permission show page with appropriate information and groups' do
         expect(page).to have_content(@collection_permission_2_name)
-        expect(page).to have_content('Permission Type | Search & Order | MMT_2')
 
-        expect(page).to have_content('Collections | 3 Selected Collections')
-        expect(page).to have_content("#{@concept_response_1.body['ShortName']}_#{@concept_response_1.body['Version']}")
-        expect(page).to have_content("#{@concept_response_2.body['ShortName']}_#{@concept_response_2.body['Version']}")
-        expect(page).to have_content("#{@concept_response_3.body['ShortName']}_#{@concept_response_3.body['Version']}")
-        expect(page).to have_content('Collections Access Constraint Filter: Match range 5.0 to 25.0, Include Undefined')
-
-        expect(page).to have_content('Granules | No Access to Granules')
-        expect(page).to have_no_content('Granules Access Constraint Filter')
+        within '#granule-constraint-summary' do
+          expect(page).to have_content('This permission does not grant access to granules.')
+        end
 
         within '#permission-groups-table' do
-          # Search and Order groups
-          within 'tbody > tr:nth-child(1)' do
-            within 'td:nth-child(1)' do
-              expect(page).to have_content('All Registered Users')
-            end
-            within 'td:nth-child(2)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-            within 'td:nth-child(3)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-          end
-
-          within 'tbody > tr:nth-child(2)' do
-            within 'td:nth-child(1)' do
-              expect(page).to have_content('Group 3 (4)')
-            end
-            within 'td:nth-child(2)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-            within 'td:nth-child(3)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-          end
-
-          within 'tbody > tr:nth-child(3)' do
-            within 'td:nth-child(1)' do
-              expect(page).to have_content('Group 1 (2)')
-            end
-            within 'td:nth-child(2)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-            within 'td:nth-child(3)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-          end
-
           # Search only groups
-          within 'tbody > tr:nth-child(4)' do
+          within 'tbody > tr:nth-child(1)' do
             within 'td:nth-child(1)' do
               expect(page).to have_content('All Guest Users')
             end
@@ -268,8 +223,45 @@ describe 'Viewing Collection Permissions', reset_provider: true do
             end
           end
 
+          # Search and Order groups
+          within 'tbody > tr:nth-child(2)' do
+            within 'td:nth-child(1)' do
+              expect(page).to have_content('All Registered Users')
+            end
+            within 'td:nth-child(2)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+            within 'td:nth-child(3)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+          end
+
+          within 'tbody > tr:nth-child(3)' do
+            within 'td:nth-child(1)' do
+              expect(page).to have_content('Group 3')
+            end
+            within 'td:nth-child(2)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+            within 'td:nth-child(3)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+          end
+
+          within 'tbody > tr:nth-child(4)' do
+            within 'td:nth-child(1)' do
+              expect(page).to have_content('Group 1')
+            end
+            within 'td:nth-child(2)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+            within 'td:nth-child(3)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+          end
+
           within 'tbody' do
-            expect(page).to have_no_content('Group 2 (8)')
+            expect(page).to have_no_content('Group 2')
           end
         end
       end
@@ -307,16 +299,27 @@ describe 'Viewing Collection Permissions', reset_provider: true do
 
       it 'displays the permission show page with appropriate information and groups' do
         expect(page).to have_content(@collection_permission_3_name)
-        expect(page).to have_content('Permission Type | Search & Order | MMT_2')
 
-        expect(page).to have_content('Collections | No Access to Collections')
-        expect(page).to have_no_content('Collections Access Constraint Filter')
-
-        expect(page).to have_content('Granules | All Granules in Selected Collection Records')
+        within '#collection-constraint-summary' do
+          expect(page).to have_content('This permission does not grant access to collections.')
+        end
 
         within '#permission-groups-table' do
-          # Search and Order groups
+          # Search only groups
           within 'tbody > tr:nth-child(1)' do
+            within 'td:nth-child(1)' do
+              expect(page).to have_content('All Guest Users')
+            end
+            within 'td:nth-child(2)' do
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
+            end
+            within 'td:nth-child(3)' do
+              expect(page).to have_no_css('i.eui-icon.eui-check-o.icon-green')
+            end
+          end
+
+          # Search and Order groups
+          within 'tbody > tr:nth-child(2)' do
             within 'td:nth-child(1)' do
               expect(page).to have_content('All Registered Users')
             end
@@ -328,28 +331,15 @@ describe 'Viewing Collection Permissions', reset_provider: true do
             end
           end
 
-          within 'tbody > tr:nth-child(2)' do
-            within 'td:nth-child(1)' do
-              expect(page).to have_content('Group 3 (4)')
-            end
-            within 'td:nth-child(2)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-            within 'td:nth-child(3)' do
-              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
-            end
-          end
-
-          # Search only groups
           within 'tbody > tr:nth-child(3)' do
             within 'td:nth-child(1)' do
-              expect(page).to have_content('All Guest Users')
+              expect(page).to have_content('Group 3')
             end
             within 'td:nth-child(2)' do
               expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
             end
             within 'td:nth-child(3)' do
-              expect(page).to have_no_css('i.eui-icon.eui-check-o.icon-green')
+              expect(page).to have_css('i.eui-icon.eui-check-o.icon-green')
             end
           end
         end
