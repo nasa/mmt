@@ -12,7 +12,7 @@
       <span class="inline-label">Interface:</span>
       <% tag_guids_for_tag_group(@service_entry, 'SERVICE-INTERFACE').each do |guid| %>
         <% if service_interface_tag_exists(guid) %>
-          <%= link_to service_interface_tag(guid)['Value'], service_entry_path(service_tag_parts(service_interface_tag(guid)['Guid']).last), target: '_blank' %>
+          <%= link_to service_interface_tag(guid)['Value'], service_entry_path(service_tag_parts(service_interface_tag(guid)['Guid']).last) %>
         <% end %>
       <% end %>
     </p>
@@ -44,7 +44,7 @@
         <% else %>
           <% collections_from_service_entry_tags(@service_entry).each do |collection| %>
             <tr>
-              <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {}).fetch('concept-id')), target: '_blank' %></td>
+              <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {}).fetch('concept-id')) %></td>
               <td><%= collection.fetch('umm', {}).fetch('short-name') %></td>
               <td><%= collection.fetch('umm', {}).fetch('version-id') %></td>
             </tr>

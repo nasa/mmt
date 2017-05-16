@@ -82,3 +82,11 @@
 }
 
 .icon--md { font-size: 1.25em; }
+
+a[target="_blank"] {
+  &:after {
+    font-family: 'FontAwesome';
+    content: " \f08e";
+    font-size: .9em;
+  }
+}
