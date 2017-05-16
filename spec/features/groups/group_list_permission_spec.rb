@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 describe 'Group list permissions', reset_provider: true do
-  modal_text = 'requires you change your provider context to MMT_2'
+  let(:modal_text) { 'requires you change your provider context to MMT_2' }
 
   before :all do
-    edit_group_name = 'Test Group For New Invites 1'
+    @edit_group_name = 'Test Group For New Invites 1'
     edit_group_description = 'Group to invite users to'
     @provider_id = 'MMT_2'
 
     @edit_group = create_group(
-      name: edit_group_name,
+      name: @edit_group_name,
       description: edit_group_description,
       provider_id: @provider_id
     )
@@ -40,8 +40,10 @@ describe 'Group list permissions', reset_provider: true do
         before do
           visit groups_path
 
-          within all('.groups-table tbody tr').first do
-            click_on 'Edit'
+          within '.groups-table' do
+            within 'tbody > tr:nth-child(1)' do
+              click_on 'Edit'
+            end
           end
         end
 
@@ -70,8 +72,10 @@ describe 'Group list permissions', reset_provider: true do
         before do
           visit groups_path
 
-          within all('.groups-table tbody tr').last do
-            click_on 'Delete'
+          within '.groups-table' do
+            within 'tbody > tr:nth-child(2)' do
+              click_on 'Delete'
+            end
           end
         end
 

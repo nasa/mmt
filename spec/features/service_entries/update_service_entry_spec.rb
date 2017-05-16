@@ -1,9 +1,13 @@
 require 'rails_helper'
 
 describe 'Updating a Service Entry', reset_provider: true do
+  let(:guid) { 'E7B6371A-31CD-0AAC-FF18-78A78289BD65' }
+
   before :all do
     # create a group
     @service_entry_group = create_group(name: 'Service Entry Group', members: ['testuser'])
+
+    wait_for_cmr
   end
 
   after :all do
@@ -11,7 +15,6 @@ describe 'Updating a Service Entry', reset_provider: true do
   end
 
   before do
-    # collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
     collections_response = cmr_success_response(File.read('spec/fixtures/cmr_search.json'))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
@@ -19,8 +22,6 @@ describe 'Updating a Service Entry', reset_provider: true do
   end
 
   context 'when viewing the edit service entry form' do
-    let(:guid) { 'E7B6371A-31CD-0AAC-FF18-78A78289BD65' }
-
     context 'when the user does not have the required permissions' do
       before do
         VCR.use_cassette('echo_soap/service_management_service/service_entries/edit', record: :none) do

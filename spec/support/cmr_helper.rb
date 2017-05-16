@@ -15,7 +15,7 @@ module Helpers
 
         # Refresh the ElasticSearch index
         elastic_conn = Faraday.new(url: 'http://localhost:9210')
-        elastic_response = elastic_conn.get('_refresh')
+        elastic_response = elastic_conn.post('_refresh')
 
         Rails.logger.error "Error refreshing ElasticSearch [#{elastic_response.status}] #{elastic_response.body}" unless elastic_response.success?
       end

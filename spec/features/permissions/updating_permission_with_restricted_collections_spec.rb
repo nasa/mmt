@@ -16,11 +16,19 @@ describe 'Updating Collection Permissions when collections are not accessible by
   let(:restricted_entry_id_2) { 'AE_SI12_3' }
 
   before :all do
+    @group_name = "Test Group NSIDC_ECS #{rand(100)}"
+    @group = create_group(
+      name: @group_name,
+      provider_id: 'NSIDC_ECS'
+    )
+
+    wait_for_cmr
+
     @collection_permission_some_restricted_name = "Testing Collection Permission with SOME restricted collections #{rand(1000)}"
 
     collection_permission_some_restricted = {
       group_permissions: [{
-        user_type: 'registered',
+        group_id: @group['concept_id'],
         permissions: [ "read", "order" ]
       }],
       catalog_item_identity: {
@@ -46,7 +54,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
     collection_permission_all_restricted = {
       group_permissions: [{
-        user_type: 'registered',
+        group_id: @group['concept_id'],
         permissions: [ "read", "order" ]
       }],
       catalog_item_identity: {
@@ -68,6 +76,12 @@ describe 'Updating Collection Permissions when collections are not accessible by
     wait_for_cmr
   end
 
+  after :all do
+    delete_group(concept_id: @group['concept_id'])
+
+    wait_for_cmr
+  end
+
   context 'when logging in as a user that has restricted access to the provider collections' do
     before do
       login
@@ -78,6 +92,8 @@ describe 'Updating Collection Permissions when collections are not accessible by
     context 'when updating a collection permission and the user has no access to any of the selected collections', js: true do
       before do
         visit edit_permission_path(@collection_permission_all_restricted['concept_id'])
+
+        wait_for_ajax
       end
 
       it 'displays the collection permission edit form with 0 of 2 selected collections' do
@@ -103,7 +119,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
         expect(page).to have_no_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
 
         within '#search_and_order_groups_cell' do
-          expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
+          expect(page).to have_css('li.select2-selection__choice', text: @group_name)
         end
       end
 
@@ -122,46 +138,14 @@ describe 'Updating Collection Permissions when collections are not accessible by
           # we should not see the entry ids of selected collections in the collection permission
           expect(page).to have_no_content('MYD29E1D 5')
           expect(page).to have_no_content('AE_SI12 3')
+          expect(page).to have_no_content('NISE 4')
 
           within '#granule-constraint-summary' do
             expect(page).to have_content('This permission does not grant access to granules.')
           end
 
           within '#permission-groups-table' do
-            expect(page).to have_content('All Registered Users')
-          end
-        end
-
-        context 'when then updating the collection permission by adding a collection' do
-          before do
-            visit edit_permission_path(@collection_permission_all_restricted['concept_id'])
-
-            select('NISE_4', from: 'Available Collections')
-
-            find('button[title=add]').click
-
-            click_on 'Submit'
-          end
-
-          it 'successfully updates the collection permission and redirects to the show page and displaying the collection permission information with 1 of 3 collections' do
-            expect(page).to have_content('Collection Permission was successfully updated.')
-
-            expect(page).to have_content(@collection_permission_all_restricted_name)
-
-            # new entry id that we expect to see
-            expect(page).to have_content('NISE 4')
-
-            # entry ids in the collection permission we do not expect to see
-            expect(page).to have_no_content('MYD29E1D 5')
-            expect(page).to have_no_content('AE_SI12 3')
-
-            within '#granule-constraint-summary' do
-              expect(page).to have_content('This permission does not grant access to granules.')
-            end
-
-            within '#permission-groups-table' do
-              expect(page).to have_content('All Registered Users')
-            end
+            expect(page).to have_content(@group_name)
           end
         end
       end
@@ -170,6 +154,8 @@ describe 'Updating Collection Permissions when collections are not accessible by
     context 'when updating a collection permission and the user has access to some of the selected collections', js: true do
       before do
         visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
+
+        wait_for_ajax
       end
 
       it 'displays the collection permission with 1 of 3 selected collection' do
@@ -193,7 +179,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
         expect(page).to have_no_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
 
         within '#search_and_order_groups_cell' do
-          expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
+          expect(page).to have_css('li.select2-selection__choice', text: @group_name)
         end
       end
 
@@ -215,7 +201,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
           expect(page).to have_no_content('AE_SI12 3')
 
           within '#permission-groups-table' do
-            expect(page).to have_content('All Registered Users')
+            expect(page).to have_content(@group_name)
           end
         end
       end
@@ -232,6 +218,8 @@ describe 'Updating Collection Permissions when collections are not accessible by
     context 'when viewing the edit form of the collection permission that has some restricted collections', js: true do
       before do
         visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
+
+        wait_for_ajax
       end
 
       it 'displays the collection permission with 3 of 3 selected collection' do
@@ -251,7 +239,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
         expect(page).to have_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
 
         within '#search_and_order_groups_cell' do
-          expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
+          expect(page).to have_css('li.select2-selection__choice', text: @group_name)
         end
       end
     end
@@ -270,7 +258,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
         expect(page).to have_content('AE_SI12 3')
 
         within '#permission-groups-table' do
-          expect(page).to have_content('All Registered Users')
+          expect(page).to have_content(@group_name)
         end
       end
     end
