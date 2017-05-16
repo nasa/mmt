@@ -29,7 +29,6 @@ module PermissionsHelper
     collection_applicable = permission.fetch('catalog_item_identity', {}).fetch('collection_applicable', false)
 
     collection_entry_titles = permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', [])
-    puts collection_entry_titles
 
     sentence_fragments = ['This permission']
 
@@ -91,6 +90,6 @@ module PermissionsHelper
 
     permitted_collections = permission_collections(permission).fetch('items', []).map { |collection| collection.fetch('umm', {}).fetch('EntryTitle') }
 
-    entry_titles.reject { |entry_title| permitted_collections.include?(entry_titles) }
+    (entry_titles - permitted_collections)
   end
 end
