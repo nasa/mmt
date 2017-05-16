@@ -21,4 +21,10 @@ class BulkUpdatesController < ManageMetadataController
       Rails.logger.error("Error retrieving Bulk Update Task: #{bulk_update_status_response.inspect}")
     end
   end
+
+  def new
+    redirect_to new_bulk_updates_search_path if request.get?
+
+    add_breadcrumb 'New', new_bulk_updates_path
+  end
 end
