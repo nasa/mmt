@@ -119,8 +119,6 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
           expect(page).to have_content(@collection_permission_all_restricted_name)
 
-          # expect(page).to have_content('Collections | 0 Selected Collections')
-
           # we should not see the entry ids of selected collections in the collection permission
           expect(page).to have_no_content('MYD29E1D 5')
           expect(page).to have_no_content('AE_SI12 3')
@@ -150,7 +148,6 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
             expect(page).to have_content(@collection_permission_all_restricted_name)
 
-            # expect(page).to have_content('Collections | 1 Selected Collections')
             # new entry id that we expect to see
             expect(page).to have_content('NISE 4')
 
@@ -178,7 +175,6 @@ describe 'Updating Collection Permissions when collections are not accessible by
       it 'displays the collection permission with 1 of 3 selected collection' do
         expect(page).to have_field('Name', with: @collection_permission_some_restricted_name, readonly: true)
 
-        # expect(page).to have_select('Collections', selected: 'Selected Collections')
         expect(page).to have_checked_field('Selected Collections')
         expect(page).to have_checked_field('Granules')
 
@@ -211,15 +207,12 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
           expect(page).to have_content(@collection_permission_some_restricted_name)
 
-          # expect(page).to have_content('Collections | 1 Selected Collections')
           # entry id that we expect to see
           expect(page).to have_content('NISE 4')
 
           # entry ids in the collection permission we do not expect to see
           expect(page).to have_no_content('MYD29E1D 5')
           expect(page).to have_no_content('AE_SI12 3')
-
-          # expect(page).to have_content('Granules | All Granules in Selected Collection Records')
 
           within '#permission-groups-table' do
             expect(page).to have_content('All Registered Users')
@@ -244,7 +237,6 @@ describe 'Updating Collection Permissions when collections are not accessible by
       it 'displays the collection permission with 3 of 3 selected collection' do
         expect(page).to have_field('Name', with: @collection_permission_some_restricted_name, readonly: true)
 
-        # expect(page).to have_select('Collections', selected: 'Selected Collections')
         expect(page).to have_checked_field('Selected Collections')
         expect(page).to have_checked_field('Granules')
 
@@ -257,8 +249,6 @@ describe 'Updating Collection Permissions when collections are not accessible by
         expect(page).to have_css('#collectionsChooser_toList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
         expect(page).to have_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
         expect(page).to have_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
-
-        # expect(page).to have_select('Granules', selected: 'All Granules')
 
         within '#search_and_order_groups_cell' do
           expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
@@ -274,13 +264,10 @@ describe 'Updating Collection Permissions when collections are not accessible by
       it 'displays the collection permission information with 3 of 3 selected collections' do
         expect(page).to have_content(@collection_permission_some_restricted_name)
 
-        # expect(page).to have_content('Collections | 3 Selected Collections')
         # we should see all 3 entry ids
         expect(page).to have_content('NISE 4')
         expect(page).to have_content('MYD29E1D 5')
         expect(page).to have_content('AE_SI12 3')
-
-        # expect(page).to have_content('Granules | All Granules in Selected Collection Records')
 
         within '#permission-groups-table' do
           expect(page).to have_content('All Registered Users')

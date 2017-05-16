@@ -50,7 +50,7 @@
 
   <!-- Hidden fields that represent the underlying array of selected collections -->
   <% Array.wrap(@permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', [])).each do |collection| %>
-  <%= hidden_field_tag('collection_selections[]', collection, class: 'selected-collection') %>
+    <%= hidden_field_tag('collection_selections[]', collection, class: 'selected-collection') %>
   <% end %>
 
   <!-- Hidden fields that represent the underlying array of selected collections that the user doesn't have access to -->
@@ -60,7 +60,7 @@
   <div id="chooser-widget"></div>
 </fieldset>
 
-<fieldset id="granule_constraint_values">
+<fieldset>
   <h3>Access Constraint Filter</h3>
 
   <div class="row">
