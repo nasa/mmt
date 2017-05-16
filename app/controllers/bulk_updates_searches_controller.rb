@@ -42,24 +42,10 @@ class BulkUpdatesSearchesController < ManageMetadataController
   # CMR requires some additional data in the payload when particular
   # keys are provided so we need to compensate for that here
   def hydrate_params(high_level_params)
-    fancy = %w(
-      archive_center
-      data_center entry_title
-      instrument
-      platform
-      processing_level_id
-      project
-      sensor
-      short_name
-      spatial_keyword
-      version
-    )
+    wildcard_keys = BulkUpdatesHelper::SEARCHABLE_KEYS.select { |_key, val| val.fetch(:data_attributes, {}).fetch(:supports_wildcard, false) }.keys
 
-    fancy.each do |key|
-      next unless high_level_params.key?(key)
-
-      # Allow for wildcard searching
-      high_level_params[key].concat('*')
+    wildcard_keys.each do |key|
+      next unless high_level_params.key?(key) && high_level_params[key].include?('*')
 
       # In order to search with the wildcard parameter we need to tell CMR to use it
       high_level_params['options'] = {
@@ -70,6 +56,14 @@ class BulkUpdatesSearchesController < ManageMetadataController
       }
     end
 
-    high_level_params
+    if high_level_params.key?('science_keywords')
+      high_level_params['science_keywords'] = {
+        '0' => {
+          'any' => high_level_params.delete('science_keywords')
+        }
+      }
+    end
+
+    high_level_params.delete_if { |_k, v| v.blank? }
   end
 end

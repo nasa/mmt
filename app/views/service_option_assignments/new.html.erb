@@ -9,7 +9,7 @@
           <% if @service_entries.any? %>
             <%= select_tag('service_entry_guid', options_for_select(@service_entries), class: 'full-width') %>
           <% else %>
-          <p class="form-description space-top">Before you can make a service option association you need to <%= link_to_if policy(:service_entry).create?, 'create a service implementation', new_service_entry_path, target: '_blank' %>.</p>
+          <p class="form-description space-top">Before you can make a service option association you need to <%= link_to_if policy(:service_entry).create?, 'create a service implementation', new_service_entry_path %>.</p>
           <% end %>
         </div>
       </fieldset>
