@@ -184,6 +184,15 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}},{"permissions": ["UPDATE","READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}],"provider_object_identity": {"provider_guid": "provguid4","target": "INGEST_MANAGEMENT_ACL"}}}'
       end
+      # Provider NSIDC_ECS
+      # ACL to give admin user read on NSIDC_ECS collections
+      resp = connection.post do |req|
+        req.url('http://localhost:3008/acls')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid5"}}}'
+      end
+      puts "ACL for admin user to read collections for NSIDC_ECS, via mock echo #{resp.inspect}"
 
       clear_cache
 
@@ -423,15 +432,13 @@ module Cmr
 
     def additional_cmr_setup
       # we are running these later in the sequence because one of the ACLs is for a single entry title, which is best to create after the collection has been ingested
-      clear_cache
+      wait_for_indexing
 
-      resp = connection.post do |req|
-        req.url('http://localhost:3008/acls')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
-        req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"group_sid": {"group_guid": "guidMMTAdmin"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid5"}}}'
-      end
-      puts "ACL for admin user to read collections for NSIDC_ECS, via mock echo #{resp.body}"
+      reindex_permitted_groups
+
+      wait_for_indexing
+
+      clear_cache
 
       # ACL (collection permission, aka catalog item acl) for NSIDC_ECS for access to a single entry title for all guest and all registered users, via access control
       resp = connection.post do |req|
@@ -440,29 +447,48 @@ module Cmr
         req.headers['Echo-token'] = 'mock-echo-system-token'
         req.body = '{"acl": {"access_control_entries": [{"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "REGISTERED"}}}, {"permissions": ["READ"],"sid": {"user_authorization_type_sid": {"user_authorization_type": "GUEST"}}}],"catalog_item_identity": {"collection_applicable": true,"granule_applicable": true,"provider_guid": "provguid5", "collection_identifier": { "collection_ids": [ { "data_set_id": "Near-Real-Time SSMIS EASE-Grid Daily Global Ice Concentration and Snow Extent V004" } ] }}}}'
       end
-      puts "Collection Permission for single entry title for NSIDC_ECS, via access control #{resp.body}"
+      puts "Collection Permission for single entry title for NSIDC_ECS, via access control #{resp.inspect}"
 
-      clear_cache
+      wait_for_indexing
 
       reindex_permitted_groups
+
+      wait_for_indexing
+
+      clear_cache
     end
 
     def clear_cache
-      connection.post do |req|
-        req.url('http://localhost:2999/clear-cache')
-      end
-      connection.post do |req|
-        req.url('http://localhost:3011/caches/clear-cache?token=mock-echo-system-token')
-      end
+      connection.post('http://localhost:2999/clear-cache')
+
+      connection.post('http://localhost:3011/caches/clear-cache?token=mock-echo-system-token')
     end
 
     def reindex_permitted_groups
-      # this method reindexes groups, which may be required when ACLs are added or changed in mock echo
+      # This method reindexes groups, which may be required when ACLs are added or changed in mock echo
       resp = connection.post do |req|
         req.url('http://localhost:3002/jobs/reindex-collection-permitted-groups')
         req.headers['Echo-token'] = 'mock-echo-system-token'
       end
-      puts "reindexed permitted groups #{resp.inspect}"
+      puts "Reindexing permitted groups: #{resp.inspect}"
+    end
+
+    def wait_for_indexing
+      # The following two methods are used in our tests, and also were often used
+      # together by older apps that interacted with CMR
+      # Wait for the CMR queue to be empty
+      resp = connection.post do |req|
+        req.url('http://localhost:2999/message-queue/wait-for-terminal-states')
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+      end
+      puts "Waiting for CMR queue to empty: #{resp.inspect}"
+
+      # Refresh the ElasticSearch index
+      resp = connection.post do |req|
+        req.url('http://localhost:9210/_refresh')
+        req.headers['Echo-token'] = 'mock-echo-system-token'
+      end
+      puts "Refreshing the ElasticSearch index: #{resp.inspect}"
     end
 
     def retrieve_metadata_uris
