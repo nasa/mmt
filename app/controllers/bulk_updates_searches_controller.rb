@@ -2,7 +2,7 @@
 class BulkUpdatesSearchesController < ManageMetadataController
   before_filter :bulk_updates_enabled?
 
-  RESULTS_PER_PAGE = 25
+  RESULTS_PER_PAGE = 500
 
   def new
     add_breadcrumb 'Bulk Update Collection Search', :new_bulk_updates_search_path
