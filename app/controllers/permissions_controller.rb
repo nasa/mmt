@@ -301,7 +301,7 @@ class PermissionsController < ManageCmrController
     req_obj
   end
 
-  # Groups can refer to actual groups or the user type `Guest Users` and `Registers Users`
+  # Groups can refer to actual groups or the user type `Guest Users` and `Registered Users`
   # so we need to ensure that we distinguish between the two. When using the pseudo
   # groups mentioned the key for the group permission is `user_type` vs the
   # standard `group_id`

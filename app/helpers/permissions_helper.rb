@@ -25,14 +25,11 @@ module PermissionsHelper
     filters.join(' ')
   end
 
-  def hide_access_constraint_values?(option_value)
-    option_value.nil? || option_value == 'no-access' ? 'is-hidden' : nil
-  end
-
   def collection_constraint_summary(permission)
     collection_applicable = permission.fetch('catalog_item_identity', {}).fetch('collection_applicable', false)
 
     collection_entry_titles = permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', [])
+    puts collection_entry_titles
 
     sentence_fragments = ['This permission']
 
@@ -82,7 +79,7 @@ module PermissionsHelper
 
     return {} unless entry_titles.any?
 
-    collection_response = cmr_client.get_collections_by_post({ entry_title: entry_titles, page_size: entry_titles.count }, token, 'umm_json')
+    collection_response = cmr_client.get_collections_by_post({ provider_id: permission['provider_id'], entry_title: entry_titles, page_size: entry_titles.count }, token, 'umm_json')
 
     return {} unless collection_response.success?
     

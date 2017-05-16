@@ -9,7 +9,7 @@ handleCollectionOptions = (selectedCollections) ->
   $('#chooser-widget :input').attr('disabled', !selectedCollections)
   
   if selectedCollections
-    $('#chooser-widget').removeClass('is_hidden').fadeIn(100)
+    $('#chooser-widget').fadeIn(100)
   else
     $('#chooser-widget').fadeOut(100)
 
@@ -18,8 +18,6 @@ $(document).ready ->
     widgets: ['zebra', 'filter']
     headers:
       2:
-        sorter: 'text'
-      3:
         sorter: 'text'
 
   # 'Toggle Collection Highlighting' button functionality for the
@@ -32,11 +30,8 @@ $(document).ready ->
     $.each $('#permission-collection-list').find('td.access-constraint'), (index, element) ->
       constraintValue = parseFloat($(element).html())
 
-      # If the minimum and maximum are the same, and the value matches
-      if (constraintMinimum == constraintMaximum && constraintValue == constraintMinimum) ||
-
-          # If the minimum and maximum are not the same but the value is in between them
-          (constraintValue >= constraintMinimum & constraintValue <= constraintMaximum) ||
+      # If the minimum and maximum are the same or are between the min and max values
+      if (constraintValue >= constraintMinimum && constraintValue <= constraintMaximum) ||
 
           # If including undefined values and value is undefined
           (includeUndefinedValue && isNaN(constraintValue))
@@ -64,7 +59,6 @@ $(document).ready ->
         toLabel: 'Selected Collections',
         uniqueMsg: 'Collection already added',
         attachTo: $('#collection_selections'),
-        delimiter: "%%__%%",
         addButton: {
           cssClass: 'eui-btn nowrap',
           arrowCssClass: 'fa fa-plus',
@@ -124,12 +118,6 @@ $(document).ready ->
       $('#' + $(this).data('container') + ' :checkbox').attr('checked', false)
       
       event.preventDefault()
-
-    $('#granule_options').on 'change', ->
-      if $(this).val() == 'all-granules'
-        $('#granule_constraint_values').removeClass 'is-hidden'
-      else
-        $('#granule_constraint_values').addClass 'is-hidden'
 
     # add or remove required icons for access value min and max fields if at least one has an input value
     $('.min-max-value').on 'blur', ->
@@ -244,7 +232,7 @@ $(document).ready ->
     $.validator.addMethod 'greaterThanOrEqual', (value, elem, arg) ->
       # the built in max and min methods didn't seem to work with the depends
       # condition or possibly with comparing values dynamically, so here we
-      # are defining our own method to ensure the Max is greater than the Min
+      # are defining our own method to ensure the Max is greater than or equal to the Min
       $minInput = arg
       minimum = arg.val()
 
