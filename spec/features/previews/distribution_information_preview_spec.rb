@@ -44,30 +44,32 @@ describe 'Distribution information preview' do
         within '.related-urls-cards' do
           within all('li.card')[0] do
             within '.card-header' do
-              expect(page).to have_content('Related URL')
+              expect(page).to have_content('Collection URL')
             end
             within '.card-body' do
-              expect(page).to have_link('http://example.com', href: 'http://example.com')
+              expect(page).to have_content('Related URL 1 Description')
+              expect(page).to have_link('http://example.com/', href: 'http://example.com/')
+              expect(page).to have_content('Data Set Landing Page')
             end
           end
           within all('li.card')[1] do
             within '.card-header' do
-              expect(page).to have_content('test 1 Title')
+              expect(page).to have_content('Distribution URL')
             end
             within '.card-body' do
-              expect(page).to have_content('test 1 Description')
-              expect(page).to have_link('http://example.com/1', href: 'http://example.com/1')
-              expect(page).to have_link('http://example.com/a', href: 'http://example.com/a')
+              expect(page).to have_content('Related URL 2 Description')
+              expect(page).to have_link('https://search.earthdata.nasa.gov/', href: 'https://search.earthdata.nasa.gov/')
+              expect(page).to have_content('Get Service Earthdata Search')
             end
           end
           within all('li.card')[2] do
             within '.card-header' do
-              expect(page).to have_content('test 2 Title')
+              expect(page).to have_content('Distribution URL')
             end
             within '.card-body' do
-              expect(page).to have_content('test 2 Description')
-              expect(page).to have_link('http://example.com/2', href: 'http://example.com/2')
-              expect(page).to have_link('http://example.com/b', href: 'http://example.com/b')
+              expect(page).to have_content('Related URL 3 Description')
+              expect(page).to have_link('https://example.com/', href: 'https://example.com/')
+              expect(page).to have_content('Get Data DIF')
             end
           end
         end

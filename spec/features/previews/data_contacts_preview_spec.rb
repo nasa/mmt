@@ -27,7 +27,7 @@ describe 'Data Contacts preview' do
           within all('li.card')[0] do
             within '.card-header' do
               expect(page).to have_content('First Name')
-              expect(page).to have_link('Multiple Roles')
+              expect(page).to have_content('Multiple Roles Science Contact Technical Contact')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
@@ -54,15 +54,15 @@ describe 'Data Contacts preview' do
               expect(page).to have_content('Email only')
             end
             within all('.card-body')[3] do
-              expect(page).to have_link('http://example.com', href: 'http://example.com')
-              expect(page).to have_link('http://another-example.com', href: 'http://another-example.com')
-              expect(page).to have_link('http://example.com/1', href: 'http://example.com/1')
+              expect(page).to have_content('Related URL 1 Description')
+              expect(page).to have_link('http://example.com/', href: 'http://example.com/')
+              expect(page).to have_content('Home Page')
             end
           end
           within all('li.card')[1] do
             within '.card-header' do
               expect(page).to have_content('Group Name')
-              expect(page).to have_link('Multiple Roles')
+              expect(page).to have_content('Multiple Roles User Services Science Software Development')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
@@ -89,15 +89,15 @@ describe 'Data Contacts preview' do
               expect(page).to have_content('Email only')
             end
             within all('.card-body')[3] do
-              expect(page).to have_link('http://example.com', href: 'http://example.com')
-              expect(page).to have_link('http://another-example.com', href: 'http://another-example.com')
-              expect(page).to have_link('http://example.com/1', href: 'http://example.com/1')
+              expect(page).to have_content('Related URL 1 Description')
+              expect(page).to have_link('http://example.com/', href: 'http://example.com/')
+              expect(page).to have_content('Home Page')
             end
           end
           within all('li.card')[2] do
             within '.card-header' do
               expect(page).to have_content('First Name 3')
-              expect(page).to have_link('Multiple Roles')
+              expect(page).to have_content('Multiple Roles Investigator Metadata Author')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
@@ -124,9 +124,9 @@ describe 'Data Contacts preview' do
               expect(page).to have_content('Email only')
             end
             within all('.card-body')[3] do
-              expect(page).to have_link('http://example.com', href: 'http://example.com')
-              expect(page).to have_link('http://another-example.com', href: 'http://another-example.com')
-              expect(page).to have_link('http://example.com/1', href: 'http://example.com/1')
+              expect(page).to have_content('Related URL 1 Description')
+              expect(page).to have_link('http://example.com/', href: 'http://example.com/')
+              expect(page).to have_content('Home Page')
             end
           end
           within all('li.card')[3] do
@@ -159,66 +159,10 @@ describe 'Data Contacts preview' do
               expect(page).to have_content('Email only')
             end
             within all('.card-body')[3] do
-              expect(page).to have_link('http://example.com', href: 'http://example.com')
-              expect(page).to have_link('http://another-example.com', href: 'http://another-example.com')
-              expect(page).to have_link('http://example.com/1', href: 'http://example.com/1')
+              expect(page).to have_content('Related URL 1 Description')
+              expect(page).to have_link('http://example.com/', href: 'http://example.com/')
+              expect(page).to have_content('Home Page')
             end
-          end
-        end
-      end
-    end
-
-    context 'when Data Contacts metadata has incomplete information' do
-      before do
-        login
-        draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-      end
-
-      context 'when Data Contacts metadata has no name or address' do
-        before do
-          draft = Draft.first
-          draft.draft['ContactPersons'] = [{'ContactInformation'=>{'ContactMechanisms'=>[{'Type'=>'Direct Line', 'Value'=>'555-1212'}, {'Type'=>'Email', 'Value'=>'example@example.com'}]}}]
-          draft.save
-
-          visit draft_path(draft)
-        end
-
-        it 'does not display name information in the card header' do
-          within '.data-contacts-cards' do
-            expect(page.find('.card-header').text).to eq('')
-          end
-        end
-
-        it 'displays the other entered metadata' do
-          within '.data-contacts-cards .card-body.active .card-body-aside' do
-            expect(page).to have_content('555-1212')
-            expect(page).to have_link('Email', href: 'mailto:example@example.com')
-          end
-        end
-      end
-
-      context 'when Data Contacts metadata has Role information only' do
-        before do
-          draft = Draft.first
-          draft.draft['ContactPersons'] = [{"Roles"=>["Science Contact"]}]
-          draft.save
-
-          visit draft_path(draft)
-        end
-
-        it 'displays the owner badge on the data contact preview card' do
-          within '.data-contacts-cards .card-header' do
-            expect(page).to have_css('.card-header-badge')
-            expect(page).to have_content('Science Contact')
-          end
-        end
-
-        it 'displays the no addresses and no contacts added messages' do
-          within '.data-contacts-cards .card-body-details' do
-            expect(page).to have_content('This contact does not have any addresses listed.')
-          end
-          within '.data-contacts-cards .card-body-aside' do
-            expect(page).to have_content('This contact does not have any contact mechanisms listed.')
           end
         end
       end
