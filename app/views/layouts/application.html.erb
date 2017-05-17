@@ -15,14 +15,19 @@
   <%= render partial: 'shared/assets' %>
 </head>
 
-<body class="<%= (controller.action_name == 'manage_metadata' || controller.action_name == 'manage_cmr' ? 'dashboard' : '') %>">
+<body>
   <a href="#main-content" class="skip-nav">Skip to main content</a>
-  
+
   <div class="wrapper">
     <%= render 'shared/header' %>
 
     <div id="main-content">
       <main class="internal" role="main">
+        <% if controller.controller_name == 'drafts' || controller.controller_name == 'collections' %>
+          <!-- Earthdata Staus App banner -->
+          <div id="earthdata-notification-banner"></div>
+        <% end %>
+
         <%= yield %>
       </main>
     </div>
@@ -33,6 +38,10 @@
   </div>
 
   <%= render 'shared/footer' %>
+
+  <% if controller.controller_name == 'drafts' || controller.controller_name == 'collections' %>
+    <%= javascript_include_tag "https://status.earthdata.nasa.gov/assets/banner_widget.js" unless Rails.env.test? %>
+  <% end %>
 
   <%= javascript_include_tag "netinsight_2.3/ntpagetag" unless Rails.env.test? %>
 </body>
