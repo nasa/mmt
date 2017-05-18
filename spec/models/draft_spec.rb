@@ -77,12 +77,12 @@ describe Draft do
   end
   it '"update_draft" converts integer fields to integers' do
     draft = create(:draft, draft: {})
-    params = { 'number_of_sensors' => '42' }
+    params = { 'number_of_instruments' => '42' }
     user = create(:user)
 
     draft.update_draft(params, user)
 
-    expect(draft.draft).to eq('NumberOfSensors' => 42)
+    expect(draft.draft).to eq('NumberOfInstruments' => 42)
   end
   it '"update_draft" converts boolean fields to boolean' do
     draft = create(:draft, draft: {})
