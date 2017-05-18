@@ -41,13 +41,15 @@ describe 'Data identification preview' do
           end
 
           within '.processing-level' do
-            expect(page).to have_content('1A')
+            expect(page).to have_content('Level 1A')
             expect(page).to have_content('Level 1 Description')
           end
 
           within '.quality' do
             expect(page).to have_content('Metadata quality summary')
           end
+
+          expect(page).to have_content('Collection Progress In Work')
 
           expect(page).to have_content('These are some use constraints')
 
@@ -87,7 +89,6 @@ describe 'Data identification preview' do
               end
               within all('.card-body')[1] do
                 expect(page).to have_link('http://example.com', href: 'http://example.com')
-                expect(page).to have_link('http://another-example.com', href: 'http://another-example.com')
               end
             end
             within all('li.card')[1] do

@@ -1,127 +1,106 @@
 <% always_required = options[:always_required] || false %>
-<% related_url_type = options[:related_url_form_type] %>
+<% url_content_type_options = options.fetch(:url_content_type_options, DraftsHelper::URLContentTypeOptions) %>
+
 
 <div class="row sub-fields">
-  <% if related_url_type.include? 'title' %>
-    <%= mmt_text_field(
-      name: 'title',
-      title: 'Title',
-      prefix: name_prefix,
-      value: related_url['Title'],
-      help: 'definitions/RelatedUrlType/properties/Title',
-      validate: true,
-      required_level: options[:required_level]
-    ) %>
-  <% end %>
+  <%= mmt_text_field(
+    name: 'description',
+    title: 'Description',
+    prefix: name_prefix,
+    value: related_url['Description'],
+    help: 'definitions/RelatedUrlType/properties/Description',
+    validate: true,
+    required_level: options[:required_level],
+  ) %>
 
-  <% if related_url_type.include? 'description' %>
-    <%= mmt_text_field(
-     name: 'description',
-     title: 'Description',
-     prefix: name_prefix,
-     value: related_url['Description'],
-     help: 'definitions/RelatedUrlType/properties/Description',
-     validate: true,
-     required_level: options[:required_level]
-    ) %>
-  <% end %>
-
-  <% if related_url_type.include? 'relation' %>
-    <!-- Relation -->
-    <% relations = related_url['Relation'] || Array.new(2) %>
-    <div class="row">
-      <%= mmt_label(
-        name: 'relation_0',
-        title: 'Relation',
-        prefix: name_prefix
-      ) %>
-      <%= mmt_help_icon(
-        title: 'Relation',
-        help: 'definitions/RelatedUrlType/properties/Relation'
-      ) %>
-
-      <% relations[0..1].each_with_index do |relation, index| %>
-        <!-- does this need to implement mmt_text_field ? -->
-        <%= text_field_tag(
-          name_to_param("#{name_prefix}relation_#{index}"),
-          relation,
-          class: 'full-width relation validate',
-          data: { level: remove_pipes(name_prefix),
-                  required_level: options[:required_level] }
-          ) %>
-      <% end %>
-    </div>
-  <% end %>
-
-  <% if related_url_type.include? 'urls' %>
-    <% urls = related_url['URLs'] || [nil] # [nil] creates at least one URL field %>
-    <div class="multiple simple-multiple urls">
-      <%= mmt_label(
-        name: 'urls_',
-        title: 'URLs',
+  <div class="row">
+    <div class="col-6">
+      <%= mmt_select(
+        name: 'url_content_type',
+        title: 'URL Content Type',
         prefix: name_prefix,
-        required: !always_required,
-        always_required: always_required
+        value: related_url['URLContentType'],
+        options: url_content_type_options,
+        help: 'definitions/RelatedUrlType/properties/URLContentType',
+        validate: true,
+        required_level: options[:required_level],
+        required: true,
+        classes: 'related-url-content-type-select'
       ) %>
-      <%= mmt_help_icon(
-        title: 'URLs',
-        help: 'definitions/RelatedUrlType/properties/URLs'
+
+      <%= mmt_select(
+        name: 'type',
+        title: 'Type',
+        prefix: name_prefix,
+        value: related_url['Type'],
+        options: DraftsHelper::URLTypeOptions,
+        help: 'definitions/RelatedUrlType/properties/Type',
+        validate: true,
+        required_level: options[:required_level],
+        required: true,
+        classes: 'related-url-type-select'
       ) %>
 
-      <% urls.each_with_index do |url, index| %>
-        <div class="multiple-item multiple-item-<%= index %>">
-          <!-- does this need to implement mmt_text_field ? -->
-          <%= text_field_tag(
-            name_to_param("#{name_prefix}urls_#{index}"),
-            url,
-            class: 'half-width url simple-multiple-field validate mmt-uri',
-            data: { level: remove_pipes(name_prefix),
-                    required_level: options[:required_level] }
-            ) %>
-          <a class="remove">
-            <i class="fa fa-times-circle"></i>
-            <span class="is-invisible">Remove <%= index %></span>
-          </a>
-          <div class="actions">
-            <button type="button" class="eui-btn--blue add-new new-simple">
-              <i class="fa fa-plus-circle"></i> Add another URL</button>
-          </div>
-        </div>
-      <% end %>
+      <%= mmt_select(
+        name: 'subtype',
+        title: 'Subtype',
+        prefix: name_prefix,
+        value: related_url['Subtype'],
+        options: DraftsHelper::URLSubtypeOptions,
+        help: 'definitions/RelatedUrlType/properties/Subtype',
+        validate: true,
+        required_level: options[:required_level],
+        classes: 'related-url-subtype-select'
+      ) %>
     </div>
-  <% end %>
+  </div>
 
-  <% if related_url_type.include? 'mime_type' %>
-    <div class="row">
-      <div class="col-6">
-        <%= mmt_select(
-          name: 'mime_type',
-          title: 'Mime Type',
-          prefix: name_prefix,
-          value: related_url['MimeType'],
-          options: DraftsHelper::MimeTypeOptions,
-          help: 'definitions/RelatedUrlType/properties/MimeType',
-          validate: true
-        ) %>
-      </div>
-    </div>
-  <% end %>
+  <%= mmt_text_field(
+    name: 'url',
+    title: 'URL',
+    prefix: name_prefix,
+    value: related_url['URL'],
+    help: 'definitions/RelatedUrlType/properties/URL',
+    validate: true,
+    required: true,
+    required_level: options[:required_level]
+  ) %>
 
-  <% if related_url_type.include? 'file_size' %>
+  <div class="get-data-fields" style="<%= 'display: none;' unless related_url['Type'] == 'GET DATA' %>">
     <%= mmt_label(
-      name: 'file_size',
-      title: 'File Size',
+      name: 'get_data',
+      title: 'Get Data',
       prefix: name_prefix
     ) %>
     <%= mmt_help_icon(
-      title: 'File Size',
-      help: 'definitions/RelatedUrlType/properties/FileSize'
+      title: 'Get Data',
+      help: 'definitions/RelatedUrlType/properties/GetData'
     ) %>
     <%= render partial: 'drafts/forms/type', locals: {
-        type: 'file_size',
-        values: related_url['FileSize'] || {},
-        name_prefix: "#{name_prefix}|file_size|_",
+        type: 'get_data',
+        values: related_url['GetData'] || {},
+        name_prefix: "#{name_prefix}|get_data|_",
         multiple: false,
-        options: {} } %>
-  <% end %>
+        options: {}
+      } %>
+  </div>
+
+  <div class="get-service-fields" style="<%= 'display: none;' unless related_url['Type'] == 'GET SERVICE' %>">
+    <%= mmt_label(
+      name: 'get_service',
+      title: 'Get Service',
+      prefix: name_prefix
+    ) %>
+    <%= mmt_help_icon(
+      title: 'Get Service',
+      help: 'definitions/RelatedUrlType/properties/GetService'
+    ) %>
+    <%= render partial: 'drafts/forms/type', locals: {
+        type: 'get_service',
+        values: related_url['GetService'] || {},
+        name_prefix: "#{name_prefix}|get_service|_",
+        multiple: false,
+        options: {}
+      } %>
+  </div>
 </div>

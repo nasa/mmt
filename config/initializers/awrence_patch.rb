@@ -5,6 +5,10 @@ class Hash
 
   UPCASE_WORDS = %w(
     urls
+    url
+    uri
+    data_id
+    url_content_type
     isbn
     doi
     iso_topic_categories
@@ -14,6 +18,10 @@ class Hash
     # Here is the patch
     if UPCASE_WORDS.include?(snake_word)
       return 'URLs' if snake_word == 'urls'
+      return 'URL' if snake_word == 'url'
+      return 'URI' if snake_word == 'uri'
+      return 'DataID' if snake_word == 'data_id'
+      return 'URLContentType' if snake_word == 'url_content_type'
       return 'ISOTopicCategories' if snake_word == 'iso_topic_categories'
       return snake_word.upcase
     end

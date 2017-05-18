@@ -104,7 +104,7 @@ describe 'Data identification form', js: true do
 
       #### PublicationReference
       within '.multiple.publication-references' do
-        within first('.multiple-item-0') do
+        within '.multiple-item-0' do
           expect(page).to have_field('draft_publication_references_0_title', with: 'Publication reference title') # Title
           expect(page).to have_field('Publisher', with: 'Publication reference publisher')
           expect(page).to have_field('DOI', with: 'Publication reference DOI')
@@ -120,14 +120,16 @@ describe 'Data identification form', js: true do
           expect(page).to have_field('Pages', with: 'Publication reference pages')
           expect(page).to have_field('ISBN', with: '1234567890123')
           expect(page).to have_field('Other Reference Details', with: 'Publication reference details')
-          within '.related-url' do
-            expect(page).to have_selector('input.url[value="http://example.com"]')
-            expect(page).to have_selector('input.url[value="http://another-example.com"]')
-            expect(page).to have_field('Description', with: 'Example Description')
-            expect(page).to have_field('Title', with: 'Example Title')
+          within '.online-resource' do
+            expect(page).to have_field('Name', with: 'Online Resource Name')
+            expect(page).to have_field('Linkage', with: 'http://www.example.com')
+            expect(page).to have_field('Description', with: 'Online Resource Description')
+            expect(page).to have_field('Protocol', with: 'http')
+            expect(page).to have_field('Application Profile', with: 'website')
+            expect(page).to have_field('Function', with: 'information')
           end
         end
-        within all('.multiple-item-1').last do
+        within '.multiple-item-1' do
           expect(page).to have_field('draft_publication_references_1_title', with: 'Publication reference title 1') # Title
           expect(page).to have_field('ISBN', with: '9876543210987')
         end

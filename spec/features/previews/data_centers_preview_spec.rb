@@ -31,7 +31,7 @@ describe 'Data Centers preview' do
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
-                expect(page).to have_content('Hydrogeophysics Group, Aarhus University ') # the long name source (controlled keywords) contains the extra space
+                expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
                 expect(page).to have_content('300 E Street Southwest')
                 expect(page).to have_content('Room 203')
                 expect(page).to have_content('Address line 3')
@@ -53,15 +53,13 @@ describe 'Data Centers preview' do
               expect(page).to have_content('Email only')
             end
             within all('.card-body')[3] do
-              expect(page).to have_link('http://example.com', href: 'http://example.com')
-              expect(page).to have_link('http://another-example.com', href: 'http://another-example.com')
-              expect(page).to have_link('http://example1.com/1', href: 'http://example1.com/1')
+              expect(page).to have_link('http://example.com/', href: 'http://example.com/')
             end
           end
           within all('li.card')[1] do
             within '.card-header' do
               expect(page).to have_content('ESA/ED')
-              expect(page).to have_link('Multiple Roles')
+              expect(page).to have_content('Multiple Roles ORIGINATOR DISTRIBUTOR')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
@@ -87,9 +85,7 @@ describe 'Data Centers preview' do
               expect(page).to have_content('Email only')
             end
             within all('.card-body')[3] do
-              expect(page).to have_link('http://example.com', href: 'http://example.com')
-              expect(page).to have_link('http://another-example.com', href: 'http://another-example.com')
-              expect(page).to have_link('http://example2.com/1', href: 'http://example2.com/1')
+              expect(page).to have_link('http://example.com/', href: 'http://example.com/')
             end
           end
         end

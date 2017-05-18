@@ -40,7 +40,6 @@ describe 'Collection citations preview' do
             end
             within all('.card-body')[2] do
               expect(page).to have_link('http://example.com', href: 'http://example.com')
-              expect(page).to have_link('http://another-example.com', href: 'http://another-example.com')
             end
           end
           within all('li.card')[1] do
@@ -53,7 +52,6 @@ describe 'Collection citations preview' do
             end
             within all('.card-body')[1] do
               expect(page).to have_link('http://example2.com', href: 'http://example2.com')
-              expect(page).to have_link('http://another-example2.com', href: 'http://another-example2.com')
             end
           end
         end

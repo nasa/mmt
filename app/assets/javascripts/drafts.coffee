@@ -63,8 +63,11 @@ $(document).ready ->
     $(newDiv).find('select, input, textarea').removeAttr 'disabled'
     $(newDiv).find('select, input, textarea').removeAttr 'readonly'
     $(newDiv).find('select, input, textarea').not('input[type="hidden"]')[0].focus()
-
     $(newDiv).find('.data-contact-type').hide()
+
+    # diable RelatedURLs Type and Subtype fields
+    $(newDiv).find('.related-url-type-select, .related-url-subtype-select').addClass 'disabled'
+    $(newDiv).find('.related-url-type-select, .related-url-subtype-select').prop 'disabled', true
 
     # Remove points from preview link
     $.each $(newDiv).find('.spatial-preview-link'), ->
@@ -76,6 +79,11 @@ $(document).ready ->
     e.stopImmediatePropagation()
 
   incrementElementIndex = (newDiv, multipleIndex, simple, type) ->
+    # 'type' is different with composed_of/instrument_children
+    # than the rest of the forms. If we see instrument_children
+    # here we really want to increment the composed_of index
+    type = 'composed_of' if type == 'instrument_children'
+
     # Find the index that needs to be incremented
     if simple
       firstElement = $(newDiv).find('select, input, textarea').first()
@@ -92,7 +100,7 @@ $(document).ready ->
       $(newDiv).attr 'id', id
 
     # Loop through newDiv and increment the correct index
-    $.each $(newDiv).find("select, input, textarea, label, div[id^='draft_#{type}_#{multipleIndex}']"), (index, field) ->
+    $.each $(newDiv).find("select, input, textarea, label, div[id*='_#{type}_#{multipleIndex}']"), (index, field) ->
       if $(field).is('input, textarea, select')
         name = $(field).attr('name')
         if name != undefined

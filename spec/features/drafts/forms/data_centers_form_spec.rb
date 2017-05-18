@@ -79,14 +79,10 @@ describe 'Data Centers form' do
           end
 
           within '.multiple.related-urls > .multiple-item-0' do
-            expect(page).to have_selector('input.url[value="http://example.com"]')
-            expect(page).to have_selector('input.url[value="http://another-example.com"]')
             expect(page).to have_field('Description', with: 'Example Description')
-            expect(page).to have_field('Title', with: 'Example Title')
-          end
-
-          within '.multiple.related-urls > .multiple-item-1' do
-            expect(page).to have_selector('input.url[value="http://example.com/1"]')
+            expect(page).to have_field('URL Content Type', with: 'DataCenterURL')
+            expect(page).to have_field('Type', with: 'HOME PAGE')
+            expect(page).to have_field('URL', with: 'http://example.com')
           end
         end
 
@@ -127,14 +123,10 @@ describe 'Data Centers form' do
           end
 
           within '.multiple.related-urls > .multiple-item-0' do
-            expect(page).to have_selector('input.url[value="http://www.esa.org/education/"]')
-            expect(page).to have_selector('input.url[value="http://another-example.com"]')
             expect(page).to have_field('Description', with: 'Example Description')
-            expect(page).to have_field('Title', with: 'Example Title')
-          end
-
-          within '.multiple.related-urls > .multiple-item-1' do
-            expect(page).to have_selector('input.url[value="http://example.com/1"]')
+            expect(page).to have_field('URL Content Type', with: 'DataCenterURL')
+            expect(page).to have_field('Type', with: 'HOME PAGE')
+            expect(page).to have_field('URL', with: 'http://example.com')
           end
         end
       end

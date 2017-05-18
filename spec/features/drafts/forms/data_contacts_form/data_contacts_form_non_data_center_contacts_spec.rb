@@ -80,10 +80,10 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
               expect(page).to have_field('Country', with: 'United States')
             end
             within '.multiple.related-urls > .multiple-item-0' do
-              expect(page).to have_selector('input.url[value="http://example.com"]')
-              expect(page).to have_selector('input.url[value="http://another-example.com"]')
               expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('URL Content Type', with: 'DataContactURL')
+              expect(page).to have_field('Type', with: 'HOME PAGE')
+              expect(page).to have_field('URL', with: 'http://example.com')
             end
           end
         end
@@ -166,10 +166,10 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
             end
 
             within '.multiple.related-urls > .multiple-item-0' do
-              expect(page).to have_selector('input.url[value="http://example.com"]')
-              expect(page).to have_selector('input.url[value="http://another-example.com"]')
               expect(page).to have_field('Description', with: 'Example Description')
-              expect(page).to have_field('Title', with: 'Example Title')
+              expect(page).to have_field('URL Content Type', with: 'DataContactURL')
+              expect(page).to have_field('Type', with: 'HOME PAGE')
+              expect(page).to have_field('URL', with: 'http://example.com')
             end
           end
         end

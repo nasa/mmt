@@ -90,7 +90,7 @@
     "SpatialInformationType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "This entity stores the reference frame or system from which altitudes (elevations) are measured. The information contains the datum name, distance units and encoding method, which provide the definition for the system. This table also stores the characteristics of the reference frame or system from which depths are measured. The additional information in the table are geometry reference data etc.",
+      "description": "This entity stores the reference frame or system from which horizontal and vertical spatial domains are measured. The horizontal reference frame includes a Geodetic Model, Geographic Coordinates, and Local Coordinates. The Vertical reference frame includes altitudes (elevations) and depths.",
       "properties": {
         "VerticalCoordinateSystem": {
           "$ref": "#/definitions/VerticalCoordinateSystemType"
@@ -316,6 +316,10 @@
       "description": "The title of the collection or service described by the metadata.",
       "$ref": "umm-cmn-json-schema.json#/definitions/EntryTitleType"
     },
+    "DOI": {
+        "description": "This element describes the digital object identifier, and who created it.",
+        "$ref": "umm-cmn-json-schema.json#/definitions/DoiType"
+    },
     "Abstract": {
       "description": "A brief description of the collection or service the metadata represents.",
       "$ref": "umm-cmn-json-schema.json#/definitions/AbstractType"
@@ -367,7 +371,7 @@
       "$ref": "#/definitions/ProcessingLevelType"
     },
     "CollectionCitations": {
-      "description": "Information required to properly cite the collection in professional scientific literature. This element provides information for constructing a citation for the item itself, and is not designed for listing bibliographic references of scientific research articles arising from search results. A list of references related to the research results should be in the Publication Reference element. A DOI that specifically identifies the landing page for the collection is listed here.",
+      "description": "Information required to properly cite the collection in professional scientific literature. This element provides information for constructing a citation for the item itself, and is not designed for listing bibliographic references of scientific research articles arising from search results. A list of references related to the research results should be in the Publication Reference element.",
       "type": "array",
       "items": {
         "$ref": "umm-cmn-json-schema.json#/definitions/ResourceCitationType"
@@ -481,7 +485,8 @@
       "type": "array",
       "items": {
         "$ref": "umm-cmn-json-schema.json#/definitions/TilingIdentificationSystemType"
-      }
+      },
+      "minItems": 0
     },
     "SpatialInformation": {
       "description": "The reference frame or system in which altitudes (elevations) are given. The information contains the datum name, distance units and encoding method, which provide the definition for the system. This field also stores the characteristics of the reference frame or system from which depths are measured. The additional information in the field is geometry reference data etc.",
@@ -539,5 +544,5 @@
       "$ref": "umm-cmn-json-schema.json#/definitions/VersionDescriptionType"
     }
   },
-  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DataCenters", "RelatedUrls", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress"]
+  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DataCenters", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress"]
 }

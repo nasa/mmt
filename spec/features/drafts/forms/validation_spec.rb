@@ -162,7 +162,9 @@ describe 'Data validation for a form', js: true do
 
     it 'general floating point validation works' do
       within '.multiple.related-urls' do
-        within '.file-size' do
+        select 'Distribution URL', from: 'URL Content Type'
+        select 'Get Data', from: 'Type'
+        within '.get-data' do
           good_number_values.each do |test|
             fill_in 'Size', with: test
             puts "Number: #{test}" if debug

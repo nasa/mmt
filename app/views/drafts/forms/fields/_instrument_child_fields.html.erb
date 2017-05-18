@@ -6,8 +6,8 @@
         name: 'short_name',
         title: 'ShortName',
         prefix: name_prefix,
-        value: sensors['ShortName'],
-        help: 'definitions/ShortNameType',
+        value: instrument_child['ShortName'],
+        help: 'definitions/PlatformShortNameType',
         validate: true,
         required: true
        ) %>
@@ -18,8 +18,8 @@
         name: 'long_name',
         title: 'LongName',
         prefix: name_prefix,
-        value: sensors['LongName'],
-        help: 'definitions/LongNameType',
+        value: instrument_child['LongName'],
+        help: 'definitions/PlatformLongNameType',
         validate: true
        ) %>
     </div>
@@ -37,7 +37,7 @@
   ) %>
   <%= render partial: 'drafts/forms/type', locals: {
       type: 'characteristics',
-      values: sensors['Characteristics'] || [{}],
+      values: instrument_child['Characteristics'] || [{}],
       name_prefix: "#{name_prefix}characteristics_",
       multiple: true,
       options: {} } %>
@@ -48,8 +48,8 @@
     name: 'technique',
     title: 'Technique',
     prefix: name_prefix,
-    value: sensors['Technique'],
-    help: 'definitions/SensorType/properties/Technique',
+    value: instrument_child['Technique'],
+    help: 'definitions/InstrumentChildType/properties/Technique',
     validate: true
    ) %>
 </div>

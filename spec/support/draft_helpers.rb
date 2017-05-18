@@ -122,7 +122,7 @@ module Helpers
         fill_in 'Contact Instructions', with: 'Email only'
         add_contact_mechanisms
         add_addresses
-        add_related_urls("RelatedUrlFieldsHelper::#{type.upcase}_FORM".safe_constantize, single, button_type)
+        add_related_urls(type, button_type)
       end
     end
 
@@ -184,58 +184,46 @@ module Helpers
       end
     end
 
-    def add_related_urls(type, single = nil, button_type = nil)
-      within "#{'.multiple' unless single}.related-url#{'s' unless single}" do
-        if type.include? 'title'
-          fill_in 'Title', with: 'Example Title'
-        end
-        if type.include? 'description'
+    def add_related_urls(type = nil, button_type = nil)
+      within '.multiple.related-urls' do
+        if type == 'data_contact'
           fill_in 'Description', with: 'Example Description'
-        end
+          select 'Data Contact URL', from: 'URL Content Type'
+          select 'Home Page', from: 'Type'
+          fill_in 'URL', with: 'http://example.com'
+        elsif type == 'data_center'
+          fill_in 'Description', with: 'Example Description'
+          select 'Data Center URL', from: 'URL Content Type'
+          select 'Home Page', from: 'Type'
+          fill_in 'URL', with: 'http://example.com'
+        else
+          fill_in 'Description', with: 'Example Description'
+          select 'Collection URL', from: 'URL Content Type'
+          select 'Data Set Landing Page', from: 'Type'
+          fill_in 'URL', with: 'http://example.com'
 
-        if type.include? 'relation'
-          fill_in 'Relation', with: 'Example Relation'
-          all('input.relation').last.set('Example Relation 2')
-        end
-
-        if type.include? 'urls'
-          within '.multiple.urls' do
-            within '.multiple-item-0' do
-              find('.url').set 'http://example.com'
-              click_on 'Add another URL'
-            end
-            within '.multiple-item-1' do
-              find('.url').set 'http://another-example.com'
-            end
-          end
-        end
-
-        if type.include? 'mime_type'
-          select 'text/html', from: 'Mime Type'
-        end
-
-        if type.include? 'file_size'
-          within '.file-size' do
-            fill_in 'Size', with: '42'
-            select 'MB', from: 'Unit'
-          end
-        end
-
-        unless single
           button_title = 'Related URL'
-          button_title = 'Distribution URL' if type == RelatedUrlFieldsHelper::DISTRIBUTION_FORM
+          button_title = 'Distribution URL' if type == 'distribution_form'
           button_type += ' ' unless button_type.nil?
           # Add another RelatedUrl
           click_on "Add another #{button_type}#{button_title}"
 
-          if type.include? 'urls'
-            within '.multiple-item-1' do
-              within '.multiple.urls' do
-                within '.multiple-item-0' do
-                  find('.url').set 'http://example.com/1'
-                end
-              end
-            end
+          within '.multiple-item.eui-accordion.multiple-item-1' do
+            fill_in 'Description', with: 'Example Description 2'
+            select 'Distribution URL', from: 'URL Content Type'
+            select 'Get Service', from: 'Type'
+            select 'Earthdata Search', from: 'Subtype'
+            fill_in 'URL', with: 'https://search.earthdata.nasa.gov'
+
+            # Get Service fields
+            select 'Not provided', from: 'Mime Type'
+            select 'HTTPS', from: 'Protocol'
+            fill_in 'Full Name', with: 'Service name'
+            fill_in 'Data ID', with: 'data id'
+            fill_in 'Data Type', with: 'data type'
+            fill_in 'URI', with: 'uri1'
+            click_on 'Add another URI'
+            all('input.uri').last.set('uri2')
           end
         end
       end
@@ -254,16 +242,25 @@ module Helpers
         fill_in 'Issue Identification', with: 'Citation issue identification'
         fill_in 'Data Presentation Form', with: 'Citation data presentation form'
         fill_in 'Other Citation Details', with: 'Citation other details'
-        fill_in 'DOI', with: 'Citation DOI'
-        fill_in 'Authority', with: 'Citation DOI Authority'
-        add_related_urls(RelatedUrlFieldsHelper::COLLECTION_CITATION_FORM, true)
+        within '.online-resource' do
+          fill_in 'Name', with: 'Online Resource Name'
+          fill_in 'Linkage', with: 'http://www.example.com'
+          fill_in 'Description', with: 'Online Resource Description'
+          fill_in 'Protocol', with: 'http'
+          fill_in 'Application Profile', with: 'website'
+          fill_in 'Function', with: 'information'
+        end
 
         click_on 'Add another Collection Citation'
         within '.multiple-item-1' do
           fill_in 'Version', with: 'v2'
           fill_in 'draft_collection_citations_1_title', with: 'Citation title 1' # Title
           fill_in 'Creator', with: 'Citation creator 1'
-          add_related_urls(RelatedUrlFieldsHelper::COLLECTION_CITATION_FORM, true)
+          within '.online-resource' do
+            fill_in 'Name', with: 'Online Resource Name 1'
+            fill_in 'Linkage', with: 'http://www.example.com/1'
+            fill_in 'Description', with: 'Online Resource Description 1'
+          end
         end
       end
     end
@@ -298,7 +295,14 @@ module Helpers
         fill_in 'Pages', with: 'Publication reference pages'
         fill_in 'ISBN', with: '1234567890123'
         fill_in 'Other Reference Details', with: 'Publication reference details'
-        add_related_urls(RelatedUrlFieldsHelper::PUBLICATION_REFERENCE_FORM, true)
+        within '.online-resource' do
+          fill_in 'Name', with: 'Online Resource Name'
+          fill_in 'Linkage', with: 'http://www.example.com'
+          fill_in 'Description', with: 'Online Resource Description'
+          fill_in 'Protocol', with: 'http'
+          fill_in 'Application Profile', with: 'website'
+          fill_in 'Function', with: 'information'
+        end
 
         click_on 'Add another Publication Reference'
         within '.multiple-item-1' do
@@ -348,7 +352,7 @@ module Helpers
         fill_in "draft_platforms_#{platform}_instruments_0_short_name", with: 'Instrument short name'
         fill_in "draft_platforms_#{platform}_instruments_0_long_name", with: 'Instrument long name'
         fill_in "draft_platforms_#{platform}_instruments_0_technique", with: 'Instrument technique'
-        fill_in 'Number Of Sensors', with: 2468
+        fill_in 'Number Of Instruments', with: 2468
         within '.multiple.operational-modes' do
           within '.multiple-item-0' do
             find('.operational-mode').set 'Instrument mode 1'
@@ -360,7 +364,7 @@ module Helpers
         end
 
         add_characteristics
-        add_sensors(platform)
+        add_instrument_children(platform)
 
         click_on 'Add another Instrument'
         within '.multiple-item-1' do
@@ -369,16 +373,16 @@ module Helpers
       end
     end
 
-    def add_sensors(platform)
-      within '.multiple.sensors' do
-        fill_in "draft_platforms_#{platform}_instruments_0_sensors_0_short_name", with: 'Sensor short name'
-        fill_in "draft_platforms_#{platform}_instruments_0_sensors_0_long_name", with: 'Sensor long name'
-        fill_in "draft_platforms_#{platform}_instruments_0_sensors_0_technique", with: 'Sensor technique'
+    def add_instrument_children(platform)
+      within '.multiple.instrument-children' do
+        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_short_name", with: 'Instrument Child short name'
+        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_long_name", with: 'Instrument Child long name'
+        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_technique", with: 'Instrument Child technique'
         add_characteristics
 
-        click_on 'Add another Sensor'
+        click_on 'Add another Instrument Child'
         within '.multiple-item-1' do
-          fill_in "draft_platforms_#{platform}_instruments_0_sensors_1_short_name", with: 'Sensor short name 1'
+          fill_in "draft_platforms_#{platform}_instruments_0_composed_of_1_short_name", with: 'Instrument Child short name 1'
         end
       end
     end

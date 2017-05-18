@@ -262,49 +262,162 @@
       "additionalProperties": false,
       "description": "Represents Internet sites that contain information related to the data, as well as related Internet sites such as project home pages, related data archives/servers, metadata extensions, online software packages, web mapping services, and calibration/validation data.",
       "properties": {
-        "Title": {
-          "description": "The Title is a one-line description of the resource, could be used a caption when a browse image is displayed. The title is especially useful for images such as graphs and photos.",
-          "$ref": "#/definitions/TitleType"
-        },
         "Description": {
           "description": "Description of the web page at this URL.",
           "type": "string",
           "minLength": 1,
           "maxLength": 4000
         },
-        "Relation": {
-          "description": "An array of keywords describing the relation of the online resource to this resource.",
-          "type": "array",
-          "minItems": 1,
-          "maxItems": 2,
-          "items": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 200
-          }
+        "URLContentType": {
+            "description": "A keyword describing the distinct content type of the online resource to this resource. (e.g., 'DATACENTER URL', 'DATA CONTACT URL', 'DISTRIBUTION URL').",
+            "$ref": "#/definitions/RelatedURLContentTypeEnum"
         },
-        "URLs": {
+        "Type": {
+            "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'GET DATA', 'GET SERVICE', 'GET VISUALIZATION').",
+            "$ref": "#/definitions/RelatedUrlTypeEnum"
+        },
+        "Subtype": {
+            "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'MEDIA', 'BROWSE', 'OPENDAP', 'OPENSEARCH', 'WEB COVERAGE SERVICES', 'WEB FEATURE SERVICES', 'WEB MAPPING SERVICES', 'SSW', 'ESI').",
+            "$ref": "#/definitions/RelatedURLSubTypeEnum"
+        },
+        "URL": {
           "description": "The URL for the relevant web page (e.g., the URL of the responsible organization's home page, the URL of the collection landing page, the URL of the download site for the collection).",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 1024
-          },
-          "minItems": 1
-        },
-        "MimeType": {
-          "description": "The mime type of files downloaded from this site (e.g., pdf, doc, zip, tiff, jpg, readme).",
           "type": "string",
           "minLength": 1,
-          "maxLength": 50
+          "maxLength": 1024
         },
-        "FileSize": {
-          "description": "The estimated or average size of a file downloaded from this site.",
-          "$ref": "#/definitions/FileSizeType"
+        "GetData": {
+               "description": "The data distribution information for the relevant web page (e.g., browse, media).",
+               "$ref": "#/definitions/GetDataType"
+        },
+        "GetService": {
+            "description": "The service distribution for the relevant web page (e.g., OPeNDAP, OpenSearch, WCS, WFS, WMS).",
+            "$ref": "#/definitions/GetServiceType"
         }
       },
-      "required": ["URLs"]
+      "required": ["URL", "URLContentType", "Type"]
+    },
+    "GetDataType": {
+        "description": "Represents the information needed for a DistributionURL where data is retrieved.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+            "Format": {
+                "description": "The format of the data.",
+                "$ref": "#/definitions/GetDataTypeFormatEnum"
+            },
+            "Size": {
+                "description": "The size of the data.",
+               "type": "number"
+            },
+            "Unit": {
+                "description": "Unit of information, together with Size determines total size in bytes of the data.",
+                "type": "string",
+                "enum": ["KB", "MB", "GB", "TB", "PB"]
+            },
+            "Fees": {
+                "description": "The fee for ordering the collection data.  The fee is entered as a number, in US Dollars.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+            },
+            "Checksum": {
+                "description": "The checksum, usually a SHA1 or md5 checksum for the data file.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 50
+            }
+        },
+        "required": ["Format", "Size", "Unit"]
+    },
+    "GetServiceType": {
+        "description": "Represents a Service through a URL where the service will act on data and return the result to the caller.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+            "MimeType": {
+                "description": "The mime type of the service.",
+                "$ref": "#/definitions/URLMimeTypeEnum"
+            },
+            "Protocol": {
+                "description": "The protocol of the service.",
+                "type": "string",
+                "enum": ["HTTP", "HTTPS", "FTP", "FTPS", "Not provided"]
+            },
+            "FullName": {
+                "description": "The full name of the service.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+            },
+            "DataID": {
+                "description": "The data identifier of the data provided by the service. Typically, this is a file name.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+            },
+            "DataType": {
+                "description": "The data type of the data provided by the service.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+            },
+            "URI": {
+                "description": "The URI of the data provided by the service.",
+                "type": "array",
+                "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                },
+                "minItems": 1
+            }
+        },
+        "required": [ "MimeType", "Protocol", "FullName", "DataID", "DataType"]
+    },
+    "OnlineResourceType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Describes the online resource pertaining to the data.",
+      "properties": {
+        "Linkage": {
+          "description": "The URL of the website related to the online resource.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "Protocol": {
+          "description": "The protocol of the linkage for the online resource, such as https, svn, ftp, etc.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "ApplicationProfile": {
+          "description": "The application profile holds the name of the application that can service the data. For example if the URL points to a word document, then the applicationProfile is MS-Word.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "Name": {
+          "description": "The name of the online resource.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "Description": {
+          "description": "The description of the online resource.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "Function": {
+          "description": "The function of the online resource. In ISO where this class originated the valid values are: download, information, offlineAccess, order, and search.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "required": ["Linkage", "Name", "Description"]
     },
     "FileSizeType": {
       "description": "Represents a data file size.",
@@ -326,15 +439,11 @@
     "ResourceCitationType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Building block text fields used to construct the recommended language for citing the collection in professional scientific literature.  The citation language constructed from these fields references the collection itself, and is not designed for listing bibliographic references of scientific research articles arising from search results. A list of references related to the research results should be in the Publication Reference element. A DOI that specifically identifies the collection is listed here.",
+      "description": "Building block text fields used to construct the recommended language for citing the collection in professional scientific literature.  The citation language constructed from these fields references the collection itself, and is not designed for listing bibliographic references of scientific research articles arising from search results. A list of references related to the research results should be in the Publication Reference element.",
       "properties": {
         "Version": {
           "description": "The version of the collection.",
           "$ref": "#/definitions/VersionType"
-        },
-        "RelatedUrl": {
-          "description": "The URL of the landing page for the collection.",
-          "$ref": "#/definitions/RelatedUrlType"
         },
         "Title": {
           "description": "The title of the collection; this is the same as the collection Entry Title.",
@@ -393,9 +502,9 @@
           "minLength": 1,
           "maxLength": 4000
         },
-        "DOI": {
-          "description": "The Digital Object Identifier (DOI) for the collection.  This is the registered DOI that resolves to a landing page for the collection.",
-          "$ref": "#/definitions/DoiType"
+        "OnlineResource": {
+          "description": "The URL of the landing page for the collection.",
+          "$ref": "#/definitions/OnlineResourceType"
         }
       }
     },
@@ -466,9 +575,9 @@
       "additionalProperties": false,
       "description": "Describes key bibliographic citations pertaining to the data.",
       "properties": {
-        "RelatedUrl": {
+        "OnlineResource": {
           "description": "The URL of the website related to the bibliographic citation.",
-          "$ref": "#/definitions/RelatedUrlType"
+          "$ref": "#/definitions/OnlineResourceType"
         },
         "Title": {
           "description": "The title of the publication in the bibliographic citation.",
@@ -765,7 +874,7 @@
     "InstrumentType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Information about the device used to measure or record data in this collection, including direct human observation. In cases where instruments have a single sensor or the instrument and sensor are used synonymously (e.g. AVHRR), both Instrument and Sensor should be recorded. The Sensor information is represented in a separate section.",
+      "description": "Information about the device used to measure or record data in this collection, including direct human observation. In cases where instruments have a single child instrument or the instrument and child instrument are used synonymously (e.g. AVHRR), both Instrument and ComposedOf should be recorded. The child instrument information is represented in a separate section.",
       "properties": {
         "ShortName": {
           "$ref": "#/definitions/PlatformShortNameType"
@@ -787,14 +896,14 @@
           "minLength": 1,
           "maxLength": 2048
         },
-        "NumberOfSensors": {
-          "description": "Number of sensors used on the instrument when acquiring the granule data.",
+        "NumberOfInstruments": {
+          "description": "Number of instruments used on the instrument when acquiring the granule data.",
           "type": "integer"
         },
-        "Sensors": {
+        "ComposedOf": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/SensorType"
+            "$ref": "#/definitions/InstrumentChildType"
           },
           "minItems": 0
         },
@@ -811,19 +920,19 @@
       },
       "required": ["ShortName"]
     },
-    "SensorType": {
+    "InstrumentChildType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Information about the collection source/sensor configuration, including sensor parameters settings such as technique etc.",
+      "description": "Child object on an instrument. Has all the same fields as instrument, minus the list of child instruments.",
       "properties": {
         "ShortName": {
-          "$ref": "#/definitions/ShortNameType"
+          "$ref": "#/definitions/PlatformShortNameType"
         },
         "LongName": {
-          "$ref": "#/definitions/LongNameType"
+          "$ref": "#/definitions/PlatformLongNameType"
         },
         "Characteristics": {
-          "description": "Sensor-specific characteristics, e.g,. Wavelength, SwathWidth, Field of View.   The characteristic names must be unique on this sensor; however the names do not have to be unique across sensors.",
+          "description": "Instrument-specific characteristics, e.g., Wavelength, SwathWidth, Field of View. The characteristic names must be unique on this instrument; however the names do not have to be unique across instruments.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/CharacteristicType"
@@ -831,7 +940,7 @@
           "minItems": 0
         },
         "Technique": {
-          "description": "Technique applied for this sensor in the configuration.",
+          "description": "The expanded name of the primary sensory instrument. (e.g. Advanced Spaceborne Thermal Emission and Reflective Radiometer, Clouds and the Earth's Radiant Energy System, Human Observation).",
           "type": "string",
           "minLength": 1,
           "maxLength": 2048
@@ -1097,9 +1206,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "CenterPoint": {
-          "$ref": "#/definitions/PointType"
-        },
         "WestBoundingCoordinate": {
           "$ref": "#/definitions/LongitudeType"
         },
@@ -1119,9 +1225,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "CenterPoint": {
-          "$ref": "#/definitions/PointType"
-        },
         "Boundary": {
           "$ref": "#/definitions/BoundaryType"
         },
@@ -1171,9 +1274,6 @@
             "$ref": "#/definitions/PointType"
           },
           "minItems": 2
-        },
-        "CenterPoint": {
-          "$ref": "#/definitions/PointType"
         }
       },
       "required": ["Points"]
@@ -1420,6 +1520,43 @@
       "type": "string",
       "enum": ["CARTESIAN", "GEODETIC", "ORBIT", "NO_SPATIAL"]
     },
+    "RelatedURLContentTypeEnum": {
+      "type": "string",
+      "enum": ["CollectionURL", "PublicationURL", "DataCenterURL", "DistributionURL", "DataContactURL", "VisualizationURL"]
+    },
+    "RelatedUrlTypeEnum": {
+      "type": "string",
+      "enum": ["GET DATA", "GET SERVICE", "GET RELATED VISUALIZATION", "DATA SET LANDING PAGE", "DOI",
+               "EXTENDED METADATA", "PROFESSIONAL HOME PAGE", "PROJECT HOME PAGE", "VIEW RELATED INFORMATION",
+               "HOME PAGE"]
+    },
+    "RelatedURLSubTypeEnum": {
+      "type": "string",
+      "enum": ["DATACAST URL", "EARTHDATA SEARCH", "ECHO", "EDG", "EOSDIS DATA POOL", "GDS", "GIOVANNI", "KML",
+               "LAADS", "LANCE", "LAS", "MIRADOR", "MODAPS", "NOAA CLASS", "ON-LINE ARCHIVE", "REVERB",
+               "ACCESS MAP VIEWER", "ACCESS MOBILE APP", "ACCESS WEB SERVICE", "DIF", "MAP SERVICE", "NOMADS",
+               "OPENDAP DATA", "OPENDAP DATA (DODS)", "OPENDAP DIRECTORY (DODS)", "OpenSearch", "SERF", "SOFTWARE PACKAGE",
+               "SSW", "SUBSETTER", "THREADS CATALOG", "THREADS DATA", "THREDDS DIRECTORY", "WEB COVERAGE SERVICE (WCS)",
+               "WEB FEATURE SERVICE (WFS)", "WEB MAP FOR TIME SERIES", "WEB MAP SERVICE (WMS)", "WORKFLOW (SERVICE CHAIN)",
+               "GIBS", "ALGORITHM THEORETICAL BASIS DOCUMENT", "CALIBRATION DATA DOCUMENTATION", "DATA QUALITY",
+               "CASE STUDY", "DATA USAGE", "DELIVERABLES CHECKLIST", "GENERAL DOCUMENTATION", "HOW-TO", "PI DOCUMENTATION",
+               "PROCESSING HISTORY", "PRODUCTION VERSION HISTORY", "PRODUCT QUALITY ASSESSMENT", "PRODUCT USAGE",
+               "PRODUCT HISTORY", "PUBLICATIONS", "RADIOMETRIC AND GEOMETRIC CALIBRATION METHODS", "READ-ME",
+               "RECIPE", "REQUIREMENTS AND DESIGN", "SCIENCE DATA PRODUCT SOFTWARE DOCUMENTATION",
+               "SCIENCE DATA PRODUCT VALIDATION", "USER FEEDBACK", "USER'S GUIDE"]
+    },
+    "URLMimeTypeEnum": {
+      "type": "string",
+      "enum": ["application/json", "application/xml", "application/x-netcdf", "application/gml+xml",
+               "application/vnd.google-earch.kml+xml", "image/gif", "image/tiff", "image/bmp", "text/csv",
+               "text/xml", "application/pdf", "application/x-hdf", "application/xhdf5",
+               "application/octet-stream", "application/vnd.google-earth.kmz", "image/jpeg", "image/png",
+               "image/vnd.collada+xml", "text/html", "text/plain", "Not provided"]
+    },
+    "GetDataTypeFormatEnum": {
+      "type": "string",
+      "enum": ["ascii", "binary", "GRIB", "BUFR", "HDF4", "HDF5", "HDF-EOS4", "HDF-EOS5", "jpeg", "png", "tiff", "geotiff", "kml", "Not provided"]
+    },
     "DirectoryNameType": {
       "type": "object",
       "additionalProperties": false,
@@ -1509,7 +1646,7 @@
     "SpatialInformationType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "This entity stores the reference frame or system from which altitudes (elevations) are measured. The information contains the datum name, distance units and encoding method, which provide the definition for the system. This table also stores the characteristics of the reference frame or system from which depths are measured. The additional information in the table are geometry reference data etc.",
+      "description": "This entity stores the reference frame or system from which horizontal and vertical spatial domains are measured. The horizontal reference frame includes a Geodetic Model, Geographic Coordinates, and Local Coordinates. The Vertical reference frame includes altitudes (elevations) and depths.",
       "properties": {
         "VerticalCoordinateSystem": {
           "$ref": "#/definitions/VerticalCoordinateSystemType"
@@ -1735,6 +1872,10 @@
       "description": "The title of the collection or service described by the metadata.",
       "$ref": "#/definitions/EntryTitleType"
     },
+    "DOI": {
+        "description": "This element describes the digital object identifier, and who created it.",
+        "$ref": "#/definitions/DoiType"
+    },
     "Abstract": {
       "description": "A brief description of the collection or service the metadata represents.",
       "$ref": "#/definitions/AbstractType"
@@ -1786,7 +1927,7 @@
       "$ref": "#/definitions/ProcessingLevelType"
     },
     "CollectionCitations": {
-      "description": "Information required to properly cite the collection in professional scientific literature. This element provides information for constructing a citation for the item itself, and is not designed for listing bibliographic references of scientific research articles arising from search results. A list of references related to the research results should be in the Publication Reference element. A DOI that specifically identifies the landing page for the collection is listed here.",
+      "description": "Information required to properly cite the collection in professional scientific literature. This element provides information for constructing a citation for the item itself, and is not designed for listing bibliographic references of scientific research articles arising from search results. A list of references related to the research results should be in the Publication Reference element.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/ResourceCitationType"
@@ -1900,7 +2041,8 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/TilingIdentificationSystemType"
-      }
+      },
+      "minItems": 0
     },
     "SpatialInformation": {
       "description": "The reference frame or system in which altitudes (elevations) are given. The information contains the datum name, distance units and encoding method, which provide the definition for the system. This field also stores the characteristics of the reference frame or system from which depths are measured. The additional information in the field is geometry reference data etc.",
@@ -1958,5 +2100,5 @@
       "$ref": "#/definitions/VersionDescriptionType"
     }
   },
-  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DataCenters", "RelatedUrls", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress"]
+  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DataCenters", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress"]
 }

@@ -197,9 +197,12 @@ $(document).ready ->
 
     # Fix the path for special case keys
     path = path.replace('u_r_ls', 'urls')
+    path = path.replace('u_r_l', 'url')
+    path = path.replace('u_r_l_content_type', 'url_content_type')
     path = path.replace('d_o_i', 'doi')
     path = path.replace('i_s_b_n', 'isbn')
     path = path.replace('i_s_o_topic_categories', 'iso_topic_categories')
+    path = path.replace('data_i_d', 'data_id')
     error.path = path
 
     id = "draft_#{path}"
@@ -243,9 +246,21 @@ $(document).ready ->
           '/DataLanguage'
         when /collection_progress/.test id
           '/CollectionProgress'
-        when /related_urls_(\d*)_mime_type/.test id
-          [_, index] = id.match /related_urls_(\d*)_mime_type/
-          "/RelatedUrls/#{index}/MimeType"
+        when /related_urls_(\d*)_url_content_type/.test id
+          [_, index] = id.match /related_urls_(\d*)_url_content_type/
+          "/RelatedUrls/#{index}/URLContentType"
+        when /related_urls_(\d*)_get_service_mime_type/.test id
+          [_, index] = id.match /related_urls_(\d*)_get_service_mime_type/
+          "/RelatedUrls/#{index}/GetService/MimeType"
+        when /related_urls_(\d*)_get_service_protocol/.test id
+          [_, index] = id.match /related_urls_(\d*)_get_service_protocol/
+          "/RelatedUrls/#{index}/GetService/Protocol"
+        when /related_urls_(\d*)_get_data_format/.test id
+          [_, index] = id.match /related_urls_(\d*)_get_data_format/
+          "/RelatedUrls/#{index}/GetData/Format"
+        when /related_urls_(\d*)_get_data_unit/.test id
+          [_, index] = id.match /related_urls_(\d*)_get_data_unit/
+          "/RelatedUrls/#{index}/GetData/Unit"
         when /draft_platforms_(\d*)_type/.test id
           [_, index] = id.match /platforms_(\d*)_type/
           "/Platforms/#{index}/Type"
@@ -415,7 +430,6 @@ $(document).ready ->
     # Display errors, from visited fields
     for error, index in errors
       if error = getErrorDetails error
-
         # does the error id match the visitedFields
         visited = visitedFields.filter (e) ->
           return e == error.id
