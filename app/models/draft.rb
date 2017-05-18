@@ -125,7 +125,7 @@ class Draft < ActiveRecord::Base
   private
 
   INTEGER_KEYS = %w(
-    number_of_sensors
+    number_of_instruments
     duration_value
     period_cycle_duration_value
     precision_of_seconds
