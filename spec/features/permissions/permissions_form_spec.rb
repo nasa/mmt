@@ -68,7 +68,6 @@ describe 'Collection Permissions form', js: true do
         # to find more specific elements of select2 to choose our selection and
         # trigger the appropriate event.
         within '#search_groups_cell' do
-          page.find('ul.select2-selection__rendered').click
           page.find('.select2-search__field').native.send_keys('gue')
         end
 

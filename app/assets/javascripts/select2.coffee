@@ -66,24 +66,3 @@ $(document).ready ->
       $urlElement.attr('readonly', true)
     else
       $urlElement.attr('readonly', false)
-
-
-  # Set placeholder for group filters
-  $('.group-form .provider-filter').select2(
-    placeholder: "Filter by provider"
-  )
-  $('.group-form .member-filter').select2(
-    tags: true
-    placeholder: "Filter by member"
-    matcher: (searchTerm, entry) ->
-      return entry if searchTerm.term == undefined
-
-      term = searchTerm.term.toLowerCase()
-      text = entry.text.toLowerCase()
-      value = entry.id.toLowerCase()
-
-      if value.match(term) || text.match(term)
-        entry
-      else
-        false
-  )
