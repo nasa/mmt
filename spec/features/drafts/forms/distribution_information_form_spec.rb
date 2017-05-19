@@ -18,7 +18,7 @@ describe 'Distribution information form', js: true do
       click_on 'Expand All'
 
       # Complete RelatedUrl fields
-      add_related_urls('distribution_form')
+      add_related_urls
 
       # Complete Distribution fields
       within '.multiple.distributions' do
@@ -73,8 +73,8 @@ describe 'Distribution information form', js: true do
         expect(page).to have_field('Description', with: 'Example Description 2')
         expect(page).to have_field('URL Content Type', with: 'DistributionURL')
         expect(page).to have_field('Type', with: 'GET SERVICE')
-        expect(page).to have_field('Subtype', with: 'EARTHDATA SEARCH')
-        expect(page).to have_field('URL', with: 'https://search.earthdata.nasa.gov')
+        expect(page).to have_field('Subtype', with: 'DIF')
+        expect(page).to have_field('URL', with: 'https://example.com/')
 
         expect(page).to have_field('Mime Type', with: 'Not provided')
         expect(page).to have_field('Protocol', with: 'HTTPS')

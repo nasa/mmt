@@ -20,6 +20,7 @@ $(document).ready ->
       $relatedUrl = $multipleItem.find('.related-urls:first')
 
     $urlElement = $relatedUrl.find('.url:first')
+    $urlContentTypeElement = $relatedUrl.find('.related-url-content-type-select:first')
 
     if longName?
       $longNameElement.val(longName)
@@ -31,9 +32,13 @@ $(document).ready ->
     if url?
       $urlElement.val(url)
       $urlElement.attr('readonly', true)
+      $urlContentTypeElement.find('option').last().prop 'selected', true
+      $urlContentTypeElement.trigger('change')
     else
       $urlElement.val('')
       $urlElement.attr('readonly', false)
+      $urlContentTypeElement.find('option').first().prop 'selected', true
+      $urlContentTypeElement.trigger('change')
     $urlElement.blur()
 
   # Set long name and url elements to readonly if short name is selected on load
@@ -54,6 +59,7 @@ $(document).ready ->
       $relatedUrl = $multipleItem.find('.related-urls:first')
 
     $urlElement = $relatedUrl.find('.url:first')
+    $urlContentTypeElement = $relatedUrl.find('.related-url-content-type-select:first')
 
     if longName?
       $longNameElement.val(longName)
@@ -64,8 +70,12 @@ $(document).ready ->
     if url?
       $urlElement.val(url)
       $urlElement.attr('readonly', true)
+      $urlContentTypeElement.find('option').last().prop 'selected', true
+      $urlContentTypeElement.trigger('change')
     else
       $urlElement.attr('readonly', false)
+      $urlContentTypeElement.find('option').first().prop 'selected', true
+      $urlContentTypeElement.trigger('change')
 
 
   # Set placeholder for group filters

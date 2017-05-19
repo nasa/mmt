@@ -265,6 +265,27 @@ module DraftsHelper
         'GET DATA' => {
           'text' => 'Get Data',
           'subtypes' => [
+            ['Datacast URL', 'DATACAST URL'],
+            ['Earthdata Search', 'EARTHDATA SEARCH'],
+            ['ECHO', 'ECHO'],
+            ['EDG', 'EDG'],
+            ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
+            ['GDS', 'GDS'],
+            ['GIOVANNI', 'GIOVANNI'],
+            ['KML', 'KML'],
+            ['LAADS', 'LAADS'],
+            ['LANCE', 'LANCE'],
+            ['LAS', 'LAS'],
+            ['Mirador', 'MIRADOR'],
+            ['MODAPS', 'MODAPS'],
+            ['NOAA Class', 'NOAA CLASS'],
+            ['On Line Archive', 'ON-LINE ARCHIVE'],
+            ['Reverb', 'REVERB']
+          ]
+        },
+        'GET SERVICE' => {
+          'text' => 'Get Service',
+          'subtypes' => [
             ['Access Map Viewer', 'ACCESS MAP VIEWER'],
             ['Access Mobile App', 'ACCESS MOBILE APP'],
             ['Access Web Service', 'ACCESS WEB SERVICE'],
@@ -288,27 +309,6 @@ module DraftsHelper
             ['Web Map Service (WMS)', 'WEB MAP SERVICE (WMS)'],
             ['Workflow (Service Chain)', 'WORKFLOW (SERVICE CHAIN)']
           ]
-        },
-        'GET SERVICE' => {
-          'text' => 'Get Service',
-          'subtypes' => [
-            ['Datacast URL', 'DATACAST URL'],
-            ['Earthdata Search', 'EARTHDATA SEARCH'],
-            ['ECHO', 'ECHO'],
-            ['EDG', 'EDG'],
-            ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
-            ['GDS', 'GDS'],
-            ['GIOVANNI', 'GIOVANNI'],
-            ['KML', 'KML'],
-            ['LAADS', 'LAADS'],
-            ['LANCE', 'LANCE'],
-            ['LAS', 'LAS'],
-            ['Mirador', 'MIRADOR'],
-            ['MODAPS', 'MODAPS'],
-            ['NOAA Class', 'NOAA CLASS'],
-            ['On Line Archive', 'ON-LINE ARCHIVE'],
-            ['Reverb', 'REVERB']
-          ]
         }
       }
     },
@@ -331,6 +331,12 @@ module DraftsHelper
     ['Data Center URL', 'DataCenterURL'],
     ['Distribution URL', 'DistributionURL'],
     ['Data Contact URL', 'DataContactURL'],
+    ['Visualization URL', 'VisualizationURL']
+  ]
+  URLContentTypeRelatedURLsOptions = [
+    ['Collection URL', 'CollectionURL'],
+    ['Publication URL', 'PublicationURL'],
+    ['Distribution URL', 'DistributionURL'],
     ['Visualization URL', 'VisualizationURL']
   ]
   URLContentTypeDataCenterOptions = [
