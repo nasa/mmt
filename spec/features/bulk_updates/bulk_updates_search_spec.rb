@@ -4,7 +4,9 @@ describe 'Searching collections to bulk update', reset_provider: true do
   before(:all) do
     # Create a few collections with unique attributes that we can search for
     2.times { |i| publish_draft(version: "nasa.001#{i}") }
-    3.times { |i| publish_draft(short_name: "nasa.002#{i}") }
+    3.times { |i| publish_draft(short_name: "nasa.002", version: "#{i}") }
+
+    wait_for_cmr
   end
 
   context 'when viewing the bulk update search page' do
@@ -22,7 +24,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
 
     it 'displays the correct options for the search field' do
       within '#bulk-updates-search' do
-        options = BulkUpdatesHelper::SEARCHABLE_KEYS.map(&:first)
+        options = BulkUpdatesHelper::SEARCHABLE_KEYS.map { |key, value| value[:title] }
 
         expect(page).to have_select('field', options: options)
       end
@@ -36,7 +38,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
       end
 
       it 'displays an appropriate error message' do
-        expect(page).to have_content('Search Query is required.')
+        expect(page).to have_content('Search Term is required.')
       end
     end
 
@@ -44,7 +46,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
       before do
         within '#bulk-updates-search' do
           select 'Version', from: 'Search Field'
-          fill_in 'query', with: 'nasa.001'
+          fill_in 'query', with: 'nasa.001*'
 
           click_button 'Submit'
         end
