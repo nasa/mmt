@@ -12,11 +12,11 @@ describe PermissionsController, reset_provider: true do
       expect(response).to render_template(:index)
     end
 
-    it 'sets the permissions instance variable' do
-      get :index
+    # it 'sets the permissions instance variable' do
+    #   get :index
 
-      expect(assigns(:permissions)).to be_a(Array)
-    end
+    #   expect(assigns(:permissions)).to be_a(Array)
+    # end
 
     it 'requests groups from cmr' do
       expect_any_instance_of(Cmr::CmrClient).to receive('get_permissions').and_call_original
