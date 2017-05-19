@@ -18,7 +18,7 @@ class BulkUpdatesSearchesController < ManageMetadataController
     collection_results = []
 
     if search_params.key?(:field) && search_params.key?(:query)
-      cmr_params[search_params[:field]] = search_params[:query].dup
+      cmr_params[search_params[:field].to_sym] = search_params[:query].dup
 
       collection_response = cmr_client.get_collections_by_post(
         hydrate_params(cmr_params), token

@@ -85,7 +85,8 @@ module BulkUpdatesHelper
       title: 'Science Keywords',
       data_attributes: {
         supports_wildcard: false,
-        format: 'text'
+        format: 'text',
+        description: 'Accepted Values: a value at any level of the Science Keyword hierarchy'
       }
     },
     'short_name': {

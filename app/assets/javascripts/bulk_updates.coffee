@@ -16,23 +16,24 @@ displayHelpText = (searchFieldElement) ->
 
   if($selectedFieldData.hasOwnProperty('supports_wildcard') && $selectedFieldData['supports_wildcard'] == true)
     $('<p>').addClass('form-description')
-      .text('This field supports wildcard searching, add `*` to your search to return more results.')
+      .text('This field supports wildcard searching. Add `*` to your search to return more results.')
       .insertAfter($queryField)
 
 $(document).ready ->
-  displayHelpText($('#bulk-updates-search-field'))
+  if $('#bulk-updates-search').length > 0
+    displayHelpText($('#bulk-updates-search-field'))
 
-  $('#bulk-updates-search').validate
-    errorPlacement: (error, element) ->
-      error.insertAfter(element.closest('fieldset'))
+    $('#bulk-updates-search').validate
+      errorPlacement: (error, element) ->
+        error.insertAfter(element.closest('fieldset'))
 
-    rules:
-      query:
-        required: true
+      rules:
+        query:
+          required: true
 
-    messages:
-      query:
-        required: 'Search Query is required.'
+      messages:
+        query:
+          required: 'Search Term is required.'
 
-  $('#bulk-updates-search-field').on 'change', ->
-    displayHelpText($(this))
+    $('#bulk-updates-search-field').on 'change', ->
+      displayHelpText($(this))
