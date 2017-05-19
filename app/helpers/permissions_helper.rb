@@ -78,10 +78,10 @@ module PermissionsHelper
 
     return {} unless entry_titles.any?
 
-    collection_response = cmr_client.get_collections_by_post({ provider_id: permission['provider_id'], entry_title: entry_titles, page_size: entry_titles.count }, token, 'umm_json')
+    collection_response = cmr_client.get_collections_by_post({ provider_id: permission.fetch('catalog_item_identity', {})['provider_id'], entry_title: entry_titles, page_size: entry_titles.count }, token, 'umm_json')
 
     return {} unless collection_response.success?
-    
+
     collection_response.body
   end
 
