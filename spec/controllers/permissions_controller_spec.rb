@@ -15,7 +15,7 @@ describe PermissionsController, reset_provider: true do
     it 'sets the permissions instance variable' do
       get :index
 
-      expect(assigns(:permissions)).to be_an(Array)
+      expect(assigns(:permissions)).to be_a(Array)
     end
 
     it 'requests groups from cmr' do
