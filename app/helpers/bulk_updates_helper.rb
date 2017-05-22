@@ -126,4 +126,50 @@ module BulkUpdatesHelper
       }
     }
   }.freeze
+
+  UPDATEABLE_FIELDS = [
+    ['Science Keywords', 'science_keywords']
+  ].freeze
+
+  UPDATE_TYPES = {
+    ADD_TO_EXISTING: {
+      title: 'Add to Existing',
+      data_attributes: {
+        new_title: 'Value to Add',
+        new_description: 'The new value provided below will be added to your selected collections.'
+      }
+    },
+    CLEAR_ALL_AND_REPLACE: {
+      title: 'Clear All & Replace',
+      data_attributes: {
+        new_title: 'New Value',
+        new_description: 'The new value provided below will be added to your selected collections and all previous values will be removed.'
+      }
+    },
+    FIND_AND_REMOVE: {
+      title: 'Find & Remove',
+      data_attributes: {
+        find_title: 'Find Values to Remove',
+        find_description: 'Use the following fields to find the value that you\'d like to remove from your selected collections.'
+      }
+    },
+    FIND_AND_REPLACE: {
+      title: 'Find & Replace',
+      data_attributes: {
+        find_title: 'Find Values to Replace',
+        find_description: 'Use the following fields to find the values that you\'d like to replace with the value provided below.',
+        new_title: 'New Value',
+        new_description: 'The value found using the above fields will be replaced with the value you provide here.'
+      }
+    }
+  }.freeze
+
+  def update_type_select
+    # Construct the options for the select including the data attributes
+    options = BulkUpdatesHelper::UPDATE_TYPES.map do |option, values|
+      [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]]
+    end
+
+    label_tag('update-type', 'Update Type') + select_tag('update-type', options_for_select(options), prompt: 'Select an Update Type')
+  end
 end

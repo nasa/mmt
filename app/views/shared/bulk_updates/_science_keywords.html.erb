@@ -1,0 +1,128 @@
+<h2>Science Keywords</h2>
+
+<% params[:bulk_update_collections].each do |collection| %>
+  <%= hidden_field_tag 'concept_id[]', collection %>
+<% end %>
+
+<fieldset>
+  <%= update_type_select %>
+</fieldset>
+
+<fieldset id="bulk-updates-find" class="is-hidden">
+  <h4 class="title">Find Science Keyword</h4>
+  <p class="form-description space-bot">Update all collections that have science keywords that match the criteria specified below.</p>
+
+  <div class="row">
+    <div class="col-4">
+      <%= label_tag 'category', 'Category' %>
+      <%= text_field_tag('bulk_update_find[Category]', nil, id: 'category', class: 'full-width science-keyword-find') %>
+    </div>
+    <div class="col-4">
+      <%= label_tag 'topic', 'Topic' %>
+      <%= text_field_tag('bulk_update_find[Topic]', nil, id: 'topic', class: 'full-width science-keyword-find') %>
+    </div>
+    <div class="col-4">
+      <%= label_tag 'term', 'Term' %>
+      <%= text_field_tag('bulk_update_find[Term]', nil, id: 'term', class: 'full-width science-keyword-find') %>
+    </div>
+  </div>
+
+  <div class="row space-top">
+    <h5 class="space-bot">Variable Levels</h5>
+
+    <div class="col-3">
+      <%= label_tag 'variablelevel1', 'Level 1' %>
+      <%= text_field_tag('bulk_update_find[VariableLevel1]', nil, id: 'variablelevel1', class: 'full-width science-keyword-find') %>
+    </div>
+
+    <div class="col-3">
+      <%= label_tag 'variablelevel2', 'Level 2' %>
+      <%= text_field_tag('bulk_update_find[VariableLevel2]', nil, id: 'variablelevel2', class: 'full-width science-keyword-find') %>
+    </div>
+
+    <div class="col-3">
+      <%= label_tag 'variablelevel3', 'Level 3' %>
+      <%= text_field_tag('bulk_update_find[VariableLevel3]', nil, id: 'variablelevel3', class: 'full-width science-keyword-find') %>
+    </div>
+
+    <div class="col-3">
+      <%= label_tag 'detailedvariable', 'Detailed Variable' %>
+      <%= text_field_tag('bulk_update_find[DetailedVariable]', nil, id: 'detailedvariable', class: 'full-width science-keyword-find') %>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset id="bulk-updates-value" class="is-hidden">
+  <h4 class="title">New Science Keyword</h4>
+  <p class="form-description space-bot">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <div id="science-keyword-picker">
+    <div class="row">
+      <div class="col-12">
+        <div class="eui-nested-item-picker">
+          <ul class="eui-item-path">
+            <li class="list-title">
+              <a href="javascript:void(0);">Science Keyword</a>
+            </li>
+          </ul>
+          <div class="eui-item-list-pane">
+            <ul>
+              <li>
+                <%= text_field_tag 'science-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...' %>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <button type="button" class="eui-btn--blue select-science-keyword" disabled><i class="fa fa-check"></i> Select Keyword</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="new-keyword-container" class="is-hidden space-top">
+    <div class="row">
+      <div class="col-4">
+        <%= label_tag 'category', 'Category' %>
+        <%= text_field_tag('bulk_update_new[Category]', nil, id: 'new_category', class: 'full-width science-keyword-value', readonly: true) %>
+      </div>
+      <div class="col-4">
+        <%= label_tag 'topic', 'Topic' %>
+        <%= text_field_tag('bulk_update_new[Topic]', nil, id: 'new_topic', class: 'full-width science-keyword-value', readonly: true) %>
+      </div>
+      <div class="col-4">
+        <%= label_tag 'term', 'Term' %>
+        <%= text_field_tag('bulk_update_new[Term]', nil, id: 'new_term', class: 'full-width science-keyword-value', readonly: true) %>
+      </div>
+    </div>
+
+    <div class="row space-top">
+      <h5 class="space-bot">Variable Levels</h5>
+
+      <div class="col-3">
+        <%= label_tag 'variablelevel1', 'Level 1' %>
+        <%= text_field_tag('bulk_update_new[VariableLevel1]', nil, id: 'new_variablelevel1', class: 'full-width science-keyword-value', readonly: true) %>
+      </div>
+
+      <div class="col-3">
+        <%= label_tag 'variablelevel2', 'Level 2' %>
+        <%= text_field_tag('bulk_update_new[VariableLevel2]', nil, id: 'new_variablelevel2', class: 'full-width science-keyword-value', readonly: true) %>
+      </div>
+
+      <div class="col-3">
+        <%= label_tag 'variablelevel3', 'Level 3' %>
+        <%= text_field_tag('bulk_update_new[VariableLevel3]', nil, id: 'new_variablelevel3', class: 'full-width science-keyword-value', readonly: true) %>
+      </div>
+
+      <div class="col-3">
+        <%= label_tag 'detailedvariable', 'Detailed Variable' %>
+        <%= text_field_tag('bulk_update_new[DetailedVariable]', nil, id: 'new_detailedvariable', class: 'full-width science-keyword-value', readonly: true) %>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<!-- Setup Science Keywords -->
+<script type="text/javascript">
+  setupBulkEditScienceKeywords(<%= raw @science_keywords.to_json %>);
+</script>

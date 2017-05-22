@@ -48,20 +48,20 @@
           </thead>
           <tbody>
             <% if @collections.any? %>
-            <% @collections.each do |collection| %>
-            <tr>
-            <td class="align-c">
-              <%= check_box_tag('bulk_update_collections[]', collection.fetch('meta', {})['concept-id'], false) %>
-            </td>
-              <td><%= link_to collection.fetch('umm', {})['entry-title'], collection_path(collection.fetch('meta', {})['concept-id']), class: 'ext', target: '_blank' %></td>
-              <td><%= collection.fetch('umm', {})['short-name'] %></td>
-              <td><%= collection.fetch('umm', {})['version-id'] %></td>
-            </tr>
-            <% end %>
+              <% @collections.each do |collection| %>
+                <tr>
+                  <td class="align-c">
+                    <%= check_box_tag('bulk_update_collections[]', collection.fetch('meta', {})['concept-id'], false) %>
+                  </td>
+                  <td><%= link_to collection.fetch('umm', {})['entry-title'], collection_path(collection.fetch('meta', {})['concept-id']), class: 'ext', target: '_blank' %></td>
+                  <td><%= collection.fetch('umm', {})['short-name'] %></td>
+                  <td><%= collection.fetch('umm', {})['version-id'] %></td>
+                </tr>
+              <% end %>
             <% else %>
-            <tr>
-              <td colspan="4">No collections found.</td>
-            </tr>
+              <tr>
+                <td colspan="4">No collections found.</td>
+              </tr>
             <% end %>
           </tbody>
         </table>

@@ -64,4 +64,60 @@ describe BulkUpdatesController, reset_provider: true do
       end
     end
   end
+
+  describe 'GET #new' do
+    context 'when bulk updates are enabled' do
+      before do
+        sign_in
+
+        get :new, search_field: 'short_name', search_query: 'dunno'
+      end
+
+      it 'redirects the user to the bulk updates search page' do
+        expect(response).to redirect_to(new_bulk_updates_search_path)
+      end
+    end
+
+    context 'when bulk updates are disabled' do
+      before do
+        allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
+      end
+
+      it 'redirects the user to the manage metadata page' do
+        sign_in
+
+        get :new, search_field: 'short_name', search_query: 'dunno'
+
+        expect(response).to redirect_to(manage_metadata_path)
+      end
+    end
+  end
+
+  describe 'POST #new' do
+    context 'when bulk updates are enabled' do
+      before do
+        sign_in
+
+        post :new, search_field: 'short_name', search_query: 'dunno'
+      end
+
+      it 'renders the preview view' do
+        expect(response).to render_template(:new)
+      end
+    end
+
+    context 'when bulk updates are disabled' do
+      before do
+        allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
+      end
+
+      it 'redirects the user to the manage metadata page' do
+        sign_in
+
+        post :new, search_field: 'short_name', search_query: 'dunno'
+
+        expect(response).to redirect_to(manage_metadata_path)
+      end
+    end
+  end
 end

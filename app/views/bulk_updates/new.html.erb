@@ -2,6 +2,23 @@
   <section>
     <h2>New <%= current_user.provider_id %> Bulk Update</h2>
 
-    <%= params.select { |key, value| %w(bulk_update_collections search_field search_query).include?(key) } %>
+    <%= form_tag(bulk_update_preview_path, method: :post, id: 'bulk-updates-form') do %>
+      <fieldset>
+        <%= label_tag('update-field', 'Field to Update') %>
+        <%= select_tag('update-field', options_for_select(BulkUpdatesHelper::UPDATEABLE_FIELDS), prompt: 'Select a Field to Update') %>
+      </fieldset>
+
+      <% BulkUpdatesHelper::UPDATEABLE_FIELDS.each do |field| %>
+        <div id="bulk-update-field-<%= field[1] %>" class="bulk-update-partial is-hidden">
+          <%= render partial: "shared/bulk_updates/#{field[1]}" %>
+        </div>
+      <% end %>
+
+      <fieldset>
+        <div class="row">
+        <%= submit_tag 'Preview', id: 'bulk-update-preview-button',class: 'eui-btn--blue' %>
+        </div>
+      </fieldset>
+    <% end %>
   </section>
 </div>
