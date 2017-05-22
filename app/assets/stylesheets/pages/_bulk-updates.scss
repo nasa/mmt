@@ -6,24 +6,4 @@
   .form-description {
     margin-top: 15px;
   }
-
-  .bulk-updates-nav {
-    background-color: $light-grey;
-    border-radius: 5px;
-    padding-left: 10px;
-    margin-top: 25px;
-
-    ul {
-      padding: 0;
-
-      li {
-        list-style-type: none;
-        padding-bottom: 5px;
-      }
-
-      ul li {
-        padding: 0 0 10px 15px;
-      }
-    }
-  }
 }
