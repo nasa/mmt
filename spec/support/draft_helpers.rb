@@ -212,8 +212,8 @@ module Helpers
             fill_in 'Description', with: 'Example Description 2'
             select 'Distribution URL', from: 'URL Content Type'
             select 'Get Service', from: 'Type'
-            select 'Earthdata Search', from: 'Subtype'
-            fill_in 'URL', with: 'https://search.earthdata.nasa.gov'
+            select 'DIF', from: 'Subtype'
+            fill_in 'URL', with: 'https://example.com/'
 
             # Get Service fields
             select 'Not provided', from: 'Mime Type'

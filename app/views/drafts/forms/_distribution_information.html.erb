@@ -1,7 +1,7 @@
 <!-- Related URL -->
 <fieldset class="eui-accordion is-closed" id="related-urls">
   <div class="eui-accordion__header">
-    <h3 class="eui-accordion__title">Distribution URLs</h3>
+    <h3 class="eui-accordion__title">Related URLs</h3>
     <%= mmt_help_icon(
       title: 'Related URLs',
       help: 'properties/RelatedUrls'
@@ -21,7 +21,8 @@
             multiple: true,
             options: {
               always_required: false,
-              related_url_title: 'Distribution URLs',
+              related_url_title: 'Related URLs',
+              url_content_type_options: DraftsHelper::URLContentTypeRelatedURLsOptions
             }
           } %>
       </div>

@@ -59,7 +59,7 @@ describe 'Distribution information preview' do
             within '.card-body' do
               expect(page).to have_content('Related URL 2 Description')
               expect(page).to have_link('https://search.earthdata.nasa.gov/', href: 'https://search.earthdata.nasa.gov/')
-              expect(page).to have_content('Get Service Earthdata Search')
+              expect(page).to have_content('Get Data Earthdata Search')
             end
           end
           within all('li.card')[2] do
@@ -69,7 +69,7 @@ describe 'Distribution information preview' do
             within '.card-body' do
               expect(page).to have_content('Related URL 3 Description')
               expect(page).to have_link('https://example.com/', href: 'https://example.com/')
-              expect(page).to have_content('Get Data DIF')
+              expect(page).to have_content('Get Service DIF')
             end
           end
         end
