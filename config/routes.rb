@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       match 'new', via: [:get, :post], as: 'new'
     end
   end
+  post '/bulk_updates/preview' => 'bulk_updates#preview', as: 'bulk_update_preview'
 
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'

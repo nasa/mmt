@@ -40,7 +40,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
       end
     end
 
-    context 'when searching for downloadable collections' do
+    context 'when searching for collections by Version' do
       before do
         within '#bulk-updates-search' do
           select 'Version', from: 'Search Field'
@@ -57,7 +57,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
       end
     end
 
-    context 'when searching for online only collections' do
+    context 'when searching for collections by Short Name' do
       before do
         within '#bulk-updates-search' do
           select 'Short Name', from: 'Search Field'

@@ -1,0 +1,7 @@
+<div class="row row-content">
+  <section>
+    <h2>Preview of New <%= current_user.provider_id %> Bulk Update</h2>
+
+    <%= params.select { |key, value| %w(concept_id bulk_update_find bulk_update_new).include?(key) } %>
+  </section>
+</div>
