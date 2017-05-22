@@ -16,7 +16,7 @@ displayHelpText = (searchFieldElement) ->
 
   if($selectedFieldData.hasOwnProperty('supports_wildcard') && $selectedFieldData['supports_wildcard'] == true)
     $('<p>').addClass('form-description')
-      .text('This field supports wildcard searching. Add `*` to your search to return more results.')
+      .text('This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.')
       .insertAfter($queryField)
 
 $(document).ready ->
