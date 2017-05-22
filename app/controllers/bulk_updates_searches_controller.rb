@@ -18,7 +18,7 @@ class BulkUpdatesSearchesController < ManageMetadataController
     collection_results = []
 
     if search_params.key?(:field) && search_params.key?(:query)
-      cmr_params[search_params[:field].to_sym] = search_params[:query].dup
+      cmr_params[search_params[:field]] = search_params[:query].dup
 
       collection_response = cmr_client.get_collections_by_post(
         hydrate_params(cmr_params), token
@@ -44,7 +44,7 @@ class BulkUpdatesSearchesController < ManageMetadataController
   def hydrate_params(high_level_params)
     wildcard_keys = BulkUpdatesHelper::SEARCHABLE_KEYS.select { |_key, val| val.fetch(:data_attributes, {}).fetch(:supports_wildcard, false) }.keys
 
-    wildcard_keys.each do |key|
+    wildcard_keys.map(&:to_s).each do |key|
       next unless high_level_params.key?(key) && high_level_params[key].include?('*')
 
       # In order to search with the wildcard parameter we need to tell CMR to use it

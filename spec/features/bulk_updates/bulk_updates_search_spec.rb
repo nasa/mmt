@@ -5,8 +5,6 @@ describe 'Searching collections to bulk update', reset_provider: true do
     # Create a few collections with unique attributes that we can search for
     2.times { |i| publish_draft(version: "nasa.001#{i}") }
     3.times { |i| publish_draft(short_name: "nasa.002", version: "#{i}") }
-
-    wait_for_cmr
   end
 
   context 'when viewing the bulk update search page' do
