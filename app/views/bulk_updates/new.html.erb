@@ -2,6 +2,6 @@
   <section>
     <h2>New <%= current_user.provider_id %> Bulk Update</h2>
 
-    <%= pluralize(params[:bulk_update_collections].count, 'collection') %>
+    <%= params.select { |key, value| %w(bulk_update_collections search_field search_query).include?(key) } %>
   </section>
 </div>

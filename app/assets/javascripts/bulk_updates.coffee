@@ -37,3 +37,14 @@ $(document).ready ->
 
     $('#bulk-updates-search-field').on 'change', ->
       displayHelpText($(this))
+
+  if $('#bulk-updates-search-results').length > 0
+      $('#bulk-updates-search-results').tablesorter
+        # Prevent sorting on the checkboxes
+        headers:
+          0:
+            sorter: false
+          3:
+            sorter: 'text'
+
+        widgets: ['zebra']
