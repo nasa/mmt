@@ -103,7 +103,7 @@ describe 'Collection Permissions form', js: true do
 
       it 'displays validation errors on the form' do
         expect(page).to have_content('Permission Name is required.')
-        expect(page).to have_content('Permission must apply to Collections or Granules.')
+        expect(page).to have_content('Permission must apply to Collections and/or Granules.')
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end
     end
@@ -117,7 +117,7 @@ describe 'Collection Permissions form', js: true do
 
       it 'displays the appropriate validation errors' do
         expect(page).to have_content('Permission Name is required.')
-        expect(page).to have_content('Permission must apply to Collections or Granules.')
+        expect(page).to have_content('Permission must apply to Collections and/or Granules.')
         expect(page).to have_content('You must select at least 1 collection.')
         expect(page).to have_content('Please specify at least one Search group or one Search & Order group.')
       end

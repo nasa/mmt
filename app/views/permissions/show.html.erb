@@ -18,7 +18,7 @@
             </td>
           </tr>
         <% else %>
-          <% @permission.fetch('group_permissions', []).select { |permission, groups| (%w(read order) & permission.fetch('permissions', {})).any? }.group_by { |permission| permission.fetch('permissions', []) }.each do |permissions, groups| %>
+          <% @permission.fetch('group_permissions', []).select { |permission, groups| (%w(read order) & permission.fetch('permissions', [])).any? }.group_by { |permission| permission.fetch('permissions', []) }.each do |permissions, groups| %>
 
             <% groups.select { |group| group.key?('user_type') || group.key?('group') }.each do |group| %>
               <tr>
@@ -61,7 +61,7 @@
         <p><%= collection_constraint_summary(@permission) %></p>
 
         <% if @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}).any? && @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', []).any? %>
-          <%= button_tag 'Toggle Collection Highlighting', class: 'eui-btn eui-btn--sm highlight-collections', title: 'Toggle the highlighting of collections that satisfy the constraint filters.', data: @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}) %>
+          <%# button_tag 'Toggle Collection Highlighting', class: 'eui-btn eui-btn--sm highlight-collections', title: 'Toggle the highlighting of collections that satisfy the constraint filters.', data: @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}) %>
         <% end %>
       </div>
       
@@ -85,7 +85,7 @@
         
         <% permission_collections(@permission).fetch('items', []).each do |collection| %>
         <tr>
-          <td><%= link_to collection.fetch('umm', {})['EntryTitle'], collection_path(collection.fetch('meta', {})['concept-id']), target: '_blank' %></td>
+          <td><%= link_to collection.fetch('umm', {})['EntryTitle'], collection_path(collection.fetch('meta', {})['concept-id']) %></td>
           <td><%= collection.fetch('umm', {})['ShortName'] %></td>
           <td><%= collection.fetch('umm', {})['Version'] %></td>
           <td class="access-constraint"><%= collection.fetch('umm', {}).fetch('AccessConstraints', {})['Value'] %></td>
