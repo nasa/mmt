@@ -40,6 +40,8 @@ $(document).ready ->
 
   if $('#bulk-updates-search-results').length > 0
       $('#bulk-updates-search-results').tablesorter
+        sortList: [[1,0]]
+
         # Prevent sorting on the checkboxes
         headers:
           0:
