@@ -1,5 +1,12 @@
 $(document).ready ->
 
+  $('#duplicate-order-items').tablesorter
+    sortList: [[0,0]]
+
+    headers:
+      2:
+        sorter: 'text'
+
   if $('.order-policy').length > 0
 
     $('#test-endpoint-modal').leanModal
@@ -86,14 +93,6 @@ $(document).ready ->
     # so that it can be properly interpreted by the controller
     $('#order-policies-form').on 'submit', ->
       $('#collections_supporting_duplicate_order_items_toList option').prop('selected', true)
-
-    $('#duplicate-order-items').tablesorter
-      # Prevent sorting on the checkboxes
-      headers:
-        0: 
-          sorter: false
-        3:
-          sorter: 'text'
 
     $('#order-policies-form').validate
       errorPlacement: (error, element) ->
