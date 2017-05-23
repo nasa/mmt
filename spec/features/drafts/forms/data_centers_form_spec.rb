@@ -126,7 +126,7 @@ describe 'Data Centers form' do
             expect(page).to have_field('Description', with: 'Example Description')
             expect(page).to have_field('URL Content Type', with: 'DataCenterURL')
             expect(page).to have_field('Type', with: 'HOME PAGE')
-            expect(page).to have_field('URL', with: 'http://example.com')
+            expect(page).to have_field('URL', with: 'http://www.esa.org/education/')
           end
         end
       end
