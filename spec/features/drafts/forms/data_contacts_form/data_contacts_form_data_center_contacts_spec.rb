@@ -366,7 +366,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
                   expect(page).to have_field('Description', with: 'Example Description')
                   expect(page).to have_field('URL Content Type', with: 'DataContactURL')
                   expect(page).to have_field('Type', with: 'HOME PAGE')
-                  expect(page).to have_field('URL', with: 'http://example.com')
+                  expect(page).to have_field('URL', with: 'http://www.esa.org/education/')
                 end
               end
             end
@@ -493,7 +493,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
                   expect(page).to have_field('Description', with: 'Example Description')
                   expect(page).to have_field('URL Content Type', with: 'DataContactURL')
                   expect(page).to have_field('Type', with: 'HOME PAGE')
-                  expect(page).to have_field('URL', with: 'http://example.com')
+                  expect(page).to have_field('URL', with: 'http://www.esa.org/education/')
                 end
               end
             end

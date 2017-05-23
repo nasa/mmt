@@ -74,8 +74,11 @@ $(document).ready ->
       $urlContentTypeElement.trigger('change')
     else
       $urlElement.attr('readonly', false)
-      $urlContentTypeElement.find('option').first().prop 'selected', true
-      $urlContentTypeElement.trigger('change')
+
+      # If URL wasn't prepopulated on load
+      if $urlElement.val() == ''
+        $urlContentTypeElement.find('option').first().prop 'selected', true
+        $urlContentTypeElement.trigger('change')
 
 
   # Set placeholder for group filters
