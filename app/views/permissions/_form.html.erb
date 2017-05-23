@@ -2,11 +2,11 @@
 
 <fieldset>
   <div class="row">
-    <div class="col-7">
+    <div class="col-6">
       <%= label_tag 'permission_name', 'Name', class: 'required eui-required-o' %>
       <%= text_field_tag 'permission_name', @permission.fetch('catalog_item_identity', {})['name'], class: 'full-width', readonly: !new_form, maxlength: 100 %>
     </div>
-    <div class="col-5">
+    <div class="col-6">
       <%= label_tag 'acl_applies_to', 'Apply Permission To:', class: 'required eui-required-o' %>
       <div class="row checkbox-group space-top">
         <div class="col-6">
@@ -36,7 +36,6 @@
         <%= radio_button_tag 'collection_option', 'all', @permission.empty? ? true : @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', []).empty? %>
         All Collections
       <% end %>
-      <p class="form-description">If any access constraints are applied it will filter all available collections.</p>
     </div>
 
     <div class="col-6">
@@ -44,7 +43,6 @@
         <%= radio_button_tag 'collection_option', 'selected', @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', []).any? %>
         Selected Collections
       <% end %>
-      <p class="form-description">If any access constraints are applied it will filter the selected collections further.</p>
     </div>
   </div>
 
@@ -131,7 +129,7 @@
     <tbody>
       <tr>
         <td id="search_groups_cell">
-          <%= select_tag 'search_groups[]', options_for_select(@groups, @permission.fetch('group_permissions', []).reject { |group| group['is_hidden'] == true }.select { |group| !group['permissions'].include?('order') }.map { |group| group['group_id'] || group['user_type']}), multiple: 'multiple', class: 'permission-group required'  %>
+          <%= select_tag 'search_groups[]', options_for_select(@groups, @permission.fetch('group_permissions', []).reject { |group| group['is_hidden'] == true }.select { |group| group['permissions'].include?('read') && !group['permissions'].include?('order') }.map { |group| group['group_id'] || group['user_type']}), multiple: 'multiple', class: 'permission-group required'  %>
         </td>
         <td id="search_and_order_groups_cell">
           <%= select_tag 'search_and_order_groups[]', options_for_select(@groups, @permission.fetch('group_permissions', []).reject { |group| group['is_hidden'] == true }.select { |group| group['permissions'].include?('order') }.map { |group| group['group_id'] || group['user_type']}), multiple: 'multiple', class: 'permission-group required'  %>
@@ -145,7 +143,7 @@
     <% groups.each do |group| %>
       <% if permissions.split('|').include?('order') %>
         <%= hidden_field_tag('hidden_search_and_order_groups[]', group['group_id']) %>
-      <% else %>
+      <% elsif permissions.split('|').include?('read') && !permissions.split('|').include?('order') %>
         <%= hidden_field_tag('hidden_search_groups[]', group['group_id']) %>
       <% end %>
     <% end %>

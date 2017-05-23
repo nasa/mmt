@@ -149,14 +149,18 @@ class PermissionsController < ManageCmrController
     permission.fetch('group_permissions', []).each do |group_permission|
       next unless group_permission.key?('group_id')
 
+      if group_permission['group_id'] =~ /(-CMR)$/ && !policy(:system_group).read?
+        # If this user does not have access to view this group mark it for hiding
+        group_permission['is_hidden'] = true
+
+        next
+      end
+
       group_response = cmr_client.get_group(group_permission['group_id'], token)
 
       hydrate_group_permissions(group_permission)
 
       group_permission['group'] = group_response.body if group_response.success?
-
-      # If this user does not have access to view this group mark it for hiding
-      group_permission['is_hidden'] = true if group_permission['group_id'] =~ /(-CMR)$/ && !policy(:system_group).read?
     end
   end
 

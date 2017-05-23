@@ -19,6 +19,8 @@ $(document).ready ->
     headers:
       2:
         sorter: 'text'
+      3:
+        sorter: 'text'
 
   # 'Toggle Collection Highlighting' button functionality for the
   # collection list displayed on the permission show page
@@ -202,9 +204,9 @@ $(document).ready ->
         permission_name:
           required: 'Permission Name is required.'
         collection_applicable:
-          required: 'Permission must apply to Collections or Granules.'
+          required: 'Permission must apply to Collections and/or Granules.'
         granule_applicable:
-          required: 'Permission must apply to Collections or Granules.'
+          required: 'Permission must apply to Collections and/or Granules.'
         'collectionsChooser_toList[]':
           required: 'You must select at least 1 collection.'
         'collection_access_value[min_value]':

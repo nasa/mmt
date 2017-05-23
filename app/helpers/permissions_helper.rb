@@ -8,7 +8,7 @@ module PermissionsHelper
   def display_access_constraints(access_value)
     return unless access_value.any?
 
-    filters = ['which have access constraint values']
+    filters = ['that have access constraint values']
 
     if access_value['min_value'] && access_value['max_value']
       filters << if access_value['min_value'] == access_value['max_value']
@@ -36,7 +36,7 @@ module PermissionsHelper
       sentence_fragments << if collection_entry_titles.any?
                               "grants its assigned groups access to #{pluralize(collection_entry_titles.count, 'collection')}"
                             else
-                              'grants its assigned groups access to all of it\'s collections'
+                              'grants its assigned groups access to all of its collections'
                             end
 
       sentence_fragments << display_access_constraints(permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}))
@@ -55,7 +55,7 @@ module PermissionsHelper
     sentence_fragments = ['This permission']
 
     if granule_applicable
-      sentence_fragments << 'grants its assigned groups access to the granules'
+      sentence_fragments << 'grants its assigned groups access to granules'
 
       sentence_fragments << display_access_constraints(permission.fetch('catalog_item_identity', {}).fetch('granule_identifier', {}).fetch('access_value', {}))
 
