@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <% if @permission.fetch('group_permissions', []).blank? %>
+        <% if @permission.fetch('group_permissions', []).blank? || @permission.fetch('group_permissions', []).all? { |group| group.fetch('permissions', []).blank? } %>
           <tr>
             <td colspan="3">
               No Groups listed.

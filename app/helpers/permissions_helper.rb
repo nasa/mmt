@@ -28,7 +28,7 @@ module PermissionsHelper
   def collection_constraint_summary(permission)
     collection_applicable = permission.fetch('catalog_item_identity', {}).fetch('collection_applicable', false)
 
-    collection_entry_titles = permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', [])
+    collection_entry_titles = permission_entry_titles(permission)
 
     sentence_fragments = ['This permission']
 
@@ -39,7 +39,7 @@ module PermissionsHelper
                               'grants its assigned groups access to all of its collections'
                             end
 
-      sentence_fragments << display_access_constraints(permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}))
+      sentence_fragments << display_access_constraints(permission_collection_access_constraints(permission))
     else
       sentence_fragments << 'does not grant access to collections'
     end
@@ -50,14 +50,14 @@ module PermissionsHelper
   def granule_constraint_summary(permission)
     granule_applicable = permission.fetch('catalog_item_identity', {}).fetch('granule_applicable', false)
 
-    collection_entry_titles = permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', [])
+    collection_entry_titles = permission_entry_titles(permission)
 
     sentence_fragments = ['This permission']
 
     if granule_applicable
       sentence_fragments << 'grants its assigned groups access to granules'
 
-      sentence_fragments << display_access_constraints(permission.fetch('catalog_item_identity', {}).fetch('granule_identifier', {}).fetch('access_value', {}))
+      sentence_fragments << display_access_constraints(permission_granule_access_constraints(permission))
 
       sentence_fragments << if collection_entry_titles.any?
                               "that belong to the #{pluralize(collection_entry_titles.count, 'selected collection')}"
@@ -65,7 +65,7 @@ module PermissionsHelper
                               'that belong to any of its collections'
                             end
 
-      sentence_fragments << display_access_constraints(permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}))
+      sentence_fragments << display_access_constraints(permission_collection_access_constraints(permission))
     else
       sentence_fragments << 'does not grant access to granules'
     end
@@ -74,7 +74,7 @@ module PermissionsHelper
   end
 
   def permission_collections(permission)
-    entry_titles = permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', [])
+    entry_titles = permission_entry_titles(permission)
 
     return {} unless entry_titles.any?
 
@@ -85,11 +85,28 @@ module PermissionsHelper
     collection_response.body
   end
 
+  # Return the collections that the current user does NOT have access to which
+  # is the difference between the collections that are stored on the permission
+  # and the collections that are returned from pinging CMR with the users token
   def unauthorized_permission_collections(permission)
-    entry_titles = permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', [])
-
     permitted_collections = permission_collections(permission).fetch('items', []).map { |collection| collection.fetch('umm', {}).fetch('EntryTitle') }
 
-    (entry_titles - permitted_collections)
+    (permission_entry_titles(permission) - permitted_collections)
+  end
+
+  #
+  # Shortcuts for deeply nested keys within permission object
+  #
+
+  def permission_entry_titles(permission)
+    permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', [])
+  end
+
+  def permission_collection_access_constraints(permission)
+    permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {})
+  end
+
+  def permission_granule_access_constraints(permission)
+    permission.fetch('catalog_item_identity', {}).fetch('granule_identifier', {}).fetch('access_value', {})
   end
 end

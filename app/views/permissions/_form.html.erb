@@ -33,21 +33,21 @@
   <div class="row checkbox-group space-bot">
     <div class="col-6">
       <%= label_tag 'collection_option_all' do %>
-        <%= radio_button_tag 'collection_option', 'all', @permission.empty? ? true : @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', []).empty? %>
+        <%= radio_button_tag 'collection_option', 'all', @permission.empty? ? true : permission_entry_titles(@permission).empty? %>
         All Collections
       <% end %>
     </div>
 
     <div class="col-6">
       <%= label_tag 'collection_option_selected' do %>
-        <%= radio_button_tag 'collection_option', 'selected', @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', []).any? %>
+        <%= radio_button_tag 'collection_option', 'selected', permission_entry_titles(@permission).any? %>
         Selected Collections
       <% end %>
     </div>
   </div>
 
   <!-- Hidden fields that represent the underlying array of selected collections -->
-  <% Array.wrap(@permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', [])).each do |collection| %>
+  <% Array.wrap(permission_entry_titles(@permission)).each do |collection| %>
     <%= hidden_field_tag('collection_selections[]', collection, class: 'selected-collection') %>
   <% end %>
 
@@ -68,17 +68,17 @@
         <div class="row min-max-row">
           <div class="col-6 min-max-col">
             <%= label_tag 'collection_access_value[min_value]', 'Minimum Value' %>
-            <%= text_field_tag 'collection_access_value[min_value]', @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {})['min_value'], class: 'full-width min-max-value collection-access-value-group' %>
+            <%= text_field_tag 'collection_access_value[min_value]', permission_collection_access_constraints(@permission)['min_value'], class: 'full-width min-max-value collection-access-value-group' %>
           </div>
           <div class="col-6 min-max-col">
             <%= label_tag 'collection_access_value[max_value]', 'Maximum Value' %>
-            <%= text_field_tag 'collection_access_value[max_value]', @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {})['max_value'], class: 'full-width min-max-value collection-access-value-group' %>
+            <%= text_field_tag 'collection_access_value[max_value]', permission_collection_access_constraints(@permission)['max_value'], class: 'full-width min-max-value collection-access-value-group' %>
           </div>
         </div>
         <div class="row checkbox-group">
           <div class="col-6">
           <%= label_tag 'collection_access_value[include_undefined_value]' do %>
-            <%= check_box_tag 'collection_access_value[include_undefined_value]', true, @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {})['include_undefined_value'] %>
+            <%= check_box_tag 'collection_access_value[include_undefined_value]', true, permission_collection_access_constraints(@permission)['include_undefined_value'] %>
             Include Undefined
           <% end %>
           </div>
@@ -94,17 +94,17 @@
         <div class="row min-max-row">
           <div class="col-6 min-max-col">
             <%= label_tag 'granule_access_value[min_value]', 'Minimum Value' %>
-            <%= text_field_tag 'granule_access_value[min_value]', @permission.fetch('catalog_item_identity', {}).fetch('granule_identifier', {}).fetch('access_value', {})['min_value'], class: 'full-width min-max-value granule-access-value-group' %>
+            <%= text_field_tag 'granule_access_value[min_value]', permission_granule_access_constraints(@permission)['min_value'], class: 'full-width min-max-value granule-access-value-group' %>
           </div>
           <div class="col-6 min-max-col">
             <%= label_tag 'granule_access_value[max_value]', 'Maximum Value' %>
-            <%= text_field_tag 'granule_access_value[max_value]', @permission.fetch('catalog_item_identity', {}).fetch('granule_identifier', {}).fetch('access_value', {})['max_value'], class: 'full-width min-max-value granule-access-value-group' %>
+            <%= text_field_tag 'granule_access_value[max_value]', permission_granule_access_constraints(@permission)['max_value'], class: 'full-width min-max-value granule-access-value-group' %>
           </div>
         </div>
         <div class="row checkbox-group">
           <div class="col-6">
           <%= label_tag 'granule_access_value[include_undefined_value]' do %>
-            <%= check_box_tag 'granule_access_value[include_undefined_value]', true, @permission.fetch('catalog_item_identity', {}).fetch('granule_identifier', {}).fetch('access_value', {})['include_undefined_value'] %>
+            <%= check_box_tag 'granule_access_value[include_undefined_value]', true, permission_granule_access_constraints(@permission)['include_undefined_value'] %>
             Include Undefined
           <% end %>
           </div>
