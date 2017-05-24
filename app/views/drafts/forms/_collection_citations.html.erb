@@ -1,14 +1,10 @@
-<fieldset class="eui-accordion is-closed" id="collection-citation">
+<fieldset class="eui-accordion" id="collection-citation">
   <div class="eui-accordion__header">
     <h3 class="eui-accordion__title">Collection Citations</h3>
     <%= mmt_help_icon(
       title: 'CollectionCitations',
       help: 'properties/CollectionCitations'
     ) %>
-    <div class="eui-accordion__icon" tabindex="0">
-      <i class="eui-icon eui-fa-chevron-circle-down"></i>
-      <span class="eui-sr-only">Toggle Collection Citations</span>
-    </div>
   </div>
   <div class="eui-accordion__body">
     <!-- Collection Citation -->
@@ -23,40 +19,6 @@
               options: {} } %>
         </div>
       </div>
-    </div>
-  </div>
-</fieldset>
-
-<fieldset class="eui-accordion is-closed" id="doi">
-  <div class="eui-accordion__header">
-    <h3 class="eui-accordion__title">DOI</h3>
-    <%= mmt_help_icon(
-      title: 'DOI',
-      help: 'properties/DOI'
-    ) %>
-    <div class="eui-accordion__icon" tabindex="0">
-      <i class="eui-icon eui-fa-chevron-circle-down"></i>
-      <span class="eui-sr-only">Toggle DOI</span>
-    </div>
-  </div>
-  <div class="eui-accordion__body">
-    <!-- DOI -->
-    <%= mmt_label(
-      name: 'doi',
-      title: 'DOI',
-      prefix: 'draft_doi_',
-    ) %>
-    <%= mmt_help_icon(
-      title: 'DOI',
-      help: 'definitions/DoiType'
-    ) %>
-    <div class="row sub-fields">
-      <%= render partial: 'drafts/forms/type', locals: {
-          type: 'doi',
-          values: draft.draft['DOI'] || {},
-          name_prefix: 'draft_doi_',
-          multiple: false,
-          options: {} } %>
     </div>
   </div>
 </fieldset>

@@ -424,6 +424,7 @@ module DraftsHelper
 
   SINGLE_FIELDSET_FORMS = %w(
     collection_information
+    collection_citations
     data_centers
     data_contacts
   )

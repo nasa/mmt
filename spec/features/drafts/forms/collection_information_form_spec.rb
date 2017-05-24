@@ -19,6 +19,8 @@ describe 'Collection Information form', js: true do
       fill_in 'Version', with: 'v2'
       fill_in 'Version Description', with: 'v2 description'
       fill_in 'Entry Title', with: 'Draft Title'
+      fill_in 'DOI', with: 'Citation DOI'
+      fill_in 'Authority', with: 'Citation DOI Authority'
       fill_in 'Abstract', with: 'This is a long description of the collection'
       fill_in 'Purpose', with: 'This is the purpose field'
       select 'English', from: 'Data Language'

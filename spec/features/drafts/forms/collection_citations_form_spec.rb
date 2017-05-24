@@ -19,10 +19,6 @@ describe 'Collection citations form', js: true do
       # Collection Citations
       add_collection_citations
 
-      # DOI
-      fill_in 'DOI', with: 'Citation DOI'
-      fill_in 'Authority', with: 'Citation DOI Authority'
-
       within '.nav-top' do
         click_on 'Save'
       end
@@ -71,12 +67,6 @@ describe 'Collection citations form', js: true do
             expect(page).to have_field('Description', with: 'Online Resource Description 1')
           end
         end
-      end
-
-      #### DOI
-      within '.doi' do
-        expect(page).to have_field('DOI', with: 'Citation DOI')
-        expect(page).to have_field('Authority', with: 'Citation DOI Authority')
       end
     end
   end

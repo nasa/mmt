@@ -59,6 +59,25 @@
       </div>
     </div>
 
+    <!-- DOI -->
+    <%= mmt_label(
+      name: 'doi',
+      title: 'DOI',
+      prefix: 'draft_doi_',
+    ) %>
+    <%= mmt_help_icon(
+      title: 'DOI',
+      help: 'definitions/DoiType'
+    ) %>
+    <div class="row sub-fields">
+      <%= render partial: 'drafts/forms/type', locals: {
+          type: 'doi',
+          values: draft.draft['DOI'] || {},
+          name_prefix: 'draft_doi_',
+          multiple: false,
+          options: {} } %>
+    </div>
+
 
     <!-- Abstract [r] -->
     <div class="row">
