@@ -31,6 +31,10 @@ module PreviewCirclesHelper
         required: true,
         anchor: 'collection-information'
       },
+      'DOI' => {
+        required: false,
+        anchor: 'collection-information'
+      },
       'Abstract' => {
         required: true,
         anchor: 'collection-information'
@@ -98,10 +102,6 @@ module PreviewCirclesHelper
       'CollectionCitations' => {
         required: false,
         anchor: 'collection-citation'
-      },
-      'DOI' => {
-        required: false,
-        anchor: 'doi'
       }
     },
     'descriptive_keywords' => {
