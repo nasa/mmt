@@ -3,8 +3,8 @@ module BulkUpdatesHelper
   #   a more complex and functional filtering tool we should make data entry
   #   easier by supplying the correct input for the data type.
   SEARCHABLE_KEYS = {
-    two_d_coordinate_system_name: {
-      title: 'Tiling Identification System Name',
+    collection_data_type: {
+      title: 'Collection Data Type',
       data_attributes: {
         supports_wildcard: false,
         format: 'text'
@@ -17,13 +17,6 @@ module BulkUpdatesHelper
         format: 'text'
       }
     },
-    doi: {
-      title: 'DOI Value',
-      data_attributes: {
-        supports_wildcard: false,
-        format: 'text'
-      }
-    },
     data_center: {
       title: 'Data Center',
       data_attributes: {
@@ -31,8 +24,8 @@ module BulkUpdatesHelper
         format: 'text'
       }
     },
-    collection_data_type: {
-      title: 'Collection Data Type',
+    doi: {
+      title: 'DOI Value',
       data_attributes: {
         supports_wildcard: false,
         format: 'text'
@@ -92,7 +85,7 @@ module BulkUpdatesHelper
     short_name: {
       title: 'Short Name',
       data_attributes: {
-        supports_wildcard: false,
+        supports_wildcard: true,
         format: 'text'
       }
     },
@@ -105,6 +98,13 @@ module BulkUpdatesHelper
     },
     temporal: {
       title: 'Temporal Extent',
+      data_attributes: {
+        supports_wildcard: false,
+        format: 'text'
+      }
+    },
+    two_d_coordinate_system_name: {
+      title: 'Tiling Identification System Name',
       data_attributes: {
         supports_wildcard: false,
         format: 'text'
