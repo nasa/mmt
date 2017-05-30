@@ -16,7 +16,7 @@
         </div>
         <div class="row">
           <div class="col-5" id="bulk-updates-field-container">
-            <%= select_tag(:field, options_for_select(BulkUpdatesHelper::SEARCHABLE_KEYS.map { |option, values| [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]]}, params[:field]), id: 'bulk-updates-search-field', class: 'full-width required bulk-update-field') %>
+            <%= select_tag(:field, options_for_select(BulkUpdatesHelper::SEARCHABLE_KEYS.map { |option, values| [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]] }.sort_by { |options| options[0] }, params[:field]), id: 'bulk-updates-search-field', class: 'full-width required bulk-update-field') %>
             <p class="form-description" id="bulk-update-field-description"></p>
           </div>
           <div class="col-5" id="bulk-updates-query-container">

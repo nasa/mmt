@@ -4,7 +4,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
   before(:all) do
     # Create a few collections with unique attributes that we can search for
     2.times { |i| publish_draft(version: "nasa.001#{i}") }
-    3.times { |i| publish_draft(short_name: "nasa.002", version: "#{i}") }
+    3.times { |i| publish_draft(short_name: "nasa.002#{i}") }
   end
 
   context 'when viewing the bulk update search page' do
@@ -61,7 +61,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
       before do
         within '#bulk-updates-search' do
           select 'Short Name', from: 'Search Field'
-          fill_in 'query', with: 'nasa.002'
+          fill_in 'query', with: 'nasa.002*'
 
           click_button 'Submit'
         end
