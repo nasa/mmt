@@ -1,0 +1,22 @@
+/* Example Provider Specific Validation Rules */
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "VersionType": {
+      "description": "The version of the metadata record.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    }
+  },
+  "title": "UMM-C",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "Version": {
+      "description": "The Version of the collection. Must not contain the letter V",
+      "pattern": "^[^vV]+$",
+      "maxLength": 5
+    }
+  }
+}

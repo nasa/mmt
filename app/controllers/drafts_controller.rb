@@ -154,7 +154,21 @@ class DraftsController < ApplicationController
   end
 
   def load_umm_schema
-    @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
+    # if provider file exists
+    if File.exist?(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json"))
+      provider_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json")))
+      umm_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
+
+      begin
+        @json_schema = umm_schema.deep_merge(provider_schema)
+      rescue
+        # something wrong happened merging the schemas
+        logger.info "#{current_user.provider_id.downcase}.json could not be merged successfully."
+        @json_schema = umm_schema
+      end
+    else
+      @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
+    end
   end
 
   def load_data_contacts_schema
