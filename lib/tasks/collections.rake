@@ -18,6 +18,8 @@ namespace :collections do
     if cmr_sit_response.success?
       parsed_response = JSON.parse(cmr_sit_response.body)
 
+      puts "Retrieved 0 collections." if parsed_response['items'].nil? || parsed_response['items'] == 0 
+
       (parsed_response['items'] || []).each_with_index do |obj, index|
         collection_concept_id = obj.fetch('meta', {}).fetch('concept-id', nil)
 
@@ -69,6 +71,9 @@ namespace :collections do
           puts "[Failure] #{Hash.from_libxml(metadata_response.body)['errors']['error']}\n\n"
         end
       end
+
+    else
+      puts "Error Requesting collections."
     end
 
     puts "Successfully ingested #{collections_ingested} collections."

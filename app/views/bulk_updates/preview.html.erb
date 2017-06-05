@@ -1,7 +1,77 @@
 <div class="row row-content">
-  <section>
+  <section id="bulk-update-preview">
+    <!-- Preview of the Bulk Update -->
     <h2>Preview of New <%= current_user.provider_id %> Bulk Update</h2>
 
-    <%= params.select { |key, value| %w(concept_id update-field update-type bulk_update_find bulk_update_new).include?(key) } %>
+    <h3>Bulk Update Operation</h3>
+    <h4>Field to Update</h4>
+    <p><%= params['update-field'].titleize %></p>
+
+    <h4>Update Type</h4>
+    <p><%= params['update-type'].titleize %></p>
+
+    <% if params['update-type'] == 'FIND_AND_REMOVE' || params['update-type'] == 'FIND_AND_REPLACE' %>
+      <!-- Find Value -->
+      <%= display_value_title(params['update-type'], 'find') %>
+
+      <ul class="arrow-tag-group-list">
+        <% display_science_keyword(params['bulk_update_find']).each do |field, value| %>
+          <li itemprop="keyword" class="arrow-tag-group-item"><%= value %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <% if params['update-type'] == 'ADD_TO_EXISTING' || params['update-type'] == 'FIND_AND_REPLACE' %>
+      <!-- Update Value -->
+      <%= display_value_title(params['update-type'], 'new') %>
+
+      <ul class="arrow-tag-group-list">
+        <% display_science_keyword(params['bulk_update_new']).each do |field, value| %>
+          <li itemprop="keyword" class="arrow-tag-group-item"><%= value %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <h4 class="space-top"><%= pluralize(@collections.count, 'Selected Collection') %></h4>
+    <table class="bulk-update-preview-table bulk-update-preview-collections">
+      <thead>
+        <tr>
+          <th>Collection</th>
+          <th>Short Name</th>
+          <th>Version</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @collections.any? %>
+          <% @collections.each do |collection| %>
+            <tr>
+              <td><%= link_to collection.fetch('umm', {})['entry-title'], collection_path(collection.fetch('meta', {})['concept-id']), class: 'ext', target: '_blank' %></td>
+              <td><%= collection.fetch('umm', {})['short-name'] %></td>
+              <td><%= collection.fetch('umm', {})['version-id'] %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="3">No collections listed.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="bulk-update-preview-submit">
+    <!-- Form submitting data to create the bulk update -->
+    <%= form_tag(bulk_updates_path, method: :post, id: 'bulk-update-preview-submit-form') do %>
+      <% params[:concept_ids].each do |collection| %>
+        <%= hidden_field_tag 'concept-ids[]', collection %>
+      <% end %>
+
+      <%= hidden_field_tag 'update-field', params['update-field'] %>
+      <%= hidden_field_tag 'update-type', params['update-type'], id: 'bulk-update-type' %>
+      <%= hidden_field_tag 'find-value', prune_science_keyword(params[:bulk_update_find]) %>
+      <%= hidden_field_tag 'update-value', prune_science_keyword(params[:bulk_update_new]) %>
+
+      <%= submit_tag 'Submit', class: 'eui-btn--blue' %>
+    <% end %>
   </section>
 </div>
