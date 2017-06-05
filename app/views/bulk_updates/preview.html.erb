@@ -21,7 +21,7 @@
       </ul>
     <% end %>
 
-    <% if params['update-type'] == 'ADD_TO_EXISTING' || params['update-type'] == 'FIND_AND_REPLACE' %>
+    <% unless params['update-type'] == 'FIND_AND_REMOVE' %>
       <!-- Update Value -->
       <%= display_value_title(params['update-type'], 'new') %>
 
