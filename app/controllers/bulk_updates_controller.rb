@@ -30,5 +30,17 @@ class BulkUpdatesController < ManageMetadataController
     @science_keywords = cmr_client.get_controlled_keywords('science_keywords')
   end
 
-  def preview; end
+  def preview
+    redirect_to new_bulk_updates_search_path if request.get?
+
+    add_breadcrumb 'Preview', bulk_update_preview_path
+
+    collections_response = cmr_client.get_collections_by_post({ concept_id: params[:concept_ids], page_size: params[:concept_ids].count }, token)
+
+    if collections_response.success?
+      @collections = collections_response.body['items']
+    end
+  end
+
+  def create; end
 end

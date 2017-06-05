@@ -44,12 +44,15 @@ Rails.application.routes.draw do
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
 
-  resources :bulk_updates, only: [:index, :show] do
+  resources :bulk_updates, only: [:index, :show, :create] do
     collection do
       match 'new', via: [:get, :post], as: 'new'
     end
+    # post 'preview' => 'bulk_updates#preview', as: 'preview'
   end
   post '/bulk_updates/preview' => 'bulk_updates#preview', as: 'bulk_update_preview'
+
+  resource :bulk_updates_search, only: [:new]
 
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
@@ -70,8 +73,6 @@ Rails.application.routes.draw do
   # get 'welcome/collections/:provider_id' => 'welcome#collections', as: 'data_provider_collections'
 
   get 'search' => 'search#index', as: 'search'
-
-  resource :bulk_updates_search, only: [:new]
 
   resource :manage_metadata, only: :show, controller: 'manage_metadata'
   resource :manage_cmr, only: :show, controller: 'manage_cmr'

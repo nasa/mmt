@@ -1,9 +1,5 @@
 <h2>Science Keywords</h2>
 
-<% params[:bulk_update_collections].each do |collection| %>
-  <%= hidden_field_tag 'concept_id[]', collection %>
-<% end %>
-
 <fieldset>
   <%= update_type_select %>
 </fieldset>

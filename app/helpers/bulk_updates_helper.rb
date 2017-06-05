@@ -164,6 +164,16 @@ module BulkUpdatesHelper
     }
   }.freeze
 
+  SCIENCE_KEYWORDS_HIERARCHY = %w[
+    Category
+    Topic
+    Term
+    VariableLevel1
+    VariableLevel2
+    VariableLevel3
+    DetailedVariable
+  ].freeze
+
   def update_type_select
     # Construct the options for the select including the data attributes
     options = BulkUpdatesHelper::UPDATE_TYPES.map do |option, values|
@@ -171,5 +181,49 @@ module BulkUpdatesHelper
     end
 
     label_tag('update-type', 'Update Type') + select_tag('update-type', options_for_select(options), prompt: 'Select an Update Type')
+  end
+
+  def display_value_title(update_type, value_type)
+    data_attributes = BulkUpdatesHelper::UPDATE_TYPES.fetch(update_type.to_sym, {}).fetch(:data_attributes, {})
+
+    case value_type
+    when 'new'
+      title = data_attributes[:new_title]
+      description = data_attributes[:new_description]
+    when 'find'
+      title = data_attributes[:find_title]
+      description = data_attributes[:find_description]
+    end
+
+    "<h4>#{title}</h4><p>#{description}</p>".html_safe
+  end
+
+  def display_science_keyword(keyword)
+    return {} if keyword.blank?
+
+    reached_value = false
+    display_keyword = keyword.dup
+
+    BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.reverse.each do |level|
+      if (display_keyword[level].blank?) && !reached_value
+        display_keyword.delete(level)
+      elsif (display_keyword[level].blank?) && reached_value
+        display_keyword[level] = "<em><b>#{level.upcase}</b>: ANY VALUE</em>".html_safe
+      else
+        reached_value = true
+      end
+    end
+
+    display_keyword
+  end
+
+  def prune_science_keyword(keyword)
+    return {} if keyword.blank?
+
+    BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.reverse.each do |level|
+      keyword.delete(level) if keyword[level].blank?
+    end
+
+    keyword
   end
 end
