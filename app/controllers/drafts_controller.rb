@@ -161,7 +161,7 @@ class DraftsController < ApplicationController
 
       begin
         @json_schema = umm_schema.deep_merge(provider_schema)
-      rescue
+      rescue JSON::ParserError > e
         # something wrong happened merging the schemas
         logger.info "#{current_user.provider_id.downcase}.json could not be merged successfully."
         @json_schema = umm_schema
@@ -190,8 +190,6 @@ class DraftsController < ApplicationController
   end
 
   def validate_metadata
-    schema = 'lib/assets/schemas/umm-c-json-schema.json'
-
     # Setup URI and date-time validation correctly
     uri_format_proc = lambda do |value|
       raise JSON::Schema::CustomFormatError.new('must be a valid URI') unless value.match URI_REGEX
@@ -202,7 +200,7 @@ class DraftsController < ApplicationController
     end
     JSON::Validator.register_format_validator('date-time', date_time_format_proc)
 
-    errors = Array.wrap(JSON::Validator.fully_validate(schema, @draft.draft))
+    errors = Array.wrap(JSON::Validator.fully_validate(@json_schema, @draft.draft))
     errors = validate_parameter_ranges(errors, @draft.draft)
     @errors_before_generate = validate_picklists(errors, @draft.draft)
     @errors_before_generate.map { |error| generate_show_errors(error) }.flatten

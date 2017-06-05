@@ -1,7 +1,9 @@
-/* Example Provider Specific Validation Rules */
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
+    "NilType": {
+      "description": "Empty type we can use as $ref to ignore the UMM type. See properties/Version"
+    },
     "VersionType": {
       "description": "The version of the metadata record.",
       "type": "string",
@@ -14,8 +16,10 @@
   "additionalProperties": false,
   "properties": {
     "Version": {
+      "$ref": "#/definitions/NilType",
       "description": "The Version of the collection. Must not contain the letter V",
       "pattern": "^[^vV]+$",
+      "minLength": 1,
       "maxLength": 5
     }
   }
