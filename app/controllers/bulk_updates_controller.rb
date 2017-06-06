@@ -35,17 +35,78 @@ class BulkUpdatesController < ManageMetadataController
 
     add_breadcrumb 'Preview', bulk_update_preview_path
 
-    @collections = if params[:concept_ids].blank?
-                     []
-                   else
-                     collections_response = cmr_client.get_collections_by_post({ concept_id: params[:concept_ids], page_size: params[:concept_ids].count }, token)
-                     if collections_response.success?
-                       collections_response.body['items']
-                     else
-                       []
-                     end
-                   end
+    @task = construct_task(params)
+
+    @collections = retrieve_task_collections
   end
 
-  def create; end
+  def create
+    @task = construct_task(params)
+
+    bulk_update_response = cmr_client.create_bulk_update(current_user.provider_id, @task, token)
+
+    if bulk_update_response.success?
+      redirect_to bulk_update_path(bulk_update_response.body['task-id']), flash: { success: 'Bulk Update was successfully created.' }
+    else
+      Rails.logger.error("Error creating Bulk Update: #{bulk_update_response.inspect}")
+      flash[:error] = Array.wrap(bulk_update_response.body['errors'])[0]
+
+      @collections = retrieve_task_collections
+
+      render :preview
+    end
+  end
+
+  private
+
+  def construct_task(params)
+    # CMR expects update-field values to be in ALL_CAPS with underscores, but the
+    # downcase version works better for Rails partials, so we need to
+    # make sure to upcase them before sending to CMR
+
+    bulk_update_object = {
+      'concept-ids'   => params['concept-ids'],
+      'update-field'  => params['update-field'].upcase,
+      'update-type'   => params['update-type']
+    }
+
+    # Requirements from the Bulk Updates Wiki
+    # If type FIND_AND_REMOVE or FIND_AND_REPLACE, Find value required
+    # If NOT type FIND_AND_REMOVE, New value required
+    if params['update-type'] == 'FIND_AND_REMOVE' || params['update-type'] == 'FIND_AND_REPLACE'
+      bulk_update_object['find-value'] = prune_science_keyword(params['find-value'])
+    end
+
+    unless params['update-type'] == 'FIND_AND_REMOVE'
+      bulk_update_object['update-value'] = prune_science_keyword(params['update-value'])
+    end
+
+    bulk_update_object
+  end
+
+  def retrieve_task_collections
+    if @task['concept-ids'].blank?
+      []
+    else
+      collections_response = cmr_client.get_collections_by_post({ concept_id: @task['concept-ids'], page_size: @task['concept-ids'].count }, token)
+
+      if collections_response.success?
+        collections_response.body['items']
+      else
+        []
+      end
+    end
+  end
+
+  def prune_science_keyword(keyword)
+    return {} if keyword.blank?
+
+    # we are only concerned with passing along science keyword key-value pairs
+    # that have a value, so we are deleting any that do not
+    BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.reverse.each do |level|
+      keyword.delete(level) if keyword[level].blank?
+    end
+
+    keyword
+  end
 end

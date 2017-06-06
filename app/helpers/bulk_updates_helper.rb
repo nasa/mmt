@@ -127,9 +127,14 @@ module BulkUpdatesHelper
     }
   }.freeze
 
+  # CMR expects these values to be in ALL_CAPS with underscores, but the downcase
+  # version works better for Rails values and partials, so we need to make sure
+  # to upcase them before sending to CMR
   UPDATEABLE_FIELDS = [
     ['Science Keywords', 'science_keywords']
   ].freeze
+  # these are the other possible update-field values in the CMR enum:
+  # 'LOCATION_KEYWORDS','DATA_CENTERS','PLATFORMS','INSTRUMENTS'
 
   UPDATE_TYPES = {
     ADD_TO_EXISTING: {
@@ -221,18 +226,5 @@ module BulkUpdatesHelper
     end
 
     display_keyword
-  end
-
-  def prune_science_keyword(keyword)
-    return {} if keyword.blank?
-
-    # we are only concerned with passing along science keyword key-value pairs
-    # that have a value, so we are deleting any that do not
-
-    BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.reverse.each do |level|
-      keyword.delete(level) if keyword[level].blank?
-    end
-
-    keyword
   end
 end
