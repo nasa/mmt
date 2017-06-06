@@ -219,11 +219,10 @@ describe BulkUpdatesController, reset_provider: true do
           )
         end
 
-        it 'displays the show page' do
-          # I want to test for redirect_to the show page, but am not able to match the id of the task being created for the route
-          # puts assigns
-          # expect(response).to redirect_to(action: :show)
+        it 'redirects to the show page' do
           expect(response.location).to match('\/bulk_updates\/\d+')
+          # I was not able to test expect(response).to redirect_to because I
+          # was not able to match the id of the bulk update being created
         end
       end
 
