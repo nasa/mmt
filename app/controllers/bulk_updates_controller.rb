@@ -35,11 +35,16 @@ class BulkUpdatesController < ManageMetadataController
 
     add_breadcrumb 'Preview', bulk_update_preview_path
 
-    collections_response = cmr_client.get_collections_by_post({ concept_id: params[:concept_ids], page_size: params[:concept_ids].count }, token)
-
-    if collections_response.success?
-      @collections = collections_response.body['items']
-    end
+    @collections = if params[:concept_ids].blank?
+                     []
+                   else
+                     collections_response = cmr_client.get_collections_by_post({ concept_id: params[:concept_ids], page_size: params[:concept_ids].count }, token)
+                     if collections_response.success?
+                       collections_response.body['items']
+                     else
+                       []
+                     end
+                   end
   end
 
   def create; end

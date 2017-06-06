@@ -201,6 +201,12 @@ module BulkUpdatesHelper
   def display_science_keyword(keyword)
     return {} if keyword.blank?
 
+    # to construct the science keyword to display, we iterate through each level
+    # of the hierarchy from bottom up. If we have not reached a value we delete
+    # the key for that level as we don't need to display it. Once we find a value
+    # any levels higher will also be kept and be given the display value that
+    # indicates 'ANY_VALUE'
+
     reached_value = false
     display_keyword = keyword.dup
 
@@ -219,6 +225,9 @@ module BulkUpdatesHelper
 
   def prune_science_keyword(keyword)
     return {} if keyword.blank?
+
+    # we are only concerned with passing along science keyword key-value pairs
+    # that have a value, so we are deleting any that do not
 
     BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.reverse.each do |level|
       keyword.delete(level) if keyword[level].blank?
