@@ -14,7 +14,7 @@ describe BulkUpdatesController, reset_provider: true do
       end
 
       it 'sets the tasks instance variable' do
-        expect(assigns(:tasks)).to eq([])
+        expect(assigns(:tasks)).to be_a(Array)
       end
     end
 
@@ -38,7 +38,7 @@ describe BulkUpdatesController, reset_provider: true do
       before do
         sign_in
 
-        get :show, id: 1
+        get :show, id: 1000
       end
 
       it 'renders the #show view' do
@@ -126,7 +126,7 @@ describe BulkUpdatesController, reset_provider: true do
       before do
         sign_in
 
-        get :preview, concept_ids: ['1', '2']
+        get :preview, concept_ids: ['1', '2'], 'update-field': 'science_keywords'
       end
 
       it 'redirects the user to the bulk updates search page' do
@@ -154,7 +154,7 @@ describe BulkUpdatesController, reset_provider: true do
       before do
         sign_in
 
-        post :preview, concept_ids: ['1', '2']#, search_field: 'short_name', search_query: 'dunno'
+        post :preview, concept_ids: ['1', '2'], 'update-field': 'science_keywords'
       end
 
       it 'renders the preview view' do
@@ -170,7 +170,95 @@ describe BulkUpdatesController, reset_provider: true do
       it 'redirects the user to the manage metadata page' do
         sign_in
 
-        post :preview
+        post :preview, 'update-field': 'science_keywords'
+
+        expect(response).to redirect_to(manage_metadata_path)
+      end
+    end
+  end
+
+  describe 'POST #create' do
+    context 'when bulk updates are enabled' do
+      context 'when correct data is being sent' do
+        before do
+          sign_in
+
+          post :create,
+               'concept-ids': ['1', '2'],
+               'update-field': 'science_keywords',
+               'update-type': 'FIND_AND_REPLACE',
+               'find-value': {
+                 'Category': 'this',
+                 'Topic': 'is',
+                 'VariableLevel2': 'test'
+               },
+               'update-value': {
+                 'Category': 'EARTH SCIENCE SERVICES',
+                 'Topic': 'DATA ANALYSIS AND VISUALIZATION',
+                 'Term': 'GEOGRAPHIC INFORMATION SYSTEMS',
+                 'VariableLevel1': 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+               }
+        end
+
+        it 'sets the task instance variable' do
+          expect(assigns(:task)).to eq(
+            'concept-ids' => ['1', '2'],
+            'update-field' => 'SCIENCE_KEYWORDS',
+            'update-type' => 'FIND_AND_REPLACE',
+            'find-value' => {
+              'Category' => 'this',
+              'Topic' => 'is',
+              'VariableLevel2' => 'test'
+            },
+            'update-value' => {
+              'Category' => 'EARTH SCIENCE SERVICES',
+              'Topic' => 'DATA ANALYSIS AND VISUALIZATION',
+              'Term' => 'GEOGRAPHIC INFORMATION SYSTEMS',
+              'VariableLevel1' => 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+            }
+          )
+        end
+
+        it 'displays the show page' do
+          # I want to test for redirect_to the show page, but am not able to match the id of the task being created for the route
+          # puts assigns
+          # expect(response).to redirect_to(action: :show)
+          expect(response.location).to match('\/bulk_updates\/\d+')
+        end
+      end
+
+      context 'when incorrect data is being sent' do
+        before do
+          sign_in
+
+          post :create,
+               'concept-ids': [],
+               'update-field': 'bad_update_field',
+               'update_type': 'BAD_UPDATE_TYPE',
+               'update-value': {
+                 'Category': 'EARTH SCIENCE SERVICES',
+                 'Topic': 'DATA ANALYSIS AND VISUALIZATION',
+                 'Term': 'GEOGRAPHIC INFORMATION SYSTEMS',
+                 'VariableLevel1': 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+               }
+
+        end
+
+        it 'renders the preview view' do
+          expect(response).to render_template(:preview)
+        end
+      end
+    end
+
+    context 'when bulk updates are disabled' do
+      before do
+        allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
+      end
+
+      it 'redirects the user to the manage metadata page' do
+        sign_in
+
+        post :create
 
         expect(response).to redirect_to(manage_metadata_path)
       end

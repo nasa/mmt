@@ -198,44 +198,44 @@ $(document).ready ->
           required: true
         'update_type':
           required: true
-        'bulk_update_find[Category]':
+        'find-value[Category]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'bulk_update_find[Topic]':
+        'find-value[Topic]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'bulk_update_find[Term]':
+        'find-value[Term]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'bulk_update_find[VariableLevel1]':
+        'find-value[VariableLevel1]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'bulk_update_find[VariableLevel2]':
+        'find-value[VariableLevel2]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'bulk_update_find[VariableLevel3]':
+        'find-value[VariableLevel3]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'bulk_update_find[DetailedVariable]':
+        'find-value[DetailedVariable]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
         # only the top 3 levels are required for a valid science keyword
-        'bulk_update_new[Category]':
+        'update-value[Category]':
           required:
             depends: ->
               isValueVisibleAndVisited()
-        'bulk_update_new[Topic]':
+        'update-value[Topic]':
           required:
             depends: ->
               isValueVisibleAndVisited()
-        'bulk_update_new[Term]':
+        'update-value[Term]':
           required:
             depends: ->
               isValueVisibleAndVisited()
@@ -245,32 +245,32 @@ $(document).ready ->
           required: 'Update Type is required.'
         'update_type':
           required: 'Update Field is required.'
-        'bulk_update_find[Category]':
+        'find-value[Category]':
           required: 'At least one keyword level must be specified.'
-        'bulk_update_find[Topic]':
+        'find-value[Topic]':
           required: 'At least one keyword level must be specified.'
-        'bulk_update_find[Term]':
+        'find-value[Term]':
           required: 'At least one keyword level must be specified.'
-        'bulk_update_find[VariableLevel1]':
+        'find-value[VariableLevel1]':
           required: 'At least one keyword level must be specified.'
-        'bulk_update_find[VariableLevel2]':
+        'find-value[VariableLevel2]':
           required: 'At least one keyword level must be specified.'
-        'bulk_update_find[VariableLevel3]':
+        'find-value[VariableLevel3]':
           required: 'At least one keyword level must be specified.'
-        'bulk_update_find[DetailedVariable]':
+        'find-value[DetailedVariable]':
           required: 'At least one keyword level must be specified.'
         # only the top 3 levels are required for a valid science keyword
-        'bulk_update_new[Category]':
+        'update-value[Category]':
           required: 'A valid science keyword must be specified.'
-        'bulk_update_new[Topic]':
+        'update-value[Topic]':
           required: 'A valid science keyword must be specified.'
-        'bulk_update_new[Term]':
+        'update-value[Term]':
           required: 'A valid science keyword must be specified.'
 
       groups:
         # show only one message for each group
-        find: 'bulk_update_find[Category] bulk_update_find[Topic] bulk_update_find[Term] bulk_update_find[VariableLevel1] bulk_update_find[VariableLevel2] bulk_update_find[VariableLevel3] bulk_update_find[DetailedVariable]'
-        value: 'bulk_update_new[Category] bulk_update_new[Topic] bulk_update_new[Term]'
+        find: 'find-value[Category] find-value[Topic] find-value[Term] find-value[VariableLevel1] find-value[VariableLevel2] find-value[VariableLevel3] find-value[DetailedVariable]'
+        value: 'update-value[Category] update-value[Topic] update-value[Term]'
 
       errorPlacement: (error, element) ->
         if element.hasClass('science-keyword-find')
