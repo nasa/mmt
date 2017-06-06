@@ -1,6 +1,6 @@
 class DraftsController < ApplicationController
   before_action :set_draft, only: [:show, :edit, :update, :destroy, :publish]
-  before_action :load_umm_schema, except: [:subregion_options]
+  before_action :load_umm_schema, only: [:edit, :show]
   before_filter :ensure_correct_draft_provider, only: [:edit, :show]
 
   RESULTS_PER_PAGE = 25
