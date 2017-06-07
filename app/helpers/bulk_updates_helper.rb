@@ -180,7 +180,7 @@ module BulkUpdatesHelper
       [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]]
     end
 
-    label_tag('update-type', 'Update Type') + select_tag('update-type', options_for_select(options), prompt: 'Select an Update Type')
+    label_tag('update_type', 'Update Type') + select_tag('update_type', options_for_select(options), prompt: 'Select an Update Type')
   end
 
   def display_value_title(update_type, value_type)
