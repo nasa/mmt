@@ -4,7 +4,7 @@ class GroupsController < ManageCmrController
   include GroupEndpoints
   include PermissionManagement
 
-  skip_before_filter :is_logged_in, :setup_query, :refresh_urs_if_needed, only: [:urs_search, :provided_urs_users]
+  skip_before_filter :is_logged_in, :setup_query, :refresh_urs_if_needed, only: [:urs_search]
 
   add_breadcrumb 'Groups', :groups_path
 
@@ -182,12 +182,6 @@ class GroupsController < ManageCmrController
   def urs_search
     render json: render_users_from_urs(
       search_urs(params[:search])
-    )
-  end
-
-  def provided_urs_users
-    render json: render_users_from_urs(
-      retrieve_urs_users(params[:uids])
     )
   end
 
