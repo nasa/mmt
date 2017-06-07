@@ -82,7 +82,7 @@ RSpec.configure do |config|
       Rake.application.rake_require 'tasks/local_cmr'
       Rake::Task.define_task(:environment)
       Rake::Task['cmr:reset_test_provider'].reenable
-      
+
       Rake.application.invoke_task 'cmr:reset_test_provider[MMT_2]'
 
       wait_for_cmr

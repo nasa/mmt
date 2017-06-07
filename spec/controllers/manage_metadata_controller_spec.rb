@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ManageMetadataController do
+describe ManageMetadataController, reset_provider: true do
   describe 'GET #show' do
     before do
       sign_in
@@ -21,7 +21,11 @@ describe ManageMetadataController do
     end
 
     it 'sets the bulk updates instance variable' do
-      expect(assigns(:bulk_updates)).to eq([])
+      # reset_provider does not clear out bulk updates currently
+      # providers and bulk updates are stored in different databases in CMR,
+      # they have a ticket for cleaning up bulk updates (CMR-3973) but that
+      # it is unclear if it will be able to be invoked for reset_provider
+      expect(assigns(:bulk_updates)).to be_a(Array)
     end
   end
 end
