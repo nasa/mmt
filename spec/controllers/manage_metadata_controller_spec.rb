@@ -21,10 +21,8 @@ describe ManageMetadataController, reset_provider: true do
     end
 
     it 'sets the bulk updates instance variable' do
-      # reset_provider does not clear out bulk updates currently
-      # providers and bulk updates are stored in different databases in CMR,
-      # they have a ticket for cleaning up bulk updates (CMR-3973) but that
-      # it is unclear if it will be able to be invoked for reset_provider
+      # currently bulk updates are never cleared CMR-3973 may allow us to
+      # clear bulk updates and test this as `[]`
       expect(assigns(:bulk_updates)).to be_a(Array)
     end
   end

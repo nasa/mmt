@@ -9,10 +9,16 @@ describe 'Bulk Updates callout box on the Manage Metadata page' do
     visit manage_metadata_path
   end
 
-  context 'when there are no bulk updates' do
-    it 'displays an appropriate message' do
-      expect(page).to have_content('No MMT_2 Bulk Updates found.')
-    end
+  # we currently cannot test this as bulk updates are never cleared
+  # CMR-3973 may allow us to clear bulk updates and test this
+  # context 'when there are no bulk updates' do
+  #   it 'displays an appropriate message' do
+  #     expect(page).to have_content('No MMT_2 Bulk Updates found.')
+  #   end
+  # end
+
+  it 'displays the bulk updates callout box' do
+    expect(page).to have_content('Your MMT_2 Bulk Updates')
   end
 
   context 'when clicking on the "Initiate a Bulk Update" button' do
