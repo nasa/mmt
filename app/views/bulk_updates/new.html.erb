@@ -9,8 +9,8 @@
       <% end %>
 
       <fieldset>
-        <%= label_tag('update-field', 'Field to Update') %>
-        <%= select_tag('update-field', options_for_select(BulkUpdatesHelper::UPDATEABLE_FIELDS), prompt: 'Select a Field to Update') %>
+        <%= label_tag('update_field', 'Field to Update') %>
+        <%= select_tag('update_field', options_for_select(BulkUpdatesHelper::UPDATEABLE_FIELDS), prompt: 'Select a Field to Update') %>
       </fieldset>
 
       <% BulkUpdatesHelper::UPDATEABLE_FIELDS.each do |field| %>

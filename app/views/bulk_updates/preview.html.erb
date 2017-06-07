@@ -5,14 +5,14 @@
 
     <h3>Bulk Update Operation</h3>
     <h4>Field to Update</h4>
-    <p><%= params['update-field'].titleize %></p>
+    <p><%= params['update_field'].titleize %></p>
 
     <h4>Update Type</h4>
-    <p><%= params['update-type'].titleize %></p>
+    <p><%= params['update_type'].titleize %></p>
 
-    <% if params['update-type'] == 'FIND_AND_REMOVE' || params['update-type'] == 'FIND_AND_REPLACE' %>
+    <% if params['update_type'] == 'FIND_AND_REMOVE' || params['update_type'] == 'FIND_AND_REPLACE' %>
       <!-- Find Value -->
-      <%= display_value_title(params['update-type'], 'find') %>
+      <%= display_value_title(params['update_type'], 'find') %>
 
       <ul class="arrow-tag-group-list">
         <% display_science_keyword(params['bulk_update_find']).each do |field, value| %>
@@ -21,9 +21,9 @@
       </ul>
     <% end %>
 
-    <% unless params['update-type'] == 'FIND_AND_REMOVE' %>
+    <% unless params['update_type'] == 'FIND_AND_REMOVE' %>
       <!-- Update Value -->
-      <%= display_value_title(params['update-type'], 'new') %>
+      <%= display_value_title(params['update_type'], 'new') %>
 
       <ul class="arrow-tag-group-list">
         <% display_science_keyword(params['bulk_update_new']).each do |field, value| %>
@@ -66,10 +66,10 @@
         <%= hidden_field_tag 'concept-ids[]', collection %>
       <% end %>
 
-      <%= hidden_field_tag 'update-field', params['update-field'] %>
-      <%= hidden_field_tag 'update-type', params['update-type'], id: 'bulk-update-type' %>
-      <%= hidden_field_tag 'find-value', prune_science_keyword(params[:bulk_update_find]) %>
-      <%= hidden_field_tag 'update-value', prune_science_keyword(params[:bulk_update_new]) %>
+      <%= hidden_field_tag 'update-field', params['update_field'] %>
+      <%= hidden_field_tag 'update_type', params['update_type'], id: 'bulk-update-type' %>
+      <%= hidden_field_tag 'find_value', prune_science_keyword(params[:bulk_update_find]) %>
+      <%= hidden_field_tag 'update_value', prune_science_keyword(params[:bulk_update_new]) %>
 
       <%= submit_tag 'Submit', class: 'eui-btn--blue' %>
     <% end %>

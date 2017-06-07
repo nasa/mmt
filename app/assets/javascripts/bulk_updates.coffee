@@ -194,9 +194,9 @@ $(document).ready ->
       onkeyup: false
 
       rules:
-        'update-field':
+        'update_field':
           required: true
-        'update-type':
+        'update_type':
           required: true
         'bulk_update_find[Category]':
           required:
@@ -241,9 +241,9 @@ $(document).ready ->
               isValueVisibleAndVisited()
 
       messages:
-        'update-field':
+        'update_field':
           required: 'Update Type is required.'
-        'update-type':
+        'update_type':
           required: 'Update Field is required.'
         'bulk_update_find[Category]':
           required: 'At least one keyword level must be specified.'
@@ -282,12 +282,12 @@ $(document).ready ->
 
     # Handle the hiding and showing of the appropriate form
     # partial for the collection field being updated
-    $('#update-field').on 'change', ->
+    $('#update_field').on 'change', ->
       $('.bulk-update-partial').addClass('is-hidden')
       $('#bulk-update-field-' + $(this).val()).removeClass('is-hidden')
 
     # Show and hide update type specific divs
-    $('#update-type').on 'change', ->
+    $('#update_type').on 'change', ->
       if $(this).val() == ''
         # the prompt was selected, hide both parts of the science keyword form
         hideAndClear('bulk-updates-value')
@@ -311,7 +311,7 @@ $(document).ready ->
           $('#bulk-updates-value').removeClass('is-hidden')
 
         # Handle the title and form description
-        $selectedFieldData = $('#update-type').find('option:selected').data()
+        $selectedFieldData = $('#update_type').find('option:selected').data()
 
         if $selectedFieldData.hasOwnProperty('find_title')
           $('#bulk-updates-find h4.title:first').text($selectedFieldData['find_title'])
