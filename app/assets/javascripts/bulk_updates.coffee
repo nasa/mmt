@@ -374,3 +374,15 @@ $(document).ready ->
           sorter: 'text'
 
       widgets: ['zebra']
+
+    $('#bulk-updates-collections-select').validate
+      errorPlacement: (error, element) ->
+        error.insertAfter(element.closest('fieldset'))
+
+      rules:
+        'bulk_update_collections[]':
+          required: true
+
+      messages:
+        'bulk_update_collections[]':
+          required: 'You must select at least 1 collection.'

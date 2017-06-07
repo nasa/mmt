@@ -3,6 +3,7 @@ $(document).ready ->
   # Check All/None functionality
   $('.checkall').change (event) ->
     $('input[name="' + $(this).data('group') + '"]:visible').prop('checked', $(this).prop("checked"))
+    $('input[name="' + $(this).data('group') + '"]:visible').trigger('blur')
 
   # Check All/None functionality for system and provider object permissions tables
   if $('.permissions-management-table').length > 0
