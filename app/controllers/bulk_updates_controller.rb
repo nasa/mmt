@@ -65,20 +65,20 @@ class BulkUpdatesController < ManageMetadataController
     # make sure to upcase them before sending to CMR
 
     bulk_update_object = {
-      'concept-ids'   => params['concept-ids'],
-      'update-field'  => params['update-field'].upcase,
-      'update-type'   => params['update-type']
+      'concept-ids'   => params['concept_ids'],
+      'update-field'  => params['update_field'].upcase,
+      'update-type'   => params['update_type']
     }
 
     # Requirements from the Bulk Updates Wiki
     # If type FIND_AND_REMOVE or FIND_AND_REPLACE, Find value required
     # If NOT type FIND_AND_REMOVE, New value required
-    if params['update-type'] == 'FIND_AND_REMOVE' || params['update-type'] == 'FIND_AND_REPLACE'
-      bulk_update_object['find-value'] = prune_science_keyword(params['find-value'])
+    if params['update_type'] == 'FIND_AND_REMOVE' || params['update_type'] == 'FIND_AND_REPLACE'
+      bulk_update_object['find-value'] = prune_science_keyword(params['find_value'])
     end
 
-    unless params['update-type'] == 'FIND_AND_REMOVE'
-      bulk_update_object['update-value'] = prune_science_keyword(params['update-value'])
+    unless params['update_type'] == 'FIND_AND_REMOVE'
+      bulk_update_object['update-value'] = prune_science_keyword(params['update_value'])
     end
 
     bulk_update_object
