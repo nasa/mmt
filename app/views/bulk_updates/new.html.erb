@@ -5,7 +5,7 @@
     <%= form_tag(bulk_update_preview_path, method: :post, id: 'bulk-updates-form') do %>
 
       <% params[:bulk_update_collections].each do |collection| %>
-        <%= hidden_field_tag 'concept-ids[]', collection %>
+        <%= hidden_field_tag 'concept_ids[]', collection %>
       <% end %>
 
       <fieldset>
