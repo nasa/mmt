@@ -126,7 +126,7 @@ describe BulkUpdatesController, reset_provider: true do
       before do
         sign_in
 
-        get :preview, concept_ids: ['1', '2'], 'update-field': 'science_keywords'
+        get :preview, concept_ids: ['1', '2'], 'update_field': 'science_keywords'
       end
 
       it 'redirects the user to the bulk updates search page' do
@@ -154,7 +154,7 @@ describe BulkUpdatesController, reset_provider: true do
       before do
         sign_in
 
-        post :preview, concept_ids: ['1', '2'], 'update-field': 'science_keywords'
+        post :preview, concept_ids: ['1', '2'], 'update_field': 'science_keywords'
       end
 
       it 'renders the preview view' do
@@ -170,7 +170,7 @@ describe BulkUpdatesController, reset_provider: true do
       it 'redirects the user to the manage metadata page' do
         sign_in
 
-        post :preview, 'update-field': 'science_keywords'
+        post :preview, 'update_field': 'science_keywords'
 
         expect(response).to redirect_to(manage_metadata_path)
       end
@@ -184,15 +184,15 @@ describe BulkUpdatesController, reset_provider: true do
           sign_in
 
           post :create,
-               'concept-ids': ['1', '2'],
-               'update-field': 'science_keywords',
-               'update-type': 'FIND_AND_REPLACE',
-               'find-value': {
+               'concept_ids': ['1', '2'],
+               'update_field': 'science_keywords',
+               'update_type': 'FIND_AND_REPLACE',
+               'find_value': {
                  'Category': 'this',
                  'Topic': 'is',
                  'VariableLevel2': 'test'
                },
-               'update-value': {
+               'update_value': {
                  'Category': 'EARTH SCIENCE SERVICES',
                  'Topic': 'DATA ANALYSIS AND VISUALIZATION',
                  'Term': 'GEOGRAPHIC INFORMATION SYSTEMS',
@@ -231,10 +231,10 @@ describe BulkUpdatesController, reset_provider: true do
           sign_in
 
           post :create,
-               'concept-ids': [],
-               'update-field': 'bad_update_field',
+               'concept_ids': [],
+               'update_field': 'bad_update_field',
                'update_type': 'BAD_UPDATE_TYPE',
-               'update-value': {
+               'update_value': {
                  'Category': 'EARTH SCIENCE SERVICES',
                  'Topic': 'DATA ANALYSIS AND VISUALIZATION',
                  'Term': 'GEOGRAPHIC INFORMATION SYSTEMS',
