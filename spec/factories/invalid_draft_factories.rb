@@ -12,6 +12,10 @@ FactoryGirl.define do
     provider_id 'MMT_2'
   end
 
+  factory :mmt_1_draft, class: Draft do
+    provider_id 'MMT_1'
+  end
+
   # Will trigger required fields error for data identification required fields
   factory :draft_missing_required_fields, class: Draft do
     draft 'ShortName' => '12345'

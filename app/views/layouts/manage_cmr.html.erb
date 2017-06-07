@@ -52,6 +52,6 @@
 
   <%= render 'shared/footer' %>
   <%= javascript_include_tag "https://status.earthdata.nasa.gov/assets/banner_widget.js" unless Rails.env.test? %>
-  <%= javascript_include_tag "netinsight_2.3/ntpagetag" unless Rails.env.test? %>
+  <%= javascript_include_tag "netinsight_2.3/ntpagetag" unless Rails.env.test? || Rails.env.development? %>
 </body>
 </html>
