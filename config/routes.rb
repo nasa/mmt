@@ -43,7 +43,6 @@ Rails.application.routes.draw do
   resources :groups do
     collection do
       get 'urs_search'
-      get 'provided_urs_users'
     end
   end
   post '/invite_user' => 'groups#invite', as: 'invite_user'
