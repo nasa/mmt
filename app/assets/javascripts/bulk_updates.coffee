@@ -198,44 +198,44 @@ $(document).ready ->
           required: true
         'update_type':
           required: true
-        'find-value[Category]':
+        'find_value[Category]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'find-value[Topic]':
+        'find_value[Topic]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'find-value[Term]':
+        'find_value[Term]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'find-value[VariableLevel1]':
+        'find_value[VariableLevel1]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'find-value[VariableLevel2]':
+        'find_value[VariableLevel2]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'find-value[VariableLevel3]':
+        'find_value[VariableLevel3]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
-        'find-value[DetailedVariable]':
+        'find_value[DetailedVariable]':
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
         # only the top 3 levels are required for a valid science keyword
-        'update-value[Category]':
+        'update_value[Category]':
           required:
             depends: ->
               isValueVisibleAndVisited()
-        'update-value[Topic]':
+        'update_value[Topic]':
           required:
             depends: ->
               isValueVisibleAndVisited()
-        'update-value[Term]':
+        'update_value[Term]':
           required:
             depends: ->
               isValueVisibleAndVisited()
@@ -245,32 +245,32 @@ $(document).ready ->
           required: 'Update Type is required.'
         'update_type':
           required: 'Update Field is required.'
-        'find-value[Category]':
+        'find_value[Category]':
           required: 'At least one keyword level must be specified.'
-        'find-value[Topic]':
+        'find_value[Topic]':
           required: 'At least one keyword level must be specified.'
-        'find-value[Term]':
+        'find_value[Term]':
           required: 'At least one keyword level must be specified.'
-        'find-value[VariableLevel1]':
+        'find_value[VariableLevel1]':
           required: 'At least one keyword level must be specified.'
-        'find-value[VariableLevel2]':
+        'find_value[VariableLevel2]':
           required: 'At least one keyword level must be specified.'
-        'find-value[VariableLevel3]':
+        'find_value[VariableLevel3]':
           required: 'At least one keyword level must be specified.'
-        'find-value[DetailedVariable]':
+        'find_value[DetailedVariable]':
           required: 'At least one keyword level must be specified.'
         # only the top 3 levels are required for a valid science keyword
-        'update-value[Category]':
+        'update_value[Category]':
           required: 'A valid science keyword must be specified.'
-        'update-value[Topic]':
+        'update_value[Topic]':
           required: 'A valid science keyword must be specified.'
-        'update-value[Term]':
+        'update_value[Term]':
           required: 'A valid science keyword must be specified.'
 
       groups:
         # show only one message for each group
-        find: 'find-value[Category] find-value[Topic] find-value[Term] find-value[VariableLevel1] find-value[VariableLevel2] find-value[VariableLevel3] find-value[DetailedVariable]'
-        value: 'update-value[Category] update-value[Topic] update-value[Term]'
+        find: 'find_value[Category] find_value[Topic] find_value[Term] find_value[VariableLevel1] find_value[VariableLevel2] find_value[VariableLevel3] find_value[DetailedVariable]'
+        value: 'update_value[Category] update_value[Topic] update_value[Term]'
 
       errorPlacement: (error, element) ->
         if element.hasClass('science-keyword-find')
