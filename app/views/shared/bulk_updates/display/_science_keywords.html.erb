@@ -9,7 +9,7 @@
   </ul>
 <% end %>
 
-<% if bulk_update['update-type'] == 'ADD_TO_EXISTING' || bulk_update['update-type'] == 'FIND_AND_REPLACE' %>
+<% if bulk_update['update-type'] == 'ADD_TO_EXISTING' || bulk_update['update-type'] == 'CLEAR_ALL_AND_REPLACE' %>
   <!-- Update Value -->
   <%= display_value_title(bulk_update['update-type'], 'new') %>
 
