@@ -2,27 +2,39 @@
   <section>
     <h2><%= current_user.provider_id %> Bulk Updates</h2>
 
+    <%= link_to 'Initiate a Bulk Update', new_bulk_updates_search_path, class: 'eui-btn--blue space-bot' %>
+
+    <% if @bulk_updates.any? %>
+      <p><%= page_entries_info @bulk_updates, entry_name: 'Bulk Updates' %></p>
+    <% end %>
+
     <table class="bulk-updates-list-table">
       <thead>
         <tr>
           <th>Task ID</th>
+          <th>Operation</th>
           <th>Status</th>
+          <th>Message</th>
         </tr>
       </thead>
       <tbody>
-        <% if @tasks.blank? %>
+        <% if @bulk_updates.blank? %>
           <tr>
             <td colspan="2">No <%= current_user.provider_id %> Bulk Updates found.</td>
           </tr>
         <% else %>
-          <% @tasks.each do |task| %>
+          <% @bulk_updates.each do |task| %>
             <tr>
               <td><%= link_to task['task-id'], bulk_update_path(task['task-id']) %></td>
+              <td><%= task['update-type'].titleize %> <%= task['update-field'].titleize %></td>
               <td><%= task['status'] %></td>
+              <td><%= task['status-message'] %></td>
             </tr>
           <% end %>
         <% end %>
       </tbody>
     </table>
+
+    <%= paginate @bulk_updates %>
   </section>
 </div>

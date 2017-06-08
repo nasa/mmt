@@ -13,8 +13,8 @@ describe BulkUpdatesController, reset_provider: true do
         expect(response).to render_template(:index)
       end
 
-      it 'sets the tasks instance variable' do
-        expect(assigns(:tasks)).to be_a(Array)
+      it 'sets the bulk_updates instance variable' do
+        expect(assigns(:bulk_updates)).to be_a(Array)
       end
     end
 
@@ -46,7 +46,7 @@ describe BulkUpdatesController, reset_provider: true do
       end
 
       it 'sets the task instance variable' do
-        expect(assigns(:task)).to eq({})
+        expect(assigns(:task)).to be_a(Hash)
       end
     end
 

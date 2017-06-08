@@ -4,8 +4,15 @@ class BulkUpdatesController < ManageMetadataController
 
   add_breadcrumb 'Bulk Updates', :bulk_updates_path
 
+  RESULTS_PER_PAGE = 25
+
   def index
-    @tasks = retrieve_bulk_updates
+    # Default the page to 1
+    page = params.fetch('page', 1)
+
+    bulk_updates_list = retrieve_bulk_updates
+
+    @bulk_updates = Kaminari.paginate_array(bulk_updates_list, total_count: bulk_updates_list.count).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
@@ -17,6 +24,9 @@ class BulkUpdatesController < ManageMetadataController
       @task = bulk_update_status_response.body
 
       add_breadcrumb @task_id, bulk_update_path(@task_id)
+
+      hydrate_task(@task)
+      hydrate_collections(@task)
     else
       Rails.logger.error("Error retrieving Bulk Update Task: #{bulk_update_status_response.inspect}")
     end

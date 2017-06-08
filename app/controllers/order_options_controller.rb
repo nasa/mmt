@@ -6,6 +6,7 @@ class OrderOptionsController < ManageCmrController
   def index
     # Default the page to 1
     page = params.fetch('page', 1)
+    
     order_option_response = echo_client.get_order_options(echo_provider_token)
 
     order_option_list = if order_option_response.success?

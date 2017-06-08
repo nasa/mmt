@@ -78,12 +78,12 @@
                 <% if @bulk_updates.blank? %>
                   No <%= current_user.provider_id %> Bulk Updates found.
                 <% else %>
-                  <% @bulk_updates[0..@draft_display_max_count].each do |bulk_update| %>
+                  <% @bulk_updates[0..@draft_display_max_count-1].each do |bulk_update| %>
                     <li>
-                      <p>
-                        <%= link_to bulk_update['task-id'], bulk_update_path(bulk_update['task-id']) %> |
-                        <%= bulk_update['status'] %>
-                      </p>
+                      <%= bulk_update['task-id'] %> |
+                      <%= link_to "#{bulk_update.fetch('request-json-body', {})['update-type'].titleize} #{bulk_update.fetch('request-json-body', {})['update-field'].titleize}".html_safe, bulk_update_path(bulk_update['task-id']) %>
+
+                      <p><small><b>STATUS:</b></small> <%= bulk_update['status'].titleize %></p>
                     </li>
                   <% end %>
                   <% if @bulk_updates.size > @draft_display_max_count %>
