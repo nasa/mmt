@@ -342,7 +342,6 @@ $(document).ready ->
     $('#bulk-update-preview-button').on 'click', (e) ->
       $('#bulk-updates-find, #bulk-updates-value').addClass('visited')
 
-
   # bulk updates search form
   if $('#bulk-updates-search').length > 0
     displayHelpText($('#bulk-updates-search-field'))
@@ -375,6 +374,7 @@ $(document).ready ->
 
       widgets: ['zebra']
 
+<<<<<<< HEAD
     $('#bulk-updates-collections-select').validate
       errorPlacement: (error, element) ->
         error.insertAfter(element.closest('fieldset'))
@@ -386,3 +386,17 @@ $(document).ready ->
       messages:
         'bulk_update_collections[]':
           required: 'You must select at least 1 collection.'
+=======
+  if $('#bulk-update-errors-table').length > 0
+    $('#bulk-update-errors-table').tablesorter
+      sortList: [[0,0]]
+
+      # Prevent sorting on the checkboxes
+      headers:
+        2:
+          sorter: false
+
+      widgets: ['zebra']
+
+
+>>>>>>> MMT-930: Updates bulk update pages with new CMR data

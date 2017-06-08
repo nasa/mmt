@@ -15,7 +15,7 @@
 
       <% BulkUpdatesHelper::UPDATEABLE_FIELDS.each do |field| %>
         <div id="bulk-update-field-<%= field[1] %>" class="bulk-update-partial is-hidden">
-          <%= render partial: "shared/bulk_updates/#{field[1]}" %>
+          <%= render partial: "shared/bulk_updates/forms/#{field[1]}" %>
         </div>
       <% end %>
 

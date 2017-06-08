@@ -1,3 +1,4 @@
+# :nodoc:
 class OrderPoliciesController < ManageCmrController
   before_action :set_collections, only: [:index, :new, :edit]
   before_action :set_policy, only: [:index, :new, :edit]
@@ -12,7 +13,7 @@ class OrderPoliciesController < ManageCmrController
     set_policy
 
     add_breadcrumb 'New', new_order_policies_path
-    
+
     redirect_to edit_order_policies_path, flash: { notice: "Order Policies already exist for #{current_user.provider_id}." } unless @policy.empty?
   end
 
@@ -63,13 +64,13 @@ class OrderPoliciesController < ManageCmrController
   def test_endpoint_connection
     response = echo_client.test_endpoint_connection(token_with_client_id, current_provider_guid)
 
-      if response.error?
-        message = response.error_message
-      else
-        message = 'Test endpoint connection was successful.'
-      end
+    message = if response.error?
+                esponse.error_message
+              else
+                'Test endpoint connection was successful.'
+              end
 
-    render :json => { :message => message }
+    render json: { message: message }
   end
 
   private
@@ -136,6 +137,4 @@ class OrderPoliciesController < ManageCmrController
   def upsert_policy
     echo_client.set_provider_policies(token_with_client_id, current_provider_guid, generate_upsert_payload)
   end
-
-
 end
