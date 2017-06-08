@@ -374,7 +374,6 @@ $(document).ready ->
 
       widgets: ['zebra']
 
-<<<<<<< HEAD
     $('#bulk-updates-collections-select').validate
       errorPlacement: (error, element) ->
         error.insertAfter(element.closest('fieldset'))
@@ -386,7 +385,7 @@ $(document).ready ->
       messages:
         'bulk_update_collections[]':
           required: 'You must select at least 1 collection.'
-=======
+
   if $('#bulk-update-errors-table').length > 0
     $('#bulk-update-errors-table').tablesorter
       sortList: [[0,0]]
@@ -397,6 +396,3 @@ $(document).ready ->
           sorter: false
 
       widgets: ['zebra']
-
-
->>>>>>> MMT-930: Updates bulk update pages with new CMR data
