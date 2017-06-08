@@ -65,7 +65,7 @@ class OrderPoliciesController < ManageCmrController
     response = echo_client.test_endpoint_connection(token_with_client_id, current_provider_guid)
 
     message = if response.error?
-                esponse.error_message
+                response.error_message
               else
                 'Test endpoint connection was successful.'
               end
