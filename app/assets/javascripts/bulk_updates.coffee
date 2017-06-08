@@ -386,8 +386,8 @@ $(document).ready ->
         'bulk_update_collections[]':
           required: 'You must select at least 1 collection.'
 
-  if $('#bulk-update-errors-table').length > 0
-    $('#bulk-update-errors-table').tablesorter
+  if $('#bulk-update-status-table').length > 0
+    $('#bulk-update-status-table').tablesorter
       sortList: [[0,0]]
 
       # Prevent sorting on the checkboxes
