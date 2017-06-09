@@ -33,27 +33,27 @@
   <div class="row checkbox-group space-bot">
     <div class="col-6">
       <%= label_tag 'collection_option_all' do %>
-        <%= radio_button_tag 'collection_option', 'all', @permission.empty? ? true : permission_entry_titles(@permission).empty? %>
+        <%= radio_button_tag 'collection_option', 'all', @permission.empty? ? true : permission_concept_ids(@permission).empty? %>
         All Collections
       <% end %>
     </div>
 
     <div class="col-6">
       <%= label_tag 'collection_option_selected' do %>
-        <%= radio_button_tag 'collection_option', 'selected', permission_entry_titles(@permission).any? %>
+        <%= radio_button_tag 'collection_option', 'selected', permission_concept_ids(@permission).any? %>
         Selected Collections
       <% end %>
     </div>
   </div>
 
   <!-- Hidden fields that represent the underlying array of selected collections -->
-  <% Array.wrap(permission_entry_titles(@permission)).each do |collection| %>
+  <% Array.wrap(permission_concept_ids(@permission)).each do |collection| %>
     <%= hidden_field_tag('collection_selections[]', collection, class: 'selected-collection') %>
   <% end %>
 
   <!-- Hidden fields that represent the underlying array of selected collections that the user doesn't have access to -->
-  <% Array.wrap(unauthorized_permission_collections(@permission)).each do |entry_title| %>
-    <%= hidden_field_tag('hidden_collections[]', entry_title, class: 'hidden-collection') %>
+  <% Array.wrap(unauthorized_permission_collections(@permission)).each do |collection| %>
+    <%= hidden_field_tag('hidden_collections[]', collection, class: 'hidden-collection') %>
   <% end %>
   <div id="chooser-widget"></div>
 </fieldset>

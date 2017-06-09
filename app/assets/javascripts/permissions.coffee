@@ -55,7 +55,7 @@ $(document).ready ->
     if collectionsChooser == null
       collectionsChooser = new Chooser({
         id: 'collectionsChooser',
-        url: '/entry_title_collections',
+        url: '/provider_collections',
         nextPageParm: 'page_num',
         filterParm: 'short_name',
         target: $('#chooser-widget'),
@@ -94,10 +94,10 @@ $(document).ready ->
     # to retrieve data specific to the selected values
     if selectedValues.length > 0
       # Not providing any concept ids will result in all items coming back, avoid that
-      $.ajax '/entry_title_collections',
+      $.ajax '/provider_collections',
         method: 'POST'
         data: 
-          entry_title: selectedValues
+          concept_id: selectedValues
           page_size: selectedValues.length
         success: (data) ->
           # Sets the selected values of the chooser

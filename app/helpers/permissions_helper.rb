@@ -28,13 +28,13 @@ module PermissionsHelper
   def collection_constraint_summary(permission)
     collection_applicable = permission.fetch('catalog_item_identity', {}).fetch('collection_applicable', false)
 
-    collection_entry_titles = permission_entry_titles(permission)
+    collection_concept_ids = permission_concept_ids(permission)
 
     sentence_fragments = ['This permission']
 
     if collection_applicable
-      sentence_fragments << if collection_entry_titles.any?
-                              "grants its assigned groups access to #{pluralize(collection_entry_titles.count, 'collection')}"
+      sentence_fragments << if collection_concept_ids.any?
+                              "grants its assigned groups access to #{pluralize(collection_concept_ids.count, 'collection')}"
                             else
                               'grants its assigned groups access to all of its collections'
                             end
@@ -50,7 +50,7 @@ module PermissionsHelper
   def granule_constraint_summary(permission)
     granule_applicable = permission.fetch('catalog_item_identity', {}).fetch('granule_applicable', false)
 
-    collection_entry_titles = permission_entry_titles(permission)
+    collection_concept_ids = permission_concept_ids(permission)
 
     sentence_fragments = ['This permission']
 
@@ -59,8 +59,8 @@ module PermissionsHelper
 
       sentence_fragments << display_access_constraints(permission_granule_access_constraints(permission))
 
-      sentence_fragments << if collection_entry_titles.any?
-                              "that belong to the #{pluralize(collection_entry_titles.count, 'selected collection')}"
+      sentence_fragments << if collection_concept_ids.any?
+                              "that belong to the #{pluralize(collection_concept_ids.count, 'selected collection')}"
                             else
                               'that belong to any of its collections'
                             end
@@ -74,11 +74,11 @@ module PermissionsHelper
   end
 
   def permission_collections(permission)
-    entry_titles = permission_entry_titles(permission)
+    concept_ids = permission_concept_ids(permission)
 
-    return {} unless entry_titles.any?
+    return {} unless concept_ids.any?
 
-    collection_response = cmr_client.get_collections_by_post({ provider_id: permission.fetch('catalog_item_identity', {})['provider_id'], entry_title: entry_titles, page_size: entry_titles.count }, token, 'umm_json')
+    collection_response = cmr_client.get_collections_by_post({ provider_id: permission.fetch('catalog_item_identity', {})['provider_id'], concept_id: concept_ids, page_size: concept_ids.count }, token, 'umm_json')
 
     return {} unless collection_response.success?
 
@@ -89,17 +89,17 @@ module PermissionsHelper
   # is the difference between the collections that are stored on the permission
   # and the collections that are returned from pinging CMR with the users token
   def unauthorized_permission_collections(permission)
-    permitted_collections = permission_collections(permission).fetch('items', []).map { |collection| collection.fetch('umm', {}).fetch('EntryTitle') }
+    permitted_collections = permission_collections(permission).fetch('items', []).map { |collection| collection.fetch('meta', {})['concept-id'] }
 
-    (permission_entry_titles(permission) - permitted_collections)
+    (permission_concept_ids(permission) - permitted_collections)
   end
 
   #
   # Shortcuts for deeply nested keys within permission object
   #
 
-  def permission_entry_titles(permission)
-    permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', [])
+  def permission_concept_ids(permission)
+    permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('concept_ids', [])
   end
 
   def permission_collection_access_constraints(permission)

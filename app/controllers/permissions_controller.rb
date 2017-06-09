@@ -260,7 +260,7 @@ class PermissionsController < ManageCmrController
 
       if selected_collections.any?
         req_obj['catalog_item_identity']['collection_identifier'] = {
-          'entry_titles' => selected_collections
+          'concept_ids' => selected_collections
         }
       end
 

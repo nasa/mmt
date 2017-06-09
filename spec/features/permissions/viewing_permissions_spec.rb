@@ -150,9 +150,9 @@ describe 'Viewing Collection Permissions', reset_provider: true do
         # while we can use stubbed groups for collection permissions, it seems
         # that we need to have ingested collections to create a collection
         # permission if it has selected collections
-        ingest_response, @concept_response_1 = publish_draft
-        ingest_response, @concept_response_2 = publish_draft
-        ingest_response, @concept_response_3 = publish_draft
+        @ingest_response1, @concept_response_1 = publish_draft
+        @ingest_response2, @concept_response_2 = publish_draft
+        @ingest_response3, @concept_response_3 = publish_draft
 
         wait_for_cmr
 
@@ -181,10 +181,10 @@ describe 'Viewing Collection Permissions', reset_provider: true do
             'granule_applicable': false,
             'collection_applicable': true,
             'collection_identifier': {
-              'entry_titles': [
-                @concept_response_1.body['EntryTitle'],
-                @concept_response_2.body['EntryTitle'],
-                @concept_response_3.body['EntryTitle']
+              'concept_ids': [
+                @ingest_response1['concept-id'],
+                @ingest_response2['concept-id'],
+                @ingest_response3['concept-id']
               ],
               'access_value': {
                 'min_value': 5.0,

@@ -37,10 +37,10 @@ describe 'Updating Collection Permissions when collections are not accessible by
         "collection_applicable": true,
         "granule_applicable": true,
         "collection_identifier": {
-          "entry_titles": [
-            "MODIS/Aqua Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005",
-            "AMSR-E/Aqua Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V003",
-            "Near-Real-Time SSMIS EASE-Grid Daily Global Ice Concentration and Snow Extent V004"
+          "concept_ids": [
+            "C1200000068-NSIDC_ECS",
+            "C1200000069-NSIDC_ECS",
+            "C1200000070-NSIDC_ECS"
           ]
         }
       }
@@ -63,9 +63,9 @@ describe 'Updating Collection Permissions when collections are not accessible by
         "collection_applicable": true,
         "granule_applicable": false,
         "collection_identifier": {
-          "entry_titles": [
-            "MODIS/Aqua Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005",
-            "AMSR-E/Aqua Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V003"
+          "concept_ids": [
+            "C1200000068-NSIDC_ECS",
+            "C1200000070-NSIDC_ECS"
           ]
         }
       }
