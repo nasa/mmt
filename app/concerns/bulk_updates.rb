@@ -33,15 +33,15 @@ module BulkUpdates
 
   # The response from CMR only includes the concept-id
   # but for display purposes we need detailed information
-  def hydrate_collections(bulk_update)
-    concept_ids = bulk_update.fetch('collection-statuses', []).map { |status| status['concept-id'] }
+  def hydrate_collections(task)
+    concept_ids = task.fetch('collection-statuses', []).map { |status| status['concept-id'] }
     return unless concept_ids.any?
 
     collections_response = cmr_client.get_collections_by_post({ concept_id: concept_ids, page_size: concept_ids.count }, token)
     return unless collections_response.success?
 
     collections_response.body['items'].each do |collection|
-      bulk_update.fetch('collection-statuses', []).find { |status| status['concept-id'] == collection.fetch('meta', {})['concept-id'] }['collection'] = collection
+      task.fetch('collection-statuses', []).find { |status| status['concept-id'] == collection.fetch('meta', {})['concept-id'] }['collection'] = collection
     end
   end
 end
