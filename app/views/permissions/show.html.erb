@@ -60,7 +60,7 @@
         <label>Collections</label>
         <p><%= collection_constraint_summary(@permission) %></p>
 
-        <% if @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}).any? && @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', []).any? %>
+        <% if @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}).any? && permission_concept_ids(@permission).any? %>
           <%# button_tag 'Toggle Collection Highlighting', class: 'eui-btn eui-btn--sm highlight-collections', title: 'Toggle the highlighting of collections that satisfy the constraint filters.', data: @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('access_value', {}) %>
         <% end %>
       </div>
@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <% if @permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', []).any? %>
+    <% if permission_concept_ids(@permission).any? %>
     <table id="permission-collection-list">
       <thead>
         <tr>

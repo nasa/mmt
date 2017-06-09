@@ -327,34 +327,16 @@ module Cmr
     def get_permission(concept_id, token)
       # Example: curl -i "http://localhost:3011/acls/#{concept_id}"
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3011/acls/#{concept_id}"
+        url = "http://localhost:3011/acls/#{concept_id}?include-full-acl=true"
       else
-        url = "/access-control/acls/#{concept_id}"
+        url = "/access-control/acls/#{concept_id}?include-full-acl=true"
       end
 
-      # CMR returns data as utf-8. With the curl method, we can see the response has utf-8 as part of the Content-Type
-      # header, but rails does not seem to be recognizing that encoding properly
-      # adding an Accept header with charset=utf-8 worked to solve MMT-485, as now implemented in get_concept,
-      # but I can't seem to get this method response to recognize it with any variation of Accept headers with charset=utf-8
-      # the problem is likely with NET::HTTP (which is used by faraday)
       headers = {
-        # 'Content-Type' => "application/json; charset=utf-8",
-        # 'Accept' => "charset=utf-8"
         'Accept' => 'application/json; charset=utf-8'
-        # 'Accept' => "charset=UTF-8"
-        # 'Accept' => "application/json; charset=UTF-8"
       }
 
       response = get(url, {}, headers.merge(token_header(token)))
-
-      # because of the issue commented above, and because the catalog_item acls (permissions) use entry titles
-      # (if they are specified) to identify collections, we need to parse the entry titles of the permissions and encode
-      # them properly in case of non-standard characters, or they will cause 500 errors when we are retrieving the
-      # collections by entry title
-      if response.success?
-        entry_titles = response.body.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('entry_titles', nil)
-        entry_titles.map! { |entry_title| entry_title.force_encoding('ISO-8859-1').encode('UTF-8') } if entry_titles
-      end
 
       response
     end

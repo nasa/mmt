@@ -18,15 +18,6 @@ class ManageCmrController < PagesController
 
   def show; end
 
-  # JSON representation of the get_entry_title_collections_collections method for use with the Chooser
-  def entry_title_collections(options = {})
-    collections = get_provider_collections(params.merge(options).permit(:provider, :keyword, :page_size, :page_num, :short_name, entry_title: []))
-
-    render_collections_by_entry_title_for_chooser(collections)
-  rescue
-    collections
-  end
-
   # JSON representation of the get_provider_collections method for use with the Chooser
   def provider_collections(options = {})
     collections = get_provider_collections(params.merge(options).permit(:provider, :keyword, :page_size, :page_num, :short_name, concept_id: []))
