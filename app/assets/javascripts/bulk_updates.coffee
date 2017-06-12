@@ -242,9 +242,9 @@ $(document).ready ->
 
       messages:
         'update_field':
-          required: 'Update Type is required.'
-        'update_type':
           required: 'Update Field is required.'
+        'update_type':
+          required: 'Update Type is required.'
         'find_value[Category]':
           required: 'At least one keyword level must be specified.'
         'find_value[Topic]':
