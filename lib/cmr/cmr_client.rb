@@ -25,6 +25,12 @@ module Cmr
     end
 
     def get_collections_by_post(query, token = nil, format = 'umm-json')
+      defaults = {
+        'sort_key' => 'entry_title'
+      }
+
+      query = defaults.merge(query)
+
       # search collections via POST
       if Rails.env.development? || Rails.env.test?
         url = "http://localhost:3003/collections.#{format}"
