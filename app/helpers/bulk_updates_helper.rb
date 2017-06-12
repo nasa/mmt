@@ -204,7 +204,6 @@ module BulkUpdatesHelper
   end
 
   def science_keyword_for_display(keyword)
-  # def display_science_keyword(keyword)
     return {} if keyword.blank?
 
     # to construct the science keyword to display, we iterate through each level
