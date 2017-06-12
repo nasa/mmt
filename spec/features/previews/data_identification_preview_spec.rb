@@ -58,7 +58,7 @@ describe 'Data identification preview' do
 
           within '.metadata-associations-table' do
             within all('tr')[1] do
-              expect(page).to have_content('Science Associated 12345 Metadata association description')
+              expect(page).to have_content('Science Associated 12345 Metadata association description 23')
             end
             within all('tr')[2] do
               expect(page).to have_content('Larger Citation Works	123abc	')

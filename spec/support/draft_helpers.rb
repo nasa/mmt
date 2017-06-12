@@ -268,8 +268,9 @@ module Helpers
     def add_metadata_association
       within '.multiple.metadata-associations' do
         select 'Science Associated', from: 'Type'
-        fill_in 'Description', with: 'Metadata association description'
         fill_in 'Entry Id', with: '12345'
+        fill_in 'Description', with: 'Metadata association description'
+        fill_in 'Version', with: '23'
         click_on 'Add another Metadata Association'
         within '.multiple-item-1' do
           select 'Larger Citation Works', from: 'Type'
