@@ -35,4 +35,13 @@
     validate: true
    ) %>
 
+  <!-- Version -->
+  <%= mmt_text_field(
+    name: 'version',
+    title: 'Version',
+    prefix: name_prefix,
+    value: metadata_association['Version'],
+    help: 'definitions/MetadataAssociationType/properties/Version',
+    validate: true
+  ) %>
 </div>

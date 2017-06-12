@@ -93,8 +93,9 @@ describe 'Data identification form', js: true do
       within '.multiple.metadata-associations' do
         within '.multiple-item-0' do
           expect(page).to have_field('Type', with: 'SCIENCE ASSOCIATED')
-          expect(page).to have_field('Description', with: 'Metadata association description')
           expect(page).to have_field('Entry Id', with: '12345')
+          expect(page).to have_field('Description', with: 'Metadata association description')
+          expect(page).to have_field('Version', with: '23')
         end
         within '.multiple-item-1' do
           expect(page).to have_field('Type', with: 'LARGER CITATION WORKS')

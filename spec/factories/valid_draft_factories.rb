@@ -560,8 +560,9 @@ FactoryGirl.define do
       },
       'MetadataAssociations' => [{
         'Type'        => 'SCIENCE ASSOCIATED',
+        'EntryId'     => '12345',
         'Description' => 'Metadata association description',
-        'EntryId'     => '12345'
+        'Version'     => '23'
       }, {
         'Type'    => 'LARGER CITATION WORKS',
         'EntryId' => '123abc'
@@ -608,7 +609,8 @@ FactoryGirl.define do
         'Term'           => 'GEOGRAPHIC INFORMATION SYSTEMS',
         'VariableLevel1' => 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
       }],
-        'AncillaryKeywords' => ['Ancillary keyword 1', 'Ancillary keyword 2'], 'AdditionalAttributes' => [{
+      'AncillaryKeywords' => ['Ancillary keyword 1', 'Ancillary keyword 2'],
+      'AdditionalAttributes' => [{
         'Name'                     => 'Attribute 1',
         'Description'              => 'Description',
         'DataType'                 => 'INT',
@@ -658,27 +660,29 @@ FactoryGirl.define do
           'Checksum' => 'sdfgfgksghafgsdvbasf'
         }
       }],
-      'Distributions' => [{},
-      {
-        'DistributionMedia' => 'test 2 DistributionMedia',
-        'Sizes' => [{
-          'Size' => 42,
-          'Unit' => 'KB'
+      'Distributions' => [
+        {},
+        {
+          'DistributionMedia' => 'test 2 DistributionMedia',
+          'Sizes' => [{
+            'Size' => 42,
+            'Unit' => 'KB'
+          }, {
+            'Size' => 9001,
+            'Unit' => 'MB'
+          }],
+          'DistributionFormat' => 'test 2 DistributionFormat',
+          'Fees' => '1234.56'
         }, {
-          'Size' => 9001,
-          'Unit' => 'MB'
-        }],
-        'DistributionFormat' => 'test 2 DistributionFormat',
-        'Fees' => '1234.56'
-      }, {
-        'DistributionMedia' => 'test 1 DistributionMedia',
-        'Sizes' => [{
-          'Size' => 25,
-          'Unit' => 'TB'
-        }],
-        'DistributionFormat' => 'test 1 DistributionFormat',
-        'Fees' => '1234.56'
-      }],
+          'DistributionMedia' => 'test 1 DistributionMedia',
+          'Sizes' => [{
+            'Size' => 25,
+            'Unit' => 'TB'
+          }],
+          'DistributionFormat' => 'test 1 DistributionFormat',
+          'Fees' => '1234.56'
+        }
+      ],
       'MetadataLanguage' => 'eng',
       'MetadataDates' => [{
         'Type' => 'CREATE',
@@ -756,43 +760,43 @@ FactoryGirl.define do
         'Type' => 'ATLANTIC OCEAN'
       }],
       'TemporalExtents' => [{
-          'TemporalRangeType'  => 'SingleDateTime',
-          'PrecisionOfSeconds' => 1,
-          'EndsAtPresentFlag'  => false,
-          'SingleDateTimes'    => ['2015-07-01T00:00:00Z', '2015-12-25T00:00:00Z']
+        'TemporalRangeType'  => 'SingleDateTime',
+        'PrecisionOfSeconds' => 1,
+        'EndsAtPresentFlag'  => false,
+        'SingleDateTimes'    => ['2015-07-01T00:00:00Z', '2015-12-25T00:00:00Z']
+      }, {
+        'TemporalRangeType'  => 'RangeDateTime',
+        'PrecisionOfSeconds' => 10,
+        'EndsAtPresentFlag'  => false,
+        'RangeDateTimes' => [{
+          'BeginningDateTime' => '2014-07-01T00:00:00Z',
+          'EndingDateTime'    => '2014-08-01T00:00:00Z'
         }, {
-          'TemporalRangeType'  => 'RangeDateTime',
-          'PrecisionOfSeconds' => 10,
-          'EndsAtPresentFlag'  => false,
-          'RangeDateTimes' => [{
-            'BeginningDateTime' => '2014-07-01T00:00:00Z',
-            'EndingDateTime'    => '2014-08-01T00:00:00Z'
-          }, {
-            'BeginningDateTime' => '2015-07-01T00:00:00Z',
-            'EndingDateTime'    => '2015-08-01T00:00:00Z'
-          }]
+          'BeginningDateTime' => '2015-07-01T00:00:00Z',
+          'EndingDateTime'    => '2015-08-01T00:00:00Z'
+        }]
+      }, {
+        'TemporalRangeType'  => 'PeriodicDateTime',
+        'PrecisionOfSeconds' => 30,
+        'EndsAtPresentFlag'  => false,
+        'PeriodicDateTimes' => [{
+          'Name'                     => 'test 1 Periodic Extent',
+          'StartDate'                => '2015-07-01T00:00:00Z',
+          'EndDate'                  => '2015-08-01T00:00:00Z',
+          'DurationUnit'             => 'DAY',
+          'DurationValue'            => 5,
+          'PeriodCycleDurationUnit'  => 'DAY',
+          'PeriodCycleDurationValue' => 1
         }, {
-          'TemporalRangeType'  => 'PeriodicDateTime',
-          'PrecisionOfSeconds' => 30,
-          'EndsAtPresentFlag'  => false,
-          'PeriodicDateTimes' => [{
-            'Name'                     => 'test 1 Periodic Extent',
-            'StartDate'                => '2015-07-01T00:00:00Z',
-            'EndDate'                  => '2015-08-01T00:00:00Z',
-            'DurationUnit'             => 'DAY',
-            'DurationValue'            => 5,
-            'PeriodCycleDurationUnit'  => 'DAY',
-            'PeriodCycleDurationValue' => 1
-          }, {
-            'Name'                     => 'test 2 Periodic Extent',
-            'StartDate'                => '2016-07-01T00:00:00Z',
-            'EndDate'                  => '2016-08-01T00:00:00Z',
-            'DurationUnit'             => 'MONTH',
-            'DurationValue'            => 4,
-            'PeriodCycleDurationUnit'  => 'MONTH',
-            'PeriodCycleDurationValue' => 2
-          }]
-        }],
+          'Name'                     => 'test 2 Periodic Extent',
+          'StartDate'                => '2016-07-01T00:00:00Z',
+          'EndDate'                  => '2016-08-01T00:00:00Z',
+          'DurationUnit'             => 'MONTH',
+          'DurationValue'            => 4,
+          'PeriodCycleDurationUnit'  => 'MONTH',
+          'PeriodCycleDurationValue' => 2
+        }]
+      }],
       'TemporalKeywords' => ['Monthly Climatology', 'Weekly Climatology'],
       'PaleoTemporalCoverages' => [{
         'StartDate' => '50 Ga',
@@ -815,7 +819,7 @@ FactoryGirl.define do
           'Eon' => 'test 3 Eon text 1'
         }]
       }],
-      'ISOTopicCategories' => %w(farming climatologyMeteorologyAtmosphere health)
+      'ISOTopicCategories' => %w[farming climatologyMeteorologyAtmosphere health]
     }}
   end
 end
