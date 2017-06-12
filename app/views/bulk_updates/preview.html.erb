@@ -14,22 +14,14 @@
       <!-- Find Value -->
       <%= display_value_title(@task['update-type'], 'find') %>
 
-      <ul class="arrow-tag-group-list">
-        <% display_science_keyword(@task['find-value']).each do |field, value| %>
-          <li itemprop="keyword" class="arrow-tag-group-item"><%= value %></li>
-        <% end %>
-      </ul>
+      <%= display_science_keyword(@task['find-value']) %>
     <% end %>
 
     <% unless @task['update-type'] == 'FIND_AND_REMOVE' %>
       <!-- Update Value -->
       <%= display_value_title(@task['update-type'], 'new') %>
 
-      <ul class="arrow-tag-group-list">
-        <% display_science_keyword(@task['update-value']).each do |field, value| %>
-          <li itemprop="keyword" class="arrow-tag-group-item"><%= value %></li>
-        <% end %>
-      </ul>
+      <%= display_science_keyword(@task['update-value']) %>
     <% end %>
 
     <h4 class="space-top"><%= pluralize(@collections.count, 'Selected Collection') %></h4>
