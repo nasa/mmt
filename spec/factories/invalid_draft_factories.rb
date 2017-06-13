@@ -121,11 +121,6 @@ FactoryGirl.define do
             'Unit' => 'badunit'
           }
         }],
-        'Distributions' => [{
-          'Sizes' => [{
-            'Unit' => 'bits'
-          }]
-        }],
         'DataLanguage' => 'english',
         'MetadataLanguage' => 'english',
         'Platforms' => [{

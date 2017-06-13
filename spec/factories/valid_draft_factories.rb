@@ -660,29 +660,6 @@ FactoryGirl.define do
           'Checksum' => 'sdfgfgksghafgsdvbasf'
         }
       }],
-      'Distributions' => [
-        {},
-        {
-          'DistributionMedia' => 'test 2 DistributionMedia',
-          'Sizes' => [{
-            'Size' => 42,
-            'Unit' => 'KB'
-          }, {
-            'Size' => 9001,
-            'Unit' => 'MB'
-          }],
-          'DistributionFormat' => 'test 2 DistributionFormat',
-          'Fees' => '1234.56'
-        }, {
-          'DistributionMedia' => 'test 1 DistributionMedia',
-          'Sizes' => [{
-            'Size' => 25,
-            'Unit' => 'TB'
-          }],
-          'DistributionFormat' => 'test 1 DistributionFormat',
-          'Fees' => '1234.56'
-        }
-      ],
       'MetadataLanguage' => 'eng',
       'MetadataDates' => [{
         'Type' => 'CREATE',

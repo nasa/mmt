@@ -272,9 +272,6 @@ $(document).ready ->
         when /related_urls_(\d*)_file_size_unit/.test id
           [_, index] = id.match /related_urls_(\d*)_file_size_unit/
           "/RelatedUrls/#{index}/FileSize/Unit"
-        when /distributions_(\d*)_sizes_(\d*)_unit/.test id
-          [_, index1, index2] = id.match /distributions_(\d*)_sizes_(\d*)_unit/
-          "/Distributions/#{index1}/Sizes/#{index2}/Unit"
         when /organizations_\d*_party_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /organizations_(\d*)_party_addresses_(\d*)_country/
           "/Organizations/#{index1}/Party/Addresses/#{index2}/Country"
