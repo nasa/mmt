@@ -336,6 +336,11 @@ FactoryGirl.define do
             'URLContentType' => 'DataCenterURL',
             'Type' => 'HOME PAGE',
             'URL' => 'http://example.com/'
+          },{
+            'Description' => 'Related URL 2 Description',
+            'URLContentType' => 'DataCenterURL',
+            'Type' => 'HOME PAGE',
+            'URL' => 'http://example.com/2'
           }]
         }
       }, {
@@ -477,6 +482,11 @@ FactoryGirl.define do
             'URLContentType' => 'DataContactURL',
             'Type' => 'HOME PAGE',
             'URL' => 'http://example.com/'
+          },{
+            'Description' => 'Related URL 2 Description',
+            'URLContentType' => 'DataContactURL',
+            'Type' => 'HOME PAGE',
+            'URL' => 'http://example.com/2'
           }]
         }
       }],
@@ -512,6 +522,11 @@ FactoryGirl.define do
             'URLContentType' => 'DataContactURL',
             'Type' => 'HOME PAGE',
             'URL' => 'http://example.com/'
+          },{
+            'Description' => 'Related URL 2 Description',
+            'URLContentType' => 'DataContactURL',
+            'Type' => 'HOME PAGE',
+            'URL' => 'http://example.com/2'
           }]
         }
       }],
