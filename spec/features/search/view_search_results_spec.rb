@@ -34,10 +34,6 @@ describe 'Viewing search results', js: true do
 
       # Acquisition Information
       expect(page).to have_content('ESI')
-
-      # Distribution Information
-      expect(page).to have_content('PDF')
-      expect(page).to have_content('0')
     end
   end
 end

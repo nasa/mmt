@@ -122,10 +122,6 @@ module PreviewCirclesHelper
       'RelatedUrls' => {
         required: false,
         anchor: 'related-urls'
-      },
-      'Distributions' => {
-        required: false,
-        anchor: 'distributions'
       }
     },
     'temporal_information' => {

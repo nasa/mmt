@@ -335,17 +335,6 @@ class DraftsController < ApplicationController
         end
       end
 
-      distributions = metadata['Distributions'] || []
-      distributions.each do |distribution|
-        sizes = distribution['Sizes'] || []
-        sizes.each do |size|
-          unit = size['Unit']
-          if unit && !DraftsHelper::FileSizeUnitTypeOptions.flatten.include?(unit)
-            errors << "The property '#/Distributions' was invalid"
-          end
-        end
-      end
-
       platforms = metadata['Platforms'] || []
       platforms.each do |platform|
         platform_type = platform['Type']

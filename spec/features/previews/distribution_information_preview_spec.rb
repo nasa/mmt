@@ -23,24 +23,6 @@ describe 'Distribution information preview' do
       end
 
       it 'displays the metadata' do
-        within '.distribution-information-preview' do
-          within 'tbody' do
-            within all('tr')[1] do
-              expect(page).to have_content('test 2 DistributionMedia')
-              expect(page).to have_content('test 2 DistributionFormat')
-              expect(page).to have_content('42KB')
-              expect(page).to have_content('9001MB')
-              expect(page).to have_content('1234.56')
-            end
-            within all('tr')[2] do
-              expect(page).to have_content('test 1 DistributionMedia')
-              expect(page).to have_content('test 1 DistributionFormat')
-              expect(page).to have_content('25TB')
-              expect(page).to have_content('1234.56')
-            end
-          end
-        end
-
         within '.related-urls-cards' do
           within all('li.card')[0] do
             within '.card-header' do

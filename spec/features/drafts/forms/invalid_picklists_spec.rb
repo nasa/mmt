@@ -52,12 +52,6 @@ describe 'Invalid picklists', js: true do
       end
     end
 
-    it 'displays an invalid icon for Distributions' do
-      within '.metadata #distribution-information' do
-        expect(page).to have_link('Distributions - Invalid')
-      end
-    end
-
     it 'displays an invalid icon for Spatial Extent' do
       within '.metadata #spatial-information' do
         expect(page).to have_link('Spatial Extent - Invalid')
@@ -394,7 +388,6 @@ describe 'Invalid picklists', js: true do
         expect(page).to have_content('Protocol value [badprotocol] does not match a valid selection option')
         expect(page).to have_content('Format value [badformat] does not match a valid selection option')
         expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
-        expect(page).to have_content('Unit value [bits] does not match a valid selection option')
       end
     end
 
@@ -405,9 +398,6 @@ describe 'Invalid picklists', js: true do
         expect(page).to have_content('Protocol value [badprotocol] does not match a valid selection option')
         expect(page).to have_content('Format value [badformat] does not match a valid selection option')
         expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
-      end
-      within '.distributions' do
-        expect(page).to have_content('Unit value [bits] does not match a valid selection option')
       end
     end
 
@@ -422,9 +412,6 @@ describe 'Invalid picklists', js: true do
       within '.multiple.related-urls > .multiple-item-2' do
         expect(page).to have_css('option[disabled][selected]', text: 'badformat')
         expect(page).to have_css('option[disabled][selected]', text: 'badunit')
-      end
-      within '.distributions .unit-select' do
-        expect(page).to have_css('option[disabled][selected]', text: 'bits')
       end
     end
   end

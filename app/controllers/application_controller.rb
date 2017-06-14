@@ -254,7 +254,6 @@ class ApplicationController < ActionController::Base
   )
   DISTRIBUTION_INFORMATION_FIELDS = %w(
     RelatedUrls
-    Distributions
   )
   METADATA_INFORMATION_FIELDS = %w(
     MetadataLanguage

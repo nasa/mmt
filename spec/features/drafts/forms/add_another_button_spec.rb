@@ -10,42 +10,42 @@ describe 'Add another button behavior', js: true do
   context 'when viewing a form with an add another button' do
     before do
       within '.metadata' do
-        click_on 'Distributions'
+        click_on 'Distribution Information'
       end
     end
 
     it 'displays the header index as 1' do
-      expect(page).to have_content('Distribution 1')
+      expect(page).to have_content('Related URL 1')
     end
 
     it 'sets the toggle link index to 1' do
-      expect(page).to have_css('span', text: 'Toggle Distribution 1', visible: false)
+      expect(page).to have_css('span', text: 'Toggle Related URL 1', visible: false)
     end
 
     context 'when clicking the add another button' do
       before do
-        find('button', text: 'Add another Distribution').trigger('click')
+        find('button', text: 'Add another Related URL').trigger('click')
       end
 
       it 'increments the header index' do
-        expect(page).to have_content('Distribution 2')
+        expect(page).to have_content('Related URL 2')
       end
 
       it 'increments the toggle link index' do
-        expect(page).to have_css('span', text: 'Toggle Distribution 2', visible: false)
+        expect(page).to have_css('span', text: 'Toggle Related URL 2', visible: false)
       end
 
       context 'when clicking the add another button again' do
         before do
-          find('button', text: 'Add another Distribution').trigger('click')
+          find('button', text: 'Add another Related URL').trigger('click')
         end
 
         it 'increments the header index again' do
-          expect(page).to have_content('Distribution 3')
+          expect(page).to have_content('Related URL 3')
         end
 
         it 'increments the toggle link index again' do
-          expect(page).to have_css('span', text: 'Toggle Distribution 3', visible: false)
+          expect(page).to have_css('span', text: 'Toggle Related URL 3', visible: false)
         end
       end
     end

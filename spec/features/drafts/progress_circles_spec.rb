@@ -59,28 +59,20 @@ describe 'Progress circles', js: true do
     context 'when completing an optional field' do
       before do
         within '.metadata' do
-          click_on 'Distribution Information'
+          click_on 'Collection Information'
         end
 
-        open_accordions
-
-        within '.multiple.distributions' do
-          fill_in 'Distribution Media', with: 'Online Download'
-          within '.multiple.sizes' do
-            fill_in 'Size', with: '42'
-            select 'KB', from: 'Unit'
-          end
-          fill_in 'Distribution Format', with: 'HDF'
-          fill_in 'Fees', with: '0'
-        end
+        fill_in 'Version Description', with: 'Version Description'
 
         within '.nav-top' do
           click_on 'Done'
         end
+
+        click_on 'Yes'
       end
 
       it 'fills in that correct circle in grey' do
-        within '#distribution-information a[title="Distributions"]' do
+        within '#collection-information a[title="Version Description"]' do
           expect(page).to have_css('.eui-fa-circle.icon-grey')
         end
       end
@@ -115,17 +107,17 @@ describe 'Progress circles', js: true do
 
     context 'when clicking a circle' do
       before do
-        within '#distribution-information' do
-          click_on 'Distributions'
+        within '#metadata-information' do
+          click_on 'Metadata Language'
         end
       end
 
       it 'displays the correct form' do
-        expect(page).to have_content('Distribution Information')
+        expect(page).to have_content('Metadata Information')
       end
 
       it 'opens the accordion to show the selected field' do
-        expect(page).to have_content('Distribution 1')
+        expect(page).to have_content('Metadata Language')
       end
     end
   end
