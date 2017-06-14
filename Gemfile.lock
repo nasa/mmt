@@ -1,7 +1,7 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: e1421cb792318895bb27357687717867e0468f4e
-  branch: MMT-952
+  revision: 0211841ad2a9e72070ac759fa50951bd87233933
+  branch: master
   specs:
     cmr_metadata_preview (0.0.1)
       georuby (~> 2.5.2)
@@ -148,7 +148,7 @@ GEM
     libxml-ruby (3.0.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
-    mail (2.6.5)
+    mail (2.6.6)
       mime-types (>= 1.16, < 4)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
