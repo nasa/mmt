@@ -78,7 +78,6 @@ describe 'Collection with draft' do
             end
 
             expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']}")
-            # expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']} DRAFT RECORD")
           end
         end
       end
