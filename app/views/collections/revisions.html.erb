@@ -1,141 +1,122 @@
-<main class="internal" role="main">
-  <header>
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item">
-            <%= link_to 'Manage Metadata', manage_metadata_path %>
-          </li>
-          <li class="eui-breadcrumbs__item">
-            <%= link_to display_entry_id(@collection, 'collection'), collection_path %>
-          </li>
-          <li class="eui-breadcrumbs__item">
-            Revision History
-          </li>
-        </ol>
+<% content_for :header_title do %>
+  <h2><%= display_entry_id(@collection, 'collection') %></h2>
+  <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
+<% end %>
+
+<% if @errors && !@errors.empty? %>
+  <section class="errors">
+    <div class="eui-banner--danger">
+      <div class="eui-banner__message">
+        <!-- <i class="fa fa-exclamation-triangle"></i> This revision could not be reverted successfully: -->
+        <ul class="no-bullet">
+          <% @errors.each do |error| %>
+            <li>
+              <%= "#{error[:field]}, " if error[:field] %>
+              <%= error[:error] %>
+              <% if error[:request_id] %>
+                <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
       </div>
-      <h2><%= display_entry_id(@collection, 'collection') %></h2>
-      <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
     </div>
-  </header>
+  </section>
+<% end %>
 
-  <%= render 'shared/flash_messages' %>
-
-  <% if @errors && !@errors.empty? %>
+<div class="row row-content">
+  <section class="heading-group">
+    <h3>Revision History</h3>
+  </section>
+  <% if @error %>
     <section class="errors">
       <div class="eui-banner--danger">
-        <div class="eui-banner__message">
-          <!-- <i class="fa fa-exclamation-triangle"></i> This revision could not be reverted successfully: -->
-          <ul class="no-bullet">
-            <% @errors.each do |error| %>
-              <li>
-                <%= "#{error[:field]}, " if error[:field] %>
-                <%= error[:error] %>
-                <% if error[:request_id] %>
-                  <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
-                <% end %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
+        <p class="eui-banner__message">
+          <i class="fa fa-exclamation-triangle"></i> This collection could not be updated. You may <%= link_to 'edit', edit_collection_path(revision_id: @revision_id) %> the collection to resolve these issues.
+        </p>
       </div>
     </section>
   <% end %>
+  <div class="row">
+    <section>
+      <table>
+        <thead>
+        <tr>
+          <th>Description</th>
+          <th>Revision Date</th>
+          <th>Action by</th>
+          <th>Review Status</th>
+          <th>Quality Score</th>
+          <th>Revision Notes</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+          <% @revisions.each_with_index do |revision, index| %>
+            <% revision_id = revision['meta']['revision-id'] %>
+            <tr class='<%= cycle("alt", "") %>'>
+              <td>
+                <% title = "View revision #{revision_id}" %>
+                <%= revision_id %> -
+                <% if revision['meta']['deleted'] == true %>
+                  Deleted
+                <% elsif index == 0 %>
+                  Published
+                  <%= link_to 'View', collection_path(revision_id: revision_id), title: title %>
+                <% else %>
+                  Revision
+                  <%= link_to 'View', collection_path(revision_id: revision_id), title: title %>
+                <% end %>
+              </td>
+              <td>
+                <%= revision['meta']['revision-date'] %>
+              </td>
+              <td>
+                <%= revision['meta']['user-id'] %>
+              </td>
+              <td>
+                <span class="disabled">Reviewed</span>
+              </td>
+              <td>
+                <span class="disabled">82</span>
+              </td>
+              <td>
+                <!-- Revision notes -->
+              </td>
+              <td>
+                <% if @revisions.first['meta']['deleted'] == true %>
+                  <% phrase = 'Reinstate' %>
+                  <% confirm_phrase = 'Are you sure you want to reinstate this record?' %>
+                <% else %>
+                  <% phrase = 'Revert to this Revision' %>
+                  <% confirm_phrase = 'Are you sure you want to revert to this revision?' %>
+                <% end %>
 
-  <div class="row row-content">
-    <section class="heading-group">
-      <h3>Revision History</h3>
+                <% unless index == 0 || revision['meta']['deleted'] == true %>
+                  <% if current_provider?(@provider_id) %>
+                    <%= link_to phrase, "#revert-revisions-modal-#{revision_id}", class: 'display-modal' %>
+                  <% elsif available_provider?(@provider_id) %>
+                    <%= link_to phrase, '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: phrase } %>
+                  <% end %>
+                  <div id="revert-revisions-modal-<%= revision_id %>" class="eui-modal-content">
+                    <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+                    <p><%= confirm_phrase %></p>
+                    <p>
+                      <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                      <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'eui-btn--blue spinner' %>
+                    </p>
+                  </div>
+                  <%= render partial: "shared/not_current_provider_modal", locals: {
+                    options: { revisions: true, collection: @collection,
+                      concept_id: @concept_id, revision_id: revision_id }
+                    } %>
+                  </div>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </section>
-    <% if @error %>
-      <section class="errors">
-        <div class="eui-banner--danger">
-          <p class="eui-banner__message">
-            <i class="fa fa-exclamation-triangle"></i> This collection could not be updated. You may <%= link_to 'edit', edit_collection_path(revision_id: @revision_id) %> the collection to resolve these issues.
-          </p>
-        </div>
-      </section>
-    <% end %>
-    <div class="row">
-      <section>
-        <table>
-          <thead>
-          <tr>
-            <th>Description</th>
-            <th>Revision Date</th>
-            <th>Action by</th>
-            <th>Review Status</th>
-            <th>Quality Score</th>
-            <th>Revision Notes</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-            <% @revisions.each_with_index do |revision, index| %>
-              <% revision_id = revision['meta']['revision-id'] %>
-              <tr class='<%= cycle("alt", "") %>'>
-                <td>
-                  <% title = "View revision #{revision_id}" %>
-                  <%= revision_id %> -
-                  <% if revision['meta']['deleted'] == true %>
-                    Deleted
-                  <% elsif index == 0 %>
-                    Published
-                    <%= link_to 'View', collection_path(revision_id: revision_id), title: title %>
-                  <% else %>
-                    Revision
-                    <%= link_to 'View', collection_path(revision_id: revision_id), title: title %>
-                  <% end %>
-                </td>
-                <td>
-                  <%= revision['meta']['revision-date'] %>
-                </td>
-                <td>
-                  <%= revision['meta']['user-id'] %>
-                </td>
-                <td>
-                  <span class="disabled">Reviewed</span>
-                </td>
-                <td>
-                  <span class="disabled">82</span>
-                </td>
-                <td>
-                  <!-- Revision notes -->
-                </td>
-                <td>
-                  <% if @revisions.first['meta']['deleted'] == true %>
-                    <% phrase = 'Reinstate' %>
-                    <% confirm_phrase = 'Are you sure you want to reinstate this record?' %>
-                  <% else %>
-                    <% phrase = 'Revert to this Revision' %>
-                    <% confirm_phrase = 'Are you sure you want to revert to this revision?' %>
-                  <% end %>
-
-                  <% unless index == 0 || revision['meta']['deleted'] == true %>
-                    <% if current_user.provider_id == @provider_id %>
-                      <%= link_to phrase, "#revert-revisions-modal-#{revision_id}", class: 'display-modal' %>
-                    <% elsif current_user.available_providers.include?(@provider_id) %>
-                      <%= link_to phrase, '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: phrase } %>
-                    <% end %>
-                    <div id="revert-revisions-modal-<%= revision_id %>" class="eui-modal-content">
-                      <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                      <p><%= confirm_phrase %></p>
-                      <p>
-                        <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                        <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'eui-btn--blue spinner' %>
-                      </p>
-                    </div>
-                    <%= render partial: "shared/not_current_provider_modal", locals: {
-                      options: { revisions: true, collection: @collection,
-                        concept_id: @concept_id, revision_id: revision_id }
-                      } %>
-                    </div>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </section>
-    </div>
   </div>
-</main>
+</div>

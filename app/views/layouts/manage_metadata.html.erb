@@ -24,16 +24,25 @@
     <div id="main-content">
       <main class="internal" role="main">
         <header>
-          <%= render_breadcrumbs builder: ::EuiBreadcrumbsBuilder %>
+          <div class="row content">
 
-          <nav>
-            <div class="content">
-              <h2 class="current"><%= link_to 'Manage Metadata', manage_metadata_path %></h2>
-              <% if Rails.configuration.groups_enabled %>
-                <h2><%= link_to 'Manage CMR', manage_cmr_path %></h2>
-              <% end %>
+            <div class="collection-basics">
+              <%= render_breadcrumbs builder: ::EuiBreadcrumbsBuilder %>
+
+              <%= yield :header_title %>
+
+              <nav>
+                <div class="content">
+                  <h2 class="current"><%= link_to 'Manage Metadata', manage_metadata_path %></h2>
+                  <% if Rails.configuration.groups_enabled %>
+                  <h2><%= link_to 'Manage CMR', manage_cmr_path %></h2>
+                  <% end %>
+                </div>
+              </nav>
             </div>
-          </nav>
+
+            <%= yield :collection_details %>
+          </div>
         </header>
 
         <!-- Earthdata Staus App banner -->

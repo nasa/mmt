@@ -1,102 +1,80 @@
-<main class="internal" role="main">
+<input type='hidden' id='mmt-form-name' value='<%= @draft_form %>'>
 
-  <input type='hidden' id='mmt-form-name' value='<%= @draft_form %>'>
+<% content_for :header_title do %>
+  <h2><%= @draft_form.titleize %></h2>
+<% end %>
 
-  <%= form_tag(draft_path(@draft), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
-    <%= hidden_field_tag 'commit' %>
+<% if @draft.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@draft.errors.count, 'error') %>) prohibit this draft from being saved:</h2>
+    <ul>
+      <% @draft.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
-    <section class="content-header">
-      <div class="content">
-        <div class="eui-breadcrumbs">
-          <ol class="eui-breadcrumbs__list">
-            <li class="eui-breadcrumbs__item">
-              <%= link_to 'Manage Metadata', manage_metadata_path %>
-            </li>
-            <li class="eui-breadcrumbs__item">
-              <%= link_to 'Drafts', drafts_path %>
-            </li>
-            <li class="eui-breadcrumbs__item">
-              <%= link_to display_entry_id(@draft.draft, 'draft'), draft_path(@draft) %>
-            </li>
-            <li class="eui-breadcrumbs__item">
-              <%= @draft_form.titleize %>
-            </li>
-          </ol>
+<%= form_tag(draft_path(@draft), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
+  <%= hidden_field_tag 'commit' %>
+
+  <div class="row row-content">
+    <section>
+
+      <input type="hidden" name='new_form_name' id="new_form_name" />
+
+      <%= render :partial => 'drafts/forms/form_navigation', :locals => {
+          location: 'top',
+          draft: @draft,
+          draft_form: @draft_form,
+          draft_forms: @draft_forms } %>
+
+      <div class="row">
+        <div class="col-6">
+          <p class="eui-required-o">Indicates required field</p>
         </div>
-        <h2><%= @draft_form.titleize %></h2>
-      </div>
-    </section>
-
-    <%= render 'shared/flash_messages' %>
-
-    <% if @draft.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@draft.errors.count, 'error') %>) prohibit this draft from being saved:</h2>
-        <ul>
-          <% @draft.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-    <div class="row row-content">
-      <section>
-
-        <input type="hidden" name='new_form_name' id="new_form_name" />
-
-        <%= render :partial => 'drafts/forms/form_navigation', :locals => {
-            location: 'top',
-            draft: @draft,
-            draft_form: @draft_form,
-            draft_forms: @draft_forms } %>
-
-        <div class="row">
+        <!-- Expand All link -->
+        <% unless DraftsHelper::SINGLE_FIELDSET_FORMS.include? @draft_form  %>
           <div class="col-6">
-            <p class="eui-required-o">Indicates required field</p>
+            <p class="align-r">
+              <a href="#" class="expand-accordions">Expand All</a>
+              <a href="#" class="is-invisible collapse-accordions">Collapse All</a>
+            </p>
           </div>
-          <!-- Expand All link -->
-          <% unless DraftsHelper::SINGLE_FIELDSET_FORMS.include? @draft_form  %>
-            <div class="col-6">
-              <p class="align-r">
-                <a href="#" class="expand-accordions">Expand All</a>
-                <a href="#" class="is-invisible collapse-accordions">Collapse All</a>
-              </p>
-            </div>
-          <% end %>
-        </div>
+        <% end %>
+      </div>
 
-        <%= render :partial => "drafts/forms/#{@draft_form}", :locals => { draft: @draft } %>
+      <%= render :partial => "drafts/forms/#{@draft_form}", :locals => { draft: @draft } %>
 
-        <script>
-          // Load json-schema for field validation
-          var globalJsonSchema = <%= raw @json_schema.to_json %>;
+      <script>
+        // Load json-schema for field validation
+        var globalJsonSchema = <%= raw @json_schema.to_json %>;
 
-          var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
-        </script>
+        var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
+      </script>
 
-        </br>
+      </br>
 
-        <%= render :partial => 'drafts/forms/form_navigation', :locals => {
-            location: 'bottom',
-            draft: @draft,
-            draft_form: @draft_form,
-            draft_forms: @draft_forms } %>
+      <%= render :partial => 'drafts/forms/form_navigation', :locals => {
+          location: 'bottom',
+          draft: @draft,
+          draft_form: @draft_form,
+          draft_forms: @draft_forms } %>
 
-        <!-- Hidden link to allow modal to be shown -->
-        <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Model</a>
-        <div id="invalid-draft-modal" class="eui-modal-content">
-          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-          <p>This page has invalid data. Are you sure you want to save it and proceed?</p>
-          <p>
-            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <a href="javascript:void(0)" id="invalid-draft-accept" class="eui-btn--blue">Yes</a>
-          </p>
-        </div>
+      <!-- Hidden link to allow modal to be shown -->
+      <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Model</a>
+      <div id="invalid-draft-modal" class="eui-modal-content">
+        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <p>This page has invalid data. Are you sure you want to save it and proceed?</p>
+        <p>
+          <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+          <a href="javascript:void(0)" id="invalid-draft-accept" class="eui-btn--blue">Yes</a>
+        </p>
+      </div>
 
-      </section>
-    </div>
-  <% end %>
-</main>
+    </section>
+  </div>
+<% end %>
 
 
 <!-- help modal -->

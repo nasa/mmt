@@ -1,7 +1,11 @@
-class DraftsController < ApplicationController
+class DraftsController < ManageMetadataController
+  include ManageMetadataHelper
+
   before_action :set_draft, only: [:show, :edit, :update, :destroy, :publish]
   before_action :load_umm_schema, only: [:edit, :show]
   before_filter :ensure_correct_draft_provider, only: [:edit, :show]
+
+  add_breadcrumb 'Drafts', :drafts_path
 
   RESULTS_PER_PAGE = 25
 
@@ -21,17 +25,24 @@ class DraftsController < ApplicationController
     set_country_codes
     set_language_codes
     @errors = validate_metadata
+
+    add_breadcrumb display_entry_id(@draft.draft, 'draft'), draft_path(@draft)
   end
 
   # GET /drafts/new
   def new
     @draft = Draft.new(user: current_user, draft: {}, id: 0)
     render :show
+
+    add_breadcrumb 'New', new_draft_path
   end
 
   # GET /drafts/1/edit
   def edit
+    add_breadcrumb display_entry_id(@draft.draft, 'draft'), draft_path(@draft)
+
     Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{@draft.entry_title} for provider #{current_user.provider_id}")
+
     if params[:form]
       @draft_form = params[:form]
       set_science_keywords
@@ -42,6 +53,8 @@ class DraftsController < ApplicationController
       set_temporal_keywords if params[:form] == 'temporal_information'
       set_data_centers if params[:form] == 'data_centers' || params[:form] == 'data_contacts'
       load_data_contacts_schema if params[:form] == 'data_contacts'
+
+      add_breadcrumb @draft_form.titleize, edit_draft_path(@draft)
     else
       render :show
     end

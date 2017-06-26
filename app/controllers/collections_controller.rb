@@ -1,10 +1,16 @@
-class CollectionsController < ApplicationController
+class CollectionsController < ManageMetadataController
+  include ManageMetadataHelper
+
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
+
+  add_breadcrumb 'Collections' # there is no collections index action, so not providing a link
 
   def show
     @language_codes = cmr_client.get_language_codes
     @draft = Draft.where(provider_id: @provider_id, native_id: @native_id).first
+
+    add_breadcrumb display_entry_id(@collection, 'collection'), collection_path(@collection)
   end
 
   def edit
@@ -27,7 +33,7 @@ class CollectionsController < ApplicationController
     delete = cmr_client.delete_collection(provider_id, @native_id, token)
     if delete.success?
       flash[:success] = 'Collection was successfully deleted'
-       Rails.logger.info("Audit Log: Collection with native_id #{@native_id} was deleted for #{provider_id} by #{session[:urs_uid]}")
+      Rails.logger.info("Audit Log: Collection with native_id #{@native_id} was deleted for #{provider_id} by #{session[:urs_uid]}")
       redirect_to collection_revisions_path(id: delete.body['concept-id'], revision_id: delete.body['revision-id'])
     else
       flash[:error] = 'Collection was not successfully deleted'
@@ -36,6 +42,8 @@ class CollectionsController < ApplicationController
   end
 
   def revisions
+    add_breadcrumb display_entry_id(@collection, 'collection'), collection_path(@collection)
+    add_breadcrumb 'Revision History', collection_revisions_path(@collection)
   end
 
   def revert
@@ -75,8 +83,6 @@ class CollectionsController < ApplicationController
       @collection_action = 'delete'
     end
 
-    @revision_id = params[:revision_id]
-
     @user_permissions = 'none'
     if current_user.available_providers && current_user.available_providers.include?(@provider_id)
       @user_permissions = 'wrong_provider'
@@ -87,12 +93,12 @@ class CollectionsController < ApplicationController
 
   def set_collection
     @concept_id = params[:id]
-    revision_id = params[:revision_id]
+    @revision_id = params[:revision_id]
 
     set_collection_link(@concept_id)
     set_num_granules(@concept_id)
 
-    @revisions = get_revisions(@concept_id, revision_id)
+    @revisions = get_revisions(@concept_id, @revision_id)
 
     latest = @revisions.first
 
@@ -102,7 +108,7 @@ class CollectionsController < ApplicationController
       @provider_id = latest['meta']['provider-id']
       concept_format = latest['meta']['format']
 
-      if !revision_id.nil? && latest['meta']['revision-id'].to_s != revision_id.to_s
+      if !@revision_id.nil? && latest['meta']['revision-id'].to_s != @revision_id.to_s
         @old_revision = true
       end
 
@@ -111,7 +117,7 @@ class CollectionsController < ApplicationController
       # but if we are reverting, we should get the collection in it's native format, so set content-type appropriately
       content_type = 'application/metadata+xml; charset=utf-8' if params[:action] == 'revert'
 
-      collection_response = cmr_client.get_concept(@concept_id, token, content_type, revision_id)
+      collection_response = cmr_client.get_concept(@concept_id, token, content_type, @revision_id)
       @collection = collection_response.body
       @collection_format = collection_response.headers.fetch('content-type', '')
     else

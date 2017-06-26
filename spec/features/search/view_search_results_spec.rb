@@ -15,7 +15,10 @@ describe 'Viewing search results', js: true do
     end
 
     it 'displays the published record page' do
-      expect(page).to have_content('PUBLISHED RECORD')
+      within '.eui-breadcrumbs' do
+        expect(page).to have_content('Collections')
+        expect(page).to have_content(short_name)
+      end
     end
 
     it 'displays the published record metadata' do

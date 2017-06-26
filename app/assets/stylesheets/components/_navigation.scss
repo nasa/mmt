@@ -6,7 +6,6 @@
 
 nav {
   @include row();
-  border-bottom: 1px solid $dolphin-grey;
   margin-bottom: 0;
 
   h2 {

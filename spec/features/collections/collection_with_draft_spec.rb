@@ -25,7 +25,12 @@ describe 'Collection with draft' do
         end
 
         it 'displays the draft' do
-          expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']} DRAFT RECORD")
+          within '.eui-breadcrumbs' do
+            expect(page).to have_content('Drafts')
+            expect(page).to have_content("#{@concept_response.body['ShortName']}_1")
+          end
+
+          expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']}")
         end
       end
     end
@@ -67,7 +72,13 @@ describe 'Collection with draft' do
           end
 
           it 'displays the draft' do
-            expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']} DRAFT RECORD")
+            within '.eui-breadcrumbs' do
+              expect(page).to have_content('Drafts')
+              expect(page).to have_content("#{@concept_response.body['ShortName']}_1")
+            end
+
+            expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']}")
+            # expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']} DRAFT RECORD")
           end
         end
       end

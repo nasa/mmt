@@ -6,12 +6,13 @@ describe 'Search results permissions for drafts', js: true do
   let(:short_name)  { 'Climate Change' }
   let(:entry_title) { 'Climate Observation Record' }
   let(:provider)    { 'MMT_2' }
+  let(:version)     { '5' }
 
   context 'when searching drafts' do
     before do
       login
-      
-      create(:full_draft, entry_title: entry_title, short_name: short_name, draft_entry_title: entry_title, draft_short_name: short_name, provider_id: provider)
+
+      create(:full_draft, entry_title: entry_title, short_name: short_name, draft_entry_title: entry_title, draft_short_name: short_name, provider_id: provider, version: version)
     end
 
     context 'when drafts are from current provider' do
@@ -37,7 +38,13 @@ describe 'Search results permissions for drafts', js: true do
         end
 
         it 'allows user to view the draft preview page' do
-          expect(page).to have_content("#{entry_title} DRAFT RECORD")
+          within '.eui-breadcrumbs' do
+            expect(page).to have_content('Drafts')
+            expect(page).to have_content("#{short_name}_#{version}")
+          end
+
+          expect(page).to have_content("#{short_name}_#{version}")
+          expect(page).to have_content(entry_title)
           expect(page).to have_content('Publish Draft')
           expect(page).to have_content('Delete Draft')
         end
@@ -83,7 +90,13 @@ describe 'Search results permissions for drafts', js: true do
           end
 
           it 'shows the draft preview page' do
-            expect(page).to have_content("#{entry_title} DRAFT RECORD")
+            within '.eui-breadcrumbs' do
+              expect(page).to have_content('Drafts')
+              expect(page).to have_content("#{short_name}_#{version}")
+            end
+
+            expect(page).to have_content("#{short_name}_#{version}")
+            expect(page).to have_content(entry_title)
             expect(page).to have_content('Publish Draft')
             expect(page).to have_content('Delete Draft')
           end

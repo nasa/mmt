@@ -38,9 +38,9 @@
         <tr class='<%= cycle("alt", "") %>'>
           <td>
             <% if collection['meta']['draft_id'] %>
-              <% if current_user.provider_id == collection['meta']['provider-id'] %>
+              <% if current_provider?(collection['meta']['provider-id']) %>
                 <%= link_to "#{collection['umm']['short-name']} (Draft)", draft_path(collection['meta']['draft_id']) %>
-              <% elsif current_user.available_providers.include?(collection['meta']['provider-id']) %>
+              <% elsif available_provider?(collection['meta']['provider-id']) %>
                 <%= link_to "#{collection['umm']['short-name']} (Draft)", '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': collection['meta']['provider-id'], record_action: 'view-draft' } %>
                 <%= render partial: "shared/not_current_provider_modal", locals: {
                   options: { draft: collection, draft_id: collection['meta']['draft_id'] }

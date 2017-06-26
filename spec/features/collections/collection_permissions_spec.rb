@@ -21,9 +21,9 @@ describe 'Collections permissions', js: true do
       end
 
       it 'displays the action links' do
-        expect(page).to have_content('EDIT RECORD')
-        expect(page).to have_content('Clone this Record')
-        expect(page).to have_content('Delete Record')
+        expect(page).to have_link('Edit Record')
+        expect(page).to have_link('Clone this Record')
+        expect(page).to have_link('Delete Record')
       end
 
       context 'when clicking the edit link' do
@@ -156,12 +156,12 @@ describe 'Collections permissions', js: true do
 
           it 'displays warning banner link to change provider' do
             expect(page).to have_css('.eui-banner--warn')
-            expect(page).to have_content("You need to change your current provider to edit this collection")
+            expect(page).to have_content('You need to change your current provider to edit this collection')
           end
 
           context 'when clicking the warning banner link' do
             before do
-              click_link("You need to change your current provider to edit this collection")
+              click_link('You need to change your current provider to edit this collection')
               wait_for_ajax
             end
 
@@ -184,12 +184,12 @@ describe 'Collections permissions', js: true do
 
           it 'displays warning banner link to change provider' do
             expect(page).to have_css('.eui-banner--warn')
-            expect(page).to have_content("You need to change your current provider to clone this collection")
+            expect(page).to have_content('You need to change your current provider to clone this collection')
           end
 
           context 'when clicking the warning banner link' do
             before do
-              click_link("You need to change your current provider to clone this collection")
+              click_link('You need to change your current provider to clone this collection')
               wait_for_ajax
             end
 
@@ -214,9 +214,9 @@ describe 'Collections permissions', js: true do
       end
 
       it 'does not display the action links' do
-        expect(page).to have_no_content('EDIT RECORD')
-        expect(page).to have_no_content('Clone this Record')
-        expect(page).to have_no_content('Delete Record')
+        expect(page).to have_no_link('Edit Record')
+        expect(page).to have_no_link('Clone this Record')
+        expect(page).to have_no_link('Delete Record')
       end
 
       context 'when viewing the revisions page' do

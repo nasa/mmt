@@ -1,0 +1,32 @@
+<% unless user_permissions == 'none' %>
+    <div class="collection-details">
+      <!-- Only display version if one exists. -->
+      <% if metadata['Version'] %>
+        <span class="eui-badge version">Version <%= metadata['Version']%></span>
+      <% end %>
+
+      <!-- Only display data language if one exists. -->
+      <% if metadata['DataLanguage'] %>
+        <span class="eui-badge language"><%= metadata['DataLanguage']%></span>
+      <% end %>
+
+      <!-- Only display CollectionDataType if it is NRT. -->
+      <% if metadata['CollectionDataType'] == "NEAR_REAL_TIME" %>
+        <span class="eui-badge nrt">NRT</span>
+      <% end %>
+
+      <div class="quality-score disabled">
+        <div class="badges">
+          <i class="fa fa-star fa-lg"></i>
+          <i class="fa fa-star fa-lg"></i>
+          <i class="fa fa-star fa-lg"></i>
+          <i class="fa fa-star fa-lg"></i>
+          <i class="fa fa-star-o fa-lg"></i>
+        </div>
+        <div class="score-info">
+          <p>Quality Score: <strong>20</strong></p>
+          <p>Required fields not complete</p>
+        </div>
+      </div>
+    </div>
+  <% end %>

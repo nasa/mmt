@@ -52,7 +52,9 @@ describe 'Open Drafts listings on the Manage Metadata page', reset_provider: tru
         end
 
         it 'the record is opened for view/edit' do
-          expect(page).to have_content('Draft Record')
+          within '.eui-breadcrumbs' do
+            expect(page).to have_content('Drafts')
+          end
           expect(page).to have_content('Entry Title Not Provided')
         end
       end

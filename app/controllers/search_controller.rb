@@ -1,4 +1,4 @@
-class SearchController < ApplicationController
+class SearchController < ManageMetadataController
   include SearchHelper
 
   RESULTS_PER_PAGE = 25
@@ -34,6 +34,8 @@ class SearchController < ApplicationController
     @query['search_type'] = search_type
 
     collections, @errors, hits = get_search_results(good_query_params)
+
+    add_breadcrumb 'Search Results', search_path
 
     @collections = Kaminari.paginate_array(collections, total_count: hits).page(page).per(results_per_page)
   end
