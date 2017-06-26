@@ -72,8 +72,9 @@ describe 'Draft creation', js: true do
             end
           end
 
-          it 'displays the draft record page' do
-            expect(page).to have_content('DRAFT RECORD')
+          it 'displays the drafts preview page' do
+            expect(page).to have_content('Drafts')
+            expect(page).to have_content('123')
           end
         end
       end

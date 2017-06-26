@@ -1,59 +1,45 @@
-<main class="internal" role="main">
-  <section class="content-header">
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item">
-            <%= link_to 'Manage Metadata', manage_metadata_path %>
-          </li>
-          <li class="eui-breadcrumbs__item">Drafts</li>
-        </ol>
-      </div>
-    </div>
-  </section>
-  <div class="row row-content">
-    <section>
-      <h2><%= current_user.provider_id %> Drafts</h2>
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Drafts</h2>
 
-      <% if @drafts.any? %>
-        <p><%= page_entries_info @drafts, entry_name: 'Draft' %></p>
-      <% end %>
+    <% if @drafts.any? %>
+      <p><%= page_entries_info @drafts, entry_name: 'Draft' %></p>
+    <% end %>
 
-      <table id="open_drafts">
-        <thead>
-          <tr>
-            <th>Short Name</th>
-            <th>Entry Title</th>
-            <th>Last Modified</th>
-          </tr>
-        </thead>
-        <tbody>
+    <table id="open_drafts">
+      <thead>
+        <tr>
+          <th>Short Name</th>
+          <th>Entry Title</th>
+          <th>Last Modified</th>
+        </tr>
+      </thead>
+      <tbody>
 
-        <% if @drafts.blank? %>
-          <tr>
-            <td colspan="4">
-              No <%= current_user.provider_id %> Drafts found
+      <% if @drafts.blank? %>
+        <tr>
+          <td colspan="4">
+            No <%= current_user.provider_id %> Drafts found
+          </td>
+        </tr>
+      <% else %>
+        <% @drafts.each do |draft| %>
+          <tr class='<%= cycle("alt", "") %>'>
+            <td>
+              <%= link_to draft.display_short_name, draft_path(draft) %>
+            </td>
+            <td>
+              <%= draft.display_entry_title %>
+            </td>
+            <td>
+              <%= draft.updated_at.strftime("%Y-%m-%d") %>
             </td>
           </tr>
-        <% else %>
-          <% @drafts.each do |draft| %>
-            <tr class='<%= cycle("alt", "") %>'>
-              <td>
-                <%= link_to draft.display_short_name, draft_path(draft) %>
-              </td>
-              <td>
-                <%= draft.display_entry_title %>
-              </td>
-              <td>
-                <%= draft.updated_at.strftime("%Y-%m-%d") %>
-              </td>
-            </tr>
-          <% end %>
         <% end %>
-        </tbody>
-      </table>
+      <% end %>
+      </tbody>
+    </table>
 
-      <%= paginate @drafts %>
-    </section>
-  </div>
-</main>
+    <%= paginate @drafts %>
+  </section>
+</div>

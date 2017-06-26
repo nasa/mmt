@@ -96,7 +96,9 @@ describe 'Number fields', js: true do
 
     it 'saves the original string into the database' do
       # wait until page loads to test database
-      expect(page).to have_content('DRAFT RECORD')
+      within '.eui-breadcrumbs' do
+        expect(page).to have_content('Drafts')
+      end
 
       draft_metadata = { 'TemporalExtents' => [{ 'TemporalRangeType' => 'SingleDateTime', 'PrecisionOfSeconds' => 'abcd', 'EndsAtPresentFlag' => false, 'SingleDateTimes' => ['2015-07-01T00:00:00Z'] }] }
       expect(Draft.last.draft).to eq(draft_metadata)

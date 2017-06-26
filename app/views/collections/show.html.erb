@@ -1,120 +1,122 @@
-<main class="internal record" role="main">
-  <header>
-    <%= render partial: 'cmr_metadata_preview/metadata_header', locals: {
-      metadata: @collection,
-      is_mmt: true,
-      user_permissions: @user_permissions,
-      current_user: current_user,
-      provider_id: @provider_id,
-      revision_id: @revision_id
-    } %>
-  </header>
+<% content_for :header_title do %>
+  <h2><%= display_entry_id(@collection, 'collection') %></h2>
+  <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
+<% end %>
 
-  <%= render 'shared/flash_messages' %>
+<% content_for :collection_details do %>
+  <%= render partial: 'shared/preview/collection_details', locals: {
+    metadata: @collection,
+    user_permissions: @user_permissions
+  } %>
+<% end %>
 
-  <% if @user_permissions == 'none' %>
-    <div class="eui-banner--danger">
+<% if @user_permissions == 'none' %>
+  <div class="eui-banner--danger">
+    <p class="eui-banner__message">
+      <%= "You don't have the appropriate permissions to #{@collection_action} this collection." %>
+    </p>
+  </div>
+  <div class="no-access">
+    <h3 class="access-title">Access Denied</h3>
+    <p class="access-message">
+      It appears you do not have access to <%= @collection_action %> this content.<br />
+      If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
+    </p>
+  </div>
+<% elsif @user_permissions == 'wrong_provider' %>
+  <div class="eui-banner--warn">
+    <p class="eui-banner__message">
+      <%= link_to("You need to change your current provider to #{@collection_action} this collection. Click here to change your provider.",
+        "#", id: "change-current-provider-banner-link",
+        data: { "provider": @provider_id, action_link: "change-provider-#{@collection_action}-collection" }) %>
+    </p>
+    <%= render_change_provider_collection_action_link(@collection_action, @concept_id, @revision_id) %>
+  </div>
+<% end %>
+
+<% unless @user_permissions == 'none' %>
+  <% if @old_revision %>
+    <div class="eui-banner--info">
       <p class="eui-banner__message">
-        <%= "You don't have the appropriate permissions to #{@collection_action} this collection." %>
+        <%= link_to 'You are viewing an older revision of this collection. Click here to view the latest published version.', collection_path %>
       </p>
     </div>
-    <div class="no-access">
-      <h3 class="access-title">Access Denied</h3>
-      <p class="access-message">
-        It appears you do not have access to <%= @collection_action %> this content.<br />
-        If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
-      </p>
-    </div>
-  <% elsif @user_permissions == 'wrong_provider' %>
+  <% end %>
+
+  <% if @draft %>
     <div class="eui-banner--warn">
       <p class="eui-banner__message">
-        <%= link_to("You need to change your current provider to #{@collection_action} this collection. Click here to change your provider.",
-          "#", id: "change-current-provider-banner-link",
-          data: { "provider": @provider_id, action_link: "change-provider-#{@collection_action}-collection" }) %>
+        <% if current_provider?(@provider_id) %>
+          <%= link_to 'This collection has an open draft associated with it. Click here to view it.', @draft %>
+        <% elsif available_provider?(@provider_id) %>
+          <%= link_to 'This collection has an open draft associated with it. Click here to view it.', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'view-draft' } %>
+        <% end %>
       </p>
-      <%= render_change_provider_collection_action_link(@collection_action, @concept_id, @revision_id) %>
     </div>
   <% end %>
 
-  <% unless @user_permissions == 'none' %>
-    <% if @old_revision %>
+  <div class="row row-content">
+    <% if @error %>
       <div class="eui-banner--info">
         <p class="eui-banner__message">
-          <%= link_to 'You are viewing an older revision of this collection. Click here to view the latest published version.', collection_path %>
+          <%= @error %>
         </p>
       </div>
-    <% end %>
+    <% else %>
+      <section class="action">
+        <div class="cta">
+          <p>
+            <% if current_provider?(@provider_id) %>
+              <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%> |
+            <% elsif available_provider?(@provider_id) %>
+              <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-collection' } %> |
+            <% end %>
+            <% if current_provider?(@provider_id) %>
+              <%= link_to 'Clone this Record', clone_collection_path %> |
+            <% elsif available_provider?(@provider_id) %>
+              <%= link_to 'Clone this Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'clone' } %> |
+            <% end %>
+            <%= link_to 'Download XML', '#download-xml-modal', class: 'display-modal download-xml', data: { 'path': @collection_link, token: token_with_client_id } %> |
+            <% if current_provider?(@provider_id) %>
+              <%= link_to 'Delete Record', "#delete-record-modal", class: 'display-modal delete-collection' %>
+            <% elsif available_provider?(@provider_id) %>
+              <%= link_to 'Delete Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'delete-collection' } %>
+            <% end %>
+            <div id="delete-record-modal" class="eui-modal-content">
+              <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+              <p>Are you sure you want to delete this record?</p>
+              <p>
+                <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                <%= link_to 'Yes', collection_path, method: :delete, class: 'eui-btn--blue spinner' %>
+              </p>
+            </div>
+            <%= render partial: 'shared/not_current_provider_modal', locals: {
+              options: { collection: @collection, concept_id: @concept_id, revision_id: @revision_id,
+                draft: @draft, draft_id: @draft.try(:id) }
+              } %>
+            <!-- Hidden link to allow modal to be shown -->
+            <a href="#granules-modal" id="display-granules-modal" class="display-modal is-invisible"></a>
+            <div id="granules-modal" class="eui-modal-content">
+              <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+              <p>Collections with granules cannot be deleted</p>
+              <p>
+                <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
+              </p>
+            </div>
 
-    <% if @draft %>
-      <div class="eui-banner--warn">
-        <p class="eui-banner__message">
-          <% if current_user.provider_id == @provider_id %>
-            <%= link_to 'This collection has an open draft associated with it. Click here to view it.', @draft %>
-          <% elsif current_user.available_providers.include?(@provider_id) %>
-            <%= link_to 'This collection has an open draft associated with it. Click here to view it.', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'view-draft' } %>
-          <% end %>
-        </p>
-      </div>
-    <% end %>
-
-    <div class="row row-content">
-      <% if @error %>
-        <div class="eui-banner--info">
-          <p class="eui-banner__message">
-            <%= @error %>
+          </p>
+          <p>
+            <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path %> |
+            <a class="collection-granule-count disabled" href="#">Granules (<%= @num_granules %>)</a> |
+            <a class="disabled" href="#">Save as Template</a>
           </p>
         </div>
-      <% else %>
-        <section class="action">
-          <div class="cta">
-            <p>
-              <a class="disabled" href="#">Save as Template</a> |
-              <% if current_user.provider_id == @provider_id %>
-                <%= link_to 'Clone this Record', clone_collection_path %> |
-              <% elsif current_user.available_providers.include?(@provider_id) %>
-                <%= link_to 'Clone this Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'clone' } %> |
-              <% end %>
-              <a class="display-modal download-xml" href="#download-xml-modal" data-path="<%= @collection_link %>" data-token="<%= token_with_client_id %>">Download XML</a>
-              <% if current_user.provider_id == @provider_id %>
-                | <%= link_to 'Delete Record', "#delete-record-modal", class: 'display-modal delete-collection' %>
-              <% elsif current_user.available_providers.include?(@provider_id) %>
-                | <%= link_to 'Delete Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'delete-collection' } %>
-              <% end %>
-              <div id="delete-record-modal" class="eui-modal-content">
-                <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                <p>Are you sure you want to delete this record?</p>
-                <p>
-                  <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                  <%= link_to 'Yes', collection_path, method: :delete, class: 'eui-btn--blue spinner' %>
-                </p>
-              </div>
-              <%= render partial: 'shared/not_current_provider_modal', locals: {
-                options: { collection: @collection, concept_id: @concept_id, revision_id: @revision_id,
-                  draft: @draft, draft_id: @draft.try(:id) }
-                } %>
-              <!-- Hidden link to allow modal to be shown -->
-              <a href="#granules-modal" id="display-granules-modal" class="display-modal is-invisible"></a>
-              <div id="granules-modal" class="eui-modal-content">
-                <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                <p>Collections with granules cannot be deleted</p>
-                <p>
-                  <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
-                </p>
-              </div>
 
-            </p>
-            <p>
-              <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path %> |
-              <a class="collection-granule-count disabled" href="#">Granules (<%= @num_granules %>)</a>
-            </p>
-          </div>
+        <%= render partial: 'shared/download_xml', locals: { collection: true } %>
 
-          <%= render partial: 'shared/download_xml', locals: { collection: true } %>
+      </section>
 
-        </section>
-
-        <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, editable: false } %>
-      <% end %>
-    </div>
-  <% end %>
-</main>
+      <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, editable: false } %>
+    <% end %>
+  </div>
+<% end %>

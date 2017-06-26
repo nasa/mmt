@@ -37,7 +37,10 @@ describe 'Create new draft from cloning a collection', js: true do
     # end
 
     it 'displays the draft preview page' do
-      expect(page).to have_content('DRAFT RECORD')
+      within '.eui-breadcrumbs' do
+        expect(page).to have_content('Drafts')
+      end
+
       expect(page).to have_content("#{@concept_response.body['EntryTitle']} - Cloned")
     end
 

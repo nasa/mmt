@@ -46,8 +46,12 @@ describe 'Draft permissions' do
         end
 
         it 'goes to the draft preview page' do
+          within '.eui-breadcrumbs' do
+            expect(page).to have_content('Drafts')
+            expect(page).to have_content("#{short_name}_1")
+          end
+
           expect(page).to have_content("#{short_name}_1")
-          expect(page).to have_content('DRAFT RECORD')
           expect(page).to have_content('Publish Draft')
           expect(page).to have_content('Delete Draft')
         end
@@ -80,7 +84,7 @@ describe 'Draft permissions' do
           within '.eui-breadcrumbs' do
             expect(page).to have_content('Collection Information')
           end
-          within '.content-header h2' do
+          within 'header .collection-basics' do
             expect(page).to have_content('Collection Information')
           end
           expect(page).to have_field('Short Name')

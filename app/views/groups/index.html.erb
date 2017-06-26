@@ -58,7 +58,7 @@
               <td><%= group['description'] %></td>
               <td><%= group_provider(group) %></td>
               <td><%= group['member_count'] %></td>
-              <% if current_user.provider_id == group['provider_id'] || check_if_system_group?(group, group['concept_id']) %>
+              <% if current_provider?(group['provider_id']) || check_if_system_group?(group, group['concept_id']) %>
                 <td><%= link_to 'Edit', edit_group_path(group['concept_id']) %></td>
                 <td>
                   <%= link_to 'Delete', "#delete-group-modal-#{index}", class: 'display-modal' %>
@@ -71,7 +71,7 @@
                     </p>
                   </div>
                 </td>
-              <% elsif current_user.available_providers.include?(group['provider_id']) %>
+              <% elsif available_provider?(group['provider_id']) %>
                 <td>
                   <%= link_to 'Edit', "#not-current-provider-modal-#{index}", class: 'display-modal not-current-provider', data: { 'provider': group['provider_id'], record_action: 'edit-group' } %>
                 </td>

@@ -1,33 +1,11 @@
-<!-- <input type='hidden' id='results_per_page' value="<%= @results_per_page.to_s %>"> -->
 
-<main class="internal" role="main">
-  <section class="content-header">
-    <div class="content">
-      <div class="eui-breadcrumbs">
-        <ol class="eui-breadcrumbs__list">
-          <li class="eui-breadcrumbs__item">
-            <%= link_to 'Manage Metadata', manage_metadata_path %>
-          </li>
-          <li class="eui-breadcrumbs__item">Search Results</li>
-        </ol>
-      </div>
+<div class="row row-content">
+  <section>
+    <div id="collection_search_criteria">
+      <%= render partial: 'collection_search_criteria' %>
+    </div>
+    <div id="collection_search_results">
+      <%= render partial: 'collection_search_results' %>
     </div>
   </section>
-  <div class="row row-content">
-    <section>
-      <div class="col-3">
-        <!-- Temporarily commented out because this is not a part of the MVP %-->
-        <!--%= render partial: 'filters' %-->
-      </div>
-
-      <!-- Temporarily commented out because this is not a part of the MVP %-->
-      <!--p class="bulk-record-actions"><a href="#" class="eui-btn--blue btn-md">Bulk Edit Records</a> <a href="#" class="eui-btn--blue btn-md">Bulk Delete Records</a></p-->
-      <div id="collection_search_criteria">
-        <%= render partial: 'collection_search_criteria' %>
-      </div>
-      <div id="collection_search_results">
-        <%= render partial: 'collection_search_results' %>
-      </div>
-    </section>
-  </div>
-</main>
+</div>

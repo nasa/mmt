@@ -25,7 +25,10 @@ describe 'Publishing draft records', js: true do
     end
 
     it 'displays the published record page' do
-      expect(page).to have_content 'PUBLISHED RECORD'
+      within '.eui-breadcrumbs' do
+        expect(page).to have_content('Collections')
+        expect(page).to have_content('12345_1')
+      end
     end
 
     it 'displays the published metadata' do
@@ -112,7 +115,7 @@ describe 'Publishing draft records', js: true do
   context 'when publishing a new draft that has a non url encoded native id' do
     before do
       login
-      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url, encoded / native id')
+      draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url, encoded / native id', draft_short_name: 'test short name')
       visit draft_path(draft)
       click_on 'Publish'
       open_accordions
@@ -123,7 +126,10 @@ describe 'Publishing draft records', js: true do
     end
 
     it 'displays the published record page' do
-      expect(page).to have_content 'PUBLISHED RECORD'
+      within '.eui-breadcrumbs' do
+        expect(page).to have_content('Collections')
+        expect(page).to have_content('test short name_1')
+      end
     end
   end
 end

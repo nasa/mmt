@@ -1,105 +1,103 @@
-<main class="internal record" role="main">
-  <header>
-    <%= render partial: 'cmr_metadata_preview/metadata_header', locals: {
-      metadata: @draft.draft,
-      is_mmt: true,
-      editable: true,
-      draft: @draft,
-      user_permissions: @user_permissions
-    } %>
-  </header>
+<% content_for :header_title do %>
+  <h2><%= display_entry_id(@draft.draft, 'draft') %></h2>
+  <p class="subtitle"><%= display_collection_entry_title(@draft.draft) %></p>
+<% end %>
 
-  <%= render 'shared/flash_messages' %>
+<% content_for :collection_details do %>
+  <%= render partial: 'shared/preview/collection_details', locals: {
+    metadata: @draft.draft,
+    user_permissions: @user_permissions
+  } %>
+<% end %>
 
-  <% if @user_permissions == 'none' %>
-    <div class="eui-banner--danger">
-      <p class="eui-banner__message">
-        <%= "You don't have the appropriate permissions to #{@draft_action} this draft" %>
-      </p>
-    </div>
-    <div class="no-access">
-      <h3 class="access-title">Access Denied</h3>
-      <p class="access-message">
-        It appears you do not have access to this content.<br />
-        If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
-      </p>
-    </div>
-  <% elsif @user_permissions == 'wrong_provider' %>
-    <div class="eui-banner--warn">
-      <p class="eui-banner__message">
-        <%= link_to("You need to change your current provider to #{@draft_action} this draft. Click here to change your provider.",
-          "#", id: "change-current-provider-banner-link",
-          data: { "provider": @draft.provider_id, action_link: "change-provider-#{@draft_action}-draft" }) %>
-      </p>
-      <%= link_to 'View Draft', draft_path(@draft),
-      class: 'is-invisible', id: 'change-provider-view-draft' %>
-      <%= link_to 'Edit Draft', edit_draft_path(@draft, form: @draft_form),
-      class: 'is-invisible', id: 'change-provider-edit-draft' %>
-    </div>
-    <div class="no-access">
-      <h3 class="access-title">Not Current Provider</h3>
-      <p class="access-message">
-        It appears you need to change your current provider to access to this content.<br />
-        Please check the message above to access this content.
-      </p>
-    </div>
-  <% end %>
+<% if @user_permissions == 'none' %>
+  <div class="eui-banner--danger">
+    <p class="eui-banner__message">
+      <%= "You don't have the appropriate permissions to #{@draft_action} this draft" %>
+    </p>
+  </div>
+  <div class="no-access">
+    <h3 class="access-title">Access Denied</h3>
+    <p class="access-message">
+      It appears you do not have access to this content.<br />
+      If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
+    </p>
+  </div>
+<% elsif @user_permissions == 'wrong_provider' %>
+  <div class="eui-banner--warn">
+    <p class="eui-banner__message">
+      <%= link_to("You need to change your current provider to #{@draft_action} this draft. Click here to change your provider.",
+        "#", id: "change-current-provider-banner-link",
+        data: { "provider": @draft.provider_id, action_link: "change-provider-#{@draft_action}-draft" }) %>
+    </p>
+    <%= link_to 'View Draft', draft_path(@draft),
+    class: 'is-invisible', id: 'change-provider-view-draft' %>
+    <%= link_to 'Edit Draft', edit_draft_path(@draft, form: @draft_form),
+    class: 'is-invisible', id: 'change-provider-edit-draft' %>
+  </div>
+  <div class="no-access">
+    <h3 class="access-title">Not Current Provider</h3>
+    <p class="access-message">
+      It appears you need to change your current provider to access to this content.<br />
+      Please check the message above to access this content.
+    </p>
+  </div>
+<% end %>
 
-  <% unless @user_permissions == 'none' || @user_permissions == 'wrong_provider' %>
-    <div class="row row-content">
-      <section class="action">
-        <div class="cta">
-          <% if @draft.new_record? || (@errors && @errors.size > 0) %>
-            <%= link_to 'Publish Draft', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
-            <div id="invalid-draft-modal" class="eui-modal-content">
-              <p>This draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
-              <p>
-                <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
-              </p>
-            </div>
-          <% else %>
-            <%= link_to 'Publish Draft', draft_publish_path(@draft), method: :post, class: 'eui-btn--blue spinner' %>
-          <% end %>
-          <%= link_to 'Delete Draft', "#delete-draft-modal", class: 'display-modal' %>
-          <div id="delete-draft-modal" class="eui-modal-content">
-            <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-            <p>Are you sure you want to delete this draft?</p>
+<% unless @user_permissions == 'none' || @user_permissions == 'wrong_provider' %>
+  <div class="row row-content">
+    <section class="action">
+      <div class="cta">
+        <% if @draft.new_record? || (@errors && @errors.size > 0) %>
+          <%= link_to 'Publish Draft', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
+          <div id="invalid-draft-modal" class="eui-modal-content">
+            <p>This draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
             <p>
-              <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-              <%= link_to 'Yes', "/drafts/#{@draft.id}", method: :delete, class: 'eui-btn--blue spinner' %>
+              <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
             </p>
           </div>
-        </section>
+        <% else %>
+          <%= link_to 'Publish Draft', draft_publish_path(@draft), method: :post, class: 'eui-btn--blue spinner' %>
+        <% end %>
+        <%= link_to 'Delete Draft', "#delete-draft-modal", class: 'display-modal' %>
+        <div id="delete-draft-modal" class="eui-modal-content">
+          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p>Are you sure you want to delete this draft?</p>
+          <p>
+            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+            <%= link_to 'Yes', "/drafts/#{@draft.id}", method: :delete, class: 'eui-btn--blue spinner' %>
+          </p>
+        </div>
+      </section>
 
-      <% if @ingest_errors && !@ingest_errors.empty? %>
-        <section class="errors">
-          <div class="eui-banner--danger">
-            <div class="eui-banner__message">
-              <i class="fa fa-exclamation-triangle"></i> This draft has the following errors:
-              <ul class="no-bullet">
-                <% @ingest_errors.each do |error| %>
-                  <li>
-                    <% if error[:field] && error[:page] %>
-                      <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) %>
-                    <% else %>
-                      <%= "#{error[:field]}," if error[:field] %>
-                    <% end %>
-                    <%= error[:error] %>
-                    <% if error[:request_id] %>
-                      <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
-                    <% end %>
-                  </li>
-                <% end %>
-              </ul>
-            </div>
+    <% if @ingest_errors && !@ingest_errors.empty? %>
+      <section class="errors">
+        <div class="eui-banner--danger">
+          <div class="eui-banner__message">
+            <i class="fa fa-exclamation-triangle"></i> This draft has the following errors:
+            <ul class="no-bullet">
+              <% @ingest_errors.each do |error| %>
+                <li>
+                  <% if error[:field] && error[:page] %>
+                    <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) %>
+                  <% else %>
+                    <%= "#{error[:field]}," if error[:field] %>
+                  <% end %>
+                  <%= error[:error] %>
+                  <% if error[:request_id] %>
+                    <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
           </div>
-        </section>
-      <% end %>
+        </div>
+      </section>
+    <% end %>
 
-      <%= render partial: 'drafts/progress/preview_progress', locals: { draft: @draft, metadata_errors: @errors || @ingest_errors } %>
+    <%= render partial: 'drafts/progress/preview_progress', locals: { draft: @draft, metadata_errors: @errors || @ingest_errors } %>
 
-      <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @draft.draft, editable: true } %>
+    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @draft.draft, editable: true } %>
 
-    </div>
-  <% end %>
-</main>
+  </div>
+<% end %>
