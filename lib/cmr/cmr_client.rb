@@ -15,16 +15,16 @@ module Cmr
 
     # umm-json gives us shorter version of metadata in the 'umm' portion. but it has entry-id
     # umm_json gives us the metadata record in the 'umm' portion. but that does not include entry-id
-    def get_collections(options = {}, token = nil, format = 'umm-json')
+    def get_collections(options = {}, token = nil)
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3003/collections.#{format}"
+        url = "http://localhost:3003/collections.umm-json"
       else
-        url = "/search/collections.#{format}"
+        url = "/search/collections.umm-json"
       end
       get(url, options, token_header(token))
     end
 
-    def get_collections_by_post(query, token = nil, format = 'umm-json')
+    def get_collections_by_post(query, token = nil)
       defaults = {
         'sort_key' => 'entry_title'
       }
@@ -33,9 +33,9 @@ module Cmr
 
       # search collections via POST
       if Rails.env.development? || Rails.env.test?
-        url = "http://localhost:3003/collections.#{format}"
+        url = "http://localhost:3003/collections.umm-json"
       else
-        url = "/search/collections.#{format}"
+        url = "/search/collections.umm-json"
       end
 
       headers = { 'Content-Type' => 'application/x-www-form-urlencoded' }
