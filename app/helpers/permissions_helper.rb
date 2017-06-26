@@ -78,7 +78,7 @@ module PermissionsHelper
 
     return {} unless concept_ids.any?
 
-    collection_response = cmr_client.get_collections_by_post({ provider_id: permission.fetch('catalog_item_identity', {})['provider_id'], concept_id: concept_ids, page_size: concept_ids.count }, token, 'umm_json')
+    collection_response = cmr_client.get_collections_by_post({ provider_id: permission.fetch('catalog_item_identity', {})['provider_id'], concept_id: concept_ids, page_size: concept_ids.count }, token)
 
     return {} unless collection_response.success?
 

@@ -78,17 +78,15 @@
           <th>Collection</th>
           <th>Short Name</th>
           <th>Version</th>
-          <th>Access Constraint</th>
         </tr>
       </thead>
       <tbody>
         
         <% permission_collections(@permission).fetch('items', []).each do |collection| %>
         <tr>
-          <td><%= link_to collection.fetch('umm', {})['EntryTitle'], collection_path(collection.fetch('meta', {})['concept-id']) %></td>
-          <td><%= collection.fetch('umm', {})['ShortName'] %></td>
-          <td><%= collection.fetch('umm', {})['Version'] %></td>
-          <td class="access-constraint"><%= collection.fetch('umm', {}).fetch('AccessConstraints', {})['Value'] %></td>
+          <td><%= link_to collection.fetch('umm', {})['entry-title'], collection_path(collection.fetch('meta', {})['concept-id']) %></td>
+          <td><%= collection.fetch('umm', {})['short-name'] %></td>
+          <td><%= collection.fetch('umm', {})['version-id'] %></td>
         </tr>
         <% end %>
       </tbody>
