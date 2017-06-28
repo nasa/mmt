@@ -19,7 +19,7 @@ describe 'Draft form navigation', js: true do
   end
 
   context 'when drilling down from the summary page' do
-    Draft::DRAFT_FORMS.each do |form|
+    CollectionDraft.forms.each do |form|
       form_title = form.titleize
       context "when clicking on #{form_title}" do
         before do
@@ -38,8 +38,8 @@ describe 'Draft form navigation', js: true do
     end
   end
 
-  Draft::DRAFT_FORMS.each do |form|
-    next_form = Draft.get_next_form(form, 'Next').titleize
+  CollectionDraft.forms.each do |form|
+    next_form = CollectionDraft.get_next_form(form, 'Next').titleize
 
     context "when choosing #{next_form} from the form selection drop down" do
       before do
@@ -61,9 +61,9 @@ describe 'Draft form navigation', js: true do
     end
   end
 
-  Draft::DRAFT_FORMS.size.times do |index|
-    current_form = Draft::DRAFT_FORMS[index].titleize
-    next_form = Draft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
+  CollectionDraft.forms.size.times do |index|
+    current_form = CollectionDraft.forms[index].titleize
+    next_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
 
     context 'when pressing the Next button' do
       before do
@@ -73,7 +73,7 @@ describe 'Draft form navigation', js: true do
           click_on 'Next'
         end
 
-        next_form = Draft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
+        next_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
         current_form = next_form
       end
 
@@ -90,9 +90,9 @@ describe 'Draft form navigation', js: true do
     end
   end
 
-  Draft::DRAFT_FORMS.size.times do |index|
-    current_form = Draft::DRAFT_FORMS[index].titleize
-    previous_form = Draft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
+  CollectionDraft.forms.size.times do |index|
+    current_form = CollectionDraft.forms[index].titleize
+    previous_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
 
     context 'when pressing the Previous button' do
       before do
@@ -102,7 +102,7 @@ describe 'Draft form navigation', js: true do
           click_on 'Previous'
         end
 
-        previous_form = Draft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
+        previous_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
         current_form = previous_form
       end
 
@@ -188,7 +188,7 @@ describe 'Draft form navigation', js: true do
           expect(page).to have_content('Test_23')
         end
 
-        draft = Draft.first
+        draft = CollectionDraft.first
         expect(draft.short_name).to eq('Test')
         expect(draft.entry_title).to eq('New Test Draft Record')
       end

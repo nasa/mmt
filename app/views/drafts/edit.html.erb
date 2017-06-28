@@ -4,18 +4,18 @@
   <h2><%= @draft_form.titleize %></h2>
 <% end %>
 
-<% if @draft.errors.any? %>
+<% if get_resource.errors.any? %>
   <div id="error_explanation">
-    <h2><%= pluralize(@draft.errors.count, 'error') %>) prohibit this draft from being saved:</h2>
+    <h2><%= pluralize(get_resource.errors.count, 'error') %>) prohibit this draft from being saved:</h2>
     <ul>
-      <% @draft.errors.full_messages.each do |msg| %>
+      <% get_resource.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
     </ul>
   </div>
 <% end %>
 
-<%= form_tag(draft_path(@draft), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
+<%= form_tag(collection_draft_path(get_resource), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
   <%= hidden_field_tag 'commit' %>
 
   <div class="row row-content">
@@ -25,7 +25,7 @@
 
       <%= render :partial => 'drafts/forms/form_navigation', :locals => {
           location: 'top',
-          draft: @draft,
+          draft: get_resource,
           draft_form: @draft_form,
           draft_forms: @draft_forms } %>
 
@@ -44,7 +44,7 @@
         <% end %>
       </div>
 
-      <%= render :partial => "drafts/forms/#{@draft_form}", :locals => { draft: @draft } %>
+      <%= render :partial => "drafts/forms/#{@draft_form}", :locals => { draft: get_resource } %>
 
       <script>
         // Load json-schema for field validation
@@ -57,7 +57,7 @@
 
       <%= render :partial => 'drafts/forms/form_navigation', :locals => {
           location: 'bottom',
-          draft: @draft,
+          draft: get_resource,
           draft_form: @draft_form,
           draft_forms: @draft_forms } %>
 

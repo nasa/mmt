@@ -2,8 +2,8 @@
   <section>
     <h2><%= current_user.provider_id %> Drafts</h2>
 
-    <% if @drafts.any? %>
-      <p><%= page_entries_info @drafts, entry_name: 'Draft' %></p>
+    <% if get_resources.any? %>
+      <p><%= page_entries_info get_resources, entry_name: 'Draft' %></p>
     <% end %>
 
     <table id="open_drafts">
@@ -16,17 +16,17 @@
       </thead>
       <tbody>
 
-      <% if @drafts.blank? %>
+      <% if get_resources.blank? %>
         <tr>
           <td colspan="4">
             No <%= current_user.provider_id %> Drafts found
           </td>
         </tr>
       <% else %>
-        <% @drafts.each do |draft| %>
+        <% get_resources.each do |draft| %>
           <tr class='<%= cycle("alt", "") %>'>
             <td>
-              <%= link_to draft.display_short_name, draft_path(draft) %>
+              <%= link_to draft.display_short_name, collection_draft_path(draft) %>
             </td>
             <td>
               <%= draft.display_entry_title %>
@@ -40,6 +40,6 @@
       </tbody>
     </table>
 
-    <%= paginate @drafts %>
+    <%= paginate get_resources %>
   </section>
 </div>

@@ -8,24 +8,24 @@ class CollectionsController < ManageMetadataController
 
   def show
     @language_codes = cmr_client.get_language_codes
-    @draft = Draft.where(provider_id: @provider_id, native_id: @native_id).first
+    @draft = CollectionDraft.where(provider_id: @provider_id, native_id: @native_id).first
 
     add_breadcrumb display_entry_id(@collection, 'collection'), collection_path(@collection)
   end
 
   def edit
-    draft = Draft.create_from_collection(@collection, current_user, @native_id)
+    draft = CollectionDraft.create_from_collection(@collection, current_user, @native_id)
     Rails.logger.info("Audit Log: Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
     flash[:success] = 'Draft was successfully created'
-    redirect_to draft_path(draft)
+    redirect_to collection_draft_path(draft)
   end
 
   def clone
-    draft = Draft.create_from_collection(@collection, current_user, nil)
+    draft = CollectionDraft.create_from_collection(@collection, current_user, nil)
 
-    flash[:notice] = view_context.link_to 'Records must have a unique Short Name. Click here to enter a new Short Name.', draft_edit_form_path(draft, 'collection_information', anchor: 'collection-information')
+    flash[:notice] = view_context.link_to 'Records must have a unique Short Name. Click here to enter a new Short Name.', edit_collection_draft_path(draft, 'collection_information', anchor: 'collection-information')
 
-    redirect_to draft_path(draft)
+    redirect_to collection_draft_path(draft)
   end
 
   def destroy

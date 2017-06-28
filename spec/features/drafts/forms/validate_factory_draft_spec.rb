@@ -15,7 +15,7 @@ describe 'Data validation on each form for the factory draft', js: true do
     visit draft_path(draft)
   end
 
-  Draft::DRAFT_FORMS.each do |form|
+  CollectionDraft.forms.each do |form|
     form_name = form.titleize
 
     context "when on the #{form_name} Form" do

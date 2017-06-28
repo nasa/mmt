@@ -1,11 +1,11 @@
 <% content_for :header_title do %>
-  <h2><%= display_entry_id(@draft.draft, 'draft') %></h2>
-  <p class="subtitle"><%= display_collection_entry_title(@draft.draft) %></p>
+  <h2><%= display_entry_id(get_resource.draft, 'draft') %></h2>
+  <p class="subtitle"><%= display_collection_entry_title(get_resource.draft) %></p>
 <% end %>
 
 <% content_for :collection_details do %>
   <%= render partial: 'shared/preview/collection_details', locals: {
-    metadata: @draft.draft,
+    metadata: get_resource.draft,
     user_permissions: @user_permissions
   } %>
 <% end %>
@@ -28,11 +28,11 @@
     <p class="eui-banner__message">
       <%= link_to("You need to change your current provider to #{@draft_action} this draft. Click here to change your provider.",
         "#", id: "change-current-provider-banner-link",
-        data: { "provider": @draft.provider_id, action_link: "change-provider-#{@draft_action}-draft" }) %>
+        data: { "provider": get_resource.provider_id, action_link: "change-provider-#{@draft_action}-draft" }) %>
     </p>
-    <%= link_to 'View Draft', draft_path(@draft),
+    <%= link_to 'View Draft', collection_draft_path(get_resource),
     class: 'is-invisible', id: 'change-provider-view-draft' %>
-    <%= link_to 'Edit Draft', edit_draft_path(@draft, form: @draft_form),
+    <%= link_to 'Edit Draft', edit_collection_draft_path(get_resource, form: @draft_form),
     class: 'is-invisible', id: 'change-provider-edit-draft' %>
   </div>
   <div class="no-access">
@@ -48,7 +48,7 @@
   <div class="row row-content">
     <section class="action">
       <div class="cta">
-        <% if @draft.new_record? || (@errors && @errors.size > 0) %>
+        <% if get_resource.new_record? || (@errors && @errors.size > 0) %>
           <%= link_to 'Publish Draft', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
           <div id="invalid-draft-modal" class="eui-modal-content">
             <p>This draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
@@ -57,7 +57,7 @@
             </p>
           </div>
         <% else %>
-          <%= link_to 'Publish Draft', draft_publish_path(@draft), method: :post, class: 'eui-btn--blue spinner' %>
+          <%= link_to 'Publish Draft', publish_collection_draft_path(get_resource), method: :post, class: 'eui-btn--blue spinner' %>
         <% end %>
         <%= link_to 'Delete Draft', "#delete-draft-modal", class: 'display-modal' %>
         <div id="delete-draft-modal" class="eui-modal-content">
@@ -65,7 +65,7 @@
           <p>Are you sure you want to delete this draft?</p>
           <p>
             <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <%= link_to 'Yes', "/drafts/#{@draft.id}", method: :delete, class: 'eui-btn--blue spinner' %>
+            <%= link_to 'Yes', collection_draft_path(get_resource), method: :delete, class: 'eui-btn--blue spinner' %>
           </p>
         </div>
       </section>
@@ -79,7 +79,7 @@
               <% @ingest_errors.each do |error| %>
                 <li>
                   <% if error[:field] && error[:page] %>
-                    <%= link_to name_to_title(error[:field]), draft_edit_form_path(@draft, error[:page]) %>
+                    <%= link_to name_to_title(error[:field]), draft_edit_form_path(get_resource, error[:page]) %>
                   <% else %>
                     <%= "#{error[:field]}," if error[:field] %>
                   <% end %>
@@ -95,9 +95,8 @@
       </section>
     <% end %>
 
-    <%= render partial: 'drafts/progress/preview_progress', locals: { draft: @draft, metadata_errors: @errors || @ingest_errors } %>
+    <%= render partial: 'drafts/progress/preview_progress', locals: { draft: get_resource, metadata_errors: @errors || @ingest_errors } %>
 
-    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @draft.draft, editable: true } %>
-
+    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, editable: true } %>
   </div>
 <% end %>

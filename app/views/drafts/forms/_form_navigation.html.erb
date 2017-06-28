@@ -17,13 +17,13 @@
     <%= submit_tag 'Save', class: 'eui-btn save-form' %>
     <%= submit_tag 'Done', class: 'eui-btn--blue save-form' %>
     <% if draft.new_record? %>
-      <%= link_to 'Cancel', new_draft_path, class: 'cancel' %>
+      <%= link_to 'Cancel', new_collection_draft_path, class: 'cancel' %>
     <% else %>
-      <%= link_to 'Cancel', draft_path(draft), class: 'cancel' %>
+      <%= link_to 'Cancel', collection_draft_path(draft), class: 'cancel' %>
     <% end %>
     <p class="update-timestamp">
-      <% unless @draft.new_record? %>
-        Last saved <%= @draft.updated_at.in_time_zone('Eastern Time (US & Canada)').strftime('%Y-%m-%d %H:%M %Z') %>
+      <% unless draft.new_record? %>
+        Last saved <%= draft.updated_at.in_time_zone('Eastern Time (US & Canada)').strftime('%Y-%m-%d %H:%M %Z') %>
       <% end %>
     </p>
   </div>

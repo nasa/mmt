@@ -63,12 +63,21 @@ Rails.application.routes.draw do
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
   get '/collections/:id/clone' => 'collections#clone', as: 'clone_collection'
 
-  resources :drafts do
-    get 'edit/:form' => 'drafts#edit', as: 'edit_form'
-    post 'publish' => 'drafts#publish', as: 'publish'
-    get 'download' => 'drafts#download_xml', as: 'download'
-  end
-  get 'subregion_options' => 'drafts#subregion_options'
+  # scope path: ':draft_type/' do
+    resources :drafts, controller: 'drafts/collection_drafts', path: 'collection_drafts', draft_type: 'collection', as: 'collection_drafts' do
+      # get 'edit/:form' => 'edit', as: 'edit_form', action: 'edit'
+        member do
+          # get 'edit/:form' => 'edit', as: 'edit_form'
+          # post 'publish' => 'publish', as: 'publish'
+          # get 'download' => 'download_xml', as: 'download'
+          get 'edit', path: 'edit(/:form)'
+          get 'download'
+          post 'publish'
+        end
+      # end
+    end
+    get 'subregion_options' => 'drafts#subregion_options'
+  # end
 
   get 'welcome/index'
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
