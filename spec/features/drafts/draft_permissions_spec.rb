@@ -61,7 +61,7 @@ describe 'Draft permissions' do
     context 'when trying to visit the edit draft collection information page directly' do
       before do
         # visit "/drafts/#{draft.id}/edit/collection_information"
-        visit draft_edit_form_path(draft, 'collection_information', anchor: 'collection-information')
+        visit edit_collection_draft_path(draft, 'collection_information', anchor: 'collection-information')
       end
 
       it 'displays warning banner link to change provider' do

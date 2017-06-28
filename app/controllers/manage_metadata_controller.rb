@@ -1,6 +1,7 @@
 # :nodoc:
 class ManageMetadataController < PagesController
   include BulkUpdates
+  include ManageMetadataHelper
 
   layout 'manage_metadata'
 

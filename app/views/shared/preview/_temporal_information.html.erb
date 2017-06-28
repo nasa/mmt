@@ -10,7 +10,7 @@
     <% if metadata['PaleoTemporalCoverages'] %>
       <% metadata['PaleoTemporalCoverages'].each do |paleo_temporal_coverage| %>
         <table class="paleo-temporal-coverage-table">
-          <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Paleo Temporal Coverage</span>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', { anchor: 'paleo-temporal-coverage' }), { class: 'hash-link' } %><% end %>
+          <% if @draft.present? %><%= link_to '<i class="fa fa-edit"></i> <span class="is-invisible">Edit Paleo Temporal Coverage</span>'.html_safe, edit_draft_path(@draft, 'temporal_information', { anchor: 'paleo-temporal-coverage' }), { class: 'hash-link' } %><% end %>
           <thead>
             <tr>
               <th colspan="5" class="table-header-span">
@@ -48,7 +48,7 @@
       <h5>
         Temporal Keywords
         <% if @draft.present? %>
-          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Temporal Keywords</span>'.html_safe, draft_edit_form_path(@draft, 'temporal_information', { anchor: 'draft_temporal_keywords' }), { class: 'hash-link' } %>
+          <%= link_to '<i class="fa fa-edit"></i> <span class="is-hidden">Edit Temporal Keywords</span>'.html_safe, edit_draft_path(@draft, 'temporal_information', { anchor: 'draft_temporal_keywords' }), { class: 'hash-link' } %>
         <% end %>
       </h5>
       <ul class="temporal-keywords-preview">
