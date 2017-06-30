@@ -1,0 +1,29 @@
+<fieldset class="eui-accordion" id="data_centers">
+  <div class="eui-accordion__header disable-toggle">
+    <h3 class="eui-accordion__title eui-required-o">Data Centers</h3>
+    <%= mmt_help_icon(
+      title: 'Data Centers',
+      help: 'properties/DataCenters'
+    ) %>
+  </div>
+  <div class="eui-accordion__body">
+    <!-- Data Centers [r] -->
+    <div class="row taller">
+      <div class="col-12">
+        <div class="row">
+          <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'data_center',
+            values: draft.draft['DataCenters'] || [{}],
+            name_prefix: "draft_|data_centers|_",
+            multiple: true,
+            options: {
+              data_center_affiliation: true,
+              always_required: true,
+              related_url_title: 'Related URLs', # TODO each related url might have a different title
+            }
+          } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>

@@ -1,0 +1,91 @@
+<div class="row sub-fields">
+  <!-- SpatialCoverageType -->
+  <% spatial_coverage_type = spatial_extent['SpatialCoverageType'] || '' %>
+  <%= mmt_label(
+    name: 'spatial_coverage_type',
+    title: 'Spatial Coverage Type',
+    prefix: name_prefix
+  ) %>
+  <%= mmt_help_icon(
+    title: 'Spatial Coverage Type',
+    help: 'definitions/SpatialExtentType/properties/SpatialCoverageType'
+  ) %>
+  <a href="javascript:void(0)" class="clear-radio-button" data-content="spatial-coverage-type">Clear</a>
+  <div class="spatial-coverage-type-group">
+    <p class="radio-group">
+      <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label>
+    </p>
+    <p class="radio-group">
+      <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label>
+    </p>
+    <p class="radio-group">
+      <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'ORBITAL', spatial_coverage_type == 'ORBITAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_ORBITAL">Orbit</label>
+    </p>
+  </div>
+
+
+  <!-- HorizontalSpatialDomain -->
+  <div class="spatial-coverage-type horizontal" style="<%= 'display: none;' unless spatial_coverage_type == 'HORIZONTAL' %>">
+    <%= mmt_label(
+      name: 'horizontal_spatial_domain',
+      title: 'Horizontal Spatial Domain',
+      prefix: name_prefix
+    ) %>
+    <%= mmt_help_icon(
+      title: 'Horizontal Spatial Domain',
+      help: 'definitions/HorizontalSpatialDomainType'
+    ) %>
+    <%= render partial: 'collection_drafts/forms/type', locals: {
+        type: 'horizontal_spatial_domain',
+        values: spatial_extent['HorizontalSpatialDomain'] || {},
+        name_prefix: "#{name_prefix}|horizontal_spatial_domain|_",
+        multiple: false,
+        options: {} } %>
+  </div>
+
+
+  <!-- VerticalSpatialDomains -->
+  <div class="spatial-coverage-type vertical" style="<%= 'display: none;' unless spatial_coverage_type == 'VERTICAL'%>">
+    <%= render partial: 'collection_drafts/forms/type', locals: {
+        type: 'vertical_spatial_domain',
+        values: spatial_extent['VerticalSpatialDomains'] || [{}],
+        name_prefix: "#{name_prefix}|vertical_spatial_domains|_",
+        multiple: true,
+        options: {} } %>
+  </div>
+
+
+  <!-- OrbitParameters -->
+  <div class="spatial-coverage-type orbit" style="<%= 'display: none;' unless spatial_coverage_type == 'ORBITAL'%>">
+    <%= mmt_label(
+      name: 'orbit_parameters',
+      title: 'Orbit Parameters',
+      prefix: name_prefix
+    ) %>
+    <%= mmt_help_icon(
+      title: 'Orbit Parameters',
+      help: 'definitions/OrbitParametersType'
+    ) %>
+    <%= render partial: 'collection_drafts/forms/type', locals: {
+        type: 'orbit_parameters',
+        values: spatial_extent['OrbitParameters'] || {},
+        name_prefix: "#{name_prefix}|orbit_parameters|_",
+        multiple: false,
+        options: {} } %>
+  </div>
+
+
+  <!-- GranuleSpatialRepresentation -->
+  <%= mmt_select(
+    name: 'granule_spatial_representation',
+    title: 'Granule Spatial Representation',
+    prefix: name_prefix,
+    value: spatial_extent['GranuleSpatialRepresentation'],
+    options: DraftsHelper::GranuleSpatialRepresentationOptions,
+    always_required: true
+  ) %>
+
+</div>

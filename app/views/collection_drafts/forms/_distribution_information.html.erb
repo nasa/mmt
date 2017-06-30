@@ -1,0 +1,27 @@
+<!-- Related URL -->
+<fieldset class="eui-accordion" id="related-urls">
+  <div class="eui-accordion__header disable-toggle">
+    <h3 class="eui-accordion__title">Related URLs</h3>
+    <%= mmt_help_icon(
+      title: 'Related URLs',
+      help: 'properties/RelatedUrls'
+    ) %>
+  </div>
+  <div class="eui-accordion__body">
+    <div class="row">
+      <div class="col-12">
+        <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'related_url',
+            values: draft.draft['RelatedUrls'] || [{}],
+            name_prefix: 'draft_|related_urls|_',
+            multiple: true,
+            options: {
+              always_required: false,
+              related_url_title: 'Related URLs',
+              url_content_type_options: DraftsHelper::URLContentTypeRelatedURLsOptions
+            }
+          } %>
+      </div>
+    </div>
+  </div>
+</fieldset>

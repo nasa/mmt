@@ -1,0 +1,92 @@
+<input type='hidden' id='mmt-form-name' value='<%= @draft_form %>'>
+
+<% content_for :header_title do %>
+  <h2><%= @draft_form.titleize %></h2>
+<% end %>
+
+<% if get_resource.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(get_resource.errors.count, 'error') %>) prohibit this draft from being saved:</h2>
+    <ul>
+      <% get_resource.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_tag(collection_draft_path(get_resource), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
+  <%= hidden_field_tag 'commit' %>
+
+  <div class="row row-content">
+    <section>
+
+      <input type="hidden" name='new_form_name' id="new_form_name" />
+
+      <%= render partial: 'collection_drafts/forms/form_navigation', :locals => {
+          location: 'top',
+          draft: get_resource,
+          draft_form: @draft_form,
+          draft_forms: @draft_forms } %>
+
+      <div class="row">
+        <div class="col-6">
+          <p class="eui-required-o">Indicates required field</p>
+        </div>
+        <!-- Expand All link -->
+        <% unless DraftsHelper::SINGLE_FIELDSET_FORMS.include? @draft_form  %>
+          <div class="col-6">
+            <p class="align-r">
+              <a href="#" class="expand-accordions">Expand All</a>
+              <a href="#" class="is-invisible collapse-accordions">Collapse All</a>
+            </p>
+          </div>
+        <% end %>
+      </div>
+
+      <%= render partial: "collection_drafts/forms/#{@draft_form}", :locals => { draft: get_resource } %>
+
+      <script>
+        // Load json-schema for field validation
+        var globalJsonSchema = <%= raw @json_schema.to_json %>;
+
+        var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
+      </script>
+
+      </br>
+
+      <%= render partial: 'collection_drafts/forms/form_navigation', :locals => {
+          location: 'bottom',
+          draft: get_resource,
+          draft_form: @draft_form,
+          draft_forms: @draft_forms } %>
+
+      <!-- Hidden link to allow modal to be shown -->
+      <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Model</a>
+      <div id="invalid-draft-modal" class="eui-modal-content">
+        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <p>This page has invalid data. Are you sure you want to save it and proceed?</p>
+        <p>
+          <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+          <a href="javascript:void(0)" id="invalid-draft-accept" class="eui-btn--blue">Yes</a>
+        </p>
+      </div>
+
+    </section>
+  </div>
+<% end %>
+
+
+<!-- help modal -->
+<div id="help-modal">
+  <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+  <div>
+    <h4 class="title">title</h4>
+    <p class="description"></p>
+  </div>
+  <div>
+    <h4>Validation</h4>
+    <ul class="validations"></ul>
+  </div>
+  <a class="eui-btn--blue modal-close" href="javascript:void(0);">Close</a>
+</div>
