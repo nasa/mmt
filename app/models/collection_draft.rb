@@ -31,12 +31,12 @@ class CollectionDraft < Draft
 
       if native_id
         # Edited record
-        draft = Draft.find_or_create_by(native_id: native_id)
+        draft = CollectionDraft.find_or_create_by(native_id: native_id)
         draft.entry_title = new_entry_title
         draft.short_name = (collection['ShortName'] && collection['ShortName'].empty?) ? nil : collection['ShortName']
       else
         # Cloned record
-        draft = Draft.create(draft_type: 'collection')
+        draft = CollectionDraft.create
         draft.entry_title = "#{new_entry_title} - Cloned"
         collection['EntryTitle'] = "#{new_entry_title} - Cloned"
         draft.short_name = nil

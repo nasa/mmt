@@ -6,7 +6,7 @@ describe 'Sidebar preview' do
       before do
         login
         draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-        visit draft_path(draft)
+        visit collection_draft_path(draft)
       end
 
       it 'does not display metadata' do
@@ -22,7 +22,7 @@ describe 'Sidebar preview' do
         login
         draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
 
-        visit draft_path(draft)
+        visit collection_draft_path(draft)
       end
 
       it 'displays the metadata' do

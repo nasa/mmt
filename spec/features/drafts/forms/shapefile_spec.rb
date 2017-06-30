@@ -6,7 +6,7 @@ describe 'Shapefile upload', js: true do
   before do
     login
     draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-    visit draft_path(draft)
+    visit collection_draft_path(draft)
 
     within '.metadata' do
       click_on 'Spatial Information', match: :first

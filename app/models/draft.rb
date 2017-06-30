@@ -6,6 +6,8 @@ class Draft < ActiveRecord::Base
 
   before_create :default_values
 
+  self.inheritance_column = :draft_type
+
   def display_entry_title
     entry_title || '<Untitled Collection Record>'
   end
@@ -16,9 +18,5 @@ class Draft < ActiveRecord::Base
 
   def default_values
     self.draft ||= {}
-  end
-
-  class << self
-
   end
 end

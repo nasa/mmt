@@ -6,7 +6,16 @@ describe 'Progress circles', js: true do
   context 'when viewing the preview page of an empty draft' do
     before do
       login
-      create_new_draft
+
+      visit '/manage_metadata'
+      choose 'New Collection Record'
+      click_on 'Create Record'
+      
+      within '.metadata-cta.nav-top' do
+        click_on 'Done'
+      end
+
+      click_on 'Yes'
     end
 
     it 'displays all circles as empty' do

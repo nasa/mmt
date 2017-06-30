@@ -8,7 +8,7 @@ describe 'Draft form navigation', js: true do
   before do
     login
     draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
-    visit draft_path(draft)
+    visit collection_draft_path(draft)
   end
 
   context 'when viewing the Summary page' do

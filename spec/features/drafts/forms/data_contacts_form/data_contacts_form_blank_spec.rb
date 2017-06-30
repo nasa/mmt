@@ -8,7 +8,7 @@ describe 'Data Contacts form saving when blank' do
   context 'when saving the form when there is no data' do
     before do
       draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
 
       click_on 'Data Contacts', match: :first
       expect(page).to have_content('Data Contacts')

@@ -19,7 +19,7 @@ describe 'Draft creation', js: true do
     # end
 
     it 'creates a new blank draft record' do
-      expect(page).to have_content('Entry Title Not Provided')
+      expect(page).to have_content('New')
     end
 
     # it 'does not create a new draft in the database' do
@@ -28,9 +28,9 @@ describe 'Draft creation', js: true do
 
     context 'when saving data into the draft' do
       before do
-        within '.metadata' do
-          click_on 'Collection Information'
-        end
+        # within '.metadata' do
+        #   click_on 'Collection Information'
+        # end
 
         fill_in 'Short Name', with: '123'
 
@@ -42,7 +42,7 @@ describe 'Draft creation', js: true do
       end
 
       it 'displays a confirmation message' do
-        expect(page).to have_content('Draft was successfully updated')
+        expect(page).to have_content('Draft was successfully created.')
       end
 
       # it 'creates a new draft in the database' do
@@ -55,7 +55,7 @@ describe 'Draft creation', js: true do
 
       context 'when viewing the manage metadata page' do
         before do
-          visit '/manage_metadata'
+          visit manage_metadata_path
         end
 
         it 'displays the new draft' do
@@ -82,7 +82,7 @@ describe 'Draft creation', js: true do
 
     context 'when viewing the manage metadata page' do
       before do
-        visit '/manage_metadata'
+        visit manage_metadata_path
       end
 
       it 'does not show any open drafts' do

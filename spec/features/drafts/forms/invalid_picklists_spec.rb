@@ -4,7 +4,7 @@ describe 'Invalid picklists', js: true do
   before do
     login
     draft = create(:draft_invalid_picklists, user: User.where(urs_uid: 'testuser').first)
-    visit draft_path(draft)
+    visit collection_draft_path(draft)
   end
 
   context 'when viewing the draft collection details' do

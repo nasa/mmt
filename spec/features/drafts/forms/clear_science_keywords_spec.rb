@@ -4,7 +4,7 @@ describe 'Clearing saved science keywords', js: true do
   before do
     login
     draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-    visit draft_path(draft)
+    visit collection_draft_path(draft)
   end
 
   context 'when selecting science keywords and saving the form' do

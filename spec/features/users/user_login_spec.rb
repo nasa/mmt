@@ -20,7 +20,7 @@ describe 'User login' do
 
     context 'when logging out' do
       before do
-        visit '/drafts'
+        visit collection_drafts_path
         click_on 'Logout'
       end
 
