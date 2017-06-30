@@ -1,17 +1,7 @@
 module Drafts
   # :nodoc:
   class BaseDraftsController < DraftsController
-
-    # before_action :authenticate_user!
-    # after_action  :verify_authorized, only: [:show, :new, :edit, :create, :update, :destroy]
-    # after_action  :verify_policy_scoped, :only => :index
-
-    # before_action :set_resource, only: [:show, :edit, :update, :destroy]
-    before_action :add_top_level_breadcrumbs#, only: [:index, :new, :edit]
-
-    # respond_to :html
-
-    RESULTS_PER_PAGE = 25
+    before_action :add_top_level_breadcrumbs
 
     def index
       resources = current_user.drafts.where(draft_type: params[:draft_type]).where(provider_id: current_user.provider_id)
@@ -32,44 +22,38 @@ module Drafts
     end
 
     def edit
-      authorize get_resource
-
       respond_with get_resource
     end
 
     def create
       set_resource(resource_class.new(resource_params))
 
-      authorize get_resource
-
       respond_with(get_resource) do |format|
         if get_resource.save
-          format.html { redirect_to self.send("edit_draft_#{resource_name}_path", get_resource), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success") } }
+          format.html { redirect_to send("edit_#{resource_name}_path", get_resource), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success") } }
         else
-          format.html { render "new" }
+          format.html { render 'new' }
         end
       end
     end
 
     def update
-      authorize get_resource
-
       respond_with(get_resource) do |format|
         if get_resource.update(resource_params)
-          format.html { redirect_to self.send("edit_draft_#{resource_name}_path", get_resource), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success") } }
+          format.html { redirect_to send("edit_#{resource_name}_path", get_resource), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success") } }
         else
-          format.html { render "edit" }
+          format.html { render 'edit' }
         end
       end
     end
 
     def destroy
-      # Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was destroyed by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
-
       get_resource.destroy unless get_resource.new_record?
 
+      Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was destroyed by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
+
       respond_to do |format|
-        format.html { redirect_to send("#{resource_name}_drafts_path"), flash: { success: 'Draft was successfully deleted.' } }
+        format.html { redirect_to manage_metadata_path, flash: { success: 'Draft was successfully deleted.' } }
       end
     end
 
@@ -97,12 +81,6 @@ module Drafts
       {}
     end
 
-    # Returns the allowed parameters for pagination
-    # @return [Hash]
-    def page_params
-      params.permit(:page, :page_size)
-    end
-
     # The resource class based on the controller
     # @return [Class]
     def resource_class
@@ -112,12 +90,11 @@ module Drafts
     # The singular name for the resource class based on the controller
     # @return [String]
     def resource_name
-      @resource_name ||= self.controller_name.singularize
-      # @resource_name ||= 'draft'
+      @resource_name ||= controller_name.singularize
     end
 
     def plural_resource_name
-      "#{resource_name.pluralize}"
+      resource_name.pluralize
     end
 
     # Only allow a trusted parameter "white list" through.
@@ -126,17 +103,17 @@ module Drafts
     # the method "#{resource_name}_params" to limit permitted
     # parameters for the individual model.
     def resource_params
-      @resource_params ||= self.send("#{resource_name}_params")
+      @resource_params ||= send("#{resource_name}_params")
     end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_resource(resource = nil)
-      resource ||= resource_class.where(draft_type: params[:draft_type]).find(params[:id])
+      resource ||= resource_class.find(params[:id])
       instance_variable_set("@#{resource_name}", resource)
     end
 
     def add_top_level_breadcrumbs
-      add_breadcrumb plural_resource_name.titleize, self.send("#{plural_resource_name}_path")
+      add_breadcrumb plural_resource_name.titleize, send("#{plural_resource_name}_path")
     end
   end
 end
