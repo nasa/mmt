@@ -7,12 +7,6 @@ module Helpers
       end
     end
 
-    def create_new_draft
-      visit '/manage_metadata'
-      choose 'New Collection Record'
-      click_on 'Create Record'
-    end
-
     # Publishes a draft and returns the new created collection as well as the most recent draft
     def publish_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil, version: nil)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_draft' do
@@ -66,7 +60,7 @@ module Helpers
         # If the test needs an unpublished draft as well, we'll create it and return it here
         if include_new_draft
           # Create a new draft (same as editing a collection)
-          Draft.create_from_collection(concept_response.body, user, native_id)
+          CollectionDraft.create_from_collection(concept_response.body, user, native_id)
         end
 
         return [ingest_response.body, concept_response]

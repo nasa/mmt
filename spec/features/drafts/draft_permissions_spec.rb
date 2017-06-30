@@ -26,7 +26,7 @@ describe 'Draft permissions' do
 
     context 'when trying to visit the draft page directly' do
       before do
-        visit draft_path(draft)
+        visit collection_draft_path(draft)
       end
 
       it 'displays warning banner link to change provider' do
@@ -104,7 +104,7 @@ describe 'Draft permissions' do
 
     context 'when trying to visit the draft page directly' do
       before do
-        visit draft_path(draft)
+        visit collection_draft_path(draft)
       end
 
       it 'displays no permissions banner message' do
@@ -120,7 +120,7 @@ describe 'Draft permissions' do
 
     context 'when trying to visit the edit draft page directly' do
       before do
-        visit edit_draft_path(draft)
+        visit edit_collection_draft_path(draft)
       end
 
       it 'displays no permisssions banner message' do

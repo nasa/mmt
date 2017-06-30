@@ -5,7 +5,7 @@ describe 'Multiple Roles in Data Centers and Data Contacts preview', js: true do
     login
     draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
 
-    visit draft_path(draft)
+    visit collection_draft_path(draft)
   end
   context 'when viewing the preview page' do
     context 'when there is metadata' do

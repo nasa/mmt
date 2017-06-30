@@ -11,7 +11,7 @@ describe 'Publishing draft records', js: true do
 
       login
       draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
       click_on 'Publish'
       open_accordions
     end
@@ -68,7 +68,7 @@ describe 'Publishing draft records', js: true do
     before do
       login
       draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
       click_on 'Publish'
     end
 
@@ -82,7 +82,7 @@ describe 'Publishing draft records', js: true do
     before do
       login
       draft = create(:full_draft)
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
 
       # Adding question marks to token causes a 500 error for now
       bad_response = { 'Echo-Token' => '???' }
@@ -116,7 +116,7 @@ describe 'Publishing draft records', js: true do
     before do
       login
       draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url, encoded / native id', draft_short_name: 'test short name')
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
       click_on 'Publish'
       open_accordions
     end

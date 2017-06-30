@@ -8,7 +8,7 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
   context 'when creating Non Data Center Contacts' do
     before do
       draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
     end
 
     context 'when choosing Non Data Center Contact Group' do

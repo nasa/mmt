@@ -8,7 +8,7 @@ describe 'Conditionally required fields', js: true do
   context 'when viewing an empty form' do
     before do
       draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
     end
 
     context 'when viewing a form with always required fields' do
@@ -61,7 +61,7 @@ describe 'Conditionally required fields', js: true do
   context 'when viewing a form with data' do
     before do
       draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
     end
 
     context 'when viewing a form with always required fields' do

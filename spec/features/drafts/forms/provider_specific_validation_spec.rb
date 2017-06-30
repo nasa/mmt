@@ -11,7 +11,7 @@ describe 'Provider specific validation', js: true do
       user.save
 
       draft = create(:mmt_1_draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
     end
 
     context 'when viewing a field in the properties portion of the schema' do

@@ -1,6 +1,6 @@
 # :nodoc:
 class DraftsController < ManageMetadataController
   include ManageMetadataHelper
-
-  # layout 'drafts'
+  
+  RESULTS_PER_PAGE = 25
 end

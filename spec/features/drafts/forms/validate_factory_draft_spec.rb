@@ -12,7 +12,7 @@ describe 'Data validation on each form for the factory draft', js: true do
     login
     draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
     # sleep 1
-    visit draft_path(draft)
+    visit collection_draft_path(draft)
   end
 
   CollectionDraft.forms.each do |form|

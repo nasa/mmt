@@ -1,15 +1,24 @@
 module Drafts
   # :nodoc:
   class CollectionDraftsController < BaseDraftsController
-    # before_action :set_draft, only: [:show, :edit, :update, :destroy, :publish]
     before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
-    before_action :load_umm_schema, only: [:edit, :show]
+    before_action :load_umm_schema, only: [:new, :edit, :show]
     before_filter :ensure_correct_draft_provider, only: [:edit, :show]
 
-    # def new
-    #   @draft = CollectionDraft.where(draft_type: params[:draft_type]).new(user: current_user, draft: {}, id: 0)
-    #   render :show
-    # end
+    def new
+      set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+      @draft_forms = CollectionDraft.forms
+      @draft_form = params[:form] || @draft_forms.first
+
+      add_breadcrumb 'New', new_collection_draft_path
+
+      set_science_keywords
+      set_location_keywords
+      set_country_codes
+      set_language_codes
+
+      @errors = validate_metadata
+    end
 
     def show
       super
@@ -45,15 +54,34 @@ module Drafts
       load_data_contacts_schema if @draft_form == 'data_contacts'
     end
 
-    def update
-      # if params[:id] == '0'
-      #   @draft = CollectionDraft.create(user: current_user, provider_id: current_user.provider_id, draft: {})
-      #   Rails.logger.info("Audit Log: #{current_user.urs_uid} created draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
-      #   params[:id] = get_resource.id
-      # else
-      #   @draft = CollectionDraft.find(params[:id])
-      # end
+    def create
+      set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
 
+      if get_resource.save && get_resource.update_draft(params[:draft], current_user.urs_uid)
+        flash[:success] = 'Draft was successfully created.'
+
+        case params[:commit]
+        when 'Done'
+          redirect_to get_resource
+        when 'Next', 'Previous'
+          # Determine next form to go to
+          next_form_name = CollectionDraft.get_next_form(params['next_section'], params[:commit])
+          redirect_to edit_collection_draft_path(get_resource, next_form_name)
+        when 'Save'
+          # tried to use render to avoid another request, but could not get form name in url even with passing in location
+          get_resource_form = params['next_section']
+          redirect_to edit_collection_draft_path(get_resource, get_resource_form)
+        else # Jump directly to a form
+          next_form_name = params['new_form_name']
+          redirect_to edit_collection_draft_path(get_resource, next_form_name)
+        end
+      else # record update failed
+        flash[:error] = 'Draft was not created successfully.'
+        render :new
+      end
+    end
+
+    def update
       if get_resource.update_draft(params[:draft], current_user.urs_uid)
         flash[:success] = 'Draft was successfully updated.'
 
@@ -76,7 +104,7 @@ module Drafts
         # render 'edit' # this should get get_resource_form
         # Remove
         flash[:error] = 'Draft was not updated successfully.'
-        redirect_to get_resource
+        render :edit
       end
     end
 
@@ -119,23 +147,13 @@ module Drafts
       render partial: 'drafts/forms/fields/subregion_select'
     end
 
-    private
-
-    # Use callbacks to share common setup or constraints between actions.
-    # def set_draft
-    #   id = params[:draft_id] || params[:id]
-    #   if id == '0'
-    #     get_resource = CollectionDraft.new(user: current_user, draft: {}, id: 0)
-    #   else
-    #     get_resource = CollectionDraft.find(id)
-    #   end
-    #   get_resource_forms = CollectionDraft::forms
-    # end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def draft_params
-      params.require(:draft).permit(:user_id, :draft)
+    # Returns the allowed parameters for pagination
+    # @return [Hash]
+    def collection_draft_params
+      params.require(:draft).permit(:user_id, :draft, :short_name, :entry_title, :provider_id, :native_id, :draft_type)
     end
+
+    private
 
     def load_umm_schema
       # if provider file exists
@@ -336,7 +354,6 @@ module Drafts
 
         data_centers = metadata['DataCenters'] || []
         data_centers.each do |data_center|
-
           short_name = data_center['ShortName']
           if short_name
             matches = @data_centers.select { |dc| dc.include?(short_name) }
@@ -507,10 +524,4 @@ module Drafts
       user
     end
   end
-
-  # The resource class based on the controller
-  # @return [Class]
-  # def resource_class
-  #   @resource_class ||= 'CollectionDraft'.classify.constantize
-  # end
 end

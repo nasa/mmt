@@ -12,7 +12,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
 
       before do
         draft = create(:draft_all_required_fields, user: User.where(urs_uid: 'testuser').first)
-        visit draft_path(draft)
+        visit collection_draft_path(draft)
       end
 
       it 'displays the Data Center on the preview page' do
@@ -280,7 +280,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
 
       before do
         draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-        visit draft_path(draft)
+        visit collection_draft_path(draft)
       end
 
       it 'has no Data Centers on the preview page' do

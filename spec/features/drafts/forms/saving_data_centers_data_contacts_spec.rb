@@ -8,7 +8,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
   context 'when saving Data Contacts when Data Centers already exist' do
     before do
       draft = create(:draft_all_required_fields, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
     end
 
     it 'has the Data Center on the preview page' do

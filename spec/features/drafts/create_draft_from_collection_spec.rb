@@ -55,7 +55,7 @@ describe 'Create new draft from collection' do
   #   before do
   #     login
   #     draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
-  #     visit draft_path(draft)
+  #     visit collection_draft_path(draft)
   #     current_datetime = Time.now.utc.strftime('%Y-%m-%dT%H:%M:00.000Z')
   #     click_on 'Publish'
   #     wait_for_cmr

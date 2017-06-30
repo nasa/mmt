@@ -39,7 +39,7 @@
           <td>
             <% if collection['meta']['draft_id'] %>
               <% if current_provider?(collection['meta']['provider-id']) %>
-                <%= link_to "#{collection['umm']['short-name']} (Draft)", draft_path(collection['meta']['draft_id']) %>
+                <%= link_to "#{collection['umm']['short-name']} (Draft)", collection_draft_path(collection['meta']['draft_id']) %>
               <% elsif available_provider?(collection['meta']['provider-id']) %>
                 <%= link_to "#{collection['umm']['short-name']} (Draft)", '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': collection['meta']['provider-id'], record_action: 'view-draft' } %>
                 <%= render partial: "shared/not_current_provider_modal", locals: {

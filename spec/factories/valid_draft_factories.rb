@@ -1,7 +1,7 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :full_draft, class: Draft do
+  factory :full_draft, class: CollectionDraft do
     transient do
       draft_short_name nil
       draft_entry_title nil
@@ -10,6 +10,7 @@ FactoryGirl.define do
 
     native_id 'full_draft_id'
     provider_id 'MMT_2'
+    draft_type 'CollectionDraft'
 
     trait :with_valid_dates do
       draft {{
@@ -482,7 +483,7 @@ FactoryGirl.define do
             'URLContentType' => 'DataContactURL',
             'Type' => 'HOME PAGE',
             'URL' => 'http://example.com/'
-          },{
+          }, {
             'Description' => 'Related URL 2 Description',
             'URLContentType' => 'DataContactURL',
             'Type' => 'HOME PAGE',
@@ -522,7 +523,7 @@ FactoryGirl.define do
             'URLContentType' => 'DataContactURL',
             'Type' => 'HOME PAGE',
             'URL' => 'http://example.com/'
-          },{
+          }, {
             'Description' => 'Related URL 2 Description',
             'URLContentType' => 'DataContactURL',
             'Type' => 'HOME PAGE',

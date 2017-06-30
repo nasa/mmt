@@ -108,7 +108,7 @@ describe Draft do
     collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
     user = User.create(urs_uid: 'testuser')
     native_id = 'test_id'
-    draft = Draft.create_from_collection(collection, user, native_id)
+    draft = CollectionDraft.create_from_collection(collection, user, native_id)
 
     expect(draft.native_id).to eq(native_id)
   end
@@ -116,7 +116,7 @@ describe Draft do
     collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
     user = User.create(urs_uid: 'testuser')
     native_id = 'test_id'
-    draft = Draft.create_from_collection(collection, user, native_id)
+    draft = CollectionDraft.create_from_collection(collection, user, native_id)
 
     expect(draft.user).to eq(user)
   end
@@ -124,7 +124,7 @@ describe Draft do
     collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
     user = User.create(urs_uid: 'testuser')
     native_id = 'test_id'
-    draft = Draft.create_from_collection(collection, user, native_id)
+    draft = CollectionDraft.create_from_collection(collection, user, native_id)
 
     expect(draft.draft).to eq(collection)
   end

@@ -5,7 +5,7 @@ describe 'Data Centers form' do
     before do
       login
       draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
-      visit draft_path(draft)
+      visit collection_draft_path(draft)
     end
 
     context 'when submitting the form' do
