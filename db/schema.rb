@@ -13,16 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20170630141235) do
 
-  create_table "bulk_update_searches", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "query"
-    t.string   "field"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "bulk_update_searches", ["user_id"], name: "index_bulk_update_searches_on_user_id"
-
   create_table "drafts", force: :cascade do |t|
     t.integer  "user_id"
     t.text     "draft"
