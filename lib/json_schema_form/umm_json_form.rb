@@ -44,9 +44,9 @@ class UmmForm < JsonObj
   # OutputBuffer
   include ActionView::Context
 
-  attr_accessor :form_section_json, :json_form, :schema, :title, :description, :children
+  attr_accessor :form_section_json, :json_form, :schema, :title, :description, :children, :options
 
-  def initialize(form_section_json, json_form, schema)
+  def initialize(form_section_json, json_form, schema, options = {})
     super(form_section_json)
 
     @json_form = json_form
@@ -54,6 +54,8 @@ class UmmForm < JsonObj
 
     @title = @parsed_json['title']
     @description = @parsed_json['description']
+
+    @options = options
 
     @children = parsed_json.fetch('items', []).map do |value|
       # TODO: Determine a more dynamic way of instantiating these
@@ -198,14 +200,95 @@ class UmmTextarea < UmmFormElement
 end
 
 # :nodoc:
-class UmmKeywordPicker < UmmFormElement
+class UmmButton < UmmFormElement
   def render_markup
+    button_tag(type: 'button', class: options['classes'], disabled: options['disabled']) do
+      content_tag(:i, options['button_text'], class: 'fa fa-plus-circle')
+    end
+  end
+end
+
+# :nodoc:
+class UmmRemoveLink < UmmFormElement
+  def render_markup
+    content_tag(:a, class: 'remove') do
+      concat content_tag(:i, '', class: 'fa fa-times-circle')
+      concat content_tag(:span, "Remove #{options['name']}", class: 'is-invisible')
+    end
+  end
+end
+
+# :nodoc:
+class UmmKeywordPicker < UmmFormElement
+  include DraftsHelper
+
+  def render_markup
+    content_tag(:section) do
+      concat render_keyword_list(form_fragment, json_form.get_element_value(form_fragment['key']))
+
+      concat render_keyword_picker
+
+      button_options = {}
+      button_options['classes'] = 'eui-btn--blue add-science-keyword'
+      button_options['button_text'] = 'Add Keyword'
+      button_options['disabled'] = true
+      button = UmmButton.new(@parsed_json, json_form, schema, button_options)
+
+      concat content_tag(:div, button.render_markup, class: 'actions')
+    end
+  end
+
+  def render_keyword_list(element, object)
+    content_tag(:div, class: 'selected-science-keywords science-keywords') do
+      concat(content_tag(:ul) do
+        Array.wrap(object).each_with_index do |keyword, index|
+          concat(content_tag(:li) do
+            concat keyword_string(keyword)
+
+            remove_link = UmmRemoveLink.new(@parsed_json, json_form, schema, link_name: keyword_string(keyword))
+            concat remove_link.render_markup
+
+            concat hidden_field_tag("#{schema.keyify_property_name(element)}[#{index}]", keyword_string(keyword))
+          end)
+        end
+      end)
+
+      concat hidden_field_tag("#{schema.keyify_property_name(element)}[]", '')
+    end
+  end
+
+  def render_keyword_picker
+    content_tag(:div, class: 'eui-nested-item-picker') do
+      concat(content_tag(:ul, class: 'eui-item-path') do
+        content_tag(:li, link_to('Science Keyword', 'javascript:void(0);'), class: 'list-title')
+      end)
+
+      concat(content_tag(:div, class: 'eui-item-list-pane') do
+        content_tag(:ul) do
+          content_tag(:li) do
+            text_field_tag('science-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...')
+          end
+        end
+      end)
+    end
   end
 end
 
 # :nodoc:
 class UmmBoolean < UmmFormElement
   def render_markup
+    content_tag(:section) do
+      concat(content_tag(:p, class: 'radio-group') do
+        concat radio_button_tag(schema.keyify_property_name(form_fragment), 'TRUE', json_form.get_element_value(form_fragment['key']) == 'TRUE', element_properties(schema_fragment))
+
+        concat label_tag "#{schema.keyify_property_name(form_fragment)}_TRUE", 'True'
+      end)
+      concat(content_tag(:p, class: 'radio-group') do
+        concat radio_button_tag(schema.keyify_property_name(form_fragment), 'FALSE', json_form.get_element_value(form_fragment['key']) == 'FALSE', element_properties(schema_fragment))
+
+        concat label_tag "#{schema.keyify_property_name(form_fragment)}_FALSE", 'False'
+      end)
+    end
   end
 end
 
