@@ -92,10 +92,12 @@ class BaseDraftsController < DraftsController
   def resource_name
     @resource_name ||= controller_name.singularize
   end
+  helper_method :resource_name
 
   def plural_resource_name
     resource_name.pluralize
   end
+  helper_method :plural_resource_name
 
   # Only allow a trusted parameter "white list" through.
   # If a single resource is loaded for #create or #update,
