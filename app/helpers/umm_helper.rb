@@ -132,64 +132,64 @@ module UmmHelper
     label_tag(keyify_property_name(element, prefix: prefix), element.fetch('label', element['key'].split('/').last.titleize), class: ('eui-required-o' if schema_required_fields(schema).include?(element['key'])))
   end
 
-  def render_keyword(element, schema, object, prefix: nil)
-    content_tag(:section) do
-      concat render_keyword_list(element, schema, object[element['key']])
+  # def render_keyword(element, schema, object, prefix: nil)
+  #   content_tag(:section) do
+  #     concat render_keyword_list(element, schema, object[element['key']])
+  #
+  #     concat render_keyword_picker
+  #
+  #     concat content_tag(:div, render_button('Add Keyword', 'eui-btn--blue add-science-keyword', true), class: 'actions')
+  #   end
+  # end
+  #
+  # def render_keyword_list(element, schema, object, prefix: nil)
+  #   content_tag(:div, class: 'selected-science-keywords science-keywords') do
+  #     concat(content_tag(:ul) do
+  #       Array.wrap(object).each_with_index do |keyword, index|
+  #         concat(content_tag(:li) do
+  #           concat keyword_string(keyword)
+  #
+  #           concat render_remove_link(keyword_string(keyword))
+  #
+  #           concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]", keyword_string(keyword))
+  #         end)
+  #       end
+  #     end)
+  #
+  #     concat hidden_field_tag("#{keyify_property_name(element)}[]", '')
+  #   end
+  # end
+  #
+  # def render_keyword_picker
+  #   content_tag(:div, class: 'eui-nested-item-picker') do
+  #     concat(content_tag(:ul, class: 'eui-item-path') do
+  #       content_tag(:li, link_to('Science Keyword', 'javascript:void(0);'), class: 'list-title')
+  #     end)
+  #
+  #     concat(content_tag(:div, class: 'eui-item-list-pane') do
+  #       content_tag(:ul) do
+  #         content_tag(:li) do
+  #           text_field_tag('science-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...')
+  #         end
+  #       end
+  #     end)
+  #   end
+  # end
 
-      concat render_keyword_picker
-
-      concat content_tag(:div, render_button('Add Keyword', 'eui-btn--blue add-science-keyword', true), class: 'actions')
-    end
-  end
-
-  def render_keyword_list(element, schema, object, prefix: nil)
-    content_tag(:div, class: 'selected-science-keywords science-keywords') do
-      concat(content_tag(:ul) do
-        Array.wrap(object).each_with_index do |keyword, index|
-          concat(content_tag(:li) do
-            concat keyword_string(keyword)
-
-            concat render_remove_link(keyword_string(keyword))
-
-            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]", keyword_string(keyword))
-          end)
-        end
-      end)
-
-      concat hidden_field_tag("#{keyify_property_name(element)}[]", '')
-    end
-  end
-
-  def render_keyword_picker
-    content_tag(:div, class: 'eui-nested-item-picker') do
-      concat(content_tag(:ul, class: 'eui-item-path') do
-        content_tag(:li, link_to('Science Keyword', 'javascript:void(0);'), class: 'list-title')
-      end)
-
-      concat(content_tag(:div, class: 'eui-item-list-pane') do
-        content_tag(:ul) do
-          content_tag(:li) do
-            text_field_tag('science-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...')
-          end
-        end
-      end)
-    end
-  end
-
-  def render_boolean(element, schema, object, prefix: nil)
-    content_tag(:section) do
-      concat(content_tag(:p, class: 'radio-group') do
-        concat radio_button_tag(keyify_property_name(element), 'TRUE', get_element_value(object, element['key']) == 'TRUE')
-
-        concat label_tag "#{keyify_property_name(element)}_TRUE", 'True'
-      end)
-      concat(content_tag(:p, class: 'radio-group') do
-        concat radio_button_tag(keyify_property_name(element), 'FALSE', get_element_value(object, element['key']) == 'FALSE')
-
-        concat label_tag "#{keyify_property_name(element)}_FALSE", 'False'
-      end)
-    end
-  end
+  # def render_boolean(element, schema, object, prefix: nil)
+  #   content_tag(:section) do
+  #     concat(content_tag(:p, class: 'radio-group') do
+  #       concat radio_button_tag(keyify_property_name(element), 'TRUE', get_element_value(object, element['key']) == 'TRUE')
+  #
+  #       concat label_tag "#{keyify_property_name(element)}_TRUE", 'True'
+  #     end)
+  #     concat(content_tag(:p, class: 'radio-group') do
+  #       concat radio_button_tag(keyify_property_name(element), 'FALSE', get_element_value(object, element['key']) == 'FALSE')
+  #
+  #       concat label_tag "#{keyify_property_name(element)}_FALSE", 'False'
+  #     end)
+  #   end
+  # end
 
   # def schema_required_fields(schema)
   #   schema.fetch('required', [])
