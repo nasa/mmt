@@ -3,7 +3,6 @@
 \* ===================================================== */
 
 input {
-
   &[type="date"] {
     padding: 0;
     width: 100%;
@@ -50,4 +49,8 @@ textarea {
 .redactor-box {
   // Match the textarea margin
   margin: 0.3em 0 !important;
+}
+
+span.radio-group {
+  padding-right: 20px;
 }

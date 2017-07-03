@@ -35,13 +35,9 @@ end
 
 # :nodoc:
 class UmmForm < JsonObj
-  # content_tag helpers
   include ActionView::Helpers::TagHelper
-  # concat
   include ActionView::Helpers::TextHelper
-  # form tag helpers
   include ActionView::Helpers::FormTagHelper
-  # OutputBuffer
   include ActionView::Context
 
   attr_accessor :form_section_json, :json_form, :schema, :title, :description, :children, :options
@@ -51,11 +47,10 @@ class UmmForm < JsonObj
 
     @json_form = json_form
     @schema = schema
+    @options = options
 
     @title = @parsed_json['title']
     @description = @parsed_json['description']
-
-    @options = options
 
     @children = parsed_json.fetch('items', []).map do |value|
       # TODO: Determine a more dynamic way of instantiating these
@@ -143,13 +138,17 @@ class UmmFormElement < UmmForm
   end
 
   def element_properties(element)
-    { class: element_classes(element) }.merge(validation_properties(element))
+    {
+      class: element_classes(element)
+    }.merge(validation_properties(element))
   end
 
+  # Locates the fragment of the schema that the provided key represents
   def schema_fragment
     schema.retrieve_schema_fragment(parsed_json['key'])
   end
 
+  # Returns the fragment of the form json that represents this element
   def form_fragment
     parsed_json
   end
@@ -175,139 +174,5 @@ class UmmFormElement < UmmForm
 
       concat form_element.render_markup
     end
-  end
-end
-
-# :nodoc:
-class UmmLabel < UmmFormElement
-  def render_markup
-    label_tag(schema.keyify_property_name(form_fragment), form_fragment.fetch('label', form_fragment['key'].split('/').last.titleize), class: ('eui-required-o' if schema.required_field?(form_fragment['key'])))
-  end
-end
-
-# :nodoc:
-class UmmTextField < UmmFormElement
-  def render_markup
-    text_field_tag(schema.keyify_property_name(form_fragment), json_form.get_element_value(form_fragment['key']), element_properties(schema_fragment))
-  end
-end
-
-# :nodoc:
-class UmmTextarea < UmmFormElement
-  def render_markup
-    text_area_tag(schema.keyify_property_name(form_fragment), json_form.get_element_value(form_fragment['key']), element_properties(schema_fragment))
-  end
-end
-
-# :nodoc:
-class UmmButton < UmmFormElement
-  def render_markup
-    button_tag(type: 'button', class: options['classes'], disabled: options['disabled']) do
-      content_tag(:i, options['button_text'], class: 'fa fa-plus-circle')
-    end
-  end
-end
-
-# :nodoc:
-class UmmRemoveLink < UmmFormElement
-  def render_markup
-    content_tag(:a, class: 'remove') do
-      concat content_tag(:i, '', class: 'fa fa-times-circle')
-      concat content_tag(:span, "Remove #{options['name']}", class: 'is-invisible')
-    end
-  end
-end
-
-# :nodoc:
-class UmmKeywordPicker < UmmFormElement
-  include DraftsHelper
-
-  def render_markup
-    content_tag(:section) do
-      concat render_keyword_list(form_fragment, json_form.get_element_value(form_fragment['key']))
-
-      concat render_keyword_picker
-
-      button_options = {}
-      button_options['classes'] = 'eui-btn--blue add-science-keyword'
-      button_options['button_text'] = 'Add Keyword'
-      button_options['disabled'] = true
-      button = UmmButton.new(@parsed_json, json_form, schema, button_options)
-
-      concat content_tag(:div, button.render_markup, class: 'actions')
-    end
-  end
-
-  def render_keyword_list(element, object)
-    content_tag(:div, class: 'selected-science-keywords science-keywords') do
-      concat(content_tag(:ul) do
-        Array.wrap(object).each_with_index do |keyword, index|
-          concat(content_tag(:li) do
-            concat keyword_string(keyword)
-
-            remove_link = UmmRemoveLink.new(@parsed_json, json_form, schema, link_name: keyword_string(keyword))
-            concat remove_link.render_markup
-
-            concat hidden_field_tag("#{schema.keyify_property_name(element)}[#{index}]", keyword_string(keyword))
-          end)
-        end
-      end)
-
-      concat hidden_field_tag("#{schema.keyify_property_name(element)}[]", '')
-    end
-  end
-
-  def render_keyword_picker
-    content_tag(:div, class: 'eui-nested-item-picker') do
-      concat(content_tag(:ul, class: 'eui-item-path') do
-        content_tag(:li, link_to('Science Keyword', 'javascript:void(0);'), class: 'list-title')
-      end)
-
-      concat(content_tag(:div, class: 'eui-item-list-pane') do
-        content_tag(:ul) do
-          content_tag(:li) do
-            text_field_tag('science-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...')
-          end
-        end
-      end)
-    end
-  end
-end
-
-# :nodoc:
-class UmmBoolean < UmmFormElement
-  def render_markup
-    content_tag(:section) do
-      concat(content_tag(:p, class: 'radio-group') do
-        concat radio_button_tag(schema.keyify_property_name(form_fragment), 'TRUE', json_form.get_element_value(form_fragment['key']) == 'TRUE', element_properties(schema_fragment))
-
-        concat label_tag "#{schema.keyify_property_name(form_fragment)}_TRUE", 'True'
-      end)
-      concat(content_tag(:p, class: 'radio-group') do
-        concat radio_button_tag(schema.keyify_property_name(form_fragment), 'FALSE', json_form.get_element_value(form_fragment['key']) == 'FALSE', element_properties(schema_fragment))
-
-        concat label_tag "#{schema.keyify_property_name(form_fragment)}_FALSE", 'False'
-      end)
-    end
-  end
-end
-
-# :nodoc:
-class UmmSelect < UmmFormElement
-  # options_for_select
-  include ActionView::Helpers::FormOptionsHelper
-
-  def render_markup
-    select_tag(schema.keyify_property_name(form_fragment), options_for_select(schema_fragment['enum'], json_form.get_element_value(form_fragment['key'])), element_properties(schema_fragment))
-  end
-end
-
-# :nodoc:
-class UmmMultiSelect < UmmFormElement
-  # options_for_select
-  include ActionView::Helpers::FormOptionsHelper
-
-  def render_markup
-    select_tag(schema.keyify_property_name(form_fragment), options_for_select(schema_fragment['items']['enum'], json_form.get_element_value(form_fragment['key'])), { multiple: true }.merge(element_properties(schema_fragment)))
   end
 end
