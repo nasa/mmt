@@ -1,6 +1,6 @@
 <div class="row row-content">
   <section>
-    <h2><%= current_user.provider_id %> Drafts</h2>
+    <h2><%= current_user.provider_id %> <%= params[:draft_type].titleize.pluralize %></h2>
 
     <% if get_resources.any? %>
       <p><%= page_entries_info get_resources, entry_name: 'Draft' %></p>
@@ -26,7 +26,7 @@
         <% get_resources.each do |draft| %>
           <tr class='<%= cycle("alt", "") %>'>
             <td>
-              <%= link_to draft.display_short_name, collection_draft_path(draft) %>
+              <%= link_to draft.display_short_name, send("#{@resource_name}_path", draft) %>
             </td>
             <td>
               <%= draft.display_entry_title %>

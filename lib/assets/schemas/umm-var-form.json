@@ -1,0 +1,211 @@
+{
+  "forms": [
+    {
+      "type": "fieldset",
+      "title": "Variable Information",
+      "description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-5",
+              "items": [{"key": "Name"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-7",
+              "items": [{"key": "LongName"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-4",
+              "items": [{"key": "Definition"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-4",
+              "items": [{"key": "Units"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-4",
+              "items": [{"key": "DataType", "type": "select"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-8",
+              "items": [{"key": "DimensionsName"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-4",
+              "items": [{"key": "Dimensions"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-3",
+              "items": [{"key": "ValidRange/properties/Min"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-3",
+              "items": [{"key": "ValidRange/properties/Max"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Scale"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Offset"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "VariableType", "type": "select"}]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "fieldset",
+      "htmlClass": "row",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "col-4",
+          "items": [{"key": "ValidRange"}]
+        },
+        {
+          "type": "section",
+          "htmlClass": "col-4",
+          "items": [{"key": "Scale"}]
+        },
+        {
+          "type": "section",
+          "htmlClass": "col-4",
+          "items": [{"key": "Offset"}]
+        }
+      ]
+    },
+    {
+      "type": "fieldset",
+      "title": "Fill Value",
+      "description": "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "FillValue/properties/Value"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "FillValue/properties/Type"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [{"key": "FillValue/properties/ValueDescription", "type": "textarea"}]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [{"key": "CharacteristicsType/properties/StandardName"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [{"key": "CharacteristicsType/properties/Reference", "type": "textarea"}]
+            }
+          ]
+        }
+      ],
+      "title": "Variable Characteristics"
+    },
+    {
+      "type": "fieldset",
+      "title": "Discovery",
+      "description": "Nulla vitae elit libero, a pharetra augue.",
+      "items": [
+        {
+          "type": "section",
+          "items": [{"type": "keyword", "key": "ScienceKeywords"}]
+        }
+      ]
+    },
+    {
+      "type": "fieldset",
+      "title": "Service Type",
+      "description": "Cras justo odio, dapibus ac facilisis in, egestas eget quam.",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "col-4",
+          "items": [{"key": "ServiceType/items/properties/ServiceType", "type": "multiselect"}]
+        },
+        {
+          "type": "section",
+          "htmlClass": "col-4",
+          "items": [{"key": "ServiceType/items/properties/Visualizable", "type": "boolean"}]
+        },
+        {
+          "type": "section",
+          "htmlClass": "col-4",
+          "items": [{"key": "ServiceType/items/properties/Subsettable", "type": "boolean"}]
+        }
+      ]
+    }
+  ]
+}

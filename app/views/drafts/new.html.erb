@@ -1,0 +1,43 @@
+<div class="row row-content">
+  <section>
+    <h2>New <%= current_user.provider_id %> <%= params[:draft_type].titleize %></h2>
+
+    <%= form_tag send("#{plural_resource_name}_path"), method: :post, id: 'umm_form', class: 'umm-form' do %>
+
+      <% @form.forms.each do |form_section| %>
+          <%= form_section.render_markup %>
+
+        <%# render_form_element(form_section.as_json, @schema, get_resource, prefix: resource_name) %>
+      <% end %>
+
+      <%= submit_tag 'Submit', class: 'eui-btn--blue' %>
+    <% end %>
+
+  </section>
+</div>
+
+<script>
+  // Load json-schema for field validation
+  var globalJsonSchema = <%= raw @schema.parsed_json.to_json %>;
+
+  $(document).ready(function() {
+    $("#umm_form").validate()
+  })
+
+  //Setup Science Keywords
+  setupScienceKeywords(<%= raw @science_keywords.to_json %>);
+</script>
+
+<!-- Help Modal -->
+<div id="help-modal">
+  <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+  <div>
+    <h4 class="title">Title</h4>
+    <p class="description">Description</p>
+  </div>
+  <div>
+    <h4>Validation</h4>
+    <ul class="validations"></ul>
+  </div>
+  <a class="eui-btn--blue modal-close" href="javascript:void(0);">Close</a>
+</div>

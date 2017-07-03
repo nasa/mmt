@@ -1,0 +1,83 @@
+# :nodoc:
+class UmmJsonSchema < JsonFile
+  def initialize(schema_filename)
+    super(schema_filename)
+  end
+
+  # Recursively replace all '$ref' keys in the schema file with their actual values
+  def fetch_references(property)
+    # Loop through each key in the current hash element
+    property.each do |_key, element|
+      # Skip this element if it's not a hash, no $ref will exist
+      next unless element.is_a?(Hash)
+
+      # If we have a reference to follow
+      if element.key?('$ref')
+        file, path = element['$ref'].split('#')
+
+        # Fetch the reference from the file that it's defined to be in
+        referenced_property = if file.blank?
+                                # This is an internal reference (lives within the file we're parsing)
+                                parsed_json['definitions'][path.split('/').last]
+                              else
+                                # Fetch the reference from an external file
+                                referenced_file = UmmJsonSchema.new(file)
+                                referenced_file.fetch_references(referenced_file.parsed_json)
+                                referenced_schema = referenced_file.parsed_json
+                                referenced_schema['definitions'][path.split('/').last]
+                              end
+
+        # Merge the retrieved reference into the schema
+        element.merge!(referenced_property)
+
+        # Remove the $ref key so we don't attempt to parse it again
+        element.delete('$ref')
+      end
+
+      # Keep diggin'
+      fetch_references(element)
+    end
+  end
+
+  # Receives a key from the form JSON and returns the relevant fragment of the schema with
+  # the provided key inserted in the fragment of the schema. This
+  def retrieve_schema_fragment(key)
+    # Retreive the requested key from the schema
+    property = key.split('/').reduce(parsed_json['properties']) { |a, e| a.fetch(e, {}) }
+
+    # Set the 'key' attribute within the property has so that we have reference to it
+    property['key'] = key
+
+    property
+  end
+
+  # We use '/' as a separator in our key names for the purposes of looking them up
+  # in the schema when nested. This method translates that into ruby syntax to retrieve
+  # a nested key in a hash e.g. 'object/first_key/leaf' => 'object[first_key][leaf]'
+  def keyify_property_name(element, ignore_keys: %w(items properties))
+    element_path_for_object(element['key'], ignore_keys: ignore_keys).map.with_index { |key, index| index == 0 ? key.underscore : "[#{key.underscore}]" }.join
+  end
+
+  # We use '/' as a separator in our key names for the purposes of looking them up
+  # in the schema when nested. However, we often need just the actual key, which is
+  # what this method does for us.
+  def fetch_key_leaf(key, separator: '/')
+    key.split(separator).last
+  end
+
+  # Gets the keys that are relevant to the UMM object as an array from
+  # a provided key e.g. 'Parent/items/properties/Field' => ['Parent', 'Field']
+  def element_path_for_object(key, ignore_keys: %w(items properties))
+    (key.split('/') - ignore_keys)
+  end
+
+  # Retruns the required fields from the schema
+  def required_fields
+    parsed_json.fetch('required', [])
+  end
+
+  # Determine whether or not the provided key is required
+  def required_field?(key)
+    required_fields.include?(fetch_key_leaf(key))
+  end
+end
