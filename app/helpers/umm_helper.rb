@@ -32,74 +32,74 @@ module UmmHelper
   #   { class: element_classes(element, initial_classes) }.merge(validation_properties(element, schema))
   # end
 
-  def render_form_element(element, schema, object, prefix: nil)
-    if element['type'] == 'section'
-      render_section(element, schema, object, prefix: prefix)
-    elsif element['type'] == 'fieldset'
-      render_fieldset(element, schema, object, prefix: prefix)
-    else
-      send('render_markup', element.fetch('type', 'text'), schema.retrieve_schema_fragment(element['key']), schema, object, prefix: prefix)
-    end
-  end
+  # def render_form_element(element, schema, object, prefix: nil)
+  #   if element['type'] == 'section'
+  #     render_section(element, schema, object, prefix: prefix)
+  #   elsif element['type'] == 'fieldset'
+  #     render_fieldset(element, schema, object, prefix: prefix)
+  #   else
+  #     send('render_markup', element.fetch('type', 'text'), schema.retrieve_schema_fragment(element['key']), schema, object, prefix: prefix)
+  #   end
+  # end
 
-  def render_markup(type, element, schema, object, prefix: nil)
-    capture do
-      # Label for the form field
-      concat render_label(element, schema)
+  # def render_markup(type, element, schema, object, prefix: nil)
+  #   capture do
+  #     # Label for the form field
+  #     concat render_label(element, schema)
 
-      # Help Icon and Modal
-      concat mmt_help_icon(help: "properties/#{element['key']}", title: element['key'])
+  #     # Help Icon and Modal
+  #     concat mmt_help_icon(help: "properties/#{element['key']}", title: element['key'])
 
-      # Render the field
-      concat send("render_#{type}", element, schema, object, prefix: nil)
-    end
-  end
+  #     # Render the field
+  #     concat send("render_#{type}", element, schema, object, prefix: nil)
+  #   end
+  # end
 
-  def render_fieldset(element, schema, object, prefix: nil)
-    content_tag(:fieldset, class: element['htmlClass']) do
-      # Display a title for the section if its provided
-      concat content_tag(:h4, element['title'], class: 'space-bot') if element.key?('title')
+  # def render_fieldset(element, schema, object, prefix: nil)
+  #   content_tag(:fieldset, class: element['htmlClass']) do
+  #     # Display a title for the section if its provided
+  #     concat content_tag(:h4, element['title'], class: 'space-bot') if element.key?('title')
 
-      # Display a description of the section if its provided
-      concat content_tag(:p, element['description'], class: 'form-description space-bot') if element.key?('description')
+  #     # Display a description of the section if its provided
+  #     concat content_tag(:p, element['description'], class: 'form-description space-bot') if element.key?('description')
 
-      # Continue rendering fields that appear in this section
-      element.fetch('items', []).each do |child_element|
-        concat render_form_element(child_element, schema, object)
-      end
-    end
-  end
+  #     # Continue rendering fields that appear in this section
+  #     element.fetch('items', []).each do |child_element|
+  #       concat render_form_element(child_element, schema, object)
+  #     end
+  #   end
+  # end
 
-  def render_section(element, schema, object, prefix: nil)
-    content_tag(:div, class: element['htmlClass']) do
-      # Display a title for the section if its provided
-      concat content_tag(:h4, element['title'], class: 'space-bot') if element.key?('title')
+  # def render_section(element, schema, object, prefix: nil)
+  #   content_tag(:div, class: element['htmlClass']) do
+  #     # Display a title for the section if its provided
+  #     concat content_tag(:h4, element['title'], class: 'space-bot') if element.key?('title')
 
-      # Display a description of the section if its provided
-      concat content_tag(:p, element['description'], class: 'form-description space-bot') if element.key?('description')
+  #     # Display a description of the section if its provided
+  #     concat content_tag(:p, element['description'], class: 'form-description space-bot') if element.key?('description')
 
-      # Continue rendering fields that appear in this section
-      element.fetch('items', []).each do |child_element|
-        concat render_form_element(child_element, schema, object)
-      end
-    end
-  end
+  #     # Continue rendering fields that appear in this section
+  #     element.fetch('items', []).each do |child_element|
+  #       concat render_form_element(child_element, schema, object)
+  #     end
+  #   end
+  # end
 
-  def render_textarea(element, schema, object, prefix: nil)
-    text_area_tag(keyify_property_name(element, prefix: prefix), get_element_value(object, element['key']), element_properties(element, schema))
-  end
+  # def render_textarea(element, schema, object, prefix: nil)
+  #   text_area_tag(keyify_property_name(element, prefix: prefix), get_element_value(object, element['key']), element_properties(element, schema))
+  # end
 
-  def render_text(element, schema, object, prefix: nil)
-    text_field_tag(keyify_property_name(element, prefix: prefix), get_element_value(object, element['key']), element_properties(element, schema))
-  end
+  # def render_text(element, schema, object, prefix: nil)
+  #   text_field_tag(keyify_property_name(element, prefix: prefix), get_element_value(object, element['key']), element_properties(element, schema))
+  # end
 
-  def render_select(element, schema, object, prefix: nil)
-    select_tag(keyify_property_name(element, prefix: prefix), options_for_select(element['enum'], get_element_value(object, element['key'])), element_properties(element, schema))
-  end
+  # def render_select(element, schema, object, prefix: nil)
+  #   select_tag(keyify_property_name(element, prefix: prefix), options_for_select(element['enum'], get_element_value(object, element['key'])), element_properties(element, schema))
+  # end
 
-  def render_multiselect(element, schema, object, prefix: nil)
-    select_tag(keyify_property_name(element, prefix: prefix), options_for_select(element['items']['enum'], get_element_value(object, element['key'])), { multiple: true }.merge(element_properties(element, schema)))
-  end
+  # def render_multiselect(element, schema, object, prefix: nil)
+  #   select_tag(keyify_property_name(element, prefix: prefix), options_for_select(element['items']['enum'], get_element_value(object, element['key'])), { multiple: true }.merge(element_properties(element, schema)))
+  # end
 
   def render_multitext(element, schema, object, prefix: nil)
     content_tag(:div, class: "simple-multiple multiple multitext #{element['key']}") do

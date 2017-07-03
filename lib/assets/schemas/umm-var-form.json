@@ -38,7 +38,7 @@
             {
               "type": "section",
               "htmlClass": "col-4",
-              "items": [{"key": "DataType", "type": "select"}]
+              "items": [{"key": "DataType", "type": "UmmSelect"}]
             }
           ]
         },
@@ -91,7 +91,7 @@
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "VariableType", "type": "select"}]
+              "items": [{"key": "VariableType", "type": "UmmSelect"}]
             }
           ]
         }
@@ -142,7 +142,7 @@
         {
           "type": "section",
           "htmlClass": "row",
-          "items": [{"key": "FillValue/properties/ValueDescription", "type": "textarea"}]
+          "items": [{"key": "FillValue/properties/ValueDescription", "type": "UmmTextarea"}]
         }
       ]
     },
@@ -167,7 +167,7 @@
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "CharacteristicsType/properties/Reference", "type": "textarea"}]
+              "items": [{"key": "CharacteristicsType/properties/Reference", "type": "UmmTextarea"}]
             }
           ]
         }
@@ -181,7 +181,7 @@
       "items": [
         {
           "type": "section",
-          "items": [{"type": "keyword", "key": "ScienceKeywords"}]
+          "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
         }
       ]
     },
@@ -193,17 +193,17 @@
         {
           "type": "section",
           "htmlClass": "col-4",
-          "items": [{"key": "ServiceType/items/properties/ServiceType", "type": "multiselect"}]
+          "items": [{"key": "ServiceType/items/properties/ServiceType", "type": "UmmMultiSelect"}]
         },
         {
           "type": "section",
           "htmlClass": "col-4",
-          "items": [{"key": "ServiceType/items/properties/Visualizable", "type": "boolean"}]
+          "items": [{"key": "ServiceType/items/properties/Visualizable", "type": "UmmBoolean"}]
         },
         {
           "type": "section",
           "htmlClass": "col-4",
-          "items": [{"key": "ServiceType/items/properties/Subsettable", "type": "boolean"}]
+          "items": [{"key": "ServiceType/items/properties/Subsettable", "type": "UmmBoolean"}]
         }
       ]
     }
