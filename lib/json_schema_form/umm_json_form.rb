@@ -161,12 +161,25 @@ class UmmFormElement < UmmForm
 
   def render_markup
     capture do
+      # Adds a label to the container holding the element
       concat UmmLabel.new(form_fragment, json_form, schema).render_markup
+
+      # Adds the help modal link and icon
       concat help_icon("properties/#{form_fragment['key']}", form_fragment['key'])
 
-      # TODO: Parse the field type and determine the correct element to render
-      concat UmmTextField.new(form_fragment, json_form, schema).render_markup
+      # Determine the class to use fo rendering this element
+      element_class = form_fragment.fetch('type', 'UmmTextField')
+      form_element = element_class.constantize.new(form_fragment, json_form, schema)
+
+      concat form_element.render_markup
     end
+  end
+end
+
+# :nodoc:
+class UmmLabel < UmmFormElement
+  def render_markup
+    label_tag(schema.keyify_property_name(form_fragment), form_fragment.fetch('label', form_fragment['key'].split('/').last.titleize), class: ('eui-required-o' if schema.required_field?(form_fragment['key'])))
   end
 end
 
@@ -178,8 +191,40 @@ class UmmTextField < UmmFormElement
 end
 
 # :nodoc:
-class UmmLabel < UmmFormElement
+class UmmTextarea < UmmFormElement
   def render_markup
-    label_tag(schema.keyify_property_name(form_fragment), form_fragment.fetch('label', form_fragment['key'].split('/').last.titleize), class: ('eui-required-o' if schema.required_field?(form_fragment['key'])))
+    text_area_tag(schema.keyify_property_name(form_fragment), json_form.get_element_value(form_fragment['key']), element_properties(schema_fragment))
+  end
+end
+
+# :nodoc:
+class UmmKeywordPicker < UmmFormElement
+  def render_markup
+  end
+end
+
+# :nodoc:
+class UmmBoolean < UmmFormElement
+  def render_markup
+  end
+end
+
+# :nodoc:
+class UmmSelect < UmmFormElement
+  # options_for_select
+  include ActionView::Helpers::FormOptionsHelper
+
+  def render_markup
+    select_tag(schema.keyify_property_name(form_fragment), options_for_select(schema_fragment['enum'], json_form.get_element_value(form_fragment['key'])), element_properties(schema_fragment))
+  end
+end
+
+# :nodoc:
+class UmmMultiSelect < UmmFormElement
+  # options_for_select
+  include ActionView::Helpers::FormOptionsHelper
+
+  def render_markup
+    select_tag(schema.keyify_property_name(form_fragment), options_for_select(schema_fragment['items']['enum'], json_form.get_element_value(form_fragment['key'])), { multiple: true }.merge(element_properties(schema_fragment)))
   end
 end
