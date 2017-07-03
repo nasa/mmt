@@ -6,8 +6,6 @@
 
       <% @form.forms.each do |form_section| %>
           <%= form_section.render_markup %>
-
-        <%# render_form_element(form_section.as_json, @schema, get_resource, prefix: resource_name) %>
       <% end %>
 
       <%= submit_tag 'Submit', class: 'eui-btn--blue' %>
