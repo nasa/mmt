@@ -1,9 +1,17 @@
 # :nodoc:
 class VariableDraftsController < BaseDraftsController
-  before_action :set_schema, only: :new
-  before_action :set_object, only: :new
-  before_action :set_form, only: :new
-  before_action :set_science_keywords, only: :new
+  before_action :set_schema, only: [:new, :edit]
+  before_action :set_form, only: [:edit]
+  before_action :set_current_form, only: [:edit]
+  before_action :set_science_keywords, only: [:new, :edit]
+
+  def new
+    super
+    
+    set_form
+
+    set_current_form
+  end
 
   private
 
@@ -12,43 +20,12 @@ class VariableDraftsController < BaseDraftsController
     @schema.fetch_references(@schema.parsed_json)
   end
 
-  def set_object
-    @object = {
-      'Name'                 => 'Sollicitudin Vestibulum',
-      'LongName'             => 'Tristique Etiam Magna Vestibulum Malesuada',
-      'Definition'           => 'Curabitur blandit tempus porttitor',
-      'DataType'             => 'uchar8',
-      'DimensionsName'       => 'Lorem Cras Pellentesque Dolor Elit',
-      'Dimensions'           => 'Risus Malesuada Sit',
-      'Scale'                => '0.002',
-      'Offset'               => '0.49',
-      'FillValueDescription' => 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor',
-      'ServiceType'          => {
-        'ServiceType' => %w(WMS OPeNDAP),
-        'Visualizable' => 'TRUE'
-      },
-      'ScienceKeywords' => [
-        {
-          'Category' => 'EARTH SCIENCE',
-          'Topic'    => 'ATMOSPHERE',
-          'Term'     => 'AEROSOLS'
-        }
-      ],
-      'SetType' => [
-        {
-          'SetName' => 'name',
-          'SetType' => 'type'
-        },
-        {
-          'SetName' => 'name2',
-          'SetType' => 'type2'
-        }
-      ]
-    }
+  def set_form
+    @json_form = UmmJsonForm.new('umm-var-form.json', @schema, get_resource.draft, 'field_prefix' => 'variable_draft/draft')
   end
 
-  def set_form
-    @form = UmmJsonForm.new('umm-var-form.json', @schema, @object, 'field_prefix' => 'variable_draft/draft')
+  def set_current_form
+    @current_form = params[:form] || @json_form.forms.first.parsed_json['id']
   end
 
   def set_science_keywords
@@ -56,7 +33,9 @@ class VariableDraftsController < BaseDraftsController
   end
 
   def variable_draft_params
-    # TODO: Determine how to allow dynamic hashes through strong parameters
-    params.require(:variable_draft).permit(:draft_type, draft: [])
+    params.require(:variable_draft).permit(:draft_type).tap do |whitelisted|
+      # Allows for any nested key within the draft hash
+      whitelisted[:draft] = params[:variable_draft][:draft]
+    end
   end
 end
