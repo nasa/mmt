@@ -8,6 +8,10 @@ class VariableDraft < Draft
     end
   end
 
+  def display_entry_title
+    entry_title || '<Untitled Variable Record>'
+  end
+
   def set_searchable_fields
     self.short_name = draft['Name']
     self.entry_title = draft['LongName']
