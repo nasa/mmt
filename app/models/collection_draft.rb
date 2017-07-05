@@ -15,6 +15,10 @@ class CollectionDraft < Draft
     metadata_information
   )
 
+  def display_entry_title
+    entry_title || '<Untitled Collection Record>'
+  end
+  
   class << self
     def forms
       DRAFT_FORMS

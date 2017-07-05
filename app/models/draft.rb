@@ -8,10 +8,6 @@ class Draft < ActiveRecord::Base
 
   self.inheritance_column = :draft_type
 
-  def display_entry_title
-    entry_title || '<Untitled Collection Record>'
-  end
-
   def display_short_name
     short_name || '<Blank Short Name>'
   end
