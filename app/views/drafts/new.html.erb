@@ -2,8 +2,7 @@
   <section>
     <h2>New <%= current_user.provider_id %> <%= params[:draft_type].titleize %></h2>
 
-    <%= form_tag send("#{plural_resource_name}_path"), method: :post, id: 'umm_form', class: 'umm-form' do %>
-
+    <%= form_tag(send("#{plural_resource_name}_path"), method: :post, id: 'umm_form', class: 'umm-form') do %>
       <% @form.forms.each do |form_section| %>
           <%= form_section.render_markup %>
       <% end %>

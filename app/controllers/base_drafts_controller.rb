@@ -1,3 +1,4 @@
+# :nodoc:
 class BaseDraftsController < DraftsController
   before_action :add_top_level_breadcrumbs
 
@@ -21,29 +22,24 @@ class BaseDraftsController < DraftsController
     add_breadcrumb 'New', send("new_#{resource_name}_path")
   end
 
-  def edit
-    respond_with get_resource
-  end
+  def edit; end
 
   def create
-    set_resource(resource_class.new(resource_params))
+    # Merge the provider and user in to the params on create
+    set_resource(resource_class.new(resource_params.merge(provider_id: current_user.provider_id, user: current_user)))
 
-    respond_with(get_resource) do |format|
-      if get_resource.save
-        format.html { redirect_to send("edit_#{resource_name}_path", get_resource), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success") } }
-      else
-        format.html { render 'new' }
-      end
+    if get_resource.save
+      redirect_to send("#{plural_resource_name}_path"), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success") }
+    else
+      render 'new'
     end
   end
 
   def update
-    respond_with(get_resource) do |format|
-      if get_resource.update(resource_params)
-        format.html { redirect_to send("edit_#{resource_name}_path", get_resource), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success") } }
-      else
-        format.html { render 'edit' }
-      end
+    if get_resource.update(resource_params)
+      redirect_to send("edit_#{resource_name}_path", get_resource), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success") }
+    else
+      render 'edit'
     end
   end
 
@@ -105,6 +101,7 @@ class BaseDraftsController < DraftsController
   # the method "#{resource_name}_params" to limit permitted
   # parameters for the individual model.
   def resource_params
+    # @resource_params ||= params
     @resource_params ||= send("#{resource_name}_params")
   end
 

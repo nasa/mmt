@@ -1,14 +1,13 @@
 # :nodoc:
 class UmmJsonForm < JsonFile
-  attr_accessor :schema, :object
+  attr_accessor :schema, :object, :options
 
-  def initialize(form_filename, schema, object, field_prefix: nil)
+  def initialize(form_filename, schema, object, options = {})
     super(form_filename)
 
     @schema = schema
     @object = object
-
-    @field_prefix = field_prefix
+    @options = options
   end
 
   def forms
@@ -22,23 +21,14 @@ class UmmJsonForm < JsonFile
       end
     end
   end
-
-  # Get the value for the provided key from the provided object
-  def get_element_value(key)
-    # Uses reduce to dig through the provided object to look for and return the
-    # provided key that could be nested
-    schema.element_path_for_object(key).reduce(object) { |a, e| a[e] }
-  rescue
-    nil
-  end
 end
 
 # :nodoc:
 class UmmForm < JsonObj
+  include ActionView::Context
+  include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::TextHelper
-  include ActionView::Helpers::FormTagHelper
-  include ActionView::Context
 
   attr_accessor :form_section_json, :json_form, :schema, :title, :description, :children, :options
 
@@ -56,11 +46,11 @@ class UmmForm < JsonObj
       # TODO: Determine a more dynamic way of instantiating these
       # classes using the type or another aspect of the json
       if value['type'] == 'section'
-        UmmFormSection.new(value, json_form, schema)
+        UmmFormSection.new(value, json_form, schema, options)
       elsif value['type'] == 'fieldset'
-        UmmFormFieldSet.new(value, json_form, schema)
+        UmmFormFieldSet.new(value, json_form, schema, options)
       else
-        UmmFormElement.new(value, json_form, schema)
+        UmmFormElement.new(value, json_form, schema, options)
       end
     end
   end
@@ -108,6 +98,30 @@ end
 
 # :nodoc:
 class UmmFormElement < UmmForm
+  # Get the value for the provided key from the provided object
+  def get_element_value(key)
+    # Uses reduce to dig through the provided object to look for and return the
+    # provided key that could be nested
+    element_path_for_object(key).reduce(json_form.object) { |a, e| a[e] }
+  rescue
+    nil
+  end
+
+  # We use '/' as a separator in our key names for the purposes of looking them up
+  # in the schema when nested. This method translates that into ruby syntax to retrieve
+  # a nested key in a hash e.g. 'object/first_key/leaf' => 'object[first_key][leaf]'
+  def keyify_property_name(element, ignore_keys: %w(items properties))
+    provided_key = [json_form.options['field_prefix'], element['key']].reject { |c| c.empty? }.join('/')
+
+    element_path_for_object(provided_key, ignore_keys: ignore_keys).map.with_index { |key, index| index == 0 ? key.underscore : "[#{key.underscore}]" }.join
+  end
+
+  # Gets the keys that are relevant to the UMM object as an array from
+  # a provided key e.g. 'Parent/items/properties/Field' => ['Parent', 'Field']
+  def element_path_for_object(key, ignore_keys: %w(items properties))
+    (key.split('/') - ignore_keys)
+  end
+  
   # Returns all the properties necessary to operate jQuery Validation on the given element
   def validation_properties(element)
     # jQuery Validate can use html elements for validation so we'll set those elements

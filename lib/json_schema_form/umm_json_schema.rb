@@ -52,23 +52,10 @@ class UmmJsonSchema < JsonFile
   end
 
   # We use '/' as a separator in our key names for the purposes of looking them up
-  # in the schema when nested. This method translates that into ruby syntax to retrieve
-  # a nested key in a hash e.g. 'object/first_key/leaf' => 'object[first_key][leaf]'
-  def keyify_property_name(element, ignore_keys: %w(items properties))
-    element_path_for_object(element['key'], ignore_keys: ignore_keys).map.with_index { |key, index| index == 0 ? key.underscore : "[#{key.underscore}]" }.join
-  end
-
-  # We use '/' as a separator in our key names for the purposes of looking them up
   # in the schema when nested. However, we often need just the actual key, which is
   # what this method does for us.
   def fetch_key_leaf(key, separator: '/')
     key.split(separator).last
-  end
-
-  # Gets the keys that are relevant to the UMM object as an array from
-  # a provided key e.g. 'Parent/items/properties/Field' => ['Parent', 'Field']
-  def element_path_for_object(key, ignore_keys: %w(items properties))
-    (key.split('/') - ignore_keys)
   end
 
   # Retruns the required fields from the schema
