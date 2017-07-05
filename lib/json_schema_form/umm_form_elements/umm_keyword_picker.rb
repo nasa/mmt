@@ -10,9 +10,9 @@ class UmmKeywordPicker < UmmFormElement
 
       # Add Keyword button that displays below the picker
       button_options = {
-        'classes'     => 'eui-btn--blue add-science-keyword',
-        'button_text' => 'Add Keyword',
-        'disabled'    => true
+        classes: 'eui-btn--blue add-science-keyword',
+        button_text: 'Add Keyword',
+        disabled: true
       }
       button = UmmButton.new(parsed_json, json_form, schema, button_options)
 

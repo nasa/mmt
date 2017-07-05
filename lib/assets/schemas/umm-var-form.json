@@ -174,17 +174,17 @@
       ],
       "title": "Variable Characteristics"
     },
-    // {
-    //   "type": "fieldset",
-    //   "title": "Discovery",
-    //   "description": "Nulla vitae elit libero, a pharetra augue.",
-    //   "items": [
-    //     {
-    //       "type": "section",
-    //       "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
-    //     }
-    //   ]
-    // },
+    /*{
+      "type": "fieldset",
+      "title": "Discovery",
+      "description": "Nulla vitae elit libero, a pharetra augue.",
+      "items": [
+        {
+          "type": "section",
+          "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
+        }
+      ]
+    },*/
     {
       "type": "fieldset",
       "title": "Service Type",
@@ -204,6 +204,35 @@
           "type": "section",
           "htmlClass": "col-4",
           "items": [{"key": "ServiceType/items/properties/Subsettable", "type": "UmmBoolean"}]
+        }
+      ]
+    },
+    {
+      "type": "fieldset",
+      "title": "Set Type",
+      "description": "Set type stuff",
+      "items": [
+        {
+          "type": "UmmMultiItems",
+          "key": "SetType",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "SetType/items/properties/index_id/SetName"}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "SetType/items/properties/index_id/SetType"}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "SetType/items/properties/index_id/SetSize"}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "SetType/items/properties/index_id/SetIndex"}]
+            }
+          ]
         }
       ]
     }

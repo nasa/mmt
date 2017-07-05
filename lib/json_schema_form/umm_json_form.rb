@@ -110,18 +110,20 @@ class UmmFormElement < UmmForm
   # We use '/' as a separator in our key names for the purposes of looking them up
   # in the schema when nested. This method translates that into ruby syntax to retrieve
   # a nested key in a hash e.g. 'object/first_key/leaf' => 'object[first_key][leaf]'
-  def keyify_property_name(element, ignore_keys: %w(items properties))
+  def keyify_property_name(element, ignore_keys: %w(items properties index_id))
     provided_key = [json_form.options['field_prefix'], element['key']].reject { |c| c.empty? }.join('/')
+
+    provided_key.gsub!('index_id', options[:index].to_s) if options[:index]
 
     element_path_for_object(provided_key, ignore_keys: ignore_keys).map.with_index { |key, index| index == 0 ? key.underscore : "[#{key.underscore}]" }.join
   end
 
   # Gets the keys that are relevant to the UMM object as an array from
   # a provided key e.g. 'Parent/items/properties/Field' => ['Parent', 'Field']
-  def element_path_for_object(key, ignore_keys: %w(items properties))
+  def element_path_for_object(key, ignore_keys: %w(items properties index_id))
     (key.split('/') - ignore_keys)
   end
-  
+
   # Returns all the properties necessary to operate jQuery Validation on the given element
   def validation_properties(element)
     # jQuery Validate can use html elements for validation so we'll set those elements
@@ -177,14 +179,14 @@ class UmmFormElement < UmmForm
   def render_markup
     capture do
       # Adds a label to the container holding the element
-      concat UmmLabel.new(form_fragment, json_form, schema).render_markup
+      concat UmmLabel.new(form_fragment, json_form, schema, options).render_markup
 
       # Adds the help modal link and icon
-      concat help_icon("properties/#{form_fragment['key']}", form_fragment['key'])
+      concat help_icon("properties/#{form_fragment['key']}", form_fragment['key'].split('/').last.titleize)
 
       # Determine the class to use fo rendering this element
       element_class = form_fragment.fetch('type', 'UmmTextField')
-      form_element = element_class.constantize.new(form_fragment, json_form, schema)
+      form_element = element_class.constantize.new(form_fragment, json_form, schema, options)
 
       concat form_element.render_markup
     end
