@@ -3,7 +3,7 @@ class UmmKeywordPicker < UmmFormElement
   def render_markup
     content_tag(:section) do
       # Currently selected values
-      concat render_keyword_list(form_fragment, json_form.get_element_value(form_fragment['key']))
+      concat render_keyword_list(form_fragment, get_element_value(form_fragment['key']))
 
       # The picker
       concat render_keyword_picker
@@ -30,12 +30,12 @@ class UmmKeywordPicker < UmmFormElement
             remove_link = UmmRemoveLink.new(parsed_json, json_form, schema, link_name: keyword_string(keyword))
             concat remove_link.render_markup
 
-            concat hidden_field_tag("#{schema.keyify_property_name(element)}[#{index}]", keyword_string(keyword))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]", keyword_string(keyword))
           end)
         end
       end)
 
-      concat hidden_field_tag("#{schema.keyify_property_name(element)}[]", '')
+      concat hidden_field_tag("#{keyify_property_name(element)}[]", '')
     end
   end
 

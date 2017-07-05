@@ -20,6 +20,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  controllers:
+    draft:
+      variable_drafts:
+        create:
+          flash:
+            success: 'Variable Draft Created Successfully!'
   views:
     pagination:
       first: "First"

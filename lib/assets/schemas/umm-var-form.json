@@ -174,17 +174,17 @@
       ],
       "title": "Variable Characteristics"
     },
-    {
-      "type": "fieldset",
-      "title": "Discovery",
-      "description": "Nulla vitae elit libero, a pharetra augue.",
-      "items": [
-        {
-          "type": "section",
-          "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
-        }
-      ]
-    },
+    // {
+    //   "type": "fieldset",
+    //   "title": "Discovery",
+    //   "description": "Nulla vitae elit libero, a pharetra augue.",
+    //   "items": [
+    //     {
+    //       "type": "section",
+    //       "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
+    //     }
+    //   ]
+    // },
     {
       "type": "fieldset",
       "title": "Service Type",
