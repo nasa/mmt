@@ -1,6 +1,8 @@
 # :nodoc:
 class VariableDraft < Draft
-  before_create :set_searchable_fields
+  before_save :set_searchable_fields
+
+  delegate :forms, to: :class
 
   class << self
     def forms
@@ -13,7 +15,7 @@ class VariableDraft < Draft
   end
 
   def set_searchable_fields
-    self.short_name = draft['Name']
-    self.entry_title = draft['LongName']
+    self.short_name = draft['name']
+    self.entry_title = draft['long_name']
   end
 end

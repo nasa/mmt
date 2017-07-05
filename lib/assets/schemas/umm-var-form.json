@@ -1,7 +1,7 @@
 {
   "forms": [
     {
-      "type": "fieldset",
+      "id": "variable_information",
       "title": "Variable Information",
       "description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.",
       "items": [
@@ -98,28 +98,7 @@
       ]
     },
     {
-      "type": "fieldset",
-      "htmlClass": "row",
-      "items": [
-        {
-          "type": "section",
-          "htmlClass": "col-4",
-          "items": [{"key": "ValidRange"}]
-        },
-        {
-          "type": "section",
-          "htmlClass": "col-4",
-          "items": [{"key": "Scale"}]
-        },
-        {
-          "type": "section",
-          "htmlClass": "col-4",
-          "items": [{"key": "Offset"}]
-        }
-      ]
-    },
-    {
-      "type": "fieldset",
+      "id": "fill_value",
       "title": "Fill Value",
       "description": "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
       "items": [
@@ -147,7 +126,8 @@
       ]
     },
     {
-      "type": "section",
+      "id": "variable_characteristics",
+      "title": "Variable Characteristics",
       "items": [
         {
           "type": "section",
@@ -171,8 +151,7 @@
             }
           ]
         }
-      ],
-      "title": "Variable Characteristics"
+      ]
     },
     /*{
       "type": "fieldset",
@@ -186,7 +165,7 @@
       ]
     },*/
     {
-      "type": "fieldset",
+      "id": "service_type",
       "title": "Service Type",
       "description": "Cras justo odio, dapibus ac facilisis in, egestas eget quam.",
       "items": [

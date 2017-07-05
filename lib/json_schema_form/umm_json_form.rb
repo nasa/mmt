@@ -11,15 +11,31 @@ class UmmJsonForm < JsonFile
   end
 
   def forms
-    parsed_json.fetch('forms', []).map do |umm_form_section|
-      if umm_form_section['type'] == 'section'
-        UmmFormSection.new(umm_form_section, self, schema)
-      elsif umm_form_section['type'] == 'fieldset'
-        UmmFormFieldSet.new(umm_form_section, self, schema)
-      else
-        UmmFormElement.new(umm_form_section, self, schema)
-      end
-    end
+    parsed_json.fetch('forms', []).map { |form_json| UmmForm.new(form_json, self, schema, options) }
+  end
+
+  def get_form(id)
+    forms.find { |form| form['id'] == id }
+  end
+
+  def get_form_index(id)
+    forms.index { |form| form['id'] == id }
+  end
+
+  def next_form(id)
+    current_index = get_form_index(id)
+
+    next_index = current_index + 1
+
+    forms[(next_index > (forms.size - 1)) ? 0 : next_index]
+  end
+
+  def previous_form(id)
+    current_index = get_form_index(id)
+
+    previous_index = current_index - 1
+
+    forms[(previous_index < 0) ? (forms.size - 1) : previous_index]
   end
 end
 
@@ -56,16 +72,9 @@ class UmmForm < JsonObj
   end
 
   def render_markup
-    children.map(&:render_markup)
-  end
-end
-
-# :nodoc:
-class UmmFormSection < UmmForm
-  def render_markup
     content_tag(:div, class: parsed_json['htmlClass']) do
       # Display a title for the section if its provided
-      concat content_tag(:h4, title, class: 'space-bot') unless title.nil?
+      concat content_tag(:h3, title, class: 'space-bot') unless title.nil?
 
       # Display a description of the section if its provided
       concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
@@ -76,6 +85,18 @@ class UmmFormSection < UmmForm
       end
     end
   end
+
+  def previous_form
+    json_form.previous_form(parsed_json['id'])
+  end
+
+  def next_form
+    json_form.next_form(parsed_json['id'])
+  end
+end
+
+# :nodoc:
+class UmmFormSection < UmmForm
 end
 
 # :nodoc:
@@ -83,7 +104,7 @@ class UmmFormFieldSet < UmmForm
   def render_markup
     content_tag(:fieldset, class: parsed_json['htmlClass']) do
       # Display a title for the section if its provided
-      concat content_tag(:h4, title, class: 'space-bot') unless title.nil?
+      concat content_tag(:h3, title, class: 'space-bot') unless title.nil?
 
       # Display a description of the section if its provided
       concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
@@ -102,7 +123,7 @@ class UmmFormElement < UmmForm
   def get_element_value(key)
     # Uses reduce to dig through the provided object to look for and return the
     # provided key that could be nested
-    element_path_for_object(key).reduce(json_form.object) { |a, e| a[e] }
+    element_path_for_object(key.underscore).reduce(json_form.object) { |a, e| a[e] }
   rescue
     nil
   end
@@ -111,7 +132,7 @@ class UmmFormElement < UmmForm
   # in the schema when nested. This method translates that into ruby syntax to retrieve
   # a nested key in a hash e.g. 'object/first_key/leaf' => 'object[first_key][leaf]'
   def keyify_property_name(element, ignore_keys: %w(items properties index_id))
-    provided_key = [json_form.options['field_prefix'], element['key']].reject { |c| c.empty? }.join('/')
+    provided_key = [json_form.options['field_prefix'], element['key']].reject(&:empty?).join('/')
 
     provided_key.gsub!('index_id', options[:index].to_s) if options[:index]
 

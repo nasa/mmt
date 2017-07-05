@@ -1,0 +1,25 @@
+<%= render partial: 'drafts/forms/form_navigation', locals: {
+    location: 'top',
+    draft: resource,
+    draft_form: json_form.get_form(current_form),
+    draft_forms: json_form.forms } %>
+
+<div class="row">
+  <div class="col-6">
+    <p class="eui-required-o">Indicates required field</p>
+  </div>
+</div>
+
+<fieldset>
+  <%= json_form.get_form(current_form).render_markup %>
+</fieldset>
+
+<br />
+
+<%= render partial: 'drafts/forms/form_navigation', locals: {
+    location: 'bottom',
+    draft: resource,
+    draft_form: json_form.get_form(current_form),
+    draft_forms: json_form.forms } %>
+
+<%= render partial: 'drafts/shared/help_modal' %>

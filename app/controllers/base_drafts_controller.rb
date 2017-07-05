@@ -1,6 +1,8 @@
 # :nodoc:
 class BaseDraftsController < DraftsController
   before_action :add_top_level_breadcrumbs
+  before_action :set_forms, only: :new
+  before_action :set_resource, only: [:show, :edit, :update]
 
   def index
     resources = current_user.drafts.where(draft_type: params[:draft_type]).where(provider_id: current_user.provider_id)
@@ -11,13 +13,11 @@ class BaseDraftsController < DraftsController
   end
 
   def show
-    set_resource
-
     add_breadcrumb display_entry_id(get_resource.draft, 'draft'), send("#{resource_name}_path", get_resource)
   end
 
   def new
-    set_resource(resource_class.new)
+    set_resource(resource_class.new(provider_id: current_user.provider_id, user: current_user, draft: {}))
 
     add_breadcrumb 'New', send("new_#{resource_name}_path")
   end
@@ -29,15 +29,49 @@ class BaseDraftsController < DraftsController
     set_resource(resource_class.new(resource_params.merge(provider_id: current_user.provider_id, user: current_user)))
 
     if get_resource.save
-      redirect_to send("#{plural_resource_name}_path"), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success") }
+      case params[:commit]
+      when 'Done'
+        redirect_to get_resource
+      when 'Previous'
+        # Determine next form to go to
+        next_form_name = params['previous_section']
+        redirect_to edit_variable_draft_path(get_resource, next_form_name)
+      when 'Next', 'Save'
+        # tried to use render to avoid another request, but could not get form name in url even with passing in location
+        get_resource_form = params['next_section']
+        redirect_to edit_variable_draft_path(get_resource, get_resource_form)
+      else # Jump directly to a form
+        next_form_name = params['jump_to_section']
+        redirect_to edit_variable_draft_path(get_resource, next_form_name)
+      end
+      # redirect_to send("#{plural_resource_name}_path"), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success") }
     else
       render 'new'
     end
   end
 
   def update
-    if get_resource.update(resource_params)
-      redirect_to send("edit_#{resource_name}_path", get_resource), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success") }
+    provided_resource_params = resource_params
+
+    provided_resource_params[:draft] = get_resource.draft.deep_merge(provided_resource_params[:draft])
+
+    if get_resource.update(provided_resource_params)
+      case params[:commit]
+      when 'Done'
+        redirect_to get_resource
+      when 'Previous'
+        # Determine next form to go to
+        next_form_name = params['previous_section']
+        redirect_to edit_variable_draft_path(get_resource, next_form_name)
+      when 'Next', 'Save'
+        # tried to use render to avoid another request, but could not get form name in url even with passing in location
+        get_resource_form = params['next_section']
+        redirect_to edit_variable_draft_path(get_resource, get_resource_form)
+      else # Jump directly to a form
+        next_form_name = params['jump_to_section']
+        redirect_to edit_variable_draft_path(get_resource, next_form_name)
+      end
+      # redirect_to send("edit_#{resource_name}_path", get_resource), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success") }
     else
       render 'edit'
     end
@@ -113,5 +147,9 @@ class BaseDraftsController < DraftsController
 
   def add_top_level_breadcrumbs
     add_breadcrumb plural_resource_name.titleize, send("#{plural_resource_name}_path")
+  end
+
+  def set_forms
+    @forms = resource_class.forms
   end
 end
