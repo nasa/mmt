@@ -10,7 +10,7 @@ class CollectionsController < ManageMetadataController
     @language_codes = cmr_client.get_language_codes
     @draft = Draft.where(provider_id: @provider_id, native_id: @native_id).first
 
-    add_breadcrumb display_entry_id(@collection, 'collection'), collection_path(@collection)
+    add_breadcrumb display_entry_id(@collection, 'collection'), collection_path(@concept_id)
   end
 
   def edit
@@ -42,8 +42,8 @@ class CollectionsController < ManageMetadataController
   end
 
   def revisions
-    add_breadcrumb display_entry_id(@collection, 'collection'), collection_path(@collection)
-    add_breadcrumb 'Revision History', collection_revisions_path(@collection)
+    add_breadcrumb display_entry_id(@collection, 'collection'), collection_path(@concept_id)
+    add_breadcrumb 'Revision History', collection_revisions_path(@concept_id)
   end
 
   def revert
