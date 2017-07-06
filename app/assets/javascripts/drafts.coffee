@@ -1,5 +1,5 @@
 $(document).ready ->
-  $('.metadata-form .multiple').on 'click', '.add-new', (e) ->
+  $('.metadata-form .multiple, .umm-form .multiple').on 'click', '.add-new', (e) ->
     $('.select2-select').select2('destroy')
 
     simple = $(this).hasClass('new-simple')
@@ -111,12 +111,12 @@ $(document).ready ->
         id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
         $(field).attr 'id', id
 
-        data_level = $(field).attr('data-level')
-        data_level = data_level.slice(0, idIndex) + data_level.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
+        dataLevel = $(field).attr('data-level')
+        dataLevel = dataLevel.slice(0, idIndex) + dataLevel.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
         # TODO for some reason, incrementing on the page does not happen without the .attr call,
         # but required fields does not work properly without the .data call
-        $(field).data('level', data_level)
-        $(field).attr('data-level', data_level)
+        $(field).data('level', dataLevel)
+        $(field).attr('data-level', dataLevel)
         # console.log 'after trying to update: ', $(field).data('level')
         # console.log 'but actually ', $(field).attr('data-level')
 
@@ -146,7 +146,7 @@ $(document).ready ->
 
     newDiv
 
-  $('.metadata-form .multiple').on 'click', '.remove', ->
+  $('.metadata-form .multiple, .umm-form .multiple').on 'click', '.remove', ->
     multipleItem = $(this).closest('.multiple-item')
     $(multipleItem).remove()
 

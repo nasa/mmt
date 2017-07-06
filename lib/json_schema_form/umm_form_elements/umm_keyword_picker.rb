@@ -27,7 +27,7 @@ class UmmKeywordPicker < UmmFormElement
           concat(content_tag(:li) do
             concat keyword_string(keyword)
 
-            remove_link = UmmRemoveLink.new(parsed_json, json_form, schema, link_name: keyword_string(keyword))
+            remove_link = UmmRemoveLink.new(parsed_json, json_form, schema, name: keyword_string(keyword))
             concat remove_link.render_markup
 
             concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]", keyword_string(keyword))

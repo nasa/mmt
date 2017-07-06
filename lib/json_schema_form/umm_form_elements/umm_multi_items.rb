@@ -1,10 +1,11 @@
 # :nodoc:
 class UmmMultiItems < UmmFormElement
   def render_markup
-    content_tag(:div, class: "multiple #{form_fragment['key']}") do
-      # TODO does this work with no values?
-      Array.wrap(get_element_value(form_fragment['key'])).each_with_index do |_value, index|
-        concat render_accordion(index)
+    content_tag(:div, class: "multiple #{form_fragment['key'].underscore.dasherize}") do
+      values = Array.wrap(get_element_value(form_fragment['key']))
+      values = [{}] if values.empty?
+      values.each_with_index do |_value, index|
+        concat render_accordion(index + 1)
       end
 
       concat(content_tag(:div, class: 'actions') do
@@ -29,6 +30,10 @@ class UmmMultiItems < UmmFormElement
       end)
 
       concat content_tag(:span, "#{form_fragment['key'].titleize} #{index}", class: 'header-title')
+
+      concat(content_tag(:div, class: 'actions') do
+        UmmRemoveLink.new(parsed_json, json_form, schema, name: form_fragment['key'].titleize).render_markup
+      end)
     end
   end
 
