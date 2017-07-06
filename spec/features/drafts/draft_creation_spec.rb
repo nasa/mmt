@@ -1,5 +1,3 @@
-# MMT-57
-
 require 'rails_helper'
 
 describe 'Draft creation', js: true do
@@ -14,24 +12,12 @@ describe 'Draft creation', js: true do
       click_on 'Create Record'
     end
 
-    # it 'does not display a confirmation message' do
-    #   expect(page).to have_no_content('Draft was successfully created')
-    # end
-
     it 'creates a new blank draft record' do
       expect(page).to have_content('New')
     end
 
-    # it 'does not create a new draft in the database' do
-    #   expect(Draft.count).to eq(0)
-    # end
-
     context 'when saving data into the draft' do
       before do
-        # within '.metadata' do
-        #   click_on 'Collection Information'
-        # end
-
         fill_in 'Short Name', with: '123'
 
         within '.nav-top' do
@@ -44,14 +30,6 @@ describe 'Draft creation', js: true do
       it 'displays a confirmation message' do
         expect(page).to have_content('Draft was successfully created.')
       end
-
-      # it 'creates a new draft in the database' do
-      #   expect(Draft.count).to eq(1)
-      # end
-
-      # it 'saves the provider id into the draft' do
-      #   expect(Draft.first.provider_id).to eq('MMT_2')
-      # end
 
       context 'when viewing the manage metadata page' do
         before do
