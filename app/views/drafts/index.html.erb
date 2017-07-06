@@ -5,7 +5,7 @@
     <%= link_to "Create a #{resource_name.titleize}", send("new_#{resource_name}_path"), class: 'eui-btn--blue space-bot' %>
 
     <% if get_resources.any? %>
-      <p><%= page_entries_info get_resources, entry_name: 'Draft' %></p>
+      <p><%= page_entries_info get_resources, entry_name: resource_name.titleize %></p>
     <% end %>
 
     <table id="open_drafts">
