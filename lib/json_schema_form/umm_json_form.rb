@@ -14,26 +14,26 @@ class UmmJsonForm < JsonFile
     parsed_json.fetch('forms', []).map { |form_json| UmmForm.new(form_json, self, schema, options) }
   end
 
+  # Retrieve a form from the json file by the id
   def get_form(id)
     forms.find { |form| form['id'] == id }
   end
 
+  # Retrieve the index of the provided form id
   def get_form_index(id)
     forms.index { |form| form['id'] == id }
   end
 
+  # Return the form that appears after the provided id
   def next_form(id)
-    current_index = get_form_index(id)
-
-    next_index = current_index + 1
+    next_index = get_form_index(id) + 1
 
     forms[(next_index > (forms.size - 1)) ? 0 : next_index]
   end
 
+  # Return the form that appears before the provided id
   def previous_form(id)
-    current_index = get_form_index(id)
-
-    previous_index = current_index - 1
+    previous_index = get_form_index(id) - 1
 
     forms[(previous_index < 0) ? (forms.size - 1) : previous_index]
   end
@@ -60,7 +60,7 @@ class UmmForm < JsonObj
 
     @children = parsed_json.fetch('items', []).map do |value|
       # TODO: Determine a more dynamic way of instantiating these
-      # classes using the type or another aspect of the json
+      # objects using the type or another aspect of the json
       if value['type'] == 'section'
         UmmFormSection.new(value, json_form, schema, options)
       elsif value['type'] == 'fieldset'
@@ -86,10 +86,12 @@ class UmmForm < JsonObj
     end
   end
 
+  # Return the form that appears before this one
   def previous_form
     json_form.previous_form(parsed_json['id'])
   end
 
+  # Return the form that appears after this one
   def next_form
     json_form.next_form(parsed_json['id'])
   end

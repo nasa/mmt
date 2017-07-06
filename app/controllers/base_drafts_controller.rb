@@ -29,6 +29,10 @@ class BaseDraftsController < DraftsController
     set_resource(resource_class.new(resource_params.merge(provider_id: current_user.provider_id, user: current_user)))
 
     if get_resource.save
+      # Successful flash message
+      flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")
+
+      # TODO: Prevent this piece of code from being duplicated
       case params[:commit]
       when 'Done'
         redirect_to get_resource
@@ -44,7 +48,6 @@ class BaseDraftsController < DraftsController
         next_form_name = params['jump_to_section']
         redirect_to edit_variable_draft_path(get_resource, next_form_name)
       end
-      # redirect_to send("#{plural_resource_name}_path"), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success") }
     else
       render 'new'
     end
@@ -56,6 +59,10 @@ class BaseDraftsController < DraftsController
     provided_resource_params[:draft] = get_resource.draft.deep_merge(provided_resource_params[:draft])
 
     if get_resource.update(provided_resource_params)
+      # Successful flash message
+      flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
+
+      # TODO: Prevent this piece of code from being duplicated
       case params[:commit]
       when 'Done'
         redirect_to get_resource
@@ -71,7 +78,6 @@ class BaseDraftsController < DraftsController
         next_form_name = params['jump_to_section']
         redirect_to edit_variable_draft_path(get_resource, next_form_name)
       end
-      # redirect_to send("edit_#{resource_name}_path", get_resource), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success") }
     else
       render 'edit'
     end
