@@ -166,6 +166,22 @@ class UmmFormElement < UmmForm
     validation_properties
   end
 
+  def data_level(element)
+    level = sanitize_to_id(keyify_property_name(element))
+    # drop the last field off of the field name, so that data-level ends in a number
+    level.gsub!(/(_\d_).+$/, '\1')
+
+    {
+      data: {
+        level: level
+      }
+    }
+  end
+
+  def sanitize_to_id(name)
+    name.to_s.delete(']').tr('^-a-zA-Z0-9:.', '_')
+  end
+
   def element_classes(property, initial_classes: nil)
     # Default classes
     classes = initial_classes || 'full-width'
@@ -179,7 +195,9 @@ class UmmFormElement < UmmForm
   def element_properties(element)
     {
       class: element_classes(element)
-    }.merge(validation_properties(element))
+    }
+      .merge(validation_properties(element))
+      .merge(data_level(element))
   end
 
   # Locates the fragment of the schema that the provided key represents
