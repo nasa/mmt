@@ -136,7 +136,7 @@
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "CharacteristicsType/properties/StandardName"}]
+              "items": [{"key": "Characteristics/items/properties/StandardName"}]
             }
           ]
         },
@@ -147,7 +147,70 @@
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "CharacteristicsType/properties/Reference", "type": "UmmTextarea"}]
+              "items": [{"key": "Characteristics/items/properties/Reference"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-4",
+              "items": [{"key": "Characteristics/items/properties/Coordinates"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-4",
+              "items": [{"key": "Characteristics/items/properties/GridMapping"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-4",
+              "items": [{"key": "Characteristics/items/properties/Size"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Characteristics/items/properties/Bounds"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Characteristics/items/properties/ChunkSize"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "Characteristics/items/properties/Structure", "type": "UmmTextarea"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Characteristics/items/properties/MeasurementCondition"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Characteristics/items/properties/ReportingCondition"}]
             }
           ]
         }
@@ -187,29 +250,33 @@
       ]
     },
     {
-      "type": "fieldset",
+      "id": "set_type",
       "title": "Set Type",
-      "description": "Set type stuff",
       "items": [
         {
-          "type": "UmmMultiItems",
-          "key": "SetType",
+          "type": "section",
           "items": [
             {
-              "type": "section",
-              "items": [{"key": "SetType/items/properties/index_id/SetName"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "SetType/items/properties/index_id/SetType"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "SetType/items/properties/index_id/SetSize"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "SetType/items/properties/index_id/SetIndex"}]
+              "type": "UmmMultiItems",
+              "key": "SetType",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "SetType/items/properties/index_id/SetName"}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "SetType/items/properties/index_id/SetType"}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "SetType/items/properties/index_id/SetSize"}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "SetType/items/properties/index_id/SetIndex"}]
+                }
+              ]
             }
           ]
         }

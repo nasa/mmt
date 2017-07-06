@@ -26,6 +26,9 @@ en:
         create:
           flash:
             success: 'Variable Draft Created Successfully!'
+        update:
+          flash:
+            success: 'Variable Draft Updated Successfully!'
   views:
     pagination:
       first: "First"
