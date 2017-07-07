@@ -57,21 +57,80 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 4000
+        },
+        "MeasurementConditions": {
+          "description": "The measurement conditions of the variable.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "ReportingConditions": {
+          "description": "The reporting conditions of the variable. ",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
         }
       }
-   },
-   "MeasurementType": {
+    },
+    "ScienceKeywordsType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The elements of this section apply to the science keywords.",
+      "properties": {
+        "Category": {
+          "description": "This element describes the category of the science keywords.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "Topic": {
+          "description": "This element describes the topic of the science keywords.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "Term": {
+          "description": "This element describes the term of the science keywords.",
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        "Variable_Level_1": {
+          "description": "This element describes the variable level 1 of the science keywords.",
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        "Variable_Level_2": {
+          "description": "This element describes the variable level 2 of the science keywords.",
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        "Variable_Level_3": {
+          "description": "This element describes the variable level 3 of the science keywords.",
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        "Detailed_Variable": {
+          "description": "This element describes the detailed variable of the science keywords.",
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        }
+      }
+    },
+    "MeasurementsType": {
       "type": "object",
       "additionalProperties": false,
       "description": "The elements of this section apply to a measurement.",
       "properties": {
-        "MeasurementNames": {
-          "description": "This element allows authors to provide community sourced words or phrases to further describe the variable data. These measurements can be searched on in much the same way as science keywords but are sourced from a list specific to the science disipline of the variable.",
-          "type": "array",
-          "items": {
-            "$ref": "umm-cmn-json-schema.json#/definitions/KeywordStringType"
-          },
-          "minItems": 1
+        "MeasurementName": {
+          "description": "This element allows authors to provide community sourced words or phrases to further describe the variable data.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 320
         },
         "MeasurementSource": {
           "description": "This element allows authors to identify the source of the measurements.",
@@ -81,7 +140,7 @@
         }
       }
     },
-    "ServiceTypeType": {
+    "ServiceType": {
       "type": "object",
       "additionalProperties": false,
       "description": "The elements of this section apply to a variable.",
@@ -128,28 +187,28 @@
         }
       }
     },
-    "SetTypeType": {
+    "SetType": {
       "type": "object",
       "additionalProperties": false,
       "description": "The elements of this section apply to a variable.",
       "properties": {
-        "SetName": {
+        "Name": {
             "description": "This element enables specification of set name. The variable may grouped within a set. The set is defined by the name, type, size and index. For example, some variables exist in pairs or sets of three or more.",
           "type": "string",
           "minLength": 1,
           "maxLength": 80
         },
-        "SetType": {
+        "Type": {
           "description": "This element enables specification of set type. The variable may grouped within a set. The set is defined by the name, type, size and index. For example, some variables exist in pairs or sets of three or more.",
           "type": "string",
           "minLength": 1,
           "maxLength": 80
         },
-        "SetSize": {
+        "Size": {
           "description": "This element specifies the size of the set.",
           "type": "number"
         },
-        "SetIndex": {
+        "Index": {
           "description": "This element specifies the index value within the set for this variable, i.e. 1,2,3.",
           "type": "number"
         }
@@ -175,15 +234,22 @@
       "type": "string",
       "enum": ["byte", "float", "float32", "double", "uchar", "uchar8", "int8", "int16", "int32", "uint8", "uint16", "unit32", "OTHER"]
     },
-    "DimensionsNameType": {
-      "description": "The names of the dimensions of the variable represented in the data field. For example, 'XDim, YDim'. This is sourced from the granule header. See the dimensions section.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 80
-    },
     "DimensionsType": {
-      "description": "The values of the dimensions of the variable represented in the data field. For example, '1200, 1200'. This is sourced from the granule header. See the dimensions section.",
-      "type": "number"
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The elements of this section apply to a variable.",
+      "properties": {
+        "Name": {
+          "description": "The names of the dimensions of the variable represented in the data field. For example, 'XDim, YDim'.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "Size": {
+          "description": "The values of the dimensions of the variable represented in the data field. For example, '1200, 1200'.",
+          "type": "number"
+        }
+      }
     },
     "VariableTypeEnum": {
       "description": "This element is used to identify the variable as a Science Variable or as a Quality Variable or as an Ancillary Variable. If a variable does not contain this field, it will be assumed to be a science variable.",
@@ -219,7 +285,7 @@
       "Units": {
         "description": "The units associated with a variable.",
         "type": "string",
-        "minLength": 1,
+        "minLength": 0,
         "maxLength": 20
       },
       "DataType": {
@@ -230,13 +296,6 @@
         "type": "array",
         "items": {
           "$ref": "#/definitions/DimensionsType"
-        },
-        "minItems": 0
-      },
-      "DimensionsName": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/DimensionsNameType"
         },
         "minItems": 0
       },
@@ -272,7 +331,7 @@
         "description": "The measurement information of a variable.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/MeasurementType"
+          "$ref": "#/definitions/MeasurementsType"
         },
         "minItems": 0
       },
@@ -280,23 +339,23 @@
         "description": "Controlled Science Keywords describing the collection.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).",
         "type": "array",
         "items": {
-            "$ref": "umm-cmn-json-schema.json#/definitions/ScienceKeywordType"
+            "$ref": "#/definitions/ScienceKeywordsType"
         },
       "minItems": 0
       },
-      "ServiceType": {
+      "Service": {
         "description": "The service information of a variable.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/ServiceTypeType"
+          "$ref": "#/definitions/ServiceType"
         },
         "minItems": 0
       },
-      "SetType": {
+      "Set": {
         "description": "The set information of a variable.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/SetTypeType"
+          "$ref": "#/definitions/SetType"
         },
         "minItems": 0
       }
@@ -306,11 +365,10 @@
       "LongName",
       "Definition",
       "DataType",
-      "DimensionsName",
       "Dimensions",
       "Scale",
       "Offset",
       "FillValue",
-      "Measurements"
+      "ScienceKeywords"
     ]
 }

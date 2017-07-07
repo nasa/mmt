@@ -228,29 +228,40 @@
       ]
     },
     {
-      "id": "service_type",
+      "id": "service",
       "title": "Service",
       "description": "Cras justo odio, dapibus ac facilisis in, egestas eget quam.",
       "items": [
         {
           "type": "section",
-          "htmlClass": "col-4",
-          "items": [{"key": "ServiceType/items/properties/ServiceType", "type": "UmmMultiSelect"}]
-        },
-        {
-          "type": "section",
-          "htmlClass": "col-4",
-          "items": [{"key": "ServiceType/items/properties/Visualizable", "type": "UmmBoolean"}]
-        },
-        {
-          "type": "section",
-          "htmlClass": "col-4",
-          "items": [{"key": "ServiceType/items/properties/Subsettable", "type": "UmmBoolean"}]
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "key": "Service",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-4",
+                  "items": [{"key": "Service/items/properties/index_id/ServiceType", "type": "UmmMultiSelect"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-4",
+                  "items": [{"key": "Service/items/properties/index_id/Visualizable", "type": "UmmBoolean"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-4",
+                  "items": [{"key": "Service/items/properties/index_id/Subsettable", "type": "UmmBoolean"}]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
     {
-      "id": "set_type",
+      "id": "set",
       "title": "Set",
       "items": [
         {
@@ -258,17 +269,17 @@
           "items": [
             {
               "type": "UmmMultiItems",
-              "key": "SetType",
+              "key": "Set",
               "items": [
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "SetType/items/properties/index_id/SetName"}]
+                  "items": [{"key": "Set/items/properties/index_id/Name"}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "SetType/items/properties/index_id/SetType"}]
+                  "items": [{"key": "Set/items/properties/index_id/Type"}]
                 },
                 {
                   "type": "section",
@@ -277,12 +288,12 @@
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "SetType/items/properties/index_id/SetSize"}]
+                      "items": [{"key": "Set/items/properties/index_id/Size"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "SetType/items/properties/index_id/SetIndex"}]
+                      "items": [{"key": "Set/items/properties/index_id/Index"}]
                     }
                   ]
                 }
