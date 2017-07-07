@@ -2,10 +2,6 @@
   // Load json-schema for field validation
   var globalJsonSchema = <%= raw @schema.parsed_json.to_json %>;
 
-  $(document).ready(function() {
-    $("#umm_form").validate()
-  })
-
-  //Setup Science Keywords
-  setupScienceKeywords(<%= raw @science_keywords.to_json %>, {field_prefix: 'variable_draft/draft'});
+  // Setup Science Keywords
+  setupScienceKeywords(<%= raw @science_keywords.to_json %>, { field_prefix: 'variable_draft/draft' });
 </script>

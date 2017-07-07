@@ -1,3 +1,5 @@
+<%= hidden_field_tag 'commit' %>
+
 <%= render partial: 'drafts/forms/form_navigation', locals: {
     location: 'top',
     draft: resource,
@@ -23,3 +25,4 @@
     draft_forms: json_form.forms } %>
 
 <%= render partial: 'drafts/shared/help_modal' %>
+<%= render partial: 'drafts/shared/invalid_modal' %>
