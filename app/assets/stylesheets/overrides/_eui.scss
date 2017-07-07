@@ -3,3 +3,8 @@
   overflow: scroll;
   max-height: 400px;
 }
+
+// Prevent a border/outline from showing on click
+.eui-accordion__icon {
+  outline: none;
+}

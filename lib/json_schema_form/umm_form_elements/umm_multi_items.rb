@@ -16,7 +16,7 @@ class UmmMultiItems < UmmFormElement
   end
 
   def render_accordion(index)
-    content_tag(:div, class: "multiple-item multiple-item-#{index} eui-accordion") do
+    content_tag(:div, class: "multiple-item multiple-item-#{index} eui-accordion sub-fields space-top") do
       concat render_accordion_header(index)
       concat render_accordion_body(index)
     end
@@ -43,5 +43,14 @@ class UmmMultiItems < UmmFormElement
         concat UmmForm.new(property, json_form, schema, index: index).render_markup
       end
     end
+  end
+
+  # Locates the fragment of the schema that the provided key represents
+  def schema_fragment
+    schema.retrieve_schema_fragment(element_path_for_object(parsed_json['key'], ignore_keys: %w(index_id)).join('/'))
+  end
+
+  def help_path(key)
+    "properties/#{element_path_for_object(key, ignore_keys: %w(index_id)).join('/')}"
   end
 end
