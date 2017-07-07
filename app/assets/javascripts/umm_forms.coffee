@@ -11,14 +11,23 @@ handleFormNavigation = (element) ->
     $('#display-invalid-draft-modal').click()
 
     false
+  else
+    true
+
+
 
 $(document).ready ->
+  currentJumpToValue = $('.jump-to-section').val()
+  # $('.jump-to-section').data('previous', currentJumpToValue)
 
   $('.umm-form .jump-to-section').on 'change', ->
+    # selectedValue = $(this).val()
+
     # Set all (both) jump to selects to the select value
     $('.jump-to-section').val($(this).val())
 
-    handleFormNavigation($(this))
+    if handleFormNavigation($(this))
+      $(this).closest('form').submit()
 
   $('.umm-form').validate
     onsubmit: false
@@ -28,6 +37,7 @@ $(document).ready ->
 
   # If the user choose 'Yes' when asked about saving an invalid form
   $('#invalid-draft-deny').on 'click', ->
+    $('.jump-to-section').val(currentJumpToValue)
     $(".umm_form").validate()
     $("#umm_form input:visible").blur()
 
