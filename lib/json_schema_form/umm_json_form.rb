@@ -205,7 +205,6 @@ class UmmFormElement < UmmForm
       .merge(data_level(element))
   end
 
-
   # Locates the fragment of the schema that the provided key represents
   def schema_fragment
     schema.retrieve_schema_fragment(parsed_json['key'])
