@@ -29,10 +29,15 @@ class VariableDraftsController < BaseDraftsController
   end
 
   def set_science_keywords
+    # TODO: Move this into the UmmKeywordPicker class, including the rendering of JavaScript
     @science_keywords = cmr_client.get_controlled_keywords('science_keywords')
   end
 
   def variable_draft_params
+    # Allow for completely empty forms to be saved
+    return {} unless params.key?(:variable_draft)
+
+    # If the form isn't empty, only permit whitelisted attributes
     params.require(:variable_draft).permit(:draft_type).tap do |whitelisted|
       # Allows for any nested key within the draft hash
       whitelisted[:draft] = params[:variable_draft][:draft]

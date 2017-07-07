@@ -24,7 +24,9 @@
 
   this
 
-@NestedItemPicker.DEFAULTS = {}
+@NestedItemPicker.DEFAULTS = {
+  field_prefix: 'draft'
+}
 
 @NestedItemPicker::getDefaults = ->
   NestedItemPicker.DEFAULTS

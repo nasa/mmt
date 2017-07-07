@@ -56,7 +56,7 @@ class BaseDraftsController < DraftsController
   def update
     provided_resource_params = resource_params
 
-    provided_resource_params[:draft] = get_resource.draft.deep_merge(provided_resource_params[:draft])
+    provided_resource_params[:draft] = get_resource.draft.deep_merge(provided_resource_params.fetch(:draft, {}))
 
     if get_resource.update(provided_resource_params)
       # Successful flash message
