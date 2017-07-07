@@ -84,7 +84,7 @@
     {
       "id": "fill_value",
       "title": "Fill Value",
-      "description": "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
+      "key": "FillValue",
       "items": [
         {
           "type": "section",
@@ -123,7 +123,7 @@
     {
       "id": "dimensions",
       "title": "Dimensions",
-      "description": "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
+      "key": "Dimensions",
       "items": [
         {
           "type": "section",
@@ -157,6 +157,7 @@
     {
       "id": "variable_characteristics",
       "title": "Variable Characteristics",
+      "key": "Characteristics",
       "items": [
         {
           "type": "section",
@@ -259,7 +260,7 @@
     {
       "id": "science_keywords",
       "title": "Science Keywords",
-      "description": "Nulla vitae elit libero, a pharetra augue.",
+      "key": "ScienceKeywords",
       "items": [
         {
           "type": "section",
@@ -270,7 +271,7 @@
     {
       "id": "service",
       "title": "Service",
-      "description": "Cras justo odio, dapibus ac facilisis in, egestas eget quam.",
+      "key": "Service",
       "items": [
         {
           "type": "section",
@@ -309,6 +310,7 @@
     {
       "id": "set",
       "title": "Set",
+      "key": "Set",
       "items": [
         {
           "type": "section",
