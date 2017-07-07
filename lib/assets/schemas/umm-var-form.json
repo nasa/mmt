@@ -126,6 +126,40 @@
       ]
     },
     {
+      "id": "dimensions",
+      "title": "Dimensions",
+      "description": "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
+      "items": [
+        {
+          "type": "section",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "key": "Dimensions",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "Dimensions/items/properties/index_id/Name"}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "Dimensions/items/properties/index_id/Size"}]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "variable_characteristics",
       "title": "Variable Characteristics",
       "items": [
@@ -241,18 +275,24 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "col-4",
-                  "items": [{"key": "Service/items/properties/index_id/ServiceType", "type": "UmmMultiSelect"}]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "col-4",
-                  "items": [{"key": "Service/items/properties/index_id/Visualizable", "type": "UmmBoolean"}]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "col-4",
-                  "items": [{"key": "Service/items/properties/index_id/Subsettable", "type": "UmmBoolean"}]
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-4",
+                      "items": [{"key": "Service/items/properties/index_id/ServiceType", "type": "UmmMultiSelect"}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "col-4",
+                      "items": [{"key": "Service/items/properties/index_id/Visualizable", "type": "UmmBoolean"}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "col-4",
+                      "items": [{"key": "Service/items/properties/index_id/Subsettable", "type": "UmmBoolean"}]
+                    }
+                  ]
                 }
               ]
             }
