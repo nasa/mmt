@@ -1,9 +1,9 @@
 # Setup NestedItemPicker for Science Keywords
 picker = undefined
-@setupScienceKeywords = (data) ->
-  picker = new NestedItemPicker('.eui-nested-item-picker', data: data, data_type: 'science')
+@setupScienceKeywords = (data, options = {}) ->
+  picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'science'}, options))
 
-@setupLocationKeywords = (data) ->
+@setupLocationKeywords = (data, options = {}) ->
   picker = new NestedItemPicker('.eui-nested-item-picker', data: data, data_type: 'location')
 
 $(document).ready ->
@@ -21,6 +21,16 @@ $(document).ready ->
       # Add selected value to keyword list
       keywords = picker.getValues() unless keywords.length > 0
       keywordList = $('.selected-' + type + '-keywords ul')
+
+      fieldPrefixName = $.map picker.options.field_prefix.split('/'), (d, i) -> 
+        if i > 0
+          '[' + d + ']'
+        else
+          d
+      .join('')
+
+      fieldPrefixId = picker.options.field_prefix.replace('/', '_')
+
       $.each keywords, (index, value) ->
         matchingKeywords = $(keywordList).find('li').filter ->
           this.childNodes[0].nodeValue.trim() == value
@@ -30,8 +40,8 @@ $(document).ready ->
             li = $("<li>#{value}<a class='remove'><i class='fa fa-times-circle'></i></a>#{span}</li>")
             $('<input/>',
               type: 'hidden'
-              name: 'draft[' + type + '_keywords][]'
-              id: 'draft_' + type + '_keywords_'
+              name: fieldPrefixName + '[' + type + '_keywords][]'
+              id: fieldPrefixId + '_' + type + '_keywords_'
               value: value).appendTo li
             $(li).appendTo keywordList
 
@@ -133,6 +143,7 @@ $(document).ready ->
 
       keyword = [keyword.join(' > ')]
       if picker.options.data_type == 'science'
+
         addKeyword('science', keyword)
       else if picker.options.data_type == 'location'
         addKeyword('location', keyword)

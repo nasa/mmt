@@ -121,7 +121,7 @@
         {
           "type": "section",
           "htmlClass": "row",
-          "items": [{"key": "FillValue/properties/ValueDescription", "type": "UmmTextarea"}]
+          "items": [{"key": "FillValue/properties/Description", "type": "UmmTextarea"}]
         }
       ]
     },
@@ -216,9 +216,9 @@
         }
       ]
     },
-    /*{
-      "type": "fieldset",
-      "title": "Discovery",
+    {
+      "id": "science_keywords",
+      "title": "Science Keywords",
       "description": "Nulla vitae elit libero, a pharetra augue.",
       "items": [
         {
@@ -226,10 +226,10 @@
           "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
         }
       ]
-    },*/
+    },
     {
       "id": "service_type",
-      "title": "Service Type",
+      "title": "Service",
       "description": "Cras justo odio, dapibus ac facilisis in, egestas eget quam.",
       "items": [
         {
@@ -251,7 +251,7 @@
     },
     {
       "id": "set_type",
-      "title": "Set Type",
+      "title": "Set",
       "items": [
         {
           "type": "section",

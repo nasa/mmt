@@ -192,13 +192,19 @@ class UmmFormElement < UmmForm
     classes
   end
 
+  def element_data(element)
+    options['data']
+  end
+
   def element_properties(element)
     {
-      class: element_classes(element)
+      class: element_classes(element),
+      data: element_data(element)
     }
       .merge(validation_properties(element))
       .merge(data_level(element))
   end
+
 
   # Locates the fragment of the schema that the provided key represents
   def schema_fragment

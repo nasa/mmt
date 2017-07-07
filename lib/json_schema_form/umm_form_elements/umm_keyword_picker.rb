@@ -10,10 +10,12 @@ class UmmKeywordPicker < UmmFormElement
 
       # Add Keyword button that displays below the picker
       button_options = {
-        classes: 'eui-btn--blue add-science-keyword',
-        button_text: 'Add Keyword',
-        disabled: true
+        'classes'     => 'eui-btn--blue add-science-keyword',
+        'button_text' => 'Add Keyword',
+        'disabled'    => true
       }
+      button_options['data'] = { 'field-prefix' => json_form.options['field_prefix'] } if json_form.options.key?('field_prefix')
+
       button = UmmButton.new(parsed_json, json_form, schema, button_options)
 
       concat content_tag(:div, button.render_markup, class: 'actions')
@@ -23,19 +25,19 @@ class UmmKeywordPicker < UmmFormElement
   def render_keyword_list(element, object)
     content_tag(:div, class: 'selected-science-keywords science-keywords') do
       concat(content_tag(:ul) do
-        Array.wrap(object).each_with_index do |keyword, index|
+        Array.wrap(object).each do |keyword|
           concat(content_tag(:li) do
-            concat keyword_string(keyword)
+            concat keyword
 
-            remove_link = UmmRemoveLink.new(parsed_json, json_form, schema, name: keyword_string(keyword))
+            remove_link = UmmRemoveLink.new(parsed_json, json_form, schema, name: keyword)
             concat remove_link.render_markup
 
-            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]", keyword_string(keyword))
+            concat hidden_field_tag("#{keyify_property_name(element)}[]", keyword)
           end)
         end
       end)
 
-      concat hidden_field_tag("#{keyify_property_name(element)}[]", '')
+      # concat hidden_field_tag("#{keyify_property_name(element)}[]", '')
     end
   end
 
@@ -56,6 +58,6 @@ class UmmKeywordPicker < UmmFormElement
   end
 
   def keyword_string(keywords)
-    keywords.map { |_key, value| value }.join(' > ')
+    Array.wrap(keywords).map { |_key, value| value }.join(' > ')
   end
 end
