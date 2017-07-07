@@ -57,6 +57,7 @@ class UmmForm < JsonObj
 
     @title = @parsed_json['title']
     @description = @parsed_json['description']
+    @description = @schema.retrieve_schema_fragment(@parsed_json['key']).fetch('description', nil) if @parsed_json['key']
 
     @children = parsed_json.fetch('items', []).map do |value|
       # TODO: Determine a more dynamic way of instantiating these
