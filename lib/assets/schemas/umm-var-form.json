@@ -191,18 +191,29 @@
           "items": [
             {
               "type": "section",
-              "htmlClass": "col-4",
+              "htmlClass": "col-6",
               "items": [{"key": "Characteristics/items/properties/Coordinates"}]
             },
             {
               "type": "section",
-              "htmlClass": "col-4",
+              "htmlClass": "col-6",
               "items": [{"key": "Characteristics/items/properties/GridMapping"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Characteristics/items/properties/Size"}]
             },
             {
               "type": "section",
-              "htmlClass": "col-4",
-              "items": [{"key": "Characteristics/items/properties/Size"}]
+              "htmlClass": "col-6",
+              "items": [{"key": "Characteristics/items/properties/SizeUnits"}]
             }
           ]
         },
@@ -239,12 +250,12 @@
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/items/properties/MeasurementCondition"}]
+              "items": [{"key": "Characteristics/items/properties/MeasurementConditions"}]
             },
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/items/properties/ReportingCondition"}]
+              "items": [{"key": "Characteristics/items/properties/ReportingConditions"}]
             }
           ]
         }
