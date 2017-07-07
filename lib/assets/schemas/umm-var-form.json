@@ -262,19 +262,29 @@
               "items": [
                 {
                   "type": "section",
+                  "htmlClass": "row",
                   "items": [{"key": "SetType/items/properties/index_id/SetName"}]
                 },
                 {
                   "type": "section",
+                  "htmlClass": "row",
                   "items": [{"key": "SetType/items/properties/index_id/SetType"}]
                 },
                 {
                   "type": "section",
-                  "items": [{"key": "SetType/items/properties/index_id/SetSize"}]
-                },
-                {
-                  "type": "section",
-                  "items": [{"key": "SetType/items/properties/index_id/SetIndex"}]
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "SetType/items/properties/index_id/SetSize"}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "SetType/items/properties/index_id/SetIndex"}]
+                    }
+                  ]
                 }
               ]
             }

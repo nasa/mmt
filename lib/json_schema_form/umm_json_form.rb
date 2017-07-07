@@ -159,7 +159,15 @@ class UmmFormElement < UmmForm
 
       # jQuery validation supports custom messages via data attributes
       validation_properties['data'] = {
-        'msg-required': "#{element['key'].titleize} is required."
+        'msg-required': "#{schema.fetch_key_leaf(element['key']).titleize} is required."
+      }
+    end
+
+    if element['type'] == 'number'
+      validation_properties['number'] = true
+
+      validation_properties['data'] = {
+        'msg-number': "#{schema.fetch_key_leaf(element['key']).titleize} must be a number."
       }
     end
 
@@ -207,7 +215,7 @@ class UmmFormElement < UmmForm
 
   # Locates the fragment of the schema that the provided key represents
   def schema_fragment
-    schema.retrieve_schema_fragment(parsed_json['key'])
+    schema.retrieve_schema_fragment(element_path_for_object(parsed_json['key'], ignore_keys: %w(index_id)).join('/'))
   end
 
   # Returns the fragment of the form json that represents this element
@@ -222,13 +230,17 @@ class UmmFormElement < UmmForm
     end
   end
 
+  def help_path(key)
+    "properties/#{element_path_for_object(form_fragment['key'], ignore_keys: %w(index_id)).join('/')}"
+  end
+
   def render_markup
     capture do
       # Adds a label to the container holding the element
       concat UmmLabel.new(form_fragment, json_form, schema, options).render_markup
 
       # Adds the help modal link and icon
-      concat help_icon("properties/#{form_fragment['key']}", form_fragment['key'].split('/').last.titleize)
+      concat help_icon(help_path(form_fragment['key']), form_fragment['key'].split('/').last.titleize)
 
       # Determine the class to use fo rendering this element
       element_class = form_fragment.fetch('type', 'UmmTextField')
