@@ -9,7 +9,7 @@ class UmmMultiItems < UmmFormElement
       end
 
       concat(content_tag(:div, class: 'actions') do
-        button = UmmButton.new(form_fragment, json_form, schema, button_text: "Add another #{form_fragment['key'].titleize}", classes: 'eui-btn--blue add-new').render_markup
+        button = UmmButton.new(form_fragment, json_form, schema, 'button_text' => "Add another #{form_fragment['key'].titleize}", 'classes' => 'eui-btn--blue add-new').render_markup
         concat button
       end)
     end
