@@ -1,13 +1,17 @@
-# :nodoc:
+# Class that represents a UMM JSON Schema
 class UmmJsonSchema < JsonFile
   def initialize(schema_filename)
     super(schema_filename)
   end
 
   # Recursively replace all '$ref' keys in the schema file with their actual values
-  def fetch_references(property)
+  #
+  # ==== Attributes
+  #
+  # * +fragment+ - The JSON to recursively replace references for
+  def fetch_references(fragment)
     # Loop through each key in the current hash element
-    property.each do |_key, element|
+    fragment.each do |_key, element|
       # Skip this element if it's not a hash, no $ref will exist
       next unless element.is_a?(Hash)
 
@@ -41,6 +45,10 @@ class UmmJsonSchema < JsonFile
 
   # Receives a key from the form JSON and returns the relevant fragment of the schema with
   # the provided key inserted in the fragment of the schema. This
+  #
+  # ==== Attributes
+  #
+  # * +key+ - The key to search for within +parsed_json+
   def retrieve_schema_fragment(key)
     # Retreive the requested key from the schema
     property = key.split('/').reduce(parsed_json['properties']) { |a, e| a.fetch(e, {}) }
@@ -49,11 +57,18 @@ class UmmJsonSchema < JsonFile
     property['key'] = key
 
     property
+  rescue
+    {}
   end
 
-  # We use '/' as a separator in our key names for the purposes of looking them up
+  # We use a separator in our key names for the purposes of looking them up
   # in the schema when nested. However, we often need just the actual key, which is
   # what this method does for us.
+  #
+  # ==== Attributes
+  #
+  # * +key+ - The full key to retrieve just the leaf portion of
+  # * +separator+ - The character(s) that separate nested keys
   def fetch_key_leaf(key, separator: '/')
     key.split(separator).last
   end
@@ -64,6 +79,10 @@ class UmmJsonSchema < JsonFile
   end
 
   # Determine whether or not the provided key is required
+  #
+  # ==== Attributes
+  #
+  # * +key+ - The key in which you'd like to check for requirement
   def required_field?(key)
     required_fields.include?(fetch_key_leaf(key))
   end
