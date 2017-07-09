@@ -22,6 +22,58 @@ $(document).ready ->
   $('.umm-form').validate
     onsubmit: false
 
+    # Due to the requirement of showing the errors at the top of the page
+    # and the existence of https://github.com/jquery-validation/jquery-validation/issues/1864
+    # we have to implement `success`, `errorPlacement`, and `showError` in the following way.
+    # 
+    # * errorPlacement only gets call when the error is first recognized. In this method
+    #   we display the div that will contain the list of errors, and execute the default
+    # 
+    # * Every time an error is raised, `showErrors` is called however due to the but above
+    #    only the current error is returned which prevents our ability to re-render errors 
+    #    each time within showErrors
+    # 
+    # == Our workaround
+    #
+    # 1. When an error is raised `errorPlacement` is called that places the divs for the provided
+    #    error, in our case this initial error also renders the list container at the top.
+    # 2. showErrors is called each time an error is raised (every onBlur) but only provides the
+    #    single field that the user just left. When this happens we just update the li by id
+    # 3. When a field is 'fixed' we have to manually remove the item from the list but to do that
+    #    we have to override the `success` method which generally removes the error div under the 
+    #    field as well, so we have to do that as well.
+    success: (label, element) ->
+      # Remove the error from the list at the top of the form
+      $('#umm-form-errors ul li#' + element.id).remove()
+
+      # Remove the error message under the field
+      $('#' + element.id + '-error').remove()
+
+    errorPlacement: (error, element) ->
+      $('#umm-form-errors').show()
+
+      # Add errors to the top of the form
+      placement = $('#umm-form-errors ul');
+
+      placement.append($('<li></li>').attr('id', element.attr('id')).append(
+        $('<a></a>').attr('href', '#' + element.attr('id')).text(error.text())
+      ));
+
+      # Also add the error message to the field (this is the default behavior)
+      error.insertAfter(element);
+
+    showErrors: (errorMap, errorList) ->
+      if this.numberOfInvalids()
+        $('#umm-form-errors').show()
+
+        # Override the previous message with the new message
+        $.each errorList, (index, error) ->
+          $('li#' + error.element.id + ' a').text(error.message)
+      else
+        $('#umm-form-errors').hide()
+
+      this.defaultShowErrors();
+
   $('.umm-form .jump-to-section').on 'change', ->
     # Set all (both) jump to selects to the select value
     $('.jump-to-section').val($(this).val())
