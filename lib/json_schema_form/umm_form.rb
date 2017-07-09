@@ -118,16 +118,16 @@ class UmmFormElement < UmmForm
 
       # jQuery validation supports custom messages via data attributes
       validation_properties['data'] = {
-        'msg-required': "#{schema.fetch_key_leaf(element['key']).titleize} is required."
+        'msg-required': "#{schema.fetch_key_leaf(element['key']).titleize} is required"
       }
     end
 
     if element['type'] == 'number'
       validation_properties['number'] = true
 
-      validation_properties['data'] = {
-        'msg-number': "#{schema.fetch_key_leaf(element['key']).titleize} must be a number."
-      }
+      validation_properties['data'] = validation_properties.fetch('data', {}).merge(
+        'msg-number': "#{schema.fetch_key_leaf(element['key']).titleize} must be a number"
+      )
     end
 
     validation_properties

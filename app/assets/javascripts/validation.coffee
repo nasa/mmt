@@ -127,8 +127,7 @@ $(document).ready ->
     for error in errors
       $element = $("##{error.id}")
 
-      message = '<i class="fa fa-exclamation-triangle"></i>'
-      message += validationMessages(error)
+      message = validationMessages(error)
 
       classes = 'eui-banner--danger validation-error'
 
@@ -157,7 +156,7 @@ $(document).ready ->
   displaySummary = (errors) ->
     summary = $('<div/>',
       class: 'eui-banner--danger summary-errors'
-      html: '<i class="fa fa-exclamation-triangle"></i> This draft has the following errors:'
+      html: '<h4><i class="fa fa-exclamation-triangle"></i> This draft has the following errors:</h4>'
     )
 
     errorList = $('<ul/>', class: 'no-bullet')
