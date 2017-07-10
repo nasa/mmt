@@ -44,7 +44,7 @@ $(document).ready ->
     #    field as well, so we have to do that as well.
     success: (label, element) ->
       # Remove the error from the list at the top of the form
-      $('#umm-form-errors ul li#' + element.id).remove()
+      $('#umm-form-errors ul li#' + element.id + '-top').remove()
 
       # Remove the error message under the field
       $('#' + element.id + '-error').remove()
@@ -55,7 +55,7 @@ $(document).ready ->
       # Add errors to the top of the form
       placement = $('#umm-form-errors ul');
 
-      placement.append($('<li></li>').attr('id', element.attr('id')).append(
+      placement.append($('<li></li>').attr('id', element.attr('id') + '-top').append(
         $('<a></a>').attr('href', '#' + element.attr('id')).text(error.text())
       ));
 
