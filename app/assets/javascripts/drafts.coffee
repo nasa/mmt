@@ -57,6 +57,8 @@ $(document).ready ->
           else
             $(field).html headerHtml.replace(headerIndex, 1)
 
+      initializeTextcounter()
+
     # remove validation errors
     $(newDiv).find('.validation-error').remove()
 

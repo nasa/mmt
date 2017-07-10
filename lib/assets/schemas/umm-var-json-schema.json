@@ -9,25 +9,25 @@
         "StandardName": {
           "description": "The CF-compliant 'Standard Name' for the variable.",
           "type": "string",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 80
         },
         "Reference": {
           "description": "Provides a link to variable's reference documentation.",
           "type": "string",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 500
         },
         "Coordinates": {
           "description": "A variable’s coordinates. These are used to describe how the variable is represented with respect to the Earth geoid.",
           "type": "string",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 80
         },
         "GridMapping": {
           "description": "The name of the mapping projection standard for the variable. For example: Mercator. This is sourced from the granule header. See the global attributes section.",
           "type": "string",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 80
         },
         "Size": {
@@ -37,87 +37,36 @@
         "SizeUnits": {
           "description": "The computed byte size units for the variable, per the data field. For example B, KB, MB, GB.",
           "type": "string",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 80
         },
         "Bounds": {
           "description": "Describes the spatial bounds of a variable. Western Longitude, Northern Latitude and Eastern Longitude, Southern Latitude - often specified in decimal degrees. For example, 'UpperLeftPointMtrs = -180.0, 89.5; LowerRightMtrs = 177.5, -89.5.'",
           "type": "string",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 160
         },
         "ChunkSize": {
           "description": "Describes the chunk size of a variable. For example, '100'.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
+          "type": "number"
         },
         "Structure": {
           "description": "This is a string containing the structure of the variable. This is sourced from the granule header. See the variables section. ",
           "type": "string",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 4000
         },
         "MeasurementConditions": {
           "description": "The measurement conditions of the variable.",
           "type": "string",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 4000
         },
         "ReportingConditions": {
           "description": "The reporting conditions of the variable. ",
           "type": "string",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 4000
-        }
-      }
-    },
-    "ScienceKeywordsType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "The elements of this section apply to the science keywords.",
-      "properties": {
-        "Category": {
-          "description": "This element describes the category of the science keywords.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "Topic": {
-          "description": "This element describes the topic of the science keywords.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "Term": {
-          "description": "This element describes the term of the science keywords.",
-          "type": "string",
-          "minLength": 0,
-          "maxLength": 80
-        },
-        "Variable_Level_1": {
-          "description": "This element describes the variable level 1 of the science keywords.",
-          "type": "string",
-          "minLength": 0,
-          "maxLength": 80
-        },
-        "Variable_Level_2": {
-          "description": "This element describes the variable level 2 of the science keywords.",
-          "type": "string",
-          "minLength": 0,
-          "maxLength": 80
-        },
-        "Variable_Level_3": {
-          "description": "This element describes the variable level 3 of the science keywords.",
-          "type": "string",
-          "minLength": 0,
-          "maxLength": 80
-        },
-        "Detailed_Variable": {
-          "description": "This element describes the detailed variable of the science keywords.",
-          "type": "string",
-          "minLength": 0,
-          "maxLength": 80
         }
       }
     },
@@ -297,7 +246,7 @@
         "items": {
           "$ref": "#/definitions/DimensionsType"
         },
-        "minItems": 0
+        "minItems": 1
       },
       "ValidRange": {
         "description": "Valid range data value of a variable: minimum and maximum values. For example. '-100, 3000'.",
@@ -339,7 +288,7 @@
         "description": "Controlled Science Keywords describing the collection.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).",
         "type": "array",
         "items": {
-            "$ref": "#/definitions/ScienceKeywordsType"
+            "$ref": "umm-cmn-json-schema.json#/definitions/ScienceKeywordType"
         },
       "minItems": 0
       },
