@@ -50,8 +50,6 @@ $(document).ready ->
       $('#' + element.id + '-error').remove()
 
     errorPlacement: (error, element) ->
-      $('#umm-form-errors').show()
-
       # Add errors to the top of the form
       placement = $('#umm-form-errors ul');
 

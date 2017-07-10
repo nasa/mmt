@@ -3,7 +3,6 @@
     {
       "id": "variable_information",
       "title": "Variable Information",
-      "description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.",
       "items": [
         {
           "type": "section",
@@ -17,18 +16,28 @@
             {
               "type": "section",
               "htmlClass": "col-7",
-              "items": [{"key": "LongName"}]
+              "items": [{"key": "Definition"}]
             }
           ]
         },
         {
           "type": "section",
-          "htmlClass": "row",
+          "htmlClass": "row space-top",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "LongName", "type": "UmmTextarea"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row space-top",
           "items": [
             {
               "type": "section",
               "htmlClass": "col-4",
-              "items": [{"key": "Definition"}]
+              "items": [{"key": "VariableType", "type": "UmmSelect"}]
             },
             {
               "type": "section",
@@ -44,7 +53,7 @@
         },
         {
           "type": "section",
-          "htmlClass": "row",
+          "htmlClass": "row space-top",
           "items": [
             {
               "type": "section",
@@ -58,24 +67,13 @@
             },
             {
               "type": "section",
-              "htmlClass": "col-6",
+              "htmlClass": "col-3",
               "items": [{"key": "Scale"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Offset"}]
             },
             {
               "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "VariableType", "type": "UmmSelect"}]
+              "htmlClass": "col-3",
+              "items": [{"key": "Offset"}]
             }
           ]
         }
@@ -138,12 +136,12 @@
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
+                      "htmlClass": "col-8",
                       "items": [{"key": "Dimensions/items/properties/index_id/Name"}]
                     },
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
+                      "htmlClass": "col-4",
                       "items": [{"key": "Dimensions/items/properties/index_id/Size"}]
                     }
                   ]
@@ -245,13 +243,17 @@
           "items": [
             {
               "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/items/properties/MeasurementConditions"}]
-            },
+              "items": [{"key": "Characteristics/items/properties/MeasurementConditions", "type": "UmmTextarea"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
             {
               "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/items/properties/ReportingConditions"}]
+              "items": [{"key": "Characteristics/items/properties/ReportingConditions", "type": "UmmTextarea"}]
             }
           ]
         }
