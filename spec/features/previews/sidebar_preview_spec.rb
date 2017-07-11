@@ -5,7 +5,7 @@ describe 'Sidebar preview' do
     context 'when there is no metadata' do
       before do
         login
-        draft = create(:draft, user: User.where(urs_uid: 'testuser').first)
+        draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
       end
 
@@ -20,7 +20,7 @@ describe 'Sidebar preview' do
     context 'when there is metadata' do
       before do
         login
-        draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
+        draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
 
         visit collection_draft_path(draft)
       end

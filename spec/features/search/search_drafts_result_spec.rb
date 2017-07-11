@@ -8,7 +8,7 @@ describe 'Search drafts results', js: true do
 
   before do
     login
-    create(:draft, entry_title: entry_title, short_name: short_name)
+    create(:collection_draft, entry_title: entry_title, short_name: short_name)
   end
 
   context 'when searching drafts by short name' do

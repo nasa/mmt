@@ -30,7 +30,7 @@ module Helpers
           # Create a new draft with the provided attributes
           # NOTE: We don't save the draft object, there is no reason to hit the database
           # here knowing that we're going to delete it as soon as it's published anyway
-          draft = build(:full_draft, draft_attributes)
+          draft = build(:full_collection_draft, draft_attributes)
 
           # Adds metadata dates (this method saves the object)
           draft.add_metadata_dates(date: modified_date, save_record: false) unless modified_date.nil?
