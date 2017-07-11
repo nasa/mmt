@@ -5,7 +5,7 @@ describe VariableDraftsController, reset_provider: true do
     before do
       sign_in
 
-      get :index
+      get :index, draft_type: 'VariableDraft'
     end
 
     it 'renders the #index view' do
@@ -17,23 +17,23 @@ describe VariableDraftsController, reset_provider: true do
     end
   end
 
-  describe 'GET #show' do
-    before do
-      sign_in
+  # describe 'GET #show' do
+  #   before do
+  #     sign_in
 
-      get :show
-    end
+  #     get :show
+  #   end
 
-    it 'renders the #show view' do
-      expect(response).to render_template(:show)
-    end
-  end
+  #   it 'renders the #show view' do
+  #     expect(response).to render_template(:show)
+  #   end
+  # end
 
   describe 'GET #new' do
     before do
       sign_in
 
-      get :new
+      get :new, draft_type: 'VariableDraft'
     end
 
     it 'renders the #new view' do
@@ -50,27 +50,30 @@ describe VariableDraftsController, reset_provider: true do
       before do
         sign_in
 
-        post :create, # need params
-             draft_type: 'CollectionDraft'
+        post :create, variable_draft: { draft: {} }, draft_type: 'VariableDraft'
       end
 
-      it 'redirects to the show page'
+      it 'redirects to the show page' do
+      end
 
       it 'saves the new variable draft to the database' do
-
       end
     end
 
     # context 'with invalid attributes' do
     #   before do
     #     sign_in
-    #
-    #     post :create # what are bad params?
+    
+    #     post :create, variable_draft: {}, draft_type: 'VariableDraft'
     #   end
-    #
-    #   it 're-renders the new view'
-    #
-    #   it 'does not save the new variable draft to the database'
+    
+    #   it 're-renders the new view' do
+    #     expect(response).to render_template(:new)
+    #   end
+    
+    #   it 'does not save the new variable draft to the database' do
+
+    #   end
     # end
   end
 end
