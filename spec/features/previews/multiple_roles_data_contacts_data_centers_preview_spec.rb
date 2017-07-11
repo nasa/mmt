@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Multiple Roles in Data Centers and Data Contacts preview', js: true do
   before do
     login
-    draft = create(:full_draft, user: User.where(urs_uid: 'testuser').first)
+    draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
 
     visit collection_draft_path(draft)
   end
