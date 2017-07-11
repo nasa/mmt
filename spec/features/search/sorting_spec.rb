@@ -179,7 +179,7 @@ describe 'Search sorting', reset_provider: true, js: true do
 
       [a, c, z].each do |draft|
         20.times do |i|
-          create(:draft, entry_title: draft[:title], provider_id: draft[:provider], updated_at: draft[:date])
+          create(:collection_draft, entry_title: draft[:title], provider_id: draft[:provider], updated_at: draft[:date])
         end
       end
 

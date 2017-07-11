@@ -23,7 +23,7 @@ describe 'Open Drafts listings on the Manage Metadata page', reset_provider: tru
     before do
       current_user_id = User.where(urs_uid: 'testuser').first.id
       (draft_display_max_count + 1).times do
-        create(:draft, user_id: current_user_id)
+        create(:collection_draft, user_id: current_user_id)
       end
 
       visit manage_metadata_path

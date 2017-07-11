@@ -11,6 +11,7 @@ class VariableDraftsController < BaseDraftsController
     set_form
 
     set_current_form
+    # console
   end
 
   private

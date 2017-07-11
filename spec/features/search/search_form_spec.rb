@@ -134,7 +134,7 @@ describe 'Search Form', js: true do
       draft_provider = 'MMT_2'
 
       before do
-        create(:draft, entry_title: draft_entry_title, short_name: draft_short_name, provider_id: draft_provider)
+        create(:collection_draft, entry_title: draft_entry_title, short_name: draft_short_name, provider_id: draft_provider)
 
         find_link('Full Metadata Record Search').trigger(:click)
         expect(page).to have_selector('.search-module', visible: true)
