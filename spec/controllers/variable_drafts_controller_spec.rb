@@ -51,20 +51,5 @@ describe VariableDraftsController, reset_provider: true do
         }.to change(VariableDraft, :count).by(1)
       end
     end
-
-    # context 'with invalid attributes' do
-    #   before do
-    #     sign_in
-    #     post :create, variable_draft: {}, draft_type: 'VariableDraft'
-    #   end
-
-    #   it 're-renders the new view' do
-    #     expect(response).to render_template(:new)
-    #   end
-
-    #   it 'does not save the new variable draft to the database' do
-
-    #   end
-    # end
   end
 end
