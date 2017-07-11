@@ -17,18 +17,6 @@ describe VariableDraftsController, reset_provider: true do
     end
   end
 
-  # describe 'GET #show' do
-  #   before do
-  #     sign_in
-
-  #     get :show
-  #   end
-
-  #   it 'renders the #show view' do
-  #     expect(response).to render_template(:show)
-  #   end
-  # end
-
   describe 'GET #new' do
     before do
       sign_in
@@ -62,8 +50,7 @@ describe VariableDraftsController, reset_provider: true do
 
     # context 'with invalid attributes' do
     #   before do
-    #     sign_in
-    
+    #     sign_in    
     #     post :create, variable_draft: {}, draft_type: 'VariableDraft'
     #   end
     
