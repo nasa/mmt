@@ -22,7 +22,11 @@ class BaseDraftsController < DraftsController
     add_breadcrumb 'New', send("new_#{resource_name}_path")
   end
 
-  def edit; end
+  def edit
+    add_breadcrumb display_entry_id(get_resource.draft, 'draft'), send("#{resource_name}_path", get_resource)
+
+    add_breadcrumb @json_form.get_form(@current_form).title, send("edit_#{resource_name}_path", get_resource, @current_form)
+  end
 
   def create
     # Merge the provider and user in to the params on create

@@ -35,7 +35,7 @@ class UmmJsonForm < JsonFile
   #
   # ==== Attributes
   #
-  # * +id+ - The id of the form to retrieve the id from +parsed_json+.
+  # * +id+ - The id of the form to retrieve the id from +parsed_json+
   def get_form_index(id)
     forms.index { |form| form['id'] == id }
   end
