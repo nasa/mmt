@@ -39,21 +39,21 @@ class BaseDraftsController < DraftsController
       # TODO: Prevent this piece of code from being duplicated
       case params[:commit]
       when 'Done'
-        redirect_to get_resource
+        redirect_to send("#{plural_resource_name}_path")
       when 'Previous'
         # Determine next form to go to
         next_form_name = params['previous_section']
-        redirect_to edit_variable_draft_path(get_resource, next_form_name)
+        redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       when 'Next'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
         get_resource_form = params['next_section']
-        redirect_to edit_variable_draft_path(get_resource, get_resource_form)
+        redirect_to send("edit_#{resource_name}_path", get_resource, get_resource_form)
       when 'Save'
         get_current_form = params['current_section']
-        redirect_to edit_variable_draft_path(get_resource, get_current_form)
+        redirect_to send("edit_#{resource_name}_path", get_resource, get_current_form)
       else # Jump directly to a form
         next_form_name = params['jump_to_section']
-        redirect_to edit_variable_draft_path(get_resource, next_form_name)
+        redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else
       render 'new'
@@ -72,21 +72,21 @@ class BaseDraftsController < DraftsController
       # TODO: Prevent this piece of code from being duplicated
       case params[:commit]
       when 'Done'
-        redirect_to get_resource
+        redirect_to send("#{plural_resource_name}_path")
       when 'Previous'
         # Determine next form to go to
         next_form_name = params['previous_section']
-        redirect_to edit_variable_draft_path(get_resource, next_form_name)
+        redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       when 'Next'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
         get_resource_form = params['next_section']
-        redirect_to edit_variable_draft_path(get_resource, get_resource_form)
+        redirect_to send("edit_#{resource_name}_path", get_resource, get_resource_form)
       when 'Save'
         get_current_form = params['current_section']
-        redirect_to edit_variable_draft_path(get_resource, get_current_form)
+        redirect_to send("edit_#{resource_name}_path", get_resource, get_current_form)
       else # Jump directly to a form
         next_form_name = params['jump_to_section']
-        redirect_to edit_variable_draft_path(get_resource, next_form_name)
+        redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else
       render 'edit'
