@@ -44,10 +44,13 @@ class BaseDraftsController < DraftsController
         # Determine next form to go to
         next_form_name = params['previous_section']
         redirect_to edit_variable_draft_path(get_resource, next_form_name)
-      when 'Next', 'Save'
+      when 'Next'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
         get_resource_form = params['next_section']
         redirect_to edit_variable_draft_path(get_resource, get_resource_form)
+      when 'Save'
+        get_current_form = params['current_section']
+        redirect_to edit_variable_draft_path(get_resource, get_current_form)
       else # Jump directly to a form
         next_form_name = params['jump_to_section']
         redirect_to edit_variable_draft_path(get_resource, next_form_name)
@@ -74,10 +77,13 @@ class BaseDraftsController < DraftsController
         # Determine next form to go to
         next_form_name = params['previous_section']
         redirect_to edit_variable_draft_path(get_resource, next_form_name)
-      when 'Next', 'Save'
+      when 'Next'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
         get_resource_form = params['next_section']
         redirect_to edit_variable_draft_path(get_resource, get_resource_form)
+      when 'Save'
+        get_current_form = params['current_section']
+        redirect_to edit_variable_draft_path(get_resource, get_current_form)
       else # Jump directly to a form
         next_form_name = params['jump_to_section']
         redirect_to edit_variable_draft_path(get_resource, next_form_name)
