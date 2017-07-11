@@ -17,6 +17,8 @@
 
   <div class="col-3">
     <%= submit_tag 'Save', class: 'eui-btn save-form' %>
+    <%= hidden_field_tag 'current_section', draft_form.parsed_json['id'] %>
+
     <%= submit_tag 'Done', class: 'eui-btn--blue save-form' %>
 
     <% if draft.new_record? %>
