@@ -20,6 +20,12 @@ describe 'Variable Draft creation', reset_provider: true, js: true do
       end
     end
 
+    it 'renders the "Variable Information" form' do
+      within '.umm-form fieldset h3' do
+        expect(page).to have_content('Variable Information')
+      end
+    end
+
     context 'when saving data into the variable draft' do
       before do
         fill_in 'Name', with: 'test var draft'

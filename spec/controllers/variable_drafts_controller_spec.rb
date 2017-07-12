@@ -37,27 +37,31 @@ describe VariableDraftsController, reset_provider: true do
     context 'with valid attributes' do
       before do
         sign_in
+      end
 
+      it 'redirects to the variable draft edit page' do
         post :create, variable_draft: { draft: {} }, draft_type: 'VariableDraft'
+
+        expect(response).to redirect_to(edit_variable_draft_path(VariableDraft.last))
       end
 
-      it 'redirects to the show page' do
-      end
-
-      it 'saves the new variable draft to the database' do
+      it 'creates a new variable draft' do
+        expect{
+          post :create, variable_draft: { draft: {} }, draft_type: 'VariableDraft'
+        }.to change(VariableDraft, :count).by(1)
       end
     end
 
     # context 'with invalid attributes' do
     #   before do
-    #     sign_in    
+    #     sign_in
     #     post :create, variable_draft: {}, draft_type: 'VariableDraft'
     #   end
-    
+
     #   it 're-renders the new view' do
     #     expect(response).to render_template(:new)
     #   end
-    
+
     #   it 'does not save the new variable draft to the database' do
 
     #   end

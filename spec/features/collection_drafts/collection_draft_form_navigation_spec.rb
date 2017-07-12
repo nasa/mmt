@@ -7,8 +7,8 @@ SUMMARY_PAGE_STRING = 'Quality Score:'
 describe 'Collection Draft form navigation', js: true do
   before do
     login
-    draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
-    visit collection_draft_path(draft)
+    collection_draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
+    visit collection_draft_path(collection_draft)
   end
 
   context 'when viewing the Summary page' do
@@ -32,7 +32,7 @@ describe 'Collection Draft form navigation', js: true do
           within '.eui-breadcrumbs' do
             expect(page).to have_content(form_title)
           end
-          expect(page).to_not have_content(SUMMARY_PAGE_STRING)
+          expect(page).to have_no_content(SUMMARY_PAGE_STRING)
         end
       end
     end
