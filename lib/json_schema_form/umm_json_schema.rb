@@ -89,7 +89,7 @@ class UmmJsonSchema < JsonFile
 
   def sanitize_form_input(object)
     puts "before object: #{object}"
-    object[:draft] = object[:draft].to_hash.to_camel_keys
+    object['draft'] = object['draft'].to_hash.to_camel_keys
     object = convert_to_arrays(object)
     object = compact_blank(object)
 
