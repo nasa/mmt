@@ -62,11 +62,9 @@ class BaseDraftsController < DraftsController
   end
 
   def update
-    provided_resource_params = resource_params
+    provided_resource_params = @schema.sanitize_form_input(resource_params)
 
-    draft = @schema.sanitize_form_input(provided_resource_params)
-
-    provided_resource_params[:draft] = get_resource.draft.deep_merge(draft.fetch('Draft', {}))
+    provided_resource_params['draft'] = get_resource.draft.deep_merge(provided_resource_params.fetch('draft', {}))
 
     if get_resource.update(provided_resource_params)
       # Successful flash message
