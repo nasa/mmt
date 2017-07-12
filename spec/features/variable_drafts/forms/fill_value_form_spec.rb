@@ -23,6 +23,94 @@ describe 'Fill Value Form', reset_provider: true, js: true do
     it 'have one required label' do
       expect(page).to have_selector('label.eui-required-o', count: 1)
     end
+
+    it 'has the correct value selected in the `Save & Jump To` dropdown' do
+      within '.nav-top' do
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+      end
+
+      within '.nav-bottom' do
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+      end
+    end
+
+    context 'When clicking `Previous` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Previous'
+        end
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Variable Information')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+        end
+      end
+    end
+
+    context 'When clicking `Next` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Next'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Dimensions')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
+        end
+      end
+    end
+
+    context 'When clicking `Save` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Save'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Fill Value')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        end
+      end
+    end
   end
 
   context 'When viewing the form with 1 stored value' do
