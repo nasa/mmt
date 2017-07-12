@@ -86,4 +86,50 @@ class UmmJsonSchema < JsonFile
   def required_field?(key)
     required_fields.include?(fetch_key_leaf(key))
   end
+
+  def sanitize_form_input(object)
+    puts "before object: #{object}"
+    object[:draft] = object[:draft].to_hash.to_camel_keys
+    object = convert_to_arrays(object)
+    object = compact_blank(object)
+
+    # TODO convert type specific fields (boolean/number)
+
+    puts "after object: #{object}"
+    object
+  end
+
+  def convert_to_arrays(object)
+    case object
+    when Hash
+      keys = object.keys
+      if keys.first =~ /\d+/
+        object = object.map { |_key, value| value }
+        object.each do |value|
+          convert_to_arrays(value)
+        end
+      else
+        object.each do |key, value|
+          object[key] = convert_to_arrays(value)
+        end
+      end
+    when Array
+      object.each do |value|
+        convert_to_arrays(value)
+      end
+    end
+    object
+  end
+
+  def compact_blank(node)
+    return node.map { |n| compact_blank(n) }.compact.presence if node.is_a?(Array)
+    return node if node == false
+    return node.presence unless node.is_a?(Hash)
+    result = {}
+    node.each do |k, v|
+      result[k] = compact_blank(v)
+    end
+    result = result.compact
+    result.compact.presence
+  end
 end

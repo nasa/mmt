@@ -29,8 +29,9 @@ class BaseDraftsController < DraftsController
   end
 
   def create
+    draft = @schema.sanitize_form_input(resource_params)
     # Merge the provider and user in to the params on create
-    set_resource(resource_class.new(resource_params.merge(provider_id: current_user.provider_id, user: current_user)))
+    set_resource(resource_class.new(draft.merge(provider_id: current_user.provider_id, user: current_user)))
 
     if get_resource.save
       # Successful flash message
@@ -63,7 +64,9 @@ class BaseDraftsController < DraftsController
   def update
     provided_resource_params = resource_params
 
-    provided_resource_params[:draft] = get_resource.draft.deep_merge(provided_resource_params.fetch(:draft, {}))
+    draft = @schema.sanitize_form_input(provided_resource_params)
+
+    provided_resource_params[:draft] = get_resource.draft.deep_merge(draft.fetch('Draft', {}))
 
     if get_resource.update(provided_resource_params)
       # Successful flash message

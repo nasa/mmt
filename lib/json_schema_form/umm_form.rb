@@ -84,7 +84,7 @@ class UmmFormElement < UmmForm
   def get_element_value(key)
     # Uses reduce to dig through the provided object to look for and return the
     # provided key that could be nested
-    element_path_for_object(key.underscore).reduce(json_form.object) { |a, e| a[e] }
+    element_path_for_object(key).reduce(json_form.object) { |a, e| a[e] }
   rescue
     nil
   end
