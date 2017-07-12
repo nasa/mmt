@@ -89,7 +89,7 @@
           "items": [
             {
               "type": "UmmMultiItems",
-              "key": "Fill Value",
+              "key": "FillValue",
               "items": [
                 {
                   "type": "section",

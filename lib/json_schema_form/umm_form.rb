@@ -81,10 +81,16 @@ end
 # :nodoc:
 class UmmFormElement < UmmForm
   # Get the value for the provided key from the provided object
-  def get_element_value(key)
+  def get_element_value(key, index = nil)
     # Uses reduce to dig through the provided object to look for and return the
     # provided key that could be nested
-    element_path_for_object(key).reduce(json_form.object) { |a, e| a[e] }
+    path = element_path_for_object(key)
+
+    # If an index is provided, insert it into the path
+    path.insert(path.size - 1, options['index']) unless options['index'].nil?
+
+    # Look up the value in the object at the specified path
+    path.reduce(json_form.object) { |a, e| a[e] }
   rescue
     nil
   end
@@ -95,7 +101,7 @@ class UmmFormElement < UmmForm
   def keyify_property_name(element, ignore_keys: %w(items properties index_id))
     provided_key = [json_form.options['field_prefix'], element['key']].reject(&:empty?).join('/')
 
-    provided_key.gsub!('index_id', options[:index].to_s) if options[:index]
+    provided_key.gsub!('index_id', options['index'].to_s) if options['index']
 
     element_path_for_object(provided_key, ignore_keys: ignore_keys).map.with_index { |key, index| index == 0 ? key.underscore : "[#{key.underscore}]" }.join
   end
