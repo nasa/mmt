@@ -21,8 +21,86 @@ describe 'Set Form', reset_provider: true, js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Set')
     end
 
-    it 'have one required label' do
+    it 'has no required fields' do
       expect(page).not_to have_selector('label.eui-required-o')
+    end
+
+    context 'When clicking `Previous` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Previous'
+        end
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Service')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+        end
+      end
+    end
+
+    context 'When clicking `Next` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Next'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Variable Information')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+        end
+      end
+    end
+
+    context 'When clicking `Save` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Save'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Set')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+        end
+      end
     end
   end
 
@@ -47,6 +125,84 @@ describe 'Set Form', reset_provider: true, js: true do
       expect(page).to have_field('variable_draft_draft_set_0_type', with: 'Air')
       expect(page).to have_field('variable_draft_draft_set_0_size', with: '25')
       expect(page).to have_field('variable_draft_draft_set_0_index', with: '1')
+    end
+
+    context 'When clicking `Previous` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Previous'
+        end
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Service')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+        end
+      end
+    end
+
+    context 'When clicking `Next` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Next'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Variable Information')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+        end
+      end
+    end
+
+    context 'When clicking `Save` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Save'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Set')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+        end
+      end
     end
   end
 
@@ -81,6 +237,84 @@ describe 'Set Form', reset_provider: true, js: true do
       expect(page).to have_field('variable_draft_draft_set_1_type', with: 'Water')
       expect(page).to have_field('variable_draft_draft_set_1_size', with: '100')
       expect(page).to have_field('variable_draft_draft_set_1_index', with: '2')
+    end
+
+    context 'When clicking `Previous` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Previous'
+        end
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Service')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+        end
+      end
+    end
+
+    context 'When clicking `Next` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Next'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Variable Information')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+        end
+      end
+    end
+
+    context 'When clicking `Save` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Save'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Set')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+        end
+      end
     end
   end
 end
