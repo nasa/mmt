@@ -87,18 +87,38 @@ class UmmJsonSchema < JsonFile
     required_fields.include?(fetch_key_leaf(key))
   end
 
+  # Sanitizes data provided from a form in preparation for storage in the database
+  #
+  # ==== Attributes
+  #
+  # * +object+ - Form data submitted the user
   def sanitize_form_input(object)
     puts "before object: #{object}"
-    object['draft'] = object['draft'].to_hash.to_camel_keys
+
+    # Convert ruby style form element names (example_string) to UMM preferred PascalCase
+    object['draft'] = object['draft'].to_camel_keys
+
+    # Convert nested arrays from the html form to arrays of hashes
     object = convert_to_arrays(object)
-    object = compact_blank(object)
+
+    # Remove / Ignore empty values submitted by the user. This method returns nil
+    # on a completely empty element but for our purposes we need an empty hash
+    object = compact_blank(object) || {}
 
     # TODO convert type specific fields (boolean/number)
 
     puts "after object: #{object}"
+
     object
   end
 
+
+  # Convert hashes that use integer based keys to array of hashes
+  # {'0' => {'id' => 123'}} to [{'id' => '123'}]
+  #
+  # ==== Attributes
+  #
+  # * +object+ - An object to convert
   def convert_to_arrays(object)
     case object
     when Hash
