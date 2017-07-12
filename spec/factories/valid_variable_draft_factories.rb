@@ -1,4 +1,14 @@
 FactoryGirl.define do
+  factory :empty_variable_draft, class: VariableDraft do
+    provider_id 'MMT_2'
+    draft_type 'VariableDraft'
+
+    draft {{}}
+    
+    short_name nil
+    entry_title nil
+  end
+
   factory :full_variable_draft, class: VariableDraft do
     transient do
       draft_short_name nil
