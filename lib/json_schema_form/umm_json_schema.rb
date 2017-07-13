@@ -73,9 +73,20 @@ class UmmJsonSchema < JsonFile
     key.split(separator).last
   end
 
-  # Retruns the required fields from the schema
-  def required_fields
-    parsed_json.fetch('required', [])
+  # Returns the required fields from the schema
+  def required_fields(key)
+    path = key.split('/')
+    if path.size == 1
+      # top level required fields
+      parsed_json.fetch('required', [])
+    else
+      # required fields from definitions
+      key_parts = path - %w(index_id)
+
+      json = key_parts.take(key_parts.size - 2).reduce(parsed_json['properties']) { |a, e| a.fetch(e, {}) }
+
+      json.fetch('required', [])
+    end
   end
 
   # Determine whether or not the provided key is required
@@ -84,7 +95,7 @@ class UmmJsonSchema < JsonFile
   #
   # * +key+ - The key in which you'd like to check for requirement
   def required_field?(key)
-    required_fields.include?(fetch_key_leaf(key))
+    required_fields(key).include?(fetch_key_leaf(key))
   end
 
   # Sanitizes data provided from a form in preparation for storage in the database
