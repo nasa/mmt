@@ -12,8 +12,17 @@ describe 'Fill Value Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct title and description' do
-      expect(page).to have_content('Fill Value')
-      expect(page).to have_content('The elements of this section apply to the fill value of a variable.')
+      within '.umm-form' do
+        expect(page).to have_content('Fill Value')
+        expect(page).to have_content('The elements of this section apply to the fill value of a variable.')
+      end
+    end
+
+    it 'displays the form title in the breadcrumbs' do
+      within '.eui-breadcrumbs' do
+        expect(page).to have_content('Variable Drafts')
+        expect(page).to have_content('Fill Value')
+      end
     end
 
     it 'displays a button to add another element' do
@@ -46,6 +55,11 @@ describe 'Fill Value Form', reset_provider: true, js: true do
           expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Variable Information')
+        end
+
         within '.umm-form' do
           expect(page).to have_content('Variable Information')
         end
@@ -72,6 +86,11 @@ describe 'Fill Value Form', reset_provider: true, js: true do
           expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Dimensions')
+        end
+
         within '.umm-form' do
           expect(page).to have_content('Dimensions')
         end
@@ -93,9 +112,14 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         end
       end
 
-      it 'saves the draft and loads the next form' do
+      it 'saves the draft and reloads the form' do
         within '.eui-banner--success' do
           expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Fill Value')
         end
 
         within '.umm-form' do

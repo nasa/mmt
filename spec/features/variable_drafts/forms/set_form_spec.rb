@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 
 describe 'Set Form', reset_provider: true, js: true do
@@ -13,8 +12,17 @@ describe 'Set Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct title and description' do
-      expect(page).to have_content('Set')
-      expect(page).to have_content('The set information of a variable.')
+      within '.umm-form' do
+        expect(page).to have_content('Set')
+        expect(page).to have_content('The set information of a variable.')
+      end
+    end
+
+    it 'displays the form title in the breadcrumbs' do
+      within '.eui-breadcrumbs' do
+        expect(page).to have_content('Variable Drafts')
+        expect(page).to have_content('Set')
+      end
     end
 
     it 'displays a button to add another element' do
@@ -22,7 +30,7 @@ describe 'Set Form', reset_provider: true, js: true do
     end
 
     it 'has no required fields' do
-      expect(page).not_to have_selector('label.eui-required-o')
+      expect(page).to have_no_selector('label.eui-required-o')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -30,11 +38,18 @@ describe 'Set Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Previous'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
         within '.eui-banner--success' do
           expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Service')
         end
 
         within '.umm-form' do
@@ -56,11 +71,18 @@ describe 'Set Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Next'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
         within '.eui-banner--success' do
           expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Variable Information')
         end
 
         within '.umm-form' do
@@ -82,11 +104,18 @@ describe 'Set Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Save'
         end
+
+        click_on 'Yes'
       end
 
-      it 'saves the draft and loads the next form' do
+      it 'saves the draft and reloads the form' do
         within '.eui-banner--success' do
           expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Set')
         end
 
         within '.umm-form' do
