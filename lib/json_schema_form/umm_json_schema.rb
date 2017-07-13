@@ -96,7 +96,7 @@ class UmmJsonSchema < JsonFile
     puts "before object: #{object}"
 
     # Convert ruby style form element names (example_string) to UMM preferred PascalCase
-    object['draft'] = object['draft'].to_camel_keys
+    object['draft'] = object.fetch('draft', {}).to_camel_keys
 
     # Convert nested arrays from the html form to arrays of hashes
     object = convert_to_arrays(object)
