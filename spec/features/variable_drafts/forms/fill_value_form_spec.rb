@@ -228,7 +228,7 @@ describe 'Fill Value Form', reset_provider: true, js: true do
       visit edit_variable_draft_path(draft, 'fill_value')
     end
 
-    it 'displays one populated form' do
+    it 'displays two populated form' do
       expect(page).to have_css('.multiple-item', count: 2)
     end
 
