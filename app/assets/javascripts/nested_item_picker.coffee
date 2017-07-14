@@ -22,7 +22,7 @@ $(document).ready ->
       keywords = picker.getValues() unless keywords.length > 0
       keywordList = $('.selected-' + type + '-keywords ul')
 
-      fieldPrefixName = $.map picker.options.field_prefix.split('/'), (d, i) -> 
+      fieldPrefixName = $.map picker.options.field_prefix.split('/'), (d, i) ->
         if i > 0
           '[' + d + ']'
         else
@@ -30,6 +30,7 @@ $(document).ready ->
       .join('')
 
       fieldPrefixId = picker.options.field_prefix.replace('/', '_')
+      keywordFields = ['catagory', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3', 'detailed_variable']
 
       $.each keywords, (index, value) ->
         matchingKeywords = $(keywordList).find('li').filter ->
@@ -38,11 +39,17 @@ $(document).ready ->
         if matchingKeywords.length == 0 and value.split('>').length > keywordLengthMinimum
             span = "<span class='is-invisible'>Remove #{value}</span>"
             li = $("<li>#{value}<a class='remove'><i class='fa fa-times-circle'></i></a>#{span}</li>")
-            $('<input/>',
-              type: 'hidden'
-              name: fieldPrefixName + '[' + type + '_keywords][]'
-              id: fieldPrefixId + '_' + type + '_keywords_'
-              value: value).appendTo li
+
+            keyword_pieces = value.split(' > ')
+            timeStamp = Date.now()
+            for keyword, i in keyword_pieces
+              $('<input/>',
+                type: 'hidden'
+                name: "#{fieldPrefixName}[#{type}_keywords][#{timeStamp}][#{keywordFields[i]}]"
+                # name: fieldPrefixName + '[' + type + '_keywords][index]'
+                id: "#{fieldPrefixId}_#{type}_keywords_#{timeStamp}_#{keywordFields[i]}"
+                # id: fieldPrefixId + '_' + type + '_keywords_'
+                value: keyword).appendTo li
             $(li).appendTo keywordList
 
     resetPicker = ->

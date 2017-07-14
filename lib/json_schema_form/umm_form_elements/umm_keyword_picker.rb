@@ -25,19 +25,23 @@ class UmmKeywordPicker < UmmFormElement
   def render_keyword_list(element, object)
     content_tag(:div, class: 'selected-science-keywords science-keywords') do
       concat(content_tag(:ul) do
-        Array.wrap(object).each do |keyword|
+        Array.wrap(object).each_with_index do |keyword, index|
           concat(content_tag(:li) do
-            concat keyword
+            concat keyword_string(keyword)
 
             remove_link = UmmRemoveLink.new(parsed_json, json_form, schema, name: keyword)
             concat remove_link.render_markup
 
-            concat hidden_field_tag("#{keyify_property_name(element)}[]", keyword)
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['category']", keyword.fetch('Category', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['topic']", keyword.fetch('Topic', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['term']", keyword.fetch('Term', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['variable_level_1']", keyword.fetch('VariableLevel1', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['variable_level_2']", keyword.fetch('VariableLevel2', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['variable_level_3']", keyword.fetch('VariableLevel3', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['detailed_variable']", keyword.fetch('DetailedVariable', ''))
           end)
         end
       end)
-
-      # concat hidden_field_tag("#{keyify_property_name(element)}[]", '')
     end
   end
 
@@ -58,6 +62,6 @@ class UmmKeywordPicker < UmmFormElement
   end
 
   def keyword_string(keywords)
-    Array.wrap(keywords).map { |_key, value| value }.join(' > ')
+    keywords.map { |_key, value| value }.join(' > ')
   end
 end
