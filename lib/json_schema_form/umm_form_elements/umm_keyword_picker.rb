@@ -32,13 +32,13 @@ class UmmKeywordPicker < UmmFormElement
             remove_link = UmmRemoveLink.new(parsed_json, json_form, schema, name: keyword)
             concat remove_link.render_markup
 
-            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['category']", keyword.fetch('Category', ''))
-            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['topic']", keyword.fetch('Topic', ''))
-            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['term']", keyword.fetch('Term', ''))
-            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['variable_level_1']", keyword.fetch('VariableLevel1', ''))
-            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['variable_level_2']", keyword.fetch('VariableLevel2', ''))
-            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['variable_level_3']", keyword.fetch('VariableLevel3', ''))
-            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}]['detailed_variable']", keyword.fetch('DetailedVariable', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}][category]", keyword.fetch('Category', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}][topic]", keyword.fetch('Topic', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}][term]", keyword.fetch('Term', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}][variable_level_1]", keyword.fetch('VariableLevel1', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}][variable_level_2]", keyword.fetch('VariableLevel2', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}][variable_level_3]", keyword.fetch('VariableLevel3', ''))
+            concat hidden_field_tag("#{keyify_property_name(element)}[#{index}][detailed_variable]", keyword.fetch('DetailedVariable', ''))
           end)
         end
       end)
