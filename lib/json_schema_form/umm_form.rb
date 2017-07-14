@@ -84,7 +84,7 @@ class UmmFormElement < UmmForm
   def get_element_value(key, index = nil)
     # Uses reduce to dig through the provided object to look for and return the
     # provided key that could be nested
-    path = element_path_for_object(key)
+    path = json_form.element_path_for_object(key)
 
     # If an index is provided, insert it into the path
     path.insert(path.size - 1, options['index']) unless options['index'].nil?
@@ -103,13 +103,7 @@ class UmmFormElement < UmmForm
 
     provided_key.gsub!('index_id', options['index'].to_s) if options['index']
 
-    element_path_for_object(provided_key, ignore_keys: ignore_keys).map.with_index { |key, index| index == 0 ? key.underscore : "[#{key.underscore}]" }.join
-  end
-
-  # Gets the keys that are relevant to the UMM object as an array from
-  # a provided key e.g. 'Parent/items/properties/Field' => ['Parent', 'Field']
-  def element_path_for_object(key, ignore_keys: %w(items properties index_id))
-    (key.split('/') - ignore_keys)
+    json_form.element_path_for_object(provided_key, ignore_keys: ignore_keys).map.with_index { |key, index| index == 0 ? key.underscore : "[#{key.underscore}]" }.join
   end
 
   # Returns all the properties necessary to operate jQuery Validation on the given element
@@ -180,7 +174,7 @@ class UmmFormElement < UmmForm
 
   # Locates the fragment of the schema that the provided key represents
   def schema_fragment
-    schema.retrieve_schema_fragment(element_path_for_object(parsed_json['key'], ignore_keys: %w(index_id)).join('/'))
+    schema.retrieve_schema_fragment(json_form.element_path_for_object(parsed_json['key'], ignore_keys: %w(index_id)).join('/'))
   end
 
   # Returns the fragment of the form json that represents this element
@@ -196,7 +190,7 @@ class UmmFormElement < UmmForm
   end
 
   def help_path
-    "properties/#{element_path_for_object(form_fragment['key'], ignore_keys: %w(index_id)).join('/')}"
+    "properties/#{json_form.element_path_for_object(form_fragment['key'], ignore_keys: %w(index_id)).join('/')}"
   end
 
   def render_markup

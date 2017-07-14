@@ -61,4 +61,137 @@ class UmmJsonForm < JsonFile
 
     forms[(previous_index < 0) ? (forms.size - 1) : previous_index]
   end
+
+  # Gets the keys that are relevant to the UMM object as an array from
+  # a provided key e.g. 'Parent/items/properties/Field' => ['Parent', 'Field']
+  def element_path_for_object(key, ignore_keys: %w(items properties index_id))
+    (key.split('/') - ignore_keys).reject(&:blank?)
+  end
+
+  # Sanitizes data provided from a form in preparation for storage in the database
+  #
+  # ==== Attributes
+  #
+  # * +input+ - Form data submitted the user
+  def sanitize_form_input(input)
+    Rails.logger.debug "Before Sanitization: #{input.inspect}"
+
+    # Convert ruby style form element names (example_string) to UMM preferred PascalCase
+    input['draft'] = input.fetch('draft', {}).to_camel_keys
+
+    Rails.logger.debug "After CamelKeys: #{input.inspect}"
+
+    # Remove / Ignore empty values submitted by the user. This method returns nil
+    # on a completely empty element but for our purposes we need an empty hash
+    input['draft'] = compact_blank(input['draft']) || {}
+
+    Rails.logger.debug "After Removing Blanks: #{input.inspect}"
+
+    unless input['draft'].empty?
+      # Convert fields that have specific types to their appropriate format
+      convert_values_by_type(input['draft'], input['draft'])
+
+      Rails.logger.debug "After Type Conversions: #{input.inspect}"
+
+      # Convert nested arrays from the html form to arrays of hashes
+      input['draft'] = convert_to_arrays(input['draft'])
+    end
+
+    Rails.logger.debug "After Sanitization: #{input.inspect}"
+
+    input
+  end
+
+  # Manipulates the provided input updating values to represent their native format
+  #
+  # ==== Attributes
+  #
+  # * +input+ - Form data submitted the user
+  # * +fragment+ - JSON (user input) fragment to investigate
+  # * +key+ - They key representing the current location in the hash
+  def convert_values_by_type(input, fragment, key = nil)
+    fragment.each do |input_key, element|
+      # Compile a nested key based on the recursion level
+      new_key = [key, input_key].reject(&:blank?).join('/')
+
+      # Keep diggin'
+      convert_values_by_type(input, element, new_key) if element.is_a?(Hash)
+
+      # Break the path out into parts for reconstruction
+      element_path_as_array = element_path_for_object(new_key)
+
+      # Pull out the key's leaf, we'll use it set the value below
+      key_leaf = element_path_as_array.last
+
+      # Remove the key_leaf so we don't navigate passed it below when we're setting the new value
+      element_path_as_array.delete(key_leaf)
+
+      # Update the value in the input with the correct object type
+      element_path_as_array.reduce(input) { |a, e| a[e] }[key_leaf] = convert_key_to_type(element, schema.element_type(new_key))
+    end
+  end
+
+  # Attempt to convert the provided input into the specified type
+  #
+  # ==== Attributes
+  #
+  # * +value+ - The value to convert to the specified type
+  # * +type+ - The type to convert the value to
+  def convert_key_to_type(value, type)
+    Rails.logger.debug "Convert `#{value}` to a #{type}"
+
+    # Booleans
+    return (value.casecmp('true') >= 0 ? true : false) if type == 'boolean'
+
+    # Numbers
+    return UmmUtilities.convert_to_integer(value) if type == 'number'
+
+    # Anything else, return untouched
+    value
+  rescue => e
+    Rails.logger.debug "Error converting `#{value}` to a #{type}: #{e.message}"
+
+    # On any failure, just return the provided value
+    value
+  end
+
+  # Convert hashes that use integer based keys to array of hashes
+  # {'0' => {'id' => 123'}} to [{'id' => '123'}]
+  #
+  # ==== Attributes
+  #
+  # * +object+ - An object to convert
+  def convert_to_arrays(object)
+    case object
+    when Hash
+      keys = object.keys
+      if keys.first =~ /\d+/
+        object = object.map { |_key, value| value }
+        object.each do |value|
+          convert_to_arrays(value)
+        end
+      else
+        object.each do |key, value|
+          object[key] = convert_to_arrays(value)
+        end
+      end
+    when Array
+      object.each do |value|
+        convert_to_arrays(value)
+      end
+    end
+    object
+  end
+
+  def compact_blank(node)
+    return node.map { |n| compact_blank(n) }.compact.presence if node.is_a?(Array)
+    return node if node == false
+    return node.presence unless node.is_a?(Hash)
+    result = {}
+    node.each do |k, v|
+      result[k] = compact_blank(v)
+    end
+    result = result.compact
+    result.compact.presence
+  end
 end

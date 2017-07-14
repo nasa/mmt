@@ -1,7 +1,7 @@
 # :nodoc:
 class VariableDraftsController < BaseDraftsController
   before_action :set_schema, only: [:new, :edit, :update, :create]
-  before_action :set_form, only: [:edit]
+  before_action :set_form, only: [:edit, :update]
   before_action :set_current_form, only: [:edit]
   before_action :set_science_keywords, only: [:new, :edit]
 
