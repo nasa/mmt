@@ -131,6 +131,39 @@ describe 'Set Form', reset_provider: true, js: true do
         end
       end
     end
+
+    context 'When selecting the previous form from the navigation dropdown' do
+      before do
+        within '.nav-top' do
+          select 'Service', from: 'Save & Jump To:'
+        end
+
+        click_on 'Yes'
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Service')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Service')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+        end
+      end
+    end
   end
 
   context 'When viewing the form with 1 stored value' do

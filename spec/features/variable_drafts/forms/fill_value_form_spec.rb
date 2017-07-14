@@ -141,6 +141,72 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         end
       end
     end
+
+    context 'When selecting the previous form from the navigation dropdown' do
+      before do
+        within '.nav-top' do
+          select 'Variable Information', from: 'Save & Jump To:'
+        end
+
+        click_on 'Yes'
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Variable Information')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Variable Information')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+        end
+      end
+    end
+
+    context 'When selecting the next form from the navigation dropdown' do
+      before do
+        within '.nav-top' do
+          select 'Dimensions', from: 'Save & Jump To:'
+        end
+
+        click_on 'Yes'
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Dimensions')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Dimensions')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
+        end
+      end
+    end
   end
 
   context 'When viewing the form with 1 stored value' do
