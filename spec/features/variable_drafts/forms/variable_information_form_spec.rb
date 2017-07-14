@@ -28,10 +28,6 @@ describe 'Variable Information Form', reset_provider: true, js: true do
       expect(page).to have_selector('label.eui-required-o', count: 6)
     end
 
-    # TODO add tests for help icons
-
-    # TODO add tests for validation
-
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
       within '.nav-top' do
         expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
