@@ -118,12 +118,7 @@ class UmmJsonSchema < JsonFile
     end
   end
 
-<<<<<<< HEAD
   # Construct and return a hash with keys representing the type of object specified in the schema
-=======
-  # Convert hashes that use integer based keys to array of hashes
-  # {'0' => {'id' => 123'}} to [{'id' => '123'}]
->>>>>>> MMT-998 when saving convert keys to CamelCase, convert array fields, and remove empty fields
   #
   # ==== Attributes
   #
