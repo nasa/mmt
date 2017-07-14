@@ -32,8 +32,6 @@ describe 'Dimensions Form', reset_provider: true, js: true do
       expect(page).to have_selector('label.eui-required-o', count: 1)
     end
 
-    # TODO: add tests for the help icons
-
     context 'When clicking `Previous` without making any changes' do
       before do
         within '.nav-top' do

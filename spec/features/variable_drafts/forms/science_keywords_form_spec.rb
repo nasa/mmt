@@ -29,8 +29,6 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
       expect(page).to have_selector('label.eui-required-o', count: 1)
     end
 
-    # TODO: tests for help icons
-
     it 'displays the nested item picker' do
       expect(page).to have_css('div.eui-nested-item-picker')
     end
@@ -214,10 +212,7 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
     it 'displays the correct selected science keyword value' do
       within '.selected-science-keywords' do
-        '{"Category"=>"EARTH SCIENCE SERVICES", "Topic"=>"DATA ANALYSIS AND VISUALIZATION", "Term"=>"GEOGRAPHIC INFORMATION SYSTEMS"}'
-        # science keywords are not yet being converted between strings with ' > ' delimiters and hashes,
-        # so we are matching the keywords as a string displaying a hash, but should be modified match the string version with the ' > ' delimiter
-        # expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+        expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
       end
     end
 
@@ -315,10 +310,7 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
       it 'displays the correct selected science keyword value' do
         within '.selected-science-keywords' do
-          '{"Category"=>"EARTH SCIENCE SERVICES", "Topic"=>"DATA ANALYSIS AND VISUALIZATION", "Term"=>"GEOGRAPHIC INFORMATION SYSTEMS"}'
-          # science keywords are not yet being converted between strings with ' > ' delimiters and hashes,
-          # so we are matching the keywords as a string displaying a hash, but should be modified match the string version with the ' > ' delimiter
-          # expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
         end
       end
     end
@@ -345,12 +337,8 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
     it 'displays the correct selected science keyword values' do
       within '.selected-science-keywords' do
-        '{"Category"=>"EARTH SCIENCE SERVICES", "Topic"=>"DATA ANALYSIS AND VISUALIZATION", "Term"=>"GEOGRAPHIC INFORMATION SYSTEMS"}'
-        '{"Category"=>"EARTH SCIENCE", "Topic"=>"ATMOSPHERE", "Term"=>"ATMOSPHERIC TEMPERATURE"}'
-        # science keywords are not yet being converted between strings with ' > ' delimiters and hashes,
-        # so we are matching the keywords as a string displaying a hash, but should be modified match the string version with the ' > ' delimiter
-        # expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
-        # expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE')
+        expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+        expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE')
       end
     end
 
@@ -448,12 +436,8 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
       it 'displays the correct selected science keyword values' do
         within '.selected-science-keywords' do
-          '{"Category"=>"EARTH SCIENCE SERVICES", "Topic"=>"DATA ANALYSIS AND VISUALIZATION", "Term"=>"GEOGRAPHIC INFORMATION SYSTEMS"}'
-          '{"Category"=>"EARTH SCIENCE", "Topic"=>"ATMOSPHERE", "Term"=>"ATMOSPHERIC TEMPERATURE"}'
-          # science keywords are not yet being converted between strings with ' > ' delimiters and hashes,
-          # so we are matching the keywords as a string displaying a hash, but should be modified match the string version with the ' > ' delimiter
-          # expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
-          # expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE')
+          expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE')
         end
       end
     end
