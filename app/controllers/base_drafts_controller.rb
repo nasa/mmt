@@ -29,9 +29,13 @@ class BaseDraftsController < DraftsController
   end
 
   def create
+    set_resource(resource_class.new(provider_id: current_user.provider_id, user: current_user, draft: {}))
+
+    set_form
+
     draft = @json_form.sanitize_form_input(resource_params)
-    # Merge the provider and user in to the params on create
-    set_resource(resource_class.new(draft.merge(provider_id: current_user.provider_id, user: current_user)))
+
+    get_resource.draft = draft['draft']
 
     if get_resource.save
       # Successful flash message
