@@ -11,10 +11,9 @@ describe 'Dimensions Form', reset_provider: true, js: true do
       visit edit_variable_draft_path(draft, 'dimensions')
     end
 
-    it 'displays the correct title and description' do
+    it 'displays the correct title' do
       within '.umm-form' do
         expect(page).to have_content('Dimensions')
-        # TODO: should there be a description?
       end
     end
 
@@ -33,7 +32,7 @@ describe 'Dimensions Form', reset_provider: true, js: true do
       expect(page).to have_selector('label.eui-required-o', count: 2)
     end
 
-    # TODO: do we need to test the help icons?
+    # TODO: add tests for the help icons
 
     context 'When clicking `Previous` without making any changes' do
       before do
@@ -134,26 +133,71 @@ describe 'Dimensions Form', reset_provider: true, js: true do
       end
     end
 
-    # TODO: do we want to use the dropdown for navigation and testing?
-    # context 'When selecting the next form from the navigation dropdown' do
-    #   before do
-    #     within '.nav-top' do
-    #       select 'Fill Value', from: 'Save & Jump To:'
-    #     end
-    #
-    #     click_on 'Yes'
-    #   end
-    # end
-    #
-    # context 'When selecting the previous form from the navigation dropdown' do
-    #   before do
-    #     within '.nav-top' do
-    #       select 'Variable Characteristics', from: 'Save & Jump To:'
-    #     end
-    #
-    #     click_on 'Yes'
-    #   end
-    # end
+    context 'When selecting the previous form from the navigation dropdown' do
+      before do
+        within '.nav-top' do
+          select 'Fill Value', from: 'Save & Jump To:'
+        end
+
+        click_on 'Yes'
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Fill Value')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Fill Value')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        end
+      end
+    end
+
+    context 'When selecting the next form from the navigation dropdown' do
+      before do
+        within '.nav-top' do
+          select 'Variable Characteristics', from: 'Save & Jump To:'
+        end
+
+        click_on 'Yes'
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Variable Characteristics')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Variable Characteristics')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+        end
+      end
+    end
   end
 
   context 'When viewing the form with 1 stored value' do
@@ -162,8 +206,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         'Name': 'Sampling time and depth',
         'Size': 3000
       }]
-      variable_draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Dimensions': draft_dimensions })
-      visit edit_variable_draft_path(variable_draft, 'dimensions')
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Dimensions': draft_dimensions })
+      visit edit_variable_draft_path(draft, 'dimensions')
     end
 
     it 'displays one populated form' do
@@ -173,6 +217,104 @@ describe 'Dimensions Form', reset_provider: true, js: true do
     it 'displays the correct values in the form' do
       expect(page).to have_field('variable_draft_draft_dimensions_0_name', with: 'Sampling time and depth')
       expect(page).to have_field('variable_draft_draft_dimensions_0_size', with: '3000')
+    end
+
+    context 'When clicking `Previous` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Previous'
+        end
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Fill Value')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Fill Value')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        end
+      end
+    end
+
+    context 'When clicking `Next` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_on 'Next'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Variable Characteristics')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Variable Characteristics')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+        end
+      end
+    end
+
+    context 'When clicking `Save` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Save'
+        end
+      end
+
+      it 'saves the draft and reloads the form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Dimensions')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Dimensions')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
+        end
+      end
+
+      it 'displays the correct values in the form' do
+        expect(page).to have_field('variable_draft_draft_dimensions_0_name', with: 'Sampling time and depth')
+        expect(page).to have_field('variable_draft_draft_dimensions_0_size', with: '3000')
+      end
     end
   end
 
@@ -185,8 +327,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         'Name': 'Lizard Herp Doc Pop',
         'Size': 2020
       }]
-      variable_draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Dimensions': draft_dimensions })
-      visit edit_variable_draft_path(variable_draft, 'dimensions')
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Dimensions': draft_dimensions })
+      visit edit_variable_draft_path(draft, 'dimensions')
     end
 
     it 'displays one populated form' do
@@ -199,6 +341,107 @@ describe 'Dimensions Form', reset_provider: true, js: true do
 
       expect(page).to have_field('variable_draft_draft_dimensions_1_name', with: 'Lizard Herp Doc Pop')
       expect(page).to have_field('variable_draft_draft_dimensions_1_size', with: '2020')
+    end
+
+    context 'When clicking `Previous` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Previous'
+        end
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Fill Value')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Fill Value')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        end
+      end
+    end
+
+    context 'When clicking `Next` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_on 'Next'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Variable Characteristics')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Variable Characteristics')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+        end
+      end
+    end
+
+    context 'When clicking `Save` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Save'
+        end
+      end
+
+      it 'saves the draft and reloads the form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Dimensions')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Dimensions')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
+        end
+      end
+
+      it 'displays the correct values in the form' do
+        expect(page).to have_field('variable_draft_draft_dimensions_0_name', with: 'Sampling time and depth')
+        expect(page).to have_field('variable_draft_draft_dimensions_0_size', with: '3000')
+
+        expect(page).to have_field('variable_draft_draft_dimensions_1_name', with: 'Lizard Herp Doc Pop')
+        expect(page).to have_field('variable_draft_draft_dimensions_1_size', with: '2020')
+      end
     end
   end
 end
