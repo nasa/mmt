@@ -98,69 +98,50 @@ class UmmJsonSchema < JsonFile
     required_fields(key).include?(fetch_key_leaf(key))
   end
 
-  # Sanitizes data provided from a form in preparation for storage in the database
+  # Retrieve the full keys for all elements within the provided fragement that
+  # match the provided type
   #
   # ==== Attributes
   #
-  # * +object+ - Form data submitted the user
-  def sanitize_form_input(object)
-    puts "before object: #{object}"
-
-    # Convert ruby style form element names (example_string) to UMM preferred PascalCase
-    object['draft'] = object.fetch('draft', {}).to_camel_keys
-
-    # Convert nested arrays from the html form to arrays of hashes
-    object = convert_to_arrays(object)
-
-    # Remove / Ignore empty values submitted by the user. This method returns nil
-    # on a completely empty element but for our purposes we need an empty hash
-    object = compact_blank(object) || {}
-
-    # TODO convert type specific fields (boolean/number)
-
-    puts "after object: #{object}"
-
-    object
+  # * +fragment+ - The JSON (schema) fragment to retrieve elements within
+  # * +type+ - The type of objects to retrieve keys for
+  def fragment_elements_by_type(fragment, type)
+    elements_by_type({}, fragment).fetch(type, [])
   end
 
+  def element_type(key, ignore_keys: %w(items properties index_id))
+    # Because we could be asking about a key within an array, we strip integers from our key before looking it up
+    sanitized_key = key.split('/').reject { |l| l =~ /\A\d+\z/ }.join('/')
 
-  # Convert hashes that use integer based keys to array of hashes
-  # {'0' => {'id' => 123'}} to [{'id' => '123'}]
+    elements_by_type({}, parsed_json['properties']).each do |type, keys|
+      return type if keys.map { |type_key| (type_key.split('/') - ignore_keys).reject(&:blank?).join('/') }.include?(sanitized_key)
+    end
+  end
+
+  # Construct and return a hash with keys representing the type of object specified in the schema
   #
   # ==== Attributes
   #
-  # * +object+ - An object to convert
-  def convert_to_arrays(object)
-    case object
-    when Hash
-      keys = object.keys
-      if keys.first =~ /\d+/
-        object = object.map { |_key, value| value }
-        object.each do |value|
-          convert_to_arrays(value)
-        end
-      else
-        object.each do |key, value|
-          object[key] = convert_to_arrays(value)
-        end
-      end
-    when Array
-      object.each do |value|
-        convert_to_arrays(value)
-      end
-    end
-    object
-  end
+  # * +result+ - The hash that the result will end up in
+  # * +fragment+ - The JSON (schema) fragment to retrieve types for
+  # * +key+ - The key of the current JSON (schema) fragment
+  def elements_by_type(result, fragment, key = nil)
+    fragment.each do |fragment_key, element|
+      # Skip this element if it's not a hash
+      next unless element.is_a?(Hash)
 
-  def compact_blank(node)
-    return node.map { |n| compact_blank(n) }.compact.presence if node.is_a?(Array)
-    return node if node == false
-    return node.presence unless node.is_a?(Hash)
-    result = {}
-    node.each do |k, v|
-      result[k] = compact_blank(v)
+      new_key = [key, fragment_key].reject(&:blank?).join('/')
+
+      # If we have a reference to follow
+      unless element['type'].nil? || %w(object array).include?(element['type'])
+        result[element['type']] = [] unless result.key?(element['type'])
+        result[element['type']] << new_key
+      end
+
+      # Keep diggin'
+      elements_by_type(result, element, new_key)
     end
-    result = result.compact
-    result.compact.presence
+
+    result
   end
 end

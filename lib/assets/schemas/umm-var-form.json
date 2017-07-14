@@ -164,7 +164,7 @@
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "Characteristics/items/properties/StandardName"}]
+              "items": [{"key": "Characteristics/properties/StandardName"}]
             }
           ]
         },
@@ -175,7 +175,7 @@
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "Characteristics/items/properties/Reference"}]
+              "items": [{"key": "Characteristics/properties/Reference"}]
             }
           ]
         },
@@ -186,12 +186,12 @@
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/items/properties/Coordinates"}]
+              "items": [{"key": "Characteristics/properties/Coordinates"}]
             },
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/items/properties/GridMapping"}]
+              "items": [{"key": "Characteristics/properties/GridMapping"}]
             }
           ]
         },
@@ -202,12 +202,12 @@
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/items/properties/Size"}]
+              "items": [{"key": "Characteristics/properties/Size"}]
             },
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/items/properties/SizeUnits"}]
+              "items": [{"key": "Characteristics/properties/SizeUnits"}]
             }
           ]
         },
@@ -218,12 +218,12 @@
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/items/properties/Bounds"}]
+              "items": [{"key": "Characteristics/properties/Bounds"}]
             },
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/items/properties/ChunkSize"}]
+              "items": [{"key": "Characteristics/properties/ChunkSize"}]
             }
           ]
         },
@@ -233,7 +233,7 @@
           "items": [
             {
               "type": "section",
-              "items": [{"key": "Characteristics/items/properties/Structure", "type": "UmmTextarea"}]
+              "items": [{"key": "Characteristics/properties/Structure", "type": "UmmTextarea"}]
             }
           ]
         },
@@ -243,7 +243,7 @@
           "items": [
             {
               "type": "section",
-              "items": [{"key": "Characteristics/items/properties/MeasurementConditions", "type": "UmmTextarea"}]
+              "items": [{"key": "Characteristics/properties/MeasurementConditions", "type": "UmmTextarea"}]
             }
           ]
         },
@@ -253,7 +253,7 @@
           "items": [
             {
               "type": "section",
-              "items": [{"key": "Characteristics/items/properties/ReportingConditions", "type": "UmmTextarea"}]
+              "items": [{"key": "Characteristics/properties/ReportingConditions", "type": "UmmTextarea"}]
             }
           ]
         }
