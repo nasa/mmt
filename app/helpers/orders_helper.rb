@@ -45,6 +45,6 @@ module OrdersHelper
   end
 
   def contact_name(contact)
-    [contact['FirstName'], contact['LastName']].reject(&:empty?).join(' ')
+    [contact['FirstName'], contact['LastName']].reject(&:empty?).join(' ') unless contact.nil?
   end
 end
