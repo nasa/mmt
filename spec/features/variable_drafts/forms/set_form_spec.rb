@@ -29,8 +29,8 @@ describe 'Set Form', reset_provider: true, js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Set')
     end
 
-    it 'has no required fields' do
-      expect(page).to have_no_selector('label.eui-required-o')
+    it 'has 5 required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 5)
     end
 
     context 'When clicking `Previous` without making any changes' do

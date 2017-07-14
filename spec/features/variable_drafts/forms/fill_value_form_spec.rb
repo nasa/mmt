@@ -29,8 +29,8 @@ describe 'Fill Value Form', reset_provider: true, js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Fill Value')
     end
 
-    it 'have one required label' do
-      expect(page).to have_selector('label.eui-required-o', count: 1)
+    it 'have two required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 2)
     end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
@@ -48,6 +48,8 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Previous'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -79,6 +81,8 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Next'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -110,6 +114,8 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Save'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and reloads the form' do
