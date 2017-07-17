@@ -16,25 +16,25 @@
       <td>Address:</td>
       <td>
         <p>
-          <%= contact_information['Address']['Street1'] %>
+          <%= contact_information.fetch('Address', {})['Street1'] %>
         </p>
 
         <p>
-          <%= contact_information['Address']['Street2'] %>
+          <%= contact_information.fetch('Address', {})['Street2'] %>
         </p>
 
         <p>
-          <%= contact_information['Address']['Street3'] %>
+          <%= contact_information.fetch('Address', {})['Street3'] %>
         </p>
 
         <p>
-          <%= contact_information['Address']['City'] %>
-          <%= contact_information['Address']['State'] %>
-          <%= contact_information['Address']['Zip'] %>
+          <%= contact_information.fetch('Address', {})['City'] %>
+          <%= contact_information.fetch('Address', {})['State'] %>
+          <%= contact_information.fetch('Address', {})['Zip'] %>
         </p>
 
         <p>
-          <%= contact_information['Address']['Country'] %>
+          <%= contact_information.fetch('Address', {})['Country'] %>
         </p>
       </td>
     </tr>
