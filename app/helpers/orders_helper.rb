@@ -38,6 +38,8 @@ module OrdersHelper
   end
 
   def contact_info(contact_address)
+    contact_address = {} if contact_address.nil?
+
     contact_address['Name'] = contact_name(contact_address)
     contact_address['Phone'] = contact_address.fetch('Phones', {}).fetch('Item', {})
 
@@ -45,6 +47,8 @@ module OrdersHelper
   end
 
   def contact_name(contact)
-    [contact['FirstName'], contact['LastName']].reject(&:empty?).join(' ') unless contact.nil?
+    contact = {} if contact.nil?
+
+    [contact.fetch('FirstName', ''), contact.fetch('LastName', '')].reject(&:empty?).join(' ')
   end
 end
