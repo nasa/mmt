@@ -73,13 +73,23 @@ class UmmJsonForm < JsonFile
   # ==== Attributes
   #
   # * +input+ - Form data submitted the user
-  def sanitize_form_input(input)
+  def sanitize_form_input(input, current_value = {})
     Rails.logger.debug "Before Sanitization: #{input.inspect}"
 
     # Convert ruby style form element names (example_string) to UMM preferred PascalCase
     input['draft'] = input.fetch('draft', {}).to_camel_keys
 
     Rails.logger.debug "After CamelKeys: #{input.inspect}"
+
+    unless current_value.blank?
+      Rails.logger.debug "A Current Value provided, merging input into: #{current_value.inspect}"
+
+      new_hash = current_value.deep_merge(input['draft'])
+
+      input['draft'] = new_hash
+
+      Rails.logger.debug "After Deep Merge: #{input['draft'].inspect}"
+    end
 
     # Remove / Ignore empty values submitted by the user. This method returns nil
     # on a completely empty element but for our purposes we need an empty hash
@@ -192,6 +202,6 @@ class UmmJsonForm < JsonFile
       result[k] = compact_blank(v)
     end
     result = result.compact
-    result.compact.presence
+    result.compact.presence || {}
   end
 end

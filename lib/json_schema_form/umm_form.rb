@@ -81,7 +81,7 @@ end
 # :nodoc:
 class UmmFormElement < UmmForm
   # Get the value for the provided key from the provided object
-  def get_element_value(key, index = nil)
+  def get_element_value(key)
     # Uses reduce to dig through the provided object to look for and return the
     # provided key that could be nested
     path = json_form.element_path_for_object(key)
@@ -133,22 +133,6 @@ class UmmFormElement < UmmForm
     validation_properties
   end
 
-  def data_level(element)
-    level = sanitize_to_id(keyify_property_name(element))
-    # drop the last field off of the field name, so that data-level ends in a number
-    level.gsub!(/(_\d_).+$/, '\1')
-
-    {
-      data: {
-        level: level
-      }
-    }
-  end
-
-  def sanitize_to_id(name)
-    name.to_s.delete(']').tr('^-a-zA-Z0-9:.', '_')
-  end
-
   def element_classes(property, initial_classes: nil)
     # Default classes
     classes = initial_classes || 'full-width'
@@ -159,7 +143,7 @@ class UmmFormElement < UmmForm
     classes
   end
 
-  def element_data(element)
+  def element_data(_element)
     options['data']
   end
 
@@ -169,7 +153,6 @@ class UmmFormElement < UmmForm
       data: element_data(element)
     }
       .merge(validation_properties(element))
-      .merge(data_level(element))
   end
 
   # Locates the fragment of the schema that the provided key represents
