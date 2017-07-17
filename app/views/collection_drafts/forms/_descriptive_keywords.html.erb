@@ -18,18 +18,24 @@
           <div class="selected-science-keywords science-keywords">
             <ul>
               <% science_keywords = draft.draft['ScienceKeywords'] || [] %>
-              <% science_keywords.each do |science_keyword| %>
+              <% science_keywords.each_with_index do |science_keyword, index| %>
                 <li>
                   <%= keyword_string(science_keyword) %>
                   <a class="remove">
                     <i class="fa fa-times-circle"></i>
                     <span class="is-invisible">Remove <%= keyword_string(science_keyword) %></span>
                   </a>
-                  <%= hidden_field_tag("draft[science_keywords][]", keyword_string(science_keyword)) %>
+                  <%= hidden_field_tag("draft[science_keywords][#{index}][category]", science_keyword.fetch('Category', '')) %>
+                  <%= hidden_field_tag("draft[science_keywords][#{index}][topic]", science_keyword.fetch('Topic', '')) %>
+                  <%= hidden_field_tag("draft[science_keywords][#{index}][term]", science_keyword.fetch('Term', '')) %>
+                  <%= hidden_field_tag("draft[science_keywords][#{index}][variable_level_1]", science_keyword.fetch('VariableLevel1', '')) %>
+                  <%= hidden_field_tag("draft[science_keywords][#{index}][variable_level_2]", science_keyword.fetch('VariableLevel2', '')) %>
+                  <%= hidden_field_tag("draft[science_keywords][#{index}][variable_level_3]", science_keyword.fetch('VariableLevel3', '')) %>
+                  <%= hidden_field_tag("draft[science_keywords][#{index}][detailed_variable]", science_keyword.fetch('DetailedVariable', '')) %>
                 </li>
               <% end %>
             </ul>
-            <p><%= hidden_field_tag("draft[science_keywords][]", "") %></p>
+            <p><%= hidden_field_tag("draft[science_keywords][#{Time.now.to_i}]", "") %></p>
           </div>
           <div class="eui-nested-item-picker">
             <ul class="eui-item-path">

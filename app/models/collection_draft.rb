@@ -18,7 +18,7 @@ class CollectionDraft < Draft
   def display_entry_title
     entry_title || '<Untitled Collection Record>'
   end
-  
+
   class << self
     def forms
       DRAFT_FORMS
@@ -192,10 +192,6 @@ class CollectionDraft < Draft
             object[key] = value == 'true' ? true : false unless value.empty?
           elsif key == 'resolutions'
             object[key] = value.map { |_key, resolution| convert_to_number(resolution) }
-          elsif key == 'science_keywords'
-            object[key] = convert_science_keywords(value)
-          elsif key == 'location_keywords'
-            object[key] = convert_location_keywords(value)
           elsif key == 'access_constraints'
             # 'Value' shows up multiple times in the UMM. We just need to convert AccessConstraints/Value to a number
             value['value'] = convert_to_number(value['value']) if value['value']

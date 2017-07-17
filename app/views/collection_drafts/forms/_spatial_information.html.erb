@@ -108,18 +108,23 @@
           <div class="selected-location-keywords location-keywords">
             <ul>
               <% location_keywords = draft.draft['LocationKeywords'] || [] %>
-              <% location_keywords.each do |location_keyword| %>
+              <% location_keywords.each_with_index do |location_keyword, index| %>
                 <li>
                   <%= keyword_string(location_keyword) %>
                   <a class="remove">
                     <i class="fa fa-times-circle"></i>
                     <span class="is-invisible">Remove <%= keyword_string(location_keyword) %></span>
                   </a>
-                  <%= hidden_field_tag("draft[location_keywords][]", keyword_string(location_keyword)) %>
+                  <%= hidden_field_tag("draft[location_keywords][#{index}][category]", location_keyword.fetch('Category', '')) %>
+                  <%= hidden_field_tag("draft[location_keywords][#{index}][type]", location_keyword.fetch('Type', '')) %>
+                  <%= hidden_field_tag("draft[location_keywords][#{index}][subregion_1]", location_keyword.fetch('Subregion1', '')) %>
+                  <%= hidden_field_tag("draft[location_keywords][#{index}][subregion_2]", location_keyword.fetch('Subregion2', '')) %>
+                  <%= hidden_field_tag("draft[location_keywords][#{index}][subregion_3]", location_keyword.fetch('Subregion3', '')) %>
+                  <%= hidden_field_tag("draft[location_keywords][#{index}][detailed_location]", location_keyword.fetch('DetailedLocation', '')) %>
                 </li>
               <% end %>
             </ul>
-            <p><%= hidden_field_tag("draft[location_keywords][]", "") %></p>
+            <p><%= hidden_field_tag("draft[location_keywords][#{Time.now.to_i}]", "") %></p>
           </div>
           <div class="eui-nested-item-picker">
             <ul class="eui-item-path">

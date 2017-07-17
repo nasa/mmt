@@ -84,9 +84,7 @@ class UmmJsonForm < JsonFile
     unless current_value.blank?
       Rails.logger.debug "A Current Value provided, merging input into: #{current_value.inspect}"
 
-      new_hash = current_value.deep_merge(input['draft'])
-
-      input['draft'] = new_hash
+      input['draft'] = current_value.deep_merge(input['draft'])
 
       Rails.logger.debug "After Deep Merge: #{input['draft'].inspect}"
     end
