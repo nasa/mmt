@@ -2,12 +2,10 @@ require 'rails_helper'
 
 describe 'Variable Draft form navigation', js: true do
   let(:form_titles) { ['Variable Information', 'Fill Value', 'Dimensions', 'Variable Characteristics', 'Science Keywords', 'Service', 'Set'] }
+
   context 'when visiting the edit page for a variable draft' do
     before do
       login
-
-      # variable_draft = create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
-      # visit edit_variable_draft_path(variable_draft)
 
       visit new_variable_draft_path
     end
@@ -48,5 +46,3 @@ describe 'Variable Draft form navigation', js: true do
     end
   end
 end
-# form_titles: ["Variable Information", "Fill Value", "Dimensions", "Variable Characteristics", "Science Keywords", "Service", "Set"]
-# form_ids: ["variable_information", "fill_value", "dimensions", "variable_characteristics", "science_keywords", "service", "set"]
