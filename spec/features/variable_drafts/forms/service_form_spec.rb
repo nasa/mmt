@@ -296,8 +296,6 @@ describe 'Service Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      # TODO the field IDs seem to have changed the boolean at end from Upcase to Downcase
-      # BUT the label does not seem to have changed.
       expect(page).to have_select('variable_draft_draft_service_0_service_type', selected: %w[WMS])
       expect(page).to have_checked_field('variable_draft_draft_service_0_visualizable_false')
       expect(page).to have_checked_field('variable_draft_draft_service_0_subsettable_false')
