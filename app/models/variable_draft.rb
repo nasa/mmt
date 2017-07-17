@@ -15,7 +15,7 @@ class VariableDraft < Draft
   end
 
   def set_searchable_fields
-    self.short_name = draft['name']
-    self.entry_title = draft['long_name']
+    self.short_name = draft['Name']
+    self.entry_title = draft['LongName']
   end
 end
