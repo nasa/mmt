@@ -519,8 +519,4 @@ module DraftsHelper
     end
     options_for_select(options, selected: value, disabled: disabled_options)
   end
-
-  def edit_path(params)
-    # url_for
-  end
 end
