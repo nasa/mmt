@@ -33,9 +33,11 @@ $(document).ready ->
       scienceKeywordFields = ['catagory', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3', 'detailed_variable']
       locationKeywordFields = ['catagory', 'type', 'subregion_1', 'subregion_2', 'subregion_3', 'detailed_location']
 
-      keywordFields = if picker.data_type == 'science' then scienceKeywordFields else locationKeywordFields
+      keywordFields = if picker.options.data_type == 'science' then scienceKeywordFields else locationKeywordFields
 
+      timeStamp = Date.now()
       $.each keywords, (index, value) ->
+        timeStamp += 1
         matchingKeywords = $(keywordList).find('li').filter ->
           this.childNodes[0].nodeValue.trim() == value
         keywordLengthMinimum = if picker.options.data_type == 'science' then 2 else 1
@@ -44,7 +46,6 @@ $(document).ready ->
             li = $("<li>#{value}<a class='remove'><i class='fa fa-times-circle'></i></a>#{span}</li>")
 
             keyword_pieces = value.split(' > ')
-            timeStamp = Date.now()
             for keyword, i in keyword_pieces
               $('<input/>',
                 type: 'hidden'
