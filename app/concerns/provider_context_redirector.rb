@@ -32,7 +32,7 @@ module ProviderContextRedirector
     # unless it's in the exception list.
     ROUTE_EXCEPTIONS.include?(controller_name) ? route_exception_path(controller_name) : url_for(action: 'index', controller: controller_name)
   rescue ActionController::UrlGenerationError
-    # If we missed any route exceptions fallback to manage metadata
+    # If we missed any route exceptions fallback to manage collections
     Rails.application.routes.url_helpers.manage_metadata_path
   end
 end

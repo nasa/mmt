@@ -25,7 +25,7 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         get :index
 
         expect(response).to redirect_to(manage_metadata_path)
@@ -57,7 +57,7 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         get :show, id: 1
 
         expect(response).to redirect_to(manage_metadata_path)
@@ -83,7 +83,7 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         sign_in
 
         get :new
@@ -111,7 +111,7 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         sign_in
 
         post :new
@@ -139,7 +139,7 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         sign_in
 
         get :preview
@@ -167,7 +167,7 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         sign_in
 
         post :preview, 'update_field': 'science_keywords'
@@ -254,7 +254,7 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         sign_in
 
         post :create
