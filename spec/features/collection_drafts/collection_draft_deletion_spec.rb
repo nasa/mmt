@@ -34,7 +34,7 @@ describe 'Draft deletion', js: true do
     # end
 
     # it 'returns to the manage metadata page' do
-      expect(page).to have_content('Your MMT_2 Drafts')
+      expect(page).to have_content('MMT_2 Drafts')
     end
   end
 
