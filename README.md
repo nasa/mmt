@@ -9,7 +9,7 @@ The Metadata Management Tool is a web application to assist users in managing me
 ### Setup
 Clone the Metadata Management Tool Git project:
 
-    git clone https://<username>@git.earthdata.nasa.gov/scm/mmt/mmt_app.git
+    git clone https://github.com/nasa/mmt.git
 
 Type the following command to install the necessary components:
 
