@@ -28,7 +28,7 @@
         <% get_resources.each do |draft| %>
           <tr class='<%= cycle("alt", "") %>'>
             <td>
-              <%= link_to draft.display_short_name, variable_draft_path(draft) %>
+              <%= link_to draft.display_short_name, send("#{resource_name}_path", draft) %>
             </td>
             <td>
               <%= draft.display_entry_title %>
