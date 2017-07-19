@@ -32,7 +32,7 @@ describe 'Collection Draft creation', js: true do
         expect(page).to have_content('Collection Draft Created Successfully!')
       end
 
-      context 'when viewing the manage metadata page' do
+      context 'when viewing the manage collections page' do
         before do
           visit manage_metadata_path
         end
@@ -59,7 +59,7 @@ describe 'Collection Draft creation', js: true do
       end
     end
 
-    context 'when viewing the manage metadata page' do
+    context 'when viewing the manage collections page' do
       before do
         visit manage_metadata_path
       end
