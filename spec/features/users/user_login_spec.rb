@@ -45,7 +45,7 @@ describe 'User login' do
   context 'when the user token is expiring' do
     before do
       login
-      visit_with_expiring_token('/manage_metadata')
+      visit_with_expiring_token('/manage_collections')
     end
 
     it 'allows access to the manage collections' do

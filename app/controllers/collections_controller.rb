@@ -1,5 +1,5 @@
-class CollectionsController < ManageMetadataController
-  include ManageMetadataHelper
+class CollectionsController < ManageCollectionsController
+  include ManageCollectionsHelper
 
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]

@@ -7,7 +7,7 @@ describe 'Progress circles', js: true do
     before do
       login
 
-      visit '/manage_metadata'
+      visit '/manage_collections'
       choose 'New Collection Record'
       click_on 'Create Record'
       
