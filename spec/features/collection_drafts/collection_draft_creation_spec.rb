@@ -7,8 +7,8 @@ describe 'Collection Draft creation', js: true do
 
   context 'when creating a new collection draft from scratch' do
     before do
-      # visit '/manage_metadata'
-      visit manage_metadata_path
+      # visit '/manage_collections'
+      visit manage_collections_path
       choose 'New Collection Record'
       click_on 'Create Record'
     end
@@ -34,7 +34,7 @@ describe 'Collection Draft creation', js: true do
 
       context 'when viewing the manage collections page' do
         before do
-          visit manage_metadata_path
+          visit manage_collections_path
         end
 
         it 'displays the new draft' do
@@ -61,7 +61,7 @@ describe 'Collection Draft creation', js: true do
 
     context 'when viewing the manage collections page' do
       before do
-        visit manage_metadata_path
+        visit manage_collections_path
       end
 
       it 'does not show any open collection drafts' do
