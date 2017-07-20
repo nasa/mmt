@@ -34,7 +34,7 @@ describe 'Draft deletion', js: true do
     # end
 
     # it 'returns to the manage collections page' do
-      expect(page).to have_content('Your MMT_2 Drafts')
+      expect(page).to have_content('MMT_2 Collection Drafts')
     end
   end
 
@@ -52,7 +52,7 @@ describe 'Draft deletion', js: true do
     # end
 
     it 'does NOT return to the manage collections page' do
-      expect(page).to_not have_content('Your MMT_2 Drafts')
+      expect(page).to_not have_content('MMT_2 Collection Drafts')
     end
   end
 end
