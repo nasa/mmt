@@ -18,7 +18,7 @@ describe 'Bulk Updates callout box on the Manage Collections page' do
   # end
 
   it 'displays the bulk updates callout box' do
-    expect(page).to have_content('Your MMT_2 Bulk Updates')
+    expect(page).to have_content('MMT_2 Bulk Updates')
   end
 
   context 'when clicking on the "Initiate a Bulk Update" button' do
