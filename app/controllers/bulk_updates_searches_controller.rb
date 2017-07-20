@@ -1,5 +1,5 @@
 # :nodoc:
-class BulkUpdatesSearchesController < ManageMetadataController
+class BulkUpdatesSearchesController < ManageCollectionsController
   before_filter :bulk_updates_enabled?
 
   RESULTS_PER_PAGE = 500

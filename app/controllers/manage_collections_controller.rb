@@ -1,12 +1,12 @@
 # :nodoc:
-class ManageMetadataController < PagesController
+class ManageCollectionsController < PagesController
   include BulkUpdates
-  include ManageMetadataHelper
+  include ManageCollectionsHelper
 
-  layout 'manage_metadata'
+  layout 'manage_collections'
 
   def show
-    # If you change this number you must also change it in the corresponding test file - features/manage_metadata/open_drafts_spec.rb.
+    # If you change this number you must also change it in the corresponding test file - features/manage_collections/open_drafts_spec.rb.
     @draft_display_max_count = 5
 
     @drafts = current_user.drafts.where(draft_type: 'CollectionDraft').where(provider_id: current_user.provider_id)

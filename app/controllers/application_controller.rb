@@ -22,11 +22,11 @@ class ApplicationController < ActionController::Base
   protected
 
   def groups_enabled?
-    redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
+    redirect_to manage_collections_path unless Rails.configuration.groups_enabled
   end
 
   def bulk_updates_enabled?
-    redirect_to manage_metadata_path unless Rails.configuration.bulk_updates_enabled
+    redirect_to manage_collections_path unless Rails.configuration.bulk_updates_enabled
   end
 
   def setup_query
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
     last_point = session[:last_point]
     session[:last_point] = nil
 
-    redirect_to return_to || last_point || manage_metadata_path
+    redirect_to return_to || last_point || manage_collections_path
   end
 
   def cmr_client
