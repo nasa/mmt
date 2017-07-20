@@ -21,7 +21,7 @@ describe 'Draft deletion', js: true do
     it 'displays a confirmation message' do
       expect(page).to have_content('Collection Draft Deleted Successfully!')
 
-      expect(page).to have_content('MMT_2 Drafts')
+      expect(page).to have_content('MMT_2 Collection Drafts')
     end
   end
 
@@ -34,8 +34,8 @@ describe 'Draft deletion', js: true do
       end
     end
 
-    it 'does NOT return to the manage metadata page' do
-      expect(page).to_not have_content('MMT_2 Drafts')
+    it 'does NOT return to the manage collections page' do
+      expect(page).to_not have_content('MMT_2 Collection Drafts')
     end
   end
 end

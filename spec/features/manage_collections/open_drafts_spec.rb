@@ -12,7 +12,7 @@ describe 'Open Drafts listings on the Manage Collections page', reset_provider: 
 
   context 'when no drafts exist' do
     it 'no drafts are displayed' do # Test correct display of edge condition of zero drafts
-      expect(page).to have_content('Your MMT_2 Drafts')
+      expect(page).to have_content('MMT_2 Collection Drafts')
       within('.open-drafts') do
         expect(page).to_not have_content('|')
       end
