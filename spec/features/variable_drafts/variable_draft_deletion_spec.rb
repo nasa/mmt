@@ -1,5 +1,3 @@
-# MMT-58
-
 require 'rails_helper'
 
 describe 'Variable draft deletion', js: true do
@@ -19,7 +17,7 @@ describe 'Variable draft deletion', js: true do
     end
 
     it 'displays a confirmation message and returns to the drafts index page' do
-      expect(page).to have_content('Draft was successfully deleted')
+      expect(page).to have_content('Variable Draft Deleted Successfully!')
 
       expect(page).to have_content('MMT_2 Variable Drafts')
     end

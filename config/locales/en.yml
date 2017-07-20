@@ -29,6 +29,9 @@ en:
         update:
           flash:
             success: 'Variable Draft Updated Successfully!'
+        destroy:
+          flash:
+            success: 'Variable Draft Deleted Successfully!'
   views:
     pagination:
       first: "First"
