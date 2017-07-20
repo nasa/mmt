@@ -1,6 +1,4 @@
 class CollectionDraft < Draft
-  after_create :set_native_id
-
   DRAFT_FORMS = %w(
     collection_information
     data_identification
@@ -376,10 +374,5 @@ class CollectionDraft < Draft
     end
 
     json_params
-  end
-
-  def set_native_id
-    self.native_id ||= "mmt_collection_#{id}"
-    save
   end
 end

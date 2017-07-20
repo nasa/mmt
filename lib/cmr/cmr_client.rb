@@ -173,6 +173,25 @@ module Cmr
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
+    def ingest_variable(metadata, provider_id, native_id, token, content_type = nil)
+      # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
+      if Rails.env.development? || Rails.env.test?
+        url = "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+      else
+        url = "/ingest/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+      end
+
+      headers = {
+        'Accept' => 'application/json',
+        'Content-Type' => "application/#{Rails.configuration.umm_version}; charset=utf-8"
+      }
+
+      # content_type is passed if we are reverting to a revision with a different format
+      headers['Content-Type'] = content_type if content_type
+
+      put(url, metadata, headers.merge(token_header(token)))
+    end
+
     ### CMR Bulk Updates, via CMR Ingest
 
     def get_bulk_updates(provider_id, token, filters = {})

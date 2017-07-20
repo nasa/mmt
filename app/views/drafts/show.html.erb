@@ -1,7 +1,7 @@
 <div class="row row-content">
   <section class="action">
     <div class="cta">
-      <%#= link_to 'Publish Draft', publish_collection_draft_path(get_resource), method: :post, class: 'eui-btn--blue spinner' %>
+      <%= link_to 'Publish Draft', send("publish_#{resource_name}_path", get_resource), method: :post, class: 'eui-btn--blue spinner' %>
       <%= link_to 'Delete Draft', "#delete-draft-modal", class: 'display-modal' %>
       <div id="delete-draft-modal" class="eui-modal-content">
         <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
