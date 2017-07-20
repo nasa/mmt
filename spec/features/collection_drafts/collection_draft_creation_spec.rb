@@ -9,8 +9,7 @@ describe 'Collection Draft creation', js: true do
     before do
       # visit '/manage_collections'
       visit manage_collections_path
-      choose 'New Collection Record'
-      click_on 'Create Record'
+      click_on 'Create New Record'
     end
 
     it 'creates a new blank draft record' do
