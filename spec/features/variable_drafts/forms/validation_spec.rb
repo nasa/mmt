@@ -117,8 +117,8 @@ describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: tr
           expect(page).to have_content('Offset must be a number')
         end
 
-        expect(page).to have_css('#variable_draft_draft_valid_range_min-error', text: 'Min must be a number')
-        expect(page).to have_css('#variable_draft_draft_valid_range_max-error', text: 'Max must be a number')
+        expect(page).to have_css('#variable_draft_draft_valid_range_0_min-error', text: 'Min must be a number')
+        expect(page).to have_css('#variable_draft_draft_valid_range_0_max-error', text: 'Max must be a number')
         expect(page).to have_css('#variable_draft_draft_scale-error', text: 'Scale must be a number')
         expect(page).to have_css('#variable_draft_draft_offset-error', text: 'Offset must be a number')
       end

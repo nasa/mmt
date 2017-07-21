@@ -180,10 +180,10 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         'VariableType': 'SCIENCE_VARIABLE',
         'Units': 'Npptv',
         'DataType': 'float',
-        'ValidRange': {
+        'ValidRange': [{
           'Min': -417,
           'Max': 8836
-        },
+        }],
         'Scale': 1.0,
         'Offset': 0.0
       }
@@ -198,8 +198,8 @@ describe 'Variable Information Form', reset_provider: true, js: true do
       expect(page).to have_field('variable_draft_draft_variable_type', with: 'SCIENCE_VARIABLE')
       expect(page).to have_field('variable_draft_draft_units', with: 'Npptv')
       expect(page).to have_field('variable_draft_draft_data_type', with: 'float')
-      expect(page).to have_field('variable_draft_draft_valid_range_min', with: '-417')
-      expect(page).to have_field('variable_draft_draft_valid_range_max', with: '8836')
+      expect(page).to have_field('variable_draft_draft_valid_range_0_min', with: '-417')
+      expect(page).to have_field('variable_draft_draft_valid_range_0_max', with: '8836')
       expect(page).to have_field('variable_draft_draft_scale', with: '1.0')
       expect(page).to have_field('variable_draft_draft_offset', with: '0.0')
     end
@@ -303,8 +303,8 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         expect(page).to have_field('variable_draft_draft_variable_type', with: 'SCIENCE_VARIABLE')
         expect(page).to have_field('variable_draft_draft_units', with: 'Npptv')
         expect(page).to have_field('variable_draft_draft_data_type', with: 'float')
-        expect(page).to have_field('variable_draft_draft_valid_range_min', with: '-417')
-        expect(page).to have_field('variable_draft_draft_valid_range_max', with: '8836')
+        expect(page).to have_field('variable_draft_draft_valid_range_0_min', with: '-417')
+        expect(page).to have_field('variable_draft_draft_valid_range_0_max', with: '8836')
         expect(page).to have_field('variable_draft_draft_scale', with: '1.0')
         expect(page).to have_field('variable_draft_draft_offset', with: '0.0')
       end
