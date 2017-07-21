@@ -21,7 +21,7 @@ describe 'Publishing collection draft records', js: true do
     # end
 
     it 'displays a confirmation message' do
-      expect(page).to have_content('Draft was successfully published')
+      expect(page).to have_content('Collection Draft Published Successfully!')
     end
 
     it 'displays the published record page' do
@@ -122,7 +122,7 @@ describe 'Publishing collection draft records', js: true do
     end
 
     it 'displays a confirmation message' do
-      expect(page).to have_content('Draft was successfully published')
+      expect(page).to have_content('Collection Draft Published Successfully!')
     end
 
     it 'displays the published record page' do

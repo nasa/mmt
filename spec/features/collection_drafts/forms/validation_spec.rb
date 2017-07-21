@@ -295,7 +295,7 @@ describe 'Data validation for a form', js: true do
         click_on 'Done'
       end
 
-      expect(page).to have_content('Draft was successfully updated')
+      expect(page).to have_content('Collection Draft Updated Successfully!')
     end
   end
 
@@ -363,7 +363,7 @@ describe 'Data validation for a form', js: true do
         click_on 'Done'
       end
 
-      expect(page).to have_content('Draft was successfully updated')
+      expect(page).to have_content('Collection Draft Updated Successfully!')
       # # Reject
       # click_on 'No'
 
@@ -422,7 +422,7 @@ describe 'Data validation for a form', js: true do
         click_on 'Done'
       end
 
-      expect(page).to have_content('Draft was successfully updated')
+      expect(page).to have_content('Collection Draft Updated Successfully!')
     end
 
     it 'validation of subsequent objects in an array of simple objects does work' do
@@ -445,7 +445,7 @@ describe 'Data validation for a form', js: true do
         click_on 'Done'
       end
 
-      expect(page).to have_content('Draft was successfully updated')
+      expect(page).to have_content('Collection Draft Updated Successfully!')
     end
   end
 

@@ -29,7 +29,7 @@ describe 'Collection Draft creation', js: true do
       end
 
       it 'displays a confirmation message' do
-        expect(page).to have_content('Draft was successfully created.')
+        expect(page).to have_content('Collection Draft Created Successfully!')
       end
 
       context 'when viewing the manage metadata page' do

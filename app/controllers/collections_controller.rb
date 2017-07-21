@@ -16,7 +16,7 @@ class CollectionsController < ManageMetadataController
   def edit
     draft = CollectionDraft.create_from_collection(@collection, current_user, @native_id)
     Rails.logger.info("Audit Log: Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
-    flash[:success] = 'Draft was successfully created'
+    flash[:success] = 'Collection Draft Created Successfully!'
     redirect_to collection_draft_path(draft)
   end
 

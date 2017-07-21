@@ -26,12 +26,36 @@ en:
         create:
           flash:
             success: 'Variable Draft Created Successfully!'
+            error: 'Variable Draft was not created successfully'
         update:
           flash:
             success: 'Variable Draft Updated Successfully!'
+            error: 'Variable Draft was not updated successfully'
         destroy:
           flash:
             success: 'Variable Draft Deleted Successfully!'
+            error: 'Variable Draft was not deleted successfully'
+        publish:
+          flash:
+            success: 'Variable Draft Published Successfully!'
+            error: 'Variable Draft was not published successfully'
+      collection_drafts:
+        create:
+          flash:
+            success: 'Collection Draft Created Successfully!'
+            error: 'Collection Draft was not created successfully'
+        update:
+          flash:
+            success: 'Collection Draft Updated Successfully!'
+            error: 'Collection Draft was not updated successfully'
+        destroy:
+          flash:
+            success: 'Collection Draft Deleted Successfully!'
+            error: 'Collection Draft was not deleted successfully'
+        publish:
+          flash:
+            success: 'Collection Draft Published Successfully!'
+            error: 'Collection Draft was not published successfully'
   views:
     pagination:
       first: "First"

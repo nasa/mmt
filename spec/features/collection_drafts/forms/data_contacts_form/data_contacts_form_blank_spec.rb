@@ -20,7 +20,7 @@ describe 'Data Contacts form saving when blank' do
     end
 
     it 'displays a confirmation message' do
-      expect(page).to have_content('Draft was successfully updated')
+      expect(page).to have_content('Collection Draft Updated Successfully!')
     end
   end
 end

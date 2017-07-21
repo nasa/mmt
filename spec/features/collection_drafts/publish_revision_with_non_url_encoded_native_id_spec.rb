@@ -33,7 +33,7 @@ describe 'Publishing revision of collection with non url encoded native id' do
 
       it 'creates a draft with a non url encoded native id' do
         within '.eui-banner--success' do
-          expect(page).to have_content('Draft was successfully created')
+          expect(page).to have_content('Collection Draft Created Successfully!')
         end
       end
 

@@ -47,7 +47,7 @@ describe 'Collections permissions', js: true do
           end
 
           it 'creates a draft from the collection' do
-            expect(page).to have_content('Draft was successfully created')
+            expect(page).to have_content('Collection Draft Created Successfully!')
             expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
           end
         end
@@ -170,7 +170,7 @@ describe 'Collections permissions', js: true do
             end
 
             it 'creates a draft from the collection' do
-              expect(page).to have_content('Draft was successfully created')
+              expect(page).to have_content('Collection Draft Created Successfully!')
               expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
             end
           end
