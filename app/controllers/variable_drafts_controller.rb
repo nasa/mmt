@@ -1,7 +1,7 @@
 # :nodoc:
 class VariableDraftsController < BaseDraftsController
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
-  before_action :set_schema, only: [:new, :edit, :update, :create]
+  before_action :set_schema, only: [:new, :edit, :update, :create, :show]
   before_action :set_form, only: [:edit, :update]
   before_action :set_current_form, only: [:edit]
   before_action :set_science_keywords, only: [:new, :edit]
@@ -12,6 +12,12 @@ class VariableDraftsController < BaseDraftsController
     set_form
 
     set_current_form
+  end
+
+  def show
+    super
+
+    validate_metadata
   end
 
   def publish
@@ -78,5 +84,12 @@ class VariableDraftsController < BaseDraftsController
       # Allows for any nested key within the draft hash
       whitelisted[:draft] = params[:variable_draft][:draft]
     end
+  end
+
+  def validate_metadata
+    errors = Array.wrap(JSON::Validator.fully_validate(@schema.parsed_json, get_resource.draft))
+
+    @errors = errors
+    puts "@errors: #{@errors}"
   end
 end
