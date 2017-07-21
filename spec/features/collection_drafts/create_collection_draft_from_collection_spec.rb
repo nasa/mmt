@@ -27,7 +27,7 @@ describe 'Create new draft from collection' do
     end
 
     it 'displays a confirmation message' do
-      expect(page).to have_content('Draft was successfully created')
+      expect(page).to have_content('Collection Draft Created Successfully!')
     # end
 
     # it 'creates a new draft' do

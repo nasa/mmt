@@ -116,7 +116,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             end
 
             it 'displays a confirmation message' do
-              expect(page).to have_content('Draft was successfully updated')
+              expect(page).to have_content('Collection Draft Updated Successfully!')
             end
 
             it 'displays the Data Center Contact Person on the preview page' do
@@ -241,7 +241,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             end
 
             it 'displays a confirmation message' do
-              expect(page).to have_content('Draft was successfully updated')
+              expect(page).to have_content('Collection Draft Updated Successfully!')
             end
 
             it 'displays the Contact Group on the preview' do
@@ -382,7 +382,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             end
 
             it 'displays a confirmation message' do
-              expect(page).to have_content('Draft was successfully updated')
+              expect(page).to have_content('Collection Draft Updated Successfully!')
             end
 
             it 'displays the Data Center Contact Person on the preview page' do
@@ -507,7 +507,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             end
 
             it 'displays a confirmation message' do
-              expect(page).to have_content('Draft was successfully updated')
+              expect(page).to have_content('Collection Draft Updated Successfully!')
             end
 
             it 'displays the Contact Group on the preview' do

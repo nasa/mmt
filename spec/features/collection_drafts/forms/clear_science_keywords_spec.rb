@@ -29,7 +29,7 @@ describe 'Clearing saved science keywords', js: true do
     end
 
     it 'displays a confirmation message' do
-      expect(page).to have_content('Draft was successfully updated')
+      expect(page).to have_content('Collection Draft Updated Successfully!')
     end
 
     it 'populates the form with the values' do
@@ -51,7 +51,7 @@ describe 'Clearing saved science keywords', js: true do
       end
 
       it 'displays a confirmation message' do
-        expect(page).to have_content('Draft was successfully updated')
+        expect(page).to have_content('Collection Draft Updated Successfully!')
       end
 
       it 'does not display the removed science keywords' do
