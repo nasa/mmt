@@ -142,10 +142,6 @@ header {
       p {
         margin-top: .1em;
       }
-
-      .dropdown {
-        display:none;
-      }
   }
 
   /* Provider context badge below main app logo/title
@@ -153,6 +149,24 @@ header {
   .daac {
     position: relative;
     background-color: $ocean-blue;
+  }
+}
+
+.login-info-dropdown {
+  width: 115px;
+  text-align: left;
+  font-size:12px;
+  background-color: lighten($ocean-blue, 10%);
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  right: 238px;
+  margin-top: -8px;
+
+  a {
+    &:hover {
+      color: lighten($dolphin-grey, 30%);
+    }
   }
 }
 
