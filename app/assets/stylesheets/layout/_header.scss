@@ -24,7 +24,10 @@ header {
   #user-info p {
     display: inline-block;
     margin: 0;
-    margin-right: 0.8em;
+
+    strong {
+      padding-right: 5px;
+    }
   }
 
   .subtitle {
@@ -47,7 +50,8 @@ header {
   .header-tools {
     @include row();
     text-align: right;
-    margin-top: 17px;
+    margin-top: .5em;
+    margin-bottom: .5em;
 
     #help {
       display: none; // Change to display: block when help feature is added and remove margin-top on #search
@@ -63,6 +67,10 @@ header {
         background-color: lighten($ocean-blue, 6%);
       }
     }
+
+    .eui-btn--midnight-blue {
+      background-color: lighten($midnight-blue, 4%);
+    }
   }
 
   /* Primary Logo
@@ -72,6 +80,7 @@ header {
     @include row();
     display: block;
     width: 100%;
+    padding: 1em 0;
 
     a:link,
     a:visited {
@@ -123,26 +132,27 @@ header {
 
   #user-info {
     @include row();
-    display: block;
+    display: inline-flex;
     font-size: 0.8em;
+    background-color: lighten($ocean-blue, 10%);
+    padding: .2em .6em .3em .6em;
+    border-radius: 5px;
+    margin-bottom: 1em;
 
-    a {
-      margin-right: 0.8em;
-    }
+      p {
+        margin-top: .1em;
+      }
+
+      .dropdown {
+        display:none;
+      }
   }
 
   /* Provider context badge below main app logo/title
   ------------------------------------------*/
   .daac {
     position: relative;
-    left: 7em;
-    top: -1em;
-    background-color: $midnight-blue;
-
-    &:hover {
-      background-color: lighten($midnight-blue, 5%);
-      cursor: default;
-    }
+    background-color: $ocean-blue;
   }
 }
 
