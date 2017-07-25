@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-01/schema#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
     "CharacteristicsType": {
       "type": "object",

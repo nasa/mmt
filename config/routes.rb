@@ -63,6 +63,8 @@ Rails.application.routes.draw do
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
   get '/collections/:id/clone' => 'collections#clone', as: 'clone_collection'
 
+  resources :variables, only: [:show]
+
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
       get 'edit', path: 'edit(/:form)'

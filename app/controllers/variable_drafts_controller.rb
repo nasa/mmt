@@ -41,16 +41,14 @@ class VariableDraftsController < BaseDraftsController
       # instantiate and deliver notification email
       DraftMailer.draft_published_notification(user_info, concept_id, revision_id, short_name, version).deliver_now
 
-      redirect_to collection_path(concept_id, revision_id: revision_id), flash: { success: 'Draft was successfully published.' }
+      redirect_to variable_path(concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success") }
     else
       # Log error message
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
       @ingest_errors = generate_ingest_errors(ingested)
-      # TODO remove puts
-      puts "ingest_errors: #{@ingest_errors}"
 
-      flash[:error] = 'Draft was not published successfully.'
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
       render :show
     end
   end
@@ -90,6 +88,12 @@ class VariableDraftsController < BaseDraftsController
     errors = Array.wrap(JSON::Validator.fully_validate(@schema.parsed_json, get_resource.draft))
 
     @errors = errors
-    puts "@errors: #{@errors}"
+  end
+
+  def get_user_info
+    user = {}
+    user[:name] = session[:name]
+    user[:email] = session[:email_address]
+    user
   end
 end
