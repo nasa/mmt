@@ -3,5 +3,7 @@ $(document).ready ->
   document.getElementById("login-info").style.display = 'none'
 
 #On profile name click show the login-info
-$('.profile-link').on 'click', ->
-  document.getElementById("login-info").style.display = 'block'
+
+$('a.profile-link').on 'click', ->
+  console.log("Link Clicked!")
+  #document.getElementById("login-info").style.display = 'block'
