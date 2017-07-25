@@ -29,7 +29,7 @@ describe 'Delete collection', js: true do
         end
 
         it 'displays a confirmation message' do
-          expect(page).to have_content('Collection was successfully deleted')
+          expect(page).to have_content('Collection Deleted Successfully!')
         end
 
         it 'displays the revision page' do
@@ -99,7 +99,7 @@ describe 'Delete collection', js: true do
       end
 
       it 'displays a confirmation message' do
-        expect(page).to have_content('Collection was successfully deleted')
+        expect(page).to have_content('Collection Deleted Successfully!')
       end
     end
   end

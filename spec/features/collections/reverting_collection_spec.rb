@@ -32,7 +32,7 @@ describe 'Reverting to previous collections', js: true do
       end
 
       it 'displays all the correct revision information' do
-        expect(page).to have_content('Revision was successfully created')
+        expect(page).to have_content('Revision Created Successfully!')
 
         expect(page).to have_content('Published', count: 1)
         expect(page).to have_content('Revision View', count: 2)
@@ -90,7 +90,7 @@ describe 'Reverting to previous collections', js: true do
       end
 
       it 'displays all the correct revision information' do
-        expect(page).to have_content('Revision was successfully created')
+        expect(page).to have_content('Revision Created Successfully!')
 
         expect(page).to have_content('Published', count: 1)
         expect(page).to have_content('Deleted', count: 1)
@@ -127,7 +127,7 @@ describe 'Reverting to previous collections', js: true do
         wait_for_ajax
         wait_for_cmr
 
-        expect(page).to have_content('Revision was successfully created')
+        expect(page).to have_content('Revision Created Successfully!')
       end
 
       it 'the collection metadata format being ingested is echo10' do
