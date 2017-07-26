@@ -1,7 +1,12 @@
 
 <section id="user-info" role="navigation">
   <% if logged_in? %>
-    <a id="profile-link" href="#"><p><strong><%= session[:name] %></strong><i id="dropdown-caret" class="fa fa-caret-down" aria-hidden="true"></i></p></a>
+    <a id="profile-link" href="#">
+      <p class="prof-link-container">
+        <strong><%= session[:name] %></strong>
+        <i id="dropdown-caret" class="fa fa-caret-down" aria-hidden="true"></i>
+      </p>
+    </a>
     <!-- Display provider context badge -->
     <div class="provider-context">
       <% if logged_in? && current_user.provider_id %>

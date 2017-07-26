@@ -140,14 +140,12 @@ header {
     margin-bottom: 1em;
 
     #profile-link {
-      p {
+      .prof-link-container {
         margin-top: .1em;
+      }
 
-        strong, #dropdown-caret {
-          &:hover {
-            color: lighten($dolphin-grey, 30%);
-          }
-        }
+      .hoverOver {
+        color: lighten($dolphin-grey, 30%);
       }
 
       #dropdown-caret {
