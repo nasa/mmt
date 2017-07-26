@@ -1,7 +1,7 @@
 
 <section id="user-info" role="navigation">
   <% if logged_in? %>
-    <a class="profile-link" href="#"><p><strong><%= session[:name] %></strong><i class="fa fa-caret-down" aria-hidden="true"></i></p></a>
+    <a id="profile-link" href="#"><p><strong><%= session[:name] %></strong><i id="dropdown-caret" class="fa fa-caret-down" aria-hidden="true"></i></p></a>
     <!-- Display provider context badge -->
     <div class="provider-context">
       <% if logged_in? && current_user.provider_id %>
@@ -10,15 +10,15 @@
     </div>
     <!-- End provider context badge -->
   <% end %>
-</section>
 
-<!-- User Info Dropdown Menu -->
-<div id="login-info" class="login-info-dropdown">
-  <a href="#provider-context" id="change-context" class="display-modal">Change Provider</a>
-  <!--a href="#">Account Settings</a-->
-  <%= link_to 'Logout', logout_path %>
-</div>
-<!-- End User Info Dropdown Menu -->
+  <!-- User Info Dropdown Menu -->
+  <div id="login-info" class="login-info-dropdown">
+    <a href="#provider-context" id="change-context" class="display-modal">Change Provider</a>
+    <!--a href="#">Account Settings</a-->
+    <%= link_to 'Logout', logout_path %>
+  </div>
+  <!-- End User Info Dropdown Menu -->
+</section>
 
 <%= form_tag(search_path, method: "get", enforce_utf8: false, id: 'search-form', role: 'search') do %>
   <input type="hidden" name="search_type" id="search_type" value="">
