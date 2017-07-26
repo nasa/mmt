@@ -42,9 +42,9 @@ describe 'Search Form', js: true do
 
   # MMT-300
   context 'when pressing enter to submit a search' do
-    context 'when using quick find' do
+    context 'when using search' do
       before do
-        fill_in 'Quick Find', with: short_name
+        fill_in 'keyword', with: short_name
         element = find('input#keyword')
         element.native.send_key(:Enter)
       end
@@ -73,9 +73,9 @@ describe 'Search Form', js: true do
     end
   end
 
-  context 'when using quick find' do
+  context 'when using search' do
     before do
-      fill_in 'Quick Find', with: short_name
+      fill_in 'keyword', with: short_name
       click_on 'Find'
     end
 
