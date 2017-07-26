@@ -39,7 +39,7 @@ class VariableDraftsController < BaseDraftsController
       revision_id = ingested.body['revision-id']
 
       # instantiate and deliver notification email
-      DraftMailer.draft_published_notification(user_info, concept_id, revision_id, short_name, version).deliver_now
+      DraftMailer.variable_draft_published_notification(user_info, concept_id, revision_id, short_name, version).deliver_now
 
       redirect_to variable_path(concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success") }
     else

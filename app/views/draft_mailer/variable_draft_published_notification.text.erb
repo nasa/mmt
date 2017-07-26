@@ -1,0 +1,5 @@
+<%= @user[:name] %>,
+
+<%= "Your variable metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your variable's concept ID is #{@concept_id}." %>
+
+View Variable: <%= variable_url(@concept_id, revision_id: @revision_id) %>
