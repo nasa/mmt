@@ -4,38 +4,20 @@
       <h3 class="eui-callout-box__title">Create New Record</h3>
       <div class="eui-callout-box__list">
         <%= form_tag(new_record_path, method: 'get', enforce_utf8: false) do %>
+        <input type="submit" class="eui-btn--blue submit" value="Create New Record">
           <div class="question-group">
-            <div class="row">
+            <div class="row" style="display: none;">
               <%= radio_button_tag(:type, "new_collection", true, id: 'new-collection') %>
               <%= image_tag "collection.png", alt: "" %>
               <label for="new-collection">
                 New Collection Record
               </label>
             </div>
-            <div class="row">
-              <%= radio_button_tag(:type, "new_service", nil, disabled: true, id: 'new-service') %>
-              <!-- <%= image_tag "services.png", alt: "" %> -->
-              <label class="disabled" for="new-service">New Service Record</label><span class="coming-soon">Coming Soon</span>
-            </div>
           </div>
           <div class="question-group">
             <div class="row">
-              <%= radio_button_tag(:type, "from_template", nil, disabled: true, id: 'from-template') %>
-              <label class="disabled" for="from-template">From Template</label><span class="coming-soon">Coming Soon</span>
-              <!-- <select name="select-template" class="single-select">
-                <option value="Select Template">Select Template</option>
-              </select> -->
+              <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find a published collection to clone or edit.</p>
             </div>
-            <div class="row">
-              <%= radio_button_tag(:type, "blank_record", nil, disabled: true, id: 'blank-record') %>
-              <label class="disabled" for="blank-record">From Blank Record</label><span class="coming-soon">Coming Soon</span>
-            </div>
-            <div class="row">
-              <p><strong>OR</strong> use search to find an existing record to use as a basis for a new record</p>
-            </div>
-          </div>
-          <div class="row">
-            <input type="submit" class="eui-btn--blue submit" value="Create Record">
           </div>
         <% end %>
       </div>
@@ -43,7 +25,7 @@
 
     <section class="eui-callout-box col-left">
       <div class="open-drafts">
-        <h3 class="eui-callout-box__title">Your <%= current_user.provider_id %> Drafts</h2>
+        <h3 class="eui-callout-box__title"><%= current_user.provider_id %> Collection Drafts</h2>
         <div class="eui-callout-box__list">
           <ul>
             <% unless @drafts.any? %>
@@ -70,7 +52,7 @@
 
     <% if Rails.configuration.bulk_updates_enabled %>
       <section class="eui-callout-box col-left">
-        <h3 class="eui-callout-box__title">Your <%= current_user.provider_id %> Bulk Updates</h3>
+        <h3 class="eui-callout-box__title"><%= current_user.provider_id %> Bulk Updates</h3>
         <div class="eui-callout-box__list bulk-update-callout">
           <div class="question-group">
             <div class="row">
