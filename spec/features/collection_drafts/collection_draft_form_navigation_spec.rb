@@ -78,7 +78,7 @@ describe 'Collection Draft form navigation', js: true do
       end
 
       it 'displays a confirmation message' do
-        expect(page).to have_content('Draft was successfully updated')
+        expect(page).to have_content('Collection Draft Updated Successfully!')
       end
 
       it "displays the correct page (#{next_form})" do
@@ -107,7 +107,7 @@ describe 'Collection Draft form navigation', js: true do
       end
 
       it 'displays a confirmation message' do
-        expect(page).to have_content('Draft was successfully updated')
+        expect(page).to have_content('Collection Draft Updated Successfully!')
       end
 
       it "displays the correct page (#{previous_form})" do
@@ -132,7 +132,7 @@ describe 'Collection Draft form navigation', js: true do
       end
 
       it 'displays a confirmation message' do
-        expect(page).to have_content('Draft was successfully updated')
+        expect(page).to have_content('Collection Draft Updated Successfully!')
       end
 
       it 'returns you to the Summary page with edits saved' do
@@ -173,7 +173,7 @@ describe 'Collection Draft form navigation', js: true do
       end
 
       it 'displays save confirmation message' do
-        expect(page).to have_content('Draft was successfully updated')
+        expect(page).to have_content('Collection Draft Updated Successfully!')
       end
 
       it 'displays the populated values in the form' do

@@ -57,7 +57,7 @@ class CollectionDraftsController < BaseDraftsController
     set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
 
     if get_resource.save && get_resource.update_draft(params[:draft], current_user.urs_uid)
-      flash[:success] = 'Draft was successfully created.'
+      flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")
 
       case params[:commit]
       when 'Done'
@@ -75,14 +75,14 @@ class CollectionDraftsController < BaseDraftsController
         redirect_to edit_collection_draft_path(get_resource, next_form_name)
       end
     else # record update failed
-      flash[:error] = 'Draft was not created successfully.'
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error")
       render :new
     end
   end
 
   def update
     if get_resource.update_draft(params[:draft], current_user.urs_uid)
-      flash[:success] = 'Draft was successfully updated.'
+      flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
 
       case params[:commit]
       when 'Done'
@@ -102,7 +102,7 @@ class CollectionDraftsController < BaseDraftsController
     else # record update failed
       # render 'edit' # this should get get_resource_form
       # Remove
-      flash[:error] = 'Draft was not updated successfully.'
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error")
       render :edit
     end
   end
@@ -130,14 +130,14 @@ class CollectionDraftsController < BaseDraftsController
       # instantiate and deliver notification email
       DraftMailer.draft_published_notification(user_info, concept_id, revision_id, short_name, version).deliver_now
 
-      redirect_to collection_path(concept_id, revision_id: revision_id), flash: { success: 'Draft was successfully published.' }
+      redirect_to collection_path(concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success") }
     else
       # Log error message
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
       @ingest_errors = generate_ingest_errors(ingested)
 
-      flash[:error] = 'Draft was not published successfully.'
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
       render :show
     end
   end

@@ -19,7 +19,7 @@ describe 'Draft deletion', js: true do
     end
 
     it 'displays a confirmation message' do
-      expect(page).to have_content('Draft was successfully deleted')
+      expect(page).to have_content('Collection Draft Deleted Successfully!')
     # end
 
     # it 'leaves the draft table in the database empty' do
@@ -34,7 +34,7 @@ describe 'Draft deletion', js: true do
     # end
 
     # it 'returns to the manage metadata page' do
-      expect(page).to have_content('Your MMT_2 Drafts')
+      expect(page).to have_content('MMT_2 Drafts')
     end
   end
 
@@ -52,7 +52,7 @@ describe 'Draft deletion', js: true do
     # end
 
     it 'does NOT return to the manage metadata page' do
-      expect(page).to_not have_content('Your MMT_2 Drafts')
+      expect(page).to_not have_content('MMT_2 Drafts')
     end
   end
 end

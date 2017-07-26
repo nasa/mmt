@@ -26,9 +26,48 @@ en:
         create:
           flash:
             success: 'Variable Draft Created Successfully!'
+            error: 'Variable Draft was not created successfully'
         update:
           flash:
             success: 'Variable Draft Updated Successfully!'
+            error: 'Variable Draft was not updated successfully'
+        destroy:
+          flash:
+            success: 'Variable Draft Deleted Successfully!'
+            error: 'Variable Draft was not deleted successfully'
+        publish:
+          flash:
+            success: 'Variable Draft Published Successfully!'
+            error: 'Variable Draft was not published successfully'
+      collection_drafts:
+        create:
+          flash:
+            success: 'Collection Draft Created Successfully!'
+            error: 'Collection Draft was not created successfully'
+        update:
+          flash:
+            success: 'Collection Draft Updated Successfully!'
+            error: 'Collection Draft was not updated successfully'
+        destroy:
+          flash:
+            success: 'Collection Draft Deleted Successfully!'
+            error: 'Collection Draft was not deleted successfully'
+        publish:
+          flash:
+            success: 'Collection Draft Published Successfully!'
+            error: 'Collection Draft was not published successfully'
+    collections:
+      destroy:
+        flash:
+          success: 'Collection Deleted Successfully!'
+          error: 'Collection was not deleted successfully'
+      revert:
+        flash:
+          success: 'Revision Created Successfully!'
+          error: 'Revision was not created successfully'
+      clone:
+        flash:
+          notice: 'Records must have a unique Short Name. Click here to enter a new Short Name.'
   views:
     pagination:
       first: "First"
@@ -37,6 +76,8 @@ en:
       next: "<i class='eui-icon eui-fa-chevron-circle-right'></i> <span class='hidden'>Next</span>"
       truncate: "&hellip;"
   helpers:
+    variable_draft:
+      delete: "Delete %{model}"
     page_entries_info:
       one_page:
         display_entries:

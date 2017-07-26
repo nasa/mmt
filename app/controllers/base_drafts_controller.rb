@@ -2,7 +2,7 @@
 class BaseDraftsController < DraftsController
   before_action :add_top_level_breadcrumbs
   before_action :set_forms, only: :new
-  before_action :set_resource, only: [:show, :edit, :update]
+  before_action :set_resource, only: [:show, :edit, :update, :destroy]
 
   def index
     resources = current_user.drafts.where(draft_type: params[:draft_type]).where(provider_id: current_user.provider_id)
@@ -44,7 +44,7 @@ class BaseDraftsController < DraftsController
       # TODO: Prevent this piece of code from being duplicated
       case params[:commit]
       when 'Done'
-        redirect_to send("#{plural_resource_name}_path")
+        redirect_to send("#{resource_name}_path", get_resource)
       when 'Previous'
         # Determine next form to go to
         next_form_name = params['previous_section']
@@ -75,7 +75,7 @@ class BaseDraftsController < DraftsController
       # TODO: Prevent this piece of code from being duplicated
       case params[:commit]
       when 'Done'
-        redirect_to send("#{plural_resource_name}_path")
+        redirect_to send("#{resource_name}_path", get_resource)
       when 'Previous'
         # Determine next form to go to
         next_form_name = params['previous_section']
@@ -102,7 +102,7 @@ class BaseDraftsController < DraftsController
     Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was destroyed by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
 
     respond_to do |format|
-      format.html { redirect_to manage_metadata_path, flash: { success: 'Draft was successfully deleted.' } }
+      format.html { redirect_to send("#{plural_resource_name}_path"), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.destroy.flash.success") } }
     end
   end
 

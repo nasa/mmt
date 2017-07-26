@@ -47,7 +47,7 @@ describe 'Collections permissions', js: true do
           end
 
           it 'creates a draft from the collection' do
-            expect(page).to have_content('Draft was successfully created')
+            expect(page).to have_content('Collection Draft Created Successfully!')
             expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
           end
         end
@@ -101,7 +101,7 @@ describe 'Collections permissions', js: true do
           end
 
           it 'deletes the record' do
-            expect(page).to have_content('Collection was successfully deleted')
+            expect(page).to have_content('Collection Deleted Successfully!')
           end
         end
       end
@@ -138,7 +138,7 @@ describe 'Collections permissions', js: true do
             end
 
             it 'reverts the collection' do
-              expect(page).to have_content('Revision was successfully created')
+              expect(page).to have_content('Revision Created Successfully!')
               expect(page).to have_content('Published', count: 1)
               expect(page).to have_content('Revision View', count: 2)
               expect(page).to have_content('Revert to this Revision', count: 2)
@@ -170,7 +170,7 @@ describe 'Collections permissions', js: true do
             end
 
             it 'creates a draft from the collection' do
-              expect(page).to have_content('Draft was successfully created')
+              expect(page).to have_content('Collection Draft Created Successfully!')
               expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
             end
           end
