@@ -319,7 +319,8 @@ module DraftsHelper
           'text' => 'Get Related Visualization',
           'subtypes' => [
             ['GIBS', 'GIBS'],
-            ['GIOVANNI', 'GIOVANNI']
+            ['GIOVANNI', 'GIOVANNI'],
+            ['MAP', 'MAP']
           ]
         }
       }
