@@ -8,7 +8,7 @@ describe 'Publishing variable draft records', js: true do
       login
       draft = create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
       visit variable_draft_path(draft)
-      click_on 'Publish'
+      click_on 'Publish Variable Draft'
     end
 
     it 'displays a confirmation message' do
@@ -23,7 +23,7 @@ describe 'Publishing variable draft records', js: true do
       login
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
       visit variable_draft_path(draft)
-      click_on 'Publish'
+      click_on 'Publish Variable Draft'
     end
 
     it 'displays a message to the user' do

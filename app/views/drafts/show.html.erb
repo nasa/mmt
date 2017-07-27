@@ -2,7 +2,7 @@
   <section class="action">
     <div class="cta">
       <% if @errors && @errors.size > 0 %>
-        <%= link_to 'Publish Draft', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
+        <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
         <div id="invalid-draft-modal" class="eui-modal-content">
           <p>This variable draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
           <p>
@@ -10,7 +10,7 @@
           </p>
         </div>
       <% else %>
-        <%= link_to 'Publish Draft', send("publish_#{resource_name}_path", get_resource), method: :post, class: 'eui-btn--blue spinner' %>
+        <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), send("publish_#{resource_name}_path", get_resource), method: :post, class: 'eui-btn--blue spinner' %>
       <% end %>
       <%= link_to I18n.t("helpers.#{resource_name}.delete", model: resource_name.titleize), "#delete-draft-modal", class: 'display-modal' %>
       <div id="delete-draft-modal" class="eui-modal-content">

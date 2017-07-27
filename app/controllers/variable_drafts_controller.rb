@@ -29,8 +29,7 @@ class VariableDraftsController < BaseDraftsController
       # get information for publication email notification before draft is deleted
       Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
       user_info = get_user_info
-      short_name = get_resource.draft['ShortName']
-      version = get_resource.draft['Version']
+      short_name = get_resource.short_name
 
       # Delete draft
       get_resource.destroy
@@ -39,7 +38,7 @@ class VariableDraftsController < BaseDraftsController
       revision_id = ingested.body['revision-id']
 
       # instantiate and deliver notification email
-      DraftMailer.variable_draft_published_notification(user_info, concept_id, revision_id, short_name, version).deliver_now
+      DraftMailer.variable_draft_published_notification(user_info, concept_id, revision_id, short_name).deliver_now
 
       redirect_to variable_path(concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success") }
     else

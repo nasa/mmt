@@ -18,7 +18,7 @@ class Draft < ActiveRecord::Base
   end
 
   def set_native_id
-    self.native_id ||= "mmt_collection_#{id}"
+    self.native_id ||= "mmt_#{draft_type.underscore}_#{id}"
     save
   end
 end

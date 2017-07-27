@@ -1,8 +1,8 @@
 
 <% if @is_update %>
-  <h1 class="styled-heading"><%= "#{@short_name}_#{@version} Updated" %></h1>
+  <h1 class="styled-heading"><%= "#{@short_name} Updated" %></h1>
 <% else %>
-  <h1 class="styled-heading"><%= "#{@short_name}_#{@version} Published" %></h1>
+  <h1 class="styled-heading"><%= "#{@short_name} Published" %></h1>
 <% end %>
 
 <div class="email-message">
@@ -10,7 +10,7 @@
     <%= @user[:name] %>,
   </p>
   <p>
-    <%= "Your variable metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your variable's concept ID is #{@concept_id}." %>
+    <%= "Your variable metadata record #{@short_name} has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your variable's concept ID is #{@concept_id}." %>
   </p>
   <div class="center">
     <%= link_to 'View Variable', variable_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>
