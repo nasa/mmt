@@ -152,7 +152,10 @@ class UmmJsonForm < JsonFile
     return (value.casecmp('true') >= 0 ? true : false) if type == 'boolean'
 
     # Numbers
-    return UmmUtilities.convert_to_integer(value) if type == 'number'
+    return UmmUtilities.convert_to_number(value) if type == 'number'
+
+    # Integers
+    return UmmUtilities.convert_to_integer(value) if type == 'integer'
 
     # Anything else, return untouched
     value

@@ -14,7 +14,7 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
     it 'displays the correct title and description' do
       within '.umm-form' do
         expect(page).to have_content('Science Keywords')
-        expect(page).to have_content('Controlled Science Keywords describing the collection. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).')
+        expect(page).to have_content('Controlled Science Keywords describing the measurements/variables.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).')
       end
     end
 

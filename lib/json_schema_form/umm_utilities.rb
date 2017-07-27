@@ -14,5 +14,19 @@ class UmmUtilities
         integer
       end
     end
+
+    def convert_to_number(string)
+      unless string.empty?
+        stripped_string = string.delete(',')
+
+        begin
+          number = Float(stripped_string)
+        rescue
+          number = string
+        end
+
+        number
+      end
+    end
   end
 end

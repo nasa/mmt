@@ -28,8 +28,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Dimensions')
     end
 
-    it 'has one required label' do
-      expect(page).to have_selector('label.eui-required-o', count: 1)
+    it 'has three required labels' do
+      expect(page).to have_selector('label.eui-required-o', count: 3)
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -37,6 +37,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Previous'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -68,6 +70,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_on 'Next'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -99,6 +103,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Save'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and reloads the form' do
@@ -130,6 +136,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         within '.nav-top' do
           select 'Fill Value', from: 'Save & Jump To:'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -161,6 +169,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         within '.nav-top' do
           select 'Variable Characteristics', from: 'Save & Jump To:'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do

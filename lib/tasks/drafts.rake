@@ -81,4 +81,20 @@ namespace :drafts do
       puts "You are missing the drafts dump CSV file (#{Rails.root}/tmp/drafts_dump.csv)"
     end
   end
+
+  desc 'Load full Variable Draft'
+  task load_full_variable: :environment do
+    draft = FactoryGirl.build(:full_variable_draft)
+
+    found_draft = Draft.where(native_id: draft.native_id)
+    if found_draft.empty?
+      new_draft = FactoryGirl.create(:full_variable_draft,
+                                     user: User.first,
+                                     provider_id: User.first.provider_id
+                                    )
+      puts "Loaded full draft, ID: #{new_draft.id}"
+    else
+      puts "Did not load full draft, it was already loaded, ID: #{found_draft.first.id}"
+    end
+  end
 end

@@ -316,4 +316,11 @@ class ApplicationController < ActionController::Base
     flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
     redirect_to(request.referrer || manage_cmr_path)
   end
+
+  def get_user_info
+    user = {}
+    user[:name] = session[:name]
+    user[:email] = session[:email_address]
+    user
+  end
 end
