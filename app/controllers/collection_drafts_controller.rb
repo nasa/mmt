@@ -117,7 +117,6 @@ class CollectionDraftsController < BaseDraftsController
     if ingested.success?
       # get information for publication email notification before draft is deleted
       Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
-      user_info = get_user_info
       short_name = get_resource.draft['ShortName']
       version = get_resource.draft['Version']
 
@@ -128,7 +127,7 @@ class CollectionDraftsController < BaseDraftsController
       revision_id = ingested.body['revision-id']
 
       # instantiate and deliver notification email
-      DraftMailer.draft_published_notification(user_info, concept_id, revision_id, short_name, version).deliver_now
+      DraftMailer.draft_published_notification(get_user_info, concept_id, revision_id, short_name, version).deliver_now
 
       redirect_to collection_path(concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success") }
     else
@@ -514,12 +513,5 @@ class CollectionDraftsController < BaseDraftsController
     data_centers = cmr_client.get_controlled_keywords('providers')
     data_centers = get_data_center_short_names_long_names_urls(data_centers)
     @data_centers = data_centers.sort
-  end
-
-  def get_user_info
-    user = {}
-    user[:name] = session[:name]
-    user[:email] = session[:email_address]
-    user
   end
 end

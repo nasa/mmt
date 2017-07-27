@@ -148,6 +148,16 @@ class BaseDraftsController < DraftsController
   end
   helper_method :plural_resource_name
 
+  def published_resource_name
+    resource_name.gsub('_draft', '')
+  end
+  helper_method :published_resource_name
+
+  def plural_published_resource_name
+    plural_resource_name.gsub('_draft', '')
+  end
+  helper_method :plural_published_resource_name
+
   # Only allow a trusted parameter "white list" through.
   # If a single resource is loaded for #create or #update,
   # then the controller for the resource must implement

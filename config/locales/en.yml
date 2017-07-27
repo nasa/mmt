@@ -35,10 +35,6 @@ en:
           flash:
             success: 'Variable Draft Deleted Successfully!'
             error: 'Variable Draft was not deleted successfully'
-        publish:
-          flash:
-            success: 'Variable Draft Published Successfully!'
-            error: 'Variable Draft was not published successfully'
       collection_drafts:
         create:
           flash:
@@ -68,6 +64,11 @@ en:
       clone:
         flash:
           notice: 'Records must have a unique Short Name. Click here to enter a new Short Name.'
+    variables:
+      create:
+        flash:
+          success: 'Variable Draft Published Successfully!'
+          error: 'Variable Draft was not published successfully'
   views:
     pagination:
       first: "First"
