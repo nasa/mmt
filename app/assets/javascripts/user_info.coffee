@@ -5,8 +5,8 @@ $(document).ready ->
 
 #On profile name click show the login-info
 $ ->
-  loginInfo = document.getElementById("login-info")
-  dropDownCaret = document.getElementById("dropdown-caret")
+  loginInfo = document.getElementById('login-info')
+  dropDownCaret = document.getElementById('dropdown-caret')
   $('#profile-link').on 'click', ->
     if loginInfo.style.visibility == 'hidden'
       loginInfo.style.visibility = 'visible'

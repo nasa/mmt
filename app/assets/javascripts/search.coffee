@@ -47,4 +47,12 @@ $('.js-enabled-object').css 'visibility': 'visible'
 $ ->
  $('#search-focus').on 'click', ->
     document.getElementById('keyword').focus()
+    document.getElementById('login-info').style.visibility = 'hidden'
+    document.getElementById('dropdown-caret').style.transform = 'rotate(0deg)'
   return
+
+# If search-box has focus then hide the user menu and flip the caret
+$ ->
+  $('#keyword').on 'click', ->
+    document.getElementById('login-info').style.visibility = 'hidden'
+    document.getElementById('dropdown-caret').style.transform = 'rotate(0deg)'
