@@ -24,6 +24,22 @@ describe 'Additional Attribute data type', js: true do
         expect(page).to have_field('Parameter Range End', disabled: true)
       end
 
+      context 'when viewing a saved form with a non-numeric data type' do
+        before do
+          within '.nav-top' do
+            click_on 'Save'
+          end
+          click_on 'Yes'
+
+          open_accordions
+        end
+
+        it 'disables the invalid fields' do
+          expect(page).to have_field('Parameter Range Begin', disabled: true)
+          expect(page).to have_field('Parameter Range End', disabled: true)
+        end
+      end
+
       context 'when selecting a numeric data type' do
         before do
           select 'Integer', from: 'Data Type'

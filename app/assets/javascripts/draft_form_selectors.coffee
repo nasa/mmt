@@ -95,21 +95,6 @@ $(document).ready ->
     $fields.find('.bounding-rectangle-point.south').val('-90')
     $fields.find('.bounding-rectangle-point.south').trigger('change')
 
-  # Handle AdditionalAttributes type select
-  $('#additional-attributes').on 'change', '.additional-attribute-type-select', ->
-    value = $(this).val()
-    $parent = $(this).parents('.multiple-item')
-    $begin = $parent.find('.parameter-range-begin')
-    $end = $parent.find('.parameter-range-end')
-
-    disabledValues = ['STRING', 'BOOLEAN']
-    if disabledValues.indexOf(value) != -1
-      disableField($begin)
-      disableField($end)
-    else
-      enableField($begin)
-      enableField($end)
-
   # Handle Data Contacts Type selector
   $('.data-contact-type-select').change ->
     $contactTypeSelect = $(this).parents('.data-contact-type-select-parent')
@@ -247,3 +232,24 @@ $(document).ready ->
   # Update all the url content type select fields on pagge load
   $('.related-url-content-type-select').each ->
     handleContentTypeSelect($(this))
+
+  # Handle AdditionalAttributes type select
+  $('#additional-attributes').on 'change', '.additional-attribute-type-select', ->
+    handleAdditionAttributeDataType($(this))
+
+  handleAdditionAttributeDataType = (element) ->
+    value = $(element).val()
+    $parent = $(element).parents('.multiple-item')
+    $begin = $parent.find('.parameter-range-begin')
+    $end = $parent.find('.parameter-range-end')
+
+    disabledValues = ['STRING', 'BOOLEAN']
+    if disabledValues.indexOf(value) != -1
+      disableField($begin)
+      disableField($end)
+    else
+      enableField($begin)
+      enableField($end)
+
+  $('.additional-attribute-type-select').each ->
+    handleAdditionAttributeDataType($(this))
