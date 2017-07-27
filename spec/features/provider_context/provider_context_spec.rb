@@ -51,6 +51,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
         context 'when the user logs in again' do
           before do
+            click_on 'profile-link'
             click_on 'Logout'
 
             expect(page).to have_content('Earthdata Login')
