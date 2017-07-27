@@ -1,20 +1,16 @@
 #On Document load, hide the login-info menu by default
-$(document).ready ->
-  loginInfo = document.getElementById("login-info")
-  loginInfo.style.visibility = 'hidden'
+$ ->
+  $('#login-info').css('visibility': 'hidden')
 
 #On profile name click show the login-info
 $ ->
-  loginInfo = document.getElementById('login-info')
-  dropDownCaret = document.getElementById('dropdown-caret')
   $('#profile-link').on 'click', ->
-    if loginInfo.style.visibility == 'hidden'
-      loginInfo.style.visibility = 'visible'
-      dropDownCaret.style.transform = 'rotate(180deg)'
-#On profile name click hide the login-info
+    if $('#login-info').css('visibility') == 'hidden'
+      $('#login-info').css('visibility': 'visible')
+      $('#dropdown-caret').css('transform': 'rotate(180deg)')
     else
-      loginInfo.style.visibility = 'hidden'
-      dropDownCaret.style.transform = 'rotate(0deg)'
+      $('#login-info').css('visibility': 'hidden')
+      $('#dropdown-caret').css('transform': 'rotate(00deg)')
 
 #On hover highlight both the link and the caret
 $ ->
