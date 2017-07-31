@@ -90,26 +90,6 @@ describe 'Provider context', reset_provider: true, js: true do
         end
       end
 
-      context 'when a user changes their provider context using the badge' do
-        before do
-
-          wait_for_ajax
-          click_on 'change-context'
-          select 'MMT_2', from: 'select_provider'
-
-          wait_for_ajax
-        end
-
-        it 'saves the new provider context' do
-          expect(User.first.provider_id).to eq('MMT_2')
-        end
-
-        it 'displays the new provider context' do
-          within '.eui-badge--sm.daac' do
-            expect(page).to have_content('MMT_2')
-          end
-        end
-
       # This is the exception case (see redirector.rb)
       context 'if user is on the provider order details page' do
         before do
