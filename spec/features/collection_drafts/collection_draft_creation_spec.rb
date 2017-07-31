@@ -7,7 +7,6 @@ describe 'Collection Draft creation', js: true do
 
   context 'when creating a new collection draft from scratch' do
     before do
-      # visit '/manage_collections'
       visit manage_collections_path
       click_on 'Create New Record'
     end
