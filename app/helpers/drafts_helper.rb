@@ -467,31 +467,6 @@ module DraftsHelper
     string.delete('|')
   end
 
-  # # Change json keys like 'FileSize' to acceptable html class names like 'file-size'
-  # def name_to_class(key)
-  #   if key == 'URLs'
-  #     'urls'
-  #   else
-  #     key.to_s.underscore.dasherize
-  #   end
-  # end
-  #
-  # def name_to_title(name)
-  #   is_id = name.end_with?('Id') && name.size > 2 ? ' Id' : ''
-  #
-  #   if name == 'URLs'
-  #     'URLs'
-  #   else
-  #     name.underscore.titleize + is_id
-  #   end
-  # end
-  #
-  # # Used to derive the displayed string of a select type control from the value stored in json
-  # def map_value_onto_display_string(str, options)
-  #   options_hash = Hash[options.map { |key, value| [value, key] }]
-  #   options_hash[str]
-  # end
-
   def keyword_string(keywords)
     keywords.map { |_key, value| value }.join(' > ')
   end
@@ -518,5 +493,21 @@ module DraftsHelper
       end
     end
     options_for_select(options, selected: value, disabled: disabled_options)
+  end
+
+  def short_name_header(draft_type)
+    if draft_type == 'variable_draft'
+      'Name'
+    else
+      'Short Name'
+    end
+  end
+
+  def entry_title_header(draft_type)
+    if draft_type == 'variable_draft'
+      'Long Name'
+    else
+      'Entry Title'
+    end
   end
 end
