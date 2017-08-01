@@ -12,9 +12,10 @@ nav {
     float: left;
     font-size: 1em;
     text-transform: uppercase;
-    padding: 0.8em 0 1em 0;
+    padding: 1em 0 1em 0;
     margin: 0.8em 3em 0 0;
     border-bottom: 0;
+
 
     &.current {
       border-bottom: 3px solid $red;
@@ -28,6 +29,10 @@ nav {
       color: $white;
       font-weight: bold;
       text-decoration: none;
+
+      &:hover {
+        color: lighten($dolphin-grey, 30%);
+      }
     }
   }
 }

@@ -51,6 +51,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
         context 'when the user logs in again' do
           before do
+            click_on 'profile-link'
             click_on 'Logout'
 
             expect(page).to have_content('Earthdata Login')
@@ -72,7 +73,7 @@ describe 'Provider context', reset_provider: true, js: true do
         select 'MMT_1', from: 'select_provider'
 
         wait_for_ajax
-
+        click_on 'profile-link'
         click_on 'Change Provider'
         select 'MMT_2', from: 'select_provider'
 
@@ -100,6 +101,7 @@ describe 'Provider context', reset_provider: true, js: true do
           end
 
           within '#user-info' do
+            click_on 'profile-link'
             click_on 'Change Provider'
           end
 
@@ -119,6 +121,7 @@ describe 'Provider context', reset_provider: true, js: true do
           click_on 'Create a Permission'
 
           within '#user-info' do
+            click_on 'profile-link'
             click_on 'Change Provider'
           end
 

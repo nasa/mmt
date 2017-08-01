@@ -42,3 +42,17 @@ $(document).ready ->
 # Handle presence of Javascript by turning off or on visibility of JS sensitive objects
 $('.js-disabled-object').css 'visibility': 'hidden'
 $('.js-enabled-object').css 'visibility': 'visible'
+
+# Change focus of cursor when search link is clicked on Manage Collections, Manage Variables, or Manage Services pages.
+$ ->
+ $('#search-focus').on 'click', ->
+    $('#keyword').focus()
+    $('#login-info').css 'visibility': 'hidden'
+    $('#dropdown-caret').css 'transform': 'rotate(0deg)'
+  return
+
+# If search-box has focus then hide the user menu and flip the caret
+$ ->
+  $('#keyword').on 'click', ->
+    $('#login-info').css 'visibility': 'hidden'
+    $('dropdown-caret').css 'visibility': 'rotate(0deg)'
