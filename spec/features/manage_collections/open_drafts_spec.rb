@@ -4,7 +4,7 @@ require 'rails_helper'
 # Basic draft creation and retrieval via the list on the Manage Collections page are tested in draft_creation_spec.rb
 
 describe 'Open Drafts listings on the Manage Collections page', reset_provider: true do
-  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_collections_controller
+  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_metadata_controller
 
   before do
     login
@@ -26,7 +26,7 @@ describe 'Open Drafts listings on the Manage Collections page', reset_provider: 
         create(:collection_draft, user_id: current_user_id)
       end
 
-      visit manage_collections_path
+      visit manage_metadata_path
     end
 
     it '"More" is displayed' do

@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe 'Bulk Updates callout box on the Manage Collections page' do
-  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_collections_controller
+  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_metadata_controller
 
   before do
     login
 
-    visit manage_collections_path
+    visit manage_metadata_path
   end
 
   # we currently cannot test this as bulk updates are never cleared

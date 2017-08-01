@@ -1,4 +1,4 @@
-class SearchController < ManageCollectionsController
+class SearchController < ManageMetadataController
   include SearchHelper
 
   RESULTS_PER_PAGE = 25

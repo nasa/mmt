@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ManageCollectionsController, reset_provider: true do
+describe ManageMetadataController, reset_provider: true do
   describe 'GET #show' do
     before do
       sign_in

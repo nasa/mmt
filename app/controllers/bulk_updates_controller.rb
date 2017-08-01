@@ -1,5 +1,5 @@
 # :nodoc:
-class BulkUpdatesController < ManageCollectionsController
+class BulkUpdatesController < ManageMetadataController
   before_filter :bulk_updates_enabled?
 
   add_breadcrumb 'Bulk Updates', :bulk_updates_path
