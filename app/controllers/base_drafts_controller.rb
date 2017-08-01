@@ -102,7 +102,7 @@ class BaseDraftsController < DraftsController
     Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was destroyed by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
 
     respond_to do |format|
-      format.html { redirect_to manage_metadata_path, flash: { success: 'Draft was successfully deleted.' } }
+      format.html { redirect_to manage_collections_path, flash: { success: 'Draft was successfully deleted.' } }
     end
   end
 
