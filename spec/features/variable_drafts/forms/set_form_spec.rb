@@ -13,7 +13,7 @@ describe 'Set Form', reset_provider: true, js: true do
 
     it 'displays the correct title and description' do
       within '.umm-form' do
-        expect(page).to have_content('Set')
+        expect(page).to have_content('Sets')
         expect(page).to have_content('The set information of a variable.')
       end
     end
