@@ -213,7 +213,7 @@ class UmmJsonForm < JsonFile
       result[k] = compact_blank(v)
     end
     result = result.compact
-    result.compact.presence || {}
+    result.compact.presence
   end
 
   # Run the schema and object through JSON Validator and store the results
