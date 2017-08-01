@@ -28,7 +28,7 @@ describe BulkUpdatesController, reset_provider: true do
       it 'redirects the user to the manage collections page' do
         get :index
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(mange_collections_path)
       end
     end
   end
@@ -60,7 +60,7 @@ describe BulkUpdatesController, reset_provider: true do
       it 'redirects the user to the manage collections page' do
         get :show, id: 1
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(mange_collections_path)
       end
     end
   end
@@ -88,7 +88,7 @@ describe BulkUpdatesController, reset_provider: true do
 
         get :new
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(mange_collections_path)
       end
     end
   end
@@ -116,7 +116,7 @@ describe BulkUpdatesController, reset_provider: true do
 
         post :new
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(mange_collections_path)
       end
     end
   end
@@ -144,7 +144,7 @@ describe BulkUpdatesController, reset_provider: true do
 
         get :preview
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(mange_collections_path)
       end
     end
   end
@@ -172,7 +172,7 @@ describe BulkUpdatesController, reset_provider: true do
 
         post :preview, 'update_field': 'science_keywords'
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(mange_collections_path)
       end
     end
   end
@@ -259,7 +259,7 @@ describe BulkUpdatesController, reset_provider: true do
 
         post :create
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(mange_collections_path)
       end
     end
   end
