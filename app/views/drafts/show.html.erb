@@ -1,7 +1,7 @@
 <div class="row row-content">
   <section class="action">
     <div class="cta">
-      <% if @errors && @errors.size > 0 %>
+      <% if @json_form.invalid_keys(ignore_required_fields: false).any? %>
         <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
         <div id="invalid-draft-modal" class="eui-modal-content">
           <p>This variable draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
@@ -23,4 +23,42 @@
       </div>
     </div>
   </section>
+
+  <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
+
+  <div class="content">
+    <% @json_form.forms.each do |form| %>
+      <section class="umm-preview <%= form.parsed_json['id'] %>">
+        <div class="preview-collection eui-accordion">
+          <div class="eui-accordion__header">
+            <h4 class="eui-accordion__title"><%= form.title %></h4>
+            <div class="eui-accordion__icon" tabindex="0">
+              <i class="eui-icon eui-fa-chevron-circle-down"></i>
+              <span class="eui-sr-only">Toggle <%= form.title %></span>
+            </div>
+          </div>
+          <div class="eui-accordion__body">
+            <% form.elements.each do |element| %>
+              <div id="<%= element.idify_property_name(element.parsed_json) %>_preview" class="umm-preview-field-container">
+                <h5>
+                  <%= element.title %>
+                  
+                  <%= link_to send("edit_#{resource_name}_path", get_resource, form.parsed_json['id'], anchor: element.idify_property_name(element.parsed_json)), class: 'hash-link' do %>
+                    <i class="fa fa-edit"></i> 
+                    <span class="is-invisible">Edit <%= element.title %></span>
+                  <% end %>
+                </h5>
+
+                <% if element.value? %>
+                  <%= element.render_preview %>
+                <% else %>
+                  <p class="empty-section">No value for <%= element.title %> provided.</p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </section>
+    <% end %>
+  </div>
 </div>
