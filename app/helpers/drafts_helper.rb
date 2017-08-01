@@ -519,4 +519,9 @@ module DraftsHelper
     end
     options_for_select(options, selected: value, disabled: disabled_options)
   end
+
+  def titleize_form_name(form_name)
+    return 'Related URLs' if form_name == 'related_urls'
+    form_name.titleize
+  end
 end
