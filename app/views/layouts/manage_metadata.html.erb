@@ -33,7 +33,13 @@
 
               <nav>
                 <div class="content">
-                  <h2><%= link_to 'Manage Collections', manage_collections_path %></h2>
+
+                  <% if url.include?('/manage_collections') %>
+                    <h2><%= link_to 'Manage Collections', manage_collections_path %></h2>
+                  <% else %>
+                    <h2><%= link_to 'Manage Collections', manage_collections_path %></h2>
+                  <% end %>
+                  
                   <% if Rails.configuration.groups_enabled %>
                   <h2><%= link_to 'Manage CMR', manage_cmr_path %></h2>
                   <% end %>
