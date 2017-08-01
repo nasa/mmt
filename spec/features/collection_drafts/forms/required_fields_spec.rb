@@ -26,7 +26,7 @@ describe 'Conditionally required fields', js: true do
     context 'when viewing a form with conditionally required fields' do
       before do
         within '.metadata' do
-          click_on 'Distribution Information', match: :first
+          click_on 'Related URLs', match: :first
         end
 
         open_accordions
@@ -79,7 +79,7 @@ describe 'Conditionally required fields', js: true do
     context 'when viewing a form with conditionally required fields' do
       before do
         within '.metadata' do
-          click_on 'Distribution Information', match: :first
+          click_on 'Related URLs', match: :first
         end
         open_accordions
       end

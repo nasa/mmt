@@ -10,7 +10,7 @@ describe 'Progress circles', js: true do
       visit '/manage_metadata'
       choose 'New Collection Record'
       click_on 'Create Record'
-      
+
       within '.metadata-cta.nav-top' do
         click_on 'Done'
       end
@@ -90,7 +90,7 @@ describe 'Progress circles', js: true do
     context 'when filling in a field with invalid data' do
       before do
         within '.metadata' do
-          click_on 'Distribution Information'
+          click_on 'Related URLs'
         end
 
         open_accordions
@@ -108,7 +108,7 @@ describe 'Progress circles', js: true do
       end
 
       it 'fills in the correct circle in red' do
-        within '#distribution-information a[title="Related Urls - Invalid"]' do
+        within '#related-urls a[title="Related Urls - Invalid"]' do
           expect(page).to have_css('.eui-fa-minus-circle.icon-red')
         end
       end

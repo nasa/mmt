@@ -14,7 +14,7 @@ describe 'Collection Draft form navigation', js: true do
   context 'when viewing the Summary page' do
     it 'displays form titles' do
       expect(page).to have_content('Data Identification')
-      expect(page).to have_content('Distribution Information')
+      expect(page).to have_content('Related URLs')
     end
   end
 
