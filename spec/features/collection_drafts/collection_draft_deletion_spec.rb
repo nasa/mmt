@@ -33,8 +33,13 @@ describe 'Draft deletion', js: true do
     #   end
     # end
 
+<<<<<<< HEAD
     # it 'returns to the manage metadata page' do
       expect(page).to have_content('MMT_2 Drafts')
+=======
+    # it 'returns to the manage collections page' do
+      expect(page).to have_content('MMT_2 Collection Drafts')
+>>>>>>> cd382ff9f950d136c32630440b8620ab87ba939d
     end
   end
 
@@ -51,8 +56,13 @@ describe 'Draft deletion', js: true do
     #   expect(Draft.count).to eq(1)
     # end
 
+<<<<<<< HEAD
     it 'does NOT return to the manage metadata page' do
       expect(page).to_not have_content('MMT_2 Drafts')
+=======
+    it 'does NOT return to the manage collections page' do
+      expect(page).to_not have_content('MMT_2 Collection Drafts')
+>>>>>>> cd382ff9f950d136c32630440b8620ab87ba939d
     end
   end
 end

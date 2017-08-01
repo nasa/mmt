@@ -5,7 +5,7 @@ class PagesController < ApplicationController
     when 'new_collection'
       redirect_to new_collection_draft_path
     else
-      redirect_to manage_metadata_path
+      redirect_to manage_collections_path
     end
   end
 end

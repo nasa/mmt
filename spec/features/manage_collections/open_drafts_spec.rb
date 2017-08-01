@@ -1,9 +1,9 @@
 # MMT-57
 
 require 'rails_helper'
-# Basic draft creation and retrieval via the list on the Manage Metadata page are tested in draft_creation_spec.rb
+# Basic draft creation and retrieval via the list on the Manage Collections page are tested in draft_creation_spec.rb
 
-describe 'Open Drafts listings on the Manage Metadata page', reset_provider: true do
+describe 'Open Drafts listings on the Manage Collections page', reset_provider: true do
   draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_metadata_controller
 
   before do
@@ -12,7 +12,7 @@ describe 'Open Drafts listings on the Manage Metadata page', reset_provider: tru
 
   context 'when no drafts exist' do
     it 'no drafts are displayed' do # Test correct display of edge condition of zero drafts
-      expect(page).to have_content('Your MMT_2 Drafts')
+      expect(page).to have_content('MMT_2 Collection Drafts')
       within('.open-drafts') do
         expect(page).to_not have_content('|')
       end
@@ -26,7 +26,7 @@ describe 'Open Drafts listings on the Manage Metadata page', reset_provider: tru
         create(:collection_draft, user_id: current_user_id)
       end
 
-      visit manage_metadata_path
+      visit mange_collections_path
     end
 
     it '"More" is displayed' do

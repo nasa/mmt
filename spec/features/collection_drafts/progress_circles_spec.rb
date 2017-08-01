@@ -7,10 +7,9 @@ describe 'Progress circles', js: true do
     before do
       login
 
-      visit '/manage_metadata'
-      choose 'New Collection Record'
-      click_on 'Create Record'
-      
+      visit mange_collections_path
+      click_on 'Create New Record'
+
       within '.metadata-cta.nav-top' do
         click_on 'Done'
       end
