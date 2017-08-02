@@ -1,3 +1,4 @@
+# Before DOM is loaded hide these elements
 $(document).ready ->
 
   $('#search').on 'click', 'button', ->
