@@ -35,14 +35,14 @@
               <li>
                 <p>
                   <%= time_tag draft.updated_at, draft.updated_at.strftime("%Y-%m-%d") %> |
-                  <%= link_to draft.display_short_name, collection_draft_path(draft) %> </br>
+                  <%= link_to draft.display_short_name, variable_draft_path(draft) %> </br>
                   &nbsp;<%= draft.display_entry_title.truncate(32) %>
                 </p>
               </li>
             <% end %>
             <% if @drafts.size > @draft_display_max_count %>
               <li>
-                <%= link_to 'More', variables_drafts_path %>
+                <%= link_to 'More', variable_drafts_path %>
               </li>
             <% end %>
           </ul>
