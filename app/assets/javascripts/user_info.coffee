@@ -10,7 +10,7 @@ $ ->
       $('#dropdown-caret').css('transform': 'rotate(180deg)')
     else
       $('#login-info').css('visibility': 'hidden')
-      $('#dropdown-caret').css('transform': 'rotate(00deg)')
+      $('#dropdown-caret').css('transform': 'rotate(0deg)')
 
 #On hover highlight both the link and the caret
 $ ->
