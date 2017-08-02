@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Empty Variable Draft Variable Information Preview', js: true do
+describe 'Empty Variable Draft Variable Information Preview' do
   before do
     login
     @draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
