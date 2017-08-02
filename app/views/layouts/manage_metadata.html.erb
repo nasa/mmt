@@ -33,13 +33,17 @@
 
               <nav>
                 <div class="content">
-                  <%= content_tag(:h2, class: ('current' if controller_name == 'manage_collections' || 'collection_drafts')) do %>
+                  <h2 class="<%= 'current' if controller_name == 'manage_collections' || controller_name == 'collection_drafts' %>">
                     <%= link_to 'Manage Collections', manage_collections_path %>
-                  <% end %>
+                  </h2>
 
-                  <%= content_tag(:h2, class: ('current' if controller_name == 'manage_variables' || 'variable_drafts')) do %>
+                  <h2 class="<%= 'current' if controller_name == 'manage_variables' || controller_name == 'variables_drafts' %>">
                     <%= link_to 'Manage Variables', manage_variables_path %>
-                  <% end %>
+                  </h2>
+
+                  <h2 class="<%= 'current' if controller_name == 'manage_services' || controller_name == 'services_drafts' %>">
+                    <%= link_to 'Manage Services', manage_services_path %>
+                  </h2>
 
                   <% if Rails.configuration.groups_enabled %>
                   <h2><%= link_to 'Manage CMR', manage_cmr_path %></h2>

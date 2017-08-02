@@ -12,13 +12,27 @@
   min-height: 400px;
 }
 
-.eui-callout-box__title {
-  font-size: 1.25em;
-  font-weight: bold;
-  line-height: 1.5;
-  background-color: $steel-blue;
-  border-right: 8px solid darken($steel-blue, 10%);
-  box-shadow: -1.5em 0 0 0 $steel-blue;
+.eui-callout-box {
+  &__title {
+    font-size: 1.25em;
+    font-weight: bold;
+    line-height: 1.5;
+    background-color: $steel-blue;
+    border-right: 8px solid darken($steel-blue, 10%);
+    box-shadow: -1.5em 0 0 0 $steel-blue;
+  }
+
+  .green {
+    background-color: $dark-green;
+    border-right: 8px solid darken($dark-green, 10%);
+    box-shadow: -1.5em 0 0 0 $dark-green;
+  }
+
+  .ocean-blue {
+    background-color: $ocean-blue;
+    border-right: 8px solid darken($ocean-blue, 10%);
+    box-shadow: -1.5em 0 0 0 $ocean-blue;
+  }
 }
 
 .eui-callout-box__list {

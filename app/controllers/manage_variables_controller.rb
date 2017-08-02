@@ -1,3 +1,4 @@
+# :nodoc:
 class ManageVariablesController < ManageMetadataController
   include BulkUpdates
 

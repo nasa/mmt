@@ -1,7 +1,7 @@
 <main class="dashboard" role="main">
   <article id="metadata" class="row-content flex-row--start" role="article">
     <section class="eui-callout-box col-left">
-      <h3 class="eui-callout-box__title green">Create New Record</h3>
+      <h3 class="eui-callout-box__title ocean-blue">Create New Record</h3>
       <div class="eui-callout-box__list">
         <%= form_tag(new_record_path, method: 'get', enforce_utf8: false) do %>
         <input type="submit" class="eui-btn--blue submit" value="Create New Record">
@@ -10,13 +10,13 @@
               <%= radio_button_tag(:type, "new_collection", true, id: 'new-collection') %>
               <%= image_tag "collection.png", alt: "" %>
               <label for="new-collection">
-                New Variable Record
+                New Service Record
               </label>
             </div>
           </div>
           <div class="question-group">
             <div class="row">
-              <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find a published variables to clone or edit.</p>
+              <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find a published service to clone or edit.</p>
             </div>
           </div>
         <% end %>
@@ -25,7 +25,7 @@
 
     <section class="eui-callout-box col-left">
       <div class="open-drafts">
-        <h3 class="eui-callout-box__title green"><%= current_user.provider_id %> Variable Drafts</h2>
+        <h3 class="eui-callout-box__title ocean-blue"><%= current_user.provider_id %> Service Drafts</h2>
         <div class="eui-callout-box__list">
           <ul>
             <% unless @drafts.any? %>
