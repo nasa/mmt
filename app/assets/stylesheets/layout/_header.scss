@@ -4,7 +4,7 @@
 
 // todo: needs heavy refactoring.
 
-header {
+header.mmt-header {
   @include row();
   @include linear-gradient($ocean-blue, darken($ocean-blue, 2%));
   color: white;
