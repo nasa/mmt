@@ -7,7 +7,7 @@ describe 'Progress circles', js: true do
     before do
       login
 
-      visit mange_collections_path
+      visit manage_collections_path
       click_on 'Create New Record'
 
       within '.metadata-cta.nav-top' do

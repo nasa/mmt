@@ -33,11 +33,12 @@
 
               <nav>
                 <div class="content">
-                  <% current_uri = request.env['PATH_INFO'] %>
-                  <% if current_uri == '/manage_collections' %>
-                    <h2 class="current"><%= link_to 'Manage Collections', manage_collections_path %></h2>
-                  <% else %>
-                    <h2><%= link_to 'Manage Collections', manage_collections_path %></h2>
+                  <%= content_tag(:h2, class: ('current' if controller_name == 'manage_collections' || 'collection_drafts')) do %>
+                    <%= link_to 'Manage Collections', manage_collections_path %>
+                  <% end %>
+
+                  <%= content_tag(:h2, class: ('current' if controller_name == 'manage_variables' || 'variable_drafts')) do %>
+                    <%= link_to 'Manage Variables', manage_variables_path %>
                   <% end %>
 
                   <% if Rails.configuration.groups_enabled %>

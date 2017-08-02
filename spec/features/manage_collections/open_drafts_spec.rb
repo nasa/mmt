@@ -26,7 +26,7 @@ describe 'Open Drafts listings on the Manage Collections page', reset_provider: 
         create(:collection_draft, user_id: current_user_id)
       end
 
-      visit mange_collections_path
+      visit manage_collections_path
     end
 
     it '"More" is displayed' do

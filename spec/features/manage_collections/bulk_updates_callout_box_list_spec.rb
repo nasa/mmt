@@ -6,7 +6,7 @@ describe 'Bulk Updates callout box on the Manage Collections page' do
   before do
     login
 
-    visit mange_collections_path
+    visit manage_collections_path
   end
 
   # we currently cannot test this as bulk updates are never cleared
