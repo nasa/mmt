@@ -53,7 +53,7 @@ module Helpers
         concept_id = ingest_response.body['concept-id']
         revision_id = ingest_response.body['revision-id']
         content_type = "application/#{Rails.configuration.umm_version}; charset=utf-8"
-        concept_response = cmr_client.get_concept(concept_id, 'token', content_type, revision_id)
+        concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
 
         raise Array.wrap(concept_response.body['errors']).join(' /// ') if concept_response.body.key?('errors')
 

@@ -1,7 +1,34 @@
+<% content_for :header_title do %>
+  <h2><%= @variable['Name'] %></h2>
+<% end %>
+
 <div class="row row-content">
-  <div class="eui-banner--warn">
-    <p class="eui-banner__message">
-      Your Variable was successfully published. This page is coming later.
-    </p>
+  <div class="content">
+    <% @json_form.forms.each do |form| %>
+      <section class="umm-preview <%= form.parsed_json['id'] %>">
+        <div class="preview-collection eui-accordion">
+          <div class="eui-accordion__header">
+            <h4 class="eui-accordion__title"><%= form.title %></h4>
+            <div class="eui-accordion__icon" tabindex="0">
+              <i class="eui-icon eui-fa-chevron-circle-down"></i>
+              <span class="eui-sr-only">Toggle <%= form.title %></span>
+            </div>
+          </div>
+          <div class="eui-accordion__body">
+            <% form.elements.each do |element| %>
+              <div id="<%= element.idify_property_name(element.parsed_json) %>_preview" class="umm-preview-field-container">
+                <h5><%= element.title %></h5>
+
+                <% if element.value? %>
+                  <%= element.render_preview %>
+                <% else %>
+                  <p class="empty-section">No value for <%= element.title %> provided.</p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </section>
+    <% end %>
   </div>
 </div>
