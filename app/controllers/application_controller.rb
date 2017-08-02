@@ -253,7 +253,7 @@ class ApplicationController < ActionController::Base
     AncillaryKeywords
     AdditionalAttributes
   )
-  DISTRIBUTION_INFORMATION_FIELDS = %w(
+  RELATED_URL_FIELDS = %w(
     RelatedUrls
   )
   METADATA_INFORMATION_FIELDS = %w(
@@ -292,8 +292,8 @@ class ApplicationController < ActionController::Base
       'data_identification'
     elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? fields.first
       'descriptive_keywords'
-    elsif DISTRIBUTION_INFORMATION_FIELDS.include? fields.first
-      'distribution_information'
+    elsif RELATED_URL_FIELDS.include? fields.first
+      'related_urls'
     elsif METADATA_INFORMATION_FIELDS.include? fields.first
       'metadata_information'
     elsif fields.include?('ContactPersons' || 'ContactGroups') # DATA_CONTACTS

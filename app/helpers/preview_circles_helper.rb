@@ -118,7 +118,7 @@ module PreviewCirclesHelper
         anchor: 'additional-attributes'
       }
     },
-    'distribution_information' => {
+    'related_urls' => {
       'RelatedUrls' => {
         required: false,
         anchor: 'related-urls'

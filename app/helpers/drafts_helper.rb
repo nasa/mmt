@@ -319,7 +319,8 @@ module DraftsHelper
           'text' => 'Get Related Visualization',
           'subtypes' => [
             ['GIBS', 'GIBS'],
-            ['GIOVANNI', 'GIOVANNI']
+            ['GIOVANNI', 'GIOVANNI'],
+            ['MAP', 'MAP']
           ]
         }
       }
@@ -509,5 +510,10 @@ module DraftsHelper
     else
       'Entry Title'
     end
+  end
+  
+  def titleize_form_name(form_name)
+    return 'Related URLs' if form_name == 'related_urls'
+    form_name.titleize
   end
 end

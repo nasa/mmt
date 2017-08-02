@@ -33,7 +33,6 @@ describe 'Publishing collection draft records', js: true do
 
     it 'displays the published metadata' do
       expect(page).to have_no_content('There are no additional metadata details for this collection.')
-      expect(page).to have_no_content('There is no distribution information for this collection.')
       expect(page).to have_no_content('There are no related URLs for this collection.')
       expect(page).to have_no_content('There are no science keywords for this collection.')
       expect(page).to have_no_content('There are no listed organizations for this collection.')
