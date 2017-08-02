@@ -67,6 +67,38 @@ module Helpers
       end
     end
 
+    # Publish a variable draft
+    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
+        user = User.where(urs_uid: 'testuser').first
+
+        # Default draft attributes
+        draft_attributes = {
+          user: user,
+          provider_id: provider_id,
+          native_id: native_id || Faker::Crypto.md5
+        }
+
+        # Conditional additions to the draft attributes
+        draft_attributes[:draft_name] = name unless name.blank?
+        draft_attributes[:draft_long_name] = long_name unless long_name.blank?
+
+        # Create a new draft with the provided attributes
+        # NOTE: We don't save the draft object, there is no reason to hit the database
+        # here knowing that we're going to delete it as soon as it's published anyway
+        draft = build(:full_variable_draft, draft_attributes)
+
+        ingest_response = cmr_client.ingest_variable(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+
+        # Synchronous way of waiting for CMR to complete the ingest work
+        wait_for_cmr
+
+        raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+        ingest_response.body
+      end
+    end
+
     # Open any accordions on the page, but try again if they aren't open
     # Also try again if there are no accordions on the page (page hasn't loaded yet)
     # http://stackoverflow.com/a/28174679

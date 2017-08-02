@@ -12,9 +12,7 @@ describe 'Publishing variable draft records', js: true do
     end
 
     it 'displays a confirmation message' do
-      expect(page).to have_content('Your Variable was successfully published. This page is coming later.')
-      # TODO MMT-1036
-      # expect(page).to have_content('Variable Draft Published Successfully!')
+      expect(page).to have_content('Variable Draft Published Successfully!')
     end
   end
 

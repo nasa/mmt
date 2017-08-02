@@ -46,8 +46,7 @@ FactoryGirl.define do
     transient do
       draft_short_name nil
       draft_entry_title nil
-      version nil
-    end
+     end
 
     native_id 'full_variable_draft_native_id'
     provider_id 'MMT_2'
@@ -56,8 +55,8 @@ FactoryGirl.define do
     # TODO: taken from one of Simon's previous examples. may need to be updated
     # or we may want to make it more generic
     draft {{
-      'Name': 'PNs_LIF',
-      'LongName': 'Volume mixing ratio of sum of peroxynitrates in air',
+      'Name': draft_short_name || 'PNs_LIF',
+      'LongName': draft_entry_title || 'Volume mixing ratio of sum of peroxynitrates in air',
       'Definition': 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)',
       'Units': 'Npptv',
       'DataType': 'float',
