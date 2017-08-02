@@ -45,7 +45,7 @@
         },
         "ShortName": {
           "description": "This is the short name of the data center.",
-           "$ref": "#/definitions/DataCenterShortNameType"
+           "$ref": "#/definitions/ShortNameType"
         },
         "LongName": {
           "description": "This is the long name of the data center.",
@@ -511,14 +511,14 @@
     "DoiType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of http://dx.doi.org/ should be used.",
+      "description": "This element describes the digital object identifier.",
       "properties": {
         "Authority": {
-          "description": "The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of http://dx.doi.org/ should be used.",
+          "description": "The authority who created the DOI.",
           "$ref": "#/definitions/AuthorityType"
         },
         "DOI": {
-          "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+          "description": "The Digitial Object Identifier.",
           "type": "string",
           "minLength": 1,
           "maxLength": 1024
@@ -1178,7 +1178,7 @@
         }
       },
       "required": ["CoordinateSystem"],
-      "anyOf": [{
+      "oneOf": [{
         "required": ["Points"]
       }, {
         "required": ["BoundingRectangles"]
@@ -1427,18 +1427,16 @@
       "type": "string",
       "enum": ["Direct Line", "Email", "Facebook", "Fax", "Mobile", "Modem", "Primary", "TDD/TTY Phone", "Telephone", "Twitter", "U.S. toll free", "Other"]
     },
+    "ISOTopicCategoryEnum": {
+      "description": "High-level geospatial data thematic classification to assist in the grouping and search of available geospatial collections.",
+      "type": "string",
+      "enum": ["farming", "biota", "boundaries", "climatologyMeteorologyAtmosphere", "economy", "elevation", "environment", "geoscientificInformation", "health", "imageryBaseMapsEarthCover", "intelligenceMilitary", "inlandWaters", "location", "oceans", "planningCadastre", "society", "structure", "transportation", "utilitiesCommunication"]
+    },
     "ShortNameType": {
       "description": "The unique name.",
       "type": "string",
       "minLength": 1,
       "maxLength": 85
-    },
-    "DataCenterShortNameType": {
-      "description": "The unique name of the data center.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 85,
-      "pattern": "[\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=,][\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=, ]{1,84}"
     },
     "PlatformShortNameType": {
       "description": "The unique name of the platform.",
@@ -1500,7 +1498,7 @@
     },
     "SpatialCoverageTypeEnum": {
       "type": "string",
-      "enum": ["HORIZONTAL", "VERTICAL", "ORBITAL", "HORIZONTAL_VERTICAL", "ORBITAL_VERTICAL"]
+      "enum": ["HORIZONTAL", "VERTICAL", "ORBITAL"]
     },
     "CoordinateSystemEnum": {
       "type": "string",
