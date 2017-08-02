@@ -31,9 +31,9 @@
       position: absolute;
       background-color: $steel-blue;
       padding: 5px 10px 2px 15px;
-      margin-top: -5px;
+      margin-top: -4px;
       height: 85px;
-      max-width: 386px;
+      max-width: 385px;
 
       .radio-buttons {
         float: left;
@@ -58,6 +58,7 @@
     .eui-btn--blue {
       background-color: $steel-blue;
       border-right: 1px solid white;
+      border-bottom: 1px solid white; /* RDC-DEV Should be implemented with jQuery on open of menu */
     }
 
     .dropdown-button {
