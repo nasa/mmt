@@ -1,31 +1,34 @@
 <%= form_tag(search_path, method: "get", enforce_utf8: false, id: 'search-form', role: 'search') do %>
   <input type="hidden" name="search_type" id="search_type" value="">
   <div class="quick-search">
-    <%= label_tag('keyword', "Quick Find") %>
     <%= text_field_tag('keyword', @query['keyword'], placeholder: 'Enter Search Term') %>
-    <button type="button" name="quick_find" class="eui-btn--blue"><i class="eui-icon eui-fa-search"></i>Find</button>
-  </div>
-
-  <a href="#" class="full-search"><i class="eui-icon eui-fa-search"></i> Full Metadata Record Search</a>
-
-  <div class="search-module is-hidden">
-    <p class="form-description">Enter a Short Name, CMR Concept ID, Entry Title or other Search Term</p>
-      <!-- Type of Record -->
-    <div class='full-search-form'>
-      <fieldset>
-        <legend>Find</legend>
+    <button type="button" name="quick_find" class="eui-btn--blue"><i class="eui-icon eui-fa-search"></i>Search Collections</button><button class="dropdown-button"><i class="fa fa-caret-down" aria-hidden="true"></i></button>
+    <div class="dropdown">
+      <fieldset class="radio-buttons">
         <div class="row">
           <!-- @query['record_state'] -->
           <%= radio_button_tag(:record_state, 'published_records', !(@query['record_state'] && @query['record_state'] == 'draft_records')) %>
           <%= label_tag(:record_state_published_records, 'Collections') %>
 
           <%= radio_button_tag(:record_state, 'draft_records', @query['record_state'] && @query['record_state'] == 'draft_records') %>
-          <%= label_tag(:record_state_draft_records, 'Drafts') %>
+          <%= label_tag(:record_state_draft_records, 'Variables') %> <!-- Currently set up like drafts -->
 
           <%= radio_button_tag(:record_state, 'services', false, disabled: true) %>
           <%= label_tag(:record_state_services, 'Services') %>
         </div>
       </fieldset>
+      <fieldset class="provider-selection">
+        <div class="row">
+          <span>Provider:</span><%= select_tag "provider_id", options_for_select(@provider_ids.unshift(['Select Provider', '']), @query['provider_id']), class: 'single-select', 'aria-label' => 'Select Provider' %>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="search-module is-hidden">
+    <p class="form-description">Enter a Short Name, CMR Concept ID, Entry Title or other Search Term</p>
+      <!-- Type of Record -->
+    <div class='full-search-form'>
 
       <hr>
       <!-- Record Details -->
