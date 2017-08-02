@@ -44,19 +44,12 @@ $(document).ready ->
 $('.js-disabled-object').css 'visibility': 'hidden'
 $('.js-enabled-object').css 'visibility': 'visible'
 
-# Change focus of cursor when search link is clicked on Manage Collections, Manage Variables, or Manage Services pages.
+#On search caret click, show search dropdown
 $ ->
- $('#search-focus').on 'click', ->
-    $('#keyword').focus()
-    $('#login-info').css 'visibility': 'hidden'
-    $('#dropdown-caret').css 'transform': 'rotate(0deg)'
-  return
-
-# If search-box has focus then hide the user menu and flip the caret
-$ ->
-  $('#keyword').on 'click', ->
-    $('#login-info').css 'visibility': 'hidden'
-    $('dropdown-caret').css 'visibility': 'rotate(0deg)'
-
-    document.getElementById('keyword').focus()
-  return
+  $('#search-drop-button').on 'click', ->
+    if $('.dropdown').css('visibility') == 'hidden'
+      $('.dropdown').css('visibility': 'visible')
+      $('#search-drop-caret').css('transform': 'rotate(180deg)')
+    else
+      $('.dropdown').css('visibility': 'hidden')
+      $('#search-drop-caret').css('transform': 'rotate(0deg)')
