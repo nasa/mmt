@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Invalid Variable Draft Dimensions Preview', js: true do
+describe 'Invalid Variable Draft Dimensions Preview' do
   before do
     login
     @draft = create(:invalid_variable_draft, user: User.where(urs_uid: 'testuser').first)

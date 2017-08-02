@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Invalid Variable Draft Set Preview', js: true do
+describe 'Invalid Variable Draft Set Preview' do
   before do
     login
     @draft = create(:invalid_variable_draft, user: User.where(urs_uid: 'testuser').first)
