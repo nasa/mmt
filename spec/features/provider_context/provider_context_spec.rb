@@ -63,11 +63,18 @@ describe 'Provider context', reset_provider: true, js: true do
             within '.eui-badge--sm.daac' do
               expect(page).to have_content('MMT_1')
             end
+          end
 
-            # Clicking badge allows user to click to get to provider menu
-            click_on 'provider-badge-link'
+          # Clicking badge allows user to click to get to provider menu
+          context 'when clicking on the badge' do
+            before do
+              click_on 'provider-badge-link'
+            end
+
             it 'prompts the user to select a provider context' do
-              expect(page).to have_content('Please select your provider context')
+              within '#provider-context' do
+                expect(page).to have_content('Please select your provider context')
+              end
             end
           end
         end
