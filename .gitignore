@@ -46,3 +46,6 @@ cmr_metadata_preview/*
 
 # Ignore coffeelint configuration
 coffeelint.json
+
+# Ignore log file
+nohup.out

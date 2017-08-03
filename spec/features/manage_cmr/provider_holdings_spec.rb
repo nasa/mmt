@@ -47,8 +47,10 @@ describe 'Manage CMR provider holdings', reset_provider: true, js: true do
 
     context 'when selecting a provider' do
       before do
-        VCR.use_cassette('provider_holdings/mmt_2', record: :none) do
-          click_on 'MMT_2'
+        within '#data-providers' do
+          VCR.use_cassette('provider_holdings/mmt_2', record: :none) do
+            click_on 'MMT_2'
+          end
         end
       end
 

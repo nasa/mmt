@@ -51,6 +51,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
         context 'when the user logs in again' do
           before do
+            click_on 'profile-link'
             click_on 'Logout'
 
             expect(page).to have_content('Earthdata Login')
@@ -63,6 +64,19 @@ describe 'Provider context', reset_provider: true, js: true do
               expect(page).to have_content('MMT_1')
             end
           end
+
+          # Clicking badge allows user to click to get to provider menu
+          context 'when clicking on the badge' do
+            before do
+              click_on 'provider-badge-link'
+            end
+
+            it 'prompts the user to select a provider context' do
+              within '#provider-context' do
+                expect(page).to have_content('Please select your provider context')
+              end
+            end
+          end
         end
       end
     end
@@ -72,7 +86,7 @@ describe 'Provider context', reset_provider: true, js: true do
         select 'MMT_1', from: 'select_provider'
 
         wait_for_ajax
-
+        click_on 'profile-link'
         click_on 'Change Provider'
         select 'MMT_2', from: 'select_provider'
 
@@ -100,6 +114,7 @@ describe 'Provider context', reset_provider: true, js: true do
           end
 
           within '#user-info' do
+            click_on 'profile-link'
             click_on 'Change Provider'
           end
 
@@ -119,6 +134,7 @@ describe 'Provider context', reset_provider: true, js: true do
           click_on 'Create a Permission'
 
           within '#user-info' do
+            click_on 'profile-link'
             click_on 'Change Provider'
           end
 
