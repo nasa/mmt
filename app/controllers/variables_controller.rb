@@ -1,19 +1,24 @@
 # :nodoc:
-class VariablesController < ManageMetadataController
+class VariablesController < ApplicationController
   before_action :set_variable, only: [:show, :edit]
 
   def show
   end
 
   def edit
-    draft = VariableDraft.create_from_variable(@variable, current_user, @native_id)
-    Rails.logger.info("Audit Log: Variable Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
-    flash[:success] = I18n.t('controllers.draft.variable_drafts.create.flash.success')
-    redirect_to variable_draft_path(draft)
+    if @native_id
+      draft = VariableDraft.create_from_variable(@variable, current_user, @native_id)
+      Rails.logger.info("Audit Log: Variable Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
+      flash[:success] = I18n.t('controllers.draft.variable_drafts.create.flash.success')
+      redirect_to variable_draft_path(draft)
+    else
+      # if we cannot locate the native_id for the Variable, we should discontinue editing
+      redirect_to variable_path(@concept_id, revision_id: @revision_id), flash: { error: I18n.t('controllers.variables.edit.flash.native_id_error') }
+    end
   end
 
   def create
-    @variable_draft = VariableDraft.find(params[:id])
+    variable_draft = VariableDraft.find(params[:id])
 
     ingested = cmr_client.ingest_variable(variable_draft.draft.to_json, variable_draft.provider_id, variable_draft.native_id, token)
 
@@ -49,19 +54,6 @@ class VariablesController < ManageMetadataController
     @concept_id = params[:id]
     @revision_id = params[:revision_id]
 
-    # search for variable by concept id to get the native_id
-    variables_search_response = cmr_client.get_variables({ concept_id: @concept_id })#.body['items']
-
-    variable_data = if variables_search_response.success?
-                      variables_search_response.body['items'].first
-                    else
-                      Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
-                      {}
-                    end
-
-    @provider_id = variable_data['provider_id']
-    @native_id = variable_data['native_id']
-
     # retrieve the variable metadata
     variable_concept_response = cmr_client.get_concept(@concept_id, token, {}, @revision_id)
 
@@ -71,5 +63,33 @@ class VariablesController < ManageMetadataController
                   Rails.logger.error("Error retrieving concept for Variable #{@concept_id}: #{variable_concept_response.inspect}")
                   {}
                 end
+
+    set_variable_information
+  end
+
+  def set_variable_information
+    # search for variable by concept id to get the native_id and provider_id
+    # if the variable is not found, try again because CMR might be a little slow to index if it is a newly published record
+    attempts = 0
+    while attempts < 20
+      variables_search_response = cmr_client.get_variables({ concept_id: @concept_id })
+
+      variable_data = if variables_search_response.success?
+                        variables_search_response.body['items'].first
+                      else
+                        {}
+                      end
+
+      break if variable_data['concept_id'] == @concept_id
+      attempts += 1
+      sleep 0.05
+    end
+
+    if variable_data.empty?
+      Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
+    end
+
+    @provider_id = variable_data['provider_id']
+    @native_id = variable_data['native_id']
   end
 end

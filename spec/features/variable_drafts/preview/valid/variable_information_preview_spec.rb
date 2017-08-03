@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Valid Variable Draft Variable Information Preview' do
   before do
     login
-    @draft = create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
+    @draft = create(:full_variable_draft, draft_entry_title: 'Volume mixing ratio of sum of peroxynitrates in air', draft_short_name: 'PNs_LIF', user: User.where(urs_uid: 'testuser').first)
     visit variable_draft_path(@draft)
   end
 

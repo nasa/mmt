@@ -83,8 +83,8 @@ module Helpers
         }
 
         # Conditional additions to the draft attributes
-        draft_attributes[:draft_name] = name unless name.blank?
-        draft_attributes[:draft_long_name] = long_name unless long_name.blank?
+        draft_attributes[:draft_short_name] = name unless name.blank?
+        draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
 
         # Create a new draft with the provided attributes
         # NOTE: We don't save the draft object, there is no reason to hit the database

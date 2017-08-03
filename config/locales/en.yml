@@ -69,6 +69,9 @@ en:
         flash:
           success: 'Variable Draft Published Successfully!'
           error: 'Variable Draft was not published successfully'
+      edit:
+        flash:
+          native_id_error: 'Variable Draft was not created because the native id was not found. Please try again or contact your provider.'
   views:
     pagination:
       first: "First"
@@ -101,4 +104,4 @@ en:
       create?: 'You are not permitted to create new Service Option Assignments.'
       destroy?: 'You are not permitted to delete Service Option Assignments.'
     order_policy:
-      resubmit?: 'You are not permissed to resubmit Orders.'
+      resubmit?: 'You are not permitted to resubmit Orders.'
