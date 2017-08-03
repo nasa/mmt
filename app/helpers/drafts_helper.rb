@@ -366,6 +366,7 @@ module DraftsHelper
     ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
     ['GDS', 'GDS'],
     ['Giovanni', 'GIOVANNI'],
+    ['MAP', 'MAP'],
     ['KML', 'KML'],
     ['LAADS', 'LAADS'],
     ['LANCE', 'LANCE'],
@@ -511,7 +512,7 @@ module DraftsHelper
       'Entry Title'
     end
   end
-  
+
   def titleize_form_name(form_name)
     return 'Related URLs' if form_name == 'related_urls'
     form_name.titleize
