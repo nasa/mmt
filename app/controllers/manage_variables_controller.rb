@@ -1,6 +1,8 @@
 # :nodoc:
-class ManageVariablesController < ManageMetadataController
+class ManageVariablesController < PagesController
   include BulkUpdates
+
+  layout 'manage_metadata'
 
   def show
     # If you change this number you must also change it in the corresponding test file - features/manage_metadata/open_drafts_spec.rb.
