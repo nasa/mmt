@@ -12,7 +12,7 @@ describe 'Related URLs information form', js: true do
   context 'when submitting the form' do
     before do
       within '.metadata' do
-        click_on 'Related URLs'
+        click_on 'Related URLs', match: :first
       end
 
       click_on 'Expand All'

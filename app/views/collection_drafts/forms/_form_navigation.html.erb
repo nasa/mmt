@@ -6,7 +6,7 @@
   <div class="col-5 form-nav">
     <label for="next-section-<%= location %>">Save &amp; Jump To: </label>
 
-    <%= select_tag 'next_section', options_for_select(draft_forms.map{|form| [form.titleize, form]}, draft_form), class: 'next-section', id: "next-section-#{location}" %>
+    <%= select_tag 'next_section', options_for_select(draft_forms.map{|form| [titleize_form_name(form), form]}, draft_form), class: 'next-section', id: "next-section-#{location}" %>
   </div>
 
   <div class="col-2">

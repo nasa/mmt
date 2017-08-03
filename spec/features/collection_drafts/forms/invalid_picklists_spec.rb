@@ -375,7 +375,7 @@ describe 'Invalid picklists', js: true do
   context 'when viewing the Related URLs form' do
     before do
       within '.metadata' do
-        click_on 'Related URLs'
+        click_on 'Related URLs', match: :first
       end
 
       open_accordions
