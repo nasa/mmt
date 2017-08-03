@@ -65,7 +65,7 @@ describe 'Provider context', reset_provider: true, js: true do
             end
 
             # Clicking badge allows user to click to get to provider menu
-            click_on 'provider-link-badge'
+            click_on 'provider-badge-link'
             it 'prompts the user to select a provider context' do
               expect(page).to have_content('Please select your provider context')
             end
