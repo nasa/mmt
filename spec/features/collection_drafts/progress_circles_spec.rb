@@ -89,7 +89,7 @@ describe 'Progress circles', js: true do
     context 'when filling in a field with invalid data' do
       before do
         within '.metadata' do
-          click_on 'Related URLs'
+          click_on 'Related URLs', match: :first
         end
 
         open_accordions
