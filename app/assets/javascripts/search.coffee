@@ -44,12 +44,25 @@ $(document).ready ->
 $('.js-disabled-object').css 'visibility': 'hidden'
 $('.js-enabled-object').css 'visibility': 'visible'
 
-#On search caret click, show search dropdown
+# On search caret click, show search dropdown
 $ ->
   $('#search-drop').on 'click', ->
     if $('.dropdown').css('display') == 'none'
-      $('.dropdown').css('display': 'block')
-      $('#search-drop-caret').css('transform': 'rotate(180deg)')
+      $('.dropdown').css 'display': 'block'
+      $('#search-drop-caret').css 'transform': 'rotate(180deg)'
+      $('#search-submit-button').css 'border-bottom': '1px solid #95a5a6'
+
     else
-      $('.dropdown').css('display': 'none')
-      $('#search-drop-caret').css('transform': 'rotate(0deg)')
+      $('.dropdown').css 'display': 'none'
+      $('#search-drop-caret').css 'transform': 'rotate(0deg)'
+      $('#search-submit-button').css 'border-bottom': '1px solid transparent'
+$ ->
+  $('#record_state_published_records').on 'click', ->
+    collectionsSelected = $('#record_state_published_records').prop('checked')
+    if collectionsSelected
+      $("#search-text").text('Search Collections');
+
+  $('#record_state_variables').on 'click', ->
+    variablesSelected = $('#record_state_variables').prop('checked')
+    if variablesSelected
+      $("#search-text").html('<span style="padding-right: 11px;">Search Variables</span>');
