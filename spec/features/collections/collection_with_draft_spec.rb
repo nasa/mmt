@@ -10,7 +10,7 @@ describe 'Collection with draft' do
 
     context 'when the collections provider is the users current provider', js: true do
       before do
-        ingest_response, @concept_response = publish_draft(include_new_draft: true)
+        ingest_response, @concept_response = publish_collection_draft(include_new_draft: true)
 
         visit collection_path(ingest_response['concept-id'])
       end
@@ -37,7 +37,7 @@ describe 'Collection with draft' do
 
     context 'when the collections provider is in the users available providers', js: true do
       before do
-        ingest_response, @concept_response = publish_draft(include_new_draft: true)
+        ingest_response, @concept_response = publish_collection_draft(include_new_draft: true)
 
         user = User.first
         user.provider_id = 'MMT_1'
@@ -85,7 +85,7 @@ describe 'Collection with draft' do
 
     context 'when the collections provider is not in the users available providers' do
       before do
-        ingest_response, @concept_response = publish_draft(include_new_draft: true)
+        ingest_response, @concept_response = publish_collection_draft(include_new_draft: true)
 
         user = User.first
         user.provider_id = 'SEDAC'

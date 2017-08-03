@@ -52,4 +52,18 @@ describe VariableDraftsController, reset_provider: true do
       end
     end
   end
+
+  describe 'GET #edit' do
+    before do
+      sign_in
+
+      draft = FactoryGirl.create(:full_variable_draft)
+
+      get :edit, draft_type: 'VariableDraft', id: draft
+    end
+
+    it 'renders the #edit view' do
+      expect(response).to render_template(:edit)
+    end
+  end
 end

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe BulkUpdatesSearchesController, reset_provider: true do
   describe 'GET #new' do
     before :all do
-      5.times { publish_draft }
+      5.times { publish_collection_draft }
     end
 
     before do

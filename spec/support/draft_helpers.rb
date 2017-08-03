@@ -7,12 +7,12 @@ module Helpers
       end
     end
 
-    # Publishes a draft and returns the new created collection as well as the most recent draft
-    def publish_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil, version: nil)
-      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_draft' do
+    # Publishes a collection draft and returns the new created collection as well as the most recent draft
+    def publish_collection_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil, version: nil)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_collection_draft' do
         user = User.where(urs_uid: 'testuser').first
 
-        # Only return te most recent concept
+        # Only return the most recent concept
         ingest_response = nil
         revision_count.times do
           # Default draft attributes
@@ -53,7 +53,8 @@ module Helpers
         concept_id = ingest_response.body['concept-id']
         revision_id = ingest_response.body['revision-id']
         content_type = "application/#{Rails.configuration.umm_version}; charset=utf-8"
-        concept_response = cmr_client.get_concept(concept_id, 'token', content_type, revision_id)
+        headers = { 'Accept' => content_type }
+        concept_response = cmr_client.get_concept(concept_id, 'token', headers, revision_id)
 
         raise Array.wrap(concept_response.body['errors']).join(' /// ') if concept_response.body.key?('errors')
 
@@ -64,6 +65,40 @@ module Helpers
         end
 
         return [ingest_response.body, concept_response]
+      end
+    end
+
+    # Publish a variable draft
+    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
+        user = User.where(urs_uid: 'testuser').first
+
+        ingest_response = nil
+
+        # Default draft attributes
+        draft_attributes = {
+          user: user,
+          provider_id: provider_id,
+          native_id: native_id || Faker::Crypto.md5
+        }
+
+        # Conditional additions to the draft attributes
+        draft_attributes[:draft_name] = name unless name.blank?
+        draft_attributes[:draft_long_name] = long_name unless long_name.blank?
+
+        # Create a new draft with the provided attributes
+        # NOTE: We don't save the draft object, there is no reason to hit the database
+        # here knowing that we're going to delete it as soon as it's published anyway
+        draft = build(:full_variable_draft, draft_attributes)
+
+        ingest_response = cmr_client.ingest_variable(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+
+        # Synchronous way of waiting for CMR to complete the ingest work
+        wait_for_cmr
+
+        raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+        ingest_response
       end
     end
 

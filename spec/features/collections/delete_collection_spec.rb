@@ -9,7 +9,7 @@ describe 'Delete collection', js: true do
 
   context 'when viewing a published collection' do
     before do
-      ingest_response, concept_response = publish_draft
+      ingest_response, concept_response = publish_collection_draft
 
       visit collection_path(ingest_response['concept-id'])
     end
@@ -84,7 +84,7 @@ describe 'Delete collection', js: true do
 
   context 'when viewing a published collection with a non url encoded native id' do
     before do
-      ingest_response, _concept_response = publish_draft(native_id: 'not & url, encoded / native id')
+      ingest_response, _concept_response = publish_collection_draft(native_id: 'not & url, encoded / native id')
 
       visit collection_path(ingest_response['concept-id'])
     end
