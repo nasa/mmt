@@ -109,6 +109,12 @@ class UmmJsonSchema < JsonFile
     elements_by_type({}, fragment).fetch(type, [])
   end
 
+  # Retrieve the type of the provided key
+  #
+  # ==== Attributes
+  #
+  # * +key+ - The full key to the element to get the type of
+  # * +ignore_keys+ - Keys to ignore when returning the elements
   def element_type(key, ignore_keys: %w(items properties index_id))
     # Because we could be asking about a key within an array, we strip integers from our key before looking it up
     sanitized_key = key.split('/').reject { |l| l =~ /\A\d+\z/ }.join('/')

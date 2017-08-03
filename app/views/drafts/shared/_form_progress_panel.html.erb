@@ -1,0 +1,41 @@
+<section class="metadata">
+  <h3 class="inline-header">Metadata Fields</h3><a href="#progress-legend" id="legend" class="display-modal"><i class="eui-icon eui-fa-info-circle"></i> <span class="is-invisible">Progress Legend</span></a>
+  <ul class="progress-indicator">
+    <% json_form.forms.each do |form_section| %>
+      <li id="<%= form_section.parsed_json['id'] %>-progress">
+        <div class="status">
+          <%= form_section.form_circle.html_safe %>
+        </div>
+        <div class="meta-info">
+          <%= link_to form_section.title, send("edit_#{resource_name}_path", resource, form_section.parsed_json['id']) %>
+          <div class="progress-indicators">
+            <% form_section.elements.each do |field| %>
+              <% if json_form.invalid_keys.include?(field['key']) %>
+              <%= invalid_circle(field.title, resource, form_section.parsed_json['id'], field.idify_property_name(field.parsed_json)) %>
+              <% elsif field.value? %>
+                <%= complete_circle(field.title, resource, form_section.parsed_json['id'], field.idify_property_name(field.parsed_json), schema.required_field?(field['key'])) %>
+              <% else %>
+                <%= empty_circle(field.title, resource, form_section.parsed_json['id'], field.idify_property_name(field.parsed_json), schema.required_field?(field['key'])) %>
+              <% end %>
+            <% end %>
+
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <div id="progress-legend">
+    <p>
+      The icons below each form name indicate progress toward completion. See below for information on what each icon represents.
+    </p>
+    <ul>
+      <li><i class="eui-icon eui-required-o icon-green"></i> Required but not complete</li>
+      <li><i class="eui-icon eui-required icon-green"></i> Required and complete</li>
+      <li><i class="eui-icon eui-fa-circle-o icon-grey"></i> Optional and not complete</li>
+      <li><i class="eui-icon eui-fa-circle icon-grey"></i> Optional and complete</li>
+      <li><i class="eui-icon eui-fa-minus-circle icon-red"></i> Does not pass validation</li>
+    </ul>
+    <a class="eui-btn--blue modal-close" href="javascript:void(0);">Close</a>
+  </div>
+</section>

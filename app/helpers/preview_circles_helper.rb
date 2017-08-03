@@ -118,7 +118,7 @@ module PreviewCirclesHelper
         anchor: 'additional-attributes'
       }
     },
-    'distribution_information' => {
+    'related_urls' => {
       'RelatedUrls' => {
         required: false,
         anchor: 'related-urls'
@@ -217,18 +217,18 @@ module PreviewCirclesHelper
   def empty_circle(field, draft, form_name, anchor, required)
     icon = required ? 'eui-icon eui-required-o icon-green' : 'eui-icon eui-fa-circle-o icon-grey'
     text = required ? "#{name_to_title(field)} - Required" : name_to_title(field)
-    link_to "<i class=\"#{icon}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, edit_collection_draft_path(draft, form_name, anchor: anchor), title: text
+    link_to "<i class=\"#{icon} #{anchor}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, send("edit_#{resource_name}_path", draft, form_name, anchor: anchor), title: text
   end
 
   def complete_circle(field, draft, form_name, anchor, required)
     icon = required ? 'eui-icon eui-required icon-green' : 'eui-icon eui-fa-circle icon-grey'
     text = required ? "#{name_to_title(field)} - Required field complete" : name_to_title(field)
-    link_to "<i class=\"#{icon}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, edit_collection_draft_path(draft, form_name, anchor: anchor), title: text
+    link_to "<i class=\"#{icon} #{anchor}\"></i> <span class=\"is-invisible\">#{text}</span>".html_safe, send("edit_#{resource_name}_path", draft, form_name, anchor: anchor), title: text
   end
 
   def invalid_circle(field, draft, form_name, anchor)
     text = "#{name_to_title(field)} - Invalid"
-    link_to "<i class=\"eui-icon eui-fa-minus-circle icon-red\"></i> <span class=\"is-invisible\">#{name_to_title(field)} Invalid</span>".html_safe, edit_collection_draft_path(draft, form_name, anchor: anchor), title: text
+    link_to "<i class=\"eui-icon eui-fa-minus-circle icon-red #{anchor}\"></i> <span class=\"is-invisible\">#{name_to_title(field)} Invalid</span>".html_safe, send("edit_#{resource_name}_path", draft, form_name, anchor: anchor), title: text
   end
 
   def data_contacts_circle(field, draft, form_name, options, circle, error_fields)
