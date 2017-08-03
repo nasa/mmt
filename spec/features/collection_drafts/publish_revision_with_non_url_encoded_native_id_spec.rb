@@ -23,7 +23,7 @@ describe 'Publishing revision of collection with non url encoded native id' do
     context 'when editing the collection' do
       before do
         native_id = "not & url, encoded / native id #{Faker::SlackEmoji.emoji}"
-        ingest_response, concept_response = publish_draft(native_id: native_id)
+        ingest_response, concept_response = publish_collection_draft(native_id: native_id)
 
         visit collection_path(ingest_response['concept-id'])
 

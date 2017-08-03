@@ -9,7 +9,7 @@ describe 'Create new draft from collection' do
   context 'when editing a CMR collection' do
     before do
       login
-      ingest_response, @concept_response = publish_draft
+      ingest_response, @concept_response = publish_collection_draft
 
       # fill_in 'Quick Find', with: short_name
       # click_on 'Find'

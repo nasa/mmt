@@ -16,14 +16,14 @@ class CollectionsController < ManageMetadataController
   def edit
     draft = CollectionDraft.create_from_collection(@collection, current_user, @native_id)
     Rails.logger.info("Audit Log: Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
-    flash[:success] = I18n.t("controllers.draft.collection_drafts.create.flash.success")
+    flash[:success] = I18n.t('controllers.draft.collection_drafts.create.flash.success')
     redirect_to collection_draft_path(draft)
   end
 
   def clone
     draft = CollectionDraft.create_from_collection(@collection, current_user, nil)
 
-    flash[:notice] = view_context.link_to I18n.t("controllers.collections.clone.flash.notice"), edit_collection_draft_path(draft, 'collection_information', anchor: 'collection-information')
+    flash[:notice] = view_context.link_to I18n.t('controllers.collections.clone.flash.notice'), edit_collection_draft_path(draft, 'collection_information', anchor: 'collection-information')
 
     redirect_to collection_draft_path(draft)
   end
@@ -32,11 +32,11 @@ class CollectionsController < ManageMetadataController
     provider_id = @revisions.first['meta']['provider-id']
     delete = cmr_client.delete_collection(provider_id, @native_id, token)
     if delete.success?
-      flash[:success] = I18n.t("controllers.collections.destroy.flash.success")
+      flash[:success] = I18n.t('controllers.collections.destroy.flash.success')
       Rails.logger.info("Audit Log: Collection with native_id #{@native_id} was deleted for #{provider_id} by #{session[:urs_uid]}")
       redirect_to collection_revisions_path(id: delete.body['concept-id'], revision_id: delete.body['revision-id'])
     else
-      flash[:error] = I18n.t("controllers.collections.destroy.flash.error")
+      flash[:error] = I18n.t('controllers.collections.destroy.flash.error')
       render :show
     end
   end
@@ -54,7 +54,7 @@ class CollectionsController < ManageMetadataController
     ingested = cmr_client.ingest_collection(metadata, @provider_id, @native_id, token, @collection_format)
 
     if ingested.success?
-      flash[:success] = I18n.t("controllers.collections.revert.flash.success")
+      flash[:success] = I18n.t('controllers.collections.revert.flash.success')
       Rails.logger.info("Audit Log: Revision for draft with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
       redirect_to collection_revisions_path(revision_id: latest_revision_id.to_i + 1)
     else
@@ -62,7 +62,7 @@ class CollectionsController < ManageMetadataController
 
       @errors = generate_ingest_errors(ingested)
 
-      flash[:error] = I18n.t("controllers.collections.revert.flash.error")
+      flash[:error] = I18n.t('controllers.collections.revert.flash.error')
       render action: 'revisions'
     end
   end
@@ -106,7 +106,6 @@ class CollectionsController < ManageMetadataController
     if latest
       @native_id = latest['meta']['native-id']
       @provider_id = latest['meta']['provider-id']
-      concept_format = latest['meta']['format']
 
       if !@revision_id.nil? && latest['meta']['revision-id'].to_s != @revision_id.to_s
         @old_revision = true
@@ -117,7 +116,9 @@ class CollectionsController < ManageMetadataController
       # but if we are reverting, we should get the collection in it's native format, so set content-type appropriately
       content_type = 'application/metadata+xml; charset=utf-8' if params[:action] == 'revert'
 
-      collection_response = cmr_client.get_concept(@concept_id, token, content_type, @revision_id)
+      headers = { 'Accept' => content_type }
+
+      collection_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
       @collection = collection_response.body
       @collection_format = collection_response.headers.fetch('content-type', '')
     else

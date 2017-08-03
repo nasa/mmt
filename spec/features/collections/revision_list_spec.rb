@@ -7,7 +7,7 @@ describe 'Revision list', js: true do
     before do
       login
 
-      ingest_response, @concept_response = publish_draft(revision_count: 2)
+      ingest_response, @concept_response = publish_collection_draft(revision_count: 2)
 
       visit collection_path(ingest_response['concept-id'])
     end

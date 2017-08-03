@@ -14,7 +14,7 @@ describe 'Search published results', js: true do
 
   context 'when searching by concept_id' do
     before do
-      @ingest_response, @concept_response = publish_draft
+      @ingest_response, @concept_response = publish_collection_draft
     end
 
     context 'when performing a quick find collection search' do

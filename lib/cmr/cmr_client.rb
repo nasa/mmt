@@ -42,6 +42,16 @@ module Cmr
       post(url, query.to_query, headers.merge(token_header(token)))
     end
 
+    def get_variables(options = {}, token = nil)
+      url = if Rails.env.development? || Rails.env.test?
+              'http://localhost:3003/variables'
+            else
+              '/search/variables'
+            end
+
+      get(url, options, token_header(token))
+    end
+
     def search_collections(options, token)
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3003/collections.json'
@@ -52,16 +62,12 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def get_concept(concept_id, token, content_type, revision_id = nil)
+    def get_concept(concept_id, token, headers, revision_id = nil)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}"
             else
               "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
             end
-
-      headers = {
-        'Accept' => content_type
-      }
 
       get(url, {}, headers.merge(token_header(token)))
     end

@@ -9,7 +9,7 @@ describe 'Reverting to previous collections', js: true do
 
   context 'when the latest revision is a published collection' do
     before do
-      ingest_response, @concept_response = publish_draft(revision_count: 2)
+      ingest_response, @concept_response = publish_collection_draft(revision_count: 2)
 
       visit collection_path(ingest_response['concept-id'])
 
@@ -65,7 +65,7 @@ describe 'Reverting to previous collections', js: true do
 
   context 'when the latest revision is a deleted collection' do
     before do
-      ingest_response, concept_response = publish_draft
+      ingest_response, concept_response = publish_collection_draft
 
       visit collection_path(ingest_response['concept-id'])
 
