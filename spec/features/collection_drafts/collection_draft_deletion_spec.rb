@@ -20,26 +20,21 @@ describe 'Draft deletion', js: true do
 
     it 'displays a confirmation message' do
       expect(page).to have_content('Collection Draft Deleted Successfully!')
-    # end
+      # end
 
-    # it 'leaves the draft table in the database empty' do
-    #   # intermittent failure, Rspec ExpectationNotMetError
-    #   # using #synchronize as described in:
-    #   # https://github.com/jnicklas/capybara/blob/master/lib/capybara/node/base.rb#L44
-    #   # http://stackoverflow.com/questions/14588241/how-to-use-synchronize-in-capybara-exactly
-    #   # http://amcaplan.ninja/blog/2014/07/17/asynchronous-javascript-without-failing-capybara-tests/
-    #   page.document.synchronize do
-    #     expect(Draft.count).to eq(0)
-    #   end
-    # end
+      # it 'leaves the draft table in the database empty' do
+      #   # intermittent failure, Rspec ExpectationNotMetError
+      #   # using #synchronize as described in:
+      #   # https://github.com/jnicklas/capybara/blob/master/lib/capybara/node/base.rb#L44
+      #   # http://stackoverflow.com/questions/14588241/how-to-use-synchronize-in-capybara-exactly
+      #   # http://amcaplan.ninja/blog/2014/07/17/asynchronous-javascript-without-failing-capybara-tests/
+      #   page.document.synchronize do
+      #     expect(Draft.count).to eq(0)
+      #   end
+      # end
 
-<<<<<<< HEAD
-    # it 'returns to the manage metadata page' do
-      expect(page).to have_content('MMT_2 Drafts')
-=======
-    # it 'returns to the manage collections page' do
+      # it 'returns to the manage collections page' do
       expect(page).to have_content('MMT_2 Collection Drafts')
->>>>>>> cd382ff9f950d136c32630440b8620ab87ba939d
     end
   end
 
@@ -56,13 +51,8 @@ describe 'Draft deletion', js: true do
     #   expect(Draft.count).to eq(1)
     # end
 
-<<<<<<< HEAD
-    it 'does NOT return to the manage metadata page' do
-      expect(page).to_not have_content('MMT_2 Drafts')
-=======
     it 'does NOT return to the manage collections page' do
       expect(page).to_not have_content('MMT_2 Collection Drafts')
->>>>>>> cd382ff9f950d136c32630440b8620ab87ba939d
     end
   end
 end
