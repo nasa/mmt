@@ -148,7 +148,7 @@ describe 'Draft form accordions', js: true do
 
   context 'when collapsing all accordions manually' do
     before do
-      click_on 'Related Urls', match: :first
+      click_on 'Related URLs', match: :first
 
       within '#related-urls.eui-accordion' do
         all('.eui-accordion__header').first.click
