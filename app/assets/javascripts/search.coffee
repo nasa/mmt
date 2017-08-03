@@ -46,10 +46,10 @@ $('.js-enabled-object').css 'visibility': 'visible'
 
 #On search caret click, show search dropdown
 $ ->
-  $('#search-drop-button').on 'click', ->
-    if $('.dropdown').css('visibility') == 'hidden'
-      $('.dropdown').css('visibility': 'visible')
+  $('#search-drop').on 'click', ->
+    if $('.dropdown').css('display') == 'none'
+      $('.dropdown').css('display': 'block')
       $('#search-drop-caret').css('transform': 'rotate(180deg)')
     else
-      $('.dropdown').css('visibility': 'hidden')
+      $('.dropdown').css('display': 'none')
       $('#search-drop-caret').css('transform': 'rotate(0deg)')
