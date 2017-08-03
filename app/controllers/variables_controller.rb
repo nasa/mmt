@@ -1,6 +1,6 @@
 # :nodoc:
 class VariablesController < ManageMetadataController
-  before_action :set_variable, only: [:show, :edit]
+  before_action :set_variable, only: [:show, :edit, :destroy]
 
   def show
   end
@@ -13,7 +13,7 @@ class VariablesController < ManageMetadataController
   end
 
   def create
-    @variable_draft = VariableDraft.find(params[:id])
+    variable_draft = VariableDraft.find(params[:id])
 
     ingested = cmr_client.ingest_variable(variable_draft.draft.to_json, variable_draft.provider_id, variable_draft.native_id, token)
 
@@ -42,8 +42,22 @@ class VariablesController < ManageMetadataController
     end
   end
 
-  private
+  def destroy
+    delete = cmr_client.delete_variable(@provider_id, @native_id, token)
+    if delete.success?
+      flash[:success] = I18n.t('controllers.variables.destroy.flash.success')
+      Rails.logger.info("Audit Log: Variable with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
 
+      redirect_to manage_metadata_path
+      # TODO Change to manage_variables_path after MMT-1034? is merged
+      # redirect_to manage_variables_path
+    else
+      flash[:error] = I18n.t('controllers.variables.destroy.flash.error')
+      render :show
+    end
+  end
+
+  private
 
   def set_variable
     @concept_id = params[:id]

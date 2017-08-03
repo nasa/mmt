@@ -69,6 +69,10 @@ en:
         flash:
           success: 'Variable Draft Published Successfully!'
           error: 'Variable Draft was not published successfully'
+      destroy:
+        flash:
+          success: 'Variable Deleted Successfully!'
+          error: 'Variable was not deleted successfully'
   views:
     pagination:
       first: "First"
