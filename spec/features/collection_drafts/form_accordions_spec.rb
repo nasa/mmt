@@ -9,7 +9,7 @@ describe 'Draft form accordions', js: true do
 
   context 'when clicking on the header' do
     before do
-      click_on 'Distribution Information'
+      click_on 'Related URLs'
 
       # Open the RelatedUrl fieldset accordion
       all('fieldset.eui-accordion > div.eui-accordion__header').first.click

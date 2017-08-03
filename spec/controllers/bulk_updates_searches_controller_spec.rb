@@ -41,10 +41,10 @@ describe BulkUpdatesSearchesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         get :new
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(manage_collections_path)
       end
     end
   end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Distribution information preview' do
+describe 'Related URLs preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
       before do
@@ -10,7 +10,7 @@ describe 'Distribution information preview' do
       end
 
       it 'does not display metadata' do
-        expect(page).to have_content('There is no distribution information for this collection.')
+        expect(page).to have_content('There are no related URLs for this collection.')
       end
     end
 

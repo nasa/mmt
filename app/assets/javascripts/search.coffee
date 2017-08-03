@@ -56,3 +56,6 @@ $ ->
   $('#keyword').on 'click', ->
     $('#login-info').css 'visibility': 'hidden'
     $('dropdown-caret').css 'visibility': 'rotate(0deg)'
+
+    document.getElementById('keyword').focus()
+  return

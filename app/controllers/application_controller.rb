@@ -22,11 +22,11 @@ class ApplicationController < ActionController::Base
   protected
 
   def groups_enabled?
-    redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
+    redirect_to manage_collections_path unless Rails.configuration.groups_enabled
   end
 
   def bulk_updates_enabled?
-    redirect_to manage_metadata_path unless Rails.configuration.bulk_updates_enabled
+    redirect_to manage_collections_path unless Rails.configuration.bulk_updates_enabled
   end
 
   def setup_query
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
     last_point = session[:last_point]
     session[:last_point] = nil
 
-    redirect_to return_to || last_point || manage_metadata_path
+    redirect_to return_to || last_point || manage_collections_path
   end
 
   def cmr_client
@@ -253,7 +253,7 @@ class ApplicationController < ActionController::Base
     AncillaryKeywords
     AdditionalAttributes
   )
-  DISTRIBUTION_INFORMATION_FIELDS = %w(
+  RELATED_URL_FIELDS = %w(
     RelatedUrls
   )
   METADATA_INFORMATION_FIELDS = %w(
@@ -292,8 +292,8 @@ class ApplicationController < ActionController::Base
       'data_identification'
     elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? fields.first
       'descriptive_keywords'
-    elsif DISTRIBUTION_INFORMATION_FIELDS.include? fields.first
-      'distribution_information'
+    elsif RELATED_URL_FIELDS.include? fields.first
+      'related_urls'
     elsif METADATA_INFORMATION_FIELDS.include? fields.first
       'metadata_information'
     elsif fields.include?('ContactPersons' || 'ContactGroups') # DATA_CONTACTS

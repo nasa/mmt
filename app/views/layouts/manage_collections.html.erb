@@ -33,7 +33,7 @@
 
               <nav>
                 <div class="content">
-                  <h2 class="current"><%= link_to 'Manage Metadata', manage_metadata_path %></h2>
+                  <h2 class="current"><%= link_to 'Manage Collections', manage_collections_path %></h2>
                   <% if Rails.configuration.groups_enabled %>
                   <h2><%= link_to 'Manage CMR', manage_cmr_path %></h2>
                   <% end %>
@@ -61,7 +61,14 @@
 
   <%= render 'shared/footer' %>
 
-  <%= javascript_include_tag "https://status.earthdata.nasa.gov/assets/banner_widget.js" unless Rails.env.test? %>
+  <% unless Rails.env.test? %>
+    <script src="https://cdn.earthdata.nasa.gov/tophat2/tophat2.js"
+            id="earthdata-tophat-script"
+            data-show-fbm="true"
+            data-show-status="true"
+            data-status-api-url="https://status.earthdata.nasa.gov/api/v1/notifications">
+    </script>
+  <% end %>
   <%= javascript_include_tag "netinsight_2.3/ntpagetag" unless Rails.env.test? || Rails.env.development? %>
 </body>
 </html>

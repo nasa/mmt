@@ -12,7 +12,7 @@ describe 'Service Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct title and description' do
-      expect(page).to have_content('Service')
+      expect(page).to have_content('Services')
       expect(page).to have_content('The service information of a variable.')
     end
 

@@ -24,7 +24,7 @@
     <% if draft.new_record? %>
       <%= link_to 'Cancel', send("new_#{resource_name}_path"), class: 'cancel' %>
     <% else %>
-      <%= link_to 'Cancel', send("#{plural_resource_name}_path"), class: 'cancel' %>
+      <%= link_to 'Cancel', send("#{resource_name}_path", get_resource), class: 'cancel' %>
     <% end %>
 
     <p class="update-timestamp">

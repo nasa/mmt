@@ -3,7 +3,40 @@ FactoryGirl.define do
     provider_id 'MMT_2'
     draft_type 'VariableDraft'
 
-    draft {{}}
+    draft { {} }
+
+    short_name nil
+    entry_title nil
+  end
+
+  factory :invalid_variable_draft, class: VariableDraft do
+    provider_id 'MMT_2'
+    draft_type 'VariableDraft'
+
+    draft {{
+      'Scale': 'string',
+      'Offset': 'string',
+      'ValidRange': [
+        'Min': 'string',
+        'Max': 'string'
+      ],
+      'FillValue': [
+        {
+          'Value': 'string'
+        }
+      ],
+      'Dimensions': [
+        {
+          'Size': 'string'
+        }
+      ],
+      'Set': [
+        {
+          'Size': 'string',
+          'Index': 'string'
+        }
+      ]
+    }}
 
     short_name nil
     entry_title nil
@@ -56,6 +89,13 @@ FactoryGirl.define do
           'Type': 'REVEAL-TEXAS',
           'Size': 10,
           'Index': 2
+        }
+      ],
+      'Service': [
+        {
+          'ServiceType': %w(ESI WMS WCS),
+          'Visualizable': false,
+          'Subsettable': true
         }
       ],
       'Characteristics': {

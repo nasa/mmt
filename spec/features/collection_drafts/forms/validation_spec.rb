@@ -154,7 +154,7 @@ describe 'Data validation for a form', js: true do
   context 'when there is a floating point field' do
     before do
       within 'section.metadata' do
-        click_on 'Distribution Information', match: :first
+        click_on 'Related URLs', match: :first
       end
 
       open_accordions

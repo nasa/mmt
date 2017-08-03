@@ -87,7 +87,7 @@ Rails.application.routes.draw do
 
   get 'search' => 'search#index', as: 'search'
 
-  resource :manage_metadata, only: :show, controller: 'manage_metadata'
+  resource :manage_collections, only: :show, controller: 'manage_collections'
   resource :manage_cmr, only: :show, controller: 'manage_cmr'
 
   # API Endpoints for Chooser implementations

@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe 'Bulk Updates callout box on the Manage Metadata page' do
-  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_metadata_controller
+describe 'Bulk Updates callout box on the Manage Collections page' do
+  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_collections_controller
 
   before do
     login
 
-    visit manage_metadata_path
+    visit manage_collections_path
   end
 
   # we currently cannot test this as bulk updates are never cleared
@@ -18,7 +18,7 @@ describe 'Bulk Updates callout box on the Manage Metadata page' do
   # end
 
   it 'displays the bulk updates callout box' do
-    expect(page).to have_content('Your MMT_2 Bulk Updates')
+    expect(page).to have_content('MMT_2 Bulk Updates')
   end
 
   context 'when clicking on the "Initiate a Bulk Update" button' do
