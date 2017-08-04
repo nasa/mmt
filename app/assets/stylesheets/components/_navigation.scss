@@ -16,6 +16,7 @@ nav {
     margin: 0.8em 3em 0 0;
     border-bottom: 0;
 
+
     &.current {
       border-bottom: 3px solid $red;
       color: $white;
@@ -28,6 +29,10 @@ nav {
       color: $white;
       font-weight: bold;
       text-decoration: none;
+
+      &:hover {
+        color: lighten($dolphin-grey, 30%);
+      }
     }
   }
 }

@@ -20,6 +20,7 @@ describe 'User Access', js: true do
     end
 
     after do
+      click_on 'profile-link'
       click_on 'Logout'
     end
 

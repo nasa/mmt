@@ -89,7 +89,7 @@ describe 'Progress circles', js: true do
     context 'when filling in a field with invalid data' do
       before do
         within '.metadata' do
-          click_on 'Related URLs'
+          click_on 'Related URLs', match: :first
         end
 
         open_accordions
@@ -107,7 +107,7 @@ describe 'Progress circles', js: true do
       end
 
       it 'fills in the correct circle in red' do
-        within '#related-urls a[title="Related Urls - Invalid"]' do
+        within '#related-urls a[title="Related URLs - Invalid"]' do
           expect(page).to have_css('.eui-fa-minus-circle.icon-red')
         end
       end

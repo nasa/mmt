@@ -6,29 +6,13 @@
             <h1>Metadata Management Tool</h1>
         <% end %>
       </div>
-
-      <!-- Display provider context badge -->
-      <div class="provider-context">
-        <% if logged_in? && current_user.provider_id %>
-          <span class="eui-badge--sm daac"><%= current_user.provider_id %></span>
-        <% end %>
-      </div>
-      <!-- End provider context badge -->
-
-      <section id="user-info" role="navigation">
-        <% if logged_in? %>
-          <p><strong><%= session[:name] %></strong></p>
-          <a href="#provider-context" id="change-context" class="display-modal">Change Provider</a>
-          <%= link_to 'Logout', logout_path %>
-          <!-- <a href="#">Account Settings</a> -->
-        <% end %>
-      </section>
     </div>
     <div class="col-6 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <% if controller_name.include? 'welcome'%>
         <%= link_to 'Earthdata Login', login_path, class: 'eui-btn--blue' %>
       <% else %>
+        <%= render 'shared/user_info_dropdown' %>
         <section id="search" class="full-width">
           <%= render 'shared/search_form' %>
         </section>
