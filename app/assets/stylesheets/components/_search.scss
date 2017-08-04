@@ -27,7 +27,7 @@
   }
 
   .quick-search {
-    .dropdown {
+    .search-dropdown {
       position: absolute;
       background-color: $steel-blue;
       padding: 5px 10px 2px 15px;
@@ -35,6 +35,7 @@
       height: 85px;
       max-width: 385px;
       display: none;
+      z-index: 9999;
 
       .radio-buttons {
         float: left;
