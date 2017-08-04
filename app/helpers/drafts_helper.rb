@@ -366,6 +366,7 @@ module DraftsHelper
     ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
     ['GDS', 'GDS'],
     ['Giovanni', 'GIOVANNI'],
+    ['MAP', 'MAP'],
     ['KML', 'KML'],
     ['LAADS', 'LAADS'],
     ['LANCE', 'LANCE'],
