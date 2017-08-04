@@ -3,6 +3,21 @@
 <% end %>
 
 <div class="row row-content">
+  <section class="action">
+    <div class="cta">
+      <p>
+        <% if current_provider?(@provider_id) %>
+          <%= link_to 'Edit Record', edit_variable_path(revision_id: @revision_id)%>
+        <% elsif available_provider?(@provider_id) %>
+          <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-variable' } %> |
+        <% end %>
+        <%= render partial: 'shared/not_current_provider_modal', locals: {
+          options: { variable: @variable, concept_id: @concept_id, revision_id: @revision_id }
+        } %>
+      </p>
+    </div>
+  </section>
+  
   <div class="content">
     <% @json_form.forms.each do |form| %>
       <section class="umm-preview <%= form.parsed_json['id'] %>">
@@ -31,4 +46,6 @@
       </section>
     <% end %>
   </div>
+
+
 </div>

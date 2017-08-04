@@ -5,15 +5,15 @@ require 'rails_helper'
 describe 'Search sorting', reset_provider: true, js: true do
   context 'when sorting search collections results' do
     before :all do
-      publish_draft(short_name: 'First!', modified_date: (Time.now.utc - 5.days))
+      publish_collection_draft(short_name: 'First!', modified_date: (Time.now.utc - 5.days))
 
-      publish_draft(short_name: '0000_Aardvark Short Name')
-      publish_draft(short_name: 'Zimbabwe Short Name')
+      publish_collection_draft(short_name: '0000_Aardvark Short Name')
+      publish_collection_draft(short_name: 'Zimbabwe Short Name')
 
-      publish_draft(entry_title: '0000_Aardvark Entry Title')
-      publish_draft(entry_title: 'Zimbabwe Entry Title')
+      publish_collection_draft(entry_title: '0000_Aardvark Entry Title')
+      publish_collection_draft(entry_title: 'Zimbabwe Entry Title')
 
-      publish_draft(short_name: 'Last!', modified_date: (Time.now.utc + 5.days))
+      publish_collection_draft(short_name: 'Last!', modified_date: (Time.now.utc + 5.days))
     end
 
     before do

@@ -35,6 +35,8 @@ $(document).ready ->
         'Editing this group'
       when 'delete-group'
         'Deleting this group'
+      when 'edit-variable'
+        'Editing this variable'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
@@ -52,7 +54,7 @@ $(document).ready ->
       url: "/set_provider?provider_id=#{provider}"
       method: 'post'
       dataType: 'json'
-      
+
       success: (data, status, xhr) ->
         # Click the link that the user needs
         $(link)[0].click()

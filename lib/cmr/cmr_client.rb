@@ -42,6 +42,16 @@ module Cmr
       post(url, query.to_query, headers.merge(token_header(token)))
     end
 
+    def get_variables(options = {}, token = nil)
+      url = if Rails.env.development? || Rails.env.test?
+              'http://localhost:3003/variables'
+            else
+              '/search/variables'
+            end
+
+      get(url, options, token_header(token))
+    end
+
     def search_collections(options, token)
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3003/collections.json'

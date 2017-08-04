@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Valid Variable Variable Information Preview', reset_provider: true do
   before do
     login
-    ingest_response = publish_variable_draft
+    ingest_response = publish_variable_draft(name: 'PNs_LIF', long_name: 'Volume mixing ratio of sum of peroxynitrates in air')
     visit variable_path(ingest_response['concept-id'])
   end
 
