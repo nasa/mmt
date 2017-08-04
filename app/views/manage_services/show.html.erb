@@ -3,23 +3,14 @@
     <section class="eui-callout-box col-left">
       <h3 class="eui-callout-box__title ocean-blue">Create New Record</h3>
       <div class="eui-callout-box__list">
-        <%= form_tag(new_record_path, method: 'get', enforce_utf8: false) do %>
-        <input type="submit" class="eui-btn--blue submit" value="Create New Record">
-          <div class="question-group">
-            <div class="row" style="display: none;">
-              <%= radio_button_tag(:type, "new_service", true, id: 'new-service') %>
-              <%= image_tag "service.png", alt: "" %>
-              <label for="new-service">
-                New Service Record
-              </label>
-            </div>
+        <%= link_to 'Create New Record', new_services_draft_path, class: 'eui-btn--blue submit' %>
+        <div class="question-group">
+        </div>
+        <div class="question-group">
+          <div class="row">
+            <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find a published variables to clone or edit.</p>
           </div>
-          <div class="question-group">
-            <div class="row">
-              <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find a published service to clone or edit.</p>
-            </div>
-          </div>
-        <% end %>
+        </div>
       </div>
     </section>
 

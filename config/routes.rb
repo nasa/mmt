@@ -99,8 +99,6 @@ Rails.application.routes.draw do
   get 'service_implementations_with_datasets' => 'manage_cmr#service_implementations_with_datasets'
   get 'datasets_for_service_implementation' => 'manage_cmr#datasets_for_service_implementation'
 
-  get 'new_record' => 'pages#new_record', as: 'new_record'
-
   get 'login' => 'users#login', as: 'login'
   get 'logout' => 'users#logout'
   get 'urs_callback' => 'oauth_tokens#urs_callback'
