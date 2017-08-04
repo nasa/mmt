@@ -10,10 +10,10 @@
           <%= radio_button_tag(:record_state, 'published_records', !(@query['record_state'] && @query['record_state'] == 'draft_records')) %>
           <%= label_tag(:record_state_published_records, 'Collections') %>
 
-          <%= radio_button_tag(:record_state, 'variables', false) %>
+          <%= radio_button_tag(:record_state, 'variables', false, disabled) %>
           <%= label_tag(:record_state_variables, 'Variables') %>
 
-          <%= radio_button_tag(:record_state, 'services', false) %>
+          <%= radio_button_tag(:record_state, 'services', false, disabled) %>
           <%= label_tag(:record_state_services, 'Services') %>
         </div>
       </fieldset>
