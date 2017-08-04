@@ -165,7 +165,7 @@ describe 'Search sorting', reset_provider: true, js: true do
       login
 
       Draft.destroy_all
-      
+
       a, c, z = {}, {}, {}
       a[:title] = 'Arctic Cooling Heating Vectors'
       a[:date] = 5.days.ago

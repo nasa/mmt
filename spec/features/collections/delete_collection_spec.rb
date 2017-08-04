@@ -61,8 +61,8 @@ describe 'Delete collection', js: true do
       user.provider_id = 'LARC'
       user.save
 
-      fill_in 'Quick Find', with: short_name
-      click_on 'Find'
+      fill_in 'keyword', with: short_name
+      click_on 'Search Collections'
 
       click_on short_name
     end

@@ -17,10 +17,10 @@ describe 'Search published results', js: true do
       @ingest_response, @concept_response = publish_collection_draft
     end
 
-    context 'when performing a quick find collection search' do
+    context 'when performing a collection search' do
       before do
-        fill_in 'Quick Find', with: @ingest_response['concept-id']
-        click_on 'Find'
+        fill_in 'keyword', with: @ingest_response['concept-id']
+        click_on 'Search Collections'
       end
 
       it 'displays collection results' do
@@ -35,69 +35,15 @@ describe 'Search published results', js: true do
         # expect(page).to have_content(today_string)
       end
     end
-
-    context 'when performing a full collection search' do
-      before do
-        click_on 'Full Metadata Record Search'
-        fill_in 'keyword', with: @ingest_response['concept-id']
-        click_on 'Submit'
-      end
-
-      it 'displays collection results' do
-        expect(page).to have_search_query(1, "Keyword: #{@ingest_response['concept-id']}", 'Record State: Published Records')
-      end
-
-      it 'displays expected data' do
-        expect(page).to have_content(@concept_response.body['ShortName'])
-        expect(page).to have_content(@concept_response.body['Version'])
-        expect(page).to have_content(@concept_response.body['EntryTitle'])
-        expect(page).to have_content('MMT_2')
-        # expect(page).to have_content(today_string)
-      end
-
-      context 'when viewing the full search form' do
-        before do
-          click_on 'Full Metadata Record Search'
-        end
-
-        after do
-          click_on 'Cancel'
-        end
-
-        it 'displays the concept id in the full search form' do
-          expect(page).to have_field('keyword', with: @ingest_response['concept-id'])
-        end
-      end
-    end
   end
 
-  # TODO: how else can this be tested?
-  # context 'when performing a collection search by short name with quick find' do
-  #   before do
-  #     fill_in 'Quick Find', with: short_name
-  #     click_on 'Find'
-  #   end
-
-  #   it 'displays collection results' do
-  #     expect(page).to have_search_query(1, "Keyword: #{short_name}", 'Record State: Published Records')
-  #   # end
-
-  #   # it 'displays expected Short Name, Entry Title and Last Modified values' do
-  #     expect(page).to have_content(short_name)
-  #     expect(page).to have_content(version)
-  #     expect(page).to have_content(entry_title)
-  #     expect(page).to have_content(provider)
-  #     # expect(page).to have_content(today_string)
-  #   end
-  # end
-
-  context 'when performing a collection search by partial entry title with quick find' do
+  context 'when performing a collection search by partial entry title with search' do
     # 2012 #=> 1 [0..3]
     # 2012 Environmental #=> 2 [0..17]
     # Environmental #=> 14 [5..17]
     before do
-      fill_in 'Quick Find', with: entry_title[0..17]
-      click_on 'Find'
+      fill_in 'keyword', with: entry_title[0..17]
+      click_on 'Search Collections'
     end
 
     it 'displays collection results' do
@@ -112,28 +58,6 @@ describe 'Search published results', js: true do
       # expect(page).to have_content(today_string)
     end
   end
-
-  # TODO: how else can this be tested?
-  # context 'when performing a quick find collection search with provider' do
-  #   before do
-  #     @holdings = cmr_client.get_provider_holdings(false, provider).body
-
-  #     fill_in 'Quick Find', with: provider
-  #     click_on 'Find'
-  #   end
-
-  #   it 'displays collection results' do
-  #     expect(page).to have_search_query(@holdings.count, "Keyword: #{provider}", 'Record State: Published Records')
-  #   # end
-
-  #   # it 'displays expected Short Name, Entry Title and Last Modified values' do
-  #     expect(page).to have_content(short_name)
-  #     expect(page).to have_content(version)
-  #     expect(page).to have_content(entry_title)
-  #     expect(page).to have_content(provider)
-  #     # expect(page).to have_content(today_string)
-  #   end
-  # end
 
   context 'when performing a full metadata search by short name' do
     before do
@@ -252,11 +176,11 @@ describe 'Search published results', js: true do
   end
 
   context 'when searching by provider' do
-    before do
-      click_on 'Full Metadata Record Search'
-      select 'LARC', from: 'provider_id'
-      click_on 'Submit'
-    end
+    # before do RDC-DEV Should be changed to
+    #   click_on 'Full Metadata Record Search'
+    #   select 'LARC', from: 'provider_id'
+    #   click_on 'Submit'
+    # end
 
     it 'displays collection results' do
       expect(page).to have_search_query(27, 'Provider Id: LARC')
@@ -285,10 +209,10 @@ describe 'Search published results', js: true do
     end
   end
 
-  context 'when performing a quick find search that has no results' do
+  context 'when performing a search that has no results' do
     before do
-      fill_in 'Quick Find', with: 'NO HITS'
-      click_on 'Find'
+      fill_in 'keyword', with: 'NO HITS'
+      click_on 'Search Collections'
     end
     it 'displays collection results' do
       expect(page).to have_content(' Results')
