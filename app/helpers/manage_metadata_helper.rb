@@ -1,4 +1,5 @@
-module ManageCollectionsHelper
+# :nodoc:
+module ManageMetadataHelper
   def display_entry_id(metadata, type)
     blank_short_name = type == 'draft' ? '<Blank Short Name>' : 'New Collection'
     short_name = metadata['ShortName'] || blank_short_name
