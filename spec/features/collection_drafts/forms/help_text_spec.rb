@@ -31,7 +31,7 @@ describe 'Draft form help text', js: true do
     context 'when clicking on the help icon with minItems' do
       before do
         within '.metadata' do
-          click_on 'Distribution Information'
+          click_on 'Related URLs', match: :first
         end
 
         open_accordions

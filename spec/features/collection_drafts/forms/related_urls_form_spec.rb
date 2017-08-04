@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Distribution information form', js: true do
+describe 'Related URLs information form', js: true do
   before do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
@@ -12,7 +12,7 @@ describe 'Distribution information form', js: true do
   context 'when submitting the form' do
     before do
       within '.metadata' do
-        click_on 'Distribution Information'
+        click_on 'Related URLs', match: :first
       end
 
       click_on 'Expand All'

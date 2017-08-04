@@ -4,7 +4,7 @@
 
 // todo: needs heavy refactoring.
 
-header {
+header.mmt-header {
   @include row();
   @include linear-gradient($ocean-blue, darken($ocean-blue, 2%));
   color: white;
@@ -24,7 +24,10 @@ header {
   #user-info p {
     display: inline-block;
     margin: 0;
-    margin-right: 0.8em;
+
+    strong {
+      padding-right: 5px;
+    }
   }
 
   .subtitle {
@@ -47,7 +50,8 @@ header {
   .header-tools {
     @include row();
     text-align: right;
-    margin-top: 17px;
+    margin-top: .5em;
+    margin-bottom: .5em;
 
     #help {
       display: none; // Change to display: block when help feature is added and remove margin-top on #search
@@ -63,6 +67,10 @@ header {
         background-color: lighten($ocean-blue, 6%);
       }
     }
+
+    .eui-btn--midnight-blue {
+      background-color: lighten($midnight-blue, 4%);
+    }
   }
 
   /* Primary Logo
@@ -72,6 +80,7 @@ header {
     @include row();
     display: block;
     width: 100%;
+    padding: 1em 0;
 
     a:link,
     a:visited {
@@ -123,25 +132,52 @@ header {
 
   #user-info {
     @include row();
-    display: block;
+    display: inline-flex;
     font-size: 0.8em;
+    background-color: lighten($ocean-blue, 10%);
+    padding: .2em .6em .3em .6em;
+    border-radius: 5px;
+    margin-bottom: 1em;
 
-    a {
-      margin-right: 0.8em;
+    #profile-link {
+      .prof-link-container {
+        margin-top: .1em;
+      }
+
+      .hoverOver {
+        color: lighten($dolphin-grey, 30%);
+      }
+
+      #dropdown-caret {
+        transform: rotate(0deg);
+      }
     }
   }
+
 
   /* Provider context badge below main app logo/title
   ------------------------------------------*/
   .daac {
     position: relative;
-    left: 7em;
-    top: -1em;
-    background-color: $midnight-blue;
+    background-color: $ocean-blue;
+  }
+}
 
+.login-info-dropdown {
+  width: 115px;
+  text-align: left;
+  font-size:12px;
+  background-color: lighten($ocean-blue, 10%);
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 25px;
+  position: absolute;
+  margin-left: -7px;
+  visibility: hidden;
+
+  a {
     &:hover {
-      background-color: lighten($midnight-blue, 5%);
-      cursor: default;
+      color: lighten($dolphin-grey, 30%);
     }
   }
 }

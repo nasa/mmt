@@ -8,9 +8,9 @@ describe 'User login' do
       login
     end
 
-    it 'redirects the user to the manage metadata page' do
+    it 'redirects the user to the manage collections page' do
       within 'h2.current' do
-        expect(page).to have_content('Manage Metadata')
+        expect(page).to have_content('Manage Collections')
       end
     end
 
@@ -33,9 +33,9 @@ describe 'User login' do
           login
         end
 
-        it 'displays the manage metadata page' do
+        it 'displays the manage collections page' do
           within 'h2.current' do
-            expect(page).to have_content('Manage Metadata')
+            expect(page).to have_content('Manage Collections')
           end
         end
       end
@@ -45,10 +45,10 @@ describe 'User login' do
   context 'when the user token is expiring' do
     before do
       login
-      visit_with_expiring_token('/manage_metadata')
+      visit_with_expiring_token('/manage_collections')
     end
 
-    it 'allows access to the manage metadata' do
+    it 'allows access to the manage collections' do
       expect(page).to have_content('Test User')
       expect(page).to have_content('Logout')
     end

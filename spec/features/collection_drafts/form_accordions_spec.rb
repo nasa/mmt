@@ -9,7 +9,7 @@ describe 'Draft form accordions', js: true do
 
   context 'when clicking on the header' do
     before do
-      click_on 'Distribution Information'
+      click_on 'Related URLs', match: :first
 
       # Open the RelatedUrl fieldset accordion
       all('fieldset.eui-accordion > div.eui-accordion__header').first.click
@@ -148,7 +148,7 @@ describe 'Draft form accordions', js: true do
 
   context 'when collapsing all accordions manually' do
     before do
-      click_on 'Related Urls'
+      click_on 'Related URLs', match: :first
 
       within '#related-urls.eui-accordion' do
         all('.eui-accordion__header').first.click

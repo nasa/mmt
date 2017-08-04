@@ -46,9 +46,9 @@ describe 'Invalid picklists', js: true do
       end
     end
 
-    it 'displays an invalid icon for Related Urls' do
-      within '.metadata #distribution-information' do
-        expect(page).to have_link('Related Urls - Invalid')
+    it 'displays an invalid icon for Related URLs' do
+      within '.metadata #related-urls' do
+        expect(page).to have_link('Related URLs - Invalid')
       end
     end
 
@@ -372,10 +372,10 @@ describe 'Invalid picklists', js: true do
     end
   end
 
-  context 'when viewing the Distribution Information form' do
+  context 'when viewing the Related URLs form' do
     before do
       within '.metadata' do
-        click_on 'Distribution Information'
+        click_on 'Related URLs', match: :first
       end
 
       open_accordions

@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+include DraftsHelper
+
 SUMMARY_PAGE_STRING = 'Quality Score:'
 
 describe 'Collection Draft form navigation', js: true do
@@ -14,13 +16,13 @@ describe 'Collection Draft form navigation', js: true do
   context 'when viewing the Summary page' do
     it 'displays form titles' do
       expect(page).to have_content('Data Identification')
-      expect(page).to have_content('Distribution Information')
+      expect(page).to have_content('Related URLs')
     end
   end
 
   context 'when drilling down from the summary page' do
     CollectionDraft.forms.each do |form|
-      form_title = form.titleize
+      form_title = titleize_form_name(form)
       context "when clicking on #{form_title}" do
         before do
           within '.metadata' do
@@ -39,7 +41,7 @@ describe 'Collection Draft form navigation', js: true do
   end
 
   CollectionDraft.forms.each do |form|
-    next_form = CollectionDraft.get_next_form(form, 'Next').titleize
+    next_form = titleize_form_name(CollectionDraft.get_next_form(form, 'Next'))
 
     context "when choosing #{next_form} from the form selection drop down" do
       before do
@@ -62,8 +64,8 @@ describe 'Collection Draft form navigation', js: true do
   end
 
   CollectionDraft.forms.size.times do |index|
-    current_form = CollectionDraft.forms[index].titleize
-    next_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
+    current_form = titleize_form_name(CollectionDraft.forms[index])
+    next_form = titleize_form_name(CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Next'))
 
     context 'when pressing the Next button' do
       before do
@@ -73,7 +75,7 @@ describe 'Collection Draft form navigation', js: true do
           click_on 'Next'
         end
 
-        next_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
+        next_form = titleize_form_name(CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Next'))
         current_form = next_form
       end
 
@@ -91,8 +93,8 @@ describe 'Collection Draft form navigation', js: true do
   end
 
   CollectionDraft.forms.size.times do |index|
-    current_form = CollectionDraft.forms[index].titleize
-    previous_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
+    current_form = titleize_form_name(CollectionDraft.forms[index])
+    previous_form = titleize_form_name(CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Previous'))
 
     context 'when pressing the Previous button' do
       before do
@@ -102,7 +104,7 @@ describe 'Collection Draft form navigation', js: true do
           click_on 'Previous'
         end
 
-        previous_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
+        previous_form = titleize_form_name(CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Previous'))
         current_form = previous_form
       end
 

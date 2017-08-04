@@ -1,5 +1,6 @@
 # :nodoc:
 class CollectionDraftsController < BaseDraftsController
+  include DraftsHelper
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
   before_action :load_umm_schema, only: [:new, :edit, :show]
   before_filter :ensure_correct_draft_provider, only: [:edit, :show]
@@ -40,7 +41,7 @@ class CollectionDraftsController < BaseDraftsController
     # `form` is optional so if its not provided just use the first form
     @draft_form = params[:form] || @draft_forms.first
 
-    add_breadcrumb @draft_form.titleize, edit_collection_draft_path(get_resource)
+    add_breadcrumb titleize_form_name(@draft_form), edit_collection_draft_path(get_resource)
 
     # Set instance variables depending on the form requested
     set_science_keywords

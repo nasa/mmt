@@ -10,7 +10,7 @@ describe 'Add another button behavior', js: true do
   context 'when viewing a form with an add another button' do
     before do
       within '.metadata' do
-        click_on 'Distribution Information'
+        click_on 'Related URLs', match: :first
       end
     end
 

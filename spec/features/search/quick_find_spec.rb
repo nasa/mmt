@@ -11,7 +11,7 @@ describe 'Quick find search', js: true do
   context 'when not viewing the search page' do
     context 'and performing a quick find search' do
       before do
-        visit manage_metadata_path
+        visit manage_collections_path
         fill_in 'Quick Find', with: short_name
         click_on 'Find'
       end

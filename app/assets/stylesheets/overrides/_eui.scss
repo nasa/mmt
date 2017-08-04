@@ -1,7 +1,7 @@
 // This will eventually be handled within EUI but for now we need to handle it.
 .eui-modal-content {
-  overflow: scroll;
   max-height: 400px;
+  overflow: auto;
 }
 
 // Prevent a border/outline from showing on click

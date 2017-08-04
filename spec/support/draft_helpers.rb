@@ -53,8 +53,9 @@ module Helpers
         concept_id = ingest_response.body['concept-id']
         revision_id = ingest_response.body['revision-id']
         content_type = "application/#{Rails.configuration.umm_version}; charset=utf-8"
-        headers = { 'Accept' => content_type }
-        concept_response = cmr_client.get_concept(concept_id, 'token', headers, revision_id)
+
+        concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
+
 
         raise Array.wrap(concept_response.body['errors']).join(' /// ') if concept_response.body.key?('errors')
 
@@ -73,8 +74,6 @@ module Helpers
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
         user = User.where(urs_uid: 'testuser').first
 
-        ingest_response = nil
-
         # Default draft attributes
         draft_attributes = {
           user: user,
@@ -82,9 +81,9 @@ module Helpers
           native_id: native_id || Faker::Crypto.md5
         }
 
-        # Conditional additions to the draft attributes
-        draft_attributes[:draft_name] = name unless name.blank?
-        draft_attributes[:draft_long_name] = long_name unless long_name.blank?
+        # Conditional additions to the draft attribute
+        draft_attributes[:draft_short_name] = name unless name.blank?
+        draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
 
         # Create a new draft with the provided attributes
         # NOTE: We don't save the draft object, there is no reason to hit the database
@@ -98,7 +97,7 @@ module Helpers
 
         raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
 
-        ingest_response
+        ingest_response.body
       end
     end
 

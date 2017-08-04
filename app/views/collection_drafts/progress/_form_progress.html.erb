@@ -2,7 +2,7 @@
   <%= form_circle(form_name, draft.draft, metadata_errors).html_safe %>
 </div>
 <div class="meta-info">
-  <%= link_to form_name.titleize, edit_collection_draft_path(draft, form_name) %>
+  <%= link_to titleize_form_name(form_name), edit_collection_draft_path(draft, form_name) %>
   <div class="progress-indicators">
     <% preview_circles(form_name, draft, metadata_errors).each do |circle| %>
       <%= circle.html_safe %>

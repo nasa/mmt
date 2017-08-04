@@ -1,6 +1,6 @@
 <div class="row row-content">
   <section>
-    <h2><%= current_user.provider_id %> <%= params[:draft_type].titleize.pluralize %></h2>
+    <h2><%= current_user.provider_id %> <%= plural_resource_name.titleize %></h2>
 
     <%= link_to "Create a #{resource_name.titleize}", send("new_#{resource_name}_path"), class: 'eui-btn--blue space-bot' %>
 
@@ -11,8 +11,8 @@
     <table id="open_drafts">
       <thead>
         <tr>
-          <th>Short Name</th>
-          <th>Entry Title</th>
+          <th><%= short_name_header(resource_name) %></th>
+          <th><%= entry_title_header(resource_name) %></th>
           <th>Last Modified</th>
         </tr>
       </thead>

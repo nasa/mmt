@@ -1,8 +1,25 @@
 # :nodoc:
 class VariablesController < ManageMetadataController
   before_action :set_variable, only: [:show, :edit, :destroy]
+  before_action :set_schema, only: [:show]
+  before_action :set_form, only: [:show]
+
+  add_breadcrumb 'Variables' # there is no variables index action, so not providing a link
 
   def show
+    add_breadcrumb @variable.fetch('Name', '<Blank Name>'), variable_path(params[:id])
+  end
+
+  def edit
+    if @native_id
+      draft = VariableDraft.create_from_variable(@variable, current_user, @native_id)
+      Rails.logger.info("Audit Log: Variable Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
+      flash[:success] = I18n.t('controllers.draft.variable_drafts.create.flash.success')
+      redirect_to variable_draft_path(draft)
+    else
+      # if we cannot locate the native_id for the Variable, we should discontinue editing
+      redirect_to variable_path(@concept_id, revision_id: @revision_id), flash: { error: I18n.t('controllers.variables.edit.flash.native_id_error') }
+    end
   end
 
   def edit
@@ -48,9 +65,7 @@ class VariablesController < ManageMetadataController
       flash[:success] = I18n.t('controllers.variables.destroy.flash.success')
       Rails.logger.info("Audit Log: Variable with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
 
-      redirect_to manage_metadata_path
-      # TODO Change to manage_variables_path after MMT-1034? is merged
-      # redirect_to manage_variables_path
+      redirect_to manage_variables_path
     else
       flash[:error] = I18n.t('controllers.variables.destroy.flash.error')
       render :show
@@ -63,19 +78,6 @@ class VariablesController < ManageMetadataController
     @concept_id = params[:id]
     @revision_id = params[:revision_id]
 
-    # search for variable by concept id to get the native_id
-    variables_search_response = cmr_client.get_variables({ concept_id: @concept_id })#.body['items']
-
-    variable_data = if variables_search_response.success?
-                      variables_search_response.body['items'].first
-                    else
-                      Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
-                      {}
-                    end
-
-    @provider_id = variable_data['provider_id']
-    @native_id = variable_data['native_id']
-
     # retrieve the variable metadata
     variable_concept_response = cmr_client.get_concept(@concept_id, token, {}, @revision_id)
 
@@ -85,5 +87,42 @@ class VariablesController < ManageMetadataController
                   Rails.logger.error("Error retrieving concept for Variable #{@concept_id}: #{variable_concept_response.inspect}")
                   {}
                 end
+
+    set_variable_information
+  end
+
+  def set_variable_information
+    # search for variable by concept id to get the native_id and provider_id
+    # if the variable is not found, try again because CMR might be a little slow to index if it is a newly published record
+    attempts = 0
+    while attempts < 20
+      variables_search_response = cmr_client.get_variables(concept_id: @concept_id)
+
+      variable_data = if variables_search_response.success?
+                        variables_search_response.body['items'].first
+                      else
+                        {}
+                      end
+
+      break if !variable_data.nil? && variable_data['concept_id'] == @concept_id
+      attempts += 1
+      sleep 0.05
+    end
+
+    if variable_data.empty?
+      Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
+    end
+
+    @provider_id = variable_data['provider_id']
+    @native_id = variable_data['native_id']
+  end
+
+  def set_schema
+    @schema = UmmJsonSchema.new('umm-var-json-schema.json')
+    @schema.fetch_references(@schema.parsed_json)
+  end
+
+  def set_form
+    @json_form = UmmJsonForm.new('umm-var-form.json', @schema, @variable, 'field_prefix' => 'variable_draft/draft')
   end
 end

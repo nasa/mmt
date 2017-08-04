@@ -6,6 +6,9 @@ class UmmJsonForm < JsonFile
   # The object that will populate the elements of form displayed
   attr_accessor :object
 
+  # List of errors after validating the stored object
+  attr_accessor :errors
+
   # Options hash for providing arbitrary values to the form
   attr_accessor :options
 
@@ -15,6 +18,9 @@ class UmmJsonForm < JsonFile
     @schema = schema
     @object = object
     @options = options
+
+    # Validate the provided object and set @errors
+    validate if options.fetch('validate', true)
   end
 
   # Retrieve all the forms from the json file
@@ -194,6 +200,10 @@ class UmmJsonForm < JsonFile
     object
   end
 
+  # Removes empty values from the object
+  # ==== Attributes
+  #
+  # * +node+ - Node to examine for empty values
   def compact_blank(node)
     return node.map { |n| compact_blank(n) }.compact.presence if node.is_a?(Array)
     return node if node == false
@@ -203,6 +213,28 @@ class UmmJsonForm < JsonFile
       result[k] = compact_blank(v)
     end
     result = result.compact
-    result.compact.presence || {}
+    result.compact.presence
+  end
+
+  # Run the schema and object through JSON Validator and store the results
+  def validate
+    @errors ||= JSON::Validator.fully_validate(schema.parsed_json, object, errors_as_objects: true)
+  end
+
+  # Returns a list of errors returned from the JSON schema validator
+  #
+  # ==== Attributes
+  #
+  # * +ignore_required_fields+ - Whether or not to ignore validations that refer to required fields
+  def invalid_keys(ignore_required_fields: true)
+    validation_errors = ignore_required_fields ? errors.reject { |error| error[:failed_attribute] == 'Required' } : errors
+
+    required_fields = validation_errors.map do |e|
+      full_key = e[:message].scan(/'([^']+)'/).flatten.map { |capture| capture.gsub('#/', '') }.reject(&:blank?).join('/')
+
+      full_key[/[^\d]+/].split('/').first
+    end
+
+    required_fields.reject(&:blank?).uniq
   end
 end

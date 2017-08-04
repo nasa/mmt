@@ -19,7 +19,7 @@ describe VariableDraft do
     expect(variable_draft.short_name).to be(nil)
   end
   it 'sets short name and entry title when the variable draft has been saved' do
-    variable_draft = create(:full_variable_draft)
+    variable_draft = create(:full_variable_draft, draft_entry_title: 'Volume mixing ratio of sum of peroxynitrates in air', draft_short_name: 'PNs_LIF')
     expect(variable_draft.entry_title).to eq('Volume mixing ratio of sum of peroxynitrates in air')
     expect(variable_draft.short_name).to eq('PNs_LIF')
   end

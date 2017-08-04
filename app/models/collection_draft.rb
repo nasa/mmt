@@ -2,7 +2,7 @@ class CollectionDraft < Draft
   DRAFT_FORMS = %w(
     collection_information
     data_identification
-    distribution_information
+    related_urls
     descriptive_keywords
     acquisition_information
     temporal_information

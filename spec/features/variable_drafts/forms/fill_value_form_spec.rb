@@ -13,7 +13,7 @@ describe 'Fill Value Form', reset_provider: true, js: true do
 
     it 'displays the correct title and description' do
       within '.umm-form' do
-        expect(page).to have_content('Fill Value')
+        expect(page).to have_content('Fill Values')
         expect(page).to have_content('The fill value of the variable in the data file. It is generally a value which falls outside the valid range. For example, if the valid range is \'0, 360\', the fill value may be \'-1\'.')
       end
     end
