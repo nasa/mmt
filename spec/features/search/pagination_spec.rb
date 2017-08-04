@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'Search Result Pagination', js: true do
   before do
     login
-    click_on 'Find'
+    click_on 'Search Collections'
   end
 
   context 'when viewing search results with multiple pages' do
@@ -95,29 +95,13 @@ describe 'Search Result Pagination', js: true do
 
   context 'when viewing search results with only one page' do
     before do
-      fill_in 'Quick Find', with: 'DEM_100M_1'
-      click_on 'Find'
+      fill_in 'keyword', with: 'DEM_100M_1'
+      click_on 'Search Collections'
     end
 
     it 'does not display pagination links' do
       expect(page).to have_no_css('a', text: 'First')
       expect(page).to have_no_css('a', text: '1')
-    end
-  end
-
-  context 'when viewing filtered search results with more than one page' do
-    context 'when clicking on a pagination link' do
-      before do
-        click_on 'Full Metadata Record Search'
-        select 'LARC', from: 'provider_id'
-        click_on 'Submit'
-
-        click_on 'Page 2'
-      end
-
-      it 'displays the new page' do
-        expect(page).to have_css('.active-page', text: '2')
-      end
     end
   end
 end

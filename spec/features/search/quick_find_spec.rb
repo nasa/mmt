@@ -2,18 +2,18 @@
 
 require 'rails_helper'
 
-describe 'Quick find search', js: true do
+describe 'Search', js: true do
   let(:short_name) { 'MIRCCMF' }
   before do
     login
   end
 
   context 'when not viewing the search page' do
-    context 'and performing a quick find search' do
+    context 'and performing a search' do
       before do
         visit manage_collections_path
-        fill_in 'Quick Find', with: short_name
-        click_on 'Find'
+        fill_in 'keyword', with: short_name
+        click_on 'Search Collections'
       end
 
       it 'redirects the user to the search page' do
@@ -29,8 +29,8 @@ describe 'Quick find search', js: true do
   context 'when viewing the search page' do
     before do
       visit search_path
-      fill_in 'Quick Find', with: short_name
-      click_on 'Find'
+      fill_in 'keyword', with: short_name
+      click_on 'Search Collections'
     end
 
     it 'keeps the user on the search page' do
@@ -47,8 +47,8 @@ describe 'Quick find search', js: true do
       visit root_url
     end
 
-    it 'there is no Quick Find option' do
-      expect(page).not_to have_button('quick_find_button')
+    it 'there is no search option' do
+      expect(page).not_to have_button('search-submit-button')
     end
   end
 end

@@ -108,8 +108,8 @@ describe 'Reverting to previous collections', js: true do
       user.available_providers << 'LARC'
       user.save
 
-      fill_in 'Quick Find', with: short_name
-      click_on 'Find'
+      fill_in 'keyword', with: short_name
+      click_on 'Search Collections'
       click_link short_name
 
       @collection_concept = current_path.sub('/collections/', '')
