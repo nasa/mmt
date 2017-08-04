@@ -1,4 +1,4 @@
-# Quick Find and Full Search behavior
+# Search behavior
 require 'json'
 
 require 'rails_helper'

@@ -11,14 +11,6 @@ describe 'Create new draft from collection' do
       login
       ingest_response, @concept_response = publish_collection_draft
 
-      # fill_in 'Quick Find', with: short_name
-      # click_on 'Find'
-
-      # expect(page).to have_content(short_name)
-      # page.document.synchronize do
-        # click_on short_name
-      # end
-
       visit collection_path(ingest_response['concept-id'])
 
       click_on 'Edit Record'
