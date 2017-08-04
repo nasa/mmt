@@ -8,14 +8,6 @@ $(document).ready ->
     $(form).find('#search_type').val name
     form.submit()
 
-  $('#search input').keypress (event) ->
-    # Set search_type to whichever form the user pressed enter in
-    if event.which == 13
-      name = $(this).attr('name')
-      form = $(this).parents('form')
-      $(form).find('#search_type').val name
-      form.submit()
-
   $('#search').submit ->
     # The full search box might be up when clicking on Search
     # so remove the lightbox

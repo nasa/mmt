@@ -1,5 +1,5 @@
 <%= form_tag(search_path, method: "get", enforce_utf8: false, id: 'search-form', role: 'search') do %>
-  <input type="hidden" name="search_type" id="search_type" value="">
+  <input type="hidden" name="search_type" id="search_type" value="full_search">
   <div class="quick-search">
     <%= text_field_tag('keyword', @query['keyword'], placeholder: 'Enter Search Term') %>
     <button id="search-submit-button" type="button" name="full_search" class="eui-btn--blue"><i class="eui-icon eui-fa-search"></i><span id="search-text">Search Collections</span></button><a href="#" id="search-drop" class="dropdown-button"><i id="search-drop-caret" class="fa fa-caret-down" aria-hidden="true"></i></a>
@@ -10,10 +10,10 @@
           <%= radio_button_tag(:record_state, 'published_records', !(@query['record_state'] && @query['record_state'] == 'draft_records')) %>
           <%= label_tag(:record_state_published_records, 'Collections') %>
 
-          <%= radio_button_tag(:record_state, 'variables', false, disabled) %>
+          <%= radio_button_tag(:record_state, 'variables', false, disabled: true) %>
           <%= label_tag(:record_state_variables, 'Variables') %>
 
-          <%= radio_button_tag(:record_state, 'services', false, disabled) %>
+          <%= radio_button_tag(:record_state, 'services', false, disabled: true) %>
           <%= label_tag(:record_state_services, 'Services') %>
         </div>
       </fieldset>
