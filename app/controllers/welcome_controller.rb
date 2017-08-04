@@ -13,7 +13,7 @@ class WelcomeController < ApplicationController
   # requirements going forward.
 
   def index
-    # set_data_providers  
+    # set_data_providers
   end
 
   # def collections

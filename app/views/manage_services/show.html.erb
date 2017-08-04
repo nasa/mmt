@@ -1,0 +1,53 @@
+<main class="dashboard" role="main">
+  <article id="metadata" class="row-content flex-row--start" role="article">
+    <section class="eui-callout-box col-left">
+      <h3 class="eui-callout-box__title ocean-blue">Create New Record</h3>
+      <div class="eui-callout-box__list">
+        <%= form_tag(new_record_path, method: 'get', enforce_utf8: false) do %>
+        <input type="submit" class="eui-btn--blue submit" value="Create New Record">
+          <div class="question-group">
+            <div class="row" style="display: none;">
+              <%= radio_button_tag(:type, "new_service", true, id: 'new-service') %>
+              <%= image_tag "service.png", alt: "" %>
+              <label for="new-service">
+                New Service Record
+              </label>
+            </div>
+          </div>
+          <div class="question-group">
+            <div class="row">
+              <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find a published service to clone or edit.</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="eui-callout-box col-left">
+      <div class="open-drafts">
+        <h3 class="eui-callout-box__title ocean-blue"><%= current_user.provider_id %> Service Drafts</h2>
+        <div class="eui-callout-box__list">
+          <ul>
+            <% unless @drafts.any? %>
+              <%= current_user.provider_id %> has no drafts to display.
+            <% end %>
+            <% @drafts[0..@draft_display_max_count-1].each do |draft| %>
+              <li>
+                <p>
+                  <%= time_tag draft.updated_at, draft.updated_at.strftime("%Y-%m-%d") %> |
+                  <%= link_to draft.display_short_name, service_draft_path(draft) %> </br>
+                  &nbsp;<%= draft.display_entry_title.truncate(32) %>
+                </p>
+              </li>
+            <% end %>
+            <% if @drafts.size > @draft_display_max_count %>
+              <li>
+                <%= link_to 'More', service_drafts_path %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>
