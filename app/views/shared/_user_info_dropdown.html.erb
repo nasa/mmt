@@ -1,0 +1,27 @@
+<section id="user-info" role="navigation">
+  <% if logged_in? %>
+    <a id="profile-link" href="#">
+      <p class="prof-link-container">
+        <strong><%= session[:name] %></strong>
+        <i id="dropdown-caret" class="fa fa-caret-down" aria-hidden="true"></i>
+      </p>
+    </a>
+    <!-- Display provider context badge -->
+    <a href="#provider-context" id="provider-badge-link" class="display-modal">
+      <div class="provider-context">
+        <% if logged_in? && current_user.provider_id %>
+          <span class="eui-badge--sm daac"><%= current_user.provider_id %></span>
+        <% end %>
+      </div>
+    </a>
+    <!-- End provider context badge -->
+  <% end %>
+
+  <!-- User Info Dropdown Menu -->
+  <div id="login-info" class="login-info-dropdown">
+    <a href="#provider-context" id="change-context" class="display-modal">Change Provider</a>
+    <!--a href="#">Account Settings</a-->
+    <%= link_to 'Logout', logout_path %>
+  </div>
+  <!-- End User Info Dropdown Menu -->
+</section>

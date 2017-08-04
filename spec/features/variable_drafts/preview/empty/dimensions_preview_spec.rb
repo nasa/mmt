@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Empty Variable Draft Dimensions Preview', js: true do
+describe 'Empty Variable Draft Dimensions Preview' do
   before do
     login
     @draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)

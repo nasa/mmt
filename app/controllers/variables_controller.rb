@@ -1,8 +1,13 @@
 # :nodoc:
-class VariablesController < ApplicationController
-  before_action :set_variable, only: [:show, :edit]
+class VariablesController < ManageMetadataController
+  before_action :set_variable, only: [:show, :edit]]
+  before_action :set_schema, only: [:show]
+  before_action :set_form, only: [:show]
+
+  add_breadcrumb 'Variables' # there is no variables index action, so not providing a link
 
   def show
+    add_breadcrumb @variable.fetch('Name', '<Blank Name>'), variable_path(params[:id])
   end
 
   def edit
@@ -90,5 +95,14 @@ class VariablesController < ApplicationController
 
     @provider_id = variable_data['provider_id']
     @native_id = variable_data['native_id']
+  end
+
+  def set_schema
+    @schema = UmmJsonSchema.new('umm-var-json-schema.json')
+    @schema.fetch_references(@schema.parsed_json)
+  end
+
+  def set_form
+    @json_form = UmmJsonForm.new('umm-var-form.json', @schema, @variable, 'field_prefix' => 'variable_draft/draft')
   end
 end

@@ -29,6 +29,10 @@
           <nav>
             <div class="content">
               <h2><%= link_to 'Manage Collections', manage_collections_path %></h2>
+              <h2><%= link_to 'Manage Variables', manage_variables_path %></h2>
+              <!-- Manage Services Link Commented out until functional implementation ready. This will also need style treatment as all links do not fit in header -->
+              <!--h2><%= link_to 'Manage Services', manage_services_path %></h2-->
+              <!-- End Manage Services Link -->
               <% if Rails.configuration.groups_enabled %>
               <h2 class="current"><%= link_to 'Manage CMR', manage_cmr_path %></h2>
               <% end %>

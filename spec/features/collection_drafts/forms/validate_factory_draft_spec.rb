@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+include DraftsHelper
+
 debug = false
 
 validation_element_display_selector_string = '.validation-error'
@@ -16,7 +18,7 @@ describe 'Data validation on each form for the factory draft', js: true do
   end
 
   CollectionDraft.forms.each do |form|
-    form_name = form.titleize
+    form_name = titleize_form_name(form)
 
     context "when on the #{form_name} Form" do
       before do

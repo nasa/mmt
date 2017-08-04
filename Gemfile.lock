@@ -1,6 +1,6 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 6b51c3fc0ae1bb2bd060df668af145e5795c39ac
+  revision: a7a9d47f7ee2d1ced34dcb55d2b97e0b7f08e2c4
   branch: master
   specs:
     cmr_metadata_preview (0.0.1)
@@ -123,7 +123,7 @@ GEM
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     hike (1.2.3)
-    i18n (0.8.4)
+    i18n (0.8.6)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -154,7 +154,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mini_portile2 (2.2.0)
-    minitest (5.10.2)
+    minitest (5.10.3)
     momentjs-rails (2.15.1)
       railties (>= 3.1)
     multi_json (1.12.1)

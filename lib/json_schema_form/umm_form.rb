@@ -201,7 +201,7 @@ class UmmFormElement < UmmForm
   # in the schema when nested. This method translates that into ruby syntax to retrieve
   # a nested key in a hash e.g. 'object/first_key/leaf' => 'object[first_key][leaf]'
   def keyify_property_name(element, ignore_keys: %w(items properties index_id))
-    provided_key = [json_form.options['field_prefix'], element['key']].reject(&:empty?).join('/')
+    provided_key = [json_form.options['field_prefix'], element['key']].compact.reject(&:empty?).join('/')
 
     provided_key.gsub!('index_id', options['index'].to_s) if options['index']
 

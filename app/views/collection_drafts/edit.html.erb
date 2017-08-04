@@ -1,7 +1,7 @@
 <input type='hidden' id='mmt-form-name' value='<%= @draft_form %>'>
 
 <% content_for :header_title do %>
-  <h2><%= @draft_form.titleize %></h2>
+  <h2><%= titleize_form_name(@draft_form) %></h2>
 <% end %>
 
 <% if get_resource.errors.any? %>
