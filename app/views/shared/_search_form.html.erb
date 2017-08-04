@@ -12,6 +12,9 @@
 
           <%= radio_button_tag(:record_state, 'variables', @query['record_state'] && @query['record_state'] == 'draft_records') %>
           <%= label_tag(:record_state_draft_records, 'Variables') %> <!-- Currently set up like drafts -->
+
+          <%= radio_button_tag(:record_state, 'services', @query['record_state'] && @query['record_state'] == 'draft_records') %>
+          <%= label_tag(:record_state_draft_records, 'Services') %> <!-- Currently set up like drafts -->
         </div>
       </fieldset>
       <fieldset class="provider-selection">
