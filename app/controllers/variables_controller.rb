@@ -1,6 +1,6 @@
 # :nodoc:
 class VariablesController < ManageMetadataController
-  before_action :set_variable, only: [:show, :edit]]
+  before_action :set_variable, only: [:show, :edit]
   before_action :set_schema, only: [:show]
   before_action :set_form, only: [:show]
 

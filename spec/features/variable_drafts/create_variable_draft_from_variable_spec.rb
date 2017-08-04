@@ -7,7 +7,7 @@ describe 'Create new draft from variable' do
 
       ingest_response = publish_variable_draft(name: 'Test Edit Variable Name')
 
-      visit variable_path(ingest_response.body['concept-id'])
+      visit variable_path(ingest_response['concept-id'])
 
       click_on 'Edit Record'
     end
