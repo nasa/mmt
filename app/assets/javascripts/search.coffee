@@ -8,15 +8,20 @@ $(document).ready ->
     $(form).find('#search_type').val name
     form.submit()
 
-  $('#search input').keypress (event) ->
+  #$('#search input').keypress (event) ->
     # Set search_type to whichever form the user pressed enter in
-    if event.which == 13
-      name = 'keyword'
-      if $(this).parents('section#search').hasClass('open')
-        name = 'full_search'
-      form = $(this).parents('form')
-      $(form).find('#search_type').val name
-      form.submit()
+    #if event.which == 13
+      #name = $(this).attr('name')
+      #form = $(this).parents('form')
+      #$(form).find('#search_type').val name
+      #form.submit()
+
+      #name = 'keyword'
+      #if $(this).parents('.dropdown').css 'display': 'block'
+      #  name = 'full_search'
+      #form = $(this).parents('form')
+      #$(form).find('#search_type').val name
+      #form.submit()
 
   # Toggles advanced search in header
   # $('.full-search, .search-form-actions a').click ->
@@ -58,14 +63,13 @@ $ ->
       $('#search-submit-button').css 'border-bottom': '1px solid transparent'
 $ ->
   $('#record_state_published_records').on 'click', ->
-    collectionsSelected = $('#record_state_published_records').prop('checked')
-    if collectionsSelected
       $("#search-text").text('Search Collections');
 
   $('#record_state_variables').on 'click', ->
-    variablesSelected = $('#record_state_variables').prop('checked')
-    if variablesSelected
-      $("#search-text").html('<span style="padding-right: 11px;">Search Variables</span>');
+      $("#search-text").html('<span style="padding-right:11px;">Search Variables</span>');
+
+    $('#record_state_services').on 'click', ->
+        $("#search-text").html('<span style="padding-right:18px;">Search Services</span>');
 
 # Change focus of cursor when search link is clicked on Manage Collections, Manage Variables, or Manage Services pages.
 $ ->
