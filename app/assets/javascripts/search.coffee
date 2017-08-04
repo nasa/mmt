@@ -8,29 +8,13 @@ $(document).ready ->
     $(form).find('#search_type').val name
     form.submit()
 
-  #$('#search input').keypress (event) ->
+  $('#search input').keypress (event) ->
     # Set search_type to whichever form the user pressed enter in
-    #if event.which == 13
-      #name = $(this).attr('name')
-      #form = $(this).parents('form')
-      #$(form).find('#search_type').val name
-      #form.submit()
-
-      #name = 'keyword'
-      #if $(this).parents('.dropdown').css 'display': 'block'
-      #  name = 'full_search'
-      #form = $(this).parents('form')
-      #$(form).find('#search_type').val name
-      #form.submit()
-
-  # Toggles advanced search in header
-  # $('.full-search, .search-form-actions a').click ->
-  #  $(document).trigger 'toggleSearch'
-
-  #  $(document).on 'toggleSearch', ->
-  #    $('.search-module').toggleClass 'is-hidden'
-  #    $('#search').toggleClass 'open'
-  #    lightbox $(document).height()
+    if event.which == 13
+      name = $(this).attr('name')
+      form = $(this).parents('form')
+      $(form).find('#search_type').val name
+      form.submit()
 
   $('#search').submit ->
     # The full search box might be up when clicking on Search
