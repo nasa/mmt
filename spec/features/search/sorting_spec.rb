@@ -18,8 +18,8 @@ describe 'Search sorting', reset_provider: true, js: true do
 
     before do
       login
-      fill_in 'Quick Find', with: 'MMT_2'
-      click_on 'Find'
+      fill_in 'keyword', with: 'MMT_2'
+      click_on 'Search Collections'
     end
 
     context 'by Short Name' do

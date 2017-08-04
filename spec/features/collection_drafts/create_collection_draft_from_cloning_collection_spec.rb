@@ -11,11 +11,6 @@ describe 'Create new draft from cloning a collection', js: true do
       login
       ingest_response, @concept_response = publish_collection_draft
 
-      # fill_in 'Quick Find', with: short_name
-      # click_on 'Find'
-      # expect(page).to have_content(short_name)
-      # click_on short_name
-
       visit collection_path(ingest_response['concept-id'])
 
       click_on 'Clone this Record'
