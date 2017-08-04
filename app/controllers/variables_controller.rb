@@ -49,7 +49,6 @@ class VariablesController < ApplicationController
 
   private
 
-
   def set_variable
     @concept_id = params[:id]
     @revision_id = params[:revision_id]
@@ -72,7 +71,7 @@ class VariablesController < ApplicationController
     # if the variable is not found, try again because CMR might be a little slow to index if it is a newly published record
     attempts = 0
     while attempts < 20
-      variables_search_response = cmr_client.get_variables({ concept_id: @concept_id })
+      variables_search_response = cmr_client.get_variables(concept_id: @concept_id)
 
       variable_data = if variables_search_response.success?
                         variables_search_response.body['items'].first
@@ -80,7 +79,7 @@ class VariablesController < ApplicationController
                         {}
                       end
 
-      break if variable_data['concept_id'] == @concept_id
+      break if !variable_data.nil? && variable_data['concept_id'] == @concept_id
       attempts += 1
       sleep 0.05
     end
