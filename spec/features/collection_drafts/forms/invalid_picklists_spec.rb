@@ -46,9 +46,9 @@ describe 'Invalid picklists', js: true do
       end
     end
 
-    it 'displays an invalid icon for Related Urls' do
+    it 'displays an invalid icon for Related URLs' do
       within '.metadata #related-urls' do
-        expect(page).to have_link('Related Urls - Invalid')
+        expect(page).to have_link('Related URLs - Invalid')
       end
     end
 
