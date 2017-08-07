@@ -9,7 +9,7 @@ describe 'Delete variable', js: true do
     before do
       ingest_response = publish_variable_draft
 
-      visit variable_path(ingest_response.body['concept-id'])
+      visit variable_path(ingest_response['concept-id'])
     end
 
     it 'displays a delete link' do
@@ -30,13 +30,8 @@ describe 'Delete variable', js: true do
       end
 
       it 'displays the manage metadata page' do
-        expect(page).to have_content('Your MMT_2 Drafts')
+        expect(page).to have_content('MMT_2 Variable Drafts')
       end
-
-      # TODO after MMT-1034
-      it 'displays the manage variables page' #do
-      #   expect(page).to have_content('???????')
-      # end
     end
   end
 end

@@ -53,8 +53,8 @@ FactoryGirl.define do
     draft_type 'VariableDraft'
 
     draft {{
-      'Name': draft_name || 'PNs_LIF',
-      'LongName': draft_long_name || 'Volume mixing ratio of sum of peroxynitrates in air',
+      'Name': draft_short_name || 'PNs_LIF',
+      'LongName': draft_entry_title || 'Volume mixing ratio of sum of peroxynitrates in air',
       'Definition': 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)',
       'Units': 'Npptv',
       'DataType': 'float',
