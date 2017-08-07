@@ -17,3 +17,14 @@ $ ->
   hov = $('#profile-link').hover \
   (-> $('.prof-link-container').addClass 'hoverOver'), \
   (-> $('.prof-link-container').removeClass 'hoverOver'),
+
+# Closing dropdowns when other dropdowns are open
+
+$ ->
+  $(document).mouseup (e) ->
+    container = $('#login-info, #user-info')
+    # if the target of the click isn't the container nor a descendant of the container
+    if !container.is(e.target) and container.has(e.target).length == 0
+      $('#login-info').css 'visibility': 'hidden'
+      $('#dropdown-caret').css 'transform': 'rotate(0deg)'
+    return

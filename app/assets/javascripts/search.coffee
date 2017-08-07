@@ -62,3 +62,13 @@ $ ->
     $('dropdown-caret').css 'visibility': 'rotate(0deg)'
     $('keyword').focus()
   return
+
+$ ->
+  $(document).mouseup (e) ->
+    container = $('.search-dropdown, .quick-search')
+    # if the target of the click isn't the container nor a descendant of the container
+    if !container.is(e.target) and container.has(e.target).length == 0
+      $('.search-dropdown').css 'display': 'none'
+      $('#search-drop-caret').css 'transform': 'rotate(0deg)'
+      $('#search-submit-button').css 'border-bottom': '1px solid transparent'
+    return
