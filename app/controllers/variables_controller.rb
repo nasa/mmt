@@ -22,13 +22,6 @@ class VariablesController < ManageMetadataController
     end
   end
 
-  def edit
-    draft = VariableDraft.create_from_variable(@variable, current_user, @native_id)
-    Rails.logger.info("Audit Log: Variable Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
-    flash[:success] = I18n.t('controllers.draft.variable_drafts.create.flash.success')
-    redirect_to variable_draft_path(draft)
-  end
-
   def create
     variable_draft = VariableDraft.find(params[:id])
 
@@ -55,7 +48,7 @@ class VariablesController < ManageMetadataController
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest variable draft #{variable_draft.entry_title} in provider #{current_user.provider_id} but encountered an error.")
       @ingest_errors = generate_ingest_errors(ingested)
 
-      redirect_to variable_draft_path(variable_draft, flash: { error: I18n.t('controllers.variables.create.flash.error') })
+      redirect_to variable_draft_path(variable_draft), flash: { error: I18n.t('controllers.variables.create.flash.error') }
     end
   end
 
