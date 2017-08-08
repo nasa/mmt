@@ -21,9 +21,7 @@ describe 'Acquisition information form', js: true do
 
       # Project
       within '.projects' do
-        within 'div.project-short-name' do
-          find('.select2-container .select2-selection').click
-        end
+        find('.select2-container .select2-selection').click
         find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'AA').click
 
         within '.multiple.campaigns' do
@@ -40,10 +38,8 @@ describe 'Acquisition information form', js: true do
 
         click_on 'Add another Project'
         within '.multiple-item-1' do
-          within 'div.project-long-name' do
-            find('.select2-container .select2-selection').click
-          end
-          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'SEDAC Gateway').click
+          find('.select2-container .select2-selection').click
+          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'EUCREX-94').click
         end
       end
 
@@ -206,8 +202,7 @@ describe 'Acquisition information form', js: true do
         expect(page).to have_field('Start Date', with: '2015-07-01T00:00:00Z')
         expect(page).to have_field('End Date', with: '2015-08-01T00:00:00Z')
 
-        expect(page).to have_field('Short Name', with: 'SEDAC/GW')
-        expect(page).to have_field('Long Name', with: 'SEDAC Gateway')
+        expect(page).to have_field('Short Name', with: 'EUCREX-94')
       end
     end
   end

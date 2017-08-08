@@ -466,12 +466,9 @@ class CollectionDraftsController < BaseDraftsController
   def set_projects
     if params[:form] == 'acquisition_information'
       @projects = cmr_client.get_controlled_keywords('projects').fetch('short_name', {}).map do |short_name|
-        # Set long_name equal to short_name if long_name doesn't exist
-        long_name = short_name.fetch('long_name', [{ 'value' => short_name['value'] }]).first
-
         {
           short_name: short_name['value'],
-          long_name: long_name['value']
+          long_name: short_name.fetch('long_name', [{}]).first['value']
         }
       end
     end
