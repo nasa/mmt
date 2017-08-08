@@ -93,7 +93,7 @@ $(document).ready ->
     $('.jump-to-section').val(currentJumpToValue)
 
     # Call blur on all of our form fields to validate them
-    $("#umm_form input:visible").blur()
+    $("#umm_form input:visible, textarea, select").blur()
 
   # Submit with invalid data
   $('#invalid-draft-accept').on 'click', ->
