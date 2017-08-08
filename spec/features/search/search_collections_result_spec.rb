@@ -110,8 +110,6 @@ describe 'Search published results', js: true do
       expect(page).to have_content('LARC')
       # expect(page).to have_content(today_string)
     end
-
-    it 'displays the provider id in the search field'
   end
 
   context 'when performing a search that has no results' do
