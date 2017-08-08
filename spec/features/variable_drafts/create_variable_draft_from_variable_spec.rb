@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Create new draft from variable' do
+describe 'Create new draft from variable', reset_provider: true do
   context 'when editing a published variable' do
     before do
       login

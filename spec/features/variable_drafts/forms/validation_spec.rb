@@ -30,6 +30,8 @@ describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: tr
           fill_in 'Name', with: 'Test Var Short Name'
           fill_in 'Definition', with: 'Definition of test variable'
           fill_in 'Long Name', with: 'Test Var Long Long Name'
+          select 'SCIENCE_VARIABLE', from: 'Variable Type'
+          select 'byte', from: 'Data Type'
           fill_in 'Scale', with: '2'
           fill_in 'Offset', with: '5'
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Variable Draft form navigation', js: true do
+describe 'Variable Draft form navigation' do
   let(:form_titles) { ['Variable Information', 'Fill Value', 'Dimensions', 'Variable Characteristics', 'Science Keywords', 'Service', 'Set'] }
 
   context 'when visiting the edit page for a variable draft' do
