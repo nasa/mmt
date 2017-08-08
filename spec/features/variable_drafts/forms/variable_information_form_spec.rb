@@ -11,6 +11,13 @@ describe 'Variable Information Form', reset_provider: true, js: true do
       visit edit_variable_draft_path(draft)
     end
 
+    it 'displays the correct prompt value for all select elements' do
+      within '.umm-form' do
+        expect(page).to have_select('variable_draft_draft_variable_type', selected: 'Select a Variable Type')
+        expect(page).to have_select('variable_draft_draft_data_type', selected: 'Select a Data Type')
+      end
+    end
+
     it 'displays the correct title and description' do
       within '.umm-form' do
         expect(page).to have_content('Variable Information')
