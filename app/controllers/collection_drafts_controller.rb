@@ -14,6 +14,7 @@ class CollectionDraftsController < BaseDraftsController
 
     set_science_keywords
     set_location_keywords
+    set_projects
     set_country_codes
     set_language_codes
 
@@ -46,6 +47,7 @@ class CollectionDraftsController < BaseDraftsController
     # Set instance variables depending on the form requested
     set_science_keywords
     set_location_keywords
+    set_projects
     set_platform_types if @draft_form == 'acquisition_information'
     set_language_codes if @draft_form == 'metadata_information' || @draft_form == 'collection_information'
     set_country_codes
@@ -459,6 +461,20 @@ class CollectionDraftsController < BaseDraftsController
 
   def set_location_keywords
     @location_keywords = cmr_client.get_controlled_keywords('spatial_keywords') if params[:form] == 'spatial_information'
+  end
+
+  def set_projects
+    if params[:form] == 'acquisition_information'
+      @projects = cmr_client.get_controlled_keywords('projects').fetch('short_name', {}).map do |short_name|
+        # Set long_name equal to short_name if long_name doesn't exist
+        long_name = short_name.fetch('long_name', [{ 'value' => short_name['value'] }]).first
+
+        {
+          short_name: short_name['value'],
+          long_name: long_name['value']
+        }
+      end
+    end
   end
 
   def set_platform_types
