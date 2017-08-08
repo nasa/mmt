@@ -19,7 +19,7 @@
       </fieldset>
       <fieldset class="provider-selection">
         <div class="row">
-          <span>Provider:</span><%= select_tag "provider_id", options_for_select(@provider_ids.unshift(['Select Provider', '']), @query['provider_id']), class: 'single-select', 'aria-label': 'Select Provider' %>
+          <span>Provider:</span><%= select_tag "provider_id", options_for_select(@provider_ids, @query['provider_id']), class: 'single-select', prompt: 'Select a Provider', 'aria-label': 'Select a Provider' %>
         </div>
       </fieldset>
     </div>
