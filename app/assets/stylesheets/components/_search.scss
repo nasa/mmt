@@ -60,11 +60,12 @@
     .eui-btn--blue {
       background-color: $steel-blue;
       border-right: 1px solid $dolphin-grey;
+      border-bottom: 1px solid $steel-blue;
     }
 
     .dropdown-button {
       background-color: $steel-blue;
-      padding: 8px 0 11px 9px;
+      padding: 7px 0 11px 9px;
       border: 0;
       margin-top: -5px;
       cursor: pointer;
@@ -102,7 +103,7 @@
 
   input[type="text"] {
     width: 13em;
-    padding: 0.6em;
+    padding: 0.55em;
     border: none;
     vertical-align: middle;
     border-top-left-radius: 3px;
