@@ -1,27 +1,30 @@
 <div class="row sub-fields">
   <!-- Short Name [r] -->
   <div class="row">
-    <div class="col-6">
-      <%= mmt_text_field(
+    <div class="col-6 project-short-name">
+      <%= mmt_select(
         name: 'short_name',
         title: 'Short Name',
         prefix: name_prefix,
         value: project['ShortName'],
         help: 'definitions/ProjectType/properties/ShortName',
-        validate: true,
+        options: @projects.map { |project| [project[:short_name], project[:short_name], { 'data-long-name' => project[:long_name] }] },
+        classes: 'select2-select project-short-name-select',
         required: true
-       ) %>
+      ) %>
     </div>
-    <div class="col-6">
+    <div class="col-6 project-long-name">
       <!-- Long Name -->
-      <%= mmt_text_field(
+      <%= mmt_select(
         name: 'long_name',
         title: 'Long Name',
         prefix: name_prefix,
         value: project['LongName'],
         help: 'definitions/ProjectType/properties/LongName',
-        validate: true
-       ) %>
+        options: @projects.map { |project| [project[:long_name], project[:long_name], { 'data-short-name' => project[:short_name] }] },
+        classes: 'select2-select project-long-name-select',
+        required: true
+      ) %>
     </div>
   </div>
 
