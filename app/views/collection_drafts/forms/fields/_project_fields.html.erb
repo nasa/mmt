@@ -1,7 +1,7 @@
 <div class="row sub-fields">
   <!-- Short Name [r] -->
   <div class="row">
-    <div class="col-6 project-short-name">
+    <div class="col-6">
       <%= mmt_select(
         name: 'short_name',
         title: 'Short Name',
@@ -13,18 +13,17 @@
         required: true
       ) %>
     </div>
-    <div class="col-6 project-long-name">
+    <div class="col-6">
       <!-- Long Name -->
-      <%= mmt_select(
+      <%= mmt_text_field(
         name: 'long_name',
         title: 'Long Name',
         prefix: name_prefix,
         value: project['LongName'],
         help: 'definitions/ProjectType/properties/LongName',
-        options: @projects.map { |project| [project[:long_name], project[:long_name], { 'data-short-name' => project[:short_name] }] },
-        classes: 'select2-select project-long-name-select',
-        required: true
-      ) %>
+        classes: 'project-long-name',
+        validate: true
+       ) %>
     </div>
   </div>
 
