@@ -1,5 +1,3 @@
-# MMT-23
-
 require 'rails_helper'
 
 describe 'Search sorting', reset_provider: true, js: true do
@@ -18,210 +16,150 @@ describe 'Search sorting', reset_provider: true, js: true do
 
     before do
       login
-      fill_in 'keyword', with: 'MMT_2'
-      click_on 'Search Collections'
     end
 
-    context 'by Short Name' do
+    context 'when searching by one provider' do
       before do
-        click_on 'Sort by Short Name Asc'
+        fill_in 'keyword', with: 'MMT_2'
+        click_on 'Search Collections'
       end
 
-      it 'displays the correct search param' do
-        expect(page).to have_search_query(nil, 'Sort Key: Short Name Asc')
-      end
-
-      it 'sorts the results by Short Name Asc' do
-        within '#search-results tbody tr:nth-child(1)' do
-          expect(page).to have_content('Aardvark Short Name')
-        end
-        # expect(page).to have_no_content('SAMMIGEO')
-      end
-
-      context 'when sorting again' do
+      context 'when sorting by Short Name' do
         before do
-          click_on 'Sort by Short Name Desc'
+          click_on 'Sort by Short Name Asc'
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Short Name Desc')
+          expect(page).to have_search_query(nil, 'Sort Key: Short Name Asc')
         end
 
-        it 'sorts the results by Short Name Desc' do
+        it 'sorts the results by Short Name Asc' do
           within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('Zimbabwe Short Name')
+            expect(page).to have_content('0000_Aardvark Short Name')
           end
-          # expect(page).to have_no_content('ACR3L2DM')
+        end
+
+        context 'when sorting again' do
+          before do
+            click_on 'Sort by Short Name Desc'
+          end
+
+          it 'displays the correct search param' do
+            expect(page).to have_search_query(nil, 'Sort Key: Short Name Desc')
+          end
+
+          it 'sorts the results by Short Name Desc' do
+            within '#search-results tbody tr:nth-child(1)' do
+              expect(page).to have_content('Zimbabwe Short Name')
+            end
+          end
         end
       end
-    end
 
-    context 'by Entry Title' do
-      before do
-        click_on 'Sort by Entry Title Asc'
-      end
-
-      it 'displays the correct search param' do
-        expect(page).to have_search_query(nil, 'Sort Key: Entry Title Asc')
-      end
-
-      it 'sorts the results by Entry Title Asc' do
-        within '#search-results tbody tr:nth-child(1)' do
-          expect(page).to have_content('Aardvark Entry Title')
-        end
-        # expect(page).to have_no_content('MISR Level 1B1 Radiance Data V002')
-      end
-
-      context 'when sorting again' do
+      context 'when sorting by Entry Title' do
         before do
-          click_on 'Sort by Entry Title Desc'
+          click_on 'Sort by Entry Title Asc'
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Entry Title Desc')
+          expect(page).to have_search_query(nil, 'Sort Key: Entry Title Asc')
         end
 
-        it 'sorts the results by Entry Title Desc' do
+        it 'sorts the results by Entry Title Asc' do
           within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('Zimbabwe Entry Title')
+            expect(page).to have_content('0000_Aardvark Entry Title')
           end
-          # expect(page).to have_no_content('2000 Pilot Environmental Sustainability Index (ESI)')
+        end
+
+        context 'when sorting again' do
+          before do
+            click_on 'Sort by Entry Title Desc'
+          end
+
+          it 'displays the correct search param' do
+            expect(page).to have_search_query(nil, 'Sort Key: Entry Title Desc')
+          end
+
+          it 'sorts the results by Entry Title Desc' do
+            within '#search-results tbody tr:nth-child(1)' do
+              expect(page).to have_content('Zimbabwe Entry Title')
+            end
+          end
         end
       end
-    end
 
-    context 'by Last Modified' do
-      before do
-        click_on 'Sort by Last Modified Asc'
-      end
-
-      it 'displays the correct search param' do
-        expect(page).to have_search_query(nil, 'Sort Key: Last Modified Asc')
-      end
-
-      it 'sorts the results by Last Modified Asc' do
-        within '#search-results tbody tr:nth-child(1)' do
-          expect(page).to have_content('First!')
-        end
-        # expect(page).to have_no_content('MISR Level 1B1 Radiance Data V002')
-      end
-
-      context 'when sorting again' do
+      context 'when sorting by Last Modified' do
         before do
-          click_on 'Sort by Last Modified Desc'
+          click_on 'Sort by Last Modified Asc'
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Last Modified Desc')
+          expect(page).to have_search_query(nil, 'Sort Key: Last Modified Asc')
         end
 
-        it 'sorts the results by Last Modified Desc' do
+        it 'sorts the results by Last Modified Asc' do
           within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('Last!')
+            expect(page).to have_content('First!')
           end
-          # expect(page).to have_no_content('2000 Pilot Environmental Sustainability Index (ESI)')
-        end
-      end
-    end
-
-    context 'by Entry Title' do
-      before do
-        click_on 'Sort by Entry Title Asc'
-      end
-
-      it 'displays the correct search param' do
-        expect(page).to have_search_query(nil, 'Sort Key: Entry Title Asc')
-      end
-
-      it 'sorts the results by Entry Title Asc' do
-        within '#search-results tbody tr:nth-child(1)' do
-          expect(page).to have_content('Arctic Cooling Heating Vectors')
-        end
-        # expect(page).to have_no_content('Zimbabwe Evapotranspiration')
-      end
-
-      context 'when sorting again' do
-        before do
-          click_on 'Sort by Entry Title Desc'
         end
 
-        it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Entry Title Desc')
-        end
-
-        it 'sorts the results by Entry Title Desc' do
-          within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('Zimbabwe Evapotranspiration')
+        context 'when sorting again' do
+          before do
+            click_on 'Sort by Last Modified Desc'
           end
-          # expect(page).to have_no_content('Arctic Cooling Heating Vectors')
+
+          it 'displays the correct search param' do
+            expect(page).to have_search_query(nil, 'Sort Key: Last Modified Desc')
+          end
+
+          it 'sorts the results by Last Modified Desc' do
+            within '#search-results tbody tr:nth-child(1)' do
+              expect(page).to have_content('Last!')
+            end
+          end
         end
       end
     end
 
-    context 'by Last Modified' do
+    context 'when searching across multiple providers' do
       before do
-        click_on 'Sort by Last Modified Asc'
+        fill_in 'keyword', with: ''
+        click_on 'Search Collections'
       end
 
-      it 'displays the correct search param' do
-        expect(page).to have_search_query(nil, 'Sort Key: Last Modified Asc')
-      end
-
-      it 'sorts the results by Last Modified Asc' do
-        within '#search-results tbody tr:nth-child(1)' do
-          expect(page).to have_content('Arctic Cooling Heating Vectors')
-        end
-        # expect(page).to have_no_content('Zimbabwe Evapotranspiration')
-      end
-
-      context 'when sorting again' do
+      context 'when sorting by Provider' do
         before do
-          click_on 'Sort by Last Modified Desc'
+          click_on 'Sort by Provider Asc'
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Last Modified Desc')
+          expect(page).to have_search_query(nil, 'Sort Key: Provider Id Asc')
         end
 
-        it 'sorts the results by Last Modified Desc' do
-          within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('Zimbabwe Evapotranspiration')
+        it 'sorts the results by Provider Id Asc' do
+          within '#search-results tbody' do
+            expect(page).to have_content('LARC')
+
+            expect(page).to have_no_content('SEDAC')
           end
-          # expect(page).to have_no_content('Arctic Cooling Heating Vectors')
-        end
-      end
-    end
-
-    context 'by Provider' do
-      before do
-        click_on 'Sort by Provider Asc'
-      end
-
-      it 'displays the correct search param' do
-        expect(page).to have_search_query(nil, 'Sort Key: Provider Id Asc')
-      end
-
-      it 'sorts the results by Provider Id Asc' do
-        within '#search-results tbody tr:nth-child(1)' do
-          expect(page).to have_content('Arctic Cooling Heating Vectors')
-        end
-        # expect(page).to have_no_content('Zimbabwe Evapotranspiration')
-      end
-
-      context 'when sorting again' do
-        before do
-          click_on 'Sort by Provider Desc'
         end
 
-        it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Provider Id Desc')
-        end
-
-        it 'sorts the results by Provider Id Desc' do
-          within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('Zimbabwe Evapotranspiration')
+        context 'when sorting again' do
+          before do
+            click_on 'Sort by Provider Desc'
           end
-          # expect(page).to have_no_content('Arctic Cooling Heating Vectors')
+
+          it 'displays the correct search param' do
+            expect(page).to have_search_query(nil, 'Sort Key: Provider Id Desc')
+          end
+
+          it 'sorts the results by Provider Id Desc' do
+            within '#search-results tbody' do
+              expect(page).to have_content('SEDAC')
+
+              expect(page).to have_no_content('LARC')
+            end
+          end
         end
       end
     end
