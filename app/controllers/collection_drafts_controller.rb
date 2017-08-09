@@ -464,14 +464,14 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def set_projects
-    if params[:form] == 'acquisition_information'
-      @projects = cmr_client.get_controlled_keywords('projects').fetch('short_name', {}).map do |short_name|
-        {
-          short_name: short_name['value'],
-          long_name: short_name.fetch('long_name', [{}]).first['value']
-        }
-      end
+    return unless params[:form] == 'acquisition_information'
+    @projects = cmr_client.get_controlled_keywords('projects').fetch('short_name', []).map do |short_name|
+      {
+        short_name: short_name['value'],
+        long_name: short_name.fetch('long_name', [{}]).first['value']
+      }
     end
+    @projects.sort! { |a, b| a[:short_name] <=> b[:short_name] }
   end
 
   def set_platform_types
