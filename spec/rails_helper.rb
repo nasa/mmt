@@ -51,17 +51,24 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   # Lines below taken from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
   config.use_transactional_fixtures = false
-  config.before do
-    DatabaseCleaner.strategy = if Capybara.current_driver == :rack_test
-                                 :transaction
-                               else
-                                 :truncation
-                               end
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
 
+  config.before(:each) do
+    # set the default
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, type: :feature) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
     DatabaseCleaner.start
   end
 
-  config.after do
+  config.append_after(:each) do
     DatabaseCleaner.clean
   end
   # End of lines from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
