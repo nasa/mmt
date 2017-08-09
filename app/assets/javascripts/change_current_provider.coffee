@@ -37,6 +37,8 @@ $(document).ready ->
         'Deleting this group'
       when 'edit-variable'
         'Editing this variable'
+      when 'delete-variable'
+        'Deleting this variable'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
