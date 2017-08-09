@@ -21,8 +21,9 @@ describe 'Acquisition information form', js: true do
 
       # Project
       within '.projects' do
-        fill_in 'Short Name', with: 'Project short name'
-        fill_in 'Long Name', with: 'Project long name'
+        find('.select2-container .select2-selection').click
+        find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'AA').click
+
         within '.multiple.campaigns' do
           within '.multiple-item-0' do
             find('.campaign').set 'Project campaign 1'
@@ -34,6 +35,12 @@ describe 'Acquisition information form', js: true do
         end
         fill_in 'Start Date', with: '2015-07-01T00:00:00Z'
         fill_in 'End Date', with: '2015-08-01T00:00:00Z'
+
+        click_on 'Add another Project'
+        within '.multiple-item-1' do
+          find('.select2-container .select2-selection').click
+          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'EUCREX-94').click
+        end
       end
 
       within '.nav-top' do
@@ -188,12 +195,14 @@ describe 'Acquisition information form', js: true do
       end
 
       within '.projects' do
-        expect(page).to have_field('Short Name', with: 'Project short name')
-        expect(page).to have_field('Long Name', with: 'Project long name')
+        expect(page).to have_field('Short Name', with: 'AA')
+        expect(page).to have_field('Long Name', with: 'ARCATLAS')
         expect(page).to have_selector('input.campaign[value="Project campaign 1"]')
         expect(page).to have_selector('input.campaign[value="Project campaign 2"]')
         expect(page).to have_field('Start Date', with: '2015-07-01T00:00:00Z')
         expect(page).to have_field('End Date', with: '2015-08-01T00:00:00Z')
+
+        expect(page).to have_field('Short Name', with: 'EUCREX-94')
       end
     end
   end

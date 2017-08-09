@@ -41,6 +41,19 @@ $(document).ready ->
       $urlContentTypeElement.trigger('change')
     $urlElement.blur()
 
+  $('.project-short-name-select').on 'select2:select', (event) ->
+    $element = $(this)
+    longName = $element.find(':selected').data('longName')
+
+    $longNameElement = $element.parent().siblings().find('.project-long-name')
+
+    if longName?
+      $longNameElement.val(longName)
+      $longNameElement.attr('readonly', true)
+    else
+      $longNameElement.val('')
+      $longNameElement.attr('readonly', false)
+
   # Set long name and url elements to readonly if short name is selected on load
   $('.data-center-short-name-select').each (index, element) ->
     $element = $(this)

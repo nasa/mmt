@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Variable Draft creation', reset_provider: true, js: true do
+describe 'Variable Draft creation' do
   before do
     login
   end
@@ -23,7 +23,7 @@ describe 'Variable Draft creation', reset_provider: true, js: true do
       end
     end
 
-    context 'when saving data into the variable draft' do
+    context 'when saving data into the variable draft', js: true do
       before do
         fill_in 'Name', with: 'test var draft'
 

@@ -13,14 +13,14 @@ class SearchController < ManageCollectionsController
 
     # Did the search come from quick_find or full_search
     if search_type == 'quick_find'
-      # If search came from quick find, only use the quick find input
+      # If search came from search, only use the search input
       @query = {}
 
       @query['keyword'] = params['keyword'] || ''
       @query['record_state'] = 'published_records'
       @query['sort_key'] = params['sort_key'] if params['sort_key']
     elsif search_type == 'full_search'
-      # If search came from full search, ignore whatever was in quick find
+      # If search came from full search, ignore whatever was in search
       @query = params.clone
       @query['keyword'] ||= ''
       @query.delete('provider_id') if @query['provider_id'].blank?

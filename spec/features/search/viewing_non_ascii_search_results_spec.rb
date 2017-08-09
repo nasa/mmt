@@ -9,8 +9,8 @@ describe 'Viewing non-ASCII search results', js: true do
   context 'when searching for a non-ASCII short name' do
     before do
       login
-      fill_in 'Quick Find', with: short_name
-      click_on 'Find'
+      fill_in 'keyword', with: short_name
+      click_on 'Search Collections'
     end
 
     it 'displays the search results without errors' do

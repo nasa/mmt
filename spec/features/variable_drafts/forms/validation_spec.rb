@@ -23,6 +23,46 @@ describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: tr
         it 'displays a modal with a prompt about saving invalid data' do
           expect(page).to have_content('This page has invalid data. Are you sure you want to save it and proceed?')
         end
+
+        context 'when choosing not to proceed' do
+          before do
+            within '#invalid-draft-modal' do
+              click_on 'No'
+            end
+          end
+
+          it 'displays the correct error messages at the top of the page' do
+            within '#umm-form-errors' do
+              expect(page).to have_content('Name is required')
+              expect(page).to have_content('Definition is required')
+              expect(page).to have_content('Long Name is required')
+              expect(page).to have_content('Data Type is required')
+              expect(page).to have_content('Scale is required')
+              expect(page).to have_content('Offset is required')
+            end
+          end
+
+          it 'displays the correct error messages under the form elements' do
+            within '#variable_draft_draft_name-error' do
+              expect(page).to have_content('Name is required')
+            end
+            within '#variable_draft_draft_definition-error' do
+              expect(page).to have_content('Definition is required')
+            end
+            within '#variable_draft_draft_long_name-error' do
+              expect(page).to have_content('Long Name is required')
+            end
+            within '#variable_draft_draft_data_type-error' do
+              expect(page).to have_content('Data Type is required')
+            end
+            within '#variable_draft_draft_scale-error' do
+              expect(page).to have_content('Scale is required')
+            end
+            within '#variable_draft_draft_offset-error' do
+              expect(page).to have_content('Offset is required')
+            end
+          end
+        end
       end
 
       context 'when the fields are filled' do
@@ -30,6 +70,8 @@ describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: tr
           fill_in 'Name', with: 'Test Var Short Name'
           fill_in 'Definition', with: 'Definition of test variable'
           fill_in 'Long Name', with: 'Test Var Long Long Name'
+          select 'SCIENCE_VARIABLE', from: 'Variable Type'
+          select 'byte', from: 'Data Type'
           fill_in 'Scale', with: '2'
           fill_in 'Offset', with: '5'
 
