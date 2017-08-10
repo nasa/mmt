@@ -11,17 +11,30 @@
         <% elsif available_provider?(@provider_id) %>
           <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-variable' } %> |
         <% end %>
+        <% if current_provider?(@provider_id) %>
+          <%= link_to 'Delete Variable Record', "#delete-record-modal", class: 'display-modal delete-variable' %>
+        <% elsif available_provider?(@provider_id) %>
+          <%= link_to 'Delete Variable Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'delete-variable' } %>
+        <% end %>
+        <div id="delete-record-modal" class="eui-modal-content">
+          <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p>Are you sure you want to delete this variable record?</p>
+          <p>
+            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+            <%= link_to 'Yes', variable_path, method: :delete, class: 'eui-btn--blue spinner' %>
+          </p>
+        </div>
         <%= render partial: 'shared/not_current_provider_modal', locals: {
           options: { variable: @variable, concept_id: @concept_id, revision_id: @revision_id }
         } %>
       </p>
     </div>
   </section>
-  
+
   <div class="content">
     <% @json_form.forms.each do |form| %>
       <section class="umm-preview <%= form.parsed_json['id'] %>">
-        <div class="preview-collection eui-accordion">
+        <div class="preview-variable eui-accordion">
           <div class="eui-accordion__header">
             <h4 class="eui-accordion__title"><%= form.title %></h4>
             <div class="eui-accordion__icon" tabindex="0">
@@ -46,6 +59,4 @@
       </section>
     <% end %>
   </div>
-
-
 </div>

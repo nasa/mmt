@@ -1,6 +1,6 @@
 # :nodoc:
 class VariablesController < ManageMetadataController
-  before_action :set_variable, only: [:show, :edit]
+  before_action :set_variable, only: [:show, :edit, :destroy]
   before_action :set_schema, only: [:show]
   before_action :set_form, only: [:show]
 
@@ -48,7 +48,20 @@ class VariablesController < ManageMetadataController
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest variable draft #{variable_draft.entry_title} in provider #{current_user.provider_id} but encountered an error.")
       @ingest_errors = generate_ingest_errors(ingested)
 
-      redirect_to variable_draft_path(variable_draft, flash: { error: I18n.t('controllers.variables.create.flash.error') })
+      redirect_to variable_draft_path(variable_draft), flash: { error: I18n.t('controllers.variables.create.flash.error') }
+    end
+  end
+
+  def destroy
+    delete = cmr_client.delete_variable(@provider_id, @native_id, token)
+    if delete.success?
+      flash[:success] = I18n.t('controllers.variables.destroy.flash.success')
+      Rails.logger.info("Audit Log: Variable with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
+
+      redirect_to manage_variables_path
+    else
+      flash[:error] = I18n.t('controllers.variables.destroy.flash.error')
+      render :show
     end
   end
 
