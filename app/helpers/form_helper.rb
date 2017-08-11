@@ -63,28 +63,34 @@ module FormHelper
     is_multi_select = true if options[:multiple]
 
     select_options = options[:options].clone
-    # restrict options for drop down if for metadata_date
-    select_options.shift(2) if options[:metadata_date]
+    if options[:grouped]
+      select_options = grouped_options_for_select(select_options, options[:value])
+    else
+      # restrict options for drop down if for metadata_date
+      select_options.shift(2) if options[:metadata_date]
 
-    disabled_options = []
+      disabled_options = []
 
-    if is_multi_select
-      prompt = nil
-      size = 4
-      values = options[:value] || []
-      values.each do |value|
-        if value && invalid_select_option(select_options, value)
-          # handle invalid options for multi_select
-          select_options.unshift value
-          disabled_options << value
+      if is_multi_select
+        prompt = nil
+        size = 4
+        values = options[:value] || []
+        values.each do |value|
+          if value && invalid_select_option(select_options, value)
+            # handle invalid options for multi_select
+            select_options.unshift value
+            disabled_options << value
+          end
+        end
+      else
+        # prepend invalid disabled option
+        if options[:value] && invalid_select_option(select_options, options[:value])
+          select_options.unshift options[:value]
+          disabled_options = options[:value]
         end
       end
-    else
-      # prepend invalid disabled option
-      if options[:value] && invalid_select_option(select_options, options[:value])
-        select_options.unshift options[:value]
-        disabled_options = options[:value]
-      end
+
+      select_options = options_for_select(select_options, selected: options[:value], disabled: disabled_options)
     end
 
     if classes.include? 'select2-select'
@@ -109,7 +115,7 @@ module FormHelper
 
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
-      options_for_select(select_options, selected: options[:value], disabled: disabled_options),
+      select_options,
       multiple: is_multi_select,
       size: size,
       class: classes,
