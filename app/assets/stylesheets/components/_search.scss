@@ -34,6 +34,11 @@
       margin-top: -4px;
       height: 85px;
       max-width: 385px;
+      @media not all and (min-resolution:.001dpcm){
+        @supports (-webkit-appearance:none) {
+            max-width: 381px;
+          }
+      }
       display: none;
       z-index: 9999;
 
@@ -66,6 +71,9 @@
     .dropdown-button {
       background-color: $steel-blue;
       padding: 7px 0 11px 9px;
+      @-moz-document url-prefix() {
+        padding: 7px 0 9px 9px;
+      }
       border: 0;
       margin-top: -4px;
       cursor: pointer;
