@@ -37,7 +37,7 @@
       @media not all and (min-resolution:.001dpcm){
         @supports (-webkit-appearance:none) {
             max-width: 381px;
-          }
+        }
       }
       @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         max-width: 384px;
