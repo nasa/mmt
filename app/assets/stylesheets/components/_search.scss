@@ -39,6 +39,9 @@
             max-width: 381px;
           }
       }
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        max-width: 384px;
+      }
       display: none;
       z-index: 9999;
 
