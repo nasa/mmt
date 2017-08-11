@@ -343,15 +343,16 @@ module Helpers
 
     def add_platforms
       within '.multiple.platforms' do
-        select 'Aircraft', from: 'Type'
-        fill_in 'draft_platforms_0_short_name', with: 'Platform short name'
-        fill_in 'draft_platforms_0_long_name', with: 'Platform long name'
+        find('.select2-container .select2-selection').click
+        find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'A340-600').click
+
         add_characteristics
         add_instruments
 
         click_on 'Add another Platform'
         within '.multiple-item-1' do
-          fill_in 'draft_platforms_1_short_name', with: 'Platform short name 1'
+          find('.select2-container .select2-selection').click
+          find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'DIADEM-1D').click
           add_instruments('1')
         end
       end

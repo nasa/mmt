@@ -475,7 +475,30 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def set_platform_types
-    @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map { |category| category['value'] }.sort
+    @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map do |category|
+      short_names = category.fetch('short_name', []).map do |short_name|
+        {
+          short_name: short_name['value'],
+          long_name: short_name.fetch('long_name', [{}]).first['value']
+        }
+      end
+
+      series_entities = category.fetch('series_entity', []).map do |se|
+        se.fetch('short_name', []).map do |short_name|
+          {
+            short_name: short_name['value'],
+            long_name: short_name.fetch('long_name', [{}]).first['value']
+          }
+        end
+      end.flatten
+
+      {
+        type: category['value'],
+        short_names: (short_names + series_entities).sort { |a, b| a[:short_name] <=> b[:short_name] }
+      }
+    end
+
+    @platform_types.sort! { |a, b| a[:type] <=> b[:type] }
   end
 
   def set_language_codes
