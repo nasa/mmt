@@ -173,11 +173,6 @@ header.mmt-header {
   margin-top: 25px;
   position: absolute;
   margin-left: -7px;
-  @media not all and (min-resolution:.001dpcm){
-    @supports (-webkit-appearance:none) {
-      margin-left: -134px;
-    }
-  }
   visibility: hidden;
   z-index: 999;
 
