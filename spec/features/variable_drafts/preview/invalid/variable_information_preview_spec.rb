@@ -42,7 +42,7 @@ describe 'Invalid Variable Draft Variable Information Preview' do
       within '#variable_information-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_scale')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_offset')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_valid_range')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_valid_ranges')
       end
     end
 
@@ -106,9 +106,9 @@ describe 'Invalid Variable Draft Variable Information Preview' do
           expect(page).to have_css('p', text: 'string')
         end
 
-        within '#variable_draft_draft_valid_range_preview' do
+        within '#variable_draft_draft_valid_ranges_preview' do
           expect(page).to have_css('h5', text: 'Valid Range')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_valid_range'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_valid_ranges'))
 
           expect(page).to have_css('p', text: 'string')
         end

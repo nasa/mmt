@@ -12,24 +12,24 @@ describe 'Valid Variable Service Preview', reset_provider: true do
       within '.umm-preview.service' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-        within '#variable_draft_draft_service_preview' do
+        within '#variable_draft_draft_services_preview' do
           expect(page).to have_css('h5', text: 'Services')
 
           expect(page).to have_css('h6', text: 'Service 1')
 
-          within '#variable_draft_draft_service_0_service_type_preview' do
+          within '#variable_draft_draft_services_0_service_types_preview' do
             expect(page).to have_css('h5', text: 'Service Type')
             expect(page).to have_css('ul li', text: 'ESI')
             expect(page).to have_css('ul li', text: 'WMS')
             expect(page).to have_css('ul li', text: 'WCS')
           end
 
-          within '#variable_draft_draft_service_0_visualizable_preview' do
+          within '#variable_draft_draft_services_0_visualizable_preview' do
             expect(page).to have_css('h5', text: 'Visualizable')
             expect(page).to have_css('p', text: 'FALSE')
           end
 
-          within '#variable_draft_draft_service_0_subsettable_preview' do
+          within '#variable_draft_draft_services_0_subsettable_preview' do
             expect(page).to have_css('h5', text: 'Subsettable')
             expect(page).to have_css('p', text: 'TRUE')
           end

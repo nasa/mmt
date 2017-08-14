@@ -178,11 +178,11 @@ describe 'Service Form', reset_provider: true, js: true do
   context 'When viewing the form with 1 stored value' do
     before do
       draft_fill_values = [{
-        'ServiceType': %w[ESI WCS],
+        'ServiceTypes': %w[ESI WCS],
         'Visualizable': true,
         'Subsettable': false
       }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Service': draft_fill_values })
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Services': draft_fill_values })
       visit edit_variable_draft_path(draft, 'service')
     end
 
@@ -191,10 +191,10 @@ describe 'Service Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_select('variable_draft_draft_service_0_service_type', selected: %w[ESI WCS])
+      expect(page).to have_select('variable_draft_draft_services_0_service_types', selected: %w[ESI WCS])
 
-      expect(page).to have_checked_field('variable_draft_draft_service_0_visualizable_true')
-      expect(page).to have_checked_field('variable_draft_draft_service_0_subsettable_false')
+      expect(page).to have_checked_field('variable_draft_draft_services_0_visualizable_true')
+      expect(page).to have_checked_field('variable_draft_draft_services_0_subsettable_false')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -279,15 +279,15 @@ describe 'Service Form', reset_provider: true, js: true do
   context 'When viewing the form with 2 stored values' do
     before do
       draft_fill_values = [{
-        'ServiceType': %w[WMS],
+        'ServiceTypes': %w[WMS],
         'Visualizable': false,
         'Subsettable': false
       }, {
-        'ServiceType': %w[OPeNDAP],
+        'ServiceTypes': %w[OPeNDAP],
         'Visualizable': true,
         'Subsettable': true
       }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Service': draft_fill_values })
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Services': draft_fill_values })
       visit edit_variable_draft_path(draft, 'service')
     end
 
@@ -296,13 +296,13 @@ describe 'Service Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_select('variable_draft_draft_service_0_service_type', selected: %w[WMS])
-      expect(page).to have_checked_field('variable_draft_draft_service_0_visualizable_false')
-      expect(page).to have_checked_field('variable_draft_draft_service_0_subsettable_false')
+      expect(page).to have_select('variable_draft_draft_services_0_service_types', selected: %w[WMS])
+      expect(page).to have_checked_field('variable_draft_draft_services_0_visualizable_false')
+      expect(page).to have_checked_field('variable_draft_draft_services_0_subsettable_false')
 
-      expect(page).to have_select('variable_draft_draft_service_1_service_type', selected: %w[OPeNDAP])
-      expect(page).to have_checked_field('variable_draft_draft_service_1_visualizable_true')
-      expect(page).to have_checked_field('variable_draft_draft_service_1_subsettable_true')
+      expect(page).to have_select('variable_draft_draft_services_1_service_types', selected: %w[OPeNDAP])
+      expect(page).to have_checked_field('variable_draft_draft_services_1_visualizable_true')
+      expect(page).to have_checked_field('variable_draft_draft_services_1_subsettable_true')
     end
 
     context 'When clicking `Previous` without making any changes' do

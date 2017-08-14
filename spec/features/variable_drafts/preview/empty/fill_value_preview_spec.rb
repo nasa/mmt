@@ -30,7 +30,7 @@ describe 'Empty Variable Draft Fill Value Preview' do
 
     it 'displays the correct progress indicators for non required fields' do
       within '#fill_value-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_fill_value')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_fill_values')
       end
     end
 
@@ -38,9 +38,9 @@ describe 'Empty Variable Draft Fill Value Preview' do
       within '.umm-preview.fill_value' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-        within '#variable_draft_draft_fill_value_preview' do
+        within '#variable_draft_draft_fill_values_preview' do
           expect(page).to have_css('h5', text: 'Fill Values')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_value', anchor: 'variable_draft_draft_fill_value'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_value', anchor: 'variable_draft_draft_fill_values'))
 
           expect(page).to have_css('p', text: 'No value for Fill Values provided.')
         end

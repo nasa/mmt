@@ -48,7 +48,7 @@ describe 'Invalid Variable Draft Dimensions Preview' do
           expect(page).to have_css('h5', text: 'Dimensions')
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'dimensions', anchor: 'variable_draft_draft_dimensions'))
 
-          expect(page).to have_css('h6', text: 'Dimensions 1')
+          expect(page).to have_css('h6', text: 'Dimension 1')
 
           within '#variable_draft_draft_dimensions_0_name_preview' do
             expect(page).to have_css('h5', text: 'Name')
