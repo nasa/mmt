@@ -73,7 +73,7 @@
           "items": [
             {
               "type": "UmmMultiItems",
-              "key": "ValidRange",
+              "key": "ValidRanges",
               "items": [
                 {
                   "type": "section",
@@ -82,12 +82,12 @@
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "ValidRange/items/properties/index_id/Min"}]
+                      "items": [{"key": "ValidRanges/items/properties/index_id/Min"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "ValidRange/items/properties/index_id/Max"}]
+                      "items": [{"key": "ValidRanges/items/properties/index_id/Max"}]
                     }
                   ]
                 }
@@ -100,14 +100,14 @@
     {
       "id": "fill_value",
       "title": "Fill Value",
-      "description_key": "FillValue",
+      "description_key": "FillValues",
       "items": [
         {
           "type": "section",
           "items": [
             {
               "type": "UmmMultiItems",
-              "key": "FillValue",
+              "key": "FillValues",
               "items": [
                 {
                   "type": "section",
@@ -116,19 +116,19 @@
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "FillValue/items/properties/index_id/Value"}]
+                      "items": [{"key": "FillValues/items/properties/index_id/Value"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "FillValue/items/properties/index_id/Type"}]
+                      "items": [{"key": "FillValues/items/properties/index_id/Type"}]
                     }
                   ]
                 },
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "FillValue/items/properties/index_id/Description", "type": "UmmTextarea"}]
+                  "items": [{"key": "FillValues/items/properties/index_id/Description", "type": "UmmTextarea"}]
                 }
               ]
             }
@@ -291,14 +291,14 @@
     {
       "id": "service",
       "title": "Service",
-      "description_key": "Service",
+      "description_key": "Services",
       "items": [
         {
           "type": "section",
           "items": [
             {
               "type": "UmmMultiItems",
-              "key": "Service",
+              "key": "Services",
               "items": [
                 {
                   "type": "section",
@@ -307,17 +307,17 @@
                     {
                       "type": "section",
                       "htmlClass": "col-4",
-                      "items": [{"key": "Service/items/properties/index_id/ServiceType", "type": "UmmMultiSelect"}]
+                      "items": [{"key": "Services/items/properties/index_id/ServiceTypes", "type": "UmmMultiSelect"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-4",
-                      "items": [{"key": "Service/items/properties/index_id/Visualizable", "type": "UmmBoolean"}]
+                      "items": [{"key": "Services/items/properties/index_id/Visualizable", "type": "UmmBoolean"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-4",
-                      "items": [{"key": "Service/items/properties/index_id/Subsettable", "type": "UmmBoolean"}]
+                      "items": [{"key": "Services/items/properties/index_id/Subsettable", "type": "UmmBoolean"}]
                     }
                   ]
                 }
@@ -330,24 +330,24 @@
     {
       "id": "set",
       "title": "Set",
-      "description_key": "Set",
+      "description_key": "Sets",
       "items": [
         {
           "type": "section",
           "items": [
             {
               "type": "UmmMultiItems",
-              "key": "Set",
+              "key": "Sets",
               "items": [
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "Set/items/properties/index_id/Name"}]
+                  "items": [{"key": "Sets/items/properties/index_id/Name"}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "Set/items/properties/index_id/Type"}]
+                  "items": [{"key": "Sets/items/properties/index_id/Type"}]
                 },
                 {
                   "type": "section",
@@ -356,12 +356,12 @@
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "Set/items/properties/index_id/Size"}]
+                      "items": [{"key": "Sets/items/properties/index_id/Size"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "Set/items/properties/index_id/Index"}]
+                      "items": [{"key": "Sets/items/properties/index_id/Index"}]
                     }
                   ]
                 }
