@@ -2,14 +2,38 @@
   <h2><%= @variable['Name'] %></h2>
 <% end %>
 
+<% if @user_permissions == 'none' %>
+  <div class="eui-banner--danger">
+    <p class="eui-banner__message">
+      <%= "You don't have the appropriate permissions to #{@variable_action} this variable." %>
+    </p>
+  </div>
+  <div class="no-access">
+    <h3 class="access-title">Access Denied</h3>
+    <p class="access-message">
+      It appears you do not have access to <%= @variable_action %> this content.<br />
+      If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
+    </p>
+  </div>
+<% elsif @user_permissions == 'wrong_provider' %>
+  <div class="eui-banner--warn">
+    <p class="eui-banner__message">
+      <%= link_to("You need to change your current provider to #{@variable_action} this variable. Click here to change your provider.",
+        "#", id: "change-current-provider-banner-link",
+        data: { "provider": @provider_id, action_link: "change-provider-#{@variable_action}-variable" }) %>
+    </p>
+    <%= render_change_provider_variable_action_link(@variable_action, @concept_id, @revision_id) %>
+  </div>
+<% end %>
+
 <div class="row row-content">
   <section class="action">
     <div class="cta">
       <p>
         <% if current_provider?(@provider_id) %>
-          <%= link_to 'Edit Record', edit_variable_path(revision_id: @revision_id)%>
+          <%= link_to 'Edit Variable Record', edit_variable_path(revision_id: @revision_id)%>
         <% elsif available_provider?(@provider_id) %>
-          <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-variable' } %> |
+          <%= link_to 'Edit Variable Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-variable' } %> |
         <% end %>
         <% if current_provider?(@provider_id) %>
           <%= link_to 'Delete Variable Record', "#delete-record-modal", class: 'display-modal delete-variable' %>
