@@ -5,7 +5,7 @@ class UmmMultiSelect < UmmSelect
   end
 
   def title
-    schema.fetch_key_leaf(form_fragment['key']).pluralize.titleize
+    schema.fetch_key_leaf(form_fragment['key']).titleize
   end
   
   def element_properties(element)
