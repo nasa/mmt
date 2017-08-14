@@ -9,7 +9,7 @@ describe 'Create new draft from variable', reset_provider: true do
 
       visit variable_path(ingest_response['concept-id'])
 
-      click_on 'Edit Record'
+      click_on 'Edit Variable Record'
     end
 
     it 'displays a confirmation message on the variable draft preview page' do

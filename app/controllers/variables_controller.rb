@@ -1,8 +1,9 @@
 # :nodoc:
 class VariablesController < ManageMetadataController
   before_action :set_variable, only: [:show, :edit, :destroy]
-  before_action :set_schema, only: [:show]
-  before_action :set_form, only: [:show]
+  before_action :set_schema, only: [:show, :edit]
+  before_action :set_form, only: [:show, :edit]
+  before_action :ensure_correct_variable_provider, only: [:edit, :destroy]
 
   add_breadcrumb 'Variables' # there is no variables index action, so not providing a link
 
@@ -117,5 +118,22 @@ class VariablesController < ManageMetadataController
 
   def set_form
     @json_form = UmmJsonForm.new('umm-var-form.json', @schema, @variable, 'field_prefix' => 'variable_draft/draft')
+  end
+
+  def ensure_correct_variable_provider
+    return if @provider_id == current_user.provider_id
+
+    @variable_action = if request.original_url.include?('edit')
+                         'edit'
+                       elsif request.original_url.include?('delete')
+                         'delete'
+                       end
+
+    @user_permissions = 'none'
+    if current_user.available_providers && current_user.available_providers.include?(@provider_id)
+      @user_permissions = 'wrong_provider'
+    end
+
+    render :show
   end
 end

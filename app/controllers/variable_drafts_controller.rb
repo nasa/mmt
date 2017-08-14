@@ -5,6 +5,7 @@ class VariableDraftsController < BaseDraftsController
   before_action :set_form, only: [:show, :edit, :update]
   before_action :set_current_form, only: [:edit]
   before_action :set_science_keywords, only: [:new, :edit]
+  before_action :ensure_correct_draft_provider, only: [:edit, :show]
 
   def new
     super
@@ -43,5 +44,19 @@ class VariableDraftsController < BaseDraftsController
       # Allows for any nested key within the draft hash
       whitelisted[:draft] = params[:variable_draft][:draft]
     end
+  end
+
+  def ensure_correct_draft_provider
+    return if get_resource.provider_id == current_user.provider_id || get_resource.new_record?
+
+    @draft_action = request.original_url.include?('edit') ? 'edit' : 'view'
+    @draft_form = params[:form] ? params[:form] : nil
+
+    @user_permissions = if current_user.available_providers.include?(get_resource.provider_id)
+                          'wrong_provider'
+                        else
+                          'none'
+                        end
+    render :show
   end
 end
