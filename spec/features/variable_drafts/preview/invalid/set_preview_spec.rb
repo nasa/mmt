@@ -36,7 +36,7 @@ describe 'Invalid Variable Draft Set Preview' do
 
     it 'displays the correct progress indicators for invalid fields' do
       within '#set-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_set')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_sets')
       end
     end
 
@@ -44,28 +44,28 @@ describe 'Invalid Variable Draft Set Preview' do
       within '.umm-preview.set' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-        within '#variable_draft_draft_set_preview' do
+        within '#variable_draft_draft_sets_preview' do
           expect(page).to have_css('h5', text: 'Sets')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'set', anchor: 'variable_draft_draft_set'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'set', anchor: 'variable_draft_draft_sets'))
 
           expect(page).to have_css('h6', text: 'Set 1')
 
-          within '#variable_draft_draft_set_0_name_preview' do
+          within '#variable_draft_draft_sets_0_name_preview' do
             expect(page).to have_css('h5', text: 'Name')
             expect(page).to have_css('p', text: 'No value for Name provided.')
           end
 
-          within '#variable_draft_draft_set_0_type_preview' do
+          within '#variable_draft_draft_sets_0_type_preview' do
             expect(page).to have_css('h5', text: 'Type')
             expect(page).to have_css('p', text: 'No value for Type provided.')
           end
 
-          within '#variable_draft_draft_set_0_size_preview' do
+          within '#variable_draft_draft_sets_0_size_preview' do
             expect(page).to have_css('h5', text: 'Size')
             expect(page).to have_css('p', text: 'string')
           end
 
-          within '#variable_draft_draft_set_0_index_preview' do
+          within '#variable_draft_draft_sets_0_index_preview' do
             expect(page).to have_css('h5', text: 'Index')
             expect(page).to have_css('p', text: 'string')
           end

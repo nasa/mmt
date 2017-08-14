@@ -37,7 +37,7 @@ describe 'Valid Variable Draft Variable Information Preview' do
       within '#variable_information-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.variable_draft_draft_variable_type')
         expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.variable_draft_draft_units')
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.variable_draft_draft_valid_range')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.variable_draft_draft_valid_ranges')
       end
     end
 
@@ -101,18 +101,18 @@ describe 'Valid Variable Draft Variable Information Preview' do
           expect(page).to have_css('p', text: '0.0')
         end
 
-        within '#variable_draft_draft_valid_range_preview' do
+        within '#variable_draft_draft_valid_ranges_preview' do
           expect(page).to have_css('h5', text: 'Valid Range')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_valid_range'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_valid_ranges'))
 
           expect(page).to have_css('h6', text: 'Valid Range 1')
 
-          within '#variable_draft_draft_valid_range_0_min_preview' do
+          within '#variable_draft_draft_valid_ranges_0_min_preview' do
             expect(page).to have_css('h5', text: 'Min')
             expect(page).to have_css('p', text: '-417')
           end
 
-          within '#variable_draft_draft_valid_range_0_max_preview' do
+          within '#variable_draft_draft_valid_ranges_0_max_preview' do
             expect(page).to have_css('h5', text: 'Max')
             expect(page).to have_css('p', text: '8836')
           end

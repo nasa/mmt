@@ -30,7 +30,7 @@ describe 'Empty Variable Draft Service Preview' do
 
     it 'displays the correct progress indicators for non required fields' do
       within '#service-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_service')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_services')
       end
     end
 
@@ -38,9 +38,9 @@ describe 'Empty Variable Draft Service Preview' do
       within '.umm-preview.service' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-        within '#variable_draft_draft_service_preview' do
+        within '#variable_draft_draft_services_preview' do
           expect(page).to have_css('h5', text: 'Services')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'service', anchor: 'variable_draft_draft_service'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'service', anchor: 'variable_draft_draft_services'))
 
           expect(page).to have_css('p', text: 'No value for Services provided.')
         end

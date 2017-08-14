@@ -60,17 +60,17 @@ describe 'Valid Variable Variable Information Preview', reset_provider: true do
           expect(page).to have_css('p', text: '0.0')
         end
 
-        within '#variable_draft_draft_valid_range_preview' do
+        within '#variable_draft_draft_valid_ranges_preview' do
           expect(page).to have_css('h5', text: 'Valid Range')
 
           expect(page).to have_css('h6', text: 'Valid Range 1')
 
-          within '#variable_draft_draft_valid_range_0_min_preview' do
+          within '#variable_draft_draft_valid_ranges_0_min_preview' do
             expect(page).to have_css('h5', text: 'Min')
             expect(page).to have_css('p', text: '-417')
           end
 
-          within '#variable_draft_draft_valid_range_0_max_preview' do
+          within '#variable_draft_draft_valid_ranges_0_max_preview' do
             expect(page).to have_css('h5', text: 'Max')
             expect(page).to have_css('p', text: '8836')
           end

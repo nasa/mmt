@@ -12,27 +12,27 @@ describe 'Valid Variable Set Preview', reset_provider: true do
       within '.umm-preview.set' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-        within '#variable_draft_draft_set_preview' do
+        within '#variable_draft_draft_sets_preview' do
           expect(page).to have_css('h5', text: 'Sets')
 
           expect(page).to have_css('h6', text: 'Set 1')
 
-          within '#variable_draft_draft_set_0_name_preview' do
+          within '#variable_draft_draft_sets_0_name_preview' do
             expect(page).to have_css('h5', text: 'Name')
             expect(page).to have_css('p', text: 'DISCOVERAQ')
           end
 
-          within '#variable_draft_draft_set_0_type_preview' do
+          within '#variable_draft_draft_sets_0_type_preview' do
             expect(page).to have_css('h5', text: 'Type')
             expect(page).to have_css('p', text: 'REVEAL-TEXAS')
           end
 
-          within '#variable_draft_draft_set_0_size_preview' do
+          within '#variable_draft_draft_sets_0_size_preview' do
             expect(page).to have_css('h5', text: 'Size')
             expect(page).to have_css('p', text: '10')
           end
 
-          within '#variable_draft_draft_set_0_index_preview' do
+          within '#variable_draft_draft_sets_0_index_preview' do
             expect(page).to have_css('h5', text: 'Index')
             expect(page).to have_css('p', text: '2')
           end

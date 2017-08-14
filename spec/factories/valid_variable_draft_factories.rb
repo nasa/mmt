@@ -16,11 +16,13 @@ FactoryGirl.define do
     draft {{
       'Scale': 'string',
       'Offset': 'string',
-      'ValidRange': [
-        'Min': 'string',
-        'Max': 'string'
+      'ValidRanges': [
+        {
+          'Min': 'string',
+          'Max': 'string'
+        }
       ],
-      'FillValue': [
+      'FillValues': [
         {
           'Value': 'string'
         }
@@ -30,7 +32,7 @@ FactoryGirl.define do
           'Size': 'string'
         }
       ],
-      'Set': [
+      'Sets': [
         {
           'Size': 'string',
           'Index': 'string'
@@ -64,7 +66,7 @@ FactoryGirl.define do
           'Size': 3000
         }
       ],
-      'ValidRange': [
+      'ValidRanges': [
         {
           'Min': -417,
           'Max': 8836
@@ -72,7 +74,7 @@ FactoryGirl.define do
       ],
       'Scale': 1.0,
       'Offset': 0.0,
-      'FillValue': [
+      'FillValues': [
         {
           'Value': -9999.0,
           'Type': 'Science',
@@ -80,7 +82,7 @@ FactoryGirl.define do
         }
       ],
       'VariableType': 'SCIENCE_VARIABLE',
-      'Set': [
+      'Sets': [
         {
           'Name': 'DISCOVERAQ',
           'Type': 'REVEAL-TEXAS',
@@ -88,9 +90,9 @@ FactoryGirl.define do
           'Index': 2
         }
       ],
-      'Service': [
+      'Services': [
         {
-          'ServiceType': %w(ESI WMS WCS),
+          'ServiceTypes': %w(ESI WMS WCS),
           'Visualizable': false,
           'Subsettable': true
         }

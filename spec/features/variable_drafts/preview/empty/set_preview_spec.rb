@@ -24,7 +24,7 @@ describe 'Empty Variable Draft Set Preview' do
 
     it 'displays the correct progress indicators for required fields' do
       within '#set-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.variable_draft_draft_set')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.variable_draft_draft_sets')
       end
     end
 
@@ -38,9 +38,9 @@ describe 'Empty Variable Draft Set Preview' do
       within '.umm-preview.set' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-        within '#variable_draft_draft_set_preview' do
+        within '#variable_draft_draft_sets_preview' do
           expect(page).to have_css('h5', text: 'Sets')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'set', anchor: 'variable_draft_draft_set'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'set', anchor: 'variable_draft_draft_sets'))
 
           expect(page).to have_css('p', text: 'No value for Sets provided.')
         end
