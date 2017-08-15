@@ -108,9 +108,11 @@ $(document).ready ->
     if type?
       $typeElement.val(type)
       $typeSpan.text(type)
+      $typeSpan.removeClass('default')
     else
       $typeElement.val('')
       $typeSpan.text('Please select a Short Name')
+      $typeSpan.addClass('default')
 
     if longName?
       $longNameElement.val(longName)

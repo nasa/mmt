@@ -57,7 +57,7 @@ describe 'Acquisition information form', js: true do
     it 'populates the form with the values' do
       within '.multiple.platforms' do
         within first('.multiple-item-0') do
-          expect(page).to have_content('Type Aircraft')
+          expect(page).to have_content('Type: Aircraft')
           expect(page).to have_field('draft_platforms_0_short_name', with: 'A340-600')
           expect(page).to have_field('draft_platforms_0_long_name', with: 'Airbus A340-600')
 
@@ -136,7 +136,7 @@ describe 'Acquisition information form', js: true do
         end
 
         # Platform 2
-        expect(page).to have_content('Type Earth Observation Satellites')
+        expect(page).to have_content('Type: Earth Observation Satellites')
         expect(page).to have_field('draft_platforms_1_short_name', with: 'DIADEM-1D')
         # Instruments
         within all('.multiple.instruments').last do
