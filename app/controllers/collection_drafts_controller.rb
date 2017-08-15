@@ -341,7 +341,8 @@ class CollectionDraftsController < BaseDraftsController
       platforms = metadata['Platforms'] || []
       platforms.each do |platform|
         platform_type = platform['Type']
-        if platform_type && !@platform_types.include?(platform_type)
+        types = @platform_types.map { |type| type[:type] }
+        if platform_type && !types.include?(platform_type)
           errors << "The property '#/Platforms' was invalid"
         end
       end
