@@ -40,8 +40,8 @@ FactoryGirl.define do
       }],
       'Platforms' => [{
         'Type'      => 'Aircraft',
-        'ShortName' => 'test 1 P ShortName',
-        'LongName'  => 'test 1 P LongName',
+        'ShortName' => 'A340-600',
+        'LongName'  => 'Airbus A340-600',
         'Characteristics' => [{
           'Name'        => 'test 1 PC Name',
           'Description' => 'test 1 PC Description',
@@ -166,8 +166,8 @@ FactoryGirl.define do
         }]
       }, {
         'Type'      => 'Earth Observation Satellites',
-        'ShortName' => 'test a1 P ShortName',
-        'LongName'  => 'test a1 P LongName',
+        'ShortName' => 'SMAP',
+        'LongName'  => 'Soil Moisture Active and Passive Observatory',
         'Characteristics' => [{
           'Name'        => 'test a1 PC Name',
           'Description' => 'test a1 PC Description',
