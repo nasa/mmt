@@ -1,20 +1,22 @@
 <div class="row sub-fields platform-fields">
   <!-- Type -->
   <div>
-    <%= label_tag('Type') %>
-    <%= mmt_help_icon(
-      title: 'Type',
-      help: 'definitions/PlatformType/properties/Type'
-    ) %>
-    <%= hidden_field_tag(
-      name_to_param("#{name_prefix}type"),
-      platform['Type'],
-      class: 'platform-type'
-    ) %>
+    <div style="margin-bottom: 10px;">
+      <%= label_tag('Type:') %>
+      <span class="platform-type <%= 'default' unless platform['Type'] %>">
+        <%= platform['Type'] || 'Please select a Short Name' %>
+      </span>
+      <%= mmt_help_icon(
+        title: 'Type',
+        help: 'definitions/PlatformType/properties/Type'
+      ) %>
+      <%= hidden_field_tag(
+        name_to_param("#{name_prefix}type"),
+        platform['Type'],
+        class: 'platform-type'
+      ) %>
+    </div>
   </div>
-  <span class="platform-type">
-    <%= platform['Type'] || 'Please select a Short Name' %>
-  </span>
 
   <div class="row">
     <div class="col-6">
