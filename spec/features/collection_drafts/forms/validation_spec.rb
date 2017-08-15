@@ -399,7 +399,10 @@ describe 'Data validation for a form', js: true do
 
       open_accordions
 
-      fill_in 'draft_platforms_0_short_name', with: 'short_name'
+      within '.platforms' do
+        find('.select2-container .select2-selection').click
+        find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'A340-600').click
+      end
       fill_in 'draft_platforms_0_instruments_0_short_name', with: 'short_name'
     end
 

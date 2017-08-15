@@ -416,34 +416,6 @@ describe 'Invalid picklists', js: true do
     end
   end
 
-  context 'when viewing the Platform Type field' do
-    before do
-      within '.metadata' do
-        click_on 'Acquisition Information'
-      end
-
-      open_accordions
-    end
-
-    it 'displays a summary error' do
-      within '.summary-errors' do
-        expect(page).to have_content('Type value [satellites] does not match a valid selection option')
-      end
-    end
-
-    it 'displays an inline error' do
-      within '.platforms' do
-        expect(page).to have_content('Type value [satellites] does not match a valid selection option')
-      end
-    end
-
-    it 'displays an unselectable invalid option' do
-      within '.type-select' do
-        expect(page).to have_css('option[disabled][selected]', text: 'satellites')
-      end
-    end
-  end
-
   context 'when viewing the Granule Spatial Representation field' do
     before do
       within '.metadata' do
