@@ -25,7 +25,7 @@ describe 'Dimensions Form', reset_provider: true, js: true do
     end
 
     it 'displays a button to add another element' do
-      expect(page).to have_selector(:link_or_button, 'Add another Dimensions')
+      expect(page).to have_selector(:link_or_button, 'Add another Dimension')
     end
 
     it 'has three required labels' do

@@ -13,7 +13,7 @@ describe 'Set Form', reset_provider: true, js: true do
 
     it 'displays the correct title and description' do
       within '.umm-form' do
-        expect(page).to have_content('Sets')
+        expect(page).to have_content('Set')
         expect(page).to have_content('The set information of a variable.')
       end
     end
@@ -174,7 +174,7 @@ describe 'Set Form', reset_provider: true, js: true do
         'Size': 25,
         'Index': 1
       }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Set': draft_sets })
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Sets': draft_sets })
       visit edit_variable_draft_path(draft, 'set')
     end
 
@@ -183,10 +183,10 @@ describe 'Set Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_set_0_name', with: 'Science')
-      expect(page).to have_field('variable_draft_draft_set_0_type', with: 'Air')
-      expect(page).to have_field('variable_draft_draft_set_0_size', with: '25')
-      expect(page).to have_field('variable_draft_draft_set_0_index', with: '1')
+      expect(page).to have_field('variable_draft_draft_sets_0_name', with: 'Science')
+      expect(page).to have_field('variable_draft_draft_sets_0_type', with: 'Air')
+      expect(page).to have_field('variable_draft_draft_sets_0_size', with: '25')
+      expect(page).to have_field('variable_draft_draft_sets_0_index', with: '1')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -281,7 +281,7 @@ describe 'Set Form', reset_provider: true, js: true do
         'Size': 100,
         'Index': 2
       }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Set': draft_sets })
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Sets': draft_sets })
       visit edit_variable_draft_path(draft, 'set')
     end
 
@@ -290,15 +290,15 @@ describe 'Set Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_set_0_name', with: 'Science')
-      expect(page).to have_field('variable_draft_draft_set_0_type', with: 'Land')
-      expect(page).to have_field('variable_draft_draft_set_0_size', with: '50')
-      expect(page).to have_field('variable_draft_draft_set_0_index', with: '1')
+      expect(page).to have_field('variable_draft_draft_sets_0_name', with: 'Science')
+      expect(page).to have_field('variable_draft_draft_sets_0_type', with: 'Land')
+      expect(page).to have_field('variable_draft_draft_sets_0_size', with: '50')
+      expect(page).to have_field('variable_draft_draft_sets_0_index', with: '1')
 
-      expect(page).to have_field('variable_draft_draft_set_1_name', with: 'Fiction')
-      expect(page).to have_field('variable_draft_draft_set_1_type', with: 'Water')
-      expect(page).to have_field('variable_draft_draft_set_1_size', with: '100')
-      expect(page).to have_field('variable_draft_draft_set_1_index', with: '2')
+      expect(page).to have_field('variable_draft_draft_sets_1_name', with: 'Fiction')
+      expect(page).to have_field('variable_draft_draft_sets_1_type', with: 'Water')
+      expect(page).to have_field('variable_draft_draft_sets_1_size', with: '100')
+      expect(page).to have_field('variable_draft_draft_sets_1_index', with: '2')
     end
 
     context 'When clicking `Previous` without making any changes' do

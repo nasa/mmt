@@ -30,7 +30,7 @@ describe 'Valid Variable Draft Service Preview' do
 
     it 'displays the correct progress indicators for non required fields' do
       within '#service-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.variable_draft_draft_service')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.variable_draft_draft_services')
       end
     end
 
@@ -38,25 +38,25 @@ describe 'Valid Variable Draft Service Preview' do
       within '.umm-preview.service' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-        within '#variable_draft_draft_service_preview' do
+        within '#variable_draft_draft_services_preview' do
           expect(page).to have_css('h5', text: 'Services')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'service', anchor: 'variable_draft_draft_service'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'service', anchor: 'variable_draft_draft_services'))
 
           expect(page).to have_css('h6', text: 'Service 1')
 
-          within '#variable_draft_draft_service_0_service_type_preview' do
+          within '#variable_draft_draft_services_0_service_types_preview' do
             expect(page).to have_css('h5', text: 'Service Type')
             expect(page).to have_css('ul li', text: 'ESI')
             expect(page).to have_css('ul li', text: 'WMS')
             expect(page).to have_css('ul li', text: 'WCS')
           end
 
-          within '#variable_draft_draft_service_0_visualizable_preview' do
+          within '#variable_draft_draft_services_0_visualizable_preview' do
             expect(page).to have_css('h5', text: 'Visualizable')
             expect(page).to have_css('p', text: 'FALSE')
           end
 
-          within '#variable_draft_draft_service_0_subsettable_preview' do
+          within '#variable_draft_draft_services_0_subsettable_preview' do
             expect(page).to have_css('h5', text: 'Subsettable')
             expect(page).to have_css('p', text: 'TRUE')
           end

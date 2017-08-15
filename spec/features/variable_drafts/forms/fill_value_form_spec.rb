@@ -216,7 +216,7 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         'Value': -9999.0,
         'Description': 'Pellentesque Bibendum Commodo Fringilla Nullam'
       }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValue': draft_fill_values })
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValues': draft_fill_values })
       visit edit_variable_draft_path(draft, 'fill_value')
     end
 
@@ -225,9 +225,9 @@ describe 'Fill Value Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_fill_value_0_type', with: 'Science')
-      expect(page).to have_field('variable_draft_draft_fill_value_0_value', with: '-9999.0')
-      expect(page).to have_field('variable_draft_draft_fill_value_0_description', with: 'Pellentesque Bibendum Commodo Fringilla Nullam')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_type', with: 'Science')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_value', with: '-9999.0')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_description', with: 'Pellentesque Bibendum Commodo Fringilla Nullam')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -320,7 +320,7 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         'Value': 111.0,
         'Description': 'Pellentesque Nullam Ullamcorper Magna'
       }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValue': draft_fill_values })
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValues': draft_fill_values })
       visit edit_variable_draft_path(draft, 'fill_value')
     end
 
@@ -329,13 +329,13 @@ describe 'Fill Value Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_fill_value_0_type', with: 'Science')
-      expect(page).to have_field('variable_draft_draft_fill_value_0_value', with: '-9999.0')
-      expect(page).to have_field('variable_draft_draft_fill_value_0_description', with: 'Pellentesque Bibendum Commodo Fringilla Nullam')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_type', with: 'Science')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_value', with: '-9999.0')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_description', with: 'Pellentesque Bibendum Commodo Fringilla Nullam')
 
-      expect(page).to have_field('variable_draft_draft_fill_value_1_type', with: 'Fiction')
-      expect(page).to have_field('variable_draft_draft_fill_value_1_value', with: '111.0')
-      expect(page).to have_field('variable_draft_draft_fill_value_1_description', with: 'Pellentesque Nullam Ullamcorper Magna')
+      expect(page).to have_field('variable_draft_draft_fill_values_1_type', with: 'Fiction')
+      expect(page).to have_field('variable_draft_draft_fill_values_1_value', with: '111.0')
+      expect(page).to have_field('variable_draft_draft_fill_values_1_description', with: 'Pellentesque Nullam Ullamcorper Magna')
     end
 
     context 'When clicking `Previous` without making any changes' do
