@@ -70,7 +70,7 @@ describe 'Revision list', js: true do
       end
 
       it 'only displays the latest revision' do
-        within '#collection_search_results' do
+        within '#collection-search-results' do
           expect(page).to have_content(@concept_response.body['EntryTitle'], count: 1)
         end
       end

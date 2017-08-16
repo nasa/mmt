@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Search sorting', reset_provider: true, js: true do
+describe 'Collection Search Results sorting', reset_provider: true, js: true do
   context 'when sorting search collections results' do
     before :all do
       publish_collection_draft(short_name: 'First!', modified_date: (Time.now.utc - 5.days))

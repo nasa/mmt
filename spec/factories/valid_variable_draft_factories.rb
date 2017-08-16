@@ -52,6 +52,7 @@ FactoryGirl.define do
     transient do
       draft_short_name nil
       draft_entry_title nil
+      draft_science_keywords nil
     end
 
     native_id 'full_variable_draft_native_id'
@@ -114,7 +115,7 @@ FactoryGirl.define do
         'MeasurementConditions': 'Measurement Conditions',
         'ReportingConditions': 'Reporting Conditions'
       },
-      'ScienceKeywords': [
+      'ScienceKeywords': draft_science_keywords || [
         {
           'Category': 'EARTH SCIENCE',
           'Topic': 'ATMOSPHERE',

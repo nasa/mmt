@@ -1,0 +1,61 @@
+<div class="pagination-summary">
+  <%= page_entries_info variables, entry_name: 'record' %>
+</div>
+
+<table id="search-results">
+  <thead>
+    <tr>
+      <th class="w20">Name</th>
+      <th class="w40">Long Name</th>
+      <th class="w15">Provider</th>
+      <th class="w15">Last Modified</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% errors.each do |error| %>
+      <tr>
+        <td colspan="4">
+          <strong>Error:</strong> <%= error %>
+        </td>
+      </tr>
+    <% end %>
+
+    <% if variables.blank? %>
+      <tr>
+        <td colspan="4">
+          No variables found.
+        </td>
+      </tr>
+    <% else %>
+
+      <% variables.each do |variable| %>
+        <tr class='<%= cycle("alt", "") %>'>
+          <td>
+            <%= link_to variable['variable_name'], variable_path(variable['concept_id']) %>
+            <%#= link_to variable['umm']['Name'], variable_path(variable['meta']['concept_id']) %>
+          </td>
+          <td>
+            <!-- Long Name -->
+            <%= variable['measurement'] %>
+            <%#= variable['umm']['LongName'] %>
+          </td>
+          <td>
+            <%= variable['provider_id'] %>
+            <%#= variable['meta']['provider-id'] %>
+          </td>
+          <td>
+            <!-- Last Modified -->
+            <%= variable['revision_id'] %>
+            <%# fragments = variable['meta']['revision-date'].split('T')
+               date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
+            <%#= date %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%#= paginate variables, params: { search_type: @query['search_type'] } %>
+<%= paginate variables %>

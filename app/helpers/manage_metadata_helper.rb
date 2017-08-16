@@ -12,4 +12,19 @@ module ManageMetadataHelper
 
     short_name + version
   end
+
+  # the resource type for the Search button text based on the controller
+  def resource_type
+    case
+    when controller_name.include?('search')
+      @record_type
+    when controller_name.include?('collection')
+      'collections'
+    when controller_name.include?('variable')
+      'variables'
+    else
+      # default
+      'collections'
+    end
+  end
 end

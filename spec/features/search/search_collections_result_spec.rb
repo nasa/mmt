@@ -2,33 +2,49 @@
 
 require 'rails_helper'
 
-describe 'Search published results', js: true do
-  let(:short_name)  { 'CIESIN_SEDAC_EPI_2008' }
-  let(:version)     { '2008.00' }
-  let(:entry_title) { '2008 Environmental Performance Index (EPI)' }
-  let(:provider)    { 'SEDAC' }
+describe 'Searching published collections', js: true, reset_provider: true do
+  # let(:short_name)  { 'CIESIN_SEDAC_EPI_2008' }
+  # let(:version)     { '2008.00' }
+  # let(:entry_title) { '2008 Environmental Performance Index (EPI)' }
+  # let(:provider)    { 'SEDAC' }
+
+  short_name = 'Search Test Collection Short Name'
+  entry_title = '2008 Long Description for Search Test Collection'
+  version = '2008'
+  provider = 'MMT_2'
+
+  before :all do
+    @ingest_response, @concept_response = publish_collection_draft(short_name: short_name, entry_title: entry_title, version: version)
+  end
 
   before do
     login
   end
 
   context 'when performing a collection search by concept_id' do
-    before do
-      @ingest_response, @concept_response = publish_collection_draft
+    # before :all do
+    #   @ingest_response, @concept_response = publish_collection_draft
+    # end
 
+    before do
       fill_in 'keyword', with: @ingest_response['concept-id']
       click_on 'Search Collections'
     end
 
-    it 'displays collection results' do
-      expect(page).to have_search_query(1, "Keyword: #{@ingest_response['concept-id']}", 'Record State: Published Records')
+    it 'displays the query and collection results' do
+      # expect(page).to have_search_query(1, 'collections', "Keyword: #{@ingest_response['concept-id']}")
+      expect(page).to have_collection_search_query(1, "Keyword: #{@ingest_response['concept-id']}")
     end
 
-    it 'displays expected Short Name, Entry Title and Last Modified values' do
-      expect(page).to have_content(@concept_response.body['ShortName'])
-      expect(page).to have_content(@concept_response.body['Version'])
-      expect(page).to have_content(@concept_response.body['EntryTitle'])
-      expect(page).to have_content('MMT_2')
+    it 'displays expected Short Name, Entry Title, Provider, Version, and Last Modified values' do
+      # expect(page).to have_content(@concept_response.body['ShortName'])
+      # expect(page).to have_content(@concept_response.body['Version'])
+      # expect(page).to have_content(@concept_response.body['EntryTitle'])
+      expect(page).to have_content(short_name)
+      expect(page).to have_content(version)
+      expect(page).to have_content(entry_title)
+      expect(page).to have_content(provider)
+      expect(page).to have_content(today_string)
     end
   end
 
@@ -38,16 +54,17 @@ describe 'Search published results', js: true do
       click_on 'Search Collections'
     end
 
-    it 'displays collection results' do
-      expect(page).to have_search_query(1, "Keyword: #{short_name}", 'Record State: Published Records')
+    it 'displays the query and collection results' do
+      expect(page).to have_collection_search_query(1, "Keyword: #{short_name}")
+      # expect(page).to have_search_query(1, "Keyword: #{short_name}")
     end
 
-    it 'displays expected Short Name, Entry Title and Last Modified values' do
+    it 'displays expected Short Name, Entry Title Provider, Version, and Last Modified values' do
       expect(page).to have_content(short_name)
       expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
-      # expect(page).to have_content(today_string)
+      expect(page).to have_content(today_string)
     end
   end
 
@@ -57,16 +74,17 @@ describe 'Search published results', js: true do
       click_on 'Search Collections'
     end
 
-    it 'displays collection results' do
-      expect(page).to have_search_query(1, "Keyword: #{entry_title}", 'Record State: Published Records')
+    it 'displays the query and collection results' do
+      expect(page).to have_collection_search_query(1, "Keyword: #{entry_title}")
+      # expect(page).to have_search_query(1, "Keyword: #{entry_title}")
     end
 
-    it 'displays expected Short Name, Entry Title and Last Modified values' do
+    it 'displays expected Short Name, Entry Title, Provider, Version, and Last Modified values' do
       expect(page).to have_content(short_name)
       expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
-      # expect(page).to have_content(today_string)
+      expect(page).to have_content(today_string)
     end
   end
 
@@ -79,16 +97,17 @@ describe 'Search published results', js: true do
       click_on 'Search Collections'
     end
 
-    it 'displays collection results' do
-      expect(page).to have_search_query(1, "Keyword: #{entry_title[0..17]}", 'Record State: Published Records')
+    it 'displays the query and collection results' do
+      expect(page).to have_collection_search_query(1, "Keyword: #{entry_title[0..17]}")
+      # expect(page).to have_search_query(1, "Keyword: #{entry_title[0..17]}")
     end
 
-    it 'displays expected Short Name, Entry Title and Last Modified values' do
+    it 'displays expected Short Name, Entry Title, Provider, Version, and Last Modified values' do
       expect(page).to have_content(short_name)
       expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
-      # expect(page).to have_content(today_string)
+      expect(page).to have_content(today_string)
     end
   end
 
@@ -99,8 +118,9 @@ describe 'Search published results', js: true do
       click_on 'Search Collections'
     end
 
-    it 'displays collection results' do
-      expect(page).to have_search_query(27, 'Provider Id: LARC')
+    it 'displays the query and collection results' do
+      expect(page).to have_collection_search_query(27, 'Provider Id: LARC')
+      # expect(page).to have_search_query(27, 'Provider Id: LARC')
     end
 
     it 'displays expected data' do

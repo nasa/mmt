@@ -1,24 +1,20 @@
 <div class="pagination-summary">
-  <%= page_entries_info @collections, entry_name: 'record' %>
+  <%= page_entries_info collections, entry_name: 'record' %>
 </div>
 
 <table id="search-results">
   <thead>
-  <tr>
-    <th class="w20">
-      <%= sort_by_link('Short Name', 'short_name', @query) %>
-    </th>
-    <th class="w10">
-      Version
-    </th>
-    <th class="w40"><%= sort_by_link('Entry Title', 'entry_title', @query) %></th>
-    <th class="w15"><%= sort_by_link('Provider', 'provider_id', @query) %></th>
-    <th class="w15"><%= sort_by_link('Last Modified', 'revision_date', @query) %></th>
-  </tr>
+    <tr>
+      <th class="w20"><%= sort_by_link('Short Name', 'short_name', query, record_type) %></th>
+      <th class="w10">Version</th>
+      <th class="w40"><%= sort_by_link('Entry Title', 'entry_title', query, record_type) %></th>
+      <th class="w15"><%= sort_by_link('Provider', 'provider_id', query, record_type) %></th>
+      <th class="w15"><%= sort_by_link('Last Modified', 'revision_date', query, record_type) %></th>
+    </tr>
   </thead>
   <tbody>
 
-    <% @errors.each do |error| %>
+    <% errors.each do |error| %>
       <tr>
         <td colspan="5">
           <strong>Error:</strong> <%= error %>
@@ -26,7 +22,7 @@
       </tr>
     <% end %>
 
-    <% if @collections.blank? %>
+    <% if collections.blank? %>
       <tr>
         <td colspan="5">
           No collections found.
@@ -34,7 +30,7 @@
       </tr>
     <% else %>
 
-      <% @collections.each do |collection| %>
+      <% collections.each do |collection| %>
         <tr class='<%= cycle("alt", "") %>'>
           <td>
             <% if collection['meta']['draft_id'] %>
@@ -71,4 +67,5 @@
   </tbody>
 </table>
 
-<%= paginate @collections, params: { search_type: @query['search_type'] } %>
+<%#= paginate collections, params: { search_type: query['search_type'] } %>
+<%= paginate collections %>
