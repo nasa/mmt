@@ -15,12 +15,6 @@ module SearchUtil
     end
   end
 
-  # def match_query_items(actual, *query_items)
-  #   Array.wrap(query_items).each do |query_item|
-  #     expect(actual.find('#search-criteria')).to have_content(query_item)
-  #   end
-  # end
-
   RSpec::Matchers.define :match_query_items do |*query_items|
     match do |actual|
       Array.wrap(query_items).each do |query_item|

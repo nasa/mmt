@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-describe 'Search Variables Results Pagination', reset_provider: true, js: true do
+describe 'Search Variables Results Pagination', js: true do
+# describe 'Search Variables Results Pagination', reset_provider: true, js: true do
   before :all do
     5.times { |i| publish_variable_draft(name: "nasa.var.00#{i}") }
 
