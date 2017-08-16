@@ -107,8 +107,8 @@ class VariablesController < ManageMetadataController
       Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
     end
 
-    @provider_id = variable_data['provider_id']
-    @native_id = variable_data['native_id']
+    @provider_id = variable_data['meta']['provider-id']
+    @native_id = variable_data['meta']['native-id']
   end
 
   def set_schema
