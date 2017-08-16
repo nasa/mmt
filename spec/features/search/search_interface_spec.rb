@@ -36,75 +36,75 @@ describe 'Search interface', js: true do
   let(:variable_name) { 'Mocked Test Search Var' }
   let(:long_name) { 'Descriptive Name for Mocked Test Search Var' }
 
-  let(:variable_search_response) do
-    {
-      "hits": 1,
-      "took": 7,
-      "items": [{
-        "concept_id": "V1200000071-MMT_2",
-        "revision_id": 1,
-        "provider_id": "MMT_2",
-        "native_id": "19075bd54c07aae5f4cbad3e16cd3cd8",
-        "variable_name": "Test Edit Variable Name",
-        "measurement": "Ring Nebula Coma 306912"
-      }]
-    }.to_json
-  end
-
   # let(:variable_search_response) do
   #   {
   #     "hits": 1,
-  #     "took": 14,
-  #     "items": [
-  #       {
-  #         "meta": {
-  #           "revision-id": 2,
-  #           "deleted": false,
-  #           "format": "application/vnd.nasa.cmr.umm+json",
-  #           "provider-id": "PROV1",
-  #           "native-id": "var1",
-  #           "concept-id": "V1200000009-PROV1",
-  #           "revision-date": "2017-08-14T20:12:43Z",
-  #           "concept-type": "variable"
-  #         },
-  #         "umm": {
-  #           "VariableType": "SCIENCE_VARIABLE",
-  #           "DataType": "float32",
-  #           "Offset": 0.0,
-  #           "ScienceKeywords": [{
-  #             "Category": "sk-A",
-  #             "Topic": "sk-B",
-  #             "Term": "sk-C"
-  #           }],
-  #           "Scale": 1.0,
-  #           "FillValues": [{
-  #             "Value": -9999.0,
-  #             "Type": "Science"
-  #           }],
-  #           "Sets": [{
-  #             "Name": "Data_Fields",
-  #             "Type": "Science",
-  #             "Size": 2,
-  #             "Index": 2
-  #           }],
-  #           "Dimensions": [{
-  #             "Name": "Solution_3_Land",
-  #             "Size": 3
-  #           }],
-  #           "Definition": "Defines the variable",
-  #           "Name": variable_name,
-  #           "Units": "m",
-  #           "LongName": long_name
-  #         },
-  #         "associations": {
-  #           "collections": [{
-  #             "concept-id": "C1200000007-PROV1"
-  #           }]
-  #         }
-  #       }
-  #     ]
+  #     "took": 7,
+  #     "items": [{
+  #       "concept_id": "V1200000071-MMT_2",
+  #       "revision_id": 1,
+  #       "provider_id": "MMT_2",
+  #       "native_id": "19075bd54c07aae5f4cbad3e16cd3cd8",
+  #       "variable_name": "Test Edit Variable Name",
+  #       "measurement": "Ring Nebula Coma 306912"
+  #     }]
   #   }.to_json
   # end
+
+  let(:variable_search_response) do
+    {
+      "hits": 1,
+      "took": 14,
+      "items": [
+        {
+          "meta": {
+            "revision-id": 2,
+            "deleted": false,
+            "format": "application/vnd.nasa.cmr.umm+json",
+            "provider-id": "PROV1",
+            "native-id": "var1",
+            "concept-id": "V1200000009-PROV1",
+            "revision-date": "2017-08-14T20:12:43Z",
+            "concept-type": "variable"
+          },
+          "umm": {
+            "VariableType": "SCIENCE_VARIABLE",
+            "DataType": "float32",
+            "Offset": 0.0,
+            "ScienceKeywords": [{
+              "Category": "sk-A",
+              "Topic": "sk-B",
+              "Term": "sk-C"
+            }],
+            "Scale": 1.0,
+            "FillValues": [{
+              "Value": -9999.0,
+              "Type": "Science"
+            }],
+            "Sets": [{
+              "Name": "Data_Fields",
+              "Type": "Science",
+              "Size": 2,
+              "Index": 2
+            }],
+            "Dimensions": [{
+              "Name": "Solution_3_Land",
+              "Size": 3
+            }],
+            "Definition": "Defines the variable",
+            "Name": variable_name,
+            "Units": "m",
+            "LongName": long_name
+          },
+          "associations": {
+            "collections": [{
+              "concept-id": "C1200000007-PROV1"
+            }]
+          }
+        }
+      ]
+    }.to_json
+  end
 
   before do
     login

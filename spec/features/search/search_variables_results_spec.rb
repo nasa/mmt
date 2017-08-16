@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-describe 'Searching published variables', js: true, reset_provider: true do
+describe 'Searching published variables', js: true do
+# describe 'Searching published variables', js: true, reset_provider: true do
   variable_name = 'Absorption Band Test Search Var 001'
   long_name = 'Long Detailed Description of Absorption Band Test Search Var 001'
   science_keywords =

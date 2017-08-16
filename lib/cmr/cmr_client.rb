@@ -44,9 +44,9 @@ module Cmr
 
     def get_variables(options = {}, token = nil)
       url = if Rails.env.development? || Rails.env.test?
-              'http://localhost:3003/variables'
+              'http://localhost:3003/variables.umm_json'
             else
-              '/search/variables'
+              '/search/variables.umm_json'
             end
 
       get(url, options, token_header(token))

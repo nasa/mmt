@@ -32,24 +32,24 @@
       <% variables.each do |variable| %>
         <tr class='<%= cycle("alt", "") %>'>
           <td>
-            <%= link_to variable['variable_name'], variable_path(variable['concept_id']) %>
-            <%#= link_to variable['umm']['Name'], variable_path(variable['meta']['concept_id']) %>
+            <%#= link_to variable['variable_name'], variable_path(variable['concept_id']) %>
+            <%= link_to variable['umm']['Name'], variable_path(variable['meta']['concept-id']) %>
           </td>
           <td>
             <!-- Long Name -->
-            <%= variable['measurement'] %>
-            <%#= variable['umm']['LongName'] %>
+            <%#= variable['measurement'] %>
+            <%= variable['umm']['LongName'] %>
           </td>
           <td>
-            <%= variable['provider_id'] %>
-            <%#= variable['meta']['provider-id'] %>
+            <%#= variable['provider_id'] %>
+            <%= variable['meta']['provider-id'] %>
           </td>
           <td>
             <!-- Last Modified -->
-            <%= variable['revision_id'] %>
-            <%# fragments = variable['meta']['revision-date'].split('T')
+            <%#= variable['revision_id'] %>
+            <% fragments = variable['meta']['revision-date'].split('T')
                date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
-            <%#= date %>
+            <%= date %>
           </td>
         </tr>
       <% end %>
