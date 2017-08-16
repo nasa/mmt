@@ -10,6 +10,10 @@ class UmmKeywordPicker < UmmFormElement
     DetailedVariable
   ).freeze
 
+  def default_value
+    []
+  end
+
   # Return whether or not this element has a stored value
   def value?
     Array.wrap(element_value).reject(&:empty?).any?
@@ -72,7 +76,6 @@ class UmmKeywordPicker < UmmFormElement
         end
       end)
 
-      concat hidden_field_tag("#{keyify_property_name(element)}[#{Time.now.to_i}]", '')
     end
   end
 

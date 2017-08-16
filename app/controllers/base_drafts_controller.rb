@@ -33,7 +33,7 @@ class BaseDraftsController < DraftsController
 
     set_form
 
-    draft = @json_form.sanitize_form_input(resource_params)
+    draft = @json_form.sanitize_form_input(resource_params, params[:form])
 
     get_resource.draft = draft['draft']
 
@@ -66,7 +66,7 @@ class BaseDraftsController < DraftsController
   end
 
   def update
-    sanitized_params = @json_form.sanitize_form_input(resource_params.dup, get_resource.draft)
+    sanitized_params = @json_form.sanitize_form_input(resource_params.dup, params[:form], get_resource.draft)
 
     if get_resource.update(sanitized_params)
       # Successful flash message

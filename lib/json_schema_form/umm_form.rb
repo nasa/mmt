@@ -177,6 +177,10 @@ end
 
 # :nodoc:
 class UmmFormElement < UmmForm
+  def default_value
+    nil
+  end
+  
   # Get the value for the provided key from the provided object
   def element_value
     # Uses reduce to dig through the provided object to look for and return the
