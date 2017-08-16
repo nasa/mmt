@@ -76,6 +76,8 @@ class UmmKeywordPicker < UmmFormElement
         end
       end)
 
+      # Element that holds all attributes for a hidden input that is used for form validation within it's data attributes
+      concat content_tag(:span, nil, element_properties(schema_fragment).merge(id: "empty_#{idify_property_name(element)}", data: { id: idify_property_name(element), name: keyify_property_name(element) }))
     end
   end
 
