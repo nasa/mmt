@@ -1,5 +1,5 @@
 <div class="pagination-summary">
-  <%= page_entries_info collections, entry_name: 'record' %>
+  <%= page_entries_info collections, entry_name: 'collection' %>
 </div>
 
 <table id="search-results">
@@ -33,32 +33,19 @@
       <% collections.each do |collection| %>
         <tr class='<%= cycle("alt", "") %>'>
           <td>
-            <% if collection['meta']['draft_id'] %>
-              <% if current_provider?(collection['meta']['provider-id']) %>
-                <%= link_to "#{collection['umm']['short-name']} (Draft)", collection_draft_path(collection['meta']['draft_id']) %>
-              <% elsif available_provider?(collection['meta']['provider-id']) %>
-                <%= link_to "#{collection['umm']['short-name']} (Draft)", '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': collection['meta']['provider-id'], record_action: 'view-draft' } %>
-                <%= render partial: "shared/not_current_provider_modal", locals: {
-                  options: { draft: collection, draft_id: collection['meta']['draft_id'] }
-                  } %>
-              <% end %>
-            <% else %>
-              <%= link_to collection['umm']['short-name'], collection_path(collection['meta']['concept-id']) %>
-            <% end %>
+            <%= link_to collection.fetch('umm', {})['short-name'], collection_path(collection.fetch('meta', {})['concept-id']) %>
           </td>
           <td>
-            <%= collection['umm']['version-id'] %>
+            <%= collection.fetch('umm', {})['version-id'] %>
           </td>
           <td>
-            <%= collection['umm']['entry-title'] %>
+            <%= collection.fetch('umm', {})['entry-title'] %>
           </td>
           <td>
-            <%= collection['meta']['provider-id'] %>
+            <%= collection.fetch('meta', {})['provider-id'] %>
           </td>
           <td>
-            <% fragments = collection['meta']['revision-date'].split('T')
-               date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
-            <%= date %>
+            <%= display_last_modified(collection) %>
           </td>
         </tr>
       <% end %>

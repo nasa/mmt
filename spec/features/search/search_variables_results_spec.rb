@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe 'Searching published variables', js: true do
-  variable_name = 'Absorption Band Test Search Var 001'
-  long_name = 'Long Detailed Description of Absorption Band Test Search Var 001'
+  variable_name = "Absorption Band Test Search Var #{Faker::Number.number(6)}"
+  long_name = "Long Detailed Description of Absorption Band Test Search Var #{Faker::Number.number(6)}"
   science_keywords =
     [
       {
@@ -16,7 +16,6 @@ describe 'Searching published variables', js: true do
 
   before :all do
     @ingest_response = publish_variable_draft(name: variable_name, long_name: long_name, science_keywords: science_keywords)
-    puts @ingest_response
   end
 
   before do
@@ -68,7 +67,7 @@ describe 'Searching published variables', js: true do
     end
 
     it 'displays the query and variable results' do
-      expect(page).to have_variable_search_query(1, 'Keyword: aerosol')
+      expect(page).to have_variable_search_query(nil, 'Keyword: aerosol')
     end
 
     it 'displays expected Name, Long Name, Provider, and Last Modified values' do

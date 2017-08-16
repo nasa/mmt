@@ -15,7 +15,7 @@ class SearchController < ManageCollectionsController
     @query = {}
     @query['keyword'] = params['keyword'] || ''
     @query['provider_id'] = params['provider_id'] unless params['provider_id'].blank?
-    @query['sort_key'] = params['sort_key'] if params['sort_key']
+    @query['sort_key'] = params['sort_key'] unless params['sort_key'].blank?
     @query['page_num'] = page
     @query['page_size'] = results_per_page
 
@@ -41,6 +41,8 @@ class SearchController < ManageCollectionsController
         cmr_client.get_collections_by_post(query, token).body
       when 'variables'
         cmr_client.get_variables(query, token).body
+      else # no record type
+        return [[], [], 0]
       end
 
     hits = search_results['hits'].to_i

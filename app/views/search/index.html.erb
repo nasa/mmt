@@ -2,9 +2,13 @@
 <div class="row row-content">
   <section>
     <div id="search-criteria">
-      <%= render partial: 'search_criteria' %>
+      <%= render partial: 'search_criteria', locals: {
+        records: @records,
+        query: @query,
+        record_type: @record_type
+      } %>
     </div>
-    
+
     <% if @record_type == 'collections' %>
       <div id="collection-search-results">
         <%= render partial: 'collection_search_results', locals: {
