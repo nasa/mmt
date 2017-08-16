@@ -6,13 +6,57 @@ picker = undefined
 @setupLocationKeywords = (data, options = {}) ->
   picker = new NestedItemPicker('.eui-nested-item-picker', data: data, data_type: 'location')
 
+preparePickerValidation = (showErrors = true) ->
+  # If the item was the last item in the list
+  if pickerSelectedList().find('li').length == 0
+    # Remove the error from the list at the top of the form
+    $('ul li#' + pickerFieldId() + '-top').remove()
+
+    # Remove the error message under the field
+    $('#' + pickerFieldId() + '-error').remove()
+
+    # New element that will house the attributes for our required field
+    newElement = $('<input type="hidden" />')
+    emptyElement = $("#empty_#{pickerFieldId()}")
+
+    # Copy the attributes from our hidden field
+    attributes = emptyElement.prop("attributes");
+
+    # Set each of the attributes from our container onto our hidden element
+    $.each attributes, () ->
+      newElement.attr(this.name, this.value)
+
+    # All the attributes are set as data attributes, pull out the id and name specifically
+    newElement.attr('id', emptyElement.data('id'))
+    newElement.attr('name', emptyElement.data('name'))
+
+    # Add the validation element within a half-width div (strictly aesthetics)
+    pickerSelectedList().append(
+      $('<div>').addClass('half-width').html(newElement)
+    )
+
+    # Only if asked to, display the errors on the form (not desirable on page load)
+    if showErrors
+      pickerSelectedList().closest('form').valid()
+
+pickerFieldId = () ->
+  "#{picker.options.field_prefix.replace('/', '_')}_#{picker.options.data_type}_keywords"
+
+pickerSelectedList = () ->
+  $('.selected-' + picker.options.data_type + '-keywords ul')
+
 $(document).ready ->
+  # NestedItemPicker Usage
   if picker?
-    # NestedItemPicker Usage
+
+    # Prepare the picker for validation but dont show the errors on page load
+    preparePickerValidation(false)
+
     # Handle add keyword button
     $('.add-science-keyword').on 'click', ->
       addKeyword 'science'
       resetPicker()
+
     $('.add-location-keyword').on 'click', ->
       addKeyword 'location'
       resetPicker()
@@ -20,7 +64,7 @@ $(document).ready ->
     addKeyword = (type, keywords = []) ->
       # Add selected value to keyword list
       keywords = picker.getValues() unless keywords.length > 0
-      keywordList = $('.selected-' + type + '-keywords ul')
+      keywordList = pickerSelectedList()
 
       fieldPrefixName = $.map picker.options.field_prefix.split('/'), (d, i) ->
         if i > 0
@@ -43,7 +87,7 @@ $(document).ready ->
         keywordLengthMinimum = if picker.options.data_type == 'science' then 2 else 1
         if matchingKeywords.length == 0 and value.split('>').length > keywordLengthMinimum
             span = "<span class='is-invisible'>Remove #{value}</span>"
-            li = $("<li>#{value}<a class='remove'><i class='fa fa-times-circle'></i></a>#{span}</li>")
+            li = $("<li>#{value}<a class='remove' data-keyword-type='#{type}' data-field-prefix-id='#{fieldPrefixId}'><i class='fa fa-times-circle'></i></a>#{span}</li>")
 
             keyword_pieces = value.split(' > ')
             for keyword, i in keyword_pieces
@@ -52,7 +96,19 @@ $(document).ready ->
                 name: "#{fieldPrefixName}[#{type}_keywords][#{timeStamp}][#{keywordFields[i]}]"
                 id: "#{fieldPrefixId}_#{type}_keywords_#{timeStamp}_#{keywordFields[i]}"
                 value: keyword).appendTo li
+
             $(li).appendTo keywordList
+
+          # Look for the element responsible for holding onto validation information for this field
+          emptyFieldForValidation = $(this).find("##{fieldPrefixId}_#{type}_keywords")
+
+          # If we find it
+          if emptyFieldForValidation
+            # Remove the element from the DOM
+            $("##{fieldPrefixId}_#{type}_keywords").parent().remove()
+
+            # Revalidate the form (will remove errors associated with this field)
+            keywordList.closest('form').valid()
 
     resetPicker = ->
       # Reset picker to top level
@@ -60,7 +116,17 @@ $(document).ready ->
       picker.resetPicker()
 
     $('.selected-science-keywords, .selected-location-keywords').on 'click', '.remove', ->
-      $(this).parent().remove()
+      # The item being removed
+      keywordsListItem = $(this).parent()
+
+      # The list the item belongs to
+      keywordsList = keywordsListItem.closest('ul')
+
+      # Remove the item per the users request
+      keywordsListItem.remove()
+
+      # Validates the picker
+      preparePickerValidation()
 
     # Functions to validate user's ability to add keywords
     # Validate when user clicks on on item selection

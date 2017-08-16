@@ -19,7 +19,8 @@ $(document).ready ->
   currentJumpToValue = $('.jump-to-section').val()
 
   # jQuery Validation
-  $('.umm-form').validate
+  $('#umm_form').validate
+    ignore: []
     onsubmit: false
 
     # Due to the requirement of showing the errors at the top of the page
@@ -43,6 +44,7 @@ $(document).ready ->
     #    we have to override the `success` method which generally removes the error div under the 
     #    field as well, so we have to do that as well.
     success: (label, element) ->
+      alert('success')
       # Remove the error from the list at the top of the form
       $('#umm-form-errors ul li#' + element.id + '-top').remove()
 
@@ -56,7 +58,6 @@ $(document).ready ->
       placement.append($('<li></li>').attr('id', element.attr('id') + '-top').append(
         $('<a></a>').attr('href', '#' + element.attr('id')).text(error.text())
       ));
-
       # Also add the error message to the field (this is the default behavior)
       error.insertAfter(element);
 
@@ -72,7 +73,7 @@ $(document).ready ->
 
       this.defaultShowErrors();
 
-  $('.umm-form .jump-to-section').on 'change', ->
+  $('#umm_form .jump-to-section').on 'change', ->
     # Set all (both) jump to selects to the select value
     $('.jump-to-section').val($(this).val())
 
@@ -84,7 +85,7 @@ $(document).ready ->
       $(this).closest('form').submit()
 
   # If any of the submit buttons in the form nav are clicked we'll validate the form
-  $('.umm-form input[type=submit]').on 'click', (e) ->
+  $('#umm_form input[type=submit]').on 'click', (e) ->
     handleFormNavigation($(this))    
 
   # If the user choose 'Yes' when asked about saving an invalid form
@@ -92,9 +93,11 @@ $(document).ready ->
     # Revert the jump-to select to it's previous value
     $('.jump-to-section').val(currentJumpToValue)
 
-    # Call blur on all of our form fields to validate them
-    $("#umm_form input:visible, textarea, select").blur()
+    # The user doesn't want to save the object, validate the form and display errors
+    $('#umm_form').valid()
 
   # Submit with invalid data
-  $('#invalid-draft-accept').on 'click', ->
-    $(this).closest('form').submit()
+  $('#invalid-draft-accept').on 'click', (e) ->
+    e.preventDefault()
+
+    $('#umm_form').submit()
