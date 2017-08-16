@@ -1,26 +1,34 @@
-# MMT-268
-
 require 'rails_helper'
 
-describe 'Search Result Pagination', js: true do
-  before do
-    login
-    click_on 'Search Collections'
+describe 'Search Variables Results Pagination', reset_provider: true, js: true do
+  before :all do
+    5.times { |i| publish_variable_draft(name: "nasa.var.00#{i}") }
+
+    30.times { publish_variable_draft }
   end
 
-  context 'when viewing search results with multiple pages' do
+  before do
+    login
+    visit manage_variables_path
+  end
+
+  context 'when viewing variable search results with multiple pages' do
+    before do
+      click_on 'Search Variables'
+    end
+
     it 'displays pagination links' do
-      expect(page).to have_css('a', text: 'First')
-      expect(page).to have_css('a', text: '1')
-      expect(page).to have_css('a', text: '2')
-      expect(page).to have_css('a', text: '3')
-      expect(page).to have_css('a', text: '4')
-      expect(page).to have_css('a', text: 'Last')
+      # TODO: add comment about reset_provider not working? so affect pagination?
+      within '.eui-pagination' do
+        expect(page).to have_css('a', text: 'First')
+        expect(page).to have_css('a', text: '1')
+        expect(page).to have_css('a', text: '2')
+        expect(page).to have_css('a', text: 'Last')
+      end
     end
 
     context 'when clicking on the next link' do
       before do
-        # click next link
         click_on 'Next Page'
       end
 
@@ -31,11 +39,10 @@ describe 'Search Result Pagination', js: true do
 
     context 'when clicking on the previous link' do
       before do
-        # click next link
         click_on 'Next Page'
-        # assert page 2 visible
+
         expect(page).to have_css('.active-page', text: '2')
-        # click previous link
+
         click_on 'Previous Page'
       end
 
@@ -46,11 +53,10 @@ describe 'Search Result Pagination', js: true do
 
     context 'when clicking on the first page link' do
       before do
-        # click next link
         click_on 'Next Page'
-        # assert page 2 visible
+
         expect(page).to have_css('.active-page', text: '2')
-        # click first page link
+
         click_on 'First Page'
       end
 
@@ -65,7 +71,6 @@ describe 'Search Result Pagination', js: true do
 
     context 'when clicking on the last page link' do
       before do
-        # click last page link
         click_on 'Last Page'
       end
 
@@ -77,31 +82,33 @@ describe 'Search Result Pagination', js: true do
       end
 
       it 'does not display the next page link' do
-        expect(page).to have_no_css('a', text: 'Next')
+        within '.eui-pagination' do
+          expect(page).to have_no_css('a', text: 'Next')
+        end
       end
     end
 
     context 'when clicking on a specific page link' do
       before do
-        # click page 2 link
         click_on 'Page 2'
       end
 
-      it 'displays the new page' do
+      it 'displays the chosen page' do
         expect(page).to have_css('.active-page', text: '2')
       end
     end
   end
 
-  context 'when viewing search results with only one page' do
+  context 'when viewing variable search results with only one page' do
     before do
-      fill_in 'keyword', with: 'DEM_100M_1'
-      click_on 'Search Collections'
+      fill_in 'keyword', with: 'nasa.var'
+      click_on 'Search Variables'
     end
 
     it 'does not display pagination links' do
-      expect(page).to have_no_css('a', text: 'First')
-      expect(page).to have_no_css('a', text: '1')
+      # expect(page).to have_no_css('ul.eui-pagination')
+      expect(page).to have_no_css('.eui-pagination li a', text: 'First')
+      expect(page).to have_no_css('.eui-pagination li a', text: '1')
     end
   end
 end

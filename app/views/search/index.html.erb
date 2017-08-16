@@ -1,11 +1,27 @@
 
 <div class="row row-content">
   <section>
-    <div id="collection_search_criteria">
-      <%= render partial: 'collection_search_criteria' %>
+    <div id="search-criteria">
+      <%= render partial: 'search_criteria' %>
     </div>
-    <div id="collection_search_results">
-      <%= render partial: 'collection_search_results' %>
-    </div>
+    <% if @record_type == 'collections' %>
+      <div id="collection-search-results">
+        <%= render partial: 'collection_search_results', locals: {
+          collections: @records,
+          query: @query,
+          errors: @errors,
+          record_type: @record_type
+        } %>
+      </div>
+    <% elsif @record_type == 'variables' %>
+      <div id="variable-search-results">
+        <%= render partial: 'variable_search_results', locals: {
+          variables: @records,
+          query: @query,
+          errors: @errors,
+          record_type: @record_type
+        } %>
+      </div>
+    <% end %>
   </section>
 </div>
