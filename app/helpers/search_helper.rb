@@ -50,4 +50,9 @@ module SearchHelper
 
     link_to "#{title} <i class='fa fa-sort#{'-' + link_type if link_type}'></i>".html_safe, url, title: "Sort by #{title} #{link_type == 'asc' ? 'Desc' : 'Asc'}"
   end
+
+  def display_last_modified(record)
+    fragments = record.fetch('meta', {})['revision-date'].split('T')
+    date = fragments[0].nil? ? 'UNKNOWN' : fragments
+  end
 end

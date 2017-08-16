@@ -1,5 +1,5 @@
 <div class="pagination-summary">
-  <%= page_entries_info variables, entry_name: 'record' %>
+  <%= page_entries_info variables, entry_name: 'variable' %>
 </div>
 
 <table id="search-results">
@@ -32,18 +32,16 @@
       <% variables.each do |variable| %>
         <tr class='<%= cycle("alt", "") %>'>
           <td>
-            <%= link_to variable['umm']['Name'], variable_path(variable['meta']['concept-id']) %>
+            <%= link_to variable.fetch('umm', {})['Name'], variable_path(variable.fetch('meta', {})['concept-id']) %>
           </td>
           <td>
-            <%= variable['umm']['LongName'] %>
+            <%= variable.fetch('umm')['LongName'] %>
           </td>
           <td>
-            <%= variable['meta']['provider-id'] %>
+            <%= variable.fetch('meta')['provider-id'] %>
           </td>
           <td>
-            <% fragments = variable['meta']['revision-date'].split('T')
-               date = fragments[0].nil? ? 'UNKNOWN' : fragments[0] %>
-            <%= date %>
+            <%= display_last_modified(variable) %>
           </td>
         </tr>
       <% end %>

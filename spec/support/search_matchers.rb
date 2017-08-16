@@ -1,10 +1,10 @@
 module SearchUtil
   # Usage
-  # expect(page).to have_collection_search_query(1, "Short Name: #{short_name}")
+  # expect(page).to have_collection_search_query(1, "Keyword: #{entry_title}")
   # expect(page).to have_variable_search_query(1, "Keyword: #{short_name}")
 
   # Pass in nil for number if you don't care about the number of results, just the query
-  # expect(page).to have_collection_search_query(nil, "Short Name: #{short_name}")
+  # expect(page).to have_collection_search_query(nil, "Keyword: #{short_name}")
   RSpec::Matchers.define :have_collection_search_query do |number, *query_items|
     match do |actual|
       expect(actual.find('#search-criteria')).to have_content("#{number} Collection #{'Result'.pluralize(number)}") if number
