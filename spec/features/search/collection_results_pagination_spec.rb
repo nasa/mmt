@@ -18,7 +18,6 @@ describe 'Collection Search Results Pagination', js: true do
         expect(page).to have_css('a', text: '1')
         expect(page).to have_css('a', text: '2')
         expect(page).to have_css('a', text: '3')
-        # expect(page).to have_css('a', text: '4')
         expect(page).to have_css('a', text: 'Last')
       end
     end

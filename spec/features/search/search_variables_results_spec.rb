@@ -1,24 +1,11 @@
 require 'rails_helper'
 
 describe 'Searching published variables', js: true do
-# describe 'Searching published variables', js: true, reset_provider: true do
   variable_name = 'Absorption Band Test Search Var 001'
   long_name = 'Long Detailed Description of Absorption Band Test Search Var 001'
   science_keywords =
     [
       {
-      #   'Category': 'EARTH SCIENCE',
-      #   'Topic': 'ATMOSPHERE',
-      #   'Term': 'ATMOSPHERIC CHEMISTRY',
-      #   'VariableLevel1': 'NITROGEN COMPOUNDS',
-      #   'VariableLevel2': 'Peroxyacyl Nitrate'
-      # }, {
-      #   'Category': 'EARTH SCIENCE',
-      #   'Topic': 'ATMOSPHERE',
-      #   'Term': 'ATMOSPHERIC TEMPERATURE',
-      #   'VariableLevel1': 'SURFACE TEMPERATURE',
-      #   'VariableLevel2': 'MAXIMUM/MINIMUM TEMPERATURE'
-      # }, {
         'Category': 'EARTH SCIENCE',
         'Topic': 'ATMOSPHERE',
         'Term': 'AEROSOLS',
@@ -38,24 +25,6 @@ describe 'Searching published variables', js: true do
     visit manage_variables_path
   end
 
-  # context 'when searching variables by concept_id' do
-  #   before do
-  #     fill_in 'keyword', with: @ingest_response['concept-id']
-  #     click_on 'Search Variables'
-  #   end
-  #
-  #   it 'displays the query and variable results' do
-  #     expect(page).to have_variable_search_query(1, "Keyword: #{@ingest_response['concept-id']}")
-  #   end
-  #
-  #   it 'displays expected Name, Long Name, Provider, and Last Modified values' do
-  #     expect(page).to have_content(variable_name)
-  #     expect(page).to have_content(long_name)
-  #     expect(page).to have_content('MMT_2')
-  #     # expect(page).to have_content(today_string)
-  #   end
-  # end
-
   context 'when searching variables by name' do
     before do
       fill_in 'keyword', with: variable_name
@@ -70,7 +39,7 @@ describe 'Searching published variables', js: true do
       expect(page).to have_content(variable_name)
       expect(page).to have_content(long_name)
       expect(page).to have_content('MMT_2')
-      # expect(page).to have_content(today_string)
+      expect(page).to have_content(today_string)
     end
   end
 
@@ -88,7 +57,7 @@ describe 'Searching published variables', js: true do
       expect(page).to have_content(variable_name)
       expect(page).to have_content(long_name)
       expect(page).to have_content('MMT_2')
-      # expect(page).to have_content(today_string)
+      expect(page).to have_content(today_string)
     end
   end
 
@@ -106,23 +75,7 @@ describe 'Searching published variables', js: true do
       expect(page).to have_content(variable_name)
       expect(page).to have_content(long_name)
       expect(page).to have_content('MMT_2')
-      # expect(page).to have_content(today_string)
+      expect(page).to have_content(today_string)
     end
   end
-
-  # context 'when searching variables by provider' do
-  #   before :all do
-  #     8.times { publish_variable_draft(provider_id: 'LARC') }
-  #   end
-  #
-  #   before do
-  #     click_on 'search-drop'
-  #     select 'LARC', from: 'provider_id'
-  #     click_on 'Search Variables'
-  #   end
-  #
-  #   it 'displays the query and variable results' do
-  #     expect(page).to have_variable_search_query(8, 'Provider Id: LARC')
-  #   end
-  # end
 end
