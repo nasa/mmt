@@ -4,6 +4,7 @@
     <div id="search-criteria">
       <%= render partial: 'search_criteria' %>
     </div>
+    
     <% if @record_type == 'collections' %>
       <div id="collection-search-results">
         <%= render partial: 'collection_search_results', locals: {

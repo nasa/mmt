@@ -1,7 +1,7 @@
 # Search bar and dropdown menu
 require 'rails_helper'
 
-describe 'Search interface', js: true do
+describe 'Search bar and dropdown behavior', js: true do
   let(:short_name)  { 'MIRCCMF' }
   let(:entry_title) { 'MISR FIRSTLOOK radiometric camera-by-camera Cloud Mask V001' }
 
@@ -36,21 +36,6 @@ describe 'Search interface', js: true do
   let(:variable_name) { 'Mocked Test Search Var' }
   let(:long_name) { 'Descriptive Name for Mocked Test Search Var' }
 
-  # let(:variable_search_response) do
-  #   {
-  #     "hits": 1,
-  #     "took": 7,
-  #     "items": [{
-  #       "concept_id": "V1200000071-MMT_2",
-  #       "revision_id": 1,
-  #       "provider_id": "MMT_2",
-  #       "native_id": "19075bd54c07aae5f4cbad3e16cd3cd8",
-  #       "variable_name": "Test Edit Variable Name",
-  #       "measurement": "Ring Nebula Coma 306912"
-  #     }]
-  #   }.to_json
-  # end
-
   let(:variable_search_response) do
     {
       "hits": 1,
@@ -60,45 +45,45 @@ describe 'Search interface', js: true do
           "meta": {
             "revision-id": 2,
             "deleted": false,
-            "format": "application/vnd.nasa.cmr.umm+json",
-            "provider-id": "PROV1",
-            "native-id": "var1",
-            "concept-id": "V1200000009-PROV1",
-            "revision-date": "2017-08-14T20:12:43Z",
-            "concept-type": "variable"
+            "format": 'application/vnd.nasa.cmr.umm+json',
+            "provider-id": 'PROV1',
+            "native-id": 'var1',
+            "concept-id": 'V1200000009-PROV1',
+            "revision-date": '2017-08-14T20:12:43Z',
+            "concept-type": 'variable'
           },
           "umm": {
-            "VariableType": "SCIENCE_VARIABLE",
-            "DataType": "float32",
+            "VariableType": 'SCIENCE_VARIABLE',
+            "DataType": 'float32',
             "Offset": 0.0,
             "ScienceKeywords": [{
-              "Category": "sk-A",
-              "Topic": "sk-B",
-              "Term": "sk-C"
+              "Category": 'sk-A',
+              "Topic": 'sk-B',
+              "Term": 'sk-C'
             }],
             "Scale": 1.0,
             "FillValues": [{
               "Value": -9999.0,
-              "Type": "Science"
+              "Type": 'Science'
             }],
             "Sets": [{
-              "Name": "Data_Fields",
-              "Type": "Science",
+              "Name": 'Data_Fields',
+              "Type": 'Science',
               "Size": 2,
               "Index": 2
             }],
             "Dimensions": [{
-              "Name": "Solution_3_Land",
+              "Name": 'Solution_3_Land',
               "Size": 3
             }],
-            "Definition": "Defines the variable",
+            "Definition": 'Defines the variable',
             "Name": variable_name,
-            "Units": "m",
+            "Units": 'm',
             "LongName": long_name
           },
           "associations": {
             "collections": [{
-              "concept-id": "C1200000007-PROV1"
+              "concept-id": 'C1200000007-PROV1'
             }]
           }
         }

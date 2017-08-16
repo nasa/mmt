@@ -30,7 +30,7 @@ describe 'Collection Search Results sorting', reset_provider: true, js: true do
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Short Name Asc')
+          expect(page).to have_collection_search_query(nil, 'Sort Key: Short Name Asc')
         end
 
         it 'sorts the results by Short Name Asc' do
@@ -45,7 +45,7 @@ describe 'Collection Search Results sorting', reset_provider: true, js: true do
           end
 
           it 'displays the correct search param' do
-            expect(page).to have_search_query(nil, 'Sort Key: Short Name Desc')
+            expect(page).to have_collection_search_query(nil, 'Sort Key: Short Name Desc')
           end
 
           it 'sorts the results by Short Name Desc' do
@@ -62,7 +62,7 @@ describe 'Collection Search Results sorting', reset_provider: true, js: true do
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Entry Title Asc')
+          expect(page).to have_collection_search_query(nil, 'Sort Key: Entry Title Asc')
         end
 
         it 'sorts the results by Entry Title Asc' do
@@ -77,7 +77,7 @@ describe 'Collection Search Results sorting', reset_provider: true, js: true do
           end
 
           it 'displays the correct search param' do
-            expect(page).to have_search_query(nil, 'Sort Key: Entry Title Desc')
+            expect(page).to have_collection_search_query(nil, 'Sort Key: Entry Title Desc')
           end
 
           it 'sorts the results by Entry Title Desc' do
@@ -94,7 +94,7 @@ describe 'Collection Search Results sorting', reset_provider: true, js: true do
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Last Modified Asc')
+          expect(page).to have_collection_search_query(nil, 'Sort Key: Last Modified Asc')
         end
 
         it 'sorts the results by Last Modified Asc' do
@@ -109,7 +109,7 @@ describe 'Collection Search Results sorting', reset_provider: true, js: true do
           end
 
           it 'displays the correct search param' do
-            expect(page).to have_search_query(nil, 'Sort Key: Last Modified Desc')
+            expect(page).to have_collection_search_query(nil, 'Sort Key: Last Modified Desc')
           end
 
           it 'sorts the results by Last Modified Desc' do
@@ -133,7 +133,7 @@ describe 'Collection Search Results sorting', reset_provider: true, js: true do
         end
 
         it 'displays the correct search param' do
-          expect(page).to have_search_query(nil, 'Sort Key: Provider Id Asc')
+          expect(page).to have_collection_search_query(nil, 'Sort Key: Provider Id Asc')
         end
 
         it 'sorts the results by Provider Id Asc' do
@@ -150,7 +150,7 @@ describe 'Collection Search Results sorting', reset_provider: true, js: true do
           end
 
           it 'displays the correct search param' do
-            expect(page).to have_search_query(nil, 'Sort Key: Provider Id Desc')
+            expect(page).to have_collection_search_query(nil, 'Sort Key: Provider Id Desc')
           end
 
           it 'sorts the results by Provider Id Desc' do

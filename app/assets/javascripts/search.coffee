@@ -31,7 +31,6 @@ $(document).ready ->
       $('.search-dropdown').css 'display': 'block'
       $('#search-drop-caret').css 'transform': 'rotate(180deg)'
       $('#search-submit-button').css 'border-bottom': '1px solid #95a5a6'
-
     else
       $('.search-dropdown').css 'display': 'none'
       $('#search-drop-caret').css 'transform': 'rotate(0deg)'
@@ -39,13 +38,12 @@ $(document).ready ->
 
   if $('#search-submit-button').length > 0
     recordType = $('input[name="record_type"]:checked').val()
-    $searchButtonSpan = $('#search-submit-button #search-submit-button-text')
+    $searchButtonSpan = $('#search-submit-button-text')
 
     switch recordType
       when 'collections'
         $searchButtonSpan.text('Search Collections').removeClass('variable-text')
       when 'variables'
-        # $("#search-submit-button-text").html('<span style="padding-right:11px;">Search Variables</span>')
         $searchButtonSpan.text('Search Variables').addClass('variable-text')
       else
         $searchButtonSpan.text('Search Collections').removeClass('variable-text')
@@ -55,11 +53,10 @@ $(document).ready ->
     $("#search-submit-button-text").text('Search Collections').removeClass('variable-text')
 
   $('#record_type_variables').on 'click', ->
-    # $("#search-submit-button-text").html('<span style="padding-right:11px;">Search Variables</span>')
     $("#search-submit-button-text").text('Search Variables').addClass('variable-text')
 
-  $('#record_type_services').on 'click', ->
-    $("#search-submit-button-text").html('<span style="padding-right:18px;">Search Services</span>')
+  # $('#record_type_services').on 'click', ->
+  #   $("#search-submit-button-text").html('<span style="padding-right:18px;">Search Services</span>')
 
   # Change focus of cursor when search link is clicked on Manage Collections, Manage Variables, or Manage Services pages.
   $('#search-focus').on 'click', ->

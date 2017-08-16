@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'Search Variables Results Pagination', js: true do
-# describe 'Search Variables Results Pagination', reset_provider: true, js: true do
   before :all do
     5.times { |i| publish_variable_draft(name: "nasa.var.00#{i}") }
 
@@ -19,7 +18,6 @@ describe 'Search Variables Results Pagination', js: true do
     end
 
     it 'displays pagination links' do
-      # TODO: add comment about reset_provider not working? so affect pagination?
       within '.eui-pagination' do
         expect(page).to have_css('a', text: 'First')
         expect(page).to have_css('a', text: '1')
@@ -107,7 +105,6 @@ describe 'Search Variables Results Pagination', js: true do
     end
 
     it 'does not display pagination links' do
-      # expect(page).to have_no_css('ul.eui-pagination')
       expect(page).to have_no_css('.eui-pagination li a', text: 'First')
       expect(page).to have_no_css('.eui-pagination li a', text: '1')
     end
