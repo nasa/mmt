@@ -79,13 +79,19 @@ class UmmJsonForm < JsonFile
   # ==== Attributes
   #
   # * +input+ - Form data submitted the user
-  def sanitize_form_input(input, current_value = {})
+  def sanitize_form_input(input, form_id, current_value = {})
     Rails.logger.debug "Before Sanitization: #{input.inspect}"
 
     # Convert ruby style form element names (example_string) to UMM preferred PascalCase
     input['draft'] = input.fetch('draft', {}).to_camel_keys
 
     Rails.logger.debug "After CamelKeys: #{input.inspect}"
+
+    Rails.logger.debug "Before setting defaults: #{input['draft'].inspect}"
+
+    input['draft'] = set_defaults(input['draft'], form_id)
+
+    Rails.logger.debug "After setting defaults: #{input['draft'].inspect}"
 
     unless current_value.blank?
       Rails.logger.debug "A Current Value provided, merging input into: #{current_value.inspect}"
@@ -114,6 +120,22 @@ class UmmJsonForm < JsonFile
     Rails.logger.debug "After Sanitization: #{input.inspect}"
 
     input
+  end
+
+  # Sets default values for those not present in the fragment that are part of the supplied form
+  #
+  # ==== Attributes
+  #
+  # * +fragment+ - JSON (user input) fragment to investigate
+  # * +form_id+ - The form submitted
+  def set_defaults(fragment, form_id)
+    form = get_form(form_id || forms.first.parsed_json['id'])
+
+    form.elements.each do |form_element|
+      fragment[form_element.schema_fragment['key']] ||= form_element.default_value
+    end
+
+    fragment
   end
 
   # Manipulates the provided input updating values to represent their native format

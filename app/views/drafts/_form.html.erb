@@ -1,4 +1,5 @@
 <%= hidden_field_tag 'commit' %>
+<%= hidden_field_tag 'form', @current_form %>
 
 <%= render partial: 'drafts/forms/form_navigation', locals: {
     location: 'top',

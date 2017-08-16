@@ -1,5 +1,9 @@
 # :nodoc:
 class UmmMultiItems < UmmFormElement
+  def default_value
+    []
+  end
+  
   # Return whether or not this element has a stored value
   def value?
     Array.wrap(element_value).reject(&:empty?).any?
