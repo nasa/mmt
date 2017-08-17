@@ -99,7 +99,7 @@ class UmmForm < JsonObj
 
     elements.each do |field|
       # Ignore this field if it's not required to be valid
-      next unless json_form.invalid_keys(ignore_required_fields: false).include?(field['key']) || (schema.required_field?(field['key']) && !field.value?)
+      next unless json_form.invalid?(field['key'], ignore_required_fields: false) || (schema.required_field?(field['key']) && !field.value?)
 
       # Field is required and has no value
       valid = false
