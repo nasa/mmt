@@ -78,6 +78,16 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  def current_provider?(provider)
+    current_user.provider_id == provider
+  end
+  helper_method :current_provider?
+
+  def available_provider?(provider)
+    (current_user.available_providers || []).include?(provider)
+  end
+  helper_method :available_provider?
+
   def store_profile(profile = {})
     uid = session['endpoint'].split('/').last if session['endpoint']
 

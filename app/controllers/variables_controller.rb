@@ -129,10 +129,11 @@ class VariablesController < ManageMetadataController
                          'delete'
                        end
 
-    @user_permissions = 'none'
-    if current_user.available_providers && current_user.available_providers.include?(@provider_id)
-      @user_permissions = 'wrong_provider'
-    end
+    @user_permissions = if available_provider?(@provider_id)
+                          'wrong_provider'
+                        else
+                          'none'
+                        end
 
     render :show
   end

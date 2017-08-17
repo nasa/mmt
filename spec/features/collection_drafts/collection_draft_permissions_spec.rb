@@ -14,7 +14,6 @@ describe 'Collection draft permissions' do
   end
 
   let(:draft) { Draft.first }
-  # let(:draft) { Draft.find_by(entry_title: entry_title) }
 
   context 'when the draft provider is in the users available providers', js: true do
     before do
