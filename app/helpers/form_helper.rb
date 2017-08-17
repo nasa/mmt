@@ -64,7 +64,14 @@ module FormHelper
 
     select_options = options[:options].clone
     if options[:grouped]
+      if options[:value] && invalid_select_option(select_options, options[:value], true)
+        disabled_options = content_tag(:optgroup, label: 'Invalid') do
+          content_tag(:option, options[:value], selected: 'selected', disabled: 'disabled')
+        end
+      end
+
       select_options = grouped_options_for_select(select_options, options[:value])
+      select_options = disabled_options + select_options if disabled_options
     else
       # restrict options for drop down if for metadata_date
       select_options.shift(2) if options[:metadata_date]
@@ -224,13 +231,15 @@ module FormHelper
     create_type + create_datetime + update_type + update_datetime
   end
 
-  def invalid_select_option(options, value)
-    if options[0].class == Carmen::Country
-      matches = options.select { |option| option.name.include? value }
-      matches.empty?
-    else
-      matches = options.select { |option| option.include? value }
-      matches.empty?
-    end
+  def invalid_select_option(options, value, grouped = false)
+    matches = if options[0].class == Carmen::Country
+                options.select { |option| option.name.include? value }
+              elsif grouped
+                values = options.map { |option| option[1] }.flatten
+                Array.wrap(values).select { |option| option.include? value }
+              else
+                options.select { |option| option.include? value }
+              end
+    matches.empty?
   end
 end
