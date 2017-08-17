@@ -340,9 +340,10 @@ class CollectionDraftsController < BaseDraftsController
 
       platforms = metadata['Platforms'] || []
       platforms.each do |platform|
-        platform_type = platform['Type']
-        types = @platform_types.map { |type| type[:type] }
-        if platform_type && !types.include?(platform_type)
+        platform_short_name = platform['ShortName']
+        short_names = @platform_types.map { |type| type[:short_names].map { |short_name| short_name[:short_name] } }.flatten
+
+        if platform_short_name && !short_names.include?(platform_short_name)
           errors << "The property '#/Platforms' was invalid"
         end
       end
@@ -484,8 +485,8 @@ class CollectionDraftsController < BaseDraftsController
         }
       end
 
-      series_entities = category.fetch('series_entity', []).map do |se|
-        se.fetch('short_name', []).map do |short_name|
+      series_entities = category.fetch('series_entity', []).map do |series_entity|
+        series_entity.fetch('short_name', []).map do |short_name|
           {
             short_name: short_name['value'],
             long_name: short_name.fetch('long_name', [{}]).first['value']

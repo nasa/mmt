@@ -242,7 +242,8 @@ describe 'Invalid picklists', js: true do
 
         expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
         expect(page).to have_content('Country value [usa] does not match a valid selection option')
-        expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')      end
+        expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+      end
     end
 
     it 'displays an inline error' do

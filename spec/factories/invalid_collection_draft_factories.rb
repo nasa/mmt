@@ -135,7 +135,7 @@ FactoryGirl.define do
         'DataLanguage' => 'english',
         'MetadataLanguage' => 'english',
         'Platforms' => [{
-          'Type' => 'satellites',
+          'Type' => 'Aircraft',
           'ShortName' => 'test 1 P ShortName',
           'LongName' => 'test 1 P LongName'
         }],
