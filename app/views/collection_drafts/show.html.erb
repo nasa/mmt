@@ -3,13 +3,6 @@
   <p class="subtitle"><%= display_collection_entry_title(get_resource.draft) %></p>
 <% end %>
 
-<% content_for :collection_details do %>
-  <%= render partial: 'shared/preview/collection_details', locals: {
-    metadata: get_resource.draft,
-    user_permissions: @user_permissions
-  } %>
-<% end %>
-
 <% if @user_permissions == 'none' %>
   <div class="eui-banner--danger">
     <p class="eui-banner__message">
