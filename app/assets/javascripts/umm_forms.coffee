@@ -44,7 +44,6 @@ $(document).ready ->
     #    we have to override the `success` method which generally removes the error div under the 
     #    field as well, so we have to do that as well.
     success: (label, element) ->
-      alert('success')
       # Remove the error from the list at the top of the form
       $('#umm-form-errors ul li#' + element.id + '-top').remove()
 
