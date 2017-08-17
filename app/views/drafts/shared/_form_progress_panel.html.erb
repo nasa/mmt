@@ -10,7 +10,7 @@
           <%= link_to form_section.title, send("edit_#{resource_name}_path", resource, form_section.parsed_json['id']) %>
           <div class="progress-indicators">
             <% form_section.elements.each do |field| %>
-              <% if json_form.invalid_keys.include?(field['key']) %>
+              <% if json_form.invalid?(field['key']) %>
               <%= invalid_circle(field.title, resource, form_section.parsed_json['id'], field.idify_property_name(field.parsed_json)) %>
               <% elsif field.value? %>
                 <%= complete_circle(field.title, resource, form_section.parsed_json['id'], field.idify_property_name(field.parsed_json), schema.required_field?(field['key'])) %>

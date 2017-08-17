@@ -254,9 +254,26 @@ class UmmJsonForm < JsonFile
     required_fields = validation_errors.map do |e|
       full_key = e[:message].scan(/'([^']+)'/).flatten.map { |capture| capture.gsub('#/', '') }.reject(&:blank?).join('/')
 
-      full_key[/[^\d]+/].split('/').first
+      # If were dealing with a multi item element we only need to validate the top level key
+      if full_key =~ /\d+/
+        full_key[/[^\d]+/].split('/').first
+      else
+        full_key
+      end
     end
 
     required_fields.reject(&:blank?).uniq
+  end
+
+  # Determine whether or not a provided key is invalid
+  #
+  # ==== Attributes
+  #
+  # * +key+ - Key to check validity on
+  # * +ignore_required_fields+ - Whether or not to ignore validations that refer to required fields
+  # * +ignore_keys+ - Keys to ignore when comparing to those returned from the JSON Schema validator
+  def invalid?(key, ignore_required_fields: true, ignore_keys: %w(items properties index_id))
+    key = element_path_for_object(key, ignore_keys: ignore_keys).join('/')
+    invalid_keys(ignore_required_fields: ignore_required_fields).include?(key)
   end
 end
