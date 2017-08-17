@@ -37,7 +37,11 @@ FactoryGirl.define do
           'Size': 'string',
           'Index': 'string'
         }
-      ]
+      ],
+      'Characteristics': {
+        'Size': 'string',
+        'ChunkSize': 'string'
+      }
     }}
 
     short_name nil
