@@ -53,6 +53,6 @@ module SearchHelper
 
   def display_last_modified(record)
     fragments = record.fetch('meta', {})['revision-date'].split('T')
-    date = fragments[0].nil? ? 'UNKNOWN' : fragments
+    date = fragments[0].nil? ? 'UNKNOWN' : fragments[0]
   end
 end
