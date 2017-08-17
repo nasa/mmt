@@ -7,14 +7,6 @@ describe 'Invalid picklists', js: true do
     visit collection_draft_path(draft)
   end
 
-  context 'when viewing the draft collection details' do
-    it 'does not display the Collection Progress' do
-      within '.collection-details' do
-        expect(page).not_to have_content 'Collection Progress:'
-      end
-    end
-  end
-
   context 'when viewing the progress circles' do
     it 'displays an invalid icon for Metadata Language' do
       within '.metadata #metadata-information' do
