@@ -113,8 +113,9 @@ describe 'Search bar and dropdown behavior', js: true do
             expect(page).to have_button('Search Collections')
 
             click_on 'search-drop'
-            wait_for_jQuery
-            expect(page).to have_checked_field('Collections')
+            within '.search-dropdown' do
+              expect(page).to have_checked_field('Collections')#, visible: false)
+            end
           end
         end
 
@@ -137,9 +138,7 @@ describe 'Search bar and dropdown behavior', js: true do
             within '.quick-search' do
               expect(page).to have_button('Search Collections')
 
-              click_on 'search-drop'
-              wait_for_jQuery
-              expect(page).to have_checked_field('Collections')
+              expect(page).to have_checked_field('Collections', visible: false)
             end
           end
         end
@@ -162,9 +161,7 @@ describe 'Search bar and dropdown behavior', js: true do
             within '.quick-search' do
               expect(page).to have_button('Search Collections')
 
-              click_on 'search-drop'
-              wait_for_jQuery
-              expect(page).to have_checked_field('Collections')
+              expect(page).to have_checked_field('Collections', visible: false)
             end
           end
         end
@@ -192,9 +189,7 @@ describe 'Search bar and dropdown behavior', js: true do
             within '.quick-search' do
               expect(page).to have_button('Search Variables')
 
-              click_on 'search-drop'
-              wait_for_jQuery
-              expect(page).to have_checked_field('Variables')
+              expect(page).to have_checked_field('Variables', visible: false)
             end
           end
         end
@@ -210,8 +205,9 @@ describe 'Search bar and dropdown behavior', js: true do
             expect(page).to have_button('Search Collections')
 
             click_on 'search-drop'
-            wait_for_jQuery
-            expect(page).to have_checked_field('Collections')
+            within '.search-dropdown' do
+              expect(page).to have_checked_field('Collections')
+            end
           end
         end
       end
@@ -226,8 +222,9 @@ describe 'Search bar and dropdown behavior', js: true do
             expect(page).to have_button('Search Collections')
 
             click_on 'search-drop'
-            wait_for_jQuery
-            expect(page).to have_checked_field('Collections')
+            within '.search-dropdown' do
+              expect(page).to have_checked_field('Collections')
+            end
           end
         end
       end
@@ -244,8 +241,9 @@ describe 'Search bar and dropdown behavior', js: true do
             expect(page).to have_button('Search Variables')
 
             click_on 'search-drop'
-            wait_for_jQuery
-            expect(page).to have_checked_field('Variables')
+            within '.search-dropdown' do
+              expect(page).to have_checked_field('Variables')
+            end
           end
         end
 
@@ -268,9 +266,7 @@ describe 'Search bar and dropdown behavior', js: true do
             within '.quick-search' do
               expect(page).to have_button('Search Variables')
 
-              click_on 'search-drop'
-              wait_for_jQuery
-              expect(page).to have_checked_field('Variables')
+              expect(page).to have_checked_field('Variables', visible: false)
             end
           end
         end
@@ -293,9 +289,7 @@ describe 'Search bar and dropdown behavior', js: true do
             within '.quick-search' do
               expect(page).to have_button('Search Variables')
 
-              click_on 'search-drop'
-              wait_for_jQuery
-              expect(page).to have_checked_field('Variables')
+              expect(page).to have_checked_field('Variables', visible: false)
             end
           end
         end
@@ -323,9 +317,7 @@ describe 'Search bar and dropdown behavior', js: true do
             within '.quick-search' do
               expect(page).to have_button('Search Collections')
 
-              click_on 'search-drop'
-              wait_for_jQuery
-              expect(page).to have_checked_field('Collections')
+              expect(page).to have_checked_field('Collections', visible: false)
             end
           end
         end
@@ -341,8 +333,9 @@ describe 'Search bar and dropdown behavior', js: true do
             expect(page).to have_button('Search Variables')
 
             click_on 'search-drop'
-            wait_for_jQuery
-            expect(page).to have_checked_field('Variables')
+            within '.search-dropdown' do
+              expect(page).to have_checked_field('Variables')
+            end
           end
         end
       end
@@ -357,8 +350,9 @@ describe 'Search bar and dropdown behavior', js: true do
             expect(page).to have_button('Search Variables')
 
             click_on 'search-drop'
-            wait_for_jQuery
-            expect(page).to have_checked_field('Variables')
+            within '.search-dropdown' do
+              expect(page).to have_checked_field('Variables')
+            end
           end
         end
       end
@@ -374,8 +368,9 @@ describe 'Search bar and dropdown behavior', js: true do
           expect(page).to have_button('Search Collections')
 
           click_on 'search-drop'
-          wait_for_jQuery
-          expect(page).to have_checked_field('Collections')
+          within '.search-dropdown' do
+            expect(page).to have_checked_field('Collections')
+          end
         end
       end
     end
