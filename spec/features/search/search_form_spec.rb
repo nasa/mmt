@@ -114,7 +114,7 @@ describe 'Search bar and dropdown behavior', js: true do
 
             click_on 'search-drop'
             within '.search-dropdown' do
-              expect(page).to have_checked_field('Collections')#, visible: false)
+              expect(page).to have_checked_field('Collections')
             end
           end
         end
