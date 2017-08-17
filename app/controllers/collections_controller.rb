@@ -72,21 +72,21 @@ class CollectionsController < ManageCollectionsController
   def ensure_correct_collection_provider
     return if @provider_id == current_user.provider_id
 
-    case
-    when request.original_url.include?('edit')
-      @collection_action = 'edit'
-    when request.original_url.include?('clone')
-      @collection_action = 'clone'
-    when request.original_url.include?('revert')
-      @collection_action = 'revert'
-    when request.original_url.include?('delete')
-      @collection_action = 'delete'
-    end
+    @collection_action = if request.original_url.include?('edit')
+                           'edit'
+                         elsif request.original_url.include?('clone')
+                           'clone'
+                         elsif request.original_url.include?('revert')
+                           'revert'
+                         elsif request.original_url.include?('delete')
+                           'delete'
+                         end
 
-    @user_permissions = 'none'
-    if current_user.available_providers && current_user.available_providers.include?(@provider_id)
-      @user_permissions = 'wrong_provider'
-    end
+    @user_permissions = if available_provider?(@provider_id)
+                          'wrong_provider'
+                        else
+                          'none'
+                        end
 
     render :show
   end
