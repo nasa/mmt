@@ -41,8 +41,6 @@ $(document).ready ->
     $searchButtonSpan = $('#search-submit-button-text')
 
     switch recordType
-      when 'collections'
-        $searchButtonSpan.text('Search Collections').removeClass('variable-text')
       when 'variables'
         $searchButtonSpan.text('Search Variables').addClass('variable-text')
       else
