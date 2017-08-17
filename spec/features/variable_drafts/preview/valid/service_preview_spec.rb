@@ -10,14 +10,14 @@ describe 'Valid Variable Draft Service Preview' do
   context 'When examining the Service section' do
     it 'displays the form title as an edit link' do
       within '#service-progress' do
-        expect(page).to have_link('Service', href: edit_variable_draft_path(@draft, 'service'))
+        expect(page).to have_link('Services', href: edit_variable_draft_path(@draft, 'service'))
       end
     end
 
     it 'displays the corrent status icon' do
       within '#service-progress' do
         within '.status' do
-          expect(page).to have_content('Service is valid')
+          expect(page).to have_content('Services is valid')
         end
       end
     end

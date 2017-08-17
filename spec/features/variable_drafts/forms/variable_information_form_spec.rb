@@ -61,11 +61,11 @@ describe 'Variable Information Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.nav-top' do
@@ -225,11 +225,11 @@ describe 'Variable Information Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.nav-top' do
