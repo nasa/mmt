@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Fill Value Form', reset_provider: true, js: true do
+describe 'Fill Values Form', reset_provider: true, js: true do
   before do
     login
   end
@@ -21,7 +21,7 @@ describe 'Fill Value Form', reset_provider: true, js: true do
     it 'displays the form title in the breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Variable Drafts')
-        expect(page).to have_content('Fill Value')
+        expect(page).to have_content('Fill Values')
       end
     end
 
@@ -125,11 +125,11 @@ describe 'Fill Value Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
@@ -295,7 +295,7 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
@@ -403,7 +403,7 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do

@@ -73,7 +73,7 @@ describe 'Service Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.nav-top' do
@@ -146,7 +146,7 @@ describe 'Service Form', reset_provider: true, js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Set', from: 'Save & Jump To:'
+          select 'Sets', from: 'Save & Jump To:'
         end
       end
 
@@ -157,11 +157,11 @@ describe 'Service Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.nav-top' do
@@ -236,7 +236,7 @@ describe 'Service Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.nav-top' do
@@ -344,7 +344,7 @@ describe 'Service Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.nav-top' do

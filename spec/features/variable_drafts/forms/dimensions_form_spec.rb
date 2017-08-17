@@ -48,11 +48,11 @@ describe 'Dimensions Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
@@ -134,7 +134,7 @@ describe 'Dimensions Form', reset_provider: true, js: true do
     context 'When selecting the previous form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Fill Value', from: 'Save & Jump To:'
+          select 'Fill Values', from: 'Save & Jump To:'
         end
 
         click_on 'Yes'
@@ -147,11 +147,11 @@ describe 'Dimensions Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
@@ -231,11 +231,11 @@ describe 'Dimensions Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
@@ -355,11 +355,11 @@ describe 'Dimensions Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do

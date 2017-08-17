@@ -10,14 +10,14 @@ describe 'Empty Variable Draft Set Preview' do
   context 'When examining the Set section' do
     it 'displays the form title as an edit link' do
       within '#set-progress' do
-        expect(page).to have_link('Set', href: edit_variable_draft_path(@draft, 'set'))
+        expect(page).to have_link('Sets', href: edit_variable_draft_path(@draft, 'set'))
       end
     end
 
     it 'displays the corrent status icon' do
       within '#set-progress' do
         within '.status' do
-          expect(page).to have_content('Set is incomplete')
+          expect(page).to have_content('Sets is incomplete')
         end
       end
     end

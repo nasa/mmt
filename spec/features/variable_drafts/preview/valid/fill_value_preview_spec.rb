@@ -10,14 +10,14 @@ describe 'Valid Variable Draft Fill Value Preview' do
   context 'When examining the Fill Value section' do
     it 'displays the form title as an edit link' do
       within '#fill_value-progress' do
-        expect(page).to have_link('Fill Value', href: edit_variable_draft_path(@draft, 'fill_value'))
+        expect(page).to have_link('Fill Values', href: edit_variable_draft_path(@draft, 'fill_value'))
       end
     end
 
     it 'displays the corrent status icon' do
       within '#fill_value-progress' do
         within '.status' do
-          expect(page).to have_content('Fill Value is valid')
+          expect(page).to have_content('Fill Values is valid')
         end
       end
     end
