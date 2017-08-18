@@ -21,6 +21,10 @@ class VariableDraft < Draft
     end
   end
 
+  def display_short_name
+    short_name || '<Blank Name>'
+  end
+
   def display_entry_title
     entry_title || '<Untitled Variable Record>'
   end
