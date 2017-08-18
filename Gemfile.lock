@@ -1,6 +1,6 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: a7a9d47f7ee2d1ced34dcb55d2b97e0b7f08e2c4
+  revision: 8d4b4bb9dac084a7d38eda89d7a42cdfd3c4ceb6
   branch: master
   specs:
     cmr_metadata_preview (0.0.1)
@@ -267,7 +267,7 @@ GEM
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
-    thor (0.19.4)
+    thor (0.20.0)
     thread_safe (0.3.6)
     tilt (1.4.1)
     tzinfo (1.2.3)

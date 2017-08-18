@@ -27,4 +27,12 @@ module ManageMetadataHelper
       'collections'
     end
   end
+
+  def display_header_subtitle(metadata, type)
+    if type.include? 'variable'
+      metadata['LongName'] || 'Long Name Not Provided'
+    else
+      # Future services name
+    end
+  end
 end
