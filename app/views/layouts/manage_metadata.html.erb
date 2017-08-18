@@ -33,13 +33,14 @@
 
               <nav>
                 <div class="content">
-                  <h2 class="<%= 'current' if controller_name == 'manage_collections' || controller_name == 'collection_drafts' %>">
+                  <h2 class="<%= 'current' if resource_type == 'collections' %>">
                     <%= link_to 'Manage Collections', manage_collections_path %>
                   </h2>
 
-                  <h2 class="<%= 'current' if controller_name == 'manage_variables' || controller_name == 'variable_drafts' %>">
+                  <h2 class="<%= 'current' if resource_type == 'variables' %>">
                     <%= link_to 'Manage Variables', manage_variables_path %>
                   </h2>
+
                   <!-- Manage Services Link Commented out until functional implementation ready. This will also need style treatment as all links do not fit in header -->
                   <!--h2 class="<%= 'current' if controller_name == 'manage_services' || controller_name == 'service_drafts' %>">
                     <%= link_to 'Manage Services', manage_services_path %>
