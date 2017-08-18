@@ -44,8 +44,8 @@ describe 'Variable draft permissions' do
 
         it 'goes to the draft preview page' do
           within '.eui-breadcrumbs' do
-            expect(page).to have_content('Drafts')
-            expect(page).to have_content('<Blank Short Name>')
+            expect(page).to have_content('Variable Drafts')
+            expect(page).to have_content('Draft Title')
           end
 
           expect(page).to have_content(short_name)
