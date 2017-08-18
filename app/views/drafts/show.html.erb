@@ -1,6 +1,6 @@
 <% content_for :header_title do %>
   <h2><%= display_entry_id(get_resource.draft, resource_name) %></h2>
-  <p class="subtitle"><%= display_variable_long_name(get_resource.draft) %></p>
+  <p class="subtitle"><%= display_header_subtitle(get_resource.draft, resource_name) %></p>
 <% end %>
 
 <% if @user_permissions == 'none' %>

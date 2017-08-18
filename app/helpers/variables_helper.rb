@@ -7,8 +7,4 @@ module VariablesHelper
       link_to('Edit Collection', variable_path(concept_id), method: :delete, class: 'is-invisible', id: 'change-provider-delete-variable')
     end
   end
-
-  def display_variable_long_name(variable)
-    variable['LongName'] || 'Long Name Not Provided'
-  end
 end
