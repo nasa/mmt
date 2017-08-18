@@ -1,5 +1,6 @@
 <% content_for :header_title do %>
-  <h2><%= @variable['Name'] %></h2>
+  <h2><%= display_entry_id(@variable, 'variable') %></h2>
+  <p class="subtitle"><%= display_variable_long_name(@variable) %></p>
 <% end %>
 
 <% if @user_permissions == 'none' %>

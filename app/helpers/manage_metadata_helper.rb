@@ -1,6 +1,6 @@
 # :nodoc:
 module ManageMetadataHelper
-  def display_entry_id(metadata, type)
+  def breadcrumb_name(metadata, type)
     short_name = if type.include? 'collection'
                    metadata['ShortName'] || '<Blank Short Name>'
                  elsif type.include? 'variable'

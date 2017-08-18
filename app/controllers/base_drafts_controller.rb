@@ -13,7 +13,7 @@ class BaseDraftsController < DraftsController
   end
 
   def show
-    add_breadcrumb display_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
   end
 
   def new
@@ -23,7 +23,7 @@ class BaseDraftsController < DraftsController
   end
 
   def edit
-    add_breadcrumb display_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
     add_breadcrumb @json_form.get_form(@current_form).title, send("edit_#{resource_name}_path", get_resource, @current_form)
   end

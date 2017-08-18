@@ -98,7 +98,7 @@
       ]
     },
     {
-      "id": "fill_value",
+      "id": "fill_values",
       "title": "Fill Values",
       "description_key": "FillValues",
       "items": [
@@ -289,7 +289,7 @@
       ]
     },
     {
-      "id": "service",
+      "id": "services",
       "title": "Services",
       "description_key": "Services",
       "items": [
@@ -328,7 +328,7 @@
       ]
     },
     {
-      "id": "set",
+      "id": "sets",
       "title": "Sets",
       "description_key": "Sets",
       "items": [
