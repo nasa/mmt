@@ -53,6 +53,7 @@ $(document).ready ->
   $('#record_type_variables').on 'click', ->
     $("#search-submit-button-text").text('Search Variables').addClass('variable-text')
 
+  # The radio button and text commented out until Services is implemented
   # $('#record_type_services').on 'click', ->
   #   $("#search-submit-button-text").html('<span style="padding-right:18px;">Search Services</span>')
 

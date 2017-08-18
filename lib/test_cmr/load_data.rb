@@ -614,21 +614,6 @@ module Cmr
         end
 
         clear_cache
-
-        # remove ElasticSearch indexer
-        connection.post do |req|
-          req.url('http://localhost:3004/reset')
-          req.headers['Echo-token'] = 'mock-echo-system-token'
-        end
-
-        # reindex all collections
-        connection.post do |req|
-          req.url('http://localhost:3002/jobs/reindex-all-collections')
-          req.headers['Echo-token'] = 'mock-echo-system-token'
-        end
-
-        wait_for_indexing
-        clear_cache
       end
     end
 
