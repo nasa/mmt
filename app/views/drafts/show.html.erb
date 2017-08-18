@@ -1,3 +1,8 @@
+<% content_for :header_title do %>
+  <h2><%= display_entry_id(get_resource.draft, resource_name) %></h2>
+  <p class="subtitle"><%= display_variable_long_name(get_resource.draft) %></p>
+<% end %>
+
 <% if @user_permissions == 'none' %>
   <div class="eui-banner--danger">
     <p class="eui-banner__message">

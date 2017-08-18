@@ -33,7 +33,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def edit
-    add_breadcrumb display_entry_id(get_resource.draft, resource_name), collection_draft_path(get_resource)
+    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), collection_draft_path(get_resource)
 
     Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
 

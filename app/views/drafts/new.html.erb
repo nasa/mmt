@@ -1,3 +1,7 @@
+<% content_for :header_title do %>
+  <h2><%= titleize_form_name(@current_form) %></h2>
+<% end %>
+
 <div class="row row-content">
   <section>
     <%= form_tag(send("#{plural_resource_name}_path"), method: :post, id: 'umm_form', class: 'umm-form') do %>
