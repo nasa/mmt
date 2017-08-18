@@ -103,12 +103,12 @@ class VariablesController < ManageMetadataController
       sleep 0.05
     end
 
-    if variable_data.empty?
+    if variable_data.blank?
       Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
+    else
+      @provider_id = variable_data.fetch('meta', {})['provider-id']
+      @native_id = variable_data.fetch('meta', {})['native-id']
     end
-
-    @provider_id = variable_data.fetch('meta', {})['provider-id']
-    @native_id = variable_data.fetch('meta', {})['native-id']
   end
 
   def set_schema
