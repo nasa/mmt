@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Collection drafts breadcrumbs' do
+describe 'Collection drafts breadcrumbs and header' do
   before do
     login
   end
@@ -17,6 +17,12 @@ describe 'Collection drafts breadcrumbs' do
         expect(page).to have_content('<Blank Short Name>')
       end
     end
+
+    it 'has "Manage Collections" as the underlined current header link' do
+      within 'main header' do
+        expect(page).to have_css('h2.current', text: 'Manage Collections')
+      end
+    end
   end
 
   context 'when viewing a collection draft with a short name' do
@@ -29,6 +35,12 @@ describe 'Collection drafts breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Collection Drafts')
         expect(page).to have_content(@draft.draft['ShortName'])
+      end
+    end
+
+    it 'has "Manage Collections" as the underlined current header link' do
+      within 'main header' do
+        expect(page).to have_css('h2.current', text: 'Manage Collections')
       end
     end
   end

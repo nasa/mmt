@@ -164,6 +164,13 @@ describe 'Search bar and dropdown behavior', js: true do
               expect(page).to have_checked_field('Collections', visible: false)
             end
           end
+
+          it 'has "Manage Collections" as the underlined current header link' do
+            within 'main header' do
+              # requires the text in all caps here, maybe because js enabled
+              expect(page).to have_css('h2.current', text: 'MANAGE COLLECTIONS')
+            end
+          end
         end
 
         context 'when submitting a variables search by variable name' do
@@ -290,6 +297,13 @@ describe 'Search bar and dropdown behavior', js: true do
               expect(page).to have_button('Search Variables')
 
               expect(page).to have_checked_field('Variables', visible: false)
+            end
+          end
+
+          it 'has "Manage Variables" as the underlined current header link' do
+            within 'main header' do
+              # requires the text in all caps here, maybe because js enabled
+              expect(page).to have_css('h2.current', text: 'MANAGE VARIABLES')
             end
           end
         end

@@ -13,13 +13,12 @@ module ManageMetadataHelper
     short_name + version
   end
 
-  # the resource type for the Search button text based on the controller
+  # resource type for determining which 'Manage' title is underlined in the header
+  # and the resource type for the Search button text based on the controller
   def resource_type
     case
-    when controller_name.include?('search')
+    when controller_name.starts_with?('search')
       @record_type
-    when controller_name.include?('collection')
-      'collections'
     when controller_name.include?('variable')
       'variables'
     else
