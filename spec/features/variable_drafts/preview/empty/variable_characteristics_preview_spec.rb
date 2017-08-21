@@ -23,7 +23,7 @@ describe 'Empty Variable Draft Variable Characteristics Preview' do
     end
 
     it 'displays no progress indicators for required fields' do
-      within '#service-progress .progress-indicators' do
+      within '#services-progress .progress-indicators' do
         expect(page).to have_no_css('.eui-icon.eui-required.icon-green')
       end
     end

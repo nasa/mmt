@@ -8,7 +8,7 @@ describe 'Fill Values Form', reset_provider: true, js: true do
   context 'When viewing the form with no stored values' do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_variable_draft_path(draft, 'fill_value')
+      visit edit_variable_draft_path(draft, 'fill_values')
     end
 
     it 'displays the correct title and description' do
@@ -35,11 +35,11 @@ describe 'Fill Values Form', reset_provider: true, js: true do
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
       within '.nav-top' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
       end
 
       within '.nav-bottom' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
       end
     end
 
@@ -133,11 +133,11 @@ describe 'Fill Values Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -217,7 +217,7 @@ describe 'Fill Values Form', reset_provider: true, js: true do
         'Description': 'Pellentesque Bibendum Commodo Fringilla Nullam'
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValues': draft_fill_values })
-      visit edit_variable_draft_path(draft, 'fill_value')
+      visit edit_variable_draft_path(draft, 'fill_values')
     end
 
     it 'displays one populated form' do
@@ -299,11 +299,11 @@ describe 'Fill Values Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -321,7 +321,7 @@ describe 'Fill Values Form', reset_provider: true, js: true do
         'Description': 'Pellentesque Nullam Ullamcorper Magna'
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValues': draft_fill_values })
-      visit edit_variable_draft_path(draft, 'fill_value')
+      visit edit_variable_draft_path(draft, 'fill_values')
     end
 
     it 'displays two populated form' do
@@ -407,11 +407,11 @@ describe 'Fill Values Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end

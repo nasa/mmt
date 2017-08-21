@@ -9,7 +9,7 @@ describe 'Valid Variable Service Preview', reset_provider: true do
 
   context 'When examining the Service section' do
     it 'displays the stored values correctly within the preview' do
-      within '.umm-preview.service' do
+      within '.umm-preview.services' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#variable_draft_draft_services_preview' do

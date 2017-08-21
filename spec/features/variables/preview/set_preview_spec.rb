@@ -9,7 +9,7 @@ describe 'Valid Variable Set Preview', reset_provider: true do
 
   context 'When examining the Set section' do
     it 'displays the stored values correctly within the preview' do
-      within '.umm-preview.set' do
+      within '.umm-preview.sets' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#variable_draft_draft_sets_preview' do

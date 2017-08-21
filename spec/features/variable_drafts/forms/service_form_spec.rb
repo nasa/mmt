@@ -8,7 +8,7 @@ describe 'Service Form', reset_provider: true, js: true do
   context 'When viewing the form with no stored values' do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_variable_draft_path(draft, 'service')
+      visit edit_variable_draft_path(draft, 'services')
     end
 
     it 'displays the correct title and description' do
@@ -26,11 +26,11 @@ describe 'Service Form', reset_provider: true, js: true do
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
       within '.nav-top' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
       end
 
       within '.nav-bottom' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
       end
     end
 
@@ -77,11 +77,11 @@ describe 'Service Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -103,11 +103,11 @@ describe 'Service Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
       end
     end
@@ -165,11 +165,11 @@ describe 'Service Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -183,7 +183,7 @@ describe 'Service Form', reset_provider: true, js: true do
         'Subsettable': false
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Services': draft_fill_values })
-      visit edit_variable_draft_path(draft, 'service')
+      visit edit_variable_draft_path(draft, 'services')
     end
 
     it 'displays one populated form' do
@@ -240,11 +240,11 @@ describe 'Service Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -266,11 +266,11 @@ describe 'Service Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
       end
     end
@@ -288,7 +288,7 @@ describe 'Service Form', reset_provider: true, js: true do
         'Subsettable': true
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Services': draft_fill_values })
-      visit edit_variable_draft_path(draft, 'service')
+      visit edit_variable_draft_path(draft, 'services')
     end
 
     it 'displays two populated form' do
@@ -348,11 +348,11 @@ describe 'Service Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -374,11 +374,11 @@ describe 'Service Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
       end
     end

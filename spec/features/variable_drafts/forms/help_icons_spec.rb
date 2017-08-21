@@ -38,7 +38,7 @@ describe 'Variable Drafts Forms Help Icons', reset_provider: true, js: true do
 
   context 'when viewing a form with a top level help icon' do
     before do
-      visit edit_variable_draft_path(@draft, 'service')
+      visit edit_variable_draft_path(@draft, 'services')
     end
 
     context 'when clicking on the top level help icon' do

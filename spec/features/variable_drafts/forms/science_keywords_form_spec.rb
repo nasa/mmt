@@ -154,11 +154,11 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
             end
 
             within '.nav-top' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
             end
 
             within '.nav-bottom' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
             end
           end
         end
@@ -343,11 +343,11 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
             end
 
             within '.nav-top' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
             end
 
             within '.nav-bottom' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
             end
           end
         end
@@ -429,11 +429,11 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
       end
     end
@@ -555,11 +555,11 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
       end
     end
