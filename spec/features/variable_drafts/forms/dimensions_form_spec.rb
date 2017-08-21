@@ -56,11 +56,11 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -155,11 +155,11 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -239,11 +239,11 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -363,11 +363,11 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end

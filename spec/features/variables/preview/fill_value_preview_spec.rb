@@ -9,7 +9,7 @@ describe 'Valid Variable Fill Value Preview', reset_provider: true do
 
   context 'When examining the Fill Value section' do
     it 'displays the stored values correctly within the preview' do
-      within '.umm-preview.fill_value' do
+      within '.umm-preview.fill_values' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#variable_draft_draft_fill_values_preview' do

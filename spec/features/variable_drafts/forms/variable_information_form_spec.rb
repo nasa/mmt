@@ -69,11 +69,11 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -102,11 +102,11 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -168,11 +168,11 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
       end
     end
@@ -233,11 +233,11 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -264,11 +264,11 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end

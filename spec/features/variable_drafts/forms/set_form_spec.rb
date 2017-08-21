@@ -8,7 +8,7 @@ describe 'Set Form', reset_provider: true, js: true do
   context 'When viewing the form with no stored values' do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_variable_draft_path(draft, 'set')
+      visit edit_variable_draft_path(draft, 'sets')
     end
 
     it 'displays the correct title and description' do
@@ -57,11 +57,11 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
       end
     end
@@ -123,11 +123,11 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -156,11 +156,11 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
       end
     end
@@ -175,7 +175,7 @@ describe 'Set Form', reset_provider: true, js: true do
         'Index': 1
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Sets': draft_sets })
-      visit edit_variable_draft_path(draft, 'set')
+      visit edit_variable_draft_path(draft, 'sets')
     end
 
     it 'displays one populated form' do
@@ -206,11 +206,11 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
       end
     end
@@ -258,11 +258,11 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -282,7 +282,7 @@ describe 'Set Form', reset_provider: true, js: true do
         'Index': 2
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Sets': draft_sets })
-      visit edit_variable_draft_path(draft, 'set')
+      visit edit_variable_draft_path(draft, 'sets')
     end
 
     it 'displays two populated form' do
@@ -318,11 +318,11 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
       end
     end
@@ -370,11 +370,11 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
