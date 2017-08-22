@@ -130,12 +130,18 @@ class CollectionsController < ManageCollectionsController
   end
 
   def get_revisions(concept_id, revision_id)
-    # if the revision is not found, try again because CMR might be a little slow to index if it is a newly published revision
-    # TODO: this has to go
+    # this process was suggested/requested by the CMR team: if the revision is not found,
+    # try again because CMR might be a little slow to index if it is a newly published revision
     attempts = 0
     while attempts < 20
-      revisions = cmr_client.get_collections_by_post({ concept_id: concept_id, all_revisions: true }, token).body['items']
+      revisions_response = cmr_client.get_collections_by_post({ concept_id: concept_id, all_revisions: true }, token)
+      revisions = if revisions_response.success?
+                    revisions_response.body.fetch('items', [])
+                  else
+                    []
+                  end
       revisions.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
+
       latest = revisions.first
       break if latest && !revision_id
       break if latest && latest['meta']['revision-id'] >= revision_id.to_i
@@ -161,7 +167,13 @@ class CollectionsController < ManageCollectionsController
 
   def set_num_granules(concept_id)
     # Get granule count, will be replaced once CMR-2053 is complete
-    granule_result = cmr_client.get_granule_count(concept_id, token)
-    @num_granules = granule_result.nil? ? 0 : granule_result['granule_count']
+    granule_response = cmr_client.get_granule_count(concept_id, token)
+
+    @num_granules = if granule_response.success?
+                      result = granule_response.body.fetch('feed', {}).fetch('entry', []).first
+                      result.blank? ? 0 : result.fetch('granule_count', 0)
+                    else
+                      0
+                    end
   end
 end

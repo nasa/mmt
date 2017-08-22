@@ -83,7 +83,8 @@ module Cmr
         concept_id: collection_id,
         include_granule_counts: true
       }
-      get(url, options, token_header(token)).body['feed']['entry'].first
+
+      get(url, options, token_header(token))
     end
 
     def get_controlled_keywords(type)
