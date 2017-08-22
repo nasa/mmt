@@ -1,9 +1,9 @@
 # :nodoc:
 module ManageMetadataHelper
   def breadcrumb_name(metadata, type)
-    short_name = if type.include? 'collection'
+    short_name = if type.downcase.include? 'collection'
                    metadata['ShortName'] || '<Blank Short Name>'
-                 elsif type.include? 'variable'
+                 elsif type.downcase.include? 'variable'
                    metadata['Name'] || '<Blank Name>'
                  end
 
@@ -29,7 +29,7 @@ module ManageMetadataHelper
   end
 
   def display_header_subtitle(metadata, type)
-    if type.include? 'variable'
+    if type.downcase.include? 'variable'
       metadata['LongName'] || 'Long Name Not Provided'
     else
       # Future services name
