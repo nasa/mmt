@@ -13,13 +13,25 @@ module ManageMetadataHelper
     short_name + version
   end
 
-  # resource type for determining which 'Manage' title is underlined in the header
-  # and the resource type for the Search button text based on the controller
+  def current_manage_title
+    if controller.lookup_context.prefixes.include?('search')
+      "manage_#{resource_type}"
+    elsif controller.lookup_context.prefixes.include?('manage_cmr')
+      'manage_cmr'
+    elsif controller.lookup_context.prefixes.include?('manage_variables') || controller.lookup_context.prefixes.include?('variable_drafts')
+      'manage_variables'
+    else
+      # default, including collection drafts and everything under manage collections
+      'manage_collections'
+    end
+  end
+
+  # resource type for the Search button text based on the controller
   def resource_type
     case
     when controller_name.starts_with?('search')
-      @record_type
-    when controller_name.include?('variable')
+      params[:record_type]
+    when controller_name.include?('variable') || controller.lookup_context.prefixes.include?('manage_variables')
       'variables'
     else
       # default
