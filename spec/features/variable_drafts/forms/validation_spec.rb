@@ -174,6 +174,19 @@ describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: tr
         it 'displays a modal with a prompt about saving invalid data' do
           expect(page).to have_content('This page has invalid data. Are you sure you want to save it and proceed?')
         end
+
+        context 'when returning to the form with invalid data' do
+          before do
+            click_on 'Yes'
+          end
+
+          it 'displays validation error messages for fields with data' do
+            expect(page).to have_css('#variable_draft_draft_valid_ranges_0_min-error', text: 'Min must be a number')
+            expect(page).to have_css('#variable_draft_draft_valid_ranges_0_max-error', text: 'Max must be a number')
+            expect(page).to have_css('#variable_draft_draft_scale-error', text: 'Scale must be a number')
+            expect(page).to have_css('#variable_draft_draft_offset-error', text: 'Offset must be a number')
+          end
+        end
       end
     end
   end
