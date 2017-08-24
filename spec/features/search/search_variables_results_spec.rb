@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Searching published variables', js: true do
+describe 'Searching published variables', reset_provider: true, js: true do
   variable_name = "Absorption Band Test Search Var #{Faker::Number.number(6)}"
   long_name = "Long Detailed Description of Absorption Band Test Search Var #{Faker::Number.number(6)}"
   science_keywords =
@@ -16,6 +16,8 @@ describe 'Searching published variables', js: true do
 
   before :all do
     @ingest_response = publish_variable_draft(name: variable_name, long_name: long_name, science_keywords: science_keywords)
+
+    10.times { publish_variable_draft }
   end
 
   before do
@@ -71,6 +73,25 @@ describe 'Searching published variables', js: true do
     end
 
     it 'displays expected Name, Long Name, Provider, and Last Modified values' do
+      expect(page).to have_content(variable_name)
+      expect(page).to have_content(long_name)
+      expect(page).to have_content('MMT_2')
+      expect(page).to have_content(today_string)
+    end
+  end
+
+  context 'when searching by provider' do
+    before do
+      click_on 'search-drop'
+      select 'MMT_2', from: 'provider_id'
+      click_on 'Search Variables'
+    end
+
+    it 'displays the query and collection results' do
+      expect(page).to have_variable_search_query(11, 'Provider Id: MMT_2')
+    end
+
+    it 'displays expected data' do
       expect(page).to have_content(variable_name)
       expect(page).to have_content(long_name)
       expect(page).to have_content('MMT_2')
