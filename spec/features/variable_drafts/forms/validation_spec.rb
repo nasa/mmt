@@ -130,6 +130,38 @@ describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: tr
         end
       end
     end
+
+    context 'when only filling out some of the required subfields of a required field' do
+      before do
+        visit edit_variable_draft_path(@draft, 'sets')
+
+        fill_in 'Name', with: 'Set name'
+
+        within '.nav-top' do
+          click_on 'Done'
+        end
+        click_on 'No'
+      end
+
+      it 'displays validation errors' do
+        expect(page).to have_content('Type is required')
+        expect(page).to have_content('Size is required')
+        expect(page).to have_content('Index is required')
+      end
+
+      context 'when viewing the show page' do
+        before do
+          within '.nav-top' do
+            click_on 'Done'
+          end
+          click_on 'Yes'
+        end
+
+        it 'displays an invalid progress circle' do
+          expect(page).to have_css('i.icon-red.variable_draft_draft_sets')
+        end
+      end
+    end
   end
 
   context 'number fields' do

@@ -249,7 +249,7 @@ class UmmJsonForm < JsonFile
   #
   # * +ignore_required_fields+ - Whether or not to ignore validations that refer to required fields
   def invalid_keys(ignore_required_fields: true)
-    validation_errors = ignore_required_fields ? errors.reject { |error| error[:failed_attribute] == 'Required' } : errors
+    validation_errors = ignore_required_fields ? errors.reject { |error| error[:failed_attribute] == 'Required' && error[:fragment] == '#/' } : errors
 
     required_fields = validation_errors.map do |e|
       full_key = e[:message].scan(/'([^']+)'/).flatten.map { |capture| capture.gsub('#/', '') }.reject(&:blank?).join('/')
