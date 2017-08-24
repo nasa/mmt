@@ -177,4 +177,24 @@ describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: tr
       end
     end
   end
+
+  context 'multiple fields' do
+    before do
+      visit edit_variable_draft_path(@draft, 'dimensions')
+    end
+
+    context 'when adding a new set of multiple fields' do
+      before do
+        fill_in 'Name', with: 'Dimension Name'
+        fill_in 'Size', with: 42
+
+        click_on 'Add another Dimension'
+      end
+
+      it 'does not show validation errors for the new fields' do
+        expect(page).to have_no_css('#umm-form-errors')
+        expect(page).to have_no_content('Name is required')
+      end
+    end
+  end
 end
