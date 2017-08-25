@@ -31,7 +31,7 @@ describe 'Bulk Updates callout box on the Manage Collections page' do
     it 'displays the Bulk Update Collection Search page' do
       expect(page).to have_content('MMT_2 Bulk Update Collection Search')
 
-      expect(page).to have_css('form#bulk-updates-search')
+      expect(page).to have_css('form#collection-search')
     end
   end
 end
