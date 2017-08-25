@@ -15,13 +15,13 @@ describe 'Searching collections to bulk update', reset_provider: true do
     end
 
     it 'displays the correct number of options for search field' do
-      within '#bulk-updates-search' do
+      within '#collection-search' do
         expect(page).to have_css('select[name="field"] option', count: BulkUpdatesHelper::SEARCHABLE_KEYS.count)
       end
     end
 
     it 'displays the correct options for the search field' do
-      within '#bulk-updates-search' do
+      within '#collection-search' do
         options = BulkUpdatesHelper::SEARCHABLE_KEYS.map { |key, value| value[:title] }
 
         expect(page).to have_select('field', options: options)
@@ -30,7 +30,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
 
     context 'when clicking submit without a search query', js: true do
       before do
-        within '#bulk-updates-search' do
+        within '#collection-search' do
           click_button 'Submit'
         end
       end
@@ -42,7 +42,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
 
     context 'when searching for collections by Version' do
       before do
-        within '#bulk-updates-search' do
+        within '#collection-search' do
           select 'Version', from: 'Search Field'
           fill_in 'query', with: 'nasa.001*'
 
@@ -51,7 +51,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
       end
 
       it 'display the correct search results' do
-        within '#bulk-updates-search-results' do
+        within '#collection-search-results' do
           expect(page).to have_css('tbody > tr', count: 2)
         end
       end
@@ -59,7 +59,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
 
     context 'when searching for collections by Short Name' do
       before do
-        within '#bulk-updates-search' do
+        within '#collection-search' do
           select 'Short Name', from: 'Search Field'
           fill_in 'query', with: 'nasa.002*'
 
@@ -68,7 +68,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
       end
 
       it 'display the correct search results' do
-        within '#bulk-updates-search-results' do
+        within '#collection-search-results' do
           expect(page).to have_css('tbody > tr', count: 3)
         end
       end
