@@ -5,7 +5,7 @@ class BaseDraftsController < DraftsController
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
 
   def index
-    resources = current_user.drafts.where(draft_type: params[:draft_type]).where(provider_id: current_user.provider_id)
+    resources = Draft.where(draft_type: params[:draft_type]).where(provider_id: current_user.provider_id)
                             .order('updated_at DESC').page(params[:page]).per(RESULTS_PER_PAGE)
 
     plural_resource = "@#{plural_resource_name}"
