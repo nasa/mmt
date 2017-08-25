@@ -48,6 +48,7 @@ class CollectionDraftsController < BaseDraftsController
     set_science_keywords
     set_location_keywords
     set_projects
+    set_instruments
     set_platform_types if @draft_form == 'acquisition_information'
     set_language_codes if @draft_form == 'metadata_information' || @draft_form == 'collection_information'
     set_country_codes
@@ -478,29 +479,41 @@ class CollectionDraftsController < BaseDraftsController
 
   def set_platform_types
     @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map do |category|
-      short_names = category.fetch('short_name', []).map do |short_name|
-        {
-          short_name: short_name['value'],
-          long_name: short_name.fetch('long_name', [{}]).first['value']
-        }
-      end
-
-      series_entities = category.fetch('series_entity', []).map do |series_entity|
-        series_entity.fetch('short_name', []).map do |short_name|
-          {
-            short_name: short_name['value'],
-            long_name: short_name.fetch('long_name', [{}]).first['value']
-          }
-        end
-      end.flatten
+      short_names = get_controlled_keyword_short_names(Array.wrap(category))
 
       {
         type: category['value'],
-        short_names: (short_names + series_entities).sort { |a, b| a[:short_name] <=> b[:short_name] }
+        short_names: short_names.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
       }
     end
 
     @platform_types.sort! { |a, b| a[:type] <=> b[:type] }
+  end
+
+  def set_instruments
+    return unless params[:form] == 'acquisition_information'
+    @instruments = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('instruments').fetch('category', []))
+
+    @instruments.flatten!.sort! { |a, b| a[:short_name] <=> b[:short_name] }
+  end
+
+  def get_controlled_keyword_short_names(keywords)
+    values = []
+    keywords.map do |keyword|
+      keyword.fetch('subfields', []).each do |subfield|
+        values = if subfield == 'short_name'
+                   keyword.fetch('short_name', []).map do |short_name|
+                     {
+                       short_name: short_name['value'],
+                       long_name: short_name.fetch('long_name', [{}]).first['value']
+                     }
+                   end
+                 else
+                   get_controlled_keyword_short_names(keyword.fetch(subfield, []))
+                 end
+      end
+      values.flatten
+    end
   end
 
   def set_language_codes

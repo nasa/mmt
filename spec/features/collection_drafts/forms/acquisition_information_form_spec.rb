@@ -81,8 +81,8 @@ describe 'Acquisition information form', js: true do
         end
         # Instruments
         within first('.multiple.instruments') do
-          expect(page).to have_field('draft_platforms_0_instruments_0_short_name', with: 'Instrument short name')
-          expect(page).to have_field('draft_platforms_0_instruments_0_long_name', with: 'Instrument long name')
+          expect(page).to have_field('draft_platforms_0_instruments_0_short_name', with: 'ATM')
+          expect(page).to have_field('draft_platforms_0_instruments_0_long_name', with: 'Airborne Topographic Mapper')
           expect(page).to have_field('draft_platforms_0_instruments_0_technique', with: 'Instrument technique')
           expect(page).to have_field('Number Of Instruments', with: 2468)
           expect(page).to have_selector('input.operational-mode[value="Instrument mode 1"]')
@@ -132,7 +132,8 @@ describe 'Acquisition information form', js: true do
           end
 
           # Instrument 2
-          expect(page).to have_field('draft_platforms_0_instruments_1_short_name', with: 'Instrument short name 1')
+          expect(page).to have_field('draft_platforms_0_instruments_1_short_name', with: 'LVIS')
+          expect(page).to have_field('draft_platforms_0_instruments_1_long_name', with: 'Land, Vegetation, and Ice Sensor')
         end
 
         # Platform 2
@@ -140,8 +141,8 @@ describe 'Acquisition information form', js: true do
         expect(page).to have_field('draft_platforms_1_short_name', with: 'DIADEM-1D')
         # Instruments
         within all('.multiple.instruments').last do
-          expect(page).to have_field('draft_platforms_1_instruments_0_short_name', with: 'Instrument short name')
-          expect(page).to have_field('draft_platforms_1_instruments_0_long_name', with: 'Instrument long name')
+          expect(page).to have_field('draft_platforms_1_instruments_0_short_name', with: 'ATM')
+          expect(page).to have_field('draft_platforms_1_instruments_0_long_name', with: 'Airborne Topographic Mapper')
           expect(page).to have_field('draft_platforms_1_instruments_0_technique', with: 'Instrument technique')
           expect(page).to have_field('Number Of Instruments', with: 2468)
           expect(page).to have_selector('input.operational-mode[value="Instrument mode 1"]')
@@ -191,7 +192,8 @@ describe 'Acquisition information form', js: true do
           end
 
           # Instrument 2
-          expect(page).to have_field('draft_platforms_1_instruments_1_short_name', with: 'Instrument short name 1')
+          expect(page).to have_field('draft_platforms_1_instruments_1_short_name', with: 'LVIS')
+          expect(page).to have_field('draft_platforms_1_instruments_1_long_name', with: 'Land, Vegetation, and Ice Sensor')
         end
       end
 

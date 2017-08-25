@@ -343,7 +343,7 @@ module Helpers
 
     def add_platforms
       within '.multiple.platforms' do
-        find('.select2-container .select2-selection').click
+        all('.select2-container .select2-selection').first.click
         find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'A340-600').click
 
         add_characteristics
@@ -351,7 +351,7 @@ module Helpers
 
         click_on 'Add another Platform'
         within '.multiple-item-1' do
-          find('.select2-container .select2-selection').click
+          all('.select2-container .select2-selection').first.click
           find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'DIADEM-1D').click
           add_instruments('1')
         end
@@ -379,8 +379,8 @@ module Helpers
 
     def add_instruments(platform = '0')
       within '.multiple.instruments' do
-        fill_in "draft_platforms_#{platform}_instruments_0_short_name", with: 'Instrument short name'
-        fill_in "draft_platforms_#{platform}_instruments_0_long_name", with: 'Instrument long name'
+        find('.select2-container .select2-selection').click
+        find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ATM').click
         fill_in "draft_platforms_#{platform}_instruments_0_technique", with: 'Instrument technique'
         fill_in 'Number Of Instruments', with: 2468
         within '.multiple.operational-modes' do
@@ -398,7 +398,8 @@ module Helpers
 
         click_on 'Add another Instrument'
         within '.multiple-item-1' do
-          fill_in "draft_platforms_#{platform}_instruments_1_short_name", with: 'Instrument short name 1'
+          find('.select2-container .select2-selection').click
+          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'LVIS').click
         end
       end
     end

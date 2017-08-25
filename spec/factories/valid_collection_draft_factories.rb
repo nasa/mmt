@@ -56,8 +56,8 @@ FactoryGirl.define do
           'DataType'    => 'test 2 PC DataType'
         }],
         'Instruments' => [{
-          'ShortName' => 'test 1 PI ShortName',
-          'LongName'  => 'test 1 PI LongName',
+          'ShortName' => 'ATM',
+          'LongName'  => 'Airborne Topographic Mapper',
           'Characteristics' => [{
             'Name'        => 'test 1 PI Name',
             'Description' => 'test 1 PI Description',
@@ -110,8 +110,8 @@ FactoryGirl.define do
           }],
           'OperationalModes' => ['test 1a Op', 'test 1b Op']
         }, {
-          'ShortName' => 'test 1d PI ShortName',
-          'LongName'  => 'test 1d PI LongName',
+          'ShortName' => 'LVIS',
+          'LongName'  => 'Land, Vegetation, and Ice Sensor',
           'Characteristics' => [{
             'Name'        => 'test 1d PI Name',
             'Description' => 'test 1d PI Description',
@@ -182,8 +182,8 @@ FactoryGirl.define do
           'DataType'    => 'test a2 PC DataType'
         }],
         'Instruments' => [{
-          'ShortName' => 'test a1 PI ShortName',
-          'LongName'  => 'test a1 PI LongName',
+          'ShortName' => 'ADS',
+          'LongName'  => 'Automated DNA Sequencer',
           'Characteristics' => [{
             'Name'        => 'test a1 PI Name',
             'Description' => 'test a1 PI Description',
@@ -236,8 +236,8 @@ FactoryGirl.define do
           }],
           'OperationalModes' => ['test a1a Op', 'test a1b Op']
         }, {
-          'ShortName' => 'test a1d PI ShortName',
-          'LongName'  => 'test a1d PI LongName',
+          'ShortName' => 'SMAP L-BAND RADIOMETER',
+          'LongName'  => 'SMAP L-Band Radiometer',
           'Characteristics' => [{
             'Name'        => 'test a1d PI Name',
             'Description' => 'test a1d PI Description',
