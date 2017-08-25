@@ -37,7 +37,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
     end
 
     it 'displays an empty collection association table' do
-      expect(page).to have_content('No Colleciton Associations found.')
+      expect(page).to have_content('No Collection Associations found.')
     end
 
     context 'When clicking the add collection associations button' do
