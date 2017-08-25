@@ -1,5 +1,7 @@
 # :nodoc:
 class VariablesController < ManageVariablesController
+  include ManageMetadataHelper
+
   before_action :set_variable, only: [:show, :edit, :destroy]
   before_action :set_schema, only: [:show, :edit]
   before_action :set_form, only: [:show, :edit]
@@ -8,7 +10,7 @@ class VariablesController < ManageVariablesController
   add_breadcrumb 'Variables' # there is no variables index action, so not providing a link
 
   def show
-    add_breadcrumb @variable.fetch('Name', '<Blank Name>'), variable_path(params[:id])
+    add_breadcrumb breadcrumb_name(@variable, 'variable'), variable_path(params[:id])
   end
 
   def edit
@@ -67,49 +69,6 @@ class VariablesController < ManageVariablesController
   end
 
   private
-
-  def set_variable
-    @concept_id = params[:id]
-    @revision_id = params[:revision_id]
-
-    # retrieve the variable metadata
-    variable_concept_response = cmr_client.get_concept(@concept_id, token, {}, @revision_id)
-
-    @variable = if variable_concept_response.success?
-                  variable_concept_response.body
-                else
-                  Rails.logger.error("Error retrieving concept for Variable #{@concept_id}: #{variable_concept_response.inspect}")
-                  {}
-                end
-
-    set_variable_information
-  end
-
-  def set_variable_information
-    # search for variable by concept id to get the native_id and provider_id
-    # if the variable is not found, try again because CMR might be a little slow to index if it is a newly published record
-    attempts = 0
-    while attempts < 20
-      variables_search_response = cmr_client.get_variables(concept_id: @concept_id)
-
-      variable_data = if variables_search_response.success?
-                        variables_search_response.body['items'].first
-                      else
-                        {}
-                      end
-
-      break if !variable_data.nil? && variable_data.fetch('meta', {})['concept-id'] == @concept_id
-      attempts += 1
-      sleep 0.05
-    end
-
-    if variable_data.blank?
-      Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
-    else
-      @provider_id = variable_data.fetch('meta', {})['provider-id']
-      @native_id = variable_data.fetch('meta', {})['native-id']
-    end
-  end
 
   def set_schema
     @schema = UmmJsonSchema.new('umm-var-json-schema.json')
