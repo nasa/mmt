@@ -31,8 +31,8 @@ describe 'Acquisition information preview' do
             end
             within '.card-body' do
               expect(page).to have_content('Instruments')
-              expect(page).to have_content('test 1 PI ShortName')
-              expect(page).to have_content('test 1d PI ShortName')
+              expect(page).to have_content('ATM')
+              expect(page).to have_content('LVIS')
             end
           end
           within all('li.card')[1] do
@@ -42,8 +42,8 @@ describe 'Acquisition information preview' do
             end
             within '.card-body' do
               expect(page).to have_content('Instruments')
-              expect(page).to have_content('test a1 PI ShortName')
-              expect(page).to have_content('test a1d PI ShortName')
+              expect(page).to have_content('ADS')
+              expect(page).to have_content('SMAP L-BAND RADIOMETER')
             end
           end
         end

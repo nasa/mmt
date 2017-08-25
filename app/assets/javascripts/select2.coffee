@@ -148,3 +148,31 @@ $(document).ready ->
         $longNameElement.attr('readonly', true)
       else
         $longNameElement.attr('readonly', false)
+
+  # when selecting short name, populate long name and set to readonly
+  $('.instrument-short-name-select').on 'select2:select', (event) ->
+    $element = $(this)
+    longName = $element.find(':selected').data('longName')
+
+    $longNameElement = $element.parent().siblings().find('.instrument-long-name')
+
+    if longName?
+      $longNameElement.val(longName)
+      $longNameElement.attr('readonly', true)
+    else
+      $longNameElement.val('')
+      $longNameElement.attr('readonly', false)
+
+  # Set long name element to readonly if short name is selected on load
+  $('.instrument-short-name-select').each (index, element) ->
+      $element = $(this)
+      longName = $element.find(':selected').data('longName')
+      url = $element.find(':selected').data('url')
+
+      $longNameElement = $element.parent().siblings().find('.instrument-long-name')
+
+      if longName?
+        $longNameElement.val(longName)
+        $longNameElement.attr('readonly', true)
+      else
+        $longNameElement.attr('readonly', false)
