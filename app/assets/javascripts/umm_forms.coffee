@@ -19,7 +19,7 @@ $(document).ready ->
   currentJumpToValue = $('.jump-to-section').val()
 
   # jQuery Validation
-  validator = $('#umm_form').validate
+  $('#umm_form').validate
     ignore: []
     onsubmit: false
 
@@ -73,11 +73,11 @@ $(document).ready ->
 
         this.defaultShowErrors();
 
-  # Validate form on load, Only validate fields with data
-  $.each $('#umm_form input[type="text"]'), ->
-    validator.element(this) if this.value.length > 0
-    # return true to keep looping, without it the validation stops after 1 error
-    true
+  # If any fields are filled out, validate the entire form
+  $('#umm_form fieldset').find(':text, :file, :checkbox, select, textarea').each ->
+    if this.value.length > 0
+      $('#umm_form').valid()
+      false
 
   $('#umm_form .jump-to-section').on 'change', ->
     # Set all (both) jump to selects to the select value
