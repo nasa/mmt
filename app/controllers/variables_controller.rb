@@ -98,7 +98,7 @@ class VariablesController < ManageVariablesController
                         {}
                       end
 
-      break if !variable_data.nil? && variable_data['concept_id'] == @concept_id
+      break if !variable_data.nil? && variable_data.fetch('meta', {})['concept-id'] == @concept_id
       attempts += 1
       sleep 0.05
     end
