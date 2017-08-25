@@ -62,6 +62,20 @@ module Cmr
       get(url, options, token_header(token))
     end
 
+    def add_collection_assocations_to_variable(concept_id, collection_ids, token)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3003/variables/#{concept_id}/associations"
+            else
+              "/search/variables/#{concept_id}/associations"
+            end
+
+      headers = {
+        'Content-Type' => 'application/json'
+      }
+
+      post(url, collection_ids.map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
+    end
+
     def get_concept(concept_id, token, headers, revision_id = nil)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}"

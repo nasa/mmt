@@ -1,0 +1,10 @@
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Variable Collection Association Search</h2>
+    <%= render partial: 'cmr_search/shared/search_form', locals: { submit_path: new_variable_collection_association_path(@concept_id) } %>
+
+    <p><span class="fa fa-info-circle"></span> Disabled rows in the results below represent collections that are already assocaited with this variable.</p>
+
+    <%= render partial: 'cmr_search/shared/search_results', locals: { collections: @collections, ignored_concept_ids: @previously_associated_collections, submit_path: variable_collection_associations_path(@concept_id), submit_text: 'Submit' } %>
+  </section>
+</div>

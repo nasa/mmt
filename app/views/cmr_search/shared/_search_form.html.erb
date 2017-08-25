@@ -1,0 +1,27 @@
+<%= form_tag(submit_path, method: :get, id: 'collection-search') do %>
+  <fieldset>
+    <div class="row">
+      <div class="col-5">
+        <%= label_tag('collection-search-field', 'Search Field', class: 'eui-required-o') %><br />
+      </div>
+      <div class="col-5">
+        <%= label_tag('collection-search-query', 'Search Term', class: 'eui-required-o') %><br />
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-5" id="collection-field-container">
+        <%= select_tag(:field, options_for_select(BulkUpdatesHelper::SEARCHABLE_KEYS.map { |option, values| [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]] }.sort_by { |options| options[0] }, params[:field]), id: 'collection-search-field', class: 'full-width required collection-field') %>
+        <p class="form-description" id="collection-field-description"></p>
+      </div>
+      <div class="col-5" id="collection-query-container">
+        <%= text_field_tag(:query, params[:query], class: 'full-width required collection-value') %>
+        <p class="form-description" id="collection-query-description"></p>
+      </div>
+      <div class="col-2 align-c">
+        <%= submit_tag 'Submit', name: nil, id: 'collection-search-query', class: 'eui-btn--blue' %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>
