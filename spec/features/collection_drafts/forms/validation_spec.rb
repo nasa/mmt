@@ -400,10 +400,13 @@ describe 'Data validation for a form', js: true do
       open_accordions
 
       within '.platforms' do
-        find('.select2-container .select2-selection').click
+        all('.select2-container .select2-selection').first.click
         find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'A340-600').click
+        within '.multiple.instruments' do
+          find('.select2-container .select2-selection').click
+          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ATM').click
+        end
       end
-      fill_in 'draft_platforms_0_instruments_0_short_name', with: 'short_name'
     end
 
     it 'validation of a single object in an array of simple objects does work' do
