@@ -27,7 +27,7 @@ describe 'Revision list', js: true do
       end
 
       it 'displays the collection entry title' do
-        expect(page).to have_content(@concept_response.body['ShortName'])
+        expect(page).to have_content(@concept_response.body['EntryTitle'])
       end
 
       it 'displays when the revision was made' do

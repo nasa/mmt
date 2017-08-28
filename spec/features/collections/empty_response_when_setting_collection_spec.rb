@@ -6,26 +6,45 @@ describe 'Viewing a collection', js: true do
   # empty response. this has not happened for collections, but a similar issue
   # occurred with variables when the CMR elasticsearch indexer was not functioning properly
 
-  let(:short_name) { 'MIRCCMF' }
-  concept_id = 'C1200000044-LARC'
+  let(:short_name_with_granules)  { 'MIRCCMF' }
+  let(:entry_title_with_granules) { 'MISR FIRSTLOOK radiometric camera-by-camera Cloud Mask V001' }
+  concept_id_with_granules = 'C1200000044-LARC'
+
+  before :all do
+    @ingest_response, @concept_response = publish_collection_draft(revision_count: 3)
+  end
 
   before do
     login
   end
 
   context 'when the endpoints all work properly' do
-    context 'when viewing a collection with granules and revisions' do
+    context 'when viewing a collection with revisions' do
       before do
-        visit collection_path(concept_id)
+        visit collection_path(@ingest_response['concept-id'])
       end
 
-      it 'displays the collection show page with expected data' do
+      it 'displays the collection show page with correct revision count' do
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Collections')
-          expect(page).to have_content(short_name)
+          expect(page).to have_content(@concept_response.body['ShortName'])
         end
 
-        expect(page).to have_content('Revisions (2)')
+        expect(page).to have_content('Revisions (3)')
+      end
+    end
+
+    context 'when viewing a collection with granules' do
+      before do
+        visit collection_path(concept_id_with_granules)
+      end
+
+      it 'displays the collection show page with correct granule count' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Collections')
+          expect(page).to have_content(short_name_with_granules)
+        end
+
         expect(page).to have_content('Granules (1)')
       end
     end
@@ -48,16 +67,16 @@ describe 'Viewing a collection', js: true do
         granule_response = cmr_success_response(empty_granule_count_response)
         allow_any_instance_of(Cmr::CmrClient).to receive(:get_granule_count).and_return(granule_response)
 
-        visit collection_path(concept_id)
+        visit collection_path(concept_id_with_granules)
       end
 
       it 'displays the collection show page' do
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Collections')
-          expect(page).to have_content(short_name)
+          expect(page).to have_content(short_name_with_granules)
         end
 
-        expect(page).to have_content('Revisions (2)')
+        expect(page).to have_content(entry_title_with_granules)
       end
 
       it 'does not show any granules' do
@@ -78,7 +97,7 @@ describe 'Viewing a collection', js: true do
         revisions_response = cmr_success_response(empty_revisions_search_response)
         allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(revisions_response)
 
-        visit collection_path(concept_id)
+        visit collection_path(@ingest_response['concept-id'])
       end
 
       it 'displays the appropriate error message and blank page' do
@@ -86,12 +105,12 @@ describe 'Viewing a collection', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Collections')
-          expect(page).to have_no_content(short_name)
+          expect(page).to have_no_content(@concept_response.body['ShortName'])
           expect(page).to have_content('Blank Short Name')
         end
 
-        expect(page).to have_no_content('Revisions (2)')
-        expect(page).to have_no_content('Granules (1)')
+        expect(page).to have_no_content('Revisions (3)')
+        expect(page).to have_no_content('Granules')
       end
     end
   end

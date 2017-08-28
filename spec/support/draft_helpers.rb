@@ -56,7 +56,6 @@ module Helpers
 
         concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
 
-
         raise Array.wrap(concept_response.body['errors']).join(' /// ') if concept_response.body.key?('errors')
 
         # If the test needs an unpublished draft as well, we'll create it and return it here
