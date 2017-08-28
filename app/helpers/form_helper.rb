@@ -24,7 +24,8 @@ module FormHelper
       options[:value],
       class: classes.join(' '),
       data: { level: data_level,
-              required_level: options[:required_level] }
+              required_level: options[:required_level] },
+      readonly: options[:readonly]
     )
 
     mmt_label(options) + mmt_help_icon(options) + text_field_html
