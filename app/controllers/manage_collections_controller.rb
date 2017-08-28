@@ -6,7 +6,7 @@ class ManageCollectionsController < ManageMetadataController
     # If you change this number you must also change it in the corresponding test file - features/manage_collections/open_drafts_spec.rb.
     @draft_display_max_count = 5
 
-    @drafts = Draft.where(draft_type: 'CollectionDraft').where(provider_id: current_user.provider_id)
+    @drafts = CollectionDraft.where(provider_id: current_user.provider_id)
                           .order('updated_at DESC')
                           .limit(@draft_display_max_count + 1)
 
