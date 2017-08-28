@@ -312,3 +312,9 @@ $(document).ready ->
   # Handle Data Contacts form on load
   # disable hidden form elements so blank values don't interevere with data being saved/resaved
   $('.data-contact-type[style$="display: none;"]').find('input, select').prop 'disabled', true
+
+  # Don't allow pressing enter to submit the forms, unless you are pressing enter on a submit button
+  $('.metadata-form, .umm-form').on 'keypress', ':input:not(textarea):not([type=submit])', (event) ->
+    if event.keyCode == 13
+      event.preventDefault()
+      false
