@@ -24,10 +24,8 @@ $(document).ready ->
 
     if longName?
       $longNameElement.val(longName)
-      $longNameElement.attr('readonly', true)
     else
       $longNameElement.val('')
-      $longNameElement.attr('readonly', false)
 
     if url?
       $urlElement.val(url)
@@ -63,9 +61,6 @@ $(document).ready ->
 
     if longName?
       $longNameElement.val(longName)
-      $longNameElement.attr('readonly', true)
-    else
-      $longNameElement.attr('readonly', false)
 
     if url?
       $urlElement.val(url)
@@ -81,7 +76,7 @@ $(document).ready ->
         $urlContentTypeElement.trigger('change')
 
 
-  # when selecting short name, populate long name and set to readonly
+  # when selecting short name, populate long name
   $('.project-short-name-select').on 'select2:select', (event) ->
     $element = $(this)
     longName = $element.find(':selected').data('longName')
@@ -90,12 +85,10 @@ $(document).ready ->
 
     if longName?
       $longNameElement.val(longName)
-      $longNameElement.attr('readonly', true)
     else
       $longNameElement.val('')
-      $longNameElement.attr('readonly', false)
 
-  # when selecting short name, populate long name and set to readonly
+  # when selecting short name, populate long name
   $('.platform-short-name-select').on 'select2:select', (event) ->
     $element = $(this)
     longName = $element.find(':selected').data('longName')
@@ -116,10 +109,8 @@ $(document).ready ->
 
     if longName?
       $longNameElement.val(longName)
-      $longNameElement.attr('readonly', true)
     else
       $longNameElement.val('')
-      $longNameElement.attr('readonly', false)
 
   # Set long name element to readonly if short name is selected on load
   $('.project-short-name-select').each (index, element) ->
@@ -131,9 +122,6 @@ $(document).ready ->
 
       if longName?
         $longNameElement.val(longName)
-        $longNameElement.attr('readonly', true)
-      else
-        $longNameElement.attr('readonly', false)
 
   # Set long name element to readonly if short name is selected on load
   $('.platform-short-name-select').each (index, element) ->
@@ -145,11 +133,8 @@ $(document).ready ->
 
       if longName?
         $longNameElement.val(longName)
-        $longNameElement.attr('readonly', true)
-      else
-        $longNameElement.attr('readonly', false)
 
-  # when selecting short name, populate long name and set to readonly
+  # when selecting short name, populate long name
   $('.instrument-short-name-select').on 'select2:select', (event) ->
     $element = $(this)
     longName = $element.find(':selected').data('longName')
@@ -158,10 +143,8 @@ $(document).ready ->
 
     if longName?
       $longNameElement.val(longName)
-      $longNameElement.attr('readonly', true)
     else
       $longNameElement.val('')
-      $longNameElement.attr('readonly', false)
 
   # Set long name element to readonly if short name is selected on load
   $('.instrument-short-name-select').each (index, element) ->
@@ -173,6 +156,3 @@ $(document).ready ->
 
       if longName?
         $longNameElement.val(longName)
-        $longNameElement.attr('readonly', true)
-      else
-        $longNameElement.attr('readonly', false)
