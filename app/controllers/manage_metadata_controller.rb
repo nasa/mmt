@@ -42,6 +42,7 @@ class ManageMetadataController < PagesController
     else
       @provider_id = variable_data.fetch('meta', {})['provider-id']
       @native_id = variable_data.fetch('meta', {})['native-id']
+      @num_associated_collections = variable_data.fetch('associations', {}).fetch('collections', []).count
     end
   end
 end
