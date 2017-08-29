@@ -10,8 +10,8 @@ describe 'Variables permissions', js: true do
 
     context "when the variable's provider is in the users available providers" do
       before :all do
-        @ingested_variable_for_edit = publish_variable_draft
-        @ingested_variable_for_delete = publish_variable_draft
+        @ingested_variable = publish_variable_draft
+        @ingested_variable_for_delete_modal = publish_variable_draft
       end
 
       before do
@@ -20,7 +20,7 @@ describe 'Variables permissions', js: true do
         user.available_providers = %w(MMT_1 MMT_2)
         user.save
 
-        visit variable_path(@ingested_variable_for_edit['concept-id'])
+        visit variable_path(@ingested_variable['concept-id'])
       end
 
       it 'displays the action links' do
@@ -55,10 +55,39 @@ describe 'Variables permissions', js: true do
         end
       end
 
+      context 'when clicking the Manage Collection Associations link' do
+        before do
+          click_on 'Manage Collection Associations'
+        end
+
+        it 'displays a modal informing the user they need to switch providers' do
+          expect(page).to have_content("Managing this variable's collection associations #{modal_text}")
+        end
+
+        context 'when clicking Yes' do
+          before do
+            find('.not-current-provider-link').click
+            wait_for_ajax
+          end
+
+          it 'switches the provider context' do
+            expect(User.first.provider_id).to eq('MMT_2')
+          end
+
+          it 'displays the Manage Collection Associations page' do
+            within '.eui-breadcrumbs' do
+              expect(page).to have_content('Variables')
+              expect(page).to have_content('Collection Associations')
+            end
+            expect(page).to have_link('Add Collection Associations')
+          end
+        end
+      end
+
       context 'when clicking the delete link' do
         context 'when the variable has no associated collections' do
           before do
-            visit variable_path(@ingested_variable_for_delete['concept-id'])
+            visit variable_path(@ingested_variable_for_delete_modal['concept-id'])
 
             click_on 'Delete Variable Record'
           end
@@ -77,13 +106,13 @@ describe 'Variables permissions', js: true do
               ingested_collection_1, concept_response_1 = publish_collection_draft
               ingested_collection_2, concept_response_2 = publish_collection_draft
 
-              create_variable_collection_association(@ingested_variable_for_delete['concept-id'],
+              create_variable_collection_association(@ingested_variable_for_delete_modal['concept-id'],
                                                      ingested_collection_1['concept-id'],
                                                      ingested_collection_2['concept-id'])
             end
 
             before do
-              visit variable_path(@ingested_variable_for_delete['concept-id'])
+              visit variable_path(@ingested_variable_for_delete_modal['concept-id'])
 
               click_on 'Delete Variable Record'
             end
