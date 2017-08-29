@@ -112,7 +112,7 @@ class CollectionsController < ManageCollectionsController
       end
 
       # set accept content-type as umm-json with our current umm-c version
-      content_type = "application/#{Rails.configuration.umm_version}; charset=utf-8"
+      content_type = "application/#{Rails.configuration.umm_c_version}; charset=utf-8"
       # but if we are reverting, we should get the collection in it's native format, so set content-type appropriately
       content_type = 'application/metadata+xml; charset=utf-8' if params[:action] == 'revert'
 
