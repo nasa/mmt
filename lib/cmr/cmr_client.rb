@@ -171,7 +171,7 @@ module Cmr
 
       headers = {
         'Accept' => 'application/json',
-        'Content-Type' => "application/#{Rails.configuration.umm_version}; charset=utf-8"
+        'Content-Type' => "application/#{Rails.configuration.umm_c_version}; charset=utf-8"
       }
 
       # content_type is passed if we are reverting to a revision with a different format
@@ -203,7 +203,7 @@ module Cmr
 
       headers = {
         'Accept' => 'application/json',
-        'Content-Type' => 'application/vnd.nasa.cmr.umm+json; charset=utf-8'
+        'Content-Type' =>  "application/#{Rails.configuration.umm_var_version}; charset=utf-8"
       }
 
       put(url, metadata, headers.merge(token_header(token)))
