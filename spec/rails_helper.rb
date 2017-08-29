@@ -139,6 +139,8 @@ RSpec.configure do |config|
   config.include Helpers::GroupHelper
   config.include Helpers::SearchHelpers
   config.include Helpers::UserHelpers
+  config.include Helpers::BulkUpdateHelper
+  config.include Helpers::CollectionAssociationHelper
 
   # Precompile assets before running the test suite
   # config.before(:suite) do

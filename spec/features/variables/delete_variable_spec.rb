@@ -1,36 +1,100 @@
 require 'rails_helper'
 
 describe 'Delete variable', js: true do
+  before :all do
+    @ingested_variable_with_associations = publish_variable_draft
+
+    ingested_collection_1, concept_response_1 = publish_collection_draft
+    ingested_collection_2, concept_response_2 = publish_collection_draft
+
+    create_variable_collection_association(@ingested_variable_with_associations['concept-id'],
+                                           ingested_collection_1['concept-id'],
+                                           ingested_collection_2['concept-id'])
+
+    @ingested_variable_without_associations = publish_variable_draft
+  end
+
   before do
     login
   end
 
   context 'when viewing a published variable' do
-    before do
-      ingest_response = publish_variable_draft
-
-      visit variable_path(ingest_response['concept-id'])
-    end
-
-    it 'displays a delete link' do
-      expect(page).to have_content('Delete Variable Record')
-    end
-
-    context 'when clicking the delete link' do
+    context 'when the variable has associated collections' do
       before do
-        click_on 'Delete Variable Record'
+        visit variable_path(@ingested_variable_with_associations['concept-id'])
+      end
 
-        within '#delete-record-modal' do
-          click_on 'Yes'
+      it 'displays a delete link' do
+        expect(page).to have_content('Delete Variable Record')
+      end
+
+      context 'when clicking the delete link' do
+        before do
+          click_on 'Delete Variable Record'
+        end
+
+        it 'displays a confirmation modal' do
+          expect(page).to have_content('Are you sure you want to delete this variable record?')
+        end
+
+        it 'informs the user of the number of collection associations that will also be deleted' do
+          # 2 associated collections
+          expect(page).to have_content('This variable is associated with 2 collections. Deleting this variable will also delete the collection associations.')
+        end
+
+        context 'when clicking Yes' do
+          before do
+            within '#delete-record-modal' do
+              click_on 'Yes'
+            end
+          end
+
+          it 'redirects to the Manage Variables page and displays a confirmation message' do
+            expect(page).to have_content('MMT_2 Variable Drafts')
+
+            expect(page).to have_content('Variable Deleted Successfully!')
+          end
         end
       end
+    end
 
-      it 'displays a confirmation message' do
-        expect(page).to have_content('Variable Deleted Successfully!')
+
+    context 'when the variable does not have associated collections' do
+      before do
+        visit variable_path(@ingested_variable_without_associations['concept-id'])
       end
 
-      it 'displays the manage metadata page' do
-        expect(page).to have_content('MMT_2 Variable Drafts')
+      it 'displays a delete link' do
+        expect(page).to have_content('Delete Variable Record')
+      end
+
+      context 'when clicking the delete link' do
+        before do
+          click_on 'Delete Variable Record'
+        end
+
+        it 'displays a confirmation modal' do
+          expect(page).to have_content('Are you sure you want to delete this variable record?')
+        end
+
+        it 'does not display a message about collection associations that will also be deleted' do
+          expect(page).to have_no_content('This variable is associated with')
+          expect(page).to have_no_content('collections. Deleting this variable will also delete the collection associations.')
+        end
+
+        context 'when clicking Yes' do
+          before do
+            within '#delete-record-modal' do
+              click_on 'Yes'
+            end
+          end
+
+          it 'redirects to the Manage Variables page and displays a confirmation message' do
+            expect(page).to have_content('MMT_2 Variable Drafts')
+
+            expect(page).to have_content('Variable Deleted Successfully!')
+          end
+        end
       end
     end
   end

@@ -9,6 +9,7 @@ $(document).ready ->
     provider = $(element.target).data('provider')
     action = $(element.target).data('recordAction')
     href = $(this).attr('href')
+    associatedCollections = $(element.target).data('numAssociatedCollections')
 
     $modal = $(href)
     $link = $modal.find('a.not-current-provider-link')
@@ -38,7 +39,10 @@ $(document).ready ->
       when 'edit-variable'
         'Editing this variable'
       when 'delete-variable'
-        'Deleting this variable'
+        if associatedCollections > 0
+          "This variable is associated with #{associatedCollections} collections. Deleting this variable will also delete the collection associations, and"
+        else
+          'Deleting this variable'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)

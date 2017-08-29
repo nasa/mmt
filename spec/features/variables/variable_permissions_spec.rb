@@ -8,16 +8,19 @@ describe 'Variables permissions', js: true do
       login
     end
 
-    context 'when the variables provider is in the users available providers' do
-      before do
-        ingest_response = publish_variable_draft
+    context "when the variable's provider is in the users available providers" do
+      before :all do
+        @ingested_variable_for_edit = publish_variable_draft
+        @ingested_variable_for_delete = publish_variable_draft
+      end
 
+      before do
         user = User.first
         user.provider_id = 'MMT_1'
         user.available_providers = %w(MMT_1 MMT_2)
         user.save
 
-        visit variable_path(ingest_response['concept-id'])
+        visit variable_path(@ingested_variable_for_edit['concept-id'])
       end
 
       it 'displays the action links' do
@@ -53,17 +56,57 @@ describe 'Variables permissions', js: true do
       end
 
       context 'when clicking the delete link' do
-        before do
-          click_on 'Delete Variable Record'
-        end
-
-        it 'displays a modal informing the user they need to switch providers' do
-          expect(page).to have_content("Deleting this variable #{modal_text}")
-        end
-
-        context 'when clicking Yes' do
+        context 'when the variable has no associated collections' do
           before do
-            # click_on 'Yes'
+            visit variable_path(@ingested_variable_for_delete['concept-id'])
+
+            click_on 'Delete Variable Record'
+          end
+
+          it 'displays a modal informing the user they need to switch providers' do
+            expect(page).to have_content("Deleting this variable #{modal_text}")
+          end
+
+          it 'does not display a message about collection associations that will also be deleted' do
+            expect(page).to have_no_content('This variable is associated with')
+            expect(page).to have_no_content('collections. Deleting this variable will also delete the collection associations')
+          end
+
+          context 'when the variable has associated collections' do
+            before :all do
+              ingested_collection_1, concept_response_1 = publish_collection_draft
+              ingested_collection_2, concept_response_2 = publish_collection_draft
+
+              create_variable_collection_association(@ingested_variable_for_delete['concept-id'],
+                                                     ingested_collection_1['concept-id'],
+                                                     ingested_collection_2['concept-id'])
+            end
+
+            before do
+              visit variable_path(@ingested_variable_for_delete['concept-id'])
+
+              click_on 'Delete Variable Record'
+            end
+
+            it 'displays a modal informing the user they need to switch providers' do
+              expect(page).to have_content(modal_text)
+            end
+
+            it 'informs the user of the number of collection associations that will also be deleted' do
+              # 2 associations created
+              expect(page).to have_content('This variable is associated with 2 collections. Deleting this variable will also delete the collection associations')
+            end
+          end
+        end
+
+        context 'when deleting the variable' do
+          before do
+            ingested_variable_to_delete = publish_variable_draft
+
+            visit variable_path(ingested_variable_to_delete['concept-id'])
+
+            click_on 'Delete Variable Record'
+
             find('.not-current-provider-link').click
             wait_for_ajax
           end
