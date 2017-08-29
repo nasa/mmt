@@ -5,10 +5,10 @@
 <table id="search-results">
   <thead>
     <tr>
-      <th class="w20">Name</th>
-      <th class="w40">Long Name</th>
-      <th class="w15">Provider</th>
-      <th class="w15">Last Modified</th>
+      <th class="w20"><%= sort_by_link('Name', 'name', query, record_type) %></th>
+      <th class="w40"><%= sort_by_link('Long Name', 'long_name', query, record_type) %></th>
+      <th class="w15"><%= sort_by_link('Provider', 'provider_id', query, record_type) %></th>
+      <th class="w15"><%= sort_by_link('Last Modified', 'revision_date', query, record_type) %></th>
     </tr>
   </thead>
   <tbody>
