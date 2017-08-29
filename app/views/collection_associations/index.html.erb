@@ -4,37 +4,64 @@
 
     <%= link_to 'Add Collection Associations', new_variable_collection_association_path(params[:variable_id]), class: 'eui-btn--blue space-bot' %>
 
+    
     <% if @associations.any? %>
-      <p><%= page_entries_info @associations, entry_name: 'Collection Association' %></p>
+      <p>
+        <%= page_entries_info @associations, entry_name: 'Collection Association' %>
+      </p>
     <% end %>
 
-    <table id="collection-associations">
-      <thead>
-        <tr>
-          <th>Entry Title</th>
-          <th>Short Name</th>
-          <th>Version</th>
-        </tr>
-      </thead>
-      <tbody>
+    <p>
+      <em><span class="fa fa-info-circle"></span> Association operations may take some time. If you are not seeing what you expect below, please <%= link_to 'refresh the page', 'javascript:history.go(0)', class: 'eui-btn--link' %>.</em>
+    </p>
 
-      <% if @associations.blank? %>
-        <tr>
-          <td colspan="4">
-            No Collection Associations found.
-          </td>
-        </tr>
-      <% else %>
-        <% @associations.each do |collection| %>
-          <tr class='<%= cycle("alt", "") %>'>
-            <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {}).fetch('concept-id')) %></td>
-            <td><%= collection.fetch('umm', {}).fetch('short-name') %></td>
-            <td><%= collection.fetch('umm', {}).fetch('version-id') %></td>
+    <%= form_tag(variable_collection_associations_path(params[:variable_id]), method: :delete, id: "delete-variable-collection-associations-form") do %>
+
+      <table id="collection-associations">
+        <thead>
+          <tr>
+            <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="selected_collections[]" /></th>
+            <th>Entry Title</th>
+            <th>Short Name</th>
+            <th>Version</th>
           </tr>
+        </thead>
+        <tbody>
+
+        <% if @associations.blank? %>
+          <tr>
+            <td colspan="5">
+              No Collection Associations found.
+            </td>
+          </tr>
+        <% else %>
+          <% @associations.each do |collection| %>
+            <tr class='<%= cycle("alt", "") %>'>
+              <td class="align-c"><%= check_box_tag('selected_collections[]', collection.fetch('meta', {})['concept-id'], false, class: 'selected_collections') %></td>
+              <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {}).fetch('concept-id')) %></td>
+              <td><%= collection.fetch('umm', {}).fetch('short-name') %></td>
+              <td><%= collection.fetch('umm', {}).fetch('version-id') %></td>
+            </tr>
+          <% end %>
         <% end %>
+        </tbody>
+      </table>
+
+      <% if @associations.any? %>
+        <fieldset class="space-top">
+          <%= link_to 'Delete Selected Associations', '#delete-associations-modal', class: 'eui-btn eui-btn--red display-modal' %>
+
+          <div id='delete-associations-modal' class="eui-modal-content">
+            <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+            <p>Are you sure you want to delete the selected collection associations?</p>
+            <p>
+              <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+              <%= submit_tag 'Yes', class: 'eui-btn--blue spinner'%>
+            </p>
+          </div>
+        </fieldset>
       <% end %>
-      </tbody>
-    </table>
+    <% end %>
 
     <%= paginate @associations %>
   </section>
