@@ -61,7 +61,7 @@ $(document).ready ->
       error.insertAfter(element);
 
     showErrors: (errorMap, errorList) ->
-      unless this.lastActive?.classList.contains('add-new')
+      unless event.target.classList?.contains('add-new')
         if this.numberOfInvalids()
           $('#umm-form-errors').show()
 
