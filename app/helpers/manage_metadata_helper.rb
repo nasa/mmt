@@ -31,7 +31,7 @@ module ManageMetadataHelper
     case
     when controller_name.starts_with?('search')
       params[:record_type]
-    when controller_name.include?('variable') || controller.lookup_context.prefixes.include?('manage_variables')
+    when controller_name.include?('variable') || controller.lookup_context.prefixes.include?('manage_variables') || controller.lookup_context.prefixes.include?('collection_associations')
       'variables'
     else
       # default

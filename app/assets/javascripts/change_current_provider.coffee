@@ -43,6 +43,8 @@ $(document).ready ->
           "This variable is associated with #{associatedCollections} collections. Deleting this variable will also delete the collection associations, and"
         else
           'Deleting this variable'
+      when 'manage-variable-associations'
+        "Managing this variable's collection associations"
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
