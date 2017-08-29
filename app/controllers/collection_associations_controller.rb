@@ -36,8 +36,11 @@ class CollectionAssociationsController < CmrSearchController
   def create
     association_response = cmr_client.add_collection_assocations_to_variable(params[:variable_id], params[:selected_collections], token)
 
+    # Log any issues found in the response
+    log_issues(association_response)
+
     if association_response.success?
-      redirect_to variable_path(params[:variable_id]), flash: { success: 'Collection Associations successfully saved.' }
+      redirect_to variable_collection_associations_path(params[:variable_id]), flash: { success: 'Collection Associations successfully saved.' }
     else
       Rails.logger.error("Collection Associations Error: #{association_response.inspect}")
 
@@ -49,6 +52,25 @@ class CollectionAssociationsController < CmrSearchController
     end
   end
 
+  def destroy
+    association_response = cmr_client.delete_collection_assocations_to_variable(params[:variable_id], params[:selected_collections], token)
+
+    # Log any issues found in the response
+    log_issues(association_response)
+
+    if association_response.success?
+      redirect_to variable_collection_associations_path(params[:variable_id]), flash: { success: 'Collection Associations successfully deleted.' }
+    else
+      Rails.logger.error("Collection Associations Error: #{association_response.inspect}")
+
+      group_creation_error = Array.wrap(association_response.body['errors'])[0]
+
+      flash[:error] = group_creation_error
+
+      render :index
+    end
+  end
+
   private
 
   def add_high_level_breadcrumbs
@@ -56,5 +78,19 @@ class CollectionAssociationsController < CmrSearchController
     add_breadcrumb breadcrumb_name(@variable, 'variable'), variable_path(params[:variable_id])
 
     add_breadcrumb 'Collection Associations', variable_collection_associations_path(params[:variable_id])
+  end
+
+  def log_issues(response)
+    response.body.select { |assocation_response| assocation_response.fetch('warnings', []).any? }.each do |warnings|
+      warnings.each do |warning|
+        Rails.logger.error "Variable Assocation [warning]: #{warning}"
+      end
+    end
+
+    response.body.select { |assocation_response| assocation_response.fetch('errors', []).any? }.each do |errors|
+      errors.each do |error|
+        Rails.logger.error "Variable Assocation [error]: #{error}"
+      end
+    end
   end
 end
