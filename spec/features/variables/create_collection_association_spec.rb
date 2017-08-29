@@ -135,6 +135,8 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
 
           it 'shows the associated collections' do
             within '#collection-associations' do
+              expect(page).to have_selector('tbody > tr', count: 2)
+
               within 'tbody tr:nth-child(1)' do
                 expect(page).to have_content('MODIS-I Water Skipper')
               end
