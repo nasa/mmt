@@ -49,7 +49,7 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
           expect(page).to have_collection_search_query(nil, 'Sort Key: Name Desc')
         end
 
-        it 'sorts the results by Short Name Desc' do
+        it 'sorts the results by Name Desc' do
           within '#search-results tbody tr:nth-child(1)' do
             expect(page).to have_content('Zebra Var Name')
           end
@@ -66,7 +66,7 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
         expect(page).to have_collection_search_query(nil, 'Sort Key: Long Name Asc')
       end
 
-      it 'sorts the result by Name Asc' do
+      it 'sorts the result by Long Name Asc' do
         within '#search-results tbody tr:nth-child(1)' do
           expect(page).to have_content('000_Agouti Var Long Name')
         end
@@ -81,7 +81,7 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
           expect(page).to have_collection_search_query(nil, 'Sort Key: Long Name Desc')
         end
 
-        it 'sorts the results by Short Name Desc' do
+        it 'sorts the results by Long Name Desc' do
           within '#search-results tbody tr:nth-child(1)' do
             expect(page).to have_content('Zebra Var Long Name')
           end
@@ -98,7 +98,7 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
         expect(page).to have_collection_search_query(nil, 'Sort Key: Provider Asc')
       end
 
-      it 'sorts the result by Name Asc' do
+      it 'sorts the result by Provider Asc' do
         within '#search-results tbody tr:nth-child(1) td:nth-child(3)' do
           # we are only checking the correct provider, in case other variables
           # have been published to the provider
@@ -115,7 +115,7 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
           expect(page).to have_collection_search_query(nil, 'Sort Key: Provider Desc')
         end
 
-        it 'sorts the results by Short Name Desc' do
+        it 'sorts the results by Provider Desc' do
           within '#search-results tbody tr:nth-child(1) td:nth-child(3)' do
             # we are only checking the correct provider, in case other variables
             # have been published to the provider
