@@ -8,8 +8,8 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
       publish_variable_draft(name: '000_Adder Var Name')
       publish_variable_draft(name: 'Zebra Var Name')
 
-      publish_variable_draft(name: "Larc Var #{Faker::Number.number(6)}", provider_id: 'LARC')
-      publish_variable_draft(name: "Sedac Var #{Faker::Number.number(6)}", provider_id: 'SEDAC')
+      publish_variable_draft(name: "Larc Sorting Test Var #{Faker::Number.number(6)}", provider_id: 'LARC')
+      publish_variable_draft(name: "Sedac Sorting Test Var #{Faker::Number.number(6)}", provider_id: 'SEDAC')
 
       publish_variable_draft(long_name: '000_Agouti Var Long Name')
       publish_variable_draft(long_name: 'Zebra Var Long Name')
@@ -99,8 +99,10 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
       end
 
       it 'sorts the result by Name Asc' do
-        within '#search-results tbody tr:nth-child(1)' do
-          expect(page).to have_content('Larc Var')
+        within '#search-results tbody tr:nth-child(1) td:nth-child(3)' do
+          # we are only checking the correct provider, in case other variables
+          # have been published to the provider
+          expect(page).to have_content('LARC')
         end
       end
 
@@ -114,8 +116,10 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
         end
 
         it 'sorts the results by Short Name Desc' do
-          within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('Sedac Var')
+          within '#search-results tbody tr:nth-child(1) td:nth-child(3)' do
+            # we are only checking the correct provider, in case other variables
+            # have been published to the provider
+            expect(page).to have_content('SEDAC')
           end
         end
       end
@@ -129,15 +133,9 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
       it 'displays the correct search param' do
         expect(page).to have_collection_search_query(nil, 'Sort Key: Last Modified Asc')
       end
-
-      it 'sorts the results by Last Modified Asc' do
-        # we cannot deterministically test this because we cannot modify the
-        # variable revision date, and there may be variables published to providers
-        # that are not removed by reset_provider
-        # within '#search-results tbody tr:nth-child(1)' do
-        #   expect(page).to have_content('First!')
-        # end
-      end
+      # we cannot deterministically test sorting results by Last Modified Asc
+      # because we cannot modify the variable revision date, and there may be
+      # variables published to providers that are not removed by reset_provider
 
       context 'when sorting again' do
         before do
