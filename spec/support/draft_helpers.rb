@@ -101,16 +101,6 @@ module Helpers
       end
     end
 
-    def add_variable_collection_associations(variable_id, collection_concept_ids)
-      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_variable_collection_associations' do
-        response = cmr_client.add_collection_assocations_to_variable(variable_id, collection_concept_ids, 'token')
-
-        wait_for_cmr
-
-        return response.body
-      end
-    end
-
     # Open any accordions on the page, but try again if they aren't open
     # Also try again if there are no accordions on the page (page hasn't loaded yet)
     # http://stackoverflow.com/a/28174679

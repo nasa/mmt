@@ -6,7 +6,7 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
 
     @variable_ingest_response = publish_variable_draft
 
-    add_variable_collection_associations(@variable_ingest_response['concept-id'], [@ingest_response1['concept-id'], @ingest_response2['concept-id']])
+    create_variable_collection_association(@variable_ingest_response['concept-id'], @ingest_response1['concept-id'], @ingest_response2['concept-id'])
   end
 
   before :all do
