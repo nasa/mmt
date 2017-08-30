@@ -128,9 +128,9 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
 
         context 'When viewing the associated collections page' do
           before do
-            within 'section.action' do
-              click_on 'Manage Collection Associations'
-            end
+            wait_for_cmr
+
+            click_link 'refresh the page'
           end
 
           it 'shows the associated collections' do
