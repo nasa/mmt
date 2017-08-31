@@ -103,6 +103,9 @@ $(document).ready ->
 
     # Loop through newDiv and increment the correct index
     $.each $(newDiv).find("select, input, textarea, label, div[id*='_#{type}_#{multipleIndex}']"), (index, field) ->
+      # Remove the aria-describedby attribute for brand new fields
+      $(field).attr('aria-describedby', '')
+
       if $(field).is('input, textarea, select')
         name = $(field).attr('name')
         if name != undefined
