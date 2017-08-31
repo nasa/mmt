@@ -62,7 +62,7 @@ $(document).ready ->
 
     showErrors: (errorMap, errorList) ->
       unless event.target.classList?.contains('add-new')
-        if this.numberOfInvalids()
+        if errorList.length > 0
           $('#umm-form-errors').show()
 
           # Override the previous message with the new message
