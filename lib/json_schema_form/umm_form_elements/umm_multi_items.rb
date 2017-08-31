@@ -32,7 +32,7 @@ class UmmMultiItems < UmmFormElement
       values = Array.wrap(element_value)
       values = [{}] if values.empty?
       values.each_with_index do |_value, index|
-        concat render_accordion(index)
+        concat render_accordion(index, (index == values.size - 1))
       end
 
       concat(content_tag(:div, class: 'actions') do
@@ -42,14 +42,14 @@ class UmmMultiItems < UmmFormElement
     end
   end
 
-  def render_accordion(index)
-    content_tag(:div, class: "multiple-item multiple-item-#{index} eui-accordion sub-fields space-top") do
-      concat render_accordion_header(index)
+  def render_accordion(index, last = false)
+    content_tag(:div, class: "multiple-item multiple-item-#{index} eui-accordion sub-fields space-top #{last ? '' : 'is-closed'}") do
+      concat render_accordion_header(index, last)
       concat render_accordion_body(index)
     end
   end
 
-  def render_accordion_header(index)
+  def render_accordion_header(index, last = false)
     content_tag(:div, class: 'eui-accordion__header') do
       concat(content_tag(:div, class: 'eui-accordion__icon', tabindex: '0') do
         concat content_tag(:i, '', class: 'eui-icon eui-fa-chevron-circle-down')
