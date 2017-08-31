@@ -498,19 +498,19 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def get_controlled_keyword_short_names(keywords)
-    values = []
     keywords.map do |keyword|
+      values = []
       keyword.fetch('subfields', []).each do |subfield|
-        values = if subfield == 'short_name'
-                   keyword.fetch('short_name', []).map do |short_name|
-                     {
-                       short_name: short_name['value'],
-                       long_name: short_name.fetch('long_name', [{}]).first['value']
-                     }
-                   end
-                 else
-                   get_controlled_keyword_short_names(keyword.fetch(subfield, []))
-                 end
+        values += if subfield == 'short_name'
+                    keyword.fetch('short_name', []).map do |short_name|
+                      {
+                        short_name: short_name['value'],
+                        long_name: short_name.fetch('long_name', [{}]).first['value']
+                      }
+                    end
+                  else
+                    get_controlled_keyword_short_names(keyword.fetch(subfield, []))
+                  end
       end
       values.flatten
     end
