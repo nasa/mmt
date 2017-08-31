@@ -4,7 +4,7 @@ handleFormNavigation = (element) ->
   $('#commit').val(element.val())
 
   # Check the form validity
-  formIsValid = element.closest('form').validate().checkForm();
+  formIsValid = element.closest('form').validate().checkForm()
 
   # If the form is invald, display the dialog
   if !formIsValid
@@ -67,7 +67,7 @@ $(document).ready ->
 
           # Override the previous message with the new message
           $.each errorList, (index, error) ->
-            $('li#' + error.element.id + ' a').text(error.message)
+            $('li#' + error.element.id + '-top a').text(error.message)
         else
           $('#umm-form-errors').hide()
 
