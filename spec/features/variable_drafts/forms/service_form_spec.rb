@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Service Form', reset_provider: true, js: true do
+describe 'Service Form', js: true do
   before do
     login
   end
@@ -9,6 +9,10 @@ describe 'Service Form', reset_provider: true, js: true do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_variable_draft_path(draft, 'services')
+    end
+
+    it 'dislays the `Expand All` link' do
+      expect(page).to have_link('Expand All')
     end
 
     it 'displays the correct title and description' do
@@ -289,6 +293,8 @@ describe 'Service Form', reset_provider: true, js: true do
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Services': draft_fill_values })
       visit edit_variable_draft_path(draft, 'services')
+
+      open_accordions
     end
 
     it 'displays two populated form' do
@@ -362,6 +368,8 @@ describe 'Service Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Save'
         end
+
+        open_accordions
       end
 
       it 'saves the draft and loads the next form' do
@@ -380,6 +388,16 @@ describe 'Service Form', reset_provider: true, js: true do
         within '.nav-bottom' do
           expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
         end
+      end
+
+      it 'displays the correct values in the form' do
+        expect(page).to have_select('variable_draft_draft_services_0_service_types', selected: %w[WMS])
+        expect(page).to have_checked_field('variable_draft_draft_services_0_visualizable_false')
+        expect(page).to have_checked_field('variable_draft_draft_services_0_subsettable_false')
+
+        expect(page).to have_select('variable_draft_draft_services_1_service_types', selected: %w[OPeNDAP])
+        expect(page).to have_checked_field('variable_draft_draft_services_1_visualizable_true')
+        expect(page).to have_checked_field('variable_draft_draft_services_1_subsettable_true')
       end
     end
   end

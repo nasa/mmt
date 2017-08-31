@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Variable Information Form', reset_provider: true, js: true do
+describe 'Variable Information Form', js: true do
   before do
     login
   end
@@ -9,6 +9,10 @@ describe 'Variable Information Form', reset_provider: true, js: true do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_variable_draft_path(draft)
+    end
+
+    it 'dislays the `Expand All` link' do
+      expect(page).to have_link('Expand All')
     end
 
     it 'displays the correct prompt value for all select elements' do

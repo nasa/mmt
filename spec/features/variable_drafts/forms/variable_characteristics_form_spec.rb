@@ -1,7 +1,7 @@
 
 require 'rails_helper'
 
-describe 'Characteristics Form', reset_provider: true, js: true do
+describe 'Characteristics Form', js: true do
   before do
     login
   end

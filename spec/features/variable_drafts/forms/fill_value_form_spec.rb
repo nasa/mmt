@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Fill Values Form', reset_provider: true, js: true do
+describe 'Fill Values Form', js: true do
   before do
     login
   end
@@ -9,6 +9,10 @@ describe 'Fill Values Form', reset_provider: true, js: true do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_variable_draft_path(draft, 'fill_values')
+    end
+
+    it 'dislays the `Expand All` link' do
+      expect(page).to have_link('Expand All')
     end
 
     it 'displays the correct title and description' do
@@ -322,6 +326,8 @@ describe 'Fill Values Form', reset_provider: true, js: true do
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValues': draft_fill_values })
       visit edit_variable_draft_path(draft, 'fill_values')
+
+      open_accordions
     end
 
     it 'displays two populated form' do

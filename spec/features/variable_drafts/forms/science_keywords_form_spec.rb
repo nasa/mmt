@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Science Keywords Form', reset_provider: true, js: true do
+describe 'Science Keywords Form', js: true do
   before do
     login
   end

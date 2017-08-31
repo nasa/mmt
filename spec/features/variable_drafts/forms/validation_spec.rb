@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: true do
+describe 'Variable Drafts Forms Field Validations', js: true do
   before do
     login
 
