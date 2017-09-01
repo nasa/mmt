@@ -63,7 +63,7 @@ $(document).ready ->
     $(newDiv).find('.validation-error').remove()
 
     $(newDiv).find('select, input, textarea').removeAttr 'disabled'
-    $(newDiv).find('select, input, textarea').removeAttr 'readonly'
+    $(newDiv).find('select, input, textarea').not('.readonly').removeAttr 'readonly'
     $(newDiv).find('select, input, textarea').not('input[type="hidden"]')[0].focus()
     $(newDiv).find('.data-contact-type').hide()
 
