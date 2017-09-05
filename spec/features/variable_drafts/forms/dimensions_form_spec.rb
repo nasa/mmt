@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Dimensions Form', reset_provider: true, js: true do
+describe 'Dimensions Form', js: true do
   before do
     login
   end
@@ -9,6 +9,10 @@ describe 'Dimensions Form', reset_provider: true, js: true do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_variable_draft_path(draft, 'dimensions')
+    end
+
+    it 'dislays the `Expand All` link' do
+      expect(page).to have_link('Expand All')
     end
 
     it 'displays the correct title' do
@@ -327,6 +331,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Dimensions': draft_dimensions })
       visit edit_variable_draft_path(draft, 'dimensions')
+
+      open_accordions
     end
 
     it 'displays one populated form' do
@@ -408,6 +414,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Save'
         end
+
+        open_accordions
       end
 
       it 'saves the draft and reloads the form' do

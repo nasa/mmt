@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Set Form', reset_provider: true, js: true do
+describe 'Set Form', js: true do
   before do
     login
   end
@@ -9,6 +9,10 @@ describe 'Set Form', reset_provider: true, js: true do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_variable_draft_path(draft, 'sets')
+    end
+
+    it 'dislays the `Expand All` link' do
+      expect(page).to have_link('Expand All')
     end
 
     it 'displays the correct title and description' do
@@ -283,6 +287,8 @@ describe 'Set Form', reset_provider: true, js: true do
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Sets': draft_sets })
       visit edit_variable_draft_path(draft, 'sets')
+
+      open_accordions
     end
 
     it 'displays two populated form' do
@@ -358,6 +364,8 @@ describe 'Set Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Save'
         end
+
+        open_accordions
       end
 
       it 'saves the draft and loads the next form' do
@@ -376,6 +384,18 @@ describe 'Set Form', reset_provider: true, js: true do
         within '.nav-bottom' do
           expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
+      end
+
+      it 'displays the correct values in the form' do
+        expect(page).to have_field('variable_draft_draft_sets_0_name', with: 'Science')
+        expect(page).to have_field('variable_draft_draft_sets_0_type', with: 'Land')
+        expect(page).to have_field('variable_draft_draft_sets_0_size', with: '50')
+        expect(page).to have_field('variable_draft_draft_sets_0_index', with: '1')
+
+        expect(page).to have_field('variable_draft_draft_sets_1_name', with: 'Fiction')
+        expect(page).to have_field('variable_draft_draft_sets_1_type', with: 'Water')
+        expect(page).to have_field('variable_draft_draft_sets_1_size', with: '100')
+        expect(page).to have_field('variable_draft_draft_sets_1_index', with: '2')
       end
     end
   end
