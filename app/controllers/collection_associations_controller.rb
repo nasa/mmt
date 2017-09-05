@@ -81,6 +81,9 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def log_issues(response)
+    # if the response is a failure these messages are not returned
+    return unless response.success?
+
     response.body.select { |assocation_response| assocation_response.fetch('warnings', []).any? }.each do |warnings|
       warnings.each do |warning|
         Rails.logger.error "Variable Assocation [warning]: #{warning}"

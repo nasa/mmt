@@ -73,7 +73,7 @@ module Cmr
         'Content-Type' => 'application/json'
       }
 
-      post(url, collection_ids.map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
+      post(url, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
     end
 
     def delete_collection_assocations_to_variable(concept_id, collection_ids, token)
@@ -87,7 +87,7 @@ module Cmr
         'Content-Type' => 'application/json'
       }
 
-      delete(url, nil, collection_ids.map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
+      delete(url, nil, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
     end
 
     def get_concept(concept_id, token, headers, revision_id = nil)
