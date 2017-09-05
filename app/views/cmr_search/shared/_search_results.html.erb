@@ -35,6 +35,10 @@
           <% end %>
         </tbody>
       </table>
+
+      <% if (collections.map { |c| c.fetch('meta', {})['concept-id'] } - (ignored_concept_ids rescue [])).empty?  %>
+        <%= hidden_field_tag('selected_collections[]') %>
+      <% end %>
     </fieldset>
 
     <% if collections.any? %>

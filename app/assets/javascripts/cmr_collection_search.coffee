@@ -54,6 +54,9 @@ $(document).ready ->
       widgets: ['zebra']
 
     $('#collections-select').validate
+      # Validate hidden fields
+      ignore: []
+      
       errorPlacement: (error, element) ->
         error.insertAfter(element.closest('fieldset'))
 
