@@ -15,7 +15,7 @@ class CollectionAssociationsController < CmrSearchController
                          # Retreive the service options and sort by name, ignoring case
                          concept_ids = association_response.body.fetch('items', []).first.fetch('associations', {}).fetch('collections', []).map { |collection| collection['concept-id'] }
 
-                         concept_ids.any? ? get_provider_collections(concept_id: concept_ids, sort_key: 'entry-title').fetch('items', []) : []
+                         concept_ids.any? ? get_provider_collections(concept_id: concept_ids, sort_key: 'entry-title', page_size: concept_ids.count).fetch('items', []) : []
                        else
                          []
                        end
