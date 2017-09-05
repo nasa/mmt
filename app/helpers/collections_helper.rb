@@ -15,4 +15,8 @@ module CollectionsHelper
         class: 'is-invisible', id: 'change-provider-revert-collection')
     end
   end
+
+  def all_collections_selected?(collections, selected_concept_ids)
+    (collections.map { |c| c.fetch('meta', {})['concept-id'] } - selected_concept_ids).empty?
+  end
 end
