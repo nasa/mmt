@@ -1,0 +1,85 @@
+---
+collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C179002107-SEDAC/7.echo10
+ingest_count: 1
+type: echo10
+test_case: 
+granule: 
+metadata: "\n<Collection>\n\t\t\t<ShortName>CIESIN_SEDAC_ANTHROMES_v1</ShortName>
+  \n\t\t\t<VersionId>1.0</VersionId> \n\t\t\t<InsertTime>2013-02-08T00:00:00Z</InsertTime>
+  \ \n\t\t\t<LastUpdate>2015-08-04T00:00:00Z</LastUpdate>\n\t\t\t<LongName>Anthropogenic
+  Biomes of the World, Version 1</LongName> \n\t\t\t<DataSetId>Anthropogenic Biomes
+  of the World, Version 1</DataSetId> \n\t\t\t<Description>The Anthropogenic Biomes
+  of the World Dataset, Version 1 describes globally-\nsignificant ecological patterns
+  within the terrestrial biosphere caused \n\nby sustained direct human interaction
+  with ecosystems, including agriculture, urbanization, forestry and other land uses.
+  \n\nConventional biomes, such as tropical rainforests or grasslands, \n\nare based
+  on global vegetation patterns related to climate. Now that humans have fundamentally
+  altered global patterns of \n\necosystem form, process, and biodiversity, anthropogenic
+  biomes \n\nprovide a contemporary view of the terrestrial biosphere in its human-altered
+  form. Anthropogenic biomes may also be termed \n\n\"anthromes\" to distinguish them
+  from conventional biome \n\nsystems, or \"human biomes\" (a simpler but less precise
+  term). This dataset is distributed by the Columbia University Center \n\nfor International
+  Earth Science Information Network \n\n(CIESIN).</Description> \n\t\t\t<Orderable>true</Orderable>
+  \n\t\t\t<Visible>true</Visible>\n\t\t\t<SuggestedUsage>To provide information on
+  global land use for research on human-environment \n\ninteractions.</SuggestedUsage>
+  \n\t\t\t<ProcessingCenter>SEDAC</ProcessingCenter> \n\t\t\t<ProcessingLevelId>Level
+  3</ProcessingLevelId> \n\t\t\t<ProcessingLevelDescription>GRID</ProcessingLevelDescription>
+  \n\t\t\t<ArchiveCenter>SEDAC</ArchiveCenter> \n\t\t\t<CitationForExternalPublication>Ellis,
+  E. C. and N. Ramankutty. 2008. Anthropogenic Biomes of the \n\nWorld, Version 1.
+  Palisades, NY:NASA Socioeconomic Data and Applications Center (SEDAC). \n\nhttp://dx.doi.org/10.7927/H4H12ZXD</CitationForExternalPublication>
+  \n\t\t\t<CollectionState>Final</CollectionState> \n\t\t\t<MaintenanceAndUpdateFrequency>As
+  needed</MaintenanceAndUpdateFrequency> \n\t\t\t<RestrictionComment>None</RestrictionComment>
+  \n\t\t\t<Price>0</Price> \n\t\t\t<DataFormat>ESRI GRID, GeoTIFF, PDF, PNG, WMS</DataFormat>
+  \n\t\t\t<SpatialKeywords>\n\t\t\t\t<Keyword>Africa</Keyword>\n\t\t\t\t<Keyword>Asia</Keyword>\n\t\t\t\t<Keyword>Equatorial</Keyword>\n\t\t\t\t<Keyword>Europe</Keyword>\n\t\t\t\t<Keyword>Global</Keyword>\n\t\t\t\t<Keyword>Mid-Latitude</Keyword>\n\t\t\t\t<Keyword>North
+  America</Keyword>\n\t\t\t\t<Keyword>Oceania</Keyword>\n\t\t\t\t<Keyword>Polar</Keyword>\n\t\t\t\t<Keyword>South
+  America</Keyword>\n\t\t\t</SpatialKeywords>\n\t\t\t<Contacts>\n\t\t\t\t<Contact>\n\t\t\t\t\t<Role>Archive</Role>
+  \n\t\t\t\t\t<HoursOfService>9:00 A.M. to 5:00 P.M., Monday to Friday</HoursOfService>
+  \n\t\t\t\t\t<OrganizationName>Socioeconomic Data and Applications Center (SEDAC)\n\n</OrganizationName>
+  \n\t\t\t\t\t<OrganizationAddresses>\n\t\t\t\t\t\t<Address>\n\t\t\t\t\t\t\t<StreetAddress>CIESIN,
+  Columbia University, 61 Route 9W, P.O. Box \n\n1000</StreetAddress> \n\t\t\t\t\t\t\t<City>Palisades</City>
+  \n\t\t\t\t\t\t\t<StateProvince>NY</StateProvince> \n\t\t\t\t\t\t\t<PostalCode>10964</PostalCode>
+  \n\t\t\t\t\t\t\t<Country>USA</Country> \n\t\t\t\t\t\t</Address>\n\t\t\t\t\t</OrganizationAddresses>\n\t\t\t\t\t<OrganizationPhones>\n\t\t\t\t\t\t<Phone>\n\t\t\t\t\t\t\t<Number>+1
+  845-365-8920</Number> \n\t\t\t\t\t\t\t<Type>Telephone</Type> \n\t\t\t\t\t\t</Phone>\n\t\t\t\t\t\t<Phone>\n\t\t\t\t\t\t\t<Number>+1
+  845-365-8922</Number> \n\t\t\t\t\t\t\t<Type>Fax</Type> \n\t\t\t\t\t\t</Phone>\n\t\t\t\t\t</OrganizationPhones>\n\t\t\t\t\t<OrganizationEmails>\n\t\t\t\t\t\t<Email>ciesin.info@ciesin.columbia.edu</Email>
+  \n\t\t\t\t\t</OrganizationEmails>\n\t\t\t\t\t<ContactPersons>\n\t\t\t\t\t\t<ContactPerson>\n\t\t\t\t\t\t\t<FirstName>SEDAC</FirstName>
+  \n\t\t\t\t\t\t\t<MiddleName>User</MiddleName> \n\t\t\t\t\t\t\t<LastName>Services</LastName>
+  \n\t\t\t\t\t\t</ContactPerson>\n\t\t\t\t\t</ContactPersons>\n\t\t\t\t</Contact>\n\t\t\t</Contacts>\n\t\t\t<ScienceKeywords>\n\t\t\t\t<ScienceKeyword>\n\t\t\t\t<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n\t\t\t\t<TopicKeyword>HUMAN DIMENSIONS</TopicKeyword>\n\t\t\t\t<TermKeyword>POPULATION</TermKeyword>\n\t\t\t\t<VariableLevel1Keyword><Value>POPULATION
+  DISTRIBUTION</Value></VariableLevel1Keyword>\n\t\t\t\t</ScienceKeyword>\n\t\t\t\t<ScienceKeyword>\n\t\t\t\t<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n\t\t\t\t<TopicKeyword>HUMAN DIMENSIONS</TopicKeyword>\n\t\t\t\t<TermKeyword>POPULATION</TermKeyword>\n\t\t\t\t<VariableLevel1Keyword><Value>POPULATION
+  SIZE</Value></VariableLevel1Keyword>\n\t\t\t\t</ScienceKeyword>\n<ScienceKeyword>\n<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n<TopicKeyword>BIOSPHERE</TopicKeyword>\n<TermKeyword>TERRESTRIAL
+  ECOSYSTEMS</TermKeyword>\n<VariableLevel1Keyword>\n<Value>AGRICULTURAL LANDS</Value>\n</VariableLevel1Keyword>\n</ScienceKeyword>\n<ScienceKeyword>\n<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n<TopicKeyword>BIOSPHERE</TopicKeyword>\n<TermKeyword>TERRESTRIAL
+  ECOSYSTEMS</TermKeyword>\n<VariableLevel1Keyword>\n<Value>FORESTS</Value>\n</VariableLevel1Keyword>\n</ScienceKeyword>\n<ScienceKeyword>\n<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n<TopicKeyword>BIOSPHERE</TopicKeyword>\n<TermKeyword>TERRESTRIAL
+  ECOSYSTEMS</TermKeyword>\n<VariableLevel1Keyword>\n<Value>GRASSLANDS</Value>\n</VariableLevel1Keyword>\n</ScienceKeyword>\n<ScienceKeyword>\n<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n<TopicKeyword>BIOSPHERE</TopicKeyword>\n<TermKeyword>TERRESTRIAL
+  ECOSYSTEMS</TermKeyword>\n<VariableLevel1Keyword>\n<Value>URBAN LANDS</Value>\n</VariableLevel1Keyword>\n</ScienceKeyword>\n<ScienceKeyword>\n<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n<TopicKeyword>HUMAN DIMENSIONS</TopicKeyword>  \n<TermKeyword>HABITAT
+  CONVERSION/FRAGMENTATION</TermKeyword>  \n<VariableLevel1Keyword>\n<Value>URBANIZATION/URBAN
+  SPRAWL</Value>\n</VariableLevel1Keyword>\n</ScienceKeyword>\n<ScienceKeyword>\n<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n<TopicKeyword>HUMAN DIMENSIONS</TopicKeyword>  \n<TermKeyword>ENVIRONMENTAL
+  IMPACTS</TermKeyword> \n<VariableLevel1Keyword>\n<Value>CONSERVATION</Value>\n</VariableLevel1Keyword>\n</ScienceKeyword>\n<ScienceKeyword>\n<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n<TopicKeyword>HUMAN DIMENSIONS</TopicKeyword>  \n<TermKeyword>POPULATION</TermKeyword>\n<VariableLevel1Keyword>\n<Value>POPULATION
+  DENSITY</Value>\n</VariableLevel1Keyword>\n</ScienceKeyword>\n<ScienceKeyword>\n<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n<TopicKeyword>HUMAN DIMENSIONS</TopicKeyword>  \n<TermKeyword>POPULATION</TermKeyword>\n<VariableLevel1Keyword>\n<Value>POPULATION
+  ESTIMATES</Value>\n</VariableLevel1Keyword>\n</ScienceKeyword>\n<ScienceKeyword>\n<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n<TopicKeyword>HUMAN DIMENSIONS</TopicKeyword>  \n<TermKeyword>SUSTAINABILITY</TermKeyword>
+  \n<VariableLevel1Keyword>\n<Value>ENVIRONMENTAL SUSTAINABILITY</Value>\n</VariableLevel1Keyword>\n</ScienceKeyword>\n<ScienceKeyword>\n<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n<TopicKeyword>LAND SURFACE</TopicKeyword>  \n<TermKeyword>LAND
+  USE/LAND COVER</TermKeyword>\n<VariableLevel1Keyword>\n<Value>LAND USE/LAND COVER
+  CLASSIFICATION</Value>\n</VariableLevel1Keyword>\n</ScienceKeyword>\n\t\t\t</ScienceKeywords>\n\t\t\t<Campaigns>\n\t\t\t\t<Campaign>\n\t\t\t\t\t<ShortName>ANTHROMES</ShortName>
+  \n\t\t\t\t\t<LongName>Anthropogenic Biomes</LongName> \n\t\t\t\t</Campaign>\n\t\t\t</Campaigns>\n\t\t\t<SpatialInfo>\n\t\t\t\t<SpatialCoverageType>Horizontal</SpatialCoverageType>
+  \n\t\t\t</SpatialInfo>\n\t\t\t<OnlineAccessURLs>\n\t\t\t\t<OnlineAccessURL>\n\t\t\t\t\t<URL>http://sedac.ciesin.columbia.edu/data/set/anthromes-anthropogenic-biomes-world-v1/data-download</URL>
+  \ \n\t\t\t\t\t<URLDescription>data download page</URLDescription>\n\t\t\t\t</OnlineAccessURL>\n\t\t\t\t<OnlineAccessURL>\n\t\t\t\t\t<URL>http://sedac.ciesin.columbia.edu/data/set/anthromes-anthropogenic-biomes-world-v1/maps</URL>
+  \ \n\t\t\t\t\t<URLDescription>maps download page</URLDescription>\n\t\t\t\t</OnlineAccessURL>\n\t\t\t\t<OnlineAccessURL>\n\t\t\t\t\t<URL>http://sedac.ciesin.columbia.edu/data/set/anthromes-anthropogenic-biomes-world-v1/maps/services</URL>
+  \ \n\t\t\t\t\t<URLDescription>Web Map Services</URLDescription>\n\t\t\t\t</OnlineAccessURL>\n\t\t\t</OnlineAccessURLs>\n\t\t\t<OnlineResources>\n\t\t\t\t<OnlineResource>\n\t\t\t\t\t<URL>http://dx.doi.org/10.7927/H4H12ZXD</URL>
+  \n\t\t\t\t\t<Description>data set DOI and homepage</Description>  \n\t\t\t\t\t<Type>DOI
+  URL</Type> \n\t\t\t\t</OnlineResource>\n\t\t\t</OnlineResources>\n\t\t\t<AssociatedDIFs>\n\t\t\t\t<DIF>\n\t\t\t\t\t<EntryId>CIESIN_SEDAC_ANTHROMES_v1</EntryId>
+  \n\t\t\t\t</DIF>\n\t\t\t</AssociatedDIFs>\n\t\t\t<Spatial>\n\t\t\t\t<SpatialCoverageType>Horizontal</SpatialCoverageType>
+  \n\t\t\t\t<HorizontalSpatialDomain>\n\t\t\t\t\t<Geometry>\n\t\t\t\t\t\t<CoordinateSystem>CARTESIAN</CoordinateSystem>\n\t\t\t\t\t\t<BoundingRectangle>\n\t\t\t\t\t\t\t<WestBoundingCoordinate>-180.000000</WestBoundingCoordinate>
+  \n\t\t\t\t\t\t\t<NorthBoundingCoordinate>83.083332</NorthBoundingCoordinate> \n\t\t\t\t\t\t\t<EastBoundingCoordinate>180.000000</EastBoundingCoordinate>
+  \n\t\t\t\t\t\t\t<SouthBoundingCoordinate>-55.750001</SouthBoundingCoordinate> \n\t\t\t\t\t\t</BoundingRectangle>\n\t\t\t\t\t</Geometry>\n\t\t\t\t</HorizontalSpatialDomain>\n\t\t\t\t<GranuleSpatialRepresentation>CARTESIAN</GranuleSpatialRepresentation>\n\t\t\t</Spatial>\n\n
+  \                       <AssociatedBrowseImageUrls>\n    <ProviderBrowseUrl>\n                 <URL>http://sedac.ciesin.columbia.edu/downloads/maps/anthromes/anthromes-anthropogenic-biomes-world-v1/Global_Anthropogenic_Biomes.pdf</URL>
+  \ \n    </ProviderBrowseUrl>\n                        </AssociatedBrowseImageUrls>\n\t\t</Collection>"

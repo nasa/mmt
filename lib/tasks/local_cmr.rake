@@ -3,6 +3,12 @@ require 'test_cmr/load_data.rb'
 namespace :cmr do
   include Cmr
 
+  desc 'Save collection data from CMR'
+  task :save_data do
+    cmr = Cmr::Local.new
+    cmr.save_data
+  end
+
   desc 'Load collection metadata into locally running CMR'
   task load: [:reset] do
     cmr = Cmr::Local.new
