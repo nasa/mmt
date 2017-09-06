@@ -522,10 +522,6 @@ module Cmr
       puts "Refreshing the ElasticSearch index: #{resp.inspect}"
     end
 
-    def retrieve_metadata_uris
-      JSON.parse(File.read(File.join(Rails.root, 'lib', 'test_cmr', 'test_data.json')), symbolize_names: true)
-    end
-
     def insert_metadata
       added = 0
       1.upto(55) do |index|
