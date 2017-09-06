@@ -528,8 +528,8 @@ module Cmr
 
     def insert_metadata
       added = 0
-      Dir.glob(File.join(Rails.root, 'lib', 'test_cmr', 'data', 'collection*')).each_with_index do |filename, index|
-        data = Psych.load_file(filename)
+      1.upto(55) do |index|
+        data = Psych.load_file(File.join(Rails.root, 'lib', 'test_cmr', 'data', "collection_#{index.to_s.rjust(2, '0')}.yml"))
 
         data['ingest_count'].times do
           response = connection.put do |req|
