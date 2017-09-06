@@ -1,0 +1,69 @@
+---
+collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000320-SEDAC/8.dif10
+ingest_count: 1
+type: dif10
+test_case: 
+granule: 
+metadata: "<DIF xmlns=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/\" xmlns:dif=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/\"
+  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/
+  http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/dif_v10.2.xsd\"><Entry_ID><Short_Name>CIESIN_SEDAC_ANTHROMES_v2_1900</Short_Name><Version>2.0</Version></Entry_ID><Entry_Title>Anthropogenic
+  Biomes of the World, Version 2: 1900</Entry_Title><Dataset_Citation><Other_Citation_Details>
+  Ellis, E.C., K.K. Goldewijk, S. Siebert, D. Lightman, and N. Ramankutty. 2008. Anthropogenic
+  Biomes of the World, Version 2: \n\n1900. Palisades, NY:NASA Socioeconomic Data
+  and \n\nApplications Center (SEDAC).  http://dx.doi.org/10.7927/H4J1012K</Other_Citation_Details></Dataset_Citation><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>POPULATION</Term><Variable_Level_1>POPULATION
+  DISTRIBUTION</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>POPULATION</Term><Variable_Level_1>POPULATION
+  SIZE</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH SCIENCE</Category><Topic>BIOSPHERE</Topic><Term>TERRESTRIAL
+  ECOSYSTEMS</Term><Variable_Level_1>AGRICULTURAL LANDS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>BIOSPHERE</Topic><Term>TERRESTRIAL ECOSYSTEMS</Term><Variable_Level_1>FORESTS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>BIOSPHERE</Topic><Term>TERRESTRIAL ECOSYSTEMS</Term><Variable_Level_1>GRASSLANDS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>BIOSPHERE</Topic><Term>TERRESTRIAL ECOSYSTEMS</Term><Variable_Level_1>URBAN
+  LANDS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH SCIENCE</Category><Topic>HUMAN
+  DIMENSIONS</Topic><Term>HABITAT CONVERSION/FRAGMENTATION</Term><Variable_Level_1>URBANIZATION/URBAN
+  SPRAWL</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH SCIENCE</Category><Topic>HUMAN
+  DIMENSIONS</Topic><Term>ENVIRONMENTAL IMPACTS</Term><Variable_Level_1>CONSERVATION</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>POPULATION</Term><Variable_Level_1>POPULATION
+  DENSITY</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH SCIENCE</Category><Topic>HUMAN
+  DIMENSIONS</Topic><Term>POPULATION</Term><Variable_Level_1>POPULATION ESTIMATES</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>SUSTAINABILITY</Term><Variable_Level_1>ENVIRONMENTAL
+  SUSTAINABILITY</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>LAND SURFACE</Topic><Term>LAND USE/LAND COVER</Term><Variable_Level_1>LAND
+  USE/LAND COVER CLASSIFICATION</Variable_Level_1></Science_Keywords><Platform><Type>Not
+  provided</Type><Short_Name>Not provided</Short_Name><Instrument><Short_Name>Not
+  provided</Short_Name></Instrument></Platform><Temporal_Coverage><Range_DateTime><Beginning_Date_Time>1970-01-01T00:00:00.000Z</Beginning_Date_Time></Range_DateTime></Temporal_Coverage><Spatial_Coverage><Spatial_Coverage_Type>Horizontal</Spatial_Coverage_Type><Granule_Spatial_Representation>CARTESIAN</Granule_Spatial_Representation><Geometry><Coordinate_System>CARTESIAN</Coordinate_System><Bounding_Rectangle><Southernmost_Latitude>-90.0</Southernmost_Latitude><Northernmost_Latitude>90.0</Northernmost_Latitude><Westernmost_Longitude>-180.0</Westernmost_Longitude><Easternmost_Longitude>180.0</Easternmost_Longitude></Bounding_Rectangle></Geometry><Spatial_Info><Spatial_Coverage_Type>Not
+  provided</Spatial_Coverage_Type></Spatial_Info></Spatial_Coverage><Location><Location_Category>CONTINENT</Location_Category><Location_Type>AFRICA</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type></Location><Location><Location_Category>GEOGRAPHIC
+  REGION</Location_Category><Location_Type>EQUATORIAL</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type></Location><Location><Location_Category>GEOGRAPHIC
+  REGION</Location_Category><Location_Type>GLOBAL</Location_Type></Location><Location><Location_Category>GEOGRAPHIC
+  REGION</Location_Category><Location_Type>MID-LATITUDE</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>NORTH
+  AMERICA</Location_Type></Location><Location><Location_Category>GEOGRAPHIC REGION</Location_Category><Location_Type>OCEANIA</Location_Type></Location><Location><Location_Category>GEOGRAPHIC
+  REGION</Location_Category><Location_Type>POLAR</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>SOUTH
+  AMERICA</Location_Type></Location><Project><Short_Name>ANTHROMES</Short_Name><Long_Name>Anthropogenic
+  Biomes</Long_Name></Project><Access_Constraints>None</Access_Constraints><Organization><Organization_Type>PROCESSOR</Organization_Type><Organization_Name><Short_Name>SEDAC</Short_Name></Organization_Name><Personnel><Role>DATA
+  CENTER CONTACT</Role><Contact_Person><Last_Name>Not provided</Last_Name></Contact_Person></Personnel></Organization><Organization><Organization_Type>ARCHIVER</Organization_Type><Organization_Name><Short_Name>SEDAC</Short_Name></Organization_Name><Personnel><Role>DATA
+  CENTER CONTACT</Role><Contact_Person><Last_Name>Not provided</Last_Name></Contact_Person></Personnel></Organization><Organization><Organization_Type>ARCHIVER</Organization_Type><Organization_Name><Short_Name>Socioeconomic
+  Data and Applications Center (SEDAC)</Short_Name></Organization_Name><Hours_Of_Service>9:00
+  A.M. to 5:00 P.M., Monday to Friday</Hours_Of_Service><Personnel><Role>DATA CENTER
+  CONTACT</Role><Contact_Person><First_Name>SEDAC</First_Name><Middle_Name>User</Middle_Name><Last_Name>Services</Last_Name></Contact_Person></Personnel></Organization><Distribution><Distribution_Format>ESRI
+  GRID, GeoTIFF, PDF, PNG, WMS</Distribution_Format><Fees>0</Fees></Distribution><Summary><Abstract>The
+  Anthropogenic Biomes of the World, Version 2: 1900 data set describes anthropogenic
+  transformations within the terrestrial biosphere caused by \n\nsustained direct
+  human interaction with ecosystems, including agriculture and urbanization c. 1900.
+  Potential natural vegetation, biomes, such as tropical rainforests or grasslands,
+  are \n\nbased on global vegetation patterns related to climate and geology. Anthropogenic
+  transformation within each biome is approximated using population density, agricultural
+  intensity \n\n(cropland and pasture) and urbanization. This data set is part of
+  a time series for the years 1900, 1900, 1900, and 2000 that provides global patterns
+  of historical transformation of the \n\nterrestrial biosphere during the Industrial
+  Revolution.</Abstract><Purpose>To provide information on anthropogenic transformation
+  of the biosphere c. 1900 for global land use studies and research on human-environment
+  \n\ninteractions.</Purpose></Summary><Related_URL><URL_Content_Type><Type>GET DATA</Type></URL_Content_Type><URL>http://sedac.ciesin.columbia.edu/data/set/anthromes-anthropogenic-biomes-world-v2-1900/data-download</URL><Description>data
+  download page</Description></Related_URL><Related_URL><URL_Content_Type><Type>GET
+  DATA</Type></URL_Content_Type><URL>http://sedac.ciesin.columbia.edu/data/set/anthromes-anthropogenic-biomes-world-v2-1900/maps</URL><Description>maps
+  download page</Description></Related_URL><Related_URL><URL_Content_Type><Type>GET
+  DATA</Type></URL_Content_Type><URL>http://sedac.ciesin.columbia.edu/data/set/anthromes-anthropogenic-biomes-world-v2-1900/maps/services</URL><Description>Web
+  Map Services</Description></Related_URL><Related_URL><URL_Content_Type><Type>VIEW
+  DATA SET LANDING PAGE</Type></URL_Content_Type><URL>http://dx.doi.org/10.7927/H4J1012K</URL><Description>data
+  set DOI and homepage</Description></Related_URL><Related_URL><URL_Content_Type><Type>GET
+  RELATED VISUALIZATION</Type></URL_Content_Type><URL>http://sedac.ciesin.columbia.edu/data/set/anthromes-anthropogenic-biomes-world-v2-1900/maps</URL></Related_URL><Metadata_Name>CEOS
+  IDN DIF</Metadata_Name><Metadata_Version>VERSION 10.2</Metadata_Version><Metadata_Dates><Metadata_Creation>1970-01-01</Metadata_Creation><Metadata_Last_Revision>1970-01-01</Metadata_Last_Revision><Data_Creation>2014-05-13T00:00:00.000Z</Data_Creation><Data_Last_Revision>2015-08-05T00:00:00.000Z</Data_Last_Revision></Metadata_Dates><Product_Level_Id>3</Product_Level_Id></DIF>"

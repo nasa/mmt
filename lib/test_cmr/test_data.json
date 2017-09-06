@@ -152,7 +152,7 @@
   // 30, 31
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C135857530-LARC/23.echo10",
   "ingest_count": 2,
-  "granule": ["https://cmr.earthdata.nasa.gov:443/search/concepts/G186614502-LARC"]
+  "granule": "https://cmr.earthdata.nasa.gov:443/search/concepts/G186614502-LARC"
 }, {
   // 32
   "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000301-LARC/13.echo10",
