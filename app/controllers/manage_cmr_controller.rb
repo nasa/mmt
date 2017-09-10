@@ -50,6 +50,22 @@ class ManageCmrController < PagesController
 
   private
 
+  # By default Pundit calls the current_user method during authorization
+  # but for our calls to the CMR ACL we need user information as well as
+  # the users valid token. This provides our policies with the ability to
+  # retrieve the authenticated user but also to their token
+  def pundit_user
+    UserContext.new(current_user, token)
+  end
+
+  # Custom error messaging for Pundit
+  def user_not_authorized(exception)
+    policy_name = exception.policy.class.to_s.underscore
+
+    flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
+    redirect_to(request.referrer || manage_cmr_path)
+  end
+
   # Sets an array of actions that the current user has permission to take
   # on the provided policy_name. This passes through Pundit and exists for
   # displaying a list of objects on an index page in conjuction with actions_table_header

@@ -3,29 +3,16 @@
   <p class="subtitle"><%= display_header_subtitle(get_resource.draft, resource_name) %></p>
 <% end %>
 
-<% if @user_permissions == 'none' %>
-  <div class="eui-banner--danger">
-    <p class="eui-banner__message">
-      <%= "You don't have the appropriate permissions to #{@draft_action} this #{resource_name.titleize}" %>
-    </p>
-  </div>
-  <div class="no-access">
-    <h3 class="access-title">Access Denied</h3>
-    <p class="access-message">
-      It appears you do not have access to this content.<br />
-      If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
-    </p>
-  </div>
-<% elsif @user_permissions == 'wrong_provider' %>
+<% unless current_provider?(get_resource.provider_id) %>
   <div class="eui-banner--warn">
     <p class="eui-banner__message">
-      <%= link_to("You need to change your current provider to #{@draft_action} this #{resource_name.titleize}. Click here to change your provider.",
-        "#", id: "change-current-provider-banner-link",
-        data: { "provider": get_resource.provider_id, action_link: "change-provider-#{@draft_action}-draft" }) %>
+      <%= link_to("You need to change your current provider to #{@not_authorized_request['action']} this #{resource_name.titleize}. Click here to change your provider.",
+      "#", id: "change-current-provider-banner-link",
+      data: { "provider": get_resource.provider_id, action_link: "change-provider-#{@not_authorized_request['action']}-draft" }) %>
     </p>
-    <%= link_to 'View Draft', send("#{resource_name}_path", get_resource),
-    class: 'is-invisible', id: 'change-provider-view-draft' %>
-    <%= link_to 'Edit Draft', send("edit_#{resource_name}_path", get_resource, form: @draft_form),
+    <%= link_to 'Show Draft', send("#{resource_name}_path", get_resource),
+    class: 'is-invisible', id: 'change-provider-show-draft' %>
+    <%= link_to 'Edit Draft', send("edit_#{resource_name}_path", get_resource, form: @not_authorized_request['form']),
     class: 'is-invisible', id: 'change-provider-edit-draft' %>
   </div>
   <div class="no-access">
@@ -35,9 +22,7 @@
       Please check the message above to access this content.
     </p>
   </div>
-<% end %>
-
-<% unless @user_permissions == 'none' || @user_permissions == 'wrong_provider' %>
+<% else %>
   <div class="row row-content">
     <section class="action">
       <div class="cta">
