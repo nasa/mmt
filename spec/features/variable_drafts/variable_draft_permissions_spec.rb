@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 describe 'Variable draft permissions' do
-  let(:short_name)  { 'Draft Title' }
-  let(:entry_title) { 'Tropical Forest Observation Record' }
-  let(:provider)    { 'MMT_2' }
+  let(:name)      { 'Draft Title' }
+  let(:long_name) { 'Tropical Forest Observation Record' }
+  let(:provider)  { 'MMT_2' }
 
   before do
     login
 
-    create(:full_variable_draft, entry_title: entry_title, short_name: short_name, draft_entry_title: entry_title, draft_short_name: short_name, provider_id: provider)
+    create(:full_variable_draft, draft_entry_title: long_name, draft_short_name: name, provider_id: provider)
   end
 
   let(:draft) { Draft.first }
@@ -26,14 +26,40 @@ describe 'Variable draft permissions' do
         visit variable_draft_path(draft)
       end
 
-      it 'displays warning banner link to change provider' do
+      it 'displays the variable draft show page' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content("#{name}")
+        end
+
+        within 'main header' do
+          expect(page).to have_css('h2', text: "#{name}")
+          expect(page).to have_content(long_name)
+        end
+      end
+
+      it 'does not display the variable draft preview' do
+        expect(page).to have_no_content('Publish Draft')
+        expect(page).to have_no_content('Delete Draft')
+        expect(page).to have_no_content('Metadata Fields')
+        expect(page).to have_no_content('Abstract')
+        expect(page).to have_no_content('Variable Information')
+        expect(page).to have_no_content('Dimensions')
+      end
+
+      it 'displays a banner message to change provider the Not Current Provider content' do
         expect(page).to have_css('.eui-banner--warn')
-        expect(page).to have_content('You need to change your current provider to view this Variable Draft')
+        within '.eui-banner--warn' do
+          expect(page).to have_content('You need to change your current provider to show this Variable Draft')
+        end
+
+        expect(page).to have_content('Not Current Provider')
+        expect(page).to have_content('It appears you need to change your current provider to access to this content.')
       end
 
       context 'when clicking on warning banner link' do
         before do
-          click_on 'You need to change your current provider to view this Variable Draft'
+          click_on 'You need to change your current provider to show this Variable Draft'
 
           wait_for_ajax
         end
@@ -42,13 +68,25 @@ describe 'Variable draft permissions' do
           expect(User.first.provider_id).to eq('MMT_2')
         end
 
-        it 'goes to the draft preview page' do
+        it 'displays the variable draft show page' do
+          within '.eui-breadcrumbs' do
+            expect(page).to have_content('Variable Drafts')
+            expect(page).to have_content("#{name}")
+          end
+
+          within 'main header' do
+            expect(page).to have_css('h2', text: "#{name}")
+            expect(page).to have_content(long_name)
+          end
+        end
+
+        it 'displays the variable draft preview information' do
           within '.eui-breadcrumbs' do
             expect(page).to have_content('Variable Drafts')
             expect(page).to have_content('Draft Title')
           end
 
-          expect(page).to have_content(short_name)
+          expect(page).to have_content(name)
           expect(page).to have_content('Publish Variable Draft')
           expect(page).to have_content('Delete Variable Draft')
         end
@@ -60,9 +98,35 @@ describe 'Variable draft permissions' do
         visit edit_variable_draft_path(draft, 'variable_information')
       end
 
-      it 'displays warning banner link to change provider' do
+      it 'displays the variable draft show page' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content("#{name}")
+        end
+
+        within 'main header' do
+          expect(page).to have_css('h2', text: "#{name}")
+          expect(page).to have_content(long_name)
+        end
+      end
+
+      it 'does not display the variable draft preview' do
+        expect(page).to have_no_content('Publish Draft')
+        expect(page).to have_no_content('Delete Draft')
+        expect(page).to have_no_content('Metadata Fields')
+        expect(page).to have_no_content('Abstract')
+        expect(page).to have_no_content('Variable Information')
+        expect(page).to have_no_content('Dimensions')
+      end
+
+      it 'displays a banner message to change provider the Not Current Provider content' do
         expect(page).to have_css('.eui-banner--warn')
-        expect(page).to have_content('You need to change your current provider to edit this Variable Draft')
+        within '.eui-banner--warn' do
+          expect(page).to have_content('You need to change your current provider to edit this Variable Draft')
+        end
+
+        expect(page).to have_content('Not Current Provider')
+        expect(page).to have_content('It appears you need to change your current provider to access to this content.')
       end
 
       context 'when clicking on warning banner link' do
@@ -103,14 +167,16 @@ describe 'Variable draft permissions' do
         visit variable_draft_path(draft)
       end
 
-      it 'displays no permissions banner message' do
-        expect(page).to have_css('.eui-banner--danger')
-        expect(page).to have_content('You don\'t have the appropriate permissions to view this Variable Draft')
+      it 'redirects to the Manage Variables page' do
+        within 'main header' do
+          expect(page).to have_css('h2.current', text: 'Manage Variables')
+        end
       end
 
-      it 'displays the Access Denied message' do
-        expect(page).to have_content('Access Denied')
-        expect(page).to have_content('It appears you do not have access to this content.')
+      it 'displays a no permissions banner message' do
+        expect(page).to have_css('.eui-banner--danger')
+        expect(page).to have_content('It appears you do not have access to view the Variable Draft for this provider.')
+        expect(page).to have_content('If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.')
       end
     end
 
@@ -119,14 +185,16 @@ describe 'Variable draft permissions' do
         visit edit_variable_draft_path(draft)
       end
 
-      it 'displays no permisssions banner message' do
-        expect(page).to have_css('.eui-banner--danger')
-        expect(page).to have_content('You don\'t have the appropriate permissions to edit this Variable Draft')
+      it 'redirects to the Manage Variables page' do
+        within 'main header' do
+          expect(page).to have_css('h2.current', text: 'Manage Variables')
+        end
       end
 
-      it 'displays the Access Denied message' do
-        expect(page).to have_content('Access Denied')
-        expect(page).to have_content('It appears you do not have access to this content.')
+      it 'displays a no permisssions banner message' do
+        expect(page).to have_css('.eui-banner--danger')
+        expect(page).to have_content('It appears you do not have access to edit the Variable Draft for this provider.')
+        expect(page).to have_content('If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.')
       end
     end
   end

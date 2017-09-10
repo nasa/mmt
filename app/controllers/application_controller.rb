@@ -11,14 +11,6 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  # By default Pundit calls the current_user method during authorization
-  # but for our calls to the CMR ACL we need user information as well as
-  # the users valid token. This provides our policies with the ability to
-  # retrieve the authenticated user but also to their token
-  def pundit_user
-    UserContext.new(current_user, token)
-  end
-
   protected
 
   def groups_enabled?
@@ -324,7 +316,7 @@ class ApplicationController < ActionController::Base
     policy_name = exception.policy.class.to_s.underscore
 
     flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
-    redirect_to(request.referrer || manage_cmr_path)
+    redirect_to(request.referrer || manage_collections_path)
   end
 
   def get_user_info

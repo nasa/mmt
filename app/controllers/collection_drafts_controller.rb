@@ -3,10 +3,12 @@ class CollectionDraftsController < BaseDraftsController
   include DraftsHelper
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
   before_action :load_umm_schema, only: [:new, :edit, :show]
-  before_filter :ensure_correct_draft_provider, only: [:edit, :show]
 
   def new
     set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+
+    authorize get_resource
+
     @draft_forms = CollectionDraft.forms
     @draft_form = params[:form] || @draft_forms.first
 
@@ -33,6 +35,8 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def edit
+    authorize get_resource
+
     add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), collection_draft_path(get_resource)
 
     Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
@@ -60,6 +64,8 @@ class CollectionDraftsController < BaseDraftsController
   def create
     set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
 
+    authorize get_resource
+
     if get_resource.save && get_resource.update_draft(params[:draft], current_user.urs_uid)
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")
 
@@ -85,6 +91,8 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def update
+    authorize get_resource
+
     if get_resource.update_draft(params[:draft], current_user.urs_uid)
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
 
@@ -112,6 +120,8 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def publish
+    authorize get_resource
+
     get_resource.add_metadata_dates
 
     draft = get_resource.draft
@@ -159,7 +169,8 @@ class CollectionDraftsController < BaseDraftsController
 
   def load_umm_schema
     # if provider file exists
-    if File.exist?(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json"))
+    # need if current_user.provider_id
+    if current_user.provider_id && File.exist?(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json"))
       provider_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json")))
       umm_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
 
@@ -177,20 +188,6 @@ class CollectionDraftsController < BaseDraftsController
 
   def load_data_contacts_schema
     @data_contacts_form_json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'data-contacts-form-json-schema-2.json')))
-  end
-
-  def ensure_correct_draft_provider
-    return if get_resource.provider_id == current_user.provider_id || get_resource.new_record?
-
-    @draft_action = request.original_url.include?('edit') ? 'edit' : 'view'
-    @draft_form = params[:form] ? params[:form] : nil
-
-    if current_user.available_providers.include?(get_resource.provider_id)
-      @user_permissions = 'wrong_provider'
-    else
-      @user_permissions = 'none'
-    end
-    render :show
   end
 
   def validate_metadata

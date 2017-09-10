@@ -5,24 +5,35 @@ class BaseDraftsController < DraftsController
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
 
   def index
-    resources = resource_class.where(provider_id: current_user.provider_id)
-                            .order('updated_at DESC').page(params[:page]).per(RESULTS_PER_PAGE)
+    resources = policy_scope(resource_class).order('updated_at DESC').page(params[:page]).per(RESULTS_PER_PAGE)
 
     plural_resource = "@#{plural_resource_name}"
     instance_variable_set(plural_resource, resources)
+
+    authorize get_resources
   end
 
   def show
+    if params[:not_authorized_request_params]
+      @not_authorized_request = params[:not_authorized_request_params]
+    else
+      authorize get_resource
+    end
+
     add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
   end
 
   def new
     set_resource(resource_class.new(provider_id: current_user.provider_id, user: current_user, draft: {}))
 
+    authorize get_resource
+
     add_breadcrumb 'New', send("new_#{resource_name}_path")
   end
 
   def edit
+    authorize get_resource
+
     add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
     add_breadcrumb @json_form.get_form(@current_form).title, send("edit_#{resource_name}_path", get_resource, @current_form)
@@ -30,6 +41,8 @@ class BaseDraftsController < DraftsController
 
   def create
     set_resource(resource_class.new(provider_id: current_user.provider_id, user: current_user, draft: {}))
+
+    authorize get_resource
 
     set_form
 
@@ -66,6 +79,8 @@ class BaseDraftsController < DraftsController
   end
 
   def update
+    authorize get_resource
+
     sanitized_params = @json_form.sanitize_form_input(resource_params.dup, params[:form], get_resource.draft)
 
     if get_resource.update(sanitized_params)
@@ -97,6 +112,8 @@ class BaseDraftsController < DraftsController
   end
 
   def destroy
+    authorize get_resource
+
     get_resource.destroy unless get_resource.new_record?
 
     Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was destroyed by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
@@ -180,5 +197,25 @@ class BaseDraftsController < DraftsController
 
   def set_forms
     @forms = resource_class.forms
+  end
+
+  # Custom error messaging for Pundit
+  def user_not_authorized(exception)
+    policy_name = exception.policy.class.to_s.underscore
+
+    if exception.query == 'show?' || exception.query == 'edit?'
+      if available_provider?(get_resource.provider_id)
+        # no flash message because it will be handled by the show view and params we are passing
+        redirect_to send("#{resource_name}_path", get_resource, not_authorized_request_params: request.params)
+      else
+        flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
+
+        redirect_to send("manage_#{plural_published_resource_name}_path")
+      end
+    else
+      flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
+
+      redirect_to send("manage_#{plural_published_resource_name}_path")
+    end
   end
 end

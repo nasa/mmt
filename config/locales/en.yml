@@ -109,3 +109,20 @@ en:
       destroy?: 'You are not permitted to delete Service Option Assignments.'
     order_policy:
       resubmit?: 'You are not permitted to resubmit Orders.'
+    variable_draft_policy:
+      # show and edit messages are used when the user does not have the provider in their available_providers
+      show?: 'It appears you do not have access to view the Variable Draft for this provider. <br />If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.'
+      edit?: 'It appears you do not have access to edit the Variable Draft for this provider. <br />If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.'
+      new?: 'You must have a provider context selected to create new Variable Drafts.'
+      create?: 'You must have a provider context selected to create new Variable Drafts.'
+      update?: 'It appears that you do not have the correct provider context selected or are not permitted to update the Variable Draft for this provider.'
+      destroy?: 'It appears that you do not have the correct provider context selected or are not permitted to delete the Variable Draft for this provider.'
+    collection_draft_policy:
+      # show and edit messages are used when the user does not have the provider in their available_providers
+      show?: 'It appears you do not have access to view the Collection Draft for this provider. <br />If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.'
+      edit?: 'It appears you do not have access to edit the Collection Draft for this provider. <br />If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.'
+      new?: 'You must have a provider context selected to create new Collection Drafts.'
+      create?: 'You must have a provider context selected to create new Collection Drafts.'
+      update?: 'It appears that you do not have the correct provider context selected or are not permitted to update the Collection Draft for this provider.'
+      publish?: 'It appears that you do not have the correct provider context selected or are not permitted to publish the Collection Draft for this provider.'
+      destroy?: 'It appears that you do not have the correct provider context selected or are not permitted to delete the Collection Draft for this provider.'
