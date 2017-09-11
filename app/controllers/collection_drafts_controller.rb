@@ -503,9 +503,12 @@ class CollectionDraftsController < BaseDraftsController
       keyword.fetch('subfields', []).each do |subfield|
         values += if subfield == 'short_name'
                     keyword.fetch('short_name', []).map do |short_name|
+                      url = short_name.fetch('url', [{}]).first['value'] || short_name.fetch('long_name', [{}]).first.fetch('url', [{}]).first['value']
+
                       {
                         short_name: short_name['value'],
-                        long_name: short_name.fetch('long_name', [{}]).first['value']
+                        long_name: short_name.fetch('long_name', [{}]).first['value'],
+                        url: url
                       }
                     end
                   else
@@ -532,38 +535,9 @@ class CollectionDraftsController < BaseDraftsController
     @temporal_keywords = keywords.map { |keyword| keyword['value'] }.sort
   end
 
-  def get_data_center_short_names_long_names_urls(json, trios = [])
-    json.each do |k, value|
-      if k == 'short_name'
-        value.each do |value2|
-          short_name = value2['value']
-
-          if value2['long_name'].nil?
-            long_name = nil
-            url = nil
-          else
-            long_name_hash = value2['long_name'][0]
-            long_name = long_name_hash['value']
-            url = long_name_hash['url'].nil? ? nil : long_name_hash['url'][0]['value']
-          end
-
-          trios.push [short_name, long_name, url]
-        end
-
-      elsif value.class == Array
-        value.each do |value2|
-          get_data_center_short_names_long_names_urls value2, trios if value2.class == Hash
-        end
-      elsif value.class == Hash
-        get_data_center_short_names_long_names_urls value, trios
-      end
-    end
-    trios
-  end
-
   def set_data_centers
-    data_centers = cmr_client.get_controlled_keywords('providers')
-    data_centers = get_data_center_short_names_long_names_urls(data_centers)
-    @data_centers = data_centers.sort
+    data_centers = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('data_centers').fetch('level_0', []))
+
+    @data_centers = data_centers.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
   end
 end
