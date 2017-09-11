@@ -9,8 +9,6 @@ class BaseDraftsController < DraftsController
 
     plural_resource = "@#{plural_resource_name}"
     instance_variable_set(plural_resource, resources)
-
-    authorize get_resources
   end
 
   def show
