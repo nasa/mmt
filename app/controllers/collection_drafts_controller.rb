@@ -360,7 +360,7 @@ class CollectionDraftsController < BaseDraftsController
       data_centers.each do |data_center|
         short_name = data_center['ShortName']
         if short_name
-          matches = @data_centers.select { |dc| dc.include?(short_name) }
+          matches = @data_centers.select { |dc| dc[:short_name].include?(short_name) }
           if matches.empty?
             errors << "The property '#/DataCenters' was invalid"
           end
