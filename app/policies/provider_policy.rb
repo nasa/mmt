@@ -32,16 +32,16 @@ class ProviderPolicy < ApplicationPolicy
     # set options
     check_permission_options = {
       # URS ID of the user
-      user_id: @user.user.urs_uid,
+      user_id: user.user.urs_uid,
 
       # Current provider (e.g. MMT_2)
-      provider: @user.user.provider_id,
+      provider: user.user.provider_id,
 
       # The resource to get this users permissions on (e.g. OPTION_DEFINITION)
       target: target
     }
 
-    @user_permission_response ||= cmr_client.check_user_permissions(check_permission_options, @user.token)
+    @user_permission_response ||= cmr_client.check_user_permissions(check_permission_options, user.token)
 
     if @user_permission_response.success?
       # TODO: This should already be JSON -- Update once CMR-3783 is complete
@@ -50,7 +50,7 @@ class ProviderPolicy < ApplicationPolicy
       # Return the permission, default to an empty array
       permission_body[target] || []
     else
-      Rails.logger.error("Error retrieving Provider #{target} permission for #{@user.user.provider_id} for #{@user.user.urs_uid}: #{@user_permission_response.inspect}")
+      Rails.logger.error("Error retrieving Provider #{target} permission for #{user.user.provider_id} for #{user.user.urs_uid}: #{@user_permission_response.inspect}")
 
       # Default response (no permissions)
       []
@@ -60,7 +60,7 @@ class ProviderPolicy < ApplicationPolicy
   def user_has_permission_to(action, target)
     granted_permissions = provider_permissions_for_target(target)
 
-    Rails.logger.debug("#{@user.user.urs_uid} has #{granted_permissions} permissions on Provider #{target} for #{@user.user.provider_id}.")
+    Rails.logger.debug("#{user.user.urs_uid} has #{granted_permissions} permissions on Provider #{target} for #{user.user.provider_id}.")
 
     return false if granted_permissions.empty?
 

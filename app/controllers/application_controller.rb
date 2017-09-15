@@ -13,6 +13,14 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  # By default Pundit calls the current_user method during authorization
+  # but for our calls to the CMR ACL we need user information as well as
+  # the users valid token. This provides our policies with the ability to
+  # retrieve the authenticated user but also to their token
+  def pundit_user
+    UserContext.new(current_user, token)
+  end
+
   def groups_enabled?
     redirect_to manage_collections_path unless Rails.configuration.groups_enabled
   end

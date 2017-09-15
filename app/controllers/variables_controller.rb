@@ -10,10 +10,17 @@ class VariablesController < ManageVariablesController
   add_breadcrumb 'Variables' # there is no variables index action, so not providing a link
 
   def show
+    if params[:not_authorized_request_params]
+      @record_action = 'manage-collection-associations' if params.fetch(:not_authorized_request_params, {})['controller'] == 'collection_associations'
+
+      set_user_permissions
+    end
+
     add_breadcrumb breadcrumb_name(@variable, 'variable'), variable_path(params[:id])
   end
 
   def edit
+
     if @native_id
       draft = VariableDraft.create_from_variable(@variable, current_user, @native_id)
       Rails.logger.info("Audit Log: Variable Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
@@ -80,19 +87,11 @@ class VariablesController < ManageVariablesController
   end
 
   def ensure_correct_variable_provider
-    return if @provider_id == current_user.provider_id
+    return if current_provider?(@provider_id)
 
-    @variable_action = if request.original_url.include?('edit')
-                         'edit'
-                       elsif request.original_url.include?('delete')
-                         'delete'
-                       end
+    set_record_action
 
-    @user_permissions = if available_provider?(@provider_id)
-                          'wrong_provider'
-                        else
-                          'none'
-                        end
+    set_user_permissions
 
     render :show
   end

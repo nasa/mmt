@@ -178,14 +178,45 @@ describe 'Variables permissions', js: true do
             end
           end
         end
+
+        context 'when visiting the manage collection associations link directly' do
+          before do
+            collection_associations_link = page.current_path + '/collection_associations'
+            visit collection_associations_link
+          end
+
+          it 'displays warning banner link to change provider' do
+            expect(page).to have_css('.eui-banner--warn')
+            expect(page).to have_content('You need to change your current provider to manage collection associations for this variable')
+          end
+
+          context 'when clicking the warning banner link' do
+            before do
+              click_link('You need to change your current provider to manage collection associations for this variable')
+              wait_for_ajax
+            end
+
+            it 'switches the provider context' do
+              expect(User.first.provider_id).to eq('MMT_2')
+            end
+
+            it 'displays the variable manage collection associations page' do
+              within '.eui-breadcrumbs' do
+                expect(page).to have_content('Variables')
+                expect(page).to have_content('Collection Associations')
+              end
+              expect(page).to have_link('Add Collection Associations')
+            end
+          end
+        end
       end
     end
 
     context 'when the variables provider is not in the users available providers' do
       before do
-        ingest_response = publish_variable_draft(provider_id: 'SEDAC')
+        @ingested_not_available_provider_variable = publish_variable_draft(provider_id: 'SEDAC')
 
-        visit variable_path(ingest_response['concept-id'])
+        visit variable_path(@ingested_not_available_provider_variable['concept-id'])
       end
 
       it 'does not display the action links' do
@@ -208,6 +239,23 @@ describe 'Variables permissions', js: true do
           it 'displays the Access Denied message' do
             expect(page).to have_content('Access Denied')
             expect(page).to have_content('It appears you do not have access to edit this content.')
+          end
+        end
+
+        context 'when visiting the collection associations link directly' do
+          before do
+            collection_associations_link = page.current_path + '/collection_associations'
+            visit collection_associations_link
+          end
+
+          it 'displays the no permissions banner message' do
+            expect(page).to have_css('.eui-banner--danger')
+            expect(page).to have_content("You don't have the appropriate permissions to manage collection associations for this variable")
+          end
+
+          it 'displays the Access Denied message' do
+            expect(page).to have_content('Access Denied')
+            expect(page).to have_content('It appears you do not have access to manage collection associations for this content.')
           end
         end
       end

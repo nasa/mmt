@@ -45,4 +45,27 @@ class ManageMetadataController < PagesController
       @num_associated_collections = variable_data.fetch('associations', {}).fetch('collections', []).count
     end
   end
+
+  # helper methods used by published record controller methods ensuring a user
+  # has the appropriate provider context set
+  def set_record_action
+    @record_action =  case
+                      when request.original_url.include?('edit')
+                        'edit'
+                      when request.original_url.include?('delete')
+                        'delete'
+                      when request.original_url.include?('clone')
+                        'clone'
+                      when request.original_url.include?('revert')
+                        'revert'
+                      end
+  end
+
+  def set_user_permissions
+    @user_permissions = if available_provider?(@provider_id)
+                          'wrong_provider'
+                        else
+                          'none'
+                        end
+  end
 end

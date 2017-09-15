@@ -70,23 +70,11 @@ class CollectionsController < ManageCollectionsController
   private
 
   def ensure_correct_collection_provider
-    return if @provider_id == current_user.provider_id
+    return if current_provider?(@provider_id)
 
-    @collection_action = if request.original_url.include?('edit')
-                           'edit'
-                         elsif request.original_url.include?('clone')
-                           'clone'
-                         elsif request.original_url.include?('revert')
-                           'revert'
-                         elsif request.original_url.include?('delete')
-                           'delete'
-                         end
+    set_record_action
 
-    @user_permissions = if available_provider?(@provider_id)
-                          'wrong_provider'
-                        else
-                          'none'
-                        end
+    set_user_permissions
 
     render :show
   end
