@@ -2,7 +2,6 @@
 class DraftPolicy < ApplicationPolicy
   def show?
     user.user.provider_id == target.provider_id
-    # user.available_providers.include?(target.provider_id)
   end
 
   def new?
