@@ -4,6 +4,7 @@ class CollectionAssociationsController < CmrSearchController
 
   before_action :set_variable
   before_action :add_high_level_breadcrumbs
+  before_action :ensure_correct_variable_provider, only: [:index, :new]
 
   def index
     # Default the page to 1
@@ -92,5 +93,11 @@ class CollectionAssociationsController < CmrSearchController
         Rails.logger.error "Variable Assocation [error]: #{error}"
       end
     end
+  end
+
+  def ensure_correct_variable_provider
+    return if current_provider?(@provider_id)
+
+    redirect_to variable_path(@concept_id, not_authorized_request_params: request.params)
   end
 end
