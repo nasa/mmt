@@ -168,8 +168,7 @@ class CollectionDraftsController < BaseDraftsController
   private
 
   def load_umm_schema
-    # if provider file exists
-    # need if current_user.provider_id
+    # if user has a provider set and provider file exists
     if current_user.provider_id && File.exist?(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json"))
       provider_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json")))
       umm_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
