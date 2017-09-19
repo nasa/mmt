@@ -31,7 +31,7 @@ describe VariableDraft do
   end
 
   # create_from_variable method
-  it '"create_from_variable" saves a native_id' do
+  it '"create_from_variable" saves the provided native_id' do
     variable = { 'Name' => 'Test Name', 'LongName' => 'test long name' }
     user = User.create(urs_uid: 'testuser')
     native_id = 'test_native_id'
@@ -54,5 +54,28 @@ describe VariableDraft do
     variable_draft = VariableDraft.create_from_variable(variable, user, native_id)
 
     expect(variable_draft.draft).to eq(variable)
+  end
+  it '"create_from_variable" saves a native_id with the "set_native_id" format if one is not provided' do
+    variable = { 'Name' => 'Test Name', 'LongName' => 'test long name' }
+    user = User.create(urs_uid: 'testuser')
+    variable_draft = VariableDraft.create_from_variable(variable, user, nil)
+
+    expect(variable_draft.native_id).to include('mmt_variable_')
+  end
+  it '"create_from_variable" removes the draft Name and LongName values if a native_id is not provided' do
+    variable = { 'Name' => 'Test Name', 'LongName' => 'test long name' }
+    user = User.create(urs_uid: 'testuser')
+    variable_draft = VariableDraft.create_from_variable(variable, user, nil)
+
+    expect(variable_draft.draft['Name']).to be_nil
+    expect(variable_draft.draft['LongName']).to be_nil
+  end
+  it '"create_from_variable" does not save a short_name or entry_title if a native_id is not provided' do
+    variable = { 'Name' => 'Test Name', 'LongName' => 'test long name' }
+    user = User.create(urs_uid: 'testuser')
+    variable_draft = VariableDraft.create_from_variable(variable, user, nil)
+
+    expect(variable_draft.short_name).to be_nil
+    expect(variable_draft.entry_title).to be_nil
   end
 end

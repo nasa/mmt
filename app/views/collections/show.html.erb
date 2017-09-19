@@ -60,20 +60,20 @@
         <div class="cta">
           <p>
             <% if current_provider?(@provider_id) %>
-              <%= link_to 'Edit Record', edit_collection_path(revision_id: @revision_id)%> |
+              <%= link_to 'Edit Collection Record', edit_collection_path(revision_id: @revision_id)%> |
             <% elsif available_provider?(@provider_id) %>
-              <%= link_to 'Edit Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-collection' } %> |
+              <%= link_to 'Edit Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'edit-collection' } %> |
             <% end %>
             <% if current_provider?(@provider_id) %>
-              <%= link_to 'Clone this Record', clone_collection_path %> |
+              <%= link_to 'Clone Collection Record', clone_collection_path %> |
             <% elsif available_provider?(@provider_id) %>
-              <%= link_to 'Clone this Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'clone' } %> |
+              <%= link_to 'Clone Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'clone-collection' } %> |
             <% end %>
             <%= link_to 'Download XML', '#download-xml-modal', class: 'display-modal download-xml', data: { 'path': @collection_link, token: token_with_client_id } %> |
             <% if current_provider?(@provider_id) %>
-              <%= link_to 'Delete Record', "#delete-record-modal", class: 'display-modal delete-collection' %>
+              <%= link_to 'Delete Collection Record', "#delete-record-modal", class: 'display-modal delete-collection' %>
             <% elsif available_provider?(@provider_id) %>
-              <%= link_to 'Delete Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'delete-collection' } %>
+              <%= link_to 'Delete Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'delete-collection' } %>
             <% end %>
             <div id="delete-record-modal" class="eui-modal-content">
               <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
