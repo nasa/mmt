@@ -15,7 +15,7 @@ describe 'Searching published variables', reset_provider: true, js: true do
     ]
 
   before :all do
-    @ingest_response = publish_variable_draft(name: variable_name, long_name: long_name, science_keywords: science_keywords)
+    @ingest_response, _concept_response = publish_variable_draft(name: variable_name, long_name: long_name, science_keywords: science_keywords)
 
     10.times { publish_variable_draft }
   end

@@ -5,7 +5,7 @@ describe 'Create new draft from variable', reset_provider: true do
     before do
       login
 
-      ingest_response = publish_variable_draft(name: 'Test Edit Variable Name')
+      ingest_response, _concept_response = publish_variable_draft(name: 'Test Edit Variable Name')
 
       visit variable_path(ingest_response['concept-id'])
 

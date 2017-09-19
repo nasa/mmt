@@ -2,7 +2,7 @@
 class VariablesController < ManageVariablesController
   include ManageMetadataHelper
 
-  before_action :set_variable, only: [:show, :edit, :destroy]
+  before_action :set_variable, only: [:show, :edit, :destroy, :revisions]
   before_action :set_schema, only: [:show, :edit]
   before_action :set_form, only: [:show, :edit]
   before_action :ensure_correct_variable_provider, only: [:edit, :destroy]
@@ -20,7 +20,6 @@ class VariablesController < ManageVariablesController
   end
 
   def edit
-
     if @native_id
       draft = VariableDraft.create_from_variable(@variable, current_user, @native_id)
       Rails.logger.info("Audit Log: Variable Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
@@ -73,6 +72,11 @@ class VariablesController < ManageVariablesController
       flash[:error] = I18n.t('controllers.variables.destroy.flash.error')
       render :show
     end
+  end
+
+  def revisions
+    add_breadcrumb breadcrumb_name(@variable, 'variables'), variable_path(@concept_id)
+    add_breadcrumb 'Revision History', variable_revisions_path(@concept_id)
   end
 
   private

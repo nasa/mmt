@@ -5,7 +5,6 @@ describe 'Collections breadcrumbs and header' do
     login
     ingest_response, @concept_response = publish_collection_draft
     visit collection_path(ingest_response['concept-id'])
-    puts @concept_response.inspect
   end
 
   context 'when viewing the breadcrumbs' do

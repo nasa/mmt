@@ -10,8 +10,8 @@ describe 'Variables permissions', js: true do
 
     context "when the variable's provider is in the users available providers" do
       before :all do
-        @ingested_variable = publish_variable_draft
-        @ingested_variable_for_delete_modal = publish_variable_draft
+        @ingested_variable, _concept_response = publish_variable_draft
+        @ingested_variable_for_delete_modal, _concept_response = publish_variable_draft
       end
 
       before do
@@ -130,7 +130,7 @@ describe 'Variables permissions', js: true do
 
         context 'when deleting the variable' do
           before do
-            ingested_variable_to_delete = publish_variable_draft
+            ingested_variable_to_delete, _concept_response = publish_variable_draft
 
             visit variable_path(ingested_variable_to_delete['concept-id'])
 
@@ -214,7 +214,7 @@ describe 'Variables permissions', js: true do
 
     context 'when the variables provider is not in the users available providers' do
       before do
-        @ingested_not_available_provider_variable = publish_variable_draft(provider_id: 'SEDAC')
+        @ingested_not_available_provider_variable, _concept_response = publish_variable_draft(provider_id: 'SEDAC')
 
         visit variable_path(@ingested_not_available_provider_variable['concept-id'])
       end

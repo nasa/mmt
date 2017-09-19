@@ -24,25 +24,32 @@ class ManageMetadataController < PagesController
     # if the variable is not found, try again because CMR might be a little slow to index if it is a newly published record
     attempts = 0
     while attempts < 20
-      variables_search_response = cmr_client.get_variables(concept_id: @concept_id)
+      variables_search_response = cmr_client.get_variables(concept_id: @concept_id, all_revisions: true)
 
       variable_data = if variables_search_response.success?
-                        variables_search_response.body['items'].first
+                        variables_search_response.body.fetch('items', [])
                       else
-                        {}
+                        [{}]
                       end
+      variable_data.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
 
-      break if !variable_data.nil? && variable_data.fetch('meta', {})['concept-id'] == @concept_id
+      # break if revisions is wrong
+      latest = variable_data.first
+      break if latest && !@revision_id
+      break if latest && latest['meta']['revision-id'] >= @revision_id.to_i && latest.fetch('meta', {})['concept-id'] == @concept_id
       attempts += 1
       sleep 0.05
     end
 
-    if variable_data.blank?
+    @revisions = variable_data
+    first_variable = variable_data.first
+
+    if first_variable.blank?
       Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
     else
-      @provider_id = variable_data.fetch('meta', {})['provider-id']
-      @native_id = variable_data.fetch('meta', {})['native-id']
-      @num_associated_collections = variable_data.fetch('associations', {}).fetch('collections', []).count
+      @provider_id = first_variable.fetch('meta', {})['provider-id']
+      @native_id = first_variable.fetch('meta', {})['native-id']
+      @num_associated_collections = first_variable.fetch('associations', {}).fetch('collections', []).count
     end
   end
 

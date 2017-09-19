@@ -4,7 +4,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
   before do
     login
 
-    @ingest_response = publish_variable_draft
+    @ingest_response, _concept_response = publish_variable_draft
   end
 
   before :all do

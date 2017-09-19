@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Variables breadcrumbs and header' do
   before :all do
-    @ingest_response = publish_variable_draft(name: 'Variable Name')
+    @ingest_response, _concept_response = publish_variable_draft(name: 'Variable Name')
   end
 
   before do

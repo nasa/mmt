@@ -65,6 +65,9 @@
           options: { variable: @variable, concept_id: @concept_id, revision_id: @revision_id }
         } %>
       </p>
+      <p>
+        <%= link_to "Revisions (#{@revisions.size})", variable_revisions_path %>
+      </p>
     </section>
 
     <div class="content">
