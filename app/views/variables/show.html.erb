@@ -28,6 +28,14 @@
 <% end %>
 
 <% unless @user_permissions == 'none' %>
+  <% if @old_revision %>
+    <div class="eui-banner--info">
+      <p class="eui-banner__message">
+        <%= link_to 'You are viewing an older revision of this variable. Click here to view the latest published version.', variable_path %>
+      </p>
+    </div>
+  <% end %>
+
   <div class="row row-content">
     <section class="action">
       <p>

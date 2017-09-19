@@ -35,6 +35,11 @@ class ManageMetadataController < PagesController
 
       # break if revisions is wrong
       latest = variable_data.first
+
+      if !@revision_id.nil? && latest['meta']['revision-id'].to_s != @revision_id.to_s
+        @old_revision = true
+      end
+
       break if latest && !@revision_id
       break if latest && latest['meta']['revision-id'] >= @revision_id.to_i && latest.fetch('meta', {})['concept-id'] == @concept_id
       attempts += 1
