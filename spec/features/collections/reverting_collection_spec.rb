@@ -69,7 +69,7 @@ describe 'Reverting to previous collections', js: true do
 
       visit collection_path(ingest_response['concept-id'])
 
-      click_on 'Delete Record'
+      click_on 'Delete Collection Record'
       click_on 'Yes'
 
       wait_for_ajax

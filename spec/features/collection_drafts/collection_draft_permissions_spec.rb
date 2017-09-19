@@ -41,8 +41,8 @@ describe 'Collection draft permissions' do
       end
 
       it 'does not display the collection draft preview' do
-        expect(page).to have_no_content('Publish Draft')
-        expect(page).to have_no_content('Delete Draft')
+        expect(page).to have_no_content('Publish Collection Draft')
+        expect(page).to have_no_content('Delete Collection Draft')
         expect(page).to have_no_content('Metadata Fields')
         expect(page).to have_no_content('Abstract')
         expect(page).to have_no_content('Data Identification Fields:')
@@ -83,8 +83,8 @@ describe 'Collection draft permissions' do
         end
 
         it 'displays the collection draft preview information' do
-          expect(page).to have_content('Publish Draft')
-          expect(page).to have_content('Delete Draft')
+          expect(page).to have_content('Publish Collection Draft')
+          expect(page).to have_content('Delete Collection Draft')
           expect(page).to have_content('Abstract')
           expect(page).to have_content('Data Identification Fields:')
           expect(page).to have_content('Acquisition Information Fields:')
@@ -111,8 +111,8 @@ describe 'Collection draft permissions' do
       end
 
       it 'does not display the collection draft preview' do
-        expect(page).to have_no_content('Publish Draft')
-        expect(page).to have_no_content('Delete Draft')
+        expect(page).to have_no_content('Publish Collection Draft')
+        expect(page).to have_no_content('Delete Collection Draft')
         expect(page).to have_no_content('Metadata Fields')
         expect(page).to have_no_content('Abstract')
         expect(page).to have_no_content('Data Identification Fields:')

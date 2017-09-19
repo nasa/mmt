@@ -18,7 +18,7 @@ $(document).ready ->
     textAction = switch action
       when 'edit-collection'
         'Editing this collection'
-      when 'clone'
+      when 'clone-collection'
         'Cloning this collection'
       when 'delete-collection'
         'Deleting this collection'
@@ -38,6 +38,8 @@ $(document).ready ->
         'Deleting this group'
       when 'edit-variable'
         'Editing this variable'
+      when 'clone-variable'
+        'Cloning this variable'
       when 'delete-variable'
         if associatedCollections > 0
           "This variable is associated with #{associatedCollections} collections. Deleting this variable will also delete the collection associations, and"

@@ -2,18 +2,20 @@
 
 require 'rails_helper'
 
-describe 'Create new draft from cloning a collection', js: true do
+describe 'Create new collection draft from cloning a collection', js: true do
   # short_name = '12345'
   # entry_title = 'Draft Title'
+  before :all do
+    @ingest_response, @concept_response = publish_collection_draft
+  end
 
   context 'when editing a CMR collection' do
     before do
       login
-      ingest_response, @concept_response = publish_collection_draft
 
-      visit collection_path(ingest_response['concept-id'])
+      visit collection_path(@ingest_response['concept-id'])
 
-      click_on 'Clone this Record'
+      click_on 'Clone Collection Record'
 
       # open_accordions
     end
@@ -33,7 +35,7 @@ describe 'Create new draft from cloning a collection', js: true do
 
     it 'displays the draft preview page' do
       within '.eui-breadcrumbs' do
-        expect(page).to have_content('Drafts')
+        expect(page).to have_content('Collection Drafts')
       end
 
       expect(page).to have_content("#{@concept_response.body['EntryTitle']} - Cloned")
@@ -74,7 +76,7 @@ describe 'Create new draft from cloning a collection', js: true do
   #     visit collection_draft_path(draft)
   #     click_on 'Publish'
   #     wait_for_cmr
-  #     click_on 'Clone this Record'
+  #     click_on 'Clone Collection Record'
   #   end
 
   #   it 'copies all data from the published record into the draft' do

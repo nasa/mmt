@@ -70,6 +70,7 @@ Rails.application.routes.draw do
       end
     end
   end
+  get '/variables/:id/clone' => 'variables#clone', as: 'clone_variable'
 
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do

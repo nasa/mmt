@@ -25,6 +25,7 @@ describe 'Variables permissions', js: true do
 
       it 'displays the action links' do
         expect(page).to have_link('Edit Variable Record')
+        expect(page).to have_link('Clone Variable Record')
         expect(page).to have_link('Delete Variable Record')
       end
 
@@ -50,6 +51,32 @@ describe 'Variables permissions', js: true do
 
           it 'creates a draft from the variable' do
             expect(page).to have_content('Variable Draft Created Successfully!')
+            expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
+          end
+        end
+      end
+
+      context 'when clicking the clone link' do
+        before do
+          click_on 'Clone Variable Record'
+        end
+
+        it 'displays a modal informing the user they need to switch providers' do
+          expect(page).to have_content("Cloning this variable #{modal_text}")
+        end
+
+        context 'when clicking Yes' do
+          before do
+            find('.not-current-provider-link').click
+            wait_for_ajax
+          end
+
+          it 'switches the provider context' do
+            expect(User.first.provider_id).to eq('MMT_2')
+          end
+
+          it 'creates a draft from the variable' do
+            expect(page).to have_content('Records must have a unique Name and Long Name within a provider. Click here to enter a new Name and Long Name.')
             expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
           end
         end
@@ -150,8 +177,8 @@ describe 'Variables permissions', js: true do
         end
       end
 
-      context 'when trying to visit the action links directly' do
-        context 'when visiting the edit link directly' do
+      context 'when trying to visit the action paths directly' do
+        context 'when visiting the edit path directly' do
           before do
             edit_link = page.current_path + '/edit'
             visit edit_link
@@ -179,7 +206,35 @@ describe 'Variables permissions', js: true do
           end
         end
 
-        context 'when visiting the manage collection associations link directly' do
+        context 'when visiting the clone path directly' do
+          before do
+            clone_link = page.current_path + '/clone'
+            visit clone_link
+          end
+
+          it 'displays warning banner link to change provider' do
+            expect(page).to have_css('.eui-banner--warn')
+            expect(page).to have_content('You need to change your current provider to clone this variable')
+          end
+
+          context 'when clicking the warning banner link' do
+            before do
+              click_link('You need to change your current provider to clone this variable')
+              wait_for_ajax
+            end
+
+            it 'switches the provider context' do
+              expect(User.first.provider_id).to eq('MMT_2')
+            end
+
+            it 'creates a draft from the variable' do
+              expect(page).to have_content('Records must have a unique Name and Long Name within a provider. Click here to enter a new Name and Long Name.')
+              expect(Draft.where(provider_id: 'MMT_2').size).to eq(1)
+            end
+          end
+        end
+
+        context 'when visiting the manage collection associations path directly' do
           before do
             collection_associations_link = page.current_path + '/collection_associations'
             visit collection_associations_link
@@ -221,11 +276,12 @@ describe 'Variables permissions', js: true do
 
       it 'does not display the action links' do
         expect(page).to have_no_link('Edit Variable Record')
+        expect(page).to have_no_link('Clone Variable Record')
         expect(page).to have_no_link('Delete Variable Record')
       end
 
-      context 'when trying to visit the action links directly' do
-        context 'when visiting the edit link directly' do
+      context 'when trying to visit the action paths directly' do
+        context 'when visiting the edit path directly' do
           before do
             edit_link = page.current_path + '/edit'
             visit edit_link
@@ -242,7 +298,24 @@ describe 'Variables permissions', js: true do
           end
         end
 
-        context 'when visiting the collection associations link directly' do
+        context 'when visiting the clone path directly' do
+          before do
+            clone_link = page.current_path + '/clone'
+            visit clone_link
+          end
+
+          it 'displays the no permissions banner message' do
+            expect(page).to have_css('.eui-banner--danger')
+            expect(page).to have_content("You don't have the appropriate permissions to clone this variable")
+          end
+
+          it 'displays the Access Denied message' do
+            expect(page).to have_content('Access Denied')
+            expect(page).to have_content('It appears you do not have access to clone this content.')
+          end
+        end
+
+        context 'when visiting the collection associations path directly' do
           before do
             collection_associations_link = page.current_path + '/collection_associations'
             visit collection_associations_link

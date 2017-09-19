@@ -13,7 +13,7 @@ describe 'Create new draft from collection' do
 
       visit collection_path(ingest_response['concept-id'])
 
-      click_on 'Edit Record'
+      click_on 'Edit Collection Record'
 
       # expect(page).to have_content('Metadata Fields')
     end
@@ -52,9 +52,9 @@ describe 'Create new draft from collection' do
   #     click_on 'Publish'
   #     wait_for_cmr
 
-  #     expect(page).to have_link 'Edit Record'
+  #     expect(page).to have_link 'Edit Collection Record'
   #     page.document.synchronize do
-  #       click_on 'Edit Record'
+  #       click_on 'Edit Collection Record'
   #     end
 
   #     expect(page).to have_content('Metadata Fields')

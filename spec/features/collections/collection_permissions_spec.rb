@@ -21,14 +21,14 @@ describe 'Collections permissions', js: true do
       end
 
       it 'displays the action links' do
-        expect(page).to have_link('Edit Record')
-        expect(page).to have_link('Clone this Record')
-        expect(page).to have_link('Delete Record')
+        expect(page).to have_link('Edit Collection Record')
+        expect(page).to have_link('Clone Collection Record')
+        expect(page).to have_link('Delete Collection Record')
       end
 
       context 'when clicking the edit link' do
         before do
-          click_on 'Edit Record'
+          click_on 'Edit Collection Record'
         end
 
         it 'displays a modal informing the user they need to switch providers' do
@@ -55,7 +55,7 @@ describe 'Collections permissions', js: true do
 
       context 'when clicking the clone link' do
         before do
-          click_on 'Clone this Record'
+          click_on 'Clone Collection Record'
         end
 
         it 'displays a modal informing the user they need to switch providers' do
@@ -82,7 +82,7 @@ describe 'Collections permissions', js: true do
 
       context 'when clicking the delete link' do
         before do
-          click_on 'Delete Record'
+          click_on 'Delete Collection Record'
         end
 
         it 'displays a modal informing the user they need to switch providers' do
@@ -147,8 +147,8 @@ describe 'Collections permissions', js: true do
         end
       end
 
-      context 'when trying to visit the action links directly' do
-        context 'when visiting the edit link directly' do
+      context 'when trying to visit the action paths directly' do
+        context 'when visiting the edit path directly' do
           before do
             edit_link = page.current_path + '/edit'
             visit edit_link
@@ -176,7 +176,7 @@ describe 'Collections permissions', js: true do
           end
         end
 
-        context 'when visiting the clone link directly' do
+        context 'when visiting the clone path directly' do
           before do
             clone_link = page.current_path + '/clone'
             visit clone_link
@@ -214,9 +214,9 @@ describe 'Collections permissions', js: true do
       end
 
       it 'does not display the action links' do
-        expect(page).to have_no_link('Edit Record')
-        expect(page).to have_no_link('Clone this Record')
-        expect(page).to have_no_link('Delete Record')
+        expect(page).to have_no_link('Edit Collection Record')
+        expect(page).to have_no_link('Clone Collection Record')
+        expect(page).to have_no_link('Delete Collection Record')
       end
 
       context 'when viewing the revisions page' do
@@ -231,9 +231,8 @@ describe 'Collections permissions', js: true do
         end
       end
 
-      context 'when trying to visit the action links directly' do
-
-        context 'when visiting the edit link directly' do
+      context 'when trying to visit the action paths directly' do
+        context 'when visiting the edit path directly' do
           before do
             edit_link = page.current_path + '/edit'
             visit edit_link
@@ -250,7 +249,7 @@ describe 'Collections permissions', js: true do
           end
         end
 
-        context 'when visiting clone link directly' do
+        context 'when visiting clone path directly' do
           before do
             clone_link = page.current_path + '/clone'
             visit clone_link

@@ -15,16 +15,14 @@ class CollectionsController < ManageCollectionsController
 
   def edit
     draft = CollectionDraft.create_from_collection(@collection, current_user, @native_id)
-    Rails.logger.info("Audit Log: Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
-    flash[:success] = I18n.t('controllers.draft.collection_drafts.create.flash.success')
-    redirect_to collection_draft_path(draft)
+    Rails.logger.info("Audit Log: Collection Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
+    redirect_to collection_draft_path(draft), flash: { success: I18n.t('controllers.draft.collection_drafts.create.flash.success') }
   end
 
   def clone
     draft = CollectionDraft.create_from_collection(@collection, current_user, nil)
-
+    Rails.logger.info("Audit Log: Cloned Collection Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
     flash[:notice] = view_context.link_to I18n.t('controllers.collections.clone.flash.notice'), edit_collection_draft_path(draft, 'collection_information', anchor: 'collection-information')
-
     redirect_to collection_draft_path(draft)
   end
 
