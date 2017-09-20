@@ -9,7 +9,7 @@ describe 'Variable draft deletion', js: true do
 
   context 'when adding and deleting a single draft' do
     before do
-      within('.cta') do
+      within '.action' do
         click_on 'Delete Variable Draft'
         # Accept
         click_on 'Yes'
@@ -25,7 +25,7 @@ describe 'Variable draft deletion', js: true do
 
   context 'when cancelling the deletion of a single draft' do
     before do
-      within('.cta') do
+      within '.action' do
         click_on 'Delete Variable Draft'
         # Reject
         click_on 'No'
