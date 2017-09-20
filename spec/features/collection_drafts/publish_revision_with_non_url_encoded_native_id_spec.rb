@@ -14,7 +14,7 @@ describe 'Publishing revision of collection with non url encoded native id' do
         visit collection_path(ingest_response['concept-id'])
 
         # Editing this record will make a new draft
-        click_on 'Edit Record'
+        click_on 'Edit Collection Record'
       end
 
       it 'creates a draft with a non url encoded native id' do

@@ -2,10 +2,10 @@
 class VariablesController < ManageVariablesController
   include ManageMetadataHelper
 
-  before_action :set_variable, only: [:show, :edit, :destroy, :revisions, :revert]
-  before_action :set_schema, only: [:show, :edit]
-  before_action :set_form, only: [:show, :edit]
-  before_action :ensure_correct_variable_provider, only: [:edit, :destroy]
+  before_action :set_variable, only: [:show, :edit, :clone, :destroy, :revisions, :revert]
+  before_action :set_schema, only: [:show, :edit, :clone]
+  before_action :set_form, only: [:show, :edit, :clone]
+  before_action :ensure_correct_variable_provider, only: [:edit, :clone, :destroy]
 
   add_breadcrumb 'Variables' # there is no variables index action, so not providing a link
 
@@ -23,12 +23,18 @@ class VariablesController < ManageVariablesController
     if @native_id
       draft = VariableDraft.create_from_variable(@variable, current_user, @native_id)
       Rails.logger.info("Audit Log: Variable Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
-      flash[:success] = I18n.t('controllers.draft.variable_drafts.create.flash.success')
-      redirect_to variable_draft_path(draft)
+      redirect_to variable_draft_path(draft), flash: { success: I18n.t('controllers.draft.variable_drafts.create.flash.success') }
     else
       # if we cannot locate the native_id for the Variable, we should discontinue editing
       redirect_to variable_path(@concept_id, revision_id: @revision_id), flash: { error: I18n.t('controllers.variables.edit.flash.native_id_error') }
     end
+  end
+
+  def clone
+    draft = VariableDraft.create_from_variable(@variable, current_user, nil)
+    Rails.logger.info("Audit Log: Cloned Variable Draft for #{draft.short_name} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
+    flash[:notice] = view_context.link_to I18n.t('controllers.variables.clone.flash.notice'), edit_variable_draft_path(draft, 'variable_information', anchor: 'variable_draft_draft_name')
+    redirect_to variable_draft_path(draft)
   end
 
   def create

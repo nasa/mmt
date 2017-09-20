@@ -3,6 +3,8 @@ module VariablesHelper
     case variable_action
     when 'edit'
       link_to('Edit Variable', edit_variable_path(concept_id, revision_id: revision_id), class: 'is-invisible', id: 'change-provider-variable-edit')
+    when 'clone'
+      link_to('Clone Variable', clone_variable_path(concept_id, revision_id: revision_id), class: 'is-invisible', id: 'change-provider-variable-clone')
     when 'delete'
       link_to('Delete Variable', variable_path(concept_id), method: :delete, class: 'is-invisible', id: 'change-provider-variable-delete')
     when 'manage-collection-associations'

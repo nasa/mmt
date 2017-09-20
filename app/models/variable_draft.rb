@@ -10,9 +10,18 @@ class VariableDraft < Draft
     end
 
     def create_from_variable(variable, user, native_id)
-      draft = VariableDraft.find_or_initialize_by(native_id: native_id)
-      draft.entry_title = variable['LongName']
-      draft.short_name = variable['Name']
+      if native_id
+        # Edited record
+        draft = VariableDraft.find_or_initialize_by(native_id: native_id)
+        draft.entry_title = variable['LongName']
+        draft.short_name = variable['Name']
+      else
+        # Cloned Record
+        draft = VariableDraft.new
+        variable.delete('Name')
+        variable.delete('LongName')
+      end
+
       draft.user = user
       draft.provider_id = user.provider_id
       draft.draft = variable

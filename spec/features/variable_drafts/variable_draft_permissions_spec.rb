@@ -39,10 +39,9 @@ describe 'Variable draft permissions' do
       end
 
       it 'does not display the variable draft preview' do
-        expect(page).to have_no_content('Publish Draft')
-        expect(page).to have_no_content('Delete Draft')
+        expect(page).to have_no_content('Publish Variable Draft')
+        expect(page).to have_no_content('Delete Variable Draft')
         expect(page).to have_no_content('Metadata Fields')
-        expect(page).to have_no_content('Abstract')
         expect(page).to have_no_content('Variable Information')
         expect(page).to have_no_content('Dimensions')
       end
@@ -111,10 +110,9 @@ describe 'Variable draft permissions' do
       end
 
       it 'does not display the variable draft preview' do
-        expect(page).to have_no_content('Publish Draft')
-        expect(page).to have_no_content('Delete Draft')
+        expect(page).to have_no_content('Publish Variable Draft')
+        expect(page).to have_no_content('Delete Variable Draft')
         expect(page).to have_no_content('Metadata Fields')
-        expect(page).to have_no_content('Abstract')
         expect(page).to have_no_content('Variable Information')
         expect(page).to have_no_content('Dimensions')
       end

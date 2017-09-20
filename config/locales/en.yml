@@ -80,6 +80,9 @@ en:
         flash:
           success: 'Variable Revision Created Successfully!'
           error: 'Variable revision was not created successfully'
+      clone:
+        flash:
+          notice: 'Records must have a unique Name and Long Name within a provider. Click here to enter a new Name and Long Name.'
   views:
     pagination:
       first: "First"

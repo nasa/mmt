@@ -16,12 +16,12 @@ describe 'Delete collection', js: true do
 
     context 'when the collection has no granules' do
       it 'displays a delete link' do
-        expect(page).to have_content('Delete Record')
+        expect(page).to have_content('Delete Collection Record')
       end
 
       context 'when clicking the delete link' do
         before do
-          click_on 'Delete Record'
+          click_on 'Delete Collection Record'
 
           within '#delete-record-modal' do
             click_on 'Yes'
@@ -73,7 +73,7 @@ describe 'Delete collection', js: true do
 
     context 'when clicking the delete link' do
       before do
-        click_on 'Delete Record'
+        click_on 'Delete Collection Record'
       end
 
       it 'does not allow the user to delete the collection' do
@@ -91,7 +91,7 @@ describe 'Delete collection', js: true do
 
     context 'when clicking the delete link' do
       before do
-        click_on 'Delete Record'
+        click_on 'Delete Collection Record'
 
         within '#delete-record-modal' do
           click_on 'Yes'

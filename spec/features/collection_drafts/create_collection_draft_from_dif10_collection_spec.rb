@@ -30,7 +30,7 @@ describe 'Create and edit a draft from a Dif 10 collection with location keyword
 
     context 'when editing the record with more location keywords' do
       before do
-        click_on 'Edit Record'
+        click_on 'Edit Collection Record'
 
         within '.metadata' do
           click_on 'Spatial Information', match: :first

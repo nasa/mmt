@@ -7,17 +7,8 @@
   padding-top: 0.9375em;
   padding-bottom: 0.625em;
 
-  a:first-child {
+  a[class^="eui-btn"]:not(.eui-btn--link):first-child {
     margin-right: 0.625em;
-  }
-}
-
-.cta {
-  width: 60%;
-  float: left;
-
-  .eui-btn--blue {
-    color: $white;
   }
 }
 

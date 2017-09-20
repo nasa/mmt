@@ -72,6 +72,7 @@ Rails.application.routes.draw do
   end
   get '/variables/:id/revisions' => 'variables#revisions', as: 'variable_revisions'
   get '/variables/:id/revert/:revision_id' => 'variables#revert', as: 'revert_variable'
+  get '/variables/:id/clone' => 'variables#clone', as: 'clone_variable'
 
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do

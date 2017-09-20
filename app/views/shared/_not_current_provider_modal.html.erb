@@ -17,7 +17,7 @@
       <% end %>
     <% elsif options[:collection] %>
       <%= link_to 'Yes', edit_collection_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-collection-link' %>
-      <%= link_to 'Yes', clone_collection_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-link' %>
+      <%= link_to 'Yes', clone_collection_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-collection-link' %>
       <%= link_to 'Yes', collection_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-collection-link' %>
     <% end %>
 
@@ -33,6 +33,7 @@
 
     <% if options[:variable] %>
       <%= link_to 'Yes', edit_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-variable-link' %>
+      <%= link_to 'Yes', clone_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-variable-link' %>
       <%= link_to 'Yes', variable_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-variable-link' %>
       <%= link_to 'Yes', variable_collection_associations_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-manage-variable-associations-link' %>
     <% end %>
