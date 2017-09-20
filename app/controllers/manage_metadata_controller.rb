@@ -33,7 +33,7 @@ class ManageMetadataController < PagesController
                       end
       variable_data.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
 
-      # break if revisions is wrong
+      @revisions = variable_data
       latest = variable_data.first
 
       if !@revision_id.nil? && latest && latest['meta']['revision-id'].to_s != @revision_id.to_s
@@ -46,15 +46,12 @@ class ManageMetadataController < PagesController
       sleep 0.05
     end
 
-    @revisions = variable_data
-    first_variable = variable_data.first
-
-    if first_variable.blank?
+    if latest.blank?
       Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
     else
-      @provider_id = first_variable.fetch('meta', {})['provider-id']
-      @native_id = first_variable.fetch('meta', {})['native-id']
-      @num_associated_collections = first_variable.fetch('associations', {}).fetch('collections', []).count
+      @provider_id = latest.fetch('meta', {})['provider-id']
+      @native_id = latest.fetch('meta', {})['native-id']
+      @num_associated_collections = latest.fetch('associations', {}).fetch('collections', []).count
     end
   end
 
