@@ -13,7 +13,7 @@ describe 'Reverting to previous collections', js: true do
 
       visit collection_path(ingest_response['concept-id'])
 
-      within '.cta' do
+      within '.action' do
         click_on 'Revisions'
       end
     end
@@ -114,7 +114,7 @@ describe 'Reverting to previous collections', js: true do
 
       @collection_concept = current_path.sub('/collections/', '')
 
-      within '.cta' do
+      within '.action' do
         click_on 'Revisions'
       end
     end

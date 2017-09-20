@@ -108,7 +108,7 @@ describe 'Collections permissions', js: true do
 
       context 'when viewing the revisions page' do
         before do
-          within '.cta' do
+          within '.action' do
             click_on 'Revisions'
           end
         end
@@ -221,7 +221,7 @@ describe 'Collections permissions', js: true do
 
       context 'when viewing the revisions page' do
         before do
-          within '.cta' do
+          within '.action' do
             click_on 'Revisions'
           end
         end
