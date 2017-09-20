@@ -2,7 +2,7 @@
 class VariablesController < ManageVariablesController
   include ManageMetadataHelper
 
-  before_action :set_variable, only: [:show, :edit, :destroy, :revisions]
+  before_action :set_variable, only: [:show, :edit, :destroy, :revisions, :revert]
   before_action :set_schema, only: [:show, :edit]
   before_action :set_form, only: [:show, :edit]
   before_action :ensure_correct_variable_provider, only: [:edit, :destroy]
@@ -67,7 +67,7 @@ class VariablesController < ManageVariablesController
       flash[:success] = I18n.t('controllers.variables.destroy.flash.success')
       Rails.logger.info("Audit Log: Variable with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
 
-      redirect_to manage_variables_path
+      redirect_to variable_revisions_path(id: delete.body['concept-id'], revision_id: delete.body['revision-id'])
     else
       flash[:error] = I18n.t('controllers.variables.destroy.flash.error')
       render :show
@@ -77,6 +77,26 @@ class VariablesController < ManageVariablesController
   def revisions
     add_breadcrumb breadcrumb_name(@variable, 'variables'), variable_path(@concept_id)
     add_breadcrumb 'Revision History', variable_revisions_path(@concept_id)
+  end
+
+  def revert
+    latest_revision_id = @revisions.first['meta']['revision-id']
+
+    # Ingest revision
+    ingested = cmr_client.ingest_variable(@variable.to_json, @provider_id, @native_id, token)
+
+    if ingested.success?
+      flash[:success] = I18n.t('controllers.variables.revert.flash.success')
+      Rails.logger.info("Audit Log: Variable Revision for draft with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
+      redirect_to variable_revisions_path(revision_id: latest_revision_id.to_i + 1)
+    else
+      Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
+
+      @errors = generate_ingest_errors(ingested)
+
+      flash[:error] = I18n.t('controllers.variables.revert.flash.error')
+      render action: 'revisions'
+    end
   end
 
   private

@@ -10,7 +10,11 @@
     <%= link_to 'Yes', '#', class: 'eui-btn--blue spinner not-current-provider-link', data: { index: modal_index } %>
 
     <% if options[:revisions] %>
-      <%= link_to 'Yes', revert_collection_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-revert-link' %>
+      <% if options[:variable] %>
+        <%= link_to 'Yes', revert_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-revert-link' %>
+      <% else %>
+        <%= link_to 'Yes', revert_collection_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-revert-link' %>
+      <% end %>
     <% elsif options[:collection] %>
       <%= link_to 'Yes', edit_collection_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-collection-link' %>
       <%= link_to 'Yes', clone_collection_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-link' %>

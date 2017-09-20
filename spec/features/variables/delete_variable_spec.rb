@@ -49,15 +49,14 @@ describe 'Delete variable', js: true do
             end
           end
 
-          it 'redirects to the Manage Variables page and displays a confirmation message' do
-            expect(page).to have_content('MMT_2 Variable Drafts')
+          it 'redirects to the revisions page and displays a confirmation message' do
+            expect(page).to have_content('Revision History')
 
             expect(page).to have_content('Variable Deleted Successfully!')
           end
         end
       end
     end
-
 
     context 'when the variable does not have associated collections' do
       before do
@@ -89,8 +88,8 @@ describe 'Delete variable', js: true do
             end
           end
 
-          it 'redirects to the Manage Variables page and displays a confirmation message' do
-            expect(page).to have_content('MMT_2 Variable Drafts')
+          it 'redirects to the revisions page and displays a confirmation message' do
+            expect(page).to have_content('Revision History')
 
             expect(page).to have_content('Variable Deleted Successfully!')
           end

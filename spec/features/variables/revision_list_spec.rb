@@ -1,5 +1,3 @@
-# MMT-87, MMT-88, MMT-21
-
 require 'rails_helper'
 
 describe 'Variable revision list', js: true do
@@ -38,10 +36,9 @@ describe 'Variable revision list', js: true do
         expect(page).to have_content('typical', count: 2)
       end
 
-      # MMT-1152
-      # it 'displays the correct phrasing for reverting records' do
-      #   expect(page).to have_content('Revert to this Revision', count: 1)
-      # end
+      it 'displays the correct phrasing for reverting records' do
+        expect(page).to have_content('Revert to this Revision', count: 1)
+      end
 
       context 'when viewing an old revision' do
         link_text = 'You are viewing an older revision of this variable. Click here to view the latest published version.'
@@ -51,6 +48,10 @@ describe 'Variable revision list', js: true do
 
         it 'displays a message that the revision is old' do
           expect(page).to have_link(link_text)
+        end
+
+        it 'does not display a link to manage collection associations' do
+          expect(page).to have_no_link('Manage Collection Associations')
         end
 
         context 'when clicking the message' do

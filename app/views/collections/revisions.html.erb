@@ -7,7 +7,6 @@
   <section class="errors">
     <div class="eui-banner--danger">
       <div class="eui-banner__message">
-        <!-- <i class="fa fa-exclamation-triangle"></i> This revision could not be reverted successfully: -->
         <ul class="no-bullet">
           <% @errors.each do |error| %>
             <li>
@@ -25,8 +24,8 @@
 <% end %>
 
 <div class="row row-content">
-  <section class="heading-group">
-    <h3>Revision History</h3>
+  <section>
+    <h2>Revision History</h2>
   </section>
   <% if @error %>
     <section class="errors">
@@ -87,16 +86,18 @@
                 <% if @revisions.first['meta']['deleted'] == true %>
                   <% phrase = 'Reinstate' %>
                   <% confirm_phrase = 'Are you sure you want to reinstate this record?' %>
+                  <% action = 'reinstate-collection' %>
                 <% else %>
                   <% phrase = 'Revert to this Revision' %>
                   <% confirm_phrase = 'Are you sure you want to revert to this revision?' %>
+                  <% action = 'revert-collection' %>
                 <% end %>
 
                 <% unless index == 0 || revision['meta']['deleted'] == true %>
                   <% if current_provider?(@provider_id) %>
                     <%= link_to phrase, "#revert-revisions-modal-#{revision_id}", class: 'display-modal' %>
                   <% elsif available_provider?(@provider_id) %>
-                    <%= link_to phrase, '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: phrase } %>
+                    <%= link_to phrase, '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: action } %>
                   <% end %>
                   <div id="revert-revisions-modal-<%= revision_id %>" class="eui-modal-content">
                     <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>

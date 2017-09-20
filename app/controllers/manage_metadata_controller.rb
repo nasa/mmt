@@ -36,7 +36,7 @@ class ManageMetadataController < PagesController
       # break if revisions is wrong
       latest = variable_data.first
 
-      if !@revision_id.nil? && latest['meta']['revision-id'].to_s != @revision_id.to_s
+      if !@revision_id.nil? && latest && latest['meta']['revision-id'].to_s != @revision_id.to_s
         @old_revision = true
       end
 

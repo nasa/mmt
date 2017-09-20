@@ -33,21 +33,3 @@ body {
     padding-top: 0.5em;
   }
 }
-
-.heading-group {
-  margin-bottom: 2em;
-  padding: 0.5em 1em;
-  border-left: 5px solid $red;
-
-  h2 {
-    margin: 0;
-    margin-bottom: 0.2em;
-    border: none;
-    font-weight: bold;
-  }
-
-  p {
-    margin: 0;
-    color: $dolphin-grey;
-  }
-}
