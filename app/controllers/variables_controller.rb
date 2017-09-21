@@ -2,7 +2,7 @@
 class VariablesController < ManageVariablesController
   include ManageMetadataHelper
 
-  before_action :set_variable, only: [:show, :edit, :clone, :destroy, :revisions, :revert]
+  before_action :set_variable, only: [:show, :edit, :clone, :destroy, :revisions, :revert, :download_json]
   before_action :set_schema, only: [:show, :edit, :clone]
   before_action :set_form, only: [:show, :edit, :clone]
   before_action :ensure_correct_variable_provider, only: [:edit, :clone, :destroy]
@@ -103,6 +103,10 @@ class VariablesController < ManageVariablesController
       flash[:error] = I18n.t('controllers.variables.revert.flash.error')
       render action: 'revisions'
     end
+  end
+
+  def download_json
+    send_data @variable, type: 'application/json; charset=utf-8', disposition: "attachment; filename=#{@concept_id}.json"
   end
 
   private
