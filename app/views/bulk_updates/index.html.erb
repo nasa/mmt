@@ -20,7 +20,7 @@
       <tbody>
         <% if @bulk_updates.blank? %>
           <tr>
-            <td colspan="2">No <%= current_user.provider_id %> Bulk Updates found.</td>
+            <td colspan="4">No <%= current_user.provider_id %> Bulk Updates found.</td>
           </tr>
         <% else %>
           <% @bulk_updates.each do |task| %>
