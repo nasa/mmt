@@ -4,7 +4,7 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
   before do
     login
 
-    @variable_ingest_response = publish_variable_draft
+    @variable_ingest_response, _concept_response = publish_variable_draft
 
     create_variable_collection_association(@variable_ingest_response['concept-id'], @ingest_response1['concept-id'], @ingest_response2['concept-id'])
   end
@@ -45,7 +45,7 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
 
       context 'When clicking Yes on the confirmation dialog' do
         before do
-          click_on 'Yes'          
+          click_on 'Yes'
         end
 
         it 'removes the association' do

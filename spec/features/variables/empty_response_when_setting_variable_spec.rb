@@ -9,7 +9,7 @@ describe 'Viewing a variable' do
   long_name = "Long Detailed Description of Useful Gas and Ratio Test Search Var #{Faker::Number.number(6)}"
 
   before :all do
-    @ingest_response = publish_variable_draft(name: variable_name, long_name: long_name)
+    @ingest_response, _concept_response = publish_variable_draft(name: variable_name, long_name: long_name)
   end
 
   before do

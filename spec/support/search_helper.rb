@@ -9,7 +9,7 @@ module Helpers
       select provider, from: 'provider_id' unless provider.nil?
       fill_in 'keyword', with: keyword
 
-      click_button 'Search Collections'
+      click_button "Search #{record_type}"
     end
   end
 end

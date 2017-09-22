@@ -2,16 +2,16 @@ require 'rails_helper'
 
 describe 'Delete variable', js: true do
   before :all do
-    @ingested_variable_with_associations = publish_variable_draft
+    @ingested_variable_with_associations, _concept_response = publish_variable_draft
 
-    ingested_collection_1, concept_response_1 = publish_collection_draft
-    ingested_collection_2, concept_response_2 = publish_collection_draft
+    ingested_collection_1, _concept_response = publish_collection_draft
+    ingested_collection_2, _concept_response = publish_collection_draft
 
     create_variable_collection_association(@ingested_variable_with_associations['concept-id'],
                                            ingested_collection_1['concept-id'],
                                            ingested_collection_2['concept-id'])
 
-    @ingested_variable_without_associations = publish_variable_draft
+    @ingested_variable_without_associations, _concept_response = publish_variable_draft
   end
 
   before do
@@ -49,15 +49,14 @@ describe 'Delete variable', js: true do
             end
           end
 
-          it 'redirects to the Manage Variables page and displays a confirmation message' do
-            expect(page).to have_content('MMT_2 Variable Drafts')
+          it 'redirects to the revisions page and displays a confirmation message' do
+            expect(page).to have_content('Revision History')
 
             expect(page).to have_content('Variable Deleted Successfully!')
           end
         end
       end
     end
-
 
     context 'when the variable does not have associated collections' do
       before do
@@ -89,8 +88,8 @@ describe 'Delete variable', js: true do
             end
           end
 
-          it 'redirects to the Manage Variables page and displays a confirmation message' do
-            expect(page).to have_content('MMT_2 Variable Drafts')
+          it 'redirects to the revisions page and displays a confirmation message' do
+            expect(page).to have_content('Revision History')
 
             expect(page).to have_content('Variable Deleted Successfully!')
           end

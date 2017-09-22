@@ -69,10 +69,11 @@ module Helpers
     end
 
     # Publish a variable draft
-    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil)
+    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
         user = User.where(urs_uid: 'testuser').first
 
+        ingest_response = nil
         # Default draft attributes
         draft_attributes = {
           user: user,
@@ -80,24 +81,33 @@ module Helpers
           native_id: native_id || Faker::Crypto.md5
         }
 
-        # Conditional additions to the draft attribute
-        draft_attributes[:draft_short_name] = name unless name.blank?
-        draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
-        draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
+        revision_count.times do
+          # Conditional additions to the draft attribute
+          draft_attributes[:draft_short_name] = name unless name.blank?
+          draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
+          draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
 
-        # Create a new draft with the provided attributes
-        # NOTE: We don't save the draft object, there is no reason to hit the database
-        # here knowing that we're going to delete it as soon as it's published anyway
-        draft = build(:full_variable_draft, draft_attributes)
+          # Create a new draft with the provided attributes
+          # NOTE: We don't save the draft object, there is no reason to hit the database
+          # here knowing that we're going to delete it as soon as it's published anyway
+          draft = build(:full_variable_draft, draft_attributes)
 
-        ingest_response = cmr_client.ingest_variable(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+          ingest_response = cmr_client.ingest_variable(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+        end
 
         # Synchronous way of waiting for CMR to complete the ingest work
         wait_for_cmr
 
+        # Retrieve the concept from CMR so that we can create a new draft, if test requires it
+        concept_id = ingest_response.body['concept-id']
+        revision_id = ingest_response.body['revision-id']
+        content_type = "application/#{Rails.configuration.umm_var_version}; charset=utf-8"
+
+        concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
+
         raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
 
-        ingest_response.body
+        [ingest_response.body, concept_response]
       end
     end
 

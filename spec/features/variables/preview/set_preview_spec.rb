@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Valid Variable Set Preview', reset_provider: true do
   before do
     login
-    ingest_response = publish_variable_draft
+    ingest_response, _concept_response = publish_variable_draft
     visit variable_path(ingest_response['concept-id'])
   end
 

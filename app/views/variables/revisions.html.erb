@@ -1,6 +1,6 @@
 <% content_for :header_title do %>
-  <h2><%= display_entry_id(@collection, 'collections') %></h2>
-  <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
+  <h2><%= display_entry_id(@variable, 'variables') %></h2>
+  <p class="subtitle"><%= display_header_subtitle(@variable, 'variable') %></p>
 <% end %>
 
 <% if @errors && !@errors.empty? %>
@@ -31,7 +31,7 @@
     <section class="errors">
       <div class="eui-banner--danger">
         <p class="eui-banner__message">
-          <i class="fa fa-exclamation-triangle"></i> This collection could not be updated. You may <%= link_to 'edit', edit_collection_path(revision_id: @revision_id) %> the collection to resolve these issues.
+          <i class="fa fa-exclamation-triangle"></i> This variable could not be updated. You may <%= link_to 'edit', edit_variable_path(revision_id: @revision_id) %> the variable to resolve these issues.
         </p>
       </div>
     </section>
@@ -44,9 +44,6 @@
           <th>Description</th>
           <th>Revision Date</th>
           <th>Action by</th>
-          <th>Review Status</th>
-          <th>Quality Score</th>
-          <th>Revision Notes</th>
           <th>Actions</th>
         </tr>
         </thead>
@@ -61,10 +58,10 @@
                   Deleted
                 <% elsif index == 0 %>
                   Published
-                  <%= link_to 'View', collection_path(revision_id: revision_id), title: title %>
+                  <%= link_to 'View', variable_path(revision_id: revision_id), title: title %>
                 <% else %>
                   Revision
-                  <%= link_to 'View', collection_path(revision_id: revision_id), title: title %>
+                  <%= link_to 'View', variable_path(revision_id: revision_id), title: title %>
                 <% end %>
               </td>
               <td>
@@ -74,23 +71,14 @@
                 <%= revision['meta']['user-id'] %>
               </td>
               <td>
-                <span class="disabled">Reviewed</span>
-              </td>
-              <td>
-                <span class="disabled">82</span>
-              </td>
-              <td>
-                <!-- Revision notes -->
-              </td>
-              <td>
                 <% if @revisions.first['meta']['deleted'] == true %>
                   <% phrase = 'Reinstate' %>
                   <% confirm_phrase = 'Are you sure you want to reinstate this record?' %>
-                  <% action = 'reinstate-collection' %>
+                  <% action = 'reinstate-variable' %>
                 <% else %>
                   <% phrase = 'Revert to this Revision' %>
                   <% confirm_phrase = 'Are you sure you want to revert to this revision?' %>
-                  <% action = 'revert-collection' %>
+                  <% action = 'revert-variable' %>
                 <% end %>
 
                 <% unless index == 0 || revision['meta']['deleted'] == true %>
@@ -104,11 +92,11 @@
                     <p><%= confirm_phrase %></p>
                     <p>
                       <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                      <%= link_to 'Yes', revert_collection_path(revision_id: revision_id), class: 'eui-btn--blue spinner' %>
+                      <%= link_to 'Yes', revert_variable_path(revision_id: revision_id), class: 'eui-btn--blue spinner' %>
                     </p>
                   </div>
                   <%= render partial: "shared/not_current_provider_modal", locals: {
-                    options: { revisions: true, collection: @collection,
+                    options: { revisions: true, variable: @variable,
                       concept_id: @concept_id, revision_id: revision_id }
                     } %>
                   </div>
