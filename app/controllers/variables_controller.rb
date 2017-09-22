@@ -106,7 +106,7 @@ class VariablesController < ManageVariablesController
   end
 
   def download_json
-    send_data @variable, type: 'application/json; charset=utf-8', disposition: "attachment; filename=#{@concept_id}.json"
+    send_data @variable.to_json, type: 'application/json; charset=utf-8', disposition: "attachment; filename=#{@concept_id}.json"
   end
 
   private
