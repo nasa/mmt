@@ -52,30 +52,30 @@
     <section class="action">
       <p>
         <% if current_provider?(@provider_id) %>
-          <%= link_to 'Edit Variable Record', edit_variable_path(revision_id: @revision_id), class: 'eui-btn--link' %>
+          <%= link_to 'Edit Variable Record', edit_variable_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
         <% elsif available_provider?(@provider_id) %>
-          <%= link_to 'Edit Variable Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link', data: { 'provider': @provider_id, record_action: 'edit-variable' } %>
+          <%= link_to 'Edit Variable Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'edit-variable' } %>
         <% end %>
 
-        | <% if current_provider?(@provider_id) %>
-          <%= link_to 'Clone Variable Record', clone_variable_path(revision_id: @revision_id), class: 'eui-btn--link' %>
+        <% if current_provider?(@provider_id) %>
+          <%= link_to 'Clone Variable Record', clone_variable_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
         <% elsif available_provider?(@provider_id) %>
-          <%= link_to 'Clone Variable Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link', data: { 'provider': @provider_id, record_action: 'clone-variable' } %>
+          <%= link_to 'Clone Variable Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'clone-variable' } %>
         <% end %>
 
-        | <%= link_to 'Download JSON', download_json_variable_path(@concept_id), class: 'eui-btn--link', target: '_blank' %>
+        <%= link_to 'Download JSON', download_json_variable_path(@concept_id), class: 'eui-btn--link', target: '_blank' %>
 
-        | <% if current_provider?(@provider_id) %>
-          <%= link_to 'Delete Variable Record', "#delete-record-modal", class: 'display-modal delete-variable eui-btn--link' %>
+        <% if current_provider?(@provider_id) %>
+          <%= link_to 'Delete Variable Record', "#delete-record-modal", class: 'display-modal delete-variable eui-btn--link bar-before' %>
         <% elsif available_provider?(@provider_id) %>
-          <%= link_to 'Delete Variable Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link', data: { 'provider': @provider_id, record_action: 'delete-variable', num_associated_collections: "#{@num_associated_collections}" } %>
+          <%= link_to 'Delete Variable Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-before', data: { 'provider': @provider_id, record_action: 'delete-variable', num_associated_collections: "#{@num_associated_collections}" } %>
         <% end %>
 
         <% unless @old_revision %>
-          | <% if current_provider?(@provider_id) %>
-            <%= link_to 'Manage Collection Associations', variable_collection_associations_path(@concept_id), class: 'eui-btn--link' %>
+          <% if current_provider?(@provider_id) %>
+            <%= link_to 'Manage Collection Associations', variable_collection_associations_path(@concept_id), class: 'eui-btn--link bar-before' %>
           <% elsif available_provider?(@provider_id) %>
-            <%= link_to 'Manage Collection Associations', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link', data: { 'provider': @provider_id, record_action: 'manage-variable-associations' } %>
+            <%= link_to 'Manage Collection Associations', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-before', data: { 'provider': @provider_id, record_action: 'manage-variable-associations' } %>
           <% end %>
         <% end %>
 
@@ -101,7 +101,7 @@
         } %>
       </p>
       <p>
-        <%= link_to "Revisions (#{@revisions.size})", variable_revisions_path %>
+        <%= link_to "Revisions (#{@revisions.size})", variable_revisions_path, class: 'eui-btn--link' %>
       </p>
     </section>
 
