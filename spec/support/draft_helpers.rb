@@ -69,7 +69,7 @@ module Helpers
     end
 
     # Publish a variable draft
-    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1)
+    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
         user = User.where(urs_uid: 'testuser').first
 
@@ -106,6 +106,12 @@ module Helpers
         concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
 
         raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+        # If the test needs an unpublished draft as well, we'll create it and return it here
+        if include_new_draft
+          # Create a new draft (same as editing a collection)
+          VariableDraft.create_from_variable(concept_response.body, user, draft_attributes[:native_id])
+        end
 
         [ingest_response.body, concept_response]
       end

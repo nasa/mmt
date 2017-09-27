@@ -36,6 +36,18 @@
     </div>
   <% end %>
 
+  <% if @draft %>
+    <div class="eui-banner--warn">
+      <p class="eui-banner__message">
+        <% if current_provider?(@provider_id) %>
+          <%= link_to 'This variable has an open draft associated with it. Click here to view it.', @draft %>
+        <% elsif available_provider?(@provider_id) %>
+          <%= link_to 'This variable has an open draft associated with it. Click here to view it.', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'view-draft' } %>
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+
   <div class="row row-content">
     <section class="action">
       <p>
@@ -80,7 +92,12 @@
           </p>
         </div>
         <%= render partial: 'shared/not_current_provider_modal', locals: {
-          options: { variable: @variable, concept_id: @concept_id, revision_id: @revision_id }
+          options: {
+            variable: @variable,
+            concept_id: @concept_id,
+            revision_id: @revision_id,
+            draft: @draft,
+            draft_id: @draft.try(:id) }
         } %>
       </p>
       <p>
