@@ -16,7 +16,16 @@
         <p class="form-description" id="collection-field-description"></p>
       </div>
       <div class="col-5" id="collection-query-container">
-        <%= text_field_tag(:query, params[:query], class: 'full-width required collection-value') %>
+        <div class="text-query">
+          <%= text_field_tag(:query_text, params[:query_text], class: 'full-width required collection-value') %>
+        </div>
+        <div class="single-date-query is-hidden">
+          <%= text_field_tag(:query_date, params[:query_date], class: 'full-width required collection-value search-datetimepicker') %>
+        </div>
+        <div class="double-date-query is-hidden">
+          <%= text_field_tag(:query_date1, params[:query_date1], class: 'full-width required collection-value search-datetimepicker') %>
+          <%= text_field_tag(:query_date2, params[:query_date2], class: 'full-width required collection-value search-datetimepicker') %>
+        </div>
         <p class="form-description" id="collection-query-description"></p>
       </div>
       <div class="col-2 align-c">
