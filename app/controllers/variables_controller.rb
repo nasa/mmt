@@ -16,6 +16,8 @@ class VariablesController < ManageVariablesController
       set_user_permissions
     end
 
+    @draft = VariableDraft.where(provider_id: @provider_id, native_id: @native_id).first
+
     add_breadcrumb breadcrumb_name(@variable, 'variable'), variable_path(params[:id])
   end
 
