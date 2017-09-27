@@ -3,8 +3,8 @@ class VariablesController < ManageVariablesController
   include ManageMetadataHelper
 
   before_action :set_variable, only: [:show, :edit, :clone, :destroy, :revisions, :revert, :download_json]
-  before_action :set_schema, only: [:show, :edit, :clone]
-  before_action :set_form, only: [:show, :edit, :clone]
+  before_action :set_schema, only: [:show, :edit, :clone, :destroy]
+  before_action :set_form, only: [:show, :edit, :clone, :destroy]
   before_action :ensure_correct_variable_provider, only: [:edit, :clone, :destroy]
 
   add_breadcrumb 'Variables' # there is no variables index action, so not providing a link
@@ -27,6 +27,7 @@ class VariablesController < ManageVariablesController
       Rails.logger.info("Audit Log: Variable Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
       redirect_to variable_draft_path(draft), flash: { success: I18n.t('controllers.draft.variable_drafts.create.flash.success') }
     else
+      Rails.logger.info("User #{current_user.urs_uid} attempted to edit Variable #{@concept_id} in provider #{current_user.provider_id} but a Variable Draft was not created to edit because there was no native_id (#{@native_id}) found.")
       # if we cannot locate the native_id for the Variable, we should discontinue editing
       redirect_to variable_path(@concept_id, revision_id: @revision_id), flash: { error: I18n.t('controllers.variables.edit.flash.native_id_error') }
     end
@@ -73,10 +74,12 @@ class VariablesController < ManageVariablesController
     delete = cmr_client.delete_variable(@provider_id, @native_id, token)
     if delete.success?
       flash[:success] = I18n.t('controllers.variables.destroy.flash.success')
-      Rails.logger.info("Audit Log: Variable with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
+      Rails.logger.info("Audit Log: Variable #{@concept_id} with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
 
       redirect_to variable_revisions_path(id: delete.body['concept-id'], revision_id: delete.body['revision-id'])
     else
+      Rails.logger.error("Delete Variable Metadata Error: #{delete.inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to delete Variable #{@concept_id} with native_id #{@native_id} in provider #{@provider_id} but encountered an error.")
       flash[:error] = I18n.t('controllers.variables.destroy.flash.error')
       render :show
     end
@@ -99,6 +102,7 @@ class VariablesController < ManageVariablesController
       redirect_to variable_revisions_path(revision_id: latest_revision_id.to_i + 1)
     else
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to revert Variable #{@concept_id} by ingesting a previous revision in provider #{current_user.provider_id} but encountered an error.")
 
       @errors = generate_ingest_errors(ingested)
 
