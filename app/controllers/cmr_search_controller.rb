@@ -13,9 +13,16 @@ class CmrSearchController < ManageMetadataController
     collection_count = 0
     collection_results = []
 
+    params[:query] = if !params[:query_text].blank?
+                       params[:query_text]
+                     elsif !params[:query_date].blank?
+                       params[:query_date]
+                     else
+                       "#{params[:query_date1]},#{params[:query_date2]}"
+                     end
+
     if search_params.key?(:field) && search_params.key?(:query)
       cmr_params[search_params[:field]] = search_params[:query].dup
-
       collection_response = cmr_client.get_collections_by_post(
         hydrate_params(cmr_params), token
       )
