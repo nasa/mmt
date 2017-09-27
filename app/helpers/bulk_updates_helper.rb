@@ -70,8 +70,7 @@ module BulkUpdatesHelper
       title: 'Revision Date',
       data_attributes: {
         supports_wildcard: false,
-        format: 'single_date',
-        description: 'Accepts dates in yyyy-mm-ddThh:mm:ss.SSSZ format.'
+        format: 'single_date'
       }
     },
     science_keywords: {
@@ -100,8 +99,7 @@ module BulkUpdatesHelper
       title: 'Temporal Extent',
       data_attributes: {
         supports_wildcard: false,
-        format: 'double_date',
-        description: 'Accepts dates in yyyy-mm-ddThh:mm:ss.SSSZ format.'
+        format: 'double_date'
       }
     },
     two_d_coordinate_system_name: {
@@ -115,8 +113,7 @@ module BulkUpdatesHelper
       title: 'Updated Since',
       data_attributes: {
         supports_wildcard: false,
-        format: 'single_date',
-        description: 'Accepts dates in yyyy-mm-ddThh:mm:ss.SSSZ format.'
+        format: 'single_date'
       }
     },
     version: {
