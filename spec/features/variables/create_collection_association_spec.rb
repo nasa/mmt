@@ -86,7 +86,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
       before do
         within '#collection-search' do
           select 'Entry Title', from: 'Search Field'
-          fill_in 'query', with: 'MODIS-I*'
+          fill_in 'query_text', with: 'MODIS-I*'
 
           click_button 'Submit'
         end
