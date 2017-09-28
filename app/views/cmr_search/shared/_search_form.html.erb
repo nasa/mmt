@@ -17,14 +17,20 @@
       </div>
       <div class="col-5" id="collection-query-container">
         <div class="text-query">
-          <%= text_field_tag(:query_text, params[:query_text], class: 'full-width required collection-value') %>
+          <%= text_field_tag(:query_text, params[:query_text], class: 'full-width required collection-value', data: { 'msg-required' => 'Search Term is required.' } ) %>
         </div>
         <div class="single-date-query is-hidden">
-          <%= text_field_tag(:query_date, params[:query_date], class: 'full-width required collection-value search-datetimepicker') %>
+          <%= text_field_tag(:query_date, params[:query_date], class: 'full-width required collection-value search-datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ', data: { 'msg-required' => 'Search Term is required.' } ) %>
         </div>
         <div class="double-date-query is-hidden">
-          <%= text_field_tag(:query_date1, params[:query_date1], class: 'full-width required collection-value search-datetimepicker') %>
-          <%= text_field_tag(:query_date2, params[:query_date2], class: 'full-width required collection-value search-datetimepicker') %>
+          <div class="col-6">
+            <%= text_field_tag(:query_date_start, params[:query_date_start], class: 'full-width collection-value search-datetimepicker temporal-range-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
+            <p class="form-description">Range Start</p>
+          </div>
+          <div class="col-6">
+            <%= text_field_tag(:query_date_end, params[:query_date_end], class: 'full-width collection-value search-datetimepicker temporal-range-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
+            <p class="form-description">Range End</p>
+          </div>
         </div>
         <p class="form-description" id="collection-query-description"></p>
       </div>
