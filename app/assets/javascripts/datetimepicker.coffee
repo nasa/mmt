@@ -7,9 +7,6 @@ $(document).ready ->
     # ISO 8601 format
     format: 'YYYY-MM-DD[T]HH:mm:ss[Z]'
 
-    # Sets the minimum date to the start of today
-    # minDate: moment().startOf('day')
-
     # Display the clear date button
     showClear: true
 
