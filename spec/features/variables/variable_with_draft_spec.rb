@@ -26,7 +26,7 @@ describe 'Variable with draft' do
 
         it 'displays the draft' do
           within '.eui-breadcrumbs' do
-            expect(page).to have_content('Drafts')
+            expect(page).to have_content('Variable Drafts')
             expect(page).to have_content(@concept_response.body['Name'])
           end
 
@@ -73,7 +73,7 @@ describe 'Variable with draft' do
 
           it 'displays the draft' do
             within '.eui-breadcrumbs' do
-              expect(page).to have_content('Drafts')
+              expect(page).to have_content('Variable Drafts')
               expect(page).to have_content(@concept_response.body['Name'])
             end
 
