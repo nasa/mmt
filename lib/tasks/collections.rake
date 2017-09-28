@@ -18,7 +18,7 @@ namespace :collections do
     if cmr_sit_response.success?
       parsed_response = JSON.parse(cmr_sit_response.body)
 
-      puts "Retrieved 0 collections." if parsed_response['items'].nil? || parsed_response['items'] == 0 
+      puts 'Retrieved 0 collections.' if parsed_response['items'].blank?
 
       (parsed_response['items'] || []).each_with_index do |obj, index|
         collection_concept_id = obj.fetch('meta', {}).fetch('concept-id', nil)
@@ -63,7 +63,7 @@ namespace :collections do
 
           if response.success?
             collections_ingested += 1
-            puts "[Success] Created #{args.provider} collection with concept-id #{parsed_response['result']['concept_id']}\n\n"
+            puts "[Success] Created #{args.provider} collection with concept-id #{parsed_response['result']['concept-id']}\n\n"
           else
             puts "[Failure] #{parsed_response['errors']['error']}\n\n"
           end
@@ -73,7 +73,7 @@ namespace :collections do
       end
 
     else
-      puts "Error Requesting collections."
+      puts 'Error Requesting collections.'
     end
 
     puts "Successfully ingested #{collections_ingested} collections."
