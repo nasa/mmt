@@ -94,9 +94,9 @@ describe 'Searching collections to bulk update', reset_provider: true do
     context 'when searching for collections by Temporal' do
       before do
         within '#collection-search' do
-          select 'Revision Date', from: 'Search Field'
-          fill_in 'query_date_start', with: '2017-09-27T00:00:00Z'
-          fill_in 'query_date_end', with: Time.now.utc.iso8601
+          select 'Temporal Extent', from: 'Search Field'
+          fill_in 'query_date_start', with: '2015-05-27T00:00:00Z'
+          fill_in 'query_date_end', with: '2015-08-27T00:00:00Z'
 
           click_button 'Submit'
         end
