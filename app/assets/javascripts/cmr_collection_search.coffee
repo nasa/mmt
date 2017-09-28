@@ -49,27 +49,21 @@ $(document).ready ->
 
     $('#collection-search').validate
       errorPlacement: (error, element) ->
-        error.insertAfter(element.closest('fieldset'))
+        # Don't show a second temporal error if one already exists
+        if $('.validation-error').text().indexOf("At least one date is required.") == -1
+          error.insertAfter(element.closest('fieldset'))
 
       rules:
-        query_text:
-          required: true
-        query_date:
-          required: true
-        query_date1:
-          required: true
-        query_date2:
-          required: true
+        query_date_start:
+          require_from_group: [1, '.double-date-query input']
+        query_date_end:
+          require_from_group: [1, '.double-date-query input']
 
       messages:
-        query_text:
-          required: 'Search Term is required.'
-        query_date:
-          required: 'Search Term is required.'
-        query_date1:
-          required: 'Search Term is required.'
-        query_date2:
-          required: 'Search Term is required.'
+        query_date_start:
+          require_from_group: 'At least one date is required.'
+        query_date_end:
+          require_from_group: 'At least one date is required.'
 
     $('#collection-search-field').on 'change', ->
       displayHelpText($(this))
