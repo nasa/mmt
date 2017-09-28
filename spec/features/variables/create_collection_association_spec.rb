@@ -123,7 +123,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
         end
 
         it 'shows a success message' do
-          expect(page).to have_content('Collection Associations successfully saved.')
+          expect(page).to have_content('Collection Associations Created Successfully!')
         end
 
         context 'When viewing the associated collections page' do

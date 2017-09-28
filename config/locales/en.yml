@@ -83,6 +83,15 @@ en:
       clone:
         flash:
           notice: 'Records must have a unique Name and Long Name within a provider. Click here to enter a new Name and Long Name.'
+    collection_associations:
+      destroy:
+        flash:
+          success: 'Collection Associations Deleted Successfully!'
+          error: 'Collection Associations were not deleted successfully'
+      create:
+        flash:
+          success: 'Collection Associations Created Successfully!'
+          error: 'Collection Associations were not created successfully'
   views:
     pagination:
       first: "First"

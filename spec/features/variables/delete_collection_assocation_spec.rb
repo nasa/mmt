@@ -49,7 +49,7 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
         end
 
         it 'removes the association' do
-          expect(page).to have_content('Collection Associations successfully deleted.')
+          expect(page).to have_content('Collection Associations Deleted Successfully!')
         end
 
         context 'When clicking the refresh link' do

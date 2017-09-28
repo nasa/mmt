@@ -41,13 +41,14 @@ class CollectionAssociationsController < CmrSearchController
     log_issues(association_response)
 
     if association_response.success?
-      redirect_to variable_collection_associations_path(params[:variable_id]), flash: { success: 'Collection Associations successfully saved.' }
+      redirect_to variable_collection_associations_path(params[:variable_id]), flash: { success: I18n.t('controllers.collection_associations.create.flash.success') }
     else
       Rails.logger.error("Collection Associations Error: #{association_response.inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to create Collection Associations for Variable #{params[:variable_id]} with Collections #{params[:selected_collections]} in provider #{current_user.provider_id} but encountered an error.")
 
-      group_creation_error = Array.wrap(association_response.body['errors'])[0]
+      collection_associations_creation_error = Array.wrap(association_response.body['errors'])[0]
 
-      flash[:error] = group_creation_error
+      flash[:error] = collection_associations_creation_error
 
       render :new
     end
@@ -60,15 +61,14 @@ class CollectionAssociationsController < CmrSearchController
     log_issues(association_response)
 
     if association_response.success?
-      redirect_to variable_collection_associations_path(params[:variable_id]), flash: { success: 'Collection Associations successfully deleted.' }
+      redirect_to variable_collection_associations_path(params[:variable_id]), flash: { success: I18n.t('controllers.collection_associations.destroy.flash.success') }
     else
       Rails.logger.error("Collection Associations Error: #{association_response.inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to delete Collection Associations for Variable #{params[:variable_id]} with Collections #{params[:selected_collections]} in provider #{current_user.provider_id} but encountered an error.")
 
-      group_creation_error = Array.wrap(association_response.body['errors'])[0]
+      collection_associations_delete_error = Array.wrap(association_response.body['errors'])[0]
 
-      flash[:error] = group_creation_error
-
-      render :index
+      redirect_to variable_collection_associations_path(params[:variable_id]), flash: { error: collection_associations_delete_error }
     end
   end
 

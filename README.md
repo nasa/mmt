@@ -36,6 +36,8 @@ And then to migrate the database schema, run the standard rails command:
 
 ### Usage
 
+*_Note: Before running this step, make sure you are **Running a local copy of CMR** as outlined below_
+
 To start the project, just type the default rails command:
 
     rails s
@@ -192,11 +194,11 @@ The task accepts two parameters
 
 ##### Examples
 
-    $ rake collections:replicate[provider=MMT_1,amount=10]
+    $ rake collections:replicate[MMT_1,10]
 
 Will download at most 10 collections from MMT_1.
 
-    $ rake collections:replicate[provider=SEDAC]
+    $ rake collections:replicate[SEDAC]
 
 Will download at most 25 collections from SEDAC.
 
