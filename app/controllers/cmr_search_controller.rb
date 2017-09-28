@@ -17,8 +17,8 @@ class CmrSearchController < ManageMetadataController
                        params[:query_text]
                      elsif !params[:query_date].blank?
                        params[:query_date]
-                     else
-                       "#{params[:query_date1]},#{params[:query_date2]}"
+                     elsif !params[:query_date_start].blank? || !params[:query_date_end].blank?
+                       "#{params[:query_date_start]},#{params[:query_date_end]}"
                      end
 
     if search_params.key?(:field) && search_params.key?(:query)

@@ -95,8 +95,8 @@ describe 'Searching collections to bulk update', reset_provider: true do
       before do
         within '#collection-search' do
           select 'Revision Date', from: 'Search Field'
-          fill_in 'query_date1', with: '2017-09-27T00:00:00Z'
-          fill_in 'query_date2', with: Time.now.utc.iso8601
+          fill_in 'query_date_start', with: '2017-09-27T00:00:00Z'
+          fill_in 'query_date_end', with: Time.now.utc.iso8601
 
           click_button 'Submit'
         end
