@@ -40,6 +40,34 @@ describe 'Searching collections to bulk update', reset_provider: true do
       end
     end
 
+    context 'when clicking submit without a temporal query', js: true do
+      before do
+        within '#collection-search' do
+          select 'Temporal Extent', from: 'Search Field'
+
+          click_button 'Submit'
+        end
+      end
+
+      it 'displays an appropriate error message' do
+        expect(page).to have_content('At least one date is required.', count: 1)
+      end
+
+      context 'when clicking submit after filling out one temporal date' do
+        before do
+          within '#collection-search' do
+            fill_in 'query_date_start', with: '2015-05-27T00:00:00Z'
+
+            click_button 'Submit'
+          end
+        end
+
+        it 'does not display an error message' do
+          expect(page).to have_no_content('At least one date is required.')
+        end
+      end
+    end
+
     context 'when searching for collections by Version' do
       before do
         within '#collection-search' do
@@ -74,7 +102,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
       end
     end
 
-    context 'when searching for collections by Revision Date' do
+    context 'when searching for collections by Revision Date', js: true do
       before do
         within '#collection-search' do
           select 'Revision Date', from: 'Search Field'
@@ -91,7 +119,7 @@ describe 'Searching collections to bulk update', reset_provider: true do
       end
     end
 
-    context 'when searching for collections by Temporal' do
+    context 'when searching for collections by Temporal', js: true do
       before do
         within '#collection-search' do
           select 'Temporal Extent', from: 'Search Field'
