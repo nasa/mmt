@@ -14,14 +14,14 @@
       <!-- Find Value -->
       <%= display_value_title(@task['update-type'], 'find') %>
 
-      <%= display_science_keyword(@task['find-value']) %>
+      <%= send("display_#{@task['update-field'].singularize.downcase}", @task['find-value']) %>
     <% end %>
 
     <% unless @task['update-type'] == 'FIND_AND_REMOVE' %>
       <!-- Update Value -->
       <%= display_value_title(@task['update-type'], 'new') %>
 
-      <%= display_science_keyword(@task['update-value']) %>
+      <%= send("display_#{@task['update-field'].singularize.downcase}", @task['update-value']) %>
     <% end %>
 
     <h4 class="space-top"><%= pluralize(@collections.count, 'Selected Collection') %></h4>

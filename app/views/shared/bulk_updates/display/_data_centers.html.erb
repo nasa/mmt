@@ -1,0 +1,13 @@
+<% if bulk_update['update-type'] == 'FIND_AND_REMOVE' || bulk_update['update-type'] == 'FIND_AND_REPLACE' %>
+  <!-- Find Value -->
+  <%= display_value_title(bulk_update['update-type'], 'find') %>
+
+  <%= display_data_center(bulk_update['find-value']) %>
+<% end %>
+
+<% unless bulk_update['update_type'] == 'FIND_AND_REMOVE' %>
+  <!-- Update Value -->
+  <%= display_value_title(bulk_update['update-type'], 'new') %>
+
+  <%= display_data_center(bulk_update['update-value']) %>
+<% end %>

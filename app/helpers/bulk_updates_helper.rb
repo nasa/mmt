@@ -131,7 +131,8 @@ module BulkUpdatesHelper
   # version works better for Rails values and partials, so we need to make sure
   # to upcase them before sending to CMR
   UPDATEABLE_FIELDS = [
-    ['Science Keywords', 'science_keywords']
+    ['Science Keywords', 'science_keywords'],
+    ['Data Centers', 'data_centers']
   ].freeze
   # these are the other possible update-field values in the CMR enum:
   # 'LOCATION_KEYWORDS','DATA_CENTERS','PLATFORMS','INSTRUMENTS'
@@ -229,6 +230,19 @@ module BulkUpdatesHelper
   end
 
   def display_science_keyword(keyword)
+    display_keyword = science_keyword_for_display(keyword)
+
+    content_tag(:ul, class: 'arrow-tag-group-list') do
+      BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.each do |level|
+        unless display_keyword[level].blank?
+          concat content_tag(:li, display_keyword[level], itemprop: 'keyword', class: 'arrow-tag-group-item')
+        end
+      end
+    end
+  end
+
+  def display_data_center(data_center)
+    return data_center
     display_keyword = science_keyword_for_display(keyword)
 
     content_tag(:ul, class: 'arrow-tag-group-list') do

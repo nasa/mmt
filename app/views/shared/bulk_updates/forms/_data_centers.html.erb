@@ -1,0 +1,56 @@
+<h2>Data Centers</h2>
+
+<fieldset>
+  <%= update_type_select %>
+</fieldset>
+
+<fieldset class="bulk-updates-find is-hidden">
+  <h4 class="title">Find Data Centers</h4>
+  <p class="form-description space-bot">Update all collections that have data centers that match the criteria specified below.</p>
+
+  <div class="row">
+    <div class="col-6">
+      <%= label_tag 'short_name', 'ShortName' %>
+      <%= text_field_tag('find_value[ShortName]', nil, id: 'category', class: 'full-width required') %>
+    </div>
+    <div class="col-6">
+      <%= label_tag 'long_name', 'LongName' %>
+      <%= text_field_tag('find_value[LongName]', nil, id: 'long_name', class: 'full-width') %>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="bulk-updates-value is-hidden">
+  <h4 class="title">New Data Center</h4>
+  <p class="form-description space-bot"></p>
+
+  <!-- ShortName [r] -->
+  <div class="col-6">
+    <%= mmt_select(
+      name: 'update_value[ShortName]',
+      title: 'Short Name',
+      prefix: '',
+      # value: data_center['ShortName'],
+      # help: 'definitions/DataCenterType/properties/ShortName',
+      options: @data_centers.map { |data_center| [data_center.fetch(:short_name, ''), data_center.fetch(:short_name, ''), { 'data-long-name' => data_center[:long_name], 'data-url' => data_center[:url] }]},
+      classes: 'select2-select data-center-short-name-select required',
+      required: true,
+      always_required: true
+    ) %>
+  </div>
+
+  <!-- LongName -->
+  <div class="col-6">
+    <%= mmt_text_field(
+      name: 'update_value[LongName]',
+      title: 'Long Name',
+      prefix: '',
+      # value: data_center['LongName'],
+      # help: 'definitions/DataCenterType/properties/LongName',
+      classes: 'data-center-long-name readonly',
+      validate: true,
+      readonly: true
+    ) %>
+  </div>
+
+</fieldset>
