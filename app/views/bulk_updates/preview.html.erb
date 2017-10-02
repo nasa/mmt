@@ -10,7 +10,7 @@
     <h4>Update Type</h4>
     <p><%= @task['update-type'].titleize %></p>
 
-    <% if @task['update-type'] == 'FIND_AND_REMOVE' || @task['update-type'] == 'FIND_AND_REPLACE' %>
+    <% if @task['update-type'] == 'FIND_AND_REMOVE' || @task['update-type'] == 'FIND_AND_REPLACE' || @task['update-type'] == 'FIND_AND_UPDATE' %>
       <!-- Find Value -->
       <%= display_value_title(@task['update-type'], 'find') %>
 

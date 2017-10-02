@@ -143,21 +143,24 @@ module BulkUpdatesHelper
       data_attributes: {
         new_title: 'Value to Add',
         new_description: 'The new value provided below will be added to your selected collections.'
-      }
+      },
+      valid_fields: %w(science_keywords)
     },
     CLEAR_ALL_AND_REPLACE: {
       title: 'Clear All & Replace',
       data_attributes: {
         new_title: 'New Value',
         new_description: 'The new value provided below will be added to your selected collections and all previous values will be removed.'
-      }
+      },
+      valid_fields: %w(science_keywords)
     },
     FIND_AND_REMOVE: {
       title: 'Find & Remove',
       data_attributes: {
         find_title: 'Find Values to Remove',
         find_description: 'Use the following fields to find the value that you\'d like to remove from your selected collections.'
-      }
+      },
+      valid_fields: %w(science_keywords data_centers)
     },
     FIND_AND_REPLACE: {
       title: 'Find & Replace',
@@ -166,7 +169,18 @@ module BulkUpdatesHelper
         find_description: 'Use the following fields to find the values that you\'d like to replace with the value provided below.',
         new_title: 'New Value',
         new_description: 'The value found using the above fields will be replaced with the value you provide here.'
-      }
+      },
+      valid_fields: %w(science_keywords)
+    },
+    FIND_AND_UPDATE: {
+      title: 'Find & Update',
+      data_attributes: {
+        find_title: 'Find Values to Update',
+        find_description: 'Use the following fields to find the values that you\'d like to update with the value provided below.',
+        new_title: 'New Value',
+        new_description: 'The value found using the above fields will be updated with the value you provide here.'
+      },
+      valid_fields: %w(data_centers)
     }
   }.freeze
 
@@ -180,11 +194,11 @@ module BulkUpdatesHelper
     DetailedVariable
   ].freeze
 
-  def update_type_select
+  def update_type_select(field_to_update)
     # Construct the options for the select including the data attributes
     options = BulkUpdatesHelper::UPDATE_TYPES.map do |option, values|
-      [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]]
-    end
+      [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]] if values[:valid_fields].include?(field_to_update)
+    end.compact
 
     label_tag('update_type', 'Update Type') + select_tag('update_type', options_for_select(options), prompt: 'Select an Update Type')
   end
@@ -242,14 +256,18 @@ module BulkUpdatesHelper
   end
 
   def display_data_center(data_center)
-    return data_center
-    display_keyword = science_keyword_for_display(keyword)
-
-    content_tag(:ul, class: 'arrow-tag-group-list') do
-      BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.each do |level|
-        unless display_keyword[level].blank?
-          concat content_tag(:li, display_keyword[level], itemprop: 'keyword', class: 'arrow-tag-group-item')
-        end
+    content_tag(:ul, class: 'no-bullet') do
+      if data_center.key? 'ShortName'
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Short Name: ')
+          concat content_tag(:span, data_center['ShortName'])
+        end)
+      end
+      if data_center.key? 'LongName'
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Long Name: ')
+          concat content_tag(:span, data_center['LongName'])
+        end)
       end
     end
   end

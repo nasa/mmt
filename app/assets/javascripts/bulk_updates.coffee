@@ -142,7 +142,7 @@ $(document).ready ->
       e.preventDefault()
 
 isFindVisibleAndVisited = ->
-  $('#bulk-updates-find').is(':visible') && $('#bulk-updates-find').hasClass('visited')
+  $('#bulk-updates-find-science-keywords').is(':visible') && $('#bulk-updates-find-science-keywords').hasClass('visited')
 
 areOtherFindValuesEmpty = (findInput) ->
   otherValues = []
@@ -154,12 +154,20 @@ areOtherFindValuesEmpty = (findInput) ->
   validValues.length == 0
 
 isValueVisibleAndVisited = ->
-  $('#bulk-updates-value').is(':visible') && $('#bulk-updates-value').hasClass('visited')
+  $('#bulk-updates-value-science-keywords').is(':visible') && $('#bulk-updates-value-science-keywords').hasClass('visited')
 
 hideAndClear = (selector) ->
   $(selector).addClass('is-hidden')
   $(selector).removeClass('visited')
   $(selector + ' input').val('')
+  $(selector + ' input').prop('disabled', true)
+  $(selector + ' select').prop('disabled', true)
+
+showField = (selector) ->
+  $(selector).removeClass('is-hidden')
+  $(selector + ' input').prop('disabled', false)
+  $(selector + ' select').prop('disabled', false)
+
 
   # TODO use a class to hide these types of elements
   # if selector == '# .bulk-updates-value'
@@ -255,9 +263,9 @@ $(document).ready ->
 
       errorPlacement: (error, element) ->
         if element.hasClass('science-keyword-find')
-          $('#bulk-updates-find').append(error)
+          $('#bulk-updates-find-science-keywords').append(error)
         else if element.hasClass('science-keyword-value')
-          $('#bulk-updates-value').append(error)
+          $('#bulk-updates-value-science-keywords').append(error)
         else
           error.insertAfter(element)
 
@@ -273,9 +281,11 @@ $(document).ready ->
 
       # Hide all partials
       $('.bulk-update-partial').addClass('is-hidden')
+      hideAndClear('.bulk-update-partial')
 
       # Show only the partial being requested
-      $('#bulk-update-form-' + $(this).val()).removeClass('is-hidden')
+      # $('#bulk-update-form-' + $(this).val()).removeClass('is-hidden')
+      showField('#bulk-update-form-' + $(this).val())
 
     # Show and hide update type specific divs
     $('select[name=update_type]').on 'change', ->
@@ -291,7 +301,7 @@ $(document).ready ->
         validator.form()
       else
         # Toggle display of the 'Record Search'
-        if $(this).val() == 'FIND_AND_REMOVE' || $(this).val() == 'FIND_AND_REPLACE'
+        if $(this).val() == 'FIND_AND_REMOVE' || $(this).val() == 'FIND_AND_REPLACE' || $(this).val() == 'FIND_AND_UPDATE'
           $($update_field_selector + ' .bulk-updates-find').removeClass('is-hidden')
         else
           hideAndClear($update_field_selector + ' .bulk-updates-find')
@@ -321,14 +331,14 @@ $(document).ready ->
     # mark bulk update find container for science keywords as visited because
     # we only want to validate the fields if they have been visited
     $('.science-keyword-find').on 'blur', ->
-      $('#bulk-updates-find').addClass('visited')
+      $('#bulk-updates-find-science-keywords').addClass('visited')
       $(this).valid()
 
     # mark the nested item picker as visited when any of the options are clicked
     # because we only want to validate the selected keyword values if it has been visited
     $('.eui-item-path, .eui-item-list-pane').on 'click', ->
       # $('.eui-nested-item-picker').addClass('visited')
-      $('#bulk-updates-value').addClass('visited')
+      $('#bulk-updates-value-science-keywords').addClass('visited')
 
     $('.science-keyword-value').on 'change', ->
       $(this).valid()

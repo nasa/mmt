@@ -109,12 +109,12 @@ class BulkUpdatesController < ManageCollectionsController
     # Requirements from the Bulk Updates Wiki
     # If type FIND_AND_REMOVE or FIND_AND_REPLACE, Find value required
     # If NOT type FIND_AND_REMOVE, New value required
-    if params['update_type'] == 'FIND_AND_REMOVE' || params['update_type'] == 'FIND_AND_REPLACE'
+    if params['update_type'] == 'FIND_AND_REMOVE' || params['update_type'] == 'FIND_AND_REPLACE' || params['update_type'] == 'FIND_AND_UPDATE'
       bulk_update_object['find-value'] = prune_science_keyword(params['find_value'])
     end
 
     unless params['update_type'] == 'FIND_AND_REMOVE'
-      bulk_update_object['update-value'] = prune_science_keyword(params['update_value'])
+      bulk_update_object['update-value'] = prune_science_keyword(params['update_value'].to_hash.to_camel_keys)
     end
 
     bulk_update_object
