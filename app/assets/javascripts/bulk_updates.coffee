@@ -142,7 +142,7 @@ $(document).ready ->
       e.preventDefault()
 
 isFindVisibleAndVisited = ->
-  $('#bulk-updates-find-science-keywords').is(':visible') && $('#bulk-updates-find-science-keywords').hasClass('visited')
+  $('#bulk-update-form-science_keywords .bulk-updates-find').is(':visible') && $('#bulk-update-form-science_keywords .bulk-updates-find').hasClass('visited')
 
 areOtherFindValuesEmpty = (findInput) ->
   otherValues = []
@@ -154,7 +154,7 @@ areOtherFindValuesEmpty = (findInput) ->
   validValues.length == 0
 
 isValueVisibleAndVisited = ->
-  $('#bulk-updates-value-science-keywords').is(':visible') && $('#bulk-updates-value-science-keywords').hasClass('visited')
+  $('#bulk-update-form-science_keywords .bulk-updates-value').is(':visible') && $('#bulk-update-form-science_keywords .bulk-updates-value').hasClass('visited')
 
 hideAndClear = (selector) ->
   $(selector).addClass('is-hidden')
@@ -263,9 +263,9 @@ $(document).ready ->
 
       errorPlacement: (error, element) ->
         if element.hasClass('science-keyword-find')
-          $('#bulk-updates-find-science-keywords').append(error)
+          $('#bulk-update-form-science_keywords .bulk-updates-find').append(error)
         else if element.hasClass('science-keyword-value')
-          $('#bulk-updates-value-science-keywords').append(error)
+          $('#bulk-update-form-science_keywords .bulk-updates-value').append(error)
         else
           error.insertAfter(element)
 
@@ -331,21 +331,21 @@ $(document).ready ->
     # mark bulk update find container for science keywords as visited because
     # we only want to validate the fields if they have been visited
     $('.science-keyword-find').on 'blur', ->
-      $('#bulk-updates-find-science-keywords').addClass('visited')
+      $('#bulk-update-form-science_keywords .bulk-updates-find').addClass('visited')
       $(this).valid()
 
     # mark the nested item picker as visited when any of the options are clicked
     # because we only want to validate the selected keyword values if it has been visited
     $('.eui-item-path, .eui-item-list-pane').on 'click', ->
       # $('.eui-nested-item-picker').addClass('visited')
-      $('#bulk-updates-value-science-keywords').addClass('visited')
+      $('#bulk-update-form-science_keywords .bulk-updates-value').addClass('visited')
 
     $('.science-keyword-value').on 'change', ->
       $(this).valid()
 
     # mark appropriate containers as visited before submitting to ensure validation
     $('#bulk-update-preview-button').on 'click', (e) ->
-      $('#bulk-updates-find-science-keywords, #bulk-updates-value-science-keywords').addClass('visited')
+      $('#bulk-update-form-science_keywords .bulk-updates-find, #bulk-update-form-science_keywords .bulk-updates-value').addClass('visited')
 
   if $('#bulk-update-status-table').length > 0
     $('#bulk-update-status-table').tablesorter
