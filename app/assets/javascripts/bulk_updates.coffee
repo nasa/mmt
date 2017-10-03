@@ -345,7 +345,7 @@ $(document).ready ->
 
     # mark appropriate containers as visited before submitting to ensure validation
     $('#bulk-update-preview-button').on 'click', (e) ->
-      $('#bulk-updates-find, #bulk-updates-value').addClass('visited')
+      $('#bulk-updates-find-science-keywords, #bulk-updates-value-science-keywords').addClass('visited')
 
   if $('#bulk-update-status-table').length > 0
     $('#bulk-update-status-table').tablesorter
