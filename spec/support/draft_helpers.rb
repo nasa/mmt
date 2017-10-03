@@ -69,7 +69,7 @@ module Helpers
     end
 
     # Publish a variable draft
-    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false)
+    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
         user = User.where(urs_uid: 'testuser').first
 
@@ -81,11 +81,14 @@ module Helpers
           native_id: native_id || Faker::Crypto.md5
         }
 
-        revision_count.times do
+        revision_count.times do |i|
           # Conditional additions to the draft attribute
           draft_attributes[:draft_short_name] = name unless name.blank?
-          draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
           draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
+          draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
+
+          # number the revision long names if the option is specified
+          draft_attributes[:draft_entry_title] += " -- revision 0#{i + 1}" if number_revision_long_names
 
           # Create a new draft with the provided attributes
           # NOTE: We don't save the draft object, there is no reason to hit the database
