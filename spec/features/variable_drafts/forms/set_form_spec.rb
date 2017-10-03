@@ -49,19 +49,19 @@ describe 'Set Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Services')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Services')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
       end
     end
@@ -135,7 +135,7 @@ describe 'Set Form', reset_provider: true, js: true do
     context 'When selecting the previous form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Services', from: 'Save & Jump To:'
+          select 'Science Keywords', from: 'Save & Jump To:'
         end
 
         click_on 'Yes'
@@ -148,19 +148,19 @@ describe 'Set Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Services')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Services')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
       end
     end
@@ -202,15 +202,15 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Services')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
       end
     end
@@ -314,15 +314,15 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Services')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('services')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
       end
     end
