@@ -11,7 +11,7 @@
 
     <% if options[:revisions] %>
       <% if options[:variable] %>
-        <%= link_to 'Yes', revert_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-revert-link' %>
+        <%= link_to 'Yes', revert_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: "not-current-provider-revert-link#{'-' + modal_index.to_s if modal_index}" %>
       <% else %>
         <%= link_to 'Yes', revert_collection_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-revert-link' %>
       <% end %>
@@ -19,6 +19,11 @@
       <%= link_to 'Yes', edit_collection_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-collection-link' %>
       <%= link_to 'Yes', clone_collection_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-collection-link' %>
       <%= link_to 'Yes', collection_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-collection-link' %>
+    <% elsif options[:variable] %>
+      <%= link_to 'Yes', edit_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-variable-link' %>
+      <%= link_to 'Yes', clone_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-variable-link' %>
+      <%= link_to 'Yes', variable_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-variable-link' %>
+      <%= link_to 'Yes', variable_collection_associations_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-manage-variable-associations-link' %>
     <% end %>
 
     <% if options[:draft] %>
@@ -34,13 +39,6 @@
     <% if options[:group] %>
       <%= link_to 'Yes', edit_group_path(id: options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: "not-current-provider-edit-group-link#{'-' + modal_index.to_s if modal_index}" %>
       <%= link_to 'Yes', group_path(id: options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: "not-current-provider-delete-group-link#{'-' + modal_index.to_s if modal_index}" %>
-    <% end %>
-
-    <% if options[:variable] %>
-      <%= link_to 'Yes', edit_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-variable-link' %>
-      <%= link_to 'Yes', clone_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-variable-link' %>
-      <%= link_to 'Yes', variable_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-variable-link' %>
-      <%= link_to 'Yes', variable_collection_associations_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-manage-variable-associations-link' %>
     <% end %>
   </p>
 </div>
