@@ -289,45 +289,6 @@
       ]
     },
     {
-      "id": "services",
-      "title": "Services",
-      "description_key": "Services",
-      "items": [
-        {
-          "type": "section",
-          "items": [
-            {
-              "type": "UmmMultiItems",
-              "key": "Services",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "htmlClass": "col-4",
-                      "items": [{"key": "Services/items/properties/index_id/ServiceTypes", "type": "UmmMultiSelect"}]
-                    },
-                    {
-                      "type": "section",
-                      "htmlClass": "col-4",
-                      "items": [{"key": "Services/items/properties/index_id/Visualizable", "type": "UmmBoolean"}]
-                    },
-                    {
-                      "type": "section",
-                      "htmlClass": "col-4",
-                      "items": [{"key": "Services/items/properties/index_id/Subsettable", "type": "UmmBoolean"}]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "sets",
       "title": "Sets",
       "description_key": "Sets",
