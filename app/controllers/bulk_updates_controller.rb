@@ -114,7 +114,7 @@ class BulkUpdatesController < ManageCollectionsController
     end
 
     unless params['update_type'] == 'FIND_AND_REMOVE'
-      bulk_update_object['update-value'] = prune_science_keyword(params['update_value'].to_hash.to_camel_keys)
+      bulk_update_object['update-value'] = prune_science_keyword(params.fetch('update_value', {}).to_hash.to_camel_keys)
     end
 
     bulk_update_object

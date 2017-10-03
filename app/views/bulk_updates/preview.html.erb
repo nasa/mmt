@@ -11,17 +11,21 @@
     <p><%= @task['update-type'].titleize %></p>
 
     <% if @task['update-type'] == 'FIND_AND_REMOVE' || @task['update-type'] == 'FIND_AND_REPLACE' || @task['update-type'] == 'FIND_AND_UPDATE' %>
-      <!-- Find Value -->
-      <%= display_value_title(@task['update-type'], 'find') %>
+      <div class="find-values-preview">
+        <!-- Find Value -->
+        <%= display_value_title(@task['update-type'], 'find') %>
 
-      <%= send("display_#{@task['update-field'].singularize.downcase}", @task['find-value']) %>
+        <%= send("display_#{@task['update-field'].singularize.downcase}", @task['find-value']) %>
+      </div>
     <% end %>
 
     <% unless @task['update-type'] == 'FIND_AND_REMOVE' %>
-      <!-- Update Value -->
-      <%= display_value_title(@task['update-type'], 'new') %>
+      <div class="new-values-preview">
+        <!-- Update Value -->
+        <%= display_value_title(@task['update-type'], 'new') %>
 
-      <%= send("display_#{@task['update-field'].singularize.downcase}", @task['update-value']) %>
+        <%= send("display_#{@task['update-field'].singularize.downcase}", @task['update-value']) %>
+      </div>
     <% end %>
 
     <h4 class="space-top"><%= pluralize(@collections.count, 'Selected Collection') %></h4>
