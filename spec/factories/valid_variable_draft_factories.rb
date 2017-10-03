@@ -95,13 +95,6 @@ FactoryGirl.define do
           'Index': 2
         }
       ],
-      'Services': [
-        {
-          'ServiceTypes': %w(ESI WMS WCS),
-          'Visualizable': false,
-          'Subsettable': true
-        }
-      ],
       'Characteristics': {
         'StandardName': 'peroxynitrates',
         'Reference': 'Reference',
