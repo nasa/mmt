@@ -1,5 +1,5 @@
 # :nodoc:
-class ManageMetadataController < PagesController
+class ManageMetadataController < ApplicationController
   include ManageMetadataHelper
 
   def set_variable

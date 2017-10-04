@@ -148,9 +148,9 @@ class CollectionDraftsController < BaseDraftsController
       # Log error message
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
-      @ingest_errors = generate_ingest_errors(ingested)
 
-      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
+      @ingest_errors = generate_ingest_errors(ingested)
+      flash[:error] = cmr_error_message(ingested, i18n: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error"))
       render :show
     end
   end

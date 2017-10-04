@@ -229,6 +229,20 @@ class ApplicationController < ActionController::Base
     ingest_errors
   end
 
+  def cmr_error_message(cmr_response, i18n: nil, default_message: nil)
+    cmr_error = Array.wrap(cmr_response.body.fetch('errors', []))[0]
+
+    if cmr_error
+      # return the CMR provided error message if it exists in the response
+      cmr_error
+    elsif i18n
+      # return the i18n message if provided
+      i18n
+    else
+      default_message || 'There was an error with the operation you were trying to perform.'
+    end
+  end
+
   ACQUISITION_INFORMATION_FIELDS = %w(
     Platforms
     Projects
