@@ -45,8 +45,6 @@ class BulkUpdatesController < ManageCollectionsController
   end
 
   def preview
-    redirect_to new_bulk_updates_search_path if request.get?
-
     add_breadcrumb 'Preview', bulk_update_preview_path
 
     @task = construct_task(params)
