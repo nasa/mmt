@@ -46,10 +46,7 @@ class CollectionAssociationsController < CmrSearchController
       Rails.logger.error("Collection Associations Error: #{association_response.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to create Collection Associations for Variable #{params[:variable_id]} with Collections #{params[:selected_collections]} in provider #{current_user.provider_id} but encountered an error.")
 
-      collection_associations_creation_error = Array.wrap(association_response.body['errors'])[0]
-
-      flash[:error] = collection_associations_creation_error
-
+      flash[:error] = cmr_error_message(association_response, i18n: 'controllers.collection_associations.create.flash.error')
       render :new
     end
   end
@@ -66,9 +63,7 @@ class CollectionAssociationsController < CmrSearchController
       Rails.logger.error("Collection Associations Error: #{association_response.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to delete Collection Associations for Variable #{params[:variable_id]} with Collections #{params[:selected_collections]} in provider #{current_user.provider_id} but encountered an error.")
 
-      collection_associations_delete_error = Array.wrap(association_response.body['errors'])[0]
-
-      redirect_to variable_collection_associations_path(params[:variable_id]), flash: { error: collection_associations_delete_error }
+      redirect_to variable_collection_associations_path(params[:variable_id]), flash: { error: cmr_error_message(association_response, i18n: 'controllers.collection_associations.destroy.flash.error') }
     end
   end
 

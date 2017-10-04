@@ -34,7 +34,10 @@ class CollectionsController < ManageCollectionsController
       Rails.logger.info("Audit Log: Collection with native_id #{@native_id} was deleted for #{provider_id} by #{session[:urs_uid]}")
       redirect_to collection_revisions_path(id: delete.body['concept-id'], revision_id: delete.body['revision-id'])
     else
-      flash[:error] = I18n.t('controllers.collections.destroy.flash.error')
+      Rails.logger.error("Delete Collection Error: #{delete.inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to delete Collection #{@concept_id} with native_id #{@native_id} in provider #{provider_id} but encountered an error.")
+
+      flash[:error] = cmr_error_message(delete, i18n: I18n.t('controllers.collections.destroy.flash.error'))
       render :show
     end
   end
@@ -53,14 +56,14 @@ class CollectionsController < ManageCollectionsController
 
     if ingested.success?
       flash[:success] = I18n.t('controllers.collections.revert.flash.success')
-      Rails.logger.info("Audit Log: Revision for draft with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
+      Rails.logger.info("Audit Log: Collection Revision for record #{@concept_id} with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
       redirect_to collection_revisions_path(revision_id: latest_revision_id.to_i + 1)
     else
-      Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
+      Rails.logger.error("Ingest (Revert) Collection Error: #{ingested.inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to revert Collection #{@concept_id} by ingesting a previous revision in provider #{current_user.provider_id} but encountered an error.")
 
       @errors = generate_ingest_errors(ingested)
-
-      flash[:error] = I18n.t('controllers.collections.revert.flash.error')
+      flash[:error] = cmr_error_message(ingested, i18n: I18n.t('controllers.collections.revert.flash.error'))
       render action: 'revisions'
     end
   end

@@ -1,17 +1,19 @@
-# MMT-81, MMT-82, MMT-83
-
 require 'rails_helper'
 
 describe 'Delete collection', js: true do
+  before :all do
+    @ingest_response, _concept_response = publish_collection_draft
+
+    @ingested_collection_for_delete_messages, _concept_response = publish_collection_draft
+  end
+
   before do
     login
   end
 
   context 'when viewing a published collection' do
     before do
-      ingest_response, concept_response = publish_collection_draft
-
-      visit collection_path(ingest_response['concept-id'])
+      visit collection_path(@ingest_response['concept-id'])
     end
 
     context 'when the collection has no granules' do
@@ -28,25 +30,16 @@ describe 'Delete collection', js: true do
           end
         end
 
-        it 'displays a confirmation message' do
+        it 'redirects to the revisions page and displays a confirmation message' do
           expect(page).to have_content('Collection Deleted Successfully!')
-        end
 
-        it 'displays the revision page' do
           expect(page).to have_content('Revision History')
-        end
-
-        it 'displays the correct number of revisions' do
           expect(page).to have_selector('tbody > tr', count: 2)
-        end
 
-        it 'displays the latest revision as being deleted' do
           within first('tbody > tr') do
             expect(page).to have_content('Deleted')
           end
-        end
 
-        it 'displays the correct phrasing for reverting records' do
           expect(page).to have_content('Reinstate', count: 1)
         end
       end
@@ -100,6 +93,48 @@ describe 'Delete collection', js: true do
 
       it 'displays a confirmation message' do
         expect(page).to have_content('Collection Deleted Successfully!')
+      end
+    end
+  end
+
+  context 'when deleting the collection will fail' do
+    before do
+      visit collection_path(@ingested_collection_for_delete_messages['concept-id'])
+    end
+
+    context 'when CMR provides a message' do
+      before do
+        error_body = '{"errors": ["You do not have permission to perform that action."]}'
+        error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(error_body)))
+        allow_any_instance_of(Cmr::CmrClient).to receive(:delete_collection).and_return(error_response)
+
+        click_on 'Delete Collection Record'
+
+        within '#delete-record-modal' do
+          click_on 'Yes'
+        end
+      end
+
+      it 'displays the CMR error message' do
+        expect(page).to have_css('.eui-banner--danger', text: 'You do not have permission to perform that action.')
+      end
+    end
+
+    context 'when CMR does not provide a message' do
+      before do
+        error_body = '{"message": "useless message"}'
+        error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(error_body)))
+        allow_any_instance_of(Cmr::CmrClient).to receive(:delete_collection).and_return(error_response)
+
+        click_on 'Delete Collection Record'
+
+        within '#delete-record-modal' do
+          click_on 'Yes'
+        end
+      end
+
+      it 'displays the CMR error message' do
+        expect(page).to have_css('.eui-banner--danger', text: 'Collection was not deleted successfully')
       end
     end
   end

@@ -12,6 +12,8 @@ describe 'Delete variable', js: true do
                                            ingested_collection_2['concept-id'])
 
     @ingested_variable_without_associations, _concept_response = publish_variable_draft
+
+    @ingested_variable_for_delete_messages, _concept_response = publish_variable_draft
   end
 
   before do
@@ -93,6 +95,48 @@ describe 'Delete variable', js: true do
 
             expect(page).to have_content('Variable Deleted Successfully!')
           end
+        end
+      end
+    end
+
+    context 'when deleting the variable will fail' do
+      before do
+        visit variable_path(@ingested_variable_for_delete_messages['concept-id'])
+      end
+
+      context 'when CMR provides a message' do
+        before do
+          error_body = '{"errors": ["You do not have permission to perform that action."]}'
+          error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(error_body)))
+          allow_any_instance_of(Cmr::CmrClient).to receive(:delete_variable).and_return(error_response)
+
+          click_on 'Delete Variable Record'
+
+          within '#delete-record-modal' do
+            click_on 'Yes'
+          end
+        end
+
+        it 'displays the CMR error message' do
+          expect(page).to have_css('.eui-banner--danger', text: 'You do not have permission to perform that action.')
+        end
+      end
+
+      context 'when CMR does not provide a message' do
+        before do
+          error_body = '{"message": "useless message"}'
+          error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(error_body)))
+          allow_any_instance_of(Cmr::CmrClient).to receive(:delete_variable).and_return(error_response)
+
+          click_on 'Delete Variable Record'
+
+          within '#delete-record-modal' do
+            click_on 'Yes'
+          end
+        end
+
+        it 'displays the CMR error message' do
+          expect(page).to have_css('.eui-banner--danger', text: 'Variable was not deleted successfully')
         end
       end
     end
