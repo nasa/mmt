@@ -33,16 +33,16 @@ class BulkUpdatesController < ManageCollectionsController
   end
 
   def new
-    redirect_to new_bulk_updates_search_path if request.get?
-
     add_breadcrumb 'New', new_bulk_updates_path
 
     @science_keywords = cmr_client.get_controlled_keywords('science_keywords')
+
+    data_centers = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('data_centers').fetch('level_0', []))
+
+    @data_centers = data_centers.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
   end
 
   def preview
-    redirect_to new_bulk_updates_search_path if request.get?
-
     add_breadcrumb 'Preview', bulk_update_preview_path
 
     @task = construct_task(params)
@@ -69,6 +69,28 @@ class BulkUpdatesController < ManageCollectionsController
 
   private
 
+  def get_controlled_keyword_short_names(keywords)
+    keywords.map do |keyword|
+      values = []
+      keyword.fetch('subfields', []).each do |subfield|
+        values += if subfield == 'short_name'
+                    keyword.fetch('short_name', []).map do |short_name|
+                      url = short_name.fetch('url', [{}]).first['value'] || short_name.fetch('long_name', [{}]).first.fetch('url', [{}]).first['value']
+
+                      {
+                        short_name: short_name['value'],
+                        long_name: short_name.fetch('long_name', [{}]).first['value'],
+                        url: url
+                      }
+                    end
+                  else
+                    get_controlled_keyword_short_names(keyword.fetch(subfield, []))
+                  end
+      end
+      values.flatten
+    end
+  end
+
   def construct_task(params)
     # CMR expects update-field values to be in ALL_CAPS with underscores, but the
     # downcase version works better for Rails partials, so we need to
@@ -83,12 +105,12 @@ class BulkUpdatesController < ManageCollectionsController
     # Requirements from the Bulk Updates Wiki
     # If type FIND_AND_REMOVE or FIND_AND_REPLACE, Find value required
     # If NOT type FIND_AND_REMOVE, New value required
-    if params['update_type'] == 'FIND_AND_REMOVE' || params['update_type'] == 'FIND_AND_REPLACE'
+    if params['update_type'] == 'FIND_AND_REMOVE' || params['update_type'] == 'FIND_AND_REPLACE' || params['update_type'] == 'FIND_AND_UPDATE'
       bulk_update_object['find-value'] = prune_science_keyword(params['find_value'])
     end
 
     unless params['update_type'] == 'FIND_AND_REMOVE'
-      bulk_update_object['update-value'] = prune_science_keyword(params['update_value'])
+      bulk_update_object['update-value'] = prune_science_keyword(params.fetch('update_value', {}).to_hash.to_camel_keys)
     end
 
     bulk_update_object

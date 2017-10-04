@@ -142,7 +142,7 @@ $(document).ready ->
       e.preventDefault()
 
 isFindVisibleAndVisited = ->
-  $('#bulk-updates-find').is(':visible') && $('#bulk-updates-find').hasClass('visited')
+  $('#bulk-update-form-science_keywords .bulk-updates-find').is(':visible') && $('#bulk-update-form-science_keywords .bulk-updates-find').hasClass('visited')
 
 areOtherFindValuesEmpty = (findInput) ->
   otherValues = []
@@ -154,16 +154,26 @@ areOtherFindValuesEmpty = (findInput) ->
   validValues.length == 0
 
 isValueVisibleAndVisited = ->
-  $('#bulk-updates-value').is(':visible') && $('#bulk-updates-value').hasClass('visited')
+  $('#bulk-update-form-science_keywords .bulk-updates-value').is(':visible') && $('#bulk-update-form-science_keywords .bulk-updates-value').hasClass('visited')
 
-hideAndClear = (id) ->
-  $('#' + id).addClass('is-hidden')
-  $('#' + id).removeClass('visited')
-  $('#' + id + ' input').val('')
-  if id == 'bulk-updates-value'
-    $('#new-keyword-container').addClass('is-hidden')
-    # this seems redundant but is necessary to hide the fields again, possibly because of using slideDown
-    $('#new-keyword-container').hide()
+hideAndClear = (selector) ->
+  $(selector).addClass('is-hidden')
+  $(selector).removeClass('visited')
+  $(selector + ' input').val('')
+  $(selector + ' input').prop('disabled', true)
+  $(selector + ' select').prop('disabled', true)
+
+showField = (selector) ->
+  $(selector).removeClass('is-hidden')
+  $(selector + ' input').prop('disabled', false)
+  $(selector + ' select').prop('disabled', false)
+
+
+  # TODO use a class to hide these types of elements
+  # if selector == '# .bulk-updates-value'
+  #   $('#new-keyword-container').addClass('is-hidden')
+  #   # this seems redundant but is necessary to hide the fields again, possibly because of using slideDown
+  #   $('#new-keyword-container').hide()
 
 $(document).ready ->
   # bulk updates new form
@@ -247,79 +257,94 @@ $(document).ready ->
           required: 'A valid science keyword must be specified.'
 
       groups:
-        # show only one message for each group
+        # Show only one message for each group
         find: 'find_value[Category] find_value[Topic] find_value[Term] find_value[VariableLevel1] find_value[VariableLevel2] find_value[VariableLevel3] find_value[DetailedVariable]'
         value: 'update_value[Category] update_value[Topic] update_value[Term]'
 
       errorPlacement: (error, element) ->
         if element.hasClass('science-keyword-find')
-          $('#bulk-updates-find').append(error)
+          $('#bulk-update-form-science_keywords .bulk-updates-find').append(error)
         else if element.hasClass('science-keyword-value')
-          $('#bulk-updates-value').append(error)
+          $('#bulk-update-form-science_keywords .bulk-updates-value').append(error)
         else
           error.insertAfter(element)
 
     # Handle the hiding and showing of the appropriate form
     # partial for the collection field being updated
     $('#update_field').on 'change', ->
+      #-- RESET ALL THE THINGS
+      # Triggering the `change` event here will reset the specific field
+      $('select[name=update_type]').val('').trigger('change')
+
+      # Clear all validation
+      validator.resetForm()
+
+      # Hide all partials
       $('.bulk-update-partial').addClass('is-hidden')
-      $('#bulk-update-field-' + $(this).val()).removeClass('is-hidden')
+      hideAndClear('.bulk-update-partial')
+
+      # Show only the partial being requested
+      showField('#bulk-update-form-' + $(this).val())
 
     # Show and hide update type specific divs
-    $('#update_type').on 'change', ->
-      if $(this).val() == ''
-        # the prompt was selected, hide both parts of the science keyword form
-        hideAndClear('bulk-updates-value')
-        hideAndClear('bulk-updates-find')
-        # revalidate the form to remove any validation errors from the parts we are hiding
-        validator.form()
+    $('select[name=update_type]').on 'change', ->
+      $update_field = $('#update_field').val()
+      $update_field_selector = '#bulk-update-form-' + $update_field
 
+      if $(this).val() == ''
+        # The prompt was selected, hide both parts of the science keyword form
+        hideAndClear($update_field_selector + ' .bulk-updates-value')
+        hideAndClear($update_field_selector + ' .bulk-updates-find')
+
+        # Re-validate the form to remove any validation errors from the parts we are hiding
+        validator.form()
       else
         # Toggle display of the 'Record Search'
-        if $(this).val() == 'FIND_AND_REMOVE' || $(this).val() == 'FIND_AND_REPLACE'
-          $('#bulk-updates-find').removeClass('is-hidden')
+        if $(this).val() == 'FIND_AND_REMOVE' || $(this).val() == 'FIND_AND_REPLACE' || $(this).val() == 'FIND_AND_UPDATE'
+          $($update_field_selector + ' .bulk-updates-find').removeClass('is-hidden')
         else
-          hideAndClear('bulk-updates-find')
-          # revalidate the form to remove any validation errors from the parts we are hiding
+          hideAndClear($update_field_selector + ' .bulk-updates-find')
+
+          # Re-validate the form to remove any validation errors from the parts we are hiding
           validator.form()
 
         # Toggle display of the field specific form widget
         if $(this).val() == 'FIND_AND_REMOVE'
-          hideAndClear('bulk-updates-value')
+          hideAndClear($update_field_selector + ' .bulk-updates-value')
         else
-          $('#bulk-updates-value').removeClass('is-hidden')
+          $($update_field_selector + ' .bulk-updates-value').removeClass('is-hidden')
 
         # Handle the title and form description
         $selectedFieldData = $('#update_type').find('option:selected').data()
 
         if $selectedFieldData.hasOwnProperty('find_title')
-          $('#bulk-updates-find h4.title:first').text($selectedFieldData['find_title'])
+          $($update_field_selector + ' .bulk-updates-find h4.title:first').text($selectedFieldData['find_title'])
         if $selectedFieldData.hasOwnProperty('find_description')
-          $('#bulk-updates-find p.form-description:first').text($selectedFieldData['find_description'])
+          $($update_field_selector + ' .bulk-updates-find p.form-description:first').text($selectedFieldData['find_description'])
 
         if $selectedFieldData.hasOwnProperty('new_title')
-          $('#bulk-updates-value h4.title:first').text($selectedFieldData['new_title'])
+          $($update_field_selector + ' .bulk-updates-value h4.title:first').text($selectedFieldData['new_title'])
         if $selectedFieldData.hasOwnProperty('new_description')
-          $('#bulk-updates-value p.form-description:first').text($selectedFieldData['new_description'])
+          $($update_field_selector + ' .bulk-updates-value p.form-description:first').text($selectedFieldData['new_description'])
 
     # mark bulk update find container for science keywords as visited because
     # we only want to validate the fields if they have been visited
     $('.science-keyword-find').on 'blur', ->
-      $('#bulk-updates-find').addClass('visited')
+      $('#bulk-update-form-science_keywords .bulk-updates-find').addClass('visited')
       $(this).valid()
 
     # mark the nested item picker as visited when any of the options are clicked
     # because we only want to validate the selected keyword values if it has been visited
     $('.eui-item-path, .eui-item-list-pane').on 'click', ->
       # $('.eui-nested-item-picker').addClass('visited')
-      $('#bulk-updates-value').addClass('visited')
+      $('#bulk-update-form-science_keywords .bulk-updates-value').addClass('visited')
 
     $('.science-keyword-value').on 'change', ->
       $(this).valid()
 
     # mark appropriate containers as visited before submitting to ensure validation
     $('#bulk-update-preview-button').on 'click', (e) ->
-      $('#bulk-updates-find, #bulk-updates-value').addClass('visited')
+      $('#bulk-update-form-science_keywords .bulk-updates-find, #bulk-update-form-science_keywords .bulk-updates-value').addClass('visited')
 
   if $('#bulk-update-status-table').length > 0
     $('#bulk-update-status-table').tablesorter
