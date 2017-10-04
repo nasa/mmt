@@ -26,8 +26,6 @@
       name: 'short_name',
       title: 'Short Name',
       prefix: '|update_value|_',
-      # value: data_center['ShortName'],
-      # help: 'definitions/DataCenterType/properties/ShortName',
       options: @data_centers.map { |data_center| [data_center.fetch(:short_name, ''), data_center.fetch(:short_name, ''), { 'data-long-name' => data_center[:long_name], 'data-url' => data_center[:url] }]},
       classes: 'select2-select data-center-short-name-select required',
       required: true,
@@ -41,8 +39,6 @@
       name: 'long_name',
       title: 'Long Name',
       prefix: '|update_value|_',
-      # value: data_center['LongName'],
-      # help: 'definitions/DataCenterType/properties/LongName',
       classes: 'data-center-long-name readonly',
       validate: true,
       readonly: true

@@ -284,7 +284,6 @@ $(document).ready ->
       hideAndClear('.bulk-update-partial')
 
       # Show only the partial being requested
-      # $('#bulk-update-form-' + $(this).val()).removeClass('is-hidden')
       showField('#bulk-update-form-' + $(this).val())
 
     # Show and hide update type specific divs

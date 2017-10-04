@@ -33,8 +33,6 @@ class BulkUpdatesController < ManageCollectionsController
   end
 
   def new
-    redirect_to new_bulk_updates_search_path if request.get?
-
     add_breadcrumb 'New', new_bulk_updates_path
 
     @science_keywords = cmr_client.get_controlled_keywords('science_keywords')
