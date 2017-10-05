@@ -229,7 +229,7 @@ class ApplicationController < ActionController::Base
     ingest_errors
   end
 
-  def cmr_error_message(cmr_response, i18n: nil, default_message: nil)
+  def cmr_error_message(cmr_response, i18n: nil, default_message: 'There was an error with the operation you were trying to perform.')
     cmr_error = Array.wrap(cmr_response.body.fetch('errors', []))[0]
 
     if cmr_error
@@ -239,7 +239,7 @@ class ApplicationController < ActionController::Base
       # return the i18n message if provided
       i18n
     else
-      default_message || 'There was an error with the operation you were trying to perform.'
+      default_message
     end
   end
 
