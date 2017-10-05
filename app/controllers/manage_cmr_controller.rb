@@ -1,5 +1,5 @@
 # :nodoc:
-class ManageCmrController < PagesController
+class ManageCmrController < ApplicationController
   include EchoSoap
   include ChooserEndpoints
 
