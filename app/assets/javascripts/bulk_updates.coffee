@@ -171,7 +171,7 @@ areOtherFindValuesEmpty = (findInput) ->
     values != ''
   validValues.length == 0
 
-isValueVisibleAndVisited = (valueInput) ->
+isValueVisibleAndVisited = ->
   $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").is(':visible') && $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").hasClass('visited')
 
 hideAndClear = (selector) ->
@@ -261,24 +261,24 @@ $(document).ready ->
         'update_value[Category]':
           required:
             depends: ->
-              isValueVisibleAndVisited(this)
+              isValueVisibleAndVisited()
         'update_value[Topic]':
           required:
             depends: ->
-              isValueVisibleAndVisited(this)
+              isValueVisibleAndVisited()
         'update_value[Term]':
           required:
             depends: ->
-              isValueVisibleAndVisited(this)
+              isValueVisibleAndVisited()
         # only the top 2 levels are required for a valid location keyword
         'update_value[LocationCategory]':
           required:
             depends: ->
-              isValueVisibleAndVisited(this)
+              isValueVisibleAndVisited()
         'update_value[Type]':
           required:
             depends: ->
-              isValueVisibleAndVisited(this)
+              isValueVisibleAndVisited()
 
       messages:
         'update_field':
@@ -389,7 +389,7 @@ $(document).ready ->
           showField($update_field_selector + ' .bulk-updates-value')
 
         # Handle the title and form description
-        $selectedFieldData = $('#update_type').find('option:selected').data()
+        $selectedFieldData = $($update_field_selector + ' #update_type').find('option:selected').data()
 
         if $selectedFieldData.hasOwnProperty('find_title')
           $($update_field_selector + ' .bulk-updates-find h4.title:first').text($selectedFieldData['find_title'])
