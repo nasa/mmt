@@ -226,7 +226,7 @@ module BulkUpdatesHelper
     "<h4>#{title}</h4><p>#{description}</p>".html_safe
   end
 
-  def science_keyword_for_display(type, keyword)
+  def keyword_for_display(type, keyword)
     return {} if keyword.blank?
 
     # to construct the science keyword to display, we iterate through each level
@@ -258,7 +258,7 @@ module BulkUpdatesHelper
   end
 
   def display_science_keyword(keyword)
-    display_keyword = science_keyword_for_display('science', keyword)
+    display_keyword = keyword_for_display('science', keyword)
 
     content_tag(:ul, class: 'arrow-tag-group-list') do
       BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.each do |level|
@@ -270,7 +270,7 @@ module BulkUpdatesHelper
   end
 
   def display_location_keyword(keyword)
-    display_keyword = science_keyword_for_display('location', keyword)
+    display_keyword = keyword_for_display('location', keyword)
 
     content_tag(:ul, class: 'arrow-tag-group-list') do
       BulkUpdatesHelper::LOCATION_KEYWORDS_HIERARCHY.each do |level|

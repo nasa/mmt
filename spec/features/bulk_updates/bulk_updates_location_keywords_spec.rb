@@ -23,7 +23,7 @@ describe 'Bulk updating Location Keywords', reset_provider: true do
       # Bulk update form
       select 'Location Keywords', from: 'Field to Update'
       select 'Find & Remove', from: 'Update Type'
-      fill_in 'Type', with: 'ARTIC'
+      fill_in 'Type', with: 'ARCTIC'
       click_on 'Preview'
     end
 
@@ -33,7 +33,7 @@ describe 'Bulk updating Location Keywords', reset_provider: true do
       expect(page).to have_content('Field to Update Location Keywords')
       expect(page).to have_content('Update Type Find And Remove')
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUEARTIC')
+        expect(page).to have_content('CATEGORY: ANY VALUEARCTIC')
       end
 
       within '.bulk-update-preview-table' do
@@ -66,7 +66,7 @@ describe 'Bulk updating Location Keywords', reset_provider: true do
 
         it 'no longer has the removed keyword' do
           within '.location-keyword-preview' do
-            expect(page).to have_no_content('ARTIC')
+            expect(page).to have_no_content('ARCTIC')
           end
         end
       end
