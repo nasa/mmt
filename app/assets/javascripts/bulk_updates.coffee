@@ -58,7 +58,6 @@ $(document).ready ->
     resetPicker = ->
       # Reset picker to top level
       $('.select-science-keyword, .select-location-keyword').attr 'disabled', true
-      $('.eui-item-path > li.list-title').click()
       picker.resetPicker()
 
     # Functions to validate user's ability to add keywords
@@ -185,6 +184,7 @@ showField = (selector) ->
   $(selector).removeClass('is-hidden')
   $(selector + ' input').prop('disabled', false)
   $(selector + ' select').prop('disabled', false)
+  $('.eui-item-path > li.list-title:visible').click()
 
 
   # TODO use a class to hide these types of elements
