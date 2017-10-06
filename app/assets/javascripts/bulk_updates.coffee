@@ -1,21 +1,37 @@
 # Setup NestedItemPicker for Science Keywords
 picker = undefined
+sciencePicker = undefined
+locationPicker = undefined
 @setupBulkEditScienceKeywords = (data) ->
-  picker = new NestedItemPicker('.eui-nested-item-picker', data: data, max_selections: 1)
+  sciencePicker = new NestedItemPicker('.eui-nested-item-picker.science-keywords-picker', data: data, max_selections: 1, data_type: 'science')
+  picker = sciencePicker
+
+@setupBulkEditLocationKeywords = (data) ->
+  locationPicker = new NestedItemPicker('.eui-nested-item-picker.location-keywords-picker', data: data, max_selections: 1, data_type: 'location')
 
 $(document).ready ->
+  $('#update_field').on 'change', ->
+    if $(this).val() == 'science_keywords'
+      picker = sciencePicker
+    else if $(this).val() == 'location_keywords'
+      picker = locationPicker
+
   if picker?
-    selectKeyword = (keywords = []) ->
-      $('#new-keyword-container').slideDown 300, ->
-        $('#new-keyword-container').removeClass('is-hidden')
-      addKeyword(keywords)
-      picker.resetPicker()
+    selectKeyword = (type, keywords = []) ->
+      $("#new-#{type}-keyword-container").slideDown 300, ->
+        $("#new-#{type}-keyword-container").removeClass('is-hidden')
+      addKeyword(type, keywords)
+      resetPicker()
 
     # Handle the `Select Keyword` button
     $('.select-science-keyword').on 'click', ->
-      selectKeyword()
+      selectKeyword('science')
 
-    addKeyword = (keywords = []) ->
+    # Handle the `Select Keyword` button
+    $('.select-location-keyword').on 'click', ->
+      selectKeyword('location')
+
+    addKeyword = (type, keywords = []) ->
       # Add selected value to keyword list
       keywords = picker.getValues() unless keywords.length > 0
 
@@ -25,35 +41,38 @@ $(document).ready ->
 
         # matchingKeywords = $(keywordList).find('li').filter ->
         #   this.childNodes[0].nodeValue.trim() == value
-        keywordLengthMinimum = 2
+        keywordLengthMinimum = if type == 'science' then 2 else 1
         if splitKeywords.length > keywordLengthMinimum
-          fieldsToPopulate = ['category', 'topic', 'term', 'variablelevel1', 'variablelevel2', 'variablelevel3', 'detailedvariable']
+          scienceKeywordFields = ['category', 'topic', 'term', 'variablelevel1', 'variablelevel2', 'variablelevel3', 'detailedvariable']
+          locationKeywordFields = ['location_category', 'type', 'subregion_1', 'subregion_2', 'subregion_3', 'detailed_location']
+
+          fieldsToPopulate = if type == 'science' then scienceKeywordFields else locationKeywordFields
 
           $.each fieldsToPopulate, (index, value) ->
-            $('#new_' + value).val('')
+            $("#new-#{type}-keyword-container #new_#{value}").val('')
 
           $.each splitKeywords, (index, value) ->
-            $('#new_' + fieldsToPopulate[index]).val(value.trim())
-            $('#new_' + fieldsToPopulate[index]).trigger 'change'
+            $("#new-#{type}-keyword-container #new_#{fieldsToPopulate[index]}").val(value.trim())
+            $("#new-#{type}-keyword-container #new_#{fieldsToPopulate[index]}").trigger 'change'
 
     resetPicker = ->
       # Reset picker to top level
-      $('.select-science-keyword').attr 'disabled', true
+      $('.select-science-keyword, .select-location-keyword').attr 'disabled', true
+      $('.eui-item-path > li.list-title').click()
       picker.resetPicker()
-
-    $('.selected-science-keywords').on 'click', '.remove', ->
 
     # Functions to validate user's ability to add keywords
     # Validate when user clicks on on item selection
     checkSelectionLevel = ->
-      selectionLevel = $('.eui-item-path li').length
+      type = picker.options.data_type
+      selectionLevel = $(".#{type}-keywords-picker .eui-item-path li").length
 
       # science keywords must be at least 3 levels deep
-      selectionMinimum = 3
+      selectionMinimum = if type == 'science' then 3 else 2
       if selectionLevel > selectionMinimum
-        $('.select-science-keyword').removeAttr 'disabled'
+        $('.select-science-keyword, .select-location-keyword').removeAttr 'disabled'
       else
-        $('.select-science-keyword').attr 'disabled', true
+        $('.select-science-keyword, .select-location-keyword').attr 'disabled', true
 
     $('div.eui-nested-item-picker').on 'click', '.item-parent', ->
       checkSelectionLevel()
@@ -70,11 +89,11 @@ $(document).ready ->
         $this.removeClass('final-option-selected')
       else
         # science keywords must be at least 3 levels deep
-        selectionLowerBound = 4
+        selectionLowerBound = if picker.options.data_type == 'science' then 4 else 3
         if $this.hasClass('final-option-selected')
-          $('.select-science-keyword').removeAttr 'disabled'
+          $('.select-science-keyword, .select-location-keyword').removeAttr 'disabled'
         else if $('.eui-item-path li').length < selectionLowerBound
-          $('.select-science-keyword').attr 'disabled', true
+          $('.select-science-keyword, .select-location-keyword').attr 'disabled', true
 
     # Science keyword searching
     getKeywords = (json, keyword = []) ->
@@ -106,7 +125,7 @@ $(document).ready ->
       queryTokenizer: Bloodhound.tokenizers.nonword,
       local: getKeywords(picker.currentData)
 
-    $('#science-keyword-search').on 'click', ->
+    $('#science-keyword-search, #location-keyword-search').on 'click', ->
       typeaheadSource.clear()
       typeaheadSource.local = getKeywords(picker.currentData)
       typeaheadSource.initialize(true)
@@ -124,8 +143,8 @@ $(document).ready ->
     $(document).on 'click', 'li.item a, ul.eui-item-path li', ->
       typeaheadSource.clear()
       # destroy typeahead
-      $('#science-keyword-search').val('')
-      $('#science-keyword-search').typeahead('destroy')
+      $('#science-keyword-search, #location-keyword-search').val('')
+      $('#science-keyword-search, #location-keyword-search').typeahead('destroy')
 
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
@@ -136,25 +155,24 @@ $(document).ready ->
 
       keyword = [keyword.join(' > ')]
 
-      # addKeyword(keyword)
-      selectKeyword(keyword)
+      selectKeyword(picker.options.data_type, keyword)
 
       e.preventDefault()
 
 isFindVisibleAndVisited = ->
-  $('#bulk-update-form-science_keywords .bulk-updates-find').is(':visible') && $('#bulk-update-form-science_keywords .bulk-updates-find').hasClass('visited')
+  $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find").is(':visible') && $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find").hasClass('visited')
 
 areOtherFindValuesEmpty = (findInput) ->
   otherValues = []
-  $('.science-keyword-find').each (index, element) ->
+  $(".#{picker.options.data_type}-keyword-find").each (index, element) ->
     if element != findInput
       otherValues.push($(element).val())
   validValues = otherValues.filter (values) ->
     values != ''
   validValues.length == 0
 
-isValueVisibleAndVisited = ->
-  $('#bulk-update-form-science_keywords .bulk-updates-value').is(':visible') && $('#bulk-update-form-science_keywords .bulk-updates-value').hasClass('visited')
+isValueVisibleAndVisited = (valueInput) ->
+  $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").is(':visible') && $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").hasClass('visited')
 
 hideAndClear = (selector) ->
   $(selector).addClass('is-hidden')
@@ -179,7 +197,7 @@ $(document).ready ->
   # bulk updates new form
   if $('#bulk-updates-form').length > 0
     validator = $('#bulk-updates-form').validate
-      ignore: ':hidden:not(.science-keyword-value)'
+      ignore: ':hidden:not(.science-keyword-value, .location-keyword-value)'
       onkeyup: false
 
       rules:
@@ -215,19 +233,52 @@ $(document).ready ->
           required:
             depends: ->
               isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
+        'find_value[LocationCategory]':
+          required:
+            depends: ->
+              isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
+        'find_value[Type]':
+          required:
+            depends: ->
+              isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
+        'find_value[Subregion1]':
+          required:
+            depends: ->
+              isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
+        'find_value[Subregion2]':
+          required:
+            depends: ->
+              isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
+        'find_value[Subregion3]':
+          required:
+            depends: ->
+              isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
+        'find_value[DetailedLocation]':
+          required:
+            depends: ->
+              isFindVisibleAndVisited() && areOtherFindValuesEmpty(this)
         # only the top 3 levels are required for a valid science keyword
         'update_value[Category]':
           required:
             depends: ->
-              isValueVisibleAndVisited()
+              isValueVisibleAndVisited(this)
         'update_value[Topic]':
           required:
             depends: ->
-              isValueVisibleAndVisited()
+              isValueVisibleAndVisited(this)
         'update_value[Term]':
           required:
             depends: ->
-              isValueVisibleAndVisited()
+              isValueVisibleAndVisited(this)
+        # only the top 2 levels are required for a valid location keyword
+        'update_value[LocationCategory]':
+          required:
+            depends: ->
+              isValueVisibleAndVisited(this)
+        'update_value[Type]':
+          required:
+            depends: ->
+              isValueVisibleAndVisited(this)
 
       messages:
         'update_field':
@@ -248,6 +299,18 @@ $(document).ready ->
           required: 'At least one keyword level must be specified.'
         'find_value[DetailedVariable]':
           required: 'At least one keyword level must be specified.'
+        'find_value[LocationCategory]':
+          required: 'At least one keyword level must be specified.'
+        'find_value[Type]':
+          required: 'At least one keyword level must be specified.'
+        'find_value[Subregion1]':
+          required: 'At least one keyword level must be specified.'
+        'find_value[Subregion2]':
+          required: 'At least one keyword level must be specified.'
+        'find_value[Subregion3]':
+          required: 'At least one keyword level must be specified.'
+        'find_value[DetailedLocation]':
+          required: 'At least one keyword level must be specified.'
         # only the top 3 levels are required for a valid science keyword
         'update_value[Category]':
           required: 'A valid science keyword must be specified.'
@@ -255,17 +318,28 @@ $(document).ready ->
           required: 'A valid science keyword must be specified.'
         'update_value[Term]':
           required: 'A valid science keyword must be specified.'
+        # only the top 2 levels are required for a valid location keyword
+        'update_value[LocationCategory]':
+          required: 'A valid science keyword must be specified.'
+        'update_value[Type]':
+          required: 'A valid science keyword must be specified.'
 
       groups:
         # Show only one message for each group
-        find: 'find_value[Category] find_value[Topic] find_value[Term] find_value[VariableLevel1] find_value[VariableLevel2] find_value[VariableLevel3] find_value[DetailedVariable]'
-        value: 'update_value[Category] update_value[Topic] update_value[Term]'
+        science_keyword_find: 'find_value[Category] find_value[Topic] find_value[Term] find_value[VariableLevel1] find_value[VariableLevel2] find_value[VariableLevel3] find_value[DetailedVariable]'
+        location_keyword_find: 'find_value[LocationCategory] find_value[Type] find_value[Subregion1] find_value[Subregion2] find_value[Subregion3] find_value[DetailedLocation]'
+        science_keyword_value: 'update_value[Category] update_value[Topic] update_value[Term]'
+        location_keyword_value:'update_value[LocationCategory] update_value[Type]'
 
       errorPlacement: (error, element) ->
         if element.hasClass('science-keyword-find')
           $('#bulk-update-form-science_keywords .bulk-updates-find').append(error)
         else if element.hasClass('science-keyword-value')
           $('#bulk-update-form-science_keywords .bulk-updates-value').append(error)
+        else if element.hasClass('location-keyword-find')
+          $('#bulk-update-form-location_keywords .bulk-updates-find').append(error)
+        else if element.hasClass('location-keyword-value')
+          $('#bulk-update-form-location_keywords .bulk-updates-value').append(error)
         else
           error.insertAfter(element)
 
@@ -301,7 +375,7 @@ $(document).ready ->
       else
         # Toggle display of the 'Record Search'
         if $(this).val() == 'FIND_AND_REMOVE' || $(this).val() == 'FIND_AND_REPLACE' || $(this).val() == 'FIND_AND_UPDATE'
-          $($update_field_selector + ' .bulk-updates-find').removeClass('is-hidden')
+          showField($update_field_selector + ' .bulk-updates-find')
         else
           hideAndClear($update_field_selector + ' .bulk-updates-find')
 
@@ -312,7 +386,7 @@ $(document).ready ->
         if $(this).val() == 'FIND_AND_REMOVE'
           hideAndClear($update_field_selector + ' .bulk-updates-value')
         else
-          $($update_field_selector + ' .bulk-updates-value').removeClass('is-hidden')
+          showField($update_field_selector + ' .bulk-updates-value')
 
         # Handle the title and form description
         $selectedFieldData = $('#update_type').find('option:selected').data()
@@ -329,22 +403,21 @@ $(document).ready ->
 
     # mark bulk update find container for science keywords as visited because
     # we only want to validate the fields if they have been visited
-    $('.science-keyword-find').on 'blur', ->
-      $('#bulk-update-form-science_keywords .bulk-updates-find').addClass('visited')
+    $('.science-keyword-find, .location-keyword-find').on 'blur', ->
+      $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find").addClass('visited')
       $(this).valid()
 
     # mark the nested item picker as visited when any of the options are clicked
     # because we only want to validate the selected keyword values if it has been visited
     $('.eui-item-path, .eui-item-list-pane').on 'click', ->
-      # $('.eui-nested-item-picker').addClass('visited')
-      $('#bulk-update-form-science_keywords .bulk-updates-value').addClass('visited')
+      $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").addClass('visited')
 
-    $('.science-keyword-value').on 'change', ->
+    $('.science-keyword-value, .location-keyword-value').on 'change', ->
       $(this).valid()
 
     # mark appropriate containers as visited before submitting to ensure validation
     $('#bulk-update-preview-button').on 'click', (e) ->
-      $('#bulk-update-form-science_keywords .bulk-updates-find, #bulk-update-form-science_keywords .bulk-updates-value').addClass('visited')
+      $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find, #bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").addClass('visited')
 
   if $('#bulk-update-status-table').length > 0
     $('#bulk-update-status-table').tablesorter

@@ -129,8 +129,9 @@ module BulkUpdatesHelper
   # version works better for Rails values and partials, so we need to make sure
   # to upcase them before sending to CMR
   UPDATEABLE_FIELDS = [
-    ['Science Keywords', 'science_keywords'],
-    ['Data Centers', 'data_centers']
+    ['Data Centers', 'data_centers'],
+    ['Location Keywords', 'location_keywords'],
+    ['Science Keywords', 'science_keywords']
   ].freeze
   # these are the other possible update-field values in the CMR enum:
   # 'LOCATION_KEYWORDS','DATA_CENTERS','PLATFORMS','INSTRUMENTS'
@@ -142,7 +143,7 @@ module BulkUpdatesHelper
         new_title: 'Value to Add',
         new_description: 'The new value provided below will be added to your selected collections.'
       },
-      valid_fields: %w(science_keywords)
+      valid_fields: %w(science_keywords location_keywords)
     },
     CLEAR_ALL_AND_REPLACE: {
       title: 'Clear All & Replace',
@@ -150,7 +151,7 @@ module BulkUpdatesHelper
         new_title: 'New Value',
         new_description: 'The new value provided below will be added to your selected collections and all previous values will be removed.'
       },
-      valid_fields: %w(science_keywords)
+      valid_fields: %w(science_keywords location_keywords)
     },
     FIND_AND_REMOVE: {
       title: 'Find & Remove',
@@ -158,7 +159,7 @@ module BulkUpdatesHelper
         find_title: 'Find Values to Remove',
         find_description: 'Use the following fields to find the value that you\'d like to remove from your selected collections.'
       },
-      valid_fields: %w(science_keywords data_centers)
+      valid_fields: %w(science_keywords data_centers location_keywords)
     },
     FIND_AND_REPLACE: {
       title: 'Find & Replace',
@@ -168,7 +169,7 @@ module BulkUpdatesHelper
         new_title: 'New Value',
         new_description: 'The value found using the above fields will be replaced with the value you provide here.'
       },
-      valid_fields: %w(science_keywords)
+      valid_fields: %w(science_keywords location_keywords)
     },
     FIND_AND_UPDATE: {
       title: 'Find & Update',
@@ -190,6 +191,15 @@ module BulkUpdatesHelper
     VariableLevel2
     VariableLevel3
     DetailedVariable
+  ].freeze
+
+  LOCATION_KEYWORDS_HIERARCHY = %w[
+    Category
+    Type
+    Subregion1
+    Subregion2
+    Subregion3
+    DetailedLocation
   ].freeze
 
   def update_type_select(field_to_update)
@@ -216,7 +226,7 @@ module BulkUpdatesHelper
     "<h4>#{title}</h4><p>#{description}</p>".html_safe
   end
 
-  def science_keyword_for_display(keyword)
+  def science_keyword_for_display(type, keyword)
     return {} if keyword.blank?
 
     # to construct the science keyword to display, we iterate through each level
@@ -228,7 +238,13 @@ module BulkUpdatesHelper
     reached_value = false
     display_keyword = keyword.dup
 
-    BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.reverse.each do |level|
+    keywords = if type == 'science'
+                 BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY
+               else
+                 BulkUpdatesHelper::LOCATION_KEYWORDS_HIERARCHY
+               end
+
+    keywords.reverse.each do |level|
       if (display_keyword[level].blank?) && !reached_value
         display_keyword.delete(level)
       elsif (display_keyword[level].blank?) && reached_value
@@ -242,10 +258,22 @@ module BulkUpdatesHelper
   end
 
   def display_science_keyword(keyword)
-    display_keyword = science_keyword_for_display(keyword)
+    display_keyword = science_keyword_for_display('science', keyword)
 
     content_tag(:ul, class: 'arrow-tag-group-list') do
       BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.each do |level|
+        unless display_keyword[level].blank?
+          concat content_tag(:li, display_keyword[level], itemprop: 'keyword', class: 'arrow-tag-group-item')
+        end
+      end
+    end
+  end
+
+  def display_location_keyword(keyword)
+    display_keyword = science_keyword_for_display('location', keyword)
+
+    content_tag(:ul, class: 'arrow-tag-group-list') do
+      BulkUpdatesHelper::LOCATION_KEYWORDS_HIERARCHY.each do |level|
         unless display_keyword[level].blank?
           concat content_tag(:li, display_keyword[level], itemprop: 'keyword', class: 'arrow-tag-group-item')
         end
