@@ -173,6 +173,7 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
 
   def is_logged_in
+    Rails.logger.info("Access Token: #{session[:access_token]}") if Rails.env.development?
     session[:return_to] = request.fullpath
     redirect_to login_path unless logged_in?
   end
