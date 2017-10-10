@@ -19,16 +19,13 @@ describe 'Downloading Collection XML', js: true do
       end
 
       it 'shows the download selections' do
-        link = "http://localhost:3003/concepts/#{@concept_id}"
-        token = 'access_token:81FEem91NlTQreWv2UgtXQ'
-
-        expect(page).to have_link('Native', href: "#{link}.native?token=#{token}")
-        expect(page).to have_link('ATOM', href: "#{link}.atom?token=#{token}")
-        expect(page).to have_link('ECHO 10', href: "#{link}.echo10?token=#{token}")
-        expect(page).to have_link('ISO 19115 (MENDS)', href: "#{link}.iso?token=#{token}")
-        expect(page).to have_link('ISO 19115 (SMAP)', href: "#{link}.iso_smap?token=#{token}")
-        expect(page).to have_link('DIF 9', href: "#{link}.dif?token=#{token}")
-        expect(page).to have_link('DIF 10', href: "#{link}.dif10?token=#{token}")
+        expect(page).to have_link('NATIVE', href: download_collection_xml_path(@concept_id, 'native'))
+        expect(page).to have_link('ATOM', href: download_collection_xml_path(@concept_id, 'atom'))
+        expect(page).to have_link('ECHO 10', href: download_collection_xml_path(@concept_id, 'echo10'))
+        expect(page).to have_link('ISO 19115 (MENDS)', href: download_collection_xml_path(@concept_id, 'iso'))
+        expect(page).to have_link('ISO 19115 (SMAP)', href: download_collection_xml_path(@concept_id, 'iso19115'))
+        expect(page).to have_link('DIF 9', href: download_collection_xml_path(@concept_id, 'dif'))
+        expect(page).to have_link('DIF 10', href: download_collection_xml_path(@concept_id, 'dif10'))
       end
     end
   end
