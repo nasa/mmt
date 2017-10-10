@@ -86,7 +86,6 @@ class CollectionsController < ManageCollectionsController
     @concept_id = params[:id]
     @revision_id = params[:revision_id]
 
-    set_collection_link(@concept_id)
     set_num_granules(@concept_id)
 
     @revisions = get_revisions(@concept_id, @revision_id)
@@ -141,19 +140,6 @@ class CollectionsController < ManageCollectionsController
     end
 
     revisions
-  end
-
-  def set_collection_link(concept_id)
-    # collection_link used for downloading XML
-    base_url = 'http://localhost:3003'
-    if Rails.env.sit?
-      base_url = 'https://cmr.sit.earthdata.nasa.gov/search'
-    elsif Rails.env.uat?
-      base_url = 'https://cmr.uat.earthdata.nasa.gov/search'
-    elsif Rails.env.production?
-      base_url = 'https://cmr.earthdata.nasa.gov/search'
-    end
-    @collection_link = "#{base_url}/concepts/#{concept_id}"
   end
 
   def set_collection_download
