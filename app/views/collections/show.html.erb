@@ -107,7 +107,10 @@
           <a class="disabled" href="#">Save as Template</a>
         </p>
 
-        <%= render partial: 'shared/download_xml', locals: { collection: true } %>
+        <%= render partial: 'shared/download_xml', locals: {
+          concept_id: @concept_id,
+          revision_id: @revision_id
+          } %>
       </section>
 
       <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, editable: false } %>

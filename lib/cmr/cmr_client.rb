@@ -115,6 +115,17 @@ module Cmr
       get(url, options, token_header(token))
     end
 
+    # This method is to retrieve the collection for xml download
+    def get_collection_concept_for_download(concept_id, collection_format, token, revision_id = nil)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}.#{collection_format}?pretty=true"
+            else
+              "/search/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}.#{collection_format}?pretty=true"
+            end
+
+      get(url, {}, token_header(token))
+    end
+
     def get_controlled_keywords(type)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/keywords/#{type}"

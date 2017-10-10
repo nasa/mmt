@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
   get '/collections/:id/clone' => 'collections#clone', as: 'clone_collection'
+  get '/collections/:id/download_xml/:format(/:revision_id)' => 'collections#download_xml', as: 'download_collection_xml'
 
   resources :variables, only: [:show, :create, :edit, :destroy] do
     resources :collection_associations, only: [:index, :new, :create] do
