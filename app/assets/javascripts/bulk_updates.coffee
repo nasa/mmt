@@ -3,11 +3,11 @@ picker = undefined
 sciencePicker = undefined
 locationPicker = undefined
 @setupBulkEditScienceKeywords = (data) ->
-  sciencePicker = new NestedItemPicker('.eui-nested-item-picker.science-keywords-picker', data: data, max_selections: 1, data_type: 'science')
+  sciencePicker = new NestedItemPicker('.eui-nested-item-picker.science-keywords-picker', data: data, max_selections: 1, data_type: 'science', keywordLengthMinimum: 3)
   picker = sciencePicker
 
 @setupBulkEditLocationKeywords = (data) ->
-  locationPicker = new NestedItemPicker('.eui-nested-item-picker.location-keywords-picker', data: data, max_selections: 1, data_type: 'location')
+  locationPicker = new NestedItemPicker('.eui-nested-item-picker.location-keywords-picker', data: data, max_selections: 1, data_type: 'location', keywordLengthMinimum: 2)
 
 $(document).ready ->
   $('#update_field').on 'change', ->
@@ -35,14 +35,10 @@ $(document).ready ->
       # Add selected value to keyword list
       keywords = picker.getValues() unless keywords.length > 0
 
-      # keywordList = $('.selected-science-keywords ul')
       $.each keywords, (index, value) ->
         splitKeywords = value.split('>')
 
-        # matchingKeywords = $(keywordList).find('li').filter ->
-        #   this.childNodes[0].nodeValue.trim() == value
-        keywordLengthMinimum = if type == 'science' then 2 else 1
-        if splitKeywords.length > keywordLengthMinimum
+        if splitKeywords.length >= picker.options.keywordLengthMinimum
           scienceKeywordFields = ['category', 'topic', 'term', 'variablelevel1', 'variablelevel2', 'variablelevel3', 'detailedvariable']
           locationKeywordFields = ['location_category', 'type', 'subregion_1', 'subregion_2', 'subregion_3', 'detailed_location']
 
@@ -67,8 +63,7 @@ $(document).ready ->
       selectionLevel = $(".#{type}-keywords-picker .eui-item-path li").length
 
       # science keywords must be at least 3 levels deep
-      selectionMinimum = if type == 'science' then 3 else 2
-      if selectionLevel > selectionMinimum
+      if selectionLevel > picker.options.keywordLengthMinimum
         $('.select-science-keyword, .select-location-keyword').removeAttr 'disabled'
       else
         $('.select-science-keyword, .select-location-keyword').attr 'disabled', true

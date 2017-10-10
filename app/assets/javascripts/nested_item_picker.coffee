@@ -1,10 +1,10 @@
 # Setup NestedItemPicker for Science Keywords
 picker = undefined
 @setupScienceKeywords = (data, options = {}) ->
-  picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'science'}, options))
+  picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'science', keywordLengthMinimum: 3}, options))
 
 @setupLocationKeywords = (data, options = {}) ->
-  picker = new NestedItemPicker('.eui-nested-item-picker', data: data, data_type: 'location')
+  picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'location', keywordLengthMinimum: 2}, options))
 
 preparePickerValidation = (showErrors = true) ->
   # If the item was the last item in the list
@@ -84,8 +84,7 @@ $(document).ready ->
         timeStamp += 1
         matchingKeywords = $(keywordList).find('li').filter ->
           this.childNodes[0].nodeValue.trim() == value
-        keywordLengthMinimum = if picker.options.data_type == 'science' then 2 else 1
-        if matchingKeywords.length == 0 and value.split('>').length > keywordLengthMinimum
+        if matchingKeywords.length == 0 and value.split('>').length >= picker.options.keywordLengthMinimum
             span = "<span class='is-invisible'>Remove #{value}</span>"
             li = $("<li>#{value}<a class='remove' data-keyword-type='#{type}' data-field-prefix-id='#{fieldPrefixId}'><i class='fa fa-times-circle'></i></a>#{span}</li>")
 
@@ -134,8 +133,7 @@ $(document).ready ->
       selectionLevel = $('.eui-item-path li').length
 
       # science keywords must be at least 3 levels deep, location keywords 2
-      selectionMinimum = if picker.options.data_type == 'science' then 3 else 2
-      if selectionLevel > selectionMinimum
+      if selectionLevel > picker.options.keywordLengthMinimum
         $('.add-science-keyword, .add-location-keyword').removeAttr 'disabled'
       else
         $('.add-science-keyword, .add-location-keyword').attr 'disabled', true
