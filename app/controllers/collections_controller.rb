@@ -3,7 +3,6 @@ class CollectionsController < ManageCollectionsController
 
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
-  before_action :set_collection_download, only: [:download_xml]
 
   add_breadcrumb 'Collections' # there is no collections index action, so not providing a link
 
@@ -67,7 +66,20 @@ class CollectionsController < ManageCollectionsController
   end
 
   def download_xml
-    send_data @collection_download, type: 'text/xml', disposition: "attachment; filename=#{@concept_id}.#{@collection_format}"
+    concept_id = params[:id]
+    download_format = params[:format]
+    revision_id = params[:revision_id]
+
+    collection_response = cmr_client.get_concept(concept_id, token, {}, revision_id, download_format)
+
+    collection_download = collection_response.body
+    content_type = collection_response.headers.fetch('content-type', '')
+
+    if collection_response.error?
+      Rails.logger.error("Error retrieving concept for download for Collection #{concept_id}, revision #{revision_id} in #{download_format} format for user #{current_user.urs_uid}")
+    end
+
+    send_data collection_download, type: content_type, disposition: "attachment; filename=#{concept_id}.#{download_format}"
   end
 
   private
@@ -140,23 +152,6 @@ class CollectionsController < ManageCollectionsController
     end
 
     revisions
-  end
-
-  def set_collection_download
-    @concept_id = params[:id]
-    @collection_format = params[:format]
-    revision_id = params[:revision_id]
-
-    collection_response = cmr_client.get_collection_concept_for_download(@concept_id, @collection_format, token, revision_id)
-
-    @collection_download = if collection_response.success?
-                             collection_response.body
-                           else
-                             Rails.logger.error("Error retrieving concept for Collection #{@concept_id}, revision #{revision_id} in #{@collection_format} format for user #{current_user.urs_uid}")
-
-                             error_message = "There was an error retrieving the collection metadata for Collection #{@concept_id}, revision #{revision_id} in #{@collection_format} format that you requested."
-                             "<?xml version='1.0' encoding='UTF-8'?><error>#{error_message}</error>"
-                           end
   end
 
   def set_num_granules(concept_id)

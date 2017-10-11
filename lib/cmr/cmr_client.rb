@@ -90,12 +90,15 @@ module Cmr
       delete(url, nil, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
     end
 
-    def get_concept(concept_id, token, headers, revision_id = nil)
+    def get_concept(concept_id, token, headers, revision_id = nil, download_format = nil)
       url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}"
+              "http://localhost:3003/concepts/#{concept_id}"
             else
-              "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
+              "/search/concepts/#{concept_id}"
             end
+
+      url += "/#{revision_id}" if revision_id
+      url += ".#{download_format}?pretty=true" if download_format
 
       get(url, {}, headers.merge(token_header(token)))
     end
@@ -113,17 +116,6 @@ module Cmr
       }
 
       get(url, options, token_header(token))
-    end
-
-    # This method is to retrieve the collection for xml download
-    def get_collection_concept_for_download(concept_id, collection_format, token, revision_id = nil)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}.#{collection_format}?pretty=true"
-            else
-              "/search/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}.#{collection_format}?pretty=true"
-            end
-
-      get(url, {}, token_header(token))
     end
 
     def get_controlled_keywords(type)
