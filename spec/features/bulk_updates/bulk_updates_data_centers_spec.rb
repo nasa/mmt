@@ -1,10 +1,13 @@
 require 'rails_helper'
 
 describe 'Bulk updating Data Centers', reset_provider: true do
+  before :all do
+    _ingest_response, @find_and_remove_concept_response = publish_collection_draft
+    _ingest_response, @find_and_update_concept_response = publish_collection_draft
+  end
+
   before do
     login
-
-    _ingest_response, @concept_response = publish_collection_draft
 
     visit new_bulk_updates_search_path
   end
@@ -13,7 +16,7 @@ describe 'Bulk updating Data Centers', reset_provider: true do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @concept_response.body['EntryTitle']
+      fill_in 'query_text', with: @find_and_remove_concept_response.body['EntryTitle']
       click_button 'Submit'
 
       # Select search results
@@ -37,14 +40,19 @@ describe 'Bulk updating Data Centers', reset_provider: true do
       end
 
       within '.bulk-update-preview-table' do
-        expect(page).to have_content(@concept_response.body['EntryTitle'])
-        expect(page).to have_content(@concept_response.body['ShortName'])
+        expect(page).to have_content(@find_and_remove_concept_response.body['EntryTitle'])
+        expect(page).to have_content(@find_and_remove_concept_response.body['ShortName'])
       end
     end
 
     context 'when submitting the bulk update' do
       before do
         click_on 'Submit'
+
+        # need to wait until the task status is 'COMPLETE'
+        task_id = page.current_path.split('/').last
+        wait_for_complete_bulk_update(task_id: task_id)
+
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
@@ -60,7 +68,7 @@ describe 'Bulk updating Data Centers', reset_provider: true do
       context 'when viewing the collection' do
         before do
           within '#bulk-update-status-table' do
-            click_on @concept_response.body['EntryTitle']
+            click_on @find_and_remove_concept_response.body['EntryTitle']
           end
         end
 
@@ -77,7 +85,7 @@ describe 'Bulk updating Data Centers', reset_provider: true do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @concept_response.body['EntryTitle']
+      fill_in 'query_text', with: @find_and_update_concept_response.body['EntryTitle']
       click_button 'Submit'
 
       # Select search results
@@ -113,14 +121,19 @@ describe 'Bulk updating Data Centers', reset_provider: true do
       end
 
       within '.bulk-update-preview-table' do
-        expect(page).to have_content(@concept_response.body['EntryTitle'])
-        expect(page).to have_content(@concept_response.body['ShortName'])
+        expect(page).to have_content(@find_and_update_concept_response.body['EntryTitle'])
+        expect(page).to have_content(@find_and_update_concept_response.body['ShortName'])
       end
     end
 
     context 'when submitting the bulk update' do
       before do
         click_on 'Submit'
+
+        # need to wait until the task status is 'COMPLETE'
+        task_id = page.current_path.split('/').last
+        wait_for_complete_bulk_update(task_id: task_id)
+
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
@@ -136,7 +149,7 @@ describe 'Bulk updating Data Centers', reset_provider: true do
       context 'when viewing the collection' do
         before do
           within '#bulk-update-status-table' do
-            click_on @concept_response.body['EntryTitle']
+            click_on @find_and_update_concept_response.body['EntryTitle']
           end
         end
 

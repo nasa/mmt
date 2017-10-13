@@ -1,0 +1,17 @@
+<h2>Platforms</h2>
+
+<fieldset>
+  <%= update_type_select('platforms') %>
+</fieldset>
+
+<fieldset class="bulk-updates-find is-hidden">
+  <h4 class="title">Find Platforms</h4>
+  <p class="form-description space-bot">Update all collections that have platforms that match the criteria specified below.</p>
+
+  <div class="row">
+    <div class="col-6">
+      <%= label_tag 'find_value[ShortName]', 'Short Name' %>
+      <%= text_field_tag('find_value[ShortName]', nil, class: 'full-width required') %>
+    </div>
+  </div>
+</fieldset>

@@ -45,6 +45,11 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
     context 'when submitting the bulk update' do
       before do
         click_on 'Submit'
+
+        # need to wait until the task status is 'COMPLETE'
+        task_id = page.current_path.split('/').last
+        wait_for_complete_bulk_update(task_id: task_id)
+
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
@@ -112,6 +117,11 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
     context 'when submitting the bulk update' do
       before do
         click_on 'Submit'
+
+        # need to wait until the task status is 'COMPLETE'
+        task_id = page.current_path.split('/').last
+        wait_for_complete_bulk_update(task_id: task_id)
+
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
@@ -187,6 +197,11 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
     context 'when submitting the bulk update' do
       before do
         click_on 'Submit'
+
+        # need to wait until the task status is 'COMPLETE'
+        task_id = page.current_path.split('/').last
+        wait_for_complete_bulk_update(task_id: task_id)
+
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
@@ -258,6 +273,11 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
     context 'when submitting the bulk update' do
       before do
         click_on 'Submit'
+
+        # need to wait until the task status is 'COMPLETE'
+        task_id = page.current_path.split('/').last
+        wait_for_complete_bulk_update(task_id: task_id)
+
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
