@@ -107,8 +107,8 @@ class BulkUpdatesController < ManageCollectionsController
     params['find_value'] = fix_location_category(params.fetch('find_value', {}))
 
     # Requirements from the Bulk Updates Wiki
-    # If type FIND_AND_REMOVE or FIND_AND_REPLACE, Find value required
-    # If NOT type FIND_AND_REMOVE, New value required
+    # IF type FIND_AND_REMOVE or FIND_AND_REPLACE or FIND_AND_UPDATE, Find value required
+    # IF NOT type FIND_AND_REMOVE, New value required
     if params['update_type'] == 'FIND_AND_REMOVE' || params['update_type'] == 'FIND_AND_REPLACE' || params['update_type'] == 'FIND_AND_UPDATE'
       bulk_update_object['find-value'] = prune_science_keyword(params['find_value'])
     end
