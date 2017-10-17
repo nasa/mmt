@@ -315,9 +315,9 @@ $(document).ready ->
           required: 'A valid science keyword must be specified.'
         # only the top 2 levels are required for a valid location keyword
         'update_value[LocationCategory]':
-          required: 'A valid science keyword must be specified.'
+          required: 'A valid location keyword must be specified.'
         'update_value[Type]':
-          required: 'A valid science keyword must be specified.'
+          required: 'A valid location keyword must be specified.'
 
       groups:
         # Show only one message for each group
@@ -335,6 +335,8 @@ $(document).ready ->
           $('#bulk-update-form-location_keywords .bulk-updates-find').append(error)
         else if element.hasClass('location-keyword-value')
           $('#bulk-update-form-location_keywords .bulk-updates-value').append(error)
+        else if element.hasClass('select2-select')
+          element.siblings('.select2-container').append(error)
         else
           error.insertAfter(element)
 

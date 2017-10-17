@@ -1,5 +1,7 @@
 # :nodoc:
 class BulkUpdatesController < ManageCollectionsController
+  include BulkUpdates
+  include ControlledKeywords
   before_filter :bulk_updates_enabled?
 
   add_breadcrumb 'Bulk Updates', :bulk_updates_path
@@ -35,12 +37,10 @@ class BulkUpdatesController < ManageCollectionsController
   def new
     add_breadcrumb 'New', new_bulk_updates_path
 
-    @science_keywords = cmr_client.get_controlled_keywords('science_keywords')
-    @location_keywords = cmr_client.get_controlled_keywords('spatial_keywords')
-
-    data_centers = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('data_centers').fetch('level_0', []))
-
-    @data_centers = data_centers.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
+    set_science_keywords
+    set_location_keywords
+    set_data_centers
+    set_platform_types
   end
 
   def preview
@@ -69,28 +69,6 @@ class BulkUpdatesController < ManageCollectionsController
   end
 
   private
-
-  def get_controlled_keyword_short_names(keywords)
-    keywords.map do |keyword|
-      values = []
-      keyword.fetch('subfields', []).each do |subfield|
-        values += if subfield == 'short_name'
-                    keyword.fetch('short_name', []).map do |short_name|
-                      url = short_name.fetch('url', [{}]).first['value'] || short_name.fetch('long_name', [{}]).first.fetch('url', [{}]).first['value']
-
-                      {
-                        short_name: short_name['value'],
-                        long_name: short_name.fetch('long_name', [{}]).first['value'],
-                        url: url
-                      }
-                    end
-                  else
-                    get_controlled_keyword_short_names(keyword.fetch(subfield, []))
-                  end
-      end
-      values.flatten
-    end
-  end
 
   def construct_task(params)
     # CMR expects update-field values to be in ALL_CAPS with underscores, but the
