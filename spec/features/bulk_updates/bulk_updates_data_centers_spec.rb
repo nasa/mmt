@@ -63,6 +63,11 @@ describe 'Bulk updating Data Centers', reset_provider: true do
           expect(page).to have_content('Field to Update Data Centers')
           expect(page).to have_content('Update Type Find And Remove')
         end
+
+        within '.find-values-preview' do
+          expect(page).to have_content('Find Values to Remove')
+          expect(page).to have_content('Short Name: ESA/ED')
+        end
       end
 
       context 'when viewing the collection' do
@@ -143,6 +148,17 @@ describe 'Bulk updating Data Centers', reset_provider: true do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Data Centers')
           expect(page).to have_content('Update Type Find And Update')
+        end
+
+        within '.find-values-preview' do
+          expect(page).to have_content('Find Values to Update')
+          expect(page).to have_content('Short Name: AARHUS-HYDRO')
+        end
+
+        within '.new-values-preview' do
+          expect(page).to have_content('New Value')
+          expect(page).to have_content('Short Name: DOI/USGS/CMG/WHSC')
+          expect(page).to have_content('Long Name: Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior')
         end
       end
 
