@@ -23,6 +23,8 @@ module Helpers
 
           break if task['task-status'] == 'COMPLETE'
           attempts += 1
+
+          sleep 0.5 # Platforms seem to take a little longer to get to 'COMPLETE'
         end
       end
     end
