@@ -65,10 +65,10 @@
       <%= hidden_field_tag 'update_field', @task['update-field'] %>
       <%= hidden_field_tag 'update_type', @task['update-type'], id: 'bulk-update-type' %>
 
-      <%= render partial: "shared/bulk_updates/forms/preview_#{@task['update-field'].downcase}", locals: {
+      <%= render partial: "shared/bulk_updates/forms/preview_value", locals: {
         value_type: 'find_value', value_hash: @task.fetch('find-value', {})
       } %>
-      <%= render partial: "shared/bulk_updates/forms/preview_#{@task['update-field'].downcase}", locals: {
+      <%= render partial: "shared/bulk_updates/forms/preview_value", locals: {
         value_type: 'update_value', value_hash: @task.fetch('update-value', {})
       } %>
 

@@ -1,0 +1,8 @@
+<% if bulk_update['update-type'] == 'FIND_AND_REMOVE' || bulk_update['update-type'] == 'FIND_AND_REPLACE' || bulk_update['update-type'] == 'FIND_AND_UPDATE' %>
+  <div class="find-values-preview">
+    <!-- Find Value -->
+    <%= display_value_title(bulk_update['update-type'], 'find') %>
+
+    <%= display_instrument(bulk_update['find-value']) %>
+  </div>
+<% end %>

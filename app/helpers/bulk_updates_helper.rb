@@ -132,10 +132,9 @@ module BulkUpdatesHelper
     ['Data Centers', 'data_centers'],
     ['Location Keywords', 'location_keywords'],
     ['Science Keywords', 'science_keywords'],
-    ['Platforms', 'platforms']
+    ['Platforms', 'platforms'],
+    ['Instruments', 'instruments']
   ].freeze
-  # these are the other possible update-field values in the CMR enum:
-  # 'LOCATION_KEYWORDS','DATA_CENTERS','PLATFORMS','INSTRUMENTS'
 
   UPDATE_TYPES = {
     ADD_TO_EXISTING: {
@@ -160,7 +159,7 @@ module BulkUpdatesHelper
         find_title: 'Find Values to Remove',
         find_description: 'Use the following fields to find the value that you\'d like to remove from your selected collections.'
       },
-      valid_fields: %w[science_keywords data_centers location_keywords platforms]
+      valid_fields: %w[science_keywords data_centers location_keywords platforms instruments]
     },
     FIND_AND_REPLACE: {
       title: 'Find & Replace',
@@ -311,6 +310,17 @@ module BulkUpdatesHelper
         concat(content_tag(:li) do
           concat content_tag(:strong, 'Long Name: ')
           concat content_tag(:span, platform['LongName'])
+        end)
+      end
+    end
+  end
+
+  def display_instrument(instrument)
+    content_tag(:ul, class: 'no-bullet') do
+      if instrument.key?('ShortName')
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Short Name: ')
+          concat content_tag(:span, instrument['ShortName'])
         end)
       end
     end

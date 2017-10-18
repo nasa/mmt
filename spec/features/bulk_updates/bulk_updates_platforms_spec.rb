@@ -1,9 +1,8 @@
 require 'rails_helper'
 
-describe 'Bulk updating Platforms', reset_provider: true do
+describe 'Bulk updating Platforms' do
   before :all do
     _ingest_response, @find_and_remove_concept_response = publish_collection_draft
-
     _ingest_response, @find_and_update_concept_response = publish_collection_draft
   end
 
