@@ -41,6 +41,7 @@ class BulkUpdatesController < ManageCollectionsController
     set_location_keywords
     set_data_centers
     set_platform_types
+    set_instruments
   end
 
   def preview

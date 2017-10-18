@@ -50,15 +50,15 @@ class CollectionDraftsController < BaseDraftsController
     add_breadcrumb titleize_form_name(@draft_form), edit_collection_draft_path(get_resource)
 
     # Set instance variables depending on the form requested
-    set_science_keywords if @draft_form == 'descriptive_keywords'
-    set_location_keywords if @draft_form == 'spatial_information'
-    set_projects
-    set_instruments
-    set_platform_types if @draft_form == 'acquisition_information'
-    set_language_codes if @draft_form == 'metadata_information' || @draft_form == 'collection_information'
     set_country_codes
-    set_temporal_keywords if @draft_form == 'temporal_information'
-    set_data_centers if @draft_form == 'data_centers' || @draft_form == 'data_contacts'
+    set_language_codes        if @draft_form == 'collection_information' || @draft_form == 'metadata_information'
+    set_science_keywords      if @draft_form == 'descriptive_keywords'
+    set_platform_types        if @draft_form == 'acquisition_information'
+    set_instruments           if @draft_form == 'acquisition_information'
+    set_projects              if @draft_form == 'acquisition_information'
+    set_temporal_keywords     if @draft_form == 'temporal_information'
+    set_location_keywords     if @draft_form == 'spatial_information'
+    set_data_centers          if @draft_form == 'data_centers' || @draft_form == 'data_contacts'
     load_data_contacts_schema if @draft_form == 'data_contacts'
   end
 

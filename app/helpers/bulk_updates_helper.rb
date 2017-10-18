@@ -179,7 +179,7 @@ module BulkUpdatesHelper
         new_title: 'New Value',
         new_description: 'The value found using the above fields will be updated with the value you provide here.'
       },
-      valid_fields: %w[data_centers platforms]
+      valid_fields: %w[data_centers platforms instruments]
     }
   }.freeze
 
@@ -321,6 +321,12 @@ module BulkUpdatesHelper
         concat(content_tag(:li) do
           concat content_tag(:strong, 'Short Name: ')
           concat content_tag(:span, instrument['ShortName'])
+        end)
+      end
+      if instrument.key?('LongName')
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Long Name: ')
+          concat content_tag(:span, instrument['LongName'])
         end)
       end
     end
