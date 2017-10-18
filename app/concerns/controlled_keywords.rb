@@ -53,14 +53,12 @@ module ControlledKeywords
   end
 
   def set_instruments
-    return unless params[:form] == 'acquisition_information'
     @instruments = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('instruments').fetch('category', []))
 
     @instruments.flatten!.sort! { |a, b| a[:short_name] <=> b[:short_name] }
   end
 
   def set_projects
-    return unless params[:form] == 'acquisition_information'
     @projects = cmr_client.get_controlled_keywords('projects').fetch('short_name', []).map do |short_name|
       {
         short_name: short_name['value'],
