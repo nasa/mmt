@@ -55,8 +55,10 @@
                     <li>
                       <%= bulk_update['task-id'] %> |
                       <%= link_to "#{bulk_update.fetch('request-json-body', {})['update-type'].titleize} #{bulk_update.fetch('request-json-body', {})['update-field'].titleize}".html_safe, bulk_update_path(bulk_update['task-id']) %>
-
-                      <p><small><b>STATUS:</b></small> <%= bulk_update['status'].titleize %></p>
+                      <p>
+                        <small><b>STATUS:</b> <%= bulk_update['status'].titleize %></small> |
+                        <small><b>CREATED:</b><span> <%= DateTime.parse(bulk_update['created-at']).to_s(:date) %></small>
+                      </p>
                     </li>
                   <% end %>
                   <% if @bulk_updates.size > @draft_display_max_count %>

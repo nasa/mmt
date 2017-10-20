@@ -68,6 +68,9 @@ describe 'Bulk updating Platforms' do
           expect(page).to have_content('Find Values to Remove')
           expect(page).to have_content('Short Name: SMAP')
         end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
@@ -161,6 +164,9 @@ describe 'Bulk updating Platforms' do
           expect(page).to have_content('Short Name: DMSP 5B/F3')
           expect(page).to have_content('Long Name: Defense Meteorological Satellite Program-F3')
         end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do

@@ -70,6 +70,9 @@ describe 'Bulk updating Science Keywords' do
           expect(page).to have_content('Find Values to Remove')
           expect(page).to have_content('MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
         end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
@@ -147,6 +150,9 @@ describe 'Bulk updating Science Keywords' do
           expect(page).to have_content('Value to Add')
           expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
         end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
@@ -237,6 +243,9 @@ describe 'Bulk updating Science Keywords' do
           expect(page).to have_content('New Value')
           expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
         end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
@@ -318,6 +327,9 @@ describe 'Bulk updating Science Keywords' do
           expect(page).to have_content('New Value')
           expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
         end
+        
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
