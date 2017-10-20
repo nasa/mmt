@@ -70,6 +70,9 @@ describe 'Bulk updating Location Keywords' do
           expect(page).to have_content('Find Values to Remove')
           expect(page).to have_content('ARCTIC')
         end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
@@ -148,6 +151,9 @@ describe 'Bulk updating Location Keywords' do
           expect(page).to have_content('Value to Add')
           expect(page).to have_content('OCEANATLANTIC OCEANNORTH ATLANTIC OCEANBALTIC SEA')
         end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
@@ -239,6 +245,9 @@ describe 'Bulk updating Location Keywords' do
           expect(page).to have_content('New Value')
           expect(page).to have_content('OCEANATLANTIC OCEANNORTH ATLANTIC OCEANBALTIC SEA')
         end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
@@ -319,6 +328,9 @@ describe 'Bulk updating Location Keywords' do
           expect(page).to have_content('New Value')
           expect(page).to have_content('CONTINENTAFRICACENTRAL AFRICA')
         end
+        
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do

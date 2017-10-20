@@ -15,6 +15,7 @@
           <th>Operation</th>
           <th>Status</th>
           <th>Message</th>
+          <th>Created</th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +30,7 @@
               <td><%= task['update-type'].titleize %> <%= task['update-field'].titleize %></td>
               <td><%= task['status'] %></td>
               <td><%= task['status-message'] %></td>
+              <td><%= DateTime.parse(task['created-at']).to_s %></td>
             </tr>
           <% end %>
         <% end %>
