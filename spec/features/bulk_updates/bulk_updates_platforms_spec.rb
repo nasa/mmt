@@ -80,7 +80,10 @@ describe 'Bulk updating Platforms' do
         it 'does not display the removed platform' do
           within '.platform-cards' do
             expect(page).to have_content('A340-600')
+            expect(page).to have_content('Aircraft')
+
             expect(page).to have_no_content('SMAP')
+            expect(page).to have_no_content('Earth Observation Satellites')
           end
         end
       end
@@ -122,6 +125,7 @@ describe 'Bulk updating Platforms' do
 
       # New Values
       within '.new-values-preview' do
+        expect(page).to have_content('Type: Earth Observation Satellites')
         expect(page).to have_content('Short Name: DMSP 5B/F3')
         expect(page).to have_content('Long Name: Defense Meteorological Satellite Program-F3')
       end
@@ -158,6 +162,7 @@ describe 'Bulk updating Platforms' do
 
         within '.new-values-preview' do
           expect(page).to have_content('New Value')
+          expect(page).to have_content('Type: Earth Observation Satellites')
           expect(page).to have_content('Short Name: DMSP 5B/F3')
           expect(page).to have_content('Long Name: Defense Meteorological Satellite Program-F3')
         end
@@ -173,8 +178,11 @@ describe 'Bulk updating Platforms' do
         it 'does not display the removed platform' do
           within '.platform-cards' do
             expect(page).to have_no_content('A340-600')
+            expect(page).to have_no_content('Aircraft')
+
             expect(page).to have_content('DMSP 5B/F3')
             expect(page).to have_content('SMAP')
+            expect(page).to have_content('Earth Observation Satellites', count: 2)
           end
         end
       end

@@ -300,6 +300,12 @@ module BulkUpdatesHelper
 
   def display_platform(platform)
     content_tag(:ul, class: 'no-bullet') do
+      if platform.key?('Type')
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Type: ')
+          concat content_tag(:span, platform['Type'])
+        end)
+      end
       if platform.key?('ShortName')
         concat(content_tag(:li) do
           concat content_tag(:strong, 'Short Name: ')
