@@ -7,7 +7,7 @@
 .umm-preview {
   .arrow-tag-group-list {
     display: table;
-  } 
+  }
 }
 
 .preview, .umm-preview {
@@ -111,5 +111,11 @@ ul.sub-field {
   .access-message {
     max-width: 575px;
     margin: 1em auto;
+  }
+}
+
+.location-keyword-preview, .science-keywords-preview {
+  ul.arrow-tag-group-list {
+    width: 100%;
   }
 }
