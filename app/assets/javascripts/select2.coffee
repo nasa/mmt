@@ -112,27 +112,27 @@ $(document).ready ->
     else
       $longNameElement.val('')
 
-  # Set long name element to readonly if short name is selected on load
+  # Set long name element if short name is selected on load
   $('.project-short-name-select').each (index, element) ->
-      $element = $(this)
-      longName = $element.find(':selected').data('longName')
-      url = $element.find(':selected').data('url')
+    $element = $(this)
+    longName = $element.find(':selected').data('longName')
+    url = $element.find(':selected').data('url')
 
-      $longNameElement = $element.parent().siblings().find('.project-long-name')
+    $longNameElement = $element.parent().siblings().find('.project-long-name')
 
-      if longName?
-        $longNameElement.val(longName)
+    if longName?
+      $longNameElement.val(longName)
 
-  # Set long name element to readonly if short name is selected on load
+  # Set long name element if short name is selected on load
   $('.platform-short-name-select').each (index, element) ->
-      $element = $(this)
-      longName = $element.find(':selected').data('longName')
-      url = $element.find(':selected').data('url')
+    $element = $(this)
+    longName = $element.find(':selected').data('longName')
+    url = $element.find(':selected').data('url')
 
-      $longNameElement = $element.parent().siblings().find('.platform-long-name')
+    $longNameElement = $element.parent().siblings().find('.platform-long-name')
 
-      if longName?
-        $longNameElement.val(longName)
+    if longName?
+      $longNameElement.val(longName)
 
   # when selecting short name, populate long name
   $('.instrument-short-name-select').on 'select2:select', (event) ->
