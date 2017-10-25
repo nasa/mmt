@@ -52,7 +52,11 @@ module SearchHelper
   end
 
   def display_last_modified(record)
-    fragments = record.fetch('meta', {})['revision-date'].split('T')
-    date = fragments[0].nil? ? 'UNKNOWN' : fragments[0]
+    revision_date = record.fetch('meta', {})['revision-date']
+    if revision_date.blank?
+      'UNKNOWN'
+    else
+      DateTime.parse(revision_date).to_s(:date)
+    end
   end
 end

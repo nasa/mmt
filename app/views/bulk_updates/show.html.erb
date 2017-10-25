@@ -20,6 +20,11 @@
     </div>
 
     <div class="row">
+      <h4>Created</h4>
+      <p><%= DateTime.parse(@task['created-at']).to_s %></p>
+    </div>
+
+    <div class="row">
       <h4>Notes</h4>
       <p><%= @task['status-message'] %></p>
     </div>

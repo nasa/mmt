@@ -68,6 +68,9 @@ describe 'Bulk updating Data Centers' do
           expect(page).to have_content('Find Values to Remove')
           expect(page).to have_content('Short Name: ESA/ED')
         end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
@@ -160,6 +163,9 @@ describe 'Bulk updating Data Centers' do
           expect(page).to have_content('Short Name: DOI/USGS/CMG/WHSC')
           expect(page).to have_content('Long Name: Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior')
         end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
