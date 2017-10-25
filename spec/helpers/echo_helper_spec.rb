@@ -7,14 +7,8 @@ describe 'Echo Helper' do
       let(:date_obj)    { DateTime.parse(date_string) }
 
       context 'with default format' do
-        it 'returns the date using using the default format' do
+        it 'returns the date using using the echo format' do
           expect(helper.echo_formatted_date(date_string)).to eql('Wednesday, December 21, 2016 at  4:49 pm')
-        end
-      end
-
-      context 'with custom format' do
-        it 'returns the date using using the specified format' do
-          expect(helper.echo_formatted_date(date_string, format: '%m/%d/%Y')).to eql('12/21/2016')
         end
       end
     end
