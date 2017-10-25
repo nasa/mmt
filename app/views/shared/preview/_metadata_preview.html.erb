@@ -80,7 +80,6 @@
           <% single_date_times.each do |single_date_time| %>
             <li>
               <span class="preview-sidebar-item">
-                <!-- <%= single_date_time.split('T')[0] %> -->
                 <%= DateTime.parse(single_date_time).to_s(:date) %>
               </span>
             </li>
@@ -95,10 +94,8 @@
             <% ending_date_time =  range_date_time['ending_date_time'] || '' %>
             <li>
               <span class="preview-sidebar-item">
-                <!-- <%= beginning_date_time.split('T')[0] %> -->
                 <%= DateTime.parse(beginning_date_time).to_s(:date) %>
                 to
-                <!-- <%= ending_date_time.split('T')[0] %> -->
                 <%= DateTime.parse(ending_date_time).to_s(:date) %>
               </span>
             </li>
@@ -113,10 +110,8 @@
             <% end_date =  periodic_date_time['end_date'] || '' %>
             <li>
               <span class="preview-sidebar-item">
-                <!-- <%= start_date.split('T')[0] %> -->
                 <%= DateTime.parse(start_date).to_s(:date) %>
                 to
-                <!-- <%= end_date.split('T')[0] %> -->
                 <%= DateTime.parse(end_date).to_s(:date) %>
               </span>
             </li>
