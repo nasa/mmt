@@ -44,9 +44,6 @@
           <th>Description</th>
           <th>Revision Date</th>
           <th>Action by</th>
-          <th>Review Status</th>
-          <th>Quality Score</th>
-          <th>Revision Notes</th>
           <th>Actions</th>
         </tr>
         </thead>
@@ -72,15 +69,6 @@
               </td>
               <td>
                 <%= revision['meta']['user-id'] %>
-              </td>
-              <td>
-                <span class="disabled">Reviewed</span>
-              </td>
-              <td>
-                <span class="disabled">82</span>
-              </td>
-              <td>
-                <!-- Revision notes -->
               </td>
               <td>
                 <% if @revisions.first['meta']['deleted'] == true %>
