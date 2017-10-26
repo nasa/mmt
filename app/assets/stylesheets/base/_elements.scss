@@ -37,3 +37,8 @@ label {
 pre {
   white-space: pre-wrap;
 }
+
+// Make room for tophat2 to be added after page load
+#earthdata-tophat2 {
+  height: 32px;
+}
