@@ -263,6 +263,12 @@ $(document).ready ->
         when /draft_platforms_(\d*)_short_name/.test id
           [_, index] = id.match /platforms_(\d*)_short_name/
           "/Platforms/#{index}/ShortName"
+        when /draft_platforms_(\d*)_instruments_(\d*)_short_name/.test id
+          [_, index, index2] = id.match /platforms_(\d*)_instruments_(\d*)_short_name/
+          "/Platforms/#{index}/Instruments/#{index2}/ShortName"
+        when /draft_platforms_(\d*)_instruments_(\d*)_composed_of_(\d*)_short_name/.test id
+          [_, index, index2, index3] = id.match /platforms_(\d*)_instruments_(\d*)_composed_of_(\d*)_short_name/
+          "/Platforms/#{index}/Instruments/#{index2}/ComposedOf/#{index3}/ShortName"
         when /organizations_(\d*)_party_organization_name_short_name/.test id
           [_, index] = id.match /organizations_(\d*)_party_organization_name_short_name/
           "/Organizations/#{index}/Party/OrganizationName/ShortName"
