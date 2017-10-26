@@ -28,6 +28,7 @@ class CollectionDraftsController < BaseDraftsController
     super
 
     set_platform_types
+    set_instruments
     set_temporal_keywords
     set_data_centers
     set_country_codes
@@ -343,6 +344,25 @@ class CollectionDraftsController < BaseDraftsController
 
         if platform_short_name && !short_names.include?(platform_short_name)
           errors << "The property '#/Platforms' was invalid"
+        end
+
+        instruments = platform.fetch('Instruments', [])
+        instruments.each do |instrument|
+          instrument_short_name = instrument['ShortName']
+          instrument_short_names = @instruments.map { |short_name| short_name[:short_name] }.flatten
+
+          if instrument_short_name && !instrument_short_names.include?(instrument_short_name)
+            errors << "The property '#/Platforms' was invalid"
+          end
+
+          instrument_children = instrument.fetch('ComposedOf', [])
+          instrument_children.each do |child|
+            child_short_name = child['ShortName']
+
+            if child_short_name && !instrument_short_names.include?(child_short_name)
+              errors << "The property '#/Platforms' was invalid"
+            end
+          end
         end
       end
 

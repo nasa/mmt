@@ -403,7 +403,7 @@ describe 'Data validation for a form', js: true do
         all('.select2-container .select2-selection').first.click
         find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'A340-600').click
         within '.multiple.instruments' do
-          find('.select2-container .select2-selection').click
+          all('.select2-container .select2-selection').first.click
           find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ATM').click
         end
       end
