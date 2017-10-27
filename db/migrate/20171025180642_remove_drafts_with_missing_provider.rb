@@ -1,7 +1,5 @@
 class RemoveDraftsWithMissingProvider < ActiveRecord::Migration
   def change
-    Draft.all.each do |draft|
-      draft.destroy if draft.provider_id.nil?
-    end
+    Draft.where(provider_id: nil).destroy_all
   end
 end
