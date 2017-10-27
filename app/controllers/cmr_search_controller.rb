@@ -13,16 +13,22 @@ class CmrSearchController < ManageMetadataController
     collection_count = 0
     collection_results = []
 
-    params[:query] = if !params[:query_text].blank?
-                       params[:query_text]
-                     elsif !params[:query_date].blank?
-                       params[:query_date]
-                     elsif !params[:query_date_start].blank? || !params[:query_date_end].blank?
-                       "#{params[:query_date_start]},#{params[:query_date_end]}"
-                     end
+    (params[:search_criteria] || []).each do |_index, criteria|
+      criteria[:query] = if !criteria[:query_text].blank?
+                           criteria[:query_text]
+                         elsif !criteria[:query_date].blank?
+                           criteria[:query_date]
+                         elsif !criteria[:query_date_start].blank? || !criteria[:query_date_end].blank?
+                           "#{criteria[:query_date_start]},#{criteria[:query_date_end]}"
+                         end
+    end
 
-    if search_params.key?(:field) && search_params.key?(:query)
-      cmr_params[search_params[:field]] = search_params[:query].dup
+    if params.key?(:search_criteria) && !params[:search_criteria].empty?
+
+      params[:search_criteria].each do |_index, criteria|
+        cmr_params[criteria[:field]] = criteria[:query].dup
+      end
+
       collection_response = cmr_client.get_collections_by_post(
         hydrate_params(cmr_params), token
       )
@@ -38,10 +44,6 @@ class CmrSearchController < ManageMetadataController
 
   private
 
-  def search_params
-    params.permit(:query, :field)
-  end
-
   # CMR requires some additional data in the payload when particular
   # keys are provided so we need to compensate for that here
   def hydrate_params(high_level_params)
@@ -51,11 +53,10 @@ class CmrSearchController < ManageMetadataController
       next unless high_level_params.key?(key) && high_level_params[key].include?('*')
 
       # In order to search with the wildcard parameter we need to tell CMR to use it
-      high_level_params['options'] = {
-        key => {
-          'pattern'     => true,
-          'ignore_case' => true
-        }
+      high_level_params['options'] = {} unless high_level_params.key?('options')
+      high_level_params['options'][key] = {
+        'pattern'     => true,
+        'ignore_case' => true
       }
     end
 

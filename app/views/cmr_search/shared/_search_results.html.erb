@@ -1,4 +1,4 @@
-<% if params[:query] %>
+<% if params[:search_criteria] %>
   <%= form_tag(submit_path, method: :post, id: 'collections-select') do %>
     <fieldset>
       <% if collections.any? %>
