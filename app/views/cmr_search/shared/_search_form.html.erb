@@ -10,33 +10,46 @@
       <div class="col-2">
       </div>
     </div>
+
     <div class="row">
+      <!-- Search Field -->
       <div class="col-5" id="collection-field-container">
-        <%= select_tag(:field, options_for_select(BulkUpdatesHelper::SEARCHABLE_KEYS.map { |option, values| [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]] }.sort_by { |options| options[0] }, params[:field]), id: 'collection-search-field', class: 'full-width required collection-field') %>
+        <%= select_tag("search_criteria[#{Time.now.to_i}][field]", options_for_select(BulkUpdatesHelper::SEARCHABLE_KEYS.map { |option, values| [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]] }.sort_by { |options| options[0] }, params[:field]), class: 'full-width required collection-field collection-search-field') %>
         <p class="form-description" id="collection-field-description"></p>
       </div>
+
+      <!-- Search Term (Query) -->
       <div class="col-5" id="collection-query-container">
+        <!-- Basic Form -->
         <div class="text-query">
-          <%= text_field_tag(:query_text, params[:query_text], class: 'full-width required collection-value', data: { 'msg-required' => 'Search Term is required.' } ) %>
+          <%= text_field_tag("search_criteria[#{Time.now.to_i}][query_text]", params[:query_text], class: 'full-width required collection-value', data: { 'msg-required' => 'Search Term is required.' } ) %>
         </div>
+
+        <!-- Single Date Form -->
         <div class="single-date-query is-hidden">
-          <%= text_field_tag(:query_date, params[:query_date], class: 'full-width required collection-value search-datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ', data: { 'msg-required' => 'Search Term is required.' } ) %>
+          <%= text_field_tag("search_criteria[#{Time.now.to_i}][query_date]", params[:query_date], class: 'full-width required collection-value search-datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ', data: { 'msg-required' => 'Search Term is required.' } ) %>
         </div>
+
+        <!-- Double Date Form -->
         <div class="double-date-query is-hidden">
           <div class="col-6">
-            <%= text_field_tag(:query_date_start, params[:query_date_start], class: 'full-width collection-value search-datetimepicker temporal-range-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
+            <%= text_field_tag("search_criteria[#{Time.now.to_i}][query_date_start]", params[:query_date_start], class: 'full-width collection-value search-datetimepicker temporal-range-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
             <p class="form-description">Range Start</p>
           </div>
           <div class="col-6">
-            <%= text_field_tag(:query_date_end, params[:query_date_end], class: 'full-width collection-value search-datetimepicker temporal-range-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
+            <%= text_field_tag("search_criteria[#{Time.now.to_i}][query_date_end]", params[:query_date_end], class: 'full-width collection-value search-datetimepicker temporal-range-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
             <p class="form-description">Range End</p>
           </div>
         </div>
+
         <p class="form-description" id="collection-query-description"></p>
       </div>
+
       <div class="col-2 align-c">
-        <%= submit_tag 'Submit', name: nil, id: 'collection-search-query', class: 'eui-btn--blue' %>
+        <%= link_to '<span class="fa fa-plus"></span>'.html_safe, 'javascript;:', class: 'eui-btn add-search-criteria' %>
       </div>
     </div>
   </fieldset>
+  
+  <%= submit_tag 'Submit', name: nil, id: 'collection-search-query', class: 'eui-btn--blue' %>
 <% end %>
