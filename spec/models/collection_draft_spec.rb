@@ -106,7 +106,7 @@ describe CollectionDraft do
   # create_from_collection method
   it '"create_from_collection" saves a native_id' do
     collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
-    user = User.create(urs_uid: 'testuser')
+    user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_id'
     collection_draft = CollectionDraft.create_from_collection(collection, user, native_id)
 
@@ -114,7 +114,7 @@ describe CollectionDraft do
   end
   it '"create_from_collection" saves a user' do
     collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
-    user = User.create(urs_uid: 'testuser')
+    user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_id'
     collection_draft = CollectionDraft.create_from_collection(collection, user, native_id)
 
@@ -122,7 +122,7 @@ describe CollectionDraft do
   end
   it '"create_from_collection" saves the draft' do
     collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
-    user = User.create(urs_uid: 'testuser')
+    user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_id'
     collection_draft = CollectionDraft.create_from_collection(collection, user, native_id)
 
@@ -187,5 +187,11 @@ describe CollectionDraft do
 
     expect(metadata_dates[3]['Type']).to eq('UPDATE')
     expect(metadata_dates[3]['Date']).to start_with(today_string)
+  end
+
+  it 'is not valid without a provider_id' do
+    collection_draft = build(:collection_draft, provider_id: nil)
+
+    expect(collection_draft.valid?).to eq(false)
   end
 end

@@ -2,6 +2,8 @@
 class Draft < ActiveRecord::Base
   belongs_to :user
 
+  validates :provider_id, presence: true
+
   serialize :draft, JSON
 
   after_create :set_native_id
