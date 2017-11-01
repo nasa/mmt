@@ -407,8 +407,6 @@ $(document).ready ->
     inlineErrors = []
     summaryErrors = []
 
-    console.log 'here'
-
     # Display errors, from visited fields
     for error, index in errors
       if error = getErrorDetails error
