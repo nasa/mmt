@@ -13,7 +13,10 @@
       <%= hidden_field_tag(
         name_to_param("#{name_prefix}type"),
         platform['Type'],
-        class: 'platform-type'
+        class: 'platform-type',
+        data: {
+          level: name_prefix
+        }
       ) %>
     </div>
   </div>
