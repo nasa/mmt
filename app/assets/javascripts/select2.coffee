@@ -145,6 +145,7 @@ $(document).ready ->
       $longNameElement.val(longName)
     else
       $longNameElement.val('')
+      $longNameElement.trigger('blur')
 
   # Set long name element to readonly if short name is selected on load
   $('.instrument-short-name-select').each (index, element) ->
