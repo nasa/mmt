@@ -7,19 +7,9 @@ $(document).ready ->
 
     fixNumbers(json)
     fixIntegers(json)
-    removeNulls(json)
 
     return json if json?
     return {}
-
-  removeNulls = (obj) ->
-    isArray = obj instanceof Array
-    for k of obj
-      if obj[k] == null
-        if isArray then obj.splice(k, 1) else delete obj[k]
-      else if typeof obj[k] == 'object'
-        removeNulls obj[k]
-    return
 
   fixNumbers = (json) ->
     numberFields = $('.mmt-number.validate').filter ->
@@ -416,6 +406,8 @@ $(document).ready ->
 
     inlineErrors = []
     summaryErrors = []
+
+    console.log 'here'
 
     # Display errors, from visited fields
     for error, index in errors
