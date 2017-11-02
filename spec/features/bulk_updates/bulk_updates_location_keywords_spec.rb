@@ -18,7 +18,7 @@ describe 'Bulk updating Location Keywords' do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @find_and_remove_concept_response.body['EntryTitle']
+      find(:css, "input[id$='query_text']").set(@find_and_remove_concept_response.body['EntryTitle'])
       click_button 'Submit'
 
       # Select search results
@@ -95,7 +95,7 @@ describe 'Bulk updating Location Keywords' do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @add_to_existing_concept_response.body['EntryTitle']
+      find(:css, "input[id$='query_text']").set(@add_to_existing_concept_response.body['EntryTitle'])
       click_button 'Submit'
 
       # Select search results
@@ -176,7 +176,7 @@ describe 'Bulk updating Location Keywords' do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @find_and_replace_concept_response.body['EntryTitle']
+      find(:css, "input[id$='query_text']").set(@find_and_replace_concept_response.body['EntryTitle'])
       click_button 'Submit'
 
       # Select search results
@@ -270,7 +270,7 @@ describe 'Bulk updating Location Keywords' do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @clear_all_and_replace_concept_response.body['EntryTitle']
+      find(:css, "input[id$='query_text']").set(@clear_all_and_replace_concept_response.body['EntryTitle'])
       click_button 'Submit'
 
       # Select search results
@@ -328,7 +328,7 @@ describe 'Bulk updating Location Keywords' do
           expect(page).to have_content('New Value')
           expect(page).to have_content('CONTINENTAFRICACENTRAL AFRICA')
         end
-        
+
         # we can't test the time accurately, but we can check the date
         expect(page).to have_content(today_string)
       end

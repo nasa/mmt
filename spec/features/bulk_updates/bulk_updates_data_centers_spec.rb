@@ -16,7 +16,7 @@ describe 'Bulk updating Data Centers' do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @find_and_remove_concept_response.body['EntryTitle']
+      find(:css, "input[id$='query_text']").set(@find_and_remove_concept_response.body['EntryTitle'])
       click_button 'Submit'
 
       # Select search results
@@ -93,7 +93,7 @@ describe 'Bulk updating Data Centers' do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @find_and_update_concept_response.body['EntryTitle']
+      find(:css, "input[id$='query_text']").set(@find_and_update_concept_response.body['EntryTitle'])
       click_button 'Submit'
 
       # Select search results

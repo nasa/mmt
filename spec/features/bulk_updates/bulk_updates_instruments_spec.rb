@@ -16,7 +16,7 @@ describe 'Bulk Updating Instruments' do
     before do
       # Search collections
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @find_and_remove_concept_response.body['EntryTitle']
+      find(:css, "input[id$='query_text']").set(@find_and_remove_concept_response.body['EntryTitle'])
       click_button 'Submit'
 
       # select search result
@@ -94,7 +94,7 @@ describe 'Bulk Updating Instruments' do
     before do
       # Search collections
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @find_and_update_concept_response.body['EntryTitle']
+      find(:css, "input[id$='query_text']").set(@find_and_update_concept_response.body['EntryTitle'])
       click_button 'Submit'
 
       # select search result

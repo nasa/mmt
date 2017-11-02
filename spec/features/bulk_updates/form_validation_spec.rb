@@ -10,7 +10,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
 
     visit new_bulk_updates_search_path
     select 'Entry Title', from: 'Search Field'
-    fill_in 'query_text', with: @concept_response.body['EntryTitle']
+    find(:css, "input[id$='query_text']").set(@concept_response.body['EntryTitle'])
     click_button 'Submit'
 
     # Select search results
