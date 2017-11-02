@@ -33,3 +33,7 @@ $(document).ready ->
   $('.datetimepicker').datetimepicker($.extend(minDate: moment().startOf('day'), defaultOptions))
 
   $('.search-datetimepicker').datetimepicker defaultOptions
+
+  # Initialize new search-datetimepickers after adding new search criteria fields
+  $(document).on 'click', '.add-search-criteria', ->
+    $('.search-datetimepicker').datetimepicker defaultOptions
