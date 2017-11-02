@@ -74,8 +74,8 @@ FactoryGirl.define do
           'Technique'       => 'test 1 PI Technique',
           'NumberOfInstruments' => 234,
           'ComposedOf' => [{
-            'ShortName' => 'test 1 PS ShortName',
-            'LongName'  => 'test 1 PS LongName',
+            'ShortName' => 'ADS',
+            'LongName'  => 'Automated DNA Sequencer',
             'Technique' => 'test 1 PS Technique',
             'Characteristics' => [{
               'Name'        => 'test 1 PS Name',
@@ -91,8 +91,8 @@ FactoryGirl.define do
               'DataType'    => 'test 2 PS DataType'
             }]
           }, {
-            'ShortName' => 'test 1b PS ShortName',
-            'LongName'  => 'test 1b PS LongName',
+            'ShortName' => 'SMAP L-BAND RADIOMETER',
+            'LongName'  => 'SMAP L-Band Radiometer',
             'Technique' => 'test 1b PS Technique',
             'Characteristics' => [{
               'Name'        => 'test 1b PS Name',
@@ -128,8 +128,8 @@ FactoryGirl.define do
           'Technique'       => 'test 1d PI Technique',
           'NumberOfInstruments' => 345,
           'ComposedOf' => [{
-            'ShortName' => 'test 1d PS ShortName',
-            'LongName'  => 'test 1d PS LongName',
+            'ShortName' => 'ADS',
+            'LongName'  => 'Automated DNA Sequencer',
             'Technique' => 'test 1d PS Technique',
             'Characteristics' => [{
               'Name'        => 'test 1d PS Name',
@@ -145,8 +145,8 @@ FactoryGirl.define do
               'DataType'    => 'test 2d PS DataType'
             }]
           }, {
-            'ShortName' => 'test 1db PS ShortName',
-            'LongName'  => 'test 1db PS LongName',
+            'ShortName' => 'SMAP L-BAND RADIOMETER',
+            'LongName'  => 'SMAP L-Band Radiometer',
             'Technique' => 'test 1db PS Technique',
             'Characteristics' => [{
               'Name'        => 'test 1db PS Name',
@@ -200,8 +200,8 @@ FactoryGirl.define do
           'Technique'       => 'test a1 PI Technique',
           'NumberOfInstruments' => 456,
           'ComposedOf' => [{
-            'ShortName' => 'test a1 PS ShortName',
-            'LongName'  => 'test a1 PS LongName',
+            'ShortName' => 'ADS',
+            'LongName'  => 'Automated DNA Sequencer',
             'Technique' => 'test a1 PS Technique',
             'Characteristics' => [{
               'Name'        => 'test a1 PS Name',
@@ -217,8 +217,8 @@ FactoryGirl.define do
               'DataType'    => 'test a2 PS DataType'
             }]
           }, {
-            'ShortName' => 'test a1b PS ShortName',
-            'LongName'  => 'test a1b PS LongName',
+            'ShortName' => 'SMAP L-BAND RADIOMETER',
+            'LongName'  => 'SMAP L-Band Radiometer',
             'Technique' => 'test a1b PS Technique',
             'Characteristics' => [{
               'Name'        => 'test a1b PS Name',
@@ -254,8 +254,8 @@ FactoryGirl.define do
           'Technique'       => 'test a1d PI Technique',
           'NumberOfInstruments' => 567,
           'ComposedOf' => [{
-            'ShortName' => 'test a1d PS ShortName',
-            'LongName'  => 'test a1d PS LongName',
+            'ShortName' => 'ADS',
+            'LongName'  => 'Automated DNA Sequencer',
             'Technique' => 'test a1d PS Technique',
             'Characteristics' => [{
               'Name'        => 'test a1d PS Name',
@@ -271,8 +271,8 @@ FactoryGirl.define do
               'DataType'    => 'test a2d PS DataType'
             }]
           }, {
-            'ShortName' => 'test a1db PS ShortName',
-            'LongName'  => 'test a1db PS LongName',
+            'ShortName' => 'SMAP L-BAND RADIOMETER',
+            'LongName'  => 'SMAP L-Band Radiometer',
             'Technique' => 'test a1db PS Technique',
             'Characteristics' => [{
               'Name'        => 'test a1db PS Name',

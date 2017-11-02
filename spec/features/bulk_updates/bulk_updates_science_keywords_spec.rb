@@ -1,10 +1,15 @@
 require 'rails_helper'
 
-describe 'Bulk updating Science Keywords', reset_provider: true do
+describe 'Bulk updating Science Keywords' do
+  before :all do
+    _ingest_response, @find_and_remove_concept_response = publish_collection_draft
+    _ingest_response, @add_to_existing_concept_response = publish_collection_draft
+    _ingest_response, @find_and_replace_concept_response = publish_collection_draft
+    _ingest_response, @clear_all_and_replace_concept_response = publish_collection_draft
+  end
+
   before do
     login
-
-    _ingest_response, @concept_response = publish_collection_draft
 
     visit new_bulk_updates_search_path
   end
@@ -13,7 +18,7 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @concept_response.body['EntryTitle']
+      fill_in 'query_text', with: @find_and_remove_concept_response.body['EntryTitle']
       click_button 'Submit'
 
       # Select search results
@@ -37,14 +42,19 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
       end
 
       within '.bulk-update-preview-table' do
-        expect(page).to have_content(@concept_response.body['EntryTitle'])
-        expect(page).to have_content(@concept_response.body['ShortName'])
+        expect(page).to have_content(@find_and_remove_concept_response.body['EntryTitle'])
+        expect(page).to have_content(@find_and_remove_concept_response.body['ShortName'])
       end
     end
 
     context 'when submitting the bulk update' do
       before do
         click_on 'Submit'
+
+        # need to wait until the task status is 'COMPLETE'
+        task_id = page.current_path.split('/').last
+        wait_for_complete_bulk_update(task_id: task_id)
+
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
@@ -55,12 +65,20 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
           expect(page).to have_content('Field to Update Science Keywords')
           expect(page).to have_content('Update Type Find And Remove')
         end
+
+        within '.find-values-preview' do
+          expect(page).to have_content('Find Values to Remove')
+          expect(page).to have_content('MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+        end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
         before do
           within '#bulk-update-status-table' do
-            click_on @concept_response.body['EntryTitle']
+            click_on @find_and_remove_concept_response.body['EntryTitle']
           end
         end
 
@@ -77,7 +95,7 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @concept_response.body['EntryTitle']
+      fill_in 'query_text', with: @add_to_existing_concept_response.body['EntryTitle']
       click_button 'Submit'
 
       # Select search results
@@ -104,14 +122,19 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
       end
 
       within '.bulk-update-preview-table' do
-        expect(page).to have_content(@concept_response.body['EntryTitle'])
-        expect(page).to have_content(@concept_response.body['ShortName'])
+        expect(page).to have_content(@add_to_existing_concept_response.body['EntryTitle'])
+        expect(page).to have_content(@add_to_existing_concept_response.body['ShortName'])
       end
     end
 
     context 'when submitting the bulk update' do
       before do
         click_on 'Submit'
+
+        # need to wait until the task status is 'COMPLETE'
+        task_id = page.current_path.split('/').last
+        wait_for_complete_bulk_update(task_id: task_id)
+
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
@@ -122,12 +145,20 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
           expect(page).to have_content('Field to Update Science Keywords')
           expect(page).to have_content('Update Type Add To Existing')
         end
+
+        within '.new-values-preview' do
+          expect(page).to have_content('Value to Add')
+          expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
+        end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
         before do
           within '#bulk-update-status-table' do
-            click_on @concept_response.body['EntryTitle']
+            click_on @add_to_existing_concept_response.body['EntryTitle']
           end
         end
 
@@ -144,7 +175,7 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @concept_response.body['EntryTitle']
+      fill_in 'query_text', with: @find_and_replace_concept_response.body['EntryTitle']
       click_button 'Submit'
 
       # Select search results
@@ -179,14 +210,19 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
       end
 
       within '.bulk-update-preview-table' do
-        expect(page).to have_content(@concept_response.body['EntryTitle'])
-        expect(page).to have_content(@concept_response.body['ShortName'])
+        expect(page).to have_content(@find_and_replace_concept_response.body['EntryTitle'])
+        expect(page).to have_content(@find_and_replace_concept_response.body['ShortName'])
       end
     end
 
     context 'when submitting the bulk update' do
       before do
         click_on 'Submit'
+
+        # need to wait until the task status is 'COMPLETE'
+        task_id = page.current_path.split('/').last
+        wait_for_complete_bulk_update(task_id: task_id)
+
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
@@ -197,12 +233,25 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
           expect(page).to have_content('Field to Update Science Keywords')
           expect(page).to have_content('Update Type Find And Replace')
         end
+
+        within '.find-values-preview' do
+          expect(page).to have_content('Find Values to Replace')
+          expect(page).to have_content('MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+        end
+
+        within '.new-values-preview' do
+          expect(page).to have_content('New Value')
+          expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
+        end
+
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
         before do
           within '#bulk-update-status-table' do
-            click_on @concept_response.body['EntryTitle']
+            click_on @find_and_replace_concept_response.body['EntryTitle']
           end
         end
 
@@ -220,7 +269,7 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @concept_response.body['EntryTitle']
+      fill_in 'query_text', with: @clear_all_and_replace_concept_response.body['EntryTitle']
       click_button 'Submit'
 
       # Select search results
@@ -250,14 +299,19 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
       end
 
       within '.bulk-update-preview-table' do
-        expect(page).to have_content(@concept_response.body['EntryTitle'])
-        expect(page).to have_content(@concept_response.body['ShortName'])
+        expect(page).to have_content(@clear_all_and_replace_concept_response.body['EntryTitle'])
+        expect(page).to have_content(@clear_all_and_replace_concept_response.body['ShortName'])
       end
     end
 
     context 'when submitting the bulk update' do
       before do
         click_on 'Submit'
+
+        # need to wait until the task status is 'COMPLETE'
+        task_id = page.current_path.split('/').last
+        wait_for_complete_bulk_update(task_id: task_id)
+
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
@@ -268,12 +322,20 @@ describe 'Bulk updating Science Keywords', reset_provider: true do
           expect(page).to have_content('Field to Update Science Keywords')
           expect(page).to have_content('Update Type Clear All And Replace')
         end
+
+        within '.new-values-preview' do
+          expect(page).to have_content('New Value')
+          expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
+        end
+        
+        # we can't test the time accurately, but we can check the date
+        expect(page).to have_content(today_string)
       end
 
       context 'when viewing the collection' do
         before do
           within '#bulk-update-status-table' do
-            click_on @concept_response.body['EntryTitle']
+            click_on @clear_all_and_replace_concept_response.body['EntryTitle']
           end
         end
 

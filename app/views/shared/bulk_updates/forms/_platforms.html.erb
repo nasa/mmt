@@ -1,0 +1,64 @@
+<h2>Platforms</h2>
+
+<fieldset>
+  <%= update_type_select('platforms') %>
+</fieldset>
+
+<fieldset class="bulk-updates-find is-hidden">
+  <h4 class="title">Find Platform</h4>
+  <p class="form-description space-bot">Update all collections that have platforms that match the criteria specified below.</p>
+
+  <div class="row">
+    <div class="col-6">
+      <%= label_tag 'find_value[ShortName]', 'Short Name' %>
+      <%= text_field_tag('find_value[ShortName]', nil, class: 'full-width required') %>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="bulk-updates-value is-hidden">
+  <h4 class="title">New Platform</h4>
+  <p class="form-description space-bot"></p>
+
+  <div class="row platform-fields">
+    <!-- Type -->
+    <div style="margin-bottom: 10px;">
+      <%= label_tag('Type:') %>
+      <span class="platform-type default">
+        Please select a Short Name
+      </span>
+
+      <%= hidden_field_tag(
+        name_to_param('|update_value|_type'),
+        nil,
+        class: 'platform-type'
+      ) %>
+    </div>
+
+    <!-- Short Name [r] -->
+    <div class="col-6">
+      <%= mmt_select(
+      name: 'short_name',
+      title: 'Short Name',
+      prefix: '|update_value|_',
+      options: @platform_types.map { |platform| [platform[:type], platform[:short_names].map { |sn| [sn[:short_name], 'data-long-name' => sn[:long_name], 'data-type' => platform[:type]] }]},
+      grouped: true,
+      classes: 'select2-select platform-short-name-select required',
+      required: true,
+      always_required: true
+      ) %>
+    </div>
+
+    <!-- Long Name -->
+    <div class="col-6">
+      <%= mmt_text_field(
+      name: 'long_name',
+      title: 'Long Name',
+      prefix: '|update_value|_',
+      classes: 'platform-long-name readonly',
+      readonly: true
+      ) %>
+    </div>
+  </div>
+
+</fieldset>

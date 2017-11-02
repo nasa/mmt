@@ -6,8 +6,9 @@ class ManageMetadataController < ApplicationController
     @concept_id = params[:variable_id] || params[:id]
     @revision_id = params[:revision_id]
 
-    # retrieve the variable metadata
-    variable_concept_response = cmr_client.get_concept(@concept_id, token, {}, @revision_id)
+    # retrieve the variable metadata with the current umm_var version
+    headers = { 'Accept' => "application/#{Rails.configuration.umm_var_version}; charset=utf-8" }
+    variable_concept_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
 
     @variable = if variable_concept_response.success?
                   variable_concept_response.body

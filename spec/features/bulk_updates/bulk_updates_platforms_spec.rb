@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Bulk updating Data Centers' do
+describe 'Bulk updating Platforms' do
   before :all do
     _ingest_response, @find_and_remove_concept_response = publish_collection_draft
     _ingest_response, @find_and_update_concept_response = publish_collection_draft
@@ -14,29 +14,29 @@ describe 'Bulk updating Data Centers' do
 
   context 'when previewing a Find & Remove bulk update', js: true do
     before do
-      # Search form
+      # Search collections
       select 'Entry Title', from: 'Search Field'
       fill_in 'query_text', with: @find_and_remove_concept_response.body['EntryTitle']
       click_button 'Submit'
 
-      # Select search results
+      # select search result
       check 'checkall'
       click_on 'Next'
 
-      # Bulk update form
-      select 'Data Centers', from: 'Field to Update'
+      # Bulk Update form
+      select 'Platforms', from: 'Field to Update'
       select 'Find & Remove', from: 'Update Type'
-      fill_in 'Short Name', with: 'ESA/ED'
+      fill_in 'Short Name', with: 'SMAP'
       click_on 'Preview'
     end
 
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content('Field to Update Data Centers')
+      expect(page).to have_content('Field to Update Platforms')
       expect(page).to have_content('Update Type Find And Remove')
       within '.find-values-preview' do
-        expect(page).to have_content('Short Name: ESA/ED')
+        expect(page).to have_content('Short Name: SMAP')
       end
 
       within '.bulk-update-preview-table' do
@@ -60,13 +60,13 @@ describe 'Bulk updating Data Centers' do
       it 'displays the bulk update status page' do
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Data Centers')
+          expect(page).to have_content('Field to Update Platforms')
           expect(page).to have_content('Update Type Find And Remove')
         end
 
         within '.find-values-preview' do
           expect(page).to have_content('Find Values to Remove')
-          expect(page).to have_content('Short Name: ESA/ED')
+          expect(page).to have_content('Short Name: SMAP')
         end
 
         # we can't test the time accurately, but we can check the date
@@ -80,34 +80,37 @@ describe 'Bulk updating Data Centers' do
           end
         end
 
-        it 'no longer has the removed data center' do
-          within '.data-centers-cards' do
-            expect(page).to have_no_content('ESA/ED')
+        it 'does not display the removed platform' do
+          within '.platform-cards' do
+            expect(page).to have_content('A340-600')
+            expect(page).to have_content('Aircraft')
+
+            expect(page).to have_no_content('SMAP')
+            expect(page).to have_no_content('Earth Observation Satellites')
           end
         end
       end
     end
   end
 
-  context 'when using Find & Update', js: true do
+  context 'when previewing a Find & Update bulk update', js: true do
     before do
-      # Search form
+      # Search collections
       select 'Entry Title', from: 'Search Field'
       fill_in 'query_text', with: @find_and_update_concept_response.body['EntryTitle']
       click_button 'Submit'
 
-      # Select search results
+      # select search result
       check 'checkall'
       click_on 'Next'
 
-      # Bulk update form
-      # Update AARHUS-HYDRO to DOI/USGS/CMG/WHSC
-      select 'Data Centers', from: 'Field to Update'
+      # Bulk Update form
+      select 'Platforms', from: 'Field to Update'
       select 'Find & Update', from: 'Update Type'
-      fill_in 'Short Name', with: 'AARHUS-HYDRO'
+      fill_in 'Short Name', with: 'A340-600'
       # Select new Short Name from Select2
       find('.select2-container .select2-selection').click
-      find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'DOI/USGS/CMG/WHSC').click
+      find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'DMSP 5B/F3', match: :first).click
 
       click_on 'Preview'
     end
@@ -115,17 +118,19 @@ describe 'Bulk updating Data Centers' do
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content('Field to Update Data Centers')
+      expect(page).to have_content('Field to Update Platforms')
       expect(page).to have_content('Update Type Find And Update')
+
       # Find Values to Update
       within '.find-values-preview' do
-        expect(page).to have_content('Short Name: AARHUS-HYDRO')
+        expect(page).to have_content('Short Name: A340-600')
       end
 
       # New Values
       within '.new-values-preview' do
-        expect(page).to have_content('Short Name: DOI/USGS/CMG/WHSC')
-        expect(page).to have_content('Long Name: Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior')
+        expect(page).to have_content('Type: Earth Observation Satellites')
+        expect(page).to have_content('Short Name: DMSP 5B/F3')
+        expect(page).to have_content('Long Name: Defense Meteorological Satellite Program-F3')
       end
 
       within '.bulk-update-preview-table' do
@@ -149,19 +154,20 @@ describe 'Bulk updating Data Centers' do
       it 'displays the bulk update status page' do
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Data Centers')
+          expect(page).to have_content('Field to Update Platforms')
           expect(page).to have_content('Update Type Find And Update')
         end
 
         within '.find-values-preview' do
           expect(page).to have_content('Find Values to Update')
-          expect(page).to have_content('Short Name: AARHUS-HYDRO')
+          expect(page).to have_content('Short Name: A340-600')
         end
 
         within '.new-values-preview' do
           expect(page).to have_content('New Value')
-          expect(page).to have_content('Short Name: DOI/USGS/CMG/WHSC')
-          expect(page).to have_content('Long Name: Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior')
+          expect(page).to have_content('Type: Earth Observation Satellites')
+          expect(page).to have_content('Short Name: DMSP 5B/F3')
+          expect(page).to have_content('Long Name: Defense Meteorological Satellite Program-F3')
         end
 
         # we can't test the time accurately, but we can check the date
@@ -175,10 +181,14 @@ describe 'Bulk updating Data Centers' do
           end
         end
 
-        it 'displays the updated data center' do
-          within '.data-centers-cards' do
-            expect(page).to have_no_content('AARHUS-HYDRO')
-            expect(page).to have_content('DOI/USGS/CMG/WHSC')
+        it 'does not display the removed platform' do
+          within '.platform-cards' do
+            expect(page).to have_no_content('A340-600')
+            expect(page).to have_no_content('Aircraft')
+
+            expect(page).to have_content('DMSP 5B/F3')
+            expect(page).to have_content('SMAP')
+            expect(page).to have_content('Earth Observation Satellites', count: 2)
           end
         end
       end

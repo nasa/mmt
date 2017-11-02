@@ -1,6 +1,7 @@
 # :nodoc:
 class CollectionDraftsController < BaseDraftsController
   include DraftsHelper
+  include ControlledKeywords
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
   before_action :load_umm_schema, only: [:new, :edit, :show]
 
@@ -27,6 +28,7 @@ class CollectionDraftsController < BaseDraftsController
     super
 
     set_platform_types
+    set_instruments
     set_temporal_keywords
     set_data_centers
     set_country_codes
@@ -49,15 +51,15 @@ class CollectionDraftsController < BaseDraftsController
     add_breadcrumb titleize_form_name(@draft_form), edit_collection_draft_path(get_resource)
 
     # Set instance variables depending on the form requested
-    set_science_keywords
-    set_location_keywords
-    set_projects
-    set_instruments
-    set_platform_types if @draft_form == 'acquisition_information'
-    set_language_codes if @draft_form == 'metadata_information' || @draft_form == 'collection_information'
     set_country_codes
-    set_temporal_keywords if @draft_form == 'temporal_information'
-    set_data_centers if @draft_form == 'data_centers' || @draft_form == 'data_contacts'
+    set_language_codes        if @draft_form == 'collection_information' || @draft_form == 'metadata_information'
+    set_science_keywords      if @draft_form == 'descriptive_keywords'
+    set_platform_types        if @draft_form == 'acquisition_information'
+    set_instruments           if @draft_form == 'acquisition_information'
+    set_projects              if @draft_form == 'acquisition_information'
+    set_temporal_keywords     if @draft_form == 'temporal_information'
+    set_location_keywords     if @draft_form == 'spatial_information'
+    set_data_centers          if @draft_form == 'data_centers' || @draft_form == 'data_contacts'
     load_data_contacts_schema if @draft_form == 'data_contacts'
   end
 
@@ -343,6 +345,25 @@ class CollectionDraftsController < BaseDraftsController
         if platform_short_name && !short_names.include?(platform_short_name)
           errors << "The property '#/Platforms' was invalid"
         end
+
+        instruments = platform.fetch('Instruments', [])
+        instruments.each do |instrument|
+          instrument_short_name = instrument['ShortName']
+          instrument_short_names = @instruments.map { |short_name| short_name[:short_name] }.flatten
+
+          if instrument_short_name && !instrument_short_names.include?(instrument_short_name)
+            errors << "The property '#/Platforms' was invalid"
+          end
+
+          instrument_children = instrument.fetch('ComposedOf', [])
+          instrument_children.each do |child|
+            child_short_name = child['ShortName']
+
+            if child_short_name && !instrument_short_names.include?(child_short_name)
+              errors << "The property '#/Platforms' was invalid"
+            end
+          end
+        end
       end
 
       temporal_keywords = metadata['TemporalKeywords'] || []
@@ -454,67 +475,6 @@ class CollectionDraftsController < BaseDraftsController
     end
   end
 
-  def set_science_keywords
-    @science_keywords = cmr_client.get_controlled_keywords('science_keywords') if params[:form] == 'descriptive_keywords'
-  end
-
-  def set_location_keywords
-    @location_keywords = cmr_client.get_controlled_keywords('spatial_keywords') if params[:form] == 'spatial_information'
-  end
-
-  def set_projects
-    return unless params[:form] == 'acquisition_information'
-    @projects = cmr_client.get_controlled_keywords('projects').fetch('short_name', []).map do |short_name|
-      {
-        short_name: short_name['value'],
-        long_name: short_name.fetch('long_name', [{}]).first['value']
-      }
-    end
-    @projects.sort! { |a, b| a[:short_name] <=> b[:short_name] }
-  end
-
-  def set_platform_types
-    @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map do |category|
-      short_names = get_controlled_keyword_short_names(Array.wrap(category))
-
-      {
-        type: category['value'],
-        short_names: short_names.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
-      }
-    end
-
-    @platform_types.sort! { |a, b| a[:type] <=> b[:type] }
-  end
-
-  def set_instruments
-    return unless params[:form] == 'acquisition_information'
-    @instruments = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('instruments').fetch('category', []))
-
-    @instruments.flatten!.sort! { |a, b| a[:short_name] <=> b[:short_name] }
-  end
-
-  def get_controlled_keyword_short_names(keywords)
-    keywords.map do |keyword|
-      values = []
-      keyword.fetch('subfields', []).each do |subfield|
-        values += if subfield == 'short_name'
-                    keyword.fetch('short_name', []).map do |short_name|
-                      url = short_name.fetch('url', [{}]).first['value'] || short_name.fetch('long_name', [{}]).first.fetch('url', [{}]).first['value']
-
-                      {
-                        short_name: short_name['value'],
-                        long_name: short_name.fetch('long_name', [{}]).first['value'],
-                        url: url
-                      }
-                    end
-                  else
-                    get_controlled_keyword_short_names(keyword.fetch(subfield, []))
-                  end
-      end
-      values.flatten
-    end
-  end
-
   def set_language_codes
     @language_codes = cmr_client.get_language_codes.to_a
   end
@@ -524,16 +484,5 @@ class CollectionDraftsController < BaseDraftsController
     country_codes = Carmen::Country.all.sort
     united_states = country_codes.delete(Carmen::Country.named('United States'))
     @country_codes = country_codes.unshift(united_states)
-  end
-
-  def set_temporal_keywords
-    keywords = cmr_client.get_controlled_keywords('temporal_keywords')['temporal_resolution_range']
-    @temporal_keywords = keywords.map { |keyword| keyword['value'] }.sort
-  end
-
-  def set_data_centers
-    data_centers = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('data_centers').fetch('level_0', []))
-
-    @data_centers = data_centers.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
   end
 end

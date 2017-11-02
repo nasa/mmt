@@ -437,6 +437,68 @@ describe 'Invalid picklists', js: true do
     end
   end
 
+  context 'when viewing the Instrument Short Name field' do
+    before do
+      instrument_draft = create(:collection_draft_invalid_picklists_instruments, user: User.where(urs_uid: 'testuser').first)
+      visit collection_draft_path(instrument_draft)
+
+      within '.metadata' do
+        click_on 'Acquisition Information'
+      end
+
+      open_accordions
+    end
+
+    it 'displays a summary error' do
+      within '.summary-errors' do
+        expect(page).to have_content('Short Name value [Short Name] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an inline error' do
+      within '.instruments' do
+        expect(page).to have_content('Short Name value [Short Name] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an unselectable invalid option' do
+      within all('.instrument-short-name-select').first do
+        expect(page).to have_css('option[disabled][selected]', text: 'Short Name')
+      end
+    end
+  end
+
+  context 'when viewing the Instrument Child Short Name field' do
+    before do
+      instrument_draft = create(:collection_draft_invalid_picklists_instrument_children, user: User.where(urs_uid: 'testuser').first)
+      visit collection_draft_path(instrument_draft)
+
+      within '.metadata' do
+        click_on 'Acquisition Information'
+      end
+
+      open_accordions
+    end
+
+    it 'displays a summary error' do
+      within '.summary-errors' do
+        expect(page).to have_content('Short Name value [Short Name] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an inline error' do
+      within '.instruments' do
+        expect(page).to have_content('Short Name value [Short Name] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an unselectable invalid option' do
+      within all('.instrument-children .instrument-short-name-select').first do
+        expect(page).to have_css('option[disabled][selected]', text: 'Short Name')
+      end
+    end
+  end
+
   context 'when viewing the Granule Spatial Representation field' do
     before do
       within '.metadata' do

@@ -131,10 +131,10 @@ module BulkUpdatesHelper
   UPDATEABLE_FIELDS = [
     ['Data Centers', 'data_centers'],
     ['Location Keywords', 'location_keywords'],
-    ['Science Keywords', 'science_keywords']
+    ['Science Keywords', 'science_keywords'],
+    ['Platforms', 'platforms'],
+    ['Instruments', 'instruments']
   ].freeze
-  # these are the other possible update-field values in the CMR enum:
-  # 'LOCATION_KEYWORDS','DATA_CENTERS','PLATFORMS','INSTRUMENTS'
 
   UPDATE_TYPES = {
     ADD_TO_EXISTING: {
@@ -143,7 +143,7 @@ module BulkUpdatesHelper
         new_title: 'Value to Add',
         new_description: 'The new value provided below will be added to your selected collections.'
       },
-      valid_fields: %w(science_keywords location_keywords)
+      valid_fields: %w[science_keywords location_keywords]
     },
     CLEAR_ALL_AND_REPLACE: {
       title: 'Clear All & Replace',
@@ -151,7 +151,7 @@ module BulkUpdatesHelper
         new_title: 'New Value',
         new_description: 'The new value provided below will be added to your selected collections and all previous values will be removed.'
       },
-      valid_fields: %w(science_keywords location_keywords)
+      valid_fields: %w[science_keywords location_keywords]
     },
     FIND_AND_REMOVE: {
       title: 'Find & Remove',
@@ -159,7 +159,7 @@ module BulkUpdatesHelper
         find_title: 'Find Values to Remove',
         find_description: 'Use the following fields to find the value that you\'d like to remove from your selected collections.'
       },
-      valid_fields: %w(science_keywords data_centers location_keywords)
+      valid_fields: %w[science_keywords data_centers location_keywords platforms instruments]
     },
     FIND_AND_REPLACE: {
       title: 'Find & Replace',
@@ -169,7 +169,7 @@ module BulkUpdatesHelper
         new_title: 'New Value',
         new_description: 'The value found using the above fields will be replaced with the value you provide here.'
       },
-      valid_fields: %w(science_keywords location_keywords)
+      valid_fields: %w[science_keywords location_keywords]
     },
     FIND_AND_UPDATE: {
       title: 'Find & Update',
@@ -179,7 +179,7 @@ module BulkUpdatesHelper
         new_title: 'New Value',
         new_description: 'The value found using the above fields will be updated with the value you provide here.'
       },
-      valid_fields: %w(data_centers)
+      valid_fields: %w[data_centers platforms instruments]
     }
   }.freeze
 
@@ -293,6 +293,46 @@ module BulkUpdatesHelper
         concat(content_tag(:li) do
           concat content_tag(:strong, 'Long Name: ')
           concat content_tag(:span, data_center['LongName'])
+        end)
+      end
+    end
+  end
+
+  def display_platform(platform)
+    content_tag(:ul, class: 'no-bullet') do
+      if platform.key?('Type')
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Type: ')
+          concat content_tag(:span, platform['Type'])
+        end)
+      end
+      if platform.key?('ShortName')
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Short Name: ')
+          concat content_tag(:span, platform['ShortName'])
+        end)
+      end
+      if platform.key?('LongName')
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Long Name: ')
+          concat content_tag(:span, platform['LongName'])
+        end)
+      end
+    end
+  end
+
+  def display_instrument(instrument)
+    content_tag(:ul, class: 'no-bullet') do
+      if instrument.key?('ShortName')
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Short Name: ')
+          concat content_tag(:span, instrument['ShortName'])
+        end)
+      end
+      if instrument.key?('LongName')
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Long Name: ')
+          concat content_tag(:span, instrument['LongName'])
         end)
       end
     end

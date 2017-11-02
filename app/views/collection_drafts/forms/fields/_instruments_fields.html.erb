@@ -8,10 +8,10 @@
         prefix: name_prefix,
         value: instruments['ShortName'],
         options: @instruments.map { |instrument| [instrument[:short_name], instrument[:short_name], { 'data-long-name' => instrument[:long_name] }] },
-        help: 'definitions/ShortNameType',
+        help: 'definitions/PlatformShortNameType',
         classes: 'select2-select instrument-short-name-select',
         validate: true,
-        always_required: true
+        required: true
       ) %>
     </div>
     <div class="col-6">
@@ -21,7 +21,7 @@
         title: 'Long Name',
         prefix: name_prefix,
         value: instruments['LongName'],
-        help: 'definitions/LongNameType',
+        help: 'definitions/PlatformLongNameType',
         validate: true,
         classes: 'instrument-long-name readonly',
         readonly: true

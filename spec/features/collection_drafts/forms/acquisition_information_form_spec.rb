@@ -106,8 +106,8 @@ describe 'Acquisition information form', js: true do
           end
           # Instrument Child
           within first('.multiple.instrument-children') do
-            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_0_short_name', with: 'Instrument Child short name')
-            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_0_long_name', with: 'Instrument Child long name')
+            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_0_short_name', with: 'ADS')
+            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_0_long_name', with: 'Automated DNA Sequencer')
             expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_0_technique', with: 'Instrument Child technique')
             # Characteristics
             within first('.multiple.characteristics') do
@@ -128,7 +128,8 @@ describe 'Acquisition information form', js: true do
             end
 
             # Instrument Child 2
-            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_1_short_name', with: 'Instrument Child short name 1')
+            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_1_short_name', with: 'SMAP L-BAND RADIOMETER')
+            expect(page).to have_field('draft_platforms_0_instruments_0_composed_of_1_long_name', with: 'SMAP L-Band Radiometer')
           end
 
           # Instrument 2
@@ -166,8 +167,8 @@ describe 'Acquisition information form', js: true do
           end
           # Instrument Child
           within first('.multiple.instrument-children') do
-            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_0_short_name', with: 'Instrument Child short name')
-            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_0_long_name', with: 'Instrument Child long name')
+            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_0_short_name', with: 'ADS')
+            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_0_long_name', with: 'Automated DNA Sequencer')
             expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_0_technique', with: 'Instrument Child technique')
             # Characteristics
             within first('.multiple.characteristics') do
@@ -188,7 +189,8 @@ describe 'Acquisition information form', js: true do
             end
 
             # Instrument Child 2
-            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_1_short_name', with: 'Instrument Child short name 1')
+            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_1_short_name', with: 'SMAP L-BAND RADIOMETER')
+            expect(page).to have_field('draft_platforms_1_instruments_0_composed_of_1_long_name', with: 'SMAP L-Band Radiometer')
           end
 
           # Instrument 2

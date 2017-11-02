@@ -1,9 +1,9 @@
-<% if bulk_update['update-type'] == 'FIND_AND_REMOVE' || bulk_update['update-type'] == 'FIND_AND_REPLACE' %>
+<% if bulk_update['update-type'] == 'FIND_AND_REMOVE' || bulk_update['update-type'] == 'FIND_AND_REPLACE' || bulk_update['update-type'] == 'FIND_AND_UPDATE' %>
   <div class="find-values-preview">
     <!-- Find Value -->
     <%= display_value_title(bulk_update['update-type'], 'find') %>
 
-    <%= display_science_keyword(bulk_update['find-value']) %>
+    <%= display_instrument(bulk_update['find-value']) %>
   </div>
 <% end %>
 
@@ -12,6 +12,6 @@
     <!-- Update Value -->
     <%= display_value_title(bulk_update['update-type'], 'new') %>
 
-    <%= display_science_keyword(bulk_update['update-value']) %>
+    <%= display_instrument(bulk_update['update-value']) %>
   </div>
 <% end %>

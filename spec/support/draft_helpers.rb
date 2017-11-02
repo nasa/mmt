@@ -398,7 +398,7 @@ module Helpers
 
     def add_instruments(platform = '0')
       within '.multiple.instruments' do
-        find('.select2-container .select2-selection').click
+        all('.select2-container .select2-selection').first.click
         find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ATM').click
         fill_in "draft_platforms_#{platform}_instruments_0_technique", with: 'Instrument technique'
         fill_in 'Number Of Instruments', with: 2468
@@ -417,7 +417,7 @@ module Helpers
 
         click_on 'Add another Instrument'
         within '.multiple-item-1' do
-          find('.select2-container .select2-selection').click
+          all('.select2-container .select2-selection').first.click
           find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'LVIS').click
         end
       end
@@ -425,14 +425,16 @@ module Helpers
 
     def add_instrument_children(platform)
       within '.multiple.instrument-children' do
-        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_short_name", with: 'Instrument Child short name'
-        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_long_name", with: 'Instrument Child long name'
+        find('.select2-container .select2-selection').click
+        find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ADS').click
+
         fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_technique", with: 'Instrument Child technique'
         add_characteristics
 
         click_on 'Add another Instrument Child'
         within '.multiple-item-1' do
-          fill_in "draft_platforms_#{platform}_instruments_0_composed_of_1_short_name", with: 'Instrument Child short name 1'
+          find('.select2-container .select2-selection').click
+          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'SMAP L-BAND RADIOMETER').click
         end
       end
     end
