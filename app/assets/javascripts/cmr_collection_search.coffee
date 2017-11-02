@@ -28,16 +28,16 @@ updateQueryForm = (searchFieldElement) ->
   $singleDateFields = searchCriteriaContainer.find('div.single-date-query')
   $doubleDateFields = searchCriteriaContainer.find('div.double-date-query')
 
-  $textFields.hide()
-  $singleDateFields.hide()
-  $doubleDateFields.hide()
+  $textFields.addClass('is-hidden')
+  $singleDateFields.addClass('is-hidden')
+  $doubleDateFields.addClass('is-hidden')
 
   if format == 'single_date'
-    $singleDateFields.show()
+    $singleDateFields.removeClass('is-hidden')
   else if format == 'double_date'
-    $doubleDateFields.show()
+    $doubleDateFields.removeClass('is-hidden')
   else
-    $textFields.show()
+    $textFields.removeClass('is-hidden')
 
   # Disable hidden fields and clear their value
   searchCriteriaContainer.find('input').prop('disabled', false)
@@ -45,11 +45,15 @@ updateQueryForm = (searchFieldElement) ->
 
 $(document).ready ->
   $(document).on 'click', '.remove-search-criteria', ->
-    $(this).closest('fieldset').remove()
+    $fieldset = $(this).closest('fieldset')
+
+    # if the next element after the fieldset is an error div, remove it
+    if $fieldset.next().is('div.validation-error')
+      $fieldset.next().remove()
+    $fieldset.remove()
 
   $(document).on 'click', '.add-search-criteria', ->
     container = $(this).closest('fieldset')
-
     newContainer = container.clone()
 
     # Create the new index for the new fields
@@ -59,48 +63,38 @@ $(document).ready ->
     $.each newContainer.find('select, input'), (index, field) ->
       $(field).attr('id', $(field).attr('id').replace(/_(\d+)_/, '_' + currentSeconds.toString() + '_'))
       $(field).attr('name', $(field).attr('name').replace(/\[(\d+)\]/, '[' + currentSeconds.toString() + ']'))
+      $(field).attr('aria-describedby', '')
 
-    newContainer.insertAfter(container)
+    $.each newContainer.find('label'), (index, field) ->
+      $(field).attr('for', $(field).attr('for').replace(/_(\d+)_/, '_' + currentSeconds.toString() + '_'))
+
+    # if next sibling to container is an error, insert newContainer after the error
+    nextElement = container
+    if container.next().is('div')
+      nextElement = container.next()
+    newContainer.insertAfter(nextElement)
 
     newContainer.find('.collection-search-field').trigger('change')
     newContainer.find('.collection-value').val('')
 
-    $(this).replaceWith(
-      $('<a></a>', {
-        href: 'javascrip:;',
-        class: 'eui-btn eui-btn--red remove-search-criteria',
-      }).append(
-        $('<span></span>', {
-          class: 'fa fa-minus'  
-        })
-      )
-    )
-
     return false
 
-  updateQueryForm($('.collection-search-field'))
+  $('.collection-search-field').each ->
+    updateQueryForm($(this))
 
   # Collection search form
   if $('#collection-search').length > 0
     displayHelpText($('.collection-search-field'))
 
-    # $('#collection-search').validate
-    #   errorPlacement: (error, element) ->
-    #     # Don't show a second temporal error if one already exists
-    #     if $('.validation-error').text().indexOf("At least one date is required.") == -1
-    #       error.insertAfter(element.closest('fieldset'))
+    $('#collection-search').validate
+      errorPlacement: (error, element) ->
+        # Don't show a second temporal error if one already exists
+        if $('.validation-error').text().indexOf("At least one date is required.") == -1
+          error.insertAfter(element.closest('fieldset'))
 
-    #   rules:
-    #     query_date_start:
-    #       require_from_group: [1, '.double-date-query input']
-    #     query_date_end:
-    #       require_from_group: [1, '.double-date-query input']
-
-    #   messages:
-    #     query_date_start:
-    #       require_from_group: 'At least one date is required.'
-    #     query_date_end:
-    #       require_from_group: 'At least one date is required.'
+    # Temporal Extent field validation
+    $.validator.addMethod('cRequiredFromGroup', $.validator.methods.require_from_group, 'At least one date is required.')
+    $.validator.addClassRules('double-date-picker', {cRequiredFromGroup: [1,'.double-date-query input']})
 
     $(document).on 'change', '.collection-search-field', ->
       displayHelpText($(this))
