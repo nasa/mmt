@@ -57,13 +57,13 @@ $(document).ready ->
     newContainer = container.clone()
 
     # Create the new index for the new fields
-    currentSeconds = parseInt(new Date().getTime() / 1000)
+    currentSeconds = parseInt(new Date().getTime())
 
     # Update the index for each field in the new row
     $.each newContainer.find('select, input'), (index, field) ->
       $(field).attr('id', $(field).attr('id').replace(/_(\d+)_/, '_' + currentSeconds.toString() + '_'))
       $(field).attr('name', $(field).attr('name').replace(/\[(\d+)\]/, '[' + currentSeconds.toString() + ']'))
-      $(field).attr('aria-describedby', '')
+      $(field).removeAttr('aria-describedby')
 
     $.each newContainer.find('label'), (index, field) ->
       $(field).attr('for', $(field).attr('for').replace(/_(\d+)_/, '_' + currentSeconds.toString() + '_'))

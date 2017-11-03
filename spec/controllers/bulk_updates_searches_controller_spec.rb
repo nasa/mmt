@@ -27,7 +27,7 @@ describe BulkUpdatesSearchesController, reset_provider: true do
 
       context 'When query and field are provided' do
         it 'sets the collections instance variable' do
-          get :new, query_text: 'false', field: 'browsable'
+          get :new, search_criteria: { 123 => { query_text: 'false', field: 'browsable' } }
 
           expect(assigns(:collections).size).to eq(5)
         end

@@ -58,7 +58,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
 
     it 'displays the correct number of options for search field' do
       within '#collection-search' do
-        expect(page).to have_css('select[name="field"] option', count: BulkUpdatesHelper::SEARCHABLE_KEYS.count)
+        expect(page).to have_css('select[name$="[field]"] option', count: BulkUpdatesHelper::SEARCHABLE_KEYS.count)
       end
     end
 
@@ -66,7 +66,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
       within '#collection-search' do
         options = BulkUpdatesHelper::SEARCHABLE_KEYS.map { |_key, value| value[:title] }
 
-        expect(page).to have_select('field', options: options)
+        expect(page).to have_select(options: options)
       end
     end
 
