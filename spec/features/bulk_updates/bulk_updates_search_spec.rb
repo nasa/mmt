@@ -218,7 +218,6 @@ describe 'Searching collections to bulk update', reset_provider: true do
           within '#collection-search' do
             select 'Version', from: 'Search Field'
             find(:css, "input[id$='query_text']").set('nasa.003*')
-
             find('.add-search-criteria').click
 
             click_button 'Submit'
