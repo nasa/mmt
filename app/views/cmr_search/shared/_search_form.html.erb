@@ -1,5 +1,5 @@
 <%= form_tag(submit_path, method: :get, id: 'collection-search') do %>
-  <% params.fetch('search_criteria', {"#{Time.now.to_i}" => {}}).each do |index, search_criteria| %>
+  <% params.fetch('search_criteria', {"#{Time.now.to_i}" => {}}).each do |index, criteria| %>
     <fieldset>
       <div class="row">
         <div class="col-5">
@@ -15,30 +15,30 @@
       <div class="row">
         <!-- Search Field -->
         <div class="col-5" id="collection-field-container">
-          <%= select_tag("search_criteria[#{index}][field]", options_for_select(BulkUpdatesHelper::SEARCHABLE_KEYS.map { |option, values| [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]] }.sort_by { |options| options[0] }, search_criteria[:field]), class: 'full-width required collection-field collection-search-field') %>
+          <%= select_tag("search_criteria[#{index}][field]", options_for_select(BulkUpdatesHelper::SEARCHABLE_KEYS.map { |option, values| [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]] }.sort_by { |options| options[0] }, criteria[:field]), class: 'full-width required collection-field collection-search-field') %>
           <p class="form-description" id="collection-field-description"></p>
         </div>
 
         <!-- Search Term (Query) -->
         <div class="col-5" id="collection-query-container">
           <!-- Basic Form -->
-          <div class="text-query <%= 'is-hidden' if search_criteria[:query_text].nil? %>">
-            <%= text_field_tag("search_criteria[#{index}][query_text]", search_criteria[:query_text], class: 'full-width required collection-value', data: { 'msg-required' => 'Search Term is required.' } ) %>
+          <div class="text-query <%= 'is-hidden' if criteria[:query_text].nil? %>">
+            <%= text_field_tag("search_criteria[#{index}][query_text]", criteria[:query_text], class: 'full-width required collection-value', data: { 'msg-required' => 'Search Term is required.' } ) %>
           </div>
 
           <!-- Single Date Form -->
-          <div class="single-date-query <%= 'is-hidden' if search_criteria[:query_date].nil? %>">
-            <%= text_field_tag("search_criteria[#{index}][query_date]", search_criteria[:query_date], class: 'full-width required collection-value search-datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ', data: { 'msg-required' => 'Search Term is required.' } ) %>
+          <div class="single-date-query <%= 'is-hidden' if criteria[:query_date].nil? %>">
+            <%= text_field_tag("search_criteria[#{index}][query_date]", criteria[:query_date], class: 'full-width required collection-value search-datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ', data: { 'msg-required' => 'Search Term is required.' } ) %>
           </div>
 
           <!-- Double Date Form -->
-          <div class="double-date-query <%= 'is-hidden' if search_criteria[:query_date_start].nil? || search_criteria[:query_date_end].nil? %>">
+          <div class="double-date-query <%= 'is-hidden' if criteria[:query_date_start].nil? || criteria[:query_date_end].nil? %>">
             <div class="col-6">
-              <%= text_field_tag("search_criteria[#{index}][query_date_start]", search_criteria[:query_date_start], class: 'full-width collection-value search-datetimepicker temporal-range-picker double-date-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
+              <%= text_field_tag("search_criteria[#{index}][query_date_start]", criteria[:query_date_start], class: 'full-width collection-value search-datetimepicker temporal-range-picker double-date-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
               <p class="form-description">Range Start</p>
             </div>
             <div class="col-6">
-              <%= text_field_tag("search_criteria[#{index}][query_date_end]", search_criteria[:query_date_end], class: 'full-width collection-value search-datetimepicker temporal-range-picker double-date-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
+              <%= text_field_tag("search_criteria[#{index}][query_date_end]", criteria[:query_date_end], class: 'full-width collection-value search-datetimepicker temporal-range-picker double-date-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
               <p class="form-description">Range End</p>
             </div>
           </div>

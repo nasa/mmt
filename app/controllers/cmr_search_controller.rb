@@ -13,7 +13,7 @@ class CmrSearchController < ManageMetadataController
     collection_count = 0
     collection_results = []
 
-    (params[:search_criteria] || []).each do |_index, criteria|
+    (params[:search_criteria] || {}).each do |_index, criteria|
       criteria[:query] = if !criteria[:query_text].blank?
                            criteria[:query_text]
                          elsif !criteria[:query_date].blank?
