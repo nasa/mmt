@@ -8,6 +8,7 @@ describe 'Provider context', reset_provider: true, js: true do
   context 'when the user has multiple providers' do
     before do
       login(providers: nil)
+      visit '/'
     end
 
     before :all do
@@ -152,6 +153,7 @@ describe 'Provider context', reset_provider: true, js: true do
   context 'when the user only has one provider' do
     before do
       login(providers: nil)
+      visit '/'
     end
 
     before :all do

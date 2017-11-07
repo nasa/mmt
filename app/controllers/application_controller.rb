@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :is_logged_in
   before_action :setup_query
   before_action :refresh_urs_if_needed, except: [:logout, :refresh_token]
+  before_action :provider_set?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -131,6 +132,12 @@ class ApplicationController < ActionController::Base
     json
   end
 
+  def provider_set?
+    if logged_in? && current_user.provider_id.nil?
+      redirect_to provider_context_path
+    end
+  end
+
   def set_provider_context_token
     session[:echo_provider_token] = echo_client.get_provider_context_token(token_with_client_id, behalfOfProvider: current_user.provider_id).parsed_body
   end
@@ -165,7 +172,7 @@ class ApplicationController < ActionController::Base
     is_user_logged_in = session[:access_token].present? &&
                         session[:refresh_token].present? &&
                         session[:expires_in].present? &&
-                        session[:logged_in_at]
+                        session[:logged_in_at].present?
 
     store_oauth_token unless is_user_logged_in
     is_user_logged_in
