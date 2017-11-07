@@ -113,6 +113,7 @@ Rails.application.routes.draw do
   get 'login' => 'users#login', as: 'login'
   get 'logout' => 'users#logout'
   get 'urs_callback' => 'oauth_tokens#urs_callback'
+  get 'provider_context' => 'users#provider_context', as: 'provider_context'
 
   post 'convert' => 'conversions#convert'
 
