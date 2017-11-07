@@ -2,15 +2,17 @@
   <div class="row">
     <div class="col-6">
       <!-- Short Name [r] -->
-      <%= mmt_text_field(
+      <%= mmt_select(
         name: 'short_name',
         title: 'Short Name',
         prefix: name_prefix,
         value: instruments['ShortName'],
-        help: 'definitions/ShortNameType',
+        options: @instruments.map { |instrument| [instrument[:short_name], instrument[:short_name], { 'data-long-name' => instrument[:long_name] }] },
+        help: 'definitions/PlatformShortNameType',
+        classes: 'select2-select instrument-short-name-select',
         validate: true,
         required: true
-       ) %>
+      ) %>
     </div>
     <div class="col-6">
       <!-- Long Name -->
@@ -19,8 +21,10 @@
         title: 'Long Name',
         prefix: name_prefix,
         value: instruments['LongName'],
-        help: 'definitions/LongNameType',
-        validate: true
+        help: 'definitions/PlatformLongNameType',
+        validate: true,
+        classes: 'instrument-long-name readonly',
+        readonly: true
        ) %>
     </div>
   </div>

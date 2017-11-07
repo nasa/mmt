@@ -13,11 +13,42 @@ module Cmr
     def initialize
     end
 
+    def save_data
+      uri_list = JSON.parse(File.read(File.join(Rails.root, 'lib', 'test_cmr', 'test_data.json')), symbolize_names: true)
+
+      uri_list.each_with_index do |obj, index|
+        collection_uri = obj[:collection]
+        metadata = connection.get(collection_uri).body
+
+        granule = if obj[:granule]
+                    connection.get(obj[:granule]).body
+                  else
+                    nil
+                  end
+
+        data = {}
+        data['collection_uri'] = obj[:collection]
+        data['ingest_count'] = obj[:ingest_count]
+        data['type'] = obj.fetch(:type, 'echo10')
+        data['test_case'] = obj.fetch(:test_case, nil)
+        data['granule'] = granule
+        data['metadata'] = metadata
+
+        File.open(File.join(Rails.root, 'lib', 'test_cmr', 'data', "collection_#{(index + 1).to_s.rjust(2, '0')}.yml"), 'w+') do |f|
+          begin
+            f.write(data.to_yaml)
+          rescue
+            next
+          end
+        end
+      end
+    end
+
     def load_data
       wait_for_cmr do
         setup_cmr
       end
-      insert_metadata(retrieve_metadata_uris)
+      insert_metadata
 
       additional_cmr_setup
     end
@@ -491,50 +522,45 @@ module Cmr
       puts "Refreshing the ElasticSearch index: #{resp.inspect}"
     end
 
-    def retrieve_metadata_uris
-      data = JSON.parse(File.read(File.join(Rails.root, 'lib', 'test_cmr', 'test_data.json')), symbolize_names: true)
-    end
-
-    def insert_metadata(uri_list)
+    def insert_metadata
       added = 0
-      uri_list.each_with_index do |obj, index|
-        collection_uri = obj[:collection]
-        metadata = connection.get(collection_uri).body
-        obj[:ingest_count].times do
+      Dir.glob(File.join(Rails.root, 'lib', 'test_cmr', 'data', '*.yml')).sort.each_with_index do |filename, index|
+        data = Psych.load_file(filename)
+
+        data['ingest_count'].times do
           response = connection.put do |req|
-            if collection_uri.include? 'EDF_DEV06'
+            if data['collection_uri'].include? 'EDF_DEV06'
               # collection with not url friendly native id
               encoded_bad_native_id = URI.encode('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
               req.url("http://localhost:3002/providers/LARC/collections/#{encoded_bad_native_id}")
-            elsif collection_uri.include? 'NSIDC_ECS'
+            elsif data['collection_uri'].include? 'NSIDC_ECS'
               req.url("http://localhost:3002/providers/NSIDC_ECS/collections/collection#{index}")
-            elsif collection_uri.include? 'SEDAC'
+            elsif data['collection_uri'].include? 'SEDAC'
               req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
-            else #collection_uri.include? 'LARC'
+            else # data['collection_uri'].include? 'LARC'
               req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
             end
 
             content_type = 'application/echo10+xml'
-            content_type = 'application/dif10+xml' if obj[:type] == 'dif10'
+            content_type = 'application/dif10+xml' if data['type'] == 'dif10'
             req.headers['Content-Type'] = content_type
             req.headers['Echo-token'] = 'mock-echo-system-token'
-            req.body = metadata
-          end
+            req.body = data['metadata']
 
-          # Ingest a granules if available
-          if obj[:granule]
-            granule_metadata = connection.get(obj[:granule].first).body
-            response = connection.put do |req|
-              req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
-              req.headers['Content-Type'] = 'application/echo10+xml'
-              req.headers['Echo-token'] = 'mock-echo-system-token'
-              req.body = granule_metadata
+            # Ingest a granules if available
+            if data['granule']
+              response = connection.put do |granule_req|
+                granule_req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
+                granule_req.headers['Content-Type'] = 'application/echo10+xml'
+                granule_req.headers['Echo-token'] = 'mock-echo-system-token'
+                granule_req.body = data['granule']
+              end
             end
           end
 
           if response.success?
             added += 1
-            puts "Loaded #{added} collections#{obj[:test_case]}"
+            puts "Loaded #{added} collections#{data['test_case']}"
           else
             puts response.inspect
           end

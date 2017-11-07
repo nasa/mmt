@@ -42,6 +42,16 @@ module Cmr
       post(url, query.to_query, headers.merge(token_header(token)))
     end
 
+    def get_variables(options = {}, token = nil)
+      url = if Rails.env.development? || Rails.env.test?
+              'http://localhost:3003/variables.umm_json'
+            else
+              '/search/variables.umm_json'
+            end
+
+      get(url, options, token_header(token))
+    end
+
     def search_collections(options, token)
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3003/collections.json'
@@ -52,16 +62,43 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def get_concept(concept_id, token, content_type, revision_id = nil)
+    def add_collection_assocations_to_variable(concept_id, collection_ids, token)
       url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/concepts/#{concept_id}#{'/' + revision_id.to_s if revision_id}"
+              "http://localhost:3003/variables/#{concept_id}/associations"
             else
-              "/search/concepts/#{concept_id}#{'/' + revision_id if revision_id}"
+              "/search/variables/#{concept_id}/associations"
             end
 
       headers = {
-        'Accept' => content_type
+        'Content-Type' => 'application/json'
       }
+
+      post(url, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
+    end
+
+    def delete_collection_assocations_to_variable(concept_id, collection_ids, token)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3003/variables/#{concept_id}/associations"
+            else
+              "/search/variables/#{concept_id}/associations"
+            end
+
+      headers = {
+        'Content-Type' => 'application/json'
+      }
+
+      delete(url, nil, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
+    end
+
+    def get_concept(concept_id, token, headers, revision_id = nil, download_format = nil)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3003/concepts/#{concept_id}"
+            else
+              "/search/concepts/#{concept_id}"
+            end
+
+      url += "/#{revision_id}" if revision_id
+      url += ".#{download_format}?pretty=true" if download_format
 
       get(url, {}, headers.merge(token_header(token)))
     end
@@ -77,7 +114,8 @@ module Cmr
         concept_id: collection_id,
         include_granule_counts: true
       }
-      get(url, options, token_header(token)).body['feed']['entry'].first
+
+      get(url, options, token_header(token))
     end
 
     def get_controlled_keywords(type)
@@ -150,7 +188,7 @@ module Cmr
 
       headers = {
         'Accept' => 'application/json',
-        'Content-Type' => "application/#{Rails.configuration.umm_version}; charset=utf-8"
+        'Content-Type' => "application/#{Rails.configuration.umm_c_version}; charset=utf-8"
       }
 
       # content_type is passed if we are reverting to a revision with a different format
@@ -182,10 +220,22 @@ module Cmr
 
       headers = {
         'Accept' => 'application/json',
-        'Content-Type' => 'application/vnd.nasa.cmr.umm+json; charset=utf-8'
+        'Content-Type' =>  "application/#{Rails.configuration.umm_var_version}; charset=utf-8"
       }
 
       put(url, metadata, headers.merge(token_header(token)))
+    end
+
+    def delete_variable(provider_id, native_id, token)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+            else
+              "/ingest/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+            end
+      headers = {
+        'Accept' => 'application/json'
+      }
+      delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
     ### CMR Bulk Updates, via CMR Ingest

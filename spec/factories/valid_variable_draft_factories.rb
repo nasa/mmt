@@ -3,7 +3,46 @@ FactoryGirl.define do
     provider_id 'MMT_2'
     draft_type 'VariableDraft'
 
-    draft {{}}
+    draft { {} }
+
+    short_name nil
+    entry_title nil
+  end
+
+  factory :invalid_variable_draft, class: VariableDraft do
+    provider_id 'MMT_2'
+    draft_type 'VariableDraft'
+
+    draft {{
+      'Scale': 'string',
+      'Offset': 'string',
+      'ValidRanges': [
+        {
+          'Min': 'string',
+          'Max': 'string'
+        }
+      ],
+      'FillValues': [
+        {
+          'Value': 'string'
+        }
+      ],
+      'Dimensions': [
+        {
+          'Size': 'string'
+        }
+      ],
+      'Sets': [
+        {
+          'Size': 'string',
+          'Index': 'string'
+        }
+      ],
+      'Characteristics': {
+        'Size': 'string',
+        'ChunkSize': 'string'
+      }
+    }}
 
     short_name nil
     entry_title nil
@@ -13,18 +52,16 @@ FactoryGirl.define do
     transient do
       draft_short_name nil
       draft_entry_title nil
-      version nil
+      draft_science_keywords nil
     end
 
     native_id 'full_variable_draft_native_id'
     provider_id 'MMT_2'
     draft_type 'VariableDraft'
 
-    # TODO: taken from one of Simon's previous examples. may need to be updated
-    # or we may want to make it more generic
     draft {{
-      'Name': 'PNs_LIF',
-      'LongName': 'Volume mixing ratio of sum of peroxynitrates in air',
+      'Name': draft_short_name || "#{Faker::Space.galaxy}_#{Faker::Number.number(6)}",
+      'LongName': draft_entry_title || "#{Faker::Space.nebula} #{Faker::Space.star_cluster} #{Faker::Number.number(6)}",
       'Definition': 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)',
       'Units': 'Npptv',
       'DataType': 'float',
@@ -34,7 +71,7 @@ FactoryGirl.define do
           'Size': 3000
         }
       ],
-      'ValidRange': [
+      'ValidRanges': [
         {
           'Min': -417,
           'Max': 8836
@@ -42,7 +79,7 @@ FactoryGirl.define do
       ],
       'Scale': 1.0,
       'Offset': 0.0,
-      'FillValue': [
+      'FillValues': [
         {
           'Value': -9999.0,
           'Type': 'Science',
@@ -50,7 +87,7 @@ FactoryGirl.define do
         }
       ],
       'VariableType': 'SCIENCE_VARIABLE',
-      'Set': [
+      'Sets': [
         {
           'Name': 'DISCOVERAQ',
           'Type': 'REVEAL-TEXAS',
@@ -71,7 +108,7 @@ FactoryGirl.define do
         'MeasurementConditions': 'Measurement Conditions',
         'ReportingConditions': 'Reporting Conditions'
       },
-      'ScienceKeywords': [
+      'ScienceKeywords': draft_science_keywords || [
         {
           'Category': 'EARTH SCIENCE',
           'Topic': 'ATMOSPHERE',

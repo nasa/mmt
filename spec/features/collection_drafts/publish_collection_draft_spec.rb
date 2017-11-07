@@ -51,8 +51,8 @@ describe 'Publishing collection draft records', js: true do
 
     context 'when searching for the published record' do
       before do
-        fill_in 'Quick Find', with: '12345'
-        click_on 'Find'
+        fill_in 'keyword', with: '12345'
+        click_on 'Search Collections'
       end
 
       it 'displays the new published record in search results' do

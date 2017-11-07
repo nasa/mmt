@@ -69,10 +69,11 @@
         },
         {
           "type": "section",
+          "htmlClass": "row space-top",
           "items": [
             {
               "type": "UmmMultiItems",
-              "key": "ValidRange",
+              "key": "ValidRanges",
               "items": [
                 {
                   "type": "section",
@@ -81,12 +82,12 @@
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "ValidRange/items/properties/index_id/Min"}]
+                      "items": [{"key": "ValidRanges/items/properties/index_id/Min"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "ValidRange/items/properties/index_id/Max"}]
+                      "items": [{"key": "ValidRanges/items/properties/index_id/Max"}]
                     }
                   ]
                 }
@@ -97,16 +98,16 @@
       ]
     },
     {
-      "id": "fill_value",
-      "title": "Fill Value",
-      "key": "FillValue",
+      "id": "fill_values",
+      "title": "Fill Values",
+      "description_key": "FillValues",
       "items": [
         {
           "type": "section",
           "items": [
             {
               "type": "UmmMultiItems",
-              "key": "FillValue",
+              "key": "FillValues",
               "items": [
                 {
                   "type": "section",
@@ -115,19 +116,19 @@
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "FillValue/items/properties/index_id/Value"}]
+                      "items": [{"key": "FillValues/items/properties/index_id/Value"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "FillValue/items/properties/index_id/Type"}]
+                      "items": [{"key": "FillValues/items/properties/index_id/Type"}]
                     }
                   ]
                 },
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "FillValue/items/properties/index_id/Description", "type": "UmmTextarea"}]
+                  "items": [{"key": "FillValues/items/properties/index_id/Description", "type": "UmmTextarea"}]
                 }
               ]
             }
@@ -138,7 +139,7 @@
     {
       "id": "dimensions",
       "title": "Dimensions",
-      "key": "Dimensions",
+      "description_key": "Dimensions",
       "items": [
         {
           "type": "section",
@@ -172,7 +173,7 @@
     {
       "id": "variable_characteristics",
       "title": "Variable Characteristics",
-      "key": "Characteristics",
+      "description_key": "Characteristics",
       "items": [
         {
           "type": "section",
@@ -279,7 +280,7 @@
     {
       "id": "science_keywords",
       "title": "Science Keywords",
-      "key": "ScienceKeywords",
+      "description_key": "ScienceKeywords",
       "items": [
         {
           "type": "section",
@@ -288,65 +289,26 @@
       ]
     },
     {
-      "id": "service",
-      "title": "Service",
-      "key": "Service",
+      "id": "sets",
+      "title": "Sets",
+      "description_key": "Sets",
       "items": [
         {
           "type": "section",
           "items": [
             {
               "type": "UmmMultiItems",
-              "key": "Service",
+              "key": "Sets",
               "items": [
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "htmlClass": "col-4",
-                      "items": [{"key": "Service/items/properties/index_id/ServiceType", "type": "UmmMultiSelect"}]
-                    },
-                    {
-                      "type": "section",
-                      "htmlClass": "col-4",
-                      "items": [{"key": "Service/items/properties/index_id/Visualizable", "type": "UmmBoolean"}]
-                    },
-                    {
-                      "type": "section",
-                      "htmlClass": "col-4",
-                      "items": [{"key": "Service/items/properties/index_id/Subsettable", "type": "UmmBoolean"}]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "set",
-      "title": "Set",
-      "key": "Set",
-      "items": [
-        {
-          "type": "section",
-          "items": [
-            {
-              "type": "UmmMultiItems",
-              "key": "Set",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [{"key": "Set/items/properties/index_id/Name"}]
+                  "items": [{"key": "Sets/items/properties/index_id/Name"}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "Set/items/properties/index_id/Type"}]
+                  "items": [{"key": "Sets/items/properties/index_id/Type"}]
                 },
                 {
                   "type": "section",
@@ -355,12 +317,12 @@
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "Set/items/properties/index_id/Size"}]
+                      "items": [{"key": "Sets/items/properties/index_id/Size"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "Set/items/properties/index_id/Index"}]
+                      "items": [{"key": "Sets/items/properties/index_id/Index"}]
                     }
                   ]
                 }

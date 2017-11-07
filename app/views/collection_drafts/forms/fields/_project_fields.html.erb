@@ -2,15 +2,16 @@
   <!-- Short Name [r] -->
   <div class="row">
     <div class="col-6">
-      <%= mmt_text_field(
+      <%= mmt_select(
         name: 'short_name',
         title: 'Short Name',
         prefix: name_prefix,
         value: project['ShortName'],
         help: 'definitions/ProjectType/properties/ShortName',
-        validate: true,
+        options: @projects.map { |project| [project[:short_name], project[:short_name], { 'data-long-name' => project[:long_name] }] },
+        classes: 'select2-select project-short-name-select',
         required: true
-       ) %>
+      ) %>
     </div>
     <div class="col-6">
       <!-- Long Name -->
@@ -20,7 +21,9 @@
         prefix: name_prefix,
         value: project['LongName'],
         help: 'definitions/ProjectType/properties/LongName',
-        validate: true
+        classes: 'project-long-name readonly',
+        validate: true,
+        readonly: true
        ) %>
     </div>
   </div>

@@ -7,19 +7,9 @@ $(document).ready ->
 
     fixNumbers(json)
     fixIntegers(json)
-    removeNulls(json)
 
     return json if json?
     return {}
-
-  removeNulls = (obj) ->
-    isArray = obj instanceof Array
-    for k of obj
-      if obj[k] == null
-        if isArray then obj.splice(k, 1) else delete obj[k]
-      else if typeof obj[k] == 'object'
-        removeNulls obj[k]
-    return
 
   fixNumbers = (json) ->
     numberFields = $('.mmt-number.validate').filter ->
@@ -232,8 +222,8 @@ $(document).ready ->
             errors.push newError
 
   validatePicklistValues = (errors) ->
-    $('select > option:disabled:selected').each ->
-      id = $(this).parent().attr('id')
+    $('select > option:disabled:selected, select > optgroup > option:disabled:selected').each ->
+      id = $(this).parents('select').attr('id')
       visitedFields.push id
 
       dataPath = switch
@@ -260,9 +250,15 @@ $(document).ready ->
         when /related_urls_(\d*)_get_data_unit/.test id
           [_, index] = id.match /related_urls_(\d*)_get_data_unit/
           "/RelatedUrls/#{index}/GetData/Unit"
-        when /draft_platforms_(\d*)_type/.test id
-          [_, index] = id.match /platforms_(\d*)_type/
-          "/Platforms/#{index}/Type"
+        when /draft_platforms_(\d*)_short_name/.test id
+          [_, index] = id.match /platforms_(\d*)_short_name/
+          "/Platforms/#{index}/ShortName"
+        when /draft_platforms_(\d*)_instruments_(\d*)_short_name/.test id
+          [_, index, index2] = id.match /platforms_(\d*)_instruments_(\d*)_short_name/
+          "/Platforms/#{index}/Instruments/#{index2}/ShortName"
+        when /draft_platforms_(\d*)_instruments_(\d*)_composed_of_(\d*)_short_name/.test id
+          [_, index, index2, index3] = id.match /platforms_(\d*)_instruments_(\d*)_composed_of_(\d*)_short_name/
+          "/Platforms/#{index}/Instruments/#{index2}/ComposedOf/#{index3}/ShortName"
         when /organizations_(\d*)_party_organization_name_short_name/.test id
           [_, index] = id.match /organizations_(\d*)_party_organization_name_short_name/
           "/Organizations/#{index}/Party/OrganizationName/ShortName"
@@ -271,18 +267,6 @@ $(document).ready ->
         when /related_urls_(\d*)_file_size_unit/.test id
           [_, index] = id.match /related_urls_(\d*)_file_size_unit/
           "/RelatedUrls/#{index}/FileSize/Unit"
-        when /organizations_\d*_party_addresses_\d*_country/.test id
-          [_, index1, index2] = id.match /organizations_(\d*)_party_addresses_(\d*)_country/
-          "/Organizations/#{index1}/Party/Addresses/#{index2}/Country"
-        when /organizations_\d*_party_addresses_\d*_state_province/.test id
-          [_, index1, index2] = id.match /organizations_(\d*)_party_addresses_(\d*)_state_province/
-          "/Organizations/#{index1}/Party/Addresses/#{index2}/StateProvince"
-        when /personnel_\d*_party_addresses_\d*_country/.test id
-          [_, index1, index2] = id.match /personnel_(\d*)_party_addresses_(\d*)_country/
-          "/Personnel/#{index1}/Party/Addresses/#{index2}/Country"
-        when /personnel_\d*_party_addresses_\d*_state_province/.test id
-          [_, index1, index2] = id.match /personnel_(\d*)_party_addresses_(\d*)_state_province/
-          "/Personnel/#{index1}/Party/Addresses/#{index2}/StateProvince"
         when /spatial_extent_granule_spatial_representation/.test id
           '/SpatialExtent/GranuleSpatialRepresentation'
         when /data_centers_\d*_roles/.test id

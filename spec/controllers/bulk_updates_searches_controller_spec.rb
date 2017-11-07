@@ -3,7 +3,7 @@ require 'rails_helper'
 describe BulkUpdatesSearchesController, reset_provider: true do
   describe 'GET #new' do
     before :all do
-      5.times { publish_draft }
+      5.times { publish_collection_draft }
     end
 
     before do
@@ -27,7 +27,7 @@ describe BulkUpdatesSearchesController, reset_provider: true do
 
       context 'When query and field are provided' do
         it 'sets the collections instance variable' do
-          get :new, query: 'false', field: 'browsable'
+          get :new, search_criteria: { 123 => { query_text: 'false', field: 'browsable' } }
 
           expect(assigns(:collections).size).to eq(5)
         end
@@ -37,14 +37,14 @@ describe BulkUpdatesSearchesController, reset_provider: true do
     context 'When bulk updates are disabled' do
       before do
         sign_in
-        
+
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         get :new
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(manage_collections_path)
       end
     end
   end

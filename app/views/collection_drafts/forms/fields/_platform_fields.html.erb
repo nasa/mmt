@@ -1,36 +1,53 @@
-<div class="row sub-fields">
+<div class="row sub-fields platform-fields">
   <!-- Type -->
-  <%= mmt_select(
-    name: 'type',
-    title: 'Type',
-    prefix: name_prefix,
-    value: platform['Type'],
-    options: @platform_types,
-    help: 'definitions/PlatformType/properties/Type'
-  ) %>
+  <div>
+    <div style="margin-bottom: 10px;">
+      <%= label_tag('Type:') %>
+      <span class="platform-type <%= 'default' unless platform['Type'] %>">
+        <%= platform['Type'] || 'Please select a Short Name' %>
+      </span>
+      <%= mmt_help_icon(
+        title: 'Type',
+        help: 'definitions/PlatformType/properties/Type'
+      ) %>
+      <%= hidden_field_tag(
+        name_to_param("#{name_prefix}type"),
+        platform['Type'],
+        class: 'platform-type',
+        data: {
+          level: name_prefix
+        }
+      ) %>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-6">
       <!-- Short Name [r] -->
-      <%= mmt_text_area(
+      <%= mmt_select(
         name: 'short_name',
-        title: 'ShortName',
+        title: 'Short Name',
         prefix: name_prefix,
         value: platform['ShortName'],
+        options: @platform_types.map { |platform| [platform[:type], platform[:short_names].map { |sn| [sn[:short_name], 'data-long-name' => sn[:long_name], 'data-type' => platform[:type]] }]},
         help: 'definitions/PlatformShortNameType',
+        classes: 'select2-select platform-short-name-select',
         validate: true,
-        always_required: true
-       ) %>
+        always_required: true,
+        grouped: true
+      ) %>
     </div>
     <div class="col-6">
       <!-- Long Name -->
-      <%= mmt_text_area(
+      <%= mmt_text_field(
         name: 'long_name',
-        title: 'LongName',
+        title: 'Long Name',
         prefix: name_prefix,
         value: platform['LongName'],
         help: 'definitions/PlatformLongNameType',
-        validate: true
+        validate: true,
+        classes: 'platform-long-name readonly',
+        readonly: true
        ) %>
     </div>
   </div>

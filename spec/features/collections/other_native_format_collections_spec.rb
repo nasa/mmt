@@ -8,8 +8,8 @@ describe 'Viewing Collections with other native formats', js: true do
     before do
       login
 
-      fill_in 'Quick Find', with: short_name
-      click_on 'Find'
+      fill_in 'keyword', with: short_name
+      click_on 'Search Collections'
       click_link short_name
     end
 

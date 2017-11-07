@@ -1,7 +1,7 @@
 <input type='hidden' id='mmt-form-name' value='<%= @draft_form %>'>
 
 <% content_for :header_title do %>
-  <h2><%= @draft_form.titleize %></h2>
+  <h2><%= titleize_form_name(@draft_form) %></h2>
 <% end %>
 
 <% if get_resource.errors.any? %>
@@ -23,7 +23,7 @@
 
       <input type="hidden" name='new_form_name' id="new_form_name" />
 
-      <%= render partial: 'collection_drafts/forms/form_navigation', :locals => {
+      <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'top',
           draft: get_resource,
           draft_form: @draft_form,
@@ -44,7 +44,7 @@
         <% end %>
       </div>
 
-      <%= render partial: "collection_drafts/forms/#{@draft_form}", :locals => { draft: get_resource } %>
+      <%= render partial: "collection_drafts/forms/#{@draft_form}", locals: { draft: get_resource } %>
 
       <script>
         // Load json-schema for field validation
@@ -55,7 +55,7 @@
 
       </br>
 
-      <%= render partial: 'collection_drafts/forms/form_navigation', :locals => {
+      <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'bottom',
           draft: get_resource,
           draft_form: @draft_form,

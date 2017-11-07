@@ -1,14 +1,11 @@
 $(document).ready ->
-  $('.datetimepicker').datetimepicker
+  defaultOptions =
     # Prevents the picker from adjusting the time displayed to
     # the users local timezone. This requires moment-timezone.js
     timeZone: 'UTC'
 
     # ISO 8601 format
     format: 'YYYY-MM-DD[T]HH:mm:ss[Z]'
-
-    # Sets the minimum date to the start of today
-    minDate: moment().startOf('day')
 
     # Display the clear date button
     showClear: true
@@ -32,3 +29,11 @@ $(document).ready ->
       today: 'fa fa-calendar-check-o'
       clear: 'fa fa-trash-o'
       close: 'fa fa-close'
+
+  $('.datetimepicker').datetimepicker($.extend(minDate: moment().startOf('day'), defaultOptions))
+
+  $('.search-datetimepicker').datetimepicker defaultOptions
+
+  # Initialize new search-datetimepickers after adding new search criteria fields
+  $(document).on 'click', '.add-search-criteria', ->
+    $('.search-datetimepicker').datetimepicker defaultOptions

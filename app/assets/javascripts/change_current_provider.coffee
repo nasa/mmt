@@ -9,6 +9,7 @@ $(document).ready ->
     provider = $(element.target).data('provider')
     action = $(element.target).data('recordAction')
     href = $(this).attr('href')
+    associatedCollections = $(element.target).data('numAssociatedCollections')
 
     $modal = $(href)
     $link = $modal.find('a.not-current-provider-link')
@@ -17,16 +18,22 @@ $(document).ready ->
     textAction = switch action
       when 'edit-collection'
         'Editing this collection'
-      when 'clone'
+      when 'clone-collection'
         'Cloning this collection'
       when 'delete-collection'
         'Deleting this collection'
-      when 'Reinstate'
+      when 'reinstate-collection'
         action = 'revert'
         'Reinstating this collection'
-      when 'Revert to this Revision'
+      when 'revert-collection'
         action = 'revert'
         'Reverting this collection'
+      when 'reinstate-variable'
+        action = 'revert'
+        'Reinstating this variable'
+      when 'revert-variable'
+        action = 'revert'
+        'Reverting this variable'
       when 'view-draft'
         'Viewing this draft'
       when 'edit-draft'
@@ -35,6 +42,17 @@ $(document).ready ->
         'Editing this group'
       when 'delete-group'
         'Deleting this group'
+      when 'edit-variable'
+        'Editing this variable'
+      when 'clone-variable'
+        'Cloning this variable'
+      when 'delete-variable'
+        if associatedCollections > 0
+          "This variable is associated with #{associatedCollections} collections. Deleting this variable will also delete the collection associations, and"
+        else
+          'Deleting this variable'
+      when 'manage-variable-associations'
+        "Managing this variable's collection associations"
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
@@ -52,7 +70,7 @@ $(document).ready ->
       url: "/set_provider?provider_id=#{provider}"
       method: 'post'
       dataType: 'json'
-      
+
       success: (data, status, xhr) ->
         # Click the link that the user needs
         $(link)[0].click()

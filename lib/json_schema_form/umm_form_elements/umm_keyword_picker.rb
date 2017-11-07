@@ -1,9 +1,28 @@
 # :nodoc:
 class UmmKeywordPicker < UmmFormElement
+  KEYWORD_LEVELS = %w(
+    Category
+    Topic
+    Term
+    VariableLevel1
+    VariableLevel2
+    VariableLevel3
+    DetailedVariable
+  ).freeze
+
+  def default_value
+    []
+  end
+
+  # Return whether or not this element has a stored value
+  def value?
+    Array.wrap(element_value).reject(&:empty?).any?
+  end
+
   def render_markup
     content_tag(:section) do
       # Currently selected values
-      concat render_keyword_list(form_fragment, get_element_value(form_fragment['key']))
+      concat render_keyword_list(form_fragment, element_value)
 
       # The picker
       concat render_keyword_picker
@@ -19,6 +38,20 @@ class UmmKeywordPicker < UmmFormElement
       button = UmmButton.new(parsed_json, json_form, schema, button_options)
 
       concat content_tag(:div, button.render_markup, class: 'actions')
+    end
+  end
+
+  def render_preview
+    capture do
+      element_value.each do |keyword|
+        concat(content_tag(:ul, class: 'arrow-tag-group-list') do
+          KEYWORD_LEVELS.each do |level|
+            unless keyword[level].blank?
+              concat content_tag(:li, keyword[level], itemprop: 'keyword', class: 'arrow-tag-group-item')
+            end
+          end
+        end)
+      end
     end
   end
 
@@ -42,6 +75,9 @@ class UmmKeywordPicker < UmmFormElement
           end)
         end
       end)
+
+      # Element that holds all attributes for a hidden input that is used for form validation within it's data attributes
+      concat content_tag(:span, nil, element_properties(schema_fragment).merge(id: "empty_#{idify_property_name(element)}", data: { id: idify_property_name(element), name: keyify_property_name(element) }))
     end
   end
 

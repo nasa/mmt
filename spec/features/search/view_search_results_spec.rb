@@ -8,8 +8,8 @@ describe 'Viewing search results', js: true do
   context 'when selecting a collection from search results' do
     before do
       login
-      fill_in 'Quick Find', with: short_name
-      click_on 'Find'
+      fill_in 'keyword', with: short_name
+      click_on 'Search Collections'
       click_on short_name
       open_accordions
     end

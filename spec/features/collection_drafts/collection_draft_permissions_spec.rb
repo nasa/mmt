@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Draft permissions' do
+describe 'Collection draft permissions' do
   let(:short_name)  { 'Draft Title' }
   let(:entry_title) { 'Tropical Forest Observation Record' }
   let(:provider)    { 'MMT_2' }
@@ -14,7 +14,6 @@ describe 'Draft permissions' do
   end
 
   let(:draft) { Draft.first }
-  # let(:draft) { Draft.find_by(entry_title: entry_title) }
 
   context 'when the draft provider is in the users available providers', js: true do
     before do
@@ -24,19 +23,45 @@ describe 'Draft permissions' do
       user.save
     end
 
-    context 'when trying to visit the draft page directly' do
+    context 'when trying to visit the collection draft show page directly' do
       before do
         visit collection_draft_path(draft)
       end
 
-      it 'displays warning banner link to change provider' do
+      it 'displays the collection draft show page' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Collection Drafts')
+          expect(page).to have_content("#{short_name}_1")
+        end
+
+        within 'main header' do
+          expect(page).to have_css('h2', text: "#{short_name}_1")
+          expect(page).to have_content(entry_title)
+        end
+      end
+
+      it 'does not display the collection draft preview' do
+        expect(page).to have_no_content('Publish Collection Draft')
+        expect(page).to have_no_content('Delete Collection Draft')
+        expect(page).to have_no_content('Metadata Fields')
+        expect(page).to have_no_content('Abstract')
+        expect(page).to have_no_content('Data Identification Fields:')
+        expect(page).to have_no_content('Acquisition Information Fields:')
+      end
+
+      it 'displays a banner message to change provider the Not Current Provider content' do
         expect(page).to have_css('.eui-banner--warn')
-        expect(page).to have_content('You need to change your current provider to view this draft')
+        within '.eui-banner--warn' do
+          expect(page).to have_content('You need to change your current provider to show this draft')
+        end
+
+        expect(page).to have_content('Not Current Provider')
+        expect(page).to have_content('It appears you need to change your current provider to access to this content.')
       end
 
       context 'when clicking on warning banner link' do
         before do
-          click_on 'You need to change your current provider to view this draft'
+          click_on 'You need to change your current provider to show this draft'
 
           wait_for_ajax
         end
@@ -45,15 +70,24 @@ describe 'Draft permissions' do
           expect(User.first.provider_id).to eq('MMT_2')
         end
 
-        it 'goes to the draft preview page' do
+        it 'displays the collection draft show page' do
           within '.eui-breadcrumbs' do
-            expect(page).to have_content('Drafts')
+            expect(page).to have_content('Collection Drafts')
             expect(page).to have_content("#{short_name}_1")
           end
 
-          expect(page).to have_content("#{short_name}_1")
-          expect(page).to have_content('Publish Draft')
-          expect(page).to have_content('Delete Draft')
+          within 'main header' do
+            expect(page).to have_css('h2', text: "#{short_name}_1")
+            expect(page).to have_content(entry_title)
+          end
+        end
+
+        it 'displays the collection draft preview information' do
+          expect(page).to have_content('Publish Collection Draft')
+          expect(page).to have_content('Delete Collection Draft')
+          expect(page).to have_content('Abstract')
+          expect(page).to have_content('Data Identification Fields:')
+          expect(page).to have_content('Acquisition Information Fields:')
         end
       end
     end
@@ -64,9 +98,35 @@ describe 'Draft permissions' do
         visit edit_collection_draft_path(draft, 'collection_information', anchor: 'collection-information')
       end
 
-      it 'displays warning banner link to change provider' do
+      it 'displays the collection draft show page' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Collection Drafts')
+          expect(page).to have_content("#{short_name}_1")
+        end
+
+        within 'main header' do
+          expect(page).to have_css('h2', text: "#{short_name}_1")
+          expect(page).to have_content(entry_title)
+        end
+      end
+
+      it 'does not display the collection draft preview' do
+        expect(page).to have_no_content('Publish Collection Draft')
+        expect(page).to have_no_content('Delete Collection Draft')
+        expect(page).to have_no_content('Metadata Fields')
+        expect(page).to have_no_content('Abstract')
+        expect(page).to have_no_content('Data Identification Fields:')
+        expect(page).to have_no_content('Acquisition Information Fields:')
+      end
+
+      it 'displays a banner message to change provider the Not Current Provider content' do
         expect(page).to have_css('.eui-banner--warn')
-        expect(page).to have_content('You need to change your current provider to edit this draft')
+        within '.eui-banner--warn' do
+          expect(page).to have_content('You need to change your current provider to edit this draft')
+        end
+
+        expect(page).to have_content('Not Current Provider')
+        expect(page).to have_content('It appears you need to change your current provider to access to this content.')
       end
 
       context 'when clicking on warning banner link' do
@@ -107,14 +167,16 @@ describe 'Draft permissions' do
         visit collection_draft_path(draft)
       end
 
-      it 'displays no permissions banner message' do
-        expect(page).to have_css('.eui-banner--danger')
-        expect(page).to have_content('You don\'t have the appropriate permissions to view this draft')
+      it 'redirects to the Manage Collections page' do
+        within 'main header' do
+          expect(page).to have_css('h2.current', text: 'Manage Collections')
+        end
       end
 
-      it 'displays the Access Denied message' do
-        expect(page).to have_content('Access Denied')
-        expect(page).to have_content('It appears you do not have access to this content.')
+      it 'displays a no permissions banner message' do
+        expect(page).to have_css('.eui-banner--danger')
+        expect(page).to have_content('It appears you do not have access to view the Collection Draft for this provider.')
+        expect(page).to have_content('If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.')
       end
     end
 
@@ -123,14 +185,16 @@ describe 'Draft permissions' do
         visit edit_collection_draft_path(draft)
       end
 
-      it 'displays no permisssions banner message' do
-        expect(page).to have_css('.eui-banner--danger')
-        expect(page).to have_content('You don\'t have the appropriate permissions to edit this draft')
+      it 'redirects to the Manage Collections page' do
+        within 'main header' do
+          expect(page).to have_css('h2.current', text: 'Manage Collections')
+        end
       end
 
-      it 'displays the Access Denied message' do
-        expect(page).to have_content('Access Denied')
-        expect(page).to have_content('It appears you do not have access to this content.')
+      it 'displays a no permissions banner message' do
+        expect(page).to have_css('.eui-banner--danger')
+        expect(page).to have_content('It appears you do not have access to edit the Collection Draft for this provider.')
+        expect(page).to have_content('If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.')
       end
     end
   end

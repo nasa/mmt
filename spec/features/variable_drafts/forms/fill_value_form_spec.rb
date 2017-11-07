@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Fill Value Form', reset_provider: true, js: true do
+describe 'Fill Values Form', reset_provider: true, js: true do
   before do
     login
   end
@@ -8,12 +8,12 @@ describe 'Fill Value Form', reset_provider: true, js: true do
   context 'When viewing the form with no stored values' do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_variable_draft_path(draft, 'fill_value')
+      visit edit_variable_draft_path(draft, 'fill_values')
     end
 
     it 'displays the correct title and description' do
       within '.umm-form' do
-        expect(page).to have_content('Fill Value')
+        expect(page).to have_content('Fill Values')
         expect(page).to have_content('The fill value of the variable in the data file. It is generally a value which falls outside the valid range. For example, if the valid range is \'0, 360\', the fill value may be \'-1\'.')
       end
     end
@@ -21,7 +21,7 @@ describe 'Fill Value Form', reset_provider: true, js: true do
     it 'displays the form title in the breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Variable Drafts')
-        expect(page).to have_content('Fill Value')
+        expect(page).to have_content('Fill Values')
       end
     end
 
@@ -35,11 +35,11 @@ describe 'Fill Value Form', reset_provider: true, js: true do
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
       within '.nav-top' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
       end
 
       within '.nav-bottom' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
       end
     end
 
@@ -125,19 +125,19 @@ describe 'Fill Value Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -216,8 +216,8 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         'Value': -9999.0,
         'Description': 'Pellentesque Bibendum Commodo Fringilla Nullam'
       }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValue': draft_fill_values })
-      visit edit_variable_draft_path(draft, 'fill_value')
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValues': draft_fill_values })
+      visit edit_variable_draft_path(draft, 'fill_values')
     end
 
     it 'displays one populated form' do
@@ -225,9 +225,9 @@ describe 'Fill Value Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_fill_value_0_type', with: 'Science')
-      expect(page).to have_field('variable_draft_draft_fill_value_0_value', with: '-9999.0')
-      expect(page).to have_field('variable_draft_draft_fill_value_0_description', with: 'Pellentesque Bibendum Commodo Fringilla Nullam')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_type', with: 'Science')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_value', with: '-9999.0')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_description', with: 'Pellentesque Bibendum Commodo Fringilla Nullam')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -295,15 +295,15 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -320,8 +320,8 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         'Value': 111.0,
         'Description': 'Pellentesque Nullam Ullamcorper Magna'
       }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValue': draft_fill_values })
-      visit edit_variable_draft_path(draft, 'fill_value')
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValues': draft_fill_values })
+      visit edit_variable_draft_path(draft, 'fill_values')
     end
 
     it 'displays two populated form' do
@@ -329,13 +329,13 @@ describe 'Fill Value Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_fill_value_0_type', with: 'Science')
-      expect(page).to have_field('variable_draft_draft_fill_value_0_value', with: '-9999.0')
-      expect(page).to have_field('variable_draft_draft_fill_value_0_description', with: 'Pellentesque Bibendum Commodo Fringilla Nullam')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_type', with: 'Science')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_value', with: '-9999.0')
+      expect(page).to have_field('variable_draft_draft_fill_values_0_description', with: 'Pellentesque Bibendum Commodo Fringilla Nullam')
 
-      expect(page).to have_field('variable_draft_draft_fill_value_1_type', with: 'Fiction')
-      expect(page).to have_field('variable_draft_draft_fill_value_1_value', with: '111.0')
-      expect(page).to have_field('variable_draft_draft_fill_value_1_description', with: 'Pellentesque Nullam Ullamcorper Magna')
+      expect(page).to have_field('variable_draft_draft_fill_values_1_type', with: 'Fiction')
+      expect(page).to have_field('variable_draft_draft_fill_values_1_value', with: '111.0')
+      expect(page).to have_field('variable_draft_draft_fill_values_1_description', with: 'Pellentesque Nullam Ullamcorper Magna')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -403,15 +403,15 @@ describe 'Fill Value Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end

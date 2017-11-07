@@ -1,0 +1,68 @@
+---
+collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000520-SEDAC/5.dif10
+ingest_count: 1
+type: dif10
+test_case: 
+granule: 
+metadata: "<DIF xmlns=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/\" xmlns:dif=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/\"
+  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/
+  http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/dif_v10.2.xsd\"><Entry_ID><Short_Name>CIESIN_SEDAC_SSF_HWSPDCMv2</Short_Name><Version>2.0</Version></Entry_ID><Entry_Title>ATSDR
+  Hazardous Waste Site Polygon Data with CIESIN Modifications, Version 2</Entry_Title><Dataset_Citation><Other_Citation_Details>Agency
+  for Toxic Substances and Disease Registry - ATSDR, National Institute for Environmental
+  Health Sciences Columbia University Superfund Research \n\nProgram - NIEHS CU SRP,
+  and Center for International Earth Science Information Network - CIESIN - Columbia
+  University. 2014. ATSDR Hazardous Waste Site Polygon Data with CIESIN \n\nModifications,
+  Version 2. Palisades, NY: NASA Socioeconomic Data and Applications Center (SEDAC).
+  http://dx.doi.org/10.7927/H4DF6P5Z.</Other_Citation_Details></Dataset_Citation><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>ENVIRONMENTAL GOVERNANCE/MANAGEMENT</Term><Variable_Level_1>ENVIRONMENTAL
+  ASSESSMENTS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>BIOSPHERE</Topic><Term>TERRESTRIAL ECOSYSTEMS</Term><Variable_Level_1>URBAN
+  LANDS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH SCIENCE</Category><Topic>HUMAN
+  DIMENSIONS</Topic><Term>PUBLIC HEALTH</Term></Science_Keywords><Platform><Type>Not
+  provided</Type><Short_Name>Not provided</Short_Name><Instrument><Short_Name>Not
+  provided</Short_Name></Instrument></Platform><Temporal_Coverage><Temporal_Range_Type>Long
+  Range</Temporal_Range_Type><Precision_Of_Seconds>1</Precision_Of_Seconds><Ends_At_Present_Flag>true</Ends_At_Present_Flag><Single_DateTime>2010-05-26T00:00:00.000Z</Single_DateTime></Temporal_Coverage><Spatial_Coverage><Spatial_Coverage_Type>Horizontal</Spatial_Coverage_Type><Granule_Spatial_Representation>CARTESIAN</Granule_Spatial_Representation><Geometry><Coordinate_System>CARTESIAN</Coordinate_System><Bounding_Rectangle><Southernmost_Latitude>17.958101</Southernmost_Latitude><Northernmost_Latitude>64.835175</Northernmost_Latitude><Westernmost_Longitude>-176.631973</Westernmost_Longitude><Easternmost_Longitude>-65.764755</Easternmost_Longitude></Bounding_Rectangle></Geometry><Spatial_Info><Spatial_Coverage_Type>Not
+  provided</Spatial_Coverage_Type></Spatial_Info></Spatial_Coverage><Location><Location_Category>GEOGRAPHIC
+  REGION</Location_Category><Location_Type>EQUATORIAL</Location_Type></Location><Location><Location_Category>GEOGRAPHIC
+  REGION</Location_Category><Location_Type>GLOBAL</Location_Type></Location><Location><Location_Category>GEOGRAPHIC
+  REGION</Location_Category><Location_Type>MID-LATITUDE</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>NORTH
+  AMERICA</Location_Type></Location><Location><Location_Category>GEOGRAPHIC REGION</Location_Category><Location_Type>POLAR</Location_Type></Location><Location><Location_Category>OTHER</Location_Category><Location_Type>United
+  States</Location_Type></Location><Project><Short_Name>SSF</Short_Name><Long_Name>Superfund
+  Site Footprints</Long_Name></Project><Access_Constraints>None</Access_Constraints><Organization><Organization_Type>PROCESSOR</Organization_Type><Organization_Name><Short_Name>SEDAC</Short_Name></Organization_Name><Personnel><Role>DATA
+  CENTER CONTACT</Role><Contact_Person><Last_Name>Not provided</Last_Name></Contact_Person></Personnel></Organization><Organization><Organization_Type>ARCHIVER</Organization_Type><Organization_Name><Short_Name>SEDAC</Short_Name></Organization_Name><Personnel><Role>DATA
+  CENTER CONTACT</Role><Contact_Person><Last_Name>Not provided</Last_Name></Contact_Person></Personnel></Organization><Organization><Organization_Type>ARCHIVER</Organization_Type><Organization_Name><Short_Name>Socioeconomic
+  Data and Applications Center (SEDAC)</Short_Name></Organization_Name><Hours_Of_Service>9:00
+  A.M. to 5:00 P.M., Monday to Friday</Hours_Of_Service><Personnel><Role>DATA CENTER
+  CONTACT</Role><Contact_Person><First_Name>SEDAC</First_Name><Middle_Name>User</Middle_Name><Last_Name>Services</Last_Name></Contact_Person></Personnel></Organization><Distribution><Distribution_Format>SHP,
+  PDF, PNG, WMS</Distribution_Format><Fees>0</Fees></Distribution><Summary><Abstract>The
+  Agency for Toxic Substances and Disease Registry (ATSDR) Hazardous Waste Site Polygon
+  Data with CIESIN Modifications, Version 2 is a database providing georeferenced
+  \n\ndata for 1,572 National Priorities List (NPL) Superfund sites. These were selected
+  from the larger set of the ATSDR Hazardous Waste Site Polygon Data, Version 2 data
+  set with polygons from \n\nMay 26, 2010. The modified data set contains only sites
+  that have been proposed, currently on, or deleted from the final NPL as of October
+  25, 2013. Of the 2,080 ATSDR polygons from 2010, \n\n1,575 were NPL sites but three
+  sites were excluded - 2 in the Virgin Islands and 1 in Guam. This data set is modified
+  by the Columbia University Center for International Earth Science \n\nInformation
+  Network (CIESIN). The modified polygon database includes all the attributes for
+  these NPL sites provided in the ATSDR GRASP Hazardous Waste Site Polygon database
+  and selected \n\nattributes from the EPA List 9 Active CERCLIS sites and SCAP 12
+  NPL sites databases. These polygons represent sites considered for cleanup under
+  the Comprehensive Environmental Response, \n\nCompensation and Liability Act (CERCLA
+  or Superfund). The Geospatial Research, Analysis, and Services Program (GRASP, Division
+  of Health Studies, Agency for Toxic Substances and Disease \n\nRegistry, Centers
+  for Disease Control and Prevention) has created site boundary data using the best
+  available information for those sites where health assessments or consultations
+  have been \n\nrequested.</Abstract><Purpose> To provide an easily accessible, corrected
+  data set of polygons for hazardous waste sites in the United States which can be
+  used to identify nearby populations and \n\nassess their potential risk.</Purpose></Summary><Related_URL><URL_Content_Type><Type>GET
+  DATA</Type></URL_Content_Type><URL>http://sedac.ciesin.columbia.edu/data/set/superfund-atsdr-hazardous-waste-site-ciesin-mod-v2/data-download</URL><Description>data
+  download page</Description></Related_URL><Related_URL><URL_Content_Type><Type>GET
+  DATA</Type></URL_Content_Type><URL>http://sedac.ciesin.columbia.edu/data/set/superfund-atsdr-hazardous-waste-site-ciesin-mod-v2/maps</URL><Description>maps
+  download page</Description></Related_URL><Related_URL><URL_Content_Type><Type>GET
+  DATA</Type></URL_Content_Type><URL>http://sedac.ciesin.columbia.edu/data/set/superfund-atsdr-hazardous-waste-site-ciesin-mod-v2/maps/services</URL><Description>Web
+  Map Services</Description></Related_URL><Related_URL><URL_Content_Type><Type>VIEW
+  DATA SET LANDING PAGE</Type></URL_Content_Type><URL>http://dx.doi.org/10.7927/H4DF6P5Z</URL><Description>data
+  set DOI and homepage</Description></Related_URL><Related_URL><URL_Content_Type><Type>GET
+  RELATED VISUALIZATION</Type></URL_Content_Type><URL>http://sedac.ciesin.columbia.edu/downloads/maps/supefund/superfund-atsdr-hazardous-waste-site-ciesin-mod-v2/superfund-atsdr-hazardous-waste-site-ciesin-mod-v2.pdf</URL></Related_URL><Metadata_Name>CEOS
+  IDN DIF</Metadata_Name><Metadata_Version>VERSION 10.2</Metadata_Version><Metadata_Dates><Metadata_Creation>1970-01-01</Metadata_Creation><Metadata_Last_Revision>1970-01-01</Metadata_Last_Revision><Data_Creation>2015-06-06T00:00:00.000Z</Data_Creation><Data_Last_Revision>2015-08-06T00:00:00.000Z</Data_Last_Revision></Metadata_Dates><Product_Level_Id>2</Product_Level_Id></DIF>"

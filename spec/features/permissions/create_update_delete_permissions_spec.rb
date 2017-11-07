@@ -107,11 +107,11 @@ describe 'Collection Permissions', reset_provider: true, js: true do
       # while we can use stubbed groups for collection permissions, it seems
       # that we need to have ingested collections to create a collection
       # permission if it has selected collections
-      ingest_response, concept_response_1 = publish_draft
+      ingest_response, concept_response_1 = publish_collection_draft
       @entry_id_1 = "#{concept_response_1.body['ShortName']}_#{concept_response_1.body['Version']}"
-      ingest_response, concept_response_2 = publish_draft
+      ingest_response, concept_response_2 = publish_collection_draft
       @entry_id_2 = "#{concept_response_2.body['ShortName']}_#{concept_response_2.body['Version']}"
-      ingest_response, concept_response_3 = publish_draft
+      ingest_response, concept_response_3 = publish_collection_draft
       @entry_id_3 = "#{concept_response_3.body['ShortName']}_#{concept_response_3.body['Version']}"
 
       wait_for_cmr

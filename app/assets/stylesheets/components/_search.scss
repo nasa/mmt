@@ -24,20 +24,68 @@
     margin: 0 auto;
     padding: 25px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-
-    .quick-search button,
-    .quick-search label,
-    .full-search {
-      display: none;
-    }
-
-    .quick-search input {
-      width: 99%;
-      border-radius: 3px;
-    }
   }
 
+  .quick-search {
+    .search-dropdown {
+      position: absolute;
+      background-color: $steel-blue;
+      padding: 5px 10px 2px 15px;
+      margin-top: -4px;
+      height: 85px;
+      max-width: 385px;
+      @media not all and (min-resolution:.001dpcm){
+        @supports (-webkit-appearance:none) {
+            max-width: 381px;
+        }
+      }
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        max-width: 384px;
+      }
+      display: none;
+      z-index: 9999;
 
+      .radio-buttons {
+        float: left;
+      }
+      .provider-selection {
+        float: left;
+        width: 100%;
+
+        .row {
+          display: inline-flex;
+          vertical-align: middle;
+          width: 100%;
+
+          span {
+            padding-top: 6px;
+            padding-right: 10px;
+          }
+        }
+      }
+    }
+
+    .eui-btn--blue {
+      background-color: $steel-blue;
+      border-right: 1px solid $dolphin-grey;
+      border-bottom: 1px solid $steel-blue;
+
+      .variable-text {
+        padding-right: 12px;
+      }
+    }
+
+    .dropdown-button {
+      background-color: $steel-blue;
+      padding: 7px 0 11px 9px;
+      @-moz-document url-prefix() {
+        padding: 7px 0 9px 9px;
+      }
+      border: 0;
+      margin-top: -4px;
+      cursor: pointer;
+    }
+  }
 
   .full-search-form {
     margin: 0.5em 0;
@@ -56,26 +104,32 @@
     .eui-icon {
       margin-right: 5px;
     }
+
+    fieldset {
+      background-color: transparent;
+      border-left: 0;
+    }
   }
 
   label {
-    width: 7em;
     margin: 0.55em 0.8em 0 0;
     color: lighten($light-grey, 10%);
   }
 
   input[type="text"] {
-    width: 10em;
-    padding: 0.5em;
+    width: 13em;
+    padding: 0.55em;
     border: none;
     vertical-align: middle;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     display: inline-block;
+    margin-top: 4px;
+    margin-right: -4px;
   }
 
   button {
-    border-left: none;
+    border: none;
     display: inline-block;
   }
 

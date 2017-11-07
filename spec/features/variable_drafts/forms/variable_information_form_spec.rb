@@ -11,6 +11,13 @@ describe 'Variable Information Form', reset_provider: true, js: true do
       visit edit_variable_draft_path(draft)
     end
 
+    it 'displays the correct prompt value for all select elements' do
+      within '.umm-form' do
+        expect(page).to have_select('variable_draft_draft_variable_type', selected: 'Select a Variable Type')
+        expect(page).to have_select('variable_draft_draft_data_type', selected: 'Select a Data Type')
+      end
+    end
+
     it 'displays the correct title and description' do
       within '.umm-form' do
         expect(page).to have_content('Variable Information')
@@ -54,19 +61,19 @@ describe 'Variable Information Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -95,11 +102,11 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -140,7 +147,7 @@ describe 'Variable Information Form', reset_provider: true, js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Service', from: 'Save & Jump To:'
+          select 'Fill Values', from: 'Save & Jump To:'
         end
 
         click_on 'Yes'
@@ -153,19 +160,19 @@ describe 'Variable Information Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Service')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -180,7 +187,7 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         'VariableType': 'SCIENCE_VARIABLE',
         'Units': 'Npptv',
         'DataType': 'float',
-        'ValidRange': [{
+        'ValidRanges': [{
           'Min': -417,
           'Max': 8836
         }],
@@ -198,8 +205,8 @@ describe 'Variable Information Form', reset_provider: true, js: true do
       expect(page).to have_field('variable_draft_draft_variable_type', with: 'SCIENCE_VARIABLE')
       expect(page).to have_field('variable_draft_draft_units', with: 'Npptv')
       expect(page).to have_field('variable_draft_draft_data_type', with: 'float')
-      expect(page).to have_field('variable_draft_draft_valid_range_0_min', with: '-417')
-      expect(page).to have_field('variable_draft_draft_valid_range_0_max', with: '8836')
+      expect(page).to have_field('variable_draft_draft_valid_ranges_0_min', with: '-417')
+      expect(page).to have_field('variable_draft_draft_valid_ranges_0_max', with: '8836')
       expect(page).to have_field('variable_draft_draft_scale', with: '1.0')
       expect(page).to have_field('variable_draft_draft_offset', with: '0.0')
     end
@@ -218,19 +225,19 @@ describe 'Variable Information Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Sets')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -257,11 +264,11 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -303,8 +310,8 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         expect(page).to have_field('variable_draft_draft_variable_type', with: 'SCIENCE_VARIABLE')
         expect(page).to have_field('variable_draft_draft_units', with: 'Npptv')
         expect(page).to have_field('variable_draft_draft_data_type', with: 'float')
-        expect(page).to have_field('variable_draft_draft_valid_range_0_min', with: '-417')
-        expect(page).to have_field('variable_draft_draft_valid_range_0_max', with: '8836')
+        expect(page).to have_field('variable_draft_draft_valid_ranges_0_min', with: '-417')
+        expect(page).to have_field('variable_draft_draft_valid_ranges_0_max', with: '8836')
         expect(page).to have_field('variable_draft_draft_scale', with: '1.0')
         expect(page).to have_field('variable_draft_draft_offset', with: '0.0')
       end

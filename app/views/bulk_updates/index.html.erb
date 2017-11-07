@@ -15,12 +15,13 @@
           <th>Operation</th>
           <th>Status</th>
           <th>Message</th>
+          <th>Created</th>
         </tr>
       </thead>
       <tbody>
         <% if @bulk_updates.blank? %>
           <tr>
-            <td colspan="2">No <%= current_user.provider_id %> Bulk Updates found.</td>
+            <td colspan="4">No <%= current_user.provider_id %> Bulk Updates found.</td>
           </tr>
         <% else %>
           <% @bulk_updates.each do |task| %>
@@ -29,6 +30,7 @@
               <td><%= task['update-type'].titleize %> <%= task['update-field'].titleize %></td>
               <td><%= task['status'] %></td>
               <td><%= task['status-message'] %></td>
+              <td><%= DateTime.parse(task['created-at']).to_s %></td>
             </tr>
           <% end %>
         <% end %>

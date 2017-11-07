@@ -2,15 +2,15 @@
 
 require 'rails_helper'
 
-describe 'Viewing non-ASCII search results', js: true do
+describe 'Viewing non-ASCII collection search results', js: true do
   short_name = 'dif10_datasetéñ1'
   entry_title = 'DIF10_datasét1'
 
-  context 'when searching for a non-ASCII short name' do
+  context 'when searching collections with a non-ASCII short name' do
     before do
       login
-      fill_in 'Quick Find', with: short_name
-      click_on 'Find'
+      fill_in 'keyword', with: short_name
+      click_on 'Search Collections'
     end
 
     it 'displays the search results without errors' do

@@ -1,0 +1,91 @@
+---
+collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000030-SEDAC/4.echo10
+ingest_count: 1
+type: echo10
+test_case: 
+granule: 
+metadata: "\n<Collection>\n\t\t\t<ShortName>CIESIN_SEDAC_SO2_1850-2005</ShortName>
+  \n\t\t\t<VersionId>2.86</VersionId> \n\t\t\t<InsertTime>2013-02-07T00:00:00Z</InsertTime>
+  \ \n\t\t\t<LastUpdate>2015-03-13T00:00:00Z</LastUpdate>\n\t\t\t<LongName>Anthropogenic
+  Sulfur Dioxide Emissions, 1850-2005: National and Regional Data Set by Source Category,
+  Version 2.86</LongName> \n\t\t\t<DataSetId>Anthropogenic Sulfur Dioxide Emissions,
+  1850-2005: National and Regional Data Set by Source Category, Version 2.86</DataSetId>
+  \n\t\t\t<Description>The Anthropogenic Sulfur Dioxide Emissions, 1850-2005: National
+  and Regional Data Set by Source Category, Version 2.86 provides annual estimates
+  of \n\nanthropogenic global and regional sulfur dioxide emissions spanning the period
+  1850- 2005 using a bottom-up mass balance method, calibrated to country-level inventory
+  data. It includes \n\nemissions by country and by source category (coal, petroleum,
+  and biomass combustion, smelting, fuel processing, and other processes). This dataset
+  is developed at the Pacific Northwest \n\nNational Laboratory (PNNL) and the maps
+  are produced at the Center for International Earth Science Information Network (CIESIN).
+  The data and maps created using the data set are distributed \n\nby CIESIN at Columbia
+  University.</Description> \n\t\t\t<Orderable>true</Orderable> \n\t\t\t<Visible>true</Visible>\n\t\t\t<SuggestedUsage>To
+  provide annual estimates of anthropogenic global and regional sulfur dioxide emissions
+  in support of climate, atmospheric or other related \n\nresearch.</SuggestedUsage>
+  \n\t\t\t<ProcessingCenter>SEDAC</ProcessingCenter> \n\t\t\t<ProcessingLevelId>Level
+  2</ProcessingLevelId> \n\t\t\t<ArchiveCenter>SEDAC</ArchiveCenter> \n\t\t\t<CitationForExternalPublication>Smith,
+  S. J., J. van Aardenne, Z. Klimont, R. J. Andres, A. Volke, and S. Delgado Arias.
+  2012. Anthropogenic Sulfur Dioxide Emissions, 1850-2005: National and Regional Data
+  Set by Source Category, Version 2.86. Palisades, NY:NASA Socioeconomic Data and
+  Applications Center (SEDAC). http://dx.doi.org/10.7927/H49884X9</CitationForExternalPublication>
+  \n\t\t\t<CollectionState>Final</CollectionState> \n\t\t\t<MaintenanceAndUpdateFrequency>As
+  needed</MaintenanceAndUpdateFrequency> \n\t\t\t<RestrictionComment>Users are free
+  to use, copy, distribute, transmit, and adapt the work for commercial and non-commercial
+  purposes, without restriction, as long as clear attribution of the source is provided.</RestrictionComment>\n\t\t\t<Price>0</Price>
+  \n\t\t\t<DataFormat>XLS, PDF, PNG</DataFormat> \n\t\t\t<SpatialKeywords>\n\t\t\t<Keyword>Africa</Keyword>\n\t\t\t<Keyword>Albania</Keyword>\n\t\t\t<Keyword>Algeria</Keyword>\n\t\t\t<Keyword>Angola</Keyword>\n\t\t\t<Keyword>Argentina</Keyword>\n\t\t\t<Keyword>Armenia</Keyword>\n\t\t\t<Keyword>Asia</Keyword>\n\t\t\t<Keyword>Australia</Keyword>\n\t\t\t<Keyword>Australia</Keyword>\n\t\t\t<Keyword>Austria</Keyword>\n\t\t\t<Keyword>Azerbaijan</Keyword>\n\t\t\t<Keyword>Bahrain</Keyword>\n\t\t\t<Keyword>Bangladesh</Keyword>\n\t\t\t<Keyword>Belarus</Keyword>\n\t\t\t<Keyword>Belgium</Keyword>\n\t\t\t<Keyword>Benin</Keyword>\n\t\t\t<Keyword>Bolivia</Keyword>\n\t\t\t<Keyword>Bosnia
+  and Herzegovina</Keyword>\n\t\t\t<Keyword>Botswana</Keyword>\n\t\t\t<Keyword>Brazil</Keyword>\n\t\t\t<Keyword>Brunei</Keyword>\n\t\t\t<Keyword>Bulgaria</Keyword>\n\t\t\t<Keyword>Cambodia</Keyword>\n\t\t\t<Keyword>Cameroon</Keyword>\n\t\t\t<Keyword>Canada</Keyword>\n\t\t\t<Keyword>Cayman
+  Islands</Keyword>\n\t\t\t<Keyword>Central Africa</Keyword>\n\t\t\t<Keyword>Central
+  America</Keyword>\n\t\t\t<Keyword>Chile</Keyword>\n\t\t\t<Keyword>China</Keyword>\n\t\t\t<Keyword>Colombia</Keyword>\n\t\t\t<Keyword>Costa
+  Rica</Keyword>\n\t\t\t<Keyword>Cote D'Ivoire</Keyword>\n\t\t\t<Keyword>Croatia</Keyword>\n\t\t\t<Keyword>Cuba</Keyword>\n\t\t\t<Keyword>Cyprus</Keyword>\n\t\t\t<Keyword>Czech
+  Republic</Keyword>\n\t\t\t<Keyword>Democratic Republic of the Congo</Keyword>\n\t\t\t<Keyword>Denmark</Keyword>\n\t\t\t<Keyword>Dominican
+  Republic</Keyword>\n\t\t\t<Keyword>East Asia</Keyword>\n\t\t\t<Keyword>Ecuador</Keyword>\n\t\t\t<Keyword>Egypt</Keyword>\n\t\t\t<Keyword>El
+  Salvador</Keyword>\n\t\t\t<Keyword>Equatorial</Keyword>\n\t\t\t<Keyword>Eritrea</Keyword>\n\t\t\t<Keyword>Estonia</Keyword>\n\t\t\t<Keyword>Ethiopia</Keyword>\n\t\t\t<Keyword>Europe</Keyword>\n\t\t\t<Keyword>Finland</Keyword>\n\t\t\t<Keyword>France</Keyword>\n\t\t\t<Keyword>Gabon</Keyword>\n\t\t\t<Keyword>Georgia</Keyword>\n\t\t\t<Keyword>Germany</Keyword>\n\t\t\t<Keyword>Ghana</Keyword>\n\t\t\t<Keyword>Gibraltar</Keyword>\n\t\t\t<Keyword>Global</Keyword>\n\t\t\t<Keyword>Greece</Keyword>\n\t\t\t<Keyword>Guatemala</Keyword>\n\t\t\t<Keyword>Haiti</Keyword>\n\t\t\t<Keyword>Honduras</Keyword>\n\t\t\t<Keyword>Hong
+  Kong</Keyword>\n\t\t\t<Keyword>Hungary</Keyword>\n\t\t\t<Keyword>Iceland</Keyword>\n\t\t\t<Keyword>India</Keyword>\n\t\t\t<Keyword>Indonesia</Keyword>\n\t\t\t<Keyword>Iran</Keyword>\n\t\t\t<Keyword>Iraq</Keyword>\n\t\t\t<Keyword>Ireland</Keyword>\n\t\t\t<Keyword>Israel</Keyword>\n\t\t\t<Keyword>Italy</Keyword>\n\t\t\t<Keyword>Jamaica</Keyword>\n\t\t\t<Keyword>Japan</Keyword>\n\t\t\t<Keyword>Jordan</Keyword>\n\t\t\t<Keyword>Kazakhstan</Keyword>\n\t\t\t<Keyword>Kenya</Keyword>\n\t\t\t<Keyword>Kuwait</Keyword>\n\t\t\t<Keyword>Kyrgyzstan</Keyword>\n\t\t\t<Keyword>Latvia</Keyword>\n\t\t\t<Keyword>Lebanon</Keyword>\n\t\t\t<Keyword>Libya</Keyword>\n\t\t\t<Keyword>Lithuania</Keyword>\n\t\t\t<Keyword>Luxembourg</Keyword>\n\t\t\t<Keyword>Malaysia</Keyword>\n\t\t\t<Keyword>Malta</Keyword>\n\t\t\t<Keyword>Mexico</Keyword>\n\t\t\t<Keyword>Middle
+  East</Keyword>\n\t\t\t<Keyword>Mid-Latitude</Keyword>\n\t\t\t<Keyword>Moldova</Keyword>\n\t\t\t<Keyword>Mongolia</Keyword>\n\t\t\t<Keyword>Morocco</Keyword>\n\t\t\t<Keyword>Mozambique</Keyword>\n\t\t\t<Keyword>Myanmar</Keyword>\n\t\t\t<Keyword>Namibia</Keyword>\n\t\t\t<Keyword>Nepal</Keyword>\n\t\t\t<Keyword>Netherlands
+  Antilles</Keyword>\n\t\t\t<Keyword>Netherlands</Keyword>\n\t\t\t<Keyword>New Zealand</Keyword>\n\t\t\t<Keyword>Nigeria</Keyword>\n\t\t\t<Keyword>North
+  Africa</Keyword>\n\t\t\t<Keyword>North America</Keyword>\n\t\t\t<Keyword>North Korea</Keyword>\n\t\t\t<Keyword>Norway</Keyword>\n\t\t\t<Keyword>Oman</Keyword>\n\t\t\t<Keyword>Pakistan</Keyword>\n\t\t\t<Keyword>Panama</Keyword>\n\t\t\t<Keyword>Paraguay</Keyword>\n\t\t\t<Keyword>Peru</Keyword>\n\t\t\t<Keyword>Philippines</Keyword>\n\t\t\t<Keyword>Poland</Keyword>\n\t\t\t<Keyword>Polar</Keyword>\n\t\t\t<Keyword>Portugal</Keyword>\n\t\t\t<Keyword>Qatar</Keyword>\n\t\t\t<Keyword>Republic
+  of the Congo</Keyword>\n\t\t\t<Keyword>Romania</Keyword>\n\t\t\t<Keyword>Russia</Keyword>\n\t\t\t<Keyword>Saudi
+  Arabia</Keyword>\n\t\t\t<Keyword>Senegal</Keyword>\n\t\t\t<Keyword>Serbia and Montenegro</Keyword>\n\t\t\t<Keyword>Singapore</Keyword>\n\t\t\t<Keyword>Slovakia</Keyword>\n\t\t\t<Keyword>Slovenia</Keyword>\n\t\t\t<Keyword>South
+  Africa</Keyword>\n\t\t\t<Keyword>South America</Keyword>\n\t\t\t<Keyword>South Asia</Keyword>\n\t\t\t<Keyword>South
+  Korea</Keyword>\n\t\t\t<Keyword>Southeast Asia</Keyword>\n\t\t\t<Keyword>Spain</Keyword>\n\t\t\t<Keyword>Sri
+  Lanka</Keyword>\n\t\t\t<Keyword>Sudan</Keyword>\n\t\t\t<Keyword>Sweden</Keyword>\n\t\t\t<Keyword>Switzerland</Keyword>\n\t\t\t<Keyword>Syria</Keyword>\n\t\t\t<Keyword>Tajikistan</Keyword>\n\t\t\t<Keyword>Tanzania</Keyword>\n\t\t\t<Keyword>Thailand</Keyword>\n\t\t\t<Keyword>Togo</Keyword>\n\t\t\t<Keyword>Trinidad
+  and Tobago</Keyword>\n\t\t\t<Keyword>Tunisia</Keyword>\n\t\t\t<Keyword>Turkey</Keyword>\n\t\t\t<Keyword>Turkmenistan</Keyword>\n\t\t\t<Keyword>Ukraine</Keyword>\n\t\t\t<Keyword>United
+  Arab Emirates</Keyword>\n\t\t\t<Keyword>United Kingdom</Keyword>\n\t\t\t<Keyword>United
+  States</Keyword>\n\t\t\t<Keyword>Uruguay</Keyword>\n\t\t\t<Keyword>Uzbekistan</Keyword>\n\t\t\t<Keyword>Venezuela</Keyword>\n\t\t\t<Keyword>Vietnam</Keyword>\n\t\t\t<Keyword>West
+  Africa</Keyword>\n\t\t\t<Keyword>Yemen</Keyword>\n\t\t\t<Keyword>Zambia</Keyword>\n\t\t\t<Keyword>Zimbabwe</Keyword>\n\t\t\t<Keyword>Zimbabwe</Keyword>\n\t\t\t</SpatialKeywords>\n\t\t\t<Temporal>\n\t\t\t\t<TimeType>Universal
+  Time</TimeType> \n\t\t\t\t<DateType>Eastern Daylight</DateType> \n\t\t\t\t<TemporalRangeType>Long
+  Range</TemporalRangeType> \n\t\t\t\t<PrecisionOfSeconds>1</PrecisionOfSeconds> \n\t\t\t\t<EndsAtPresentFlag>true</EndsAtPresentFlag>
+  \n\t\t\t\t<RangeDateTime>\n\t\t\t\t\t<BeginningDateTime>1850-01-01T00:00:00Z</BeginningDateTime>
+  \ \n\t\t\t\t\t<EndingDateTime>2005-12-31T00:00:00Z</EndingDateTime>  \n\t\t\t\t</RangeDateTime>\n\t\t\t</Temporal>\n\t\t\t<Contacts>\n\t\t\t\t<Contact>\n\t\t\t\t\t<Role>Archive</Role>
+  \n\t\t\t\t\t<HoursOfService>9:00 A.M. to 5:00 P.M., Monday to Friday</HoursOfService>
+  \n\t\t\t\t\t<OrganizationName>Socioeconomic Data and Applications Center (SEDAC)</OrganizationName>
+  \n\t\t\t\t\t<OrganizationAddresses>\n\t\t\t\t\t\t<Address>\n\t\t\t\t\t\t\t<StreetAddress>CIESIN,
+  Columbia University, 61 Route 9W, P.O. Box 1000</StreetAddress> \n\t\t\t\t\t\t\t<City>Palisades</City>
+  \n\t\t\t\t\t\t\t<StateProvince>NY</StateProvince> \n\t\t\t\t\t\t\t<PostalCode>10964</PostalCode>
+  \n\t\t\t\t\t\t\t<Country>USA</Country> \n\t\t\t\t\t\t</Address>\n\t\t\t\t\t</OrganizationAddresses>\n\t\t\t\t\t<OrganizationPhones>\n\t\t\t\t\t\t<Phone>\n\t\t\t\t\t\t\t<Number>+1
+  845-365-8920</Number> \n\t\t\t\t\t\t\t<Type>Telephone</Type> \n\t\t\t\t\t\t</Phone>\n\t\t\t\t\t\t<Phone>\n\t\t\t\t\t\t\t<Number>+1
+  845-365-8922</Number> \n\t\t\t\t\t\t\t<Type>Fax</Type> \n\t\t\t\t\t\t</Phone>\n\t\t\t\t\t</OrganizationPhones>\n\t\t\t\t\t<OrganizationEmails>\n\t\t\t\t\t\t<Email>ciesin.info@ciesin.columbia.edu</Email>
+  \n\t\t\t\t\t</OrganizationEmails>\n\t\t\t\t\t<ContactPersons>\n\t\t\t\t\t\t<ContactPerson>\n\t\t\t\t\t\t\t<FirstName>SEDAC</FirstName>
+  \n\t\t\t\t\t\t\t<MiddleName>User</MiddleName> \n\t\t\t\t\t\t\t<LastName>Services</LastName>
+  \n\t\t\t\t\t\t\t</ContactPerson>\n\t\t\t\t\t</ContactPersons>\n\t\t\t\t</Contact>\n\t\t\t</Contacts>\n\t\t\t<ScienceKeywords>\n\t\t\t\t<ScienceKeyword>\n\t\t\t\t<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n\t\t\t\t<TopicKeyword>ATMOSPHERE</TopicKeyword>\n\t\t\t\t<TermKeyword>AIR
+  QUALITY</TermKeyword>\n\t\t\t\t<VariableLevel1Keyword><Value>EMISSIONS</Value></VariableLevel1Keyword>\n\t\t\t\t</ScienceKeyword>\n\t\t\t\t<ScienceKeyword>\n\t\t\t\t<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n\t\t\t\t<TopicKeyword>ATMOSPHERE</TopicKeyword>\n\t\t\t\t<TermKeyword>ATMOSPHERIC
+  CHEMISTRY</TermKeyword>\n\t\t\t\t<VariableLevel1Keyword><Value>SULFUR COMPOUNDS</Value>\n\t\t\t\t<VariableLevel2Keyword><Value>SULFUR
+  DIOXIDES FUNCTIONS</Value></VariableLevel2Keyword></VariableLevel1Keyword>\n\t\t\t\t</ScienceKeyword>\n\t\t\t\t<ScienceKeyword>\n\t\t\t\t<CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n\t\t\t\t<TopicKeyword>ATMOSPHERE</TopicKeyword>\n\t\t\t\t<TermKeyword>ATMOSPHERIC
+  CHEMISTRY</TermKeyword>\n\t\t\t\t<VariableLevel1Keyword><Value>SULFUR COMPOUNDS</Value>\n\t\t\t\t<VariableLevel2Keyword><Value>SULFUR
+  OXIDES FUNCTIONS</Value></VariableLevel2Keyword></VariableLevel1Keyword>\n\t\t\t\t</ScienceKeyword>\n\t\t\t</ScienceKeywords>\n\t\t\t<Campaigns>\n\t\t\t\t<Campaign>\n\t\t\t\t\t<ShortName>HASO2</ShortName>
+  \n\t\t\t\t\t<LongName>Historical Anthropogenic Sulfur Dioxide Emissions</LongName>
+  \n\t\t\t\t</Campaign>\n\t\t\t</Campaigns>\n\t\t\t<SpatialInfo>\n\t\t\t\t<SpatialCoverageType>Horizontal</SpatialCoverageType>
+  \n\t\t\t</SpatialInfo>\n\t\t\t<OnlineAccessURLs>\n\t\t\t\t<OnlineAccessURL>\n\t\t\t\t\t<URL>http://sedac.ciesin.columbia.edu/data/set/haso2-anthro-sulfur-dioxide-emissions-1850-2005-v2-86/data-download</URL>
+  \n\t\t\t\t\t<URLDescription>data download page</URLDescription>\n\t\t\t\t</OnlineAccessURL>\n\t\t\t\t<OnlineAccessURL>\n\t\t\t\t\t<URL>http://sedac.ciesin.columbia.edu/data/set/haso2-anthro-sulfur-dioxide-emissions-1850-2005-v2-86/maps</URL>
+  \n\t\t\t\t\t<URLDescription>maps download page</URLDescription>\n\t\t\t\t</OnlineAccessURL>\n\t\t\t</OnlineAccessURLs>\n\t\t\t<OnlineResources>\n\t\t\t\t<OnlineResource>\n\t\t\t\t\t<URL>http://dx.doi.org/10.7927/H49884X9</URL>
+  \n\t\t\t\t\t<Description>data set DOI and homepage</Description>  \n\t\t\t\t\t<Type>DOI
+  URL</Type> \n\t\t\t\t</OnlineResource>\n\t\t\t</OnlineResources>\n\t\t\t<AssociatedDIFs>\n\t\t\t\t<DIF>\n\t\t\t\t\t<EntryId>CIESIN_SEDAC_SO2_1850-2005</EntryId>
+  \n\t\t\t\t</DIF>\n\t\t\t</AssociatedDIFs>\n\t\t\t<Spatial>\n\t\t\t\t<SpatialCoverageType>Horizontal</SpatialCoverageType>
+  \n\t\t\t\t<HorizontalSpatialDomain>\n\t\t\t\t\t<Geometry>\n\t\t\t\t\t\t<CoordinateSystem>CARTESIAN</CoordinateSystem>\n\t\t\t\t\t\t<BoundingRectangle>\n\t\t\t\t\t\t\t<WestBoundingCoordinate>-180.000000</WestBoundingCoordinate>
+  \n\t\t\t\t\t\t\t<NorthBoundingCoordinate>90.000000</NorthBoundingCoordinate> \n\t\t\t\t\t\t\t<EastBoundingCoordinate>180.000000</EastBoundingCoordinate>
+  \n\t\t\t\t\t\t\t<SouthBoundingCoordinate>-90.000000</SouthBoundingCoordinate> \n\t\t\t\t\t\t</BoundingRectangle>\n\t\t\t\t\t</Geometry>\n\t\t\t\t</HorizontalSpatialDomain>\n\t\t\t\t<GranuleSpatialRepresentation>CARTESIAN</GranuleSpatialRepresentation>\n\t\t\t</Spatial>\n
+  \                       <AssociatedBrowseImageUrls>\n    <ProviderBrowseUrl>\n                 <URL>http://sedac.ciesin.columbia.edu/downloads/maps/haso2-anthro-sulfur-dioxide-emissions-1850-2005-v2-86/so2-global-2005.pdf</URL>\n
+  \   </ProviderBrowseUrl>\n                        </AssociatedBrowseImageUrls>\n\t\t</Collection>"

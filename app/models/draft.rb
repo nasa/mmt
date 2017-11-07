@@ -2,6 +2,8 @@
 class Draft < ActiveRecord::Base
   belongs_to :user
 
+  validates :provider_id, presence: true
+
   serialize :draft, JSON
 
   after_create :set_native_id
@@ -18,7 +20,8 @@ class Draft < ActiveRecord::Base
   end
 
   def set_native_id
-    self.native_id ||= "mmt_#{draft_type.underscore}_#{id}"
+    record_type = draft_type.underscore.split('_').first # we should remove 'draft' from the native_id
+    self.native_id ||= "mmt_#{record_type}_#{id}"
     save
   end
 end

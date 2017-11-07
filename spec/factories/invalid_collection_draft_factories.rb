@@ -135,7 +135,7 @@ FactoryGirl.define do
         'DataLanguage' => 'english',
         'MetadataLanguage' => 'english',
         'Platforms' => [{
-          'Type' => 'satellites',
+          'Type' => 'Aircraft',
           'ShortName' => 'test 1 P ShortName',
           'LongName' => 'test 1 P LongName'
         }],
@@ -225,6 +225,48 @@ FactoryGirl.define do
           'GranuleSpatialRepresentation' => 'cartesian'
         },
         'CollectionProgress' => 'inwork'
+      )
+    }
+  end
+
+  factory :collection_draft_invalid_picklists_instruments, class: CollectionDraft do
+    draft_type 'CollectionDraft'
+    native_id 'invalid_picklists_draft_id'
+    provider_id 'MMT_2'
+    draft {
+      all_required_fields.merge(
+        'Platforms' => [{
+          'Type'      => 'Aircraft',
+          'ShortName' => 'A340-600',
+          'LongName'  => 'Airbus A340-600',
+          'Instruments' => [{
+            'ShortName' => 'Short Name',
+            'LongName'  => 'Long Name'
+          }]
+        }]
+      )
+    }
+  end
+
+  factory :collection_draft_invalid_picklists_instrument_children, class: CollectionDraft do
+    draft_type 'CollectionDraft'
+    native_id 'invalid_picklists_draft_id'
+    provider_id 'MMT_2'
+    draft {
+      all_required_fields.merge(
+        'Platforms' => [{
+          'Type'      => 'Aircraft',
+          'ShortName' => 'A340-600',
+          'LongName'  => 'Airbus A340-600',
+          'Instruments' => [{
+            'ShortName' => 'ATM',
+            'LongName'  => 'Airborne Topographic Mapper',
+            'ComposedOf' => [{
+              'ShortName' => 'Short Name',
+              'LongName'  => 'Long Name'
+            }]
+          }]
+        }]
       )
     }
   end

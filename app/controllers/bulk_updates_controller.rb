@@ -1,5 +1,7 @@
 # :nodoc:
-class BulkUpdatesController < ManageMetadataController
+class BulkUpdatesController < ManageCollectionsController
+  include BulkUpdates
+  include ControlledKeywords
   before_filter :bulk_updates_enabled?
 
   add_breadcrumb 'Bulk Updates', :bulk_updates_path
@@ -33,16 +35,16 @@ class BulkUpdatesController < ManageMetadataController
   end
 
   def new
-    redirect_to new_bulk_updates_search_path if request.get?
-
     add_breadcrumb 'New', new_bulk_updates_path
 
-    @science_keywords = cmr_client.get_controlled_keywords('science_keywords')
+    set_science_keywords
+    set_location_keywords
+    set_data_centers
+    set_platform_types
+    set_instruments
   end
 
   def preview
-    redirect_to new_bulk_updates_search_path if request.get?
-
     add_breadcrumb 'Preview', bulk_update_preview_path
 
     @task = construct_task(params)
@@ -80,15 +82,18 @@ class BulkUpdatesController < ManageMetadataController
       'update-type'   => params['update_type']
     }
 
+    params['update_value'] = fix_location_category(params.fetch('update_value', {}))
+    params['find_value'] = fix_location_category(params.fetch('find_value', {}))
+
     # Requirements from the Bulk Updates Wiki
-    # If type FIND_AND_REMOVE or FIND_AND_REPLACE, Find value required
-    # If NOT type FIND_AND_REMOVE, New value required
-    if params['update_type'] == 'FIND_AND_REMOVE' || params['update_type'] == 'FIND_AND_REPLACE'
+    # IF type FIND_AND_REMOVE or FIND_AND_REPLACE or FIND_AND_UPDATE, Find value required
+    # IF NOT type FIND_AND_REMOVE, New value required
+    if params['update_type'] == 'FIND_AND_REMOVE' || params['update_type'] == 'FIND_AND_REPLACE' || params['update_type'] == 'FIND_AND_UPDATE'
       bulk_update_object['find-value'] = prune_science_keyword(params['find_value'])
     end
 
     unless params['update_type'] == 'FIND_AND_REMOVE'
-      bulk_update_object['update-value'] = prune_science_keyword(params['update_value'])
+      bulk_update_object['update-value'] = prune_science_keyword(params.fetch('update_value', {}).to_hash.to_camel_keys)
     end
 
     bulk_update_object
@@ -116,7 +121,22 @@ class BulkUpdatesController < ManageMetadataController
     BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.reverse.each do |level|
       keyword.delete(level) if keyword[level].blank?
     end
+    BulkUpdatesHelper::LOCATION_KEYWORDS_HIERARCHY.reverse.each do |level|
+      keyword.delete(level) if keyword[level].blank?
+    end
 
+    keyword
+  end
+
+  # Form validation doesn't work with two different fields named 'Category',
+  # so we named one of them 'LocationCategory'. This method renames
+  # 'LocationCategory' to 'Category' to match the schema. It also puts
+  # it at the front of the hash so everything looks pretty
+  def fix_location_category(keyword)
+    if keyword['LocationCategory']
+      category = keyword.delete('LocationCategory')
+      keyword = { 'Category': category }.merge(keyword)
+    end
     keyword
   end
 end

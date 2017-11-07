@@ -3,6 +3,12 @@ require 'test_cmr/load_data.rb'
 namespace :cmr do
   include Cmr
 
+  desc 'Save collection data from CMR'
+  task :save_data do
+    cmr = Cmr::Local.new
+    cmr.save_data
+  end
+
   desc 'Load collection metadata into locally running CMR'
   task load: [:reset] do
     cmr = Cmr::Local.new
@@ -112,7 +118,7 @@ namespace :cmr do
       begin
         umm_version_file = File.join(Rails.root.to_s, 'cmr_metadata_preview', '.umm-version')
 
-        full_umm_version = Rails.configuration.umm_version
+        full_umm_version = Rails.configuration.umm_c_version
         umm_version_number = /version=(\d+\.\d)$/.match(full_umm_version)[1]
 
         directory = File.dirname(umm_version_file)

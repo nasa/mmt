@@ -9,13 +9,13 @@
     color: $ocean-blue;
     margin: 0 0.5em;
     @include transition(all 0.15s ease-in-out);
-     
+
     &:hover {
       color: darken($ocean-blue, 15%);
     }
   }
 }
-     
+
 .metadata-form {
   fieldset.addresses-street-addresses {
     legend {
@@ -182,4 +182,8 @@
   padding: 1em;
   background: inherit;
   display: block;
+}
+
+.platform-type.default {
+  color: gray;
 }

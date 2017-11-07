@@ -9,19 +9,11 @@ describe 'Create new draft from collection' do
   context 'when editing a CMR collection' do
     before do
       login
-      ingest_response, @concept_response = publish_draft
-
-      # fill_in 'Quick Find', with: short_name
-      # click_on 'Find'
-
-      # expect(page).to have_content(short_name)
-      # page.document.synchronize do
-        # click_on short_name
-      # end
+      ingest_response, @concept_response = publish_collection_draft
 
       visit collection_path(ingest_response['concept-id'])
 
-      click_on 'Edit Record'
+      click_on 'Edit Collection Record'
 
       # expect(page).to have_content('Metadata Fields')
     end
@@ -60,9 +52,9 @@ describe 'Create new draft from collection' do
   #     click_on 'Publish'
   #     wait_for_cmr
 
-  #     expect(page).to have_link 'Edit Record'
+  #     expect(page).to have_link 'Edit Collection Record'
   #     page.document.synchronize do
-  #       click_on 'Edit Record'
+  #       click_on 'Edit Collection Record'
   #     end
 
   #     expect(page).to have_content('Metadata Fields')

@@ -35,38 +35,4 @@ describe 'Variable Drafts Forms Help Icons', reset_provider: true, js: true do
       end
     end
   end
-
-  context 'when viewing a form with a top level help icon' do
-    before do
-      visit edit_variable_draft_path(@draft, 'service')
-    end
-
-    context 'when clicking on the top level help icon' do
-      before do
-        click_on 'Help modal for Service'
-      end
-
-      it 'displays the fieldset name in a modal' do
-        expect(page).to have_content('Service')
-      end
-
-      it 'displays the description in a modal' do
-        expect(page).to have_content('The service information of a variable.')
-      end
-    end
-
-    context 'when clicking on a lower level help icon' do
-      before do
-        click_on 'Help modal for Service Type'
-      end
-
-      it 'displays the field name in a modal' do
-        expect(page).to have_content('Service Type')
-      end
-
-      it 'displays the description in a modal' do
-        expect(page).to have_content("This element enables specification of service type. The variable may not yet be available via a service. If so, which protocol standard? For example, 'WMS', 'WCS' etc.")
-      end
-    end
-  end
 end

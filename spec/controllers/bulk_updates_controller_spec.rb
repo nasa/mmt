@@ -25,10 +25,10 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         get :index
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(manage_collections_path)
       end
     end
   end
@@ -53,42 +53,14 @@ describe BulkUpdatesController, reset_provider: true do
     context 'When bulk updates are disabled' do
       before do
         sign_in
-        
+
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         get :show, id: 1
 
-        expect(response).to redirect_to(manage_metadata_path)
-      end
-    end
-  end
-
-  describe 'GET #new' do
-    context 'when bulk updates are enabled' do
-      before do
-        sign_in
-
-        get :new, search_field: 'short_name', search_query: 'dunno'
-      end
-
-      it 'redirects the user to the bulk updates search page' do
-        expect(response).to redirect_to(new_bulk_updates_search_path)
-      end
-    end
-
-    context 'when bulk updates are disabled' do
-      before do
-        allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
-      end
-
-      it 'redirects the user to the manage metadata page' do
-        sign_in
-
-        get :new
-
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(manage_collections_path)
       end
     end
   end
@@ -111,40 +83,12 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         sign_in
 
         post :new
 
-        expect(response).to redirect_to(manage_metadata_path)
-      end
-    end
-  end
-
-  describe 'GET #preview' do
-    context 'when bulk updates are enabled' do
-      before do
-        sign_in
-
-        get :preview, concept_ids: ['1', '2'], 'update_field': 'science_keywords'
-      end
-
-      it 'redirects the user to the bulk updates search page' do
-        expect(response).to redirect_to(new_bulk_updates_search_path)
-      end
-    end
-
-    context 'when bulk updates are disabled' do
-      before do
-        allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
-      end
-
-      it 'redirects the user to the manage metadata page' do
-        sign_in
-
-        get :preview
-
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(manage_collections_path)
       end
     end
   end
@@ -167,12 +111,12 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         sign_in
 
         post :preview, 'update_field': 'science_keywords'
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(manage_collections_path)
       end
     end
   end
@@ -254,12 +198,12 @@ describe BulkUpdatesController, reset_provider: true do
         allow(Mmt::Application.config).to receive(:bulk_updates_enabled).and_return(false)
       end
 
-      it 'redirects the user to the manage metadata page' do
+      it 'redirects the user to the manage collections page' do
         sign_in
 
         post :create
 
-        expect(response).to redirect_to(manage_metadata_path)
+        expect(response).to redirect_to(manage_collections_path)
       end
     end
   end

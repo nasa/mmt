@@ -63,7 +63,7 @@ $(document).ready ->
     $(newDiv).find('.validation-error').remove()
 
     $(newDiv).find('select, input, textarea').removeAttr 'disabled'
-    $(newDiv).find('select, input, textarea').removeAttr 'readonly'
+    $(newDiv).find('select, input, textarea').not('.readonly').removeAttr 'readonly'
     $(newDiv).find('select, input, textarea').not('input[type="hidden"]')[0].focus()
     $(newDiv).find('.data-contact-type').hide()
 
@@ -103,6 +103,9 @@ $(document).ready ->
 
     # Loop through newDiv and increment the correct index
     $.each $(newDiv).find("select, input, textarea, label, div[id*='_#{type}_#{multipleIndex}']"), (index, field) ->
+      # Remove the aria-describedby attribute for brand new fields
+      $(field).attr('aria-describedby', '')
+
       if $(field).is('input, textarea, select')
         name = $(field).attr('name')
         if name != undefined
@@ -113,7 +116,7 @@ $(document).ready ->
         id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
         $(field).attr 'id', id
 
-        if $(this).parents('.metadata-form').length > 0
+        if $('.metadata-form').length > 0
           dataLevel = $(field).attr('data-level')
           dataLevel = dataLevel.slice(0, idIndex) + dataLevel.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
           # TODO for some reason, incrementing on the page does not happen without the .attr call,
@@ -312,3 +315,9 @@ $(document).ready ->
   # Handle Data Contacts form on load
   # disable hidden form elements so blank values don't interevere with data being saved/resaved
   $('.data-contact-type[style$="display: none;"]').find('input, select').prop 'disabled', true
+
+  # Don't allow pressing enter to submit the forms, unless you are pressing enter on a submit button
+  $('.metadata-form, .umm-form').on 'keypress', ':input:not(textarea):not([type=submit])', (event) ->
+    if event.keyCode == 13
+      event.preventDefault()
+      false

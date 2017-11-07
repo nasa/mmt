@@ -29,13 +29,13 @@ class CollectionDraft < Draft
     end
 
     def create_from_collection(collection, user, native_id)
-      new_entry_title = (collection['EntryTitle'] && collection['EntryTitle'].empty?) ? nil : collection['EntryTitle']
+      new_entry_title = (collection['EntryTitle'].blank?) ? nil : collection['EntryTitle']
 
       if native_id
         # Edited record
         draft = CollectionDraft.find_or_create_by(native_id: native_id)
         draft.entry_title = new_entry_title
-        draft.short_name = (collection['ShortName'] && collection['ShortName'].empty?) ? nil : collection['ShortName']
+        draft.short_name = (collection['ShortName'].blank?) ? nil : collection['ShortName']
       else
         # Cloned record
         draft = CollectionDraft.create
@@ -49,7 +49,6 @@ class CollectionDraft < Draft
       draft.provider_id = user.provider_id # TODO is this problematic for collections editing permissions?
       draft.draft = collection
       draft.save
-      Rails.logger.info("Draft created by #{user.urs_uid} for collection #{draft.entry_title} for provider #{user.provider_id}")
       draft
     end
   end
@@ -93,7 +92,7 @@ class CollectionDraft < Draft
 
   def add_metadata_dates(date: Time.now.utc, save_record: true)
     # Format the provided date
-    current_datetime = date.strftime('%Y-%m-%dT%H:%M:00.000Z')
+    current_datetime = date.to_s(:metadata_dates_format)
 
     # Get the current dates from the metadata dates hash
     dates = draft['MetadataDates'] || []

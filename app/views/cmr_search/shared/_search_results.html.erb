@@ -1,0 +1,58 @@
+<% if params[:search_criteria] %>
+  <%= form_tag(submit_path, method: :post, id: 'collections-select') do %>
+    <fieldset>
+      <% if collections.any? %>
+        <p><%= page_entries_info collections, entry_name: 'Collections' %></p>
+      <% end %>
+
+      <table id="collection-search-results">
+        <thead>
+          <tr>
+            <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="selected_collections[]" /></th>
+            <th>Collection</th>
+            <th>Short Name</th>
+            <th>Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if collections.any? %>
+            <% collections.each do |collection| %>
+              <tr class="<%= !defined?(ignored_concept_ids).nil? && ignored_concept_ids.include?(collection.fetch('meta', {})['concept-id']) ? "disabled" : "" %>">
+                <td class="align-c">
+                  <% unless !defined?(ignored_concept_ids).nil? && ignored_concept_ids.include?(collection.fetch('meta', {})['concept-id']) %>
+                    <%= check_box_tag('selected_collections[]', collection.fetch('meta', {})['concept-id'], false, class: 'selected_collections') %>
+                  <% end %>
+                </td>
+                <td><%= link_to collection.fetch('umm', {})['entry-title'], collection_path(collection.fetch('meta', {})['concept-id']), class: 'ext', target: '_blank' %></td>
+                <td><%= collection.fetch('umm', {})['short-name'] %></td>
+                <td><%= collection.fetch('umm', {})['version-id'] %></td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="4">No collections found.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <% if all_collections_selected?(collections, (ignored_concept_ids rescue [])) %>
+        <%= hidden_field_tag('selected_collections[]') %>
+      <% end %>
+    </fieldset>
+
+    <% if collections.any? %>
+      <!-- Search form fields to provide to the next step -->
+
+      <%= hidden_field_tag :search_field, params[:field] %>
+      <%= hidden_field_tag :search_query, params[:query] %>
+
+      <fieldset>
+        <div class="row">
+          <%= submit_tag submit_text, class: 'eui-btn--blue' %>
+        </div>
+      </fieldset>
+    <% end %>
+
+  <% end %>
+<% end %>

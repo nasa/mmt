@@ -1,8 +1,6 @@
 require 'rails_helper'
-include DraftsHelper
-include ActionView::Helpers::NumberHelper
 
-describe 'Publishing variable draft records', js: true do
+describe 'Publishing variable draft records' do
   context 'when publishing a variable draft record' do
     before do
       login
@@ -12,13 +10,11 @@ describe 'Publishing variable draft records', js: true do
     end
 
     it 'displays a confirmation message' do
-      expect(page).to have_content('Your Variable was successfully published. This page is coming later.')
-      # TODO MMT-1036
-      # expect(page).to have_content('Variable Draft Published Successfully!')
+      expect(page).to have_content('Variable Draft Published Successfully!')
     end
   end
 
-  context 'when publishing an incomplete record' do
+  context 'when publishing an incomplete record', js: true do
     before do
       login
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)

@@ -28,7 +28,7 @@ describe 'Auto populating metadata dates', js: true do
 
     context 'when publishing an update to the collection' do
       before do
-        click_on 'Edit Record'
+        click_on 'Edit Collection Record'
         within '.metadata' do
           click_on 'Metadata Information'
         end

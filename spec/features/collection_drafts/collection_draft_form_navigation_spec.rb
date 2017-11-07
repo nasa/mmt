@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-SUMMARY_PAGE_STRING = 'Quality Score:'
+include DraftsHelper
 
 describe 'Collection Draft form navigation', js: true do
   before do
     login
-    collection_draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
-    visit collection_draft_path(collection_draft)
+    @collection_draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
+    visit collection_draft_path(@collection_draft)
   end
 
   context 'when viewing the Summary page' do
@@ -20,7 +20,7 @@ describe 'Collection Draft form navigation', js: true do
 
   context 'when drilling down from the summary page' do
     CollectionDraft.forms.each do |form|
-      form_title = form.titleize
+      form_title = titleize_form_name(form)
       context "when clicking on #{form_title}" do
         before do
           within '.metadata' do
@@ -32,14 +32,13 @@ describe 'Collection Draft form navigation', js: true do
           within '.eui-breadcrumbs' do
             expect(page).to have_content(form_title)
           end
-          expect(page).to have_no_content(SUMMARY_PAGE_STRING)
         end
       end
     end
   end
 
   CollectionDraft.forms.each do |form|
-    next_form = CollectionDraft.get_next_form(form, 'Next').titleize
+    next_form = titleize_form_name(CollectionDraft.get_next_form(form, 'Next'))
 
     context "when choosing #{next_form} from the form selection drop down" do
       before do
@@ -56,14 +55,13 @@ describe 'Collection Draft form navigation', js: true do
       # Note - randomization causes test result order to not agree with DRAFT_FORMS order.
       it "displays the #{next_form} form" do
         expect(page).to have_content(next_form)
-        expect(page).to_not have_content(SUMMARY_PAGE_STRING)
       end
     end
   end
 
   CollectionDraft.forms.size.times do |index|
-    current_form = CollectionDraft.forms[index].titleize
-    next_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
+    current_form = titleize_form_name(CollectionDraft.forms[index])
+    next_form = titleize_form_name(CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Next'))
 
     context 'when pressing the Next button' do
       before do
@@ -73,7 +71,7 @@ describe 'Collection Draft form navigation', js: true do
           click_on 'Next'
         end
 
-        next_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Next').titleize
+        next_form = titleize_form_name(CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Next'))
         current_form = next_form
       end
 
@@ -85,14 +83,13 @@ describe 'Collection Draft form navigation', js: true do
         within '.eui-breadcrumbs' do
           expect(page).to have_content(next_form)
         end
-        expect(page).to_not have_content(SUMMARY_PAGE_STRING)
       end
     end
   end
 
   CollectionDraft.forms.size.times do |index|
-    current_form = CollectionDraft.forms[index].titleize
-    previous_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
+    current_form = titleize_form_name(CollectionDraft.forms[index])
+    previous_form = titleize_form_name(CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Previous'))
 
     context 'when pressing the Previous button' do
       before do
@@ -102,7 +99,7 @@ describe 'Collection Draft form navigation', js: true do
           click_on 'Previous'
         end
 
-        previous_form = CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Previous').titleize
+        previous_form = titleize_form_name(CollectionDraft.get_next_form(current_form.parameterize.underscore, 'Previous'))
         current_form = previous_form
       end
 
@@ -114,7 +111,6 @@ describe 'Collection Draft form navigation', js: true do
         within '.eui-breadcrumbs' do
           expect(page).to have_content(previous_form)
         end
-        expect(page).to_not have_content(SUMMARY_PAGE_STRING)
       end
     end
   end
@@ -134,22 +130,17 @@ describe 'Collection Draft form navigation', js: true do
       it 'displays a confirmation message' do
         expect(page).to have_content('Collection Draft Updated Successfully!')
       end
-
-      it 'returns you to the Summary page with edits saved' do
-        expect(page).to have_content(SUMMARY_PAGE_STRING)
-      end
     end
 
     context 'Clicking Cancel' do
       before do
         within '.nav-top' do
-          # click_on 'Cancel' doesn't work
-          find('.cancel').trigger('click')
+          click_link 'Cancel'
         end
       end
 
-      it 'returns you to the Summary page with edits discarded' do
-        expect(page).to have_content(SUMMARY_PAGE_STRING)
+      it 'remains on the edit page' do
+        expect(current_path).to eq(collection_draft_path(@collection_draft))
       end
     end
 
@@ -169,7 +160,6 @@ describe 'Collection Draft form navigation', js: true do
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Collection Information')
         end
-        expect(page).to have_no_content(SUMMARY_PAGE_STRING)
       end
 
       it 'displays save confirmation message' do

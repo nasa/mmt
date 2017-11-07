@@ -88,4 +88,6 @@ Rails.application.configure do
   config.echo_env = 'ops'
   config.analytics_id = 'UA-62340125-5'
   config.urs_register_url = 'https://urs.earthdata.nasa.gov/users/new'
+
+  config.colorize_logging = false
 end

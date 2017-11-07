@@ -7,14 +7,6 @@ describe 'Invalid picklists', js: true do
     visit collection_draft_path(draft)
   end
 
-  context 'when viewing the draft collection details' do
-    it 'does not display the Collection Progress' do
-      within '.collection-details' do
-        expect(page).not_to have_content 'Collection Progress:'
-      end
-    end
-  end
-
   context 'when viewing the progress circles' do
     it 'displays an invalid icon for Metadata Language' do
       within '.metadata #metadata-information' do
@@ -46,9 +38,9 @@ describe 'Invalid picklists', js: true do
       end
     end
 
-    it 'displays an invalid icon for Related Urls' do
+    it 'displays an invalid icon for Related URLs' do
       within '.metadata #related-urls' do
-        expect(page).to have_link('Related Urls - Invalid')
+        expect(page).to have_link('Related URLs - Invalid')
       end
     end
 
@@ -250,7 +242,8 @@ describe 'Invalid picklists', js: true do
 
         expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
         expect(page).to have_content('Country value [usa] does not match a valid selection option')
-        expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')      end
+        expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+      end
     end
 
     it 'displays an inline error' do
@@ -375,7 +368,7 @@ describe 'Invalid picklists', js: true do
   context 'when viewing the Related URLs form' do
     before do
       within '.metadata' do
-        click_on 'Related URLs'
+        click_on 'Related URLs', match: :first
       end
 
       open_accordions
@@ -416,7 +409,7 @@ describe 'Invalid picklists', js: true do
     end
   end
 
-  context 'when viewing the Platform Type field' do
+  context 'when viewing the Platform Short Name field' do
     before do
       within '.metadata' do
         click_on 'Acquisition Information'
@@ -427,19 +420,81 @@ describe 'Invalid picklists', js: true do
 
     it 'displays a summary error' do
       within '.summary-errors' do
-        expect(page).to have_content('Type value [satellites] does not match a valid selection option')
+        expect(page).to have_content('Short Name value [test 1 P ShortName] does not match a valid selection option')
       end
     end
 
     it 'displays an inline error' do
       within '.platforms' do
-        expect(page).to have_content('Type value [satellites] does not match a valid selection option')
+        expect(page).to have_content('Short Name value [test 1 P ShortName] does not match a valid selection option')
       end
     end
 
     it 'displays an unselectable invalid option' do
-      within '.type-select' do
-        expect(page).to have_css('option[disabled][selected]', text: 'satellites')
+      within '.platform-short-name-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'test 1 P ShortName')
+      end
+    end
+  end
+
+  context 'when viewing the Instrument Short Name field' do
+    before do
+      instrument_draft = create(:collection_draft_invalid_picklists_instruments, user: User.where(urs_uid: 'testuser').first)
+      visit collection_draft_path(instrument_draft)
+
+      within '.metadata' do
+        click_on 'Acquisition Information'
+      end
+
+      open_accordions
+    end
+
+    it 'displays a summary error' do
+      within '.summary-errors' do
+        expect(page).to have_content('Short Name value [Short Name] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an inline error' do
+      within '.instruments' do
+        expect(page).to have_content('Short Name value [Short Name] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an unselectable invalid option' do
+      within all('.instrument-short-name-select').first do
+        expect(page).to have_css('option[disabled][selected]', text: 'Short Name')
+      end
+    end
+  end
+
+  context 'when viewing the Instrument Child Short Name field' do
+    before do
+      instrument_draft = create(:collection_draft_invalid_picklists_instrument_children, user: User.where(urs_uid: 'testuser').first)
+      visit collection_draft_path(instrument_draft)
+
+      within '.metadata' do
+        click_on 'Acquisition Information'
+      end
+
+      open_accordions
+    end
+
+    it 'displays a summary error' do
+      within '.summary-errors' do
+        expect(page).to have_content('Short Name value [Short Name] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an inline error' do
+      within '.instruments' do
+        expect(page).to have_content('Short Name value [Short Name] does not match a valid selection option')
+      end
+    end
+
+    it 'displays an unselectable invalid option' do
+      within all('.instrument-children .instrument-short-name-select').first do
+        expect(page).to have_css('option[disabled][selected]', text: 'Short Name')
       end
     end
   end

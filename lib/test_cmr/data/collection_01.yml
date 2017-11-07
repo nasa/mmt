@@ -1,0 +1,184 @@
+---
+collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C179001887-SEDAC/6.dif10
+ingest_count: 1
+type: dif10
+test_case: 
+granule: 
+metadata: "<DIF xmlns=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/\" xmlns:dif=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/\"
+  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/
+  http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/dif_v10.2.xsd\"><Entry_ID><Short_Name>CIESIN_SEDAC_ESI_2000</Short_Name><Version>2000.00</Version></Entry_ID><Entry_Title>2000
+  Pilot Environmental Sustainability Index (ESI)</Entry_Title><Dataset_Citation><Other_Citation_Details>World
+  Economic Forum - WEF - Global Leaders for Tomorrow Environment Task \n\nForce, Yale
+  Center for Environmental Law and Policy - YCELP - Yale University, and Center for
+  International Earth Science Information \n\nNetwork - CIESIN - Columbia University\n2000.
+  2000 Pilot Environmental Sustainability Index (ESI). Palisades, NY:NASA Socioeconomic
+  Data and Applications Center (SEDAC). \n\nhttp://dx.doi.org/10.7927/H4NK3BZJ</Other_Citation_Details></Dataset_Citation><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>AIR QUALITY</Term><Variable_Level_1>EMISSIONS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>AIR QUALITY</Term><Variable_Level_1>NITROGEN
+  OXIDES</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>AIR
+  QUALITY</Term><Variable_Level_1>PARTICULATES</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>AIR QUALITY</Term><Variable_Level_1>SULFUR
+  OXIDES</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>AIR
+  QUALITY</Term><Variable_Level_1>VOLATILE ORGANIC COMPOUNDS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>ATMOSPHERIC CHEMISTRY</Term><Variable_Level_1>CARBON
+  AND HYDROCARBON COMPOUNDS</Variable_Level_1><Variable_Level_2>CARBON DIOXIDE</Variable_Level_2></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>ATMOSPHERIC CHEMISTRY</Term><Variable_Level_1>CARBON
+  AND HYDROCARBON COMPOUNDS</Variable_Level_1><Variable_Level_2>NON-METHANE HYDROCARBONS/VOLATILE
+  ORGANIC COMPOUNDS</Variable_Level_2></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>ATMOSPHERIC CHEMISTRY</Term><Variable_Level_1>HALOCARBONS
+  AND HALOGENS</Variable_Level_1><Variable_Level_2>CHLOROFLUOROCARBONS</Variable_Level_2></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>ATMOSPHERIC CHEMISTRY</Term><Variable_Level_1>NITROGEN
+  COMPOUNDS</Variable_Level_1><Variable_Level_2>NITROGEN DIOXIDE</Variable_Level_2></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>ATMOSPHERIC CHEMISTRY</Term><Variable_Level_1>NITROGEN
+  COMPOUNDS</Variable_Level_1><Variable_Level_2>NITROGEN OXIDES</Variable_Level_2></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>ATMOSPHERIC CHEMISTRY</Term><Variable_Level_1>NITROGEN
+  COMPOUNDS</Variable_Level_1><Variable_Level_2>NITROUS OXIDE</Variable_Level_2></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>ATMOSPHERIC CHEMISTRY</Term><Variable_Level_1>OXYGEN
+  COMPOUNDS</Variable_Level_1><Variable_Level_2>MOLECULAR OXYGEN</Variable_Level_2></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>ATMOSPHERIC CHEMISTRY</Term><Variable_Level_1>SULFUR
+  COMPOUNDS</Variable_Level_1><Variable_Level_2>SULFUR DIOXIDE</Variable_Level_2></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>ATMOSPHERE</Topic><Term>ATMOSPHERIC CHEMISTRY</Term><Variable_Level_1>SULFUR
+  COMPOUNDS</Variable_Level_1><Variable_Level_2>SULFUR OXIDES</Variable_Level_2></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>BIOLOGICAL CLASSIFICATION</Topic><Term>ANIMALS/VERTEBRATES</Term><Variable_Level_1>BIRDS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>BIOLOGICAL CLASSIFICATION</Topic><Term>ANIMALS/VERTEBRATES</Term><Variable_Level_1>MAMMALS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>BIOSPHERE</Topic><Term>ECOLOGICAL DYNAMICS</Term><Variable_Level_1>SPECIES/POPULATION
+  INTERACTIONS</Variable_Level_1><Variable_Level_2>ENDANGERED SPECIES</Variable_Level_2></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>BIOSPHERE</Topic><Term>VEGETATION</Term><Variable_Level_1>VEGETATION
+  SPECIES</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH SCIENCE</Category><Topic>HUMAN
+  DIMENSIONS</Topic><Term>HABITAT CONVERSION/FRAGMENTATION</Term><Variable_Level_1>Deforestation</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>ENVIRONMENTAL IMPACTS</Term><Variable_Level_1>CONSERVATION</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>ENVIRONMENTAL IMPACTS</Term><Variable_Level_1>INDUSTRIAL
+  EMISSIONS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>ENVIRONMENTAL IMPACTS</Term><Variable_Level_1>INDUSTRIALIZATION</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>ENVIRONMENTAL IMPACTS</Term><Variable_Level_1>URBANIZATION</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>HUMAN HEALTH</Term><Variable_Level_1>ANATOMICAL
+  PARAMETERS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>HUMAN HEALTH</Term><Variable_Level_1>DISEASES/EPIDEMICS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>TERRESTRIAL HYDROSPHERE</Topic><Term>GROUND WATER</Term><Variable_Level_1>GROUNDWATER
+  CHEMISTRY</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>TERRESTRIAL HYDROSPHERE</Topic><Term>WATER QUALITY/WATER
+  CHEMISTRY</Term><Variable_Level_1>CONTAMINANTS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>TERRESTRIAL HYDROSPHERE</Topic><Term>WATER QUALITY/WATER
+  CHEMISTRY</Term><Variable_Level_1>DISSOLVED GASES</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>TERRESTRIAL HYDROSPHERE</Topic><Term>WATER QUALITY/WATER
+  CHEMISTRY</Term><Variable_Level_1>DISSOLVED SOLIDS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>TERRESTRIAL HYDROSPHERE</Topic><Term>WATER QUALITY/WATER
+  CHEMISTRY</Term><Variable_Level_1>PHOSPHORUS COMPOUNDS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>TERRESTRIAL HYDROSPHERE</Topic><Term>WATER QUALITY/WATER
+  CHEMISTRY</Term><Variable_Level_1>SUSPENDED SOLIDS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>TERRESTRIAL HYDROSPHERE</Topic><Term>WATER QUALITY/WATER
+  CHEMISTRY</Term><Variable_Level_1>TOXIC CHEMICALS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>LAND SURFACE</Topic><Term>EROSION/SEDIMENTATION</Term><Variable_Level_1>DEGRADATION</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>LAND SURFACE</Topic><Term>EROSION/SEDIMENTATION</Term><Variable_Level_1>EROSION</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>LAND SURFACE</Topic><Term>LAND USE/LAND COVER</Term><Variable_Level_1>LAND
+  RESOURCES</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>LAND SURFACE</Topic><Term>SOILS</Term><Variable_Level_1>SOIL
+  STRUCTURE</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>SOLID EARTH</Topic><Term>NATURAL RESOURCES</Term><Variable_Level_1>COAL</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>SUSTAINABILITY</Term><Variable_Level_1>ENVIRONMENTAL
+  SUSTAINABILITY</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>ENVIRONMENTAL GOVERNANCE/MANAGEMENT</Term><Variable_Level_1>WATER
+  MANAGEMENT</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
+  SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>HABITAT CONVERSION/FRAGMENTATION</Term><Variable_Level_1>URBANIZATION/URBAN
+  SPRAWL</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH SCIENCE</Category><Topic>HUMAN
+  DIMENSIONS</Topic><Term>PUBLIC HEALTH</Term><Variable_Level_1>ENVIRONMENTAL HEALTH
+  FACTORS</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH SCIENCE</Category><Topic>HUMAN
+  DIMENSIONS</Topic><Term>SOCIOECONOMICS</Term><Variable_Level_1>INDUSTRIALIZATION</Variable_Level_1></Science_Keywords><Platform><Type>Not
+  provided</Type><Short_Name>Not provided</Short_Name><Instrument><Short_Name>Not
+  provided</Short_Name></Instrument></Platform><Temporal_Coverage><Temporal_Range_Type>Long
+  Range</Temporal_Range_Type><Precision_Of_Seconds>1</Precision_Of_Seconds><Ends_At_Present_Flag>true</Ends_At_Present_Flag><Range_DateTime><Beginning_Date_Time>1978-01-01T00:00:00.000Z</Beginning_Date_Time><Ending_Date_Time>1999-12-31T00:00:00.000Z</Ending_Date_Time></Range_DateTime></Temporal_Coverage><Spatial_Coverage><Spatial_Coverage_Type>Horizontal</Spatial_Coverage_Type><Granule_Spatial_Representation>CARTESIAN</Granule_Spatial_Representation><Geometry><Coordinate_System>CARTESIAN</Coordinate_System><Bounding_Rectangle><Southernmost_Latitude>-55.0</Southernmost_Latitude><Northernmost_Latitude>90.0</Northernmost_Latitude><Westernmost_Longitude>-180.0</Westernmost_Longitude><Easternmost_Longitude>180.0</Easternmost_Longitude></Bounding_Rectangle></Geometry><Spatial_Info><Spatial_Coverage_Type>Not
+  provided</Spatial_Coverage_Type></Spatial_Info></Spatial_Coverage><Location><Location_Category>CONTINENT</Location_Category><Location_Type>AFRICA</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>AUSTRALIA/NEW
+  ZEALAND</Location_Type><Location_Subregion1>AUSTRALIA</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>NORTH
+  AMERICA</Location_Type><Location_Subregion1>CENTRAL AMERICA</Location_Subregion1></Location><Location><Location_Category>GEOGRAPHIC
+  REGION</Location_Category><Location_Type>EQUATORIAL</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type></Location><Location><Location_Category>GEOGRAPHIC
+  REGION</Location_Category><Location_Type>GLOBAL</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>WESTERN
+  ASIA</Location_Subregion1><Location_Subregion2>MIDDLE EAST</Location_Subregion2></Location><Location><Location_Category>GEOGRAPHIC
+  REGION</Location_Category><Location_Type>MID-LATITUDE</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>NORTH
+  AMERICA</Location_Type></Location><Location><Location_Category>GEOGRAPHIC REGION</Location_Category><Location_Type>OCEANIA</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>SOUTH
+  AMERICA</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>SOUTH
+  AMERICA</Location_Type><Location_Subregion1>ARGENTINA</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>AUSTRALIA/NEW
+  ZEALAND</Location_Type><Location_Subregion1>AUSTRALIA</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>WESTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>AUSTRIA</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>WESTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>BELGIUM</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>SOUTH
+  AMERICA</Location_Type><Location_Subregion1>BOLIVIA</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>SOUTH
+  AMERICA</Location_Type><Location_Subregion1>BRAZIL</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>EASTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>BULGARIA</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>NORTH
+  AMERICA</Location_Type><Location_Subregion1>CANADA</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>SOUTH
+  AMERICA</Location_Type><Location_Subregion1>CHILE</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>EASTERN
+  ASIA</Location_Subregion1><Location_Subregion2>CHINA</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>SOUTH
+  AMERICA</Location_Type><Location_Subregion1>COLOMBIA</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>NORTH
+  AMERICA</Location_Type><Location_Subregion1>CENTRAL AMERICA</Location_Subregion1><Location_Subregion2>COSTA
+  RICA</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>EASTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>CZECH REPUBLIC</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>NORTHERN
+  EUROPE</Location_Subregion1><Location_Subregion2>SCANDINAVIA</Location_Subregion2><Location_Subregion3>DENMARK</Location_Subregion3></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>SOUTH
+  AMERICA</Location_Type><Location_Subregion1>ECUADOR</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>AFRICA</Location_Type><Location_Subregion1>NORTHERN
+  AFRICA</Location_Subregion1><Location_Subregion2>EGYPT</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>NORTH
+  AMERICA</Location_Type><Location_Subregion1>CENTRAL AMERICA</Location_Subregion1><Location_Subregion2>EL
+  SALVADOR</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>NORTHERN
+  EUROPE</Location_Subregion1><Location_Subregion2>SCANDINAVIA</Location_Subregion2><Location_Subregion3>FINLAND</Location_Subregion3></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>WESTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>FRANCE</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>WESTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>GERMANY</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>SOUTHERN
+  EUROPE</Location_Subregion1><Location_Subregion2>GREECE</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>EASTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>HUNGARY</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>NORTHERN
+  EUROPE</Location_Subregion1><Location_Subregion2>ICELAND</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>SOUTHCENTRAL
+  ASIA</Location_Subregion1><Location_Subregion2>INDIA</Location_Subregion2></Location><Location><Location_Category>OCEAN</Location_Category><Location_Type>INDIAN
+  OCEAN</Location_Type><Location_Subregion1>INDONESIA</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>NORTHERN
+  EUROPE</Location_Subregion1><Location_Subregion2>BRITISH ISLES</Location_Subregion2><Location_Subregion3>IRELAND</Location_Subregion3></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>WESTERN
+  ASIA</Location_Subregion1><Location_Subregion2>MIDDLE EAST</Location_Subregion2><Location_Subregion3>ISRAEL</Location_Subregion3></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>SOUTHERN
+  EUROPE</Location_Subregion1><Location_Subregion2>ITALY</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>EASTERN
+  ASIA</Location_Subregion1><Location_Subregion2>JAPAN</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>WESTERN
+  ASIA</Location_Subregion1><Location_Subregion2>MIDDLE EAST</Location_Subregion2><Location_Subregion3>JORDAN</Location_Subregion3></Location><Location><Location_Category>OCEAN</Location_Category><Location_Type>INDIAN
+  OCEAN</Location_Type><Location_Subregion1>MALAYSIA</Location_Subregion1></Location><Location><Location_Category>OCEAN</Location_Category><Location_Type>INDIAN
+  OCEAN</Location_Type><Location_Subregion1>MAURITIUS</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>NORTH
+  AMERICA</Location_Type><Location_Subregion1>MEXICO</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>WESTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>NETHERLANDS</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>AUSTRALIA/NEW
+  ZEALAND</Location_Type><Location_Subregion1>NEW ZEALAND</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>EASTERN
+  ASIA</Location_Subregion1><Location_Subregion2>NORTH KOREA</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>NORTHERN
+  EUROPE</Location_Subregion1><Location_Subregion2>SCANDINAVIA</Location_Subregion2><Location_Subregion3>NORWAY</Location_Subregion3></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>SOUTH
+  AMERICA</Location_Type><Location_Subregion1>PERU</Location_Subregion1></Location><Location><Location_Category>OCEAN</Location_Category><Location_Type>PACIFIC
+  OCEAN</Location_Type><Location_Subregion1>WESTERN PACIFIC OCEAN</Location_Subregion1><Location_Subregion2>PHILIPPINES</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>EASTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>POLAND</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>WESTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>PORTUGAL</Location_Subregion2></Location><Location><Location_Category>OTHER</Location_Category><Location_Type>Russia</Location_Type></Location><Location><Location_Category>OCEAN</Location_Category><Location_Type>INDIAN
+  OCEAN</Location_Type><Location_Subregion1>SINGAPORE</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>EASTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>SLOVAKIA</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>AFRICA</Location_Type><Location_Subregion1>SOUTHERN
+  AFRICA</Location_Subregion1><Location_Subregion2>SOUTH AFRICA</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>EASTERN
+  ASIA</Location_Subregion1><Location_Subregion2>SOUTH KOREA</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>SOUTHERN
+  EUROPE</Location_Subregion1><Location_Subregion2>SPAIN</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>NORTHERN
+  EUROPE</Location_Subregion1><Location_Subregion2>SCANDINAVIA</Location_Subregion2><Location_Subregion3>SWEDEN</Location_Subregion3></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>WESTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>SWITZERLAND</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>SOUTHEASTERN
+  ASIA</Location_Subregion1><Location_Subregion2>THAILAND</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>WESTERN
+  ASIA</Location_Subregion1><Location_Subregion2>TURKEY</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>EASTERN
+  EUROPE</Location_Subregion1><Location_Subregion2>UKRAINE</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>EUROPE</Location_Type><Location_Subregion1>NORTHERN
+  EUROPE</Location_Subregion1><Location_Subregion2>BRITISH ISLES</Location_Subregion2><Location_Subregion3>UNITED
+  KINGDOM</Location_Subregion3></Location><Location><Location_Category>OTHER</Location_Category><Location_Type>United
+  States</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>SOUTH
+  AMERICA</Location_Type><Location_Subregion1>VENEZUELA</Location_Subregion1></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>ASIA</Location_Type><Location_Subregion1>SOUTHEASTERN
+  ASIA</Location_Subregion1><Location_Subregion2>VIETNAM</Location_Subregion2></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>AFRICA</Location_Type><Location_Subregion1>EASTERN
+  AFRICA</Location_Subregion1><Location_Subregion2>ZIMBABWE</Location_Subregion2></Location><Project><Short_Name>ESI</Short_Name><Long_Name>Environmental
+  Sustainability Index</Long_Name></Project><Access_Constraints>Users are free to
+  use, copy, distribute, transmit, and adapt the work for commercial and \n\nnon-commercial
+  purposes, without restriction, as long as clear attribution of the source is provided.</Access_Constraints><Organization><Organization_Type>PROCESSOR</Organization_Type><Organization_Name><Short_Name>SEDAC</Short_Name></Organization_Name><Personnel><Role>DATA
+  CENTER CONTACT</Role><Contact_Person><Last_Name>Not provided</Last_Name></Contact_Person></Personnel></Organization><Organization><Organization_Type>ARCHIVER</Organization_Type><Organization_Name><Short_Name>SEDAC</Short_Name></Organization_Name><Personnel><Role>DATA
+  CENTER CONTACT</Role><Contact_Person><Last_Name>Not provided</Last_Name></Contact_Person></Personnel></Organization><Organization><Organization_Type>ARCHIVER</Organization_Type><Organization_Name><Short_Name>Socioeconomic
+  Data and Applications Center (SEDAC)</Short_Name></Organization_Name><Hours_Of_Service>9:00
+  A.M. to 5:00 P.M., Monday to Friday</Hours_Of_Service><Personnel><Role>DATA CENTER
+  CONTACT</Role><Contact_Person><First_Name>SEDAC</First_Name><Middle_Name>User</Middle_Name><Last_Name>Services</Last_Name></Contact_Person></Personnel></Organization><Distribution><Distribution_Format>PDF</Distribution_Format><Fees>0</Fees></Distribution><Summary><Abstract>The
+  2000 Pilot Environmental Sustainability Index (ESI) is an exploratory effort to
+  construct an \n\nindex that measures the ability of a nation's economy to achieve
+  sustainable development, with the long term goal of finding a single \n\nindicator
+  for environmental sustainability analagous to that of the Gross Domestic Product
+  (GDP). The index covering 56 countries is \n\na composite measure of the current
+  status of a nation's environmental systems, pressures on those systems, human vulnerability
+  to \n\nenvironmental change, national capacity to respond, and contributions to
+  global environmental stewardship. The index was unveiled at \n\nthe World Economic
+  Forum's annual meeting, January 2000, Davos, Switzerland. The 2000 Pilot ESI is
+  the result of collaboration among \n\nthe World Economic Forum (WEF), Yale Center
+  for Environmental Law and Policy (YCELP), and the Columbia University Center for
+  \n\nInternational Earth Science Information Network (CIESIN).</Abstract><Purpose>To
+  test the feasibility of creating a comparative index of national-level environmental
+  \n\nsustainability.</Purpose></Summary><Related_URL><URL_Content_Type><Type>GET
+  DATA</Type></URL_Content_Type><URL>http://sedac.ciesin.columbia.edu/data/set/esi-pilot-environmental-sustainability-index-2000/data-download</URL><Description>data
+  download page</Description></Related_URL><Related_URL><URL_Content_Type><Type>VIEW
+  DATA SET LANDING PAGE</Type></URL_Content_Type><URL>http://dx.doi.org/10.7927/H4NK3BZJ</URL><Description>data
+  set DOI and homepage</Description></Related_URL><Metadata_Name>CEOS IDN DIF</Metadata_Name><Metadata_Version>VERSION
+  10.2</Metadata_Version><Metadata_Dates><Metadata_Creation>1970-01-01</Metadata_Creation><Metadata_Last_Revision>1970-01-01</Metadata_Last_Revision><Data_Creation>2012-12-12T00:00:00.000Z</Data_Creation><Data_Last_Revision>2015-08-03T00:00:00.000Z</Data_Last_Revision></Metadata_Dates><Product_Level_Id>2</Product_Level_Id></DIF>"

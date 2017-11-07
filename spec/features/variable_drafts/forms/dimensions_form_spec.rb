@@ -25,7 +25,7 @@ describe 'Dimensions Form', reset_provider: true, js: true do
     end
 
     it 'displays a button to add another element' do
-      expect(page).to have_selector(:link_or_button, 'Add another Dimensions')
+      expect(page).to have_selector(:link_or_button, 'Add another Dimension')
     end
 
     it 'has three required labels' do
@@ -48,19 +48,19 @@ describe 'Dimensions Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -134,7 +134,7 @@ describe 'Dimensions Form', reset_provider: true, js: true do
     context 'When selecting the previous form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Fill Value', from: 'Save & Jump To:'
+          select 'Fill Values', from: 'Save & Jump To:'
         end
 
         click_on 'Yes'
@@ -147,19 +147,19 @@ describe 'Dimensions Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -231,19 +231,19 @@ describe 'Dimensions Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end
@@ -355,19 +355,19 @@ describe 'Dimensions Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Fill Value')
+          expect(page).to have_content('Fill Values')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_value')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
         end
       end
     end

@@ -9,11 +9,11 @@ describe 'Reverting to previous collections', js: true do
 
   context 'when the latest revision is a published collection' do
     before do
-      ingest_response, @concept_response = publish_draft(revision_count: 2)
+      ingest_response, @concept_response = publish_collection_draft(revision_count: 2)
 
       visit collection_path(ingest_response['concept-id'])
 
-      within '.cta' do
+      within '.action' do
         click_on 'Revisions'
       end
     end
@@ -65,11 +65,11 @@ describe 'Reverting to previous collections', js: true do
 
   context 'when the latest revision is a deleted collection' do
     before do
-      ingest_response, concept_response = publish_draft
+      ingest_response, concept_response = publish_collection_draft
 
       visit collection_path(ingest_response['concept-id'])
 
-      click_on 'Delete Record'
+      click_on 'Delete Collection Record'
       click_on 'Yes'
 
       wait_for_ajax
@@ -108,13 +108,13 @@ describe 'Reverting to previous collections', js: true do
       user.available_providers << 'LARC'
       user.save
 
-      fill_in 'Quick Find', with: short_name
-      click_on 'Find'
+      fill_in 'keyword', with: short_name
+      click_on 'Search Collections'
       click_link short_name
 
       @collection_concept = current_path.sub('/collections/', '')
 
-      within '.cta' do
+      within '.action' do
         click_on 'Revisions'
       end
     end

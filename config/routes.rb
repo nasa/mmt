@@ -62,8 +62,19 @@ Rails.application.routes.draw do
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
   get '/collections/:id/clone' => 'collections#clone', as: 'clone_collection'
+  get '/collections/:id/download_xml/:format(/:revision_id)' => 'collections#download_xml', as: 'download_collection_xml'
 
-  resources :variables, only: [:show, :create]
+  resources :variables, only: [:show, :create, :edit, :destroy] do
+    resources :collection_associations, only: [:index, :new, :create] do
+      collection do
+        match '/' => 'collection_associations#destroy', via: :delete
+      end
+    end
+  end
+  get '/variables/:id/revisions' => 'variables#revisions', as: 'variable_revisions'
+  get '/variables/:id/revert/:revision_id' => 'variables#revert', as: 'revert_variable'
+  get '/variables/:id/clone' => 'variables#clone', as: 'clone_variable'
+  get '/variables/:id/download_json(/:revision_id)' => 'variables#download_json', as: 'download_json_variable'
 
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
@@ -87,7 +98,9 @@ Rails.application.routes.draw do
 
   get 'search' => 'search#index', as: 'search'
 
-  resource :manage_metadata, only: :show, controller: 'manage_metadata'
+  resource :manage_collections, only: :show
+  resource :manage_variables, only: :show
+  resource :manage_services, only: :show, controller: 'manage_services'
   resource :manage_cmr, only: :show, controller: 'manage_cmr'
 
   # API Endpoints for Chooser implementations
@@ -96,8 +109,6 @@ Rails.application.routes.draw do
 
   get 'service_implementations_with_datasets' => 'manage_cmr#service_implementations_with_datasets'
   get 'datasets_for_service_implementation' => 'manage_cmr#datasets_for_service_implementation'
-
-  get 'new_record' => 'pages#new_record', as: 'new_record'
 
   get 'login' => 'users#login', as: 'login'
   get 'logout' => 'users#logout'

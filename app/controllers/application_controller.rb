@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  protected
+
   # By default Pundit calls the current_user method during authorization
   # but for our calls to the CMR ACL we need user information as well as
   # the users valid token. This provides our policies with the ability to
@@ -19,14 +21,12 @@ class ApplicationController < ActionController::Base
     UserContext.new(current_user, token)
   end
 
-  protected
-
   def groups_enabled?
-    redirect_to manage_metadata_path unless Rails.configuration.groups_enabled
+    redirect_to manage_collections_path unless Rails.configuration.groups_enabled
   end
 
   def bulk_updates_enabled?
-    redirect_to manage_metadata_path unless Rails.configuration.bulk_updates_enabled
+    redirect_to manage_collections_path unless Rails.configuration.bulk_updates_enabled
   end
 
   def setup_query
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
     last_point = session[:last_point]
     session[:last_point] = nil
 
-    redirect_to return_to || last_point || manage_metadata_path
+    redirect_to return_to || last_point || manage_collections_path
   end
 
   def cmr_client
@@ -77,6 +77,16 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.from_urs_uid(authenticated_urs_uid)
   end
   helper_method :current_user
+
+  def current_provider?(provider)
+    current_user.provider_id == provider
+  end
+  helper_method :current_provider?
+
+  def available_provider?(provider)
+    (current_user.available_providers || []).include?(provider)
+  end
+  helper_method :available_provider?
 
   def store_profile(profile = {})
     uid = session['endpoint'].split('/').last if session['endpoint']
@@ -163,6 +173,7 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
 
   def is_logged_in
+    Rails.logger.info("Access Token: #{session[:access_token]}") if Rails.env.development?
     session[:return_to] = request.fullpath
     redirect_to login_path unless logged_in?
   end
@@ -217,6 +228,20 @@ class ApplicationController < ActionController::Base
     end
 
     ingest_errors
+  end
+
+  def cmr_error_message(cmr_response, i18n: nil, default_message: 'There was an error with the operation you were trying to perform.')
+    cmr_error = Array.wrap(cmr_response.body.fetch('errors', []))[0]
+
+    if cmr_error
+      # return the CMR provided error message if it exists in the response
+      cmr_error
+    elsif i18n
+      # return the i18n message if provided
+      i18n
+    else
+      default_message
+    end
   end
 
   ACQUISITION_INFORMATION_FIELDS = %w(
@@ -314,7 +339,7 @@ class ApplicationController < ActionController::Base
     policy_name = exception.policy.class.to_s.underscore
 
     flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
-    redirect_to(request.referrer || manage_cmr_path)
+    redirect_to(request.referrer || manage_collections_path)
   end
 
   def get_user_info

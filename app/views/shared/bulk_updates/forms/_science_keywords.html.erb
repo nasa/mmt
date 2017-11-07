@@ -1,10 +1,10 @@
 <h2>Science Keywords</h2>
 
 <fieldset>
-  <%= update_type_select %>
+  <%= update_type_select('science_keywords') %>
 </fieldset>
 
-<fieldset id="bulk-updates-find" class="is-hidden">
+<fieldset class="bulk-updates-find is-hidden">
   <h4 class="title">Find Science Keyword</h4>
   <p class="form-description space-bot">Update all collections that have science keywords that match the criteria specified below.</p>
 
@@ -48,7 +48,7 @@
   </div>
 </fieldset>
 
-<fieldset id="bulk-updates-value" class="is-hidden">
+<fieldset class="bulk-updates-value is-hidden">
   <h4 class="title">New Science Keyword</h4>
   <p class="form-description space-bot">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
   tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -56,7 +56,7 @@
   <div id="science-keyword-picker">
     <div class="row">
       <div class="col-12">
-        <div class="eui-nested-item-picker">
+        <div class="eui-nested-item-picker science-keywords-picker">
           <ul class="eui-item-path">
             <li class="list-title">
               <a href="javascript:void(0);">Science Keyword</a>
@@ -76,7 +76,7 @@
     </div>
   </div>
 
-  <div id="new-keyword-container" class="is-hidden space-top">
+  <div id="new-science-keyword-container" class="is-hidden space-top">
     <div class="row">
       <div class="col-4">
         <%= label_tag 'category', 'Category' %>

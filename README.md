@@ -36,6 +36,8 @@ And then to migrate the database schema, run the standard rails command:
 
 ### Usage
 
+*_Note: Before running this step, make sure you are **Running a local copy of CMR** as outlined below_
+
 To start the project, just type the default rails command:
 
     rails s
@@ -43,17 +45,24 @@ To start the project, just type the default rails command:
 And if you need to stop the server from running, hit `Ctrl + C` and the server will shutdown.
 
 ### Running a local copy of CMR
-In order to use a local copy of the CMR you will need to download the latest file and ingest some sample data.
+In order to use a local copy of the CMR you will need to download the latest file, set an environment variable, and run a rake task to set required permissions and ingest some data.
 
-1. Go to this page https://ci.earthdata.nasa.gov/browse/CMR-CSB/latestSuccessful/artifact/
+#### 1. Downloading the CMR file
+Go to https://ci.earthdata.nasa.gov/browse/CMR-CSB/latestSuccessful/artifact/, and download the `cmr-dev-system-uberjar.jar` file.
+  * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO NOT rename the file.**
 
-2. Download the `cmr-dev-system-uberjar.jar` file.
-    * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO NOT rename the file.**
+In your root directory for MMT, create a folder named `cmr`. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder.
 
-3. In your root directory for MMT, create a folder named `cmr`.
+#### 2. Setting the environment variable needed by the local CMR
+Before running a local copy of the CMR, you will need to set a required environment variable. Add this line into your `.bash_profile`:
 
-4. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder from Step #3.
+    export CMR_URS_PASSWORD=mock-urs-password
 
+After adding the line and saving the file, don't forget to source the file
+
+    source ~/.bash_profile
+
+#### 3. Running the CMR rake tasks
 To start the local CMR and load data*:
 
     rake cmr:start_and_load
@@ -138,11 +147,11 @@ MMT uses [VCR](https://github.com/vcr/vcr) to record non-localhost HTTP interact
 
 All calls to localhost are ignored by VCR and therefore will not be recorded.
 
-This isn't an issue normally but with MMT we run a number of services locally while developing that we would like to be recorded. 
+This isn't an issue normally but with MMT we run a number of services locally while developing that we would like to be recorded.
 
 #### CMR
 
-For calls to CMR that are asyncronous, we do have a method of waiting for those to finish, syncronously. Within the [spec/helpers/cmr_helper.rb](spec/helpers/cmr_helper.rb) we have a method called `wait_for_cmr` that makes two calls to CMR and ElasticSearch to ensure all work is complete. This should ONLY be used within tests. 
+For calls to CMR that are asyncronous, we do have a method of waiting for those to finish, syncronously. Within the [spec/helpers/cmr_helper.rb](spec/helpers/cmr_helper.rb) we have a method called `wait_for_cmr` that makes two calls to CMR and ElasticSearch to ensure all work is complete. This should ONLY be used within tests.
 
 ### Testing against ACLs
 When testing functionality in the browser that requires specific permissions you'll need to ensure your environment is setup properly and you're able to assign yourself the permissions necessary. This includes:
@@ -157,13 +166,13 @@ This provides access to the Provider Object Permissions pages.
 
 This gives you permission to view system level groups.
 
-From here you'll need to visit the Provider Object Permissions page, and find your group, from here you'll be able to modify permissions of the group so that you can test functionality associated with any of the permissions. 
+From here you'll need to visit the Provider Object Permissions page, and find your group, from here you'll be able to modify permissions of the group so that you can test functionality associated with any of the permissions.
 
 ##### Automating ACL Group Management
 To run the above steps automatically there is a provided rake task to do the heavy lifting.
 
     rake acls:testing:prepare[URS_USERNAME]
-    
+
 Replacing URS_USERNAME with your own username. An example:
 
     $ rake acls:testing:prepare[username]
@@ -177,7 +186,7 @@ From here I'm able to visit `/provider_identity_permissions` and see my newly cr
 Often we need collections to exist in our local CMR that already exist in SIT for the purposes of sending collection ids (concept ids) as part of a payload to the ECHO API that doesn't run locally, but instead on testbed. In order to do this the collection concept ids have to match those on SIT so we cannot simply download and ingest them. A rake task exists to replicate collections locally for this purpose.
 
     $ rake collections:replicate
-    
+
 The task accepts two parameters
 
 - **provider:** The provider id to replicate collections for *default: MMT_2*
@@ -185,18 +194,18 @@ The task accepts two parameters
 
 ##### Examples
 
-    $ rake collections:replicate[provider=MMT_1,amount=10]
-    
+    $ rake collections:replicate[MMT_1,10]
+
 Will download at most 10 collections from MMT_1.
 
-    $ rake collections:replicate[provider=SEDAC]
+    $ rake collections:replicate[SEDAC]
 
 Will download at most 25 collections from SEDAC.
 
-**NOTE** Some providers have permissions set on their collections and make require a token to view/download collections. You can set an ENV variable named 
+**NOTE** Some providers have permissions set on their collections and make require a token to view/download collections. You can set an ENV variable named
 
-    CMR_SIT_TOKEN 
-   
+    CMR_SIT_TOKEN
+
 that if set, will be provided to CMR when downloading collections. This variable is set by adding the following line to your **~/.bash_profile**
 
     export CMR_SIT_TOKEN=""

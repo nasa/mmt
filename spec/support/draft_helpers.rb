@@ -7,12 +7,12 @@ module Helpers
       end
     end
 
-    # Publishes a draft and returns the new created collection as well as the most recent draft
-    def publish_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil, version: nil)
-      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_draft' do
+    # Publishes a collection draft and returns the new created collection as well as the most recent draft
+    def publish_collection_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil, version: nil)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_collection_draft' do
         user = User.where(urs_uid: 'testuser').first
 
-        # Only return te most recent concept
+        # Only return the most recent concept
         ingest_response = nil
         revision_count.times do
           # Default draft attributes
@@ -52,8 +52,9 @@ module Helpers
         # Retrieve the concept from CMR so that we can create a new draft, if test requires it
         concept_id = ingest_response.body['concept-id']
         revision_id = ingest_response.body['revision-id']
-        content_type = "application/#{Rails.configuration.umm_version}; charset=utf-8"
-        concept_response = cmr_client.get_concept(concept_id, 'token', content_type, revision_id)
+        content_type = "application/#{Rails.configuration.umm_c_version}; charset=utf-8"
+
+        concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
 
         raise Array.wrap(concept_response.body['errors']).join(' /// ') if concept_response.body.key?('errors')
 
@@ -64,6 +65,58 @@ module Helpers
         end
 
         return [ingest_response.body, concept_response]
+      end
+    end
+
+    # Publish a variable draft
+    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
+        user = User.where(urs_uid: 'testuser').first
+
+        ingest_response = nil
+        # Default draft attributes
+        draft_attributes = {
+          user: user,
+          provider_id: provider_id,
+          native_id: native_id || Faker::Crypto.md5
+        }
+
+        revision_count.times do |i|
+          # Conditional additions to the draft attribute
+          draft_attributes[:draft_short_name] = name unless name.blank?
+          draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
+          draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
+
+          # number the revision long names if the option is specified
+          draft_attributes[:draft_entry_title] += " -- revision 0#{i + 1}" if number_revision_long_names
+
+          # Create a new draft with the provided attributes
+          # NOTE: We don't save the draft object, there is no reason to hit the database
+          # here knowing that we're going to delete it as soon as it's published anyway
+          draft = build(:full_variable_draft, draft_attributes)
+
+          ingest_response = cmr_client.ingest_variable(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+        end
+
+        # Synchronous way of waiting for CMR to complete the ingest work
+        wait_for_cmr
+
+        # Retrieve the concept from CMR so that we can create a new draft, if test requires it
+        concept_id = ingest_response.body['concept-id']
+        revision_id = ingest_response.body['revision-id']
+        content_type = "application/#{Rails.configuration.umm_var_version}; charset=utf-8"
+
+        concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
+
+        raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+        # If the test needs an unpublished draft as well, we'll create it and return it here
+        if include_new_draft
+          # Create a new draft (same as editing a collection)
+          VariableDraft.create_from_variable(concept_response.body, user, draft_attributes[:native_id])
+        end
+
+        [ingest_response.body, concept_response]
       end
     end
 
@@ -309,15 +362,16 @@ module Helpers
 
     def add_platforms
       within '.multiple.platforms' do
-        select 'Aircraft', from: 'Type'
-        fill_in 'draft_platforms_0_short_name', with: 'Platform short name'
-        fill_in 'draft_platforms_0_long_name', with: 'Platform long name'
+        all('.select2-container .select2-selection').first.click
+        find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'A340-600').click
+
         add_characteristics
         add_instruments
 
         click_on 'Add another Platform'
         within '.multiple-item-1' do
-          fill_in 'draft_platforms_1_short_name', with: 'Platform short name 1'
+          all('.select2-container .select2-selection').first.click
+          find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'DIADEM-1D').click
           add_instruments('1')
         end
       end
@@ -344,8 +398,8 @@ module Helpers
 
     def add_instruments(platform = '0')
       within '.multiple.instruments' do
-        fill_in "draft_platforms_#{platform}_instruments_0_short_name", with: 'Instrument short name'
-        fill_in "draft_platforms_#{platform}_instruments_0_long_name", with: 'Instrument long name'
+        all('.select2-container .select2-selection').first.click
+        find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ATM').click
         fill_in "draft_platforms_#{platform}_instruments_0_technique", with: 'Instrument technique'
         fill_in 'Number Of Instruments', with: 2468
         within '.multiple.operational-modes' do
@@ -363,21 +417,24 @@ module Helpers
 
         click_on 'Add another Instrument'
         within '.multiple-item-1' do
-          fill_in "draft_platforms_#{platform}_instruments_1_short_name", with: 'Instrument short name 1'
+          all('.select2-container .select2-selection').first.click
+          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'LVIS').click
         end
       end
     end
 
     def add_instrument_children(platform)
       within '.multiple.instrument-children' do
-        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_short_name", with: 'Instrument Child short name'
-        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_long_name", with: 'Instrument Child long name'
+        find('.select2-container .select2-selection').click
+        find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ADS').click
+
         fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_technique", with: 'Instrument Child technique'
         add_characteristics
 
         click_on 'Add another Instrument Child'
         within '.multiple-item-1' do
-          fill_in "draft_platforms_#{platform}_instruments_0_composed_of_1_short_name", with: 'Instrument Child short name 1'
+          find('.select2-container .select2-selection').click
+          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'SMAP L-BAND RADIOMETER').click
         end
       end
     end

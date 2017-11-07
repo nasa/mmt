@@ -1,11 +1,15 @@
 # :nodoc:
 class CollectionDraftsController < BaseDraftsController
+  include DraftsHelper
+  include ControlledKeywords
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
   before_action :load_umm_schema, only: [:new, :edit, :show]
-  before_filter :ensure_correct_draft_provider, only: [:edit, :show]
 
   def new
     set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+
+    authorize get_resource
+
     @draft_forms = CollectionDraft.forms
     @draft_form = params[:form] || @draft_forms.first
 
@@ -13,6 +17,7 @@ class CollectionDraftsController < BaseDraftsController
 
     set_science_keywords
     set_location_keywords
+    set_projects
     set_country_codes
     set_language_codes
 
@@ -23,6 +28,7 @@ class CollectionDraftsController < BaseDraftsController
     super
 
     set_platform_types
+    set_instruments
     set_temporal_keywords
     set_data_centers
     set_country_codes
@@ -31,7 +37,9 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def edit
-    add_breadcrumb display_entry_id(get_resource.draft, 'draft'), collection_draft_path(get_resource)
+    authorize get_resource
+
+    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), collection_draft_path(get_resource)
 
     Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
 
@@ -40,21 +48,25 @@ class CollectionDraftsController < BaseDraftsController
     # `form` is optional so if its not provided just use the first form
     @draft_form = params[:form] || @draft_forms.first
 
-    add_breadcrumb @draft_form.titleize, edit_collection_draft_path(get_resource)
+    add_breadcrumb titleize_form_name(@draft_form), edit_collection_draft_path(get_resource)
 
     # Set instance variables depending on the form requested
-    set_science_keywords
-    set_location_keywords
-    set_platform_types if @draft_form == 'acquisition_information'
-    set_language_codes if @draft_form == 'metadata_information' || @draft_form == 'collection_information'
     set_country_codes
-    set_temporal_keywords if @draft_form == 'temporal_information'
-    set_data_centers if @draft_form == 'data_centers' || @draft_form == 'data_contacts'
+    set_language_codes        if @draft_form == 'collection_information' || @draft_form == 'metadata_information'
+    set_science_keywords      if @draft_form == 'descriptive_keywords'
+    set_platform_types        if @draft_form == 'acquisition_information'
+    set_instruments           if @draft_form == 'acquisition_information'
+    set_projects              if @draft_form == 'acquisition_information'
+    set_temporal_keywords     if @draft_form == 'temporal_information'
+    set_location_keywords     if @draft_form == 'spatial_information'
+    set_data_centers          if @draft_form == 'data_centers' || @draft_form == 'data_contacts'
     load_data_contacts_schema if @draft_form == 'data_contacts'
   end
 
   def create
     set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+
+    authorize get_resource
 
     if get_resource.save && get_resource.update_draft(params[:draft], current_user.urs_uid)
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")
@@ -81,6 +93,8 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def update
+    authorize get_resource
+
     if get_resource.update_draft(params[:draft], current_user.urs_uid)
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
 
@@ -108,6 +122,8 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def publish
+    authorize get_resource
+
     get_resource.add_metadata_dates
 
     draft = get_resource.draft
@@ -134,9 +150,9 @@ class CollectionDraftsController < BaseDraftsController
       # Log error message
       Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
-      @ingest_errors = generate_ingest_errors(ingested)
 
-      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
+      @ingest_errors = generate_ingest_errors(ingested)
+      flash[:error] = cmr_error_message(ingested, i18n: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error"))
       render :show
     end
   end
@@ -154,8 +170,8 @@ class CollectionDraftsController < BaseDraftsController
   private
 
   def load_umm_schema
-    # if provider file exists
-    if File.exist?(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json"))
+    # if user has a provider set and provider file exists
+    if current_user.provider_id && File.exist?(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json"))
       provider_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json")))
       umm_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
 
@@ -173,20 +189,6 @@ class CollectionDraftsController < BaseDraftsController
 
   def load_data_contacts_schema
     @data_contacts_form_json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'data-contacts-form-json-schema-2.json')))
-  end
-
-  def ensure_correct_draft_provider
-    return if get_resource.provider_id == current_user.provider_id || get_resource.new_record?
-
-    @draft_action = request.original_url.include?('edit') ? 'edit' : 'view'
-    @draft_form = params[:form] ? params[:form] : nil
-
-    if current_user.available_providers.include?(get_resource.provider_id)
-      @user_permissions = 'wrong_provider'
-    else
-      @user_permissions = 'none'
-    end
-    render :show
   end
 
   def validate_metadata
@@ -337,9 +339,30 @@ class CollectionDraftsController < BaseDraftsController
 
       platforms = metadata['Platforms'] || []
       platforms.each do |platform|
-        platform_type = platform['Type']
-        if platform_type && !@platform_types.include?(platform_type)
+        platform_short_name = platform['ShortName']
+        short_names = @platform_types.map { |type| type[:short_names].map { |short_name| short_name[:short_name] } }.flatten
+
+        if platform_short_name && !short_names.include?(platform_short_name)
           errors << "The property '#/Platforms' was invalid"
+        end
+
+        instruments = platform.fetch('Instruments', [])
+        instruments.each do |instrument|
+          instrument_short_name = instrument['ShortName']
+          instrument_short_names = @instruments.map { |short_name| short_name[:short_name] }.flatten
+
+          if instrument_short_name && !instrument_short_names.include?(instrument_short_name)
+            errors << "The property '#/Platforms' was invalid"
+          end
+
+          instrument_children = instrument.fetch('ComposedOf', [])
+          instrument_children.each do |child|
+            child_short_name = child['ShortName']
+
+            if child_short_name && !instrument_short_names.include?(child_short_name)
+              errors << "The property '#/Platforms' was invalid"
+            end
+          end
         end
       end
 
@@ -354,7 +377,7 @@ class CollectionDraftsController < BaseDraftsController
       data_centers.each do |data_center|
         short_name = data_center['ShortName']
         if short_name
-          matches = @data_centers.select { |dc| dc.include?(short_name) }
+          matches = @data_centers.select { |dc| dc[:short_name].include?(short_name) }
           if matches.empty?
             errors << "The property '#/DataCenters' was invalid"
           end
@@ -452,18 +475,6 @@ class CollectionDraftsController < BaseDraftsController
     end
   end
 
-  def set_science_keywords
-    @science_keywords = cmr_client.get_controlled_keywords('science_keywords') if params[:form] == 'descriptive_keywords'
-  end
-
-  def set_location_keywords
-    @location_keywords = cmr_client.get_controlled_keywords('spatial_keywords') if params[:form] == 'spatial_information'
-  end
-
-  def set_platform_types
-    @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map { |category| category['value'] }.sort
-  end
-
   def set_language_codes
     @language_codes = cmr_client.get_language_codes.to_a
   end
@@ -473,45 +484,5 @@ class CollectionDraftsController < BaseDraftsController
     country_codes = Carmen::Country.all.sort
     united_states = country_codes.delete(Carmen::Country.named('United States'))
     @country_codes = country_codes.unshift(united_states)
-  end
-
-  def set_temporal_keywords
-    keywords = cmr_client.get_controlled_keywords('temporal_keywords')['temporal_resolution_range']
-    @temporal_keywords = keywords.map { |keyword| keyword['value'] }.sort
-  end
-
-  def get_data_center_short_names_long_names_urls(json, trios = [])
-    json.each do |k, value|
-      if k == 'short_name'
-        value.each do |value2|
-          short_name = value2['value']
-
-          if value2['long_name'].nil?
-            long_name = nil
-            url = nil
-          else
-            long_name_hash = value2['long_name'][0]
-            long_name = long_name_hash['value']
-            url = long_name_hash['url'].nil? ? nil : long_name_hash['url'][0]['value']
-          end
-
-          trios.push [short_name, long_name, url]
-        end
-
-      elsif value.class == Array
-        value.each do |value2|
-          get_data_center_short_names_long_names_urls value2, trios if value2.class == Hash
-        end
-      elsif value.class == Hash
-        get_data_center_short_names_long_names_urls value, trios
-      end
-    end
-    trios
-  end
-
-  def set_data_centers
-    data_centers = cmr_client.get_controlled_keywords('providers')
-    data_centers = get_data_center_short_names_long_names_urls(data_centers)
-    @data_centers = data_centers.sort
   end
 end

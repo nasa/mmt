@@ -8,7 +8,7 @@ describe 'Set Form', reset_provider: true, js: true do
   context 'When viewing the form with no stored values' do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_variable_draft_path(draft, 'set')
+      visit edit_variable_draft_path(draft, 'sets')
     end
 
     it 'displays the correct title and description' do
@@ -49,19 +49,19 @@ describe 'Set Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Service')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
       end
     end
@@ -123,11 +123,11 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -135,7 +135,7 @@ describe 'Set Form', reset_provider: true, js: true do
     context 'When selecting the previous form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Service', from: 'Save & Jump To:'
+          select 'Science Keywords', from: 'Save & Jump To:'
         end
 
         click_on 'Yes'
@@ -148,19 +148,19 @@ describe 'Set Form', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Service')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
       end
     end
@@ -174,8 +174,8 @@ describe 'Set Form', reset_provider: true, js: true do
         'Size': 25,
         'Index': 1
       }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Set': draft_sets })
-      visit edit_variable_draft_path(draft, 'set')
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Sets': draft_sets })
+      visit edit_variable_draft_path(draft, 'sets')
     end
 
     it 'displays one populated form' do
@@ -183,10 +183,10 @@ describe 'Set Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_set_0_name', with: 'Science')
-      expect(page).to have_field('variable_draft_draft_set_0_type', with: 'Air')
-      expect(page).to have_field('variable_draft_draft_set_0_size', with: '25')
-      expect(page).to have_field('variable_draft_draft_set_0_index', with: '1')
+      expect(page).to have_field('variable_draft_draft_sets_0_name', with: 'Science')
+      expect(page).to have_field('variable_draft_draft_sets_0_type', with: 'Air')
+      expect(page).to have_field('variable_draft_draft_sets_0_size', with: '25')
+      expect(page).to have_field('variable_draft_draft_sets_0_index', with: '1')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -202,15 +202,15 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
       end
     end
@@ -258,11 +258,11 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -281,8 +281,8 @@ describe 'Set Form', reset_provider: true, js: true do
         'Size': 100,
         'Index': 2
       }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Set': draft_sets })
-      visit edit_variable_draft_path(draft, 'set')
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Sets': draft_sets })
+      visit edit_variable_draft_path(draft, 'sets')
     end
 
     it 'displays two populated form' do
@@ -290,15 +290,15 @@ describe 'Set Form', reset_provider: true, js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_set_0_name', with: 'Science')
-      expect(page).to have_field('variable_draft_draft_set_0_type', with: 'Land')
-      expect(page).to have_field('variable_draft_draft_set_0_size', with: '50')
-      expect(page).to have_field('variable_draft_draft_set_0_index', with: '1')
+      expect(page).to have_field('variable_draft_draft_sets_0_name', with: 'Science')
+      expect(page).to have_field('variable_draft_draft_sets_0_type', with: 'Land')
+      expect(page).to have_field('variable_draft_draft_sets_0_size', with: '50')
+      expect(page).to have_field('variable_draft_draft_sets_0_index', with: '1')
 
-      expect(page).to have_field('variable_draft_draft_set_1_name', with: 'Fiction')
-      expect(page).to have_field('variable_draft_draft_set_1_type', with: 'Water')
-      expect(page).to have_field('variable_draft_draft_set_1_size', with: '100')
-      expect(page).to have_field('variable_draft_draft_set_1_index', with: '2')
+      expect(page).to have_field('variable_draft_draft_sets_1_name', with: 'Fiction')
+      expect(page).to have_field('variable_draft_draft_sets_1_type', with: 'Water')
+      expect(page).to have_field('variable_draft_draft_sets_1_size', with: '100')
+      expect(page).to have_field('variable_draft_draft_sets_1_index', with: '2')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -314,15 +314,15 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
         end
       end
     end
@@ -370,11 +370,11 @@ describe 'Set Form', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('set')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
