@@ -416,6 +416,35 @@ $(document).ready ->
     $('#bulk-update-preview-button').on 'click', (e) ->
       $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find, #bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").addClass('visited')
 
+    $('.science-keyword-find-select-2').select2()
+      # some of this disabling and enabling should be able to work like search groups
+      # in permissions.coffee
+    .on 'select2:select', (e) ->
+      # debugger
+      # grab the $value
+      selectedValue = e.params.data.id
+      # grab the level/field name
+      selectedLevel = $(this).attr('id') # should change the id to camelcase in the erb file?
+      # grab $parent
+      selectedValueParent = $(e.params.data.element).data('parent')
+      parentValues = []
+      parentValues.push(selectedValueParent)
+
+      scienceKeywordsHierarchy = window.scienceKeywordsHierarchy
+      # traversing up the hierarchy
+        # find index
+        index = scienceKeywordsHierarchy.indexOf(selectedLevel)
+        # going up a level, disable all values that don't match the $parent value
+        # get new parent of the current (old) $parent
+        # using new parent, repeat going up another level until Category (or run out)
+
+      # traversing down the hierarchy
+        # parents $bucket for going down, starting with current $value
+        # going down a level, disable all values whose parent is not the $value (also the only value in the parents $bucket)
+        # all not disabled values (whose parent matches the $value), add to the parents $bucket
+        # going down another level, repeat [disabling, adding to parents $bucket] but using all values in the parents $bucket
+        # go until end (or run out)
+
   if $('#bulk-update-status-table').length > 0
     $('#bulk-update-status-table').tablesorter
       sortList: [[0,0]]

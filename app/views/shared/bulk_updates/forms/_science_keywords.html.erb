@@ -8,18 +8,39 @@
   <h4 class="title">Find Science Keyword</h4>
   <p class="form-description space-bot">Update all collections that have science keywords that match the criteria specified below.</p>
 
+  <!-- pass in science keyword hierarchy so coffee can use it -->
+  <%= javascript_tag do %>
+    window.scienceKeywordsHierarchy = <%= raw BulkUpdatesHelper::SCIENCE_KEYWORDS_HIERARCHY.to_json %>
+  <% end %>
+
   <div class="row">
     <div class="col-4">
-      <%= label_tag 'category', 'Category' %>
-      <%= text_field_tag('find_value[Category]', nil, id: 'category', class: 'full-width science-keyword-find') %>
+      <div class="row">
+        <%= label_tag 'category', 'Category' %>
+      </div>
+      <div class="row">
+        <!-- , style: 'width: 100%' -->
+        <%= select_tag('find_value[Category]', options_for_select(@science_keyword_facets['category'].map { |category| [category[:value], { 'data-parent': category[:parent] }] }), id: 'Category', class: 'full-width science-keyword-find-select-2', prompt: 'Category', style: 'width: 100%') %>
+      </div>
+      <%#= text_field_tag('find_value[Category]', nil, id: 'category', class: 'full-width science-keyword-find') %>
     </div>
     <div class="col-4">
-      <%= label_tag 'topic', 'Topic' %>
-      <%= text_field_tag('find_value[Topic]', nil, id: 'topic', class: 'full-width science-keyword-find') %>
+      <div class="row">
+        <%= label_tag 'topic', 'Topic' %>
+      </div>
+      <div class="row">
+        <%= select_tag('find_value[Topic]', options_for_select(@science_keyword_facets['topic'].map { |topic| [topic[:value], { 'data-parent': topic[:parent] }] }), id: 'Topic', class: 'full-width science-keyword-find-select-2', prompt: 'Topic', style: 'width: 100%') %>
+      </div>
+      <%#= text_field_tag('find_value[Topic]', nil, id: 'topic', class: 'full-width science-keyword-find') %>
     </div>
     <div class="col-4">
-      <%= label_tag 'term', 'Term' %>
-      <%= text_field_tag('find_value[Term]', nil, id: 'term', class: 'full-width science-keyword-find') %>
+      <div class="row">
+        <%= label_tag 'term', 'Term' %>
+      </div>
+      <div class="row">
+        <%= select_tag('find_value[Term]', options_for_select(@science_keyword_facets['term'].map { |term| [term[:value], { 'data-parent': term[:parent] }] }), id: 'Term', class: 'full-width science-keyword-find-select-2', prompt: 'Term', style: 'width: 100%') %>
+      </div>
+      <%#= text_field_tag('find_value[Term]', nil, id: 'term', class: 'full-width science-keyword-find') %>
     </div>
   </div>
 

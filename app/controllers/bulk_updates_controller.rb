@@ -42,6 +42,8 @@ class BulkUpdatesController < ManageCollectionsController
     set_data_centers
     set_platform_types
     set_instruments
+
+    set_science_keyword_facets(params[:selected_collections])
   end
 
   def preview

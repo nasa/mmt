@@ -7,6 +7,7 @@
       <% params[:selected_collections].each do |collection| %>
         <%= hidden_field_tag 'concept_ids[]', collection %>
       <% end %>
+      <% console %>
 
       <fieldset>
         <%= label_tag('update_field', 'Field to Update') %>
