@@ -1,8 +1,14 @@
 class RemoveSelectProviderProviderId < ActiveRecord::Migration
   def up
-    User.where(provider_id: 'Select Provider').all.each do |user|
-      user.provider_id = nil
-      user.save
+    User.all.each do |user|
+      if user.available_providers.include? 'Select Provider'
+        user.available_providers.delete('Select Provider')
+        user.save
+      end
+      if user.provider_id == 'Select Provider'
+        user.provider_id = nil
+        user.save
+      end
     end
   end
 end
