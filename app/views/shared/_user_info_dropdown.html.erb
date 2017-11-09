@@ -2,7 +2,9 @@
   <% if logged_in? %>
   <!-- User Info Dropdown Menu -->
   <div id="login-info" class="login-info-dropdown">
-    <a href="#provider-context" id="change-context" class="display-modal">Change Provider</a>
+    <% unless hide_provider_context %>
+      <a href="#provider-context" id="change-context" class="display-modal">Change Provider</a>
+    <% end %>
     <!--a href="#">Account Settings</a-->
     <%= link_to 'Logout', logout_path %>
   </div>
