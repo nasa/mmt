@@ -63,6 +63,7 @@ $(document).ready ->
     $.each newContainer.find('select, input'), (index, field) ->
       $(field).attr('id', $(field).attr('id').replace(/_(\d+)_/, '_' + currentSeconds.toString() + '_'))
       $(field).attr('name', $(field).attr('name').replace(/\[(\d+)\]/, '[' + currentSeconds.toString() + ']'))
+      $(field).find('option:selected').removeAttr('selected')
       $(field).removeAttr('aria-describedby')
 
     $.each newContainer.find('label'), (index, field) ->

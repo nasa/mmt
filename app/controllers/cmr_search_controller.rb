@@ -25,8 +25,23 @@ class CmrSearchController < ManageMetadataController
 
     if params.key?(:search_criteria) && !params[:search_criteria].empty?
 
+      keys = []
       params[:search_criteria].each do |_index, criteria|
-        cmr_params[criteria[:field]] = criteria[:query].dup
+        keys << criteria[:field]
+        cmr_params[criteria[:field]] ||= []
+        cmr_params[criteria[:field]] << criteria[:query].dup
+      end
+
+      # Make sure to AND the CMR search for multiple values in the same parameter
+      # options[<parameter>][and] = true
+      cmr_params[:options] = {}
+      keys.uniq.each do |key|
+        if cmr_params[key].size == 1
+          # If we are only sending 1 value per parameter, take it out of the array
+          cmr_params[key] = cmr_params[key].first
+        else
+          cmr_params[:options][key] = { 'and' => true }
+        end
       end
 
       collection_response = cmr_client.get_collections_by_post(
