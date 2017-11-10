@@ -409,7 +409,7 @@ $(document).ready ->
     $('.eui-item-path, .eui-item-list-pane').on 'click', ->
       $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").addClass('visited')
 
-    $('.location-keyword-value').on 'change', ->
+    $('.science-keyword-value, .location-keyword-value').on 'change', ->
       $(this).valid()
 
     # mark appropriate containers as visited before submitting to ensure validation
