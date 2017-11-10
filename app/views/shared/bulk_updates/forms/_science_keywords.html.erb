@@ -16,29 +16,31 @@
   <div class="row">
     <div class="col-4">
       <div class="row">
-        <%= label_tag 'category', 'Category' %>
+        <%= label_tag 'Category' %>
       </div>
       <div class="row">
-        <!-- , style: 'width: 100%' -->
-        <%= select_tag('find_value[Category]', options_for_select(@science_keyword_facets['category'].map { |category| [category[:value], { 'data-parent': category[:parent] }] }), id: 'Category', class: 'full-width science-keyword-find-select-2', prompt: 'Category', style: 'width: 100%') %>
+        <!-- , style: 'width: 100%'
+             prompt: 'Category',
+        -->
+        <%= select_tag('find_value[Category]', options_for_select(@science_keyword_facets.fetch('category', []).map { |category| [category[:value], { 'data-parent': category[:parent] }] }), id: 'Category', class: 'full-width science-keyword-find science-keyword-find-select-2', prompt: 'Category') %>
       </div>
       <%#= text_field_tag('find_value[Category]', nil, id: 'category', class: 'full-width science-keyword-find') %>
     </div>
     <div class="col-4">
       <div class="row">
-        <%= label_tag 'topic', 'Topic' %>
+        <%= label_tag 'Topic' %>
       </div>
       <div class="row">
-        <%= select_tag('find_value[Topic]', options_for_select(@science_keyword_facets['topic'].map { |topic| [topic[:value], { 'data-parent': topic[:parent] }] }), id: 'Topic', class: 'full-width science-keyword-find-select-2', prompt: 'Topic', style: 'width: 100%') %>
+        <%= select_tag('find_value[Topic]', options_for_select(@science_keyword_facets.fetch('topic', []).map { |topic| [topic[:value], { 'data-parent': topic[:parent] }] }), id: 'Topic', class: 'full-width science-keyword-find science-keyword-find-select-2', prompt: 'Topic') %>
       </div>
       <%#= text_field_tag('find_value[Topic]', nil, id: 'topic', class: 'full-width science-keyword-find') %>
     </div>
     <div class="col-4">
       <div class="row">
-        <%= label_tag 'term', 'Term' %>
+        <%= label_tag 'Term' %>
       </div>
       <div class="row">
-        <%= select_tag('find_value[Term]', options_for_select(@science_keyword_facets['term'].map { |term| [term[:value], { 'data-parent': term[:parent] }] }), id: 'Term', class: 'full-width science-keyword-find-select-2', prompt: 'Term', style: 'width: 100%') %>
+        <%= select_tag('find_value[Term]', options_for_select(@science_keyword_facets.fetch('term', []).map { |term| [term[:value], { 'data-parent': term[:parent] }] }), id: 'Term', class: 'full-width science-keyword-find science-keyword-find-select-2', prompt: 'Term') %>
       </div>
       <%#= text_field_tag('find_value[Term]', nil, id: 'term', class: 'full-width science-keyword-find') %>
     </div>
@@ -48,23 +50,43 @@
     <h5 class="space-bot">Variable Levels</h5>
 
     <div class="col-3">
-      <%= label_tag 'variablelevel1', 'Level 1' %>
-      <%= text_field_tag('find_value[VariableLevel1]', nil, id: 'variablelevel1', class: 'full-width science-keyword-find') %>
+      <div class="row">
+        <%= label_tag 'VariableLevel1', 'Level 1' %>
+      </div>
+      <div class="row">
+        <%= select_tag('find_value[VariableLevel1]', options_for_select(@science_keyword_facets.fetch('variable_level_1', []).map { |variable_level_1| [variable_level_1[:value], { 'data-parent': variable_level_1[:parent] }] }), id: 'VariableLevel1', class: 'full-width science-keyword-find science-keyword-find-select-2', prompt: 'VariableLevel1') %>
+      </div>
+      <%#= text_field_tag('find_value[VariableLevel1]', nil, id: 'variablelevel1', class: 'full-width science-keyword-find') %>
     </div>
 
     <div class="col-3">
-      <%= label_tag 'variablelevel2', 'Level 2' %>
-      <%= text_field_tag('find_value[VariableLevel2]', nil, id: 'variablelevel2', class: 'full-width science-keyword-find') %>
+      <div class="row">
+        <%= label_tag 'VariableLevel2', 'Level 2' %>
+      </div>
+      <div class="row">
+        <%= select_tag('find_value[VariableLevel2]', options_for_select(@science_keyword_facets.fetch('variable_level_2', []).map { |variable_level_2| [variable_level_2[:value], { 'data-parent': variable_level_2[:parent] }] }), id: 'VariableLevel2', class: 'full-width science-keyword-find science-keyword-find-select-2', prompt: 'VariableLevel2') %>
+      </div>
+      <%#= text_field_tag('find_value[VariableLevel2]', nil, id: 'variablelevel2', class: 'full-width science-keyword-find') %>
     </div>
 
     <div class="col-3">
-      <%= label_tag 'variablelevel3', 'Level 3' %>
-      <%= text_field_tag('find_value[VariableLevel3]', nil, id: 'variablelevel3', class: 'full-width science-keyword-find') %>
+      <div class="row">
+        <%= label_tag 'VariableLevel3', 'Level 3' %>
+      </div>
+      <div class="row">
+        <%= select_tag('find_value[VariableLevel3]', options_for_select(@science_keyword_facets.fetch('variable_level_3', []).map { |variable_level_3| [variable_level_3[:value], { 'data-parent': variable_level_3[:parent] }] }), id: 'VariableLevel3', class: 'full-width science-keyword-find science-keyword-find-select-2', prompt: 'VariableLevel3') %>
+      </div>
+      <%#= text_field_tag('find_value[VariableLevel3]', nil, id: 'variablelevel3', class: 'full-width science-keyword-find') %>
     </div>
 
     <div class="col-3">
-      <%= label_tag 'detailedvariable', 'Detailed Variable' %>
-      <%= text_field_tag('find_value[DetailedVariable]', nil, id: 'detailedvariable', class: 'full-width science-keyword-find') %>
+      <div class="row">
+        <%= label_tag 'DetailedVariable', 'Detailed Variable' %>
+      </div>
+      <div class="row">
+        <%= select_tag('find_value[DetailedVariable]', options_for_select(@science_keyword_facets.fetch('detailed_variable', []).map { |detailed_variable| [detailed_variable[:value], { 'data-parent': detailed_variable[:parent] }] }), id: 'DetailedVariable', class: 'full-width science-keyword-find science-keyword-find-select-2', prompt: 'DetailedVariable') %>
+      </div>
+      <%#= text_field_tag('find_value[DetailedVariable]', nil, id: 'detailedvariable', class: 'full-width science-keyword-find') %>
     </div>
   </div>
 </fieldset>
