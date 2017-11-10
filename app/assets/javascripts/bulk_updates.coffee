@@ -398,52 +398,268 @@ $(document).ready ->
         if $selectedFieldData.hasOwnProperty('new_description')
           $($update_field_selector + ' .bulk-updates-value p.form-description:first').text($selectedFieldData['new_description'])
 
-    # mark bulk update find container for science keywords as visited because
+    # mark bulk update find container for keywords as visited because
     # we only want to validate the fields if they have been visited
-    $('.science-keyword-find, .location-keyword-find').on 'blur', ->
-      $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find").addClass('visited')
+    $('.location-keyword-find').on 'blur', ->
+      $("#bulk-update-form-location_keywords .bulk-updates-find").addClass('visited')
       $(this).valid()
+
+    # $('.science-keyword-find').on 'change', ->
+    #   $('bulk-update-form-science_keywords .bulk-updates-find').addClass('visited')
+    #   $(this).valid()
 
     # mark the nested item picker as visited when any of the options are clicked
     # because we only want to validate the selected keyword values if it has been visited
     $('.eui-item-path, .eui-item-list-pane').on 'click', ->
       $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").addClass('visited')
 
-    $('.science-keyword-value, .location-keyword-value').on 'change', ->
+    $('.location-keyword-value').on 'change', ->
       $(this).valid()
 
     # mark appropriate containers as visited before submitting to ensure validation
     $('#bulk-update-preview-button').on 'click', (e) ->
       $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find, #bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").addClass('visited')
 
-    $('.science-keyword-find-select-2').select2()
-      # some of this disabling and enabling should be able to work like search groups
-      # in permissions.coffee
-    .on 'select2:select', (e) ->
-      # debugger
-      # grab the $value
-      selectedValue = e.params.data.id
-      # grab the level/field name
-      selectedLevel = $(this).attr('id') # should change the id to camelcase in the erb file?
-      # grab $parent
-      selectedValueParent = $(e.params.data.element).data('parent')
-      parentValues = []
-      parentValues.push(selectedValueParent)
+    # grab the science hierarchy for use with facets
+    scienceKeywordsHierarchy = window.scienceKeywordsHierarchy
+    # visited sk find fields?
+    # selected sk level + values?
 
-      scienceKeywordsHierarchy = window.scienceKeywordsHierarchy
+    allSelectedKeywordFacets = []
+    # check if any levels already selected are at a higher index
+    anyHigherSelectedIndex = (selectedIndex) ->
+      # debugger
+      # for selectedScienceKeyword in allSelectedKeywordFacets
+      allSelectedKeywordFacets.some (element, index, array) ->
+        # scienceKeywordsHierarchy.indexOf(element.level) > selectedIndex
+        element.hierarchyIndex > selectedIndex
+
+    # check if any facets already selected are at a higher index
+    anyHigherSelectedFacet = (selectedFacet) ->
+      # debugger
+      allSelectedKeywordFacets.some (element, index, array) ->
+        element.hierarchyIndex > selectedFacet.hierarchyIndex
+
+    findHighestIndex = () ->
+      if allSelectedKeywordFacets.length == 1
+        allSelectedKeywordFacets[0].hierarchyIndex
+      else
+        index = 0
+        for facet in allSelectedKeywordFacets
+          if facet.hierarchyIndex > index
+            index = facet.hierarchyIndex
+
+    findHighestIndexFacet = () ->
+      highestFacet = allSelectedKeywordFacets[0]
+      for facet in allSelectedKeywordFacets
+        if facet.hierarchyIndex > highestFacet.hierarchyIndex
+          highestFacet = facet
+
+      highestFacet
+
+    removeSelectedFacet = (selectedLevel) ->
+      # debugger
+      allSelectedKeywordFacets = allSelectedKeywordFacets.filter (element, index, array) ->
+        element.level != selectedLevel
+
+    toggleFacets = (selectedFacet) ->
+    # disableUnrelatedFacets = (selectedIndex, selectedFacet) ->
+      # higherLevels = scienceKeywordsHierarchy[0...selectedIndex]
+      # lowerLevels = scienceKeywordsHierarchy[selectedIndex + 1..]
+
+      targetIndex = selectedFacet.hierarchyIndex
+      higherLevels = scienceKeywordsHierarchy[0...targetIndex]
+      lowerLevels = scienceKeywordsHierarchy[targetIndex + 1..]
+      # debugger
       # traversing up the hierarchy
-        # find index
-        index = scienceKeywordsHierarchy.indexOf(selectedLevel)
+      # set the parent value for traversing upward
+      upwardParent = selectedFacet.parent
+      for upLevel in higherLevels by -1
         # going up a level, disable all values that don't match the $parent value
         # get new parent of the current (old) $parent
         # using new parent, repeat going up another level until Category (or run out)
+        $levelSelect = $("##{upLevel}")
+        $levelOptions = $levelSelect.find('option')
+        for option in $levelOptions
+          if $(option).val() != upwardParent && $(option).val() != ''
+            $(option).prop('disabled', true)
+          else
+            $(option).prop('disabled', false)
+            # this should only happen once, it should be the new parent
+            newParentValue = $(option).data('parent')
+        # set new parent value for the next level up
+        console.log "went upward through #{upLevel}, disabled all but #{upwardParent}"
+        upwardParent = newParentValue
 
       # traversing down the hierarchy
-        # parents $bucket for going down, starting with current $value
-        # going down a level, disable all values whose parent is not the $value (also the only value in the parents $bucket)
-        # all not disabled values (whose parent matches the $value), add to the parents $bucket
+      # set the parent values for traversing downward
+      parentValues = []
+      parentValues.push(selectedFacet.value)
+      for downLevel in lowerLevels
+        # going down a level, disable all values whose parent is not the in the parents $bucket
+        # all not disabled values, add to the parents $bucket
         # going down another level, repeat [disabling, adding to parents $bucket] but using all values in the parents $bucket
-        # go until end (or run out)
+        $levelSelect = $("##{downLevel}")
+        $levelOptions = $levelSelect.find('option')
+        for option in $levelOptions
+          optionParent = $(option).data('parent')
+          if parentValues.indexOf(optionParent) == -1 && $(option).val() != ''
+            # ancestor of this keyword is not selected
+            $(option).prop('disabled', true)
+          else
+            $(option).prop('disabled', false)
+            # this is a 'descendent' of the selectedValue, add it to the parentValues
+            parentValues.push($(option).val())
+        console.log "went down through #{downLevel} ok, decendents list now #{parentValues}"
+      # must call select2 after disabling/enabling to take effect
+      # $('.science-keyword-find-select-2').select2()
+
+    $('.science-keyword-find-select-2').select2(
+      width: '100%'
+    )
+    .on 'change', ->
+      $('#bulk-update-form-science_keywords .bulk-updates-find').addClass('visited')
+      $(this).valid()
+    # we use the ':select' event because it provides us with selection data, and
+    # we cannot use the ':unselect' event because we need to have a prompt, and
+    # selecting the prompt triggers the ':select' event
+    .on 'select2:select', (e) ->
+      # grab the value of the selection
+      selectedValue = e.params.data.id
+      selectedLevel = e.params.data.element.parentElement.id
+
+      if selectedValue == ''
+        # user selected the prompt, they are 'unselecting'
+        ## TODO: what to do on unselect
+          # if there are no choices left, then everything should be re-enabled
+          # idea: if there are any choices left, take the lowest one down and traverse both ways?
+            # but use enabling (as well as OR instead of) disabling?
+
+        # remove selection from allSelectedKeywordFacets
+
+        removeSelectedFacet(selectedLevel)
+
+        console.log "all selected still: #{JSON.stringify(allSelectedKeywordFacets)}"
+        ## // Retrieve custom attribute value of the first selected element
+        ## $('#mySelect2').find(':selected').data('custom-attribute');
+        if allSelectedKeywordFacets.length > 0
+          console.log "gotta enable some"
+          # find WHICH value and traverse and enable?
+          # lowest is the most restrictive
+          # enable all at current level
+          $(this).find('option').prop('disabled', false)
+
+          # findHighestIndex(allSelectedKeywordFacets)
+          highestIndexFacet = findHighestIndexFacet()
+          # get selection at highest index. run the disable function with enabling
+          # toggleFacets(highestIndex, highestFacet)
+          # debugger
+          toggleFacets(highestIndexFacet)
+        else
+          $('.science-keyword-find-select-2').find('option').prop('disabled', false)
+          # enable all
+          # for keywordLevel in scienceKeywordsHierarchy
+          #   $levelSelect = $("##{keywordLevel}")
+          #   $levelOptions = $levelSelect.find('option')
+          #   $levelOptions.prop('disabled', false)
+      else
+        # user made an actual selection
+
+        # grab the level/field name
+        # selectedLevel = $(this).attr('id') # should change the id to camelcase in the erb file?
+        # grab $parent
+        selectedValueParent = $(e.params.data.element).data('parent')
+
+        # find index in the hierarchy of the selected level
+        selectedIndex = scienceKeywordsHierarchy.indexOf(selectedLevel)
+
+        newSelection = {
+          'value': selectedValue,
+          'level': selectedLevel,
+          'parent': selectedValueParent,
+          'hierarchyIndex': selectedIndex
+        }
+
+        # can add the new selection before testing, can't have a higher index than itself
+        console.log "all selected before selection: #{JSON.stringify(allSelectedKeywordFacets)}"
+        allSelectedKeywordFacets.push(newSelection)
+        console.log "all selected now: #{JSON.stringify(allSelectedKeywordFacets)}"
+
+        # debugger
+        # disable other selections in the current dropdown, except the prompt
+        $otherOptions = $(this).find('option').not(':selected').not('[value=""]')
+        $otherOptions.prop('disabled', true)
+        # for otherOption in $otherOptions
+        #   if $(otherOption).val() != '' && $(otherOption).val() != selectedValue
+        #     $(otherOption).prop('disabled', true)
+            # $(otherOption).attr('disabled', true)
+
+        if anyHigherSelectedFacet(newSelection)
+        # if anyHigherSelectedIndex(selectedIndex)
+          # don't do any traversing or disabling, already narrowed
+          console.log "no need to traverse, bc already as narrow as possible"
+        else
+          # do the traversing with the values
+          console.log "gotta do the traversing"
+          # disableUnrelatedFacets(selectedIndex, newSelection)
+          toggleFacets(newSelection)
+
+      # must call select2 after disabling/enabling to take effect
+      $('.science-keyword-find-select-2').select2()
+
+      # higherLevels = scienceKeywordsHierarchy[0...selectedIndex]
+      # lowerLevels = scienceKeywordsHierarchy[selectedIndex + 1..]
+      # debugger
+
+      # traversing up the hierarchy
+      # set the parent value for traversing upward
+      # upwardParent = selectedValueParent
+      # for upLevel in higherLevels by -1
+      #   # going up a level, disable all values that don't match the $parent value
+      #   # get new parent of the current (old) $parent
+      #   # using new parent, repeat going up another level until Category (or run out)
+      #   $levelSelect = $("##{upLevel}")
+      #   $options = $levelSelect.find('option')
+      #   for option in $options
+      #     if $(option).val() != upwardParent
+      #       $(option).prop('disabled', true)
+      #     else
+      #       # enable?
+      #       # this should only happen once, it should be the new parent
+      #       newParentValue = $(option).data('parent')
+      #   # set new parent value for the next level up
+      #   console.log "went upward through #{upLevel}, disabled all but #{upwardParent}"
+      #   upwardParent = newParentValue
+
+      # traversing down the hierarchy
+      # set the parent values for traversing downward
+      # parentValues = []
+      # parentValues.push(selectedValueParent)
+      # for downLevel in lowerLevels
+      #   # parents $bucket for going down, starting with current $value
+      #   # going down a level, disable all values whose parent is not the $value (also the only value in the parents $bucket)
+      #   # all not disabled values (whose parent matches the $value), add to the parents $bucket
+      #   # going down another level, repeat [disabling, adding to parents $bucket] but using all values in the parents $bucket
+      #   # go until end (or run out)
+      #   $levelSelect = $("##{downLevel}")
+      #   $options = $levelSelect.find('option')
+      #   for option in $options
+      #     optionParent = $(option).data('parent')
+      #     if parentValues.indexOf(optionParent) == -1
+      #       # ancestor of this keyword is not selected
+      #       $(option).prop('disabled', true)
+      #     else
+      #       # enable?
+      #       # this is a 'child' of the selectedValue, add it to the parentValues
+      #       parentValues.push($(option).val())
+      #   console.log "went down through #{downLevel} ok, decendents list now #{parentValues}"
+
+      ## what to do if there are multiple selected?
+        # make sure to grab indexes in the hierarchy of the new choice
+          # if the new choice is lower down, then use that and traverse down, and up to the previous index choice
+          # if the new choice is higher up, no need to do anything
+
+
 
   if $('#bulk-update-status-table').length > 0
     $('#bulk-update-status-table').tablesorter
