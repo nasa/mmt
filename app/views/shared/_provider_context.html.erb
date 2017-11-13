@@ -20,6 +20,10 @@
   <% end %>
 
   <p>
-    <%= link_to 'Refresh your available providers', 'javascript:void(0)', id: 'refresh-available-providers-link', class: 'refresh-providers spinner' %>
+    <% if provider_context_page %>
+      <%= link_to 'Refresh your available providers', refresh_user_providers_path, id: 'refresh-available-providers-link', class: 'refresh-providers' %>
+    <% else %>
+      <%= link_to 'Refresh your available providers', 'javascript:void(0)', id: 'refresh-available-providers-link', class: 'refresh-providers spinner' %>
+    <% end %>
   </p>
 </div>

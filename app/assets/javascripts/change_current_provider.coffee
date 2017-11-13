@@ -89,17 +89,18 @@ $(document).ready ->
         $("##{actionLink}")[0].click()
 
   $('#refresh-available-providers-link').on 'click', (element) ->
-    $.ajax
-      url: '/refresh_providers'
-      method: 'get'
-      dataType: 'json'
+    if $(this).hasClass('spinner')
+      $.ajax
+        url: '/refresh_providers'
+        method: 'get'
+        dataType: 'json'
 
-      success: (response) ->
-        $('#select_provider').empty()
-        $('#select_provider').append($('<option>').text('Select Provider'))
+        success: (response) ->
+          $('#select_provider').empty()
+          $('#select_provider').append($('<option>').text('Select Provider'))
 
-        $.each response.items, (index, value) ->
-          $('#select_provider').append($('<option>').val(value).text(value))
+          $.each response.items, (index, value) ->
+            $('#select_provider').append($('<option>').val(value).text(value))
 
-        $('span.refresh-providers.spinner').remove()
-        $('a.refresh-providers.spinner').show()
+          $('span.refresh-providers.spinner').remove()
+          $('a.refresh-providers.spinner').show()
