@@ -182,10 +182,10 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         end
       end
 
-      context 'when leaving a required field with no text' do
+      context 'when leaving a required field with no selection' do
         before do
-          find('#category').click
-          find('#term').click
+          select 'EARTH SCIENCE SERVICES', from: 'Category'
+          select 'Select a Category', from: 'Category'
         end
 
         it 'displays a required field error' do
@@ -210,10 +210,10 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         end
       end
 
-      context 'when leaving a required field with no text' do
+      context 'when leaving a required field with no selection' do
         before do
-          find('#category').click
-          find('#term').click
+          select 'EARTH SCIENCE SERVICES', from: 'Category'
+          select 'Select a Category', from: 'Category'
         end
 
         it 'displays a required field error' do

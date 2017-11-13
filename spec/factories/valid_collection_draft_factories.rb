@@ -624,6 +624,19 @@ FactoryGirl.define do
         'Topic'          => 'DATA ANALYSIS AND VISUALIZATION',
         'Term'           => 'GEOGRAPHIC INFORMATION SYSTEMS',
         'VariableLevel1' => 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+      }, {
+        'Category'       => 'EARTH SCIENCE',
+        'Topic'          => 'ATMOSPHERE',
+        'Term'           => 'AEROSOLS',
+        'VariableLevel1' => 'AEROSOL OPTICAL DEPTH/THICKNESS',
+        'VariableLevel2' => 'ANGSTROM EXPONENT'
+      }, {
+        'Category'       => 'EARTH SCIENCE',
+        'Topic'          => 'ATMOSPHERE',
+        'Term'           => 'ATMOSPHERIC TEMPERATURE',
+        'VariableLevel1' => 'SURFACE TEMPERATURE',
+        'VariableLevel2' => 'MAXIMUM/MINIMUM TEMPERATURE',
+        'VariableLevel3' => '24 HOUR MAXIMUM TEMPERATURE'
       }],
       'AncillaryKeywords' => ['Ancillary keyword 1', 'Ancillary keyword 2'],
       'AdditionalAttributes' => [{
