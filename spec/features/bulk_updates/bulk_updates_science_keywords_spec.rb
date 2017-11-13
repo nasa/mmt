@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe 'Bulk updating Science Keywords' do
   before :all do
-    _ingest_response, @find_and_remove_concept_response = publish_collection_draft
+    @find_and_remove_ingest_response, @find_and_remove_concept_response = publish_collection_draft
     _ingest_response, @add_to_existing_concept_response = publish_collection_draft
-    _ingest_response, @find_and_replace_concept_response = publish_collection_draft
+    @find_and_replace_ingest_response, @find_and_replace_concept_response = publish_collection_draft
     _ingest_response, @clear_all_and_replace_concept_response = publish_collection_draft
   end
 
@@ -15,7 +15,7 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
-    before do
+    before(:each, execute_bulk_update: true) do
       # Search form
       select 'Entry Title', from: 'Search Field'
       find(:css, "input[id$='query_text']").set(@find_and_remove_concept_response.body['EntryTitle'])
@@ -28,11 +28,13 @@ describe 'Bulk updating Science Keywords' do
       # Bulk update form
       select 'Science Keywords', from: 'Field to Update'
       select 'Find & Remove', from: 'Update Type'
-      fill_in 'Level 1', with: 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
+
+      select 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS', from: 'Level 1'
+
       click_on 'Preview'
     end
 
-    it 'displays the preview information' do
+    it 'displays the preview information', execute_bulk_update: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
       expect(page).to have_content('Field to Update Science Keywords')
@@ -48,7 +50,7 @@ describe 'Bulk updating Science Keywords' do
     end
 
     context 'when submitting the bulk update' do
-      before do
+      before(:each, execute_bulk_update: true) do
         click_on 'Submit'
 
         # need to wait until the task status is 'COMPLETE'
@@ -59,7 +61,7 @@ describe 'Bulk updating Science Keywords' do
         page.evaluate_script('window.location.reload()')
       end
 
-      it 'displays the bulk update status page' do
+      it 'displays the bulk update status page', execute_bulk_update: true do
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Science Keywords')
@@ -77,9 +79,7 @@ describe 'Bulk updating Science Keywords' do
 
       context 'when viewing the collection' do
         before do
-          within '#bulk-update-status-table' do
-            click_on @find_and_remove_concept_response.body['EntryTitle']
-          end
+          visit collection_path(@find_and_remove_ingest_response['concept-id'])
         end
 
         it 'no longer has the removed keyword' do
@@ -172,7 +172,7 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Find & Replace bulk update', js: true do
-    before do
+    before(:each, execute_bulk_update: true) do
       # Search form
       select 'Entry Title', from: 'Search Field'
       find(:css, "input[id$='query_text']").set(@find_and_replace_concept_response.body['EntryTitle'])
@@ -185,7 +185,9 @@ describe 'Bulk updating Science Keywords' do
       # Bulk update form
       select 'Science Keywords', from: 'Field to Update'
       select 'Find & Replace', from: 'Update Type'
-      fill_in 'Level 1', with: 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
+
+      select 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS', from: 'Level 1'
+
       # Select new keyword from picker
       choose_keyword 'EARTH SCIENCE'
       choose_keyword 'ATMOSPHERE'
@@ -194,7 +196,7 @@ describe 'Bulk updating Science Keywords' do
       click_on 'Preview'
     end
 
-    it 'displays the preview information' do
+    it 'displays the preview information', execute_bulk_update: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
       expect(page).to have_content('Field to Update Science Keywords')
@@ -216,7 +218,7 @@ describe 'Bulk updating Science Keywords' do
     end
 
     context 'when submitting the bulk update' do
-      before do
+      before(:each, execute_bulk_update: true) do
         click_on 'Submit'
 
         # need to wait until the task status is 'COMPLETE'
@@ -227,7 +229,7 @@ describe 'Bulk updating Science Keywords' do
         page.evaluate_script('window.location.reload()')
       end
 
-      it 'displays the bulk update status page' do
+      it 'displays the bulk update status page', execute_bulk_update: true do
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Science Keywords')
@@ -250,9 +252,7 @@ describe 'Bulk updating Science Keywords' do
 
       context 'when viewing the collection' do
         before do
-          within '#bulk-update-status-table' do
-            click_on @find_and_replace_concept_response.body['EntryTitle']
-          end
+          visit collection_path(@find_and_replace_ingest_response['concept-id'])
         end
 
         it 'displays the new keyword' do
