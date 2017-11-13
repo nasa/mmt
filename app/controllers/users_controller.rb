@@ -47,6 +47,13 @@ class UsersController < ApplicationController
     current_user.set_available_providers(token)
 
     respond_to do |format|
+      format.html do
+        if current_user.provider_id.nil?
+          redirect_to provider_context_path
+        else
+          redirect_to root_path
+        end
+      end
       format.json { render json: { items: current_user.available_providers } }
     end
   end
