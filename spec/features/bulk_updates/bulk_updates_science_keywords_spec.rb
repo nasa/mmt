@@ -15,7 +15,7 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
-    before(:each, execute_bulk_update: true) do
+    before(:each, bulk_update_step_1: true) do
       # Search form
       select 'Entry Title', from: 'Search Field'
       fill_in 'query_text', with: @find_and_remove_concept_response.body['EntryTitle']
@@ -34,7 +34,7 @@ describe 'Bulk updating Science Keywords' do
       click_on 'Preview'
     end
 
-    it 'displays the preview information', execute_bulk_update: true do
+    it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
       expect(page).to have_content('Field to Update Science Keywords')
@@ -50,7 +50,7 @@ describe 'Bulk updating Science Keywords' do
     end
 
     context 'when submitting the bulk update' do
-      before(:each, execute_bulk_update: true) do
+      before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
 
         # need to wait until the task status is 'COMPLETE'
@@ -61,7 +61,7 @@ describe 'Bulk updating Science Keywords' do
         page.evaluate_script('window.location.reload()')
       end
 
-      it 'displays the bulk update status page', execute_bulk_update: true do
+      it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Science Keywords')
@@ -172,7 +172,7 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Find & Replace bulk update', js: true do
-    before(:each, execute_bulk_update: true) do
+    before(:each, bulk_update_step_1: true) do
       # Search form
       select 'Entry Title', from: 'Search Field'
       fill_in 'query_text', with: @find_and_replace_concept_response.body['EntryTitle']
@@ -196,7 +196,7 @@ describe 'Bulk updating Science Keywords' do
       click_on 'Preview'
     end
 
-    it 'displays the preview information', execute_bulk_update: true do
+    it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
       expect(page).to have_content('Field to Update Science Keywords')
@@ -218,7 +218,7 @@ describe 'Bulk updating Science Keywords' do
     end
 
     context 'when submitting the bulk update' do
-      before(:each, execute_bulk_update: true) do
+      before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
 
         # need to wait until the task status is 'COMPLETE'
@@ -229,7 +229,7 @@ describe 'Bulk updating Science Keywords' do
         page.evaluate_script('window.location.reload()')
       end
 
-      it 'displays the bulk update status page', execute_bulk_update: true do
+      it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Science Keywords')

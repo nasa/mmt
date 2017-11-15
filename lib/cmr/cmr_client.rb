@@ -32,10 +32,8 @@ module Cmr
 
       # search collections via POST
       url = if Rails.env.development? || Rails.env.test?
-              # 'http://localhost:3003/collections.umm-json'
               "http://localhost:3003/collections.#{response_format}"
             else
-              # '/search/collections.umm-json'
               "/search/collections.#{response_format}"
             end
 
