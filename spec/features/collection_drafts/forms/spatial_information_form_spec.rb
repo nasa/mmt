@@ -19,7 +19,7 @@ describe 'Spatial information form', js: true do
         click_on 'Expand All'
 
         # Spatial Extent
-        choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+        select 'Horizontal', from: 'Spatial Coverage Type'
         fill_in 'Zone Identifier', with: 'Zone ID'
         within '.geometry' do
           choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
@@ -82,9 +82,7 @@ describe 'Spatial information form', js: true do
       it 'populates the form with the values including horizontal spatial data' do
         # Spatial Extent
         within '.spatial-extent' do
-          expect(page).to have_checked_field('Horizontal')
-          expect(page).to have_no_checked_field('Vertical')
-          expect(page).to have_no_checked_field('Orbit')
+          expect(page).to have_field('Spatial Coverage Type', with: 'HORIZONTAL')
           expect(page).to have_field('Zone Identifier', with: 'Zone ID')
           within '.geometry' do
             expect(page).to have_checked_field('Cartesian')
@@ -157,7 +155,7 @@ describe 'Spatial information form', js: true do
         click_on 'Expand All'
 
         # Spatial Extent
-        choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+        select 'Horizontal', from: 'Spatial Coverage Type'
         fill_in 'Zone Identifier', with: 'Zone ID'
         within '.geometry' do
           choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
@@ -179,9 +177,7 @@ describe 'Spatial information form', js: true do
       it 'populates the form with the values including horizontal spatial data' do
         # Spatial Extent
         within '.spatial-extent' do
-          expect(page).to have_checked_field('Horizontal')
-          expect(page).to have_no_checked_field('Vertical')
-          expect(page).to have_no_checked_field('Orbit')
+          expect(page).to have_field('Spatial Coverage Type', with: 'HORIZONTAL')
           expect(page).to have_field('Zone Identifier', with: 'Zone ID')
           within '.geometry' do
             expect(page).to have_checked_field('Cartesian')
@@ -214,7 +210,7 @@ describe 'Spatial information form', js: true do
         click_on 'Expand All'
 
         # Spatial Extent
-        choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+        select 'Horizontal', from: 'Spatial Coverage Type'
         fill_in 'Zone Identifier', with: 'Zone ID'
         within '.geometry' do
           choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
@@ -236,9 +232,7 @@ describe 'Spatial information form', js: true do
       it 'populates the form with the values including horizontal spatial data' do
         # Spatial Extent
         within '.spatial-extent' do
-          expect(page).to have_checked_field('Horizontal')
-          expect(page).to have_no_checked_field('Vertical')
-          expect(page).to have_no_checked_field('Orbit')
+          expect(page).to have_field('Spatial Coverage Type', with: 'HORIZONTAL')
           expect(page).to have_field('Zone Identifier', with: 'Zone ID')
           within '.geometry' do
             expect(page).to have_checked_field('Cartesian')
@@ -317,7 +311,7 @@ describe 'Spatial information form', js: true do
         click_on 'Expand All'
 
         # Spatial Extent
-        choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+        select 'Horizontal', from: 'Spatial Coverage Type'
         fill_in 'Zone Identifier', with: 'Zone ID'
         within '.geometry' do
           choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
@@ -339,9 +333,7 @@ describe 'Spatial information form', js: true do
       it 'populates the form with the values including horizontal spatial data' do
         # Spatial Extent
         within '.spatial-extent' do
-          expect(page).to have_checked_field('Horizontal')
-          expect(page).to have_no_checked_field('Vertical')
-          expect(page).to have_no_checked_field('Orbit')
+          expect(page).to have_field('Spatial Coverage Type', with: 'HORIZONTAL')
           expect(page).to have_field('Zone Identifier', with: 'Zone ID')
           within '.geometry' do
             expect(page).to have_checked_field('Cartesian')
@@ -383,7 +375,7 @@ describe 'Spatial information form', js: true do
       click_on 'Expand All'
 
       # Spatial Extent
-      choose 'draft_spatial_extent_spatial_coverage_type_VERTICAL'
+      select 'Vertical', from: 'Spatial Coverage Type'
       within '.multiple.vertical-spatial-domains' do
         fill_in 'Type', with: 'domain type'
         fill_in 'Value', with: 'domain value'
@@ -440,9 +432,7 @@ describe 'Spatial information form', js: true do
     it 'populates the form with the values including vertical spatial data' do
       # Spatial Extent
       within '.spatial-extent' do
-        expect(page).to have_no_checked_field('Horizontal')
-        expect(page).to have_checked_field('Vertical')
-        expect(page).to have_no_checked_field('Orbit')
+        expect(page).to have_field('Spatial Coverage Type', with: 'VERTICAL')
 
         within '.multiple.vertical-spatial-domains' do
           expect(page).to have_field('Type', with: 'domain type')
@@ -483,7 +473,7 @@ describe 'Spatial information form', js: true do
       click_on 'Expand All'
 
       # Spatial Extent
-      choose 'draft_spatial_extent_spatial_coverage_type_ORBITAL'
+      select 'Orbital', from: 'Spatial Coverage Type'
       fill_in 'Swath Width', with: '1'
       fill_in 'Period', with: '2'
       fill_in 'Inclination Angle', with: '3'
@@ -545,9 +535,8 @@ describe 'Spatial information form', js: true do
     it 'populates the form with the values including orbital spatial data' do
       # Spatial Extent
       within '.spatial-extent' do
-        expect(page).to have_no_checked_field('Horizontal')
-        expect(page).to have_no_checked_field('Vertical')
-        expect(page).to have_checked_field('Orbit')
+        expect(page).to have_field('Spatial Coverage Type', with: 'ORBITAL')
+
         expect(page).to have_field('Swath Width', with: '1.0')
         expect(page).to have_field('Period', with: '2.0')
         expect(page).to have_field('Inclination Angle', with: '3.0')

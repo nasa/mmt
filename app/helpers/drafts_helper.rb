@@ -180,7 +180,8 @@ module DraftsHelper
     ['Horizontal', 'HORIZONTAL'],
     ['Vertical', 'VERTICAL'],
     ['Orbital', 'ORBITAL'],
-    ['Both', 'BOTH'] # Perhaps 'Both' should actually read 'Horizontal and Vertical', to be more clear to the user
+    ['Horizontal and Vertical', 'HORIZONTAL_VERTICAL'],
+    ['Orbital and Vertical', 'ORBITAL_VERTICAL']
   ]
   URLContentTypeMap = {
     'CollectionURL' => {

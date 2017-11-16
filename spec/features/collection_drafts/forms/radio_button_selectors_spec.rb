@@ -21,9 +21,7 @@ describe 'Radio button form selectors', js: true do
 
       open_accordions
 
-      within '#spatial-extent' do
-        choose 'Horizontal'
-      end
+      select 'Horizontal', from: 'Spatial Coverage Type'
     end
 
     it 'does not show any geometry fields' do

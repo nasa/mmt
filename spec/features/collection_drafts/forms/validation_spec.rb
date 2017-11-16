@@ -238,7 +238,7 @@ describe 'Data validation for a form', js: true do
     end
 
     it 'simple Latitude field validation works' do
-      choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+      select 'Horizontal', from: 'Spatial Coverage Type'
       script = '$(".geometry-picker.points").click();'
       page.execute_script script
 
@@ -310,7 +310,7 @@ describe 'Data validation for a form', js: true do
 
     it 'validation of minItems does work' do
       # Partially populate a boundary's list of points
-      choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+      select 'Horizontal', from: 'Spatial Coverage Type'
       script = '$(".geometry-picker.g-polygons").click();'
       page.execute_script script
 
@@ -463,7 +463,7 @@ describe 'Data validation for a form', js: true do
 
       open_accordions
 
-      choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+      select 'Horizontal', from: 'Spatial Coverage Type'
       script = '$(".geometry-picker.bounding-rectangles").click();'
       page.execute_script script
       click_on 'Add another Bounding Rectangle'
