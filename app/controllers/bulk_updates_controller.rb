@@ -1,7 +1,6 @@
 # :nodoc:
 class BulkUpdatesController < ManageCollectionsController
-  include BulkUpdates
-  include ControlledKeywords
+  include BulkUpdates, ControlledKeywords, Metadata
   before_filter :bulk_updates_enabled?
 
   add_breadcrumb 'Bulk Updates', :bulk_updates_path
@@ -42,6 +41,8 @@ class BulkUpdatesController < ManageCollectionsController
     set_data_centers
     set_platform_types
     set_instruments
+
+    set_science_keyword_facets(params[:selected_collections])
   end
 
   def preview
@@ -96,7 +97,7 @@ class BulkUpdatesController < ManageCollectionsController
       bulk_update_object['update-value'] = prune_science_keyword(params.fetch('update_value', {}).to_hash.to_camel_keys)
     end
 
-    bulk_update_object
+    compact_blank(bulk_update_object)
   end
 
   def retrieve_task_collections

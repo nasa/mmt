@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   skip_before_filter :is_logged_in, except: [:set_provider, :refresh_providers]
   skip_before_filter :setup_query
+  skip_before_filter :provider_set?
 
   def login
     session[:last_point] = request.referrer
@@ -19,6 +20,9 @@ class UsersController < ApplicationController
       format.html { redirect_to root_url }
       format.json { render json: nil, status: :ok }
     end
+  end
+
+  def provider_context
   end
 
   def set_provider
@@ -43,6 +47,13 @@ class UsersController < ApplicationController
     current_user.set_available_providers(token)
 
     respond_to do |format|
+      format.html do
+        if current_user.provider_id.nil?
+          redirect_to provider_context_path
+        else
+          redirect_to root_path
+        end
+      end
       format.json { render json: { items: current_user.available_providers } }
     end
   end

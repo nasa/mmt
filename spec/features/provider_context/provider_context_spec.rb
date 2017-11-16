@@ -8,6 +8,7 @@ describe 'Provider context', reset_provider: true, js: true do
   context 'when the user has multiple providers' do
     before do
       login(providers: nil)
+      visit '/'
     end
 
     before :all do
@@ -152,6 +153,7 @@ describe 'Provider context', reset_provider: true, js: true do
   context 'when the user only has one provider' do
     before do
       login(providers: nil)
+      visit '/'
     end
 
     before :all do
@@ -204,7 +206,7 @@ describe 'Provider context', reset_provider: true, js: true do
     end
 
     it 'displays a message' do
-      expect(page).to have_content('You do not have any available providers. Please contact your provider to have your permissions granted.')
+      expect(page).to have_content('You currently have no available providers. Please contact your provider administrator or the CMR OPS team to set up provider access.')
     end
   end
 end

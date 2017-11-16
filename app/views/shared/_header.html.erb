@@ -12,10 +12,12 @@
       <% if controller_name.include? 'welcome'%>
         <%= link_to 'Earthdata Login', login_path, class: 'eui-btn--blue' %>
       <% else %>
-        <%= render 'shared/user_info_dropdown' %>
-        <section id="search">
-          <%= render 'shared/search_form' %>
-        </section>
+        <%= render partial: 'shared/user_info_dropdown', locals: { hide_provider_context: hide_search } %>
+        <% unless hide_search %>
+          <section id="search">
+            <%= render 'shared/search_form' %>
+          </section>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -29,41 +31,11 @@
   </div>
 </noscript>
 
-<% if logged_in? && current_user.provider_id.nil? %>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('#change-context').click();
-    });
-  </script>
+<% unless hide_search %>
+  <div id="provider-context">
+    <% if logged_in? && current_user.available_providers %>
+      <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <%= render partial: 'shared/provider_context', locals: { provider_context_page: false } %>
+    <% end %>
+  </div>
 <% end %>
-
-<div id="provider-context">
-  <% if logged_in? && current_user.available_providers %>
-    <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-    <div>
-      <% if current_user.available_providers.size > 1 %>
-        <p>
-          Please select your provider context. You can change your context at any point.
-        </p>
-
-        <p>
-          <%= form_tag set_provider_path, method: 'post' do %>
-            <%= select_tag 'select_provider', options_for_select(current_user.available_providers.unshift(['Select Provider', '']), current_user.provider_id), class: 'single-select' %>
-          <% end %>
-        </p>
-      <% elsif current_user.available_providers.size == 1 %>
-        <p>
-          You only have one available provider, <%= current_user.provider_id %>
-        </p>
-      <% else %>
-        <p>
-          You do not have any available providers. Please contact your provider to have your permissions granted.
-        </p>
-      <% end %>
-
-      <p>
-        <%= link_to 'Refresh your available providers', 'javascript:void(0)', id: 'refresh-available-providers-link', class: 'refresh-providers spinner' %>
-      </p>
-    </div>
-  <% end %>
-</div>

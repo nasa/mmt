@@ -44,4 +44,35 @@ module BulkUpdates
       task.fetch('collection-statuses', []).find { |status| status['concept-id'] == collection.fetch('meta', {})['concept-id'] }['collection'] = collection
     end
   end
+
+  def set_science_keyword_facets(concept_ids)
+    facets = retrieve_collection_facets(concept_ids)
+    raw_science_keyword_facets = facets.find { |facet| facet['field'] == 'science_keywords' }
+
+    @science_keyword_facets = parse_hierarchical_facets(raw_science_keyword_facets, 'category')
+  end
+
+  def retrieve_collection_facets(concept_ids)
+    response = cmr_client.get_collections_by_post({ concept_id: concept_ids, include_facets: true, hierarchical_facets: true }, token, 'json')
+    return [{}] unless response.success?
+
+    hierarchical_facets = response.body.fetch('feed', {}).fetch('facets', {})
+  end
+
+  def parse_hierarchical_facets(facets, key, parent = nil, all_keywords = {})
+    # we take the hierarchical_facets, and group the values by level in the science
+    # keyword hierarchy. sample result structure with just the first 2 levels:
+    # { category: [{ value: category_value1, parent: nil }],
+    #   topic: [{ value: topic_value1, parent: category_value1 }] }
+
+    facets[key].map do |facet|
+      all_keywords[key] ||= []
+      all_keywords[key] << { value: facet['value'], parent: parent }
+
+      next_level = facet.fetch('subfields', []).first
+      parse_hierarchical_facets(facet, next_level, facet['value'], all_keywords) if next_level
+    end
+
+    all_keywords
+  end
 end

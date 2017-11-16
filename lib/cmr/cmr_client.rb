@@ -23,7 +23,7 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def get_collections_by_post(query, token = nil)
+    def get_collections_by_post(query, token = nil, response_format = 'umm-json')
       defaults = {
         'sort_key' => 'entry_title'
       }
@@ -32,9 +32,9 @@ module Cmr
 
       # search collections via POST
       url = if Rails.env.development? || Rails.env.test?
-              'http://localhost:3003/collections.umm-json'
+              "http://localhost:3003/collections.#{response_format}"
             else
-              '/search/collections.umm-json'
+              "/search/collections.#{response_format}"
             end
 
       headers = { 'Content-Type' => 'application/x-www-form-urlencoded' }

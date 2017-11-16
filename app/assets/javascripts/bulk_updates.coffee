@@ -398,10 +398,10 @@ $(document).ready ->
         if $selectedFieldData.hasOwnProperty('new_description')
           $($update_field_selector + ' .bulk-updates-value p.form-description:first').text($selectedFieldData['new_description'])
 
-    # mark bulk update find container for science keywords as visited because
+    # mark bulk update find container for keywords as visited because
     # we only want to validate the fields if they have been visited
-    $('.science-keyword-find, .location-keyword-find').on 'blur', ->
-      $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find").addClass('visited')
+    $('.location-keyword-find').on 'blur', ->
+      $("#bulk-update-form-location_keywords .bulk-updates-find").addClass('visited')
       $(this).valid()
 
     # mark the nested item picker as visited when any of the options are clicked
@@ -415,6 +415,127 @@ $(document).ready ->
     # mark appropriate containers as visited before submitting to ensure validation
     $('#bulk-update-preview-button').on 'click', (e) ->
       $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find, #bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").addClass('visited')
+
+    # grab the science hierarchy for use with facets
+    scienceKeywordsHierarchy = window.scienceKeywordsHierarchy
+
+    allSelectedKeywordFacets = []
+
+    anyHigherSelectedIndex = (selectedIndex) ->
+      allSelectedKeywordFacets.some (element, index, array) ->
+        element.hierarchyIndex > selectedIndex
+
+    anyHigherSelectedFacet = (selectedFacet) ->
+      allSelectedKeywordFacets.some (element, index, array) ->
+        element.hierarchyIndex > selectedFacet.hierarchyIndex
+
+    findHighestIndexFacet = () ->
+      highestFacet = allSelectedKeywordFacets[0]
+      for facet in allSelectedKeywordFacets
+        if facet.hierarchyIndex > highestFacet.hierarchyIndex
+          highestFacet = facet
+
+      highestFacet
+
+    removeSelectedFacet = (selectedLevel) ->
+      allSelectedKeywordFacets = allSelectedKeywordFacets.filter (element, index, array) ->
+        element.level != selectedLevel
+
+    toggleFacets = (selectedFacet) ->
+      targetIndex = selectedFacet.hierarchyIndex
+      higherLevels = scienceKeywordsHierarchy[0...targetIndex]
+      lowerLevels = scienceKeywordsHierarchy[targetIndex + 1..]
+
+      # traversing up the hierarchy
+      upwardParent = selectedFacet.parent
+      for upLevel in higherLevels by -1
+        # going up a level, disable all values that don't match the parent value
+        $levelSelect = $("##{upLevel}")
+        $levelOptions = $levelSelect.find('option')
+        for option in $levelOptions
+          if $(option).val() != upwardParent && $(option).val() != ''
+            $(option).prop('disabled', true)
+          else
+            $(option).prop('disabled', false)
+            # this should only happen once, it should be the new parent
+            newParentValue = $(option).data('parent')
+        upwardParent = newParentValue
+
+      # traversing down the hierarchy
+      parentValues = []
+      parentValues.push(selectedFacet.value)
+      for downLevel in lowerLevels
+        # going down a level, disable all values whose parent is not the in the
+        # parents bucket. all values not disabling, add to the parents bucket
+        $levelSelect = $("##{downLevel}")
+        $levelOptions = $levelSelect.find('option')
+        for option in $levelOptions
+          optionParent = $(option).data('parent')
+          if parentValues.indexOf(optionParent) == -1 && $(option).val() != ''
+            # ancestor of this keyword is not selected
+            $(option).prop('disabled', true)
+          else
+            $(option).prop('disabled', false)
+            # this is a 'descendent' of the selectedValue, add it to the parentValues
+            parentValues.push($(option).val())
+
+
+    $('.science-keyword-find-select-2').select2(
+      width: '100%'
+    ).on 'change', ->
+      # mark bulk update find container for keywords as visited because
+      # we only want to validate the fields if they have been visited
+      $('#bulk-update-form-science_keywords .bulk-updates-find').addClass('visited')
+      $(this).valid()
+    # we use the ':select' event because it provides us with selection data, and
+    # we cannot use the ':unselect' event because we need to have a prompt, and
+    # selecting the prompt triggers the ':select' event
+    .on 'select2:select', (e) ->
+      selectedValue = e.params.data.id
+      selectedLevel = e.params.data.element.parentElement.id
+
+      if selectedValue == ''
+        # user selected the prompt, they are 'unselecting'
+        # remove current selection from allSelectedKeywordFacets
+        removeSelectedFacet(selectedLevel)
+
+        if allSelectedKeywordFacets.length > 0
+          # enable all options at current level, the ones that should stay
+          # disabled will be handled by the toggle function
+          $(this).find('option').prop('disabled', false)
+
+          # get selection at highest index. run the toggle function to enable
+          highestIndexFacet = findHighestIndexFacet()
+          toggleFacets(highestIndexFacet)
+        else
+          # no selected facets remaining, enable all
+          $('.science-keyword-find-select-2').find('option').prop('disabled', false)
+      else
+        # user made an actual selection
+        selectedValueParent = $(e.params.data.element).data('parent')
+        selectedIndex = scienceKeywordsHierarchy.indexOf(selectedLevel)
+        newSelection = {
+          'value': selectedValue,
+          'level': selectedLevel,
+          'parent': selectedValueParent,
+          'hierarchyIndex': selectedIndex
+        }
+        allSelectedKeywordFacets.push(newSelection)
+
+        # disable other selections in the current dropdown, except the prompt
+        $otherOptions = $(this).find('option').not(':selected').not('[value=""]')
+        $otherOptions.prop('disabled', true)
+
+        if anyHigherSelectedFacet(newSelection)
+          # don't do any traversing or disabling, a facet at a higher index
+          # means selections are already more restricted
+        else
+          # do the traversing with the values
+          toggleFacets(newSelection)
+
+      # MUST call select2 after disabling/enabling for it to take effect
+      $('.science-keyword-find-select-2').select2()
+
 
   if $('#bulk-update-status-table').length > 0
     $('#bulk-update-status-table').tablesorter

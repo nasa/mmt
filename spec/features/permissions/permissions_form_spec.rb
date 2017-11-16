@@ -17,7 +17,7 @@ describe 'Collection Permissions form', js: true do
 
     it 'displays the new collection permission entry fields' do
       expect(page).to have_field('Name', type: 'text')
-      
+
       expect(page).to have_field('collection_applicable')
       expect(page).to have_field('granule_applicable')
 
