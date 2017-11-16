@@ -19,7 +19,7 @@ describe 'Preview on Map link', js: true do
 
     open_accordions
 
-    choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+    select 'Horizontal', from: 'Spatial Coverage Type'
   end
 
   context 'when adding a new point to the form' do

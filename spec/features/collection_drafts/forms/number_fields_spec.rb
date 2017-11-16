@@ -15,7 +15,7 @@ describe 'Number fields', js: true do
 
       open_accordions
 
-      choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+      select 'Horizontal', from: 'Spatial Coverage Type'
       within '.geometry' do
         choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
         script = '$(".geometry-picker.bounding-rectangles").click();'

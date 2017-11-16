@@ -15,7 +15,7 @@ describe 'Global spatial coverage', js: true do
 
       open_accordions
 
-      choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+      select 'Horizontal', from: 'Spatial Coverage Type'
       choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_bounding-rectangles'
       select 'Cartesian', from: 'Granule Spatial Representation'
 

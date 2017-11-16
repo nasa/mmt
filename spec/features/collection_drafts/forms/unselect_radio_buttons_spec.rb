@@ -16,35 +16,6 @@ describe 'Unselecting radio buttons', js: true do
       open_accordions
     end
 
-    context 'when clearing the Spatial Extent Spatial Coverage Type' do
-      before do
-        within '.spatial-extent' do
-          first('.clear-radio-button').click
-        end
-      end
-
-      it 'clears the radio buttons' do
-        within '.spatial-extent' do
-          expect(page).to have_no_checked_field('Horizontal')
-          expect(page).to have_no_checked_field('Vertical')
-          expect(page).to have_no_checked_field('Orbit')
-        end
-      end
-
-      it 'hides the form fields' do
-        expect(page).to have_css('.spatial-coverage-type.horizontal', visible: false)
-        expect(page).to have_css('.spatial-coverage-type.vertical', visible: false)
-        expect(page).to have_css('.spatial-coverage-type.orbit', visible: false)
-      end
-
-      it 'clears the form fields' do
-        script = "$('.spatial-extent .spatial-coverage-type').find('input').val()"
-        result = page.evaluate_script(script)
-
-        expect(result).to eq('')
-      end
-    end
-
     context 'when clearing the Spatial Extent Coordinate System' do
       before do
         within '.geometry' do

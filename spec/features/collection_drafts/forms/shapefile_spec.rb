@@ -14,7 +14,7 @@ describe 'Shapefile upload', js: true do
 
     open_accordions
 
-    choose 'draft_spatial_extent_spatial_coverage_type_HORIZONTAL'
+    select 'Horizontal', from: 'Spatial Coverage Type'
   end
 
   context 'when uploading a shapefile containing a single feature' do
