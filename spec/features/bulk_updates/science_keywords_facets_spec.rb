@@ -15,7 +15,7 @@ describe 'Science Keywords Facets with Bulk Updates' do
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
-      fill_in 'query_text', with: @concept_with_facets_response.body['EntryTitle']
+      find(:css, "input[id$='query_text']").set(@concept_with_facets_response.body['EntryTitle'])
       click_button 'Submit'
 
       # Select search results
