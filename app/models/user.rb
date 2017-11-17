@@ -41,7 +41,14 @@ class User < ActiveRecord::Base
       permissions_response = cmr_client.get_permissions(permission_options, token)
     end
 
+    if Rails.env.development?
+      # set some default providers for development
+      providers = %w(MMT_1 MMT_2 LARC SEDAC)
+    end
     self.providers = providers
+
+    # Reset provider, unless the current provider is still valid
+    self.provider_id = nil unless providers.include?(self.provider_id)
 
     Rails.logger.info "Available providers for #{urs_uid}: #{providers}"
 

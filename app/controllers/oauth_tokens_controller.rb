@@ -17,6 +17,9 @@ class OauthTokensController < ApplicationController
 
         # Stores additional information in the session pertaining to the user
         store_profile(profile.body)
+
+        # Updates the user's available providers
+        current_user.set_available_providers(token)
       else
         Rails.logger.error("OAuth error: #{response.body}")
       end
