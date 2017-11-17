@@ -26,6 +26,7 @@ module BulkUpdates
       # Pull out all of the keys from the originial
       # request object and insert them into the root
       task['request-json-body'].each do |key, value|
+        value = 'FIND_AND_UPDATE' if value == 'FIND_AND_UPDATE_HOME_PAGE_URL'
         task[key] = value
       end
     end
