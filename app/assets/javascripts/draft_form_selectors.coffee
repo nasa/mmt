@@ -229,7 +229,7 @@ $(document).ready ->
         $subtypeSelect.find('option').text 'No available subtype'
         $subtypeSelect.find('option').first().prop 'selected', true
 
-  # Update all the url content type select fields on pagge load
+  # Update all the url content type select fields on page load
   $('.related-url-content-type-select').each ->
     handleContentTypeSelect($(this))
 

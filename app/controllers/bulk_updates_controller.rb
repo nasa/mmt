@@ -55,6 +55,7 @@ class BulkUpdatesController < ManageCollectionsController
 
   def create
     @task = construct_task(params)
+    ensure_correct_data_center_update_value(@task)
 
     bulk_update_response = cmr_client.create_bulk_update(current_user.provider_id, @task, token)
 
@@ -139,5 +140,12 @@ class BulkUpdatesController < ManageCollectionsController
       keyword = { 'Category': category }.merge(keyword)
     end
     keyword
+  end
+
+  # comment about special case
+  def ensure_correct_data_center_update_value(task)
+    if task['update-type'] == 'FIND_AND_UPDATE' && task['update-value'].key?('ContactInformation')
+      task['update-type'] = 'FIND_AND_UPDATE_HOME_PAGE_URL'
+    end
   end
 end
