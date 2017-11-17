@@ -1,30 +1,15 @@
 $(document).ready ->
   # Handle geometry-picker (points/rectangles/polygons/lines)
   $('.geometry-picker').change ->
-    $('.geometry-type').show()
-    geometryType = $(this).parents('.geometry-type-group')
-    $('.geometry-type .points-fields').hide()
-    $('.geometry-type .bounding-rectangles-fields').hide()
-    $('.geometry-type .g-polygons-fields').hide()
-    $('.geometry-type .lines-fields').hide()
-
-    switch $(this).val()
-      when 'points'
-        $('.geometry-type .points-fields').show()
-      when 'bounding-rectangles'
-        $('.geometry-type .bounding-rectangles-fields').show()
-      when 'g-polygons'
-        $('.geometry-type .g-polygons-fields').show()
-      when 'lines'
-        $('.geometry-type .lines-fields').show()
-
-    # Clear all fields
-    $.each $('.geometry-type').find('.points-fields, .bounding-rectangles-fields, .g-polygons-fields, .lines-fields').find('input'), (index, field) ->
-      $(field).val ''
-
-    # Toggle checkboxes
-    $('.geometry-picker').prop 'checked', false
-    $(this).prop 'checked', true
+    $fields = $(this).siblings('div.geometry-fields')
+    if this.checked
+      # Show fields
+      $fields.show()
+    else
+      # clear and hide fields
+      $fields.hide()
+      $.each $fields.find('input'), (index, field) ->
+        $(field).val ''
 
   # Handle coordinate-system-picker (geographic/local)
   $('.coordinate-system-picker').change ->

@@ -48,74 +48,58 @@
   <% g_polygons_checked = !geometry['GPolygons'].nil? %>
   <% lines_checked = !geometry['Lines'].nil? %>
   <label class="eui-required-o">Geometry Type</label>
-  <a href="javascript:void(0)" class="clear-radio-button" data-content="geometry-type">Clear</a>
   <div class="geometry-type-group">
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}"), 'points', points_checked, class: 'geometry-picker points', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+    <div class="checkbox-group">
+      <%= check_box_tag(name_to_param("#{name_prefix}points"), nil, points_checked, class: 'geometry-picker points', name: nil, data: { level: remove_pipes(name_prefix) }) %>
       <label for="<%= remove_pipes(name_prefix) %>points">Points</label>
-    </p>
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}"), 'bounding-rectangles', bounding_rectangles_checked, class: 'geometry-picker bounding-rectangles', name: nil, data: { level: remove_pipes(name_prefix) }) %>
-      <label for="<%= remove_pipes(name_prefix) %>bounding-rectangles">Bounding Rectangles</label>
-    </p>
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}"), 'g-polygons', g_polygons_checked, class: 'geometry-picker g-polygons', name: nil, data: { level: remove_pipes(name_prefix) }) %>
-      <label for="<%= remove_pipes(name_prefix) %>g-polygons">G Polygons</label>
-    </p>
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}"), 'lines', lines_checked, class: 'geometry-picker lines', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+
+      <div class="row sub-fields points-fields geometry-fields" style="<%= 'display: none;' unless points_checked %>">
+        <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'point',
+            values: geometry['Points'] || [{}],
+            name_prefix: "#{name_prefix}points_",
+            multiple: true,
+            options: { show_preview: true } } %>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <%= check_box_tag(name_to_param("#{name_prefix}bounding_rectangles"), nil, bounding_rectangles_checked, class: 'geometry-picker bounding-rectangles', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>bounding_rectangles">Bounding Rectangles</label>
+
+      <div class="row sub-fields bounding-rectangles-fields geometry-fields" style="<%= 'display: none;' unless bounding_rectangles_checked %>">
+        <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'bounding_rectangle',
+            values: geometry['BoundingRectangles'] || [{}],
+            name_prefix: "#{name_prefix}|bounding_rectangles|_",
+            multiple: true,
+            options: { show_preview: true } } %>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <%= check_box_tag(name_to_param("#{name_prefix}g_polygons"), nil, g_polygons_checked, class: 'geometry-picker g-polygons', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+      <label for="<%= remove_pipes(name_prefix) %>g_polygons">G Polygons</label>
+
+      <div class="row sub-fields g-polygons-fields geometry-fields" style="<%= 'display: none;' unless g_polygons_checked %>">
+        <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'g_polygon',
+            values: geometry['GPolygons'] || [{}],
+            name_prefix: "#{name_prefix}|g_polygons|_",
+            multiple: true,
+            options: { show_preview: true } } %>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <%= check_box_tag(name_to_param("#{name_prefix}lines"), nil, lines_checked, class: 'geometry-picker lines', name: nil, data: { level: remove_pipes(name_prefix) }) %>
       <label for="<%= remove_pipes(name_prefix) %>lines">Lines</label>
-    </p>
-  </div>
 
-
-  <div class="geometry-type">
-    <!-- Points -->
-    <div class="points-fields" style="<%= 'display: none;' unless points_checked %>">
-      <label>Points</label>
-      <%= render partial: 'collection_drafts/forms/type', locals: {
-          type: 'point',
-          values: geometry['Points'] || [{}],
-          name_prefix: "#{name_prefix}points_",
-          multiple: true,
-          options: { show_preview: true } } %>
-    </div>
-
-
-    <!-- BoundingRectangles -->
-    <div class="bounding-rectangles-fields" style="<%= 'display: none;' unless bounding_rectangles_checked %>">
-    <label>Bounding Rectangles</label>
-    <%= render partial: 'collection_drafts/forms/type', locals: {
-        type: 'bounding_rectangle',
-        values: geometry['BoundingRectangles'] || [{}],
-        name_prefix: "#{name_prefix}|bounding_rectangles|_",
-        multiple: true,
-        options: { show_preview: true } } %>
-    </div>
-
-
-    <!-- GPolygons -->
-    <div class="g-polygons-fields" style="<%= 'display: none;' unless g_polygons_checked %>">
-    <label>GPolygons</label>
-    <%= render partial: 'collection_drafts/forms/type', locals: {
-        type: 'g_polygon',
-        values: geometry['GPolygons'] || [{}],
-        name_prefix: "#{name_prefix}|g_polygons|_",
-        multiple: true,
-        options: { show_preview: true } } %>
-    </div>
-
-
-    <!-- Lines -->
-    <div class="lines-fields" style="<%= 'display: none;' unless lines_checked %>">
-    <label>Lines</label>
-    <%= render partial: 'collection_drafts/forms/type', locals: {
-        type: 'line',
-        values: geometry['Lines'] || [{}],
-        name_prefix: "#{name_prefix}lines_",
-        multiple: true,
-        options: {} } %>
+      <div class="row sub-fields lines-fields geometry-fields" style="<%= 'display: none;' unless lines_checked %>">
+        <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'line',
+            values: geometry['Lines'] || [{}],
+            name_prefix: "#{name_prefix}lines_",
+            multiple: true,
+            options: {} } %>
+      </div>
     </div>
   </div>
-
 </div>

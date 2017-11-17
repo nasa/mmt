@@ -31,47 +31,6 @@ describe 'Unselecting radio buttons', js: true do
       end
     end
 
-    context 'when clearing the Spatial Extent Geometry Type' do
-      before do
-        within '.geometry' do
-          all('.clear-radio-button').last.click
-        end
-      end
-
-      it 'clears the radio buttons' do
-        within '.geometry' do
-          expect(page).to have_no_checked_field('Points')
-          expect(page).to have_no_checked_field('Bounding Rectangles')
-          expect(page).to have_no_checked_field('G Polygons')
-          expect(page).to have_no_checked_field('Lines')
-        end
-      end
-
-      it 'hides the form fields' do
-        expect(page).to have_css('.points-fields', visible: false)
-        expect(page).to have_css('.bounding-rectangles-fields', visible: false)
-        expect(page).to have_css('.g-polygons-fields', visible: false)
-        expect(page).to have_css('.lines-fields', visible: false)
-      end
-
-      it 'clears the form fields' do
-        script = "$('.bounding-rectangles-fields').find('input').val()"
-        result = page.evaluate_script(script)
-
-        expect(result).to eq('')
-      end
-
-      context 'when selecting a geometry radio button' do
-        before do
-          choose 'Points'
-        end
-
-        it 'displays the form fields' do
-          expect(page).to have_field('Longitude')
-        end
-      end
-    end
-
     context 'when clearing the Spatial Representation Information Spatial Coverage Type' do
       before do
         within '.spatial-information' do
