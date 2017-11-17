@@ -295,6 +295,20 @@ module BulkUpdatesHelper
           concat content_tag(:span, data_center['LongName'])
         end)
       end
+      if data_center.key? 'ContactInformation'
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Related Url Content Type: ')
+          concat content_tag(:span, data_center.fetch('ContactInformation', {}).fetch('RelatedUrls', []).fetch(0, {})['URLContentType'])
+        end)
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Related Url Type: ')
+          concat content_tag(:span, data_center.fetch('ContactInformation', {}).fetch('RelatedUrls', []).fetch(0, {})['Type'])
+        end)
+        concat(content_tag(:li) do
+          concat content_tag(:strong, 'Related URL: ')
+          concat content_tag(:span, data_center.fetch('ContactInformation', {}).fetch('RelatedUrls', []).fetch(0, {})['URL'])
+        end)
+      end
     end
   end
 

@@ -358,6 +358,9 @@ module DraftsHelper
     ['View Related Information', 'VIEW RELATED INFORMATION'],
     ['Home Page', 'HOME PAGE']
   ]
+  URLTypeDataCenterOptions = [
+    ['Home Page', 'HOME PAGE']
+  ]
   URLSubtypeOptions = [
     ['Datacast URL', 'DATACAST URL'],
     ['Earthdata Search', 'EARTHDATA SEARCH'],
@@ -447,6 +450,7 @@ module DraftsHelper
   # Takes a html element name (draft_|metadata_lineage|_index_role) and
   # outputs a param name (draft[metadata_lineage][index][role])
   # Words that should keep their underscore should be wrapped in pipes, like "_|metadata_lineage|_"
+  # For param elements that need to be an array (update_value[contact_information][related_urls][][url]), use two underscores in a row
   def name_to_param(name)
     # convert good words (wrapped in pipes) to dashes
     name.gsub!(/(_?)\|(\w+)\|(_?)/) { "#{Regexp.last_match[1]}#{Regexp.last_match[2].dasherize}#{Regexp.last_match[3]}" }
