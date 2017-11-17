@@ -209,4 +209,70 @@ describe 'Provider context', reset_provider: true, js: true do
       expect(page).to have_content('You currently have no available providers. Please contact your provider administrator or the CMR OPS team to set up provider access.')
     end
   end
+
+  context 'when the user loses a provider' do
+    before do
+      login(providers: nil)
+      visit '/'
+
+      select 'MMT_2', from: 'select_provider'
+      wait_for_ajax
+      expect(page).to have_content('Create Collection Record')
+
+      click_on 'profile-link'
+      click_on 'Logout'
+
+      expect(page).to have_content('Earthdata Login')
+    end
+
+    before :all do
+      clear_provider_context_permissions
+      add_provider_context_permission(%w(MMT_1 MMT_2 NSIDC_ECS))
+    end
+
+    after :all do
+      clear_provider_context_permissions
+    end
+
+    context 'when a user loses their active provider' do
+      before do
+        delete_provider_context_permission('MMT_2')
+        login(providers: nil)
+        visit '/'
+      end
+
+      after do
+        add_provider_context_permission(%w(MMT_2))
+      end
+
+      it 'deletes their current provider and shows them the provider context page' do
+        expect(User.first.provider_id).to eq(nil)
+        expect(User.first.available_providers).not_to include('MMT_2')
+
+        expect(page).to have_content('Please select your provider context')
+        expect(page).to have_select('select_provider', with_options: %w(MMT_1 NSIDC_ECS))
+      end
+    end
+
+    context 'when a user loses an available provider' do
+      before do
+        delete_provider_context_permission('NSIDC_ECS')
+        login(providers: nil)
+        visit '/'
+      end
+
+      after do
+        add_provider_context_permission(%w(NSIDC_ECS))
+      end
+
+      it 'removes their available provider' do
+        expect(User.first.provider_id).to eq('MMT_2')
+        expect(User.first.available_providers).not_to include('NSIDC_ECS')
+
+        expect(page).to have_content('Create Collection Record')
+        click_on 'provider-badge-link'
+        expect(page).to have_select('select_provider', with_options: %w(MMT_1 MMT_2))
+      end
+    end
+  end
 end
