@@ -10,7 +10,7 @@ describe 'Collections permissions', js: true do
 
     context 'when the collections provider is in the users available providers' do
       before do
-        ingest_response, concept_response = publish_collection_draft(revision_count: 2)
+        ingest_response, _concept_response = publish_collection_draft(revision_count: 2)
 
         user = User.first
         user.provider_id = 'MMT_1'
@@ -208,7 +208,7 @@ describe 'Collections permissions', js: true do
 
     context 'when the collections provider is not in the users available providers' do
       before do
-        ingest_response, concept_response = publish_collection_draft(revision_count: 2, provider_id: 'SEDAC')
+        ingest_response, _concept_response = publish_collection_draft(revision_count: 2, provider_id: 'SEDAC')
 
         visit collection_path(ingest_response['concept-id'])
       end
