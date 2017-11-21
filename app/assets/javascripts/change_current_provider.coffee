@@ -96,11 +96,13 @@ $(document).ready ->
         dataType: 'json'
 
         success: (response) ->
+          return window.location = response.redirect if response.redirect?
+
           $('#select_provider').empty()
           $('#select_provider').append($('<option>').text('Select Provider'))
 
           $.each response.items, (index, value) ->
-            $('#select_provider').append($('<option>').val(value).text(value))
+            $('#select_provider').append($('<option>').val(value).text(value).attr('selected', response.provider_id == value))
 
           $('span.refresh-providers.spinner').remove()
           $('a.refresh-providers.spinner').show()

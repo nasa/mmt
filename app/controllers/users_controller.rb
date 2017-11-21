@@ -43,7 +43,6 @@ class UsersController < ApplicationController
   end
 
   def refresh_providers
-    current_user.update(provider_id: nil)
     current_user.set_available_providers(token)
 
     respond_to do |format|
@@ -54,7 +53,14 @@ class UsersController < ApplicationController
           redirect_to root_path
         end
       end
-      format.json { render json: { items: current_user.available_providers } }
+      format.json do
+        if current_user.provider_id.nil?
+          # If the current provider was lost, redirect to the provider_context page
+          render json: { redirect: provider_context_path.to_s }
+        else
+          render json: { items: current_user.available_providers, provider_id: current_user.provider_id }
+        end
+      end
     end
   end
 end
