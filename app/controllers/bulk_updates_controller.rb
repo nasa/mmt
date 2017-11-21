@@ -1,6 +1,7 @@
 # :nodoc:
 class BulkUpdatesController < ManageCollectionsController
-  include BulkUpdates, ControlledKeywords, Metadata
+  include BulkUpdates
+  include ControlledKeywords
   before_filter :bulk_updates_enabled?
 
   add_breadcrumb 'Bulk Updates', :bulk_updates_path
@@ -98,7 +99,7 @@ class BulkUpdatesController < ManageCollectionsController
       bulk_update_object['update-value'] = prune_science_keyword(params.fetch('update_value', {}).to_hash.to_camel_keys)
     end
 
-    compact_blank(bulk_update_object)
+    bulk_update_object
   end
 
   def retrieve_task_collections
