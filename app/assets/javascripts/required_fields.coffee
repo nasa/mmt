@@ -43,7 +43,10 @@ $(document).ready ->
     $fields = $("[data-level='#{topDataLevel}']")
     if $fields.length > 0
       values = $fields.filter ->
-        this.value
+        if this.type == 'radio' || this.type == 'checkbox'
+          this.checked
+        else
+          this.value
 
       # If any of the fields have values
       if values.length > 0
@@ -56,12 +59,7 @@ $(document).ready ->
     # draft_personnel_0_related_urls_0_ is good,
     # draft_personnel_0_related isn't an actual data level
     for level, index in dataLevels
-      dataLevel = dataLevels.slice(0, index + 1).join('_')
-
-      # if the last item in the data level is a number, we need to add a '_' to work
-      [..., last] = dataLevel.split('_')
-      if $.isNumeric(last)
-        dataLevel += '_'
+      dataLevel = dataLevels.slice(0, index + 1).join('_') + '_'
 
       # setup a data level object to save, or remove
       dataLevelObj = {}

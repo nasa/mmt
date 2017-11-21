@@ -27,19 +27,21 @@
 
   <!-- CoordinateSystem -->
   <% coordinate_system = geometry['CoordinateSystem'] || "" %>
-  <label class="eui-required-o">Coordinate System</label>
-  <a href="javascript:void(0)" class="clear-radio-button" data-content="coordinate-system-type">Clear</a>
-  <div class="coordinate-system-type-group">
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
-      <label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label>
-    </p>
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
-      <label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label>
-    </p>
+  <div>
+    <label for="draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN" class="required">Coordinate System</label>
+    <a href="javascript:void(0)" class="clear-radio-button" data-content="coordinate-system-type">Clear</a>
+    <div class="coordinate-system-type-group">
+      <p class="radio-group">
+        <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
+        <label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label>
+      </p>
+      <p class="radio-group">
+        <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
+        <label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label>
+      </p>
+    </div>
+    </br>
   </div>
-  </br>
 
   <!-- GeometryType (not an actual field) -->
   <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
@@ -50,7 +52,7 @@
   <label class="eui-required-o">Geometry Type</label>
   <div class="geometry-type-group">
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}points"), nil, points_checked, class: 'geometry-picker points', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+      <%= check_box_tag(name_to_param("#{name_prefix}points"), nil, points_checked, class: 'geometry-picker points', name: nil) %>
       <label for="<%= remove_pipes(name_prefix) %>points">Points</label>
 
       <div class="row sub-fields points-fields geometry-fields" style="<%= 'display: none;' unless points_checked %>">
@@ -63,7 +65,7 @@
       </div>
     </div>
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}bounding_rectangles"), nil, bounding_rectangles_checked, class: 'geometry-picker bounding-rectangles', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+      <%= check_box_tag(name_to_param("#{name_prefix}bounding_rectangles"), nil, bounding_rectangles_checked, class: 'geometry-picker bounding-rectangles', name: nil) %>
       <label for="<%= remove_pipes(name_prefix) %>bounding_rectangles">Bounding Rectangles</label>
 
       <div class="row sub-fields bounding-rectangles-fields geometry-fields" style="<%= 'display: none;' unless bounding_rectangles_checked %>">
@@ -76,7 +78,7 @@
       </div>
     </div>
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}g_polygons"), nil, g_polygons_checked, class: 'geometry-picker g-polygons', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+      <%= check_box_tag(name_to_param("#{name_prefix}g_polygons"), nil, g_polygons_checked, class: 'geometry-picker g-polygons', name: nil) %>
       <label for="<%= remove_pipes(name_prefix) %>g_polygons">G Polygons</label>
 
       <div class="row sub-fields g-polygons-fields geometry-fields" style="<%= 'display: none;' unless g_polygons_checked %>">
@@ -89,7 +91,7 @@
       </div>
     </div>
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}lines"), nil, lines_checked, class: 'geometry-picker lines', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+      <%= check_box_tag(name_to_param("#{name_prefix}lines"), nil, lines_checked, class: 'geometry-picker lines', name: nil) %>
       <label for="<%= remove_pipes(name_prefix) %>lines">Lines</label>
 
       <div class="row sub-fields lines-fields geometry-fields" style="<%= 'display: none;' unless lines_checked %>">

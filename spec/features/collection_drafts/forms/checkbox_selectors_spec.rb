@@ -1,7 +1,3 @@
-# Radio buttons are used when oneOf validations are used in the schema.
-# The radio button is used to select which form should be shown
-# By default, none of the sub-forms should be shown
-
 require 'rails_helper'
 
 describe 'checkboxes form selectors', js: true do
