@@ -574,4 +574,139 @@ describe 'Spatial information form', js: true do
       end
     end
   end
+
+  context 'when submitting the form with horizontal and vertial spatial' do
+    before do
+      within '.metadata' do
+        click_on 'Spatial Information', match: :first
+      end
+
+      click_on 'Expand All'
+
+      # Spatial Extent
+      select 'Horizontal and Vertical', from: 'Spatial Coverage Type'
+      # Horizontal
+      fill_in 'Zone Identifier', with: 'Zone ID'
+      within '.geometry' do
+        choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
+        add_points
+      end
+      # Vertical
+      within '.multiple.vertical-spatial-domains' do
+        fill_in 'Type', with: 'domain type'
+        fill_in 'Value', with: 'domain value'
+        click_on 'Add another Vertical Spatial Domain'
+        within '.multiple-item-1' do
+          fill_in 'Type', with: 'domain type 1'
+          fill_in 'Value', with: 'domain value 1'
+        end
+      end
+
+      select 'Cartesian', from: 'Granule Spatial Representation'
+
+      within '.nav-top' do
+        click_on 'Save'
+      end
+      # output_schema_validation Draft.first.draft
+      click_on 'Expand All'
+    end
+
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Collection Draft Updated Successfully!')
+    end
+
+    it 'populates the form with the values including orbital spatial data' do
+      # Spatial Extent
+      within '.spatial-extent' do
+        expect(page).to have_field('Spatial Coverage Type', with: 'HORIZONTAL_VERTICAL')
+
+        expect(page).to have_field('Zone Identifier', with: 'Zone ID')
+        within '.geometry' do
+          expect(page).to have_checked_field('Cartesian')
+          expect(page).to have_no_checked_field('Geodetic')
+          # Points
+          within first('.multiple.points') do
+            expect(page).to have_field('Longitude', with: '-77.047878')
+            expect(page).to have_field('Latitude', with: '38.805407')
+            within '.multiple-item-1' do
+              expect(page).to have_field('Longitude', with: '-76.9284587')
+              expect(page).to have_field('Latitude', with: '38.968602')
+            end
+          end
+        end
+
+        within '.multiple.vertical-spatial-domains' do
+          expect(page).to have_field('Type', with: 'domain type')
+          expect(page).to have_field('Value', with: 'domain value')
+          expect(page).to have_field('Type', with: 'domain type 1')
+          expect(page).to have_field('Value', with: 'domain value 1')
+        end
+
+        expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+      end
+    end
+  end
+
+  context 'when submitting the form with orbital and vertial spatial' do
+    before do
+      within '.metadata' do
+        click_on 'Spatial Information', match: :first
+      end
+
+      click_on 'Expand All'
+
+      # Spatial Extent
+      select 'Orbital and Vertical', from: 'Spatial Coverage Type'
+      # Orbital
+      fill_in 'Swath Width', with: '1'
+      fill_in 'Period', with: '2'
+      fill_in 'Inclination Angle', with: '3'
+      fill_in 'Number Of Orbits', with: '4'
+      fill_in 'Start Circular Latitude', with: '5'
+      # Vertical
+      within '.multiple.vertical-spatial-domains' do
+        fill_in 'Type', with: 'domain type'
+        fill_in 'Value', with: 'domain value'
+        click_on 'Add another Vertical Spatial Domain'
+        within '.multiple-item-1' do
+          fill_in 'Type', with: 'domain type 1'
+          fill_in 'Value', with: 'domain value 1'
+        end
+      end
+
+      select 'Cartesian', from: 'Granule Spatial Representation'
+
+      within '.nav-top' do
+        click_on 'Save'
+      end
+      # output_schema_validation Draft.first.draft
+      click_on 'Expand All'
+    end
+
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Collection Draft Updated Successfully!')
+    end
+
+    it 'populates the form with the values including orbital spatial data' do
+      # Spatial Extent
+      within '.spatial-extent' do
+        expect(page).to have_field('Spatial Coverage Type', with: 'ORBITAL_VERTICAL')
+
+        expect(page).to have_field('Swath Width', with: '1.0')
+        expect(page).to have_field('Period', with: '2.0')
+        expect(page).to have_field('Inclination Angle', with: '3.0')
+        expect(page).to have_field('Number Of Orbits', with: '4.0')
+        expect(page).to have_field('Start Circular Latitude', with: '5.0')
+
+        within '.multiple.vertical-spatial-domains' do
+          expect(page).to have_field('Type', with: 'domain type')
+          expect(page).to have_field('Value', with: 'domain value')
+          expect(page).to have_field('Type', with: 'domain type 1')
+          expect(page).to have_field('Value', with: 'domain value 1')
+        end
+
+        expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+      end
+    end
+  end
 end
