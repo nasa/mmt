@@ -70,7 +70,7 @@ describe BulkUpdatesController, reset_provider: true do
       before do
         sign_in
 
-        post :new, search_field: 'short_name', search_query: 'dunno'
+        post :new, search_field: 'short_name', search_query: 'dunno', selected_collections: ['C1200000785-MMT_1']
       end
 
       it 'renders the preview view' do
