@@ -13,6 +13,8 @@ describe 'Bulk Updating Instruments' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Instruments Test Find & Remove 001' }
+
     before do
       # Search collections
       select 'Entry Title', from: 'Search Field'
@@ -24,6 +26,7 @@ describe 'Bulk Updating Instruments' do
       click_on 'Next'
 
       # Bulk Update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Instruments', from: 'Field to Update'
       select 'Find & Remove', from: 'Update Type'
       fill_in 'Short Name', with: 'LVIS'
@@ -33,6 +36,7 @@ describe 'Bulk Updating Instruments' do
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Instruments')
       expect(page).to have_content('Update Type Find And Remove')
       within '.find-values-preview' do
@@ -58,6 +62,8 @@ describe 'Bulk Updating Instruments' do
       end
 
       it 'displays the bulk update status page' do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Instruments')
@@ -91,6 +97,8 @@ describe 'Bulk Updating Instruments' do
   end
 
   context 'when previewing a Find & Update bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Instruments Test Find & Update 002' }
+
     before do
       # Search collections
       select 'Entry Title', from: 'Search Field'
@@ -102,6 +110,7 @@ describe 'Bulk Updating Instruments' do
       click_on 'Next'
 
       # Bulk Update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Instruments', from: 'Field to Update'
       select 'Find & Update', from: 'Update Type'
       fill_in 'Short Name', with: 'ADS'
@@ -118,6 +127,7 @@ describe 'Bulk Updating Instruments' do
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Instruments')
       expect(page).to have_content('Update Type Find And Update')
 
@@ -151,6 +161,8 @@ describe 'Bulk Updating Instruments' do
       end
 
       it 'displays the bulk update status page' do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Instruments')

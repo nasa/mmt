@@ -14,6 +14,8 @@ describe 'Bulk updating Data Centers' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Data Centers Test Find & Remove 001' }
+
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
@@ -25,6 +27,7 @@ describe 'Bulk updating Data Centers' do
       click_on 'Next'
 
       # Bulk update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Data Centers', from: 'Field to Update'
       select 'Find & Remove', from: 'Update Type'
       fill_in 'Short Name', with: 'ESA/ED'
@@ -34,6 +37,7 @@ describe 'Bulk updating Data Centers' do
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Data Centers')
       expect(page).to have_content('Update Type Find And Remove')
       within '.find-values-preview' do
@@ -59,6 +63,8 @@ describe 'Bulk updating Data Centers' do
       end
 
       it 'displays the bulk update status page' do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Data Centers')
@@ -92,6 +98,8 @@ describe 'Bulk updating Data Centers' do
 
   context 'when previewing a Find & Update bulk update for a data center that has a Related URL', js: true do
     context 'when filling in the form up to selecting the update data center short name' do
+      let(:bulk_update_name) { 'Bulk Update Data Centers Test Find & Update 002' }
+
       before(:each, bulk_update_step_1: true) do
         # Search form
         select 'Entry Title', from: 'Search Field'
@@ -103,6 +111,7 @@ describe 'Bulk updating Data Centers' do
         click_on 'Next'
 
         # Bulk update form
+        fill_in 'bulk_update_name', with: bulk_update_name
         # Update AARHUS-HYDRO to OR-STATE/EOARC
         select 'Data Centers', from: 'Field to Update'
         select 'Find & Update', from: 'Update Type'
@@ -129,6 +138,7 @@ describe 'Bulk updating Data Centers' do
         it 'displays the preview information', bulk_update_step_1: true, bulk_update_step_2: true do
           expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+          expect(page).to have_content("Name #{bulk_update_name}")
           expect(page).to have_content('Field to Update Data Centers')
           expect(page).to have_content('Update Type Find And Update')
           # Find Values to Update
@@ -164,6 +174,8 @@ describe 'Bulk updating Data Centers' do
           end
 
           it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true, bulk_update_step_3: true do
+            expect(page).to have_css('h2', text: bulk_update_name)
+
             within '.eui-info-box' do
               expect(page).to have_content('Status Complete')
               expect(page).to have_content('Field to Update Data Centers')
@@ -210,6 +222,8 @@ describe 'Bulk updating Data Centers' do
 
   context 'when previewing a Find & Update bulk update for a data center that does not have a Related URL', js: true do
     context 'when filling in the form up to selecting the update data center short name' do
+      let(:bulk_update_name) { 'Bulk Update Data Centers Test Find & Update 003' }
+
       before(:each, bulk_update_step_1: true) do
         # Search form
         select 'Entry Title', from: 'Search Field'
@@ -221,6 +235,7 @@ describe 'Bulk updating Data Centers' do
         click_on 'Next'
 
         # Bulk update form
+        fill_in 'bulk_update_name', with: bulk_update_name
         # Update ESA/ED to AARHUS-HYDRO
         select 'Data Centers', from: 'Field to Update'
         select 'Find & Update', from: 'Update Type'
@@ -247,6 +262,7 @@ describe 'Bulk updating Data Centers' do
         it 'displays the preview information', bulk_update_step_1: true, bulk_update_step_2: true do
           expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+          expect(page).to have_content("Name #{bulk_update_name}")
           expect(page).to have_content('Field to Update Data Centers')
           expect(page).to have_content('Update Type Find And Update')
           # Find Values to Update
@@ -282,6 +298,7 @@ describe 'Bulk updating Data Centers' do
           end
 
           it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true, bulk_update_step_3: true do
+            expect(page).to have_css('h2', text: bulk_update_name)
             within '.eui-info-box' do
               expect(page).to have_content('Status Complete')
               expect(page).to have_content('Field to Update Data Centers')

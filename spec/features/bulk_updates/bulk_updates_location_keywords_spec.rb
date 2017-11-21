@@ -15,6 +15,8 @@ describe 'Bulk updating Location Keywords' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Location Keywords Test Find & Remove 001' }
+
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
@@ -26,6 +28,7 @@ describe 'Bulk updating Location Keywords' do
       click_on 'Next'
 
       # Bulk update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Location Keywords', from: 'Field to Update'
       select 'Find & Remove', from: 'Update Type'
       fill_in 'Type', with: 'ARCTIC'
@@ -35,6 +38,7 @@ describe 'Bulk updating Location Keywords' do
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Location Keywords')
       expect(page).to have_content('Update Type Find And Remove')
       within '.find-values-preview' do
@@ -60,6 +64,8 @@ describe 'Bulk updating Location Keywords' do
       end
 
       it 'displays the bulk update status page' do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Location Keywords')
@@ -92,6 +98,8 @@ describe 'Bulk updating Location Keywords' do
   end
 
   context 'when previewing a Add to Existing bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Location Keywords Test Add to Existing 002' }
+
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
@@ -103,6 +111,7 @@ describe 'Bulk updating Location Keywords' do
       click_on 'Next'
 
       # Bulk update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Location Keywords', from: 'Field to Update'
       select 'Add to Existing', from: 'Update Type'
       choose_keyword 'OCEAN'
@@ -116,6 +125,7 @@ describe 'Bulk updating Location Keywords' do
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Location Keywords')
       expect(page).to have_content('Update Type Add To Existing')
       within '.new-values-preview' do
@@ -141,6 +151,8 @@ describe 'Bulk updating Location Keywords' do
       end
 
       it 'displays the bulk update status page' do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Location Keywords')
@@ -173,6 +185,8 @@ describe 'Bulk updating Location Keywords' do
   end
 
   context 'when previewing a Find & Replace bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Location Keywords Test Find & Replace 003' }
+
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
@@ -184,6 +198,7 @@ describe 'Bulk updating Location Keywords' do
       click_on 'Next'
 
       # Bulk update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Location Keywords', from: 'Field to Update'
       select 'Find & Replace', from: 'Update Type'
       fill_in 'Category', with: 'OCEAN'
@@ -199,6 +214,7 @@ describe 'Bulk updating Location Keywords' do
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Location Keywords')
       expect(page).to have_content('Update Type Find And Replace')
       # Find Values to Replace
@@ -230,6 +246,8 @@ describe 'Bulk updating Location Keywords' do
       end
 
       it 'displays the bulk update status page' do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Location Keywords')
@@ -267,6 +285,8 @@ describe 'Bulk updating Location Keywords' do
   end
 
   context 'when previewing a Clear All and Replace bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Location Keywords Test Clear All and Replace 004' }
+
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
@@ -278,6 +298,7 @@ describe 'Bulk updating Location Keywords' do
       click_on 'Next'
 
       # Bulk update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Location Keywords', from: 'Field to Update'
       select 'Clear All & Replace', from: 'Update Type'
 
@@ -291,6 +312,7 @@ describe 'Bulk updating Location Keywords' do
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Location Keywords')
       expect(page).to have_content('Update Type Clear All And Replace')
 
@@ -318,6 +340,8 @@ describe 'Bulk updating Location Keywords' do
       end
 
       it 'displays the bulk update status page' do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Location Keywords')

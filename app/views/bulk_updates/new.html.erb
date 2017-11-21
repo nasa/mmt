@@ -9,6 +9,14 @@
       <% end %>
 
       <fieldset>
+        <div class="row col-6">
+
+          <%= label_tag('name', 'Name') %>
+          <%= text_field_tag('name', nil, id: 'bulk_update_name', class: 'full-width bulk-update-name') %>
+        </div>
+      </fieldset>
+
+      <fieldset>
         <%= label_tag('update_field', 'Field to Update') %>
         <%= select_tag('update_field', options_for_select(BulkUpdatesHelper::UPDATEABLE_FIELDS), prompt: 'Select a Field to Update') %>
       </fieldset>

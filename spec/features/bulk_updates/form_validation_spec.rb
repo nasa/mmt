@@ -34,6 +34,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         end
 
         it 'does not let the user submit the form without required fields' do
+          expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
           expect(page).to have_css('#find_value_ShortName-error', text: 'This field is required.')
         end
       end
@@ -61,6 +62,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         end
 
         it 'does not let the user submit the form without required fields' do
+          expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
           expect(page).to have_css('#find_value_ShortName-error', text: 'This field is required.')
           expect(page).to have_css('#update_value_short_name-error', text: 'This field is required.')
         end
@@ -95,6 +97,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         end
 
         it 'does not let the user submit the form without required fields' do
+          expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
           expect(page).to have_css('#find_value_ShortName-error', text: 'This field is required.')
         end
       end
@@ -122,6 +125,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         end
 
         it 'does not let the user submit the form without required fields' do
+          expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
           expect(page).to have_css('#find_value_ShortName-error', text: 'This field is required.')
           expect(page).to have_css('#update_value_short_name-error', text: 'This field is required.')
         end
@@ -152,6 +156,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
       end
 
       it 'does not let the user submit the form without required fields' do
+        expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
         expect(page).to have_css('#science_keyword_value-error', text: 'A valid science keyword must be specified.')
       end
     end
@@ -178,6 +183,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         end
 
         it 'does not let the user submit the form without required fields' do
+          expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
           expect(page).to have_css('#science_keyword_find-error', text: 'At least one keyword level must be specified.')
         end
       end
@@ -205,6 +211,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         end
 
         it 'does not let the user submit the form without required fields' do
+          expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
           expect(page).to have_css('#science_keyword_find-error', text: 'At least one keyword level must be specified.')
           expect(page).to have_css('#science_keyword_value-error', text: 'A valid science keyword must be specified.')
         end
@@ -235,6 +242,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
       end
 
       it 'does not let the user submit the form without required fields' do
+        expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
         expect(page).to have_css('#location_keyword_value-error', text: 'A valid location keyword must be specified.')
       end
     end
@@ -246,6 +254,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
       end
 
       it 'does not let the user submit the form without required fields' do
+        expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
         expect(page).to have_css('#location_keyword_value-error', text: 'A valid location keyword must be specified.')
       end
     end
@@ -261,6 +270,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         end
 
         it 'does not let the user submit the form without required fields' do
+          expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
           expect(page).to have_css('#location_keyword_find-error', text: 'At least one keyword level must be specified.')
         end
       end
@@ -288,6 +298,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         end
 
         it 'does not let the user submit the form without required fields' do
+          expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
           expect(page).to have_css('#location_keyword_find-error', text: 'At least one keyword level must be specified.')
           expect(page).to have_css('#location_keyword_value-error', text: 'A valid location keyword must be specified.')
         end
