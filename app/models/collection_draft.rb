@@ -1,6 +1,4 @@
 class CollectionDraft < Draft
-  include Metadata
-
   DRAFT_FORMS = %w(
     collection_information
     data_identification
@@ -243,6 +241,18 @@ class CollectionDraft < Draft
 
       number
     end
+  end
+
+  def compact_blank(node)
+    return node.map { |n| compact_blank(n) }.compact.presence if node.is_a?(Array)
+    return node if node == false
+    return node.presence unless node.is_a?(Hash)
+    result = {}
+    node.each do |k, v|
+      result[k] = compact_blank(v)
+    end
+    result = result.compact
+    result.compact.presence
   end
 
   def convert_science_keywords(science_keywords)
