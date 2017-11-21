@@ -66,12 +66,14 @@ module BulkUpdates
     # { category: [{ value: category_value1, parent: nil }],
     #   topic: [{ value: topic_value1, parent: category_value1 }] }
 
-    facets[key].map do |facet|
-      all_keywords[key] ||= []
-      all_keywords[key] << { value: facet['value'], parent: parent }
+    if facets.key? key
+      facets[key].map do |facet|
+        all_keywords[key] ||= []
+        all_keywords[key] << { value: facet['value'], parent: parent }
 
-      next_level = facet.fetch('subfields', []).first
-      parse_hierarchical_facets(facet, next_level, facet['value'], all_keywords) if next_level
+        next_level = facet.fetch('subfields', []).first
+        parse_hierarchical_facets(facet, next_level, facet['value'], all_keywords) if next_level
+      end
     end
 
     all_keywords
