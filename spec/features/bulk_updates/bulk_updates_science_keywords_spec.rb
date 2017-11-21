@@ -15,6 +15,8 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Science Keywords Test Find & Remove 001' }
+
     before(:each, bulk_update_step_1: true) do
       # Search form
       select 'Entry Title', from: 'Search Field'
@@ -26,6 +28,7 @@ describe 'Bulk updating Science Keywords' do
       click_on 'Next'
 
       # Bulk update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Science Keywords', from: 'Field to Update'
       select 'Find & Remove', from: 'Update Type'
 
@@ -37,6 +40,7 @@ describe 'Bulk updating Science Keywords' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Science Keywords')
       expect(page).to have_content('Update Type Find And Remove')
       within '.find-values-preview' do
@@ -62,6 +66,8 @@ describe 'Bulk updating Science Keywords' do
       end
 
       it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Science Keywords')
@@ -92,6 +98,8 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Add to Existing bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Science Keywords Test Add to Existing 002' }
+
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
@@ -103,6 +111,7 @@ describe 'Bulk updating Science Keywords' do
       click_on 'Next'
 
       # Bulk update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Science Keywords', from: 'Field to Update'
       select 'Add to Existing', from: 'Update Type'
       choose_keyword 'EARTH SCIENCE'
@@ -115,6 +124,7 @@ describe 'Bulk updating Science Keywords' do
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Science Keywords')
       expect(page).to have_content('Update Type Add To Existing')
       within '.new-values-preview' do
@@ -140,6 +150,8 @@ describe 'Bulk updating Science Keywords' do
       end
 
       it 'displays the bulk update status page' do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Science Keywords')
@@ -172,6 +184,8 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Find & Replace bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Science Keywords Test Find & Replace 003' }
+
     before(:each, bulk_update_step_1: true) do
       # Search form
       select 'Entry Title', from: 'Search Field'
@@ -183,6 +197,7 @@ describe 'Bulk updating Science Keywords' do
       click_on 'Next'
 
       # Bulk update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Science Keywords', from: 'Field to Update'
       select 'Find & Replace', from: 'Update Type'
 
@@ -199,6 +214,7 @@ describe 'Bulk updating Science Keywords' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Science Keywords')
       expect(page).to have_content('Update Type Find And Replace')
       # Find Values to Replace
@@ -230,6 +246,8 @@ describe 'Bulk updating Science Keywords' do
       end
 
       it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Science Keywords')
@@ -266,6 +284,8 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Clear All and Replace bulk update', js: true do
+    let(:bulk_update_name) { 'Bulk Update Science Keywords Test Clear All and Replace 004' }
+
     before do
       # Search form
       select 'Entry Title', from: 'Search Field'
@@ -277,6 +297,7 @@ describe 'Bulk updating Science Keywords' do
       click_on 'Next'
 
       # Bulk update form
+      fill_in 'bulk_update_name', with: bulk_update_name
       select 'Science Keywords', from: 'Field to Update'
       select 'Clear All & Replace', from: 'Update Type'
 
@@ -290,6 +311,7 @@ describe 'Bulk updating Science Keywords' do
     it 'displays the preview information' do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
+      expect(page).to have_content("Name #{bulk_update_name}")
       expect(page).to have_content('Field to Update Science Keywords')
       expect(page).to have_content('Update Type Clear All And Replace')
 
@@ -317,6 +339,8 @@ describe 'Bulk updating Science Keywords' do
       end
 
       it 'displays the bulk update status page' do
+        expect(page).to have_css('h2', text: bulk_update_name)
+
         within '.eui-info-box' do
           expect(page).to have_content('Status Complete')
           expect(page).to have_content('Field to Update Science Keywords')

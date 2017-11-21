@@ -4,6 +4,10 @@
     <h2>Preview of New <%= current_user.provider_id %> Bulk Update</h2>
 
     <h3>Bulk Update Operation</h3>
+
+    <h4>Name</h4>
+    <p><%= @task['name'] %></p>
+
     <h4>Field to Update</h4>
     <p><%= @task['update-field'].titleize %></p>
 
@@ -62,6 +66,7 @@
         <%= hidden_field_tag 'concept_ids[]', collection %>
       <% end %>
 
+      <%= hidden_field_tag 'name', @task['name'] %>
       <%= hidden_field_tag 'update_field', @task['update-field'] %>
       <%= hidden_field_tag 'update_type', @task['update-type'], id: 'bulk-update-type' %>
 

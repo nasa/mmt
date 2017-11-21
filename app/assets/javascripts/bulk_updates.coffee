@@ -196,6 +196,8 @@ $(document).ready ->
       onkeyup: false
 
       rules:
+        'name':
+          required: true
         'update_field':
           required: true
         'update_type':
@@ -276,6 +278,8 @@ $(document).ready ->
               isValueVisibleAndVisited()
 
       messages:
+        'name':
+          required: 'Name is required.'
         'update_field':
           required: 'Update Field is required.'
         'update_type':

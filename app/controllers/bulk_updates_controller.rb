@@ -35,15 +35,19 @@ class BulkUpdatesController < ManageCollectionsController
   end
 
   def new
-    add_breadcrumb 'New', new_bulk_updates_path
+    if params[:selected_collections].blank?
+      redirect_to new_bulk_updates_search_path
+    else
+      add_breadcrumb 'New', new_bulk_updates_path
 
-    set_science_keywords
-    set_location_keywords
-    set_data_centers
-    set_platform_types
-    set_instruments
+      set_science_keywords
+      set_location_keywords
+      set_data_centers
+      set_platform_types
+      set_instruments
 
-    set_science_keyword_facets(params[:selected_collections])
+      set_science_keyword_facets(params[:selected_collections])
+    end
   end
 
   def preview
@@ -81,6 +85,7 @@ class BulkUpdatesController < ManageCollectionsController
 
     bulk_update_object = {
       'concept-ids'   => params['concept_ids'],
+      'name'          => params['name'],
       'update-field'  => params['update_field'].upcase,
       'update-type'   => params['update_type']
     }

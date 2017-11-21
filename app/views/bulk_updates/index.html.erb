@@ -12,6 +12,7 @@
       <thead>
         <tr>
           <th>Task ID</th>
+          <th>Task Name</th>
           <th>Operation</th>
           <th>Status</th>
           <th>Message</th>
@@ -27,6 +28,7 @@
           <% @bulk_updates.each do |task| %>
             <tr>
               <td><%= link_to task['task-id'], bulk_update_path(task['task-id']) %></td>
+              <td><%= link_to task['name'], bulk_update_path(task['task-id']) %></td>
               <td><%= task['update-type'].titleize %> <%= task['update-field'].titleize %></td>
               <td><%= task['status'] %></td>
               <td><%= task['status-message'] %></td>
