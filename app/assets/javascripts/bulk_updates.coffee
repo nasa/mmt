@@ -198,6 +198,7 @@ $(document).ready ->
       rules:
         'name':
           required: true
+          maxlength: 255
         'update_field':
           required: true
         'update_type':

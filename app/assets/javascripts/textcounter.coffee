@@ -2,7 +2,7 @@
   # Remove all previous counters
   $('.textcounter-container').remove()
 
-  defaultOptions = 
+  defaultOptions =
     # Default behavior is to count up, that's just silly
     countDown: true
     countDownText: '%d Characters Remaining'
@@ -18,6 +18,7 @@
   # Add counter to all necessary fields
   $('.textcounter').textcounter $.extend(defaultOptions, options)
 
+  # TODO: this is triggering validation error messages on page load. can it be taken out?
   $('.textcounter').trigger('blur')
 
 $(document).ready ->
