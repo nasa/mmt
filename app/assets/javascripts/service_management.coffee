@@ -5,7 +5,7 @@ $(document).ready ->
         # Ensure the field is enabled so it's not ignored
         $('#service_entry_service_interface_guid').attr("disabled", false)
     else
-      $('#service-implementation-container').hide 0, -> 
+      $('#service-implementation-container').hide 0, ->
         # Disable the field to prevent it from appearing in the params hash
         $('#service_entry_service_interface_guid').attr("disabled", true)
 
@@ -93,7 +93,7 @@ $(document).ready ->
       # Not providing any concept ids will result in all items coming back, avoid that
       $.ajax '/provider_collections',
         method: 'POST'
-        data: 
+        data:
           concept_id: selectedValues
           page_size: selectedValues.length
         success: (data) ->

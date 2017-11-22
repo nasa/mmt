@@ -11,7 +11,6 @@
     <table class="bulk-updates-list-table">
       <thead>
         <tr>
-          <th>Task ID</th>
           <th>Task Name</th>
           <th>Operation</th>
           <th>Status</th>
@@ -22,12 +21,11 @@
       <tbody>
         <% if @bulk_updates.blank? %>
           <tr>
-            <td colspan="4">No <%= current_user.provider_id %> Bulk Updates found.</td>
+            <td colspan="5">No <%= current_user.provider_id %> Bulk Updates found.</td>
           </tr>
         <% else %>
           <% @bulk_updates.each do |task| %>
             <tr>
-              <td><%= link_to task['task-id'], bulk_update_path(task['task-id']) %></td>
               <td><%= link_to task['name'], bulk_update_path(task['task-id']) %></td>
               <td><%= task['update-type'].titleize %> <%= task['update-field'].titleize %></td>
               <td><%= task['status'] %></td>
