@@ -25,7 +25,7 @@ class BulkUpdatesController < ManageCollectionsController
     if bulk_update_status_response.success?
       @task = bulk_update_status_response.body
 
-      add_breadcrumb @task_id, bulk_update_path(@task_id)
+      add_breadcrumb @task.fetch('name'), bulk_update_path(@task_id)
 
       hydrate_task(@task)
       hydrate_collections(@task)
