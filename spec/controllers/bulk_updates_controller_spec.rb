@@ -129,6 +129,7 @@ describe BulkUpdatesController, reset_provider: true do
 
           post :create,
                'concept_ids': ['1', '2'],
+               'name': 'test science keyword bulk update',
                'update_field': 'science_keywords',
                'update_type': 'FIND_AND_REPLACE',
                'find_value': {
@@ -147,6 +148,7 @@ describe BulkUpdatesController, reset_provider: true do
         it 'sets the task instance variable' do
           expect(assigns(:task)).to eq(
             'concept-ids' => ['1', '2'],
+            'name' => 'test science keyword bulk update',
             'update-field' => 'SCIENCE_KEYWORDS',
             'update-type' => 'FIND_AND_REPLACE',
             'find-value' => {
