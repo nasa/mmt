@@ -299,6 +299,57 @@ describe 'Data validation for a form', js: true do
     end
   end
 
+  context 'when there is a anyOf constraint' do
+    before do
+      within 'section.metadata' do
+        click_on 'Spatial Information', match: :first
+      end
+
+      open_accordions
+
+      # Partially populate a boundary's list of points
+      select 'Horizontal', from: 'Spatial Coverage Type'
+      fill_in 'Zone Identifier', with: 'Zone ID'
+      within '.geometry' do
+        choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
+      end
+      select 'Cartesian', from: 'Granule Spatial Representation'
+
+      within '.nav-top' do
+        click_on 'Done'
+      end
+
+      click_on 'No'
+    end
+
+    it 'validation of anyOf does work' do
+      within '.summary-errors' do
+        expect(page).to have_content('At least one Geometry Type is required')
+      end
+
+      within '.horizontal-spatial-domain' do
+        expect(page).to have_selector(validation_error)
+        expect(page).to have_content('At least one Geometry Type is required')
+      end
+    end
+
+    context 'when satisfying the anyOf constraint' do
+      before do
+        fill_in 'Zone Identifier', with: 'Zone ID'
+        within '.geometry' do
+          choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
+          add_points
+        end
+        select 'Cartesian', from: 'Granule Spatial Representation'
+      end
+
+      it 'removes the validation error' do
+        expect(page).to have_no_selector(validation_error)
+        expect(page).to have_no_content('Geometry should contain any of Points, Bounding Rectangles, G Polygons, or Lines')
+      end
+    end
+  end
+
   context 'when there is a minItems constraint' do
     before do
       within 'section.metadata' do
