@@ -169,8 +169,17 @@ $(document).ready ->
       return
 
     # If the error is a Geometry anyOf error
-    if error.keyword == 'anyOf' && error.dataPath.indexOf('Geometry') != -1
-      error.message = 'At least one Geometry Type is required'
+    if error.keyword == 'anyOf'
+      if error.dataPath.indexOf('Geometry') != -1
+        error.message = 'At least one Geometry Type is required'
+      else
+        # anyOf errors are showing up in the data contacts form, but only when
+        # there are other validation errors. as the error messages are duplicate
+        # and don't have the specificity of the other error messages (or have
+        # information useful to the user), it seems best to suppress these
+        # more info at https://github.com/epoberezkin/ajv/issues/201#issuecomment-222544956
+        error = null
+        return
 
     # Hide individual required errors from an anyOf constraint
     # So we don't fill the form with errors that don't make sense to the user
