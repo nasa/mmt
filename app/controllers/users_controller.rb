@@ -46,8 +46,14 @@ class UsersController < ApplicationController
     # Update the user's available providers
     current_user.set_available_providers(token)
 
+    # retrieve the cached list of all providers
+    cached_all_providers = cmr_client.get_providers.body
     # Refresh (force retrieve) the list of all providers
-    cmr_client.get_providers(true)
+    all_providers = cmr_client.get_providers(true).body
+    # check if there has been a change in providers
+    refresh_all_providers = all_providers != cached_all_providers
+
+    all_providers = all_providers.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
 
     respond_to do |format|
       format.html do
@@ -62,7 +68,10 @@ class UsersController < ApplicationController
           # If the current provider was lost, redirect to the provider_context page
           render json: { redirect: provider_context_path.to_s }
         else
-          render json: { items: current_user.available_providers, provider_id: current_user.provider_id }
+          render json: { available_providers:   current_user.available_providers,
+                         provider_id:           current_user.provider_id,
+                         refresh_all_providers: refresh_all_providers,
+                         all_providers:         all_providers }
         end
       end
     end

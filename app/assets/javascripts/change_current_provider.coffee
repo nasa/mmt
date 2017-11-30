@@ -98,11 +98,29 @@ $(document).ready ->
         success: (response) ->
           return window.location = response.redirect if response.redirect?
 
-          $('#select_provider').empty()
-          $('#select_provider').append($('<option>').text('Select Provider'))
+          $providerContextSelect = $('#select_provider')
+          $searchProviderSelect = $('#provider_id')
+          $groupProviderFilter = $('#provider-group-filter')
 
-          $.each response.items, (index, value) ->
-            $('#select_provider').append($('<option>').val(value).text(value).attr('selected', response.provider_id == value))
+          # refresh the user's available providers in the list
+          $providerContextSelect.empty()
+          $providerContextSelect.append($('<option>').text('Select Provider'))
+          $.each response.available_providers, (index, value) ->
+            $providerContextSelect.append($('<option>').val(value).text(value).attr('selected', response.provider_id == value))
 
           $('span.refresh-providers.spinner').remove()
           $('a.refresh-providers.spinner').show()
+
+          # refresh the lists of all providers if there has been a change
+          if response.refresh_all_providers
+            $searchProviderSelect.empty()
+            $searchProviderSelect.append($('<option>').text('Select a Provider'))
+            $.each response.all_providers, (index, value) ->
+              $searchProviderSelect.append($('<option>').val(value[1]).text(value[0]))
+
+            if $groupProviderFilter.length > 0
+              # only update the groups provider filter if it is on the page
+              $groupProviderFilter.empty()
+              $.each response.all_providers, (index, value) ->
+                $groupProviderFilter.append($('<option>').val(value[1]).text(value[0]))
+              $groupProviderFilter.select2()
