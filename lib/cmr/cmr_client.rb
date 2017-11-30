@@ -136,7 +136,7 @@ module Cmr
               '/ingest/providers'
             end
 
-      force_write = true if Rails.cache.fetch('get_providers') == nil
+      force_write = true unless Rails.cache.fetch('get_providers').body.is_a?(Array)
 
       response = Rails.cache.fetch('get_providers', expires_in: 1.hours, force: force_write) do
         get(url)
