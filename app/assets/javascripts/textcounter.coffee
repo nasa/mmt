@@ -18,6 +18,9 @@
   # Add counter to all necessary fields
   $('.textcounter').textcounter $.extend(defaultOptions, options)
 
+  # TODO: this is triggering validation error messages on page load. can it be taken out?
+  $('.textcounter').trigger('blur')
+
 $(document).ready ->
   # Handle all fields that appears on page load
   initializeTextcounter()

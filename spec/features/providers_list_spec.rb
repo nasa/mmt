@@ -20,11 +20,15 @@ describe 'Providers list' do
       context 'when then adding the provider', js: true do
         new_provider = "#{Faker::Ancient.primordial.slice(0, 5).upcase}_#{Faker::Number.number(3)}"
 
-        before(:each, create_provider: true) do
+        before do
           create_provider(new_provider)
         end
 
-        it 'does not have the new provider in the search dropdown or groups filter', create_provider: true do
+        after do
+          delete_provider(new_provider)
+        end
+
+        it 'does not have the new provider in the search dropdown or groups filter' do
           within '#provider-group-filter' do
             expect(page).to have_no_css('option', text: new_provider)
           end
@@ -66,6 +70,10 @@ describe 'Providers list' do
 
       before :all do
         create_provider(new_provider)
+      end
+
+      after :all do
+        delete_provider(new_provider)
       end
 
       context 'when the user then logs in' do

@@ -18,8 +18,10 @@ namespace :cmr do
   desc 'Start local CMR'
   task start: [:stop] do
     # Process.spawn('cd cmr; java -XX:-OmitStackTraceInFastThrow -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr_logs.log &')
-    # Process.spawn('cd cmr; nohup java -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner&')
-    Process.spawn('cd cmr; unset GEM_HOME; unset GEM_PATH; echo `env`; nohup java -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner&')
+    Process.spawn('cd cmr; nohup java -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner&')
+
+    # this command was necessary when there was an issue with jRuby in CMR accessing our gems
+    # Process.spawn('cd cmr; unset GEM_HOME; unset GEM_PATH; echo `env`; nohup java -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner&')
     puts 'Cmr is starting up'
   end
 
@@ -30,21 +32,62 @@ namespace :cmr do
   end
 
   desc 'Start and load data into local CMR'
-  task start_and_load: [:start, :load] do
-    # Start CMR and load data
-  end
+  task start_and_load: [:start, :load]
+  # Start CMR and load data
 
   desc 'Stop local CMR process'
   task :stop do
     `date && echo "Stopping applications" && (curl -XPOST http://localhost:2999/stop; true)`
   end
 
-  desc 'Delete provider used in tests'
+  desc 'Reset provider used in tests'
   task :reset_test_provider, [:provider_id] => ['tmp:cache:clear'] do |_task, args|
     args.with_defaults(provider_id: 'MMT_2')
 
     cmr = Cmr::Local.new
     cmr.reset_provider(args[:provider_id])
+  end
+
+  desc 'Create a new provider'
+  task :create_provider, [:provider_id] do |_task, args|
+    if args.provider_id.nil?
+      puts 'New Provider Id is required'
+    else
+      cmr_conn = Faraday.new
+      provider_response = cmr_conn.post do |req|
+        req.url('http://localhost:3002/providers')
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['Echo-Token'] = 'mock-echo-system-token'
+
+        # CMR expects double quotes in the JSON body
+        req.body = "{\"provider-id\": \"#{args.provider_id}\", \"short-name\": \"#{args.provider_id}\", \"cmr-only\": true}"
+      end
+
+      if provider_response.success?
+        puts "Successfully created provider #{args.provider_id}"
+      else
+        puts "Did not create provider: #{Array.wrap(JSON.parse(provider_response.body)['errors']).join(' /// ')}"
+      end
+    end
+  end
+
+  desc 'Delete a provider'
+  task :delete_provider, [:provider_id] do |_task, args|
+    if args.provider_id.nil?
+      puts 'Provider Id is required'
+    else
+      cmr_conn = Faraday.new
+      provider_response = cmr_conn.delete do |req|
+        req.headers['Echo-Token'] = 'mock-echo-system-token'
+        req.url("http://localhost:3002/providers/#{args.provider_id}")
+      end
+
+      if provider_response.success?
+        puts "Successfully deleted provider #{args.provider_id}"
+      else
+        puts "Did not delete the provider: #{Array.wrap(JSON.parse(provider_response.body)['errors']).join(' /// ')}"
+      end
+    end
   end
 
   namespace :preview do

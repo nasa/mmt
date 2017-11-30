@@ -40,8 +40,20 @@ module Helpers
         raise Array.wrap(JSON.parse(provider_response.body)['errors']).join(' /// ') unless provider_response.success?
 
         wait_for_cmr
+      end
+    end
 
-        provider_response.body
+    def delete_provider(provider_id)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::CmrHelper#delete_provider' do
+        cmr_conn = Faraday.new
+        provider_response = cmr_conn.delete do |req|
+          req.headers['Echo-Token'] = 'mock-echo-system-token'
+          req.url("http://localhost:3002/providers/#{provider_id}")
+        end
+
+        raise Array.wrap(JSON.parse(provider_response.body)['errors']).join(' /// ') unless provider_response.success?
+
+        wait_for_cmr
       end
     end
   end
