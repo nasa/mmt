@@ -129,13 +129,14 @@ module Cmr
 
     ### Providers, via CMR Ingest and CMR Search
 
-    def get_providers
+    def get_providers(force_write = false)
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3002/providers'
             else
               '/ingest/providers'
             end
-      response = Rails.cache.fetch('get_providers', expires_in: 1.hours) do
+
+      response = Rails.cache.fetch('get_providers', expires_in: 1.hours, force: force_write) do
         get(url)
       end
       response

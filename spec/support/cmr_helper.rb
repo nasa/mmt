@@ -24,5 +24,25 @@ module Helpers
     def cmr_success_response(response_body)
       Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(response_body)))
     end
+
+    def create_provider(provider_name)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::CmrHelper#create_provider' do
+        cmr_conn = Faraday.new
+        provider_response = cmr_conn.post do |req|
+          req.url('http://localhost:3002/providers')
+          req.headers['Content-Type'] = 'application/json'
+          req.headers['Echo-Token'] = 'mock-echo-system-token'
+
+          # CMR expects double quotes in the JSON body
+          req.body = "{\"provider-id\": \"#{provider_name}\", \"short-name\": \"#{provider_name}\", \"cmr-only\": true}"
+        end
+
+        raise Array.wrap(JSON.parse(provider_response.body)['errors']).join(' /// ') unless provider_response.success?
+
+        wait_for_cmr
+
+        provider_response.body
+      end
+    end
   end
 end

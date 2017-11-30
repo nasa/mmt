@@ -36,12 +36,8 @@ describe 'Manage CMR provider holdings', reset_provider: true, js: true do
 
     it 'displays a list of available providers' do
       within '#data-providers' do
-        within all('tr')[2] do
-          expect(page).to have_content('MMT_1')
-        end
-        within all('tr')[3] do
-          expect(page).to have_content('MMT_2')
-        end
+        expect(page).to have_content('MMT_1')
+        expect(page).to have_content('MMT_2')
       end
     end
 

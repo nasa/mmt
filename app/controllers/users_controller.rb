@@ -43,7 +43,11 @@ class UsersController < ApplicationController
   end
 
   def refresh_providers
+    # Update the user's available providers
     current_user.set_available_providers(token)
+
+    # Refresh (force retrieve) the list of all providers
+    cmr_client.get_providers(true)
 
     respond_to do |format|
       format.html do

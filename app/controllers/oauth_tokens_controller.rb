@@ -20,6 +20,9 @@ class OauthTokensController < ApplicationController
 
         # Updates the user's available providers
         current_user.set_available_providers(token)
+
+        # Refresh (force retrieve) the list of all providers
+        cmr_client.get_providers(true)
       else
         Rails.logger.error("OAuth error: #{response.body}")
       end
