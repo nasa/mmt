@@ -33,7 +33,7 @@ module ProviderHoldings
     @provider = provider_holdings_response.body.fetch('provider', {})
 
     return if provider_holdings_response.error?
-    
+
     provider_holdings_response = cmr_client.get_provider_holdings(false, @provider['provider_id'], token)
 
     return if provider_holdings_response.error?

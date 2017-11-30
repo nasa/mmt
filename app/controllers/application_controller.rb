@@ -107,12 +107,6 @@ class ApplicationController < ActionController::Base
 
     # With no echo_id we cannot request providers for the user, no sense in continuing
     return if current_user.echo_id.nil?
-
-    # If the user already has available providers, we don't need to fetch them again
-    return unless current_user.available_providers.nil?
-
-    # The user has no available providers, but does have an echo_id
-    current_user.set_available_providers(token)
   end
 
   def refresh_urs_if_needed
