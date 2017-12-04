@@ -104,7 +104,20 @@ class BulkUpdatesController < ManageCollectionsController
       bulk_update_object['update-value'] = prune_science_keyword(params.fetch('update_value', {}).to_hash.to_camel_keys)
     end
 
-    bulk_update_object
+    blank_to_nil(bulk_update_object)
+  end
+
+  # Like compact_blank, but don't compact the nils out
+  def blank_to_nil(node)
+    return node.map { |n| blank_to_nil(n) }.presence if node.is_a?(Array)
+    return node if node == false
+    return node.presence unless node.is_a?(Hash)
+    result = {}
+    node.each do |k, v|
+      result[k] = blank_to_nil(v)
+    end
+    result = result
+    result.presence
   end
 
   def retrieve_task_collections

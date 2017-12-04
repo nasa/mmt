@@ -274,10 +274,9 @@ describe 'Bulk updating Data Centers' do
           within '.new-values-preview' do
             expect(page).to have_content('Short Name: AARHUS-HYDRO')
             expect(page).to have_content('Long Name: Hydrogeophysics Group, Aarhus University ')
-            # TODO MMT-1213
-            # expect(page).to have_no_content('Related Url Content Type:')
-            # expect(page).to have_no_content('Related Url Type:')
-            # expect(page).to have_no_content('Related URL:')
+            expect(page).to have_content('Related Url Content Type:')
+            expect(page).to have_content('Related Url Type:')
+            expect(page).to have_content('Related URL:')
           end
 
           within '.bulk-update-preview-table' do
@@ -315,10 +314,9 @@ describe 'Bulk updating Data Centers' do
               expect(page).to have_content('New Value')
               expect(page).to have_content('Short Name: AARHUS-HYDRO')
               expect(page).to have_content('Long Name: Hydrogeophysics Group, Aarhus University ')
-              # TODO MMT-1213
-              # expect(page).to have_no_content('Related Url Content Type:')
-              # expect(page).to have_no_content('Related Url Type:')
-              # expect(page).to have_no_content('Related URL:')
+              expect(page).to have_content('Related Url Content Type:')
+              expect(page).to have_content('Related Url Type:')
+              expect(page).to have_content('Related URL:')
             end
 
             # we can't test the time accurately, but we can check the date
@@ -336,6 +334,9 @@ describe 'Bulk updating Data Centers' do
 
                 expect(page).to have_content('AARHUS-HYDRO', count: 2)
                 expect(page).to have_content('Hydrogeophysics Group, Aarhus University ', count: 2)
+
+                expect(page).to have_no_content('Home Page')
+                expect(page).to have_no_link(title: 'DataCenterURL')
               end
             end
           end
