@@ -102,11 +102,25 @@ $(document).ready ->
           $searchProviderSelect = $('#provider_id')
           $groupProviderFilter = $('#provider-group-filter')
 
+          $noProviders = $('.provider-context-no-providers')
+          $oneProvider = $('.provider-context-one-provider')
+          $manyProviders = $('.provider-context-many-providers')
+
+          $noProviders.hide()
+          $oneProvider.hide()
+          $manyProviders.hide()
+
           # refresh the user's available providers in the list
-          $providerContextSelect.empty()
-          $providerContextSelect.append($('<option>').text('Select Provider'))
-          $.each response.available_providers, (index, value) ->
-            $providerContextSelect.append($('<option>').val(value).text(value).attr('selected', response.provider_id == value))
+          if response.available_providers.length > 1
+            $manyProviders.show()
+
+            $providerContextSelect.empty()
+            $providerContextSelect.append($('<option>').text('Select Provider'))
+            $.each response.available_providers, (index, value) ->
+              $providerContextSelect.append($('<option>').val(value).text(value).attr('selected', response.provider_id == value))
+          else if response.available_providers.length == 1
+            $oneProvider.show()
+
 
           $('span.refresh-providers.spinner').remove()
           $('a.refresh-providers.spinner').show()
