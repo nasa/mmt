@@ -179,19 +179,16 @@ describe 'Provider context', reset_provider: true, js: true do
 
     context 'when a user refreshes their available providers' do
       before do
-        click_on 'Refresh your available providers'
-      end
-
-      before :all do
+        click_on 'profile-link'
+        click_on 'Change Provider'
         add_provider_context_permission('MMT_1')
-      end
-
-      it 'saves the available providers' do
-        expect(User.first.available_providers).to eq(%w(MMT_1 MMT_2))
+        click_on 'Refresh your available providers'
+        wait_for_ajax
       end
 
       it 'prompts the user to select their provider context' do
         expect(page).to have_content('Please select your provider context')
+        expect(User.first.available_providers).to eq(%w(MMT_1 MMT_2))
       end
     end
   end
