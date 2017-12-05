@@ -50,7 +50,7 @@ describe 'Provider context', reset_provider: true, js: true do
           end
         end
 
-        context 'when the user logs in again' do
+        context 'when the user logs out and logs in again' do
           before do
             click_on 'profile-link'
             click_on 'Logout'
@@ -67,7 +67,7 @@ describe 'Provider context', reset_provider: true, js: true do
           end
 
           # Clicking badge allows user to click to get to provider menu
-          context 'when clicking on the badge' do
+          context 'when clicking on the provider badge' do
             before do
               click_on 'provider-badge-link'
             end
@@ -105,7 +105,7 @@ describe 'Provider context', reset_provider: true, js: true do
       end
 
       # This is the exception case (see redirector.rb)
-      context 'if user is on the provider order details page' do
+      context 'when the user is on the provider order details page' do
         before do
           # The order guid belongs to NSIDC_ECS
           User.first.update(provider_id: 'NSIDC_ECS')
@@ -128,7 +128,7 @@ describe 'Provider context', reset_provider: true, js: true do
         end
       end
 
-      context 'if user is on the permissions creation page' do
+      context 'when the user is on the permissions creation page' do
         before do
           visit permissions_path
 
@@ -177,7 +177,7 @@ describe 'Provider context', reset_provider: true, js: true do
       end
     end
 
-    context 'when a user refreshes their available providers' do
+    context 'when a user gains a provider and refreshes their available providers' do
       before do
         click_on 'profile-link'
         click_on 'Change Provider'
