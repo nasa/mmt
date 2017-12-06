@@ -20,7 +20,7 @@ module Echo
     def make_request(url, body)
       parsed_body = Hash.send('from_xml', body).fetch('Envelope', {}).fetch('Body', {})
 
-      Rails.logger.info("Soap call: URL: #{url}, params: #{parsed_body[parsed_body.keys.first].except('xmlns:ns2', 'xmlns:ns3', 'xmlns:ns4', 'token').inspect}")
+      Rails.logger.info("Soap call: URL: #{url}, params: #{parsed_body.keys.first}: #{parsed_body[parsed_body.keys.first].except('xmlns:ns2', 'xmlns:ns3', 'xmlns:ns4', 'token').inspect}")
       response = connection.post do |req|
         req.headers['Content-Type'] = 'text/xml'
         req.body = body
