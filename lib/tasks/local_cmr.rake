@@ -46,7 +46,6 @@ namespace :cmr do
 
     cmr = Cmr::Local.new
     cmr.reset_provider(args[:provider_id])
-    cmr.reindex_permitted_groups
   end
 
   desc 'Create a new provider'
