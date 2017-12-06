@@ -95,6 +95,17 @@ RSpec.configure do |config|
       wait_for_cmr
     end
   end
+  config.after(:all) do
+    if self.class.metadata[:reset_provider]
+      Rake.application.rake_require 'tasks/local_cmr'
+      Rake::Task.define_task(:environment)
+      Rake::Task['cmr:reset_test_provider'].reenable
+
+      Rake.application.invoke_task 'cmr:reset_test_provider[MMT_2]'
+
+      wait_for_cmr
+    end
+  end
 
   config.append_after(:each) do
     Capybara.reset_sessions!
