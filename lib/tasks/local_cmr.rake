@@ -45,7 +45,9 @@ namespace :cmr do
     args.with_defaults(provider_id: 'MMT_2')
 
     cmr = Cmr::Local.new
-    cmr.reset_provider(args[:provider_id])
+    # cmr.reset_provider(args[:provider_id])
+    cmr.reset_data
+    cmr.load_data
   end
 
   desc 'Create a new provider'
