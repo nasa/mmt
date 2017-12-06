@@ -46,6 +46,7 @@ module Cmr
         end
         req.body = body if body
       end
+      Rails.logger.info "CMR Request #{method} #{url} body: #{body}"
       client_response = Cmr::Response.new(faraday_response)
       begin
         Rails.logger.info "CMR Response #{method} #{url} result : Headers: #{client_response.headers} - Body Size (bytes): #{client_response.body.to_s.bytesize} Status: #{client_response.status}"
