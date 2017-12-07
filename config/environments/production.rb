@@ -82,7 +82,7 @@ Rails.application.configure do
   config.groups_enabled = true
 
   # Feature Toggle for bulk updates
-  config.bulk_updates_enabled = false
+  config.bulk_updates_enabled = true
 
   config.cmr_env = 'ops'
   config.echo_env = 'ops'
