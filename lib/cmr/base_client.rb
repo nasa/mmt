@@ -32,10 +32,6 @@ module Cmr
       end
     end
 
-    def system_token_header
-      { 'Echo-Token' => ENV['system_token'] }
-    end
-
     def request(method, url, params, body, headers)
       faraday_response = connection.send(method, url, params) do |req|
         req.headers['Content-Type'] = 'application/json' unless method == :get
