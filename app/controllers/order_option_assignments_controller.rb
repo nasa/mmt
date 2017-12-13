@@ -63,7 +63,7 @@ class OrderOptionAssignmentsController < ManageCmrController
     error_count = 0
     @order_option = params.fetch('order-options', '')
 
-    params['collectionsChooser_toList'].each do |concept_id|
+    Array.wrap(params['collectionsChooser_toList']).each do |concept_id|
       response = cmr_client.add_order_option_assignments(concept_id, @order_option, echo_provider_token)
       success_count += 1 unless response.error?
       error_count += 1 if response.error?

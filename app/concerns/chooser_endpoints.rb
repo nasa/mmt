@@ -54,11 +54,11 @@ module ChooserEndpoints
     response = echo_client.get_service_entries_by_provider(echo_provider_token, current_provider_guid)
 
     if response.success?
-      service_entries = Array.wrap(response.parsed_body.fetch('Item', [])).sort_by { |option| option['Name'].downcase }
+      service_entries = Array.wrap(response.parsed_body.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
 
       # Allow filtering the results by name (This is really slow and not recommended, but is a necessary feature)
       unless params.fetch('name', nil).blank?
-        service_entries.select! { |s| s['Name'].downcase.start_with?(params['name'].downcase) }
+        service_entries.select! { |s| s.fetch('Name', '').downcase.start_with?(params.fetch('name', '').downcase) }
       end
 
       # Filter down our list of all service entries that belong to the current provider to

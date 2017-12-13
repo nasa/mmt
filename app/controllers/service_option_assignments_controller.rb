@@ -93,7 +93,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
         service_entry = assignment_service_entries.find { |c| c['Guid'] == association['ServiceEntryGuid'] }
         if service_entry.nil?
           Rails.logger.debug "Service Entry with guid `#{association['ServiceEntryGuid']}` not found in #{assignment_service_entries.map { |s| s['Guid'] }}"
-          
+
           next
         end
 
@@ -148,7 +148,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
     service_option_response = echo_client.get_service_options_names(echo_provider_token)
     @service_options = if service_option_response.success?
                          # Retreive the service options and sort by name, ignoring case
-                         Array.wrap(service_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option['Name'].downcase }.map { |option| [option['Name'], option['Guid']] }
+                         Array.wrap(service_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }.map { |option| [option['Name'], option['Guid']] }
                        else
                          []
                        end

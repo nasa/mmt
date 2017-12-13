@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
     providers = []
 
     # Request the permissions for the current user
-    until permissions_response.error? || permissions_response.body['items'].empty?
+    until permissions_response.error? || permissions_response.body.fetch('items', []).empty?
       # Concatenate this page of providers to the full list
       providers.push(*permissions_response.body.fetch('items', []).map { |permission| permission.fetch('acl', {}).fetch('provider_identity', {})['provider_id'] })
 

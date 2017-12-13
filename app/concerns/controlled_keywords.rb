@@ -40,7 +40,7 @@ module ControlledKeywords
 
   def set_platform_types
     # sets platform types with nested short_name and long_name values
-    @platform_types = cmr_client.get_controlled_keywords('platforms')['category'].map do |category|
+    @platform_types = cmr_client.get_controlled_keywords('platforms').fetch('category', []).map do |category|
       short_names = get_controlled_keyword_short_names(Array.wrap(category))
 
       {

@@ -44,7 +44,7 @@ module ServiceEntryHelper
     tags_response = echo_client.get_tags_by_tag_group(echo_provider_token, 'SERVICE-INTERFACE')
 
     if tags_response.success?
-      (tags_response.parsed_body['Item'] || []).sort_by { |option| option['Value'].downcase }
+      (tags_response.parsed_body['Item'] || []).sort_by { |option| option.fetch('Value', '').downcase }
     else
       Rails.logger.error "Error retrieving tags for tag group SERVICE-INTERFACE: #{tags_response.error_message}"
 
