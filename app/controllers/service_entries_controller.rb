@@ -18,7 +18,7 @@ class ServiceEntriesController < ManageCmrController
 
     service_entry_list = if service_entry_response.success?
                            # Retreive the service options and sort by name, ignoring case
-                           Array.wrap(service_entry_response.parsed_body.fetch('Item', [])).sort_by { |option| option['Name'].downcase }
+                           Array.wrap(service_entry_response.parsed_body.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
                          else
                            []
                          end

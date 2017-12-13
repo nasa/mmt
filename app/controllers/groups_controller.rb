@@ -197,7 +197,7 @@ class GroupsController < ManageCmrController
                else
                  []
                end
-               
+
     @non_authorized_members = group_member_uids.reject { |uid| @members.map { |m| m['uid'] }.include?(uid) }.reject(&:blank?).map { |uid| { 'uid' => uid } }
   end
 
@@ -242,7 +242,7 @@ class GroupsController < ManageCmrController
     response = cmr_client.get_permissions(permission_params, token)
 
     # Request permissions
-    until response.error? || response.body['items'].empty?
+    until response.error? || response.body.fetch('items', []).empty?
       # Add the retrieved permissions to our array
       all_permissions.concat(response.body['items'])
 

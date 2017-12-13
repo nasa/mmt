@@ -172,7 +172,7 @@ module PermissionManagement
 
   def edit_permission_object(permission_object:, action:, new_permissions:, group_id:)
     if action == 'remove'
-      permission_object['group_permissions'] = permission_object['group_permissions'].reject { |group_perm| group_perm['group_id'] == group_id }
+      permission_object['group_permissions'] = permission_object.fetch('group_permissions', []).reject { |group_perm| group_perm['group_id'] == group_id }
     elsif action == 'add'
       permission_object['group_permissions'] << { 'group_id' => group_id, 'permissions' => new_permissions }
     elsif action == 'replace'

@@ -86,7 +86,7 @@ class BulkUpdatesController < ManageCollectionsController
     bulk_update_object = {
       'concept-ids'   => params['concept_ids'],
       'name'          => params['name'],
-      'update-field'  => params['update_field'].upcase,
+      'update-field'  => params.fetch('update_field', '').upcase,
       'update-type'   => params['update_type']
     }
 
@@ -163,7 +163,7 @@ class BulkUpdatesController < ManageCollectionsController
 
   # comment about special case
   def ensure_correct_data_center_update_value(task)
-    if task['update-type'] == 'FIND_AND_UPDATE' && task['update-value'].key?('ContactInformation')
+    if task['update-type'] == 'FIND_AND_UPDATE' && task.fetch('update-value', {}).key?('ContactInformation')
       task['update-type'] = 'FIND_AND_UPDATE_HOME_PAGE_URL'
     end
   end

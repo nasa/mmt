@@ -262,17 +262,15 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def validate_parameter_ranges(errors, metadata)
-    if metadata['AdditionalAttributes']
-      metadata['AdditionalAttributes'].each do |attribute|
-        non_range_types = %w(STRING BOOLEAN)
-        unless non_range_types.include?(attribute['DataType'])
-          range_begin = attribute['ParameterRangeBegin']
-          range_end = attribute['ParameterRangeEnd']
+    Array.wrap(metadata['AdditionalAttributes']).each do |attribute|
+      non_range_types = %w(STRING BOOLEAN)
+      unless non_range_types.include?(attribute['DataType'])
+        range_begin = attribute['ParameterRangeBegin']
+        range_end = attribute['ParameterRangeEnd']
 
-          if range_begin && range_end && range_begin >= range_end
-            error = "The property '#/AdditionalAttributes/0/ParameterRangeBegin' was larger than ParameterRangeEnd"
-            errors << error
-          end
+        if range_begin && range_end && range_begin >= range_end
+          error = "The property '#/AdditionalAttributes/0/ParameterRangeBegin' was larger than ParameterRangeEnd"
+          errors << error
         end
       end
     end

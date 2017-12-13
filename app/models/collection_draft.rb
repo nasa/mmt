@@ -307,7 +307,7 @@ class CollectionDraft < Draft
     new_params = {}
     draft_data_centers = self.draft['DataCenters'] || []
 
-    data_contacts_params['DataContacts'].each do |data_contact|
+    Array.wrap(data_contacts_params['DataContacts']).each do |data_contact|
       if data_contact['DataContactType'] == 'NonDataCenterContactPerson'
         contact_persons << data_contact['ContactPerson']
       elsif data_contact['DataContactType'] == 'NonDataCenterContactGroup'

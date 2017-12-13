@@ -109,10 +109,11 @@ class CollectionsController < ManageCollectionsController
 
     # if there is at least one revision available
     if latest
-      @native_id = latest['meta']['native-id']
-      @provider_id = latest['meta']['provider-id']
+      meta = latest.fetch('meta', {})
+      @native_id = meta['native-id']
+      @provider_id = meta['provider-id']
 
-      if !@revision_id.nil? && latest['meta']['revision-id'].to_s != @revision_id.to_s
+      if !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s
         @old_revision = true
       end
 

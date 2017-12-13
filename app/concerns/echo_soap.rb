@@ -32,7 +32,7 @@ module EchoSoap
         return provider if provider.fetch('Name', nil) == provider_id
       end
     end
-    
+
     {}
   end
 
@@ -78,7 +78,7 @@ module EchoSoap
       @summaries << echo_client.get_data_quality_summary_definition(token_with_client_id, guid)
     end
 
-    @summaries.sort_by! { |summary| summary.parsed_body['Name'].downcase }
+    @summaries.sort_by! { |summary| summary.parsed_body.fetch('Name', '').downcase }
   end
 
   # Get all of the collections for the current provider
@@ -97,7 +97,7 @@ module EchoSoap
     response = cmr_client.get_collections_by_post(collection_params, token)
 
     # Request collections
-    until response.error? || response.body['items'].empty?
+    until response.error? || response.body.fetch('items', []).empty?
       # Add the retrieved collections to our array
       @collections.concat(response.body['items'])
 

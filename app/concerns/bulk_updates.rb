@@ -25,7 +25,7 @@ module BulkUpdates
     if flatten_keys
       # Pull out all of the keys from the originial
       # request object and insert them into the root
-      task['request-json-body'].each do |key, value|
+      Array.wrap(task['request-json-body']).each do |key, value|
         value = 'FIND_AND_UPDATE' if value == 'FIND_AND_UPDATE_HOME_PAGE_URL'
         task[key] = value
       end
@@ -41,7 +41,7 @@ module BulkUpdates
     collections_response = cmr_client.get_collections_by_post({ concept_id: concept_ids, page_size: concept_ids.count }, token)
     return unless collections_response.success?
 
-    collections_response.body['items'].each do |collection|
+    Array.wrap(collections_response.body['items']).each do |collection|
       task.fetch('collection-statuses', []).find { |status| status['concept-id'] == collection.fetch('meta', {})['concept-id'] }['collection'] = collection
     end
   end

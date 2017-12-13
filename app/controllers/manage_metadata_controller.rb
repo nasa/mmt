@@ -36,13 +36,14 @@ class ManageMetadataController < ApplicationController
 
       @revisions = variable_data
       latest = variable_data.first
+      meta = latest.fetch('meta', {})
 
-      if !@revision_id.nil? && latest && latest['meta']['revision-id'].to_s != @revision_id.to_s
+      if !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s
         @old_revision = true
       end
 
       break if latest && !@revision_id
-      break if latest && latest['meta']['revision-id'] >= @revision_id.to_i && latest.fetch('meta', {})['concept-id'] == @concept_id
+      break if latest && meta['revision-id'] >= @revision_id.to_i && meta['concept-id'] == @concept_id
       attempts += 1
       sleep 0.05
     end
@@ -50,8 +51,8 @@ class ManageMetadataController < ApplicationController
     if latest.blank?
       Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
     else
-      @provider_id = latest.fetch('meta', {})['provider-id']
-      @native_id = latest.fetch('meta', {})['native-id']
+      @provider_id = meta['provider-id']
+      @native_id = meta['native-id']
       @num_associated_collections = latest.fetch('associations', {}).fetch('collections', []).count
     end
   end
