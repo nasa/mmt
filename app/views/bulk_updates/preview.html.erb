@@ -9,17 +9,17 @@
     <p><%= @task['name'] %></p>
 
     <h4>Field to Update</h4>
-    <p><%= @task['update-field'].titleize %></p>
+    <p><%= @task.fetch('update-field', '').titleize %></p>
 
     <h4>Update Type</h4>
-    <p><%= @task['update-type'].titleize %></p>
+    <p><%= @task.fetch('update-type', '').titleize %></p>
 
     <% if @task['update-type'] == 'FIND_AND_REMOVE' || @task['update-type'] == 'FIND_AND_REPLACE' || @task['update-type'] == 'FIND_AND_UPDATE' %>
       <div class="find-values-preview">
         <!-- Find Value -->
         <%= display_value_title(@task['update-type'], 'find') %>
 
-        <%= send("display_#{@task['update-field'].singularize.downcase}", @task['find-value']) %>
+        <%= send("display_#{@task.fetch('update-field', '').singularize.downcase}", @task['find-value']) %>
       </div>
     <% end %>
 
@@ -28,7 +28,7 @@
         <!-- Update Value -->
         <%= display_value_title(@task['update-type'], 'new') %>
 
-        <%= send("display_#{@task['update-field'].singularize.downcase}", @task['update-value']) %>
+        <%= send("display_#{@task.fetch('update-field', '').singularize.downcase}", @task['update-value']) %>
       </div>
     <% end %>
 
@@ -62,7 +62,7 @@
   <section id="bulk-update-preview-submit">
     <!-- Form submitting data to create the bulk update -->
     <%= form_tag(bulk_updates_path, method: :post, id: 'bulk-update-preview-submit-form') do %>
-      <% @task['concept-ids'].each do |collection| %>
+      <% @task.fetch('concept-ids', []).each do |collection| %>
         <%= hidden_field_tag 'concept_ids[]', collection %>
       <% end %>
 

@@ -55,7 +55,7 @@
                     <li>
                       <%= link_to bulk_update['name'], bulk_update_path(bulk_update['task-id']) %>
                       <p>
-                        <small><b>STATUS:</b> <%= bulk_update['status'].titleize %></small> |
+                        <small><b>STATUS:</b> <%= bulk_update.fetch('status', '').titleize %></small> |
                         <small><b>CREATED:</b><span> <%= DateTime.parse(bulk_update['created-at']).to_s(:date) %></small>
                       </p>
                     </li>

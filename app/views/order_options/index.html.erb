@@ -27,8 +27,8 @@
         <% @order_options.each_with_index do |order_option, index| %>
           <tr>
             <td><%= link_to order_option['Name'], order_option_path(order_option['Guid']) %></td>
-            <td><%= order_option['Scope'].humanize %></td>
-            <td><%= order_option['Deprecated'].humanize %></td>
+            <td><%= order_option.fetch('Scope', '').humanize %></td>
+            <td><%= order_option.fetch('Deprecated', '').humanize %></td>
             <td><%= echo_formatted_date(order_option['LastUpdate'], default: 'Never Updated') %></td>
 
             <td>
