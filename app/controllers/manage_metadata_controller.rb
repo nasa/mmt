@@ -36,7 +36,7 @@ class ManageMetadataController < ApplicationController
 
       @revisions = variable_data
       latest = variable_data.first
-      meta = latest.fetch('meta', {})
+      meta = latest.nil? ? {} : latest.fetch('meta', {})
 
       if !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s
         @old_revision = true
