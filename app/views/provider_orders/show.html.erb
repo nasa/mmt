@@ -20,8 +20,8 @@
           <td>Provider Order State:</td>
           <td>
             <%= @provider_order['provider_order_state'] %>
-            
-            <% if policy(:provider_order).resubmit? && state_is_terminal(@provider_order['provider_order_state']) %>  
+
+            <% if policy(:provider_order).resubmit? && state_is_terminal(@provider_order['provider_order_state']) %>
               <%= link_to 'Resubmit', resubmit_provider_order_path(@provider_order['guid']), method: :post, class: 'eui-btn--link', role: 'button' %>
             <% end %>
           </td>
@@ -45,17 +45,17 @@
         </tr>
       </thead>
       <tbody>
-        <% @provider_order['catalog_items'].each_with_index do |catalog_item, index| %>
+        <% @provider_order.fetch('catalog_items', []).each_with_index do |catalog_item, index| %>
           <tr>
             <td><%= catalog_item['item_guid'] %></td>
             <td><%= catalog_item['status'] %></td>
             <td><%= catalog_item['data_granule_id'] %></td>
             <td><%= catalog_item['local_granule_id'] %></td>
             <td>
-            <% if catalog_item['option_selection']['content'].blank? %>
+            <% if catalog_item.fetch('option_selection', {})['content'].blank? %>
               NOT_SET
             <% else %>
-              <%= catalog_item['option_selection']['name'] %>
+              <%= catalog_item.fetch('option_selection', {})['name'] %>
               <%= link_to 'Show', "#option-select-modal-#{index}", class: 'display-modal' %>
 
               <div id="option-select-modal-<%= index %>" class="eui-modal-content">
@@ -73,7 +73,7 @@
 
     <h3>Status Messages</h3>
     <ul>
-      <% @provider_order['status_messages'].each do |message| %>
+      <% @provider_order.fetch('status_messages', []).each do |message| %>
         <li><b><%= echo_formatted_date(message[0]) %>:</b> <%= message[1] %></li>
       <% end %>
     </ul>

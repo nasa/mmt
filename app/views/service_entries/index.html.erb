@@ -29,7 +29,7 @@
             <tr>
               <td><%= link_to service_entry['Name'], service_entry_path(service_entry['Guid']) %></td>
               <td><%= service_entry['Url'] %></td>
-              <td><%= service_entry['EntryType'].titleize %></td>
+              <td><%= service_entry.fetch('EntryType', '').titleize %></td>
 
               <% if @allowed_actions.include?('update') %>
                 <td><%= link_to 'Edit', edit_service_entry_path(service_entry.fetch('Guid')) %></td>
