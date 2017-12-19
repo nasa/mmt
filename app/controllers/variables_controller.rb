@@ -43,9 +43,9 @@ class VariablesController < ManageVariablesController
   def create
     variable_draft = VariableDraft.find(params[:id])
 
-    ingested = cmr_client.ingest_variable(variable_draft.draft.to_json, variable_draft.provider_id, variable_draft.native_id, token)
+    ingested_response = cmr_client.ingest_variable(variable_draft.draft.to_json, variable_draft.provider_id, variable_draft.native_id, token)
 
-    if ingested.success?
+    if ingested_response.success?
       # get information for publication email notification before draft is deleted
       Rails.logger.info("Audit Log: Variable Draft #{variable_draft.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
       short_name = variable_draft.short_name
@@ -53,8 +53,8 @@ class VariablesController < ManageVariablesController
       # Delete draft
       variable_draft.destroy
 
-      concept_id = ingested.body['concept-id']
-      revision_id = ingested.body['revision-id']
+      concept_id = ingested_response.body['concept-id']
+      revision_id = ingested_response.body['revision-id']
 
       # instantiate and deliver notification email
       DraftMailer.variable_draft_published_notification(get_user_info, concept_id, revision_id, short_name).deliver_now
@@ -62,27 +62,27 @@ class VariablesController < ManageVariablesController
       redirect_to variable_path(concept_id, revision_id: revision_id), flash: { success: I18n.t('controllers.variables.create.flash.success') }
     else
       # Log error message
-      Rails.logger.error("Ingest Variable Metadata Error: #{ingested.inspect}")
+      Rails.logger.error("Ingest Variable Metadata Error: #{ingested_response.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest variable draft #{variable_draft.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
-      @ingest_errors = generate_ingest_errors(ingested)
-      redirect_to variable_draft_path(variable_draft), flash: { error: cmr_error_message(ingested, i18n: I18n.t('controllers.variables.create.flash.error')) }
+      @ingest_errors = generate_ingest_errors(ingested_response)
+      redirect_to variable_draft_path(variable_draft), flash: { error: ingested_response.error_message(i18n: I18n.t('controllers.variables.create.flash.error')) }
     end
   end
 
   def destroy
-    delete = cmr_client.delete_variable(@provider_id, @native_id, token)
+    delete_response = cmr_client.delete_variable(@provider_id, @native_id, token)
 
-    if delete.success?
+    if delete_response.success?
       flash[:success] = I18n.t('controllers.variables.destroy.flash.success')
       Rails.logger.info("Audit Log: Variable #{@concept_id} with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
 
-      redirect_to variable_revisions_path(id: delete.body['concept-id'], revision_id: delete.body['revision-id'])
+      redirect_to variable_revisions_path(id: delete_response.body['concept-id'], revision_id: delete_response.body['revision-id'])
     else
-      Rails.logger.error("Delete Variable Error: #{delete.inspect}")
+      Rails.logger.error("Delete Variable Error: #{delete_response.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to delete Variable #{@concept_id} with native_id #{@native_id} in provider #{@provider_id} but encountered an error.")
 
-      flash[:error] = cmr_error_message(delete, i18n: I18n.t('controllers.variables.destroy.flash.error'))
+      flash[:error] = delete_response.error_message(i18n: I18n.t('controllers.variables.destroy.flash.error'))
       render :show
     end
   end
@@ -96,18 +96,18 @@ class VariablesController < ManageVariablesController
     latest_revision_id = @revisions.first['meta']['revision-id']
 
     # Ingest revision
-    ingested = cmr_client.ingest_variable(@variable.to_json, @provider_id, @native_id, token)
+    ingested_response = cmr_client.ingest_variable(@variable.to_json, @provider_id, @native_id, token)
 
-    if ingested.success?
+    if ingested_response.success?
       flash[:success] = I18n.t('controllers.variables.revert.flash.success')
       Rails.logger.info("Audit Log: Variable Revision for record #{@concept_id} with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
       redirect_to variable_revisions_path(revision_id: latest_revision_id.to_i + 1)
     else
-      Rails.logger.error("Ingest (Revert) Variable Error: #{ingested.inspect}")
+      Rails.logger.error("Ingest (Revert) Variable Error: #{ingested_response.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to revert Variable #{@concept_id} by ingesting a previous revision in provider #{current_user.provider_id} but encountered an error.")
 
-      @errors = generate_ingest_errors(ingested)
-      flash[:error] = cmr_error_message(ingested, i18n: I18n.t('controllers.variables.revert.flash.error'))
+      @errors = generate_ingest_errors(ingested_response)
+      flash[:error] = ingested_response.error_message(i18n: I18n.t('controllers.variables.revert.flash.error'))
       render action: 'revisions'
     end
   end

@@ -70,7 +70,7 @@ class PermissionsController < ManageCmrController
       # Look up the error code. If we have a friendly version, use it. Otherwise,
       # just use the error message as it comes back from the CMR.
       permission_creation_error = PermissionsHelper::ErrorCodeMessages[response.status]
-      permission_creation_error ||= Array.wrap(response.body['errors'])[0]
+      permission_creation_error ||= response.error_message
 
       flash.now[:error] = permission_creation_error
 
@@ -113,7 +113,7 @@ class PermissionsController < ManageCmrController
       hydrate_groups(@permission)
 
       Rails.logger.error("Collection Permission Update Error: #{update_response.inspect}")
-      permission_update_error = Array.wrap(update_response.body['errors'])[0]
+      permission_update_error = update_response.error_message
 
       if permission_update_error == 'Permission to update ACL is denied'
         redirect_to permission_path(@permission_concept_id), flash: { error: 'You are not authorized to update permissions. Please contact your system administrator.' }
@@ -134,8 +134,7 @@ class PermissionsController < ManageCmrController
       redirect_to permissions_path
     else
       Rails.logger.error("Permission Deletion Error: #{response.inspect}")
-      permission_deletion_error = Array.wrap(response.body['errors'])[0]
-      flash[:error] = permission_deletion_error
+      flash[:error] = response.error_message
       render :show
     end
   end

@@ -22,7 +22,7 @@ module PermissionManagement
       permissions_list = permissions_response.body['items']
     else
       Rails.logger.error("Get #{type.titleize} Identity Permissions Error: #{permissions_response.inspect}")
-      flash[:error] = Array.wrap(permissions_response.body['errors'])[0]
+      flash[:error] = permissions_response.error_message
     end
 
     permissions_list

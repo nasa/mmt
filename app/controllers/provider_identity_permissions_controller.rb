@@ -28,7 +28,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
                     group_list = groups_response.body.fetch('items', [])
                   else
                     Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
-                    flash[:error] = Array.wrap(groups_response.body['errors'])[0]
+                    flash[:error] = groups_response.error_message
                     []
                   end
 
@@ -51,7 +51,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
       add_breadcrumb 'Edit', provider_identity_permissions_path(@group_id)
     else
       Rails.logger.error("Retrieve Group Error: #{group_response.inspect}")
-      flash[:error] = Array.wrap(group_response.body['errors'])[0]
+      flash[:error] = group_response.error_message
     end
   end
 

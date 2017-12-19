@@ -53,7 +53,7 @@ class GroupsController < ManageCmrController
       add_breadcrumb @group.fetch('name'), group_path(@concept_id)
     else
       Rails.logger.error("Get Group Error: #{group_response.inspect}")
-      redirect_to groups_path, flash: { error: cmr_error_message(group_response, i18n: I18n.t('controllers.groups.show.flash.error')) }
+      redirect_to groups_path, flash: { error: group_response.error_message(i18n: I18n.t('controllers.groups.show.flash.error')) }
     end
   end
 
@@ -79,7 +79,7 @@ class GroupsController < ManageCmrController
     else
       # Log error message
       Rails.logger.error("Group Creation Error: #{group_creation_response.inspect}")
-      flash[:error] = cmr_error_message(group_creation_response, i18n: I18n.t('controllers.groups.create.flash.error'))
+      flash[:error] = group_creation_response.error_message(i18n: I18n.t('controllers.groups.create.flash.error'))
 
       set_previously_selected_members(group_params.fetch('members', []))
 
@@ -109,11 +109,11 @@ class GroupsController < ManageCmrController
         set_previously_selected_members(group_member_uids)
       else
         Rails.logger.error("Group Members Request: #{group_members_response.inspect}")
-        flash[:error] = cmr_error_message(group_members_response, i18n: I18n.t('controllers.groups.edit.flash.retrieve_members_error'))
+        flash[:error] = group_members_response.error_message(i18n: I18n.t('controllers.groups.edit.flash.retrieve_members_error'))
       end
     else
       Rails.logger.error("Error retrieving group to edit: #{group_response.inspect}")
-      redirect_to groups_path, flash: { error: cmr_error_message(group_response, i18n: I18n.t('controllers.groups.edit.flash.retrieve_group_error')) }
+      redirect_to groups_path, flash: { error: group_response.error_message(i18n: I18n.t('controllers.groups.edit.flash.retrieve_group_error')) }
     end
   end
 
@@ -134,7 +134,7 @@ class GroupsController < ManageCmrController
       redirect_to group_path(update_response.body.fetch('concept_id', nil)), flash: { success: 'Group was successfully updated.' }
     else
       Rails.logger.error("Group Update Error: #{update_response.inspect}")
-      flash[:error] = cmr_error_message(update_response, i18n: I18n.t('controllers.groups.update.flash.error'))
+      flash[:error] = update_response.error_message(i18n: I18n.t('controllers.groups.update.flash.error'))
 
       set_previously_selected_members(@group.fetch('members', []))
 
@@ -150,7 +150,7 @@ class GroupsController < ManageCmrController
     else
       # Log error message
       Rails.logger.error("Group Deletion Error: #{delete_group_response.inspect}")
-      redirect_to group_path(concept_id), flash: { error: cmr_error_message(delete_group_response, i18n: I18n.t('controllers.groups.destroy.flash.error')) }
+      redirect_to group_path(concept_id), flash: { error: delete_group_response.error_message(i18n: I18n.t('controllers.groups.destroy.flash.error')) }
     end
   end
 
