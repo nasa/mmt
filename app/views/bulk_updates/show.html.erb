@@ -21,7 +21,9 @@
 
     <div class="row">
       <h4>Created</h4>
-      <p><%= DateTime.parse(@task['created-at']).to_s %></p>
+      <% unless @task.blank? %>
+        <p><%= DateTime.parse(@task['created-at']).to_s %></p>
+      <% end %>
     </div>
 
     <div class="row">
@@ -29,9 +31,11 @@
       <p><%= @task['status-message'] %></p>
     </div>
 
-    <div class="row">
-      <%= render partial: "shared/bulk_updates/display/#{@task.fetch('request-json-body', {}).fetch('update-field', '').downcase}", locals: { bulk_update: @task } %>
-    </div>
+    <% unless @task.blank? %>
+      <div class="row">
+        <%= render partial: "shared/bulk_updates/display/#{@task.fetch('request-json-body', {}).fetch('update-field', '').downcase}", locals: { bulk_update: @task } %>
+      </div>
+    <% end %>
   </section>
 
   <section>

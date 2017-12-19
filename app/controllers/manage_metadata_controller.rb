@@ -13,7 +13,7 @@ class ManageMetadataController < ApplicationController
     @variable = if variable_concept_response.success?
                   variable_concept_response.body
                 else
-                  Rails.logger.error("Error retrieving concept for Variable #{@concept_id}: #{variable_concept_response.inspect}")
+                  Rails.logger.error("Error retrieving concept for Variable #{@concept_id} in `set_variable`: #{variable_concept_response.inspect}")
                   {}
                 end
 
@@ -30,7 +30,7 @@ class ManageMetadataController < ApplicationController
       variable_data = if variables_search_response.success?
                         variables_search_response.body.fetch('items', [])
                       else
-                        [{}]
+                        []
                       end
       variable_data.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
 
@@ -43,13 +43,13 @@ class ManageMetadataController < ApplicationController
       end
 
       break if latest && !@revision_id
-      break if latest && meta['revision-id'] >= @revision_id.to_i && meta['concept-id'] == @concept_id
+      break if latest && meta.fetch('revision-id', 0) >= @revision_id.to_i && meta['concept-id'] == @concept_id
       attempts += 1
       sleep 0.05
     end
 
     if latest.blank?
-      Rails.logger.error("Error searching for Variable #{@concept_id}: #{variables_search_response.inspect}")
+      Rails.logger.error("Error searching for Variable #{@concept_id} in `set_variable_information`: #{variables_search_response.inspect}")
     else
       @provider_id = meta['provider-id']
       @native_id = meta['native-id']

@@ -36,22 +36,24 @@ class SearchController < ManageMetadataController
     query['keyword'] = query['keyword'].strip.gsub(/\s+/, '* ')
     query['keyword'] += '*' unless query['keyword'].last == '*'
 
-    search_results =
+    search_response =
       case @record_type
       when 'collections'
-        cmr_client.get_collections_by_post(query, token).body
+        cmr_client.get_collections_by_post(query, token)
       when 'variables'
-        cmr_client.get_variables(query, token).body
+        cmr_client.get_variables(query, token)
       else # no record type
         return [[], [], 0]
       end
 
-    hits = search_results['hits'].to_i
-    if search_results['errors']
-      errors = search_results['errors']
+    if search_response.success?
+      records = search_response.body['items']
+      errors = []
+      hits = search_response.body['hits'].to_i
+    else
       records = []
-    elsif search_results['items']
-      records = search_results['items']
+      hits = 0
+      errors = cmr_error_message(search_response, i18n: [I18n.t("controllers.search.get_search_results.#{@record_type}.error")], multiple: true)
     end
 
     [records, errors, hits]

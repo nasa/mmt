@@ -32,7 +32,13 @@ class ApplicationController < ActionController::Base
 
   def setup_query
     @query ||= {}
-    @provider_ids ||= cmr_client.get_providers.body.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
+    providers_response = cmr_client.get_providers
+    @provider_ids ||= if providers_response.success?
+                        providers_response.body.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
+                      else
+                        Rails.logger.error("Error retrieving providers in `setup_query`: #{providers_response.inspect}")
+                        []
+                      end
   end
 
   def redirect_from_urs
@@ -202,8 +208,8 @@ class ApplicationController < ActionController::Base
   DATE_TIME_REGEX = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{2,3}([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/
 
   def generate_ingest_errors(response)
-    errors = response.body['errors']
-    request_id = response.headers['CMR-Request-Id']
+    errors = response.body.fetch('errors', [])
+    request_id = response.headers.fetch('CMR-Request-Id', '')
     if errors.size > 0
       ingest_errors = errors.map do |error|
         path = error['path'].nil? ? nil : error['path']
@@ -231,11 +237,12 @@ class ApplicationController < ActionController::Base
     ingest_errors
   end
 
-  def cmr_error_message(cmr_response, i18n: nil, default_message: 'There was an error with the operation you were trying to perform.')
-    cmr_error = Array.wrap(cmr_response.body.fetch('errors', []))[0]
+  def cmr_error_message(cmr_response, i18n: nil, default_message: 'There was an error with the operation you were trying to perform.', multiple: false)
 
-    if cmr_error
-      # return the CMR provided error message if it exists in the response
+    cmr_error = parse_cmr_error(cmr_response, multiple: multiple)
+
+    if !cmr_error.blank?
+      # return the CMR provided error message if it exists in the response body
       cmr_error
     elsif i18n
       # return the i18n message if provided
@@ -243,6 +250,11 @@ class ApplicationController < ActionController::Base
     else
       default_message
     end
+  end
+
+  def parse_cmr_error(cmr_response, multiple: false)
+    cmr_errors = Array.wrap(cmr_response.body.fetch('errors', []))
+    multiple ? cmr_errors : cmr_errors[0]
   end
 
   ACQUISITION_INFORMATION_FIELDS = %w(

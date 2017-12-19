@@ -53,9 +53,9 @@ module ControlledKeywords
   end
 
   def set_instruments
-    @instruments = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('instruments').fetch('category', []))
+    instruments = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('instruments').fetch('category', []))
 
-    @instruments.flatten!.sort! { |a, b| a[:short_name] <=> b[:short_name] }
+    @instruments = instruments.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
   end
 
   def set_projects
@@ -69,7 +69,8 @@ module ControlledKeywords
   end
 
   def set_temporal_keywords
-    keywords = cmr_client.get_controlled_keywords('temporal_keywords')['temporal_resolution_range']
+    keywords = cmr_client.get_controlled_keywords('temporal_keywords').fetch('temporal_resolution_range', [])
+
     @temporal_keywords = keywords.map { |keyword| keyword['value'] }.sort
   end
 end
