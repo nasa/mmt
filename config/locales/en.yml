@@ -92,6 +92,34 @@ en:
         flash:
           success: 'Collection Associations Created Successfully!'
           error: 'Collection Associations were not created successfully'
+    bulk_updates:
+      create:
+        flash:
+          success: 'Bulk Update was successfully created!'
+          error: 'Bulk Update was not created successfully'
+    search:
+      get_search_results:
+        collections:
+          error: 'Collections search was not executed successfully'
+        variables:
+          error: 'Variable search was not executed successfully'
+    groups:
+      show:
+        flash:
+          error: 'Group was not found. Please try again or contact your provider.'
+      create:
+        flash:
+          error: 'Group was not created successfully'
+      edit:
+        flash:
+          retrieve_members_error: 'Group members were not found. Please try again or contact your provider.'
+          retrieve_group_error: 'Group was not found. Please try again or contact your provider.'
+      update:
+        flash:
+          error: 'Group was not updated successfully'
+      destroy:
+        flash:
+          error: 'Group was not deleted successfully'
   views:
     pagination:
       first: "First"

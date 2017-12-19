@@ -117,6 +117,7 @@ class CollectionsController < ManageCollectionsController
         @old_revision = true
       end
 
+
       # set accept content-type as umm-json with our current umm-c version
       content_type = "application/#{Rails.configuration.umm_c_version}; charset=utf-8"
       # but if we are reverting, we should get the collection in it's native format, so set content-type appropriately
@@ -124,14 +125,17 @@ class CollectionsController < ManageCollectionsController
 
       collection_response = cmr_client.get_concept(@concept_id, token, { 'Accept' => content_type }, @revision_id)
 
-      @collection = collection_response.body
-      @collection_format = collection_response.headers.fetch('content-type', '')
+      if collection_response.success?
+        @collection = collection_response.body
+        @collection_format = collection_response.headers.fetch('content-type', '')
+      else
+        set_collection_error_data
+      end
     else
       # concept wasn't found, CMR might be a little slow
       # Take the user to a blank page with a message the collection doesn't exist yet,
       # eventually auto refreshing the page would be cool
-      @collection = {}
-      @error = 'This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.'
+      set_collection_error_data
     end
   end
 
@@ -168,5 +172,11 @@ class CollectionsController < ManageCollectionsController
                     else
                       0
                     end
+  end
+
+  def set_collection_error_data
+    @collection = {}
+    @collection_format = ''
+    @error = 'This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.'
   end
 end

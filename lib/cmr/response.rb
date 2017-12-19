@@ -18,20 +18,35 @@ module Cmr
       @response
     end
 
+    def body=(changed_body)
+      @body = changed_body
+    end
+
     def body
-      @response.body
+      @body || @response.body
     end
 
     def parsed_body
       Hash.from_xml(body)
     end
 
+    # TODO: any changes made below this line were for development and testing purposes, and should be discarded
+    def content_type=(changed_content_type)
+      @headers = @response.headers.merge({ 'content-type' => changed_content_type })
+    end
+
     def headers
-      @response.headers
+      # @response.headers
+      @headers || @response.headers
+    end
+
+    def status=(value)
+      @status = value
     end
 
     def status
-      @response.status
+      # @response.status
+      @status || @response.status
     end
   end
 end
