@@ -128,9 +128,9 @@ class CollectionDraftsController < BaseDraftsController
 
     draft = get_resource.draft
 
-    ingested = cmr_client.ingest_collection(draft.to_json, get_resource.provider_id, get_resource.native_id, token)
+    ingested_response = cmr_client.ingest_collection(draft.to_json, get_resource.provider_id, get_resource.native_id, token)
 
-    if ingested.success?
+    if ingested_response.success?
       # get information for publication email notification before draft is deleted
       Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
       short_name = get_resource.draft['ShortName']
@@ -139,8 +139,8 @@ class CollectionDraftsController < BaseDraftsController
       # Delete draft
       get_resource.destroy
 
-      concept_id = ingested.body['concept-id']
-      revision_id = ingested.body['revision-id']
+      concept_id = ingested_response.body['concept-id']
+      revision_id = ingested_response.body['revision-id']
 
       # instantiate and deliver notification email
       DraftMailer.draft_published_notification(get_user_info, concept_id, revision_id, short_name, version).deliver_now
@@ -148,11 +148,11 @@ class CollectionDraftsController < BaseDraftsController
       redirect_to collection_path(concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success") }
     else
       # Log error message
-      Rails.logger.error("Ingest Metadata Error: #{ingested.inspect}")
+      Rails.logger.error("Ingest Metadata Error: #{ingested_response.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
-      @ingest_errors = generate_ingest_errors(ingested)
-      flash[:error] = cmr_error_message(ingested, i18n: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error"))
+      @ingest_errors = generate_ingest_errors(ingested_response)
+      flash[:error] = ingested_response.error_message(i18n: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error"))
       render :show
     end
   end

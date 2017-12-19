@@ -18,35 +18,52 @@ module Cmr
       @response
     end
 
-    def body=(changed_body)
-      @body = changed_body
-    end
-
     def body
-      @body || @response.body
+      @response.body
     end
 
     def parsed_body
       Hash.from_xml(body)
     end
 
-    # TODO: any changes made below this line were for development and testing purposes, and should be discarded
-    def content_type=(changed_content_type)
-      @headers = @response.headers.merge({ 'content-type' => changed_content_type })
-    end
-
     def headers
-      # @response.headers
-      @headers || @response.headers
-    end
-
-    def status=(value)
-      @status = value
+      @response.headers
     end
 
     def status
-      # @response.status
-      @status || @response.status
+      @response.status
+    end
+
+    def body_is_html?
+      error? && headers['content-type'] == 'text/html'
+    end
+
+    def errors
+      @errors ||= if body_is_html?
+                    Rails.logger.error "CMR Error Response Body is a HTML document: #{body}"
+
+                    ['There was an error with the operation you were trying to perform. There may be an issue with one of the services we depend on. Please contact your provider administrator or the CMR OPS team.']
+                  else
+                    body.fetch('errors', [])
+                  end
+    end
+
+    def error_messages(i18n: nil)
+      if !errors.blank?
+        errors
+      elsif i18n
+        [i18n]
+      else
+        ['There was an error with the operation you were trying to perform.']
+      end
+    end
+
+    def error_message(i18n: nil)
+      error_messages(i18n: i18n).first
+    end
+
+    def cmr_request_header
+      headers.fetch('cmr-request-id', '')
     end
   end
 end

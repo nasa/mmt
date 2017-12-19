@@ -53,7 +53,7 @@ class SearchController < ManageMetadataController
     else
       records = []
       hits = 0
-      errors = cmr_error_message(search_response, i18n: [I18n.t("controllers.search.get_search_results.#{@record_type}.error")], multiple: true)
+      errors = search_response.error_messages(i18n: I18n.t("controllers.search.get_search_results.#{@record_type}.error"))
     end
 
     [records, errors, hits]

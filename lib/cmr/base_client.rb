@@ -50,27 +50,6 @@ module Cmr
         Rails.logger.error e
       end
 
-      # TODO delete this - this is what I was using to test and make sure we were not getting 500 errors from modifying the response body
-      # if url.include?('keywords')
-      # if url.include?('concepts')
-      # if url.include?('variable') #|| url.include?('concepts')
-      # if url.include?('collections') #|| url.include?('concepts')
-      # if url.include?('members')
-      # if url.include?('groups')
-      #   client_response.content_type = 'text/html'
-      #   client_response.status = 500
-      #   client_response.body = "<html>\r\n<head><title>500 Internal Server Error</title></head>\r\n<body bgcolor=\"white\">\r\n<center><h1>500 Internal Server Error</h1></center>\r\n errors error <hr><center>nginx/1.12.2</center>\r\n</body>\r\n</html>\r\n"
-      # end
-
-
-      # if client_response.error? && client_response.body.is_a?(String)
-      if client_response.error? && client_response.headers['content-type'] == 'text/html'
-        # if the response body is an HTML document, there is something pretty wrong
-        # happening log the response, and transform it
-        Rails.logger.error "CMR Error Response Body is a HTML document: #{client_response.body}"
-        client_response.body = { 'errors' => 'There was an error with the operation you were trying to perform. There may be an issue with one of the services we depend on. Please contact your provider administrator or the CMR OPS team.' }
-      end
-
       client_response
     end
 

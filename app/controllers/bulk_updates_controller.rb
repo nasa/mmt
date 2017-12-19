@@ -68,7 +68,7 @@ class BulkUpdatesController < ManageCollectionsController
       redirect_to bulk_update_path(bulk_update_response.body['task-id']), flash: { success: I18n.t('controllers.bulk_updates.create.flash.success') }
     else
       Rails.logger.error("Error creating Bulk Update: #{bulk_update_response.inspect}")
-      flash[:error] = cmr_error_message(bulk_update_response, i18n: I18n.t('controllers.bulk_updates.create.flash.error'))
+      flash[:error] = bulk_update_response.error_message(i18n: I18n.t('controllers.bulk_updates.create.flash.error'))
 
       @collections = retrieve_task_collections
 
