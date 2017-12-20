@@ -50,7 +50,7 @@ describe 'System Identity Permissions pages and form' do
       context 'when no system groups are returned' do
         before do
           failure = '{"errors":["An Internal Error has occurred."]}'
-          failure_response = Cmr::Response.new(Faraday::Response.new(status: 500, body: JSON.parse(failure)))
+          failure_response = Cmr::Response.new(Faraday::Response.new(status: 500, body: JSON.parse(failure), response_headers: {}))
           allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).and_return(failure_response)
 
           visit system_identity_permissions_path
