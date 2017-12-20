@@ -105,7 +105,7 @@ describe 'Delete collection', js: true do
     context 'when CMR provides a message' do
       before do
         error_body = '{"errors": ["You do not have permission to perform that action."]}'
-        error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(error_body)))
+        error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(error_body), response_headers: {}))
         allow_any_instance_of(Cmr::CmrClient).to receive(:delete_collection).and_return(error_response)
 
         click_on 'Delete Collection Record'
@@ -123,7 +123,7 @@ describe 'Delete collection', js: true do
     context 'when CMR does not provide a message' do
       before do
         error_body = '{"message": "useless message"}'
-        error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(error_body)))
+        error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(error_body), response_headers: {}))
         allow_any_instance_of(Cmr::CmrClient).to receive(:delete_collection).and_return(error_response)
 
         click_on 'Delete Collection Record'
