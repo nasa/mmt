@@ -46,8 +46,9 @@ class UsersController < ApplicationController
     # Update the user's available providers
     current_user.set_available_providers(token)
 
+    all_providers = get_all_providers
     # check if there has been a change in providers
-    refresh_all_providers = get_all_providers != get_cached_providers
+    refresh_all_providers = all_providers != get_cached_providers
 
     all_providers = all_providers.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
 
