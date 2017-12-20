@@ -124,7 +124,7 @@ module Cmr
             else
               "/search/keywords/#{type}"
             end
-      get(url).body
+      get(url)
     end
 
     ### Providers, via CMR Ingest and CMR Search

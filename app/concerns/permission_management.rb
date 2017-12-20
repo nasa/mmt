@@ -112,7 +112,7 @@ module PermissionManagement
   end
 
   # sort and update target permissions
-  def update_target_permissions(all_permissions:, permissions_params:, targets_to_add_group: [], targets_to_update_perms: [], targets_to_remove_group: [], type:, group_id:, successes: [], fails:[])
+  def update_target_permissions(all_permissions:, permissions_params:, targets_to_add_group: [], targets_to_update_perms: [], targets_to_remove_group: [], type:, group_id:, successes: [], fails: [])
     identity_type = "#{type}_identity"
 
     all_permissions.each do |full_perm|

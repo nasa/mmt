@@ -13,10 +13,15 @@ class OauthTokensController < ApplicationController
         store_oauth_token(response.body)
 
         # Retreive profile details for the provided token
-        profile = cmr_client.get_profile(response.body['endpoint'], response.body['access_token'])
+        profile_response = cmr_client.get_profile(response.body['endpoint'], response.body['access_token'])
+        profile = if profile_response.success?
+                    profile_response.body
+                  else
+                    {}
+                  end
 
         # Stores additional information in the session pertaining to the user
-        store_profile(profile.body)
+        store_profile(profile)
 
         # Updates the user's available providers
         current_user.set_available_providers(token)

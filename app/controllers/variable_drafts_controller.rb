@@ -1,5 +1,6 @@
 # :nodoc:
 class VariableDraftsController < BaseDraftsController
+  include ControlledKeywords
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
   before_action :set_schema, only: [:show, :new, :edit, :update, :create]
   before_action :set_form, only: [:show, :edit, :update]
@@ -27,11 +28,6 @@ class VariableDraftsController < BaseDraftsController
 
   def set_current_form
     @current_form = params[:form] || @json_form.forms.first.parsed_json['id']
-  end
-
-  def set_science_keywords
-    # TODO: Move this into the UmmKeywordPicker class, including the rendering of JavaScript
-    @science_keywords = cmr_client.get_controlled_keywords('science_keywords')
   end
 
   def variable_draft_params

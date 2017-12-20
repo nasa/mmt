@@ -45,7 +45,8 @@ module ChooserEndpoints
     collection_params['keyword'].concat('*') if collection_params.key?('keyword')
 
     # Retreive the collections from CMR, allowing a few additional parameters
-    cmr_client.get_collections_by_post(collection_params, token).body
+    response = cmr_client.get_collections_by_post(collection_params, token)
+    response.body if response.success?
   end
 
   # Retreive only service implementation that have datasets assigned to them

@@ -174,7 +174,10 @@ class GroupsController < ManageCmrController
 
     urs_search_response = cmr_client.search_urs_users(@invite.user_email)
 
-    recipient_uid = urs_search_response.body.fetch('users', []).find { |user| user['email_address'] == @invite.user_email }['uid']
+    recipient_uid = if urs_search_response.success?
+                      urs_search_response.body.fetch('users', [])
+                      .find { |user| user['email_address'] == @invite.user_email }['uid']
+                    end
 
     @added = recipient_uid && @invite.accept_invite(cmr_client, recipient_uid, token)
   end
