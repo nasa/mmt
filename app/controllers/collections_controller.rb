@@ -75,12 +75,12 @@ class CollectionsController < ManageCollectionsController
 
     collection_response = cmr_client.get_concept(concept_id, token, {}, revision_id, download_format)
 
-    collection_download = collection_response.body
-    content_type = collection_response.headers.fetch('content-type', '')
-
     if collection_response.error?
       Rails.logger.error("Error retrieving concept for download for Collection #{concept_id}, revision #{revision_id} in #{download_format} format for user #{current_user.urs_uid}")
     end
+
+    collection_download = collection_response.body
+    content_type = collection_response.headers.fetch('content-type', '')
 
     send_data collection_download, type: content_type, disposition: "attachment; filename=#{concept_id}.#{download_format}"
   end

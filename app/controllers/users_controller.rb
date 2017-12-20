@@ -46,12 +46,8 @@ class UsersController < ApplicationController
     # Update the user's available providers
     current_user.set_available_providers(token)
 
-    # retrieve the cached list of all providers
-    cached_all_providers = cmr_client.get_providers.body
-    # Refresh (force retrieve) the list of all providers
-    all_providers = cmr_client.get_providers(true).body
     # check if there has been a change in providers
-    refresh_all_providers = all_providers != cached_all_providers
+    refresh_all_providers = get_all_providers != get_cached_providers
 
     all_providers = all_providers.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
 
@@ -75,5 +71,19 @@ class UsersController < ApplicationController
         end
       end
     end
+  end
+
+  private
+
+  def get_cached_providers
+    # retrieve the cached list of all providers
+    response = cmr_client.get_providers
+    response.body if response.success?
+  end
+
+  def get_all_providers
+    # Refresh (force retrieve) the list of all providers
+    response = cmr_client.get_providers(true)
+    response.body if response.success?
   end
 end

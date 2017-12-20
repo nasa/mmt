@@ -25,52 +25,69 @@ module ControlledKeywords
   end
 
   def set_science_keywords
-    @science_keywords = cmr_client.get_controlled_keywords('science_keywords')
+    response = cmr_client.get_controlled_keywords('science_keywords')
+    @science_keywords = response.body if response.success?
   end
 
   def set_location_keywords
-    @location_keywords = cmr_client.get_controlled_keywords('spatial_keywords')
+    response = cmr_client.get_controlled_keywords('spatial_keywords')
+    @location_keywords = response.body if response.success?
   end
 
   def set_data_centers
-    data_centers = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('data_centers').fetch('level_0', []))
+    response = cmr_client.get_controlled_keywords('data_centers')
+    @data_centers = if response.success?
+                      data_centers = get_controlled_keyword_short_names(response.body.fetch('level_0', []))
 
-    @data_centers = data_centers.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
+                      data_centers.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
+                    end
   end
 
   def set_platform_types
+    response = cmr_client.get_controlled_keywords('platforms')
+
     # sets platform types with nested short_name and long_name values
-    @platform_types = cmr_client.get_controlled_keywords('platforms').fetch('category', []).map do |category|
-      short_names = get_controlled_keyword_short_names(Array.wrap(category))
+    @platform_types = if response.success?
+                        platform_types = response.body.fetch('category', []).map do |category|
+                          short_names = get_controlled_keyword_short_names(Array.wrap(category))
 
-      {
-        type: category['value'],
-        short_names: short_names.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
-      }
-    end
-
-    @platform_types.sort! { |a, b| a[:type] <=> b[:type] }
+                          {
+                            type: category['value'],
+                            short_names: short_names.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
+                          }
+                        end
+                        platform_types.sort { |a, b| a[:type] <=> b[:type] }
+                      end
   end
 
   def set_instruments
-    instruments = get_controlled_keyword_short_names(cmr_client.get_controlled_keywords('instruments').fetch('category', []))
+    response = cmr_client.get_controlled_keywords('instruments')
+    @instruments = if response.success?
+                     instruments = get_controlled_keyword_short_names(response.body.fetch('category', []))
 
-    @instruments = instruments.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
+                     instruments.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
+                   end
   end
 
   def set_projects
-    @projects = cmr_client.get_controlled_keywords('projects').fetch('short_name', []).map do |short_name|
-      {
-        short_name: short_name['value'],
-        long_name: short_name.fetch('long_name', [{}]).first['value']
-      }
-    end
-    @projects.sort! { |a, b| a[:short_name] <=> b[:short_name] }
+    response = cmr_client.get_controlled_keywords('projects')
+    @projects = if response.success?
+                  projects = response.body.fetch('short_name', []).map do |short_name|
+                  {
+                    short_name: short_name['value'],
+                    long_name: short_name.fetch('long_name', [{}]).first['value']
+                  }
+                end
+                projects.sort { |a, b| a[:short_name] <=> b[:short_name] }
+              end
   end
 
   def set_temporal_keywords
-    keywords = cmr_client.get_controlled_keywords('temporal_keywords').fetch('temporal_resolution_range', [])
+    response = cmr_client.get_controlled_keywords('temporal_keywords')
+    @temporal_keywords = if response.success?
+                           keywords = response.body.fetch('temporal_resolution_range', [])
 
-    @temporal_keywords = keywords.map { |keyword| keyword['value'] }.sort
+                           keywords.map { |keyword| keyword['value'] }.sort
+                         end
   end
 end

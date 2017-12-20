@@ -6,7 +6,8 @@ module ProviderHoldings
   extend ActiveSupport::Concern
 
   def set_data_providers(token = nil)
-    providers = cmr_client.get_providers.body
+    response = cmr_client.get_providers
+    providers = response.success? ? response.body : []
 
     providers.each do |provider|
       # Request the collections that belong to this provider
@@ -28,11 +29,11 @@ module ProviderHoldings
   def set_provider_holdings(provider_id, token = nil)
     @collections = []
 
-    provider_holdings_response = cmr_client.get_echo_provider_holdings(provider_id)
+    echo_provider_holdings_response = cmr_client.get_echo_provider_holdings(provider_id)
 
-    @provider = provider_holdings_response.body.fetch('provider', {})
+    return if echo_provider_holdings_response.error?
 
-    return if provider_holdings_response.error?
+    @provider = echo_provider_holdings_response.body.fetch('provider', {})
 
     provider_holdings_response = cmr_client.get_provider_holdings(false, @provider['provider_id'], token)
 

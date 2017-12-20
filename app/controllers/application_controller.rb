@@ -106,9 +106,12 @@ class ApplicationController < ActionController::Base
 
     # Store ECHO ID
     if current_user.echo_id.nil?
-      echo_user = cmr_client.get_current_user(token).body
+      response = cmr_client.get_current_user(token)
+      if response.success?
+        echo_user = response.body
 
-      current_user.update(echo_id: echo_user.fetch('user', {}).fetch('id'))
+        current_user.update(echo_id: echo_user.fetch('user', {}).fetch('id'))
+      end
     end
 
     # With no echo_id we cannot request providers for the user, no sense in continuing
@@ -120,7 +123,10 @@ class ApplicationController < ActionController::Base
   end
 
   def refresh_urs_token
-    json = cmr_client.refresh_token(session[:refresh_token]).body
+    response = cmr_client.refresh_token(session[:refresh_token])
+    return nil unless response.success?
+
+    json = response.body
     store_oauth_token(json)
 
     if json.nil? && !request.xhr?

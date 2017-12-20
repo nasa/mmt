@@ -31,7 +31,13 @@ class CollectionAssociationsController < CmrSearchController
 
     association_response = cmr_client.get_variables({ concept_id: params[:variable_id] }, token)
 
-    @previously_associated_collections = association_response.body.fetch('items', []).first.fetch('associations', {}).fetch('collections', []).map { |collection| collection['concept-id'] }
+    @previously_associated_collections = if association_response.success?
+                                           association_response.body
+                                           .fetch('items', []).first
+                                           .fetch('associations', {})
+                                           .fetch('collections', [])
+                                           .map { |collection| collection['concept-id'] }
+                                         end
   end
 
   def create
