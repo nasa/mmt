@@ -26,12 +26,20 @@ module ControlledKeywords
 
   def set_science_keywords
     response = cmr_client.get_controlled_keywords('science_keywords')
-    @science_keywords = response.body if response.success?
+    @science_keywords = if response.success?
+                          response.body
+                        else
+                          []
+                        end
   end
 
   def set_location_keywords
     response = cmr_client.get_controlled_keywords('spatial_keywords')
-    @location_keywords = response.body if response.success?
+    @location_keywords = if response.success?
+                           response.body
+                         else
+                           []
+                         end
   end
 
   def set_data_centers
@@ -40,6 +48,8 @@ module ControlledKeywords
                       data_centers = get_controlled_keyword_short_names(response.body.fetch('level_0', []))
 
                       data_centers.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
+                    else
+                      []
                     end
   end
 
@@ -57,15 +67,19 @@ module ControlledKeywords
                           }
                         end
                         platform_types.sort { |a, b| a[:type] <=> b[:type] }
+                      else
+                        []
                       end
   end
 
   def set_instruments
     response = cmr_client.get_controlled_keywords('instruments')
-    @instruments = if response.success?
+    @instruments = unless response.success?
                      instruments = get_controlled_keyword_short_names(response.body.fetch('category', []))
 
                      instruments.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
+                   else
+                     []
                    end
   end
 
@@ -73,13 +87,15 @@ module ControlledKeywords
     response = cmr_client.get_controlled_keywords('projects')
     @projects = if response.success?
                   projects = response.body.fetch('short_name', []).map do |short_name|
-                  {
-                    short_name: short_name['value'],
-                    long_name: short_name.fetch('long_name', [{}]).first['value']
-                  }
+                    {
+                      short_name: short_name['value'],
+                      long_name: short_name.fetch('long_name', [{}]).first['value']
+                    }
+                  end
+                  projects.sort { |a, b| a[:short_name] <=> b[:short_name] }
+                else
+                  []
                 end
-                projects.sort { |a, b| a[:short_name] <=> b[:short_name] }
-              end
   end
 
   def set_temporal_keywords
@@ -88,6 +104,8 @@ module ControlledKeywords
                            keywords = response.body.fetch('temporal_resolution_range', [])
 
                            keywords.map { |keyword| keyword['value'] }.sort
+                         else
+                           []
                          end
   end
 end
