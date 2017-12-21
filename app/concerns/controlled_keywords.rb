@@ -74,7 +74,7 @@ module ControlledKeywords
 
   def set_instruments
     response = cmr_client.get_controlled_keywords('instruments')
-    @instruments = unless response.success?
+    @instruments = if response.success?
                      instruments = get_controlled_keyword_short_names(response.body.fetch('category', []))
 
                      instruments.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
