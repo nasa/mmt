@@ -78,15 +78,23 @@ class UsersController < ApplicationController
 
   private
 
-  def cached_providers
+  def get_cached_providers
     # retrieve the cached list of all providers
     response = cmr_client.get_providers
-    response.body if response.success?
+    if response.success?
+      response.body
+    else
+      []
+    end
   end
 
-  def all_providers
+  def get_all_providers
     # Refresh (force retrieve) the list of all providers
     response = cmr_client.get_providers(true)
-    response.body if response.success?
+    if response.success?
+      response.body
+    else
+      []
+    end
   end
 end

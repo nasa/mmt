@@ -46,7 +46,11 @@ module ChooserEndpoints
 
     # Retreive the collections from CMR, allowing a few additional parameters
     response = cmr_client.get_collections_by_post(collection_params, token)
-    response.body if response.success?
+    if response.success?
+      response.body
+    else
+      {}
+    end
   end
 
   # Retreive only service implementation that have datasets assigned to them
