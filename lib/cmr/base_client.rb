@@ -71,6 +71,7 @@ module Cmr
 
     def build_connection
       Faraday.new(url: @root) do |conn|
+        conn.use FaradayMiddleware::FollowRedirects
         conn.response :logging
 
         conn.use :instrumentation

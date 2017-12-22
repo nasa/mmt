@@ -11,6 +11,7 @@ module Echo
 
     def build_connection
       Faraday.new(url: @url) do |conn|
+        conn.use FaradayMiddleware::FollowRedirects
         conn.use :instrumentation
 
         conn.adapter Faraday.default_adapter
