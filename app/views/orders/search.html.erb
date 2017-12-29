@@ -15,21 +15,21 @@
         </tr>
       </thead>
       <tbody>
-      <% if @orders.empty? %>
-        <tr>
-          <td colspan="8">No <%= current_user.provider_id %> orders found.</td>
-        </tr>
-      <% else %>
-        <% @orders.each_with_index do |order| %>
+        <% if @orders.empty? %>
           <tr>
-            <td><%= link_to order['State'], order_path(order['Guid']) %></td>
-            <td><%= echo_formatted_date(order['CreationDate']) %></td>
-            <td><%= echo_formatted_date(order['SubmissionDate']) %></td>
-            <td><%= echo_formatted_date(order['LastUpdateDate']) %></td>
-            <td><%= order_owner(order['OwnerGuid']) %></td>
-            <td><%= contact_name(order['ContactAddress']) %></td>
-            <td><%= link_to 'View Provider Order', provider_order_path(order['Guid']) %></td>
+            <td colspan="8">No <%= current_user.provider_id %> orders found.</td>
           </tr>
+        <% else %>
+          <% @orders.each_with_index do |order| %>
+            <tr>
+              <td><%= link_to order.state, order_path(order.guid) %></td>
+              <td><%= order.created_date %></td>
+              <td><%= order.submitted_date %></td>
+              <td><%= order.updated_date %></td>
+              <td><%= order.owner %></td>
+              <td><%= order.contact_address.name %></td>
+              <td><%= link_to 'View Provider Order', provider_order_path(order.guid) %></td>
+            </tr>
           <% end %>
         <% end %>
       </tbody>
