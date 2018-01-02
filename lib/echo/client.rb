@@ -5,37 +5,37 @@ module Echo
       @base_url = url
 
       services = []
-      services << Authentication.new(
+      services << Services::Authentication.new(
         [@base_url, services_configs['authentication']['path']].join('/'),
         [@base_url, services_configs['authentication']['wsdl']].join('/')
       )
 
-      services << Provider.new(
+      services << Services::Provider.new(
         [@base_url, services_configs['provider']['path']].join('/'),
         [@base_url, services_configs['provider']['wsdl']].join('/')
       )
 
-      services << DataManagement.new(
+      services << Services::DataManagement.new(
         [@base_url, services_configs['data_management']['path']].join('/'),
         [@base_url, services_configs['data_management']['wsdl']].join('/')
       )
 
-      services << ServiceManagement.new(
+      services << Services::ServiceManagement.new(
         [@base_url, services_configs['service_management']['path']].join('/'),
         [@base_url, services_configs['service_management']['wsdl']].join('/')
       )
 
-      services << OrderManagement.new(
+      services << Services::OrderManagement.new(
         [@base_url, services_configs['order_management']['path']].join('/'),
         [@base_url, services_configs['order_management']['wsdl']].join('/')
       )
 
-      services << OrderProcessing.new(
+      services << Services::OrderProcessing.new(
         [@base_url, services_configs['order_processing']['path']].join('/'),
         [@base_url, services_configs['order_processing']['wsdl']].join('/')
       )
 
-      services << UserService.new(
+      services << Services::UserService.new(
         [@base_url, services_configs['user_service']['path']].join('/'),
         [@base_url, services_configs['user_service']['wsdl']].join('/')
       )
