@@ -49,7 +49,7 @@ module Echo
       if owner_guid.blank?
         '(guest)'
       else
-        # TODO Should we make this it's own class?
+        # refactor to a new class in the future if/when it is needed
         user = @client.get_user_names(@token, owner_guid).parsed_body
 
         user.fetch('Item', {}).fetch('Name', '')
