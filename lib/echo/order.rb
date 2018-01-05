@@ -147,7 +147,10 @@ module Echo
     end
 
     def phone_and_type
-      "#{phone_number} (#{phone_number_type})"
+      value = phone_number
+      value += " (#{phone_number_type})" unless phone_number_type.nil?
+
+      value
     end
 
     def email
