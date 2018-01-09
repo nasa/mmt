@@ -1,0 +1,174 @@
+{
+  "forms": [
+    {
+      "id": "service_information",
+      "title": "Service Information",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Name"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Type"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "Version"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "Description"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "subtitle": "Online Resource",
+          "htmlClass": "row sub-fields",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "OnlineResource/properties/Linkage"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "OnlineResource/properties/Protocol"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "OnlineResource/properties/ApplicationProfile"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "OnlineResource/properties/Name"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "OnlineResource/properties/Description"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "OnlineResource/properties/Function"}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "options",
+      "title": "Options",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Name"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "Type"}]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coverage",
+      "title": "Coverage",
+      "items": [
+        {
+          "type": "section",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "key": "Layer",
+              "items": [
+                {
+                  "type":  "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "Layer/items/properties/index_id/Name"}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "Layer/items/properties/index_id/RelativePath"}]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 module Helpers
   module DraftHelpers
     def output_schema_validation(draft)
-      schema = 'lib/assets/schemas/umm-c-json-schema.json'
+      schema = 'lib/assets/schemas/collections/umm-c-json-schema.json'
       JSON::Validator.fully_validate(schema, draft).each do |error|
         puts error
       end

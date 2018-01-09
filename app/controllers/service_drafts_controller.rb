@@ -1,5 +1,5 @@
 # :nodoc:
-class VariableDraftsController < BaseDraftsController
+class ServiceDraftsController < BaseDraftsController
   include ControlledKeywords
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
   before_action :set_schema, only: [:show, :new, :edit, :update, :create]
@@ -18,19 +18,19 @@ class VariableDraftsController < BaseDraftsController
   private
 
   def set_schema
-    @schema = UmmJsonSchema.new(plural_published_resource_name, 'umm-var-json-schema.json')
+    @schema = UmmJsonSchema.new(plural_published_resource_name, 'umm-s-json-schema.json')
     @schema.fetch_references(@schema.parsed_json)
   end
 
   def set_form
-    @json_form = UmmJsonForm.new(plural_published_resource_name, 'umm-var-form.json', @schema, get_resource.draft, 'field_prefix' => 'variable_draft/draft')
+    @json_form = UmmJsonForm.new(plural_published_resource_name, 'umm-s-form.json', @schema, get_resource.draft, 'field_prefix' => 'variable_draft/draft')
   end
 
   def set_current_form
     @current_form = params[:form] || @json_form.forms.first.parsed_json['id']
   end
 
-  def variable_draft_params
+  def service_draft_params
     # Allow for completely empty forms to be saved
     return {} unless params.key?(:variable_draft)
 

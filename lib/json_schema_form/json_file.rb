@@ -42,8 +42,11 @@ class JsonFile < JsonObj
   # The name of the file to parse
   attr_accessor :file
 
-  def initialize(filename)
-    @file_path = File.join(Rails.root, 'lib', 'assets', 'schemas', filename)
+  attr_accessor :schema_type
+
+  def initialize(schema_type, filename)
+    @schema_type = schema_type
+    @file_path = File.join(Rails.root, 'lib', 'assets', 'schemas', schema_type, filename)
     @file = File.read(file_path)
 
     super(JSON.parse(@file))

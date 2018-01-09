@@ -12,8 +12,8 @@ class UmmJsonForm < JsonFile
   # Options hash for providing arbitrary values to the form
   attr_accessor :options
 
-  def initialize(form_filename, schema, object, options = {})
-    super(form_filename)
+  def initialize(schema_type, form_filename, schema, object, options = {})
+    super(schema_type, form_filename)
 
     @schema = schema
     @object = object

@@ -5,7 +5,7 @@ class UmmForm < JsonObj
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::TextHelper
 
-  attr_accessor :form_section_json, :json_form, :schema, :title, :description, :children, :options
+  attr_accessor :form_section_json, :json_form, :schema, :title, :subtitle, :description, :children, :options
 
   def initialize(form_section_json, json_form, schema, options = {})
     super(form_section_json)
@@ -15,6 +15,7 @@ class UmmForm < JsonObj
     @options = options
 
     @title = @parsed_json['title']
+    @subtitle = @parsed_json['subtitle']
     @description = @schema.retrieve_schema_fragment(@parsed_json['description_key']).fetch('description', @parsed_json['description'])
 
     @children = parsed_json.fetch('items', []).map do |value|
@@ -40,6 +41,9 @@ class UmmForm < JsonObj
     content_tag(:div, class: parsed_json['htmlClass']) do
       # Display a title for the section if its provided
       concat content_tag(:h3, title, class: 'space-bot') unless title.nil?
+
+      # Display a subtitle for the section if its provided
+      concat content_tag(:h4, subtitle, class: 'space-bot') unless subtitle.nil?
 
       # Display a description of the section if its provided
       concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
@@ -180,7 +184,7 @@ class UmmFormElement < UmmForm
   def default_value
     nil
   end
-  
+
   # Get the value for the provided key from the provided object
   def element_value
     # Uses reduce to dig through the provided object to look for and return the
@@ -274,7 +278,7 @@ class UmmFormElement < UmmForm
   def form_fragment
     parsed_json
   end
-  
+
   # The value displayed on the form and within the preview that best represents the title of this element
   def title
     schema.fetch_key_leaf(form_fragment['key']).titleize

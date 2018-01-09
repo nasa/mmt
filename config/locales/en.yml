@@ -35,6 +35,19 @@ en:
           flash:
             success: 'Variable Draft Deleted Successfully!'
             error: 'Variable Draft was not deleted successfully'
+      service_drafts:
+        create:
+          flash:
+            success: 'Service Draft Created Successfully!'
+            error: 'Service Draft was not created successfully'
+        update:
+          flash:
+            success: 'Service Draft Updated Successfully!'
+            error: 'Service Draft was not updated successfully'
+        destroy:
+          flash:
+            success: 'Service Draft Deleted Successfully!'
+            error: 'Service Draft was not deleted successfully'
       collection_drafts:
         create:
           flash:
@@ -129,6 +142,9 @@ en:
       truncate: "&hellip;"
   helpers:
     variable_draft:
+      delete: "Delete %{model}"
+      publish: "Publish %{model}"
+    service_draft:
       delete: "Delete %{model}"
       publish: "Publish %{model}"
     page_entries_info:

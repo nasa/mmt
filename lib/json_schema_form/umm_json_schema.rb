@@ -1,7 +1,7 @@
 # Class that represents a UMM JSON Schema
 class UmmJsonSchema < JsonFile
-  def initialize(schema_filename)
-    super(schema_filename)
+  def initialize(schema_type, schema_filename)
+    super(schema_type, schema_filename)
   end
 
   # Recursively replace all '$ref' keys in the schema file with their actual values
@@ -25,7 +25,7 @@ class UmmJsonSchema < JsonFile
                                 parsed_json['definitions'][path.split('/').last]
                               else
                                 # Fetch the reference from an external file
-                                referenced_file = UmmJsonSchema.new(file)
+                                referenced_file = UmmJsonSchema.new(schema_type, file)
                                 referenced_file.fetch_references(referenced_file.parsed_json)
                                 referenced_schema = referenced_file.parsed_json
                                 referenced_schema['definitions'][path.split('/').last]

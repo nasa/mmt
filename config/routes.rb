@@ -81,6 +81,12 @@ Rails.application.routes.draw do
       get 'edit', path: 'edit(/:form)'
     end
   end
+
+  resources :service_drafts, controller: 'service_drafts', draft_type: 'ServiceDraft' do
+    member do
+      get 'edit', path: 'edit(/:form)'
+    end
+  end
   resources :collection_drafts, controller: 'collection_drafts', draft_type: 'CollectionDraft', as: 'collection_drafts' do
     member do
       get 'edit', path: 'edit(/:form)'
