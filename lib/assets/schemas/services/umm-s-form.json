@@ -26,6 +26,16 @@
           "items": [
             {
               "type": "section",
+              "items": [{"key": "LongName"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
               "items": [{"key": "Version"}]
             }
           ]

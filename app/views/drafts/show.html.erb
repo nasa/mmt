@@ -28,7 +28,7 @@
       <% if @json_form.invalid_keys(ignore_required_fields: false).any? %>
         <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
         <div id="invalid-draft-modal" class="eui-modal-content">
-          <p>This variable draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
+          <p>This <%= published_resource_name %> draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
           <p>
             <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
           </p>
@@ -52,7 +52,7 @@
     <div class="content">
       <% @json_form.forms.each do |form| %>
         <section class="umm-preview <%= form.parsed_json['id'] %>">
-          <div class="preview-variable eui-accordion">
+          <div class="preview-<%= published_resource_name %> eui-accordion">
             <div class="eui-accordion__header">
               <h4 class="eui-accordion__title"><%= form.title %></h4>
               <div class="eui-accordion__icon" tabindex="0">
