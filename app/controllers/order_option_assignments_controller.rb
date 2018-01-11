@@ -143,7 +143,7 @@ class OrderOptionAssignmentsController < ManageCmrController
 
     order_option_select_values = []
 
-    order_option_list.each do |order_option|
+    order_option_list.select { |option| option.fetch('Deprecated', 'false') == 'false' }.each do |order_option|
       opt = [order_option['Name'], order_option['Guid']]
       order_option_select_values << opt
     end
