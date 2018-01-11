@@ -5,15 +5,15 @@ module Cmr
     end
 
     def get_oauth_tokens(auth_code, callback_url = ENV['urs_callback_url'])
-      Cmr::Response.new(connection.post("/oauth/token?grant_type=authorization_code&code=#{auth_code}&redirect_uri=#{callback_url}"))
+      post("/oauth/token?grant_type=authorization_code&code=#{auth_code}&redirect_uri=#{callback_url}", {})
     end
 
     def refresh_token(refresh_token)
-      Cmr::Response.new(connection.post("/oauth/token?grant_type=refresh_token&refresh_token=#{refresh_token}"))
+      post("/oauth/token?grant_type=refresh_token&refresh_token=#{refresh_token}", {})
     end
 
     def get_profile(endpoint, token)
-      Cmr::Response.new(connection.get(endpoint, { client_id: @client_id }, 'Authorization' => "Bearer #{token}"))
+      get(endpoint, { client_id: @client_id }, 'Authorization' => "Bearer #{token}")
     end
 
     def get_urs_users(uids)
@@ -21,12 +21,12 @@ module Cmr
       uids.sort! if Rails.env.test?
 
       client_token = get_client_token
-      Cmr::Response.new(connection.get('/api/users', { uids: uids }, 'Authorization' => "Bearer #{client_token}"))
+      get('/api/users', { uids: uids }, 'Authorization' => "Bearer #{client_token}")
     end
 
     def search_urs_users(query)
       client_token = get_client_token
-      Cmr::Response.new(connection.get('/api/users', { search: query }, 'Authorization' => "Bearer #{client_token}"))
+      get('/api/users', { search: query }, 'Authorization' => "Bearer #{client_token}")
     end
 
     protected
@@ -35,7 +35,7 @@ module Cmr
       # URS API says that the client token expires in 3600 (1 hr)
       # so cache token for one hour, and if needed will run request again
       client_access = Rails.cache.fetch('client_token', expires_in: 55.minutes) do
-        Cmr::Response.new(connection.post('/oauth/token?grant_type=client_credentials'))
+        post('/oauth/token?grant_type=client_credentials', {})
       end
 
       if client_access.success?

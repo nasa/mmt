@@ -20,14 +20,19 @@ module Echo
     def make_request(url, body)
       parsed_body = Hash.send('from_xml', body).fetch('Envelope', {}).fetch('Body', {})
 
-      Rails.logger.info("Soap call: URL: #{url}, params: #{parsed_body.keys.first}: #{parsed_body[parsed_body.keys.first].except('xmlns:ns2', 'xmlns:ns3', 'xmlns:ns4', 'token').inspect}")
+      Rails.logger.info("Soap call: URL: #{url} - Params: #{parsed_body.keys.first}: #{parsed_body[parsed_body.keys.first].except('xmlns:ns2', 'xmlns:ns3', 'xmlns:ns4', 'token').inspect} - Time: #{Time.now}")
       response = connection.post do |req|
         req.headers['Content-Type'] = 'text/xml'
         req.body = body
       end
 
       echo_response = Echo::Response.new(response)
-      Rails.logger.info "SOAP Response: #{url} result : Headers: #{echo_response.headers} - Body Size (bytes): #{echo_response.body.to_s.bytesize} Status: #{echo_response.status}"
+      begin
+        Rails.logger.info "SOAP Response: #{url} result : Headers: #{echo_response.headers} - Body Size (bytes): #{echo_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(echo_response.body.to_s)} - Status: #{echo_response.status} - Time: #{Time.now}"
+      rescue => e
+        Rails.logger.error "SOAP Error: #{e}"
+      end
+
       echo_response
     end
 
