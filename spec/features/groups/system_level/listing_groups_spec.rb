@@ -7,7 +7,7 @@ describe 'Listing System Level Groups' do
       login_admin
 
       # stub for index groups / get_cmr_groups with a mix of groups
-      index_groups_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/groups/sys_groups_index.json'))))
+      index_groups_response = cmr_success_response(File.read('spec/fixtures/groups/sys_groups_index.json'))
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).and_return(index_groups_response)
 
       visit groups_path
