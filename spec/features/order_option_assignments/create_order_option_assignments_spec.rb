@@ -218,7 +218,7 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
   end
 
-  context 'When creating an option assignment with a deprecated order option', js: true do
+  context 'When trying to create an option assignment with a deprecated order option', js: true do
     before do
       VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
         visit new_order_option_assignment_path
