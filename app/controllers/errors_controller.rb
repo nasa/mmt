@@ -6,6 +6,8 @@ class ErrorsController < ApplicationController
   skip_before_action :refresh_urs_if_needed, except: [:logout, :refresh_token]
   skip_before_action :provider_set?
 
+  layout 'error'
+
   def not_found
     render(status: 404)
   end
