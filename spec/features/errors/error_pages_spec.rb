@@ -22,7 +22,7 @@ describe 'Error pages' do
 
       it 'displays the approriate 404 page' do
         expect(page).to have_content('404 Resource Not Found')
-        expect(page).to have_content("The page you were looking for doesn't exist.")
+        expect(page).to have_content('Sorry! The page you were looking for does not exist.')
       end
 
       it 'displays an error message including the request uuid' do
@@ -37,7 +37,7 @@ describe 'Error pages' do
 
       it 'displays the approriate 404 error page' do
         expect(page).to have_content('404 Resource Not Found')
-        expect(page).to have_content("The page you were looking for doesn't exist.")
+        expect(page).to have_content('Sorry! The page you were looking for does not exist.')
       end
 
       it 'displays an error message including the request uuid' do
