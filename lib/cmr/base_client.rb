@@ -45,7 +45,7 @@ module Cmr
         headers.each do |header, value|
           req.headers[header] = value
         end
-        req.body = body if body
+        req.body = body unless body.blank?
       end
       client_response = Cmr::Response.new(faraday_response)
 
