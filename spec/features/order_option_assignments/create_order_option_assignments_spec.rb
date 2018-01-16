@@ -218,29 +218,16 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
   end
 
-  context 'When creating an option assignment with a deprecated order option', js: true do
+  context 'When trying to create an option assignment with a deprecated order option', js: true do
     before do
       VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
         visit new_order_option_assignment_path
       end
-
-      within '#collectionsChooser' do
-        select('lorem_223 | ipsum', from: 'Available Collections')
-
-        within '.button-container' do
-          find('button[title=add]').click
-        end
-      end
-
-      select 'Opt A02', from: 'Option Definition'
-
-      VCR.use_cassette('echo_rest/order_option_assignments/create-error', record: :none) do
-        click_on 'Submit'
-      end
     end
 
-    it 'Displays an error message' do
-      expect(page).to have_content('1 Order Option assignment failed to save.')
+    it 'does not display deprecated order options' do
+      # manually changed VCR cassette display.yml to deprecate "Opt A02"
+      expect(page).to_not have_select('Option Definition', with_options: ['Opt A02'])
     end
   end
 
