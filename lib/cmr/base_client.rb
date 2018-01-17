@@ -40,11 +40,12 @@ module Cmr
           req.headers['Content-Type'] = 'application/json' unless method == :get
           req.headers['Client-Id'] = CLIENT_ID
           req.headers['Echo-ClientId'] = CLIENT_ID unless self.class == CmrClient
-          headers.each do |header, value|
-            req.headers[header] = value
-          end
-          req.body = body if body
         end
+
+        headers.each do |header, value|
+          req.headers[header] = value
+        end
+        req.body = body unless body.blank?
       end
       client_response = Cmr::Response.new(faraday_response)
 
