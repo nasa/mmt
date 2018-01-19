@@ -160,6 +160,9 @@ class UmmFormFieldSet < UmmForm
       # Display a title for the section if its provided
       concat content_tag(:h3, title, class: 'space-bot') unless title.nil?
 
+      # Display a subtitle for the section if its provided
+      concat content_tag(:h4, subtitle, class: 'space-bot') unless subtitle.nil?
+
       # Display a description of the section if its provided
       concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
 
@@ -192,7 +195,13 @@ class UmmFormElement < UmmForm
     path = json_form.element_path_for_object(parsed_json['key'])
 
     # If an index is provided, insert it into the path
-    path.insert(path.size - 1, options['index']) unless options['index'].nil?
+    unless options['index'].nil?
+      if path.size == 1
+        path << options['index']
+      else
+        path.insert(path.size - 1, options['index']) unless options['index'].nil?
+      end
+    end
 
     # Look up the value in the object at the specified path
     path.reduce(json_form.object) { |a, e| a[e] }
@@ -309,10 +318,12 @@ class UmmFormElement < UmmForm
       form_element = element_class.constantize.new(form_fragment, json_form, schema, options)
 
       # Adds a label to the container holding the element
-      concat label_tag(keyify_property_name(form_fragment), form_element.title, class: ('eui-required-o' if schema.required_field?(form_fragment['key'])))
+      unless form_fragment['noLabel']
+        concat label_tag(keyify_property_name(form_fragment), form_element.title, class: ('eui-required-o' if schema.required_field?(form_fragment['key'])))
 
-      # Adds the help modal link and icon
-      concat help_icon(help_path)
+        # Adds the help modal link and icon
+        concat help_icon(help_path)
+      end
 
       concat form_element.render_markup
     end
