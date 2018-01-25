@@ -6,7 +6,7 @@
       "additionalProperties": false,
       "description": "This object describes service options, data transformations and output formats.",
       "properties": {
-        "SubsetType": {
+        "SubsetTypes": {
           "description": "This element is used to identify the list of supported subsetting requests.",
           "type": "array",
           "items": {
@@ -22,7 +22,7 @@
           },
           "minItems": 0
         },
-        "InterpolationType": {
+        "InterpolationTypes": {
           "description": "This element is used to identify the list of supported interpolation types.",
           "type": "array",
           "items": {
@@ -195,14 +195,14 @@
           "description": "Uuid of the data contact.",
           "$ref": "umm-cmn-json-schema.json#/definitions/UuidType"
         },
-        "NonDataCenterAffiliation": {
-          "description": "This is the contact person or group that is not affiliated with the data centers.",
+        "NonServiceOrganizationAffiliation": {
+          "description": "This is the contact person or group that is not affiliated with the service organization.",
           "type": "string",
           "minLength": 1,
           "maxLength": 1024
         },
         "ContactInformation": {
-          "description": "This is the contact information of the data contact.",
+          "description": "This is the contact information of the service contact.",
           "$ref": "#/definitions/ContactInformationType"
         },
         "FirstName": {
@@ -315,17 +315,7 @@
       "properties": {
         "QualityFlag": {
           "description": "The quality flag for the service.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 100
-        },
-        "QualityFlaggingSystem": {
-          "description": "This element is used to identify the quality system for the quality flags used by this service.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/QualityFlaggingSystemEnum"
-          },
-          "minItems": 0
+          "$ref": "#/definitions/QualityFlagEnum"
         },
         "Traceability": {
           "description": "The quality traceability of the service.",
@@ -340,9 +330,9 @@
           "maxLength": 100
         }
       },
-      "required": ["QualityFlag", "QualityFlaggingSystem"]
+      "required": ["QualityFlag"]
     },
-    "QualityFlaggingSystemEnum": {
+    "QualityFlagEnum": {
       "description": "Defines the possible quality flags.",
       "type": "string",
       "enum": ["Available", "Unavailable", "Reviewed", "Not Reviewed", "Other"]
@@ -360,7 +350,7 @@
       "maxLength": 1024
     },
     "AncillaryKeywordsType": {
-      "description": "TWords or phrases to further describe the service, software, or tool.",
+      "description": "Words or phrases to further describe the service, software, or tool.",
       "type": "string",
       "minLength": 1,
       "maxLength": 1024
@@ -478,31 +468,47 @@
       },
       "required": ["Latitude", "Longitude"]
     },
+    "LineStringType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The line string consists of two points: a start point and an end ppint.",
+      "properties": {
+        "StartPoint": {
+          "description": "The start point of the line string.",
+          "$ref": "#/definitions/CoordinatesType"
+        },
+        "EndPoint": {
+          "description": "The end point of the line string.",
+          "$ref": "#/definitions/CoordinatesType"
+        }
+      },
+      "required": ["StartPoint", "EndPoint"]
+    },
     "BBoxType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "The bounding box consists of a west, south, east and north ordinates.",
+      "description": "The bounding box consists of min x, min y, max y and max y ordinates.",
       "properties": {
-        "West": {
-          "description": "The west ordinate of the bounding box.",
+        "MinX": {
+          "description": "The minimum x ordinate of the bounding box.",
           "type": "number"
         },
-        "South": {
-          "description": "The south ordinate of the bounding box.",
+        "MinY": {
+          "description": "The minimum x ordinate of the bounding box.",
           "type": "number"
         },
-        "East": {
-          "description": "The east ordinate of the bounding box.",
+        "MaxX": {
+          "description": "The maximum y ordinate of the bounding box.",
           "type": "number"
         },
-        "North": {
-          "description": "The north ordinate of the bounding box.",
+        "MaxY": {
+          "description": "The maximum y ordinate of the bounding box.",
           "type": "number"
         }
       },
-      "required": ["West", "South", "East", "North"]
+      "required": ["MinX", "MinY", "MaxX", "MaxY"]
     },
-    "SpatialExtentType": {
+    "CoverageSpatialExtentType": {
       "type": "object",
       "properties": {
         "Type": {
@@ -513,7 +519,7 @@
           "description": "Uuid of the spatial extent.",
           "$ref": "umm-cmn-json-schema.json#/definitions/UuidType"
         },
-        "SpatialPoint": {
+        "SpatialPoints": {
           "description": "The spatial extent of the layer or coverage described by a point.",
           "type": "array",
           "items": {
@@ -521,23 +527,19 @@
           },
           "minItems": 1
         },
-        "SpatialLineString": {
+        "SpatialLineStrings": {
           "description": "The spatial extent of the layer or coverage described by a line string.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/CoordinatesType"
-          },
-          "minItems": 2
-        },
-        "SpatialBoundingBox": {
-          "description": "The spatial extent of the layer or coverage described by a bounding box.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BBoxType"
+            "$ref": "#/definitions/LineStringType"
           },
           "minItems": 1
         },
-        "SpatialPolygon": {
+        "SpatialBoundingBox": {
+          "description": "The spatial extent of the layer or coverage described by a bounding box.",
+          "$ref": "#/definitions/BBoxType"
+        },
+        "SpatialPolygons": {
           "description": "The spatial extent of the layer or coverage described by a polygon.",
           "type": "array",
           "items": {
@@ -547,16 +549,16 @@
         }
       }
     },
-    "TemporalExtentType": {
+    "CoverageTemporalExtentType": {
       "type": "object",
       "properties": {
-        "Points": {
-          "description": "Points in time representing the temporal extent.",
+        "CoverageTimePoints": {
+          "description": "Points in time representing the temporal extent of the layer or coverage.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/TimePointsType"
           },
-          "minItems": 0
+          "minItems": 1
         },
         "Uuid": {
           "description": "Uuid of the temporal extent.",
@@ -607,13 +609,9 @@
           "description": "The type of the coverage available from the service.",
           "$ref": "#/definitions/CoverageTypeEnum"
         },
-        "SpatialExtent": {
+        "CoverageSpatialExtent": {
           "description": "The spatial extent of the coverage available from the service. These are coordinate pairs which describe either the point, line string, or polygon representing the spatial extent. The bounding box is described by the west, south, east and north ordinates",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SpatialExtentType"
-          },
-          "minItems": 1
+          "$ref": "#/definitions/CoverageSpatialExtentType"
         },
         "SpatialResolution": {
           "description": "The spatial resolution of the coverage available from the service.",
@@ -621,19 +619,15 @@
           "minLength": 1,
           "maxLength": 80
         },
-        "SpatialResolutionUnits": {
-          "description": "The units of the spatial resolution of the coverage available from the service.",
+        "SpatialResolutionUnit": {
+          "description": "The unit of the spatial resolution of the coverage available from the service.",
           "type": "string",
           "minLength": 1,
           "maxLength": 80
         },
-        "TemporalExtent": {
+        "CoverageTemporalExtent": {
           "description": "The temporal extent of the coverage available from the service.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/TemporalExtentType"
-          },
-          "minItems": 1
+          "$ref": "#/definitions/CoverageTemporalExtentType"
         },
         "TemporalResolution": {
           "description": "The temporal resolution of the coverage available from the service.",
@@ -641,8 +635,8 @@
           "minLength": 1,
           "maxLength": 80
         },
-        "TemporalResolutionUnits": {
-          "description": "The units of the temporal resolution of the coverage available from the service.",
+        "TemporalResolutionUnit": {
+          "description": "The unit of the temporal resolution of the coverage available from the service.",
           "type": "string",
           "minLength": 1,
           "maxLength": 80
@@ -776,13 +770,9 @@
         "description": "This element contains important information about the Unique Resource Locator for the service.",
         "$ref": "#/definitions/ServiceOptionsType"
       },
-      "Coverages": {
-        "description": "This element contains important information about the Coverage for the service.",
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/CoverageType"
-        },
-        "minItems": 0
+      "Coverage": {
+        "description": "This element contains important information about the coverage for the service.",
+        "$ref": "#/definitions/CoverageType"
       }
     },
     "required": [

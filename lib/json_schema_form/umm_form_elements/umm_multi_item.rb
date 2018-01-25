@@ -1,5 +1,5 @@
 # :nodoc:
-class UmmMultiItems < UmmFormElement
+class UmmMultiItem < UmmFormElement
   def default_value
     []
   end
@@ -7,10 +7,6 @@ class UmmMultiItems < UmmFormElement
   # Return whether or not this element has a stored value
   def value?
     Array.wrap(element_value).reject(&:empty?).any?
-  end
-
-  def form_title
-    form_fragment.fetch('key', '').split('/').last.titleize.singularize
   end
 
   def render_preview
@@ -32,22 +28,27 @@ class UmmMultiItems < UmmFormElement
   end
 
   def render_markup
-    content_tag(:div, class: "multiple #{form_fragment['key'].underscore.dasherize}") do
+    content_tag(:div, class: "multiple simple-multiple #{form_fragment['key'].underscore.dasherize}") do
       values = Array.wrap(element_value)
       values = [{}] if values.empty?
       values.each_with_index do |_value, index|
-        concat render_accordion(index)
-      end
+        concat(content_tag(:div, class: "multiple-item multiple-item-#{index}") do
+          form_fragment['items'].each do |property|
+            concat UmmForm.new(property, json_form, schema, 'index' => index).render_markup
+            concat UmmRemoveLink.new(parsed_json, json_form, schema, 'name' => title).render_markup
+          end
 
-      concat(content_tag(:div, class: 'actions') do
-        button = UmmButton.new(form_fragment, json_form, schema, 'button_text' => "Add another #{form_title}", 'classes' => 'eui-btn--blue add-new').render_markup
-        concat button
-      end)
+          concat(content_tag(:div, class: 'actions') do
+            button = UmmButton.new(form_fragment, json_form, schema, 'button_text' => "Add another #{form_fragment['key'].titleize.singularize}", 'classes' => 'eui-btn--blue add-new new-simple').render_markup
+            concat button
+          end)
+        end)
+      end
     end
   end
 
   def render_accordion(index)
-    content_tag(:div, class: "multiple-item multiple-item-#{index} eui-accordion") do
+    content_tag(:div, class: "multiple-item multiple-item-#{index} eui-accordion sub-fields space-top") do
       concat render_accordion_header(index)
       concat render_accordion_body(index)
     end
@@ -57,10 +58,10 @@ class UmmMultiItems < UmmFormElement
     content_tag(:div, class: 'eui-accordion__header') do
       concat(content_tag(:div, class: 'eui-accordion__icon', tabindex: '0') do
         concat content_tag(:i, '', class: 'eui-icon eui-fa-chevron-circle-down')
-        concat content_tag(:span, "Toggle #{form_title} #{index + 1}", class: 'eui-sr-only')
+        concat content_tag(:span, "Toggle #{form_fragment['key'].titleize.singularize} #{index + 1}", class: 'eui-sr-only')
       end)
 
-      concat content_tag(:span, "#{form_title} #{index + 1}", class: 'header-title')
+      concat content_tag(:span, "#{form_fragment['key'].titleize.singularize} #{index + 1}", class: 'header-title')
 
       concat(content_tag(:div, class: 'actions') do
         UmmRemoveLink.new(parsed_json, json_form, schema, 'name' => title).render_markup
@@ -70,11 +71,9 @@ class UmmMultiItems < UmmFormElement
 
   def render_accordion_body(index)
     content_tag(:div, class: 'eui-accordion__body') do
-      concat(content_tag(:div, class: 'row sub-fields') do
-        form_fragment['items'].each do |property|
-          concat UmmForm.new(property, json_form, schema, 'index' => index).render_markup
-        end
-      end)
+      form_fragment['items'].each do |property|
+        concat UmmForm.new(property, json_form, schema, 'index' => index).render_markup
+      end
     end
   end
 end

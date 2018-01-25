@@ -25,6 +25,10 @@ class UmmForm < JsonObj
         UmmFormSection.new(value, json_form, schema, options)
       elsif value['type'] == 'fieldset'
         UmmFormFieldSet.new(value, json_form, schema, options)
+      elsif value['type'] == 'accordion'
+        UmmFormAccordion.new(value, json_form, schema, options)
+      elsif value['type'] == 'open_accordion'
+        UmmFormOpenAccordion.new(value, json_form, schema, options)
       else
         UmmFormElement.new(value, json_form, schema, options)
       end
@@ -39,14 +43,14 @@ class UmmForm < JsonObj
   # Return this form element for display within a form
   def render_markup
     content_tag(:div, class: parsed_json['htmlClass']) do
-      # Display a title for the section if its provided
-      concat content_tag(:h3, title, class: 'space-bot') unless title.nil?
-
-      # Display a subtitle for the section if its provided
-      concat content_tag(:h4, subtitle, class: 'space-bot') unless subtitle.nil?
-
-      # Display a description of the section if its provided
-      concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
+      # # Display a title for the section if its provided
+      # concat content_tag(:h3, title, class: 'space-bot') unless title.nil?
+      #
+      # # Display a subtitle for the section if its provided
+      # concat content_tag(:h4, subtitle, class: 'space-bot') unless subtitle.nil?
+      #
+      # # Display a description of the section if its provided
+      # concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
 
       # Continue rendering fields that appear in this section
       children.each do |child_element|
@@ -69,7 +73,7 @@ class UmmForm < JsonObj
   def elements(json_fragment: nil, fields: [])
     fragment = (json_fragment || parsed_json)
 
-    if fragment.key?('key')
+    if fragment.key?('key') && fragment['type'] != 'open_accordion'
       element_class = fragment.fetch('type', 'UmmTextField')
       form_element = element_class.constantize.new(fragment, json_form, schema, options)
 
@@ -140,6 +144,25 @@ class UmmForm < JsonObj
       end
     end
   end
+
+  # Renders a clickable icon that provides information pertaining to the form element
+  #
+  # ==== Attributes
+  #
+  # * +path+ - The path to find the information for this element within the schema
+  def help_icon(path)
+    link_to('#help-modal', class: 'display-modal') do
+      concat content_tag(:i, nil, class: 'eui-icon eui-fa-info-circle', data: { 'help-path': path })
+      concat content_tag(:span, "Help modal for #{title}", class: 'is-invisible')
+    end
+  end
+
+  # Path used to look this value up in the schema for the help modal
+  def help_path
+    key = parsed_json['help']
+    key ||= parsed_json['key']
+    "properties/#{json_form.element_path_for_object(key, ignore_keys: %w(index_id)).join('/')}"
+  end
 end
 
 # :nodoc:
@@ -178,6 +201,62 @@ class UmmFormFieldSet < UmmForm
       children.each do |child_element|
         concat child_element.render_preview
       end
+    end
+  end
+end
+
+# :nodoc:
+class UmmFormAccordion < UmmForm
+  def render_markup
+    content_tag(:fieldset, class: "eui-accordion is-closed #{parsed_json['htmlClass']}") do
+      concat render_accordion_header
+      concat render_accordion_body
+    end
+  end
+
+  def render_accordion_header
+    content_tag(:div, class: 'eui-accordion__header') do
+      concat(content_tag(:div, class: 'eui-accordion__icon', tabindex: '0') do
+        concat content_tag(:i, '', class: 'eui-icon eui-fa-chevron-circle-down')
+        concat content_tag(:span, "Toggle #{title}", class: 'eui-sr-only')
+      end)
+
+      concat content_tag(:h3, title, class: 'header-title')
+      concat help_icon(help_path)
+    end
+  end
+
+  def render_accordion_body
+    content_tag(:div, class: 'eui-accordion__body') do
+      # Continue rendering fields that appear in this section
+      children.each do |child_element|
+        concat child_element.render_markup
+      end
+    end
+  end
+
+  def render_preview
+    capture do
+      children.each do |child_element|
+        concat child_element.render_preview
+      end
+    end
+  end
+end
+
+# :nodoc:
+class UmmFormOpenAccordion < UmmFormAccordion
+  def render_markup
+    content_tag(:fieldset, class: "eui-accordion #{parsed_json['htmlClass']}") do
+      concat render_accordion_header
+      concat render_accordion_body
+    end
+  end
+
+  def render_accordion_header
+    content_tag(:div, class: 'eui-accordion__header disable-toggle') do
+      concat content_tag(:h3, title, class: 'header-title')
+      concat help_icon(help_path) unless parsed_json['noHelp']
     end
   end
 end
@@ -263,6 +342,9 @@ class UmmFormElement < UmmForm
     # Add textcounter to the UI if the element has a maxLength
     classes << ' textcounter' if property.key?('maxLength')
 
+    # Add classes listed in *-form.json
+    classes << " #{parsed_json['htmlClass']}" if parsed_json['htmlClass']
+
     classes
   end
 
@@ -293,22 +375,22 @@ class UmmFormElement < UmmForm
     schema.fetch_key_leaf(form_fragment['key']).titleize
   end
 
-  # Renders a clickable icon that provides information pertaining to the form element
+  # # Renders a clickable icon that provides information pertaining to the form element
+  # #
+  # # ==== Attributes
+  # #
+  # # * +path+ - The path to find the information for this element within the schema
+  # def help_icon(path)
+  #   link_to('#help-modal', class: 'display-modal') do
+  #     concat content_tag(:i, nil, class: 'eui-icon eui-fa-info-circle', data: { 'help-path': path })
+  #     concat content_tag(:span, "Help modal for #{title}", class: 'is-invisible')
+  #   end
+  # end
   #
-  # ==== Attributes
-  #
-  # * +path+ - The path to find the information for this element within the schema
-  def help_icon(path)
-    link_to('#help-modal', class: 'display-modal') do
-      concat content_tag(:i, nil, class: 'eui-icon eui-fa-info-circle', data: { 'help-path': path })
-      concat content_tag(:span, "Help modal for #{title}", class: 'is-invisible')
-    end
-  end
-
-  # Path used to look this value up in the schema for the help modal
-  def help_path
-    "properties/#{json_form.element_path_for_object(form_fragment['key'], ignore_keys: %w(index_id)).join('/')}"
-  end
+  # # Path used to look this value up in the schema for the help modal
+  # def help_path
+  #   "properties/#{json_form.element_path_for_object(form_fragment['key'], ignore_keys: %w(index_id)).join('/')}"
+  # end
 
   # Return this form element for display within a form
   def render_markup

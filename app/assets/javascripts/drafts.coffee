@@ -6,6 +6,8 @@ $(document).ready ->
     topMultiple = $(this).closest('.multiple')
 
     type = $(topMultiple).attr('class').split(' ').pop().replace(/-/g, '_')
+    # if a UMM form, just use the last piece of type
+    type = type.split('/').pop() if $(this).parents('.umm-form').length > 0
 
     multipleItem = topMultiple.children('.multiple-item:last')
     newDiv = multipleItem.clone(true)

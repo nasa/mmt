@@ -5,44 +5,51 @@
       "title": "Service Information",
       "items": [
         {
-          "type": "section",
-          "htmlClass": "row",
+          "type": "open_accordion",
+          "title": "Service Information",
+          "noHelp": true,
           "items": [
             {
               "type": "section",
-              "htmlClass": "col-4",
-              "items": [{"key": "Name"}]
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-4",
+                  "items": [{"key": "Name"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-8",
+                  "items": [{"key": "LongName"}]
+                }
+              ]
             },
             {
               "type": "section",
-              "htmlClass": "col-8",
-              "items": [{"key": "LongName"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Type", "type": "UmmSelect"}]
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Type", "type": "UmmSelect"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Version"}]
+                }
+              ]
             },
             {
               "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Version"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
-            {
-              "type": "section",
-              "items": [{"key": "Description"}]
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "Description"}]
+                }
+              ]
             }
           ]
         }
@@ -53,9 +60,9 @@
       "title": "Service Identification",
       "items": [
         {
-          "type": "fieldset",
-          "subtitle": "Service Quality",
-          "htmlClass": "row",
+          "type": "accordion",
+          "help": "ServiceQuality",
+          "title": "Service Quality",
           "items": [
             {
               "type": "section",
@@ -64,12 +71,7 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "ServiceQuality/properties/QualityFlag"}]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "ServiceQuality/properties/QualityFlaggingSystem", "type": "UmmMultiSelect"}]
+                  "items": [{"key": "ServiceQuality/properties/QualityFlag", "type": "UmmSelect"}]
                 }
               ]
             },
@@ -92,8 +94,9 @@
           ]
         },
         {
-          "type": "section",
-          "htmlClass": "row",
+          "type": "accordion",
+          "help": "AccessConstraints",
+          "title": "Access Constraints",
           "items": [
             {
               "type": "UmmMultiItems",
@@ -109,8 +112,9 @@
           ]
         },
         {
-          "type": "section",
-          "htmlClass": "row",
+          "type": "accordion",
+          "help": "UseConstraints",
+          "title": "Use Constraints",
           "items": [
             {
               "type": "UmmMultiItems",
@@ -128,13 +132,13 @@
       ]
     },
     {
-      "id": "related_urls",
-      "title": "Related URLs",
+      "id": "related_url",
+      "title": "Related URL",
       "items": [
         {
-          "type": "section",
-          "subtitle": "Related URL",
-          "htmlClass": "row sub-fields",
+          "type": "open_accordion",
+          "help": "RelatedURL",
+          "title": "Related URL",
           "items": [
             {
               "type": "section",
@@ -143,29 +147,57 @@
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "RelatedURL/properties/Description"}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [{"key": "RelatedURL/properties/Description"}]
+                    }
+                  ]
+                },
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "RelatedURL/properties/URLContentType"}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [{"key": "RelatedURL/properties/URLContentType", "type": "UmmSelect", "htmlClass": "related-url-content-type-select"}]
+                    }
+                  ]
+                },
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "RelatedURL/properties/URL"}]
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [{"key": "RelatedURL/properties/Type", "type": "UmmSelect", "htmlClass": "related-url-type-select"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [{"key": "RelatedURL/properties/Subtype", "type": "UmmSelect", "htmlClass": "related-url-subtype-select"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [{"key": "RelatedURL/properties/URL"}]
+                    }
+                  ]
                 }
               ]
             }
@@ -181,36 +213,69 @@
         Service /ServiceKeywords
         Service /AncillaryKeywords */
         {
-          "type": "section",
-          "htmlClass": "row",
+          "type": "accordion",
+          "help": "ScienceKeywords",
+          "title": "Science Keywords",
           "items": [
             {
               "type": "section",
-              "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
-            {
-              "type": "section",
-              "items": [{"key": "ServiceKeywords", "type": "UmmKeywordPicker"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "items": [
-            {
-              "type": "UmmMultiItems",
-              "key": "AncillaryKeywords",
+              "htmlClass": "row",
               "items": [
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "AncillaryKeywords/index_id", "noLabel": true}]
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "accordion",
+          "help": "ServiceKeywords",
+          "title": "Service Keywords",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "ServiceKeywords", "type": "UmmKeywordPicker"}]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "accordion",
+          "help": "AncillaryKeywords",
+          "title": "Ancillary Keywords",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "UmmMultiItem",
+                  "key": "AncillaryKeywords",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "AncillaryKeywords/index_id", "noLabel": true, "htmlClass": "half-width"}]
+                    }
+                  ]
                 }
               ]
             }
@@ -223,6 +288,58 @@
       "title": "Acquisition Information",
       "items": [
         /* Platform */
+        {
+          "type": "open_accordion",
+          "title": "Platforms",
+          "key": "Platforms",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "key": "Platforms",
+              "noLabel": true,
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-4",
+                      "items": [{"key": "Platforms/items/properties/index_id/ShortName"}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "col-8",
+                      "items": [{"key": "Platforms/items/properties/index_id/LongName"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "items": [
+                    {
+                      "type": "UmmMultiItems",
+                      "header": "Instruments",
+                      "key": "Platforms/items/properties/index_id/Instruments",
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "col-4",
+                          "items": [{"key": "Platforms/items/properties/index_id/Instruments/items/properties/index_id/ShortName"}]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "col-8",
+                          "items": [{"key": "Platforms/items/properties/index_id/Instruments/items/properties/index_id/LongName"}]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
     {
