@@ -5,89 +5,96 @@
       "title": "Variable Information",
       "items": [
         {
-          "type": "section",
-          "htmlClass": "row",
+          "type": "open_accordion",
+          "title": "Variable Information",
+          "noHelp": true,
           "items": [
             {
               "type": "section",
-              "htmlClass": "col-5",
-              "items": [{"key": "Name"}]
-            },
-            {
-              "type": "section",
-              "htmlClass": "col-7",
-              "items": [{"key": "Definition"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row space-top",
-          "items": [
-            {
-              "type": "section",
-              "items": [{"key": "LongName", "type": "UmmTextarea"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row space-top",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "col-4",
-              "items": [{"key": "VariableType", "type": "UmmSelect"}]
-            },
-            {
-              "type": "section",
-              "htmlClass": "col-4",
-              "items": [{"key": "Units"}]
-            },
-            {
-              "type": "section",
-              "htmlClass": "col-4",
-              "items": [{"key": "DataType", "type": "UmmSelect"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row space-top",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Scale"}]
-            },
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Offset"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row space-top",
-          "items": [
-            {
-              "type": "UmmMultiItems",
-              "key": "ValidRanges",
+              "htmlClass": "row",
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "col-5",
+                  "items": [{"key": "Name"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-7",
+                  "items": [{"key": "Definition"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "LongName", "type": "UmmTextarea"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-4",
+                  "items": [{"key": "VariableType", "type": "UmmSelect"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-4",
+                  "items": [{"key": "Units"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-4",
+                  "items": [{"key": "DataType", "type": "UmmSelect"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Scale"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Offset"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                {
+                  "type": "UmmMultiItems",
+                  "key": "ValidRanges",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
-                      "items": [{"key": "ValidRanges/items/properties/index_id/Min"}]
-                    },
-                    {
-                      "type": "section",
-                      "htmlClass": "col-6",
-                      "items": [{"key": "ValidRanges/items/properties/index_id/Max"}]
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "ValidRanges/items/properties/index_id/Min"}]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "ValidRanges/items/properties/index_id/Max"}]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -103,11 +110,14 @@
       "description_key": "FillValues",
       "items": [
         {
-          "type": "section",
+          "type": "open_accordion",
+          "title": "Fill Values",
+          "key": "FillValues",
           "items": [
             {
               "type": "UmmMultiItems",
               "key": "FillValues",
+              "noLabel": true,
               "items": [
                 {
                   "type": "section",
@@ -142,11 +152,14 @@
       "description_key": "Dimensions",
       "items": [
         {
-          "type": "section",
+          "type": "open_accordion",
+          "title": "Dimensions",
+          "key": "Dimensions",
           "items": [
             {
               "type": "UmmMultiItems",
               "key": "Dimensions",
+              "noLabel": true,
               "items": [
                 {
                   "type": "section",
@@ -176,102 +189,109 @@
       "description_key": "Characteristics",
       "items": [
         {
-          "type": "section",
-          "htmlClass": "row",
+          "type": "open_accordion",
+          "title": "Variable Characteristics",
+          "noHelp": true,
           "items": [
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "Characteristics/properties/StandardName"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "Characteristics/properties/StandardName"}]
+                }
+              ]
+            },
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "Characteristics/properties/Reference"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/properties/Coordinates"}]
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "Characteristics/properties/Reference"}]
+                }
+              ]
             },
             {
               "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/properties/GridMapping"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/properties/Size"}]
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Characteristics/properties/Coordinates"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Characteristics/properties/GridMapping"}]
+                }
+              ]
             },
             {
               "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/properties/SizeUnits"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/properties/Bounds"}]
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Characteristics/properties/Size"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Characteristics/properties/SizeUnits"}]
+                }
+              ]
             },
             {
               "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "Characteristics/properties/ChunkSize"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Characteristics/properties/Bounds"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Characteristics/properties/ChunkSize"}]
+                }
+              ]
+            },
             {
               "type": "section",
-              "items": [{"key": "Characteristics/properties/Structure", "type": "UmmTextarea"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "Characteristics/properties/Structure", "type": "UmmTextarea"}]
+                }
+              ]
+            },
             {
               "type": "section",
-              "items": [{"key": "Characteristics/properties/MeasurementConditions", "type": "UmmTextarea"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "Characteristics/properties/MeasurementConditions", "type": "UmmTextarea"}]
+                }
+              ]
+            },
             {
               "type": "section",
-              "items": [{"key": "Characteristics/properties/ReportingConditions", "type": "UmmTextarea"}]
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "Characteristics/properties/ReportingConditions", "type": "UmmTextarea"}]
+                }
+              ]
             }
           ]
         }
@@ -283,8 +303,15 @@
       "description_key": "ScienceKeywords",
       "items": [
         {
-          "type": "section",
-          "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
+          "type": "open_accordion",
+          "title": "Science Keywords",
+          "noHelp": true,
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
+            }
+          ]
         }
       ]
     },
@@ -294,11 +321,14 @@
       "description_key": "Sets",
       "items": [
         {
-          "type": "section",
+          "type": "open_accordion",
+          "title": "Sets",
+          "noHelp": true,
           "items": [
             {
               "type": "UmmMultiItems",
               "key": "Sets",
+              "noLabel": true,
               "items": [
                 {
                   "type": "section",
