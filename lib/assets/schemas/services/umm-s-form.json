@@ -99,13 +99,18 @@
           "title": "Access Constraints",
           "items": [
             {
-              "type": "UmmMultiItems",
-              "key": "AccessConstraints",
+              "type": "section",
+              "htmlClass": "row",
               "items": [
                 {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [{"key": "AccessConstraints/index_id", "noLabel": true}]
+                  "type": "UmmMultiItem",
+                  "key": "AccessConstraints",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "AccessConstraints/index_id", "noLabel": true, "htmlClass": "half-width"}]
+                    }
+                  ]
                 }
               ]
             }
@@ -117,13 +122,18 @@
           "title": "Use Constraints",
           "items": [
             {
-              "type": "UmmMultiItems",
-              "key": "UseConstraints",
+              "type": "section",
+              "htmlClass": "row",
               "items": [
                 {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [{"key": "UseConstraints/index_id", "noLabel": true}]
+                  "type": "UmmMultiItem",
+                  "key": "UseConstraints",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "UseConstraints/index_id", "noLabel": true, "htmlClass": "half-width"}]
+                    }
+                  ]
                 }
               ]
             }
@@ -209,9 +219,7 @@
       "id": "descriptive_keywords",
       "title": "Descriptive Keywords",
       "items": [
-        /* Service /ScienceKeywords
-        Service /ServiceKeywords
-        Service /AncillaryKeywords */
+        /* ScienceKeywords */
         {
           "type": "accordion",
           "help": "ScienceKeywords",
@@ -236,6 +244,7 @@
           ]
         },
         {
+          /* ServiceKeywords */
           "type": "accordion",
           "help": "ServiceKeywords",
           "title": "Service Keywords",
@@ -259,6 +268,7 @@
           ]
         },
         {
+          /* AncillaryKeywords */
           "type": "accordion",
           "help": "AncillaryKeywords",
           "title": "Ancillary Keywords",
@@ -344,16 +354,229 @@
     },
     {
       "id": "service_organization",
-      "title": "Service Organization",
+      "title": "Service Organizations",
       "items": [
         /* Service Organization */
+        {
+          "type": "open_accordion",
+          "title": "Service Organizations",
+          "key": "ServiceOrganizations",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "key": "ServiceOrganizations",
+              "noLabel": true,
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "ServiceOrganizations/items/properties/index_id/Roles", "type": "UmmMultiSelect"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "ServiceOrganizations/items/properties/index_id/ShortName"}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "ServiceOrganizations/items/properties/index_id/LongName"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "ServiceOrganizations/items/properties/index_id/Uuid"}]
+                    }
+                  ]
+                },
+                {
+                  /* ContactGroups  */
+                  "type": "section",
+                  "items": [
+                    {
+                      "type": "UmmMultiItems",
+                      "header": "ContactGroups",
+                      "key": "ServiceOrganizations/items/properties/index_id/ContactGroups",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/Roles", "type": "UmmMultiSelect"}]
+                        },
+                        {
+                          "type": "section",
+                          "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/GroupName"}]
+                        },
+                        {
+                          "type": "section",
+                          "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/Uuid"}]
+                        },
+                        {
+                          "type": "section",
+                          "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/NonServiceOrganizationAffiliation", "type": "UmmTextarea"}]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "row sub-fields",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/ContactInformation/properties/ServiceHours", "type": "UmmTextarea"}]
+                            },
+                            {
+                              "type": "section",
+                              "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/ContactInformation/properties/ContactInstruction", "type": "UmmTextarea"}]
+                            },
+                            {
+                              "type": "section",
+                              "items": [
+                                {
+                                  "type": "UmmMultiItems",
+                                  "header": "ContactMechanisms",
+                                  "key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/ContactInformation/properties/ContactMechanisms",
+                                  "items": [
+                                    {
+                                      "type": "section",
+                                      "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/ContactInformation/properties/ContactMechanisms/items/properties/index_id/Type", "type": "UmmSelect"}]
+                                    },
+                                    {
+                                      "type": "section",
+                                      "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/ContactInformation/properties/ContactMechanisms/items/properties/index_id/Value"}]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "section",
+                              "items": [
+                                {
+                                  "type": "UmmMultiItems",
+                                  "header": "Addresses",
+                                  "key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/ContactInformation/properties/Addresses",
+                                  "items": [
+                                    {
+                                      /* Add street addresses above */
+                                      "type": "section",
+                                      "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/ContactInformation/properties/Addresses/items/properties/index_id/City"}]
+                                    },
+                                    {
+                                      "type": "section",
+                                      "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactGroups/items/properties/index_id/ContactInformation/properties/Addresses/items/properties/index_id/StateProvince"}]
+                                      /* Finish Address Below */
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  /* ContactPersons  */
+                  "type": "section",
+                  "items": [
+                    {
+                      "type": "UmmMultiItems",
+                      "header": "ContactPersons",
+                      "key": "ServiceOrganizations/items/properties/index_id/ContactPersons",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactPersons/items/properties/index_id/Roles", "type": "UmmMultiSelect"}]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "col-4",
+                              "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactPersons/items/properties/index_id/FirstName"}]
+                            },
+                            {
+                              "type": "section",
+                              "htmlClass": "col-4",
+                              "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactPersons/items/properties/index_id/MiddleName"}]
+                            },
+                            {
+                              "type": "section",
+                              "htmlClass": "col-4",
+                              "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactPersons/items/properties/index_id/LastName"}]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "section",
+                          "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactPersons/items/properties/index_id/Uuid"}]
+                        },
+                        {
+                          "type": "section",
+                          "items": [{"key": "ServiceOrganizations/items/properties/index_id/ContactPersons/items/properties/index_id/NonServiceOrganizationAffiliation", "type": "UmmTextarea"}]
+                        },
+                        {
+                          /* ContactInformation */
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  /* ContactInformation  */
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "id": "service_contact",
-      "title": "Service Contact",
+      "title": "Service Contacts",
       "items": [
         /* Service Contact */
+        {
+          "type": "open_accordion",
+          "title": "Service Contacts",
+          "key": "ServiceContacts",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "key": "ServiceContacts",
+              "noLabel": true,
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-4",
+                      "items": [{"key": "ServiceContacts/items/properties/index_id/ShortName"}]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
     {
