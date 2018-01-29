@@ -35,7 +35,7 @@ class ServiceDraft < Draft
   end
 
   def display_entry_title
-    entry_title || '<Untitled Variable Record>'
+    entry_title || '<Untitled Service Record>'
   end
 
   def set_searchable_fields
