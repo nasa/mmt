@@ -551,32 +551,8 @@
       "id": "service_contact",
       "title": "Service Contacts",
       "items": [
-        /* Service Contact */
-        {
-          "type": "open_accordion",
-          "title": "Service Contacts",
-          "key": "ServiceContacts",
-          "items": [
-            {
-              "type": "UmmMultiItems",
-              "key": "ServiceContacts",
-              "noLabel": true,
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "htmlClass": "col-4",
-                      "items": [{"key": "ServiceContacts/items/properties/index_id/ShortName"}]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+        /* ContactGroups */
+        /* ContactPersons */
       ]
     },
     {
