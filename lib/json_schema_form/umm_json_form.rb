@@ -25,7 +25,7 @@ class UmmJsonForm < JsonFile
 
   # Retrieve all the forms from the json file
   def forms
-    @forms ||= parsed_json.fetch('forms', []).map { |form_json| UmmForm.new(form_json, self, schema, options) }
+    @forms ||= parsed_json.fetch('forms', []).map { |form_json| UmmForm.new(form_section_json: form_json, json_form: self, schema: schema, options: options, field_value: object) }
   end
 
   # Retrieve a form from the json file by the id
@@ -79,19 +79,73 @@ class UmmJsonForm < JsonFile
   # ==== Attributes
   #
   # * +input+ - Form data submitted the user
+  # def sanitize_form_input(input, form_id, current_value = {})
+  #   Rails.logger.debug "Before Sanitization: #{input.inspect}"
+  #
+  #   # Convert ruby style form element names (example_string) to UMM preferred PascalCase
+  #   input['draft'] = input.fetch('draft', {}).to_camel_keys
+  #
+  #   Rails.logger.debug "After CamelKeys: #{input.inspect}"
+  #
+  #   Rails.logger.debug "Before setting defaults: #{input['draft'].inspect}"
+  #
+  #   input['draft'] = set_defaults(input['draft'], form_id)
+  #
+  #   Rails.logger.debug "After setting defaults: #{input['draft'].inspect}"
+  #
+  #   unless current_value.blank?
+  #     Rails.logger.debug "A Current Value provided, merging input into: #{current_value.inspect}"
+  #
+  #     input['draft'] = current_value.deep_merge(input['draft'])
+  #
+  #     Rails.logger.debug "After Deep Merge: #{input['draft'].inspect}"
+  #   end
+  #
+  #   # Remove / Ignore empty values submitted by the user. This method returns nil
+  #   # on a completely empty element but for our purposes we need an empty hash
+  #   input['draft'] = compact_blank(input['draft']) || {}
+  #
+  #   Rails.logger.debug "After Removing Blanks: #{input.inspect}"
+  #
+  #   unless input['draft'].empty?
+  #     # Convert fields that have specific types to their appropriate format
+  #     convert_values_by_type(input['draft'], input['draft'])
+  #
+  #     Rails.logger.debug "After Type Conversions: #{input.inspect}"
+  #
+  #     # Convert nested arrays from the html form to arrays of hashes
+  #     input['draft'] = convert_to_arrays(input['draft'])
+  #   end
+  #
+  #   Rails.logger.debug "After Sanitization: #{input.inspect}"
+  #
+  #   input
+  # end
   def sanitize_form_input(input, form_id, current_value = {})
+    # collections order:
+    # convert_to_arrays
+    # to_camel_keys
+    # merge with existing draft
+    # compact_blank
+    # save
     Rails.logger.debug "Before Sanitization: #{input.inspect}"
+
+    unless input['draft'].empty?
+      # Convert nested arrays from the html form to arrays of hashes
+      input['draft'] = convert_to_arrays(input['draft'])
+
+      Rails.logger.debug "After Converting Arrays: #{input.inspect}"
+
+      # Convert fields that have specific types to their appropriate format
+      convert_values_by_type(input['draft'], input['draft'])
+
+      Rails.logger.debug "After Type Conversions: #{input.inspect}"
+    end
 
     # Convert ruby style form element names (example_string) to UMM preferred PascalCase
     input['draft'] = input.fetch('draft', {}).to_camel_keys
 
     Rails.logger.debug "After CamelKeys: #{input.inspect}"
-
-    Rails.logger.debug "Before setting defaults: #{input['draft'].inspect}"
-
-    input['draft'] = set_defaults(input['draft'], form_id)
-
-    Rails.logger.debug "After setting defaults: #{input['draft'].inspect}"
 
     unless current_value.blank?
       Rails.logger.debug "A Current Value provided, merging input into: #{current_value.inspect}"
@@ -107,15 +161,11 @@ class UmmJsonForm < JsonFile
 
     Rails.logger.debug "After Removing Blanks: #{input.inspect}"
 
-    unless input['draft'].empty?
-      # Convert fields that have specific types to their appropriate format
-      convert_values_by_type(input['draft'], input['draft'])
-
-      Rails.logger.debug "After Type Conversions: #{input.inspect}"
-
-      # Convert nested arrays from the html form to arrays of hashes
-      input['draft'] = convert_to_arrays(input['draft'])
-    end
+    # Rails.logger.debug "Before setting defaults: #{input['draft'].inspect}"
+    #
+    # input['draft'] = set_defaults(input['draft'], form_id)
+    #
+    # Rails.logger.debug "After setting defaults: #{input['draft'].inspect}"
 
     Rails.logger.debug "After Sanitization: #{input.inspect}"
 
@@ -129,6 +179,9 @@ class UmmJsonForm < JsonFile
   # * +fragment+ - JSON (user input) fragment to investigate
   # * +form_id+ - The form submitted
   def set_defaults(fragment, form_id)
+    # TODO this is creating a bad field, do we even need defaults? It looks like it is just adding nil, []
+    # After setting defaults: {"Platforms"=>{"0"=>{"ShortName"=>"platform name", "LongName"=>"p long name", "Instruments"=>{"0"=>{"ShortName"=>"instrument name", "LongName"=>"i long name"}}}}, "Platforms/items/properties"=>[]}
+
     form = get_form(form_id || forms.first.parsed_json['id'])
 
     form.elements.each do |form_element|

@@ -17,6 +17,14 @@
   <div class="col-6">
     <p class="eui-required-o">Indicates required field</p>
   </div>
+
+  <!-- TODO This shouldn't show on forms without multiple top level accordions? -->
+  <div class="col-6">
+    <p class="align-r">
+      <a href="#" class="expand-accordions">Expand All</a>
+      <a href="#" class="is-invisible collapse-accordions">Collapse All</a>
+    </p>
+  </div>
 </div>
 
 <%= json_form.get_form(current_form).render_markup %>

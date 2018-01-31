@@ -63,6 +63,7 @@
           "type": "accordion",
           "help": "ServiceQuality",
           "title": "Service Quality",
+          "key": "ServiceQuality/properties",
           "items": [
             {
               "type": "section",
@@ -71,7 +72,7 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "ServiceQuality/properties/QualityFlag", "type": "UmmSelect"}]
+                  "items": [{"key": "/QualityFlag", "type": "UmmSelect"}]
                 }
               ]
             },
@@ -82,12 +83,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "ServiceQuality/properties/Traceability"}]
+                  "items": [{"key": "/Traceability"}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "ServiceQuality/properties/Lineage"}]
+                  "items": [{"key": "/Lineage"}]
                 }
               ]
             }
@@ -108,7 +109,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "AccessConstraints/index_id", "noLabel": true, "htmlClass": "half-width"}]
+                      "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width"}]
                     }
                   ]
                 }
@@ -131,7 +132,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "UseConstraints/index_id", "noLabel": true, "htmlClass": "half-width"}]
+                      "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width"}]
                     }
                   ]
                 }
@@ -283,7 +284,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "AncillaryKeywords/index_id", "noLabel": true, "htmlClass": "half-width"}]
+                      "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width"}]
                     }
                   ]
                 }
@@ -297,15 +298,15 @@
       "id": "acquisition_information",
       "title": "Acquisition Information",
       "items": [
-        /* Platform */
+        /* Platforms */
         {
           "type": "open_accordion",
           "title": "Platforms",
-          "key": "Platforms",
           "items": [
             {
               "type": "UmmMultiItems",
-              "key": "Platforms",
+              "multiType": "Platforms",
+              "key": "Platforms/items/properties/index_id",
               "noLabel": true,
               "items": [
                 {
@@ -315,12 +316,12 @@
                     {
                       "type": "section",
                       "htmlClass": "col-4",
-                      "items": [{"key": "Platforms/items/properties/index_id/ShortName"}]
+                      "items": [{"key": "/ShortName"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-8",
-                      "items": [{"key": "Platforms/items/properties/index_id/LongName"}]
+                      "items": [{"key": "/LongName"}]
                     }
                   ]
                 },
@@ -329,18 +330,19 @@
                   "items": [
                     {
                       "type": "UmmMultiItems",
-                      "header": "Instruments",
-                      "key": "Platforms/items/properties/index_id/Instruments",
+                      "label": "Instruments",
+                      "multiType": "Instruments",
+                      "key": "/Instruments/items/properties/index_id",
                       "items": [
                         {
                           "type": "section",
                           "htmlClass": "col-4",
-                          "items": [{"key": "Platforms/items/properties/index_id/Instruments/items/properties/index_id/ShortName"}]
+                          "items": [{"key": "/ShortName"}]
                         },
                         {
                           "type": "section",
                           "htmlClass": "col-8",
-                          "items": [{"key": "Platforms/items/properties/index_id/Instruments/items/properties/index_id/LongName"}]
+                          "items": [{"key": "/LongName"}]
                         }
                       ]
                     }
@@ -353,10 +355,10 @@
       ]
     },
     {
-      "id": "service_organization",
+      "id": "service_organizations",
       "title": "Service Organizations",
       "items": [
-        /* Service Organization */
+        /* Service Organizations */
         {
           "type": "open_accordion",
           "title": "Service Organizations",
