@@ -56,4 +56,51 @@ class JsonFile < JsonObj
   def inspect
     "#<JsonObj file: \"#{file_path}\">"
   end
+
+  # Recursively replace all '$ref' keys in the schema file with their actual values
+  #
+  # ==== Attributes
+  #
+  # * +fragment+ - The JSON to recursively replace references for
+  def fetch_references(fragment)
+    # Loop through each key in the current hash element
+    fragment.each do |key, element|
+      # Loop through arrays and keep looking,
+      # unless they are enum or required arrays
+      if element.is_a?(Array) && %w[enum required].index(key).nil?
+        element.each do |value|
+          fetch_references(asdf: value)
+        end
+      end
+
+      # Skip this element if it's not a hash, no $ref will exist
+      next unless element.is_a?(Hash)
+
+      # If we have a reference to follow
+      if element.key?('$ref')
+        file, path = element['$ref'].split('#')
+
+        # Fetch the reference from the file that it's defined to be in
+        referenced_property = if file.blank?
+                                # This is an internal reference (lives within the file we're parsing)
+                                parsed_json['definitions'][path.split('/').last]
+                              else
+                                # Fetch the reference from an external file
+                                referenced_file = UmmJsonSchema.new(schema_type, file)
+                                referenced_file.fetch_references(referenced_file.parsed_json)
+                                referenced_schema = referenced_file.parsed_json
+                                referenced_schema['definitions'][path.split('/').last]
+                              end
+
+        # Merge the retrieved reference into the schema
+        element.merge!(referenced_property)
+
+        # Remove the $ref key so we don't attempt to parse it again
+        element.delete('$ref')
+      end
+
+      # Keep diggin'
+      fetch_references(element)
+    end
+  end
 end

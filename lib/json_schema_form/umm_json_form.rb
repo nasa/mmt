@@ -25,7 +25,7 @@ class UmmJsonForm < JsonFile
 
   # Retrieve all the forms from the json file
   def forms
-    @forms ||= parsed_json.fetch('forms', []).map { |form_json| UmmForm.new(form_section_json: form_json, json_form: self, schema: schema, options: options, field_value: object) }
+    @forms ||= fetch_references(parsed_json).fetch('forms', []).map { |form_json| UmmForm.new(form_section_json: fetch_references(form_json), json_form: self, schema: schema, options: options, field_value: object) }
   end
 
   # Retrieve a form from the json file by the id

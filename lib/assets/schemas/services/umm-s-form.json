@@ -327,26 +327,7 @@
                 },
                 {
                   "type": "section",
-                  "items": [
-                    {
-                      "type": "UmmMultiItems",
-                      "label": "Instruments",
-                      "multiType": "Instruments",
-                      "key": "/Instruments/items/properties/index_id",
-                      "items": [
-                        {
-                          "type": "section",
-                          "htmlClass": "col-4",
-                          "items": [{"key": "/ShortName"}]
-                        },
-                        {
-                          "type": "section",
-                          "htmlClass": "col-8",
-                          "items": [{"key": "/LongName"}]
-                        }
-                      ]
-                    }
-                  ]
+                  "$ref": "#/definitions/Instruments"
                 }
               ]
             }
@@ -571,5 +552,29 @@
         /* Coverage */
       ]
     }
-  ]
+  ],
+  "definitions": {
+    "Instruments": {
+      "items": [
+        {
+          "type": "UmmMultiItems",
+          "label": "Instruments",
+          "multiType": "Instruments",
+          "key": "/Instruments/items/properties/index_id",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-4",
+              "items": [{"key": "/ShortName"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-8",
+              "items": [{"key": "/LongName"}]
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
