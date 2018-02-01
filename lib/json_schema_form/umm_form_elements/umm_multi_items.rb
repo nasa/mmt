@@ -33,23 +33,26 @@ class UmmMultiItems < UmmFormElement
 
   def render_markup
     content_tag(:div, class: "multiple #{form_fragment['multiType'].underscore.dasherize}") do
+      indexes = options.fetch('indexes', [])
+
       values = Array.wrap(element_value)
       values = [{}] if values.empty?
       values.each_with_index do |value, index|
-        concat render_accordion(value, index)
+        concat render_accordion(value, index, indexes + [index])
       end
 
       concat(content_tag(:div, class: 'actions') do
         button = UmmButton.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: { 'button_text' => "Add another #{form_title}", 'classes' => 'eui-btn--blue add-new' }).render_markup
+
         concat button
       end)
     end
   end
 
-  def render_accordion(value, index)
+  def render_accordion(value, index, indexes)
     content_tag(:div, class: "multiple-item multiple-item-#{index} eui-accordion") do
       concat render_accordion_header(index)
-      concat render_accordion_body(value, index)
+      concat render_accordion_body(value, indexes)
     end
   end
 
@@ -68,16 +71,11 @@ class UmmMultiItems < UmmFormElement
     end
   end
 
-  def render_accordion_body(value, index)
-    indexes = options.fetch('indexes', [])
-    indexes.pop if !indexes.blank? && index == indexes.last + 1
-    indexes << index
-    opts = { 'indexes' => indexes }
-
+  def render_accordion_body(value, indexes)
     content_tag(:div, class: 'eui-accordion__body') do
       concat(content_tag(:div, class: 'row sub-fields') do
         form_fragment['items'].each do |property|
-          concat UmmForm.new(form_section_json: property, json_form: json_form, schema: schema, options: opts, key: full_key, field_value: value).render_markup
+          concat UmmForm.new(form_section_json: property, json_form: json_form, schema: schema, options: { 'indexes' => indexes }, key: full_key, field_value: value).render_markup
         end
       end)
     end

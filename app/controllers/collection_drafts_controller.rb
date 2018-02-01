@@ -27,8 +27,8 @@ class CollectionDraftsController < BaseDraftsController
   def show
     super
 
-    set_platform_types
-    set_instruments
+    set_platform_short_names
+    set_instrument_short_names
     set_temporal_keywords
     set_data_centers
     set_country_codes
@@ -338,18 +338,16 @@ class CollectionDraftsController < BaseDraftsController
       platforms = metadata['Platforms'] || []
       platforms.each do |platform|
         platform_short_name = platform['ShortName']
-        short_names = @platform_types.map { |type| type[:short_names].map { |short_name| short_name[:short_name] } }.flatten
 
-        if platform_short_name && !short_names.include?(platform_short_name)
+        if platform_short_name && !@platform_short_names.include?(platform_short_name)
           errors << "The property '#/Platforms' was invalid"
         end
 
         instruments = platform.fetch('Instruments', [])
         instruments.each do |instrument|
           instrument_short_name = instrument['ShortName']
-          instrument_short_names = @instruments.map { |short_name| short_name[:short_name] }.flatten
 
-          if instrument_short_name && !instrument_short_names.include?(instrument_short_name)
+          if instrument_short_name && !@instrument_short_names.include?(instrument_short_name)
             errors << "The property '#/Platforms' was invalid"
           end
 
@@ -357,7 +355,7 @@ class CollectionDraftsController < BaseDraftsController
           instrument_children.each do |child|
             child_short_name = child['ShortName']
 
-            if child_short_name && !instrument_short_names.include?(child_short_name)
+            if child_short_name && !@instrument_short_names.include?(child_short_name)
               errors << "The property '#/Platforms' was invalid"
             end
           end

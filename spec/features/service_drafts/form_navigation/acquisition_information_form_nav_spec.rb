@@ -78,36 +78,36 @@ describe 'Acquisition Information Form Navigation', reset_provider: true, js: tr
     #   end
     # end
 
-    # context 'When clicking `Next` without making any changes' do
-    #   before do
-    #     within '.nav-top' do
-    #       click_button 'Next'
-    #     end
-    #   end
-    #
-    #   it 'saves the draft and loads the next form' do
-    #     within '.eui-banner--success' do
-    #       expect(page).to have_content('Service Draft Updated Successfully!')
-    #     end
-    #
-    #     within '.eui-breadcrumbs' do
-    #       expect(page).to have_content('Service Drafts')
-    #       expect(page).to have_content('Service Organizations')
-    #     end
-    #
-    #     within '.umm-form' do
-    #       expect(page).to have_content('Service Organizations')
-    #     end
-    #
-    #     within '.nav-top' do
-    #       expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
-    #     end
-    #
-    #     within '.nav-bottom' do
-    #       expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
-    #     end
-    #   end
-    # end
+    context 'When clicking `Next` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Next'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Service Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Service Drafts')
+          expect(page).to have_content('Service Organizations')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Service Organizations')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
+        end
+      end
+    end
 
     context 'When clicking `Save` without making any changes' do
       before do
@@ -140,38 +140,36 @@ describe 'Acquisition Information Form Navigation', reset_provider: true, js: tr
       end
     end
 
-    # context 'When selecting the next form from the navigation dropdown' do
-    #   before do
-    #     within '.nav-top' do
-    #       select 'Service Organizations', from: 'Save & Jump To:'
-    #     end
-    #
-    #     click_on 'Yes'
-    #   end
-    #
-    #   it 'saves the draft and loads the next form' do
-    #     within '.eui-banner--success' do
-    #       expect(page).to have_content('Service Draft Updated Successfully!')
-    #     end
-    #
-    #     within '.eui-breadcrumbs' do
-    #       expect(page).to have_content('Service Drafts')
-    #       expect(page).to have_content('Service Organizations')
-    #     end
-    #
-    #     within '.umm-form' do
-    #       expect(page).to have_content('Service Organizations')
-    #     end
-    #
-    #     within '.nav-top' do
-    #       expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
-    #     end
-    #
-    #     within '.nav-bottom' do
-    #       expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
-    #     end
-    #   end
-    # end
+    context 'When selecting the next form from the navigation dropdown' do
+      before do
+        within '.nav-top' do
+          select 'Service Organizations', from: 'Save & Jump To:'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Service Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Service Drafts')
+          expect(page).to have_content('Service Organizations')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Service Organizations')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
+        end
+      end
+    end
   end
 
   context 'When viewing the form with stored values' do
@@ -179,25 +177,25 @@ describe 'Acquisition Information Form Navigation', reset_provider: true, js: tr
       draft_descriptive_keywords = {
         'Platforms': [
           {
-            'ShortName': 'Platform 1 Short Name',
-            'LongName': 'Platform 1 Long Name',
+            'ShortName': 'A340-600',
+            'LongName': 'Airbus A340-600',
             'Instruments': [
               {
-                'ShortName': 'Instrument 1 Short Name',
-                'LongName': 'Instrument 1 Long Name'
+                'ShortName': 'ATM',
+                'LongName': 'Airborne Topographic Mapper'
               },
               {
-                'ShortName': 'Instrument 2 Short Name',
-                'LongName': 'Instrument 2 Long Name'
+                'ShortName': 'LVIS',
+                'LongName': 'Land, Vegetation, and Ice Sensor'
               }
             ]
           },
           {
-            'ShortName': 'Platform 2 Short Name',
-            'LongName': 'Platform 2 Long Name',
+            'ShortName': 'DMSP 5B/F3',
+            'LongName': 'Defense Meteorological Satellite Program-F3',
             'Instruments': [
               {
-                'ShortName': 'Instrument 3 Short Name'
+                'ShortName': 'ACOUSTIC SOUNDERS'
               }
             ]
           }
@@ -209,16 +207,16 @@ describe 'Acquisition Information Form Navigation', reset_provider: true, js: tr
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('service_draft_draft_platforms_0_short_name', with: 'Platform 1 Short Name')
-      expect(page).to have_field('service_draft_draft_platforms_0_long_name', with: 'Platform 1 Long Name')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_short_name', with: 'Instrument 1 Short Name')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_long_name', with: 'Instrument 1 Long Name')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_short_name', with: 'Instrument 2 Short Name')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_long_name', with: 'Instrument 2 Long Name')
+      expect(page).to have_field('service_draft_draft_platforms_0_short_name', with: 'A340-600')
+      expect(page).to have_field('service_draft_draft_platforms_0_long_name', with: 'Airbus A340-600')
+      expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_short_name', with: 'ATM')
+      expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_long_name', with: 'Airborne Topographic Mapper')
+      expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_short_name', with: 'LVIS')
+      expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_long_name', with: 'Land, Vegetation, and Ice Sensor')
 
-      expect(page).to have_field('service_draft_draft_platforms_1_short_name', with: 'Platform 2 Short Name')
-      expect(page).to have_field('service_draft_draft_platforms_1_long_name', with: 'Platform 2 Long Name')
-      expect(page).to have_field('service_draft_draft_platforms_1_instruments_0_short_name', with: 'Instrument 3 Short Name')
+      expect(page).to have_field('service_draft_draft_platforms_1_short_name', with: 'DMSP 5B/F3')
+      expect(page).to have_field('service_draft_draft_platforms_1_long_name', with: 'Defense Meteorological Satellite Program-F3')
+      expect(page).to have_field('service_draft_draft_platforms_1_instruments_0_short_name', with: 'ACOUSTIC SOUNDERS')
     end
 
     # context 'When clicking `Previous` without making any changes' do
@@ -252,36 +250,36 @@ describe 'Acquisition Information Form Navigation', reset_provider: true, js: tr
     #   end
     # end
 
-    # context 'When clicking `Next` without making any changes' do
-    #   before do
-    #     within '.nav-top' do
-    #       click_button 'Next'
-    #     end
-    #   end
-    #
-    #   it 'saves the draft and loads the next form' do
-    #     within '.eui-banner--success' do
-    #       expect(page).to have_content('Service Draft Updated Successfully!')
-    #     end
-    #
-    #     within '.eui-breadcrumbs' do
-    #       expect(page).to have_content('Service Drafts')
-    #       expect(page).to have_content('Service Organizations')
-    #     end
-    #
-    #     within '.umm-form' do
-    #       expect(page).to have_content('Service Organizations')
-    #     end
-    #
-    #     within '.nav-top' do
-    #       expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
-    #     end
-    #
-    #     within '.nav-bottom' do
-    #       expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
-    #     end
-    #   end
-    # end
+    context 'When clicking `Next` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Next'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Service Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Service Drafts')
+          expect(page).to have_content('Service Organizations')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Service Organizations')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
+        end
+      end
+    end
 
     context 'When clicking `Save` without making any changes' do
       before do
@@ -315,16 +313,16 @@ describe 'Acquisition Information Form Navigation', reset_provider: true, js: tr
       end
 
       it 'displays the correct values in the form' do
-        expect(page).to have_field('service_draft_draft_platforms_0_short_name', with: 'Platform 1 Short Name')
-        expect(page).to have_field('service_draft_draft_platforms_0_long_name', with: 'Platform 1 Long Name')
-        expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_short_name', with: 'Instrument 1 Short Name')
-        expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_long_name', with: 'Instrument 1 Long Name')
-        expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_short_name', with: 'Instrument 2 Short Name')
-        expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_long_name', with: 'Instrument 2 Long Name')
+        expect(page).to have_field('service_draft_draft_platforms_0_short_name', with: 'A340-600')
+        expect(page).to have_field('service_draft_draft_platforms_0_long_name', with: 'Airbus A340-600')
+        expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_short_name', with: 'ATM')
+        expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_long_name', with: 'Airborne Topographic Mapper')
+        expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_short_name', with: 'LVIS')
+        expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_long_name', with: 'Land, Vegetation, and Ice Sensor')
 
-        expect(page).to have_field('service_draft_draft_platforms_1_short_name', with: 'Platform 2 Short Name')
-        expect(page).to have_field('service_draft_draft_platforms_1_long_name', with: 'Platform 2 Long Name')
-        expect(page).to have_field('service_draft_draft_platforms_1_instruments_0_short_name', with: 'Instrument 3 Short Name')
+        expect(page).to have_field('service_draft_draft_platforms_1_short_name', with: 'DMSP 5B/F3')
+        expect(page).to have_field('service_draft_draft_platforms_1_long_name', with: 'Defense Meteorological Satellite Program-F3')
+        expect(page).to have_field('service_draft_draft_platforms_1_instruments_0_short_name', with: 'ACOUSTIC SOUNDERS')
       end
     end
   end

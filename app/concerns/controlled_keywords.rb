@@ -54,33 +54,49 @@ module ControlledKeywords
   end
 
   def set_platform_types
+    @platform_types = fetch_platforms.map { |platform| [platform[:type], platform[:short_names].map { |sn| [sn[:short_name], 'data-long-name' => sn[:long_name], 'data-type' => platform[:type]] }] }
+  end
+
+  def set_platform_short_names
+    @platform_short_names = fetch_platforms.map { |type| type[:short_names].map { |short_name| short_name[:short_name] } }.flatten
+  end
+
+  def fetch_platforms
     response = cmr_client.get_controlled_keywords('platforms')
 
     # sets platform types with nested short_name and long_name values
-    @platform_types = if response.success?
-                        platform_types = response.body.fetch('category', []).map do |category|
-                          short_names = get_controlled_keyword_short_names(Array.wrap(category))
+    if response.success?
+      platform_types = response.body.fetch('category', []).map do |category|
+        short_names = get_controlled_keyword_short_names(Array.wrap(category))
 
-                          {
-                            type: category['value'],
-                            short_names: short_names.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
-                          }
-                        end
-                        platform_types.sort { |a, b| a[:type] <=> b[:type] }
-                      else
-                        []
-                      end
+        {
+          type: category['value'],
+          short_names: short_names.flatten.sort_by { |a| a[:short_name] }
+        }
+      end
+      platform_types.sort_by { |a| a[:type] }
+    else
+      []
+    end
   end
 
   def set_instruments
-    response = cmr_client.get_controlled_keywords('instruments')
-    @instruments = if response.success?
-                     instruments = get_controlled_keyword_short_names(response.body.fetch('category', []))
+    @instruments = fetch_instruments.map { |instrument| [instrument[:short_name], instrument[:short_name], { 'data-long-name' => instrument[:long_name] }] }
+  end
 
-                     instruments.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
-                   else
-                     []
-                   end
+  def set_instrument_short_names
+    @instrument_short_names = fetch_instruments.map { |short_name| short_name[:short_name] }.flatten
+  end
+
+  def fetch_instruments
+    response = cmr_client.get_controlled_keywords('instruments')
+    if response.success?
+      instruments = get_controlled_keyword_short_names(response.body.fetch('category', []))
+
+      instruments.flatten.sort_by { |a| a[:short_name] }
+    else
+      []
+    end
   end
 
   def set_projects

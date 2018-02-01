@@ -35,7 +35,7 @@ class UmmKeywordPicker < UmmFormElement
       }
       button_options['data'] = { 'field-prefix' => json_form.options['field_prefix'] } if json_form.options.key?('field_prefix')
 
-      button = UmmButton.new(parsed_json, json_form, schema, button_options)
+      button = UmmButton.new(form_section_json: parsed_json, json_form: json_form, schema: schema, options: button_options)
 
       concat content_tag(:div, button.render_markup, class: 'actions')
     end

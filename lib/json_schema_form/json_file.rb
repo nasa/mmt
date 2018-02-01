@@ -69,7 +69,7 @@ class JsonFile < JsonObj
       # unless they are enum or required arrays
       if element.is_a?(Array) && %w[enum required].index(key).nil?
         element.each do |value|
-          fetch_references(asdf: value)
+          fetch_references(anyKey: value)
         end
       end
 

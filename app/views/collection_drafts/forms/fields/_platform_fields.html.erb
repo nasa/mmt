@@ -29,7 +29,7 @@
         title: 'Short Name',
         prefix: name_prefix,
         value: platform['ShortName'],
-        options: @platform_types.map { |platform| [platform[:type], platform[:short_names].map { |sn| [sn[:short_name], 'data-long-name' => sn[:long_name], 'data-type' => platform[:type]] }]},
+        options: @platform_types,
         help: 'definitions/PlatformShortNameType',
         classes: 'select2-select platform-short-name-select',
         validate: true,
