@@ -12,7 +12,7 @@ class UmmControlledSelect < UmmSelect
     # Prevent children of this class from adding further properties
     return properties unless self.class.to_s == 'UmmControlledSelect'
 
-    properties.merge(prompt: "Select a #{title}", class: "select2-select #{controlled_keyword.singularize}-short-name-select")
+    properties.merge(prompt: "Select a #{title}", class: "select2-select #{controlled_keyword.dasherize.singularize}-short-name-select")
   end
 
   # load select options in from ControlledKeywords
@@ -22,6 +22,8 @@ class UmmControlledSelect < UmmSelect
       grouped_options_for_select(set_platform_types, element_value)
     when 'instruments'
       options_for_select(set_instruments, element_value)
+    when 'data_centers'
+      options_for_select(set_data_centers, element_value)
     end
   end
 

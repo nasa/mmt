@@ -10,7 +10,7 @@
         prefix: "#{name_prefix}",
         value: data_center_contact_group['ShortName'],
         help: 'definitions/DataCenterType/properties/ShortName',
-        options: @data_centers.map { |data_center| [data_center[:short_name], data_center[:short_name], { 'data-long-name' => data_center[:long_name], 'data-url' => data_center[:url] }]},
+        options: @data_centers,
         classes: 'select2-select data-center-short-name-select',
         required: true,
         required_level: options[:required_level]

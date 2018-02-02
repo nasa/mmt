@@ -43,14 +43,19 @@ module ControlledKeywords
   end
 
   def set_data_centers
-    response = cmr_client.get_controlled_keywords('data_centers')
-    @data_centers = if response.success?
-                      data_centers = get_controlled_keyword_short_names(response.body.fetch('level_0', []))
+    @data_centers = fetch_data_centers.map { |data_center| [data_center.fetch(:short_name, ''), data_center.fetch(:short_name, ''), { 'data-long-name' => data_center[:long_name], 'data-url' => data_center[:url] }] }
+  end
 
-                      data_centers.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
-                    else
-                      []
-                    end
+  def fetch_data_centers
+    response = cmr_client.get_controlled_keywords('data_centers')
+
+    if response.success?
+      data_centers = get_controlled_keyword_short_names(response.body.fetch('level_0', []))
+
+      data_centers.flatten.sort_by { |a| a[:short_name] }
+    else
+      []
+    end
   end
 
   def set_platform_types

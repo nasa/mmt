@@ -362,6 +362,7 @@
         {
           "type": "open_accordion",
           "title": "Service Organizations",
+          "help": "ServiceOrganizations",
           "items": [
             {
               "type": "UmmMultiItems",
@@ -385,13 +386,13 @@
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
-                      "items": [{"key": "/ShortName"}]
+                      "htmlClass": "col-4",
+                      "items": [{"key": "/ShortName", "type": "UmmControlledSelect", "controlled_keyword": "data_centers"}]
                     },
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
-                      "items": [{"key": "/LongName"}]
+                      "htmlClass": "col-8",
+                      "items": [{"key": "/LongName", "htmlClass": "data-center-long-name"}]
                     }
                   ]
                 },
@@ -407,17 +408,15 @@
                   ]
                 },
                 {
-                  /* ContactGroups  */
                   "type": "section",
                   "$ref": "#/definitions/ContactGroups"
                 },
                 {
-                  /* ContactPersons  */
                   "type": "section",
                   "$ref": "#/definitions/ContactPersons"
                 },
                 {
-                  /* ContactInformation  */
+                  "$ref": "#/definitions/ContactInformation"
                 }
               ]
             }
@@ -430,14 +429,78 @@
       "title": "Service Contacts",
       "items": [
         /* ContactGroups */
+        {
+          "type": "accordion",
+          "help": "ContactGroups",
+          "title": "ContactGroups",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "$ref": "#/definitions/ContactGroups"
+                }
+              ]
+            }
+          ]
+        },
         /* ContactPersons */
+        {
+          "type": "accordion",
+          "help": "ContactPersons",
+          "title": "ContactPersons",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "$ref": "#/definitions/ContactPersons"
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "id": "options",
       "title": "Options",
+      "key": "ServiceOptions/properties",
       "items": [
         /* ServiceOptions */
+        {
+          "type": "open_accordion",
+          "title": "Service Options",
+          "noHelp": "true",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/SubsetTypes", "type": "UmmMultiSelect"}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "/SupportedProjections", "type": "UmmMultiSelect"}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "/InterpolationTypes", "type": "UmmMultiSelect"}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "/SupportedFormats", "type": "UmmMultiSelect"}]
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -445,6 +508,79 @@
       "title": "Coverage",
       "items": [
         /* Coverage */
+        {
+          "type": "open_accordion",
+          "help": "Coverage",
+          "title": "Coverage",
+          "key": "Coverage/properties",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/Name"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/Type", "type": "UmmSelect"}]
+                }
+              ]
+            },
+            {
+              "$ref": "#/definitions/CoverageSpatialExtent"
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/SpatialResolution"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/SpatialResolutionUnit"}]
+                }
+              ]
+            },
+            {
+              "$ref": "#/definitions/CoverageTemporalExtent"
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/TemporalResolution"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/TemporalResolutionUnit"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/RelativePath", "type": "UmmTextarea"}]
+                }
+              ]
+            }
+          ]
+        }
       ]
     }
   ],
@@ -453,7 +589,8 @@
       "items": [
         {
           "type": "UmmMultiItems",
-          "label": "ContactGroups",
+          "label": "Contact Groups",
+          "help": "ContactGroups",
           "multiType": "ContactGroups",
           "key": "/ContactGroups/items/properties/index_id",
           "items": [
@@ -474,27 +611,7 @@
               "items": [{"key": "/NonServiceOrganizationAffiliation", "type": "UmmTextarea"}]
             },
             {
-              "type": "section",
-              "key": "/ContactInformation/properties",
-              "htmlClass": "row sub-fields",
-              "items": [
-                {
-                  "type": "section",
-                  "items": [{"key": "/ServiceHours", "type": "UmmTextarea"}]
-                },
-                {
-                  "type": "section",
-                  "items": [{"key": "/ContactInstruction", "type": "UmmTextarea"}]
-                },
-                {
-                  "type": "section",
-                  "$ref": "#/definitions/ContactMechanisms"
-                },
-                {
-                  "type": "section",
-                  "$ref": "#/definitions/Addresses"
-                }
-              ]
+              "$ref": "#/definitions/ContactInformation"
             }
           ]
         }
@@ -504,7 +621,7 @@
       "items": [
         {
           "type": "UmmMultiItems",
-          "label": "ContactPersons",
+          "label": "Contact Persons",
           "multiType": "ContactPersons",
           "key": "/ContactPersons/items/properties/index_id",
           "items": [
@@ -542,23 +659,47 @@
               "items": [{"key": "/NonServiceOrganizationAffiliation", "type": "UmmTextarea"}]
             },
             {
-              /* ContactInformation */
+              "$ref": "#/definitions/ContactInformation"
             }
           ]
         }
       ]
     },
+    "ContactInformation": {
+      "type": "section",
+      "label": "Contact Information",
+      "key": "/ContactInformation/properties",
+      "help": "ContactInformationType",
+      "htmlClass": "row sub-fields",
+      "items": [
+        {
+          "type": "section",
+          "items": [{"key": "/ServiceHours", "type": "UmmTextarea"}]
+        },
+        {
+          "type": "section",
+          "items": [{"key": "/ContactInstruction", "type": "UmmTextarea"}]
+        },
+        {
+          "$ref": "#/definitions/ContactMechanisms"
+        },
+        {
+          "$ref": "#/definitions/Addresses"
+        }
+      ]
+    },
     "ContactMechanisms": {
+      "type": "section",
       "items": [
         {
           "type": "UmmMultiItems",
-          "label": "ContactMechanisms",
+          "label": "Contact Mechanisms",
           "multiType": "ContactMechanisms",
           "key": "/ContactMechanisms/items/properties/index_id",
           "items": [
             {
               "type": "section",
-              "items": [{"key": "//Type", "type": "UmmSelect"}]
+              "items": [{"key": "/Type", "type": "UmmSelect"}]
             },
             {
               "type": "section",
@@ -569,6 +710,7 @@
       ]
     },
     "Addresses": {
+      "type": "section",
       "items": [
         {
           "type": "UmmMultiItems",
@@ -577,14 +719,252 @@
           "key": "/Addresses/items/properties/index_id",
           "items": [
             {
-              /* Add street addresses above */
               "type": "section",
-              "items": [{"key": "/City"}]
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/Country"}]
+                }
+              ]
             },
             {
               "type": "section",
-              "items": [{"key": "/StateProvince"}]
-              /* Finish Address Below */
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/StreetAddresses"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/City"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-3",
+                  "items": [{"key": "/StateProvince"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-3",
+                  "items": [{"key": "/PostalCode"}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "CoverageSpatialExtent": {
+      "type": "section",
+      "htmlClass": "row sub-fields",
+      "label": "Coverage Spatial Extent",
+      "key": "/CoverageSpatialExtent/properties",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/Type", "type": "UmmSelect"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/Uuid"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "multiType": "SpatialPoints",
+              "label": "Spatial Points",
+              "key": "/SpatialPoints/items/properties/index_id",
+              "items": [
+                {
+                  "$ref": "#/definitions/Coordinates"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "multiType": "SpatialLineStrings",
+              "label": "Spatial Line Strings",
+              "key": "/SpatialLineStrings/items/properties/index_id",
+              "items": [
+                {
+                  "$ref": "#/definitions/LineString"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "key": "/SpatialBoundingBox/properties",
+              "items": [
+                {
+                  "$ref": "#/definitions/BBox"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "multiType": "SpatialPolygons",
+              "label": "Spatial Polygons",
+              "key": "/SpatialPolygons/items/properties/index_id",
+              "items": [
+                {
+                  "$ref": "#/definitions/Coordinates"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "CoverageTemporalExtent": {
+      "type": "section",
+      "htmlClass": "row sub-fields",
+      "label": "Coverage Temporal Extent",
+      "key": "/CoverageTemporalExtent/properties",
+      "items": [
+        {
+          "type": "UmmMultiItems",
+          "multiType": "CoverageTimePoints",
+          "key": "/CoverageTimePoints/items/properties/index_id",
+          "noLabel": true,
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/TimeFormat"}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "/TimeValue"}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "/Description"}]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "col-6",
+          "items": [{"key": "/Uuid"}]
+        }
+      ]
+    },
+    "Coordinates": {
+      "type": "section",
+      "htmlClass": "row",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "col-6",
+          "items": [{"key": "/Latitude"}]
+        },
+        {
+          "type": "section",
+          "htmlClass": "col-6",
+          "items": [{"key": "/Longitude"}]
+        }
+      ]
+    },
+    "LineString": {
+      "type": "section",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "key": "/StartPoint/properties",
+          "items": [
+            {
+              "$ref": "#/definitions/Coordinates"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "key": "/EndPoint/properties",
+          "items": [
+            {
+              "$ref": "#/definitions/Coordinates"
+            }
+          ]
+        }
+      ]
+    },
+    "BBox": {
+      "type": "section",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/MinX"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/MaxX"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/MinY"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/MaxY"}]
             }
           ]
         }

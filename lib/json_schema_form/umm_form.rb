@@ -56,6 +56,15 @@ class UmmForm < JsonObj
       # # Display a description of the section if its provided
       # concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
 
+      if parsed_json['label']
+        label_text = parsed_json['label']
+        # concat label_tag(keyify_property_name(form_fragment), form_element.title, class: ('eui-required-o' if schema.required_field?(form_fragment['key'])))
+        concat label_tag('', label_text, class: ('eui-required-o' if schema.required_field?(full_key)))
+
+        # Adds the help modal link and icon
+        concat help_icon(help_path)
+      end
+
       # Continue rendering fields that appear in this section
       children.each do |child_element|
         concat child_element.render_markup
@@ -77,7 +86,7 @@ class UmmForm < JsonObj
   def elements(json_fragment: nil, fields: [])
     fragment = (json_fragment || parsed_json)
 
-    if fragment.key?('key') && fragment['type'] != 'open_accordion'
+    if fragment.key?('key') && !fragment.fetch('type', '').include?('accordion')
       element_class = fragment.fetch('type', 'UmmTextField')
       form_element = element_class.constantize.new(form_section_json: fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
 
