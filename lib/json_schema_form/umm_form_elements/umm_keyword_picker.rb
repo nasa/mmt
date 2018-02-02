@@ -62,7 +62,7 @@ class UmmKeywordPicker < UmmFormElement
           concat(content_tag(:li) do
             concat keyword_string(keyword)
 
-            remove_link = UmmRemoveLink.new(parsed_json, json_form, schema, name: keyword)
+            remove_link = UmmRemoveLink.new(form_section_json: parsed_json, json_form: json_form, schema: schema, options: { name: keyword })
             concat remove_link.render_markup
 
             concat hidden_field_tag("#{keyify_property_name(element)}[#{index}][category]", keyword.fetch('Category', ''))

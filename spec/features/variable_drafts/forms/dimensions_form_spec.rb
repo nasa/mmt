@@ -28,8 +28,8 @@ describe 'Dimensions Form', reset_provider: true, js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Dimension')
     end
 
-    it 'has three required labels' do
-      expect(page).to have_selector('label.eui-required-o', count: 3)
+    it 'has 2 required labels' do
+      expect(page).to have_selector('label.eui-required-o', count: 2)
     end
 
     context 'When clicking `Previous` without making any changes' do

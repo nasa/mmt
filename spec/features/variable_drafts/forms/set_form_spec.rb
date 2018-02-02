@@ -13,7 +13,7 @@ describe 'Set Form', reset_provider: true, js: true do
 
     it 'displays the correct title and description' do
       within '.umm-form' do
-        expect(page).to have_content('Set')
+        expect(page).to have_content('Sets')
         expect(page).to have_content('The set information of a variable.')
       end
     end
@@ -21,7 +21,7 @@ describe 'Set Form', reset_provider: true, js: true do
     it 'displays the form title in the breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Variable Drafts')
-        expect(page).to have_content('Set')
+        expect(page).to have_content('Sets')
       end
     end
 
@@ -29,8 +29,8 @@ describe 'Set Form', reset_provider: true, js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Set')
     end
 
-    it 'has 5 required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 5)
+    it 'has 4 required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 4)
     end
 
     context 'When clicking `Previous` without making any changes' do

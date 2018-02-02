@@ -53,8 +53,8 @@ class UmmForm < JsonObj
       # # Display a subtitle for the section if its provided
       # concat content_tag(:h4, subtitle, class: 'space-bot') unless subtitle.nil?
       #
-      # # Display a description of the section if its provided
-      # concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
+      # Display a description of the section if its provided
+      concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
 
       if parsed_json['label']
         label_text = parsed_json['label']
