@@ -200,9 +200,12 @@ class UmmJsonForm < JsonFile
 
     fragment[key] = if fragment.key?(key)
                       update_value(fragment[key], keys, default_value)
+                    elsif !keys.empty?
+                      update_value({}, keys, default_value)
                     else
                       default_value
                     end
+
     fragment
   end
 
