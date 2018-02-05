@@ -1,5 +1,9 @@
 # :nodoc:
 class UmmMultiSelect < UmmSelect
+  def default_value
+    ['']
+  end
+
   def ui_options
     options_for_select(schema_fragment['items']['enum'], element_value)
   end
@@ -7,7 +11,7 @@ class UmmMultiSelect < UmmSelect
   def title
     schema.fetch_key_leaf(form_fragment['key']).titleize
   end
-  
+
   def element_properties(element)
     super(element).merge(multiple: true)
   end

@@ -130,7 +130,7 @@ class UmmJsonForm < JsonFile
     # save
     Rails.logger.debug "Before Sanitization: #{input.inspect}"
 
-    unless input['draft'].empty?
+    unless input['draft'].blank?
       # Convert nested arrays from the html form to arrays of hashes
       input['draft'] = convert_to_arrays(input['draft'])
 
@@ -147,6 +147,14 @@ class UmmJsonForm < JsonFile
 
     Rails.logger.debug "After CamelKeys: #{input.inspect}"
 
+
+    Rails.logger.debug "Before setting defaults: #{input['draft'].inspect}"
+
+    input['draft'] = set_defaults(input['draft'], form_id)
+
+    Rails.logger.debug "After setting defaults: #{input['draft'].inspect}"
+
+
     unless current_value.blank?
       Rails.logger.debug "A Current Value provided, merging input into: #{current_value.inspect}"
 
@@ -161,12 +169,6 @@ class UmmJsonForm < JsonFile
 
     Rails.logger.debug "After Removing Blanks: #{input.inspect}"
 
-    # Rails.logger.debug "Before setting defaults: #{input['draft'].inspect}"
-    #
-    # input['draft'] = set_defaults(input['draft'], form_id)
-    #
-    # Rails.logger.debug "After setting defaults: #{input['draft'].inspect}"
-
     Rails.logger.debug "After Sanitization: #{input.inspect}"
 
     input
@@ -179,15 +181,28 @@ class UmmJsonForm < JsonFile
   # * +fragment+ - JSON (user input) fragment to investigate
   # * +form_id+ - The form submitted
   def set_defaults(fragment, form_id)
-    # TODO this is creating a bad field, do we even need defaults? It looks like it is just adding nil, []
-    # After setting defaults: {"Platforms"=>{"0"=>{"ShortName"=>"platform name", "LongName"=>"p long name", "Instruments"=>{"0"=>{"ShortName"=>"instrument name", "LongName"=>"i long name"}}}}, "Platforms/items/properties"=>[]}
-
     form = get_form(form_id || forms.first.parsed_json['id'])
 
     form.elements.each do |form_element|
-      fragment[form_element.schema_fragment['key']] ||= form_element.default_value
+      keys = element_path_for_object(form_element.schema_fragment['key'])
+
+      fragment = update_value(fragment, keys, form_element.default_value)
     end
 
+    fragment
+  end
+
+  # Traverse fragment with [keys] in order to set the default value
+  # if a value doesn't exist
+  def update_value(fragment, keys, default_value)
+    return fragment if keys.blank?
+    key = keys.shift
+
+    fragment[key] = if fragment.key?(key)
+                      update_value(fragment[key], keys, default_value)
+                    else
+                      default_value
+                    end
     fragment
   end
 

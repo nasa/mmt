@@ -86,7 +86,8 @@ class UmmForm < JsonObj
   def elements(json_fragment: nil, fields: [])
     fragment = (json_fragment || parsed_json)
 
-    if fragment.key?('key') && !fragment.fetch('type', '').include?('accordion')
+    # TODO need a new way to determine if a fragment is a field since using 'key' to build the path. using 'field' for now
+    if fragment.key?('field')
       element_class = fragment.fetch('type', 'UmmTextField')
       form_element = element_class.constantize.new(form_section_json: fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
 

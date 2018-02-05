@@ -16,12 +16,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-4",
-                  "items": [{"key": "Name"}]
+                  "items": [{"key": "Name", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-8",
-                  "items": [{"key": "LongName"}]
+                  "items": [{"key": "LongName", "field": true}]
                 }
               ]
             },
@@ -32,12 +32,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "Type", "type": "UmmSelect"}]
+                  "items": [{"key": "Type", "field": true, "type": "UmmSelect"}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "Version"}]
+                  "items": [{"key": "Version", "field": true}]
                 }
               ]
             },
@@ -47,7 +47,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "Description"}]
+                  "items": [{"key": "Description", "field": true}]
                 }
               ]
             }
@@ -72,7 +72,7 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/QualityFlag", "type": "UmmSelect"}]
+                  "items": [{"key": "/QualityFlag", "field": true, "type": "UmmSelect"}]
                 }
               ]
             },
@@ -83,12 +83,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/Traceability"}]
+                  "items": [{"key": "/Traceability", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/Lineage"}]
+                  "items": [{"key": "/Lineage", "field": true}]
                 }
               ]
             }
@@ -106,6 +106,7 @@
                 {
                   "type": "UmmMultiItem",
                   "key": "AccessConstraints",
+                  "field": true,
                   "items": [
                     {
                       "type": "section",
@@ -129,6 +130,7 @@
                 {
                   "type": "UmmMultiItem",
                   "key": "UseConstraints",
+                  "field": true,
                   "items": [
                     {
                       "type": "section",
@@ -162,7 +164,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "RelatedURL/properties/Description"}]
+                      "items": [{"key": "RelatedURL/properties/Description", "field": true}]
                     }
                   ]
                 },
@@ -173,7 +175,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "RelatedURL/properties/URLContentType", "type": "UmmSelect", "htmlClass": "related-url-content-type-select"}]
+                      "items": [{"key": "RelatedURL/properties/URLContentType", "field": true, "type": "UmmSelect", "htmlClass": "related-url-content-type-select"}]
                     }
                   ]
                 },
@@ -184,7 +186,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "RelatedURL/properties/Type", "type": "UmmSelect", "htmlClass": "related-url-type-select"}]
+                      "items": [{"key": "RelatedURL/properties/Type", "field": true, "type": "UmmSelect", "htmlClass": "related-url-type-select"}]
                     }
                   ]
                 },
@@ -195,7 +197,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "RelatedURL/properties/Subtype", "type": "UmmSelect", "htmlClass": "related-url-subtype-select"}]
+                      "items": [{"key": "RelatedURL/properties/Subtype", "field": true, "type": "UmmSelect", "htmlClass": "related-url-subtype-select"}]
                     }
                   ]
                 },
@@ -206,7 +208,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "RelatedURL/properties/URL"}]
+                      "items": [{"key": "RelatedURL/properties/URL", "field": true}]
                     }
                   ]
                 }
@@ -236,7 +238,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
+                      "items": [{"key": "ScienceKeywords", "field": true, "type": "UmmKeywordPicker"}]
                     }
                   ]
                 }
@@ -260,7 +262,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "ServiceKeywords", "type": "UmmKeywordPicker"}]
+                      "items": [{"key": "ServiceKeywords", "field": true, "type": "UmmKeywordPicker"}]
                     }
                   ]
                 }
@@ -281,6 +283,7 @@
                 {
                   "type": "UmmMultiItem",
                   "key": "AncillaryKeywords",
+                  "field": true,
                   "items": [
                     {
                       "type": "section",
@@ -316,12 +319,12 @@
                     {
                       "type": "section",
                       "htmlClass": "col-4",
-                      "items": [{"key": "/ShortName", "type": "UmmControlledSelect", "controlled_keyword": "platforms"}]
+                      "items": [{"key": "/ShortName", "field": true, "type": "UmmControlledSelect", "controlled_keyword": "platforms"}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-8",
-                      "items": [{"key": "/LongName", "htmlClass": "platform-long-name", "readonly": true}]
+                      "items": [{"key": "/LongName", "field": true, "htmlClass": "platform-long-name", "readonly": true}]
                     }
                   ]
                 },
@@ -337,12 +340,12 @@
                         {
                           "type": "section",
                           "htmlClass": "col-4",
-                          "items": [{"key": "/ShortName", "type": "UmmControlledSelect", "controlled_keyword": "instruments"}]
+                          "items": [{"key": "/ShortName", "field": true, "type": "UmmControlledSelect", "controlled_keyword": "instruments"}]
                         },
                         {
                           "type": "section",
                           "htmlClass": "col-8",
-                          "items": [{"key": "/LongName", "htmlClass": "instrument-long-name", "readonly": true}]
+                          "items": [{"key": "/LongName", "field": true, "htmlClass": "instrument-long-name", "readonly": true}]
                         }
                       ]
                     }
@@ -425,7 +428,7 @@
       ]
     },
     {
-      "id": "service_contact",
+      "id": "service_contacts",
       "title": "Service Contacts",
       "items": [
         /* ContactGroups */
@@ -474,7 +477,7 @@
         /* ServiceOptions */
         {
           "type": "open_accordion",
-          "title": "Service Options",
+          "title": "Options",
           "noHelp": "true",
           "items": [
             {
@@ -483,19 +486,19 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/SubsetTypes", "type": "UmmMultiSelect"}]
+                  "items": [{"key": "/SubsetTypes", "field": true, "type": "UmmMultiSelect"}]
                 },
                 {
                   "type": "section",
-                  "items": [{"key": "/SupportedProjections", "type": "UmmMultiSelect"}]
+                  "items": [{"key": "/SupportedProjections", "field": true, "type": "UmmMultiSelect"}]
                 },
                 {
                   "type": "section",
-                  "items": [{"key": "/InterpolationTypes", "type": "UmmMultiSelect"}]
+                  "items": [{"key": "/InterpolationTypes", "field": true, "type": "UmmMultiSelect"}]
                 },
                 {
                   "type": "section",
-                  "items": [{"key": "/SupportedFormats", "type": "UmmMultiSelect"}]
+                  "items": [{"key": "/SupportedFormats", "field": true, "type": "UmmMultiSelect"}]
                 }
               ]
             }
