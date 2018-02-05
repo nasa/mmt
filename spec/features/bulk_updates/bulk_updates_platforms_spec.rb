@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe 'Bulk updating Platforms' do
   before :all do
-    _ingest_response, @find_and_remove_concept_response = publish_collection_draft
-    _ingest_response, @find_and_update_concept_response = publish_collection_draft
-    _ingest_response, @find_and_update_concept_response_2 = publish_collection_draft
+    @find_and_remove_ingest_response, @find_and_remove_concept_response = publish_collection_draft
+    @find_and_update_ingest_response, @find_and_update_concept_response = publish_collection_draft
+    @find_and_update_ingest_response_2, @find_and_update_concept_response_2 = publish_collection_draft
   end
 
   before do
@@ -16,7 +16,7 @@ describe 'Bulk updating Platforms' do
   context 'when previewing a Find & Remove bulk update', js: true do
     let(:bulk_update_name) { 'Bulk Update Platforms Test Find & Remove 001' }
 
-    before do
+    before(:each, bulk_update_step_1: true) do
       # Search collections
       select 'Entry Title', from: 'Search Field'
       find(:css, "input[id$='query_text']").set(@find_and_remove_concept_response.body['EntryTitle'])
@@ -34,7 +34,7 @@ describe 'Bulk updating Platforms' do
       click_on 'Preview'
     end
 
-    it 'displays the preview information' do
+    it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
       expect(page).to have_content("Name #{bulk_update_name}")
@@ -51,7 +51,7 @@ describe 'Bulk updating Platforms' do
     end
 
     context 'when submitting the bulk update' do
-      before do
+      before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
 
         # need to wait until the task status is 'COMPLETE'
@@ -62,7 +62,7 @@ describe 'Bulk updating Platforms' do
         page.evaluate_script('window.location.reload()')
       end
 
-      it 'displays the bulk update status page' do
+      it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
@@ -82,9 +82,10 @@ describe 'Bulk updating Platforms' do
 
       context 'when viewing the collection' do
         before do
-          within '#bulk-update-status-table' do
-            click_on @find_and_remove_concept_response.body['EntryTitle']
-          end
+          # within '#bulk-update-status-table' do
+          #   click_on @find_and_remove_concept_response.body['EntryTitle']
+          # end
+          visit collection_path(@find_and_remove_ingest_response['concept-id'])
         end
 
         it 'does not display the removed platform' do
@@ -102,7 +103,7 @@ describe 'Bulk updating Platforms' do
 
   context 'when previewing a Find & Update bulk update that has a long name', js: true do
     let(:bulk_update_name) { 'Bulk Update Platforms Test Find & Update 002' }
-    before do
+    before(:each, bulk_update_step_1: true) do
       # Search collections
       select 'Entry Title', from: 'Search Field'
       find(:css, "input[id$='query_text']").set(@find_and_update_concept_response.body['EntryTitle'])
@@ -124,7 +125,7 @@ describe 'Bulk updating Platforms' do
       click_on 'Preview'
     end
 
-    it 'displays the preview information' do
+    it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
       expect(page).to have_content("Name #{bulk_update_name}")
@@ -150,7 +151,7 @@ describe 'Bulk updating Platforms' do
     end
 
     context 'when submitting the bulk update' do
-      before do
+      before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
 
         # need to wait until the task status is 'COMPLETE'
@@ -161,7 +162,7 @@ describe 'Bulk updating Platforms' do
         page.evaluate_script('window.location.reload()')
       end
 
-      it 'displays the bulk update status page' do
+      it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
@@ -188,9 +189,10 @@ describe 'Bulk updating Platforms' do
 
       context 'when viewing a draft form of the collection' do
         before do
-          within '#bulk-update-status-table' do
-            click_on @find_and_update_concept_response.body['EntryTitle']
-          end
+          # within '#bulk-update-status-table' do
+          #   click_on @find_and_update_concept_response.body['EntryTitle']
+          # end
+          visit collection_path(@find_and_update_ingest_response['concept-id'])
           click_on 'Edit Collection Record'
           click_on 'Acquisition Information'
           click_on 'Expand All'
@@ -207,7 +209,7 @@ describe 'Bulk updating Platforms' do
 
   context 'when previewing a Find & Update bulk update that does not have a long name', js: true do
     let(:bulk_update_name) { 'Bulk Update Platforms Test Find & Update 003' }
-    before do
+    before(:each, bulk_update_step_1: true) do
       # Search collections
       select 'Entry Title', from: 'Search Field'
       find(:css, "input[id$='query_text']").set(@find_and_update_concept_response_2.body['EntryTitle'])
@@ -229,7 +231,7 @@ describe 'Bulk updating Platforms' do
       click_on 'Preview'
     end
 
-    it 'displays the preview information' do
+    it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
       expect(page).to have_content("Name #{bulk_update_name}")
@@ -255,7 +257,7 @@ describe 'Bulk updating Platforms' do
     end
 
     context 'when submitting the bulk update' do
-      before do
+      before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
 
         # need to wait until the task status is 'COMPLETE'
@@ -266,7 +268,7 @@ describe 'Bulk updating Platforms' do
         page.evaluate_script('window.location.reload()')
       end
 
-      it 'displays the bulk update status page' do
+      it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
@@ -293,9 +295,10 @@ describe 'Bulk updating Platforms' do
 
       context 'when viewing a draft form of the collection' do
         before do
-          within '#bulk-update-status-table' do
-            click_on @find_and_update_concept_response_2.body['EntryTitle']
-          end
+          # within '#bulk-update-status-table' do
+          #   click_on @find_and_update_concept_response_2.body['EntryTitle']
+          # end
+          visit collection_path(@find_and_update_ingest_response_2['concept-id'])
           click_on 'Edit Collection Record'
           click_on 'Acquisition Information'
           click_on 'Expand All'
