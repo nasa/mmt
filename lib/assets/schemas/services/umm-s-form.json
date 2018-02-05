@@ -321,7 +321,7 @@
                     {
                       "type": "section",
                       "htmlClass": "col-8",
-                      "items": [{"key": "/LongName", "htmlClass": "platform-long-name"}]
+                      "items": [{"key": "/LongName", "htmlClass": "platform-long-name", "readonly": true}]
                     }
                   ]
                 },
@@ -342,7 +342,7 @@
                         {
                           "type": "section",
                           "htmlClass": "col-8",
-                          "items": [{"key": "/LongName", "htmlClass": "instrument-long-name"}]
+                          "items": [{"key": "/LongName", "htmlClass": "instrument-long-name", "readonly": true}]
                         }
                       ]
                     }
@@ -392,7 +392,7 @@
                     {
                       "type": "section",
                       "htmlClass": "col-8",
-                      "items": [{"key": "/LongName", "htmlClass": "data-center-long-name"}]
+                      "items": [{"key": "/LongName", "htmlClass": "data-center-long-name", "readonly": true}]
                     }
                   ]
                 },

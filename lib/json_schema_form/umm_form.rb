@@ -387,10 +387,13 @@ class UmmFormElement < UmmForm
   end
 
   def element_properties(element)
+    readonly = parsed_json['readonly'].nil? ? {} : { readonly: true }
+
     {
       class: element_classes(element),
       data: element_data(element)
     }
+      .merge(readonly)
       .merge(validation_properties(element))
   end
 
