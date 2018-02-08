@@ -24,13 +24,39 @@ module ControlledKeywords
     end
   end
 
-  def set_science_keywords
+  def fetch_science_keywords
     response = cmr_client.get_controlled_keywords('science_keywords')
-    @science_keywords = if response.success?
-                          response.body
-                        else
-                          []
-                        end
+    if response.success?
+      response.body
+    else
+      []
+    end
+  end
+
+  def set_science_keywords
+    keywords = fetch_science_keywords
+    if keywords.key? 'category'
+      keywords['category'].each do |category|
+        if category['value'] == 'EARTH SCIENCE SERVICES'
+          keywords['category'].delete(category)
+          break
+        end
+      end
+    end
+    @science_keywords = keywords
+  end
+
+  def set_service_keywords
+    keywords = fetch_science_keywords
+    if keywords.key? 'category'
+      keywords['category'].each do |category|
+        if category['value'] == 'EARTH SCIENCE'
+          keywords['category'].delete(category)
+          break
+        end
+      end
+    end
+    @service_keywords = keywords
   end
 
   def set_location_keywords

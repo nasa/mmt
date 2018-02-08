@@ -607,8 +607,8 @@ module Helpers
       choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
 
       find('#science-keyword-search').set('mobile')
-      find('#science-keyword-search').click()
-      find('.tt-open').click()
+      find('#science-keyword-search').click
+      find('.tt-open').click
     end
 
 

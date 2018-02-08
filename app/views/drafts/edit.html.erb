@@ -13,5 +13,12 @@
 <%= render partial: 'drafts/shared/javascript' %>
 
 <script>
+  <% if @current_form == 'service_keywords' %>
+    // Setup Service Keywords
+    setupServiceKeywords(<%= raw @service_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' });
+  <% elsif ['science_keywords', 'science_and_ancillary_keywords'].include? @current_form %>
+    // Setup Science Keywords
+    setupScienceKeywords(<%= raw @science_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' });
+  <% end %>
   var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
 </script>

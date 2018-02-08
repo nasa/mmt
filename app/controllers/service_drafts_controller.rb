@@ -5,16 +5,17 @@ class ServiceDraftsController < BaseDraftsController
 
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
   before_action :set_schema, only: [:show, :new, :edit, :update, :create]
-  before_action :set_form, only: [:show, :edit, :update]
-  before_action :set_current_form, only: [:edit]
-  before_action :set_science_keywords, only: [:new, :edit]
+  before_action :set_form, only: [:new, :show, :edit, :update]
+  before_action :set_current_form, only: [:new, :edit]
 
-  def new
+  def edit
     super
 
-    set_form
-
-    set_current_form
+    if @current_form == 'service_keywords'
+      set_service_keywords
+    elsif @current_form == 'science_and_ancillary_keywords'
+      set_science_keywords
+    end
   end
 
   private

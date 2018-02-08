@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Service Related URL Form Navigation', reset_provider: true, js: true do
+describe 'Related URL Form Navigation', reset_provider: true, js: true do
   before do
     login
   end

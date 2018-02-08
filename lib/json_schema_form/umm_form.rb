@@ -46,7 +46,7 @@ class UmmForm < JsonObj
 
   # Return this form element for display within a form
   def render_markup
-    hidden = 'display: none;' if parsed_json['hideUnlessValues'] && !element_value.key?(parsed_json['hideUnlessValues'])
+    hidden = 'display: none;' if parsed_json['hideUnlessValues'] && element_value && !element_value.key?(parsed_json['hideUnlessValues'])
 
     content_tag(:div, class: parsed_json['htmlClass'], style: hidden) do
       # # Display a title for the section if its provided

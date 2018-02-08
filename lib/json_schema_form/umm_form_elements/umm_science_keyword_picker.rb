@@ -1,5 +1,5 @@
 # :nodoc:
-class UmmKeywordPicker < UmmFormElement
+class UmmScienceKeywordPicker < UmmFormElement
   KEYWORD_LEVELS = %w(
     Category
     Topic
@@ -12,6 +12,10 @@ class UmmKeywordPicker < UmmFormElement
 
   def default_value
     []
+  end
+
+  def keyword_type
+    'science'
   end
 
   # Return whether or not this element has a stored value
@@ -29,7 +33,7 @@ class UmmKeywordPicker < UmmFormElement
 
       # Add Keyword button that displays below the picker
       button_options = {
-        'classes'     => 'eui-btn--blue add-science-keyword',
+        'classes'     => "eui-btn--blue add-#{keyword_type}-keyword",
         'button_text' => 'Add Keyword',
         'disabled'    => true
       }
@@ -56,7 +60,7 @@ class UmmKeywordPicker < UmmFormElement
   end
 
   def render_keyword_list(element, object)
-    content_tag(:div, class: 'selected-science-keywords science-keywords') do
+    content_tag(:div, class: "selected-#{keyword_type}-keywords #{keyword_type}-keywords") do
       concat(content_tag(:ul) do
         Array.wrap(object).each_with_index do |keyword, index|
           concat(content_tag(:li) do
@@ -84,13 +88,13 @@ class UmmKeywordPicker < UmmFormElement
   def render_keyword_picker
     content_tag(:div, class: 'eui-nested-item-picker') do
       concat(content_tag(:ul, class: 'eui-item-path') do
-        content_tag(:li, link_to('Science Keyword', 'javascript:void(0);'), class: 'list-title')
+        content_tag(:li, link_to("#{keyword_type.titleize} Keyword", 'javascript:void(0);'), class: 'list-title')
       end)
 
       concat(content_tag(:div, class: 'eui-item-list-pane') do
         content_tag(:ul) do
           content_tag(:li) do
-            text_field_tag('science-keyword-search', nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...')
+            text_field_tag("#{keyword_type}-keyword-search", nil, name: nil, class: 'typeahead', placeholder: 'Search for keywords...')
           end
         end
       end)

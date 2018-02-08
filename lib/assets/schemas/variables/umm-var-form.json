@@ -318,7 +318,7 @@
           "items": [
             {
               "type": "section",
-              "items": [{"key": "ScienceKeywords", "field": true, "type": "UmmKeywordPicker"}]
+              "items": [{"key": "ScienceKeywords", "field": true, "type": "UmmScienceKeywordPicker"}]
             }
           ]
         }
