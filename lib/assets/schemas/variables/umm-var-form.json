@@ -16,12 +16,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-5",
-                  "items": [{"key": "Name"}]
+                  "items": [{"key": "Name", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-7",
-                  "items": [{"key": "Definition"}]
+                  "items": [{"key": "Definition", "field": true}]
                 }
               ]
             },
@@ -31,7 +31,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "LongName", "type": "UmmTextarea"}]
+                  "items": [{"key": "LongName", "field": true, "type": "UmmTextarea"}]
                 }
               ]
             },
@@ -42,17 +42,17 @@
                 {
                   "type": "section",
                   "htmlClass": "col-4",
-                  "items": [{"key": "VariableType", "type": "UmmSelect"}]
+                  "items": [{"key": "VariableType", "field": true, "type": "UmmSelect"}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-4",
-                  "items": [{"key": "Units"}]
+                  "items": [{"key": "Units", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-4",
-                  "items": [{"key": "DataType", "type": "UmmSelect"}]
+                  "items": [{"key": "DataType", "field": true, "type": "UmmSelect"}]
                 }
               ]
             },
@@ -63,12 +63,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "Scale"}]
+                  "items": [{"key": "Scale", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "Offset"}]
+                  "items": [{"key": "Offset", "field": true}]
                 }
               ]
             },
@@ -90,12 +90,12 @@
                         {
                           "type": "section",
                           "htmlClass": "col-6",
-                          "items": [{"key": "/Min"}]
+                          "items": [{"key": "/Min", "field": true}]
                         },
                         {
                           "type": "section",
                           "htmlClass": "col-6",
-                          "items": [{"key": "/Max"}]
+                          "items": [{"key": "/Max", "field": true}]
                         }
                       ]
                     }
@@ -131,19 +131,19 @@
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "/Value"}]
+                      "items": [{"key": "/Value", "field": true}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "/Type"}]
+                      "items": [{"key": "/Type", "field": true}]
                     }
                   ]
                 },
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "/Description", "type": "UmmTextarea"}]
+                  "items": [{"key": "/Description", "field": true, "type": "UmmTextarea"}]
                 }
               ]
             }
@@ -176,12 +176,12 @@
                     {
                       "type": "section",
                       "htmlClass": "col-8",
-                      "items": [{"key": "/Name"}]
+                      "items": [{"key": "/Name", "field": true}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-4",
-                      "items": [{"key": "/Size"}]
+                      "items": [{"key": "/Size", "field": true}]
                     }
                   ]
                 }
@@ -209,7 +209,7 @@
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "/StandardName"}]
+                  "items": [{"key": "/StandardName", "field": true}]
                 }
               ]
             },
@@ -220,7 +220,7 @@
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "/Reference"}]
+                  "items": [{"key": "/Reference", "field": true}]
                 }
               ]
             },
@@ -231,12 +231,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/Coordinates"}]
+                  "items": [{"key": "/Coordinates", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/GridMapping"}]
+                  "items": [{"key": "/GridMapping", "field": true}]
                 }
               ]
             },
@@ -247,12 +247,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/Size"}]
+                  "items": [{"key": "/Size", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/SizeUnits"}]
+                  "items": [{"key": "/SizeUnits", "field": true}]
                 }
               ]
             },
@@ -263,12 +263,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/Bounds"}]
+                  "items": [{"key": "/Bounds", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/ChunkSize"}]
+                  "items": [{"key": "/ChunkSize", "field": true}]
                 }
               ]
             },
@@ -278,7 +278,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/Structure", "type": "UmmTextarea"}]
+                  "items": [{"key": "/Structure", "field": true, "type": "UmmTextarea"}]
                 }
               ]
             },
@@ -288,7 +288,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/MeasurementConditions", "type": "UmmTextarea"}]
+                  "items": [{"key": "/MeasurementConditions", "field": true, "type": "UmmTextarea"}]
                 }
               ]
             },
@@ -298,7 +298,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/ReportingConditions", "type": "UmmTextarea"}]
+                  "items": [{"key": "/ReportingConditions", "field": true, "type": "UmmTextarea"}]
                 }
               ]
             }
@@ -318,7 +318,7 @@
           "items": [
             {
               "type": "section",
-              "items": [{"key": "ScienceKeywords", "type": "UmmKeywordPicker"}]
+              "items": [{"key": "ScienceKeywords", "field": true, "type": "UmmKeywordPicker"}]
             }
           ]
         }
@@ -345,12 +345,12 @@
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "/Name"}]
+                  "items": [{"key": "/Name", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "/Type"}]
+                  "items": [{"key": "/Type", "field": true}]
                 },
                 {
                   "type": "section",
@@ -359,12 +359,12 @@
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "/Size"}]
+                      "items": [{"key": "/Size", "field": true}]
                     },
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "/Index"}]
+                      "items": [{"key": "/Index", "field": true}]
                     }
                   ]
                 }

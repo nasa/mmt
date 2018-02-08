@@ -46,7 +46,9 @@ class UmmForm < JsonObj
 
   # Return this form element for display within a form
   def render_markup
-    content_tag(:div, class: parsed_json['htmlClass']) do
+    hidden = 'display: none;' if parsed_json['hideUnlessValues'] && !element_value.key?(parsed_json['hideUnlessValues'])
+
+    content_tag(:div, class: parsed_json['htmlClass'], style: hidden) do
       # # Display a title for the section if its provided
       # concat content_tag(:h3, title, class: 'space-bot') unless title.nil?
       #
@@ -179,6 +181,41 @@ class UmmForm < JsonObj
     key ||= full_key
     "properties/#{json_form.element_path_for_object(key, ignore_keys: %w(index_id)).join('/')}"
   end
+
+  # Get the value for the provided key from the provided object
+  def element_value
+    # Uses reduce to dig through the provided object to look for and return the
+    # provided key that could be nested
+    # path = json_form.element_path_for_object(parsed_json['key'])
+    path = json_form.element_path_for_object(full_key, ignore_keys: %w(items properties))
+    path.pop() if path.last == 'index_id'
+
+    # If an index is provided, insert it into the path
+    unless options['index'].nil?
+      if path.size == 1
+        path << options['index']
+      else
+        path.insert(path.size - 1, options['index']) unless options['index'].nil?
+      end
+    end
+    if options['indexes']
+      if path.index('index_id')
+        Array.wrap(options['indexes']).each do |index|
+          path[path.index('index_id')] = index
+        end
+      end
+    end
+
+    # Look up the value in the object at the specified path
+    path.reduce(json_form.object) { |a, e| a[e] }
+  rescue
+    nil
+  end
+
+  # Return whether or not this element has a stored value
+  def value?
+    !element_value.nil? && element_value != ''
+  end
 end
 
 # :nodoc:
@@ -283,40 +320,40 @@ class UmmFormElement < UmmForm
     nil
   end
 
-  # Get the value for the provided key from the provided object
-  def element_value
-    # Uses reduce to dig through the provided object to look for and return the
-    # provided key that could be nested
-    # path = json_form.element_path_for_object(parsed_json['key'])
-    path = json_form.element_path_for_object(full_key, ignore_keys: %w(items properties))
-    path.pop() if path.last == 'index_id'
-
-    # If an index is provided, insert it into the path
-    unless options['index'].nil?
-      if path.size == 1
-        path << options['index']
-      else
-        path.insert(path.size - 1, options['index']) unless options['index'].nil?
-      end
-    end
-    if options['indexes']
-      if path.index('index_id')
-        Array.wrap(options['indexes']).each do |index|
-          path[path.index('index_id')] = index
-        end
-      end
-    end
-
-    # Look up the value in the object at the specified path
-    path.reduce(json_form.object) { |a, e| a[e] }
-  rescue
-    nil
-  end
-
-  # Return whether or not this element has a stored value
-  def value?
-    !element_value.nil? && element_value != ''
-  end
+  # # Get the value for the provided key from the provided object
+  # def element_value
+  #   # Uses reduce to dig through the provided object to look for and return the
+  #   # provided key that could be nested
+  #   # path = json_form.element_path_for_object(parsed_json['key'])
+  #   path = json_form.element_path_for_object(full_key, ignore_keys: %w(items properties))
+  #   path.pop() if path.last == 'index_id'
+  #
+  #   # If an index is provided, insert it into the path
+  #   unless options['index'].nil?
+  #     if path.size == 1
+  #       path << options['index']
+  #     else
+  #       path.insert(path.size - 1, options['index']) unless options['index'].nil?
+  #     end
+  #   end
+  #   if options['indexes']
+  #     if path.index('index_id')
+  #       Array.wrap(options['indexes']).each do |index|
+  #         path[path.index('index_id')] = index
+  #       end
+  #     end
+  #   end
+  #
+  #   # Look up the value in the object at the specified path
+  #   path.reduce(json_form.object) { |a, e| a[e] }
+  # rescue
+  #   nil
+  # end
+  #
+  # # Return whether or not this element has a stored value
+  # def value?
+  #   !element_value.nil? && element_value != ''
+  # end
 
   # We use '/' as a separator in our key names for the purposes of looking them up
   # in the schema when nested. This method translates that into ruby syntax to retrieve
@@ -411,8 +448,13 @@ class UmmFormElement < UmmForm
 
   # The value displayed on the form and within the preview that best represents the title of this element
   def title
+    value = schema.fetch_key_leaf(full_key)
     # schema.fetch_key_leaf(form_fragment['key']).titleize
-    schema.fetch_key_leaf(full_key).titleize
+    if value.ends_with?('ID')
+      value.titleize + ' ID'
+    else
+      value.titleize
+    end
   end
 
   # # Renders a clickable icon that provides information pertaining to the form element

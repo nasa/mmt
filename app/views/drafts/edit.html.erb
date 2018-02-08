@@ -11,3 +11,7 @@
 </div>
 
 <%= render partial: 'drafts/shared/javascript' %>
+
+<script>
+  var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
+</script>

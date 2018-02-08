@@ -156,6 +156,7 @@
             {
               "type": "section",
               "htmlClass": "row",
+              "key": "RelatedURL/properties",
               "items": [
                 {
                   "type": "section",
@@ -164,7 +165,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "RelatedURL/properties/Description", "field": true}]
+                      "items": [{"key": "/Description", "field": true}]
                     }
                   ]
                 },
@@ -175,7 +176,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "RelatedURL/properties/URLContentType", "field": true, "type": "UmmSelect", "htmlClass": "related-url-content-type-select"}]
+                      "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_content_type", "htmlClass": "related-url-content-type-select"}]
                     }
                   ]
                 },
@@ -186,7 +187,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "RelatedURL/properties/Type", "field": true, "type": "UmmSelect", "htmlClass": "related-url-type-select"}]
+                      "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_type", "htmlClass": "related-url-type-select"}]
                     }
                   ]
                 },
@@ -197,7 +198,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "RelatedURL/properties/Subtype", "field": true, "type": "UmmSelect", "htmlClass": "related-url-subtype-select"}]
+                      "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_subtype", "htmlClass": "related-url-subtype-select"}]
                     }
                   ]
                 },
@@ -208,7 +209,72 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "RelatedURL/properties/URL", "field": true}]
+                      "items": [{"key": "/URL", "field": true}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row sub-fields get-data-fields",
+                  "key": "/GetData/properties",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/Format", "field": true, "type": "UmmSelect"}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/Size", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/Unit", "field": true, "type": "UmmSelect"}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/Fees", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/Checksum", "field": true}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row sub-fields get-service-fields",
+                  "key": "/GetService/properties",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/MimeType", "field": true, "type": "UmmSelect"}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/Protocol", "field": true, "type": "UmmSelect"}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/FullName", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/DataID", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/DataType", "field": true}]
+                    },
+                    {
+                      "type": "UmmMultiItem",
+                      "key": "/URI",
+                      "field": true,
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width"}]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -319,7 +385,7 @@
                     {
                       "type": "section",
                       "htmlClass": "col-4",
-                      "items": [{"key": "/ShortName", "field": true, "type": "UmmControlledSelect", "controlled_keyword": "platforms"}]
+                      "items": [{"key": "/ShortName", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "platforms"}]
                     },
                     {
                       "type": "section",
@@ -340,7 +406,7 @@
                         {
                           "type": "section",
                           "htmlClass": "col-4",
-                          "items": [{"key": "/ShortName", "field": true, "type": "UmmControlledSelect", "controlled_keyword": "instruments"}]
+                          "items": [{"key": "/ShortName", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "instruments"}]
                         },
                         {
                           "type": "section",
@@ -390,7 +456,7 @@
                     {
                       "type": "section",
                       "htmlClass": "col-4",
-                      "items": [{"key": "/ShortName", "type": "UmmControlledSelect", "controlled_keyword": "data_centers"}]
+                      "items": [{"key": "/ShortName", "type": "UmmControlledSelect", "controlledKeyword": "data_centers"}]
                     },
                     {
                       "type": "section",
@@ -523,13 +589,7 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/Name"}]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/Type", "type": "UmmSelect"}]
+                  "items": [{"key": "/Name", "field": true}]
                 }
               ]
             },
@@ -543,12 +603,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/SpatialResolution"}]
+                  "items": [{"key": "/SpatialResolution", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/SpatialResolutionUnit"}]
+                  "items": [{"key": "/SpatialResolutionUnit", "field": true}]
                 }
               ]
             },
@@ -562,12 +622,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/TemporalResolution"}]
+                  "items": [{"key": "/TemporalResolution", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/TemporalResolutionUnit"}]
+                  "items": [{"key": "/TemporalResolutionUnit", "field": true}]
                 }
               ]
             },
@@ -578,7 +638,7 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/RelativePath", "type": "UmmTextarea"}]
+                  "items": [{"key": "/RelativePath", "field": true, "type": "UmmTextarea"}]
                 }
               ]
             }
@@ -727,7 +787,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/Country"}]
+                  "items": [{"key": "/Country", "type": "UmmControlledSelect", "controlledKeyword": "country"}]
                 }
               ]
             },
@@ -736,8 +796,16 @@
               "htmlClass": "row",
               "items": [
                 {
-                  "type": "section",
-                  "items": [{"key": "/StreetAddresses"}]
+                  "type": "UmmSetMultiItem",
+                  "numberItems": 3,
+                  "key": "/StreetAddresses",
+                  "field": true,
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/index_id", "noLabel": true}]
+                    }
+                  ]
                 }
               ]
             },
@@ -768,7 +836,7 @@
     },
     "CoverageSpatialExtent": {
       "type": "section",
-      "htmlClass": "row sub-fields",
+      "htmlClass": "row sub-fields coverage-spatial-type-group",
       "label": "Coverage Spatial Extent",
       "key": "/CoverageSpatialExtent/properties",
       "items": [
@@ -779,18 +847,19 @@
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "/Type", "type": "UmmSelect"}]
+              "items": [{"key": "/Type", "field": true, "htmlClass": "coverage-spatial-type-select", "type": "UmmSelect"}]
             },
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "/Uuid"}]
+              "items": [{"key": "/Uuid", "field": true}]
             }
           ]
         },
         {
           "type": "section",
-          "htmlClass": "row",
+          "htmlClass": "row coverage-spatial-type spatial-points",
+          "hideUnlessValues": "SpatialPoints",
           "items": [
             {
               "type": "UmmMultiItems",
@@ -807,7 +876,8 @@
         },
         {
           "type": "section",
-          "htmlClass": "row",
+          "htmlClass": "row coverage-spatial-type spatial-line-strings",
+          "hideUnlessValues": "SpatialLineStrings",
           "items": [
             {
               "type": "UmmMultiItems",
@@ -824,7 +894,8 @@
         },
         {
           "type": "section",
-          "htmlClass": "row",
+          "htmlClass": "row coverage-spatial-type spatial-bounding-box",
+          "hideUnlessValues": "SpatialBoundingBox",
           "items": [
             {
               "type": "section",
@@ -839,7 +910,8 @@
         },
         {
           "type": "section",
-          "htmlClass": "row",
+          "htmlClass": "row coverage-spatial-type spatial-polygons",
+          "hideUnlessValues": "SpatialPolygons",
           "items": [
             {
               "type": "UmmMultiItems",
@@ -874,15 +946,15 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/TimeFormat"}]
+                  "items": [{"key": "/TimeFormat", "field": true}]
                 },
                 {
                   "type": "section",
-                  "items": [{"key": "/TimeValue"}]
+                  "items": [{"key": "/TimeValue", "field": true}]
                 },
                 {
                   "type": "section",
-                  "items": [{"key": "/Description"}]
+                  "items": [{"key": "/Description", "field": true}]
                 }
               ]
             }
@@ -902,12 +974,12 @@
         {
           "type": "section",
           "htmlClass": "col-6",
-          "items": [{"key": "/Latitude"}]
+          "items": [{"key": "/Latitude", "field": true}]
         },
         {
           "type": "section",
           "htmlClass": "col-6",
-          "items": [{"key": "/Longitude"}]
+          "items": [{"key": "/Longitude", "field": true}]
         }
       ]
     },
@@ -946,12 +1018,12 @@
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "/MinX"}]
+              "items": [{"key": "/MinX", "field": true}]
             },
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "/MaxX"}]
+              "items": [{"key": "/MaxX", "field": true}]
             }
           ]
         },
@@ -962,12 +1034,12 @@
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "/MinY"}]
+              "items": [{"key": "/MinY", "field": true}]
             },
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "/MaxY"}]
+              "items": [{"key": "/MaxY", "field": true}]
             }
           ]
         }
