@@ -16,9 +16,9 @@ describe 'Clearing saved science keywords', js: true do
       open_accordions
 
       # add_science_keywords
-      choose_keyword 'EARTH SCIENCE SERVICES'
-      choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
-      choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
+      choose_keyword 'EARTH SCIENCE'
+      choose_keyword 'ATMOSPHERE'
+      choose_keyword 'AEROSOLS'
       click_on 'Add Keyword'
 
       within '.nav-top' do
@@ -33,7 +33,7 @@ describe 'Clearing saved science keywords', js: true do
     end
 
     it 'populates the form with the values' do
-      expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+      expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > AEROSOLS')
     end
 
     context 'when removing the science keywords and saving the form' do
@@ -55,7 +55,7 @@ describe 'Clearing saved science keywords', js: true do
       end
 
       it 'does not display the removed science keywords' do
-        expect(page).to have_no_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+        expect(page).to have_no_content('EARTH SCIENCE > ATMOSPHERE > AEROSOLS')
       end
     end
   end

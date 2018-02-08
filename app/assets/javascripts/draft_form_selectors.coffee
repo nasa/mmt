@@ -142,13 +142,13 @@ $(document).ready ->
     handleTypeSelect($(this))
 
   getRelatedUrlContentTypeSelect = (selector) ->
-    $(selector).parents('.eui-accordion__body').find('.related-url-content-type-select')
+    $(selector).closest('.eui-accordion__body').find('.related-url-content-type-select')
 
   getRelatedUrlTypeSelect = (selector) ->
-    $(selector).parents('.eui-accordion__body').find('.related-url-type-select')
+    $(selector).closest('.eui-accordion__body').find('.related-url-type-select')
 
   getRelatedUrlSubtypeSelect = (selector) ->
-    $(selector).parents('.eui-accordion__body').find('.related-url-subtype-select')
+    $(selector).closest('.eui-accordion__body').find('.related-url-subtype-select')
 
   handleContentTypeSelect = (selector) ->
     contentTypeValue = $(selector).val()

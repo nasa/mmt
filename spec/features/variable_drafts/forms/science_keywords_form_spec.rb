@@ -358,9 +358,9 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
   context 'When viewing the form with 1 stored value' do
     before do
       draft_science_keywords = [{
-        'Category': 'EARTH SCIENCE SERVICES',
-        'Topic': 'DATA ANALYSIS AND VISUALIZATION',
-        'Term': 'GEOGRAPHIC INFORMATION SYSTEMS'
+        'Category': 'EARTH SCIENCE',
+        'Topic': 'ATMOSPHERIC',
+        'Term': 'ATMOSPHERIC TEMPERATURE'
       }]
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'ScienceKeywords': draft_science_keywords })
       visit edit_variable_draft_path(draft, 'science_keywords')
@@ -372,7 +372,7 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
     it 'displays the correct selected science keyword value' do
       within '.selected-science-keywords' do
-        expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+        expect(page).to have_content('EARTH SCIENCE > ATMOSPHERIC > ATMOSPHERIC TEMPERATURE')
       end
     end
 
@@ -470,7 +470,7 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
       it 'displays the correct selected science keyword value' do
         within '.selected-science-keywords' do
-          expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_content('EARTH SCIENCE > ATMOSPHERIC > ATMOSPHERIC TEMPERATURE')
         end
       end
     end
@@ -479,9 +479,9 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
   context 'When viewing the form with 2 stored values' do
     before do
       draft_science_keywords = [{
-        'Category': 'EARTH SCIENCE SERVICES',
-        'Topic': 'DATA ANALYSIS AND VISUALIZATION',
-        'Term': 'GEOGRAPHIC INFORMATION SYSTEMS'
+        'Category': 'EARTH SCIENCE',
+        'Topic': 'SOLID EARTH',
+        'Term': 'ROCKS/MINERALS/CRYSTALS'
       }, {
         'Category': 'EARTH SCIENCE',
         'Topic': 'ATMOSPHERE',
@@ -497,7 +497,7 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
     it 'displays the correct selected science keyword values' do
       within '.selected-science-keywords' do
-        expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+        expect(page).to have_content('EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS')
         expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE')
       end
     end
@@ -596,7 +596,7 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
       it 'displays the correct selected science keyword values' do
         within '.selected-science-keywords' do
-          expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_content('EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS')
           expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE')
         end
       end

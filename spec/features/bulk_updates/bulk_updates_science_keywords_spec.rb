@@ -32,7 +32,7 @@ describe 'Bulk updating Science Keywords' do
       select 'Science Keywords', from: 'Field to Update'
       select 'Find & Remove', from: 'Update Type'
 
-      select 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS', from: 'Level 1'
+      select 'SURFACE TEMPERATURE', from: 'Level 1'
 
       click_on 'Preview'
     end
@@ -44,7 +44,7 @@ describe 'Bulk updating Science Keywords' do
       expect(page).to have_content('Field to Update Science Keywords')
       expect(page).to have_content('Update Type Find And Remove')
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUEMOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+        expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUESURFACE TEMPERATURE')
       end
 
       within '.bulk-update-preview-table' do
@@ -76,7 +76,7 @@ describe 'Bulk updating Science Keywords' do
 
         within '.find-values-preview' do
           expect(page).to have_content('Find Values to Remove')
-          expect(page).to have_content('MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_content('SURFACE TEMPERATURE')
         end
 
         # we can't test the time accurately, but we can check the date
@@ -90,7 +90,7 @@ describe 'Bulk updating Science Keywords' do
 
         it 'no longer has the removed keyword' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('EARTH SCIENCE SERVICES DATA ANALYSIS AND VISUALIZATION GEOGRAPHIC INFORMATION SYSTEMS MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_no_content('EARTHSCIENCEATMOSPHEREATMOSPHERIC TEMPERATURESURFACE TEMPERATURE')
           end
         end
       end
@@ -201,7 +201,7 @@ describe 'Bulk updating Science Keywords' do
       select 'Science Keywords', from: 'Field to Update'
       select 'Find & Replace', from: 'Update Type'
 
-      select 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS', from: 'Level 1'
+      select 'SURFACE TEMPERATURE', from: 'Level 1'
 
       # Select new keyword from picker
       choose_keyword 'EARTH SCIENCE'
@@ -219,7 +219,7 @@ describe 'Bulk updating Science Keywords' do
       expect(page).to have_content('Update Type Find And Replace')
       # Find Values to Replace
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUEMOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+        expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUESURFACE TEMPERATURE')
       end
 
       # New Values
@@ -256,7 +256,7 @@ describe 'Bulk updating Science Keywords' do
 
         within '.find-values-preview' do
           expect(page).to have_content('Find Values to Replace')
-          expect(page).to have_content('MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_content('SURFACE TEMPERATURE')
         end
 
         within '.new-values-preview' do
@@ -275,7 +275,8 @@ describe 'Bulk updating Science Keywords' do
 
         it 'displays the new keyword' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('EARTH SCIENCE SERVICES DATA ANALYSIS AND VISUALIZATION GEOGRAPHIC INFORMATION SYSTEMS MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE')
+            expect(page).to have_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS')
             expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS')
           end
         end
@@ -365,8 +366,8 @@ describe 'Bulk updating Science Keywords' do
 
         it 'displays the updated keywords' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('EARTH SCIENCE SERVICES DATA ANALYSIS AND VISUALIZATION GEOGRAPHIC INFORMATION SYSTEMS MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
-            expect(page).to have_no_content('EARTH SCIENCE SERVICES DATA ANALYSIS AND VISUALIZATION GEOGRAPHIC INFORMATION SYSTEMS DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE')
+            expect(page).to have_no_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS')
             expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS')
           end
         end

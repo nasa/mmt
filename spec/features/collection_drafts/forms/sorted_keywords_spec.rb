@@ -16,32 +16,19 @@ describe 'Sorted keywords', js: true do
       open_accordions
     end
 
-    it 'displays first level keywords in alphabetical order' do
-      within '.eui-item-list-pane' do
-        within 'ul li:nth-child(2)' do
-          expect(page).to have_content('EARTH SCIENCE')
-          expect(page).to have_no_content('SERVICES')
-        end
-        within 'ul li:nth-child(3)' do
-          expect(page).to have_content('EARTH SCIENCE SERVICES')
-        end
-      end
-    end
-
     context 'when clicking to nested levels' do
       before do
-        choose_keyword 'EARTH SCIENCE SERVICES'
-        choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
-        choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
+        choose_keyword 'EARTH SCIENCE'
+        choose_keyword 'ATMOSPHERE'
       end
 
       it 'displays the nested keywords in alphabetical order' do
         within '.eui-item-list-pane' do
           within 'ul li:nth-child(2)' do
-            expect(page).to have_content('DESKTOP')
+            expect(page).to have_content('AEROSOLS')
           end
           within 'ul li:nth-child(3)' do
-            expect(page).to have_content('MOBILE')
+            expect(page).to have_content('ATMOSPHERIC TEMPERATURE')
           end
         end
       end

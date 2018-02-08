@@ -15,18 +15,18 @@ describe 'Nested item picker', js: true do
 
       click_on 'Expand All'
 
-      choose_keyword 'EARTH SCIENCE SERVICES'
-      choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
-      choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
-      choose_keyword 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
+      choose_keyword 'EARTH SCIENCE'
+      choose_keyword 'ATMOSPHERE'
+      choose_keyword 'ATMOSPHERIC TEMPERATURE'
+      choose_keyword 'SURFACE TEMPERATURE'
       click_on 'Add Keyword'
     end
 
     it 'generates the correct hidden fields' do
-      expect(page.find('input[id^="draft_science_keywords_"][id$="_category"]', visible: false).value).to eq('EARTH SCIENCE SERVICES')
-      expect(page.find('input[id^="draft_science_keywords_"][id$="_topic"]', visible: false).value).to eq('DATA ANALYSIS AND VISUALIZATION')
-      expect(page.find('input[id^="draft_science_keywords_"][id$="_term"]', visible: false).value).to eq('GEOGRAPHIC INFORMATION SYSTEMS')
-      expect(page.find('input[id^="draft_science_keywords_"][id$="_variable_level_1"]', visible: false).value).to eq('MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+      expect(page.find('input[id^="draft_science_keywords_"][id$="_category"]', visible: false).value).to eq('EARTH SCIENCE')
+      expect(page.find('input[id^="draft_science_keywords_"][id$="_topic"]', visible: false).value).to eq('ATMOSPHERE')
+      expect(page.find('input[id^="draft_science_keywords_"][id$="_term"]', visible: false).value).to eq('ATMOSPHERIC TEMPERATURE')
+      expect(page.find('input[id^="draft_science_keywords_"][id$="_variable_level_1"]', visible: false).value).to eq('SURFACE TEMPERATURE')
     end
   end
 

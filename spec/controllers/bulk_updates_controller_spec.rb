@@ -138,10 +138,10 @@ describe BulkUpdatesController, reset_provider: true do
                  'VariableLevel2': 'test'
                },
                'update_value': {
-                 'Category': 'EARTH SCIENCE SERVICES',
-                 'Topic': 'DATA ANALYSIS AND VISUALIZATION',
-                 'Term': 'GEOGRAPHIC INFORMATION SYSTEMS',
-                 'VariableLevel1': 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+                 'Category': 'EARTH SCIENCE',
+                 'Topic': 'ATMOSPHERE',
+                 'Term': 'ATMOSPHERIC TEMPERATURE',
+                 'VariableLevel1': 'SURFACE TEMPERATURE'
                }
         end
 
@@ -157,10 +157,10 @@ describe BulkUpdatesController, reset_provider: true do
               'VariableLevel2' => 'test'
             },
             'update-value' => {
-              'Category' => 'EARTH SCIENCE SERVICES',
-              'Topic' => 'DATA ANALYSIS AND VISUALIZATION',
-              'Term' => 'GEOGRAPHIC INFORMATION SYSTEMS',
-              'VariableLevel1' => 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+              'Category' => 'EARTH SCIENCE',
+              'Topic' => 'ATMOSPHERE',
+              'Term' => 'ATMOSPHERIC TEMPERATURE',
+              'VariableLevel1' => 'SURFACE TEMPERATURE'
             }
           )
         end
@@ -181,10 +181,10 @@ describe BulkUpdatesController, reset_provider: true do
                'update_field': 'bad_update_field',
                'update_type': 'BAD_UPDATE_TYPE',
                'update_value': {
-                 'Category': 'EARTH SCIENCE SERVICES',
-                 'Topic': 'DATA ANALYSIS AND VISUALIZATION',
-                 'Term': 'GEOGRAPHIC INFORMATION SYSTEMS',
-                 'VariableLevel1': 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+                 'Category': 'EARTH SCIENCE',
+                 'Topic': 'ATMOSPHERE',
+                 'Term': 'ATMOSPHERIC TEMPERATURE',
+                 'VariableLevel1': 'SURFACE TEMPERATURE'
                }
 
         end

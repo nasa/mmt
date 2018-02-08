@@ -611,33 +611,20 @@ FactoryGirl.define do
         'ISBN'  => '9876543210987'
       }],
       'ScienceKeywords' => [{
-        'Category' => 'EARTH SCIENCE SERVICES',
-        'Topic'    => 'DATA ANALYSIS AND VISUALIZATION',
-        'Term'     => 'GEOGRAPHIC INFORMATION SYSTEMS'
-      }, {
-        'Category'       => 'EARTH SCIENCE SERVICES',
-        'Topic'          => 'DATA ANALYSIS AND VISUALIZATION',
-        'Term'           => 'GEOGRAPHIC INFORMATION SYSTEMS',
-        'VariableLevel1' => 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
-      }, {
-        'Category'       => 'EARTH SCIENCE SERVICES',
-        'Topic'          => 'DATA ANALYSIS AND VISUALIZATION',
-        'Term'           => 'GEOGRAPHIC INFORMATION SYSTEMS',
-        'VariableLevel1' => 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
-      }, {
-        'Category'       => 'EARTH SCIENCE',
-        'Topic'          => 'ATMOSPHERE',
-        'Term'           => 'AEROSOLS',
-        'VariableLevel1' => 'AEROSOL OPTICAL DEPTH/THICKNESS',
-        'VariableLevel2' => 'ANGSTROM EXPONENT'
-      }, {
         'Category'       => 'EARTH SCIENCE',
         'Topic'          => 'ATMOSPHERE',
         'Term'           => 'ATMOSPHERIC TEMPERATURE',
         'VariableLevel1' => 'SURFACE TEMPERATURE',
         'VariableLevel2' => 'MAXIMUM/MINIMUM TEMPERATURE',
         'VariableLevel3' => '24 HOUR MAXIMUM TEMPERATURE'
-      }],
+      }, {
+        'Category'       => 'EARTH SCIENCE',
+        'Topic'          => 'SOLID EARTH',
+        'Term'           => 'ROCKS/MINERALS/CRYSTALS',
+        'VariableLevel1' => 'SEDIMENTARY ROCKS',
+        'VariableLevel2' => 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES',
+        'VariableLevel3' => 'LUMINESCENCE'
+        }],
       'AncillaryKeywords' => ['Ancillary keyword 1', 'Ancillary keyword 2'],
       'AdditionalAttributes' => [{
         'Name'                     => 'Attribute 1',

@@ -28,12 +28,12 @@ describe 'Science Keywords Facets with Bulk Updates' do
     end
 
     it 'contains the expected facets options in the select fields' do
-      expect(page).to have_select('Category', with_options: ['EARTH SCIENCE', 'EARTH SCIENCE SERVICES'])
-      expect(page).to have_select('Topic', with_options: ['DATA ANALYSIS AND VISUALIZATION', 'ATMOSPHERE'])
-      expect(page).to have_select('Term', with_options: ['GEOGRAPHIC INFORMATION SYSTEMS', 'AEROSOLS', 'ATMOSPHERIC TEMPERATURE'])
-      expect(page).to have_select('VariableLevel1', with_options: ['DESKTOP GEOGRAPHIC INFORMATION SYSTEMS', 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS', 'AEROSOL OPTICAL DEPTH/THICKNESS', 'SURFACE TEMPERATURE'])
-      expect(page).to have_select('VariableLevel2', with_options: ['ANGSTROM EXPONENT', 'MAXIMUM/MINIMUM TEMPERATURE'])
-      expect(page).to have_select('VariableLevel3', with_options: ['24 HOUR MAXIMUM TEMPERATURE'])
+      expect(page).to have_select('Category', with_options: ['EARTH SCIENCE'])
+      expect(page).to have_select('Topic', with_options: ['ATMOSPHERE', 'SOLID EARTH'])
+      expect(page).to have_select('Term', with_options: ['AEROSOLS', 'ATMOSPHERIC TEMPERATURE', 'ROCKS/MINERALS/CRYSTALS'])
+      expect(page).to have_select('VariableLevel1', with_options: ['AEROSOL OPTICAL DEPTH/THICKNESS', 'SURFACE TEMPERATURE', 'SEDIMENTARY ROCKS'])
+      expect(page).to have_select('VariableLevel2', with_options: ['ANGSTROM EXPONENT', 'MAXIMUM/MINIMUM TEMPERATURE', 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES'])
+      expect(page).to have_select('VariableLevel3', with_options: ['24 HOUR MAXIMUM TEMPERATURE', 'LUMINESCENCE'])
     end
 
     context 'when first choosing an option at a higher hierarchy level' do
@@ -50,21 +50,24 @@ describe 'Science Keywords Facets with Bulk Updates' do
       end
 
       it 'disables the facets options not related to the selection' do
-        within '#Category' do
-          expect(page).to have_css('option[disabled]', text: 'EARTH SCIENCE SERVICES')
-        end
-
         within '#Topic' do
-          expect(page).to have_css('option[disabled]', text: 'DATA ANALYSIS AND VISUALIZATION')
+          expect(page).to have_css('option[disabled]', text: 'SOLID EARTH')
         end
 
         within '#Term' do
-          expect(page).to have_css('option[disabled]', text: 'GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_css('option[disabled]', text: 'ROCKS/MINERALS/CRYSTALS')
         end
 
         within '#VariableLevel1' do
-          expect(page).to have_css('option[disabled]', text: 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
-          expect(page).to have_css('option[disabled]', text: 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_css('option[disabled]', text: 'SEDIMENTARY ROCKS')
+        end
+
+        within '#VariableLevel2' do
+          expect(page).to have_css('option[disabled]', text: 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES')
+        end
+
+        within '#VariableLevel3' do
+          expect(page).to have_css('option[disabled]', text: 'LUMINESCENCE')
         end
       end
 
@@ -78,27 +81,27 @@ describe 'Science Keywords Facets with Bulk Updates' do
         end
 
         it 'disables more options unrelated to the new selection' do
-          within '#Category' do
-            expect(page).to have_css('option[disabled]', text: 'EARTH SCIENCE SERVICES')
-          end
-
           within '#Topic' do
-            expect(page).to have_css('option[disabled]', text: 'DATA ANALYSIS AND VISUALIZATION')
+            expect(page).to have_css('option[disabled]', text: 'SOLID EARTH')
           end
 
           within '#Term' do
-            expect(page).to have_css('option[disabled]', text: 'GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_css('option[disabled]', text: 'ROCKS/MINERALS/CRYSTALS')
             expect(page).to have_css('option[disabled]', text: 'AEROSOLS')
           end
 
           within '#VariableLevel1' do
-            expect(page).to have_css('option[disabled]', text: 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
-            expect(page).to have_css('option[disabled]', text: 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_css('option[disabled]', text: 'SEDIMENTARY ROCKS')
             expect(page).to have_css('option[disabled]', text: 'AEROSOL OPTICAL DEPTH/THICKNESS')
           end
 
           within '#VariableLevel2' do
+            expect(page).to have_css('option[disabled]', text: 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES')
             expect(page).to have_css('option[disabled]', text: 'ANGSTROM EXPONENT')
+          end
+
+          within '#VariableLevel3' do
+            expect(page).to have_css('option[disabled]', text: 'LUMINESCENCE')
           end
         end
 
@@ -122,39 +125,38 @@ describe 'Science Keywords Facets with Bulk Updates' do
           it 'enables all the facets options' do
             within '#Category' do
               expect(page).to have_css('option:not([disabled])', text: 'EARTH SCIENCE')
-              expect(page).to have_css('option:not([disabled])', text: 'EARTH SCIENCE SERVICES')
             end
 
             within '#Topic' do
               expect(page).to have_css('option:not([disabled])', text: 'ATMOSPHERE')
-              expect(page).to have_css('option:not([disabled])', text: 'DATA ANALYSIS AND VISUALIZATION')
+              expect(page).to have_css('option:not([disabled])', text: 'SOLID EARTH')
             end
 
             within '#Term' do
               expect(page).to have_css('option:not([disabled])', text: 'AEROSOLS')
               expect(page).to have_css('option:not([disabled])', text: 'ATMOSPHERIC TEMPERATURE')
-              expect(page).to have_css('option:not([disabled])', text: 'GEOGRAPHIC INFORMATION SYSTEMS')
+              expect(page).to have_css('option:not([disabled])', text: 'ROCKS/MINERALS/CRYSTALS')
             end
 
             within '#VariableLevel1' do
               expect(page).to have_css('option:not([disabled])', text: 'AEROSOL OPTICAL DEPTH/THICKNESS')
-              expect(page).to have_css('option:not([disabled])', text: 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
-              expect(page).to have_css('option:not([disabled])', text: 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
               expect(page).to have_css('option:not([disabled])', text: 'SURFACE TEMPERATURE')
+              expect(page).to have_css('option:not([disabled])', text: 'SEDIMENTARY ROCKS')
             end
 
             within '#VariableLevel2' do
+              expect(page).to have_css('option:not([disabled])', text: 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES')
               expect(page).to have_css('option:not([disabled])', text: 'ANGSTROM EXPONENT')
               expect(page).to have_css('option:not([disabled])', text: 'MAXIMUM/MINIMUM TEMPERATURE')
             end
 
             within '#VariableLevel3' do
               expect(page).to have_css('option:not([disabled])', text: '24 HOUR MAXIMUM TEMPERATURE')
+              expect(page).to have_css('option:not([disabled])', text: 'LUMINESCENCE')
             end
           end
         end
       end
-
     end
 
     context 'when first choosing a facets option at a lower hierarchy level' do
@@ -171,31 +173,28 @@ describe 'Science Keywords Facets with Bulk Updates' do
       end
 
       it 'disables all the facets options unrelated to the selection' do
-        within '#Category' do
-          expect(page).to have_css('option[disabled]', text: 'EARTH SCIENCE SERVICES')
-        end
-
         within '#Topic' do
-          expect(page).to have_css('option[disabled]', text: 'DATA ANALYSIS AND VISUALIZATION')
+          expect(page).to have_css('option[disabled]', text: 'SOLID EARTH')
         end
 
         within '#Term' do
-          expect(page).to have_css('option[disabled]', text: 'GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_css('option[disabled]', text: 'ROCKS/MINERALS/CRYSTALS')
           expect(page).to have_css('option[disabled]', text: 'ATMOSPHERIC TEMPERATURE')
         end
 
         within '#VariableLevel1' do
-          expect(page).to have_css('option[disabled]', text: 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
-          expect(page).to have_css('option[disabled]', text: 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_css('option[disabled]', text: 'SEDIMENTARY ROCKS')
           expect(page).to have_css('option[disabled]', text: 'SURFACE TEMPERATURE')
         end
 
         within '#VariableLevel2' do
           expect(page).to have_css('option[disabled]', text: 'MAXIMUM/MINIMUM TEMPERATURE')
+          expect(page).to have_css('option[disabled]', text: 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES')
         end
 
         within '#VariableLevel3' do
           expect(page).to have_css('option[disabled]', text: '24 HOUR MAXIMUM TEMPERATURE')
+          expect(page).to have_css('option[disabled]', text: 'LUMINESCENCE')
         end
       end
 
@@ -209,31 +208,28 @@ describe 'Science Keywords Facets with Bulk Updates' do
         end
 
         it 'has all the same facets options disabled' do
-          within '#Category' do
-            expect(page).to have_css('option[disabled]', text: 'EARTH SCIENCE SERVICES')
-          end
-
           within '#Topic' do
-            expect(page).to have_css('option[disabled]', text: 'DATA ANALYSIS AND VISUALIZATION')
+            expect(page).to have_css('option[disabled]', text: 'SOLID EARTH')
           end
 
           within '#Term' do
-            expect(page).to have_css('option[disabled]', text: 'GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_css('option[disabled]', text: 'ROCKS/MINERALS/CRYSTALS')
             expect(page).to have_css('option[disabled]', text: 'ATMOSPHERIC TEMPERATURE')
           end
 
           within '#VariableLevel1' do
-            expect(page).to have_css('option[disabled]', text: 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
-            expect(page).to have_css('option[disabled]', text: 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_css('option[disabled]', text: 'SEDIMENTARY ROCKS')
             expect(page).to have_css('option[disabled]', text: 'SURFACE TEMPERATURE')
           end
 
           within '#VariableLevel2' do
             expect(page).to have_css('option[disabled]', text: 'MAXIMUM/MINIMUM TEMPERATURE')
+            expect(page).to have_css('option[disabled]', text: 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES')
           end
 
           within '#VariableLevel3' do
             expect(page).to have_css('option[disabled]', text: '24 HOUR MAXIMUM TEMPERATURE')
+            expect(page).to have_css('option[disabled]', text: 'LUMINESCENCE')
           end
         end
       end

@@ -294,9 +294,9 @@ def all_required_fields
       'ProcessingLevelDescription' => 'Level 5 Description'
     },
     'ScienceKeywords' => [{
-      'Category' => 'EARTH SCIENCE SERVICES',
-      'Topic' => 'DATA ANALYSIS AND VISUALIZATION',
-      'Term' => 'GEOGRAPHIC INFORMATION SYSTEMS'
+      'Category' => 'EARTH SCIENCE',
+      'Topic' => 'ATMOSPHERE',
+      'Term' => 'ATMOSPHERIC TEMPERATURE'
     }],
     'SpatialExtent' => {
       'GranuleSpatialRepresentation' => 'CARTESIAN'
