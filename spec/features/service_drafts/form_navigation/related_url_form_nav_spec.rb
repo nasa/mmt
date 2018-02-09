@@ -87,7 +87,7 @@ describe 'Related URL Form Navigation', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Descriptive Keywords')
+          expect(page).to have_content('Science and Ancillary Keywords')
         end
 
         within '.umm-form' do
@@ -95,11 +95,11 @@ describe 'Related URL Form Navigation', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
         end
       end
     end
@@ -140,32 +140,32 @@ describe 'Related URL Form Navigation', reset_provider: true, js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Descriptive Keywords', from: 'Save & Jump To:'
+          select 'Service Keywords', from: 'Save & Jump To:'
         end
 
         click_on 'Yes'
       end
 
-      it 'saves the draft and loads the next form' do
+      it 'saves the draft and loads the form' do
         within '.eui-banner--success' do
           expect(page).to have_content('Service Draft Updated Successfully!')
         end
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Descriptive Keywords')
+          expect(page).to have_content('Service Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Service Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
         end
       end
     end
@@ -260,7 +260,7 @@ describe 'Related URL Form Navigation', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Descriptive Keywords')
+          expect(page).to have_content('Science and Ancillary Keywords')
         end
 
         within '.umm-form' do
@@ -268,11 +268,11 @@ describe 'Related URL Form Navigation', reset_provider: true, js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
         end
       end
     end

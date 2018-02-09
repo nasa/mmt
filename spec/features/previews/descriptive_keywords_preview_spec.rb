@@ -25,12 +25,9 @@ describe 'Descriptive keywords preview' do
       it 'displays the metadata' do
         within 'ul.science-keywords-preview li.science-keywords' do
           within all('ul.arrow-tag-group-list')[0] do
-            expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS AEROSOL OPTICAL DEPTH/THICKNESS ANGSTROM EXPONENT')
-          end
-          within all('ul.arrow-tag-group-list')[1] do
             expect(page).to have_content('EARTH SCIENCE ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE MAXIMUM/MINIMUM TEMPERATURE 24 HOUR MAXIMUM TEMPERATURE')
           end
-          within all('ul.arrow-tag-group-list')[2] do
+          within all('ul.arrow-tag-group-list')[1] do
             expect(page).to have_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES LUMINESCENCE')
           end
         end

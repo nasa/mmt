@@ -182,7 +182,7 @@ $(document).ready ->
   handleTypeSelect = (selector) ->
     typeValue = $(selector).val()
 
-    $parent = $(selector).parents('.eui-accordion__body')
+    $parent = $(selector).closest('.eui-accordion__body')
     $parent.find('.get-data-fields, .get-service-fields').hide()
 
     if typeValue?.length > 0
