@@ -47,5 +47,3 @@ class UmmControlledSelect < UmmSelect
     @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
   end
 end
-
-# TODO this is calling CMR for every controlled keyword field on the form
