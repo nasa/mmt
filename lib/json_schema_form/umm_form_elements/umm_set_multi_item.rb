@@ -28,14 +28,16 @@ class UmmSetMultiItem < UmmMultiItem
   end
 
   def render_markup
-    content_tag(:div, class: "multiple simple-multiple #{form_fragment['key'].underscore.dasherize}") do
+    content_tag(:div, class: "multiple simple-multiple #{form_class}") do
+      indexes = options.fetch('indexes', [])
+
       values = Array.wrap(element_value)
       values = [] if values.empty?
       values += Array.new(number_of_items)
       values[0..2].each_with_index do |value, index|
         concat(content_tag(:div, class: "multiple-item multiple-item-#{index}") do
           form_fragment['items'].each do |property|
-            concat UmmForm.new(form_section_json: property, json_form: json_form, schema: schema, options: { 'index' => index }, key: full_key, field_value: value).render_markup
+            concat UmmForm.new(form_section_json: property, json_form: json_form, schema: schema, options: { 'indexes' => indexes + [index] }, key: full_key, field_value: value).render_markup
           end
         end)
       end

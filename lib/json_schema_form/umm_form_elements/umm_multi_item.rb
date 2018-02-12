@@ -9,8 +9,16 @@ class UmmMultiItem < UmmFormElement
     Array.wrap(element_value).reject(&:empty?).any?
   end
 
+  def last_key
+    form_fragment.fetch('key', '').split('/').last
+  end
+
   def form_title
-    form_fragment.fetch('key', '').split('/').last.titleize.singularize
+    last_key.titleize.singularize
+  end
+
+  def form_class
+    last_key.underscore.dasherize
   end
 
   def render_preview
@@ -32,7 +40,7 @@ class UmmMultiItem < UmmFormElement
   end
 
   def render_markup
-    content_tag(:div, class: "multiple simple-multiple #{form_fragment['key'].underscore.dasherize}") do
+    content_tag(:div, class: "multiple simple-multiple #{form_class}") do
       values = Array.wrap(element_value)
       values = [''] if values.empty?
       values.each_with_index do |value, index|
