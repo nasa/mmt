@@ -27,7 +27,7 @@ $(document).ready ->
       # multiple-item is a collection of fields
 
       # Remove any extra multiple-item, should only be one per .multiple
-      $.each $(newDiv).find('.multiple').not('.multiple.addresses-street-addresses'), (index, multiple) ->
+      $.each $(newDiv).find('.multiple').not('.multiple.addresses-street-addresses, .multiple.street-addresses'), (index, multiple) ->
         $.each $(multiple).children('.multiple-item'), (index2) ->
           if index2 > 0
             $(this).remove()

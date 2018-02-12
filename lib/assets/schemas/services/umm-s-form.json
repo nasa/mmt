@@ -216,6 +216,7 @@
                 {
                   "type": "section",
                   "htmlClass": "row sub-fields get-data-fields",
+                  "label": "Get Data",
                   "key": "/GetData/properties",
                   "items": [
                     {
@@ -243,6 +244,7 @@
                 {
                   "type": "section",
                   "htmlClass": "row sub-fields get-service-fields",
+                  "label": "Get Service",
                   "key": "/GetService/properties",
                   "items": [
                     {

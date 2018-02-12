@@ -179,7 +179,12 @@ class UmmForm < JsonObj
     key = parsed_json['help']
     # key ||= parsed_json['key']
     key ||= full_key
-    "properties/#{json_form.element_path_for_object(key, ignore_keys: %w(index_id)).join('/')}"
+    path = json_form.element_path_for_object(key, ignore_keys: %w(index_id))
+
+    # Remove "/items/properties" if the path ends with it
+    path.pop if path.last == 'properties'
+    path.pop if path.last == 'items'
+    "properties/#{path.join('/')}"
   end
 
   # Get the value for the provided key from the provided object
