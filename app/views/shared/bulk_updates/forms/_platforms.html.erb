@@ -1,22 +1,24 @@
 <h2>Platforms</h2>
 
 <fieldset>
-  <%= update_type_select('platforms') %>
+  <%= update_type_select('platforms', @task) %>
 </fieldset>
 
-<fieldset class="bulk-updates-find is-hidden">
+<fieldset class="bulk-updates-find <%= 'is-hidden' unless show_find_value('platforms', @task) %>">
   <h4 class="title">Find Platform</h4>
   <p class="form-description space-bot">Update all collections that have platforms that match the criteria specified below.</p>
 
   <div class="row">
     <div class="col-6">
       <%= label_tag 'find_value[ShortName]', 'Short Name' %>
-      <%= text_field_tag('find_value[ShortName]', nil, class: 'full-width required') %>
+      <%= text_field_tag('find_value[ShortName]',
+                          repopulate_find_value(@task, 'platforms', 'ShortName'),
+                          class: 'full-width required') %>
     </div>
   </div>
 </fieldset>
 
-<fieldset class="bulk-updates-value is-hidden">
+<fieldset class="bulk-updates-value <%= 'is-hidden' unless show_update_value('platforms', @task) %>">
   <h4 class="title">New Platform</h4>
   <p class="form-description space-bot"></p>
 
@@ -41,6 +43,7 @@
       name: 'short_name',
       title: 'Short Name',
       prefix: '|update_value|_',
+      value: repopulate_update_value(@task, 'platforms', 'ShortName'),
       options: @platform_types.map { |platform| [platform[:type], platform[:short_names].map { |sn| [sn[:short_name], 'data-long-name' => sn[:long_name], 'data-type' => platform[:type]] }]},
       grouped: true,
       classes: 'select2-select platform-short-name-select required',
@@ -55,6 +58,7 @@
       name: 'long_name',
       title: 'Long Name',
       prefix: '|update_value|_',
+      value: repopulate_update_value(@task, 'platforms', 'LongName'),
       classes: 'platform-long-name readonly',
       readonly: true
       ) %>

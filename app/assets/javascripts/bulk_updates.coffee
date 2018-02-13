@@ -199,6 +199,9 @@ $(document).ready ->
         'name':
           required: true
           maxlength: 255
+          remote:
+            url: '/bulk_updates/check_task_name'
+            method: 'POST'
         'update_field':
           required: true
         'update_type':
@@ -281,6 +284,7 @@ $(document).ready ->
       messages:
         'name':
           required: 'Name is required.'
+          remote: 'Name must be unique within a provider.'
         'update_field':
           required: 'Update Field is required.'
         'update_type':
@@ -344,6 +348,13 @@ $(document).ready ->
           element.siblings('.select2-container').append(error)
         else
           error.insertAfter(element)
+
+
+    # on load, disable the inputs from partials that are hidden
+    $('.bulk-update-partial').each ->
+      if $(this).hasClass('is-hidden')
+        $update_field_selector = "#" + $(this)[0].id
+        hideAndClear($update_field_selector)
 
     # Handle the hiding and showing of the appropriate form
     # partial for the collection field being updated

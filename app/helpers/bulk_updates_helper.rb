@@ -202,13 +202,62 @@ module BulkUpdatesHelper
     DetailedLocation
   ].freeze
 
-  def update_type_select(field_to_update)
+  def update_type_select(field_to_update, task)
     # Construct the options for the select including the data attributes
     options = BulkUpdatesHelper::UPDATE_TYPES.map do |option, values|
       [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]] if values[:valid_fields].include?(field_to_update)
     end.compact
 
-    label_tag('update_type', 'Update Type') + select_tag('update_type', options_for_select(options), prompt: 'Select an Update Type')
+    value = update_type_value(field_to_update, task)
+
+    label_tag('update_type', 'Update Type') + select_tag('update_type', options_for_select(options, value), prompt: 'Select an Update Type')
+  end
+
+  def update_type_value(field_to_update, task)
+    return nil if task.blank? || field_to_update != task.fetch(:update_field, nil)
+    task.fetch(:update_type, nil)
+  end
+
+  def update_field_value(task)
+    return nil if task.blank?
+    task.fetch(:update_field, nil)
+  end
+
+  def show_updateable_field(field, task)
+    task[:update_field] == field
+  end
+
+  # Requirements from the Bulk Updates Wiki
+  # IF type FIND_AND_REMOVE or FIND_AND_REPLACE or FIND_AND_UPDATE, Find value required
+  def show_find_value(field_to_update, task)
+    return nil unless field_to_update == task[:update_field]
+
+    task[:update_type].upcase.start_with?('FIND')
+  end
+
+  # IF NOT type FIND_AND_REMOVE, New value required
+  def show_update_value(field_to_update, task)
+    return nil unless field_to_update == task[:update_field]
+
+    task[:update_type].upcase != 'FIND_AND_REMOVE'
+  end
+
+  def repopulate_find_value(task, field_to_update, find_field)
+    return nil if task.blank?
+    return nil unless show_find_value(field_to_update, task)
+
+    task.fetch(:find_value, {}).fetch(find_field, nil)
+  end
+
+  def repopulate_update_value(task, field_to_update, new_field)
+    return nil if task.blank?
+    return nil unless show_update_value(field_to_update, task)
+
+    if field_to_update == 'data_centers' && (new_field == 'URLContentType' || new_field == 'Type' || new_field == 'URL')
+      task.fetch(:update_value, {}).fetch('ContactInformation', {}).fetch('RelatedUrls', [{}]).first.fetch(new_field, nil)
+    else
+      task.fetch(:update_value, {}).fetch(new_field, nil)
+    end
   end
 
   def display_value_title(update_type, value_type)

@@ -48,6 +48,8 @@ Rails.application.routes.draw do
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
 
+  get '/bulk_updates/check_task_name' => 'bulk_updates#check_task_name'
+  post '/bulk_updates/check_task_name' => 'bulk_updates#check_task_name'
   resources :bulk_updates, only: [:index, :show, :create] do
     collection do
       match 'new', via: [:get, :post], as: 'new'
