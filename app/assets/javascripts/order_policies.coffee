@@ -80,7 +80,7 @@ $(document).ready ->
       # Not providing any concept ids will result in all items coming back, avoid that
       $.ajax '/provider_collections',
         method: 'POST'
-        data: 
+        data:
           concept_id: selectedValues
           page_size: selectedValues.length
         success: (data) ->
@@ -100,7 +100,7 @@ $(document).ready ->
           element.closest('div').append(error)
         else
           error.insertAfter(element)
-          
+
       rules:
         retry_attempts:
           required: true

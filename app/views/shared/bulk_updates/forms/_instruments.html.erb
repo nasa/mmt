@@ -1,22 +1,24 @@
 <h2>Platforms</h2>
 
 <fieldset>
-  <%= update_type_select('instruments') %>
+  <%= update_type_select('instruments', @task) %>
 </fieldset>
 
-<fieldset class="bulk-updates-find is-hidden">
+<fieldset class="bulk-updates-find <%= 'is-hidden' unless show_find_value('instruments', @task) %>">
   <h4 class="title">Find Instrument</h4>
   <p class="form-description space-bot"> Update all collections that have instruments that match the criteria specified below.</p>
 
   <div class="row">
     <div class="col-6">
       <%= label_tag 'find_value[ShortName]', 'Short Name' %>
-      <%= text_field_tag('find_value[ShortName]', nil, class: 'full-width required') %>
+      <%= text_field_tag('find_value[ShortName]',
+                         repopulate_find_value(@task, 'instruments', 'ShortName'),
+                         class: 'full-width required') %>
     </div>
   </div>
 </fieldset>
 
-<fieldset class="bulk-updates-value is-hidden">
+<fieldset class="bulk-updates-value <%= 'is-hidden' unless show_update_value('instruments', @task) %>">
   <h4 class="title">New Instrument</h4>
   <p class="form-description space-bot"></p>
 
@@ -26,6 +28,7 @@
       name: 'short_name',
       title: 'Short Name',
       prefix: '|update_value|_',
+      value: repopulate_update_value(@task, 'instruments', 'ShortName'),
       options: @instruments.map { |instrument| [instrument[:short_name], instrument[:short_name], { 'data-long-name' => instrument[:long_name] }] },
       classes: 'select2-select instrument-short-name-select',
       always_required: true
@@ -37,6 +40,7 @@
       name: 'long_name',
       title: 'Long Name',
       prefix: '|update_value|_',
+      value: repopulate_update_value(@task, 'instruments', 'LongName'),
       classes: 'instrument-long-name readonly',
       readonly: true
      ) %>
