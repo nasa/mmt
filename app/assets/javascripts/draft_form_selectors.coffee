@@ -255,12 +255,6 @@ $(document).ready ->
 
     $parent.find('.coverage-spatial-type').hide()
 
-    # Clear all fields
-    $parent.find('.coverage-spatial-type').find('input, select').not('input[type="radio"]').val ''
-
-    # Clear radio buttons
-    $parent.find('.coverage-spatial-type').find('input[type="radio"]').prop 'checked', false
-
     switch $(element).val()
       when 'SPATIAL_POINT'
         $parent.find('.coverage-spatial-type.spatial-points').show()
@@ -270,6 +264,12 @@ $(document).ready ->
         $parent.find('.coverage-spatial-type.spatial-bounding-box').show()
       when 'SPATIAL_POLYGON'
         $parent.find('.coverage-spatial-type.spatial-polygons').show()
+
+    # Clear all hidden fields
+    $parent.find('.coverage-spatial-type:hidden').find('input, select').not('input[type="radio"]').val ''
+
+    # Clear radio buttons
+    $parent.find('.coverage-spatial-type:hidden').find('input[type="radio"]').prop 'checked', false
 
   # Handle SpatialCoverageType selector
   $('.coverage-spatial-type-select').change ->

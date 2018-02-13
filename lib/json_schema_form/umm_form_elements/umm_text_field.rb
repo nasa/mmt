@@ -4,7 +4,8 @@ class UmmTextField < UmmFormElement
     value = if full_key.ends_with?('index_id')
               field_value
             elsif full_key.index('index_id')
-              field_value[full_key.split('/').last]
+              path = json_form.element_path_for_object(full_key.split('index_id/').last)
+              path.reduce(field_value) { |a, e| a.fetch(e, {}) }
             else
               element_value
             end

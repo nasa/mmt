@@ -13,6 +13,10 @@ class UmmMultiItems < UmmFormElement
     form_fragment.fetch('multiType', '').split('/').last.titleize.singularize
   end
 
+  def type_title
+    parsed_json.fetch('typeOverride', form_title)
+  end
+
   def render_preview
     capture do
       values = Array.wrap(element_value)
@@ -42,7 +46,7 @@ class UmmMultiItems < UmmFormElement
       end
 
       concat(content_tag(:div, class: 'actions') do
-        button = UmmButton.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: { 'button_text' => "Add another #{form_title}", 'classes' => 'eui-btn--blue add-new' }).render_markup
+        button = UmmButton.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: { 'button_text' => "Add another #{type_title}", 'classes' => 'eui-btn--blue add-new' }).render_markup
 
         concat button
       end)
@@ -60,10 +64,10 @@ class UmmMultiItems < UmmFormElement
     content_tag(:div, class: 'eui-accordion__header') do
       concat(content_tag(:div, class: 'eui-accordion__icon', tabindex: '0') do
         concat content_tag(:i, '', class: 'eui-icon eui-fa-chevron-circle-down')
-        concat content_tag(:span, "Toggle #{form_title} #{index + 1}", class: 'eui-sr-only')
+        concat content_tag(:span, "Toggle #{type_title} #{index + 1}", class: 'eui-sr-only')
       end)
 
-      concat content_tag(:span, "#{form_title} #{index + 1}", class: 'header-title')
+      concat content_tag(:span, "#{type_title} #{index + 1}", class: 'header-title')
 
       concat(content_tag(:div, class: 'actions') do
         UmmRemoveLink.new(form_section_json: parsed_json, json_form: json_form, schema: schema, options: { 'name' => title }).render_markup

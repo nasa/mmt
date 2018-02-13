@@ -14,15 +14,14 @@ describe 'Acquisition Information Form Navigation', reset_provider: true, js: tr
 
     it 'displays the correct prompt value for all select elements' do
       within '.umm-form' do
-        # TODO uncomment after adding controlled keywords to platforms/instruments
-        # expect(page).to have_select('service_draft_draft_platforms_0_short_name', selected: 'Select a Short Name')
-        # expect(page).to have_select('service_draft_draft_platforms_0_instruments_0_short_name', selected: 'Select a Short Name')
+        expect(page).to have_select('service_draft_draft_platforms_0_short_name', selected: 'Select a Short Name')
+        expect(page).to have_select('service_draft_draft_platforms_0_instruments_0_short_name', selected: 'Select a Short Name')
       end
     end
 
     it 'displays the correct title and description' do
       within '.umm-form' do
-        # expect(page).to have_content('Acquisition Information')
+        expect(page).to have_content('Platforms')
       end
     end
 

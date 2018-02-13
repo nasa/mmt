@@ -245,6 +245,7 @@ class UmmJsonForm < JsonFile
   # * +value+ - The value to convert to the specified type
   # * +type+ - The type to convert the value to
   def convert_key_to_type(value, type)
+    # TODO This type is passing in a schema, not a simple 'number' or 'integer'
     Rails.logger.debug "Convert `#{value}` to a #{type}"
 
     # Booleans

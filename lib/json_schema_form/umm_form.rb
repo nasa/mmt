@@ -193,7 +193,7 @@ class UmmForm < JsonObj
     # provided key that could be nested
     # path = json_form.element_path_for_object(parsed_json['key'])
     path = json_form.element_path_for_object(full_key, ignore_keys: %w(items properties))
-    path.pop() if path.last == 'index_id'
+    path.pop if path.last == 'index_id'
 
     # If an index is provided, insert it into the path
     unless options['index'].nil?

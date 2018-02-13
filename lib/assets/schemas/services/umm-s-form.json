@@ -888,15 +888,7 @@
           "hideUnlessValues": "SpatialLineStrings",
           "items": [
             {
-              "type": "UmmMultiItems",
-              "multiType": "SpatialLineStrings",
-              "label": "Spatial Line Strings",
-              "key": "/SpatialLineStrings/items/properties/index_id",
-              "items": [
-                {
-                  "$ref": "#/definitions/LineString"
-                }
-              ]
+              "$ref": "#/definitions/LineString"
             }
           ]
         },
@@ -906,13 +898,7 @@
           "hideUnlessValues": "SpatialBoundingBox",
           "items": [
             {
-              "type": "section",
-              "key": "/SpatialBoundingBox/properties",
-              "items": [
-                {
-                  "$ref": "#/definitions/BBox"
-                }
-              ]
+              "$ref": "#/definitions/BBox"
             }
           ]
         },
@@ -924,6 +910,7 @@
             {
               "type": "UmmMultiItems",
               "multiType": "SpatialPolygons",
+              "typeOverride": "Point",
               "label": "Spatial Polygons",
               "key": "/SpatialPolygons/items/properties/index_id",
               "items": [
@@ -992,25 +979,35 @@
       ]
     },
     "LineString": {
-      "type": "section",
+      "type": "UmmMultiItems",
+      "multiType": "SpatialLineStrings",
+      "label": "Spatial Line Strings",
+      "key": "/SpatialLineStrings/items/properties/index_id",
       "items": [
         {
           "type": "section",
-          "htmlClass": "row",
-          "key": "/StartPoint/properties",
           "items": [
             {
-              "$ref": "#/definitions/Coordinates"
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "key": "/EndPoint/properties",
-          "items": [
+              "type": "section",
+              "htmlClass": "row start-point",
+              "key": "/StartPoint/properties",
+              "label": "Start Point",
+              "items": [
+                {
+                  "$ref": "#/definitions/Coordinates"
+                }
+              ]
+            },
             {
-              "$ref": "#/definitions/Coordinates"
+              "type": "section",
+              "htmlClass": "row end-point",
+              "key": "/EndPoint/properties",
+              "label": "End Point",
+              "items": [
+                {
+                  "$ref": "#/definitions/Coordinates"
+                }
+              ]
             }
           ]
         }
@@ -1018,6 +1015,9 @@
     },
     "BBox": {
       "type": "section",
+      "key": "/SpatialBoundingBox/properties",
+      "htmlClass": "sub-fields",
+      "label": "Bounding Box",
       "items": [
         {
           "type": "section",
