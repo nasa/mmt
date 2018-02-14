@@ -14,5 +14,8 @@ shared_examples_for 'Related URL Form' do
     expect(page).to have_field('Data Type', with: 'Test data type')
     expect(page).to have_field('service_draft_draft_related_url_get_service_uri_0', with: 'Test URI 1')
     expect(page).to have_field('service_draft_draft_related_url_get_service_uri_1', with: 'Test URI 2')
+
+    expect(page).to have_field('Online Access Url Pattern Match', with: 'Online Access URL Pattern Match')
+    expect(page).to have_field('Online Access Url Pattern Substitution', with: 'Online Access URL Pattern Substitution')
   end
 end

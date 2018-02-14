@@ -10,6 +10,7 @@ describe 'Related URL Form Navigation', js: true do
     before do
       draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_service_draft_path(draft, 'related_url')
+      click_on 'Expand All'
     end
 
     it 'displays the correct title and description' do
@@ -259,6 +260,7 @@ describe 'Related URL Form Navigation', js: true do
 
         # TODO validation isn't working correctly
         click_on 'Yes'
+        click_on 'Expand All'
       end
 
       it 'saves the draft and reloads the form' do

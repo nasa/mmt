@@ -16,6 +16,9 @@ class Hash
 
   def camelize(snake_word, first_upper = true)
     return 'RelatedURL' if snake_word == 'related_url'
+    return 'OnlineAccessURLPatternMatch' if snake_word == 'online_access_url_pattern_match'
+    return 'OnlineAccessURLPatternSubstitution' if snake_word == 'online_access_url_pattern_substitution'
+
     # Here is the patch
     if UPCASE_WORDS.include?(snake_word)
       return 'URLs' if snake_word == 'urls'

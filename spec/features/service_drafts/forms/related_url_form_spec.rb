@@ -1,11 +1,12 @@
 require 'rails_helper'
-require 'features/service_drafts/lib/forms/options_form_spec'
+require 'features/service_drafts/lib/forms/related_url_form_spec'
 
 describe 'Related URL Form', js: true do
   before do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
     visit edit_service_draft_path(draft, 'related_url')
+    click_on 'Expand All'
   end
 
   context 'when submitting the form' do
@@ -24,12 +25,16 @@ describe 'Related URL Form', js: true do
       click_on 'Add another Uri'
       fill_in 'service_draft_draft_related_url_get_service_uri_1', with: 'Test URI 2'
 
+      fill_in 'Online Access Url Pattern Match', with: 'Online Access URL Pattern Match'
+      fill_in 'Online Access Url Pattern Substitution', with: 'Online Access URL Pattern Substitution'
+
       within '.nav-top' do
         click_on 'Save'
       end
 
       # TODO validation isn't working correctly
       click_on 'Yes'
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do

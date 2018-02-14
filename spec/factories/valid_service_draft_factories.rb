@@ -94,6 +94,8 @@ FactoryGirl.define do
           'URI': ['Test URI 1', 'Test URI 2']
         }
       },
+      'OnlineAccessURLPatternMatch': 'Online Access URL Pattern Match',
+      'OnlineAccessURLPatternSubstitution': 'Online Access URL Pattern Substitution',
       'ServiceQuality': {
         'QualityFlag': 'Reviewed',
         'Traceability': 'traceability',

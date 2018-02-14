@@ -141,7 +141,7 @@
       "title": "Related URL",
       "items": [
         {
-          "type": "open_accordion",
+          "type": "accordion",
           "help": "RelatedURL",
           "title": "Related URL",
           "items": [
@@ -150,6 +150,30 @@
               "htmlClass": "row",
               "key": "RelatedURL/properties",
               "$ref": "#/definitions/RelatedURLProperties"
+            }
+          ]
+        },
+        {
+          "type": "accordion",
+          "help": "OnlineAccessURLPatternMatch",
+          "title": "Online Access URL Pattern Match",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [{"key": "OnlineAccessURLPatternMatch", "type": "UmmTextarea", "field": true}]
+            }
+          ]
+        },
+        {
+          "type": "accordion",
+          "help": "OnlineAccessURLPatternSubstitution",
+          "title": "Online Access URL Pattern Substitution",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [{"key": "OnlineAccessURLPatternSubstitution", "type": "UmmTextarea", "field": true}]
             }
           ]
         }
