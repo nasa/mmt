@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/science_and_ancillary_keywords_form_spec'
 
-describe 'Science and Ancillary Keywords Form Navigation', reset_provider: true, js: true do
+describe 'Science and Ancillary Keywords Form Navigation', js: true do
   before do
     login
   end
@@ -38,10 +39,10 @@ describe 'Science and Ancillary Keywords Form Navigation', reset_provider: true,
       end
     end
 
-    context 'When clicking `Previous` without making any changes' do
+    context 'When clicking `Next` without making any changes' do
       before do
         within '.nav-top' do
-          click_button 'Previous'
+          click_button 'Next'
         end
       end
 
@@ -52,27 +53,27 @@ describe 'Science and Ancillary Keywords Form Navigation', reset_provider: true,
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Related URL')
+          expect(page).to have_content('Acquisition Information')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Related URL')
+          expect(page).to have_content('Platforms')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
         end
       end
     end
 
-    context 'When clicking `Next` without making any changes' do
+    context 'When clicking `Previous` without making any changes' do
       before do
         within '.nav-top' do
-          click_button 'Next'
+          click_button 'Previous'
         end
       end
 
@@ -134,7 +135,7 @@ describe 'Science and Ancillary Keywords Form Navigation', reset_provider: true,
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Service Keywords', from: 'Save & Jump To:'
+          select 'Acquisition Information', from: 'Save & Jump To:'
         end
       end
 
@@ -145,19 +146,19 @@ describe 'Science and Ancillary Keywords Form Navigation', reset_provider: true,
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Keywords')
+          expect(page).to have_content('Acquisition Information')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service Keywords')
+          expect(page).to have_content('Platforms')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
         end
       end
     end
@@ -165,34 +166,19 @@ describe 'Science and Ancillary Keywords Form Navigation', reset_provider: true,
 
   context 'When viewing the form with stored values' do
     before do
-      draft_service_science_and_ancillary_keywords = {
-        'ScienceKeywords': [
-          {
-            'Category': 'EARTH SCIENCE',
-            'Topic': 'SOLID EARTH',
-            'Term': 'ROCKS/MINERALS/CRYSTALS',
-            'VariableLevel1': 'SEDIMENTARY ROCKS',
-            'VariableLevel2': 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES',
-            'VariableLevel3': 'LUMINESCENCE'
-          }
-        ],
-        'AncillaryKeywords': ['Ancillary keyword 1', 'Ancillary keyword 2']
-      }
-      draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first, draft: draft_service_science_and_ancillary_keywords)
+      draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_service_draft_path(draft, 'science_and_ancillary_keywords')
       click_on 'Expand All'
     end
 
-    it 'displays the correct values in the form' do
-      expect(page).to have_content 'EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS > SEDIMENTARY ROCKS > SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES > LUMINESCENCE'
-      expect(page).to have_field 'service_draft_draft_ancillary_keywords_0', with: 'Ancillary keyword 1'
-      expect(page).to have_field 'service_draft_draft_ancillary_keywords_1', with: 'Ancillary keyword 2'
+    context 'when viewing the form' do
+      include_examples 'Science and Ancillary Keywords Form'
     end
 
-    context 'When clicking `Previous` without making any changes' do
+    context 'When clicking `Next` without making any changes' do
       before do
         within '.nav-top' do
-          click_button 'Previous'
+          click_button 'Next'
         end
       end
 
@@ -203,27 +189,27 @@ describe 'Science and Ancillary Keywords Form Navigation', reset_provider: true,
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Related URL')
+          expect(page).to have_content('Acquisition Information')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Related URL')
+          expect(page).to have_content('Platforms')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
         end
       end
     end
 
-    context 'When clicking `Next` without making any changes' do
+    context 'When clicking `Previous` without making any changes' do
       before do
         within '.nav-top' do
-          click_button 'Next'
+          click_button 'Previous'
         end
       end
 
@@ -283,10 +269,8 @@ describe 'Science and Ancillary Keywords Form Navigation', reset_provider: true,
         end
       end
 
-      it 'displays the correct values in the form' do
-        expect(page).to have_content 'EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS > SEDIMENTARY ROCKS > SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES > LUMINESCENCE'
-        expect(page).to have_field 'service_draft_draft_ancillary_keywords_0', with: 'Ancillary keyword 1'
-        expect(page).to have_field 'service_draft_draft_ancillary_keywords_1', with: 'Ancillary keyword 2'
+      context 'when viewing the form' do
+        include_examples 'Science and Ancillary Keywords Form'
       end
     end
   end

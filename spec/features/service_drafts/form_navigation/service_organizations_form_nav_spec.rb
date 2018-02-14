@@ -1,7 +1,7 @@
 require 'rails_helper'
-require 'features/service_drafts/lib/forms/related_url_form_spec'
+require 'features/service_drafts/lib/forms/service_organizations_form_spec'
 
-describe 'Related URL Form Navigation', js: true do
+describe 'Service Organizations Form Navigation', js: true do
   before do
     login
   end
@@ -9,33 +9,44 @@ describe 'Related URL Form Navigation', js: true do
   context 'When viewing the form with no stored values' do
     before do
       draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_service_draft_path(draft, 'related_url')
+      visit edit_service_draft_path(draft, 'service_organizations')
+      click_on 'Expand All'
+    end
+
+    it 'displays the correct prompt value for all select elements' do
+      within '.umm-form' do
+        expect(page).to have_select('service_draft_draft_service_organizations_0_short_name', selected: 'Select a Short Name')
+        expect(page).to have_select('service_draft_draft_service_organizations_0_contact_groups_0_contact_information_contact_mechanisms_0_type', selected: 'Select a Type')
+        expect(page).to have_select('service_draft_draft_service_organizations_0_contact_groups_0_contact_information_addresses_0_country', selected: 'Select a Country')
+        expect(page).to have_select('service_draft_draft_service_organizations_0_contact_groups_0_contact_information_related_urls_0_url_content_type', selected: 'Select a Url Content Type')
+      end
     end
 
     it 'displays the correct title and description' do
       within '.umm-form' do
-        expect(page).to have_content('Related URL')
+        expect(page).to have_content('Service Organizations')
       end
     end
 
     it 'displays the form title in the breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Service Drafts')
-        expect(page).to have_content('Related URL')
+        expect(page).to have_content('Service Organizations')
       end
     end
 
-    it 'has 3 required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 3)
-    end
+    # TODO Validation is broken
+    # it 'has 1 required fields' do
+    #   expect(page).to have_selector('label.eui-required-o', count: 1)
+    # end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
       within '.nav-top' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
       end
 
       within '.nav-bottom' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
       end
     end
 
@@ -55,19 +66,19 @@ describe 'Related URL Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Identification')
+          expect(page).to have_content('Acquisition Information')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service Quality')
+          expect(page).to have_content('Platforms')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_identification')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_identification')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
         end
       end
     end
@@ -88,19 +99,20 @@ describe 'Related URL Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Keywords')
+          expect(page).to have_content('Service Contacts')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service Keywords')
+          expect(page).to have_content('Contact Groups')
+          expect(page).to have_content('Contact Persons')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_contacts')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_contacts')
         end
       end
     end
@@ -121,19 +133,19 @@ describe 'Related URL Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Related URL')
+          expect(page).to have_content('Service Organizations')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Related URL')
+          expect(page).to have_content('Service Organizations')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
         end
       end
     end
@@ -141,32 +153,33 @@ describe 'Related URL Form Navigation', js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Service Keywords', from: 'Save & Jump To:'
+          select 'Service Contacts', from: 'Save & Jump To:'
         end
 
         click_on 'Yes'
       end
 
-      it 'saves the draft and loads the form' do
+      it 'saves the draft and loads the next form' do
         within '.eui-banner--success' do
           expect(page).to have_content('Service Draft Updated Successfully!')
         end
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Keywords')
+          expect(page).to have_content('Service Contacts')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service Keywords')
+          expect(page).to have_content('Contact Groups')
+          expect(page).to have_content('Contact Persons')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_contacts')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_contacts')
         end
       end
     end
@@ -175,12 +188,12 @@ describe 'Related URL Form Navigation', js: true do
   context 'When viewing the form with stored values' do
     before do
       draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_service_draft_path(draft, 'related_url')
+      visit edit_service_draft_path(draft, 'service_organizations')
       click_on 'Expand All'
     end
 
     context 'when viewing the form' do
-      include_examples 'Related URL Form'
+      include_examples 'Service Organizations Form'
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -189,7 +202,6 @@ describe 'Related URL Form Navigation', js: true do
           click_button 'Previous'
         end
 
-        # TODO validation isn't working correctly
         click_on 'Yes'
       end
 
@@ -200,19 +212,19 @@ describe 'Related URL Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Identification')
+          expect(page).to have_content('Acquisition Information')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service Quality')
+          expect(page).to have_content('Platforms')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_identification')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_identification')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
         end
       end
     end
@@ -223,7 +235,6 @@ describe 'Related URL Form Navigation', js: true do
           click_button 'Next'
         end
 
-        # TODO validation isn't working correctly
         click_on 'Yes'
       end
 
@@ -234,19 +245,20 @@ describe 'Related URL Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Keywords')
+          expect(page).to have_content('Service Contacts')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service Keywords')
+          expect(page).to have_content('Contact Groups')
+          expect(page).to have_content('Contact Persons')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_contacts')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_contacts')
         end
       end
     end
@@ -257,8 +269,8 @@ describe 'Related URL Form Navigation', js: true do
           click_button 'Save'
         end
 
-        # TODO validation isn't working correctly
         click_on 'Yes'
+        click_on 'Expand All'
       end
 
       it 'saves the draft and reloads the form' do
@@ -268,24 +280,24 @@ describe 'Related URL Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Related URL')
+          expect(page).to have_content('Service Organizations')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Related URL')
+          expect(page).to have_content('Service Organizations')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
         end
       end
 
       context 'when viewing the form' do
-        include_examples 'Related URL Form'
+        include_examples 'Service Organizations Form'
       end
     end
   end

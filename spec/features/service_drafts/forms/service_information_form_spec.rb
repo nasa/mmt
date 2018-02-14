@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/service_information_form_spec'
 
-describe 'Service Information Form', reset_provider: true, js: true do
+describe 'Service Information Form', js: true do
   before do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
@@ -12,7 +13,7 @@ describe 'Service Information Form', reset_provider: true, js: true do
       fill_in 'Name', with: 'Service Name'
       fill_in 'Long Name', with: 'Long Service Name'
       select 'NOT PROVIDED', from: 'Type'
-      fill_in 'Version', with: '1'
+      fill_in 'Version', with: '1.0'
       fill_in 'Description', with: 'Description of the test service'
 
       within '.nav-top' do
@@ -24,12 +25,8 @@ describe 'Service Information Form', reset_provider: true, js: true do
       expect(page).to have_content('Service Draft Updated Successfully!')
     end
 
-    it 'populates the form with the values' do
-      expect(page).to have_field('Name', with: 'Service Name')
-      expect(page).to have_field('Long Name', with: 'Long Service Name')
-      expect(page).to have_field('Type', with: 'NOT PROVIDED')
-      expect(page).to have_field('Version', with: '1')
-      expect(page).to have_field('Description', with: 'Description of the test service')
+    context 'when viewing the form' do
+      include_examples 'Service Information Form'
     end
   end
 end

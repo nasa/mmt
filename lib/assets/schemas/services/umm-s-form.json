@@ -47,7 +47,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "Description", "field": true}]
+                  "items": [{"key": "Description", "type": "UmmTextarea", "field": true}]
                 }
               ]
             }
@@ -78,19 +78,11 @@
             },
             {
               "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/Traceability", "field": true}]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/Lineage", "field": true}]
-                }
-              ]
+              "items": [{"key": "/Traceability", "field": true}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "/Lineage", "field": true}]
             }
           ]
         },
@@ -110,7 +102,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width"}]
+                      "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width eui-pos--left", "type": "UmmTextarea"}]
                     }
                   ]
                 }
@@ -134,7 +126,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width"}]
+                      "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width eui-pos--left", "type": "UmmTextarea"}]
                     }
                   ]
                 }
@@ -157,6 +149,25 @@
               "type": "section",
               "htmlClass": "row",
               "key": "RelatedURL/properties",
+              "$ref": "#/definitions/RelatedURLProperties"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service_keywords",
+      "title": "Service Keywords",
+      "items": [
+        {
+          /* ServiceKeywords */
+          "type": "open_accordion",
+          "help": "ServiceKeywords",
+          "title": "Service Keywords",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
               "items": [
                 {
                   "type": "section",
@@ -164,119 +175,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "row",
-                      "items": [{"key": "/Description", "field": true}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "htmlClass": "row",
-                      "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_content_type", "htmlClass": "related-url-content-type-select"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "htmlClass": "row",
-                      "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_type", "htmlClass": "related-url-type-select"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "htmlClass": "row",
-                      "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_subtype", "htmlClass": "related-url-subtype-select"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "htmlClass": "row",
-                      "items": [{"key": "/URL", "field": true}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row sub-fields get-data-fields",
-                  "label": "Get Data",
-                  "key": "/GetData/properties",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Format", "field": true, "type": "UmmSelect"}]
-                    },
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Size", "field": true}]
-                    },
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Unit", "field": true, "type": "UmmSelect"}]
-                    },
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Fees", "field": true}]
-                    },
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Checksum", "field": true}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row sub-fields get-service-fields",
-                  "label": "Get Service",
-                  "key": "/GetService/properties",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/MimeType", "field": true, "type": "UmmSelect"}]
-                    },
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Protocol", "field": true, "type": "UmmSelect"}]
-                    },
-                    {
-                      "type": "section",
-                      "items": [{"key": "/FullName", "field": true}]
-                    },
-                    {
-                      "type": "section",
-                      "items": [{"key": "/DataID", "field": true}]
-                    },
-                    {
-                      "type": "section",
-                      "items": [{"key": "/DataType", "field": true}]
-                    },
-                    {
-                      "type": "UmmMultiItem",
-                      "key": "/URI",
-                      "field": true,
-                      "items": [
-                        {
-                          "type": "section",
-                          "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width"}]
-                        }
-                      ]
+                      "items": [{"key": "ServiceKeywords", "field": true, "type": "UmmServiceKeywordPicker"}]
                     }
                   ]
                 }
@@ -332,36 +231,6 @@
                     {
                       "type": "section",
                       "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width"}]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "service_keywords",
-      "title": "Service Keywords",
-      "items": [
-        {
-          /* ServiceKeywords */
-          "type": "open_accordion",
-          "help": "ServiceKeywords",
-          "title": "Service Keywords",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "ServiceKeywords", "field": true, "type": "UmmServiceKeywordPicker"}]
                     }
                   ]
                 }
@@ -509,7 +378,7 @@
         {
           "type": "accordion",
           "help": "ContactGroups",
-          "title": "ContactGroups",
+          "title": "Contact Groups",
           "items": [
             {
               "type": "section",
@@ -527,7 +396,7 @@
         {
           "type": "accordion",
           "help": "ContactPersons",
-          "title": "ContactPersons",
+          "title": "Contact Persons",
           "items": [
             {
               "type": "section",
@@ -740,8 +609,8 @@
       "type": "section",
       "label": "Contact Information",
       "key": "/ContactInformation/properties",
-      "help": "ContactInformationType",
-      "htmlClass": "row sub-fields",
+      "help": "ContactInformation",
+      "htmlClass": "row sub-fields contact-information",
       "items": [
         {
           "type": "section",
@@ -756,6 +625,13 @@
         },
         {
           "$ref": "#/definitions/Addresses"
+        },
+        {
+          "type": "UmmMultiItems",
+          "key": "/RelatedUrls/items/properties/index_id",
+          "multiType": "RelatedUrls",
+          "label": "Related URLs",
+          "$ref": "#/definitions/RelatedURLProperties"
         }
       ]
     },
@@ -829,7 +705,7 @@
                 {
                   "type": "section",
                   "htmlClass": "col-3",
-                  "items": [{"key": "/StateProvince"}]
+                  "items": [{"key": "/StateProvince", "label": "State / Province"}]
                 },
                 {
                   "type": "section",
@@ -1048,6 +924,132 @@
               "type": "section",
               "htmlClass": "col-6",
               "items": [{"key": "/MaxY", "field": true}]
+            }
+          ]
+        }
+      ]
+    },
+    "RelatedURLProperties": {
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [{"key": "/Description", "type": "UmmTextarea", "field": true}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_content_type", "htmlClass": "related-url-content-type-select"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_type", "htmlClass": "related-url-type-select"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_subtype", "htmlClass": "related-url-subtype-select"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [{"key": "/URL", "field": true}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row sub-fields get-data-fields",
+          "label": "Get Data",
+          "key": "/GetData/properties",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "/Format", "field": true, "type": "UmmSelect"}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "/Size", "field": true}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "/Unit", "field": true, "type": "UmmSelect"}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "/Fees", "field": true}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "/Checksum", "field": true}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row sub-fields get-service-fields",
+          "label": "Get Service",
+          "key": "/GetService/properties",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "/MimeType", "field": true, "type": "UmmSelect"}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "/Protocol", "field": true, "type": "UmmSelect"}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "/FullName", "field": true}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "/DataID", "field": true}]
+            },
+            {
+              "type": "section",
+              "items": [{"key": "/DataType", "field": true}]
+            },
+            {
+              "type": "UmmMultiItem",
+              "key": "/URI",
+              "field": true,
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width uri"}]
+                }
+              ]
             }
           ]
         }

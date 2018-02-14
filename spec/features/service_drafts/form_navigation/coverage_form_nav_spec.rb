@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'features/service_drafts/lib/forms/coverage_form_spec'
 
-describe 'Coverage Form Navigation', reset_provider: true, js: true do
+describe 'Coverage Form Navigation', js: true do
   before do
     login
   end
@@ -181,46 +181,7 @@ describe 'Coverage Form Navigation', reset_provider: true, js: true do
 
   context 'When viewing the form with stored values' do
     before do
-      draft_options = {
-        'Coverage': {
-          'Name': 'Coverage Name',
-          'CoverageSpatialExtent': {
-            'Type': 'SPATIAL_POINT',
-            'Uuid': '13f5e348-ffad-4ef9-9600-12ad74f60f77',
-            'SpatialPoints': [
-              {
-                'Latitude': '0',
-                'Longitude': '0'
-              },
-              {
-                'Latitude': 50,
-                'Longitude': 50
-              }
-            ]
-          },
-          'SpatialResolution': '50',
-          'SpatialResolutionUnit': 'KM',
-          'CoverageTemporalExtent': {
-            'CoverageTimePoints': [
-              {
-                'TimeFormat': 'format 1',
-                'TimeValue': 'value 1',
-                'Description': 'description 1'
-              },
-              {
-                'TimeFormat': 'format 2',
-                'TimeValue': 'value 2',
-                'Description': 'description 2'
-              }
-            ],
-            'Uuid': '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40'
-          },
-          'TemporalResolution': '7',
-          'TemporalResolutionUnit': 'days',
-          'RelativePath': 'relative path'
-        }
-      }
-      draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first, draft: draft_options)
+      draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_service_draft_path(draft, 'coverage')
       click_on 'Expand All'
     end

@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/service_keywords_form_spec'
 
-describe 'Service Keywords Form', reset_provider: true, js: true do
+describe 'Service Keywords Form', js: true do
   before do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
@@ -25,9 +26,8 @@ describe 'Service Keywords Form', reset_provider: true, js: true do
       expect(page).to have_content('Service Draft Updated Successfully!')
     end
 
-    it 'populates the form with the values' do
-      expect(page).to have_content 'EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
-      expect(page).to have_content 'EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
+    context 'when viewing the form' do
+      include_examples 'Service Keywords Form'
     end
   end
 end

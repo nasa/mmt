@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/service_identification_form_spec'
 
-describe 'Service Identification Form', reset_provider: true, js: true do
+describe 'Service Identification Form', js: true do
   before do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
@@ -32,16 +33,8 @@ describe 'Service Identification Form', reset_provider: true, js: true do
       expect(page).to have_content('Service Draft Updated Successfully!')
     end
 
-    it 'populates the form with the values' do
-      expect(page).to have_field('Quality Flag', with: 'Reviewed')
-      expect(page).to have_field('Traceability', with: 'traceability')
-      expect(page).to have_field('Lineage', with: 'lineage')
-
-      expect(page).to have_field('service_draft_draft_access_constraints_0', with: 'access constraint 1')
-      expect(page).to have_field('service_draft_draft_access_constraints_1', with: 'access constraint 2')
-
-      expect(page).to have_field('service_draft_draft_use_constraints_0', with: 'use constraint 1')
-      expect(page).to have_field('service_draft_draft_use_constraints_1', with: 'use constraint 2')
+    context 'when viewing the form' do
+      include_examples 'Service Identification Form'
     end
   end
 end

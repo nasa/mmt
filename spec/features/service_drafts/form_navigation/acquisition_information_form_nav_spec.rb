@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/acquisition_information_form_spec'
 
-describe 'Acquisition Information Form Navigation', reset_provider: true, js: true do
+describe 'Acquisition Information Form Navigation', js: true do
   before do
     login
   end
@@ -46,36 +47,37 @@ describe 'Acquisition Information Form Navigation', reset_provider: true, js: tr
       end
     end
 
-    # context 'When clicking `Previous` without making any changes' do
-    #   before do
-    #     within '.nav-top' do
-    #       click_button 'Previous'
-    #     end
-    #   end
-    #
-    #   it 'saves the draft and loads the previous form' do
-    #     within '.eui-banner--success' do
-    #       expect(page).to have_content('Service Draft Updated Successfully!')
-    #     end
-    #
-    #     within '.eui-breadcrumbs' do
-    #       expect(page).to have_content('Service Drafts')
-    #       expect(page).to have_content('Descriptive Keywords')
-    #     end
-    #
-    #     within '.umm-form' do
-    #       expect(page).to have_content('Descriptive Keywords')
-    #     end
-    #
-    #     within '.nav-top' do
-    #       expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
-    #     end
-    #
-    #     within '.nav-bottom' do
-    #       expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
-    #     end
-    #   end
-    # end
+    context 'When clicking `Previous` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Previous'
+        end
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Service Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Service Drafts')
+          expect(page).to have_content('Science and Ancillary Keywords')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Ancillary Keywords')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
+        end
+      end
+    end
 
     context 'When clicking `Next` without making any changes' do
       before do
@@ -173,81 +175,46 @@ describe 'Acquisition Information Form Navigation', reset_provider: true, js: tr
 
   context 'When viewing the form with stored values' do
     before do
-      draft_descriptive_keywords = {
-        'Platforms': [
-          {
-            'ShortName': 'A340-600',
-            'LongName': 'Airbus A340-600',
-            'Instruments': [
-              {
-                'ShortName': 'ATM',
-                'LongName': 'Airborne Topographic Mapper'
-              },
-              {
-                'ShortName': 'LVIS',
-                'LongName': 'Land, Vegetation, and Ice Sensor'
-              }
-            ]
-          },
-          {
-            'ShortName': 'DMSP 5B/F3',
-            'LongName': 'Defense Meteorological Satellite Program-F3',
-            'Instruments': [
-              {
-                'ShortName': 'ACOUSTIC SOUNDERS'
-              }
-            ]
-          }
-        ]
-      }
-      draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first, draft: draft_descriptive_keywords)
+      draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_service_draft_path(draft, 'acquisition_information')
       click_on 'Expand All'
     end
 
-    it 'displays the correct values in the form' do
-      expect(page).to have_field('service_draft_draft_platforms_0_short_name', with: 'A340-600')
-      expect(page).to have_field('service_draft_draft_platforms_0_long_name', with: 'Airbus A340-600')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_short_name', with: 'ATM')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_long_name', with: 'Airborne Topographic Mapper')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_short_name', with: 'LVIS')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_long_name', with: 'Land, Vegetation, and Ice Sensor')
-
-      expect(page).to have_field('service_draft_draft_platforms_1_short_name', with: 'DMSP 5B/F3')
-      expect(page).to have_field('service_draft_draft_platforms_1_long_name', with: 'Defense Meteorological Satellite Program-F3')
-      expect(page).to have_field('service_draft_draft_platforms_1_instruments_0_short_name', with: 'ACOUSTIC SOUNDERS')
+    context 'when viewing the form' do
+      include_examples 'Acquisition Information Form'
     end
 
-    # context 'When clicking `Previous` without making any changes' do
-    #   before do
-    #     within '.nav-top' do
-    #       click_button 'Previous'
-    #     end
-    #   end
-    #
-    #   it 'saves the draft and loads the previous form' do
-    #     within '.eui-banner--success' do
-    #       expect(page).to have_content('Service Draft Updated Successfully!')
-    #     end
-    #
-    #     within '.eui-breadcrumbs' do
-    #       expect(page).to have_content('Service Drafts')
-    #       expect(page).to have_content('Descriptive Keywords')
-    #     end
-    #
-    #     within '.umm-form' do
-    #       expect(page).to have_content('Descriptive Keywords')
-    #     end
-    #
-    #     within '.nav-top' do
-    #       expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
-    #     end
-    #
-    #     within '.nav-bottom' do
-    #       expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
-    #     end
-    #   end
-    # end
+    context 'When clicking `Previous` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Previous'
+        end
+      end
+
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Service Draft Updated Successfully!')
+        end
+
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Service Drafts')
+          expect(page).to have_content('Science and Ancillary Keywords')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Ancillary Keywords')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
+        end
+      end
+    end
 
     context 'When clicking `Next` without making any changes' do
       before do
@@ -311,17 +278,8 @@ describe 'Acquisition Information Form Navigation', reset_provider: true, js: tr
         end
       end
 
-      it 'displays the correct values in the form' do
-        expect(page).to have_field('service_draft_draft_platforms_0_short_name', with: 'A340-600')
-        expect(page).to have_field('service_draft_draft_platforms_0_long_name', with: 'Airbus A340-600')
-        expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_short_name', with: 'ATM')
-        expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_long_name', with: 'Airborne Topographic Mapper')
-        expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_short_name', with: 'LVIS')
-        expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_long_name', with: 'Land, Vegetation, and Ice Sensor')
-
-        expect(page).to have_field('service_draft_draft_platforms_1_short_name', with: 'DMSP 5B/F3')
-        expect(page).to have_field('service_draft_draft_platforms_1_long_name', with: 'Defense Meteorological Satellite Program-F3')
-        expect(page).to have_field('service_draft_draft_platforms_1_instruments_0_short_name', with: 'ACOUSTIC SOUNDERS')
+      context 'when viewing the form' do
+        include_examples 'Acquisition Information Form'
       end
     end
   end

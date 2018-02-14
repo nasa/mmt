@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/service_identification_form_spec'
 
-describe 'Service Identification Form Navigation', reset_provider: true, js: true do
+describe 'Service Identification Form Navigation', js: true do
   before do
     login
   end
@@ -20,7 +21,9 @@ describe 'Service Identification Form Navigation', reset_provider: true, js: tru
 
     it 'displays the correct title and description' do
       within '.umm-form' do
-        # expect(page).to have_content('Service Identification')
+        expect(page).to have_content('Service Quality')
+        expect(page).to have_content('Access Constraints')
+        expect(page).to have_content('Use Constraints')
       end
     end
 
@@ -182,30 +185,13 @@ describe 'Service Identification Form Navigation', reset_provider: true, js: tru
 
   context 'When viewing the form with stored values' do
     before do
-      draft_service_information = {
-        'ServiceQuality': {
-          'QualityFlag': 'Reviewed',
-          'Traceability': 'traceability',
-          'Lineage': 'lineage'
-        },
-        'AccessConstraints': ['access constraint 1', 'access constraint 2'],
-        'UseConstraints': ['use constraint 1', 'use constraint 2']
-      }
-      draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first, draft: draft_service_information)
+      draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_service_draft_path(draft, 'service_identification')
       click_on 'Expand All'
     end
 
-    it 'displays the correct values in the form' do
-      expect(page).to have_field('service_draft_draft_service_quality_quality_flag', with: 'Reviewed')
-      expect(page).to have_field('service_draft_draft_service_quality_traceability', with: 'traceability')
-      expect(page).to have_field('service_draft_draft_service_quality_lineage', with: 'lineage')
-
-      expect(page).to have_field('service_draft_draft_access_constraints_0', with: 'access constraint 1')
-      expect(page).to have_field('service_draft_draft_access_constraints_1', with: 'access constraint 2')
-
-      expect(page).to have_field('service_draft_draft_use_constraints_0', with: 'use constraint 1')
-      expect(page).to have_field('service_draft_draft_use_constraints_1', with: 'use constraint 2')
+    context 'when viewing the form' do
+      include_examples 'Service Identification Form'
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -303,16 +289,8 @@ describe 'Service Identification Form Navigation', reset_provider: true, js: tru
         end
       end
 
-      it 'displays the correct values in the form' do
-        expect(page).to have_field('service_draft_draft_service_quality_quality_flag', with: 'Reviewed')
-        expect(page).to have_field('service_draft_draft_service_quality_traceability', with: 'traceability')
-        expect(page).to have_field('service_draft_draft_service_quality_lineage', with: 'lineage')
-
-        expect(page).to have_field('service_draft_draft_access_constraints_0', with: 'access constraint 1')
-        expect(page).to have_field('service_draft_draft_access_constraints_1', with: 'access constraint 2')
-
-        expect(page).to have_field('service_draft_draft_use_constraints_0', with: 'use constraint 1')
-        expect(page).to have_field('service_draft_draft_use_constraints_1', with: 'use constraint 2')
+      context 'when viewing the form' do
+        include_examples 'Service Identification Form'
       end
     end
   end

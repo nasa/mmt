@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/options_form_spec'
 
-describe 'Service Options Form Navigation', reset_provider: true, js: true do
+describe 'Service Options Form Navigation', js: true do
   before do
     login
   end
@@ -56,8 +57,8 @@ describe 'Service Options Form Navigation', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          # TODO uncomment once the service_contacts form exists!
-          # expect(page).to have_content('Service Contacts')
+          expect(page).to have_content('Contact Groups')
+          expect(page).to have_content('Contact Persons')
         end
 
         within '.nav-top' do
@@ -166,23 +167,12 @@ describe 'Service Options Form Navigation', reset_provider: true, js: true do
 
   context 'When viewing the form with stored values' do
     before do
-      draft_service_options = {
-        'ServiceOptions': {
-          'SubsetTypes': ['Spatial'],
-          'SupportedProjections': ['Geographic'],
-          'InterpolationTypes': ['Bilinear Interpolation', 'Bicubic Interpolation'],
-          'SupportedFormats': ['HDF-EOS4', 'HDF-EOS5']
-        }
-      }
-      draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first, draft: draft_service_options)
+      draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_service_draft_path(draft, 'options')
     end
 
-    it 'displays the correct values in the form' do
-      expect(page).to have_select('service_draft_draft_service_options_subset_types', selected: ['Spatial'])
-      expect(page).to have_select('service_draft_draft_service_options_supported_projections', selected: ['Geographic'])
-      expect(page).to have_select('service_draft_draft_service_options_interpolation_types', selected: ['Bilinear Interpolation', 'Bicubic Interpolation'])
-      expect(page).to have_select('service_draft_draft_service_options_supported_formats', selected: ['HDF-EOS4', 'HDF-EOS5'])
+    context 'when viewing the form' do
+      include_examples 'Options Form'
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -203,8 +193,8 @@ describe 'Service Options Form Navigation', reset_provider: true, js: true do
         end
 
         within '.umm-form' do
-          # TODO uncomment once the service_contacts form exists!
-          # expect(page).to have_content('Service Contacts')
+          expect(page).to have_content('Contact Groups')
+          expect(page).to have_content('Contact Persons')
         end
 
         within '.nav-top' do
@@ -278,11 +268,8 @@ describe 'Service Options Form Navigation', reset_provider: true, js: true do
         end
       end
 
-      it 'displays the correct values in the form' do
-        expect(page).to have_select('service_draft_draft_service_options_subset_types', selected: ['Spatial'])
-        expect(page).to have_select('service_draft_draft_service_options_supported_projections', selected: ['Geographic'])
-        expect(page).to have_select('service_draft_draft_service_options_interpolation_types', selected: ['Bilinear Interpolation', 'Bicubic Interpolation'])
-        expect(page).to have_select('service_draft_draft_service_options_supported_formats', selected: ['HDF-EOS4', 'HDF-EOS5'])
+      context 'when viewing the form' do
+        include_examples 'Options Form'
       end
     end
   end

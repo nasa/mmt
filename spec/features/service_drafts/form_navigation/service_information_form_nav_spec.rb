@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/service_information_form_spec'
 
-describe 'Service Information Form Navigation', reset_provider: true, js: true do
+describe 'Service Information Form Navigation', js: true do
   before do
     login
   end
@@ -64,8 +65,7 @@ describe 'Service Information Form Navigation', reset_provider: true, js: true d
         end
 
         within '.umm-form' do
-          # TODO uncomment once the coverage form exists!
-          # expect(page).to have_content('Coverage')
+          expect(page).to have_content('Coverage')
         end
 
         within '.nav-top' do
@@ -184,23 +184,12 @@ describe 'Service Information Form Navigation', reset_provider: true, js: true d
 
   context 'When viewing the form with stored values' do
     before do
-      draft_service_information = {
-        'Name': 'Service Name',
-        'LongName': 'Long Service Name',
-        'Type': 'NOT PROVIDED',
-        'Version': '1',
-        'Description': 'Description of the test service'
-      }
-      draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first, draft: draft_service_information)
+      draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: 'Service Name', draft_entry_title: 'Long Service Name')
       visit edit_service_draft_path(draft, 'service_information')
     end
 
-    it 'displays the correct values in the form' do
-      expect(page).to have_field('service_draft_draft_name', with: 'Service Name')
-      expect(page).to have_field('service_draft_draft_long_name', with: 'Long Service Name')
-      expect(page).to have_field('service_draft_draft_type', with: 'NOT PROVIDED')
-      expect(page).to have_field('service_draft_draft_version', with: '1')
-      expect(page).to have_field('service_draft_draft_description', with: 'Description of the test service')
+    context 'when viewing the form' do
+      include_examples 'Service Information Form'
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -221,8 +210,7 @@ describe 'Service Information Form Navigation', reset_provider: true, js: true d
         end
 
         within '.umm-form' do
-          # TODO uncomment once the coverage form exists!
-          # expect(page).to have_content('Coverage')
+          expect(page).to have_content('Coverage')
         end
 
         within '.nav-top' do
@@ -298,12 +286,8 @@ describe 'Service Information Form Navigation', reset_provider: true, js: true d
         end
       end
 
-      it 'displays the correct values in the form' do
-        expect(page).to have_field('service_draft_draft_name', with: 'Service Name')
-        expect(page).to have_field('service_draft_draft_long_name', with: 'Long Service Name')
-        expect(page).to have_field('service_draft_draft_type', with: 'NOT PROVIDED')
-        expect(page).to have_field('service_draft_draft_version', with: '1')
-        expect(page).to have_field('service_draft_draft_description', with: 'Description of the test service')
+      context 'when viewing the form' do
+        include_examples 'Service Information Form'
       end
     end
   end

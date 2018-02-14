@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/service_keywords_form_spec'
 
-describe 'Service Keywords Form Navigation', reset_provider: true, js: true do
+describe 'Service Keywords Form Navigation', js: true do
   before do
     login
   end
@@ -38,10 +39,10 @@ describe 'Service Keywords Form Navigation', reset_provider: true, js: true do
       end
     end
 
-    context 'When clicking `Previous` without making any changes' do
+    context 'When clicking `Next` without making any changes' do
       before do
         within '.nav-top' do
-          click_button 'Previous'
+          click_button 'Next'
         end
 
         click_on 'Yes'
@@ -71,10 +72,10 @@ describe 'Service Keywords Form Navigation', reset_provider: true, js: true do
       end
     end
 
-    context 'When clicking `Next` without making any changes' do
+    context 'When clicking `Previous` without making any changes' do
       before do
         within '.nav-top' do
-          click_button 'Next'
+          click_button 'Previous'
         end
 
         click_on 'Yes'
@@ -87,19 +88,19 @@ describe 'Service Keywords Form Navigation', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Acquisition Information')
+          expect(page).to have_content('Related URL')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Platforms')
+          expect(page).to have_content('Related URL')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
         end
       end
     end
@@ -140,7 +141,7 @@ describe 'Service Keywords Form Navigation', reset_provider: true, js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Acquisition Information', from: 'Save & Jump To:'
+          select 'Science and Ancillary Keywords', from: 'Save & Jump To:'
         end
 
         click_on 'Yes'
@@ -153,19 +154,19 @@ describe 'Service Keywords Form Navigation', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Acquisition Information')
+          expect(page).to have_content('Science and Ancillary Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Platforms')
+          expect(page).to have_content('Science Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
         end
       end
     end
@@ -173,28 +174,18 @@ describe 'Service Keywords Form Navigation', reset_provider: true, js: true do
 
   context 'When viewing the form with stored values' do
     before do
-      draft_service_service_keywords = {
-        'ServiceKeywords': [
-          {
-            'ServiceCategory': 'EARTH SCIENCE SERVICES',
-            'ServiceTopic': 'DATA ANALYSIS AND VISUALIZATION',
-            'ServiceTerm': 'GEOGRAPHIC INFORMATION SYSTEMS',
-            'ServiceSpecificTerm': 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
-          }
-        ]
-      }
-      draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first, draft: draft_service_service_keywords)
+      draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_service_draft_path(draft, 'service_keywords')
     end
 
-    it 'displays the correct values in the form' do
-      expect(page).to have_content 'EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+    context 'when viewing the form' do
+      include_examples 'Service Keywords Form'
     end
 
-    context 'When clicking `Previous` without making any changes' do
+    context 'When clicking `Next` without making any changes' do
       before do
         within '.nav-top' do
-          click_button 'Previous'
+          click_button 'Next'
         end
       end
 
@@ -222,10 +213,10 @@ describe 'Service Keywords Form Navigation', reset_provider: true, js: true do
       end
     end
 
-    context 'When clicking `Next` without making any changes' do
+    context 'When clicking `Previous` without making any changes' do
       before do
         within '.nav-top' do
-          click_button 'Next'
+          click_button 'Previous'
         end
       end
 
@@ -236,19 +227,19 @@ describe 'Service Keywords Form Navigation', reset_provider: true, js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Acquisition Information')
+          expect(page).to have_content('Related URL')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Platforms')
+          expect(page).to have_content('Related URL')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
         end
       end
     end
@@ -283,8 +274,8 @@ describe 'Service Keywords Form Navigation', reset_provider: true, js: true do
         end
       end
 
-      it 'displays the correct values in the form' do
-        expect(page).to have_content 'EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS > DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+      context 'when viewing the form' do
+        include_examples 'Service Keywords Form'
       end
     end
   end

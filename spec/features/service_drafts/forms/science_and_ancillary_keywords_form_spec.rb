@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/science_and_ancillary_keywords_form_spec'
 
-describe 'Science and Ancillary Keywords Form', reset_provider: true, js: true do
+describe 'Science and Ancillary Keywords Form', js: true do
   before do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
@@ -46,12 +47,8 @@ describe 'Science and Ancillary Keywords Form', reset_provider: true, js: true d
       expect(page).to have_content('Service Draft Updated Successfully!')
     end
 
-    it 'populates the form with the values' do
-      expect(page).to have_content 'EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE > SURFACE TEMPERATURE > MAXIMUM/MINIMUM TEMPERATURE > 24 HOUR MAXIMUM TEMPERATURE'
-      expect(page).to have_content 'EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS > SEDIMENTARY ROCKS > SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES > LUMINESCENCE'
-
-      expect(page).to have_field 'service_draft_draft_ancillary_keywords_0', with: 'Ancillary keyword 1'
-      expect(page).to have_field 'service_draft_draft_ancillary_keywords_1', with: 'Ancillary keyword 2'
+    context 'when viewing the form' do
+      include_examples 'Science and Ancillary Keywords Form'
     end
   end
 end

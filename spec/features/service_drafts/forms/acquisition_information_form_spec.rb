@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'features/service_drafts/lib/forms/acquisition_information_form_spec'
 
-describe 'Acquisition Information Form', reset_provider: true, js: true do
+describe 'Acquisition Information Form', js: true do
   before do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
@@ -45,17 +46,8 @@ describe 'Acquisition Information Form', reset_provider: true, js: true do
       expect(page).to have_content('Service Draft Updated Successfully!')
     end
 
-    it 'populates the form with the values' do
-      expect(page).to have_field('service_draft_draft_platforms_0_short_name', with: 'A340-600')
-      expect(page).to have_field('service_draft_draft_platforms_0_long_name', with: 'Airbus A340-600')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_short_name', with: 'ATM')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_0_long_name', with: 'Airborne Topographic Mapper')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_short_name', with: 'LVIS')
-      expect(page).to have_field('service_draft_draft_platforms_0_instruments_1_long_name', with: 'Land, Vegetation, and Ice Sensor')
-
-      expect(page).to have_field('service_draft_draft_platforms_1_short_name', with: 'DMSP 5B/F3')
-      expect(page).to have_field('service_draft_draft_platforms_1_long_name', with: 'Defense Meteorological Satellite Program-F3')
-      expect(page).to have_field('service_draft_draft_platforms_1_instruments_0_short_name', with: 'ACOUSTIC SOUNDERS')
+    context 'when viewing the form' do
+      include_examples 'Acquisition Information Form'
     end
   end
 end

@@ -5,7 +5,10 @@ class UmmTextField < UmmFormElement
               field_value
             elsif full_key.index('index_id')
               path = json_form.element_path_for_object(full_key.split('index_id/').last)
-              path.reduce(field_value) { |a, e| a.fetch(e, {}) }
+              v = path.reduce(field_value) { |a, e| a.fetch(e, {}) }
+              # empty fields sometimes show up as {},
+              # when we really want them to be ''
+              v == {} ? '' : v
             else
               element_value
             end

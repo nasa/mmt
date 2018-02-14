@@ -41,12 +41,14 @@ class UmmMultiItem < UmmFormElement
 
   def render_markup
     content_tag(:div, class: "multiple simple-multiple #{form_class}") do
+      indexes = options.fetch('indexes', [])
+
       values = Array.wrap(element_value)
       values = [''] if values.empty?
       values.each_with_index do |value, index|
         concat(content_tag(:div, class: "multiple-item multiple-item-#{index}") do
           form_fragment['items'].each do |property|
-            concat UmmForm.new(form_section_json: property, json_form: json_form, schema: schema, options: { 'index' => index }, key: full_key, field_value: value).render_markup
+            concat UmmForm.new(form_section_json: property, json_form: json_form, schema: schema, options: { 'indexes' => indexes + [index] }, key: full_key, field_value: value).render_markup
             concat UmmRemoveLink.new(form_section_json: parsed_json, json_form: json_form, schema: schema, options: { 'name' => title }).render_markup
           end
 

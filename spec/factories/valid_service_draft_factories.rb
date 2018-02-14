@@ -76,64 +76,513 @@ FactoryGirl.define do
     draft {{
       'Name': draft_short_name || "#{Faker::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(6)}",
       'LongName': draft_entry_title || "#{Faker::HitchhikersGuideToTheGalaxy.marvin_quote} #{Faker::Number.number(6)}",
-      'Type': 'TOOL',
+      'Type': 'NOT PROVIDED',
       'Version': '1.0',
-      'Description': 'The USGS WRS-2 Path/Row to Latitude/Longitude Converter allows users to enter any Landsat path and row to get the nearest scene center latitude and longitude coordinates.',
+      'Description': 'Description of the test service',
       'RelatedURL': {
-        'URL': 'http://www.scp.byu.edu/software/slice_response/Xshape_temp.html',
-        'Description': 'Access the WRS-2 Path/Row to Latitude/Longitude Converter.',
+        'Description': 'Test related url',
         'URLContentType': 'DistributionURL',
         'Type': 'GET SERVICE',
-        'SubType': 'TOOL'
-      },
-      'ScienceKeywords': [
-        {
-          'Category': 'SPECTRAL/ENGINEERING',
-          'Topic': 'INFRARED WAVELENGTHS',
-          'Term': 'INFRARED IMAGERY'
+        'Subtype': 'SOFTWARE PACKAGE',
+        'URL': 'nasa.gov',
+        'GetService': {
+          'MimeType': 'application/json',
+          'Protocol': 'HTTP',
+          'FullName': 'Test Service',
+          'DataID': 'Test data',
+          'DataType': 'Test data type',
+          'URI': ['Test URI 1', 'Test URI 2']
         }
-      ],
+      },
+      'ServiceQuality': {
+        'QualityFlag': 'Reviewed',
+        'Traceability': 'traceability',
+        'Lineage': 'lineage'
+      },
+      'AccessConstraints': ['access constraint 1', 'access constraint 2'],
+      'UseConstraints': ['use constraint 1', 'use constraint 2'],
       'ServiceKeywords': [
         {
-          'ServiceCategory': 'DATA MANAGEMENT/DATA HANDLING',
-          'ServiceTopic': 'TRANSFORMATION/CONVERSION'
+          'ServiceCategory': 'EARTH SCIENCE SERVICES',
+          'ServiceTopic': 'DATA ANALYSIS AND VISUALIZATION',
+          'ServiceTerm': 'GEOGRAPHIC INFORMATION SYSTEMS',
+          'ServiceSpecificTerm': 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
         }
       ],
+      'ScienceKeywords': [
+        {
+          'Category': 'EARTH SCIENCE',
+          'Topic': 'SOLID EARTH',
+          'Term': 'ROCKS/MINERALS/CRYSTALS',
+          'VariableLevel1': 'SEDIMENTARY ROCKS',
+          'VariableLevel2': 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES',
+          'VariableLevel3': 'LUMINESCENCE'
+        }
+      ],
+      'AncillaryKeywords': ['Ancillary keyword 1', 'Ancillary keyword 2'],
       'ServiceOrganizations': [
         {
-          'Roles': ['SERVICE PROVIDER'],
-          'ShortName': 'USGS/EROS',
-          'LongName': 'US GEOLOGICAL SURVEY EARTH RESOURCE OBSERVATION AND SCIENCE (EROS) LANDSAT CUSTOMER SERVICES',
-          'Uuid': '005c89f8-39ca-4645-b31a-d06a0118d7a1',
-          'ContactPersons': [{
-            'Roles': [ 'Service Provider Personnel'],
-            'ContactInformation': {
-              'ContactMechanisms': [
-                {
-                  'Type': 'Email',
-                  'Value': 'custserv at usgs.gov'
-                }, {
-                  'Type': 'Fax',
-                  'Value': '605-594-6589'
-                }, {
-                  'Type': 'Telephone',
-                  'Value': '605-594-6151'
-                }
-              ],
-              'Addresses': [{
-                'StreetAddresses': [ '47914 252nd Street' ],
-                'City': 'Sioux Falls',
-                'StateProvince': 'SD',
-                'Country': 'USA',
-                'PostalCode': '57198-0001'
-              }]
+          'Roles': ['DEVELOPER', 'PUBLISHER'],
+          'ShortName': 'AARHUS-HYDRO',
+          'LongName': 'Hydrogeophysics Group, Aarhus University',
+          'Uuid': '7b1ac64e-8bdd-45db-831b-994b13f60100',
+          'ContactGroups': [
+            {
+              'Roles': ['TECHNICAL CONTACT', 'SCIENCE CONTACT'],
+              'GroupName': 'Group 1',
+              'Uuid': 'b1837851-91b3-4aa9-8e89-f805fae629c9',
+              'NonServiceOrganizationAffiliation': 'NonServiceOrganizationAffiliation Group 1',
+              'ContactInformation': {
+                'ServiceHours': '9-6, M-F',
+                'ContactInstruction': 'Email only',
+                'ContactMechanisms': [
+                  {
+                    'Type': 'Email',
+                    'Value': 'example@example.com'
+                  }, {
+                    'Type': 'Email',
+                    'Value': 'example2@example.com'
+                  }
+                ],
+                'Addresses': [
+                  {
+                    'StreetAddresses': ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+                    'City': 'Washington',
+                    'StateProvince': 'DC',
+                    'PostalCode': '20546',
+                    'Country': 'United States'
+                  },
+                  {
+                    'StreetAddresses': ['8800 Greenbelt Road'],
+                    'City': 'Greenbelt',
+                    'StateProvince': 'MD',
+                    'PostalCode': '20771',
+                    'Country': 'United States'
+                  }
+                ],
+                'RelatedUrls': [
+                  {
+                    'Description': 'Related URL 1 Description',
+                    'URLContentType': 'CollectionURL',
+                    'Type': 'DATA SET LANDING PAGE',
+                    'URL': 'http://example.com/'
+                  },
+                  {
+                    'Description': 'Related URL 2 Description',
+                    'URLContentType': 'DistributionURL',
+                    'Type': 'GET SERVICE',
+                    'Subtype': 'DIF',
+                    'URL': 'https://example.com/',
+                    'GetService': {
+                      'MimeType': 'Not provided',
+                      'Protocol': 'HTTPS',
+                      'FullName': 'Service Name',
+                      'DataID': 'data_id',
+                      'DataType': 'data type',
+                      'URI': ['uri1', 'uri2']
+                    }
+                  },
+                  {
+                    'Description': 'Related URL 3 Description',
+                    'URLContentType': 'DistributionURL',
+                    'Type': 'GET DATA',
+                    'Subtype': 'EARTHDATA SEARCH',
+                    'URL': 'https://search.earthdata.nasa.gov/',
+                    'GetData': {
+                      'Format': 'ascii',
+                      'Size': 42,
+                      'Unit': 'KB',
+                      'Fees': '0',
+                      'Checksum': 'sdfgfgksghafgsdvbasf'
+                    }
+                  }
+                ]
+              }
             },
-            'FirstName': 'Service Provider Personnel First Name',
-            'MiddleName': 'Service Provider Personnel Middle Name',
-            'LastName': 'Service Provider Personnel Last Name'
-          }]
+            {
+              'Roles': ['SERVICE PROVIDER CONTACT'],
+              'GroupName': 'Group 2'
+            }
+          ],
+          'ContactPersons': [
+            {
+              'Roles': ['SERVICE PROVIDER'],
+              'FirstName': 'First',
+              'MiddleName': 'Middle',
+              'LastName': 'Last',
+              'Uuid': '39092bbc-97ec-41c3-ab85-e3e8cacf429a',
+              'NonServiceOrganizationAffiliation': 'NonServiceOrganizationAffiliation Person 1',
+              'ContactInformation': {
+                'ServiceHours': '9-6, M-F',
+                'ContactInstruction': 'Email only',
+                'ContactMechanisms': [
+                  {
+                    'Type': 'Email',
+                    'Value': 'example@example.com'
+                  }, {
+                    'Type': 'Email',
+                    'Value': 'example2@example.com'
+                  }
+                ],
+                'Addresses': [
+                  {
+                    'StreetAddresses': ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+                    'City': 'Washington',
+                    'StateProvince': 'DC',
+                    'PostalCode': '20546',
+                    'Country': 'United States'
+                  },
+                  {
+                    'StreetAddresses': ['8800 Greenbelt Road'],
+                    'City': 'Greenbelt',
+                    'StateProvince': 'MD',
+                    'PostalCode': '20771',
+                    'Country': 'United States'
+                  }
+                ],
+                'RelatedUrls': [
+                  {
+                    'Description': 'Related URL 1 Description',
+                    'URLContentType': 'CollectionURL',
+                    'Type': 'DATA SET LANDING PAGE',
+                    'URL': 'http://example.com/'
+                  },
+                  {
+                    'Description': 'Related URL 2 Description',
+                    'URLContentType': 'DistributionURL',
+                    'Type': 'GET SERVICE',
+                    'Subtype': 'DIF',
+                    'URL': 'https://example.com/',
+                    'GetService': {
+                      'MimeType': 'Not provided',
+                      'Protocol': 'HTTPS',
+                      'FullName': 'Service Name',
+                      'DataID': 'data_id',
+                      'DataType': 'data type',
+                      'URI': ['uri1', 'uri2']
+                    }
+                  },
+                  {
+                    'Description': 'Related URL 3 Description',
+                    'URLContentType': 'DistributionURL',
+                    'Type': 'GET DATA',
+                    'Subtype': 'EARTHDATA SEARCH',
+                    'URL': 'https://search.earthdata.nasa.gov/',
+                    'GetData': {
+                      'Format': 'ascii',
+                      'Size': 42,
+                      'Unit': 'KB',
+                      'Fees': '0',
+                      'Checksum': 'sdfgfgksghafgsdvbasf'
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              'Roles': ['DEVELOPER'],
+              'LastName': 'Last 2'
+            }
+          ],
+          'ContactInformation': {
+            'ServiceHours': '9-6, M-F',
+            'ContactInstruction': 'Email only',
+            'ContactMechanisms': [
+              {
+                'Type': 'Email',
+                'Value': 'example@example.com'
+              }, {
+                'Type': 'Email',
+                'Value': 'example2@example.com'
+              }
+            ],
+            'Addresses': [
+              {
+                'StreetAddresses': ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+                'City': 'Washington',
+                'StateProvince': 'DC',
+                'PostalCode': '20546',
+                'Country': 'United States'
+              },
+              {
+                'StreetAddresses': ['8800 Greenbelt Road'],
+                'City': 'Greenbelt',
+                'StateProvince': 'MD',
+                'PostalCode': '20771',
+                'Country': 'United States'
+              }
+            ],
+            'RelatedUrls': [
+              {
+                'Description': 'Related URL 1 Description',
+                'URLContentType': 'CollectionURL',
+                'Type': 'DATA SET LANDING PAGE',
+                'URL': 'http://example.com/'
+              },
+              {
+                'Description': 'Related URL 2 Description',
+                'URLContentType': 'DistributionURL',
+                'Type': 'GET SERVICE',
+                'Subtype': 'DIF',
+                'URL': 'https://example.com/',
+                'GetService': {
+                  'MimeType': 'Not provided',
+                  'Protocol': 'HTTPS',
+                  'FullName': 'Service Name',
+                  'DataID': 'data_id',
+                  'DataType': 'data type',
+                  'URI': ['uri1', 'uri2']
+                }
+              },
+              {
+                'Description': 'Related URL 3 Description',
+                'URLContentType': 'DistributionURL',
+                'Type': 'GET DATA',
+                'Subtype': 'EARTHDATA SEARCH',
+                'URL': 'https://search.earthdata.nasa.gov/',
+                'GetData': {
+                  'Format': 'ascii',
+                  'Size': 42,
+                  'Unit': 'KB',
+                  'Fees': '0',
+                  'Checksum': 'sdfgfgksghafgsdvbasf'
+                }
+              }
+            ]
+          }
+        },
+        {
+          'Roles': ['AUTHOR'],
+          'ShortName': 'ESA/ED',
+          'LongName': 'Educational Office, Ecological Society of America'
         }
-      ]
+      ],
+      'ContactGroups': [
+        {
+          'Roles': ['TECHNICAL CONTACT', 'SCIENCE CONTACT'],
+          'GroupName': 'Group 1',
+          'Uuid': 'b1837851-91b3-4aa9-8e89-f805fae629c9',
+          'NonServiceOrganizationAffiliation': 'NonServiceOrganizationAffiliation Group 1',
+          'ContactInformation': {
+            'ServiceHours': '9-6, M-F',
+            'ContactInstruction': 'Email only',
+            'ContactMechanisms': [
+              {
+                'Type': 'Email',
+                'Value': 'example@example.com'
+              }, {
+                'Type': 'Email',
+                'Value': 'example2@example.com'
+              }
+            ],
+            'Addresses': [
+              {
+                'StreetAddresses': ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+                'City': 'Washington',
+                'StateProvince': 'DC',
+                'PostalCode': '20546',
+                'Country': 'United States'
+              },
+              {
+                'StreetAddresses': ['8800 Greenbelt Road'],
+                'City': 'Greenbelt',
+                'StateProvince': 'MD',
+                'PostalCode': '20771',
+                'Country': 'United States'
+              }
+            ],
+            'RelatedUrls': [
+              {
+                'Description': 'Related URL 1 Description',
+                'URLContentType': 'CollectionURL',
+                'Type': 'DATA SET LANDING PAGE',
+                'URL': 'http://example.com/'
+              },
+              {
+                'Description': 'Related URL 2 Description',
+                'URLContentType': 'DistributionURL',
+                'Type': 'GET SERVICE',
+                'Subtype': 'DIF',
+                'URL': 'https://example.com/',
+                'GetService': {
+                  'MimeType': 'Not provided',
+                  'Protocol': 'HTTPS',
+                  'FullName': 'Service Name',
+                  'DataID': 'data_id',
+                  'DataType': 'data type',
+                  'URI': ['uri1', 'uri2']
+                }
+              },
+              {
+                'Description': 'Related URL 3 Description',
+                'URLContentType': 'DistributionURL',
+                'Type': 'GET DATA',
+                'Subtype': 'EARTHDATA SEARCH',
+                'URL': 'https://search.earthdata.nasa.gov/',
+                'GetData': {
+                  'Format': 'ascii',
+                  'Size': 42,
+                  'Unit': 'KB',
+                  'Fees': '0',
+                  'Checksum': 'sdfgfgksghafgsdvbasf'
+                }
+              }
+            ]
+          }
+        },
+        {
+          'Roles': ['SERVICE PROVIDER CONTACT'],
+          'GroupName': 'Group 2'
+        }
+      ],
+      'ContactPersons': [
+        {
+          'Roles': ['SERVICE PROVIDER'],
+          'FirstName': 'First',
+          'MiddleName': 'Middle',
+          'LastName': 'Last',
+          'Uuid': '39092bbc-97ec-41c3-ab85-e3e8cacf429a',
+          'NonServiceOrganizationAffiliation': 'NonServiceOrganizationAffiliation Person 1',
+          'ContactInformation': {
+            'ServiceHours': '9-6, M-F',
+            'ContactInstruction': 'Email only',
+            'ContactMechanisms': [
+              {
+                'Type': 'Email',
+                'Value': 'example@example.com'
+              }, {
+                'Type': 'Email',
+                'Value': 'example2@example.com'
+              }
+            ],
+            'Addresses': [
+              {
+                'StreetAddresses': ['300 E Street Southwest', 'Room 203', 'Address line 3'],
+                'City': 'Washington',
+                'StateProvince': 'DC',
+                'PostalCode': '20546',
+                'Country': 'United States'
+              },
+              {
+                'StreetAddresses': ['8800 Greenbelt Road'],
+                'City': 'Greenbelt',
+                'StateProvince': 'MD',
+                'PostalCode': '20771',
+                'Country': 'United States'
+              }
+            ],
+            'RelatedUrls': [
+              {
+                'Description': 'Related URL 1 Description',
+                'URLContentType': 'CollectionURL',
+                'Type': 'DATA SET LANDING PAGE',
+                'URL': 'http://example.com/'
+              },
+              {
+                'Description': 'Related URL 2 Description',
+                'URLContentType': 'DistributionURL',
+                'Type': 'GET SERVICE',
+                'Subtype': 'DIF',
+                'URL': 'https://example.com/',
+                'GetService': {
+                  'MimeType': 'Not provided',
+                  'Protocol': 'HTTPS',
+                  'FullName': 'Service Name',
+                  'DataID': 'data_id',
+                  'DataType': 'data type',
+                  'URI': ['uri1', 'uri2']
+                }
+              },
+              {
+                'Description': 'Related URL 3 Description',
+                'URLContentType': 'DistributionURL',
+                'Type': 'GET DATA',
+                'Subtype': 'EARTHDATA SEARCH',
+                'URL': 'https://search.earthdata.nasa.gov/',
+                'GetData': {
+                  'Format': 'ascii',
+                  'Size': 42,
+                  'Unit': 'KB',
+                  'Fees': '0',
+                  'Checksum': 'sdfgfgksghafgsdvbasf'
+                }
+              }
+            ]
+          }
+        },
+        {
+          'Roles': ['DEVELOPER'],
+          'LastName': 'Last 2'
+        }
+      ],
+      'Platforms': [
+        {
+          'ShortName': 'A340-600',
+          'LongName': 'Airbus A340-600',
+          'Instruments': [
+            {
+              'ShortName': 'ATM',
+              'LongName': 'Airborne Topographic Mapper'
+            },
+            {
+              'ShortName': 'LVIS',
+              'LongName': 'Land, Vegetation, and Ice Sensor'
+            }
+          ]
+        },
+        {
+          'ShortName': 'DMSP 5B/F3',
+          'LongName': 'Defense Meteorological Satellite Program-F3',
+          'Instruments': [
+            {
+              'ShortName': 'ACOUSTIC SOUNDERS'
+            }
+          ]
+        }
+      ],
+      'Coverage': {
+        'Name': 'Coverage Name',
+        'CoverageSpatialExtent': {
+          'Type': 'SPATIAL_POINT',
+          'Uuid': '13f5e348-ffad-4ef9-9600-12ad74f60f77',
+          'SpatialPoints': [
+            {
+              'Latitude': '0',
+              'Longitude': '0'
+            },
+            {
+              'Latitude': 50,
+              'Longitude': 50
+            }
+          ]
+        },
+        'SpatialResolution': '50',
+        'SpatialResolutionUnit': 'KM',
+        'CoverageTemporalExtent': {
+          'CoverageTimePoints': [
+            {
+              'TimeFormat': 'format 1',
+              'TimeValue': 'value 1',
+              'Description': 'description 1'
+            },
+            {
+              'TimeFormat': 'format 2',
+              'TimeValue': 'value 2',
+              'Description': 'description 2'
+            }
+          ],
+          'Uuid': '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40'
+        },
+        'TemporalResolution': '7',
+        'TemporalResolutionUnit': 'days',
+        'RelativePath': 'relative path'
+      },
+      'ServiceOptions': {
+        'SubsetTypes': ['Spatial'],
+        'SupportedProjections': ['Geographic'],
+        'InterpolationTypes': ['Bilinear Interpolation', 'Bicubic Interpolation'],
+        'SupportedFormats': ['HDF-EOS4', 'HDF-EOS5']
+      }
     }}
   end
 end
