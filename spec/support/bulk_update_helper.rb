@@ -7,6 +7,11 @@ module Helpers
 
         bulk_update_response = cmr_client.create_bulk_update(provider_id, bulk_update_params, admin ? 'access_token_admin' : 'access_token')
 
+        raise Array.wrap(bulk_update_response.body['errors']).join(' /// ') unless bulk_update_response.success?
+
+        # Synchronous way of waiting for CMR to complete the ingest work
+        wait_for_cmr
+
         return bulk_update_response.body
       end
     end

@@ -70,33 +70,55 @@ $(document).ready ->
 
     $longNameElement = $element.parent().siblings().find('.data-center-long-name')
 
-    $multipleItem = $element.closest('.multiple-item')
-    $dataContactType = $element.closest('.data-contact-type')
+    if $element.hasClass('bulk-updates-data-center')
+      # Bulk Updates form for Find & Update Data Center
 
-    if $dataContactType.length > 0
-      # the select is in the data contact form, so use the data contact type we are in
-      $relatedUrl = $dataContactType.find('.related-urls:first')
+      $relatedUrl = $element.parents('fieldset').find('.related-url')
+      $urlElement = $relatedUrl.find('.bulk-updates-url')
+      $urlContentTypeElement = $relatedUrl.find('.bulk-updates-related-url-content-type-select')
+      $urlTypeElement = $relatedUrl.find('.bulk-updates-related-url-type-select')
+
+      if $urlElement.val() != ''
+        $urlContentTypeElement.find('option').last().prop('disabled', false).prop('selected', true)
+        $urlContentTypeElement.find('option').first().prop('selected', false).prop('disabled', true)
+        $urlTypeElement.find('option').last().prop('disabled', false).prop('selected', true)
+        $urlTypeElement.find('option').first().prop('selected', false).prop('disabled', true)
+      else
+        $urlContentTypeElement.find('option').last().prop('selected', false).prop('disabled', true)
+        $urlContentTypeElement.find('option').first().prop('disabled', false).prop('selected', true)
+        $urlTypeElement.find('option').last().prop('selected', false).prop('disabled', true)
+        $urlTypeElement.find('option').first().prop('disabled', false).prop('selected', true)
+
+      $element.blur()
     else
-      $relatedUrl = $multipleItem.find('.related-urls:first')
+      # Collection Drafts form for Data Centers
+      $multipleItem = $element.closest('.multiple-item')
+      $dataContactType = $element.closest('.data-contact-type')
 
-    $urlElement = $relatedUrl.find('.url:first')
-    $urlContentTypeElement = $relatedUrl.find('.related-url-content-type-select:first')
+      if $dataContactType.length > 0
+        # the select is in the data contact form, so use the data contact type we are in
+        $relatedUrl = $dataContactType.find('.related-urls:first')
+      else
+        $relatedUrl = $multipleItem.find('.related-urls:first')
 
-    if longName?
-      $longNameElement.val(longName)
+      $urlElement = $relatedUrl.find('.url:first')
+      $urlContentTypeElement = $relatedUrl.find('.related-url-content-type-select:first')
 
-    if url?
-      $urlElement.val(url)
-      $urlElement.attr('readonly', true)
-      $urlContentTypeElement.find('option').last().prop 'selected', true
-      $urlContentTypeElement.trigger('change')
-    else
-      $urlElement.attr('readonly', false)
+      if longName?
+        $longNameElement.val(longName)
 
-      # If URL wasn't prepopulated on load
-      if $urlElement.val() == ''
-        $urlContentTypeElement.find('option').first().prop 'selected', true
+      if url?
+        $urlElement.val(url)
+        $urlElement.attr('readonly', true)
+        $urlContentTypeElement.find('option').last().prop 'selected', true
         $urlContentTypeElement.trigger('change')
+      else
+        $urlElement.attr('readonly', false)
+
+        # If URL wasn't prepopulated on load
+        if $urlElement.val() == ''
+          $urlContentTypeElement.find('option').first().prop 'selected', true
+          $urlContentTypeElement.trigger('change')
 
 
   # when selecting short name, populate long name

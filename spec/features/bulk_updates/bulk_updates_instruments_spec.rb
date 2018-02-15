@@ -13,7 +13,7 @@ describe 'Bulk Updating Instruments' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
-    let(:bulk_update_name) { 'Bulk Update Instruments Test Find & Remove 001' }
+    let(:bulk_update_name) { "Bulk Update Instruments Test Find & Remove #{Faker::Number.number(3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search collections
@@ -98,7 +98,7 @@ describe 'Bulk Updating Instruments' do
   end
 
   context 'when previewing a Find & Update bulk update', js: true do
-    let(:bulk_update_name) { 'Bulk Update Instruments Test Find & Update 002' }
+    let(:bulk_update_name) { "Bulk Update Instruments Test Find & Update #{Faker::Number.number(3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search collections
