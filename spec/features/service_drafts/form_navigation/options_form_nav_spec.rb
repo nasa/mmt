@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'features/service_drafts/lib/forms/options_form_spec'
 
 describe 'Service Options Form Navigation', js: true do
   before do

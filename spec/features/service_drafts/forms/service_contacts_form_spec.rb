@@ -1,25 +1,25 @@
 require 'rails_helper'
 
-describe 'Options Form', js: true do
+describe 'Service Contacts Form', js: true do
   before do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
-    visit edit_service_draft_path(draft, 'options')
+    visit edit_service_draft_path(draft, 'service_contacts')
     click_on 'Expand All'
   end
 
   context 'when submitting the form' do
     before do
-      select('Spatial', from: 'Subset Types')
-      select('Geographic', from: 'Supported Projections')
-      select('Bilinear Interpolation', from: 'Interpolation Types')
-      select('Bicubic Interpolation', from: 'Interpolation Types')
-      select('HDF-EOS4', from: 'Supported Formats')
-      select('HDF-EOS5', from: 'Supported Formats')
+      add_contact_groups
+      add_contact_persons
 
       within '.nav-top' do
         click_on 'Save'
       end
+
+      # TODO validation isn't working correctly
+      click_on 'Yes'
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do
@@ -27,7 +27,7 @@ describe 'Options Form', js: true do
     end
 
     context 'when viewing the form' do
-      include_examples 'Options Form'
+      include_examples 'Service Contacts Form'
     end
   end
 end

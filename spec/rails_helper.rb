@@ -23,6 +23,18 @@ require 'database_cleaner'
 require 'rake'
 require 'rails/tasks'
 
+# Shared examples for service drafts
+require 'features/service_drafts/lib/forms/acquisition_information_form_spec'
+require 'features/service_drafts/lib/forms/coverage_form_spec'
+require 'features/service_drafts/lib/forms/options_form_spec'
+require 'features/service_drafts/lib/forms/related_url_form_spec'
+require 'features/service_drafts/lib/forms/science_and_ancillary_keywords_form_spec'
+require 'features/service_drafts/lib/forms/service_contacts_form_spec'
+require 'features/service_drafts/lib/forms/service_identification_form_spec'
+require 'features/service_drafts/lib/forms/service_information_form_spec'
+require 'features/service_drafts/lib/forms/service_keywords_form_spec'
+require 'features/service_drafts/lib/forms/service_organizations_form_spec'
+
 # Specs flagged with `js: true` will use Capybara's JS driver. Set
 # that JS driver to :poltergeist
 Capybara.register_driver :poltergeist do |app|
@@ -147,6 +159,7 @@ RSpec.configure do |config|
   config.include Helpers::CmrHelper
   config.include Helpers::DateHelpers
   config.include Helpers::DraftHelpers
+  config.include Helpers::UmmSDraftHelpers
   config.include Helpers::GroupHelper
   config.include Helpers::SearchHelpers
   config.include Helpers::UserHelpers

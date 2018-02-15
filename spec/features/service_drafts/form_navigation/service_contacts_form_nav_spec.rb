@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'features/service_drafts/lib/forms/service_contacts_form_spec'
 
 describe 'Service Contacts Form Navigation', js: true do
   before do

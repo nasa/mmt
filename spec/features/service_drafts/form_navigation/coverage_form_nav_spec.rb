@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'features/service_drafts/lib/forms/coverage_form_spec'
 
 describe 'Coverage Form Navigation', js: true do
   before do

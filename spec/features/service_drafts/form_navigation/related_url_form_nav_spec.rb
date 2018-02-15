@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'features/service_drafts/lib/forms/related_url_form_spec'
 
 describe 'Related URL Form Navigation', js: true do
   before do

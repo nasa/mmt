@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'features/service_drafts/lib/forms/service_information_form_spec'
 
 describe 'Service Information Form', js: true do
   before do

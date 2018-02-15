@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'features/service_drafts/lib/forms/service_identification_form_spec'
 
 describe 'Service Identification Form Navigation', js: true do
   before do

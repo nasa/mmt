@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'features/service_drafts/lib/forms/science_and_ancillary_keywords_form_spec'
 
 describe 'Science and Ancillary Keywords Form Navigation', js: true do
   before do

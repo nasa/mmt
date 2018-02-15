@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'features/service_drafts/lib/forms/acquisition_information_form_spec'
 
 describe 'Acquisition Information Form Navigation', js: true do
   before do
