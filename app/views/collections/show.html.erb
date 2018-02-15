@@ -113,7 +113,7 @@
           } %>
       </section>
 
-      <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, editable: false } %>
+      <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, editable: false, edsc_url: nil, concept_id: nil } %>
     <% end %>
   </div>
 <% end %>
