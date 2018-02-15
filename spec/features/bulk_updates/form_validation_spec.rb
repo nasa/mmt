@@ -246,7 +246,7 @@ describe 'Bulk updates form validations', js: true do
 
       context 'when leaving a required field with no selection' do
         before do
-          select 'EARTH SCIENCE SERVICES', from: 'Category'
+          select 'EARTH SCIENCE', from: 'Category'
           select 'Select a Category', from: 'Category'
         end
 
@@ -275,7 +275,7 @@ describe 'Bulk updates form validations', js: true do
 
       context 'when leaving a required field with no selection' do
         before do
-          select 'EARTH SCIENCE SERVICES', from: 'Category'
+          select 'EARTH SCIENCE', from: 'Category'
           select 'Select a Category', from: 'Category'
         end
 

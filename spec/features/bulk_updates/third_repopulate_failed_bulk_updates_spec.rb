@@ -407,7 +407,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         select 'Science Keywords', from: 'Field to Update'
         select 'Find & Replace', from: 'Update Type'
 
-        select 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS', from: 'Level 1'
+        select 'SURFACE TEMPERATURE', from: 'Level 1'
 
         # Select new keyword from picker
         choose_keyword 'EARTH SCIENCE'
@@ -451,7 +451,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
           expect(page).to have_select('Update Type', selected: 'Find & Replace')
 
           within '.bulk-updates-find' do
-            expect(page).to have_select('VariableLevel1', selected: 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_select('VariableLevel1', selected: 'SURFACE TEMPERATURE')
           end
 
           within '.bulk-updates-value' do
@@ -478,11 +478,13 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
 
             # Find Values to Replace
             within '.find-values-preview' do
-              expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUEMOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+              expect(page).to have_content('Find Values to Replace')
+              expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUESURFACE TEMPERATURE')
             end
 
             # New Values
             within '.new-values-preview' do
+              expect(page).to have_content('New Value')
               expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
             end
 
