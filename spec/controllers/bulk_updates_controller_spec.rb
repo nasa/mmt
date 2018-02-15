@@ -76,6 +76,10 @@ describe BulkUpdatesController, reset_provider: true do
       it 'renders the preview view' do
         expect(response).to render_template(:new)
       end
+
+      it 'sets the task instance variable' do
+        expect(assigns(:task)).to be_a(Hash)
+      end
     end
 
     context 'when bulk updates are disabled' do
@@ -127,40 +131,36 @@ describe BulkUpdatesController, reset_provider: true do
         before do
           sign_in
 
+          success_response_body = { 'status': 200, 'task-id': '4' }.to_json
+          create_bulk_update_response = cmr_success_response(success_response_body)
+          allow_any_instance_of(Cmr::CmrClient).to receive(:create_bulk_update).and_return(create_bulk_update_response)
+
           post :create,
-               'concept_ids': ['1', '2'],
-               'name': 'test science keyword bulk update',
-               'update_field': 'science_keywords',
-               'update_type': 'FIND_AND_REPLACE',
+               'concept_ids': ['C1200000785-MMT_1'],
+               'name': 'test instruments bulk update',
+               'update_field': 'instruments',
+               'update_type': 'FIND_AND_UPDATE',
                'find_value': {
-                 'Category': 'this',
-                 'Topic': 'is',
-                 'VariableLevel2': 'test'
+                 'ShortName': 'ADS'
                },
                'update_value': {
-                 'Category': 'EARTH SCIENCE SERVICES',
-                 'Topic': 'DATA ANALYSIS AND VISUALIZATION',
-                 'Term': 'GEOGRAPHIC INFORMATION SYSTEMS',
-                 'VariableLevel1': 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+                 'ShortName': 'ATM',
+                 'LongName': 'Airborne Topographic Mapper'
                }
         end
 
         it 'sets the task instance variable' do
           expect(assigns(:task)).to eq(
-            'concept-ids' => ['1', '2'],
-            'name' => 'test science keyword bulk update',
-            'update-field' => 'SCIENCE_KEYWORDS',
-            'update-type' => 'FIND_AND_REPLACE',
+            'concept-ids' => ['C1200000785-MMT_1'],
+            'name' => 'test instruments bulk update',
+            'update-field' => 'INSTRUMENTS',
+            'update-type' => 'FIND_AND_UPDATE',
             'find-value' => {
-              'Category' => 'this',
-              'Topic' => 'is',
-              'VariableLevel2' => 'test'
+              'ShortName' => 'ADS'
             },
             'update-value' => {
-              'Category' => 'EARTH SCIENCE SERVICES',
-              'Topic' => 'DATA ANALYSIS AND VISUALIZATION',
-              'Term' => 'GEOGRAPHIC INFORMATION SYSTEMS',
-              'VariableLevel1' => 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+              'ShortName' => 'ATM',
+              'LongName' => 'Airborne Topographic Mapper'
             }
           )
         end
@@ -181,16 +181,16 @@ describe BulkUpdatesController, reset_provider: true do
                'update_field': 'bad_update_field',
                'update_type': 'BAD_UPDATE_TYPE',
                'update_value': {
-                 'Category': 'EARTH SCIENCE SERVICES',
-                 'Topic': 'DATA ANALYSIS AND VISUALIZATION',
-                 'Term': 'GEOGRAPHIC INFORMATION SYSTEMS',
-                 'VariableLevel1': 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+                 'Category': 'EARTH SCIENCE',
+                 'Topic': 'ATMOSPHERE',
+                 'Term': 'ATMOSPHERIC TEMPERATURE',
+                 'VariableLevel1': 'SURFACE TEMPERATURE'
                }
 
         end
 
-        it 'renders the preview view' do
-          expect(response).to render_template(:preview)
+        it 'renders the new view' do
+          expect(response).to render_template(:new)
         end
       end
     end
