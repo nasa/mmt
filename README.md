@@ -33,6 +33,8 @@ Next, create your database by running the standard rails command:
 And then to migrate the database schema, run the standard rails command:
 
     rake db:migrate
+    
+Finally, create an `application.yml` file in your `/config/` directory. The contents of this file will be supplied by an MMT developer
 
 ### Usage
 
