@@ -173,8 +173,11 @@ describe 'Related URL Form Navigation', js: true do
   end
 
   context 'When viewing the form with stored values' do
+    let(:draft) {
+      create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
+    }
+
     before do
-      draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_service_draft_path(draft, 'related_url')
       click_on 'Expand All'
     end
@@ -260,6 +263,13 @@ describe 'Related URL Form Navigation', js: true do
         # TODO validation isn't working correctly
         click_on 'Yes'
         click_on 'Expand All'
+      end
+
+      it 'saves the draft without making any changes' do
+        original_draft = draft.draft
+        new_draft = Draft.last.draft
+
+        expect(draft.draft.merge(new_draft)).to eq(original_draft)
       end
 
       it 'saves the draft and reloads the form' do

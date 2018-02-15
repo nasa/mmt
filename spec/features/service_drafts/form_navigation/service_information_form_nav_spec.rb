@@ -182,8 +182,11 @@ describe 'Service Information Form Navigation', js: true do
   end
 
   context 'When viewing the form with stored values' do
+    let(:draft) {
+      create(:full_service_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: 'Service Name', draft_entry_title: 'Long Service Name')
+    }
+
     before do
-      draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: 'Service Name', draft_entry_title: 'Long Service Name')
       visit edit_service_draft_path(draft, 'service_information')
     end
 
@@ -260,6 +263,13 @@ describe 'Service Information Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Save'
         end
+      end
+
+      it 'saves the draft without making any changes' do
+        original_draft = draft.draft
+        new_draft = Draft.last.draft
+
+        expect(draft.draft.merge(new_draft)).to eq(original_draft)
       end
 
       it 'saves the draft and reloads the form' do

@@ -83,6 +83,7 @@ class UmmJsonSchema < JsonFile
     elements_by_type({}, parsed_json['properties']).each do |type, keys|
       return type if keys.map { |type_key| (type_key.split('/') - ignore_keys).reject(&:blank?).join('/') }.include?(sanitized_key)
     end
+    nil
   end
 
   # Construct and return a hash with keys representing the type of object specified in the schema

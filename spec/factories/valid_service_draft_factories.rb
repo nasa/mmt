@@ -126,7 +126,7 @@ FactoryGirl.define do
         {
           'Roles': ['DEVELOPER', 'PUBLISHER'],
           'ShortName': 'AARHUS-HYDRO',
-          'LongName': 'Hydrogeophysics Group, Aarhus University',
+          'LongName': 'Hydrogeophysics Group, Aarhus University ',
           'Uuid': '7b1ac64e-8bdd-45db-831b-994b13f60100',
           'ContactGroups': [
             {
@@ -192,7 +192,7 @@ FactoryGirl.define do
                     'URL': 'https://search.earthdata.nasa.gov/',
                     'GetData': {
                       'Format': 'ascii',
-                      'Size': 42,
+                      'Size': 42.0,
                       'Unit': 'KB',
                       'Fees': '0',
                       'Checksum': 'sdfgfgksghafgsdvbasf'
@@ -272,7 +272,7 @@ FactoryGirl.define do
                     'URL': 'https://search.earthdata.nasa.gov/',
                     'GetData': {
                       'Format': 'ascii',
-                      'Size': 42,
+                      'Size': 42.0,
                       'Unit': 'KB',
                       'Fees': '0',
                       'Checksum': 'sdfgfgksghafgsdvbasf'
@@ -344,7 +344,7 @@ FactoryGirl.define do
                 'URL': 'https://search.earthdata.nasa.gov/',
                 'GetData': {
                   'Format': 'ascii',
-                  'Size': 42,
+                  'Size': 42.0,
                   'Unit': 'KB',
                   'Fees': '0',
                   'Checksum': 'sdfgfgksghafgsdvbasf'
@@ -352,11 +352,6 @@ FactoryGirl.define do
               }
             ]
           }
-        },
-        {
-          'Roles': ['AUTHOR'],
-          'ShortName': 'ESA/ED',
-          'LongName': 'Educational Office, Ecological Society of America'
         }
       ],
       'ContactGroups': [
@@ -423,7 +418,7 @@ FactoryGirl.define do
                 'URL': 'https://search.earthdata.nasa.gov/',
                 'GetData': {
                   'Format': 'ascii',
-                  'Size': 42,
+                  'Size': 42.0,
                   'Unit': 'KB',
                   'Fees': '0',
                   'Checksum': 'sdfgfgksghafgsdvbasf'
@@ -503,7 +498,7 @@ FactoryGirl.define do
                 'URL': 'https://search.earthdata.nasa.gov/',
                 'GetData': {
                   'Format': 'ascii',
-                  'Size': 42,
+                  'Size': 42.0,
                   'Unit': 'KB',
                   'Fees': '0',
                   'Checksum': 'sdfgfgksghafgsdvbasf'
@@ -549,12 +544,12 @@ FactoryGirl.define do
           'Uuid': '13f5e348-ffad-4ef9-9600-12ad74f60f77',
           'SpatialPoints': [
             {
-              'Latitude': '0',
-              'Longitude': '0'
+              'Latitude': 0.0,
+              'Longitude': 0.0
             },
             {
-              'Latitude': 50,
-              'Longitude': 50
+              'Latitude': 50.0,
+              'Longitude': 50.0
             }
           ]
         },

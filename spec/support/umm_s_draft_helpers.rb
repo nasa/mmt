@@ -1,6 +1,6 @@
 module Helpers
   module UmmSDraftHelpers
-    def add_contact_groups
+    def add_service_contact_groups
       within '.multiple.contact-groups' do
         select 'TECHNICAL CONTACT', from: 'Roles'
         select 'SCIENCE CONTACT', from: 'Roles'
@@ -17,7 +17,7 @@ module Helpers
       end
     end
 
-    def add_contact_persons
+    def add_service_contact_persons
       within '.multiple.contact-persons' do
         select 'SERVICE PROVIDER', from: 'Roles'
         fill_in 'First Name', with: 'First'
@@ -42,14 +42,9 @@ module Helpers
         select 'AARHUS-HYDRO', from: 'Short Name'
         fill_in 'Uuid', with: '7b1ac64e-8bdd-45db-831b-994b13f60100', match: :first
 
-        add_contact_groups
-        add_contact_persons
+        add_service_contact_groups
+        add_service_contact_persons
         add_service_contact_information
-      end
-      click_on 'Add another Service Organization'
-      within '.multiple.service-organizations > .multiple-item-1' do
-        select 'AUTHOR', from: 'Roles', match: :first
-        select 'ESA/ED', from: 'Short Name'
       end
     end
 

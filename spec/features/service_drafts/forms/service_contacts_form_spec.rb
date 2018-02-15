@@ -10,8 +10,8 @@ describe 'Service Contacts Form', js: true do
 
   context 'when submitting the form' do
     before do
-      add_contact_groups
-      add_contact_persons
+      add_service_contact_groups
+      add_service_contact_persons
 
       within '.nav-top' do
         click_on 'Save'

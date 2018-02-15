@@ -130,46 +130,32 @@ class UmmJsonForm < JsonFile
     # save
     Rails.logger.debug "Before Sanitization: #{input.inspect}"
 
-    unless input['draft'].blank?
-      # Convert nested arrays from the html form to arrays of hashes
-      input['draft'] = convert_to_arrays(input['draft'])
-
-      Rails.logger.debug "After Converting Arrays: #{input.inspect}"
-
-      # Convert fields that have specific types to their appropriate format
-      convert_values_by_type(input['draft'], input['draft'])
-
-      Rails.logger.debug "After Type Conversions: #{input.inspect}"
-    end
+    # Convert nested arrays from the html form to arrays of hashes
+    input['draft'] = convert_to_arrays(input.fetch('draft', {}))
+    Rails.logger.debug "After Converting Arrays: #{input.inspect}"
 
     # Convert ruby style form element names (example_string) to UMM preferred PascalCase
-    input['draft'] = input.fetch('draft', {}).to_camel_keys
-
+    input['draft'] = input['draft'].to_camel_keys
     Rails.logger.debug "After CamelKeys: #{input.inspect}"
 
-
-    Rails.logger.debug "Before setting defaults: #{input['draft'].inspect}"
+    # Convert fields that have specific types to their appropriate format
+    convert_values_by_type(input['draft'], input['draft'])
+    Rails.logger.debug "After Type Conversions: #{input.inspect}"
 
     input['draft'] = set_defaults(input['draft'], form_id)
-
     Rails.logger.debug "After setting defaults: #{input['draft'].inspect}"
-
 
     unless current_value.blank?
       Rails.logger.debug "A Current Value provided, merging input into: #{current_value.inspect}"
 
       input['draft'] = current_value.deep_merge(input['draft'])
-
       Rails.logger.debug "After Deep Merge: #{input['draft'].inspect}"
     end
 
     # Remove / Ignore empty values submitted by the user. This method returns nil
     # on a completely empty element but for our purposes we need an empty hash
     input['draft'] = compact_blank(input['draft']) || {}
-
-    Rails.logger.debug "After Removing Blanks: #{input.inspect}"
-
-    Rails.logger.debug "After Sanitization: #{input.inspect}"
+    Rails.logger.debug "After Removing Blanks (full Sanitization): #{input.inspect}"
 
     input
   end
@@ -227,14 +213,25 @@ class UmmJsonForm < JsonFile
       # Break the path out into parts for reconstruction
       element_path_as_array = element_path_for_object(new_key)
 
-      # Pull out the key's leaf, we'll use it set the value below
-      key_leaf = element_path_as_array.last
+      # If the element is an array, loop through the objects and convert
+      if element.is_a? Array
+        element.size.times do |index|
+          # Keep diggin'
+          new_element = element[index]
+          convert_values_by_type(input, new_element, "#{new_key}/#{index}") if new_element.is_a?(Hash)
+        end
+      else
+        # Pull out the key's leaf, we'll use it set the value below
+        key_leaf = element_path_as_array.last
 
-      # Remove the key_leaf so we don't navigate passed it below when we're setting the new value
-      element_path_as_array.delete(key_leaf)
+        # Remove the key_leaf so we don't navigate passed it below when we're setting the new value
+        element_path_as_array.pop
 
-      # Update the value in the input with the correct object type
-      element_path_as_array.reduce(input) { |a, e| a[e] }[key_leaf] = convert_key_to_type(element, schema.element_type(new_key))
+        element_path_as_array.map! { |value| UmmUtilities.convert_to_integer(value) }
+
+        # Update the value in the input with the correct object type
+        element_path_as_array.reduce(input) { |a, e| a[e] }[key_leaf] = convert_key_to_type(element, schema.element_type(new_key))
+      end
     end
   end
 
@@ -245,11 +242,11 @@ class UmmJsonForm < JsonFile
   # * +value+ - The value to convert to the specified type
   # * +type+ - The type to convert the value to
   def convert_key_to_type(value, type)
-    # TODO This type is passing in a schema, not a simple 'number' or 'integer'
+    # return value if type.nil?
     Rails.logger.debug "Convert `#{value}` to a #{type}"
 
     # Booleans
-    return (value.casecmp('true') >= 0 ? true : false) if type == 'boolean'
+    return (value.casecmp('true') >= 0) if type == 'boolean'
 
     # Numbers
     return UmmUtilities.convert_to_number(value) if type == 'number'

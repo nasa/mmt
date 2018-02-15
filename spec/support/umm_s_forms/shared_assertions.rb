@@ -107,7 +107,7 @@ def contact_information_assertions
       expect(page).to have_field('Url', with: 'https://search.earthdata.nasa.gov/')
 
       expect(page).to have_field('Format', with: 'ascii')
-      expect(page).to have_field('Size', with: '42')
+      expect(page).to have_field('Size', with: '42.0')
       expect(page).to have_field('Unit', with: 'KB')
       expect(page).to have_field('Fees', with: '0')
       expect(page).to have_field('Checksum', with: 'sdfgfgksghafgsdvbasf')
