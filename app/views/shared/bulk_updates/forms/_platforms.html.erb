@@ -27,12 +27,16 @@
     <div style="margin-bottom: 10px;">
       <%= label_tag('Type:') %>
       <span class="platform-type default">
-        Please select a Short Name
+        <% if @task.blank? %>
+          Please select a Short Name
+        <% else %>
+          <%= repopulate_update_value(@task, 'platforms', 'Type') %>
+        <% end %>
       </span>
 
       <%= hidden_field_tag(
         name_to_param('|update_value|_type'),
-        nil,
+        repopulate_update_value(@task, 'platforms', 'Type'),
         class: 'platform-type'
       ) %>
     </div>

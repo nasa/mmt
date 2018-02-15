@@ -14,7 +14,7 @@ describe 'Bulk updating Platforms' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
-    let(:bulk_update_name) { 'Bulk Update Platforms Test Find & Remove 001' }
+    let(:bulk_update_name) { "Bulk Update Platforms Test Find & Remove #{Faker::Number.number(3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search collections
@@ -102,7 +102,7 @@ describe 'Bulk updating Platforms' do
   end
 
   context 'when previewing a Find & Update bulk update that has a long name', js: true do
-    let(:bulk_update_name) { 'Bulk Update Platforms Test Find & Update 002' }
+    let(:bulk_update_name) { "Bulk Update Platforms Test Find & Update #{Faker::Number.number(3)}" }
     before(:each, bulk_update_step_1: true) do
       # Search collections
       select 'Entry Title', from: 'Search Field'
@@ -189,9 +189,6 @@ describe 'Bulk updating Platforms' do
 
       context 'when viewing a draft form of the collection' do
         before do
-          # within '#bulk-update-status-table' do
-          #   click_on @find_and_update_concept_response.body['EntryTitle']
-          # end
           visit collection_path(@find_and_update_ingest_response['concept-id'])
           click_on 'Edit Collection Record'
           click_on 'Acquisition Information'
@@ -208,7 +205,7 @@ describe 'Bulk updating Platforms' do
   end
 
   context 'when previewing a Find & Update bulk update that does not have a long name', js: true do
-    let(:bulk_update_name) { 'Bulk Update Platforms Test Find & Update 003' }
+    let(:bulk_update_name) { "Bulk Update Platforms Test Find & Update #{Faker::Number.number(3)}" }
     before(:each, bulk_update_step_1: true) do
       # Search collections
       select 'Entry Title', from: 'Search Field'
@@ -295,9 +292,6 @@ describe 'Bulk updating Platforms' do
 
       context 'when viewing a draft form of the collection' do
         before do
-          # within '#bulk-update-status-table' do
-          #   click_on @find_and_update_concept_response_2.body['EntryTitle']
-          # end
           visit collection_path(@find_and_update_ingest_response_2['concept-id'])
           click_on 'Edit Collection Record'
           click_on 'Acquisition Information'

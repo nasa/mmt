@@ -432,14 +432,6 @@ $(document).ready ->
     $('#bulk-update-preview-button').on 'click', (e) ->
       $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find, #bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").addClass('visited')
 
-    # disable the url content type and url type select fields on page load
-    $('.bulk-updates-related-url-content-type-select, .bulk-updates-related-url-type-select').each ->
-      $select = $(this)
-      $select.prop('disabled', true).addClass('disabled')
-      $select.find('option').each ->
-        $option = $(this)
-        if $option.val() != ''
-          $option.prop('disabled', true).addClass('disabled')
 
 
     #

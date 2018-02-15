@@ -95,6 +95,7 @@ class BulkUpdatesController < ManageCollectionsController
     bulk_updates_list = retrieve_bulk_updates
     bulk_update_names = bulk_updates_list.map { |bulk_update| bulk_update.fetch('name', nil) }
 
+    # if the name exists in the provider, return false
     render json: !bulk_update_names.include?(params[:name])
   end
 
