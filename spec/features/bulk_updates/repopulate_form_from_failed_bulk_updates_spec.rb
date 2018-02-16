@@ -21,9 +21,8 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
       click_on 'Next'
     end
 
-    context 'when creating a bulk update for Platforms' do
-      # let(:used_bulk_update_name) { "Platform Bulk Update Already Used Name #{Faker::Number.number(4)}" }
-      before do # add specific step tag?
+    context 'when submitting a bulk update for Platforms but there is already a bulk update with the same name' do
+      before do
         @used_bulk_update_name = "Platforms Bulk Update Already Used Name #{Faker::Number.number(4)}"
 
         # Bulk Update form
@@ -36,85 +35,78 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'DMSP 5B/F3', match: :first).click
 
         click_on 'Preview'
-      end
 
-      it 'displays the preview page' do
         expect(page).to have_content('Preview of New MMT_2 Bulk Update')
+
+        _bulk_update_response = create_bulk_update(
+          payload: {
+            'concept-ids': [@ingest_response['concept-id']],
+            'name': @used_bulk_update_name,
+            'update-field': 'INSTRUMENTS',
+            'update-type': 'FIND_AND_UPDATE',
+            'find-value': { 'ShortName': 'ADS' },
+            'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
+          }
+        )
+
+        click_on 'Submit'
       end
 
-      context 'when submitting the bulk update but there is already a bulk update with the same name' do
+      it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('New')
+          expect(page).to have_no_content(@used_bulk_update_name)
+        end
+
+        expect(page).to have_content('Error creating bulk update task: Bulk update name needs to be unique within the provider.')
+
+        expect(page).to have_field('bulk_update_name', with: @used_bulk_update_name)
+        expect(page).to have_select('Field to Update', selected: 'Platforms')
+        expect(page).to have_select('Update Type', selected: 'Find & Update')
+        expect(page).to have_field('Short Name', with: 'A340-600')
+        # expect(page).to have_css('li.select2-selection__choice', text: 'DMSP 5B/F3')
+        expect(page).to have_select('update_value_short_name', selected: 'DMSP 5B/F3')
+        expect(page).to have_field('Long Name', with: 'Defense Meteorological Satellite Program-F3')
+      end
+
+      context 'when changing the name and previewing the bulk update again' do
+        let(:new_bulk_update_name) { "All New Bulk Update Name for Platforms #{Faker::Number.number(3)}" }
         before do
-          _bulk_update_response = create_bulk_update(
-            payload: {
-              'concept-ids': [@ingest_response['concept-id']],
-              'name': @used_bulk_update_name,
-              'update-field': 'INSTRUMENTS',
-              'update-type': 'FIND_AND_UPDATE',
-              'find-value': { 'ShortName': 'ADS' },
-              'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
-            }
-          )
+          fill_in 'bulk_update_name', with: new_bulk_update_name
 
-          click_on 'Submit'
+          click_on 'Preview'
         end
 
-        it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
-          within '.eui-breadcrumbs' do
-            expect(page).to have_content('New')
-            expect(page).to have_no_content(@used_bulk_update_name)
+        it 'displays the preview with the previously entered data and new name' do
+          expect(page).to have_content('Preview of New MMT_2 Bulk Update')
+
+          expect(page).to have_content("Name #{new_bulk_update_name}")
+          expect(page).to have_content('Field to Update Platforms')
+          expect(page).to have_content('Update Type Find And Update')
+
+          # Find Values to Update
+          within '.find-values-preview' do
+            expect(page).to have_content('Short Name: A340-600')
           end
 
-          expect(page).to have_content('Error creating bulk update task: Bulk update name needs to be unique within the provider.')
-
-          expect(page).to have_field('bulk_update_name', with: @used_bulk_update_name)
-          expect(page).to have_select('Field to Update', selected: 'Platforms')
-          expect(page).to have_select('Update Type', selected: 'Find & Update')
-          expect(page).to have_field('Short Name', with: 'A340-600')
-          # expect(page).to have_css('li.select2-selection__choice', text: 'DMSP 5B/F3')
-          expect(page).to have_select('update_value_short_name', selected: 'DMSP 5B/F3')
-          expect(page).to have_field('Long Name', with: 'Defense Meteorological Satellite Program-F3')
-        end
-
-        context 'when changing the name and previewing the bulk update again' do
-          let(:new_bulk_update_name) { "All New Bulk Update Name for Platforms #{Faker::Number.number(3)}" }
-          before do
-            fill_in 'bulk_update_name', with: new_bulk_update_name
-
-            click_on 'Preview'
+          # New Values
+          within '.new-values-preview' do
+            expect(page).to have_content('Type: Earth Observation Satellites')
+            expect(page).to have_content('Short Name: DMSP 5B/F3')
+            expect(page).to have_content('Long Name: Defense Meteorological Satellite Program-F3')
           end
 
-          it 'displays the preview with the previously entered data and new name' do
-            expect(page).to have_content('Preview of New MMT_2 Bulk Update')
-
-            expect(page).to have_content("Name #{new_bulk_update_name}")
-            expect(page).to have_content('Field to Update Platforms')
-            expect(page).to have_content('Update Type Find And Update')
-
-            # Find Values to Update
-            within '.find-values-preview' do
-              expect(page).to have_content('Short Name: A340-600')
-            end
-
-            # New Values
-            within '.new-values-preview' do
-              expect(page).to have_content('Type: Earth Observation Satellites')
-              expect(page).to have_content('Short Name: DMSP 5B/F3')
-              expect(page).to have_content('Long Name: Defense Meteorological Satellite Program-F3')
-            end
-
-            within '.bulk-update-preview-table' do
-              expect(page).to have_content(@concept_response.body['EntryTitle'])
-              expect(page).to have_content(@concept_response.body['ShortName'])
-            end
+          within '.bulk-update-preview-table' do
+            expect(page).to have_content(@concept_response.body['EntryTitle'])
+            expect(page).to have_content(@concept_response.body['ShortName'])
           end
         end
       end
     end
 
-    context 'when creating a bulk update for Instruments' do
+    context 'when submitting a bulk update for Instruments but there is already a bulk update with the same name' do
       before do
         @used_bulk_update_name = "Instruments Bulk Update Already Used Name #{Faker::Number.number(4)}"
-        puts "instrument name: #{@used_bulk_update_name}"
 
         # Bulk Update form
         fill_in 'bulk_update_name', with: @used_bulk_update_name
@@ -129,80 +121,74 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ATM').click
 
         click_on 'Preview'
-      end
 
-      it 'displays the preview page' do
         expect(page).to have_content('Preview of New MMT_2 Bulk Update')
+
+        _bulk_update_response = create_bulk_update(
+          payload: {
+            'concept-ids': [@ingest_response['concept-id']],
+            'name': @used_bulk_update_name,
+            'update-field': 'INSTRUMENTS',
+            'update-type': 'FIND_AND_UPDATE',
+            'find-value': { 'ShortName': 'ADS' },
+            'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
+          }
+        )
+
+        click_on 'Submit'
       end
 
-      context 'when submitting the bulk update but there is already a bulk update with the same name' do
+      it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('New')
+          expect(page).to have_no_content(@used_bulk_update_name)
+        end
+
+        expect(page).to have_content('Error creating bulk update task: Bulk update name needs to be unique within the provider.')
+
+        expect(page).to have_field('bulk_update_name', with: @used_bulk_update_name)
+        expect(page).to have_select('Field to Update', selected: 'Instruments')
+        expect(page).to have_select('Update Type', selected: 'Find & Update')
+        expect(page).to have_field('Short Name', with: 'ADS')
+        expect(page).to have_select('update_value_short_name', selected: 'ATM')
+        expect(page).to have_field('Long Name', with: 'Airborne Topographic Mapper')
+      end
+
+      context 'when changing the name and previewing the bulk update again' do
+        let(:new_bulk_update_name) { "All New Bulk Update Name for Instruments #{Faker::Number.number(3)}" }
         before do
-          _bulk_update_response = create_bulk_update(
-            payload: {
-              'concept-ids': [@ingest_response['concept-id']],
-              'name': @used_bulk_update_name,
-              'update-field': 'INSTRUMENTS',
-              'update-type': 'FIND_AND_UPDATE',
-              'find-value': { 'ShortName': 'ADS' },
-              'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
-            }
-          )
+          fill_in 'bulk_update_name', with: new_bulk_update_name
 
-          click_on 'Submit'
+          click_on 'Preview'
         end
 
-        it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
-          within '.eui-breadcrumbs' do
-            expect(page).to have_content('New')
-            expect(page).to have_no_content(@used_bulk_update_name)
+        it 'displays the preview with the previously entered data and new name' do
+          expect(page).to have_content('Preview of New MMT_2 Bulk Update')
+
+          expect(page).to have_content("Name #{new_bulk_update_name}")
+          expect(page).to have_content('Field to Update Instruments')
+          expect(page).to have_content('Update Type Find And Update')
+
+          # Find Values to Update
+          within '.find-values-preview' do
+            expect(page).to have_content('Short Name: ADS')
           end
 
-          expect(page).to have_content('Error creating bulk update task: Bulk update name needs to be unique within the provider.')
-
-          expect(page).to have_field('bulk_update_name', with: @used_bulk_update_name)
-          expect(page).to have_select('Field to Update', selected: 'Instruments')
-          expect(page).to have_select('Update Type', selected: 'Find & Update')
-          expect(page).to have_field('Short Name', with: 'ADS')
-          expect(page).to have_select('update_value_short_name', selected: 'ATM')
-          expect(page).to have_field('Long Name', with: 'Airborne Topographic Mapper')
-        end
-
-        context 'when changing the name and previewing the bulk update again' do
-          let(:new_bulk_update_name) { "All New Bulk Update Name for Instruments #{Faker::Number.number(3)}" }
-          before do
-            fill_in 'bulk_update_name', with: new_bulk_update_name
-
-            click_on 'Preview'
+          # New Values
+          within '.new-values-preview' do
+            expect(page).to have_content('Short Name: ATM')
+            expect(page).to have_content('Long Name: Airborne Topographic Mapper')
           end
 
-          it 'displays the preview with the previously entered data and new name' do
-            expect(page).to have_content('Preview of New MMT_2 Bulk Update')
-
-            expect(page).to have_content("Name #{new_bulk_update_name}")
-            expect(page).to have_content('Field to Update Instruments')
-            expect(page).to have_content('Update Type Find And Update')
-
-            # Find Values to Update
-            within '.find-values-preview' do
-              expect(page).to have_content('Short Name: ADS')
-            end
-
-            # New Values
-            within '.new-values-preview' do
-              expect(page).to have_content('Short Name: ATM')
-              expect(page).to have_content('Long Name: Airborne Topographic Mapper')
-            end
-
-            within '.bulk-update-preview-table' do
-              expect(page).to have_content(@concept_response.body['EntryTitle'])
-              expect(page).to have_content(@concept_response.body['ShortName'])
-            end
+          within '.bulk-update-preview-table' do
+            expect(page).to have_content(@concept_response.body['EntryTitle'])
+            expect(page).to have_content(@concept_response.body['ShortName'])
           end
         end
       end
     end
 
-    context 'when creating a bulk update for Data Centers' do
+    context 'when submitting a bulk update for Data Centers but there is already a bulk update with the same name' do
       before do
         @used_bulk_update_name = "Data Centers Bulk Update Already Used Name #{Faker::Number.number(4)}"
 
@@ -218,88 +204,82 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'OR-STATE/EOARC').click
 
         click_on 'Preview'
-      end
 
-      it 'displays the preview page' do
         expect(page).to have_content('Preview of New MMT_2 Bulk Update')
+
+        _bulk_update_response = create_bulk_update(
+          payload: {
+            'concept-ids': [@ingest_response['concept-id']],
+            'name': @used_bulk_update_name,
+            'update-field': 'INSTRUMENTS',
+            'update-type': 'FIND_AND_UPDATE',
+            'find-value': { 'ShortName': 'ADS' },
+            'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
+          }
+        )
+
+        click_on 'Submit'
       end
 
-      context 'when submitting the bulk update but there is already a bulk update with the same name' do
+      it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('New')
+          expect(page).to have_no_content(@used_bulk_update_name)
+        end
+
+        expect(page).to have_content('Error creating bulk update task: Bulk update name needs to be unique within the provider.')
+
+        expect(page).to have_field('bulk_update_name', with: @used_bulk_update_name)
+        expect(page).to have_select('Field to Update', selected: 'Data Centers')
+        expect(page).to have_select('Update Type', selected: 'Find & Update')
+        expect(page).to have_field('Short Name', with: 'AARHUS-HYDRO')
+        expect(page).to have_select('update_value_short_name', selected: 'OR-STATE/EOARC')
+        expect(page).to have_field('Long Name', with: 'Eastern Oregon Agriculture Research Center, Oregon State University')
+
+        within '.related-url' do
+          expect(page).to have_css('option[selected]', text: 'Data Center URL')
+          expect(page).to have_css('option[selected]', text: 'Home Page')
+          expect(page).to have_field('URL', with: 'http://oregonstate.edu/dept/eoarcunion/')
+        end
+      end
+
+      context 'when changing the name and previewing the bulk update again' do
+        let(:new_bulk_update_name) { "All New Bulk Update Name for Data Centers #{Faker::Number.number(3)}" }
         before do
-          _bulk_update_response = create_bulk_update(
-            payload: {
-              'concept-ids': [@ingest_response['concept-id']],
-              'name': @used_bulk_update_name,
-              'update-field': 'INSTRUMENTS',
-              'update-type': 'FIND_AND_UPDATE',
-              'find-value': { 'ShortName': 'ADS' },
-              'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
-            }
-          )
+          fill_in 'bulk_update_name', with: new_bulk_update_name
 
-          click_on 'Submit'
+          click_on 'Preview'
         end
 
-        it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
-          within '.eui-breadcrumbs' do
-            expect(page).to have_content('New')
-            expect(page).to have_no_content(@used_bulk_update_name)
+        it 'displays the preview with the previously entered data and new name' do
+          expect(page).to have_content('Preview of New MMT_2 Bulk Update')
+
+          expect(page).to have_content("Name #{new_bulk_update_name}")
+          expect(page).to have_content('Field to Update Data Centers')
+          expect(page).to have_content('Update Type Find And Update')
+          # Find Values to Update
+          within '.find-values-preview' do
+            expect(page).to have_content('Short Name: AARHUS-HYDRO')
           end
 
-          expect(page).to have_content('Error creating bulk update task: Bulk update name needs to be unique within the provider.')
-
-          expect(page).to have_field('bulk_update_name', with: @used_bulk_update_name)
-          expect(page).to have_select('Field to Update', selected: 'Data Centers')
-          expect(page).to have_select('Update Type', selected: 'Find & Update')
-          expect(page).to have_field('Short Name', with: 'AARHUS-HYDRO')
-          expect(page).to have_select('update_value_short_name', selected: 'OR-STATE/EOARC')
-          expect(page).to have_field('Long Name', with: 'Eastern Oregon Agriculture Research Center, Oregon State University')
-
-          within '.related-url' do
-            expect(page).to have_css('option[selected]', text: 'Data Center URL')
-            expect(page).to have_css('option[selected]', text: 'Home Page')
-            expect(page).to have_field('URL', with: 'http://oregonstate.edu/dept/eoarcunion/')
-          end
-        end
-
-        context 'when changing the name and previewing the bulk update again' do
-          let(:new_bulk_update_name) { "All New Bulk Update Name for Data Centers #{Faker::Number.number(3)}" }
-          before do
-            fill_in 'bulk_update_name', with: new_bulk_update_name
-
-            click_on 'Preview'
+          # New Values
+          within '.new-values-preview' do
+            expect(page).to have_content('Short Name: OR-STATE/EOARC')
+            expect(page).to have_content('Long Name: Eastern Oregon Agriculture Research Center, Oregon State University')
+            expect(page).to have_content('Related Url Content Type: DataCenterURL')
+            expect(page).to have_content('Related Url Type: HOME PAGE')
+            expect(page).to have_content('Related URL: http://oregonstate.edu/dept/eoarcunion/')
           end
 
-          it 'displays the preview with the previously entered data and new name' do
-            expect(page).to have_content('Preview of New MMT_2 Bulk Update')
-
-            expect(page).to have_content("Name #{new_bulk_update_name}")
-            expect(page).to have_content('Field to Update Data Centers')
-            expect(page).to have_content('Update Type Find And Update')
-            # Find Values to Update
-            within '.find-values-preview' do
-              expect(page).to have_content('Short Name: AARHUS-HYDRO')
-            end
-
-            # New Values
-            within '.new-values-preview' do
-              expect(page).to have_content('Short Name: OR-STATE/EOARC')
-              expect(page).to have_content('Long Name: Eastern Oregon Agriculture Research Center, Oregon State University')
-              expect(page).to have_content('Related Url Content Type: DataCenterURL')
-              expect(page).to have_content('Related Url Type: HOME PAGE')
-              expect(page).to have_content('Related URL: http://oregonstate.edu/dept/eoarcunion/')
-            end
-
-            within '.bulk-update-preview-table' do
-              expect(page).to have_content(@concept_response.body['EntryTitle'])
-              expect(page).to have_content(@concept_response.body['ShortName'])
-            end
+          within '.bulk-update-preview-table' do
+            expect(page).to have_content(@concept_response.body['EntryTitle'])
+            expect(page).to have_content(@concept_response.body['ShortName'])
           end
         end
       end
     end
 
-    context 'when creating a bulk update for Location Keywords' do
+    context 'when submitting a bulk update for Location Keywords but there is already a bulk update with the same name' do
       before do
         @used_bulk_update_name = "Location Keywords Bulk Update Already Used Name #{Faker::Number.number(4)}"
 
@@ -318,87 +298,81 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         click_on 'Select Keyword'
 
         click_on 'Preview'
-      end
 
-      it 'displays the preview page' do
         expect(page).to have_content('Preview of New MMT_2 Bulk Update')
+
+        _bulk_update_response = create_bulk_update(
+          payload: {
+            'concept-ids': [@ingest_response['concept-id']],
+            'name': @used_bulk_update_name,
+            'update-field': 'INSTRUMENTS',
+            'update-type': 'FIND_AND_UPDATE',
+            'find-value': { 'ShortName': 'ADS' },
+            'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
+          }
+        )
+
+        click_on 'Submit'
       end
 
-      context 'when submitting the bulk update but there is already a bulk update with the same name' do
+      it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('New')
+          expect(page).to have_no_content(@used_bulk_update_name)
+        end
+
+        expect(page).to have_content('Error creating bulk update task: Bulk update name needs to be unique within the provider.')
+
+        expect(page).to have_field('bulk_update_name', with: @used_bulk_update_name)
+        expect(page).to have_select('Field to Update', selected: 'Location Keywords')
+        expect(page).to have_select('Update Type', selected: 'Find & Replace')
+
+        within '.bulk-updates-find' do
+          expect(page).to have_field('location_category', with: 'OCEAN')
+        end
+
+        within '.bulk-updates-value' do
+          expect(page).to have_field('new_location_category', with: 'OCEAN')
+          expect(page).to have_field('new_type', with: 'ATLANTIC OCEAN')
+          expect(page).to have_field('new_subregion_1', with: 'NORTH ATLANTIC OCEAN')
+          expect(page).to have_field('new_subregion_2', with: 'BALTIC SEA')
+        end
+      end
+
+      context 'when changing the name and previewing the bulk update again' do
+        let(:new_bulk_update_name) { "All New Bulk Update Name for Location Keywords #{Faker::Number.number(3)}" }
         before do
-          _bulk_update_response = create_bulk_update(
-            payload: {
-              'concept-ids': [@ingest_response['concept-id']],
-              'name': @used_bulk_update_name,
-              'update-field': 'INSTRUMENTS',
-              'update-type': 'FIND_AND_UPDATE',
-              'find-value': { 'ShortName': 'ADS' },
-              'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
-            }
-          )
+          fill_in 'bulk_update_name', with: new_bulk_update_name
 
-          click_on 'Submit'
+          click_on 'Preview'
         end
 
-        it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
-          within '.eui-breadcrumbs' do
-            expect(page).to have_content('New')
-            expect(page).to have_no_content(@used_bulk_update_name)
+        it 'displays the preview with the previously entered data and new name' do
+          expect(page).to have_content('Preview of New MMT_2 Bulk Update')
+
+          expect(page).to have_content("Name #{new_bulk_update_name}")
+          expect(page).to have_content('Field to Update Location Keywords')
+          expect(page).to have_content('Update Type Find And Replace')
+
+          # Find Values to Replace
+          within '.find-values-preview' do
+            expect(page).to have_content('OCEAN')
           end
 
-          expect(page).to have_content('Error creating bulk update task: Bulk update name needs to be unique within the provider.')
-
-          expect(page).to have_field('bulk_update_name', with: @used_bulk_update_name)
-          expect(page).to have_select('Field to Update', selected: 'Location Keywords')
-          expect(page).to have_select('Update Type', selected: 'Find & Replace')
-
-          within '.bulk-updates-find' do
-            expect(page).to have_field('location_category', with: 'OCEAN')
+          # New Values
+          within '.new-values-preview' do
+            expect(page).to have_content('OCEANATLANTIC OCEANNORTH ATLANTIC OCEANBALTIC SEA')
           end
 
-          within '.bulk-updates-value' do
-            expect(page).to have_field('new_location_category', with: 'OCEAN')
-            expect(page).to have_field('new_type', with: 'ATLANTIC OCEAN')
-            expect(page).to have_field('new_subregion_1', with: 'NORTH ATLANTIC OCEAN')
-            expect(page).to have_field('new_subregion_2', with: 'BALTIC SEA')
-          end
-        end
-
-        context 'when changing the name and previewing the bulk update again' do
-          let(:new_bulk_update_name) { "All New Bulk Update Name for Location Keywords #{Faker::Number.number(3)}" }
-          before do
-            fill_in 'bulk_update_name', with: new_bulk_update_name
-
-            click_on 'Preview'
-          end
-
-          it 'displays the preview with the previously entered data and new name' do
-            expect(page).to have_content('Preview of New MMT_2 Bulk Update')
-
-            expect(page).to have_content("Name #{new_bulk_update_name}")
-            expect(page).to have_content('Field to Update Location Keywords')
-            expect(page).to have_content('Update Type Find And Replace')
-
-            # Find Values to Replace
-            within '.find-values-preview' do
-              expect(page).to have_content('OCEAN')
-            end
-
-            # New Values
-            within '.new-values-preview' do
-              expect(page).to have_content('OCEANATLANTIC OCEANNORTH ATLANTIC OCEANBALTIC SEA')
-            end
-
-            within '.bulk-update-preview-table' do
-              expect(page).to have_content(@concept_response.body['EntryTitle'])
-              expect(page).to have_content(@concept_response.body['ShortName'])
-            end
+          within '.bulk-update-preview-table' do
+            expect(page).to have_content(@concept_response.body['EntryTitle'])
+            expect(page).to have_content(@concept_response.body['ShortName'])
           end
         end
       end
     end
 
-    context 'when creating a bulk update for Science Keywords' do
+    context 'when submitting a bulk update for Science Keywords but there is already a bulk update with the same name' do
       before do
         @used_bulk_update_name = "Science Keywords Bulk Update Already Used Name #{Faker::Number.number(4)}"
 
@@ -416,82 +390,76 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         click_on 'Select Keyword'
 
         click_on 'Preview'
-      end
 
-      it 'displays the preview page' do
         expect(page).to have_content('Preview of New MMT_2 Bulk Update')
+
+        _bulk_update_response = create_bulk_update(
+          payload: {
+            'concept-ids': [@ingest_response['concept-id']],
+            'name': @used_bulk_update_name,
+            'update-field': 'INSTRUMENTS',
+            'update-type': 'FIND_AND_UPDATE',
+            'find-value': { 'ShortName': 'ADS' },
+            'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
+          }
+        )
+
+        click_on 'Submit'
       end
 
-      context 'when submitting the bulk update but there is already a bulk update with the same name' do
+      it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('New')
+          expect(page).to have_no_content(@used_bulk_update_name)
+        end
+
+        expect(page).to have_content('Error creating bulk update task: Bulk update name needs to be unique within the provider.')
+
+        expect(page).to have_field('bulk_update_name', with: @used_bulk_update_name)
+        expect(page).to have_select('Field to Update', selected: 'Science Keywords')
+        expect(page).to have_select('Update Type', selected: 'Find & Replace')
+
+        within '.bulk-updates-find' do
+          expect(page).to have_select('VariableLevel1', selected: 'SURFACE TEMPERATURE')
+        end
+
+        within '.bulk-updates-value' do
+          expect(page).to have_field('new_category', with: 'EARTH SCIENCE')
+          expect(page).to have_field('new_topic', with: 'ATMOSPHERE')
+          expect(page).to have_field('new_term', with: 'AEROSOLS')
+        end
+      end
+
+      context 'when changing the name and previewing the bulk update again' do
+        let(:new_bulk_update_name) { "All New Bulk Update Name for Science Keywords #{Faker::Number.number(3)}" }
         before do
-          _bulk_update_response = create_bulk_update(
-            payload: {
-              'concept-ids': [@ingest_response['concept-id']],
-              'name': @used_bulk_update_name,
-              'update-field': 'INSTRUMENTS',
-              'update-type': 'FIND_AND_UPDATE',
-              'find-value': { 'ShortName': 'ADS' },
-              'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
-            }
-          )
+          fill_in 'bulk_update_name', with: new_bulk_update_name
 
-          click_on 'Submit'
+          click_on 'Preview'
         end
 
-        it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
-          within '.eui-breadcrumbs' do
-            expect(page).to have_content('New')
-            expect(page).to have_no_content(@used_bulk_update_name)
+        it 'displays the preview with the previously entered data and new name' do
+          expect(page).to have_content('Preview of New MMT_2 Bulk Update')
+
+          expect(page).to have_content("Name #{new_bulk_update_name}")
+          expect(page).to have_content('Field to Update Science Keywords')
+          expect(page).to have_content('Update Type Find And Replace')
+
+          # Find Values to Replace
+          within '.find-values-preview' do
+            expect(page).to have_content('Find Values to Replace')
+            expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUESURFACE TEMPERATURE')
           end
 
-          expect(page).to have_content('Error creating bulk update task: Bulk update name needs to be unique within the provider.')
-
-          expect(page).to have_field('bulk_update_name', with: @used_bulk_update_name)
-          expect(page).to have_select('Field to Update', selected: 'Science Keywords')
-          expect(page).to have_select('Update Type', selected: 'Find & Replace')
-
-          within '.bulk-updates-find' do
-            expect(page).to have_select('VariableLevel1', selected: 'SURFACE TEMPERATURE')
+          # New Values
+          within '.new-values-preview' do
+            expect(page).to have_content('New Value')
+            expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
           end
 
-          within '.bulk-updates-value' do
-            expect(page).to have_field('new_category', with: 'EARTH SCIENCE')
-            expect(page).to have_field('new_topic', with: 'ATMOSPHERE')
-            expect(page).to have_field('new_term', with: 'AEROSOLS')
-          end
-        end
-
-        context 'when changing the name and previewing the bulk update again' do
-          let(:new_bulk_update_name) { "All New Bulk Update Name for Science Keywords #{Faker::Number.number(3)}" }
-          before do
-            fill_in 'bulk_update_name', with: new_bulk_update_name
-
-            click_on 'Preview'
-          end
-
-          it 'displays the preview with the previously entered data and new name' do
-            expect(page).to have_content('Preview of New MMT_2 Bulk Update')
-
-            expect(page).to have_content("Name #{new_bulk_update_name}")
-            expect(page).to have_content('Field to Update Science Keywords')
-            expect(page).to have_content('Update Type Find And Replace')
-
-            # Find Values to Replace
-            within '.find-values-preview' do
-              expect(page).to have_content('Find Values to Replace')
-              expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUESURFACE TEMPERATURE')
-            end
-
-            # New Values
-            within '.new-values-preview' do
-              expect(page).to have_content('New Value')
-              expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
-            end
-
-            within '.bulk-update-preview-table' do
-              expect(page).to have_content(@concept_response.body['EntryTitle'])
-              expect(page).to have_content(@concept_response.body['ShortName'])
-            end
+          within '.bulk-update-preview-table' do
+            expect(page).to have_content(@concept_response.body['EntryTitle'])
+            expect(page).to have_content(@concept_response.body['ShortName'])
           end
         end
       end
