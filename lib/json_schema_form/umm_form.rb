@@ -15,8 +15,7 @@ class UmmForm < JsonObj
     @options = options
     @field_value = field_value
 
-    @full_key = key
-    @full_key += form_section_json['key'] if form_section_json['key'] && !@full_key.ends_with?(form_section_json['key'])
+    @full_key = build_key(form_section_json, key)
 
     @title = @parsed_json['title']
     @subtitle = @parsed_json['subtitle']
@@ -39,6 +38,11 @@ class UmmForm < JsonObj
     end
   end
 
+  def build_key(fragment, key)
+    key += fragment['key'] if fragment['key'] && !key.ends_with?(fragment['key'])
+    key
+  end
+
   # Override default inspect for a more concise representation of the object
   def inspect
     "#<UmmForm title: \"#{title}\" description: \"#{description}\">"
@@ -49,18 +53,11 @@ class UmmForm < JsonObj
     hidden = 'display: none;' if parsed_json['hideUnlessValues'] && element_value && !element_value.key?(parsed_json['hideUnlessValues'])
 
     content_tag(:div, class: parsed_json['htmlClass'], style: hidden) do
-      # # Display a title for the section if its provided
-      # concat content_tag(:h3, title, class: 'space-bot') unless title.nil?
-      #
-      # # Display a subtitle for the section if its provided
-      # concat content_tag(:h4, subtitle, class: 'space-bot') unless subtitle.nil?
-      #
       # Display a description of the section if its provided
       concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
 
       if parsed_json['label']
         label_text = parsed_json['label']
-        # concat label_tag(keyify_property_name(form_fragment), form_element.title, class: ('eui-required-o' if schema.required_field?(form_fragment['key'])))
         concat label_tag('', label_text, class: ('eui-required-o' if schema.required_field?(full_key)))
 
         # Adds the help modal link and icon
@@ -88,9 +85,8 @@ class UmmForm < JsonObj
   def elements(json_fragment: nil, fields: [], key: '')
     fragment = (json_fragment || parsed_json)
 
-    key += fragment['key'] if fragment['key'] && !key.ends_with?(fragment['key'])
+    key = build_key(fragment, key)
 
-    # TODO need a new way to determine if a fragment is a field since using 'key' to build the path. using 'field' for now
     if fragment.key?('field')
       element_class = fragment.fetch('type', 'UmmTextField')
       form_element = element_class.constantize.new(form_section_json: fragment, json_form: json_form, schema: schema, options: options, key: key, field_value: field_value)
@@ -123,7 +119,6 @@ class UmmForm < JsonObj
 
     elements.each do |field|
       # Ignore this field if it's not required to be valid
-      # next unless json_form.invalid?(field['key'], ignore_required_fields: false) || (schema.required_field?(field['key']) && !field.value?)
       next unless json_form.invalid?(field['key'], ignore_required_fields: false) || (schema.required_field?(field['key']) && !field.value?)
 
       # Field is required and has no value
@@ -177,7 +172,6 @@ class UmmForm < JsonObj
   # Path used to look this value up in the schema for the help modal
   def help_path
     key = parsed_json['help']
-    # key ||= parsed_json['key']
     key ||= full_key
     path = json_form.element_path_for_object(key, ignore_keys: %w(index_id))
 
@@ -191,7 +185,6 @@ class UmmForm < JsonObj
   def element_value
     # Uses reduce to dig through the provided object to look for and return the
     # provided key that could be nested
-    # path = json_form.element_path_for_object(parsed_json['key'])
     path = json_form.element_path_for_object(full_key, ignore_keys: %w(items properties))
     path.pop if path.last == 'index_id'
 
@@ -325,46 +318,10 @@ class UmmFormElement < UmmForm
     nil
   end
 
-  # # Get the value for the provided key from the provided object
-  # def element_value
-  #   # Uses reduce to dig through the provided object to look for and return the
-  #   # provided key that could be nested
-  #   # path = json_form.element_path_for_object(parsed_json['key'])
-  #   path = json_form.element_path_for_object(full_key, ignore_keys: %w(items properties))
-  #   path.pop() if path.last == 'index_id'
-  #
-  #   # If an index is provided, insert it into the path
-  #   unless options['index'].nil?
-  #     if path.size == 1
-  #       path << options['index']
-  #     else
-  #       path.insert(path.size - 1, options['index']) unless options['index'].nil?
-  #     end
-  #   end
-  #   if options['indexes']
-  #     if path.index('index_id')
-  #       Array.wrap(options['indexes']).each do |index|
-  #         path[path.index('index_id')] = index
-  #       end
-  #     end
-  #   end
-  #
-  #   # Look up the value in the object at the specified path
-  #   path.reduce(json_form.object) { |a, e| a[e] }
-  # rescue
-  #   nil
-  # end
-  #
-  # # Return whether or not this element has a stored value
-  # def value?
-  #   !element_value.nil? && element_value != ''
-  # end
-
   # We use '/' as a separator in our key names for the purposes of looking them up
   # in the schema when nested. This method translates that into ruby syntax to retrieve
   # a nested key in a hash e.g. 'object/first_key/leaf' => 'object[first_key][leaf]'
   def keyify_property_name(element, ignore_keys: %w(items properties index_id))
-    # provided_key = [json_form.options['field_prefix'], element['key']].compact.reject(&:empty?).join('/')
     provided_key = [json_form.options['field_prefix'], full_key].compact.reject(&:empty?).join('/')
 
     if options['indexes']
@@ -442,7 +399,6 @@ class UmmFormElement < UmmForm
 
   # Locates the fragment of the schema that the provided key represents
   def schema_fragment
-    # schema.retrieve_schema_fragment(json_form.element_path_for_object(parsed_json['key'], ignore_keys: %w(index_id)).join('/'))
     schema.retrieve_schema_fragment(json_form.element_path_for_object(full_key, ignore_keys: %w(index_id)).join('/'))
   end
 
@@ -462,23 +418,6 @@ class UmmFormElement < UmmForm
     end
   end
 
-  # # Renders a clickable icon that provides information pertaining to the form element
-  # #
-  # # ==== Attributes
-  # #
-  # # * +path+ - The path to find the information for this element within the schema
-  # def help_icon(path)
-  #   link_to('#help-modal', class: 'display-modal') do
-  #     concat content_tag(:i, nil, class: 'eui-icon eui-fa-info-circle', data: { 'help-path': path })
-  #     concat content_tag(:span, "Help modal for #{title}", class: 'is-invisible')
-  #   end
-  # end
-  #
-  # # Path used to look this value up in the schema for the help modal
-  # def help_path
-  #   "properties/#{json_form.element_path_for_object(form_fragment['key'], ignore_keys: %w(index_id)).join('/')}"
-  # end
-
   # Return this form element for display within a form
   def render_markup
     capture do
@@ -490,7 +429,6 @@ class UmmFormElement < UmmForm
       unless form_fragment['noLabel']
         label_text = form_element.title
         label_text = parsed_json['label'] if parsed_json['label']
-        # concat label_tag(keyify_property_name(form_fragment), form_element.title, class: ('eui-required-o' if schema.required_field?(form_fragment['key'])))
         concat label_tag(keyify_property_name(form_fragment), label_text, class: ('eui-required-o' if schema.required_field?(full_key)))
 
         # Adds the help modal link and icon
@@ -513,7 +451,6 @@ class UmmFormElement < UmmForm
       if form_element.value?
         concat form_element.render_preview
       else
-        # concat content_tag(:p, "No value for #{schema.fetch_key_leaf(parsed_json['key']).titleize} provided.", class: 'empty-section')
         concat content_tag(:p, "No value for #{schema.fetch_key_leaf(parsed_json['key']).titleize} provided.", class: 'empty-section')
       end
     end
