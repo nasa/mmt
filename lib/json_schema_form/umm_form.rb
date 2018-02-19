@@ -39,8 +39,16 @@ class UmmForm < JsonObj
   end
 
   def build_key(fragment, key)
-    key += fragment['key'] if fragment['key'] && !key.ends_with?(fragment['key'])
-    key
+    value = key
+    value += fragment['key'] if fragment['key'] && !value.ends_with?(fragment['key'])
+
+    value
+  end
+
+  def top_key
+    value = full_key.split('/').first
+    value = full_key.split('/')[1] if value.blank?
+    value
   end
 
   # Override default inspect for a more concise representation of the object
@@ -111,13 +119,39 @@ class UmmForm < JsonObj
     fields
   end
 
+  def top_elements(json_fragment: nil, fields: [])
+    fragment = (json_fragment || parsed_json)
+
+    if fragment.key?('key')
+      # puts "fragment['key']: #{fragment['key']}"
+      new_field = UmmFormElement.new(form_section_json: fragment, json_form: json_form, schema: schema, options: options, key: fragment['key'], field_value: field_value)
+      fields << new_field unless fields.select { |f| f.top_key == new_field.top_key }.size > 0
+
+      # As soon as we find the 'key' element we want to stop digging because if we
+      # go any further we'll also display each individual field within an array field
+      return
+    end
+
+    fragment.each_value do |element|
+      next unless element.is_a?(Enumerable)
+
+      if element.is_a?(Array)
+        element.map { |array_element| top_elements(json_fragment: array_element, fields: fields) }
+      else
+        top_elements(json_fragment: element, fields: fields)
+      end
+    end
+
+    fields
+  end
+
   # Determines whether or not a form section is complete and returns an
   # icon to represent the determinimation
   def form_circle
     # True until told otherwise
     valid = true
 
-    elements.each do |field|
+    top_elements.each do |field|
       # Ignore this field if it's not required to be valid
       next unless json_form.invalid?(field['key'], ignore_required_fields: false) || (schema.required_field?(field['key']) && !field.value?)
 
@@ -232,6 +266,9 @@ class UmmForm < JsonObj
 
   def expandable?
     parsed_json['expandable']
+
+  def accordion_id
+    top_key.nil? ? parsed_json.fetch('title', '').gsub(/( )/, '-').downcase : top_key.underscore.dasherize
   end
 end
 
@@ -278,7 +315,7 @@ end
 # :nodoc:
 class UmmFormAccordion < UmmForm
   def render_markup
-    content_tag(:fieldset, class: "eui-accordion is-closed #{parsed_json['htmlClass']}") do
+    content_tag(:fieldset, class: "eui-accordion is-closed #{parsed_json['htmlClass']}", id: accordion_id) do
       concat render_accordion_header
       concat render_accordion_body
     end
@@ -317,7 +354,7 @@ end
 # :nodoc:
 class UmmFormOpenAccordion < UmmFormAccordion
   def render_markup
-    content_tag(:fieldset, class: "eui-accordion #{parsed_json['htmlClass']}") do
+    content_tag(:fieldset, class: "eui-accordion #{parsed_json['htmlClass']}", id: accordion_id) do
       concat render_accordion_header
       concat render_accordion_body
     end
@@ -340,7 +377,7 @@ class UmmFormElement < UmmForm
   # We use '/' as a separator in our key names for the purposes of looking them up
   # in the schema when nested. This method translates that into ruby syntax to retrieve
   # a nested key in a hash e.g. 'object/first_key/leaf' => 'object[first_key][leaf]'
-  def keyify_property_name(element, ignore_keys: %w(items properties index_id))
+  def keyify_property_name(ignore_keys: %w(items properties index_id))
     provided_key = [json_form.options['field_prefix'], full_key].compact.reject(&:empty?).join('/')
 
     if options['indexes']
@@ -357,8 +394,8 @@ class UmmFormElement < UmmForm
     json_form.element_path_for_object(provided_key, ignore_keys: ignore_keys).map.with_index { |key, index| index.zero? ? key.underscore : "[#{key.underscore}]" }.join
   end
 
-  def idify_property_name(element, ignore_keys: %w(items properties index_id))
-    sanitize_to_id(keyify_property_name(element, ignore_keys: ignore_keys))
+  def idify_property_name(ignore_keys: %w(items properties index_id))
+    sanitize_to_id(keyify_property_name(ignore_keys: ignore_keys))
   end
 
   # Returns all the properties necessary to operate jQuery Validation on the given element
@@ -428,8 +465,10 @@ class UmmFormElement < UmmForm
 
   # The value displayed on the form and within the preview that best represents the title of this element
   def title
+    return @title if @title
+
     value = schema.fetch_key_leaf(full_key)
-    # schema.fetch_key_leaf(form_fragment['key']).titleize
+
     if value.ends_with?('ID')
       value.titleize + ' ID'
     else
@@ -448,7 +487,7 @@ class UmmFormElement < UmmForm
       unless form_fragment['noLabel']
         label_text = form_element.title
         label_text = parsed_json['label'] if parsed_json['label']
-        concat label_tag(keyify_property_name(form_fragment), label_text, class: ('eui-required-o' if schema.required_field?(full_key)))
+        concat label_tag(keyify_property_name, label_text, class: ('eui-required-o' if schema.required_field?(full_key)))
 
         # Adds the help modal link and icon
         concat help_icon(help_path)
@@ -460,7 +499,7 @@ class UmmFormElement < UmmForm
 
   # Renders a user friendly version of the value(s) stored within this element
   def render_preview
-    content_tag(:div, id: "#{idify_property_name(form_fragment)}_preview") do
+    content_tag(:div, id: "#{idify_property_name}_preview") do
       # Determine the class to use fo rendering this element
       element_class = form_fragment.fetch('type', 'UmmTextField')
       form_element = element_class.constantize.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
