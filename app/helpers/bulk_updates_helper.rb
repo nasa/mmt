@@ -232,14 +232,14 @@ module BulkUpdatesHelper
   def show_find_value(field_to_update, task)
     return nil unless field_to_update == task[:update_field]
 
-    task[:update_type].upcase.start_with?('FIND')
+    task.fetch(:update_type, '').upcase.start_with?('FIND')
   end
 
   # IF NOT type FIND_AND_REMOVE, New value required
   def show_update_value(field_to_update, task)
     return nil unless field_to_update == task[:update_field]
 
-    task[:update_type].upcase != 'FIND_AND_REMOVE'
+    task.fetch(:update_type, '').upcase != 'FIND_AND_REMOVE'
   end
 
   def repopulate_find_value(task, field_to_update, find_field)

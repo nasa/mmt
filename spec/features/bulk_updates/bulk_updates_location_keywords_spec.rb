@@ -83,9 +83,6 @@ describe 'Bulk updating Location Keywords' do
 
       context 'when viewing the collection' do
         before do
-          # within '#bulk-update-status-table' do
-          #   click_on @find_and_remove_concept_response.body['EntryTitle']
-          # end
           visit collection_path(@find_and_remove_ingest_response['concept-id'])
         end
 
@@ -171,9 +168,6 @@ describe 'Bulk updating Location Keywords' do
 
       context 'when viewing the collection' do
         before do
-          # within '#bulk-update-status-table' do
-          #   click_on @add_to_existing_concept_response.body['EntryTitle']
-          # end
           visit collection_path(@add_to_existing_ingest_response['concept-id'])
         end
 
@@ -272,9 +266,6 @@ describe 'Bulk updating Location Keywords' do
 
       context 'when viewing the collection' do
         before do
-          # within '#bulk-update-status-table' do
-          #   click_on @find_and_replace_concept_response.body['EntryTitle']
-          # end
           visit collection_path(@find_and_replace_ingest_response['concept-id'])
         end
 
@@ -362,9 +353,6 @@ describe 'Bulk updating Location Keywords' do
 
       context 'when viewing the collection' do
         before do
-          # within '#bulk-update-status-table' do
-          #   click_on @clear_all_and_replace_concept_response.body['EntryTitle']
-          # end
           visit collection_path(@clear_all_and_replace_ingest_response['concept-id'])
         end
 

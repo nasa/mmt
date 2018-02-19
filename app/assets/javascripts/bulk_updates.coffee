@@ -353,8 +353,7 @@ $(document).ready ->
     # on load, disable the inputs from partials that are hidden
     $('.bulk-update-partial').each ->
       if $(this).hasClass('is-hidden')
-        $update_field_selector = "#" + $(this)[0].id
-        hideAndClear($update_field_selector)
+        hideAndClear("#" + $(this)[0].id)
 
     # Handle the hiding and showing of the appropriate form
     # partial for the collection field being updated
