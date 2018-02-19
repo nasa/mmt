@@ -64,7 +64,6 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         expect(page).to have_select('Field to Update', selected: 'Platforms')
         expect(page).to have_select('Update Type', selected: 'Find & Update')
         expect(page).to have_field('Short Name', with: 'A340-600')
-        # expect(page).to have_css('li.select2-selection__choice', text: 'DMSP 5B/F3')
         expect(page).to have_select('update_value_short_name', selected: 'DMSP 5B/F3')
         expect(page).to have_field('Long Name', with: 'Defense Meteorological Satellite Program-F3')
       end

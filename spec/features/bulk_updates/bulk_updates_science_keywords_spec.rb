@@ -169,9 +169,6 @@ describe 'Bulk updating Science Keywords' do
 
       context 'when viewing the collection' do
         before do
-          # within '#bulk-update-status-table' do
-          #   click_on @add_to_existing_concept_response.body['EntryTitle']
-          # end
           visit collection_path(@add_to_existing_ingest_response['concept-id'])
         end
 

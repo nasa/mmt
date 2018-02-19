@@ -202,7 +202,6 @@ class BulkUpdatesController < ManageCollectionsController
       update_value:   params[:update_value]
     }
 
-    Rails.logger.info "!!!!**** !!!! **** reconstructed task #{reconstructed_bulk_update_object.inspect}"
     reconstructed_bulk_update_object
   end
 end

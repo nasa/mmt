@@ -82,9 +82,6 @@ describe 'Bulk updating Data Centers' do
 
       context 'when viewing the collection' do
         before do
-          # within '#bulk-update-status-table' do
-          #   click_on @find_and_remove_concept_response.body['EntryTitle']
-          # end
           visit collection_path(@find_and_remove_ingest_response['concept-id'])
         end
 
