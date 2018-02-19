@@ -85,13 +85,15 @@ class UmmForm < JsonObj
   end
 
   # Retreive a list of all the UmmFormElement's from within this form
-  def elements(json_fragment: nil, fields: [])
+  def elements(json_fragment: nil, fields: [], key: '')
     fragment = (json_fragment || parsed_json)
+
+    key += fragment['key'] if fragment['key'] && !key.ends_with?(fragment['key'])
 
     # TODO need a new way to determine if a fragment is a field since using 'key' to build the path. using 'field' for now
     if fragment.key?('field')
       element_class = fragment.fetch('type', 'UmmTextField')
-      form_element = element_class.constantize.new(form_section_json: fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
+      form_element = element_class.constantize.new(form_section_json: fragment, json_form: json_form, schema: schema, options: options, key: key, field_value: field_value)
 
       fields << form_element
 
@@ -100,15 +102,13 @@ class UmmForm < JsonObj
       return
     end
 
-    fragment.each do |_key, element|
+    fragment.each_value do |element|
       next unless element.is_a?(Enumerable)
 
       if element.is_a?(Array)
-        element.each do |array_element|
-          elements(json_fragment: array_element, fields: fields)
-        end
+        element.map { |array_element| elements(json_fragment: array_element, fields: fields, key: key) }
       else
-        elements(json_fragment: element, fields: fields)
+        elements(json_fragment: element, fields: fields, key: key)
       end
     end
 

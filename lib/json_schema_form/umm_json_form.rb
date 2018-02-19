@@ -143,13 +143,13 @@ class UmmJsonForm < JsonFile
     Rails.logger.debug "After Type Conversions: #{input.inspect}"
 
     input['draft'] = set_defaults(input['draft'], form_id)
-    Rails.logger.debug "After setting defaults: #{input['draft'].inspect}"
+    Rails.logger.debug "After setting defaults: #{input.inspect}"
 
     unless current_value.blank?
       Rails.logger.debug "A Current Value provided, merging input into: #{current_value.inspect}"
 
       input['draft'] = current_value.deep_merge(input['draft'])
-      Rails.logger.debug "After Deep Merge: #{input['draft'].inspect}"
+      Rails.logger.debug "After Deep Merge: #{input.inspect}"
     end
 
     # Remove / Ignore empty values submitted by the user. This method returns nil
@@ -170,9 +170,13 @@ class UmmJsonForm < JsonFile
     form = get_form(form_id || forms.first.parsed_json['id'])
 
     form.elements.each do |form_element|
-      keys = element_path_for_object(form_element.schema_fragment['key'])
+      keys = element_path_for_object(form_element.full_key)
 
-      fragment = update_value(fragment, keys, form_element.default_value)
+      if fragment.is_a? Array
+        fragment.map! { |f| update_value(f, keys, form_element.default_value) }
+      else
+        fragment = update_value(fragment, keys, form_element.default_value)
+      end
     end
 
     fragment
@@ -184,13 +188,17 @@ class UmmJsonForm < JsonFile
     return fragment if keys.blank?
     key = keys.shift
 
-    fragment[key] = if fragment.key?(key)
-                      update_value(fragment[key], keys, default_value)
-                    elsif !keys.empty?
-                      update_value({}, keys, default_value)
-                    else
-                      default_value
-                    end
+    if fragment.is_a? Array
+      fragment.map! { |f| update_value(f, keys, default_value) }
+    else
+      fragment[key] = if fragment.key?(key)
+                        update_value(fragment[key], keys, default_value)
+                      elsif !keys.empty?
+                        update_value({}, keys, default_value)
+                      else
+                        default_value
+                      end
+    end
 
     fragment
   end
@@ -242,7 +250,7 @@ class UmmJsonForm < JsonFile
   # * +value+ - The value to convert to the specified type
   # * +type+ - The type to convert the value to
   def convert_key_to_type(value, type)
-    # return value if type.nil?
+    return value if type.nil?
     Rails.logger.debug "Convert `#{value}` to a #{type}"
 
     # Booleans

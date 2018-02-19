@@ -267,10 +267,7 @@ describe 'Service Identification Form Navigation', js: true do
       end
 
       it 'saves the draft without making any changes' do
-        original_draft = draft.draft
-        new_draft = Draft.last.draft
-
-        expect(draft.draft.merge(new_draft)).to eq(original_draft)
+        expect(draft.draft).to eq(Draft.last.draft)
       end
 
       it 'saves the draft and reloads the form' do

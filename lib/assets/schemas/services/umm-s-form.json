@@ -439,12 +439,12 @@
     {
       "id": "options",
       "title": "Options",
-      "key": "ServiceOptions/properties",
       "items": [
         /* ServiceOptions */
         {
           "type": "open_accordion",
           "title": "Options",
+          "key": "ServiceOptions/properties",
           "noHelp": "true",
           "items": [
             {
