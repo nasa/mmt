@@ -1,4 +1,3 @@
 --order random
 --format documentation
 --color
---exclude-pattern "spec/{features,controllers}/**/*_spec.rb"

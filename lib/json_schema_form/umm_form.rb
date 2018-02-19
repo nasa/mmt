@@ -210,6 +210,21 @@ class UmmForm < JsonObj
     nil
   end
 
+  # Get the value to display for text fields and text areas
+  def text_value
+    if full_key.ends_with?('index_id')
+      field_value
+    elsif full_key.index('index_id')
+      path = json_form.element_path_for_object(full_key.split('index_id/').last)
+      v = path.reduce(field_value) { |a, e| a.fetch(e, {}) }
+      # empty fields sometimes show up as {},
+      # when we really want them to be ''
+      v == {} ? '' : v
+    else
+      element_value
+    end
+  end
+
   # Return whether or not this element has a stored value
   def value?
     !element_value.nil? && element_value != ''

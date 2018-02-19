@@ -30,7 +30,6 @@ class CollectionDraftsController < BaseDraftsController
     set_platform_short_names
     set_instrument_short_names
     set_temporal_keywords
-    # set_data_centers
     set_country_codes
     set_language_codes
     @errors = validate_metadata
