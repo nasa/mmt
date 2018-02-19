@@ -119,7 +119,7 @@
             </div>
             <div class="eui-accordion__body">
               <% form.elements.each do |element| %>
-                <div id="<%= element.idify_property_name(element.parsed_json) %>_preview" class="umm-preview-field-container">
+                <div id="<%= element.idify_property_name %>_preview" class="umm-preview-field-container">
                   <h5><%= element.title %></h5>
 
                   <% if element.value? %>

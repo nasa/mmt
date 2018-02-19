@@ -62,11 +62,11 @@
             </div>
             <div class="eui-accordion__body">
               <% form.elements.each do |element| %>
-                <div id="<%= element.idify_property_name(element.parsed_json) %>_preview" class="umm-preview-field-container">
+                <div id="<%= element.idify_property_name %>_preview" class="umm-preview-field-container">
                   <h5>
                     <%= element.title %>
 
-                    <%= link_to send("edit_#{resource_name}_path", get_resource, form.parsed_json['id'], anchor: element.idify_property_name(element.parsed_json)), class: 'hash-link' do %>
+                    <%= link_to send("edit_#{resource_name}_path", get_resource, form.parsed_json['id'], anchor: element.idify_property_name), class: 'hash-link' do %>
                       <i class="fa fa-edit"></i>
                       <span class="is-invisible">Edit <%= element.title %></span>
                     <% end %>

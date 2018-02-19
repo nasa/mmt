@@ -9,13 +9,14 @@
         <div class="meta-info">
           <%= link_to form_section.title, send("edit_#{resource_name}_path", resource, form_section.parsed_json['id']) %>
           <div class="progress-indicators">
-            <% form_section.elements.each do |field| %>
-              <% if json_form.invalid?(field['key']) %>
-              <%= invalid_circle(field.title, resource, form_section.parsed_json['id'], field.idify_property_name(field.parsed_json)) %>
+            <!-- this only needs to loop through top level elements -->
+            <% form_section.top_elements.each do |field| %>
+              <% if json_form.invalid?(field.top_key) %>
+                <%= invalid_circle(field.title, resource, form_section.parsed_json['id'], field.accordion_id) %>
               <% elsif field.value? %>
-                <%= complete_circle(field.title, resource, form_section.parsed_json['id'], field.idify_property_name(field.parsed_json), schema.required_field?(field['key'])) %>
+                <%= complete_circle(field.title, resource, form_section.parsed_json['id'], field.accordion_id, schema.required_field?(field.top_key)) %>
               <% else %>
-                <%= empty_circle(field.title, resource, form_section.parsed_json['id'], field.idify_property_name(field.parsed_json), schema.required_field?(field['key'])) %>
+                <%= empty_circle(field.title, resource, form_section.parsed_json['id'], field.accordion_id, schema.required_field?(field.top_key)) %>
               <% end %>
             <% end %>
 
