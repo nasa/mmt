@@ -36,13 +36,13 @@ describe 'Invalid Variable Draft Set Preview' do
 
     it 'displays the correct progress indicators for invalid fields' do
       within '#sets-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_sets')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.sets')
       end
     end
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.sets' do
-        expect(page).to have_css('.umm-preview-field-container', count: 1)
+        expect(page).to have_css('.umm-preview-field-container', count: 5)
 
         within '#variable_draft_draft_sets_preview' do
           expect(page).to have_css('h5', text: 'Sets')

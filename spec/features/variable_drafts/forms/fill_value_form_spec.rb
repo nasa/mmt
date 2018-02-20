@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Fill Values Form', reset_provider: true, js: true do
+describe 'Fill Values Form', js: true do
   before do
     login
   end
