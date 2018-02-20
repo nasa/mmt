@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Dimensions Form', reset_provider: true, js: true do
+describe 'Dimensions Form', js: true do
   before do
     login
   end

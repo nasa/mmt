@@ -4,6 +4,7 @@ class UmmForm < JsonObj
   include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::TextHelper
+  include Rails.application.routes.url_helpers
 
   attr_accessor :form_section_json, :json_form, :schema, :title, :subtitle, :description, :children, :options, :full_key, :field_value
 
@@ -13,6 +14,7 @@ class UmmForm < JsonObj
     @json_form = json_form
     @schema = schema
     @options = options
+    @options = @options.merge(form_id: parsed_json['id']) if parsed_json['id']
     @field_value = field_value
 
     @full_key = build_key(form_section_json, key)
@@ -25,15 +27,15 @@ class UmmForm < JsonObj
       # TODO: Determine a more dynamic way of instantiating these
       # objects using the type or another aspect of the json
       if value['type'] == 'section'
-        UmmFormSection.new(form_section_json: value, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
+        UmmFormSection.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
       elsif value['type'] == 'fieldset'
-        UmmFormFieldSet.new(form_section_json: value, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
+        UmmFormFieldSet.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
       elsif value['type'] == 'accordion'
-        UmmFormAccordion.new(form_section_json: value, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
+        UmmFormAccordion.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
       elsif value['type'] == 'open_accordion'
-        UmmFormOpenAccordion.new(form_section_json: value, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
+        UmmFormOpenAccordion.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
       else
-        UmmFormElement.new(form_section_json: value, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
+        UmmFormElement.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
       end
     end
   end
@@ -49,6 +51,14 @@ class UmmForm < JsonObj
     value = full_key.split('/').first
     value = full_key.split('/')[1] if value.blank?
     value
+  end
+
+  def resource_name
+    options.fetch(:field_prefix, '').split('/').first
+  end
+
+  def umm_type
+    resource_name.split('_').first
   end
 
   # Override default inspect for a more concise representation of the object
@@ -75,6 +85,40 @@ class UmmForm < JsonObj
       # Continue rendering fields that appear in this section
       children.each do |child_element|
         concat child_element.render_markup
+      end
+    end
+  end
+
+  def render_preview
+    content_tag(:section, class: "umm-preview #{parsed_json['id']}") do
+      render_preview_accordion
+    end
+  end
+
+  def render_preview_accordion
+    content_tag(:div, class: "preview-#{umm_type} eui-accordion") do
+      concat render_preview_accordion_header
+      concat render_preview_accordion_body
+    end
+  end
+
+  def render_preview_accordion_header
+    content_tag(:div, class: 'eui-accordion__header') do
+      concat(content_tag(:h4, class: 'eui-accordion__title') do
+        title
+      end)
+
+      concat(content_tag(:div, class: 'eui-accordion__icon') do
+        concat content_tag(:i, nil, class: 'eui-icon eui-fa-chevron-circle-down')
+        concat content_tag(:span, "Toggle #{title}", class: 'eui-sr-only')
+      end)
+    end
+  end
+
+  def render_preview_accordion_body
+    content_tag(:div, class: 'eui-accordion__body') do
+      children.each do |child_element|
+        concat child_element.render_preview
       end
     end
   end
@@ -375,7 +419,7 @@ class UmmFormElement < UmmForm
   # in the schema when nested. This method translates that into ruby syntax to retrieve
   # a nested key in a hash e.g. 'object/first_key/leaf' => 'object[first_key][leaf]'
   def keyify_property_name(ignore_keys: %w(items properties index_id))
-    provided_key = [json_form.options['field_prefix'], full_key].compact.reject(&:empty?).join('/')
+    provided_key = [json_form.options[:field_prefix], full_key].compact.reject(&:empty?).join('/')
 
     if options['indexes']
       split_key = provided_key.split('/')
@@ -464,6 +508,9 @@ class UmmFormElement < UmmForm
   def title
     return @title if @title
 
+    # The correct title for a UmmMultiItems is saved under label
+    return parsed_json['label'] if parsed_json['type'] == 'UmmMultiItems'
+
     value = schema.fetch_key_leaf(full_key)
 
     if value.ends_with?('ID')
@@ -496,17 +543,24 @@ class UmmFormElement < UmmForm
 
   # Renders a user friendly version of the value(s) stored within this element
   def render_preview
-    content_tag(:div, id: "#{idify_property_name}_preview") do
+    content_tag(:div, class: 'umm-preview-field-container', id: "#{idify_property_name}_preview") do
       # Determine the class to use fo rendering this element
       element_class = form_fragment.fetch('type', 'UmmTextField')
       form_element = element_class.constantize.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
 
-      concat content_tag(:h5, title)
+      concat(content_tag(:h5) do
+        concat title unless full_key.ends_with?('index_id')
+
+        concat(link_to("/#{resource_name.pluralize}/#{options[:draft_id]}/edit/#{options[:form_id]}##{idify_property_name}", class: 'hash-link') do
+          concat content_tag(:i, nil, class: 'fa fa-edit')
+          concat content_tag(:span, "Edit #{title}", class: 'is-invisible')
+        end)
+      end)
 
       if form_element.value?
         concat form_element.render_preview
       else
-        concat content_tag(:p, "No value for #{schema.fetch_key_leaf(parsed_json['key']).titleize} provided.", class: 'empty-section')
+        concat content_tag(:p, "No value for #{title} provided.", class: 'empty-section')
       end
     end
   end

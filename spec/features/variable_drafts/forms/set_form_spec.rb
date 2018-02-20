@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Set Form', reset_provider: true, js: true do
+describe 'Set Form', js: true do
   before do
     login
   end

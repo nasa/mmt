@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Variable Information Form', reset_provider: true, js: true do
+describe 'Variable Information Form', js: true do
   before do
     login
   end

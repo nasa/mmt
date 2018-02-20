@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: true do
+describe 'Variable Drafts Forms Field Validations', js: true do
   before do
     login
 
@@ -89,8 +89,8 @@ describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: tr
           expect(page).to have_field('Name', with: 'Test Var Short Name')
           expect(page).to have_field('Definition', with: 'Definition of test variable')
           expect(page).to have_field('Long Name', with: 'Test Var Long Long Name')
-          expect(page).to have_field('Scale', with: '2')
-          expect(page).to have_field('Offset', with: '5')
+          expect(page).to have_field('Scale', with: '2.0')
+          expect(page).to have_field('Offset', with: '5.0')
         end
       end
     end
@@ -158,7 +158,7 @@ describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: tr
         end
 
         it 'displays an invalid progress circle' do
-          expect(page).to have_css('i.icon-red.variable_draft_draft_sets')
+          expect(page).to have_css('i.icon-red.sets')
         end
       end
     end
