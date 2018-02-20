@@ -5,6 +5,6 @@ class UmmTextField < UmmFormElement
   end
 
   def render_preview
-    content_tag(:p, element_value)
+    content_tag(:p, text_value)
   end
 end

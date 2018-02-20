@@ -26,14 +26,16 @@ class UmmMultiItem < UmmFormElement
 
   def render_preview
     capture do
+      indexes = options.fetch('indexes', [])
+
       values = Array.wrap(element_value)
       values = [''] if values.empty?
-      values.each_with_index do |_value, index|
+      values.each_with_index do |value, index|
         concat(content_tag(:fieldset) do
-          concat content_tag(:h6, "#{parsed_json['key'].titleize.singularize} #{index + 1}")
+          concat content_tag(:h6, "#{title.singularize} #{index + 1}")
 
           form_fragment['items'].each do |property|
-            UmmFormSection.new(form_section_json: property, json_form: json_form, schema: schema, options: { 'index' => index }).children.each do |child|
+            UmmFormSection.new(form_section_json: property, json_form: json_form, schema: schema, options: options.merge('indexes' => indexes + [index]), key: full_key, field_value: value).children.each do |child|
               concat child.render_preview
             end
           end

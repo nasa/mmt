@@ -26,7 +26,7 @@ class ServiceDraftsController < BaseDraftsController
   end
 
   def set_form
-    @json_form = UmmJsonForm.new(plural_published_resource_name, 'umm-s-form.json', @schema, get_resource.draft, 'field_prefix' => 'service_draft/draft')
+    @json_form = UmmJsonForm.new(plural_published_resource_name, 'umm-s-form.json', @schema, get_resource.draft, field_prefix: 'service_draft/draft', draft_id: get_resource.id)
   end
 
   def set_current_form

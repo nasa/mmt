@@ -24,31 +24,31 @@ describe 'Invalid Variable Draft Variable Information Preview' do
 
     it 'displays the correct progress indicators for required fields' do
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.variable_draft_draft_name')
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.variable_draft_draft_definition')
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.variable_draft_draft_long_name')
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.variable_draft_draft_data_type')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.name')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.definition')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.long-name')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.data-type')
       end
     end
 
     it 'displays the correct progress indicators for non required fields' do
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_variable_type')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_units')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-type')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.units')
       end
     end
 
     it 'displays the correct progress indicators for invalid fields' do
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_scale')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_offset')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_valid_ranges')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.scale')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.offset')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.valid-ranges')
       end
     end
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.variable_information' do
-        expect(page).to have_css('.umm-preview-field-container', count: 9)
+        expect(page).to have_css('.umm-preview-field-container', count: 11)
 
         within '#variable_draft_draft_name_preview' do
           expect(page).to have_css('h5', text: 'Name')

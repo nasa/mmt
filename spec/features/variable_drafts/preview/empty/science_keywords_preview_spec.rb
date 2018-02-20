@@ -24,7 +24,7 @@ describe 'Empty Variable Draft Science Keywords Preview' do
 
     it 'displays the correct progress indicators for required fields' do
       within '#science_keywords-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.variable_draft_draft_science_keywords')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.science-keywords')
       end
     end
 

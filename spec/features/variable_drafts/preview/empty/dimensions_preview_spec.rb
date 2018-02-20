@@ -24,7 +24,7 @@ describe 'Empty Variable Draft Dimensions Preview' do
 
     it 'displays the correct progress indicators for required fields' do
       within '#dimensions-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.variable_draft_draft_dimensions')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.dimensions')
       end
     end
 
