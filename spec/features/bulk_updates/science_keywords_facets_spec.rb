@@ -86,7 +86,7 @@ describe 'Science Keywords Facets with Bulk Updates' do
           end
 
           within '#Term' do
-            expect(page).to have_css('option[disabled]', text: 'ROCKS/MINERALS/CRYSTALS')
+            expect(page).to have_css('option[disabled]', text: 'ROCKS/MINERALS/CRYSTAL')
           end
 
           within '#VariableLevel1' do

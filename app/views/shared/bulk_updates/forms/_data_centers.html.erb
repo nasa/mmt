@@ -1,22 +1,24 @@
 <h2>Data Centers</h2>
 
 <fieldset>
-  <%= update_type_select('data_centers') %>
+  <%= update_type_select('data_centers', @task) %>
 </fieldset>
 
-<fieldset class="bulk-updates-find is-hidden">
+<fieldset class="bulk-updates-find <%= 'is-hidden' unless show_find_value('data_centers', @task) %>">
   <h4 class="title">Find Data Center</h4>
   <p class="form-description space-bot">Update all collections that have data centers that match the criteria specified below.</p>
 
   <div class="row">
     <div class="col-6">
       <%= label_tag 'find_value[ShortName]', 'Short Name' %>
-      <%= text_field_tag('find_value[ShortName]', nil, class: 'full-width required') %>
+      <%= text_field_tag('find_value[ShortName]',
+                         repopulate_find_value(@task, 'data_centers', 'ShortName'),
+                         class: 'full-width required') %>
     </div>
   </div>
 </fieldset>
 
-<fieldset class="bulk-updates-value is-hidden">
+<fieldset class="bulk-updates-value <%= 'is-hidden' unless show_update_value('data_centers', @task) %>">
   <h4 class="title">New Data Center</h4>
   <p class="form-description space-bot"></p>
 
@@ -27,6 +29,7 @@
         name: 'short_name',
         title: 'Short Name',
         prefix: '|update_value|_',
+        value: repopulate_update_value(@task, 'data_centers', 'ShortName'),
         options: @data_centers,
         classes: 'data-center-short-name-select required bulk-updates-data-center select2-select',
         required: true
@@ -39,6 +42,7 @@
         name: 'long_name',
         title: 'Long Name',
         prefix: '|update_value|_',
+        value: repopulate_update_value(@task, 'data_centers', 'LongName'),
         classes: 'data-center-long-name readonly',
         readonly: true
       ) %>
@@ -52,6 +56,7 @@
           name: 'url_content_type',
           title: 'URL Content Type',
           prefix: '|update_value|_|contact_information|_|related_urls|__',
+          value: repopulate_update_value(@task, 'data_centers', 'URLContentType'),
           options: DraftsHelper::URLContentTypeDataCenterOptions,
           classes: 'bulk-updates-related-url-content-type-select'
         ) %>
@@ -60,6 +65,7 @@
           name: 'type',
           title: 'Type',
           prefix: '|update_value|_|contact_information|_|related_urls|__',
+          value: repopulate_update_value(@task, 'data_centers', 'Type'),
           options: DraftsHelper::URLTypeDataCenterOptions,
           classes: 'bulk-updates-related-url-type-select'
         ) %>
@@ -71,6 +77,7 @@
         name: 'url',
         title: 'URL',
         prefix: '|update_value|_|contact_information|_|related_urls|__',
+        value: repopulate_update_value(@task, 'data_centers', 'URL'),
         classes: 'bulk-updates-url readonly',
         readonly: true
       ) %>

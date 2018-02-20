@@ -624,7 +624,7 @@ FactoryGirl.define do
         'VariableLevel1' => 'SEDIMENTARY ROCKS',
         'VariableLevel2' => 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES',
         'VariableLevel3' => 'LUMINESCENCE'
-        }],
+      }],
       'AncillaryKeywords' => ['Ancillary keyword 1', 'Ancillary keyword 2'],
       'AdditionalAttributes' => [{
         'Name'                     => 'Attribute 1',

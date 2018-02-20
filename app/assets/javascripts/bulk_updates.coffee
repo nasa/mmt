@@ -199,6 +199,9 @@ $(document).ready ->
         'name':
           required: true
           maxlength: 255
+          remote:
+            url: '/bulk_updates/check_task_name'
+            method: 'POST'
         'update_field':
           required: true
         'update_type':
@@ -281,6 +284,7 @@ $(document).ready ->
       messages:
         'name':
           required: 'Name is required.'
+          remote: 'Name must be unique within a provider.'
         'update_field':
           required: 'Update Field is required.'
         'update_type':
@@ -344,6 +348,12 @@ $(document).ready ->
           element.siblings('.select2-container').append(error)
         else
           error.insertAfter(element)
+
+
+    # on load, disable the inputs from partials that are hidden
+    $('.bulk-update-partial').each ->
+      if $(this).hasClass('is-hidden')
+        hideAndClear("#" + $(this)[0].id)
 
     # Handle the hiding and showing of the appropriate form
     # partial for the collection field being updated
@@ -421,14 +431,6 @@ $(document).ready ->
     $('#bulk-update-preview-button').on 'click', (e) ->
       $("#bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-find, #bulk-update-form-#{picker.options.data_type}_keywords .bulk-updates-value").addClass('visited')
 
-    # disable the url content type and url type select fields on page load
-    $('.bulk-updates-related-url-content-type-select, .bulk-updates-related-url-type-select').each ->
-      $select = $(this)
-      $select.prop('disabled', true).addClass('disabled')
-      $select.find('option').each ->
-        $option = $(this)
-        if $option.val() != ''
-          $option.prop('disabled', true).addClass('disabled')
 
 
     #
