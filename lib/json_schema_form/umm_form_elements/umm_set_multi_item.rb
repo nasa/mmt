@@ -1,3 +1,8 @@
+# UmmSetMultiItem is used for an array of simple values, but with
+# a set number of items.
+# number_of_items = 3:
+# ["value1", "value2", "value3"]
+
 # :nodoc:
 class UmmSetMultiItem < UmmMultiItem
   def number_of_items

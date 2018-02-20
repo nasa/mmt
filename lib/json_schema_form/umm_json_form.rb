@@ -74,6 +74,11 @@ class UmmJsonForm < JsonFile
     (key.split('/') - ignore_keys).reject(&:blank?)
   end
 
+  # Sanitizes data provided from a form in preparation for storage in the database
+  #
+  # ==== Attributes
+  #
+  # * +input+ - Form data submitted the user
   def sanitize_form_input(input, form_id, current_value = {})
     Rails.logger.debug "Before Sanitization: #{input.inspect}"
 

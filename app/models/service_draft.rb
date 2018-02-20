@@ -9,7 +9,7 @@ class ServiceDraft < Draft
       []
     end
 
-  #   def create_from_variable(service, user, native_id)
+  #   def create_from_service(service, user, native_id)
   #     if native_id
   #       # Edited record
   #       draft = ServiceDraft.find_or_initialize_by(native_id: native_id)

@@ -1,3 +1,7 @@
+# UmmControlledSelect is used for a select field,
+# but one that has controlled keywords as options
+
+
 # :nodoc:
 class UmmControlledSelect < UmmSelect
   include ControlledKeywords

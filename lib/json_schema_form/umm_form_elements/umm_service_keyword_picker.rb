@@ -1,3 +1,6 @@
+# UmmServiceKeywordPicker is used for a nested item picker
+# populated with Service Keywords
+
 # :nodoc:
 class UmmServiceKeywordPicker < UmmScienceKeywordPicker
   KEYWORD_LEVELS = %w(

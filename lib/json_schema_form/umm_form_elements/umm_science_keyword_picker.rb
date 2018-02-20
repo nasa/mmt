@@ -1,3 +1,6 @@
+# UmmScienceKeywordPicker is used for a nested item picker
+# populated with Science Keywords
+
 # :nodoc:
 class UmmScienceKeywordPicker < UmmFormElement
   KEYWORD_LEVELS = %w(

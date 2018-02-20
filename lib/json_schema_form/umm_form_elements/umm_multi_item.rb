@@ -1,3 +1,6 @@
+# UmmMultiItem is used for an array of simple values
+# ["value1", "value2", ...]
+
 # :nodoc:
 class UmmMultiItem < UmmFormElement
   def default_value

@@ -1,3 +1,5 @@
+# UmmMultiSelect is used for multi-select field
+
 # :nodoc:
 class UmmMultiSelect < UmmSelect
   def default_value

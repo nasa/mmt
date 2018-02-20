@@ -1,10 +1,10 @@
 # Setup NestedItemPicker for Science Keywords
 picker = undefined
 @setupScienceKeywords = (data, options = {}) ->
-  picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'science', keywordLengthMinimum: 3, skipFirstLevel: true}, options))
+  picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'science', keywordLengthMinimum: 3}, options))
 
 @setupServiceKeywords = (data, options = {}) ->
-  picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'service', keywordLengthMinimum: 2, skipFirstLevel: true}, options))
+  picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'service', keywordLengthMinimum: 2}, options))
 
 @setupLocationKeywords = (data, options = {}) ->
   picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'location', keywordLengthMinimum: 2}, options))
