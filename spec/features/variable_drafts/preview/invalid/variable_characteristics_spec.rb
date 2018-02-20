@@ -28,24 +28,9 @@ describe 'Invalid Variable Draft Variable Characteristics Preview' do
       end
     end
 
-    it 'displays the correct progress indicators for non required fields' do
-      within '#variable_characteristics-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_characteristics_standard_name')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_characteristics_reference')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_characteristics_coordinates')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_characteristics_grid_mapping')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_characteristics_size_units')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_characteristics_bounds')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_characteristics_structure')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_characteristics_measurement_conditions')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable_draft_draft_characteristics_reporting_conditions')
-      end
-    end
-
     it 'displays the correct progress indicators for invalid fields' do
       within '#variable_characteristics-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_characteristics_size')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_characteristics_chunk_size')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.characteristics')
       end
     end
 

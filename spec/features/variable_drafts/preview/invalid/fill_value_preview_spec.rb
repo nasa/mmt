@@ -36,13 +36,13 @@ describe 'Invalid Variable Draft Fill Value Preview' do
 
     it 'displays the correct progress indicators for invalid fields' do
       within '#fill_values-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_fill_values')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.fill-values')
       end
     end
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.fill_values' do
-        expect(page).to have_css('.umm-preview-field-container', count: 1)
+        expect(page).to have_css('.umm-preview-field-container', count: 4)
 
         expect(page).to have_css('h6', text: 'Fill Value 1')
 
