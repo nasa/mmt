@@ -3,9 +3,9 @@ require 'rails_helper'
 describe 'Bulk updating Science Keywords' do
   before :all do
     @find_and_remove_ingest_response, @find_and_remove_concept_response = publish_collection_draft
-    _ingest_response, @add_to_existing_concept_response = publish_collection_draft
+    @add_to_existing_ingest_response, @add_to_existing_concept_response = publish_collection_draft
     @find_and_replace_ingest_response, @find_and_replace_concept_response = publish_collection_draft
-    _ingest_response, @clear_all_and_replace_concept_response = publish_collection_draft
+    @clear_all_and_replace_ingest_response, @clear_all_and_replace_concept_response = publish_collection_draft
   end
 
   before do
@@ -15,7 +15,7 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
-    let(:bulk_update_name) { 'Bulk Update Science Keywords Test Find & Remove 001' }
+    let(:bulk_update_name) { "Bulk Update Science Keywords Test Find & Remove #{Faker::Number.number(3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search form
@@ -32,7 +32,7 @@ describe 'Bulk updating Science Keywords' do
       select 'Science Keywords', from: 'Field to Update'
       select 'Find & Remove', from: 'Update Type'
 
-      select 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS', from: 'Level 1'
+      select 'SURFACE TEMPERATURE', from: 'Level 1'
 
       click_on 'Preview'
     end
@@ -44,7 +44,7 @@ describe 'Bulk updating Science Keywords' do
       expect(page).to have_content('Field to Update Science Keywords')
       expect(page).to have_content('Update Type Find And Remove')
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUEMOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+        expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUESURFACE TEMPERATURE')
       end
 
       within '.bulk-update-preview-table' do
@@ -76,7 +76,7 @@ describe 'Bulk updating Science Keywords' do
 
         within '.find-values-preview' do
           expect(page).to have_content('Find Values to Remove')
-          expect(page).to have_content('MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_content('SURFACE TEMPERATURE')
         end
 
         # we can't test the time accurately, but we can check the date
@@ -90,7 +90,7 @@ describe 'Bulk updating Science Keywords' do
 
         it 'no longer has the removed keyword' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('EARTH SCIENCE SERVICES DATA ANALYSIS AND VISUALIZATION GEOGRAPHIC INFORMATION SYSTEMS MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_no_content('EARTHSCIENCEATMOSPHEREATMOSPHERIC TEMPERATURESURFACE TEMPERATURE')
           end
         end
       end
@@ -98,9 +98,9 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Add to Existing bulk update', js: true do
-    let(:bulk_update_name) { 'Bulk Update Science Keywords Test Add to Existing 002' }
+    let(:bulk_update_name) { "Bulk Update Science Keywords Test Add to Existing #{Faker::Number.number(3)}" }
 
-    before do
+    before(:each, bulk_update_step_1: true) do
       # Search form
       select 'Entry Title', from: 'Search Field'
       find(:css, "input[id$='query_text']").set(@add_to_existing_concept_response.body['EntryTitle'])
@@ -121,7 +121,7 @@ describe 'Bulk updating Science Keywords' do
       click_on 'Preview'
     end
 
-    it 'displays the preview information' do
+    it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
       expect(page).to have_content("Name #{bulk_update_name}")
@@ -138,7 +138,7 @@ describe 'Bulk updating Science Keywords' do
     end
 
     context 'when submitting the bulk update' do
-      before do
+      before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
 
         # need to wait until the task status is 'COMPLETE'
@@ -149,7 +149,7 @@ describe 'Bulk updating Science Keywords' do
         page.evaluate_script('window.location.reload()')
       end
 
-      it 'displays the bulk update status page' do
+      it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
@@ -169,9 +169,7 @@ describe 'Bulk updating Science Keywords' do
 
       context 'when viewing the collection' do
         before do
-          within '#bulk-update-status-table' do
-            click_on @add_to_existing_concept_response.body['EntryTitle']
-          end
+          visit collection_path(@add_to_existing_ingest_response['concept-id'])
         end
 
         it 'displays the new keyword' do
@@ -184,7 +182,7 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Find & Replace bulk update', js: true do
-    let(:bulk_update_name) { 'Bulk Update Science Keywords Test Find & Replace 003' }
+    let(:bulk_update_name) { "Bulk Update Science Keywords Test Find & Replace #{Faker::Number.number(3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search form
@@ -201,7 +199,7 @@ describe 'Bulk updating Science Keywords' do
       select 'Science Keywords', from: 'Field to Update'
       select 'Find & Replace', from: 'Update Type'
 
-      select 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS', from: 'Level 1'
+      select 'SURFACE TEMPERATURE', from: 'Level 1'
 
       # Select new keyword from picker
       choose_keyword 'EARTH SCIENCE'
@@ -219,7 +217,7 @@ describe 'Bulk updating Science Keywords' do
       expect(page).to have_content('Update Type Find And Replace')
       # Find Values to Replace
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUEMOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+        expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUESURFACE TEMPERATURE')
       end
 
       # New Values
@@ -256,7 +254,7 @@ describe 'Bulk updating Science Keywords' do
 
         within '.find-values-preview' do
           expect(page).to have_content('Find Values to Replace')
-          expect(page).to have_content('MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_content('SURFACE TEMPERATURE')
         end
 
         within '.new-values-preview' do
@@ -275,7 +273,8 @@ describe 'Bulk updating Science Keywords' do
 
         it 'displays the new keyword' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('EARTH SCIENCE SERVICES DATA ANALYSIS AND VISUALIZATION GEOGRAPHIC INFORMATION SYSTEMS MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE')
+            expect(page).to have_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS')
             expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS')
           end
         end
@@ -284,9 +283,9 @@ describe 'Bulk updating Science Keywords' do
   end
 
   context 'when previewing a Clear All and Replace bulk update', js: true do
-    let(:bulk_update_name) { 'Bulk Update Science Keywords Test Clear All and Replace 004' }
+    let(:bulk_update_name) { "Bulk Update Science Keywords Test Clear All and Replace #{Faker::Number.number(3)}" }
 
-    before do
+    before(:each, bulk_update_step_1: true) do
       # Search form
       select 'Entry Title', from: 'Search Field'
       find(:css, "input[id$='query_text']").set(@clear_all_and_replace_concept_response.body['EntryTitle'])
@@ -308,7 +307,7 @@ describe 'Bulk updating Science Keywords' do
       click_on 'Preview'
     end
 
-    it 'displays the preview information' do
+    it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
       expect(page).to have_content("Name #{bulk_update_name}")
@@ -327,7 +326,7 @@ describe 'Bulk updating Science Keywords' do
     end
 
     context 'when submitting the bulk update' do
-      before do
+      before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
 
         # need to wait until the task status is 'COMPLETE'
@@ -338,7 +337,7 @@ describe 'Bulk updating Science Keywords' do
         page.evaluate_script('window.location.reload()')
       end
 
-      it 'displays the bulk update status page' do
+      it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
@@ -358,15 +357,13 @@ describe 'Bulk updating Science Keywords' do
 
       context 'when viewing the collection' do
         before do
-          within '#bulk-update-status-table' do
-            click_on @clear_all_and_replace_concept_response.body['EntryTitle']
-          end
+          visit collection_path(@clear_all_and_replace_ingest_response['concept-id'])
         end
 
         it 'displays the updated keywords' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('EARTH SCIENCE SERVICES DATA ANALYSIS AND VISUALIZATION GEOGRAPHIC INFORMATION SYSTEMS MOBILE GEOGRAPHIC INFORMATION SYSTEMS')
-            expect(page).to have_no_content('EARTH SCIENCE SERVICES DATA ANALYSIS AND VISUALIZATION GEOGRAPHIC INFORMATION SYSTEMS DESKTOP GEOGRAPHIC INFORMATION SYSTEMS')
+            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE')
+            expect(page).to have_no_content('SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS')
             expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS')
           end
         end

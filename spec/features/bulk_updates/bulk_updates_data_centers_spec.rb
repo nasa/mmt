@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Bulk updating Data Centers' do
   before :all do
-    _ingest_response, @find_and_remove_concept_response = publish_collection_draft
+    @find_and_remove_ingest_response, @find_and_remove_concept_response = publish_collection_draft
     @find_and_update_ingest_response_1, @find_and_update_concept_response_1 = publish_collection_draft
     @find_and_update_ingest_response_2, @find_and_update_concept_response_2 = publish_collection_draft
   end
@@ -14,9 +14,9 @@ describe 'Bulk updating Data Centers' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
-    let(:bulk_update_name) { 'Bulk Update Data Centers Test Find & Remove 001' }
+    let(:bulk_update_name) { "Bulk Update Data Centers Test Find & Remove #{Faker::Number.number(3)}" }
 
-    before do
+    before(:each, bulk_update_step_1: true) do
       # Search form
       select 'Entry Title', from: 'Search Field'
       find(:css, "input[id$='query_text']").set(@find_and_remove_concept_response.body['EntryTitle'])
@@ -34,7 +34,7 @@ describe 'Bulk updating Data Centers' do
       click_on 'Preview'
     end
 
-    it 'displays the preview information' do
+    it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
       expect(page).to have_content("Name #{bulk_update_name}")
@@ -51,7 +51,7 @@ describe 'Bulk updating Data Centers' do
     end
 
     context 'when submitting the bulk update' do
-      before do
+      before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
 
         # need to wait until the task status is 'COMPLETE'
@@ -62,7 +62,7 @@ describe 'Bulk updating Data Centers' do
         page.evaluate_script('window.location.reload()')
       end
 
-      it 'displays the bulk update status page' do
+      it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
@@ -82,9 +82,7 @@ describe 'Bulk updating Data Centers' do
 
       context 'when viewing the collection' do
         before do
-          within '#bulk-update-status-table' do
-            click_on @find_and_remove_concept_response.body['EntryTitle']
-          end
+          visit collection_path(@find_and_remove_ingest_response['concept-id'])
         end
 
         it 'no longer has the removed data center' do
@@ -98,7 +96,7 @@ describe 'Bulk updating Data Centers' do
 
   context 'when previewing a Find & Update bulk update for a data center that has a Related URL', js: true do
     context 'when filling in the form up to selecting the update data center short name' do
-      let(:bulk_update_name) { 'Bulk Update Data Centers Test Find & Update 002' }
+      let(:bulk_update_name) { "Bulk Update Data Centers Test Find & Update #{Faker::Number.number(3)}" }
 
       before(:each, bulk_update_step_1: true) do
         # Search form
@@ -222,7 +220,7 @@ describe 'Bulk updating Data Centers' do
 
   context 'when previewing a Find & Update bulk update for a data center that does not have a Related URL', js: true do
     context 'when filling in the form up to selecting the update data center short name' do
-      let(:bulk_update_name) { 'Bulk Update Data Centers Test Find & Update 003' }
+      let(:bulk_update_name) { "Bulk Update Data Centers Test Find & Update #{Faker::Number.number(3)}" }
 
       before(:each, bulk_update_step_1: true) do
         # Search form

@@ -1,8 +1,22 @@
 require 'rails_helper'
 
-describe 'Bulk updates form validations', reset_provider: true, js: true do
+describe 'Bulk updates form validations', js: true do
+  used_bulk_update_name = "Already used Bulk Update Name #{Faker::Number.number(4)}"
+
   before :all do
-    _ingest_response, @concept_response = publish_collection_draft
+    @ingest_response, @concept_response = publish_collection_draft
+
+    # use published collection, create a bulk update
+    _bulk_update_response = create_bulk_update(
+      payload: {
+        'concept-ids': [@ingest_response['concept-id']],
+        'name': used_bulk_update_name,
+        'update-field': 'INSTRUMENTS',
+        'update-type': 'FIND_AND_UPDATE',
+        'find-value': { 'ShortName': 'ADS' },
+        'update-value': { 'ShortName': 'ATM', 'LongName': 'Airborne Topographic Mapper' }
+      }
+    )
   end
 
   before do
@@ -16,6 +30,48 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
     # Select search results
     check 'checkall'
     click_on 'Next'
+  end
+
+  context 'when viewing the bulk update form before selecting a Field to Update' do
+    context 'when submitting the form before entering any information' do
+      before do
+        click_on 'Preview'
+      end
+
+      it 'displays the appropriate error messages for Name and Update Field' do
+        expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
+        expect(page).to have_css('#update_field-error', text: 'Update Field is required.')
+      end
+    end
+
+    context 'when attempting to enter a duplicate name' do
+      before do
+        fill_in 'bulk_update_name', with: used_bulk_update_name
+        select 'Select a Field to Update', from: 'Field to Update'
+
+        wait_for_ajax
+        wait_for_jQuery
+      end
+
+      it 'displays an error message for the duplicate name' do
+        expect(page).to have_css('#bulk_update_name-error', text: 'Name must be unique within a provider.')
+      end
+    end
+
+    context 'when submitting the form right after entering a duplicate name' do
+      before do
+        fill_in 'bulk_update_name', with: used_bulk_update_name
+        click_on 'Preview'
+
+        wait_for_ajax
+        wait_for_jQuery
+      end
+
+      it 'displays the appropriate error messages for Name and Update Field' do
+        expect(page).to have_css('#bulk_update_name-error', text: 'Name must be unique within a provider.')
+        expect(page).to have_css('#update_field-error', text: 'Update Field is required.')
+      end
+    end
   end
 
   context 'when viewing the data centers form' do
@@ -190,7 +246,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
 
       context 'when leaving a required field with no selection' do
         before do
-          select 'EARTH SCIENCE SERVICES', from: 'Category'
+          select 'EARTH SCIENCE', from: 'Category'
           select 'Select a Category', from: 'Category'
         end
 
@@ -219,7 +275,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
 
       context 'when leaving a required field with no selection' do
         before do
-          select 'EARTH SCIENCE SERVICES', from: 'Category'
+          select 'EARTH SCIENCE', from: 'Category'
           select 'Select a Category', from: 'Category'
         end
 

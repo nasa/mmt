@@ -637,6 +637,13 @@ FactoryGirl.define do
         'VariableLevel1' => 'SURFACE TEMPERATURE',
         'VariableLevel2' => 'MAXIMUM/MINIMUM TEMPERATURE',
         'VariableLevel3' => '24 HOUR MAXIMUM TEMPERATURE'
+      }, {
+        'Category'       => 'EARTH SCIENCE',
+        'Topic'          => 'SOLID EARTH',
+        'Term'           => 'ROCKS/MINERALS/CRYSTALS',
+        'VariableLevel1' => 'SEDIMENTARY ROCKS',
+        'VariableLevel2' => 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES',
+        'VariableLevel3' => 'LUMINESCENCE'
       }],
       'AncillaryKeywords' => ['Ancillary keyword 1', 'Ancillary keyword 2'],
       'AdditionalAttributes' => [{

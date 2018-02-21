@@ -47,6 +47,8 @@ class BulkUpdatesController < ManageCollectionsController
       set_instruments
 
       set_science_keyword_facets(params[:selected_collections])
+
+      @task = {}
     end
   end
 
@@ -70,10 +72,31 @@ class BulkUpdatesController < ManageCollectionsController
       Rails.logger.error("Error creating Bulk Update: #{bulk_update_response.inspect}")
       flash[:error] = bulk_update_response.error_message(i18n: I18n.t('controllers.bulk_updates.create.flash.error'))
 
-      @collections = retrieve_task_collections
+      params[:selected_collections] = params.delete(:concept_ids)
 
-      render :preview
+      add_breadcrumb 'New', new_bulk_updates_path
+
+      set_science_keywords
+      set_location_keywords
+      set_data_centers
+      set_platform_types
+      set_instruments
+
+      set_science_keyword_facets(params[:selected_collections])
+
+      @task = reconstruct_failed_task(params)
+
+      render :new
     end
+  end
+
+  def check_task_name
+    # bulk updates require a unique name within a provider, so conduct a check
+    bulk_updates_list = retrieve_bulk_updates
+    bulk_update_names = bulk_updates_list.map { |bulk_update| bulk_update.fetch('name', nil) }
+
+    # if the name exists in the provider, return false
+    render json: !bulk_update_names.include?(params[:name])
   end
 
   private
@@ -166,5 +189,19 @@ class BulkUpdatesController < ManageCollectionsController
     if task['update-type'] == 'FIND_AND_UPDATE' && task.fetch('update-value', {}).key?('ContactInformation')
       task['update-type'] = 'FIND_AND_UPDATE_HOME_PAGE_URL'
     end
+  end
+
+  def reconstruct_failed_task(params)
+    # bulk update create action failed, so we need to reconstruct the task to repopulate the form
+
+    reconstructed_bulk_update_object = {
+      name:           params[:name],
+      update_field:   params.fetch(:update_field, '').downcase,
+      update_type:    params[:update_type],
+      find_value:     params[:find_value],
+      update_value:   params[:update_value]
+    }
+
+    reconstructed_bulk_update_object
   end
 end
