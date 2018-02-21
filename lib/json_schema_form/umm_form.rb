@@ -193,7 +193,7 @@ class UmmForm < JsonObj
       if path.size == 1
         path << options['index']
       else
-        path.insert(path.size - 1, options['index']) unless options['index'].nil?
+        path.insert(path.size - 1, options['index'])
       end
     end
     if options['indexes']
