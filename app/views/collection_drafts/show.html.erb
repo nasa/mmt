@@ -74,6 +74,6 @@
 
     <%= render partial: 'collection_drafts/progress/preview_progress', locals: { draft: get_resource, metadata_errors: @errors || @ingest_errors } %>
 
-    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, editable: true } %>
+    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, editable: true, edsc_url: nil, concept_id: nil} %>
   </div>
 <% end %>
