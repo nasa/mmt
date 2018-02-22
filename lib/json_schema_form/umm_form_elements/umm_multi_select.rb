@@ -7,7 +7,7 @@ class UmmMultiSelect < UmmSelect
   end
 
   def ui_options
-    options_for_select(schema_fragment['items']['enum'], element_value)
+    options_for_select(schema_fragment.fetch('items', {}).fetch('enum', []).sort, element_value)
   end
 
   def title

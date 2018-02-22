@@ -100,37 +100,6 @@ describe 'Science and Ancillary Keywords Form Navigation', js: true do
       end
     end
 
-    context 'When clicking `Save` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Save'
-        end
-      end
-
-      it 'saves the draft and reloads the form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Service Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Science and Ancillary Keywords')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
-        end
-      end
-    end
-
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
@@ -164,9 +133,7 @@ describe 'Science and Ancillary Keywords Form Navigation', js: true do
   end
 
   context 'When viewing the form with stored values' do
-    let(:draft) {
-      create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
-    }
+    let(:draft) { create(:full_service_draft, user: User.where(urs_uid: 'testuser').first) }
 
     before do
       visit edit_service_draft_path(draft, 'science_and_ancillary_keywords')
@@ -175,68 +142,6 @@ describe 'Science and Ancillary Keywords Form Navigation', js: true do
 
     context 'when viewing the form' do
       include_examples 'Science and Ancillary Keywords Form'
-    end
-
-    context 'When clicking `Next` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Next'
-        end
-      end
-
-      it 'saves the draft and loads the previous form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Service Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Acquisition Information')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Platforms')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
-        end
-      end
-    end
-
-    context 'When clicking `Previous` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Previous'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Service Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Keywords')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Service Keywords')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_keywords')
-        end
-      end
     end
 
     context 'When clicking `Save` without making any changes' do

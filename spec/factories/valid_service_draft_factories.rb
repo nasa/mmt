@@ -130,7 +130,7 @@ FactoryGirl.define do
           'Uuid': '7b1ac64e-8bdd-45db-831b-994b13f60100',
           'ContactGroups': [
             {
-              'Roles': ['TECHNICAL CONTACT', 'SCIENCE CONTACT'],
+              'Roles': ['SCIENCE CONTACT', 'TECHNICAL CONTACT'],
               'GroupName': 'Group 1',
               'Uuid': 'b1837851-91b3-4aa9-8e89-f805fae629c9',
               'NonServiceOrganizationAffiliation': 'NonServiceOrganizationAffiliation Group 1',
@@ -356,7 +356,7 @@ FactoryGirl.define do
       ],
       'ContactGroups': [
         {
-          'Roles': ['TECHNICAL CONTACT', 'SCIENCE CONTACT'],
+          'Roles': ['SCIENCE CONTACT', 'TECHNICAL CONTACT'],
           'GroupName': 'Group 1',
           'Uuid': 'b1837851-91b3-4aa9-8e89-f805fae629c9',
           'NonServiceOrganizationAffiliation': 'NonServiceOrganizationAffiliation Group 1',
@@ -577,7 +577,7 @@ FactoryGirl.define do
       'ServiceOptions': {
         'SubsetTypes': ['Spatial'],
         'SupportedProjections': ['Geographic'],
-        'InterpolationTypes': ['Bilinear Interpolation', 'Bicubic Interpolation'],
+        'InterpolationTypes': ['Bicubic Interpolation', 'Bilinear Interpolation'],
         'SupportedFormats': ['HDF-EOS4', 'HDF-EOS5']
       }
     }}

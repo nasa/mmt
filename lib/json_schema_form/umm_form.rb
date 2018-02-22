@@ -229,6 +229,10 @@ class UmmForm < JsonObj
   def value?
     !element_value.nil? && element_value != ''
   end
+
+  def expandable?
+    parsed_json['expandable']
+  end
 end
 
 # :nodoc:
