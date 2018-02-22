@@ -7,6 +7,7 @@ class ServiceDraftsController < BaseDraftsController
   before_action :set_schema, only: [:show, :new, :edit, :update, :create]
   before_action :set_form, only: [:show, :edit, :update]
   before_action :set_current_form, only: [:edit]
+  before_action :set_preview, only: [:show]
 
   def edit
     super
@@ -27,6 +28,14 @@ class ServiceDraftsController < BaseDraftsController
 
   def set_form
     @json_form = UmmJsonForm.new(plural_published_resource_name, 'umm-s-form.json', @schema, get_resource.draft, field_prefix: 'service_draft/draft', draft_id: get_resource.id)
+  end
+
+  def set_preview
+    @preview = UmmPreview.new(
+      schema_type: plural_published_resource_name,
+      preview_filename: 'umm-s-preview.json',
+      data: get_resource
+    )
   end
 
   def set_current_form

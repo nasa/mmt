@@ -1,0 +1,35 @@
+{
+  "forms": [
+    {
+      "id": "service_information",
+      "title": "Service Information",
+      "fields": [
+        {
+          "key": "Name"
+        },
+        {
+          "key": "LongName"
+        },
+        {
+          "key": "Type"
+        },
+        {
+          "key": "Version"
+        },
+        {
+          "key": "Description"
+        }
+      ]
+    },
+    {
+      "id": "service_keywords",
+      "title": "Service Keywords",
+      "fields": [
+        {
+          "key": "Service Keywords",
+          "type": "UmmPreviewKeyword"
+        }
+      ]
+    }
+  ]
+}

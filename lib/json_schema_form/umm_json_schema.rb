@@ -35,7 +35,7 @@ class UmmJsonSchema < JsonFile
   end
 
   # Returns the required fields from the schema
-  def required_fields(key)
+  def required_fields(key = '')
     path = key.split('/')
     if path.size == 1
       # top level required fields
