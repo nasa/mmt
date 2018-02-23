@@ -140,6 +140,7 @@
     {
       "id": "related_url",
       "title": "Related URL",
+      "expandable": true,
       "items": [
         {
           "type": "accordion",

@@ -29,6 +29,14 @@ class ServiceDraftsController < BaseDraftsController
     @json_form = UmmJsonForm.new(plural_published_resource_name, 'umm-s-form.json', @schema, get_resource.draft, field_prefix: 'service_draft/draft', draft_id: get_resource.id)
   end
 
+  def set_preview
+    @preview = UmmPreview.new(
+      schema_type: plural_published_resource_name,
+      preview_filename: 'umm-s-preview.json',
+      resource: get_resource
+    )
+  end
+
   def set_current_form
     @current_form = params[:form] || @json_form.forms.first.parsed_json['id']
   end

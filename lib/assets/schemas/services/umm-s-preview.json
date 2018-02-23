@@ -22,6 +22,16 @@
       ]
     },
     {
+      "id": "related_url",
+      "title": "Related URL",
+      "fields": [
+        {
+          "key": "RelatedURL",
+          "type": "UmmPreviewRelatedURL"
+        }
+      ]
+    },
+    {
       "id": "service_keywords",
       "title": "Service Keywords",
       "fields": [
