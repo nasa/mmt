@@ -9,7 +9,6 @@ describe 'Service Organizations Form Navigation', js: true do
     before do
       draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_service_draft_path(draft, 'service_organizations')
-      click_on 'Expand All'
     end
 
     it 'displays the correct prompt value for all select elements' do
@@ -156,7 +155,6 @@ describe 'Service Organizations Form Navigation', js: true do
 
     before do
       visit edit_service_draft_path(draft, 'service_organizations')
-      click_on 'Expand All'
     end
 
     context 'when viewing the form' do
@@ -170,7 +168,6 @@ describe 'Service Organizations Form Navigation', js: true do
         end
 
         click_on 'Yes'
-        click_on 'Expand All'
       end
 
       it 'saves the draft without making any changes' do

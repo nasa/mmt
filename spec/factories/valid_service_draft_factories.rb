@@ -35,6 +35,20 @@ FactoryGirl.define do
           'Topic': 'INFRARED WAVELENGTHS'
         }
       ],
+      'RelatedURL': {
+        'Description': 'Test related url',
+        'URLContentType': 'DistributionURL',
+        'Type': 'GET SERVICE',
+        'Subtype': 'SOFTWARE PACKAGE',
+        'GetService': {
+          'MimeType': 'application/json',
+          'Protocol': 'HTTP',
+          'FullName': 'Test Service',
+          'DataID': 'Test data',
+          'DataType': 'Test data type',
+          'URI': ['Test URI 1', 'Test URI 2']
+        }
+      },
       'ServiceQuality': {
         # conditionally requires 'QualityFlag'
         'Traceability': 'some quality metric'

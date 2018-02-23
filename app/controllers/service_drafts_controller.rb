@@ -34,7 +34,7 @@ class ServiceDraftsController < BaseDraftsController
     @preview = UmmPreview.new(
       schema_type: plural_published_resource_name,
       preview_filename: 'umm-s-preview.json',
-      data: get_resource
+      resource: get_resource
     )
   end
 

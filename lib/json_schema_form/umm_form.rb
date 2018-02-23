@@ -559,10 +559,12 @@ class UmmFormElement < UmmForm
       concat(content_tag(:h5) do
         concat title unless full_key.ends_with?('index_id')
 
-        concat(link_to("/#{resource_name.pluralize}/#{options[:draft_id]}/edit/#{options[:form_id]}##{idify_property_name}", class: 'hash-link') do
-          concat content_tag(:i, nil, class: 'fa fa-edit')
-          concat content_tag(:span, "Edit #{title}", class: 'is-invisible')
-        end)
+        if options[:draft_id]
+          concat(link_to("/#{resource_name.pluralize}/#{options[:draft_id]}/edit/#{options[:form_id]}##{idify_property_name}", class: 'hash-link') do
+            concat content_tag(:i, nil, class: 'fa fa-edit')
+            concat content_tag(:span, "Edit #{title}", class: 'is-invisible')
+          end)
+        end
       end)
 
       if form_element.value?

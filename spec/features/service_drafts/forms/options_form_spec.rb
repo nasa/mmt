@@ -5,7 +5,6 @@ describe 'Options Form', js: true do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
     visit edit_service_draft_path(draft, 'options')
-    click_on 'Expand All'
   end
 
   context 'when submitting the form' do

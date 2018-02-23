@@ -1,17 +1,6 @@
 # :nodoc:
-class UmmPreviewKeyword
-  include ActionView::Context
-  include ActionView::Helpers::FormTagHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::TextHelper
-
+class UmmPreviewKeyword < UmmPreviewText
   KEYWORD_LEVELS = [].freeze
-
-  attr_accessor :data
-
-  def initialize(data)
-    @data = data
-  end
 
   def render
     capture do
