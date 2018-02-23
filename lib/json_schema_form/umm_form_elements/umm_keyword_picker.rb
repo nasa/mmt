@@ -44,7 +44,7 @@ class UmmKeywordPicker < UmmFormElement
     capture do
       element_value.each do |keyword|
         concat(content_tag(:ul, class: 'arrow-tag-group-list') do
-          KEYWORD_LEVELS.each do |level|
+          self.class::KEYWORD_LEVELS.each do |level|
             unless keyword[level].blank?
               concat content_tag(:li, keyword[level], itemprop: 'keyword', class: 'arrow-tag-group-item')
             end

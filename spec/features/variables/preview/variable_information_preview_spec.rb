@@ -10,7 +10,7 @@ describe 'Valid Variable Variable Information Preview', reset_provider: true do
   context 'When examining the Variable Information section' do
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.variable_information' do
-        expect(page).to have_css('.umm-preview-field-container', count: 9)
+        expect(page).to have_css('.umm-preview-field-container', count: 11)
 
         within '#variable_draft_draft_name_preview' do
           expect(page).to have_css('h5', text: 'Name')

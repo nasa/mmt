@@ -10,7 +10,7 @@ describe 'Valid Variable Dimensions Preview', reset_provider: true do
   context 'When examining the Dimensions section' do
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.dimensions' do
-        expect(page).to have_css('.umm-preview-field-container', count: 1)
+        expect(page).to have_css('.umm-preview-field-container', count: 5)
 
         within '#variable_draft_draft_dimensions_preview' do
           expect(page).to have_css('h5', text: 'Dimensions')
@@ -19,12 +19,24 @@ describe 'Valid Variable Dimensions Preview', reset_provider: true do
 
           within '#variable_draft_draft_dimensions_0_name_preview' do
             expect(page).to have_css('h5', text: 'Name')
-            expect(page).to have_css('p', text: '1, UTC Time represent the starting of 1 second sampling time (seconds)')
+            expect(page).to have_css('p', text: 'Sampling time and depth')
           end
 
           within '#variable_draft_draft_dimensions_0_size_preview' do
             expect(page).to have_css('h5', text: 'Size')
             expect(page).to have_css('p', text: '3000')
+          end
+
+          expect(page).to have_css('h6', text: 'Dimension 2')
+
+          within '#variable_draft_draft_dimensions_1_name_preview' do
+            expect(page).to have_css('h5', text: 'Name')
+            expect(page).to have_css('p', text: 'Lizard Herp Doc Pop')
+          end
+
+          within '#variable_draft_draft_dimensions_1_size_preview' do
+            expect(page).to have_css('h5', text: 'Size')
+            expect(page).to have_css('p', text: '2020')
           end
         end
       end

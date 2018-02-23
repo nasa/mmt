@@ -50,8 +50,15 @@
     <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
 
     <div class="content">
-      <% @json_form.forms.each do |form| %>
-        <%= form.render_preview %>
+      <% if resource_name == 'service_draft' %>
+        <% @preview.forms.each do |form| %>
+          <%= form.render %>
+        <% end %>
+      <% else %>
+        <%# MMT-1173 will update variable drafts to use new previews  %>
+        <% @json_form.forms.each do |form| %>
+          <%= form.render_preview %>
+        <% end %>
       <% end %>
     </div>
   </div>
