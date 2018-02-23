@@ -23,26 +23,7 @@ class UmmForm < JsonObj
     @subtitle = @parsed_json['subtitle']
     @description = @schema.retrieve_schema_fragment(@parsed_json['description_key']).fetch('description', @parsed_json['description'])
 
-    @children = set_children(parsed_json.fetch('items', []))
-    # @children = parsed_json.fetch('items', []).map do |value|
-    #   # TODO: Determine a more dynamic way of instantiating these
-    #   # objects using the type or another aspect of the json
-    #   if value['type'] == 'section'
-    #     UmmFormSection.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
-    #   elsif value['type'] == 'fieldset'
-    #     UmmFormFieldSet.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
-    #   elsif value['type'] == 'accordion'
-    #     UmmFormAccordion.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
-    #   elsif value['type'] == 'open_accordion'
-    #     UmmFormOpenAccordion.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
-    #   else
-    #     UmmFormElement.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
-    #   end
-    # end
-  end
-
-  def set_children(items)
-    items.map do |value|
+    @children = parsed_json.fetch('items', []).map do |value|
       # TODO: Determine a more dynamic way of instantiating these
       # objects using the type or another aspect of the json
       if value['type'] == 'section'
@@ -108,21 +89,7 @@ class UmmForm < JsonObj
     end
   end
 
-  # def render_preview
-  #   content_tag(:section, class: "umm-preview #{parsed_json['id']}") do
-  #     render_preview_accordion
-  #   end
-  # end
-  def render_preview(data)
-    UmmPreview.new(data: data, form: self).preview
-  end
-
-  def render_required_only_preview
-    # required_fields = schema.required_fields('asdf')
-    # child_items = parsed_json.fetch('items', []).select { |item| item. }
-    @children = elements.select { |e| e.required? }
-
-
+  def render_preview
     content_tag(:section, class: "umm-preview #{parsed_json['id']}") do
       render_preview_accordion
     end
@@ -151,8 +118,6 @@ class UmmForm < JsonObj
   def render_preview_accordion_body
     content_tag(:div, class: 'eui-accordion__body') do
       children.each do |child_element|
-        concat "child_element: #{child_element}"
-        puts "child_element: #{child_element}"
         concat child_element.render_preview
       end
     end
@@ -428,16 +393,8 @@ class UmmFormAccordion < UmmForm
 
   def render_preview
     capture do
-      concat "value?: #{value?}"
-      puts "full_key: #{full_key}"
-      puts "value?: #{value?}"
-      puts "element_value: #{element_value}"
-      if value?
-        children.each do |child_element|
-          concat child_element.render_preview
-        end
-      else
-        concat content_tag(:p, "No value for #{title} provided.", class: 'empty-section')
+      children.each do |child_element|
+        concat child_element.render_preview
       end
     end
   end

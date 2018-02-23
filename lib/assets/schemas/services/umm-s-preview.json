@@ -26,8 +26,8 @@
       "title": "Service Keywords",
       "fields": [
         {
-          "key": "Service Keywords",
-          "type": "UmmPreviewKeyword"
+          "key": "ServiceKeywords",
+          "type": "UmmPreviewServiceKeyword"
         }
       ]
     }
