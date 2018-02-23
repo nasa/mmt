@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe 'Service Draft form navigation' do
-  let(:form_titles) { ['Service Information', 'Options', 'Coverage'] }
+  let(:form_titles) { ['Service Information', 'Service Identification', 'Related URL', 'Service Keywords', 'Science and Ancillary Keywords', 'Acquisition Information', 'Service Organizations', 'Service Contacts', 'Options', 'Coverage'] }
 
-  context 'when visiting the edit page for a variable draft' do
+  context 'when visiting the edit page for a service draft' do
     before do
       login
 

@@ -2,7 +2,7 @@
 # populated with Service Keywords
 
 # :nodoc:
-class UmmServiceKeywordPicker < UmmScienceKeywordPicker
+class UmmServiceKeywordPicker < UmmKeywordPicker
   KEYWORD_LEVELS = %w(
     ServiceCategory
     ServiceTopic
@@ -14,21 +14,7 @@ class UmmServiceKeywordPicker < UmmScienceKeywordPicker
     'service'
   end
 
-  def render_preview
-    capture do
-      element_value.each do |keyword|
-        concat(content_tag(:ul, class: 'arrow-tag-group-list') do
-          KEYWORD_LEVELS.each do |level|
-            unless keyword[level].blank?
-              concat content_tag(:li, keyword[level], itemprop: 'keyword', class: 'arrow-tag-group-item')
-            end
-          end
-        end)
-      end
-    end
-  end
-
-  def render_keyword_list(object)
+  def render_keyword_list(element, object)
     content_tag(:div, class: "selected-#{keyword_type}-keywords #{keyword_type}-keywords") do
       concat(content_tag(:ul) do
         Array.wrap(object).each_with_index do |keyword, index|

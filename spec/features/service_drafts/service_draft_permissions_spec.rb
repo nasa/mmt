@@ -29,11 +29,11 @@ describe 'Service draft permissions' do
       it 'displays the service draft show page' do
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content("#{name}")
+          expect(page).to have_content(name)
         end
 
         within 'main header' do
-          expect(page).to have_css('h2', text: "#{name}")
+          expect(page).to have_css('h2', text: name)
           expect(page).to have_content(long_name)
         end
       end
@@ -43,7 +43,6 @@ describe 'Service draft permissions' do
         expect(page).to have_no_content('Delete Service Draft')
         expect(page).to have_no_content('Metadata Fields')
         expect(page).to have_no_content('Service Information')
-        expect(page).to have_no_content('Dimensions')
       end
 
       it 'displays a banner message to change provider the Not Current Provider content' do
@@ -70,11 +69,11 @@ describe 'Service draft permissions' do
         it 'displays the service draft show page' do
           within '.eui-breadcrumbs' do
             expect(page).to have_content('Service Drafts')
-            expect(page).to have_content("#{name}")
+            expect(page).to have_content(name)
           end
 
           within 'main header' do
-            expect(page).to have_css('h2', text: "#{name}")
+            expect(page).to have_css('h2', text: name)
             expect(page).to have_content(long_name)
           end
         end
@@ -100,11 +99,11 @@ describe 'Service draft permissions' do
       it 'displays the service draft show page' do
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content("#{name}")
+          expect(page).to have_content(name)
         end
 
         within 'main header' do
-          expect(page).to have_css('h2', text: "#{name}")
+          expect(page).to have_css('h2', text: name)
           expect(page).to have_content(long_name)
         end
       end
@@ -114,7 +113,6 @@ describe 'Service draft permissions' do
         expect(page).to have_no_content('Delete Service Draft')
         expect(page).to have_no_content('Metadata Fields')
         expect(page).to have_no_content('Service Information')
-        expect(page).to have_no_content('Dimensions')
       end
 
       it 'displays a banner message to change provider the Not Current Provider content' do

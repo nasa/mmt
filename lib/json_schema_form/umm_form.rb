@@ -306,7 +306,7 @@ class UmmForm < JsonObj
       if path.size == 1
         path << options['index']
       else
-        path.insert(path.size - 1, options['index']) unless options['index'].nil?
+        path.insert(path.size - 1, options['index'])
       end
     end
     if options['indexes']
@@ -349,6 +349,10 @@ class UmmForm < JsonObj
 
   def required?
     schema.required_field?(full_key)
+  end
+
+  def expandable?
+    parsed_json['expandable']
   end
 end
 

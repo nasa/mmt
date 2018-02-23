@@ -58,6 +58,7 @@
     {
       "id": "service_identification",
       "title": "Service Identification",
+      "expandable": true,
       "items": [
         {
           "type": "accordion",
@@ -212,6 +213,7 @@
     {
       "id": "science_and_ancillary_keywords",
       "title": "Science and Ancillary Keywords",
+      "expandable": true,
       "items": [
         /* ScienceKeywords */
         {
@@ -399,6 +401,7 @@
     {
       "id": "service_contacts",
       "title": "Service Contacts",
+      "expandable": true,
       "items": [
         /* ContactGroups */
         {
@@ -672,11 +675,19 @@
           "items": [
             {
               "type": "section",
-              "items": [{"key": "/Type", "type": "UmmSelect"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/Value"}]
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/Type", "type": "UmmSelect"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/Value"}]
+                }
+              ]
             }
           ]
         }
