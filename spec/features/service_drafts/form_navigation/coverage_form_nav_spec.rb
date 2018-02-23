@@ -9,7 +9,6 @@ describe 'Coverage Form Navigation', js: true do
     before do
       draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_service_draft_path(draft, 'coverage')
-      click_on 'Expand All'
     end
 
     it 'displays the correct prompt value for all select elements' do
@@ -150,7 +149,6 @@ describe 'Coverage Form Navigation', js: true do
 
     before do
       visit edit_service_draft_path(draft, 'coverage')
-      click_on 'Expand All'
     end
 
     context 'when viewing the form' do

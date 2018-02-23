@@ -5,7 +5,6 @@ describe 'Service Organizations Form', js: true do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
     visit edit_service_draft_path(draft, 'service_organizations')
-    click_on 'Expand All'
   end
 
   context 'when submitting the form' do
@@ -18,7 +17,6 @@ describe 'Service Organizations Form', js: true do
 
       # TODO validation isn't working correctly
       click_on 'Yes'
-      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do
