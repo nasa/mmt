@@ -6,24 +6,24 @@ class UmmPreview < JsonFile
   include ActionView::Helpers::TextHelper
   include Rails.application.routes.url_helpers
 
-  attr_accessor :data, :forms
+  attr_accessor :resource, :forms
 
-  def initialize(schema_type:, preview_filename:, data: {})
+  def initialize(schema_type:, preview_filename:, resource:)
     super(schema_type, preview_filename)
 
-    @data = data
-    @forms = parsed_json.fetch('forms', []).map { |form_json| UmmPreviewForm.new(schema_type: schema_type, form_json: form_json, data: data) }
+    @forms = parsed_json.fetch('forms', []).map { |form_json| UmmPreviewForm.new(schema_type: schema_type, form_json: form_json, resource: resource) }
   end
 end
 
 # :nodoc:
 class UmmPreviewForm < UmmPreview
-  attr_accessor :form
+  attr_accessor :form, :data
 
-  def initialize(schema_type:, form_json:, data:)
+  def initialize(schema_type:, form_json:, resource:)
     @schema_type = schema_type
     @form = form_json
-    @data = data.draft
+    @resource = resource
+    @data = resource.draft
   end
 
   def title
@@ -73,32 +73,33 @@ class UmmPreviewForm < UmmPreview
   end
 
   def render_field_preview(field)
-    content_tag(:div, class: 'umm-preview-field-container', id: "_preview") do
-    # content_tag(:div, class: 'umm-preview-field-container', id: "#{form.idify_property_name}_preview") do
-      # Determine the class to use fo rendering this element
-      # element_class = form_fragment.fetch('type', 'UmmTextField')
-      # form_element = element_class.constantize.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
-
+    content_tag(:div, class: 'umm-preview-field-container preview', id: "#{idify_property_name(field['key'])}_preview") do
       concat(content_tag(:h5) do
-        concat field['key'].titleize #unless form.full_key.ends_with?('index_id')
+        concat field['key'].titleize
 
-        # TODO add edit link
-        # concat(link_to("/#{form.resource_name.pluralize}/#{form.options[:draft_id]}/edit/#{form.options[:form_id]}##{form.idify_property_name}", class: 'hash-link') do
-        #   concat content_tag(:i, nil, class: 'fa fa-edit')
-        #   concat content_tag(:span, "Edit #{title}", class: 'is-invisible')
-        # end)
+        if resource_name.ends_with? '_draft'
+          concat(link_to("/#{resource_name.pluralize}/#{resource.id}/edit/#{form_id}##{idify_property_name(field['key'])}", class: 'hash-link') do
+            concat content_tag(:i, nil, class: 'fa fa-edit')
+            concat content_tag(:span, "Edit #{title}", class: 'is-invisible')
+          end)
+        end
       end)
 
-      puts "data: #{data}"
       if data.key? field['key']
-        if field['type']
-          concat field['type'].constantize.new(data[field['key']]).render
-        else
-          concat content_tag(:p, data[field['key']])
-        end
+        concat "data: #{data}"
+        type = field.fetch('type', 'UmmPreviewText')
+        concat type.constantize.new(data[field['key']]).render
       else
         concat content_tag(:p, "No value for #{field['key'].titleize} provided.", class: 'empty-section')
       end
     end
+  end
+
+  def resource_name
+    resource.class.name.underscore
+  end
+
+  def idify_property_name(name)
+    "#{resource_name}_draft_#{name.underscore}"
   end
 end
