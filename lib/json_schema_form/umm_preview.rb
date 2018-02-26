@@ -86,7 +86,6 @@ class UmmPreviewForm < UmmPreview
       end)
 
       if data.key? field['key']
-        concat "data: #{data}"
         type = field.fetch('type', 'UmmPreviewText')
         concat type.constantize.new(data[field['key']]).render
       else

@@ -40,6 +40,16 @@
           "type": "UmmPreviewServiceKeyword"
         }
       ]
+    },
+    {
+      "id": "service_organizations",
+      "title": "Service Organizations",
+      "fields": [
+        {
+          "key": "ServiceOrganizations",
+          "type": "UmmPreviewServiceOrganizations"
+        }
+      ]
     }
   ]
 }
