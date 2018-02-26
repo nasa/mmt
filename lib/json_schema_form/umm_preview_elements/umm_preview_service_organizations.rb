@@ -89,7 +89,6 @@ class UmmPreviewServiceOrganizations < UmmPreviewText
         street_addresses = address.fetch('StreetAddresses', [])
         concat(content_tag(:p) do
           street_addresses.each do |street_address|
-            # concat "#{street_address}<br />".html_safe
             concat street_address
             concat tag(:br)
           end
