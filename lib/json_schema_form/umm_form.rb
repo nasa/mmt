@@ -310,6 +310,7 @@ class UmmForm < JsonObj
 
   def expandable?
     parsed_json['expandable']
+  end
 
   def accordion_id
     top_key.nil? ? parsed_json.fetch('title', '').gsub(/( )/, '-').downcase : top_key.underscore.dasherize
@@ -552,7 +553,7 @@ class UmmFormElement < UmmForm
       form_element = element_class.constantize.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
 
       concat(content_tag(:h5) do
-        concat title unless full_key.ends_with?('index_id')
+        concat title
 
         if options[:draft_id]
           concat(link_to("/#{resource_name.pluralize}/#{options[:draft_id]}/edit/#{options[:form_id]}##{idify_property_name}", class: 'hash-link') do

@@ -42,14 +42,14 @@ module Helpers
         select 'AARHUS-HYDRO', from: 'Short Name'
         fill_in 'Uuid', with: '7b1ac64e-8bdd-45db-831b-994b13f60100', match: :first
 
+        add_service_contact_information
         add_service_contact_groups
         add_service_contact_persons
-        add_service_contact_information
       end
     end
 
     def add_service_contact_information
-      within all('.contact-information').last do
+      within all('.contact-information').first do
         fill_in 'Service Hours', with: '9-6, M-F'
         fill_in 'Contact Instruction', with: 'Email only'
 
