@@ -33,7 +33,7 @@ def contact_persons_assertions
 end
 
 def contact_information_assertions
-  within all('.contact-information').last do
+  within all('.contact-information').first do
     expect(page).to have_field('Service Hours', with: '9-6, M-F')
     expect(page).to have_field('Contact Instruction', with: 'Email only')
 
