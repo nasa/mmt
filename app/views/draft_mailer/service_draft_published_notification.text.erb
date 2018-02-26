@@ -1,0 +1,5 @@
+<%= @user[:name] %>,
+
+<%= "Your service metadata record #{@short_name} has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your service's concept ID is #{@concept_id}." %>
+
+View Service: <%= service_url(@concept_id, revision_id: @revision_id) %>

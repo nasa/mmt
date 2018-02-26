@@ -43,6 +43,7 @@ module Mmt
 
     config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.9'
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.1'
+    config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.0'
 
     def load_version
       version_file = "#{config.root}/version.txt"

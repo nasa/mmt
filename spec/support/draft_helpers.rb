@@ -120,6 +120,58 @@ module Helpers
       end
     end
 
+    # Publish a service draft
+    def publish_service_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_service_draft' do
+        user = User.where(urs_uid: 'testuser').first
+
+        ingest_response = nil
+        # Default draft attributes
+        draft_attributes = {
+          user: user,
+          provider_id: provider_id,
+          native_id: native_id || Faker::Crypto.md5
+        }
+
+        revision_count.times do |i|
+          # Conditional additions to the draft attribute
+          draft_attributes[:draft_short_name] = name unless name.blank?
+          draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
+          draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
+
+          # number the revision long names if the option is specified
+          draft_attributes[:draft_entry_title] += " -- revision 0#{i + 1}" if number_revision_long_names
+
+          # Create a new draft with the provided attributes
+          # NOTE: We don't save the draft object, there is no reason to hit the database
+          # here knowing that we're going to delete it as soon as it's published anyway
+          draft = build(:full_service_draft, draft_attributes)
+
+          ingest_response = cmr_client.ingest_service(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+        end
+
+        # Synchronous way of waiting for CMR to complete the ingest work
+        wait_for_cmr
+
+        # Retrieve the concept from CMR so that we can create a new draft, if test requires it
+        concept_id = ingest_response.body['concept-id']
+        revision_id = ingest_response.body['revision-id']
+        content_type = "application/#{Rails.configuration.umm_var_version}; charset=utf-8"
+
+        concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
+
+        raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+        # If the test needs an unpublished draft as well, we'll create it and return it here
+        if include_new_draft
+          # Create a new draft (same as editing a collection)
+          ServiceDraft.create_from_service(concept_response.body, user, draft_attributes[:native_id])
+        end
+
+        [ingest_response.body, concept_response]
+      end
+    end
+
     # Open any accordions on the page, but try again if they aren't open
     # Also try again if there are no accordions on the page (page hasn't loaded yet)
     # http://stackoverflow.com/a/28174679
