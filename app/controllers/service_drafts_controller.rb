@@ -7,6 +7,7 @@ class ServiceDraftsController < BaseDraftsController
   before_action :set_schema, only: [:show, :new, :edit, :update, :create]
   before_action :set_form, only: [:show, :edit, :update]
   before_action :set_current_form, only: [:edit]
+  before_action :set_preview, only: [:show]
 
   def edit
     super

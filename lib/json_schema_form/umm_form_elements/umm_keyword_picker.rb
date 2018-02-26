@@ -21,7 +21,7 @@ class UmmKeywordPicker < UmmFormElement
   def render_markup
     content_tag(:section) do
       # Currently selected values
-      concat render_keyword_list(form_fragment, element_value)
+      concat render_keyword_list(element_value)
 
       # The picker
       concat render_keyword_picker
