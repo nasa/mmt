@@ -36,13 +36,13 @@ describe 'Invalid Variable Draft Dimensions Preview' do
 
     it 'displays the correct progress indicators for invalid fields' do
       within '#dimensions-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.variable_draft_draft_dimensions')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.dimensions')
       end
     end
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.dimensions' do
-        expect(page).to have_css('.umm-preview-field-container', count: 1)
+        expect(page).to have_css('.umm-preview-field-container', count: 3)
 
         within '#variable_draft_draft_dimensions_preview' do
           expect(page).to have_css('h5', text: 'Dimensions')

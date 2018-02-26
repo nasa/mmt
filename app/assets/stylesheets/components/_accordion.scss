@@ -66,7 +66,7 @@
   }
 }
 
-.preview-collection {
+.preview-collection, .umm-preview {
 
   p {
     margin: 0;
@@ -99,8 +99,10 @@
   }
 }
 
-.preview-collection .empty-section {
-  color: $dolphin-grey;
-  font-style: italic;
-  margin: 1em 0;
+.preview-collection, .umm-preview {
+  .empty-section {
+    color: $dolphin-grey;
+    font-style: italic;
+    margin: 1em 0;
+  }
 }

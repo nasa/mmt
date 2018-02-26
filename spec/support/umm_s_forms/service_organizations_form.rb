@@ -8,9 +8,9 @@ shared_examples_for 'Service Organizations Form' do
       expect(page).to have_field('Long Name', with: 'Hydrogeophysics Group, Aarhus University ', readonly: true)
       expect(page).to have_field('Uuid', with: '7b1ac64e-8bdd-45db-831b-994b13f60100')
 
+      contact_information_assertions
       contact_groups_assertions
       contact_persons_assertions
-      contact_information_assertions
     end
   end
 end

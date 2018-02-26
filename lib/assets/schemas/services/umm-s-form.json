@@ -140,6 +140,7 @@
     {
       "id": "related_url",
       "title": "Related URL",
+      "expandable": true,
       "items": [
         {
           "type": "accordion",
@@ -277,6 +278,7 @@
           "items": [
             {
               "type": "UmmMultiItems",
+              "label": "Platforms",
               "multiType": "Platforms",
               "key": "Platforms/items/properties/index_id",
               "noLabel": true,
@@ -338,6 +340,7 @@
           "items": [
             {
               "type": "UmmMultiItems",
+              "label": "Service Organizations",
               "multiType": "ServiceOrganizations",
               "key": "ServiceOrganizations/items/properties/index_id",
               "noLabel": true,
@@ -850,6 +853,7 @@
       "items": [
         {
           "type": "UmmMultiItems",
+          "label": "Coverage Time Points",
           "multiType": "CoverageTimePoints",
           "key": "/CoverageTimePoints/items/properties/index_id",
           "noLabel": true,

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Variable Drafts Forms Help Icons', reset_provider: true, js: true do
+describe 'Variable Drafts Forms Help Icons', js: true do
   before do
     login
 

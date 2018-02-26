@@ -303,6 +303,9 @@ class UmmJsonForm < JsonFile
   # * +ignore_keys+ - Keys to ignore when comparing to those returned from the JSON Schema validator
   def invalid?(key, ignore_required_fields: true, ignore_keys: %w(items properties index_id))
     key = element_path_for_object(key, ignore_keys: ignore_keys).join('/')
-    invalid_keys(ignore_required_fields: ignore_required_fields).include?(key)
+
+    bad_keys = invalid_keys(ignore_required_fields: ignore_required_fields).map { |bad_key| bad_key.split('/').first }.uniq
+
+    bad_keys.include?(key)
   end
 end
