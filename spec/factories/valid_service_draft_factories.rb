@@ -34,6 +34,17 @@ FactoryGirl.define do
           'URI': ['Test URI 1', 'Test URI 2']
         }
       },
+      'ServiceOrganizations': [
+        {
+          'ShortName': 'DOI/USGS/CMG/WHSC',
+          'LongName': 'Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior'
+        }
+      ],
+      'Platforms': [
+        {
+          'ShortName': 81.times { 'a' }
+        }
+      ],
       'ServiceQuality': {
         # conditionally requires 'QualityFlag'
         'Traceability': 'some quality metric'
@@ -70,7 +81,23 @@ FactoryGirl.define do
         'CoverageTemporalExtent': {
           'Uuid': '!@#$%^^&*()',# bad uuid pattern
         }
-      }
+      },
+      'ServiceOptions': {
+        'SubsetTypes': ['BadType']
+      },
+      'AncillaryKeywords': Array.wrap(1030.times { 'k' }),
+      'AccessConstraints': Array.wrap(1030.times { 'c' }),
+      'UseConstraints': Array.wrap(1030.times { 't' }),
+      'ContactGroups': [
+        {
+          'GroupName': 'Missing Roles'
+        }
+      ],
+      'ContactPersons': [
+        {
+          'FirstName': 'Missing Roles'
+        }
+      ]
     }}
 
     short_name nil
