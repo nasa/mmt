@@ -1,0 +1,104 @@
+<% content_for :header_title do %>
+  <h2><%= breadcrumb_name(@service, 'service') %></h2>
+  <p class="subtitle"><%= display_header_subtitle(@service, 'service') %></p>
+<% end %>
+
+<% if @user_permissions == 'none' %>
+  <div class="eui-banner--danger">
+    <p class="eui-banner__message">
+      <%= "You don't have the appropriate permissions to #{service_action_text(@record_action)} this service." %>
+    </p>
+  </div>
+  <div class="no-access">
+    <h3 class="access-title">Access Denied</h3>
+    <p class="access-message">
+      It appears you do not have access to <%= service_action_text(@record_action) %> this content.<br />
+      If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
+    </p>
+  </div>
+<% elsif @user_permissions == 'wrong_provider' %>
+  <div class="eui-banner--warn">
+    <p class="eui-banner__message">
+      <%= link_to("You need to change your current provider to #{service_action_text(@record_action)} this service. Click here to change your provider.",
+        "#", id: "change-current-provider-banner-link",
+        data: { "provider": @provider_id, action_link: "change-provider-service-#{@record_action}" }) %>
+    </p>
+    <%= render_change_provider_service_action_link(@record_action, @concept_id, @revision_id) %>
+  </div>
+<% end %>
+
+<% unless @user_permissions == 'none' %>
+  <% if @old_revision %>
+    <div class="eui-banner--info">
+      <p class="eui-banner__message">
+        <%= link_to 'You are viewing an older revision of this service. Click here to view the latest published version.', service_path %>
+      </p>
+    </div>
+  <% end %>
+
+  <% if @draft %>
+    <div class="eui-banner--warn">
+      <p class="eui-banner__message">
+        <% if current_provider?(@provider_id) %>
+          <%= link_to 'This service has an open draft associated with it. Click here to view it.', @draft %>
+        <% elsif available_provider?(@provider_id) %>
+          <%= link_to 'This service has an open draft associated with it. Click here to view it.', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'view-draft' } %>
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+
+  <div class="row row-content">
+    <section class="action">
+      <p>
+        <% if current_provider?(@provider_id) %>
+          <%#= link_to 'Edit Service Record', edit_service_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
+        <% elsif available_provider?(@provider_id) %>
+          <%#= link_to 'Edit Service Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'edit-service' } %>
+        <% end %>
+
+        <% if current_provider?(@provider_id) %>
+          <%#= link_to 'Clone Service Record', clone_service_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
+        <% elsif available_provider?(@provider_id) %>
+          <%#= link_to 'Clone Service Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'clone-service' } %>
+        <% end %>
+
+        <%#= link_to 'Download JSON', download_json_service_path(@concept_id, revision_id: @revision_id), class: 'eui-btn--link', target: '_blank' %>
+
+        <% if current_provider?(@provider_id) %>
+          <%#= link_to 'Delete Service Record', "#delete-record-modal", class: 'display-modal delete-service eui-btn--link bar-before' %>
+        <% elsif available_provider?(@provider_id) %>
+          <%#= link_to 'Delete Service Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-before', data: { 'provider': @provider_id, record_action: 'delete-service' } %>
+        <% end %>
+
+        <div id="delete-record-modal" class="eui-modal-content">
+          <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p>
+            Are you sure you want to delete this service record?
+          <p>
+            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+            <%= link_to 'Yes', service_path, method: :delete, class: 'eui-btn--blue spinner' %>
+          </p>
+        </div>
+        <%= render partial: 'shared/not_current_provider_modal', locals: {
+          options: {
+            service: @service,
+            concept_id: @concept_id,
+            revision_id: @revision_id,
+            draft: @draft,
+            draft_id: @draft.try(:id)
+          }
+        } %>
+      </p>
+      <p>
+        <%#= link_to "Revisions (#{@revisions.size})", service_revisions_path, class: 'eui-btn--link' %>
+      </p>
+    </section>
+
+    <div class="content">
+      <% @preview.forms.each do |form| %>
+        <%= form.render %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

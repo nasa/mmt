@@ -30,6 +30,9 @@
       <% if options[:variable] %>
         <%= link_to 'Yes', variable_draft_path(options[:draft_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-view-draft-link' %>
         <%= link_to 'Yes', edit_variable_draft_path(options[:draft_id], form: options[:draft_form]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-draft-link' %>
+      <% elsif options[:service] %>
+        <%= link_to 'Yes', service_draft_path(options[:draft_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-view-draft-link' %>
+        <%= link_to 'Yes', edit_service_draft_path(options[:draft_id], form: options[:draft_form]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-draft-link' %>
       <% else %>
         <%= link_to 'Yes', collection_draft_path(options[:draft_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-view-draft-link' %>
         <%= link_to 'Yes', edit_collection_draft_path(options[:draft_id], form: options[:draft_form]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-draft-link' %>

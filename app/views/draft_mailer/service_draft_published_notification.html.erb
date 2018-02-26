@@ -1,0 +1,22 @@
+
+<% if @is_update %>
+  <h1 class="styled-heading"><%= "#{@short_name} Updated" %></h1>
+<% else %>
+  <h1 class="styled-heading"><%= "#{@short_name} Published" %></h1>
+<% end %>
+
+<div class="email-message">
+  <p>
+    <%= @user[:name] %>,
+  </p>
+  <p>
+    <%= "Your service metadata record #{@short_name} has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your service's concept ID is #{@concept_id}." %>
+  </p>
+  <div class="center">
+    <%= link_to 'View Service', service_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>
+  </div>
+</div>
+
+<div class="email-footer">
+  <img src="https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/meatball.png" alt="Meatball" class="image-center" />
+</div>

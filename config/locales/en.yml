@@ -96,6 +96,25 @@ en:
       clone:
         flash:
           notice: 'Records must have a unique Name and Long Name within a provider. Click here to enter a new Name and Long Name.'
+    services:
+      create:
+        flash:
+          success: 'Service Draft Published Successfully!'
+          error: 'Service Draft was not published successfully'
+      destroy:
+        flash:
+          success: 'Service Deleted Successfully!'
+          error: 'Service was not deleted successfully'
+      edit:
+        flash:
+          native_id_error: 'Service Draft was not created because the native id was not found. Please try again or contact your provider.'
+      revert:
+        flash:
+          success: 'Service Revision Created Successfully!'
+          error: 'Service revision was not created successfully'
+      clone:
+        flash:
+          notice: 'Records must have a unique Name and Long Name within a provider. Click here to enter a new Name and Long Name.'
     collection_associations:
       destroy:
         flash:
