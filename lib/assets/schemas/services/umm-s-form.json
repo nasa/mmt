@@ -380,15 +380,15 @@
                   ]
                 },
                 {
+                  "$ref": "#/definitions/ContactInformation"
+                },
+                {
                   "type": "section",
                   "$ref": "#/definitions/ContactGroups"
                 },
                 {
                   "type": "section",
                   "$ref": "#/definitions/ContactPersons"
-                },
-                {
-                  "$ref": "#/definitions/ContactInformation"
                 }
               ]
             }
@@ -641,11 +641,19 @@
       "items": [
         {
           "type": "section",
-          "items": [{"key": "/ServiceHours", "type": "UmmTextarea"}]
-        },
-        {
-          "type": "section",
-          "items": [{"key": "/ContactInstruction", "type": "UmmTextarea"}]
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ServiceHours"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ContactInstruction"}]
+            }
+          ]
         },
         {
           "$ref": "#/definitions/ContactMechanisms"
@@ -1017,7 +1025,7 @@
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "/URL", "field": true}]
+              "items": [{"key": "/URL", "field": true, "htmlClass": "url"}]
             }
           ]
         },
