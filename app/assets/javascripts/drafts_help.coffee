@@ -39,6 +39,7 @@ $(document).ready ->
     newTitle = switch title
       when 'URLs' then 'URLs'
       when 'URL' then 'URL'
+      when 'RelatedURL' then 'Related URL'
       when 'URI' then 'URI'
       when 'URLContentType' then 'URL Content Type'
       when 'DataID' then 'Data ID'

@@ -9,9 +9,9 @@
     </h2>
 
     <!-- Manage Services Link Commented out until functional implementation ready. This will also need style treatment as all links do not fit in header -->
-    <!--h2 class="<%= 'current' if current_manage_title == 'manage_services' %>">
+    <h2 class="<%= 'current' if current_manage_title == 'manage_services' %>">
       <%= link_to 'Manage Services', manage_services_path %>
-    </h2-->
+    </h2>
 
     <% if Rails.configuration.groups_enabled %>
       <h2 class="<%= 'current' if current_manage_title == 'manage_cmr' %>">

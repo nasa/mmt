@@ -147,6 +147,7 @@ RSpec.configure do |config|
   config.include Helpers::CmrHelper
   config.include Helpers::DateHelpers
   config.include Helpers::DraftHelpers
+  config.include Helpers::UmmSDraftHelpers
   config.include Helpers::GroupHelper
   config.include Helpers::SearchHelpers
   config.include Helpers::UserHelpers

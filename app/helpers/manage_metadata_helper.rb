@@ -5,6 +5,8 @@ module ManageMetadataHelper
                    metadata['ShortName'] || '<Blank Short Name>'
                  elsif type.downcase.include? 'variable'
                    metadata['Name'] || '<Blank Name>'
+                 elsif type.downcase.include? 'service'
+                   metadata['Name'] || '<Blank Name>'
                  end
 
     version = metadata.fetch('Version', '')
@@ -20,6 +22,8 @@ module ManageMetadataHelper
       'manage_cmr'
     elsif controller.lookup_context.prefixes.include?('manage_variables') || controller.lookup_context.prefixes.include?('variable_drafts') || controller.lookup_context.prefixes.include?('collection_associations')
       'manage_variables'
+    elsif controller.lookup_context.prefixes.include?('manage_services') || controller.lookup_context.prefixes.include?('service_drafts')
+      'manage_services'
     else
       # default, including collection drafts and everything under manage collections
       'manage_collections'
@@ -40,10 +44,8 @@ module ManageMetadataHelper
   end
 
   def display_header_subtitle(metadata, type)
-    if type.downcase.include? 'variable'
-      metadata['LongName'] || 'Long Name Not Provided'
-    else
-      # Future services name
-    end
+    return unless type.downcase.include?('variable') || type.downcase.include?('service')
+
+    metadata['LongName'] || 'Long Name Not Provided'
   end
 end

@@ -124,7 +124,14 @@ module Cmr
             else
               "/search/keywords/#{type}"
             end
-      get(url)
+
+      # Cache controlled keywords for 30 seconds
+      # UMM forms will call get_controlled_keywords for every
+      # keyword on the page
+      response = Rails.cache.fetch("#{type}_keywords", expires_in: 30.seconds) do
+        get(url)
+      end
+      response
     end
 
     ### Providers, via CMR Ingest and CMR Search

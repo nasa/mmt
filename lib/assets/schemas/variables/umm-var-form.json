@@ -1,0 +1,378 @@
+{
+  "forms": [
+    {
+      "id": "variable_information",
+      "title": "Variable Information",
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Variable Information",
+          "noHelp": true,
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-5",
+                  "items": [{"key": "Name", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-7",
+                  "items": [{"key": "Definition", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "LongName", "field": true, "type": "UmmTextarea"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-4",
+                  "items": [{"key": "VariableType", "field": true, "type": "UmmSelect"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-4",
+                  "items": [{"key": "Units", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-4",
+                  "items": [{"key": "DataType", "field": true, "type": "UmmSelect"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Scale", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Offset", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                {
+                  "type": "UmmMultiItems",
+                  "help": "ValidRanges",
+                  "label": "Valid Ranges",
+                  "multiType": "ValidRanges",
+                  "key": "ValidRanges/items/properties/index_id",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "/Min", "field": true}]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "/Max", "field": true}]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fill_values",
+      "title": "Fill Values",
+      "description_key": "FillValues",
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Fill Values",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "help": "FillValues",
+              "label": "Fill Values",
+              "multiType": "FillValues",
+              "key": "FillValues/items/properties/index_id",
+              "noLabel": true,
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "/Value", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "/Type", "field": true}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "/Description", "field": true, "type": "UmmTextarea"}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dimensions",
+      "title": "Dimensions",
+      "description_key": "Dimensions",
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Dimensions",
+          "help": "Dimensions",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "help": "Dimensions",
+              "label": "Dimensions",
+              "multiType": "Dimensions",
+              "key": "Dimensions/items/properties/index_id",
+              "noLabel": true,
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-8",
+                      "items": [{"key": "/Name", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "col-4",
+                      "items": [{"key": "/Size", "field": true}]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "variable_characteristics",
+      "title": "Variable Characteristics",
+      "description_key": "Characteristics",
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Variable Characteristics",
+          "key": "Characteristics/properties",
+          "noHelp": true,
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "/StandardName", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "/Reference", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/Coordinates", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/GridMapping", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/Size", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/SizeUnits", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/Bounds", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/ChunkSize", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/Structure", "field": true, "type": "UmmTextarea"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/MeasurementConditions", "field": true, "type": "UmmTextarea"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/ReportingConditions", "field": true, "type": "UmmTextarea"}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "science_keywords",
+      "title": "Science Keywords",
+      "description_key": "ScienceKeywords",
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Science Keywords",
+          "noHelp": true,
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "ScienceKeywords", "field": true, "type": "UmmScienceKeywordPicker"}]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sets",
+      "title": "Sets",
+      "description_key": "Sets",
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Sets",
+          "noHelp": true,
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "label": "Sets",
+              "help": "Sets",
+              "multiType": "Sets",
+              "key": "Sets/items/properties/index_id",
+              "noLabel": true,
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "/Name", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "/Type", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "/Size", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "col-6",
+                      "items": [{"key": "/Index", "field": true}]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

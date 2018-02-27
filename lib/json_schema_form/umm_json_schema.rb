@@ -1,46 +1,7 @@
 # Class that represents a UMM JSON Schema
 class UmmJsonSchema < JsonFile
-  def initialize(schema_filename)
-    super(schema_filename)
-  end
-
-  # Recursively replace all '$ref' keys in the schema file with their actual values
-  #
-  # ==== Attributes
-  #
-  # * +fragment+ - The JSON to recursively replace references for
-  def fetch_references(fragment)
-    # Loop through each key in the current hash element
-    fragment.each do |_key, element|
-      # Skip this element if it's not a hash, no $ref will exist
-      next unless element.is_a?(Hash)
-
-      # If we have a reference to follow
-      if element.key?('$ref')
-        file, path = element['$ref'].split('#')
-
-        # Fetch the reference from the file that it's defined to be in
-        referenced_property = if file.blank?
-                                # This is an internal reference (lives within the file we're parsing)
-                                parsed_json['definitions'][path.split('/').last]
-                              else
-                                # Fetch the reference from an external file
-                                referenced_file = UmmJsonSchema.new(file)
-                                referenced_file.fetch_references(referenced_file.parsed_json)
-                                referenced_schema = referenced_file.parsed_json
-                                referenced_schema['definitions'][path.split('/').last]
-                              end
-
-        # Merge the retrieved reference into the schema
-        element.merge!(referenced_property)
-
-        # Remove the $ref key so we don't attempt to parse it again
-        element.delete('$ref')
-      end
-
-      # Keep diggin'
-      fetch_references(element)
-    end
+  def initialize(schema_type, schema_filename)
+    super(schema_type, schema_filename)
   end
 
   # Receives a key from the form JSON and returns the relevant fragment of the schema with
@@ -122,6 +83,7 @@ class UmmJsonSchema < JsonFile
     elements_by_type({}, parsed_json['properties']).each do |type, keys|
       return type if keys.map { |type_key| (type_key.split('/') - ignore_keys).reject(&:blank?).join('/') }.include?(sanitized_key)
     end
+    nil
   end
 
   # Construct and return a hash with keys representing the type of object specified in the schema

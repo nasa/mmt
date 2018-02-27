@@ -119,12 +119,12 @@ class VariablesController < ManageVariablesController
   private
 
   def set_schema
-    @schema = UmmJsonSchema.new('umm-var-json-schema.json')
+    @schema = UmmJsonSchema.new('variables', 'umm-var-json-schema.json')
     @schema.fetch_references(@schema.parsed_json)
   end
 
   def set_form
-    @json_form = UmmJsonForm.new('umm-var-form.json', @schema, @variable, 'field_prefix' => 'variable_draft/draft')
+    @json_form = UmmJsonForm.new('variables', 'umm-var-form.json', @schema, @variable, 'field_prefix' => 'variable_draft/draft')
   end
 
   def ensure_correct_variable_provider

@@ -48,7 +48,7 @@
       title: 'Short Name',
       prefix: '|update_value|_',
       value: repopulate_update_value(@task, 'platforms', 'ShortName'),
-      options: @platform_types.map { |platform| [platform[:type], platform[:short_names].map { |sn| [sn[:short_name], 'data-long-name' => sn[:long_name], 'data-type' => platform[:type]] }]},
+      options: @platform_types,
       grouped: true,
       classes: 'select2-select platform-short-name-select required',
       required: true,

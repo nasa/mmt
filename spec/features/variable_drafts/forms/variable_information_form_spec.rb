@@ -179,22 +179,11 @@ describe 'Variable Information Form', reset_provider: true, js: true do
   end
 
   context 'When viewing the form with stored values' do
+    let(:draft) {
+      create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: 'PNs_LIF', draft_entry_title: 'Volume mixing ratio of sum of peroxynitrates in air')
+    }
+
     before do
-      draft_variable_information = {
-        'Name': 'PNs_LIF',
-        'LongName': 'Volume mixing ratio of sum of peroxynitrates in air',
-        'Definition': 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)',
-        'VariableType': 'SCIENCE_VARIABLE',
-        'Units': 'Npptv',
-        'DataType': 'float',
-        'ValidRanges': [{
-          'Min': -417,
-          'Max': 8836
-        }],
-        'Scale': 1.0,
-        'Offset': 0.0
-      }
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: draft_variable_information)
       visit edit_variable_draft_path(draft, 'variable_information')
     end
 
@@ -278,6 +267,10 @@ describe 'Variable Information Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Save'
         end
+      end
+
+      it 'saves the draft without making any changes' do
+        expect(draft.draft).to eq(Draft.last.draft)
       end
 
       it 'saves the draft and reloads the form' do

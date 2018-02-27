@@ -146,11 +146,11 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
             within '.eui-breadcrumbs' do
               expect(page).to have_content('Variable Drafts')
-              expect(page).to have_content('Set')
+              expect(page).to have_content('Sets')
             end
 
             within '.umm-form' do
-              expect(page).to have_content('Set')
+              expect(page).to have_content('Sets')
             end
 
             within '.nav-top' do
@@ -355,139 +355,12 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
     end
   end
 
-  context 'When viewing the form with 1 stored value' do
-    before do
-      draft_science_keywords = [{
-        'Category': 'EARTH SCIENCE SERVICES',
-        'Topic': 'DATA ANALYSIS AND VISUALIZATION',
-        'Term': 'GEOGRAPHIC INFORMATION SYSTEMS'
-      }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'ScienceKeywords': draft_science_keywords })
-      visit edit_variable_draft_path(draft, 'science_keywords')
-    end
-
-    it 'displays one selected science keyword' do
-      expect(page).to have_css('.selected-science-keywords ul > li', count: 1)
-    end
-
-    it 'displays the correct selected science keyword value' do
-      within '.selected-science-keywords' do
-        expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
-      end
-    end
-
-    context 'When clicking `Previous` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Previous'
-        end
-      end
-
-      it 'saves the draft and loads the previous form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Variable Characteristics')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Variable Characteristics')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
-        end
-      end
-    end
-
-    context 'When clicking `Next` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_on 'Next'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Sets')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Sets')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
-        end
-      end
-    end
-
-    context 'When clicking `Save` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Save'
-        end
-      end
-
-      it 'saves the draft and reloads the form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Science Keywords')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
-        end
-      end
-
-      it 'displays the correct selected science keyword value' do
-        within '.selected-science-keywords' do
-          expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
-        end
-      end
-    end
-  end
-
   context 'When viewing the form with 2 stored values' do
+    let(:draft) {
+      create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
+    }
+
     before do
-      draft_science_keywords = [{
-        'Category': 'EARTH SCIENCE SERVICES',
-        'Topic': 'DATA ANALYSIS AND VISUALIZATION',
-        'Term': 'GEOGRAPHIC INFORMATION SYSTEMS'
-      }, {
-        'Category': 'EARTH SCIENCE',
-        'Topic': 'ATMOSPHERE',
-        'Term': 'ATMOSPHERIC TEMPERATURE'
-      }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'ScienceKeywords': draft_science_keywords})
       visit edit_variable_draft_path(draft, 'science_keywords')
     end
 
@@ -497,7 +370,7 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
     it 'displays the correct selected science keyword values' do
       within '.selected-science-keywords' do
-        expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+        expect(page).to have_content('EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS')
         expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE')
       end
     end
@@ -571,6 +444,10 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
         end
       end
 
+      it 'saves the draft without making any changes' do
+        expect(draft.draft).to eq(Draft.last.draft)
+      end
+
       it 'saves the draft and reloads the form' do
         within '.eui-banner--success' do
           expect(page).to have_content('Variable Draft Updated Successfully!')
@@ -596,7 +473,7 @@ describe 'Science Keywords Form', reset_provider: true, js: true do
 
       it 'displays the correct selected science keyword values' do
         within '.selected-science-keywords' do
-          expect(page).to have_content('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > GEOGRAPHIC INFORMATION SYSTEMS')
+          expect(page).to have_content('EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS')
           expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE')
         end
       end

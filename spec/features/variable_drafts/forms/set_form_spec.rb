@@ -13,7 +13,7 @@ describe 'Set Form', reset_provider: true, js: true do
 
     it 'displays the correct title and description' do
       within '.umm-form' do
-        expect(page).to have_content('Set')
+        expect(page).to have_content('Sets')
         expect(page).to have_content('The set information of a variable.')
       end
     end
@@ -21,7 +21,7 @@ describe 'Set Form', reset_provider: true, js: true do
     it 'displays the form title in the breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Variable Drafts')
-        expect(page).to have_content('Set')
+        expect(page).to have_content('Sets')
       end
     end
 
@@ -29,8 +29,8 @@ describe 'Set Form', reset_provider: true, js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Set')
     end
 
-    it 'has 5 required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 5)
+    it 'has 4 required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 4)
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -269,24 +269,12 @@ describe 'Set Form', reset_provider: true, js: true do
   end
 
   context 'When viewing the form with 2 stored values' do
-    before do
-      draft_sets = [{
-        'Name': 'Science',
-        'Type': 'Land',
-        'Size': 50,
-        'Index': 1
-      }, {
-        'Name': 'Fiction',
-        'Type': 'Water',
-        'Size': 100,
-        'Index': 2
-      }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Sets': draft_sets })
-      visit edit_variable_draft_path(draft, 'sets')
-    end
+    let(:draft) {
+      create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
+    }
 
-    it 'displays two populated form' do
-      expect(page).to have_css('.multiple-item', count: 2)
+    before do
+      visit edit_variable_draft_path(draft, 'sets')
     end
 
     it 'displays the correct values in the form' do
@@ -360,6 +348,10 @@ describe 'Set Form', reset_provider: true, js: true do
         end
       end
 
+      it 'saves the draft without making any changes' do
+        expect(draft.draft).to eq(Draft.last.draft)
+      end
+
       it 'saves the draft and loads the next form' do
         within '.eui-banner--success' do
           expect(page).to have_content('Variable Draft Updated Successfully!')
@@ -376,6 +368,18 @@ describe 'Set Form', reset_provider: true, js: true do
         within '.nav-bottom' do
           expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
+      end
+
+      it 'displays the correct values in the form' do
+        expect(page).to have_field('variable_draft_draft_sets_0_name', with: 'Science')
+        expect(page).to have_field('variable_draft_draft_sets_0_type', with: 'Land')
+        expect(page).to have_field('variable_draft_draft_sets_0_size', with: '50')
+        expect(page).to have_field('variable_draft_draft_sets_0_index', with: '1')
+
+        expect(page).to have_field('variable_draft_draft_sets_1_name', with: 'Fiction')
+        expect(page).to have_field('variable_draft_draft_sets_1_type', with: 'Water')
+        expect(page).to have_field('variable_draft_draft_sets_1_size', with: '100')
+        expect(page).to have_field('variable_draft_draft_sets_1_index', with: '2')
       end
     end
   end

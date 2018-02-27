@@ -61,7 +61,7 @@ class CollectionDraft < Draft
         self.short_name = params['short_name'].empty? ? nil : params['short_name']
       end
 
-      # Convert {'0' => {'id' => 123'}} to [{'id' => '123'}]
+      # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
       json_params = params.to_hash.to_camel_keys

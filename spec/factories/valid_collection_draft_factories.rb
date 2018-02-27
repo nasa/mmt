@@ -611,26 +611,6 @@ FactoryGirl.define do
         'ISBN'  => '9876543210987'
       }],
       'ScienceKeywords' => [{
-        'Category' => 'EARTH SCIENCE SERVICES',
-        'Topic'    => 'DATA ANALYSIS AND VISUALIZATION',
-        'Term'     => 'GEOGRAPHIC INFORMATION SYSTEMS'
-      }, {
-        'Category'       => 'EARTH SCIENCE SERVICES',
-        'Topic'          => 'DATA ANALYSIS AND VISUALIZATION',
-        'Term'           => 'GEOGRAPHIC INFORMATION SYSTEMS',
-        'VariableLevel1' => 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
-      }, {
-        'Category'       => 'EARTH SCIENCE SERVICES',
-        'Topic'          => 'DATA ANALYSIS AND VISUALIZATION',
-        'Term'           => 'GEOGRAPHIC INFORMATION SYSTEMS',
-        'VariableLevel1' => 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
-      }, {
-        'Category'       => 'EARTH SCIENCE',
-        'Topic'          => 'ATMOSPHERE',
-        'Term'           => 'AEROSOLS',
-        'VariableLevel1' => 'AEROSOL OPTICAL DEPTH/THICKNESS',
-        'VariableLevel2' => 'ANGSTROM EXPONENT'
-      }, {
         'Category'       => 'EARTH SCIENCE',
         'Topic'          => 'ATMOSPHERE',
         'Term'           => 'ATMOSPHERIC TEMPERATURE',

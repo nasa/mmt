@@ -84,6 +84,9 @@ Rails.application.configure do
   # Feature Toggle for bulk updates
   config.bulk_updates_enabled = true
 
+  # Feature Toggle for UMM-S
+  config.umm_s_enabled = false
+
   config.cmr_env = 'ops'
   config.echo_env = 'ops'
   config.analytics_id = 'UA-62340125-5'

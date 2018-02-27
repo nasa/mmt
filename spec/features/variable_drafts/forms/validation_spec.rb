@@ -89,8 +89,8 @@ describe 'Variable Drafts Forms Field Validations', reset_provider: true, js: tr
           expect(page).to have_field('Name', with: 'Test Var Short Name')
           expect(page).to have_field('Definition', with: 'Definition of test variable')
           expect(page).to have_field('Long Name', with: 'Test Var Long Long Name')
-          expect(page).to have_field('Scale', with: '2.0')
-          expect(page).to have_field('Offset', with: '5.0')
+          expect(page).to have_field('Scale', with: '2')
+          expect(page).to have_field('Offset', with: '5')
         end
       end
     end

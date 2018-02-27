@@ -209,118 +209,12 @@ describe 'Fill Values Form', reset_provider: true, js: true do
     end
   end
 
-  context 'When viewing the form with 1 stored value' do
-    before do
-      draft_fill_values = [{
-        'Type': 'Science',
-        'Value': -9999.0,
-        'Description': 'Pellentesque Bibendum Commodo Fringilla Nullam'
-      }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValues': draft_fill_values })
-      visit edit_variable_draft_path(draft, 'fill_values')
-    end
-
-    it 'displays one populated form' do
-      expect(page).to have_css('.multiple-item', count: 1)
-    end
-
-    it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_fill_values_0_type', with: 'Science')
-      expect(page).to have_field('variable_draft_draft_fill_values_0_value', with: '-9999.0')
-      expect(page).to have_field('variable_draft_draft_fill_values_0_description', with: 'Pellentesque Bibendum Commodo Fringilla Nullam')
-    end
-
-    context 'When clicking `Previous` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Previous'
-        end
-      end
-
-      it 'saves the draft and loads the previous form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Variable Information')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
-        end
-      end
-    end
-
-    context 'When clicking `Next` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Next'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Dimensions')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
-        end
-      end
-    end
-
-    context 'When clicking `Save` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Save'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Fill Values')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('fill_values')
-        end
-      end
-    end
-  end
-
   context 'When viewing the form with 2 stored values' do
+    let(:draft) {
+      create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
+    }
+
     before do
-      draft_fill_values = [{
-        'Type': 'Science',
-        'Value': -9999.0,
-        'Description': 'Pellentesque Bibendum Commodo Fringilla Nullam'
-      }, {
-        'Type': 'Fiction',
-        'Value': 111.0,
-        'Description': 'Pellentesque Nullam Ullamcorper Magna'
-      }]
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'FillValues': draft_fill_values })
       visit edit_variable_draft_path(draft, 'fill_values')
     end
 
@@ -395,6 +289,10 @@ describe 'Fill Values Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Save'
         end
+      end
+
+      it 'saves the draft without making any changes' do
+        expect(draft.draft).to eq(Draft.last.draft)
       end
 
       it 'saves the draft and loads the next form' do
