@@ -14,20 +14,6 @@ class UmmServiceKeywordPicker < UmmKeywordPicker
     'service'
   end
 
-  def render_preview
-    capture do
-      element_value.each do |keyword|
-        concat(content_tag(:ul, class: 'arrow-tag-group-list') do
-          KEYWORD_LEVELS.each do |level|
-            unless keyword[level].blank?
-              concat content_tag(:li, keyword[level], itemprop: 'keyword', class: 'arrow-tag-group-item')
-            end
-          end
-        end)
-      end
-    end
-  end
-
   def render_keyword_list(object)
     content_tag(:div, class: "selected-#{keyword_type}-keywords #{keyword_type}-keywords") do
       concat(content_tag(:ul) do
