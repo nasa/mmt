@@ -27,10 +27,9 @@ class CollectionDraftsController < BaseDraftsController
   def show
     super
 
-    set_platform_types
-    set_instruments
+    set_platform_short_names
+    set_instrument_short_names
     set_temporal_keywords
-    set_data_centers
     set_country_codes
     set_language_codes
     @errors = validate_metadata
@@ -173,7 +172,7 @@ class CollectionDraftsController < BaseDraftsController
     # if user has a provider set and provider file exists
     if current_user.provider_id && File.exist?(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json"))
       provider_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json")))
-      umm_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
+      umm_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'collections', 'umm-c-merged.json')))
 
       begin
         @json_schema = umm_schema.deep_merge(provider_schema)
@@ -183,12 +182,12 @@ class CollectionDraftsController < BaseDraftsController
         @json_schema = umm_schema
       end
     else
-      @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'umm-c-merged.json')))
+      @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'collections', 'umm-c-merged.json')))
     end
   end
 
   def load_data_contacts_schema
-    @data_contacts_form_json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'data-contacts-form-json-schema-2.json')))
+    @data_contacts_form_json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'collections', 'data-contacts-form-json-schema-2.json')))
   end
 
   def validate_metadata
@@ -338,18 +337,16 @@ class CollectionDraftsController < BaseDraftsController
       platforms = metadata['Platforms'] || []
       platforms.each do |platform|
         platform_short_name = platform['ShortName']
-        short_names = @platform_types.map { |type| type[:short_names].map { |short_name| short_name[:short_name] } }.flatten
 
-        if platform_short_name && !short_names.include?(platform_short_name)
+        if platform_short_name && !@platform_short_names.include?(platform_short_name)
           errors << "The property '#/Platforms' was invalid"
         end
 
         instruments = platform.fetch('Instruments', [])
         instruments.each do |instrument|
           instrument_short_name = instrument['ShortName']
-          instrument_short_names = @instruments.map { |short_name| short_name[:short_name] }.flatten
 
-          if instrument_short_name && !instrument_short_names.include?(instrument_short_name)
+          if instrument_short_name && !@instrument_short_names.include?(instrument_short_name)
             errors << "The property '#/Platforms' was invalid"
           end
 
@@ -357,7 +354,7 @@ class CollectionDraftsController < BaseDraftsController
           instrument_children.each do |child|
             child_short_name = child['ShortName']
 
-            if child_short_name && !instrument_short_names.include?(child_short_name)
+            if child_short_name && !@instrument_short_names.include?(child_short_name)
               errors << "The property '#/Platforms' was invalid"
             end
           end
@@ -375,7 +372,7 @@ class CollectionDraftsController < BaseDraftsController
       data_centers.each do |data_center|
         short_name = data_center['ShortName']
         if short_name
-          matches = @data_centers.select { |dc| dc[:short_name].include?(short_name) }
+          matches = fetch_data_centers.select { |dc| dc[:short_name].include?(short_name) }
           if matches.empty?
             errors << "The property '#/DataCenters' was invalid"
           end
@@ -475,12 +472,5 @@ class CollectionDraftsController < BaseDraftsController
 
   def set_language_codes
     @language_codes = cmr_client.get_language_codes.to_a
-  end
-
-  def set_country_codes
-    # put the US at the top of the country list
-    country_codes = Carmen::Country.all.sort
-    united_states = country_codes.delete(Carmen::Country.named('United States'))
-    @country_codes = country_codes.unshift(united_states)
   end
 end

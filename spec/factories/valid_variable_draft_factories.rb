@@ -67,8 +67,12 @@ FactoryGirl.define do
       'DataType': 'float',
       'Dimensions': [
         {
-          'Name': '1, UTC Time represent the starting of 1 second sampling time (seconds)',
+          'Name': 'Sampling time and depth',
           'Size': 3000
+        },
+        {
+          'Name': 'Lizard Herp Doc Pop',
+          'Size': 2020
         }
       ],
       'ValidRanges': [
@@ -81,40 +85,54 @@ FactoryGirl.define do
       'Offset': 0.0,
       'FillValues': [
         {
-          'Value': -9999.0,
           'Type': 'Science',
-          'Description': 'Fill Value Description'
+          'Value': -9999.0,
+          'Description': 'Pellentesque Bibendum Commodo Fringilla Nullam'
+        },
+        {
+          'Type': 'Fiction',
+          'Value': 111.0,
+          'Description': 'Pellentesque Nullam Ullamcorper Magna'
         }
       ],
       'VariableType': 'SCIENCE_VARIABLE',
       'Sets': [
         {
-          'Name': 'DISCOVERAQ',
-          'Type': 'REVEAL-TEXAS',
-          'Size': 10,
+          'Name': 'Science',
+          'Type': 'Land',
+          'Size': 50,
+          'Index': 1
+        },
+        {
+          'Name': 'Fiction',
+          'Type': 'Water',
+          'Size': 100,
           'Index': 2
         }
       ],
       'Characteristics': {
-        'StandardName': 'peroxynitrates',
-        'Reference': 'Reference',
-        'Coordinates': 'Sampling location given in aircraft navigation data set: DISCOVERAQ-REVEAL-TEXAS',
-        'GridMapping': 'N/A',
-        'Size': 23,
-        'SizeUnits': 'MB',
-        'Bounds': 'Lon: -94.5,  -75.5 E; Lat: 29.1, 38.0 N',
-        'ChunkSize': 42,
-        'Structure': 'float: seconds, NO2_LIF, PNs_LIF, ANs_LIF, HNO3_LIF, NO2_LIF_noise, PNs_LIF_noise, ANs_LIF_noise, HNO3_LIF_noise: 10 granules: different number of lines for each granule',
-        'MeasurementConditions': 'Measurement Conditions',
-        'ReportingConditions': 'Reporting Conditions'
+        'StandardName': 'Tortor Ultricies Nibh Adipiscing',
+        'Reference': 'https://developer.earthdata.nasa.gov/',
+        'Coordinates': '38.8059922,-77.0435327',
+        'GridMapping': 'Mercator',
+        'Size': 10.0,
+        'SizeUnits': 'nm',
+        'Bounds': 'UpperLeftPointMtrs = -180.0, 89.5; LowerRightMtrs = 177.5, -89.5',
+        'ChunkSize': 100.0,
+        'Structure': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        'MeasurementConditions': 'Nulla vitae elit libero, a pharetra augue.',
+        'ReportingConditions': 'Cras justo odio, dapibus ac facilisis in, egestas eget quam.'
       },
       'ScienceKeywords': draft_science_keywords || [
         {
           'Category': 'EARTH SCIENCE',
+          'Topic': 'SOLID EARTH',
+          'Term': 'ROCKS/MINERALS/CRYSTALS'
+        },
+        {
+          'Category': 'EARTH SCIENCE',
           'Topic': 'ATMOSPHERE',
-          'Term': 'ATMOSPHERIC CHEMISTRY',
-          'VariableLevel1': 'NITROGEN COMPOUNDS',
-          'VariableLevel2': 'Peroxyacyl Nitrate'
+          'Term': 'ATMOSPHERIC TEMPERATURE'
         }
       ]
     }}

@@ -77,7 +77,17 @@ Rails.application.routes.draw do
   get '/variables/:id/clone' => 'variables#clone', as: 'clone_variable'
   get '/variables/:id/download_json(/:revision_id)' => 'variables#download_json', as: 'download_json_variable'
 
+  resources :services, only: [:show, :create, :edit, :destroy] do
+    # TODO MMT-1019
+  end
+
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
+    member do
+      get 'edit', path: 'edit(/:form)'
+    end
+  end
+
+  resources :service_drafts, controller: 'service_drafts', draft_type: 'ServiceDraft' do
     member do
       get 'edit', path: 'edit(/:form)'
     end

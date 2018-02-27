@@ -24,13 +24,39 @@ module ControlledKeywords
     end
   end
 
-  def set_science_keywords
+  def fetch_science_keywords
     response = cmr_client.get_controlled_keywords('science_keywords')
-    @science_keywords = if response.success?
-                          response.body
-                        else
-                          []
-                        end
+    if response.success?
+      response.body
+    else
+      []
+    end
+  end
+
+  def set_science_keywords
+    keywords = fetch_science_keywords
+    if keywords.key? 'category'
+      keywords['category'].each do |category|
+        if category['value'] == 'EARTH SCIENCE SERVICES'
+          keywords['category'].delete(category)
+          break
+        end
+      end
+    end
+    @science_keywords = keywords
+  end
+
+  def set_service_keywords
+    keywords = fetch_science_keywords
+    if keywords.key? 'category'
+      keywords['category'].each do |category|
+        if category['value'] == 'EARTH SCIENCE'
+          keywords['category'].delete(category)
+          break
+        end
+      end
+    end
+    @service_keywords = keywords
   end
 
   def set_location_keywords
@@ -43,44 +69,65 @@ module ControlledKeywords
   end
 
   def set_data_centers
-    response = cmr_client.get_controlled_keywords('data_centers')
-    @data_centers = if response.success?
-                      data_centers = get_controlled_keyword_short_names(response.body.fetch('level_0', []))
+    @data_centers = fetch_data_centers.map { |data_center| [data_center.fetch(:short_name, ''), data_center.fetch(:short_name, ''), { 'data-long-name' => data_center[:long_name], 'data-url' => data_center[:url] }] }
+  end
 
-                      data_centers.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
-                    else
-                      []
-                    end
+  def fetch_data_centers
+    response = cmr_client.get_controlled_keywords('data_centers')
+
+    if response.success?
+      data_centers = get_controlled_keyword_short_names(response.body.fetch('level_0', []))
+
+      data_centers.flatten.sort_by { |a| a[:short_name] }
+    else
+      []
+    end
   end
 
   def set_platform_types
+    @platform_types = fetch_platforms.map { |platform| [platform[:type], platform[:short_names].map { |sn| [sn[:short_name], 'data-long-name' => sn[:long_name], 'data-type' => platform[:type]] }] }
+  end
+
+  def set_platform_short_names
+    @platform_short_names = fetch_platforms.map { |type| type[:short_names].map { |short_name| short_name[:short_name] } }.flatten
+  end
+
+  def fetch_platforms
     response = cmr_client.get_controlled_keywords('platforms')
 
     # sets platform types with nested short_name and long_name values
-    @platform_types = if response.success?
-                        platform_types = response.body.fetch('category', []).map do |category|
-                          short_names = get_controlled_keyword_short_names(Array.wrap(category))
+    if response.success?
+      platform_types = response.body.fetch('category', []).map do |category|
+        short_names = get_controlled_keyword_short_names(Array.wrap(category))
 
-                          {
-                            type: category['value'],
-                            short_names: short_names.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
-                          }
-                        end
-                        platform_types.sort { |a, b| a[:type] <=> b[:type] }
-                      else
-                        []
-                      end
+        {
+          type: category['value'],
+          short_names: short_names.flatten.sort_by { |a| a[:short_name] }
+        }
+      end
+      platform_types.sort_by { |a| a[:type] }
+    else
+      []
+    end
   end
 
   def set_instruments
-    response = cmr_client.get_controlled_keywords('instruments')
-    @instruments = if response.success?
-                     instruments = get_controlled_keyword_short_names(response.body.fetch('category', []))
+    @instruments = fetch_instruments.map { |instrument| [instrument[:short_name], instrument[:short_name], { 'data-long-name' => instrument[:long_name] }] }
+  end
 
-                     instruments.flatten.sort { |a, b| a[:short_name] <=> b[:short_name] }
-                   else
-                     []
-                   end
+  def set_instrument_short_names
+    @instrument_short_names = fetch_instruments.map { |short_name| short_name[:short_name] }.flatten
+  end
+
+  def fetch_instruments
+    response = cmr_client.get_controlled_keywords('instruments')
+    if response.success?
+      instruments = get_controlled_keyword_short_names(response.body.fetch('category', []))
+
+      instruments.flatten.sort_by { |a| a[:short_name] }
+    else
+      []
+    end
   end
 
   def set_projects
@@ -107,5 +154,12 @@ module ControlledKeywords
                          else
                            []
                          end
+  end
+
+  def set_country_codes
+    # put the US at the top of the country list
+    country_codes = Carmen::Country.all.sort
+    united_states = country_codes.delete(Carmen::Country.named('United States'))
+    @country_codes = country_codes.unshift(united_states)
   end
 end

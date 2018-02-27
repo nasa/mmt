@@ -6,6 +6,8 @@ $(document).ready ->
     topMultiple = $(this).closest('.multiple')
 
     type = $(topMultiple).attr('class').split(' ').pop().replace(/-/g, '_')
+    # if a UMM form, just use the last piece of type
+    type = type.split('/').pop() if $(this).parents('.umm-form').length > 0
 
     multipleItem = topMultiple.children('.multiple-item:last')
     newDiv = multipleItem.clone(true)
@@ -25,7 +27,7 @@ $(document).ready ->
       # multiple-item is a collection of fields
 
       # Remove any extra multiple-item, should only be one per .multiple
-      $.each $(newDiv).find('.multiple').not('.multiple.addresses-street-addresses'), (index, multiple) ->
+      $.each $(newDiv).find('.multiple').not('.multiple.addresses-street-addresses, .multiple.street-addresses'), (index, multiple) ->
         $.each $(multiple).children('.multiple-item'), (index2) ->
           if index2 > 0
             $(this).remove()

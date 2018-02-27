@@ -5,25 +5,22 @@ class VariableDraftsController < BaseDraftsController
   before_action :set_schema, only: [:show, :new, :edit, :update, :create]
   before_action :set_form, only: [:show, :edit, :update]
   before_action :set_current_form, only: [:edit]
-  before_action :set_science_keywords, only: [:new, :edit]
 
-  def new
+  def edit
     super
 
-    set_form
-
-    set_current_form
+    set_science_keywords if @current_form == 'science_keywords'
   end
 
   private
 
   def set_schema
-    @schema = UmmJsonSchema.new('umm-var-json-schema.json')
+    @schema = UmmJsonSchema.new(plural_published_resource_name, 'umm-var-json-schema.json')
     @schema.fetch_references(@schema.parsed_json)
   end
 
   def set_form
-    @json_form = UmmJsonForm.new('umm-var-form.json', @schema, get_resource.draft, 'field_prefix' => 'variable_draft/draft')
+    @json_form = UmmJsonForm.new(plural_published_resource_name, 'umm-var-form.json', @schema, get_resource.draft, 'field_prefix' => 'variable_draft/draft')
   end
 
   def set_current_form

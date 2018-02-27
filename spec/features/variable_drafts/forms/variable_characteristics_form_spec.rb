@@ -163,21 +163,11 @@ describe 'Characteristics Form', reset_provider: true, js: true do
   end
 
   context 'When viewing the form with stored values' do
+    let(:draft) {
+      create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
+    }
+
     before do
-      draft_charcteristics = {
-        'StandardName': 'Tortor Ultricies Nibh Adipiscing',
-        'Reference': 'https://developer.earthdata.nasa.gov/',
-        'Coordinates': '38.8059922,-77.0435327',
-        'GridMapping': 'Mercator',
-        'Size': '10',
-        'SizeUnits': 'nm',
-        'Bounds': 'UpperLeftPointMtrs = -180.0, 89.5; LowerRightMtrs = 177.5, -89.5',
-        'ChunkSize': '100',
-        'Structure': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        'MeasurementConditions': 'Nulla vitae elit libero, a pharetra augue.',
-        'ReportingConditions': 'Cras justo odio, dapibus ac facilisis in, egestas eget quam.'
-      }
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first, draft: { 'Characteristics': draft_charcteristics })
       visit edit_variable_draft_path(draft, 'variable_characteristics')
     end
 
@@ -186,10 +176,10 @@ describe 'Characteristics Form', reset_provider: true, js: true do
       expect(page).to have_field('variable_draft_draft_characteristics_reference', with: 'https://developer.earthdata.nasa.gov/')
       expect(page).to have_field('variable_draft_draft_characteristics_coordinates', with: '38.8059922,-77.0435327')
       expect(page).to have_field('variable_draft_draft_characteristics_grid_mapping', with: 'Mercator')
-      expect(page).to have_field('variable_draft_draft_characteristics_size', with: '10')
+      expect(page).to have_field('variable_draft_draft_characteristics_size', with: '10.0')
       expect(page).to have_field('variable_draft_draft_characteristics_size_units', with: 'nm')
       expect(page).to have_field('variable_draft_draft_characteristics_bounds', with: 'UpperLeftPointMtrs = -180.0, 89.5; LowerRightMtrs = 177.5, -89.5')
-      expect(page).to have_field('variable_draft_draft_characteristics_chunk_size', with: '100')
+      expect(page).to have_field('variable_draft_draft_characteristics_chunk_size', with: '100.0')
       expect(page).to have_field('variable_draft_draft_characteristics_structure', with: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
       expect(page).to have_field('variable_draft_draft_characteristics_measurement_conditions', with: 'Nulla vitae elit libero, a pharetra augue.')
       expect(page).to have_field('variable_draft_draft_characteristics_reporting_conditions', with: 'Cras justo odio, dapibus ac facilisis in, egestas eget quam.')
@@ -252,6 +242,10 @@ describe 'Characteristics Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_button 'Save'
         end
+      end
+
+      it 'saves the draft without making any changes' do
+        expect(draft.draft).to eq(Draft.last.draft)
       end
 
       it 'saves the draft and loads the next form' do

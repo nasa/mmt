@@ -141,11 +141,20 @@ $(document).ready ->
   $('.related-url-type-select').change ->
     handleTypeSelect($(this))
 
+  getRelatedUrlContentTypeSelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.related-url-content-type-select')
+
+  getRelatedUrlTypeSelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.related-url-type-select')
+
+  getRelatedUrlSubtypeSelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.related-url-subtype-select')
+
   handleContentTypeSelect = (selector) ->
     contentTypeValue = $(selector).val()
 
-    $typeSelect = $(selector).siblings('.related-url-type-select')
-    $subtypeSelect = $(selector).siblings('.related-url-subtype-select')
+    $typeSelect = getRelatedUrlTypeSelect(selector)
+    $subtypeSelect = getRelatedUrlSubtypeSelect(selector)
 
     disableField($typeSelect)
     disableField($subtypeSelect)
@@ -154,9 +163,7 @@ $(document).ready ->
     subtypeValue = $subtypeSelect.val()
 
     $typeSelect.find('option').remove()
-    $subtypeSelect.find('option').remove()
     $typeSelect.append($("<option />").val('').text('Select Type'))
-    $subtypeSelect.append($("<option />").val('').text('Select Subtype'))
 
     if contentTypeValue?.length > 0
       types = urlContentTypeMap[contentTypeValue]?.types
@@ -169,22 +176,16 @@ $(document).ready ->
       if $typeSelect.find('option').length == 2
         $typeSelect.find('option').first().remove()
         $typeSelect.find('option').first().prop 'selected', true
-      $typeSelect.trigger('change')
       enableField($typeSelect)
-
-      # if only one Subtype option exists, select that option
-      if $subtypeSelect.find('option').length == 2
-        $subtypeSelect.find('option').last().prop 'selected', true
-      else if $subtypeSelect.find('option').length > 1
-        $subtypeSelect.val(subtypeValue)
+    $typeSelect.trigger('change')
 
   handleTypeSelect = (selector) ->
     typeValue = $(selector).val()
+
+    $parent = $(selector).closest('.eui-accordion__body')
+    $parent.find('.get-data-fields, .get-service-fields').hide()
+
     if typeValue?.length > 0
-      $parent = $(selector).parents('.multiple-item.eui-accordion')
-
-      $parent.find('.get-data-fields, .get-service-fields').hide()
-
       switch typeValue
         when 'GET DATA'
           $parent.find('.get-data-fields').show()
@@ -193,8 +194,8 @@ $(document).ready ->
           $parent.find('.get-service-fields').show()
           $parent.find('.get-data-fields').find('input, select').val ''
 
-      $subtypeSelect = $(selector).siblings('.related-url-subtype-select')
-      contentTypeValue = $(selector).siblings('.related-url-content-type-select').val()
+      $subtypeSelect = getRelatedUrlSubtypeSelect(selector)
+      contentTypeValue = getRelatedUrlContentTypeSelect(selector).val()
       subtypeValue = $subtypeSelect.val()
 
       disableField($subtypeSelect)
@@ -244,3 +245,34 @@ $(document).ready ->
 
   $('.additional-attribute-type-select').each ->
     handleAdditionAttributeDataType($(this))
+
+  ###
+  # UMM-S Forms
+  ###
+
+  handleCoverageSpatialTypeSelect = (element) ->
+    $parent = $(element).parents('.coverage-spatial-type-group')
+
+    $parent.find('.coverage-spatial-type').hide()
+
+    switch $(element).val()
+      when 'SPATIAL_POINT'
+        $parent.find('.coverage-spatial-type.spatial-points').show()
+      when 'SPATIAL_LINE_STRING'
+        $parent.find('.coverage-spatial-type.spatial-line-strings').show()
+      when 'BOUNDING_BOX'
+        $parent.find('.coverage-spatial-type.spatial-bounding-box').show()
+      when 'SPATIAL_POLYGON'
+        $parent.find('.coverage-spatial-type.spatial-polygons').show()
+
+    # Clear all hidden fields
+    $parent.find('.coverage-spatial-type:hidden').find('input, select').not('input[type="radio"]').val ''
+
+    # Clear radio buttons
+    $parent.find('.coverage-spatial-type:hidden').find('input[type="radio"]').prop 'checked', false
+
+  # Handle SpatialCoverageType selector
+  $('.coverage-spatial-type-select').change ->
+    handleCoverageSpatialTypeSelect($(this))
+
+  handleCoverageSpatialTypeSelect($('.coverage-spatial-type-select'))

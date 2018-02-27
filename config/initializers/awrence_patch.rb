@@ -12,6 +12,9 @@ class Hash
     isbn
     doi
     iso_topic_categories
+    related_url
+    online_access_url_pattern_match
+    online_access_url_pattern_substitution
   )
 
   def camelize(snake_word, first_upper = true)
@@ -23,6 +26,9 @@ class Hash
       return 'DataID' if snake_word == 'data_id'
       return 'URLContentType' if snake_word == 'url_content_type'
       return 'ISOTopicCategories' if snake_word == 'iso_topic_categories'
+      return 'RelatedURL' if snake_word == 'related_url'
+      return 'OnlineAccessURLPatternMatch' if snake_word == 'online_access_url_pattern_match'
+      return 'OnlineAccessURLPatternSubstitution' if snake_word == 'online_access_url_pattern_substitution'
       return snake_word.upcase
     end
 

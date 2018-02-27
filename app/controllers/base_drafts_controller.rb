@@ -27,6 +27,10 @@ class BaseDraftsController < DraftsController
     authorize get_resource
 
     add_breadcrumb 'New', send("new_#{resource_name}_path")
+
+    set_form
+
+    set_current_form
   end
 
   def edit

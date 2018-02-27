@@ -1,7 +1,7 @@
 module Helpers
   module DraftHelpers
     def output_schema_validation(draft)
-      schema = 'lib/assets/schemas/umm-c-json-schema.json'
+      schema = 'lib/assets/schemas/collections/umm-c-json-schema.json'
       JSON::Validator.fully_validate(schema, draft).each do |error|
         puts error
       end
@@ -587,28 +587,31 @@ module Helpers
     end
 
     def add_science_keywords
-      choose_keyword 'EARTH SCIENCE SERVICES'
-      choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
-      choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
+      choose_keyword 'EARTH SCIENCE'
+      choose_keyword 'ATMOSPHERE'
+      choose_keyword 'ATMOSPHERIC TEMPERATURE'
+      choose_keyword 'SURFACE TEMPERATURE'
+      choose_keyword 'MAXIMUM/MINIMUM TEMPERATURE'
+      choose_keyword '24 HOUR MAXIMUM TEMPERATURE'
       click_on 'Add Keyword'
 
-      choose_keyword 'EARTH SCIENCE SERVICES'
-      choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
-      choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
-      choose_keyword 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
-      choose_keyword 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+      choose_keyword 'EARTH SCIENCE'
+      choose_keyword 'SOLID EARTH'
+      choose_keyword 'ROCKS/MINERALS/CRYSTALS'
+      choose_keyword 'SEDIMENTARY ROCKS'
+      choose_keyword 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES'
+      choose_keyword 'LUMINESCENCE'
       click_on 'Add Keyword'
     end
 
 
     def add_science_keywords_suggestion
-      choose_keyword 'EARTH SCIENCE SERVICES'
-      choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
-      choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
+      choose_keyword 'EARTH SCIENCE'
+      choose_keyword 'ATMOSPHERE'
 
-      find('#science-keyword-search').set('mobile')
-      find('#science-keyword-search').click()
-      find('.tt-open').click()
+      find('#science-keyword-search').set('angstrom')
+      find('#science-keyword-search').click
+      find('.tt-open').click
     end
 
 

@@ -87,7 +87,6 @@ describe 'Science Keywords Facets with Bulk Updates' do
 
           within '#Term' do
             expect(page).to have_css('option[disabled]', text: 'ROCKS/MINERALS/CRYSTAL')
-            expect(page).to have_css('option[disabled]', text: 'AEROSOLS')
           end
 
           within '#VariableLevel1' do
@@ -152,7 +151,6 @@ describe 'Science Keywords Facets with Bulk Updates' do
           end
         end
       end
-
     end
 
     context 'when first choosing a facets option at a lower hierarchy level' do

@@ -29,7 +29,7 @@
       title: 'Short Name',
       prefix: '|update_value|_',
       value: repopulate_update_value(@task, 'instruments', 'ShortName'),
-      options: @instruments.map { |instrument| [instrument[:short_name], instrument[:short_name], { 'data-long-name' => instrument[:long_name] }] },
+      options: @instruments,
       classes: 'select2-select instrument-short-name-select',
       always_required: true
     ) %>

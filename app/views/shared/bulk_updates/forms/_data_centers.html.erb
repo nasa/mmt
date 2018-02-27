@@ -30,7 +30,7 @@
         title: 'Short Name',
         prefix: '|update_value|_',
         value: repopulate_update_value(@task, 'data_centers', 'ShortName'),
-        options: @data_centers.map { |data_center| [data_center.fetch(:short_name, ''), data_center.fetch(:short_name, ''), { 'data-long-name' => data_center[:long_name], 'data-url' => data_center[:url] }]},
+        options: @data_centers,
         classes: 'data-center-short-name-select required bulk-updates-data-center select2-select',
         required: true
       ) %>

@@ -66,7 +66,9 @@ setDataCenterLongNameAndUrl = (dataCenterShortNameSelect, action) ->
     if url?
       $urlElement.val(url)
       $urlElement.attr('readonly', true)
-      $urlContentTypeElement.find('option').last().prop 'selected', true
+
+      # UMM-S doesn't currently limit the URL Content Types of Related URLs, so do not auto select a content type unless there is only 1 option (plus the prompt)
+      $urlContentTypeElement.find('option').last().prop 'selected', true if $urlContentTypeElement.find('option').length == 2
       $urlContentTypeElement.trigger('change')
     else
       $urlElement.attr('readonly', false)

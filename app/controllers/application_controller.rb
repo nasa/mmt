@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
     redirect_to manage_collections_path unless Rails.configuration.bulk_updates_enabled
   end
 
+  def umm_s_enabled?
+    redirect_to manage_collections_path unless Rails.configuration.umm_s_enabled
+  end
+
   def setup_query
     @query ||= {}
     providers_response = cmr_client.get_providers

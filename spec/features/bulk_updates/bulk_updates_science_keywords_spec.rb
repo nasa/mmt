@@ -363,7 +363,7 @@ describe 'Bulk updating Science Keywords' do
         it 'displays the updated keywords' do
           within '.science-keywords-preview' do
             expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE')
-            expect(page).to have_no_content('SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS')
+            expect(page).to have_no_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS')
             expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS')
           end
         end
