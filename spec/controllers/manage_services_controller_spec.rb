@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ManageCollectionsController do
+describe ManageServicesController do
   describe 'GET #show' do
     before do
       sign_in
@@ -18,12 +18,6 @@ describe ManageCollectionsController do
 
     it 'sets the drafts instance variable' do
       expect(assigns(:drafts)).to eq([])
-    end
-
-    it 'sets the bulk updates instance variable' do
-      # currently bulk updates are never cleared CMR-3973 may allow us to
-      # clear bulk updates and test this as `[]`
-      expect(assigns(:bulk_updates)).to be_a(Array)
     end
   end
 end
