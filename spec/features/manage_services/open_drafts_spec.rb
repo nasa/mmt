@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Drafts listed on the Manage Variables page' do
+describe 'Drafts listed on the Manage Services page' do
   draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_variables_controller
 
   before do
@@ -13,11 +13,11 @@ describe 'Drafts listed on the Manage Variables page' do
 
   context 'when no drafts exist' do
     before do
-      visit manage_variables_path
+      visit manage_services_path
     end
 
     it 'does not display any drafts' do
-      expect(page).to have_content('MMT_2 Variable Drafts')
+      expect(page).to have_content('MMT_2 Service Drafts')
 
       within '.open-drafts' do
         expect(page).to have_content('MMT_2 has no drafts to display.')
@@ -28,10 +28,10 @@ describe 'Drafts listed on the Manage Variables page' do
   context 'when there are open drafts from multiple users' do
     before do
       # create 2 drafts per user
-      2.times { create(:empty_variable_draft, user_id: @current_user_id) }
-      2.times { create(:empty_variable_draft, user_id: @other_user_id) }
+      2.times { create(:empty_service_draft, user_id: @current_user_id) }
+      2.times { create(:empty_service_draft, user_id: @other_user_id) }
 
-      visit manage_variables_path
+      visit manage_services_path
     end
 
     it 'displays all the drafts' do
@@ -44,10 +44,10 @@ describe 'Drafts listed on the Manage Variables page' do
   context "when more than #{draft_display_max_count} open drafts exist" do
     before do
       # create draft_display_max_count drafts per user
-      draft_display_max_count.times { create(:empty_variable_draft, user_id: @current_user_id) }
-      draft_display_max_count.times { create(:empty_variable_draft, user_id: @other_user_id) }
+      draft_display_max_count.times { create(:empty_service_draft, user_id: @current_user_id) }
+      draft_display_max_count.times { create(:empty_service_draft, user_id: @other_user_id) }
 
-      visit manage_variables_path
+      visit manage_services_path
     end
 
     it 'the "More" is displayed' do
@@ -63,7 +63,7 @@ describe 'Drafts listed on the Manage Variables page' do
         end
       end
 
-      it 'the Variable Drafts index page is displayed with all open drafts for the provider' do
+      it 'the Service Drafts index page is displayed with all open drafts for the provider' do
         expect(page).to have_content('<Blank Name>', count: (draft_display_max_count * 2))
       end
 
@@ -74,7 +74,7 @@ describe 'Drafts listed on the Manage Variables page' do
 
         it 'the draft is opened for view/edit' do
           within '.eui-breadcrumbs' do
-            expect(page).to have_content('Variable Drafts')
+            expect(page).to have_content('Service Drafts')
           end
 
           expect(page).to have_css('p', text: 'No value for Name provided.')

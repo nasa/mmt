@@ -3,7 +3,7 @@
 require 'rails_helper'
 # Basic draft creation and retrieval via the list on the Manage Collections page are tested in draft_creation_spec.rb
 
-describe 'Collection Drafts listed on the Manage Collections page', reset_provider: true do
+describe 'Collection Drafts listed on the Manage Collections page' do
   draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_collections_controller
 
   before do
