@@ -41,10 +41,8 @@ class UmmForm < JsonObj
   end
 
   def build_key(fragment, key)
-    value = key
-    value += fragment['key'] if fragment['key'] && !value.ends_with?(fragment['key'])
-
-    value
+    key += fragment['key'] if fragment['key'] && !key.ends_with?(fragment['key'])
+    key
   end
 
   def top_key
@@ -167,7 +165,6 @@ class UmmForm < JsonObj
     fragment = (json_fragment || parsed_json)
 
     if fragment.key?('key')
-      # puts "fragment['key']: #{fragment['key']}"
       new_field = UmmFormElement.new(form_section_json: fragment, json_form: json_form, schema: schema, options: options, key: fragment['key'], field_value: field_value)
       fields << new_field unless fields.select { |f| f.top_key == new_field.top_key }.size > 0
 
