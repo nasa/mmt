@@ -17,8 +17,6 @@ describe 'Service Contacts Form', js: true do
         click_on 'Save'
       end
 
-      # TODO validation isn't working correctly
-      click_on 'Yes'
       click_on 'Expand All'
     end
 

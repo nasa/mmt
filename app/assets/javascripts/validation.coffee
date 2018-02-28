@@ -1,9 +1,21 @@
 $(document).ready ->
 
   getPageJson = ->
-    json = JSON.parse($('.metadata-form').find('input, textarea, select').filter ->
-      return this.value
-    .serializeJSON()).Draft
+    if $('.metadata-form').length > 0
+      json = JSON.parse($('.metadata-form').find('input, textarea, select').filter ->
+        return this.value
+      .serializeJSON()).Draft
+    else if $('.umm-form').length > 0
+      json = $('.umm-form').find('input, textarea, select').filter ->
+        return this.value
+      json = JSON.parse(json.serializeJSON())
+      if json.ServiceDraft?
+        json = json.ServiceDraft.Draft
+      else if json.VariableDraft?
+        json = json.VariableDraft.Draft
+      else
+        json = {}
+      fixRelatedURL(json)
 
     fixNumbers(json)
     fixIntegers(json)
@@ -11,9 +23,18 @@ $(document).ready ->
     return json if json?
     return {}
 
+  fixRelatedURL = (json) ->
+    if json?.RelatedUrl?
+      json.RelatedURL = json.RelatedUrl
+      delete json.RelatedUrl
+
   fixNumbers = (json) ->
-    numberFields = $('.mmt-number.validate').filter ->
-      this.value
+    if $('.metadata-form').length > 0
+      numberFields = $('.mmt-number.validate').filter ->
+        this.value
+    else if $('.umm-form').length > 0
+      numberFields = $('.validate[number="true"]').filter ->
+        this.value
 
     for element in numberFields
       name = $(element).attr('name')
@@ -22,8 +43,9 @@ $(document).ready ->
       value = json
       while match = re.exec name
         newPath = humps.pascalize(match[1])
-        value = value[newPath]
-        path.push newPath
+        unless newPath == 'Draft'
+          value = value[newPath]
+          path.push newPath
 
       if $.isNumeric(value)
         updateJson(json, path, parseFloat(value))
@@ -31,8 +53,12 @@ $(document).ready ->
     return
 
   fixIntegers = (json) ->
-    integerFields = $('.mmt-integer.validate').filter ->
-      this.value
+    if $('.metadata-form').length > 0
+      integerFields = $('.mmt-integer.validate').filter ->
+        this.value
+    else if $('.umm-form').length > 0
+      integerFields = $('.validate[integer="true"]').filter ->
+        this.value
 
     for element in integerFields
       name = $(element).attr('name')
@@ -41,8 +67,9 @@ $(document).ready ->
       value = json
       while match = re.exec name
         newPath = humps.pascalize(match[1])
-        value = value[newPath]
-        path.push newPath
+        unless newPath == 'Draft'
+          value = value[newPath]
+          path.push newPath
 
       if $.isNumeric(value) and Math.floor(value) == +value
         updateJson(json, path, parseInt(value))
@@ -99,17 +126,17 @@ $(document).ready ->
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
-    if classes.indexOf('mmt-number') != -1
+    if classes.indexOf('mmt-number') != -1 or $(element).attr('number') == 'true'
       type = 'number'
-    if classes.indexOf('mmt-integer') != -1
+    if classes.indexOf('mmt-integer') != -1 or $(element).attr('integer') == 'true'
       type = 'integer'
-    if classes.indexOf('mmt-boolean') != -1
+    if classes.indexOf('mmt-boolean') != -1 or $(element).attr('boolean') == 'true'
       type = 'boolean'
-    if classes.indexOf('mmt-date-time') != -1
+    if classes.indexOf('mmt-date-time') != -1 or $(element).attr('date-time') == 'true'
       type = 'date-time'
-    if classes.indexOf('mmt-uri') != -1
+    if classes.indexOf('mmt-uri') != -1 or $(element).attr('uuid') == 'true'
       type = 'URI'
-    if classes.indexOf('mmt-uuid') != -1
+    if classes.indexOf('mmt-uuid') != -1 or $(element).attr('uuid') == 'true'
       type = 'uuid'
     type
 
@@ -195,16 +222,21 @@ $(document).ready ->
     path = path.join('_')
 
     # Fix the path for special case keys
-    path = path.replace('u_r_ls', 'urls')
-    path = path.replace('u_r_l', 'url')
-    path = path.replace('u_r_l_content_type', 'url_content_type')
-    path = path.replace('d_o_i', 'doi')
-    path = path.replace('i_s_b_n', 'isbn')
-    path = path.replace('i_s_o_topic_categories', 'iso_topic_categories')
-    path = path.replace('data_i_d', 'data_id')
+    path = path.replace(/u_r_ls/g, 'urls')
+    path = path.replace(/u_r_l/g, 'url')
+    path = path.replace(/u_r_l_content_type/g, 'url_content_type')
+    path = path.replace(/d_o_i/g, 'doi')
+    path = path.replace(/i_s_b_n/g, 'isbn')
+    path = path.replace(/i_s_o_topic_categories/g, 'iso_topic_categories')
+    path = path.replace(/data_i_d/g, 'data_id')
     error.path = path
 
-    id = "draft_#{path}"
+    if $('.metadata-form').length > 0
+      id = "draft_#{path}"
+    else if $('.umm-form.service-form').length > 0
+      id = "service_draft_draft_#{path}"
+    else if $('.umm-form.variable-form').length > 0
+      id = "variable_draft_draft_#{path}"
     error.id = id
     error.element = $("##{id}")
     labelFor = id.replace(/\d+$/, "")
@@ -450,8 +482,20 @@ $(document).ready ->
 
   visitedFields = []
 
+  validateFromFormChange = ->
+    validatePage
+      showInline: true
+      showSummary: true
+      showConfirm: false
+
+  validateForNavigation = ->
+    validatePage
+      showInline: true
+      showSummary: true
+      showConfirm: true
+
   # Validate the whole page on page load
-  if $('.metadata-form').length > 0
+  if $('.metadata-form, .umm-form').length > 0
     # "visit" each field with a value on page load
     $('.validate').not(':disabled').filter ->
       return switch this.type
@@ -463,13 +507,10 @@ $(document).ready ->
     .each (index, element) ->
       visitedFields.push $(element).attr('id')
 
-    validatePage
-      showInline: true
-      showSummary: true
-      showConfirm: false
+    validateFromFormChange()
 
   # // set up validation call
-  $('.metadata-form').on 'blur', '.validate', ->
+  $('.metadata-form, .umm-form').on 'blur', '.validate', ->
     id = $(this).attr('id')
     visitedFields.push id unless visitedFields.indexOf(id) != -1
     # if the field is a datepicker, and the datepicker is still open, don't validate yet
@@ -477,46 +518,39 @@ $(document).ready ->
     validateFromFormChange()
 
   # 'blur' functionality for select2 fields
-  $('.metadata-form .select2-select').on 'select2:open', (event) ->
+  $('.metadata-form .select2-select, .umm-form .select2-select').on 'select2:open', (event) ->
     id = $(this).attr('id')
     visitedFields.push id unless visitedFields.indexOf(id) != -1
 
-  $('.metadata-form').on 'click', '.remove', ->
+  $('.metadata-form, .umm-form').on 'click', '.remove', ->
     validateFromFormChange()
 
-  $('.metadata-form').on 'change', 'input[type="radio"], select', ->
+  $('.metadata-form, .umm-form').find('input[type="radio"], select').not('.next-section, .jump-to-section').on 'change', ->
     validateFromFormChange()
 
   $(document).on 'mmtValidate', ->
     validateFromFormChange()
 
-  validateFromFormChange = ->
-    validatePage
-      showInline: true
-      showSummary: true
-      showConfirm: false
-
   $('.metadata-form .next-section').on 'change', ->
     $('#new_form_name').val(this.value)
 
-    if validatePage
-      showInline: true
-      showSummary: true
-      showConfirm: true
-
+    if validateForNavigation()
       $('.metadata-form').submit()
 
-  $('.metadata-form .save-form').on 'click', (e) ->
+  $('.umm-form .jump-to-section').on 'change', ->
+    $('.jump-to-section').val($(this).val())
+
+    if validateForNavigation()
+      $('.umm-form').submit()
+
+  $('.metadata-form .save-form, .umm-form .save-form').on 'click', (e) ->
     $('#commit').val($(this).val())
 
-    return validatePage
-      showInline: true
-      showSummary: true
-      showConfirm: true
+    return validateForNavigation()
 
   # Handle modal 'Yes', submit form
   $('#invalid-draft-accept').on 'click', ->
-    $('.metadata-form').submit()
+    $('.metadata-form, .umm-form').submit()
 
   # would be nice to add an explanation or cite source of the regex
   URI_REGEX = /^(?:[A-Za-z][A-Za-z0-9+\-.]*:(?:\/\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\.[A-Za-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\?(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?(?:\#(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?|(?:\/\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\.[A-Za-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\-._~!$&'()*+,;=@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\?(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?(?:\#(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?)$/

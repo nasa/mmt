@@ -32,7 +32,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
           end
 
           it 'displays the correct error messages at the top of the page' do
-            within '#umm-form-errors' do
+            within '.summary-errors' do
               expect(page).to have_content('Name is required')
               expect(page).to have_content('Definition is required')
               expect(page).to have_content('Long Name is required')
@@ -43,22 +43,22 @@ describe 'Variable Drafts Forms Field Validations', js: true do
           end
 
           it 'displays the correct error messages under the form elements' do
-            within '#variable_draft_draft_name-error' do
+            within '#variable_draft_draft_name_error' do
               expect(page).to have_content('Name is required')
             end
-            within '#variable_draft_draft_definition-error' do
+            within '#variable_draft_draft_definition_error' do
               expect(page).to have_content('Definition is required')
             end
-            within '#variable_draft_draft_long_name-error' do
+            within '#variable_draft_draft_long_name_error' do
               expect(page).to have_content('Long Name is required')
             end
-            within '#variable_draft_draft_data_type-error' do
+            within '#variable_draft_draft_data_type_error' do
               expect(page).to have_content('Data Type is required')
             end
-            within '#variable_draft_draft_scale-error' do
+            within '#variable_draft_draft_scale_error' do
               expect(page).to have_content('Scale is required')
             end
-            within '#variable_draft_draft_offset-error' do
+            within '#variable_draft_draft_offset_error' do
               expect(page).to have_content('Offset is required')
             end
           end
@@ -106,15 +106,14 @@ describe 'Variable Drafts Forms Field Validations', js: true do
         it 'displays validation error messages' do
           expect(page).to have_css('.eui-banner--danger', count: 3)
 
-          expect(page).to have_css('#umm-form-errors')
-          within '#umm-form-errors' do
+          within '.summary-errors' do
             expect(page).to have_content('This draft has the following errors:')
             expect(page).to have_content('Name is required')
             expect(page).to have_content('Long Name is required')
           end
 
-          expect(page).to have_css('#variable_draft_draft_name-error', text: 'Name is required')
-          expect(page).to have_css('#variable_draft_draft_long_name-error', text: 'Long Name is required')
+          expect(page).to have_css('#variable_draft_draft_name_error', text: 'Name is required')
+          expect(page).to have_css('#variable_draft_draft_long_name_error', text: 'Long Name is required')
         end
       end
 
@@ -182,18 +181,17 @@ describe 'Variable Drafts Forms Field Validations', js: true do
       it 'displays validation error messages' do
         expect(page).to have_css('.eui-banner--danger', count: 5)
 
-        expect(page).to have_css('#umm-form-errors')
-        within '#umm-form-errors' do
-          expect(page).to have_content('Min must be a number')
-          expect(page).to have_content('Max must be a number')
-          expect(page).to have_content('Scale must be a number')
-          expect(page).to have_content('Offset must be a number')
+        within '.summary-errors' do
+          expect(page).to have_content('Min must be of type number')
+          expect(page).to have_content('Max must be of type number')
+          expect(page).to have_content('Scale must be of type number')
+          expect(page).to have_content('Offset must be of type number')
         end
 
-        expect(page).to have_css('#variable_draft_draft_valid_ranges_0_min-error', text: 'Min must be a number')
-        expect(page).to have_css('#variable_draft_draft_valid_ranges_0_max-error', text: 'Max must be a number')
-        expect(page).to have_css('#variable_draft_draft_scale-error', text: 'Scale must be a number')
-        expect(page).to have_css('#variable_draft_draft_offset-error', text: 'Offset must be a number')
+        expect(page).to have_css('#variable_draft_draft_valid_ranges_0_min_error', text: 'Min must be of type number')
+        expect(page).to have_css('#variable_draft_draft_valid_ranges_0_max_error', text: 'Max must be of type number')
+        expect(page).to have_css('#variable_draft_draft_scale_error', text: 'Scale must be of type number')
+        expect(page).to have_css('#variable_draft_draft_offset_error', text: 'Offset must be of type number')
       end
 
       context 'when saving the form' do
@@ -213,10 +211,10 @@ describe 'Variable Drafts Forms Field Validations', js: true do
           end
 
           it 'displays validation error messages for fields with data' do
-            expect(page).to have_css('#variable_draft_draft_valid_ranges_0_min-error', text: 'Min must be a number')
-            expect(page).to have_css('#variable_draft_draft_valid_ranges_0_max-error', text: 'Max must be a number')
-            expect(page).to have_css('#variable_draft_draft_scale-error', text: 'Scale must be a number')
-            expect(page).to have_css('#variable_draft_draft_offset-error', text: 'Offset must be a number')
+            expect(page).to have_css('#variable_draft_draft_valid_ranges_0_min_error', text: 'Min must be of type number')
+            expect(page).to have_css('#variable_draft_draft_valid_ranges_0_max_error', text: 'Max must be of type number')
+            expect(page).to have_css('#variable_draft_draft_scale_error', text: 'Scale must be of type number')
+            expect(page).to have_css('#variable_draft_draft_offset_error', text: 'Offset must be of type number')
           end
         end
       end
@@ -237,7 +235,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
       end
 
       it 'does not show validation errors for the new fields' do
-        expect(page).to have_no_css('#umm-form-errors')
+        expect(page).to have_no_css('.summary-errors')
         expect(page).to have_no_content('Name is required')
       end
     end

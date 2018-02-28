@@ -19,6 +19,23 @@ Array::unique = ->
   value for key, value of output
 
 $(document).ready ->
+  if $('.metadata-form, .umm-form').length > 0
+    # Set top level required fields data level
+    if $('.umm-form.service-form').length > 0
+      topRequiredDataLevel = 'service_draft_draft_'
+    else if $('.umm-form.variable-form').length > 0
+      topRequiredDataLevel = 'variable_draft_draft_'
+    else if $('.metadata-form').length > 0
+      topRequiredDataLevel = 'draft_'
+
+    requiredFieldDataLevels = []
+    for fieldName in globalJsonSchema.required
+      name = humps.decamelize(fieldName)
+      name = name.replace(/u_r_l/g, 'url')
+
+      requiredFieldDataLevels.push topRequiredDataLevel + name + '_'
+      requiredFieldDataLevels.push topRequiredDataLevel + name + '_0_'
+
   # Stores the pages required fields
   requiredDataLevels = []
 
@@ -49,7 +66,7 @@ $(document).ready ->
           this.value
 
       # If any of the fields have values
-      if values.length > 0
+      if topDataLevel == topRequiredDataLevel or requiredFieldDataLevels.indexOf(topDataLevel) != -1 or values.length > 0
         isRequired = true
         # add required icon to required fields at this data-level
         addRequiredFields($fields)
@@ -256,13 +273,13 @@ $(document).ready ->
           removeRequiredIconsFromLabels($reqLabelsAtLevel)
 
   # Add required icons when a form field is updated
-  $('.metadata-form').on 'blur', 'input, select, textarea', ->
+  $('.metadata-form, .umm-form').on 'blur', 'input, select, textarea', ->
     return if $(this).attr('type') == 'submit'
     addRequiredIcons(this)
 
   # Add required icons on page load
-  $('.metadata-form').find('input, select, textarea').not(':disabled').each (index, field) ->
+  $('.metadata-form, .umm-form').find('input, select, textarea').not(':disabled').each (index, field) ->
     addRequiredIcons(field)
 
-  $('.metadata-form').on 'change', 'input[type="radio"], select', ->
+  $('.metadata-form, .umm-form').on 'change', 'input[type="radio"], select', ->
     addRequiredIcons(this)

@@ -33,8 +33,8 @@ describe 'Service Identification Form Navigation', js: true do
       end
     end
 
-    it 'has 1 required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 1)
+    it 'has 0 required fields' do
+      expect(page).to have_no_selector('label.eui-required-o')
     end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
@@ -52,8 +52,6 @@ describe 'Service Identification Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Previous'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -85,8 +83,6 @@ describe 'Service Identification Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Next'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -118,8 +114,6 @@ describe 'Service Identification Form Navigation', js: true do
         within '.nav-top' do
           select 'Related URL', from: 'Save & Jump To:'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do

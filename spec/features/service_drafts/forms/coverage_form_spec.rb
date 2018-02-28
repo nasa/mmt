@@ -48,8 +48,6 @@ describe 'Coverage Form', reset_provider: true, js: true do
       within '.nav-top' do
         click_on 'Save'
       end
-
-      click_on 'Yes'
     end
 
     it 'displays a confirmation message' do
@@ -91,8 +89,6 @@ describe 'Coverage Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_on 'Save'
         end
-
-        click_on 'Yes'
       end
 
       it 'displays a confirmation message' do
@@ -116,8 +112,6 @@ describe 'Coverage Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_on 'Save'
         end
-
-        click_on 'Yes'
       end
 
       it 'displays a confirmation message' do
@@ -158,8 +152,6 @@ describe 'Coverage Form', reset_provider: true, js: true do
         within '.nav-top' do
           click_on 'Save'
         end
-
-        click_on 'Yes'
       end
 
       it 'displays a confirmation message' do
