@@ -44,8 +44,6 @@ describe 'Related URL Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Previous'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -77,8 +75,6 @@ describe 'Related URL Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Next'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -110,8 +106,6 @@ describe 'Related URL Form Navigation', js: true do
         within '.nav-top' do
           select 'Service Keywords', from: 'Save & Jump To:'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the form' do
@@ -157,8 +151,6 @@ describe 'Related URL Form Navigation', js: true do
           click_button 'Save'
         end
 
-        # TODO validation isn't working correctly
-        click_on 'Yes'
         click_on 'Expand All'
       end
 

@@ -13,7 +13,7 @@ class UmmControlledSelect < UmmSelect
   def select_class
     select2_class = !controlled_keyword.include?('related_url')
     short_name_class = !controlled_keyword.include?('related_url')
-    "#{'select2-select' if select2_class} #{controlled_keyword.dasherize.singularize}#{'-short-name' if short_name_class}-select"
+    "validate #{'select2-select' if select2_class} #{controlled_keyword.dasherize.singularize}#{'-short-name' if short_name_class}-select"
   end
 
   def element_properties(element)

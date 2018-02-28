@@ -29,8 +29,8 @@ describe 'Fill Values Form', js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Fill Value')
     end
 
-    it 'have two required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 2)
+    it 'have 0 required fields' do
+      expect(page).to have_no_selector('label.eui-required-o')
     end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
@@ -48,8 +48,6 @@ describe 'Fill Values Form', js: true do
         within '.nav-top' do
           click_button 'Previous'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -81,8 +79,6 @@ describe 'Fill Values Form', js: true do
         within '.nav-top' do
           click_button 'Next'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -114,8 +110,6 @@ describe 'Fill Values Form', js: true do
         within '.nav-top' do
           click_button 'Save'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and reloads the form' do
@@ -147,8 +141,6 @@ describe 'Fill Values Form', js: true do
         within '.nav-top' do
           select 'Variable Information', from: 'Save & Jump To:'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -180,8 +172,6 @@ describe 'Fill Values Form', js: true do
         within '.nav-top' do
           select 'Dimensions', from: 'Save & Jump To:'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do

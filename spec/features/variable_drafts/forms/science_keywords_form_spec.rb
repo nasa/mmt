@@ -58,13 +58,13 @@ describe 'Science Keywords Form', js: true do
         end
 
         it 'displays the correct error messages at the top of the page' do
-          within '#umm-form-errors' do
+          within '.summary-errors' do
             expect(page).to have_content('Science Keywords is required')
           end
         end
 
         it 'displays the correct error messages under the form elements' do
-          within '#variable_draft_draft_science_keywords-error' do
+          within '#variable_draft_draft_science_keywords_error' do
             expect(page).to have_content('Science Keywords is required')
           end
         end
@@ -121,13 +121,13 @@ describe 'Science Keywords Form', js: true do
         end
 
         it 'displays the correct error messages at the top of the page' do
-          within '#umm-form-errors' do
+          within '.summary-errors' do
             expect(page).to have_content('Science Keywords is required')
           end
         end
 
         it 'displays the correct error messages under the form elements' do
-          within '#variable_draft_draft_science_keywords-error' do
+          within '#variable_draft_draft_science_keywords_error' do
             expect(page).to have_content('Science Keywords is required')
           end
         end
@@ -184,13 +184,13 @@ describe 'Science Keywords Form', js: true do
         end
 
         it 'displays the correct error messages at the top of the page' do
-          within '#umm-form-errors' do
+          within '.summary-errors' do
             expect(page).to have_content('Science Keywords is required')
           end
         end
 
         it 'displays the correct error messages under the form elements' do
-          within '#variable_draft_draft_science_keywords-error' do
+          within '#variable_draft_draft_science_keywords_error' do
             expect(page).to have_content('Science Keywords is required')
           end
         end
@@ -247,13 +247,13 @@ describe 'Science Keywords Form', js: true do
         end
 
         it 'displays the correct error messages at the top of the page' do
-          within '#umm-form-errors' do
+          within '.summary-errors' do
             expect(page).to have_content('Science Keywords is required')
           end
         end
 
         it 'displays the correct error messages under the form elements' do
-          within '#variable_draft_draft_science_keywords-error' do
+          within '#variable_draft_draft_science_keywords_error' do
             expect(page).to have_content('Science Keywords is required')
           end
         end
@@ -310,13 +310,13 @@ describe 'Science Keywords Form', js: true do
         end
 
         it 'displays the correct error messages at the top of the page' do
-          within '#umm-form-errors' do
+          within '.summary-errors' do
             expect(page).to have_content('Science Keywords is required')
           end
         end
 
         it 'displays the correct error messages under the form elements' do
-          within '#variable_draft_draft_science_keywords-error' do
+          within '#variable_draft_draft_science_keywords_error' do
             expect(page).to have_content('Science Keywords is required')
           end
         end
