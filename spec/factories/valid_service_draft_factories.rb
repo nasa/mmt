@@ -10,10 +10,25 @@ FactoryGirl.define do
   end
 
   factory :invalid_service_draft, class: ServiceDraft do
+    transient do
+      draft_short_name nil
+      draft_entry_title nil
+    end
+
     provider_id 'MMT_2'
     draft_type 'ServiceDraft'
 
     draft {{
+      'Name': draft_short_name || "#{Faker::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(20)}",
+      'LongName': draft_entry_title || "#{Faker::HitchhikersGuideToTheGalaxy.marvin_quote} #{Faker::Number.number(120)}",
+      'Type': 'INVALID',
+      'Version': '1.12345678987654321012345',
+      'Description': 1030.times { 's' },
+      'ServiceKeywords': [
+        {
+          'ServiceCategory': 'EARTH SCIENCE SERVICES'
+        }
+      ],
       'ScienceKeywords': [
         {
           'Category': 'SPECTRAL/ENGINEERING',
