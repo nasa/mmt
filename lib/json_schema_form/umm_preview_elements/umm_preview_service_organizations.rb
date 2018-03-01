@@ -1,5 +1,7 @@
+# Renders cards for Service Organizations
+
 # :nodoc:
-class UmmPreviewServiceOrganizations < UmmPreviewText
+class UmmPreviewServiceOrganizations < UmmPreviewElement
   def render
     content_tag(:ul, class: 'service-organizations-cards cards') do
       Array.wrap(data).each_with_index do |service_organization, index|
