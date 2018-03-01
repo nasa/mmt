@@ -1,5 +1,7 @@
+# Renders a Related URL card
+
 # :nodoc:
-class UmmPreviewRelatedURL < UmmPreviewText
+class UmmPreviewRelatedURL < UmmPreviewElement
   def render
     content_tag(:ul, class: 'related-url-card cards') do
       content_tag(:li, class: 'card') do

@@ -1,5 +1,7 @@
+# Renders a keyword string
+
 # :nodoc:
-class UmmPreviewKeyword < UmmPreviewText
+class UmmPreviewKeyword < UmmPreviewElement
   KEYWORD_LEVELS = [].freeze
 
   def render
