@@ -1,22 +1,24 @@
 # :nodoc:
 class UmmPreview < JsonFile
-  include ActionView::Context
-  include ActionView::Helpers::FormTagHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::TextHelper
-  include Rails.application.routes.url_helpers
-
   attr_accessor :resource, :forms
 
   def initialize(schema_type:, preview_filename:, resource:)
     super(schema_type, preview_filename)
 
+    # loop through the preview json file and create a new UmmPreviewForm
+    # for each form
     @forms = parsed_json.fetch('forms', []).map { |form_json| UmmPreviewForm.new(schema_type: schema_type, form_json: form_json, resource: resource) }
   end
 end
 
 # :nodoc:
 class UmmPreviewForm < UmmPreview
+  include ActionView::Context
+  include ActionView::Helpers::FormTagHelper
+  include ActionView::Helpers::TagHelper
+  include ActionView::Helpers::TextHelper
+  include Rails.application.routes.url_helpers
+
   attr_accessor :form, :data
 
   def initialize(schema_type:, form_json:, resource:)
@@ -26,6 +28,7 @@ class UmmPreviewForm < UmmPreview
     @data = resource.draft
   end
 
+  # Helpers to pull data out of the *-preview.json file
   def title
     form['title']
   end
@@ -38,6 +41,7 @@ class UmmPreviewForm < UmmPreview
     form['fields']
   end
 
+  # Renders an accordion for the preview form, based on fields like in the *-preview.json file
   def render
     content_tag(:section, class: "umm-preview #{form_id}") do
       render_preview_accordion
@@ -72,6 +76,8 @@ class UmmPreviewForm < UmmPreview
     end
   end
 
+  # display a title and value for the field
+  # if the preview is for a draft, display a link to edit the field
   def render_field_preview(field)
     content_tag(:div, class: 'umm-preview-field-container preview', id: "#{idify_property_name(field['key'])}_preview") do
       concat(content_tag(:h5) do
