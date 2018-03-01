@@ -78,6 +78,11 @@ Rails.application.routes.draw do
   get '/variables/:id/download_json(/:revision_id)' => 'variables#download_json', as: 'download_json_variable'
 
   resources :services, only: [:show, :create, :edit, :destroy]
+  # Coming in future tickets
+  # get '/services/:id/revisions' => 'services#revisions', as: 'service_revisions'
+  # get '/services/:id/revert/:revision_id' => 'services#revert', as: 'revert_service'
+  # get '/services/:id/clone' => 'services#clone', as: 'clone_service'
+  # get '/services/:id/download_json(/:revision_id)' => 'services#download_json', as: 'download_json_service'
 
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
