@@ -41,9 +41,9 @@ describe 'Empty Service Draft Related URL Preview' do
     within '.umm-preview.related_url' do
       expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-      within '#service_draft_draft_related_url_preview' do
+      within '#service_draft_related_url_preview' do
         expect(page).to have_css('h5', text: 'Related URL')
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'related_url', anchor: 'service_draft_draft_related_url'))
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'related_url', anchor: 'service_draft_related_url'))
 
         expect(page).to have_css('p', text: 'No value for Related Url provided.')
       end

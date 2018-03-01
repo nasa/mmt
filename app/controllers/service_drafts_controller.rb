@@ -27,16 +27,22 @@ class ServiceDraftsController < BaseDraftsController
   end
 
   def set_form
-    @json_form = UmmJsonForm.new(plural_published_resource_name, 'umm-s-form.json', @schema, get_resource.draft, field_prefix: 'service_draft/draft', draft_id: get_resource.id)
+    @json_form = UmmJsonForm.new(
+      plural_published_resource_name,
+      'umm-s-form.json',
+      @schema,
+      get_resource.draft,
+      field_prefix: 'service_draft/draft',
+      draft_id: get_resource.id
+    )
   end
 
   def set_preview
     @preview = UmmPreview.new(
-      schema_type: plural_published_resource_name,
+      schema_type: published_resource_name,
       preview_filename: 'umm-s-preview.json',
       data: get_resource.draft,
-      resource_name: resource_name,
-      id: get_resource.id
+      draft_id: get_resource.id
     )
   end
 

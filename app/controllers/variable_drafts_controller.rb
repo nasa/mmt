@@ -20,7 +20,14 @@ class VariableDraftsController < BaseDraftsController
   end
 
   def set_form
-    @json_form = UmmJsonForm.new(plural_published_resource_name, 'umm-var-form.json', @schema, get_resource.draft, field_prefix: 'variable_draft/draft', draft_id: get_resource.id)
+    @json_form = UmmJsonForm.new(
+      plural_published_resource_name,
+      'umm-var-form.json',
+      @schema,
+      get_resource.draft,
+      field_prefix: 'variable_draft/draft',
+      draft_id: get_resource.id
+    )
   end
 
   def set_current_form

@@ -34,9 +34,9 @@ describe 'Valid Service Draft Service Organizations Preview' do
     within '.umm-preview.service_organizations' do
       expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-      within '#service_draft_draft_service_organizations_preview' do
+      within '#service_draft_service_organizations_preview' do
         expect(page).to have_css('h5', text: 'Service Organizations')
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_organizations', anchor: 'service_draft_draft_service_organizations'))
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_organizations', anchor: 'service_draft_service_organizations'))
 
         within '.service-organizations-cards' do
           within all('li.card')[0] do

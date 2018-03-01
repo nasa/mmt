@@ -1,13 +1,17 @@
 # :nodoc:
 class UmmPreview < JsonFile
-  attr_accessor :data, :forms, :id, :resource_name
+  attr_accessor :data, :forms, :draft_id
 
-  def initialize(schema_type:, preview_filename:, data:, id:, resource_name:)
-    super(schema_type, preview_filename)
+  # schema_type:      published_resource_name (service/variable)
+  # preview_filename: filename for the preview config file (umm-s-preview.json)
+  # data:             metadata to be displayed
+  # draft_id:         id of the draft being displayed, not used for published records
+  def initialize(schema_type:, preview_filename:, data:, draft_id: nil)
+    super(schema_type.pluralize, preview_filename)
 
     # loop through the preview json file and create a new UmmPreviewForm
     # for each form
-    @forms = parsed_json.fetch('forms', []).map { |form_json| UmmPreviewForm.new(schema_type: schema_type, form_json: form_json, data: data, id: id, resource_name: resource_name) }
+    @forms = parsed_json.fetch('forms', []).map { |form_json| UmmPreviewForm.new(schema_type: schema_type, form_json: form_json, data: data, draft_id: draft_id) }
   end
 end
 
@@ -21,12 +25,15 @@ class UmmPreviewForm < UmmPreview
 
   attr_accessor :form
 
-  def initialize(schema_type:, form_json:, data:, id:, resource_name:)
+  # schema_type:  published_resource_name (service/variable)
+  # form_json:    json from a 'form' field in the preview config json (umm-s-preview.json)
+  # data:         metadata to be displayed
+  # draft_id:     id of the draft being displayed, not used for published records
+  def initialize(schema_type:, form_json:, data:, draft_id: nil)
     @schema_type = schema_type
     @form = form_json
     @data = data
-    @id = id
-    @resource_name = resource_name
+    @draft_id = draft_id
   end
 
   # Helpers to pull data out of the *-preview.json file
@@ -50,7 +57,7 @@ class UmmPreviewForm < UmmPreview
   end
 
   def render_preview_accordion
-    content_tag(:div, class: "preview-#{schema_type} eui-accordion") do
+    content_tag(:div, class: "preview-#{schema_type.pluralize} eui-accordion") do
       concat render_preview_accordion_header
       concat render_preview_accordion_body
     end
@@ -84,8 +91,8 @@ class UmmPreviewForm < UmmPreview
       concat(content_tag(:h5) do
         concat field['key'].titleize
 
-        if resource_name.ends_with? '_draft'
-          concat(link_to("/#{resource_name.pluralize}/#{id}/edit/#{form_id}##{idify_property_name(field['key'])}", class: 'hash-link') do
+        unless draft_id.nil?
+          concat(link_to("/#{schema_type}_drafts/#{draft_id}/edit/#{form_id}##{idify_property_name(field['key'])}", class: 'hash-link') do
             concat content_tag(:i, nil, class: 'fa fa-edit')
             concat content_tag(:span, "Edit #{title}", class: 'is-invisible')
           end)
@@ -102,7 +109,7 @@ class UmmPreviewForm < UmmPreview
   end
 
   def idify_property_name(name)
-    draft = resource_name.include? 'draft'
-    "#{resource_name}#{'_draft' if draft}_#{name.underscore}"
+    draft = !draft_id.nil?
+    "#{schema_type}#{'_draft' if draft}_#{name.underscore}"
   end
 end
