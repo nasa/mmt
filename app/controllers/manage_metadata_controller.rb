@@ -38,9 +38,7 @@ class ManageMetadataController < ApplicationController
       latest = variable_data.first
       meta = latest.nil? ? {} : latest.fetch('meta', {})
 
-      if !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s
-        @old_revision = true
-      end
+      @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
 
       break if latest && !@revision_id
       break if latest && meta.fetch('revision-id', 0) >= @revision_id.to_i && meta['concept-id'] == @concept_id
@@ -93,9 +91,7 @@ class ManageMetadataController < ApplicationController
       latest = service_data.first
       meta = latest.nil? ? {} : latest.fetch('meta', {})
 
-      if !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s
-        @old_revision = true
-      end
+      @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
 
       break if latest && !@revision_id
       break if latest && meta.fetch('revision-id', 0) >= @revision_id.to_i && meta['concept-id'] == @concept_id
