@@ -113,9 +113,7 @@ class CollectionsController < ManageCollectionsController
       @native_id = meta['native-id']
       @provider_id = meta['provider-id']
 
-      if !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s
-        @old_revision = true
-      end
+      @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
 
 
       # set accept content-type as umm-json with our current umm-c version
