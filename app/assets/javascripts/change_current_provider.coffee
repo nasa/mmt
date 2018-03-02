@@ -34,6 +34,12 @@ $(document).ready ->
       when 'revert-variable'
         action = 'revert'
         'Reverting this variable'
+      when 'reinstate-service'
+        action = 'revert'
+        'Reinstating this service'
+      when 'revert-service'
+        action = 'revert'
+        'Reverting this service'
       when 'view-draft'
         'Viewing this draft'
       when 'edit-draft'
@@ -46,11 +52,17 @@ $(document).ready ->
         'Editing this variable'
       when 'clone-variable'
         'Cloning this variable'
+      when 'edit-service'
+        'Editing this service'
+      when 'clone-service'
+        'Cloning this service'
       when 'delete-variable'
         if associatedCollections > 0
           "This variable is associated with #{associatedCollections} collections. Deleting this variable will also delete the collection associations, and"
         else
           'Deleting this variable'
+      when 'delete-service'
+        'Deleting this service'
       when 'manage-variable-associations'
         "Managing this variable's collection associations"
 

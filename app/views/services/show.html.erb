@@ -52,9 +52,9 @@
     <section class="action">
       <p>
         <% if current_provider?(@provider_id) %>
-          <%#= link_to 'Edit Service Record', edit_service_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
+          <%= link_to 'Edit Service Record', edit_service_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
         <% elsif available_provider?(@provider_id) %>
-          <%#= link_to 'Edit Service Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'edit-service' } %>
+          <%= link_to 'Edit Service Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'edit-service' } %>
         <% end %>
 
         <% if current_provider?(@provider_id) %>
@@ -96,8 +96,10 @@
     </section>
 
     <div class="content">
-      <% @preview.forms.each do |form| %>
-        <%= form.render %>
+      <% if @preview %>
+        <% @preview.forms.each do |form| %>
+          <%= form.render %>
+        <% end %>
       <% end %>
     </div>
   </div>

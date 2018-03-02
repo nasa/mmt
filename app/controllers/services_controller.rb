@@ -21,18 +21,18 @@ class ServicesController < ManageServicesController
     add_breadcrumb breadcrumb_name(@service, 'service'), service_path(params[:id])
   end
 
-  # def edit
-  #   if @native_id
-  #     draft = ServiceDraft.create_from_service(@service, current_user, @native_id)
-  #     Rails.logger.info("Audit Log: Service Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
-  #     redirect_to service_draft_path(draft), flash: { success: I18n.t('controllers.draft.service_drafts.create.flash.success') }
-  #   else
-  #     Rails.logger.info("User #{current_user.urs_uid} attempted to edit Service #{@concept_id} in provider #{current_user.provider_id} but a Service Draft was not created to edit because there was no native_id (#{@native_id}) found.")
-  #     # if we cannot locate the native_id for the Service, we should discontinue editing
-  #     redirect_to service_path(@concept_id, revision_id: @revision_id), flash: { error: I18n.t('controllers.services.edit.flash.native_id_error') }
-  #   end
-  # end
-  #
+  def edit
+    if @native_id
+      draft = ServiceDraft.create_from_service(@service, current_user, @native_id)
+      Rails.logger.info("Audit Log: Service Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
+      redirect_to service_draft_path(draft), flash: { success: I18n.t('controllers.draft.service_drafts.create.flash.success') }
+    else
+      Rails.logger.info("User #{current_user.urs_uid} attempted to edit Service #{@concept_id} in provider #{current_user.provider_id} but a Service Draft was not created to edit because there was no native_id (#{@native_id}) found.")
+      # if we cannot locate the native_id for the Service, we should discontinue editing
+      redirect_to service_path(@concept_id, revision_id: @revision_id), flash: { error: I18n.t('controllers.services.edit.flash.native_id_error') }
+    end
+  end
+
   # def clone
   #   draft = ServiceDraft.create_from_service(@service, current_user, nil)
   #   Rails.logger.info("Audit Log: Cloned Service Draft for #{draft.short_name} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
