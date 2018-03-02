@@ -156,7 +156,7 @@ module Helpers
         # Retrieve the concept from CMR so that we can create a new draft, if test requires it
         concept_id = ingest_response.body['concept-id']
         revision_id = ingest_response.body['revision-id']
-        content_type = "application/#{Rails.configuration.umm_var_version}; charset=utf-8"
+        content_type = "application/#{Rails.configuration.umm_s_version}; charset=utf-8"
 
         concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
 

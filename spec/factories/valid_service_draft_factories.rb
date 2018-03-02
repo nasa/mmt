@@ -130,7 +130,7 @@ FactoryGirl.define do
     draft_type 'ServiceDraft'
 
     draft {{
-      'Name': draft_short_name || "#{Faker::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(6)}".truncate(20),
+      'Name': draft_short_name || "#{Faker::HitchhikersGuideToTheGalaxy.location.truncate(10, omission: '')}_#{Faker::Number.number(9)}",
       'LongName': draft_entry_title || "#{Faker::HitchhikersGuideToTheGalaxy.marvin_quote} #{Faker::Number.number(6)}".truncate(120),
       'Type': 'NOT PROVIDED',
       'Version': '1.0',
