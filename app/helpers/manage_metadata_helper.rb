@@ -37,6 +37,8 @@ module ManageMetadataHelper
       params[:record_type]
     when controller_name.include?('variable') || controller.lookup_context.prefixes.include?('manage_variables') || controller.lookup_context.prefixes.include?('collection_associations')
       'variables'
+    when controller_name.include?('service') || controller.lookup_context.prefixes.include?('manage_services')
+      'services'
     else
       # default
       'collections'
