@@ -1,38 +1,59 @@
 $(document).ready ->
 
+  isMetadataForm = ->
+    $('.metadata-form').length > 0
+
+  isUmmForm = ->
+    $('.umm-form').length > 0
+
+  isUmmSForm = ->
+    $('.umm-form.service-form').length > 0
+
+  isUmmVarForm = ->
+    $('.umm-form.variable-form').length > 0
+
   getPageJson = ->
-    if $('.metadata-form').length > 0
+    if isMetadataForm()
       json = JSON.parse($('.metadata-form').find('input, textarea, select').filter ->
         return this.value
       .serializeJSON()).Draft
-    else if $('.umm-form').length > 0
+    else if isUmmForm()
       json = $('.umm-form').find('input, textarea, select').filter ->
         return this.value
       json = JSON.parse(json.serializeJSON())
-      if json.ServiceDraft?
-        json = json.ServiceDraft.Draft
-      else if json.VariableDraft?
-        json = json.VariableDraft.Draft
-      else
-        json = {}
-      fixRelatedURL(json)
+      if isUmmSForm()
+        json = json.ServiceDraft?.Draft or {}
+        fixRelatedURL(json)
+      else if isUmmVarForm()
+        json = json.VariableDraft?.Draft or {}
+
+    json = {} unless json?
 
     fixNumbers(json)
     fixIntegers(json)
+    fixNestedFields(json)
 
-    return json if json?
-    return {}
+    return json
 
   fixRelatedURL = (json) ->
     if json?.RelatedUrl?
       json.RelatedURL = json.RelatedUrl
       delete json.RelatedUrl
 
+  # Nested non-array fields don't display validation errors because there is no form field for the top level field
+  # Adding an empty object into the json changes the validation to display errors on the missing subfields
+  fixNestedFields = (json) ->
+    if isMetadataForm()
+      json?.ProcessingLevel = {} unless json?.ProcessingLevel?
+    else if isUmmSForm()
+      json?.RelatedURL = {} unless json?.RelatedURL?
+
+
   fixNumbers = (json) ->
-    if $('.metadata-form').length > 0
+    if isMetadataForm()
       numberFields = $('.mmt-number.validate').filter ->
         this.value
-    else if $('.umm-form').length > 0
+    else if isUmmForm()
       numberFields = $('.validate[number="true"]').filter ->
         this.value
 
@@ -53,10 +74,10 @@ $(document).ready ->
     return
 
   fixIntegers = (json) ->
-    if $('.metadata-form').length > 0
+    if isMetadataForm()
       integerFields = $('.mmt-integer.validate').filter ->
         this.value
-    else if $('.umm-form').length > 0
+    else if isUmmForm()
       integerFields = $('.validate[integer="true"]').filter ->
         this.value
 
@@ -231,11 +252,11 @@ $(document).ready ->
     path = path.replace(/data_i_d/g, 'data_id')
     error.path = path
 
-    if $('.metadata-form').length > 0
+    if isMetadataForm()
       id = "draft_#{path}"
-    else if $('.umm-form.service-form').length > 0
+    else if isUmmSForm()
       id = "service_draft_draft_#{path}"
-    else if $('.umm-form.variable-form').length > 0
+    else if isUmmVarForm()
       id = "variable_draft_draft_#{path}"
     error.id = id
     error.element = $("##{id}")
@@ -551,6 +572,11 @@ $(document).ready ->
   # Handle modal 'Yes', submit form
   $('#invalid-draft-accept').on 'click', ->
     $('.metadata-form, .umm-form').submit()
+
+  # If a user clicks on Save/Done, then jump_to_section, #commit needs to be cleared
+  # Handle modal 'No'
+  $('#invalid-draft-deny').on 'click', ->
+    $('#commit').val('')
 
   # would be nice to add an explanation or cite source of the regex
   URI_REGEX = /^(?:[A-Za-z][A-Za-z0-9+\-.]*:(?:\/\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\.[A-Za-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\?(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?(?:\#(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?|(?:\/\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\.[A-Za-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\-._~!$&'()*+,;=@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\?(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?(?:\#(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?)$/

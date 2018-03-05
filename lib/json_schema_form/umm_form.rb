@@ -74,7 +74,6 @@ class UmmForm < JsonObj
 
       if parsed_json['label']
         label_text = parsed_json['label']
-        # concat label_tag('', label_text, class: ('eui-required-o' if schema.required_field?(full_key)))
         concat label_tag('', label_text, class: ('required' if schema.required_field?(full_key)))
 
         # Adds the help modal link and icon
@@ -445,25 +444,12 @@ class UmmFormElement < UmmForm
   def validation_properties(element)
     # jQuery Validate can use html elements for validation so we'll set those elements
     # here instead of having to define these attributes on a one off basis in javascript
-    validation_properties = element.select { |key| %w(minLength maxLength pattern).include?(key) }
+    validation_properties = element.select { |key| %w(maxLength).include?(key) }
 
     # JSON Schema provides the required fields in a separate array so we have to look this up
-    if schema.required_field?(element['key'])
-      validation_properties[:required] = true
+    # validation_properties[:required] = true if schema.required_field?(element['key'])
 
-      # jQuery validation supports custom messages via data attributes
-      validation_properties[:data] = {
-        'msg-required': "#{schema.fetch_key_leaf(element['key']).titleize} is required"
-      }
-    end
-
-    if element['type'] == 'number'
-      validation_properties[:number] = true
-
-      validation_properties[:data] = validation_properties.fetch(:data, {}).merge(
-        'msg-number': "#{schema.fetch_key_leaf(element['key']).titleize} must be a number"
-      )
-    end
+    validation_properties[:number] = true if element['type'] == 'number'
 
     validation_properties
   end
@@ -542,7 +528,6 @@ class UmmFormElement < UmmForm
       unless form_fragment['noLabel']
         label_text = form_element.title
         label_text = parsed_json['label'] if parsed_json['label']
-        # concat label_tag(keyify_property_name, label_text, class: ('eui-required-o' if schema.required_field?(full_key)))
         classes = []
         classes << 'required' if schema.required_field?(full_key)
         concat label_tag(keyify_property_name, label_text, class: classes)
