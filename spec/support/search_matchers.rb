@@ -21,6 +21,14 @@ module SearchUtil
     end
   end
 
+  RSpec::Matchers.define :have_service_search_query do |number, *query_items|
+    match do |actual|
+      expect(actual.find('#search-criteria')).to have_content("#{number} Service #{'Result'.pluralize(number)}") if number
+
+      match_query_items(query_items)
+    end
+  end
+
   RSpec::Matchers.define :match_query_items do |*query_items|
     match do |actual|
       Array.wrap(query_items).each do |query_item|

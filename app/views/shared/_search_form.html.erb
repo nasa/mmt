@@ -12,9 +12,8 @@
           <%= radio_button_tag(:record_type, 'variables', resource_type == 'variables') %>
           <%= label_tag(:record_type_variables, 'Variables') %>
 
-          <!-- Radio Button and text commented out until Services is implemented
-          <%= radio_button_tag(:record_state, 'services', false, disabled: true) %>
-          <%= label_tag(:record_state_services, 'Services') %> -->
+          <%= radio_button_tag(:record_type, 'services', resource_type == 'services') %>
+          <%= label_tag(:record_type_services, 'Services') %>
         </div>
       </fieldset>
       <fieldset class="provider-selection">
