@@ -155,7 +155,7 @@ $(document).ready ->
       type = 'boolean'
     if classes.indexOf('mmt-date-time') != -1 or $(element).attr('date-time') == 'true'
       type = 'date-time'
-    if classes.indexOf('mmt-uri') != -1 or $(element).attr('uuid') == 'true'
+    if classes.indexOf('mmt-uri') != -1 or $(element).attr('uri') == 'true'
       type = 'URI'
     if classes.indexOf('mmt-uuid') != -1 or $(element).attr('uuid') == 'true'
       type = 'uuid'
