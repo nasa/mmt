@@ -7,8 +7,9 @@ module ServicesHelper
       link_to('Clone Service', clone_service_path(concept_id, revision_id: revision_id), class: 'is-invisible', id: 'change-provider-service-clone')
     when 'delete'
       link_to('Delete Service', service_path(concept_id), method: :delete, class: 'is-invisible', id: 'change-provider-service-delete')
-    when 'manage-collection-associations'
-      link_to('Manage Collection Associations', service_collection_associations_path(concept_id, revision_id: revision_id), class: 'is-invisible', id: 'change-provider-service-manage-collection-associations')
+    # Commenting out associations until we get closer to adding in those features
+    # when 'manage-collection-associations'
+    #   link_to('Manage Collection Associations', service_collection_associations_path(concept_id, revision_id: revision_id), class: 'is-invisible', id: 'change-provider-service-manage-collection-associations')
     end
   end
 

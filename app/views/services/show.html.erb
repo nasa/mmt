@@ -96,10 +96,8 @@
     </section>
 
     <div class="content">
-      <% if @preview %>
-        <% @preview.forms.each do |form| %>
-          <%= form.render %>
-        <% end %>
+      <% @preview.forms.each do |form| %>
+        <%= form.render %>
       <% end %>
     </div>
   </div>

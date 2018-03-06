@@ -138,6 +138,8 @@ class ServicesController < ManageServicesController
 
     set_user_permissions
 
+    set_preview
+
     render :show
   end
 end
