@@ -446,9 +446,6 @@ class UmmFormElement < UmmForm
     # here instead of having to define these attributes on a one off basis in javascript
     validation_properties = element.select { |key| %w(maxLength).include?(key) }
 
-    # JSON Schema provides the required fields in a separate array so we have to look this up
-    # validation_properties[:required] = true if schema.required_field?(element['key'])
-
     validation_properties[:number] = true if element['type'] == 'number'
 
     validation_properties
