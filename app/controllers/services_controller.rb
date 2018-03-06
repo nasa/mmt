@@ -87,10 +87,10 @@ class ServicesController < ManageServicesController
   #   end
   # end
   #
-  # def revisions
-  #   add_breadcrumb breadcrumb_name(@service, 'services'), service_path(@concept_id)
-  #   add_breadcrumb 'Revision History', service_revisions_path(@concept_id)
-  # end
+  def revisions
+    add_breadcrumb breadcrumb_name(@service, 'services'), service_path(@concept_id)
+    add_breadcrumb 'Revision History', service_revisions_path(@concept_id)
+  end
   #
   # def revert
   #   latest_revision_id = @revisions.first['meta']['revision-id']
