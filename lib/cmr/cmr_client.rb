@@ -274,6 +274,18 @@ module Cmr
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
+    def delete_service(provider_id, native_id, token)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3002/providers/#{provider_id}/services/#{encode_if_needed(native_id)}"
+            else
+              "/ingest/providers/#{provider_id}/services/#{encode_if_needed(native_id)}"
+            end
+      headers = {
+        'Accept' => 'application/json'
+      }
+      delete(url, {}, nil, headers.merge(token_header(token)))
+    end
+
     ### CMR Bulk Updates, via CMR Ingest
 
     def get_bulk_updates(provider_id, token, filters = {})

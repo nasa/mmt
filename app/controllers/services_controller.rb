@@ -70,23 +70,25 @@ class ServicesController < ManageServicesController
     end
   end
 
-  # def destroy
-  #   delete_response = cmr_client.delete_service(@provider_id, @native_id, token)
-  #
-  #   if delete_response.success?
-  #     flash[:success] = I18n.t('controllers.services.destroy.flash.success')
-  #     Rails.logger.info("Audit Log: Service #{@concept_id} with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
-  #
-  #     redirect_to service_revisions_path(id: delete_response.body['concept-id'], revision_id: delete_response.body['revision-id'])
-  #   else
-  #     Rails.logger.error("Delete Service Error: #{delete_response.inspect}")
-  #     Rails.logger.info("User #{current_user.urs_uid} attempted to delete Service #{@concept_id} with native_id #{@native_id} in provider #{@provider_id} but encountered an error.")
-  #
-  #     flash[:error] = delete_response.error_message(i18n: I18n.t('controllers.services.destroy.flash.error'))
-  #     render :show
-  #   end
-  # end
-  #
+  def destroy
+    delete_response = cmr_client.delete_service(@provider_id, @native_id, token)
+
+    if delete_response.success?
+      flash[:success] = I18n.t('controllers.services.destroy.flash.success')
+      Rails.logger.info("Audit Log: Service #{@concept_id} with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
+
+      redirect_to service_revisions_path(id: delete_response.body['concept-id'], revision_id: delete_response.body['revision-id'])
+    else
+      Rails.logger.error("Delete Service Error: #{delete_response.inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to delete Service #{@concept_id} with native_id #{@native_id} in provider #{@provider_id} but encountered an error.")
+
+      set_preview
+
+      flash[:error] = delete_response.error_message(i18n: I18n.t('controllers.services.destroy.flash.error'))
+      render :show
+    end
+  end
+
   def revisions
     add_breadcrumb breadcrumb_name(@service, 'services'), service_path(@concept_id)
     add_breadcrumb 'Revision History', service_revisions_path(@concept_id)

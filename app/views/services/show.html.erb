@@ -66,9 +66,9 @@
         <%#= link_to 'Download JSON', download_json_service_path(@concept_id, revision_id: @revision_id), class: 'eui-btn--link', target: '_blank' %>
 
         <% if current_provider?(@provider_id) %>
-          <%#= link_to 'Delete Service Record', "#delete-record-modal", class: 'display-modal delete-service eui-btn--link bar-before' %>
+          <%= link_to 'Delete Service Record', "#delete-record-modal", class: 'display-modal delete-service eui-btn--link bar-before' %>
         <% elsif available_provider?(@provider_id) %>
-          <%#= link_to 'Delete Service Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-before', data: { 'provider': @provider_id, record_action: 'delete-service' } %>
+          <%= link_to 'Delete Service Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-before', data: { 'provider': @provider_id, record_action: 'delete-service' } %>
         <% end %>
 
         <div id="delete-record-modal" class="eui-modal-content">
