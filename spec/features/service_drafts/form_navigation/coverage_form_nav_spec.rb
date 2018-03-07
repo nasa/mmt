@@ -49,8 +49,6 @@ describe 'Coverage Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Previous'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -82,8 +80,6 @@ describe 'Coverage Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Next'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -115,8 +111,6 @@ describe 'Coverage Form Navigation', js: true do
         within '.nav-top' do
           select 'Service Information', from: 'Save & Jump To:'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -160,8 +154,6 @@ describe 'Coverage Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Save'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft without making any changes' do

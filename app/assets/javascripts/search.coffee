@@ -43,19 +43,20 @@ $(document).ready ->
     switch recordType
       when 'variables'
         $searchButtonSpan.text('Search Variables').addClass('variable-text')
+      when 'services'
+        $searchButtonSpan.text('Search Services').addClass('service-text')
       else
-        $searchButtonSpan.text('Search Collections').removeClass('variable-text')
+        $searchButtonSpan.text('Search Collections').addClass('collection-text')
 
 
   $('#record_type_collections').on 'click', ->
-    $("#search-submit-button-text").text('Search Collections').removeClass('variable-text')
+    $("#search-submit-button-text").text('Search Collections').addClass('collection-text').removeClass('variable-text service-text')
 
   $('#record_type_variables').on 'click', ->
-    $("#search-submit-button-text").text('Search Variables').addClass('variable-text')
+    $("#search-submit-button-text").text('Search Variables').addClass('variable-text').removeClass('collection-text service-text')
 
-  # The radio button and text commented out until Services is implemented
-  # $('#record_type_services').on 'click', ->
-  #   $("#search-submit-button-text").html('<span style="padding-right:18px;">Search Services</span>')
+  $('#record_type_services').on 'click', ->
+    $("#search-submit-button-text").text('Search Services').addClass('service-text').removeClass('collection-text variable-text')
 
   # Change focus of cursor when search link is clicked on Manage Collections, Manage Variables, or Manage Services pages.
   $('#search-focus').on 'click', ->

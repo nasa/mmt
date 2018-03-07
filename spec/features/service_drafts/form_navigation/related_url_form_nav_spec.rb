@@ -157,8 +157,6 @@ describe 'Related URL Form Navigation', js: true do
           click_button 'Save'
         end
 
-        # TODO validation isn't working correctly
-        click_on 'Yes'
         click_on 'Expand All'
       end
 

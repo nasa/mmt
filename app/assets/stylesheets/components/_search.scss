@@ -70,8 +70,16 @@
       border-right: 1px solid $dolphin-grey;
       border-bottom: 1px solid $steel-blue;
 
+      .collection-text {
+        padding-right: 0px;
+      }
+
       .variable-text {
         padding-right: 12px;
+      }
+
+      .service-text {
+        padding-right: 19px;
       }
     }
 

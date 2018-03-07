@@ -33,10 +33,9 @@ describe 'Service Organizations Form Navigation', js: true do
       end
     end
 
-    # TODO Validation is broken
-    # it 'has 1 required fields' do
-    #   expect(page).to have_selector('label.eui-required-o', count: 1)
-    # end
+    it 'has 2 required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 2)
+    end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
       within '.nav-top' do
@@ -166,8 +165,6 @@ describe 'Service Organizations Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Save'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft without making any changes' do

@@ -41,7 +41,7 @@ class UmmMultiItems < UmmFormElement
   end
 
   def render_markup
-    content_tag(:div, class: "multiple #{form_fragment['multiType'].underscore.dasherize}") do
+    content_tag(:div, class: "multiple #{form_fragment['multiType'].underscore.dasherize}", id: idify_property_name) do
       indexes = options.fetch('indexes', [])
 
       values = Array.wrap(element_value)

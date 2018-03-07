@@ -27,6 +27,15 @@
           record_type: @record_type
         } %>
       </div>
+    <% elsif @record_type == 'services' %>
+      <div id="service-search-results">
+        <%= render partial: 'service_search_results', locals: {
+          services: @records,
+          query: @query,
+          errors: @errors,
+          record_type: @record_type
+        } %>
+      </div>
     <% end %>
   </section>
 </div>

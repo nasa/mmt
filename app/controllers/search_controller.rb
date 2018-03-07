@@ -42,6 +42,8 @@ class SearchController < ManageMetadataController
         cmr_client.get_collections_by_post(query, token)
       when 'variables'
         cmr_client.get_variables(query, token)
+      when 'services'
+        cmr_client.get_services(query, token)
       else # no record type
         return [[], [], 0]
       end

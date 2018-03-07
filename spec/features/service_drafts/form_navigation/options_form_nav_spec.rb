@@ -25,7 +25,7 @@ describe 'Service Options Form Navigation', js: true do
     end
 
     it 'has 0 required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 0)
+      expect(page).to have_no_selector('label.eui-required-o')
     end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do

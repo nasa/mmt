@@ -26,10 +26,9 @@ describe 'Service Contacts Form Navigation', js: true do
       end
     end
 
-    # TODO Validation isn't working
-    # it 'has 5 required fields' do
-    #   expect(page).to have_selector('label.eui-required-o', count: 5)
-    # end
+    it 'has 0 required fields' do
+      expect(page).to have_no_selector('label.eui-required-o')
+    end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
       within '.nav-top' do
@@ -46,8 +45,6 @@ describe 'Service Contacts Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Previous'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -79,8 +76,6 @@ describe 'Service Contacts Form Navigation', js: true do
         within '.nav-top' do
           click_button 'Next'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -112,8 +107,6 @@ describe 'Service Contacts Form Navigation', js: true do
         within '.nav-top' do
           select 'Options', from: 'Save & Jump To:'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -159,8 +152,6 @@ describe 'Service Contacts Form Navigation', js: true do
           click_button 'Save'
         end
 
-        # TODO Validation isn't working
-        click_on 'Yes'
         click_on 'Expand All'
       end
 

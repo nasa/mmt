@@ -14,9 +14,6 @@ describe 'Service Organizations Form', js: true do
       within '.nav-top' do
         click_on 'Save'
       end
-
-      # TODO validation isn't working correctly
-      click_on 'Yes'
     end
 
     it 'displays a confirmation message' do
