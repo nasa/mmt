@@ -3,6 +3,7 @@ module Helpers
   module ControllerHelpers
     def sign_in(as: nil, token: 'access_token')
       allow(controller).to receive(:logged_in?).and_return(true)
+      allow(controller).to receive(:launchpad_authorized?).and_return(true)
 
       # Anything greater than 0 will do the trick
       allow(controller).to receive(:server_session_expires_in).and_return(1)
