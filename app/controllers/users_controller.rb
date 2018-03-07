@@ -2,7 +2,7 @@
 class UsersController < ApplicationController
   include ProviderContextRedirector
 
-  skip_before_filter :is_logged_in, except: [:set_provider, :refresh_providers]
+  skip_before_action :ensure_authenticated, except: [:set_provider, :refresh_providers]
   skip_before_filter :setup_query
   skip_before_filter :provider_set?
 

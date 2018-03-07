@@ -32,7 +32,8 @@ module Helpers
             'study_area'    => 'Other',
             'user_type'     => 'Public User',
             'affiliation'   => 'OTHER',
-            'organization'  => 'Testing'
+            'organization'  => 'Testing',
+            'auid'          => 'adminuser'
           }
 
           current_user_body = {
@@ -73,7 +74,8 @@ module Helpers
             'study_area'    => 'Other',
             'user_type'     => 'Public User',
             'affiliation'   => 'OTHER',
-            'organization'  => 'Testing'
+            'organization'  => 'Testing',
+            'auid'          => 'testuser'
           }
 
           current_user_body = {

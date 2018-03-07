@@ -1,12 +1,11 @@
 class OauthTokensController < ApplicationController
-  skip_before_filter :is_logged_in
+  skip_before_action :ensure_authenticated
   skip_before_filter :setup_query
 
   def urs_callback
     if params[:code]
       # Ask CMR for an access token
       response = cmr_client.get_oauth_tokens(params[:code])
-
       # If the request was successful continue logging in
       if response.success?
         # Adds token response to session variables

@@ -1,11 +1,9 @@
 class SamlController < UsersController
   # skip urs login requirements application controller
-  skip_before_action :is_logged_in
+  skip_before_action :ensure_authenticated
   skip_before_action :setup_query
-  skip_before_action :refresh_urs_if_needed, except: [:logout, :refresh_token]
+  skip_before_action :refresh_urs_if_needed
   skip_before_action :provider_set?
-
-  # skip_before_action :require_launchpad_authorization
 
   def index
     @attrs = {}

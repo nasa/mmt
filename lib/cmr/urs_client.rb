@@ -29,6 +29,18 @@ module Cmr
       get('/api/users', { search: query }, 'Authorization' => "Bearer #{client_token}")
     end
 
+    def get_urs_uid_from_nams_auid(auid)
+      client_token = get_client_token
+      response = get("api/users/user_by_nams_auid/#{auid}", {}, 'Authorization' => "Bearer #{client_token}")
+      Rails.logger.info "urs uid from auid response: #{response.inspect}"
+      response
+    end
+
+    # TODO find a more appropriate place to put this method
+    def get_keep_alive
+      get('https://apps.launchpad-sbx.nasa.gov/icam/api/sm/v1/keepalive')
+    end
+
     protected
 
     def get_client_token

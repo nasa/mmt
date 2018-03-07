@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
   include ProviderHoldings
 
-  skip_before_filter :is_logged_in, :setup_query
+  skip_before_action :ensure_authenticated, :setup_query
 
   before_filter :redirect_if_logged_in
 
