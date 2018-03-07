@@ -129,6 +129,12 @@ Rails.application.routes.draw do
   get 'urs_callback' => 'oauth_tokens#urs_callback'
   get 'provider_context' => 'users#provider_context', as: 'provider_context'
 
+  # SAML login
+  get 'saml/sso', to: 'saml#sso', as: :sso
+  post 'saml/acs', to: 'saml#acs', as: :acs
+  get 'saml/metadata', to: 'saml#metadata', as: :saml_metadata
+  get 'saml/logout', to: 'saml#logout', as: :saml_logout
+
   post 'convert' => 'conversions#convert'
 
   post 'set_provider' => 'users#set_provider', as: 'set_provider'
