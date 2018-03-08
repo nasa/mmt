@@ -114,9 +114,9 @@ class ServicesController < ManageServicesController
   #   end
   # end
 
-  # def download_json
-  #   send_data @service.to_json, type: 'application/json; charset=utf-8', disposition: "attachment; filename=#{@concept_id}.json"
-  # end
+  def download_json
+    send_data @service.to_json, type: 'application/json; charset=utf-8', disposition: "attachment; filename=#{@concept_id}.json"
+  end
 
   private
 

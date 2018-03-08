@@ -84,8 +84,7 @@ Rails.application.routes.draw do
   # get '/services/:id/revert/:revision_id' => 'services#revert', as: 'revert_service'
   # MMT-1272
   # get '/services/:id/clone' => 'services#clone', as: 'clone_service'
-  # MMT-1274
-  # get '/services/:id/download_json(/:revision_id)' => 'services#download_json', as: 'download_json_service'
+  get '/services/:id/download_json(/:revision_id)' => 'services#download_json', as: 'download_json_service'
 
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
