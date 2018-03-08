@@ -28,16 +28,18 @@ class SamlController < UsersController
 
     settings = Account.get_saml_settings(get_url_base, authn_context)
 
+    Rails.logger.info "MMT-1286 Launchpad SAML logging. settings set within the sso method: #{settings.inspect}"
+
     if settings.nil?
       @errors = ['No SP/IDP settings found.']
 
-      logger.info "Settings error. Errors: #{response.errors}"
+      Rails.logger.info "Launchpad SAML Settings error. Errors: #{response.errors}"
 
-      render action: :failure
+      render :failure
     end
 
     request = OneLogin::RubySaml::Authrequest.new
-
+    Rails.logger.info "MMT-1286 Launchpad SAML logging. redirect request from sso method: #{request.create(settings)}"
     redirect_to request.create(settings)
   end
 
@@ -46,7 +48,8 @@ class SamlController < UsersController
     settings = Account.get_saml_settings(get_url_base, get_authn_context)
 
     @response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
-
+    Rails.logger.info "MMT-1286 Launchpad SAML logging. params[:SAMLResponse]: #{params[:SAMLResponse]}"
+    Rails.logger.info "MMT-1286 Launchpad SAML logging. @response after transforming params[:SAMLResponse]: #{@response.inspect}"
     if @response.is_valid?
       # TODO params[:SAMLResponse] _should be_ what CMR wants us to pass as a token
       # However, currently this is causing a ActionDispatch::Cookies::CookieOverflow
@@ -65,7 +68,7 @@ class SamlController < UsersController
     else
       @errors = @response.errors
 
-      Rails.logger.error "Response invalid. Errors: #{@response.errors}"
+      Rails.logger.error "Launchpad SAML Response invalid. Errors: #{@response.errors}"
 
       # Status App runs `raise ForbiddenError.new`, but this is what the NASA github example does
       render :failure
