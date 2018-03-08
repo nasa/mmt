@@ -60,7 +60,7 @@ class ManageMetadataController < ApplicationController
     @revision_id = params[:revision_id]
 
     # retrieve the variable metadata with the current umm_var version
-    headers = { 'Accept' => "application/#{Rails.configuration.umm_var_version}; charset=utf-8" }
+    headers = { 'Accept' => "application/#{Rails.configuration.umm_s_version}; charset=utf-8" }
     service_concept_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
 
     @service = if service_concept_response.success?
