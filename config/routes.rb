@@ -79,11 +79,8 @@ Rails.application.routes.draw do
 
   resources :services, only: [:show, :create, :edit, :destroy]
   get '/services/:id/revisions' => 'services#revisions', as: 'service_revisions'
-  # Coming in future tickets
-  # MMT-1276
-  # get '/services/:id/revert/:revision_id' => 'services#revert', as: 'revert_service'
-  # MMT-1272
-  # get '/services/:id/clone' => 'services#clone', as: 'clone_service'
+  get '/services/:id/revert/:revision_id' => 'services#revert', as: 'revert_service'
+  get '/services/:id/clone' => 'services#clone', as: 'clone_service'
   get '/services/:id/download_json(/:revision_id)' => 'services#download_json', as: 'download_json_service'
 
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do

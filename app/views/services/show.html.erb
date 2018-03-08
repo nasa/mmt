@@ -58,9 +58,9 @@
         <% end %>
 
         <% if current_provider?(@provider_id) %>
-          <%#= link_to 'Clone Service Record', clone_service_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
+          <%= link_to 'Clone Service Record', clone_service_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
         <% elsif available_provider?(@provider_id) %>
-          <%#= link_to 'Clone Service Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'clone-service' } %>
+          <%= link_to 'Clone Service Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'clone-service' } %>
         <% end %>
 
         <%= link_to 'Download JSON', download_json_service_path(@concept_id, revision_id: @revision_id), class: 'eui-btn--link', target: '_blank' %>

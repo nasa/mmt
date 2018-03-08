@@ -33,12 +33,12 @@ class ServicesController < ManageServicesController
     end
   end
 
-  # def clone
-  #   draft = ServiceDraft.create_from_service(@service, current_user, nil)
-  #   Rails.logger.info("Audit Log: Cloned Service Draft for #{draft.short_name} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
-  #   flash[:notice] = view_context.link_to I18n.t('controllers.services.clone.flash.notice'), edit_service_draft_path(draft, 'service_information', anchor: 'service_draft_draft_name')
-  #   redirect_to service_draft_path(draft)
-  # end
+  def clone
+    draft = ServiceDraft.create_from_service(@service, current_user, nil)
+    Rails.logger.info("Audit Log: Cloned Service Draft for #{draft.short_name} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
+    flash[:notice] = view_context.link_to I18n.t('controllers.services.clone.flash.notice'), edit_service_draft_path(draft, 'service_information', anchor: 'service_draft_draft_name')
+    redirect_to service_draft_path(draft)
+  end
 
   def create
     service_draft = ServiceDraft.find(params[:id])
@@ -93,26 +93,26 @@ class ServicesController < ManageServicesController
     add_breadcrumb breadcrumb_name(@service, 'services'), service_path(@concept_id)
     add_breadcrumb 'Revision History', service_revisions_path(@concept_id)
   end
-  #
-  # def revert
-  #   latest_revision_id = @revisions.first['meta']['revision-id']
-  #
-  #   # Ingest revision
-  #   ingested_response = cmr_client.ingest_service(@service.to_json, @provider_id, @native_id, token)
-  #
-  #   if ingested_response.success?
-  #     flash[:success] = I18n.t('controllers.services.revert.flash.success')
-  #     Rails.logger.info("Audit Log: Service Revision for record #{@concept_id} with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
-  #     redirect_to service_revisions_path(revision_id: latest_revision_id.to_i + 1)
-  #   else
-  #     Rails.logger.error("Ingest (Revert) Service Error: #{ingested_response.inspect}")
-  #     Rails.logger.info("User #{current_user.urs_uid} attempted to revert Service #{@concept_id} by ingesting a previous revision in provider #{current_user.provider_id} but encountered an error.")
-  #
-  #     @errors = generate_ingest_errors(ingested_response)
-  #     flash[:error] = ingested_response.error_message(i18n: I18n.t('controllers.services.revert.flash.error'))
-  #     render action: 'revisions'
-  #   end
-  # end
+
+  def revert
+    latest_revision_id = @revisions.first['meta']['revision-id']
+
+    # Ingest revision
+    ingested_response = cmr_client.ingest_service(@service.to_json, @provider_id, @native_id, token)
+
+    if ingested_response.success?
+      flash[:success] = I18n.t('controllers.services.revert.flash.success')
+      Rails.logger.info("Audit Log: Service Revision for record #{@concept_id} with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
+      redirect_to service_revisions_path(revision_id: latest_revision_id.to_i + 1)
+    else
+      Rails.logger.error("Ingest (Revert) Service Error: #{ingested_response.inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to revert Service #{@concept_id} by ingesting a previous revision in provider #{current_user.provider_id} but encountered an error.")
+
+      @errors = generate_ingest_errors(ingested_response)
+      flash[:error] = ingested_response.error_message(i18n: I18n.t('controllers.services.revert.flash.error'))
+      render action: 'revisions'
+    end
+  end
 
   def download_json
     send_data @service.to_json, type: 'application/json; charset=utf-8', disposition: "attachment; filename=#{@concept_id}.json"
