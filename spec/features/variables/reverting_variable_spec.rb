@@ -73,21 +73,29 @@ describe 'Reverting to previous variables', js: true do
 
               click_on 'Revert to this Revision'
             end
-
-            find('.not-current-provider-link').click
-            wait_for_ajax
           end
 
-          it 'reverts the variable to the correct revision and displays the correct revision information and switches provider context' do
-            within 'main header' do
-              expect(page).to have_content('Reverting Variables Test -- revision 01')
+          it 'displays a modal informing the user they need to switch providers' do
+            expect(page).to have_content('Reverting this variable requires you change your provider context to MMT_2')
+          end
+
+          context 'when clicking Yes' do
+            before do
+              find('.not-current-provider-link').click
+              wait_for_ajax
             end
 
-            expect(page).to have_content('Published', count: 1)
-            expect(page).to have_content('Revision View', count: 4)
-            expect(page).to have_content('Revert to this Revision', count: 4)
+            it 'reverts the variable to the correct revision and displays the correct revision information and switches provider context' do
+              within 'main header' do
+                expect(page).to have_content('Reverting Variables Test -- revision 01')
+              end
 
-            expect(User.first.provider_id).to eq('MMT_2')
+              expect(page).to have_content('Published', count: 1)
+              expect(page).to have_content('Revision View', count: 4)
+              expect(page).to have_content('Revert to this Revision', count: 4)
+
+              expect(User.first.provider_id).to eq('MMT_2')
+            end
           end
         end
       end
