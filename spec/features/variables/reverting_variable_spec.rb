@@ -78,7 +78,7 @@ describe 'Reverting to previous variables', js: true do
             wait_for_ajax
           end
 
-          it 'reverts the variable to the correct revision and displays the correct revision information' do
+          it 'reverts the variable to the correct revision and displays the correct revision information and switches provider context' do
             within 'main header' do
               expect(page).to have_content('Reverting Variables Test -- revision 01')
             end
@@ -86,6 +86,8 @@ describe 'Reverting to previous variables', js: true do
             expect(page).to have_content('Published', count: 1)
             expect(page).to have_content('Revision View', count: 4)
             expect(page).to have_content('Revert to this Revision', count: 4)
+
+            expect(User.first.provider_id).to eq('MMT_2')
           end
         end
       end

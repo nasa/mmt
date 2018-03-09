@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Reverting to previous services', js: true do
+describe 'Reverting to previous services', reset_provider: true, js: true do
   before :all do
     # service for simple reverting service test
     @simple_revert_ingest_response, @simple_revert_concept_response = publish_service_draft(revision_count: 2)
@@ -73,19 +73,29 @@ describe 'Reverting to previous services', js: true do
 
               click_on 'Revert to this Revision'
             end
-
-            find('.not-current-provider-link').click
-            wait_for_ajax
           end
 
-          it 'reverts the service to the correct revision and displays the correct revision information' do
-            within 'main header' do
-              expect(page).to have_content('Reverting Services Test -- revision 01')
+          it 'displays a modal informing the user they need to switch providers' do
+            expect(page).to have_content('Reverting this service requires you change your provider context to MMT_2')
+          end
+
+          context 'when clicking Yes' do
+            before do
+              find('.not-current-provider-link').click
+              wait_for_ajax
             end
 
-            expect(page).to have_content('Published', count: 1)
-            expect(page).to have_content('Revision View', count: 4)
-            expect(page).to have_content('Revert to this Revision', count: 4)
+            it 'reverts the service to the correct revision and displays the correct revision information and switches provider context' do
+              within 'main header' do
+                expect(page).to have_content('Reverting Services Test -- revision 01')
+              end
+
+              expect(page).to have_content('Published', count: 1)
+              expect(page).to have_content('Revision View', count: 4)
+              expect(page).to have_content('Revert to this Revision', count: 4)
+
+              expect(User.first.provider_id).to eq('MMT_2')
+            end
           end
         end
       end
