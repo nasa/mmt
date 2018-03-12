@@ -112,4 +112,14 @@ class SamlController < UsersController
       "urn:oasis:names:tc:SAML:2.0:ac:classes:SmartcardPKI"
     end
   end
+
+  def test_keep_alive
+    # get request to https://apps.launchpad-sbx.nasa.gov/icam/api/sm/v1/keepalive
+    # log request and response
+    # render json if request was successful or not
+    response = cmr_client.get_keep_alive
+    Rails.logger.info "launchpad integration keep alive endpoint response: #{response.inspect}"
+
+    render json: "tested keep alive. response susccessful? #{response.success?}"
+  end
 end
