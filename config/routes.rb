@@ -137,7 +137,6 @@ Rails.application.routes.draw do
   # SAML login
   get 'saml/sso', to: 'saml#sso', as: :sso
   post 'saml/acs', to: 'saml#acs', as: :acs
-  get 'saml/acs', to: 'saml#acs'
   get 'saml/metadata', to: 'saml#metadata', as: :saml_metadata
   get 'saml/logout', to: 'saml#logout', as: :saml_logout
   # test keep alive endpoint

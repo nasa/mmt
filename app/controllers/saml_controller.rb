@@ -1,5 +1,8 @@
 class SamlController < UsersController
-  # skip urs login requirements application controller
+  # need to skip this for the endpoint Launchpad sends back authentication to
+  skip_before_action :verify_authenticity_token, only: :acs
+
+  # skip login requirements
   skip_before_action :ensure_authenticated
   skip_before_action :setup_query
   skip_before_action :refresh_urs_if_needed
