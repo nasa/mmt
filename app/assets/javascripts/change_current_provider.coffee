@@ -62,9 +62,14 @@ $(document).ready ->
         else
           'Deleting this variable'
       when 'delete-service'
-        'Deleting this service'
+        if associatedCollections > 0
+          "This service is associated with #{associatedCollections} collections. Deleting this service will also delete the collection associations, and"
+        else
+          'Deleting this service'
       when 'manage-variable-associations'
         "Managing this variable's collection associations"
+      when 'manage-service-associations'
+        "Managing this service's collection associations"
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)

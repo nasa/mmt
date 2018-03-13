@@ -36,10 +36,9 @@ describe 'Service revision list', reset_provider: true, js: true do
         expect(page).to have_content('typical', count: 2)
       end
 
-      # MMT-1276
-      # it 'displays the correct phrasing for reverting records' do
-      #   expect(page).to have_content('Revert to this Revision', count: 1)
-      # end
+      it 'displays the correct phrasing for reverting records' do
+        expect(page).to have_content('Revert to this Revision', count: 1)
+      end
 
       context 'when viewing an old revision' do
         link_text = 'You are viewing an older revision of this service. Click here to view the latest published version.'
@@ -51,10 +50,9 @@ describe 'Service revision list', reset_provider: true, js: true do
           expect(page).to have_link(link_text)
         end
 
-        # MMT-1024
-        # it 'does not display a link to manage collection associations' do
-        #   expect(page).to have_no_link('Manage Collection Associations')
-        # end
+        it 'does not display a link to manage collection associations' do
+          expect(page).to have_no_link('Manage Collection Associations')
+        end
 
         context 'when clicking the message' do
           before do

@@ -51,7 +51,7 @@ class ManageMetadataController < ApplicationController
     else
       @provider_id = meta['provider-id']
       @native_id = meta['native-id']
-      @num_associated_collections = latest.fetch('associations', {}).fetch('collections', []).count
+      @num_associated_collections = cmr_client.get_collections_by_post({ variable_concept_id: @concept_id }, token).body.fetch('items', []).size
     end
   end
 
@@ -104,7 +104,7 @@ class ManageMetadataController < ApplicationController
     else
       @provider_id = meta['provider-id']
       @native_id = meta['native-id']
-      @num_associated_collections = latest.fetch('associations', {}).fetch('collections', []).count
+      @num_associated_collections = cmr_client.get_collections_by_post({ service_concept_id: @concept_id }, token).body.fetch('items', []).size
     end
   end
 
