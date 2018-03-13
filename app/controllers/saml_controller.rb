@@ -48,16 +48,20 @@ class SamlController < UsersController
 
   # Assertion Consumer Service
   def acs
-    # look in header of response
-    Rails.logger.info "MMT-1286 Launchpad SAML logging. request headers: #{request.headers.inspect}"
-    Rails.logger.info "MMT-1286 Launchpad SAML logging. http_cookie #{request.headers['HTTP_COOKIE']}"
-
     settings = Account.get_saml_settings(get_url_base, get_authn_context)
 
     @response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
     # Rails.logger.info "MMT-1286 Launchpad SAML logging. params[:SAMLResponse]: #{params[:SAMLResponse]}"
     Rails.logger.info "MMT-1286 Launchpad SAML logging. @response after transforming params[:SAMLResponse]: #{@response.inspect}"
     if @response.is_valid?
+      # CMR needs our SBXSESSION cookie to be passed to authenticate, which is in the request header from Launchpad
+      http_cookie = request.headers['HTTP_COOKIE']
+      Rails.logger.info "MMT-1286 Launchpad SAML logging. http_cookie #{request.headers['HTTP_COOKIE']}"
+      sbxsession_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?('SBXSESSION=') }
+      sbxsession_cookie.sub('SBXSESSION=', '')
+      Rails.logger.info "MMT-1286 Launchpad SAML logging. sbxsession_cookie #{sbxsession_cookie}"
+      session[:sbxsession_cookie] = sbxsession_cookie
+
       # TODO params[:SAMLResponse] _should be_ what CMR wants us to pass as a token
       # However, currently this is causing a ActionDispatch::Cookies::CookieOverflow
       # problem. We may want to use https://github.com/rails/activerecord-session_store

@@ -223,7 +223,7 @@ class ApplicationController < ActionController::Base
   end
 
   def launchpad_authorized?
-    session[:auid].present?
+    session[:auid].present? && session[:sbxsession_cookie].present?
     # currently cannot store the launchpad_response_string, see comment in SamlController#acs
     # session[:launchpad_response_string].present?
   end
