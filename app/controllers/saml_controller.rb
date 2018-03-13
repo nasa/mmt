@@ -57,18 +57,25 @@ class SamlController < UsersController
       # CMR needs our SBXSESSION cookie to be passed to authenticate, which is in the request header from Launchpad
       http_cookie = request.headers['HTTP_COOKIE']
       Rails.logger.info "MMT-1286 Launchpad SAML logging. http_cookie #{request.headers['HTTP_COOKIE']}"
-      sbxsession_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?('SBXSESSION=') }
-      sbxsession_cookie.sub('SBXSESSION=', '')
+      sbxsession_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?('SBXSESSION=') }.first
+
+      # TODO: there is a current issue locally where SBXSESSION is not being returned to mmt.test, but we are getting _mmt_session
+      if sbxsession_cookie.blank?
+        # temporarily use _mmt_session instead
+        mmt_session_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?('_mmt_session=') }.first
+        mmt_session_cookie.sub('_mmt_session=', '')
+        Rails.logger.debug "MMT-1286 Launchpad SAML logging. using _mmt_session cookie instead: #{mmt_session_cookie}"
+        session[:sbxsession_cookie] = mmt_session_cookie
+      else
+        sbxsession_cookie.sub('SBXSESSION=', '')
+        session[:sbxsession_cookie] = sbxsession_cookie
+      end
       Rails.logger.info "MMT-1286 Launchpad SAML logging. sbxsession_cookie #{sbxsession_cookie}"
-      session[:sbxsession_cookie] = sbxsession_cookie
 
       # TODO params[:SAMLResponse] _should be_ what CMR wants us to pass as a token
       # However, currently this is causing a ActionDispatch::Cookies::CookieOverflow
       # problem. We may want to use https://github.com/rails/activerecord-session_store
       # to store and pass it
-      # TODO since the SAML library is able to decrypt SAMLResponse to data we can use,
-      # can it also re-encrypt it?
-      # session[:launchpad_response_string] = params[:SAMLResponse]
 
       attributes = @response.attributes
       Rails.logger.info "MMT-1286 Launchpad SAML logging. attributes: #{attributes.inspect}"
