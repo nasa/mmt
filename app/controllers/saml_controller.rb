@@ -48,10 +48,14 @@ class SamlController < UsersController
 
   # Assertion Consumer Service
   def acs
+    # look in header of response
+    Rails.logger.info "MMT-1286 Launchpad SAML logging. request headers: #{request.headers.inspect}"
+    Rails.logger.info "MMT-1286 Launchpad SAML logging. http_cookie #{request.headers['HTTP_COOKIE']}"
+
     settings = Account.get_saml_settings(get_url_base, get_authn_context)
 
     @response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
-    Rails.logger.info "MMT-1286 Launchpad SAML logging. params[:SAMLResponse]: #{params[:SAMLResponse]}"
+    # Rails.logger.info "MMT-1286 Launchpad SAML logging. params[:SAMLResponse]: #{params[:SAMLResponse]}"
     Rails.logger.info "MMT-1286 Launchpad SAML logging. @response after transforming params[:SAMLResponse]: #{@response.inspect}"
     if @response.is_valid?
       # TODO params[:SAMLResponse] _should be_ what CMR wants us to pass as a token
@@ -63,6 +67,7 @@ class SamlController < UsersController
       # session[:launchpad_response_string] = params[:SAMLResponse]
 
       attributes = @response.attributes
+      Rails.logger.info "MMT-1286 Launchpad SAML logging. attributes: #{attributes.inspect}"
       session[:auid] = attributes[:auid]
       # session[:email] = attributes[:email]
       # TODO need to verify and set what other session info is needed
