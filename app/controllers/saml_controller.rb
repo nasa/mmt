@@ -63,11 +63,11 @@ class SamlController < UsersController
       if sbxsession_cookie.blank?
         # temporarily use _mmt_session instead
         mmt_session_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?('_mmt_session=') }.first
-        mmt_session_cookie.sub('_mmt_session=', '')
+        mmt_session_cookie.sub!('_mmt_session=', '')
         Rails.logger.debug "MMT-1286 Launchpad SAML logging. using _mmt_session cookie instead: #{mmt_session_cookie}"
         session[:sbxsession_cookie] = mmt_session_cookie
       else
-        sbxsession_cookie.sub('SBXSESSION=', '')
+        sbxsession_cookie.sub!('SBXSESSION=', '')
         session[:sbxsession_cookie] = sbxsession_cookie
       end
       Rails.logger.info "MMT-1286 Launchpad SAML logging. sbxsession_cookie #{sbxsession_cookie}"

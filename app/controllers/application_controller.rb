@@ -187,6 +187,7 @@ class ApplicationController < ActionController::Base
   end
 
   def token
+    # TODO: should we swap session[:sbxsession_cookie] here or use a different helper method?
     session[:access_token]
   end
   helper_method :token
