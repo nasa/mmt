@@ -2,7 +2,16 @@ require 'rails_helper'
 
 describe 'Delete service', reset_provider: true, js: true do
   before :all do
-    @ingested_service, _concept_response = publish_service_draft
+    @ingested_service_with_associations, _concept_response = publish_service_draft
+
+    ingested_collection_1, _concept_response = publish_collection_draft
+    ingested_collection_2, _concept_response = publish_collection_draft
+
+    create_service_collection_association(@ingested_service_with_associations['concept-id'],
+                                           ingested_collection_1['concept-id'],
+                                           ingested_collection_2['concept-id'])
+
+    @ingested_service_without_associations, _concept_response = publish_service_draft
 
     @ingested_service_for_delete_messages, _concept_response = publish_service_draft
   end
@@ -12,34 +21,80 @@ describe 'Delete service', reset_provider: true, js: true do
   end
 
   context 'when viewing a published service' do
-    before do
-      visit service_path(@ingested_service['concept-id'])
-    end
-
-    it 'displays a delete link' do
-      expect(page).to have_content('Delete Service Record')
-    end
-
-    context 'when clicking the delete link' do
+    context 'when the service has associated collections' do
       before do
-        click_on 'Delete Service Record'
+        visit service_path(@ingested_service_with_associations['concept-id'])
       end
 
-      it 'displays a confirmation modal' do
-        expect(page).to have_content('Are you sure you want to delete this service record?')
+      it 'displays a delete link' do
+        expect(page).to have_content('Delete Service Record')
       end
 
-      context 'when clicking Yes' do
+      context 'when clicking the delete link' do
         before do
-          within '#delete-record-modal' do
-            click_on 'Yes'
-          end
+          click_on 'Delete Service Record'
         end
 
-        it 'redirects to the revisions page and displays a confirmation message' do
-          expect(page).to have_content('Revision History')
+        it 'displays a confirmation modal' do
+          expect(page).to have_content('Are you sure you want to delete this service record?')
+        end
 
-          expect(page).to have_content('Service Deleted Successfully!')
+        it 'informs the user of the number of collection associations that will also be deleted' do
+          # 2 associated collections
+          expect(page).to have_content('This service is associated with 2 collections. Deleting this service will also delete the collection associations.')
+        end
+
+        context 'when clicking Yes' do
+          before do
+            within '#delete-record-modal' do
+              click_on 'Yes'
+            end
+          end
+
+          it 'redirects to the revisions page and displays a confirmation message' do
+            expect(page).to have_content('Revision History')
+
+            expect(page).to have_content('Service Deleted Successfully!')
+          end
+        end
+      end
+    end
+
+    context 'when the service does not have associated collections' do
+      before do
+        visit service_path(@ingested_service_without_associations['concept-id'])
+      end
+
+      it 'displays a delete link' do
+        expect(page).to have_content('Delete Service Record')
+      end
+
+      context 'when clicking the delete link' do
+        before do
+          click_on 'Delete Service Record'
+        end
+
+        it 'displays a confirmation modal' do
+          expect(page).to have_content('Are you sure you want to delete this service record?')
+        end
+
+        it 'does not display a message about collection associations that will also be deleted' do
+          expect(page).to have_no_content('This service is associated with')
+          expect(page).to have_no_content('collections. Deleting this service will also delete the collection associations.')
+        end
+
+        context 'when clicking Yes' do
+          before do
+            within '#delete-record-modal' do
+              click_on 'Yes'
+            end
+          end
+
+          it 'redirects to the revisions page and displays a confirmation message' do
+            expect(page).to have_content('Revision History')
+
+            expect(page).to have_content('Service Deleted Successfully!')
+          end
         end
       end
     end
