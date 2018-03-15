@@ -10,7 +10,8 @@ class UsersController < ApplicationController
     session[:last_point] = request.referrer
     session[:last_point] = params[:next_point] if params[:next_point]
 
-    redirect_to cmr_client.urs_login_path
+    # redirect_to cmr_client.urs_login_path
+    redirect_to sso_url
   end
 
   def logout

@@ -181,7 +181,7 @@ class ApplicationController < ActionController::Base
 
   def provider_set?
     # if logged_in? && current_user.provider_id.nil?
-    if current_user.provider_id.nil?
+    if launchpad_authorized? && current_user.provider_id.nil?
       redirect_to provider_context_path
     end
   end
@@ -232,10 +232,11 @@ class ApplicationController < ActionController::Base
   end
 
   def launchpad_authorized?
-    session[:auid].present? && session[:sbxsession_cookie].present?
-    # currently cannot store the launchpad_response_string, see comment in SamlController#acs
-    # session[:launchpad_response_string].present?
+    session[:auid].present? &&
+    session[:sbxsession_cookie].present? &&
+    session[:urs_uid].present?
   end
+  helper_method :launchpad_authorized?
 
   def require_launchpad_authorization
     # login requirement for Launchpad SAML
