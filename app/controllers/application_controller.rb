@@ -116,8 +116,13 @@ class ApplicationController < ActionController::Base
     # TODO this is temporarily for tests - to add an auid to show the user has
     # authenticated via Launchpad. we are providing the auid in our login helper
     session[:auid] = profile['auid'] if Rails.env.test? && profile['auid']
+    session[:sbxsession_cookie] = profile['sbxsession_cookie'] if Rails.env.test? && profile['sbxsession_cookie']
 
     return if profile == {}
+
+    # TODO temporarily avoid making this call because the CMR token service call is blocked
+    # and if there is an error it will happen while returning from Launchpad
+    return if session[:auid] && session[:sbxsession_cookie]
 
     # Store ECHO ID
     if current_user.echo_id.nil?
@@ -134,10 +139,6 @@ class ApplicationController < ActionController::Base
   end
 
   def log_session_properties
-    # launchpad_response_string is too large to store in our session
-    # launchpad_response_string start: #{session[:launchpad_response_string][0, 10]}
-    # launchpad_response_string end: #{session[:launchpad_response_string][-10, 10]}
-
     output = <<-LOGTHIS
 
     #####*****#####
@@ -151,6 +152,8 @@ class ApplicationController < ActionController::Base
     last_point: #{session[:last_point]}
     return_to: #{session[:return_to]}
     auid: #{session[:auid]}
+    email from launchpad: #{session[:email]}
+    sbxsession_cookie: #{session[:sbxsession_cookie]}
     #####*****#####
     LOGTHIS
     Rails.logger.info output
@@ -187,8 +190,9 @@ class ApplicationController < ActionController::Base
   end
 
   def token
-    # TODO: should we swap session[:sbxsession_cookie] here or use a different helper method?
-    session[:access_token]
+    # TODO: for CMR calls for the launchpad prototype we only need to use the launchpad token
+    session[:sbxsession_cookie]
+    # session[:access_token]
   end
   helper_method :token
 
@@ -208,7 +212,9 @@ class ApplicationController < ActionController::Base
       config = services['earthdata'][Rails.configuration.cmr_env]
       client_id = services['urs'][Rails.env.to_s][config['urs_root']]
 
-      "#{token}:#{client_id}"
+      # TODO: for CMR calls for the launchpad prototype we only need to use the launchpad token
+      session[:sbxsession_cookie]
+      # "#{token}:#{client_id}"
     end
   end
   helper_method :token_with_client_id
@@ -218,7 +224,8 @@ class ApplicationController < ActionController::Base
     # that won't cause double render issues
     capture_intended_path
 
-    redirect_to login_path and return unless logged_in?
+    # TODO skip URS login for the launchpad prototype
+    # redirect_to login_path and return unless logged_in?
 
     redirect_to sso_url and return unless launchpad_authorized?
   end

@@ -28,7 +28,9 @@ module Cmr
 
         token.present? ? { 'Echo-Token' => mock_token } : {}
       else
-        token.present? ? { 'Echo-Token' => "#{token}:#{@client_id}" } : {}
+        # TODO: for CMR calls for the launchpad prototype we only need to use the launchpad token
+        token.present? ? { 'Echo-Token' => token } : {}
+        # token.present? ? { 'Echo-Token' => "#{token}:#{@client_id}" } : {}
       end
     end
 

@@ -22,6 +22,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def set_urs_profile_from_auid
+    urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(session[:auid])
+
+    if urs_profile_response.success?
+      urs_profile = urs_profile_response.body
+    else
+      # TODO need to handle this error eventually
+    end
+    store_profile(urs_profile)
+  end
+
   def provider_context
   end
 

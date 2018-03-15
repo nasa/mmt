@@ -33,7 +33,8 @@ module Helpers
             'user_type'     => 'Public User',
             'affiliation'   => 'OTHER',
             'organization'  => 'Testing',
-            'auid'          => 'adminuser'
+            'auid'          => 'adminuser',
+            'sbxsession_cookie' => 'access_token_admin'
           }
 
           current_user_body = {
@@ -75,7 +76,8 @@ module Helpers
             'user_type'     => 'Public User',
             'affiliation'   => 'OTHER',
             'organization'  => 'Testing',
-            'auid'          => 'testuser'
+            'auid'          => 'testuser',
+            'sbxsession_cookie' => 'access_token'
           }
 
           current_user_body = {

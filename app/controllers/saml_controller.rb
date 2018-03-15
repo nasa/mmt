@@ -51,37 +51,32 @@ class SamlController < UsersController
     settings = Account.get_saml_settings(get_url_base, get_authn_context)
 
     @response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
-    # Rails.logger.info "MMT-1286 Launchpad SAML logging. params[:SAMLResponse]: #{params[:SAMLResponse]}"
     Rails.logger.info "MMT-1286 Launchpad SAML logging. @response after transforming params[:SAMLResponse]: #{@response.inspect}"
+
     if @response.is_valid?
       # CMR needs our SBXSESSION cookie to be passed to authenticate, which is in the request header from Launchpad
-      http_cookie = request.headers['HTTP_COOKIE']
-      Rails.logger.info "MMT-1286 Launchpad SAML logging. http_cookie #{request.headers['HTTP_COOKIE']}"
-      sbxsession_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?('SBXSESSION=') }.first
+      request.cookies
+      Rails.logger.info "MMT-1286 Launchpad SAML logging. request.cookies #{request.cookies}"
+      sbxsession_cookie = request.cookies['SBXSESSION']
 
-      # TODO: there is a current issue locally where SBXSESSION is not being returned to mmt.test, but we are getting _mmt_session
+      # TODO: there is a current issue locally where SBXSESSION is not being returned to mmt.test, but we are getting _mmt_session. we need to change to a local/fake nasa.gov domain
       if sbxsession_cookie.blank?
         # temporarily use _mmt_session instead
-        mmt_session_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?('_mmt_session=') }.first
-        mmt_session_cookie.sub!('_mmt_session=', '')
+        mmt_session_cookie = request.cookies['_mmt_session']
         Rails.logger.debug "MMT-1286 Launchpad SAML logging. using _mmt_session cookie instead: #{mmt_session_cookie}"
         session[:sbxsession_cookie] = mmt_session_cookie
       else
-        sbxsession_cookie.sub!('SBXSESSION=', '')
         session[:sbxsession_cookie] = sbxsession_cookie
       end
       Rails.logger.info "MMT-1286 Launchpad SAML logging. sbxsession_cookie #{sbxsession_cookie}"
 
-      # TODO params[:SAMLResponse] _should be_ what CMR wants us to pass as a token
-      # However, currently this is causing a ActionDispatch::Cookies::CookieOverflow
-      # problem. We may want to use https://github.com/rails/activerecord-session_store
-      # to store and pass it
-
       attributes = @response.attributes
       Rails.logger.info "MMT-1286 Launchpad SAML logging. attributes: #{attributes.inspect}"
       session[:auid] = attributes[:auid]
-      # session[:email] = attributes[:email]
-      # TODO need to verify and set what other session info is needed
+      session[:email] = attributes[:email]
+
+      # for now, this requires that the user already has their auid and urs_uid associated in URS
+      set_urs_profile_from_auid
 
       redirect_from_urs
     else
