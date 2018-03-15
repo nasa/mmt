@@ -180,7 +180,8 @@ class ApplicationController < ActionController::Base
   end
 
   def provider_set?
-    if logged_in? && current_user.provider_id.nil?
+    # if logged_in? && current_user.provider_id.nil?
+    if current_user.provider_id.nil?
       redirect_to provider_context_path
     end
   end

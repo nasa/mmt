@@ -42,7 +42,7 @@ class SamlController < UsersController
     end
 
     request = OneLogin::RubySaml::Authrequest.new
-    Rails.logger.info "MMT-1286 Launchpad SAML logging. redirect request from sso method: #{request.create(settings)}"
+    # Rails.logger.info "MMT-1286 Launchpad SAML logging. redirect request from sso method: #{request.create(settings)}"
     redirect_to request.create(settings)
   end
 
