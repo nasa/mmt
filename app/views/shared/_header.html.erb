@@ -10,7 +10,7 @@
     <div class="col-6 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <% if controller_name.include? 'welcome'%>
-        <%= link_to 'Earthdata Login', login_path, class: 'eui-btn--blue' %>
+        <%= link_to 'Login via Launchpad', login_path, class: 'eui-btn--blue' %>
       <% else %>
         <%= render partial: 'shared/user_info_dropdown', locals: { hide_provider_context: hide_search } %>
         <% unless hide_search %>
