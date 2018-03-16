@@ -42,7 +42,7 @@ class SamlController < UsersController
     end
 
     request = OneLogin::RubySaml::Authrequest.new
-    # Rails.logger.info "MMT-1286 Launchpad SAML logging. redirect request from sso method: #{request.create(settings)}"
+
     redirect_to request.create(settings)
   end
 
@@ -55,9 +55,13 @@ class SamlController < UsersController
 
     if @response.is_valid?
       # CMR needs our SBXSESSION cookie to be passed to authenticate, which is in the request header from Launchpad
-      request.cookies
+
+      http_cookie = request.headers['HTTP_COOKIE']
       Rails.logger.info "MMT-1286 Launchpad SAML logging. request.cookies #{request.cookies}"
-      sbxsession_cookie = request.cookies['SBXSESSION']
+      Rails.logger.info "MMT-1286 Launchpad SAML logging. request.headers['HTTP_COOKIE'] #{http_cookie}"
+      # sbxsession_cookie = request.cookies['SBXSESSION']
+      # using request.cookies didn't seem to produce a token that could be validated, using request.headers which originally worked.
+      sbxsession_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?('SBXSESSION=') }.first
 
       # TODO: there is a current issue locally where SBXSESSION is not being returned to mmt.test, but we are getting _mmt_session. we need to change to a local/fake nasa.gov domain
       if sbxsession_cookie.blank?
@@ -66,6 +70,7 @@ class SamlController < UsersController
         Rails.logger.debug "MMT-1286 Launchpad SAML logging. using _mmt_session cookie instead: #{mmt_session_cookie}"
         session[:sbxsession_cookie] = mmt_session_cookie
       else
+        sbxsession_cookie.sub!('SBXSESSION=', '')
         session[:sbxsession_cookie] = sbxsession_cookie
       end
       Rails.logger.info "MMT-1286 Launchpad SAML logging. sbxsession_cookie #{sbxsession_cookie}"
