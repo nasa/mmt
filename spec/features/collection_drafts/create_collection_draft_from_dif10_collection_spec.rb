@@ -6,10 +6,8 @@ describe 'Create and edit a draft from a Dif 10 collection with location keyword
   short_name = 'SWDB_L310'
 
   before do
-    login
-    user = User.first
-    user.provider_id = 'LARC'
-    user.save
+    login(provider: 'LARC', providers: %w(MMT_2 LARC))
+    visit manage_collections_path
   end
 
   context 'when searching for a Dif 10 collection' do

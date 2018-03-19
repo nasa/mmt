@@ -15,10 +15,7 @@ describe 'Service draft permissions' do
 
   context 'when the draft provider is in the users available providers', js: true do
     before do
-      user = User.first
-      user.provider_id = 'MMT_1'
-      user.available_providers = %w(MMT_1 MMT_2)
-      user.save
+      login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
     end
 
     context 'when trying to visit the draft page directly' do
@@ -152,10 +149,7 @@ describe 'Service draft permissions' do
 
   context 'when the draft provider is not in the user available providers' do
     before do
-      user = User.first
-      user.provider_id = 'LARC'
-      user.available_providers = ['LARC']
-      user.save
+      login(provider: 'LARC', providers: %w(LARC))
     end
 
     context 'when trying to visit the draft page directly' do

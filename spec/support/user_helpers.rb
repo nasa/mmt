@@ -1,11 +1,14 @@
 module Helpers
   module UserHelpers
-    def login_admin
-      login(admin: true)
+    def login_admin(provider: 'MMT_2', providers: 'MMT_2')
+      login(admin: true, provider: provider, providers: providers)
     end
 
-    def login(admin: false, providers: 'MMT_2')
+    def login(real_login: false, admin: false, providers: 'MMT_2', provider: 'MMT_2')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#login' do
+
+        return mock_login(admin: admin, providers: providers, provider: provider) unless real_login
+
         # Mock calls to URS and login Test User
         if admin
           token_body = {
@@ -116,6 +119,20 @@ module Helpers
         # after the user authenticates with URS
         visit '/urs_callback?code=auth_code_here'
       end
+    end
+
+    def mock_login(admin: false, providers:, provider:)
+      uid = admin ? 'adminuser' : 'testuser'
+      token = admin ? 'access_token_admin' : 'access_token'
+      user = User.from_urs_uid(uid)
+      user.provider_id = provider
+      user.providers = Array.wrap(providers)
+      user.update(echo_id: 'user-echo-token')
+      user.save
+
+      allow_any_instance_of(ApplicationController).to receive(:is_logged_in).and_return(true)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(token)
     end
 
     def visit_with_expiring_token(path)

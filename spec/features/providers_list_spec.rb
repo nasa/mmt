@@ -78,7 +78,8 @@ describe 'Providers list' do
 
       context 'when the user then logs in' do
         before do
-          login
+          # TODO need to do a real login because it fetches providers from CMR
+          login(real_login: true)
         end
 
         context 'when viewing the provider list in the search dropdown', js: true do

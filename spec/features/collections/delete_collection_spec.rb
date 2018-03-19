@@ -50,9 +50,8 @@ describe 'Delete collection', js: true do
     let(:short_name) { 'MIRCCMF' }
     before do
       # Set the users provider to be LARC, in order to see collection with granules
-      user = User.first
-      user.provider_id = 'LARC'
-      user.save
+      login(provider: 'LARC', providers: %w(MMT_2 LARC))
+      visit manage_collections_path
 
       fill_in 'keyword', with: short_name
       click_on 'Search Collections'

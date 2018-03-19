@@ -5,6 +5,7 @@ require 'rails_helper'
 describe 'Collection Search Results Pagination', js: true do
   before do
     login
+    visit manage_collections_path
   end
 
   context 'when viewing collection search results with multiple pages' do

@@ -63,6 +63,7 @@ describe 'Error pages' do
         allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(bad_search_response)
 
         login
+        visit manage_collections_path
 
         click_on 'Search Collections'
       end

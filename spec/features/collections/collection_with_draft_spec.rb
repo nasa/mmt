@@ -39,10 +39,7 @@ describe 'Collection with draft' do
       before do
         ingest_response, @concept_response = publish_collection_draft(include_new_draft: true)
 
-        user = User.first
-        user.provider_id = 'MMT_1'
-        user.available_providers = %w(MMT_1 MMT_2)
-        user.save
+        login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
 
         visit collection_path(ingest_response['concept-id'])
       end
@@ -87,10 +84,7 @@ describe 'Collection with draft' do
       before do
         ingest_response, @concept_response = publish_collection_draft(include_new_draft: true)
 
-        user = User.first
-        user.provider_id = 'SEDAC'
-        user.available_providers = %w(SEDAC)
-        user.save
+        login(provider: 'SEDAC', providers: %w(SEDAC))
 
         visit collection_path(ingest_response['concept-id'])
       end

@@ -7,10 +7,8 @@ describe 'Manage CMR provider holdings', reset_provider: true, js: true do
 
   context 'when visiting the provider holdings with one available provider' do
     before do
-      user = User.first
-      user.provider_id = 'MMT_1'
-      user.available_providers = %w(MMT_1)
-      user.save
+      login(provider: 'MMT_1', providers: %w(MMT_1))
+
 
       VCR.use_cassette('provider_holdings/mmt_1', record: :none) do
         visit provider_holdings_path
@@ -27,9 +25,7 @@ describe 'Manage CMR provider holdings', reset_provider: true, js: true do
 
   context 'when visiting the provider holdings with multiple available providers' do
     before do
-      user = User.first
-      user.available_providers = %w(MMT_1 MMT_2)
-      user.save
+      login(providers: %w(MMT_1 MMT_2))
 
       visit provider_holdings_path
     end

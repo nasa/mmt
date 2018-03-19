@@ -2,13 +2,11 @@ require 'rails_helper'
 
 describe 'Viewing Provider Order Information' do
   before do
-    login
-
-    User.first.update(provider_id: 'DEV07')
+    login(provider: 'DEV07', providers: %w(MMT_2 DEV07))
   end
 
   after do
-    User.first.update(provider_id: 'MMT_2')
+    login
   end
 
   context 'when viewing provider order information' do

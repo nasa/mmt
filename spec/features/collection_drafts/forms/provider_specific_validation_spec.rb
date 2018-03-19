@@ -3,12 +3,7 @@ require 'rails_helper'
 describe 'Provider specific validation', js: true do
   context 'when viewing the forms as a provider with specific validation rules' do
     before do
-      login
-
-      user = User.first
-      user.provider_id = 'MMT_1'
-      user.available_providers = %w(MMT_1 MMT_2)
-      user.save
+      login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
 
       draft = create(:mmt_1_collection_draft, user: User.where(urs_uid: 'testuser').first)
       visit collection_draft_path(draft)

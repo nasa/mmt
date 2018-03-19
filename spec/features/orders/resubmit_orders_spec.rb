@@ -5,10 +5,8 @@ describe 'Resubmitting Provider Orders' do
 
   context 'when viewing the provider order' do
     before do
-      login
-
       # The order guid belongs to NSIDC_ECS
-      User.first.update(provider_id: 'NSIDC_ECS')
+      login(provider: 'EDF_OPS', providers: %w(MMT_2 EDF_OPS))
 
       VCR.use_cassette('echo_soap/order_processing_service/provider_orders/terminal_order', record: :none) do
         visit provider_order_path(order_guid)
@@ -17,7 +15,7 @@ describe 'Resubmitting Provider Orders' do
 
     after do
       # Reset the provider to the test provider
-      User.first.update(provider_id: 'MMT_2')
+      login
     end
 
     context 'without permissions to resubmit orders' do

@@ -27,12 +27,7 @@ describe 'Group permissions', reset_provider: true do
 
   context 'when viewing a group' do
     before do
-      login
-
-      user = User.first
-      user.provider_id = 'MMT_1'
-      user.available_providers = %w(MMT_1 MMT_2)
-      user.save
+      login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
     end
 
     context 'when the groups provider is in the users available providers', js: true do

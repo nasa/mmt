@@ -33,7 +33,7 @@
 
 <% unless hide_search %>
   <div id="provider-context">
-    <% if logged_in? && current_user.available_providers %>
+    <% if is_logged_in && current_user.available_providers %>
       <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
         <%= render partial: 'shared/provider_context', locals: { provider_context_page: false } %>
     <% end %>

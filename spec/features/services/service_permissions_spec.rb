@@ -15,10 +15,7 @@ describe 'Services permissions', reset_provider: true, js: true do
       end
 
       before do
-        user = User.first
-        user.provider_id = 'MMT_1'
-        user.available_providers = %w(MMT_1 MMT_2)
-        user.save
+        login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
 
         visit service_path(@ingested_service['concept-id'])
       end
