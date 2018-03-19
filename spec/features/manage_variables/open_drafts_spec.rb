@@ -4,11 +4,10 @@ describe 'Drafts listed on the Manage Variables page' do
   draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_variables_controller
 
   before do
-    login_admin
-    @other_user_id = User.where(urs_uid: 'adminuser').first.id
+    @other_user_id = User.create(urs_uid: 'adminuser').id
 
+    @current_user_id = User.create(urs_uid: 'testuser').id
     login
-    @current_user_id = User.where(urs_uid: 'testuser').first.id
   end
 
   context 'when no drafts exist' do

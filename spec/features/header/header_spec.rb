@@ -44,6 +44,7 @@ describe 'Header' do
 
     context 'when clicking the profile link' do
       before do
+        visit manage_collections_path
         click_on 'profile-link'
       end
 

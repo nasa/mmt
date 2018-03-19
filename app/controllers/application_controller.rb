@@ -187,13 +187,15 @@ class ApplicationController < ActionController::Base
     store_oauth_token unless is_user_logged_in
     is_user_logged_in
   end
-  helper_method :logged_in?
 
   def is_logged_in
     Rails.logger.info("Access Token: #{session[:access_token]}") if Rails.env.development?
     session[:return_to] = request.fullpath
-    redirect_to login_path unless logged_in?
+
+    return true if logged_in?
+    redirect_to login_path
   end
+  helper_method :is_logged_in
 
   def logged_in_at
     session[:logged_in_at].nil? ? 0 : session[:logged_in_at]

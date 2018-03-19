@@ -7,6 +7,7 @@ describe 'Viewing Collections with other native formats', js: true do
 
     before do
       login
+      visit manage_collections_path
 
       fill_in 'keyword', with: short_name
       click_on 'Search Collections'

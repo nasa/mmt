@@ -7,14 +7,17 @@ describe 'Collection Drafts listed on the Manage Collections page' do
   draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_collections_controller
 
   before do
-    login_admin
-    @other_user_id = User.where(urs_uid: 'adminuser').first.id
+    @other_user_id = User.create(urs_uid: 'adminuser').id
 
+    @current_user_id = User.create(urs_uid: 'testuser').id
     login
-    @current_user_id = User.where(urs_uid: 'testuser').first.id
   end
 
   context 'when no drafts exist' do
+    before do
+      visit manage_collections_path
+    end
+
     it 'no drafts are displayed' do # Test correct display of edge condition of zero drafts
       expect(page).to have_content('MMT_2 Collection Drafts')
 

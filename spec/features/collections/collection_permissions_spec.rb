@@ -12,10 +12,7 @@ describe 'Collections permissions', js: true do
       before do
         ingest_response, _concept_response = publish_collection_draft(revision_count: 2)
 
-        user = User.first
-        user.provider_id = 'MMT_1'
-        user.available_providers = %w(MMT_1 MMT_2)
-        user.save
+        login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
 
         visit collection_path(ingest_response['concept-id'])
       end

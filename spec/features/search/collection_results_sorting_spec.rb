@@ -16,6 +16,7 @@ describe 'Collection Search Results sorting', reset_provider: true, js: true do
 
     before do
       login
+      visit manage_collections_path
     end
 
     context 'when searching by one provider' do

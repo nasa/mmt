@@ -104,9 +104,8 @@ describe 'Reverting to previous collections', js: true do
     let(:short_name) { 'MIRCCMF' }
 
     before do
-      user = User.first
-      user.available_providers << 'LARC'
-      user.save
+      login(providers: %w(MMT_2 LARC))
+      visit manage_collections_path
 
       fill_in 'keyword', with: short_name
       click_on 'Search Collections'

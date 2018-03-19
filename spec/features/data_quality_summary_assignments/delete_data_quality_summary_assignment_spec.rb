@@ -7,8 +7,6 @@ describe 'Deleting a Data Quality Summary Assignment', js: true do
 
     login
 
-    User.first.update(provider_id: 'MMT_2')
-
     visit data_quality_summary_assignments_path
 
     wait_for_ajax

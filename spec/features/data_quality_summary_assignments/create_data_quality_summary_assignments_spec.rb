@@ -6,8 +6,6 @@ describe 'Creating a Data Quality Summary Assignment', js: true do
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
     login
-
-    User.first.update(provider_id: 'MMT_2')
   end
 
   context 'when viewing the new data quality summary assignment form' do
@@ -21,7 +19,7 @@ describe 'Creating a Data Quality Summary Assignment', js: true do
       expect(page).to have_content('New MMT_2 Data Quality Summary Assignments')
 
       wait_for_ajax
-      
+
       # Check that all 6 results appear on the page
       expect(page).to have_selector('#catalog_item_guid_fromList option', count: 6)
 

@@ -45,10 +45,7 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
     context 'when reverting to a revision before the previous revision from a different provider context' do
       context 'when visiting the revisions page from a different provider' do
         before do
-          user = User.first
-          user.provider_id = 'MMT_1'
-          user.available_providers = %w(MMT_1 MMT_2)
-          user.save
+          login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
 
           visit service_revisions_path(@multiple_revisions_ingest_response['concept-id'])
         end

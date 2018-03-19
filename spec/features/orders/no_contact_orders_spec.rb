@@ -3,9 +3,7 @@ require 'rails_helper'
 describe 'Searching Orders' do
   context 'when viewing the track orders page' do
     before do
-      login
-
-      User.first.update(provider_id: 'EDF_OPS')
+      login(provider: 'EDF_OPS', providers: %w(MMT_2 EDF_OPS))
 
       visit orders_path
     end

@@ -41,19 +41,19 @@ describe 'Groups', reset_provider: true do
 
           VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
             page.find('.select2-search__field').native.send_keys('rarxd5taqea')
-            
+
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end
 
           VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
             page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
-            
+
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end
 
           VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
             page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
-            
+
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end
 

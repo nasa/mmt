@@ -17,7 +17,7 @@
     <% providers.each do |provider| %>
       <tr class='<%= cycle("alt", "") %>'>
         <td>
-          <% if @current_user %>
+          <% if current_user %>
             <%= link_to provider['short-name'], provider_holding_path(provider['provider-id']) %>
           <% else %>
             <%= link_to provider['short-name'], data_provider_collections_path(provider['provider-id']) %>

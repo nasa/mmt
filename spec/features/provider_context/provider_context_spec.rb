@@ -7,7 +7,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user has multiple providers' do
     before do
-      login(providers: nil)
+      login(real_login: true, providers: nil)
       visit '/'
     end
 
@@ -57,7 +57,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
             expect(page).to have_content('Earthdata Login')
 
-            login(providers: nil)
+            login(real_login: true, providers: nil)
           end
 
           it 'displays their last used provider context' do
@@ -108,7 +108,7 @@ describe 'Provider context', reset_provider: true, js: true do
       context 'when the user is on the provider order details page' do
         before do
           # The order guid belongs to NSIDC_ECS
-          User.first.update(provider_id: 'NSIDC_ECS')
+          login(provider: 'NSIDC_ECS', providers: %w(MMT_2 MMT_1 NSIDC_ECS))
 
           VCR.use_cassette('echo_soap/order_processing_service/provider_orders/terminal_order', record: :none) do
             visit provider_order_path(order_guid)
@@ -152,7 +152,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user only has one provider' do
     before do
-      login(providers: nil)
+      login(real_login: true, providers: nil)
       visit '/'
     end
 
@@ -195,7 +195,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user has no providers' do
     before do
-      login(providers: nil)
+      login(real_login: true, providers: nil)
     end
 
     before :all do
@@ -209,7 +209,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user loses a provider' do
     before do
-      login(providers: nil)
+      login(real_login: true, providers: nil)
       visit '/'
 
       select 'MMT_2', from: 'select_provider'
@@ -237,7 +237,7 @@ describe 'Provider context', reset_provider: true, js: true do
       context 'when a user loses their active provider' do
         before do
           delete_provider_context_permission('MMT_2')
-          login(providers: nil)
+          login(real_login: true, providers: nil)
           visit '/'
         end
 
@@ -257,7 +257,7 @@ describe 'Provider context', reset_provider: true, js: true do
       context 'when a user loses an available provider' do
         before do
           delete_provider_context_permission('NSIDC_ECS')
-          login(providers: nil)
+          login(real_login: true, providers: nil)
           visit '/'
         end
 

@@ -84,9 +84,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
   context 'when logging in as a user that has restricted access to the provider collections' do
     before do
-      login
-
-      User.first.update(provider_id: 'NSIDC_ECS')
+      login(provider: 'NSIDC_ECS', providers: %w(MMT_2 NSIDC_ECS))
     end
 
     context 'when updating a collection permission and the user has no access to any of the selected collections', js: true do
@@ -210,9 +208,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
   context 'when logging in as an admin user that has full access to the provider collections' do
     before do
-      login_admin
-
-      User.first.update(provider_id: 'NSIDC_ECS')
+      login_admin(provider: 'NSIDC_ECS', providers: %w(MMT_2 NSIDC_ECS))
     end
 
     context 'when viewing the edit form of the collection permission that has some restricted collections', js: true do

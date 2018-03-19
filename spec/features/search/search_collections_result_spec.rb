@@ -14,6 +14,7 @@ describe 'Searching published collections', js: true, reset_provider: true do
 
   before do
     login
+    visit manage_collections_path
   end
 
   context 'when performing a collection search by concept_id' do
