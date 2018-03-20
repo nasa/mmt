@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Bulk updates form validations', js: true do
+describe 'Bulk updates form validations', reset_provider: true, js: true do
   used_bulk_update_name = "Already used Bulk Update Name #{Faker::Number.number(4)}"
 
   before :all do
@@ -47,7 +47,8 @@ describe 'Bulk updates form validations', js: true do
     context 'when attempting to enter a duplicate name' do
       before do
         fill_in 'bulk_update_name', with: used_bulk_update_name
-        select 'Select a Field to Update', from: 'Field to Update'
+        # click outside the text field to trigger validation
+        all('label[for="update_field"]').first.click
 
         wait_for_ajax
         wait_for_jQuery
