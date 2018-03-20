@@ -124,7 +124,7 @@ describe 'Provider context', reset_provider: true, js: true do
         end
 
         it 'redirects to the orders index page when switching provider context' do
-          expect(page).to have_current_path(orders_path, only_path: true)
+          expect(page).to have_current_path(orders_path, ignore_query: true)
         end
       end
 
@@ -144,7 +144,7 @@ describe 'Provider context', reset_provider: true, js: true do
         end
 
         it 'redirects to the permissions index page when switching provider context' do
-          expect(page).to have_current_path(permissions_path, only_path: true)
+          expect(page).to have_current_path(permissions_path, ignore_query: true)
         end
       end
     end
