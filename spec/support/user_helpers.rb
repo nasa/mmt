@@ -4,6 +4,10 @@ module Helpers
       login(admin: true, provider: provider, providers: providers)
     end
 
+    def real_login(provider: 'MMT_2', providers: 'MMT_2')
+      login(real_login: true, provider: provider, providers: providers)
+    end
+
     def login(real_login: false, admin: false, providers: 'MMT_2', provider: 'MMT_2')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#login' do
 

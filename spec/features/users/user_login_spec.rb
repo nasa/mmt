@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'User login' do
   context 'When logging in with Earthdata Login' do
     before do
-      login(real_login: true)
+      real_login
     end
 
     it 'redirects the user to the manage collections page' do
@@ -30,7 +30,7 @@ describe 'User login' do
 
       context 'when the user logs back in' do
         before do
-          login(real_login: true)
+          real_login
         end
 
         it 'displays the manage collections page' do
@@ -44,7 +44,7 @@ describe 'User login' do
 
   context 'when the user token is expiring' do
     before do
-      login(real_login: true)
+      real_login
       visit_with_expiring_token('/manage_collections')
     end
 
