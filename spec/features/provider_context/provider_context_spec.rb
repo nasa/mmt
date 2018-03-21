@@ -7,7 +7,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user has multiple providers' do
     before do
-      login(real_login: true, providers: nil)
+      real_login(providers: nil)
       visit '/'
     end
 
@@ -57,7 +57,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
             expect(page).to have_content('Earthdata Login')
 
-            login(real_login: true, providers: nil)
+            real_login(providers: nil)
           end
 
           it 'displays their last used provider context' do
@@ -152,7 +152,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user only has one provider' do
     before do
-      login(real_login: true, providers: nil)
+      real_login(providers: nil)
       visit '/'
     end
 
@@ -195,7 +195,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user has no providers' do
     before do
-      login(real_login: true, providers: nil)
+      real_login(providers: nil)
     end
 
     before :all do
@@ -209,7 +209,7 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user loses a provider' do
     before do
-      login(real_login: true, providers: nil)
+      real_login(providers: nil)
       visit '/'
 
       select 'MMT_2', from: 'select_provider'
@@ -237,7 +237,7 @@ describe 'Provider context', reset_provider: true, js: true do
       context 'when a user loses their active provider' do
         before do
           delete_provider_context_permission('MMT_2')
-          login(real_login: true, providers: nil)
+          real_login(providers: nil)
           visit '/'
         end
 
@@ -257,7 +257,7 @@ describe 'Provider context', reset_provider: true, js: true do
       context 'when a user loses an available provider' do
         before do
           delete_provider_context_permission('NSIDC_ECS')
-          login(real_login: true, providers: nil)
+          real_login(providers: nil)
           visit '/'
         end
 
