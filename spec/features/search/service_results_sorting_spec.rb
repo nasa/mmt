@@ -6,13 +6,13 @@ describe 'Service Search Results sorting', reset_provider: true, js: true do
       publish_service_draft(name: 'First!')
       sleep 1
       publish_service_draft(name: '000_Adder Ser Name')
-      publish_service_draft(name: 'Zebra Ser Name')
+      publish_service_draft(name: 'ZZebra Ser Name')
 
       publish_service_draft(name: "LarcSortTest #{Faker::Number.number(6)}", provider_id: 'LARC')
       publish_service_draft(name: "SedacSortTest #{Faker::Number.number(6)}", provider_id: 'SEDAC')
 
       publish_service_draft(long_name: '000_Agouti Ser Long Name')
-      publish_service_draft(long_name: 'Zebra Ser Long Name')
+      publish_service_draft(long_name: 'ZZebra Ser Long Name')
       sleep 1
       publish_service_draft(name: 'Last!')
     end
@@ -51,7 +51,7 @@ describe 'Service Search Results sorting', reset_provider: true, js: true do
 
         it 'sorts the results by Name Desc' do
           within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('Zebra Ser Name')
+            expect(page).to have_content('ZZebra Ser Name')
           end
         end
       end
@@ -83,7 +83,7 @@ describe 'Service Search Results sorting', reset_provider: true, js: true do
 
         it 'sorts the results by Long Name Desc' do
           within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('Zebra Ser Long Name')
+            expect(page).to have_content('ZZebra Ser Long Name')
           end
         end
       end
