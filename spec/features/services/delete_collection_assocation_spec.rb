@@ -1,22 +1,22 @@
 require 'rails_helper'
 
-describe 'Deleting Variable Collection Associations', js: true, reset_provider: true do
+describe 'Deleting Service Collection Associations', js: true, reset_provider: true do
   before do
     login
 
-    @variable_ingest_response, _concept_response = publish_variable_draft
+    @service_ingest_response, _concept_response = publish_service_draft
 
-    create_variable_collection_association(@variable_ingest_response['concept-id'], @ingest_response1['concept-id'], @ingest_response2['concept-id'])
+    create_service_collection_association(@service_ingest_response['concept-id'], @collection_ingest_response1['concept-id'], @collection_ingest_response2['concept-id'])
   end
 
   before :all do
-    @ingest_response1, _concept_response1 = publish_collection_draft(entry_title: 'MODIS-I Water Traveler')
-    @ingest_response2, _concept_response2 = publish_collection_draft(entry_title: 'MODIS-I Water Skipper')
+    @collection_ingest_response1, _concept_response1 = publish_collection_draft(entry_title: 'MODIS-I Water Traveler')
+    @collection_ingest_response2, _concept_response2 = publish_collection_draft(entry_title: 'MODIS-I Water Skipper')
   end
 
   context 'When viewing the associated collections page' do
     before do
-      visit variable_collection_associations_path(@variable_ingest_response['concept-id'])
+      visit service_collection_associations_path(@service_ingest_response['concept-id'])
     end
 
     it 'shows the associated collections' do
@@ -34,7 +34,7 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
 
     context 'When submitting the form with 1 value selected' do
       before do
-        find("input[value='#{@ingest_response1['concept-id']}']").set(true)
+        find("input[value='#{@collection_ingest_response1['concept-id']}']").set(true)
 
         click_link 'Delete Selected Associations'
       end

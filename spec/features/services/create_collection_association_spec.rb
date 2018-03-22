@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe 'Creating Variable Collection Associations', js: true, reset_provider: true do
+describe 'Creating Service Collection Associations', js: true, reset_provider: true do
   before do
     login
 
-    @variable_ingest_response, _concept_response = publish_variable_draft
+    @service_ingest_response, _concept_response = publish_service_draft
   end
 
   before :all do
@@ -15,9 +15,9 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
     publish_collection_draft(entry_title: 'AQUA Not MODIS-I')
   end
 
-  context 'When viewing a published variable' do
+  context 'When viewing a published service' do
     before do
-      visit variable_path(@variable_ingest_response['concept-id'])
+      visit service_path(@service_ingest_response['concept-id'])
     end
 
     it 'displays a link to get to collection association management' do
@@ -29,7 +29,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
 
   context 'When visiting the collection association management page' do
     before do
-      visit variable_collection_associations_path(@variable_ingest_response['concept-id'])
+      visit service_collection_associations_path(@service_ingest_response['concept-id'])
     end
 
     it 'displays an add collection association button' do
@@ -46,14 +46,14 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
       end
 
       it 'displays the collection search page' do
-        expect(page).to have_content('MMT_2 Variable Collection Association Search')
+        expect(page).to have_content('MMT_2 Service Collection Association Search')
       end
     end
   end
 
   context 'When visiting the collection association search page' do
     before do
-      visit new_variable_collection_association_path(@variable_ingest_response['concept-id'])
+      visit new_service_collection_association_path(@service_ingest_response['concept-id'])
     end
 
     it 'displays the correct number of options for search field' do

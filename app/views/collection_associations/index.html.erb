@@ -1,10 +1,9 @@
 <div class="row row-content">
   <section>
-    <h2><%= @variable['Name'] %> Collection Associations</h2>
+    <h2><%= @resource['Name'] %> Collection Associations</h2>
 
-    <%= link_to 'Add Collection Associations', new_variable_collection_association_path(params[:variable_id]), class: 'eui-btn--blue space-bot' %>
+    <%= link_to 'Add Collection Associations', send("new_#{lower_resource_name}_collection_association_path", resource_id), class: 'eui-btn--blue space-bot' %>
 
-    
     <% if @associations.any? %>
       <p>
         <%= page_entries_info @associations, entry_name: 'Collection Association' %>
@@ -15,7 +14,7 @@
       <em><span class="fa fa-info-circle"></span> Association operations may take some time. If you are not seeing what you expect below, please <%= link_to 'refresh the page', 'javascript:history.go(0)', class: 'eui-btn--link' %>.</em>
     </p>
 
-    <%= form_tag(variable_collection_associations_path(params[:variable_id]), method: :delete, id: "delete-variable-collection-associations-form") do %>
+    <%= form_tag(send("#{lower_resource_name}_collection_associations_path", resource_id), method: :delete, id: "delete-#{lower_resource_name}-collection-associations-form") do %>
 
       <table id="collection-associations">
         <thead>
