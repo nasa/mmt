@@ -20,7 +20,7 @@ FactoryGirl.define do
 
     draft {{
       'Name': draft_short_name || "#{Faker::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(20)}",
-      'LongName': draft_entry_title || "#{Faker::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')} #{Faker::Number.number(19)}",
+      'LongName': draft_entry_title || "#{Faker::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')} #{Faker::Number.number(120)}",
       'Type': 'INVALID',
       'Version': '1.12345678987654321012345',
       'Description': 1030.times { 's' },
