@@ -4,20 +4,20 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
   before do
     login
 
-    @ingest_response, _concept_response = publish_variable_draft
+    @variable_ingest_response, _concept_response = publish_variable_draft
   end
 
   before :all do
     # Make 3 collections, two with unique names so that we can ensure they
     # are returned from search correctly
-    @ingest_response1, _concept_response1 = publish_collection_draft(entry_title: 'MODIS-I Water Traveler')
-    @ingest_response2, _concept_response2 = publish_collection_draft(entry_title: 'MODIS-I Water Skipper')
+    @collection_ingest_response1, _concept_response1 = publish_collection_draft(entry_title: 'MODIS-I Water Traveler')
+    @collection_ingest_response2, _concept_response2 = publish_collection_draft(entry_title: 'MODIS-I Water Skipper')
     publish_collection_draft(entry_title: 'AQUA Not MODIS-I')
   end
 
   context 'When viewing a published variable' do
     before do
-      visit variable_path(@ingest_response['concept-id'])
+      visit variable_path(@variable_ingest_response['concept-id'])
     end
 
     it 'displays a link to get to collection association management' do
@@ -29,7 +29,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
 
   context 'When visiting the collection association management page' do
     before do
-      visit variable_collection_associations_path(@ingest_response['concept-id'])
+      visit variable_collection_associations_path(@variable_ingest_response['concept-id'])
     end
 
     it 'displays an add collection association button' do
@@ -53,7 +53,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
 
   context 'When visiting the collection association search page' do
     before do
-      visit new_variable_collection_association_path(@ingest_response['concept-id'])
+      visit new_variable_collection_association_path(@variable_ingest_response['concept-id'])
     end
 
     it 'displays the correct number of options for search field' do
@@ -113,8 +113,8 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
       context 'When submitting the form with both AMSR-E records selected' do
         before do
           within '#collections-select' do
-            find("input[value='#{@ingest_response1['concept-id']}']").set(true)
-            find("input[value='#{@ingest_response2['concept-id']}']").set(true)
+            find("input[value='#{@collection_ingest_response1['concept-id']}']").set(true)
+            find("input[value='#{@collection_ingest_response2['concept-id']}']").set(true)
 
             click_button 'Submit'
 
@@ -143,6 +143,8 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
               within 'tbody tr:nth-child(2)' do
                 expect(page).to have_content('MODIS-I Water Traveler')
               end
+
+              expect(page).to have_no_content('AQUA Not MODIS-I')
             end
           end
         end
