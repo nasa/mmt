@@ -66,6 +66,8 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
               within 'tbody tr:nth-child(1)' do
                 expect(page).to have_content('MODIS-I Water Skipper')
               end
+
+              expect(page).to have_no_content('MODIS-I Water Traveler')
             end
           end
         end
