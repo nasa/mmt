@@ -11,7 +11,7 @@ describe 'Service Search Results sorting', reset_provider: true, js: true do
       publish_service_draft(name: "LarcSortTest #{Faker::Number.number(6)}", provider_id: 'LARC')
       publish_service_draft(name: "SedacSortTest #{Faker::Number.number(6)}", provider_id: 'SEDAC')
 
-      publish_service_draft(long_name: '000_Agouti Ser Long Name')
+      publish_service_draft(long_name: '.. Agouti Ser Long Name')
       publish_service_draft(long_name: 'ZZebra Ser Long Name')
       sleep 1
       publish_service_draft(name: 'Last!')
@@ -68,7 +68,7 @@ describe 'Service Search Results sorting', reset_provider: true, js: true do
 
       it 'sorts the result by Long Name Asc' do
         within '#search-results tbody tr:nth-child(1)' do
-          expect(page).to have_content('000_Agouti Ser Long Name')
+          expect(page).to have_content('.. Agouti Ser Long Name')
         end
       end
 
