@@ -5,11 +5,10 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
 
-  # verify authentication for URS AND Launchpad
+  # verify authentication for Launchpad
   before_action :ensure_authenticated, except:[:is_logged_in, :require_launchpad_authorization]
 
   before_action :setup_query
-  before_action :refresh_urs_if_needed, except: [:logout, :refresh_token]
   before_action :provider_set?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -221,28 +220,33 @@ class ApplicationController < ActionController::Base
   helper_method :token_with_client_id
 
   def ensure_authenticated
-    # combine both is_logged_in and require_launchpad_authorization in a way
-    # that won't cause double render issues
+    # originally wanted to combine both is_logged_in and require_launchpad_authorization in a way that won't cause double render issues
+    # but it was cleaner to just have Launchpad login
     capture_intended_path
 
-    # TODO skip URS login for the launchpad prototype
-    # redirect_to login_path and return unless logged_in?
+    # log_session_properties
 
-    redirect_to sso_url and return unless launchpad_authorized?
+    redirect_to sso_url if !launchpad_authorized? || launchpad_session_expired?
   end
 
   def launchpad_authorized?
     session[:auid].present? &&
-    session[:sbxsession_cookie].present? &&
-    session[:urs_uid].present?
+      session[:sbxsession_cookie].present? &&
+      session[:urs_uid].present? &&
+      session[:expires_in].present? &&
+      session[:logged_in_at].present?
   end
   helper_method :launchpad_authorized?
 
-  def require_launchpad_authorization
-    # login requirement for Launchpad SAML
-    # capture_intended_path unless launchpad_authorized?
-    redirect_to sso_url unless launchpad_authorized?
+  def launchpad_session_expired?
+    expires_in < 0
   end
+
+  # def require_launchpad_authorization
+  #   # login requirement for Launchpad SAML
+  #   # capture_intended_path unless launchpad_authorized?
+  #   redirect_to sso_url if !launchpad_authorized? || launchpad_session_expired?
+  # end
 
   def logged_in?
     is_user_logged_in = session[:access_token].present? &&

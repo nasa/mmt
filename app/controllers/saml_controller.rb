@@ -5,7 +5,6 @@ class SamlController < UsersController
   # skip login requirements
   skip_before_action :ensure_authenticated
   skip_before_action :setup_query
-  skip_before_action :refresh_urs_if_needed
   skip_before_action :provider_set?
 
   def index
@@ -59,26 +58,22 @@ class SamlController < UsersController
       http_cookie = request.headers['HTTP_COOKIE']
       Rails.logger.info "MMT-1286 Launchpad SAML logging. request.cookies #{request.cookies}"
       Rails.logger.info "MMT-1286 Launchpad SAML logging. request.headers['HTTP_COOKIE'] #{http_cookie}"
-      # sbxsession_cookie = request.cookies['SBXSESSION']
-      # using request.cookies didn't seem to produce a token that could be validated, using request.headers which originally worked.
+
+      # using request.cookies didn't seem to produce a token that could be validated via token service (when copied from Splunk), so using request.headers which does
       sbxsession_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?('SBXSESSION=') }.first
 
-      # TODO: there is a current issue locally where SBXSESSION is not being returned to mmt.test, but we are getting _mmt_session. we need to change to a local/fake nasa.gov domain
-      if sbxsession_cookie.blank?
-        # temporarily use _mmt_session instead
-        mmt_session_cookie = request.cookies['_mmt_session']
-        Rails.logger.debug "MMT-1286 Launchpad SAML logging. using _mmt_session cookie instead: #{mmt_session_cookie}"
-        session[:sbxsession_cookie] = mmt_session_cookie
-      else
-        sbxsession_cookie.sub!('SBXSESSION=', '')
-        session[:sbxsession_cookie] = sbxsession_cookie
-      end
+      sbxsession_cookie.sub!('SBXSESSION=', '')
+      session[:sbxsession_cookie] = sbxsession_cookie
       Rails.logger.info "MMT-1286 Launchpad SAML logging. sbxsession_cookie #{sbxsession_cookie}"
 
       attributes = @response.attributes
       Rails.logger.info "MMT-1286 Launchpad SAML logging. attributes: #{attributes.inspect}"
       session[:auid] = attributes[:auid]
       session[:email] = attributes[:email]
+      session[:logged_in_at] = Time.now.to_i
+      # Setting a session expiration time to require the user to authenticate with Launchpad again
+      # currently 30 min (arbitrarily)
+      session[:expires_in] = 1800
 
       # for now, this requires that the user already has their auid and urs_uid associated in URS
       set_urs_profile_from_auid
@@ -102,9 +97,9 @@ class SamlController < UsersController
     render xml: meta.generate(settings, true)
   end
 
-  def logout
-    reset_session
-  end
+  # def logout
+  #   reset_session
+  # end
 
   # def sp_logout_request
   # end
