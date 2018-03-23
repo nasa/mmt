@@ -191,8 +191,8 @@ class ApplicationController < ActionController::Base
 
   def token
     # TODO: for CMR calls for the launchpad prototype we only need to use the launchpad token
-    # session[:sbxsession_cookie]
-    session[:access_token]
+    session[:sbxsession_cookie]
+    # session[:access_token]
   end
   helper_method :token
 
