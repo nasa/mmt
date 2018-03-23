@@ -1,6 +1,6 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 3b32d504d8629a18713eda0716fd528be92bfbee
+  revision: 038b76b94f2c16a8a2f393ebbe5a754557926551
   branch: master
   specs:
     cmr_metadata_preview (0.0.1)
@@ -211,7 +211,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (3.0.0)
     raindrops (0.15.0)
-    rake (12.3.0)
+    rake (12.3.1)
     rdoc (4.2.1)
       json (~> 1.4)
     ref (2.0.0)
