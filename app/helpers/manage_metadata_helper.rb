@@ -20,9 +20,9 @@ module ManageMetadataHelper
       "manage_#{resource_type}"
     elsif controller.lookup_context.prefixes.include?('manage_cmr')
       'manage_cmr'
-    elsif controller.lookup_context.prefixes.include?('manage_variables') || controller.lookup_context.prefixes.include?('variable_drafts') || controller.lookup_context.prefixes.include?('collection_associations')
+    elsif controller.lookup_context.prefixes.include?('manage_variables') || controller.lookup_context.prefixes.include?('variable_drafts') || (controller.lookup_context.prefixes.include?('collection_associations') && params[:variable_id])
       'manage_variables'
-    elsif controller.lookup_context.prefixes.include?('manage_services') || controller.lookup_context.prefixes.include?('service_drafts')
+    elsif controller.lookup_context.prefixes.include?('manage_services') || controller.lookup_context.prefixes.include?('service_drafts') || (controller.lookup_context.prefixes.include?('collection_associations') && params[:service_id])
       'manage_services'
     else
       # default, including collection drafts and everything under manage collections
