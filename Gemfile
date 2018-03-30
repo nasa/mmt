@@ -62,7 +62,7 @@ gem 'multi_xml'
 # collections metadata preview
 # run this command to work from a local copy of the gem's repo
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', branch: 'MMT-1353'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', branch: 'master'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
