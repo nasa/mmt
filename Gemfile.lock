@@ -1,11 +1,11 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 038b76b94f2c16a8a2f393ebbe5a754557926551
+  revision: 65df7f298fd3fea743a7ffa176c45abd94145f24
   branch: master
   specs:
     cmr_metadata_preview (0.0.1)
       georuby (~> 2.5.2)
-      rails (~> 4.2.7.1)
+      rails
       rgeo (~> 0.6.0)
 
 GIT
@@ -169,7 +169,7 @@ GEM
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     parallel (1.12.1)
-    parser (2.5.0.4)
+    parser (2.5.0.5)
       ast (~> 2.4.0)
     pg (0.18.4)
     poltergeist (1.17.0)
