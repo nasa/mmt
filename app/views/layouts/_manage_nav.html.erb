@@ -9,9 +9,9 @@
     </h2>
 
     <% if Rails.configuration.umm_s_enabled %>
-    <h2 class="<%= 'current' if current_manage_title == 'manage_services' %>">
-      <%= link_to 'Manage Services', manage_services_path %>
-    </h2>
+      <h2 class="<%= 'current' if current_manage_title == 'manage_services' %>">
+        <%= link_to 'Manage Services', manage_services_path %>
+      </h2>
     <% end %>
 
     <% if Rails.configuration.groups_enabled %>
