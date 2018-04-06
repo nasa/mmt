@@ -2,12 +2,14 @@ module Helpers
   # :nodoc:
   module ControllerHelpers
     def sign_in(as: nil, token: 'access_token')
-      allow(controller).to receive(:logged_in?).and_return(true)
+      # allow(controller).to receive(:logged_in?).and_return(true)
+      allow(controller).to receive(:ensure_authenticated).and_return(true)
       allow(controller).to receive(:launchpad_authorized?).and_return(true)
 
       # Anything greater than 0 will do the trick
-      allow(controller).to receive(:server_session_expires_in).and_return(1)
-      allow(controller).to receive(:expires_in).and_return(1)
+      # allow(controller).to receive(:server_session_expires_in).and_return(1)
+      # allow(controller).to receive(:expires_in).and_return(1)
+      allow(controller).to receive(:launchpad_session_expired?).and_return(1)
 
       # Set the access token for the session
       allow(controller).to receive(:token).and_return(token)

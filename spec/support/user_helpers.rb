@@ -34,7 +34,9 @@ module Helpers
             'affiliation'   => 'OTHER',
             'organization'  => 'Testing',
             'auid'          => 'adminuser',
-            'sbxsession_cookie' => 'access_token_admin'
+            'sbxsession_cookie' => 'access_token_admin',
+            'launchpad_login_time' => '2000000000',
+            'launchpad_expires_in' => '1800'
           }
 
           current_user_body = {
@@ -77,7 +79,9 @@ module Helpers
             'affiliation'   => 'OTHER',
             'organization'  => 'Testing',
             'auid'          => 'testuser',
-            'sbxsession_cookie' => 'access_token'
+            'sbxsession_cookie' => 'access_token',
+            'launchpad_login_time' => '2000000000',
+            'launchpad_expires_in' => '1800'
           }
 
           current_user_body = {
