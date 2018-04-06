@@ -97,13 +97,13 @@ class ApplicationController < ActionController::Base
     session[:return_to] = request.fullpath
   end
 
-  def store_oauth_token(json = {})
-    session[:access_token] = json['access_token']
-    session[:refresh_token] = json['refresh_token']
-    session[:expires_in] = json['expires_in']
-    session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
-    session[:endpoint] = json['endpoint']
-  end
+  # def store_oauth_token(json = {})
+  #   session[:access_token] = json['access_token']
+  #   session[:refresh_token] = json['refresh_token']
+  #   session[:expires_in] = json['expires_in']
+  #   session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
+  #   session[:endpoint] = json['endpoint']
+  # end
 
   def store_profile(profile = {})
     uid = session['endpoint'].split('/').last if session['endpoint']
@@ -137,21 +137,30 @@ class ApplicationController < ActionController::Base
     return if current_user.echo_id.nil?
   end
 
+  def store_urs_information(profile)
+    # for Launchpad auth - after getting auid, we are grabbing URS information with it
+    session[:name] = "#{profile['first_name']} #{profile['last_name']}"
+    session[:urs_uid] = profile['uid']
+    session[:email_address] = profile['email_address']
+  end
+
   def log_session_properties
     output = <<-LOGTHIS
 
     #####*****#####
-    session:
+    session
     urs_uid: #{session[:urs_uid]}
     name: #{session[:name]}
-    email: #{session[:email_address]}
+    email_address: #{session[:email_address]}
     expires_in: #{session[:expires_in]}
+    launchpad_expires_in #{session[:launchpad_expires_in]}
     logged_in_at: #{session[:logged_in_at]}
+    launchpad_login_time #{session[:launchpad_login_time]}
     endpoint: #{session[:endpoint]}
     last_point: #{session[:last_point]}
     return_to: #{session[:return_to]}
     auid: #{session[:auid]}
-    email from launchpad: #{session[:email]}
+    email_launchpad: #{session[:email_launchpad]}
     sbxsession_cookie: #{session[:sbxsession_cookie]}
     #####*****#####
     LOGTHIS
@@ -220,11 +229,10 @@ class ApplicationController < ActionController::Base
   helper_method :token_with_client_id
 
   def ensure_authenticated
+    puts 'in ensure_authenticated'
     # originally wanted to combine both is_logged_in and require_launchpad_authorization in a way that won't cause double render issues
     # but it was cleaner to just have Launchpad login
     capture_intended_path
-
-    # log_session_properties
 
     redirect_to sso_url if !launchpad_authorized? || launchpad_session_expired?
   end
@@ -233,13 +241,16 @@ class ApplicationController < ActionController::Base
     session[:auid].present? &&
       session[:sbxsession_cookie].present? &&
       session[:urs_uid].present? &&
-      session[:expires_in].present? &&
-      session[:logged_in_at].present?
+      session[:launchpad_login_time].present? &&
+      session[:launchpad_expires_in].present?
   end
   helper_method :launchpad_authorized?
 
   def launchpad_session_expired?
-    expires_in < 0
+    # expires_in < 0
+    login_time = session[:launchpad_login_time] ||= 0
+    expiration_time = session[:launchpad_expires_in] ||= 0
+    login_time + expiration_time - Time.now.to_i < 0
   end
 
   # def require_launchpad_authorization

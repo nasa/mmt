@@ -31,7 +31,8 @@ class UsersController < ApplicationController
     else
       # TODO need to handle this error eventually
     end
-    store_profile(urs_profile)
+
+    store_urs_information(urs_profile)
   end
 
   def provider_context
