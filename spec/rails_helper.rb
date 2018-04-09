@@ -49,6 +49,12 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+  config.before(:suite) do
+    # Output some env information
+    puts "Ruby Version:  #{`ruby --version`}"
+    puts "Rails Version: #{Rails.version}"
+  end
+
   # Lines below taken from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
   config.use_transactional_fixtures = false
   config.before(:suite) do
