@@ -271,16 +271,9 @@ class ApplicationController < ActionController::Base
 
   def is_logged_in
     Rails.logger.info("Access Token: #{session[:access_token]}") if Rails.env.development?
-<<<<<<< HEAD
-    session[:return_to] = request.fullpath
-
-    return true if logged_in?
-    redirect_to login_path
-=======
     # session[:return_to] = request.fullpath
     capture_intended_path
     redirect_to login_path unless logged_in?
->>>>>>> MMT-1286: require launchpad authentication
   end
   helper_method :is_logged_in
 
