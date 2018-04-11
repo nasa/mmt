@@ -22,7 +22,8 @@
 # showNumChosen (int):     Always show the number of chosen items in the "to" list.
 # attachTo (element):      DOM element where a value can be stored (hidden or text input).
 # errorCallback (function): Callback function to execute if an AJAX error occurs.
-# filterText (string):     Text for the filter textbox placeholder (default is "filter")
+# fromFilterText (string): Text for the "from" filter textbox placeholder (default is "filter")
+# toFilterText (string):   Text for the "to" filter textbox placeholder (default is "filter")
 # removeAdded (boolean):   Remove selections from the FROM list as they are added to the TO list. Default is true,
 # allowRemoveAll (boolean): Show the remove all button
 # lowerFromLabel (string):  Text to display under the FROM list. Can be used with a template, e.g.,
@@ -74,14 +75,15 @@ window.Chooser = (config) ->
   REMOVE_ALL_BUTTON = undefined
   FROM_LABEL = undefined
   TO_LABEL = undefined
-  FILTER_TEXTBOX = undefined
+  FROM_FILTER_TEXTBOX = undefined
+  TO_FILTER_TEXTBOX = undefined
   TO_MESSAGE = undefined
   CHOOSER_OPTS_STORAGE_KEY = 'Chooser_opts_' + config.id
   PAGE_NUM = 1
   LOWER_FROM_LABEL = undefined
+  LOWER_TO_LABEL = undefined
   TOTAL_HITS = undefined
   SELF = undefined
-
 
   ###
   # init - initializes the widget.
@@ -98,15 +100,16 @@ window.Chooser = (config) ->
     setDefault('filterChars', 1)
     setDefault('resetSize', 50)
     setDefault('showNumChosen', true)
-    setDefault('filterText', 'Enter text to narrow search results')
+    setDefault('fromFilterText', 'Enter text to narrow search results')
+    setDefault('toFilterText', 'Enter text to narrow selected items')
     setDefault('removeAdded', false)
     setDefault('allowRemoveAll', true)
     setDefault('lowerFromLabel', 'Showing {{x}} of {{n}} item{{s}}')
+    setDefault('lowerToLabel', 'Showing {{x}} of {{n}} item{{s}}')
     setDefault('toMax', false)
     setDefault('endlessScroll', false)
     setDefault('uniqueMsg', 'Value already added')
     setDefault('delimiter', ',')
-
 
     # Construct each component
     OUTER_CONTAINER = $('<div>').addClass('Chooser').attr('id', config.id)
@@ -139,8 +142,12 @@ window.Chooser = (config) ->
 
     FROM_LIST = $('<select>').addClass('___fromList').attr('id', config.id + '_fromList').attr( 'multiple', true).attr('size', config.size)
     TO_LIST = $('<select>').addClass('___toList').attr('name', config.id + '_toList[]').attr('id', config.id + '_toList').attr('multiple', true).attr('size', config.size)
-    placeHolderText = if hasProp('filterText', 'string') then config.filterText else 'filter'
-    FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', placeHolderText)
+
+    fromPlaceHolderText = if hasProp('fromFilterText', 'string') then config.fromFilterText else 'filter'
+    FROM_FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', fromPlaceHolderText)
+
+    toPlaceHolderText = if hasProp('toFilterText', 'string') then config.toFilterText else 'filter'
+    TO_FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', toPlaceHolderText)
 
     if !config.hasOwnProperty('resetSize')
       config.resetSize = 50
@@ -151,10 +158,12 @@ window.Chooser = (config) ->
     if ! hasProp('lowerFromLabel') || hasProp('lowerFromLabel', 'string')
       LOWER_FROM_LABEL = $('<p>').addClass('form-description')
 
+    if ! hasProp('lowerToLabel') || hasProp('lowerToLabel', 'string')
+      LOWER_TO_LABEL = $('<p>').addClass('form-description')
+
     if config.toLabel
       TO_LABEL = $('<label>').attr('for', config.id + '_toList').text(config.toLabel)
       $(TO_CONTAINER).append TO_LABEL
-
 
     # Assemble the components
     $(OUTER_CONTAINER).append FROM_CONTAINER
@@ -162,11 +171,13 @@ window.Chooser = (config) ->
     $(OUTER_CONTAINER).append TO_CONTAINER
 
     $(FROM_CONTAINER).append FROM_LABEL
-    $(FROM_CONTAINER).append FILTER_TEXTBOX
+    $(FROM_CONTAINER).append FROM_FILTER_TEXTBOX
     $(FROM_CONTAINER).append FROM_LIST
     $(FROM_CONTAINER).append LOWER_FROM_LABEL
 
+    $(TO_CONTAINER).append TO_FILTER_TEXTBOX
     $(TO_CONTAINER).append TO_LIST
+    $(TO_CONTAINER).append LOWER_TO_LABEL
 
     $(BUTTON_CONTAINER).append ADD_BUTTON
     $(BUTTON_CONTAINER).append REMOVE_BUTTON
@@ -203,13 +214,25 @@ window.Chooser = (config) ->
 
     $(TO_LIST).change ->
       numChosen = $(TO_LIST).find('option').length
+
+      if ! hasProp('lowerToLabel') || hasProp('lowerToLabel', 'string')
+        x = $(TO_LIST).find('option').not('.is-hidden').length
+
+        lowerToLabelText = config.lowerToLabel
+        lowerToLabelText = lowerToLabelText.replace '{{x}}', x
+        lowerToLabelText = lowerToLabelText.replace '{{n}}', numChosen
+        lowerToLabelText = lowerToLabelText.replace('{{s}}', pluralize(numChosen))
+        $(LOWER_TO_LABEL).text(lowerToLabelText)
+
       if hasProp('toLabel') and hasProp('showNumChosen')
         if config.showNumChosen == true and numChosen > 0
           $(TO_LABEL).text config.toLabel + ' (' + numChosen + ')'
         else
           $(TO_LABEL).text config.toLabel
+
       if hasProp('attachTo', 'object')
         $(config.attachTo).val SELF.val().join(config.delimiter)
+
       # Ensure each option has a title so that mouse hover reveals the full value
       # if it overflows the bounding box.
       $(TO_LIST).find('option').each (key, tmpVal) ->
@@ -234,7 +257,8 @@ window.Chooser = (config) ->
         return
       return
 
-    $(FILTER_TEXTBOX).keyup initFilter
+    $(FROM_FILTER_TEXTBOX).keyup initFromFilter
+    $(TO_FILTER_TEXTBOX).keyup initToFilter
 
     $(FROM_LIST).dblclick ->
       $(ADD_BUTTON).click()
@@ -265,7 +289,6 @@ window.Chooser = (config) ->
   @setFromVal = (values) ->
     setVal(values, $(FROM_LIST))
 
-
   ###
   # Returns the widget's "value" (selected values).
   #
@@ -287,8 +310,6 @@ window.Chooser = (config) ->
   ###
   @getDOMNode = ->
     $ OUTER_CONTAINER
-
-
 
   ###
   # Removes N values from top of FROM list.
@@ -342,7 +363,6 @@ window.Chooser = (config) ->
       return
     ), 2000
 
-
   setVal = (values, which) ->
     if values and typeof values == 'object'
       $(which).empty()
@@ -370,13 +390,25 @@ window.Chooser = (config) ->
   #
   # @param e
   ###
-  initFilter = (e) ->
+  initFromFilter = (e) ->
     if $(this).val().length >= config.filterChars
       SELF.getRemoteData 'filter'
     else
       SELF.getRemoteData 'first'
     return
 
+  # Filter the TO side of the chooser
+  # This only fiters based on the visible text
+  initToFilter = ->
+    SELF.toFilter($(this).val())
+    $(TO_LIST).trigger 'change'
+
+  @toFilter = (filterText) ->
+    $(TO_LIST).find('option').each (index, option) ->
+      if $(option).text().toLowerCase().indexOf(filterText.toLowerCase()) == -1
+        $(option).addClass('is-hidden')
+      else
+        $(option).removeClass('is-hidden')
 
   ###
   # Makes the AJAX calls to get the data from the remote server.
@@ -402,7 +434,7 @@ window.Chooser = (config) ->
       url += queryJoinChar + config.nextPageParm + '=' + PAGE_NUM
     else if type == 'filter'
       overwrite = true
-      url += queryJoinChar + config.filterParm + '=' + $(FILTER_TEXTBOX).val()
+      url += queryJoinChar + config.filterParm + '=' + $(FROM_FILTER_TEXTBOX).val()
 
     $.ajax('url': url).done((resp) ->
       TOTAL_HITS = resp.hits
@@ -417,7 +449,6 @@ window.Chooser = (config) ->
       return
     return
 
-
   ###
   # Add button click action.
   #
@@ -429,7 +460,6 @@ window.Chooser = (config) ->
     removeAdded = if hasProp('removeAdded', 'boolean') then config.removeAdded else true
 
     if ! hasProp('toMax') || hasProp('toMax', 'number')
-
       toListSize = $(TO_LIST).find('option').length
       fromListSize = $(FROM_LIST).find('option:selected').length
 
@@ -437,14 +467,12 @@ window.Chooser = (config) ->
         flashToMsg('Only ' + config.toMax + ' items may be selected.')
         return
 
-
     if hasProp("removeAdded", "boolean") && config.removeAdded
       $(FROM_LIST).find('option:selected').appendTo($(TO_LIST))
     else
       $(FROM_LIST).find('option:selected').clone().appendTo($(TO_LIST))
 
     if ( hasProp('forceUnique', 'boolean') && hasProp('removeAdded', 'boolean') ) && ( config.forceUnique && ! config.removeAdded )
-
       found = []
       $(TO_LIST).find('option').each () ->
         if($.inArray(this.value, found) != -1)
@@ -529,7 +557,6 @@ window.Chooser = (config) ->
     else
       false
 
-
   ###
   # Sets a default value for a configuration property.
   # Example: setDefault('someMax', 200) sets config.max to 200 unless
@@ -538,7 +565,6 @@ window.Chooser = (config) ->
   setDefault = (name, value) ->
     if ! hasProp(name)
       config[name] = value
-
 
   ###
   # Convenience method to handle logic of plural words.
