@@ -9,13 +9,17 @@
   label {
     display: block;
   }
-  
+
   .from-container {
     display: table-cell;
     width: 45%;
 
     input {
       width: 100%;
+    }
+
+    select {
+      height: 140px;
     }
   }
 
@@ -36,8 +40,12 @@
     display: table-cell;
     width: 45%;
 
+    input {
+      width: 100%;
+    }
+
     select {
-      height: 187px;
+      height: 140px;
     }
   }
 
