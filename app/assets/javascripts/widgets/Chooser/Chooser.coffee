@@ -472,6 +472,10 @@ window.Chooser = (config) ->
     else
       $(FROM_LIST).find('option:selected').clone().appendTo($(TO_LIST))
 
+    # apply filter to TO_LIST
+    # initToFilter
+    SELF.toFilter($(TO_FILTER_TEXTBOX).val())
+
     if ( hasProp('forceUnique', 'boolean') && hasProp('removeAdded', 'boolean') ) && ( config.forceUnique && ! config.removeAdded )
       found = []
       $(TO_LIST).find('option').each () ->
