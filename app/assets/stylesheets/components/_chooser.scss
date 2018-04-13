@@ -10,16 +10,16 @@
     display: block;
   }
 
+  select {
+    height: 555px;
+  }
+
   .from-container {
     display: table-cell;
     width: 45%;
 
     input {
       width: 100%;
-    }
-
-    select {
-      height: 140px;
     }
   }
 
@@ -42,10 +42,6 @@
 
     input {
       width: 100%;
-    }
-
-    select {
-      height: 140px;
     }
   }
 
