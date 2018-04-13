@@ -96,7 +96,7 @@ window.Chooser = (config) ->
     setDefault('fromLabel', 'Available')
     setDefault('toLabel', 'Selected')
     setDefault('forceUnique', true)
-    setDefault('size', 5)
+    setDefault('size', 20)
     setDefault('filterChars', 1)
     setDefault('resetSize', 50)
     setDefault('showNumChosen', true)
@@ -472,6 +472,9 @@ window.Chooser = (config) ->
     else
       $(FROM_LIST).find('option:selected').clone().appendTo($(TO_LIST))
 
+    # disable the selected values in FROM_LIST
+    $(FROM_LIST).find('option:selected').prop('disabled', true)
+
     # apply filter to TO_LIST
     # initToFilter
     SELF.toFilter($(TO_FILTER_TEXTBOX).val())
@@ -510,15 +513,22 @@ window.Chooser = (config) ->
 
     $(TO_LIST).find(query).each (tmpKey, tmpVal) ->
       fromListVal = $(tmpVal).attr('value')
+
+      # enable the FROM_LIST option
+      $(FROM_LIST).find("option[value='#{fromListVal}']").prop('disabled', false)
+
       toListVal = $(TO_LIST).find('option').filter () ->
         if fromListVal == $(this).val()
           return true
       toListVal = $(toListVal).val()
+
       if fromListVal != toListVal
         clonedOpt = $(tmpVal).clone()
         $(FROM_LIST).prepend clonedOpt
+
       $(tmpVal).remove()
       return
+
     $(TO_LIST).trigger 'change'
 
     # Sort the list every time

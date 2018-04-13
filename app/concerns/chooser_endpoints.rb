@@ -25,7 +25,7 @@ module ChooserEndpoints
   def get_provider_collections(params = {})
     collection_params = {
       'provider' => current_user.provider_id,
-      'page_size' => 25
+      'page_size' => 500
     }.stringify_keys.merge(params.stringify_keys)
 
     Rails.logger.debug "Provider Collection Request parameters: #{collection_params}" unless request.xhr?
