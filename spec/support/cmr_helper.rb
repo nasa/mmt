@@ -56,5 +56,37 @@ module Helpers
         wait_for_cmr
       end
     end
+
+    def build_large_json_response(number_of_collections, provider = 'MMT_2')
+      response = { hits: number_of_collections, took: 12, items: [] }
+
+      number_of_collections.times do |index|
+        response[:items] << build_collection_json(index + 1, provider)
+      end
+
+      response.to_json
+    end
+
+    def build_collection_json(index, provider)
+      {
+        'meta' => {
+          'revision-id' => 1,
+          'deleted' => false,
+          'format' => 'application/vnd.nasa.cmr.umm+json',
+          'provider-id' => provider,
+          'user-id' => 'test_user',
+          'native-id' => "mmt_collection_#{index}",
+          'concept-id' => "C12#{index.to_s.rjust(8, '0')}-#{provider}",
+          'revision-date' => '2016-01-06T21:32:30Z',
+          'concept-type' => 'collection'
+        },
+        'umm' => {
+          'entry-title' => 'ipsum',
+          'entry-id' => "lorem_#{index}",
+          'short-name' => "lorem_#{index}",
+          'version-id' => index
+        }
+      }
+    end
   end
 end
