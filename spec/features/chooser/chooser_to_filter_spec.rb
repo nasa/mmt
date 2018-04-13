@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Chooser To Filter', js: true do
   before do
-    collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+    collections_response = cmr_success_response(File.read('spec/fixtures/cmr_search.json'))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
     login
@@ -30,7 +30,7 @@ describe 'Chooser To Filter', js: true do
       end
     end
 
-    it 'moves two values to the TO list' do
+    it 'moves the items to the TO list' do
       within '#catalog_item_guid_toList' do
         expect(page).to have_css('option', count: 3)
       end
