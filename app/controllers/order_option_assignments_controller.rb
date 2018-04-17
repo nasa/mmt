@@ -148,6 +148,6 @@ class OrderOptionAssignmentsController < ManageCmrController
       order_option_select_values << opt
     end
 
-    order_option_select_values
+    order_option_select_values.sort
   end
 end

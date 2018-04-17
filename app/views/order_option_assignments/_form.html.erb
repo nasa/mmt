@@ -1,7 +1,7 @@
 <fieldset>
   <div class="row">
     <%= label_tag 'order-options', 'Option Definition'  %>
-    <%= select_tag 'order-options', options_for_select(@order_option_select_values, @order_option), id: 'order-options', class: 'half-width', prompt: 'Select an Order Option' %>
+    <%= select_tag 'order-options', options_for_select(@order_option_select_values, @order_option), id: 'order-options', class: 'select2-select half-width', prompt: 'Select an Order Option' %>
   </div>
 </fieldset>
 
