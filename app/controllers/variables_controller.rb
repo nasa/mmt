@@ -66,7 +66,7 @@ class VariablesController < ManageVariablesController
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest variable draft #{variable_draft.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
       @ingest_errors = generate_ingest_errors(ingested_response)
-      redirect_to variable_draft_path(variable_draft), flash: { error: ingested_response.error_message(i18n: I18n.t('controllers.variables.create.flash.error')) }
+      redirect_to variable_draft_path(variable_draft), flash: { error: I18n.t('controllers.variables.create.flash.error') }
     end
   end
 

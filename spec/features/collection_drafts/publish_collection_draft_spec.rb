@@ -5,11 +5,14 @@ include DraftsHelper
 include ActionView::Helpers::NumberHelper
 
 describe 'Publishing collection draft records', js: true do
+  before do
+    login
+  end
+
   context 'when publishing a collection draft record' do
     before do
       # ActionMailer::Base.deliveries.clear
 
-      login
       draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
       visit collection_draft_path(draft)
       click_on 'Publish'
@@ -65,7 +68,6 @@ describe 'Publishing collection draft records', js: true do
 
   context 'when publishing an incomplete record' do
     before do
-      login
       draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
       visit collection_draft_path(draft)
       click_on 'Publish'
@@ -79,7 +81,6 @@ describe 'Publishing collection draft records', js: true do
 
   context 'when publishing a collection draft and CMR returns a 500 error' do
     before do
-      login
       draft = create(:full_collection_draft)
       visit collection_draft_path(draft)
 
@@ -113,7 +114,6 @@ describe 'Publishing collection draft records', js: true do
 
   context 'when publishing a new draft that has a non url encoded native id' do
     before do
-      login
       draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url, encoded / native id', draft_short_name: 'test short name')
       visit collection_draft_path(draft)
       click_on 'Publish'
@@ -128,6 +128,27 @@ describe 'Publishing collection draft records', js: true do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Collections')
         expect(page).to have_content('test short name_1')
+      end
+    end
+  end
+
+  context 'when publishing a draft with data that will return a CMR ingest error' do
+    let(:draft) { create(:collection_invalid_ingest_error, user: User.where(urs_uid: 'testuser').first) }
+
+    before do
+      visit collection_draft_path(draft)
+      click_on 'Publish'
+    end
+
+    it 'displays a generic error message' do
+      expect(page).to have_content('Collection Draft was not published successfully')
+    end
+
+    it 'displays the error returned from CMR' do
+      within 'section.errors' do
+        expect(page).to have_content('This draft has the following errors:')
+        expect(page).to have_link('Spatial Extent', href: edit_collection_draft_path(draft, 'spatial_information'))
+        expect(page).to have_content('Orbit Parameters must be defined for a collection whose granule spatial representation is ORBIT.')
       end
     end
   end

@@ -47,6 +47,31 @@
       </div>
     </section>
 
+    <% if @ingest_errors && !@ingest_errors.empty? %>
+      <section class="errors">
+        <div class="eui-banner--danger">
+          <div class="eui-banner__message">
+            <h4><i class="fa fa-exclamation-triangle"></i> This draft has the following errors:</h4>
+            <ul class="no-bullet">
+              <% @ingest_errors.each do |error| %>
+                <li>
+                  <% if error[:field] && error[:page] %>
+                    <%= link_to name_to_title(error[:field]), send("edit_#{published_resource_name}_draft_path", id: get_resource, form: error[:page]) %>
+                  <% else %>
+                    <%= "#{error[:field]}," if error[:field] %>
+                  <% end %>
+                  <%= error[:error] %>
+                  <% if error[:request_id] %>
+                    <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </section>
+    <% end %>
+
     <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
 
     <div class="content">

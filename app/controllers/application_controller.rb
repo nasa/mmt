@@ -222,31 +222,30 @@ class ApplicationController < ActionController::Base
   def generate_ingest_errors(response)
     errors = response.errors
     request_id = response.cmr_request_header
-    if errors.size > 0
-      ingest_errors = errors.map do |error|
-        path = error['path'].nil? ? nil : error['path']
-        error = error['errors'].nil? ? error : error['errors'].first
 
-        # only show the feedback module link if the error is 500
-        request_id = nil unless response.status == 500
-        {
-          field: path,
-          top_field: path,
-          page: get_page(path),
-          error: error,
-          request_id: request_id
-        }
-      end
-    else
-      ingest_errors = [{
+    if errors.empty?
+      [{
         page: nil,
         field: nil,
         error: 'An unknown error caused publishing to fail.',
         request_id: request_id
       }]
-    end
+    else
+      errors.map do |error|
+        path = error['path'].nil? ? [nil] : Array.wrap(error['path'])
+        error = error['errors'].nil? ? error : error['errors'].first
 
-    ingest_errors
+        # only show the feedback module link if the error is 500
+        request_id = nil unless response.status == 500
+        {
+          field: path.last,
+          top_field: path.first,
+          page: get_page(path),
+          error: error,
+          request_id: request_id
+        }
+      end
+    end
   end
 
   ACQUISITION_INFORMATION_FIELDS = %w(

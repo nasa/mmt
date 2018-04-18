@@ -59,7 +59,12 @@ module Cmr
     end
 
     def error_message(i18n: nil)
-      error_messages(i18n: i18n).first
+      message = error_messages(i18n: i18n).first
+      if message.is_a?(Hash)
+        message.fetch('errors', []).first
+      else
+        message
+      end
     end
 
     def cmr_request_header
