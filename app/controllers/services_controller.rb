@@ -66,7 +66,7 @@ class ServicesController < ManageServicesController
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest service draft #{service_draft.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
       @ingest_errors = generate_ingest_errors(ingested_response)
-      redirect_to service_draft_path(service_draft), flash: { error: ingested_response.error_message(i18n: I18n.t('controllers.services.create.flash.error')) }
+      redirect_to service_draft_path(service_draft), flash: { error: I18n.t('controllers.services.create.flash.error') }
     end
   end
 

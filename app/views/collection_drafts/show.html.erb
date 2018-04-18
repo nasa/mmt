@@ -56,7 +56,7 @@
               <% @ingest_errors.each do |error| %>
                 <li>
                   <% if error[:field] && error[:page] %>
-                    <%= link_to name_to_title(error[:field]), draft_edit_form_path(get_resource, error[:page]) %>
+                    <%= link_to name_to_title(error[:field]), edit_collection_draft_path(get_resource, error[:page]) %>
                   <% else %>
                     <%= "#{error[:field]}," if error[:field] %>
                   <% end %>

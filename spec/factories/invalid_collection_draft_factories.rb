@@ -270,14 +270,39 @@ FactoryGirl.define do
       )
     }
   end
+
+  factory :collection_invalid_ingest_error, class: CollectionDraft do
+    draft_type 'CollectionDraft'
+    native_id 'invalid_ingest_draft_id'
+    provider_id 'MMT_2'
+    draft {
+      all_required_fields.merge(
+        'SpatialExtent' => {
+          'SpatialCoverageType' => 'HORIZONTAL',
+          'HorizontalSpatialDomain' => {
+            'Geometry' => {
+              'CoordinateSystem' => 'CARTESIAN',
+              'Points' => [
+                {
+                  'Longitude' => 0.0,
+                  'Latitude' => 0.0
+                }
+              ]
+            }
+          },
+          'GranuleSpatialRepresentation' => 'ORBIT'
+        }
+      )
+    }
+  end
 end
 
 def all_required_fields
   {
     'Platforms' => [{
-      'Type' => 'Earth Observation Satellites',
-      'ShortName' => 'test 1 P ShortName',
-      'LongName' => 'test 1 P LongName'
+      'Type'      => 'Aircraft',
+      'ShortName' => 'A340-600',
+      'LongName'  => 'Airbus A340-600',
     }],
     'Abstract' => 'This is a long description of the collection',
     'ShortName' => '12345',
@@ -290,8 +315,8 @@ def all_required_fields
       'LongName' => 'Hydrogeophysics Group, Aarhus University ' # controlled keywords source has extra space at the end
     }],
     'ProcessingLevel' => {
-      'Id' => '5',
-      'ProcessingLevelDescription' => 'Level 5 Description'
+      'Id' => '1A',
+      'ProcessingLevelDescription' => 'Level 1 Description'
     },
     'ScienceKeywords' => [{
       'Category' => 'EARTH SCIENCE',
