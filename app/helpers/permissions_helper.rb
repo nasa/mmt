@@ -109,4 +109,8 @@ module PermissionsHelper
   def permission_granule_access_constraints(permission)
     permission.fetch('catalog_item_identity', {}).fetch('granule_identifier', {}).fetch('access_value', {})
   end
+
+  def permission_provider(permission)
+    permission.fetch('catalog_item_identity', {}).fetch('provider_id', nil)
+  end
 end
