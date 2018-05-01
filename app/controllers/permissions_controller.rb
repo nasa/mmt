@@ -4,8 +4,6 @@ class PermissionsController < ManageCmrController
   include GroupsHelper
 
   before_filter :groups_for_permissions, only: [:new, :edit, :update, :create]
-  before_filter :check_if_system_acl_administrator
-  before_filter :check_if_current_provider_acl_administrator
 
   add_breadcrumb 'Collection Permissions', :permissions_path
 
