@@ -13,7 +13,7 @@ describe 'Coverage Form Navigation', js: true do
 
     it 'displays the correct prompt value for all select elements' do
       within '.umm-form' do
-        expect(page).to have_select('service_draft_draft_coverage_coverage_spatial_extent_type', selected: 'Select a Type')
+        expect(page).to have_select('service_draft_draft_coverage_coverage_spatial_extent_coverage_spatial_extent_type_type', selected: 'Select a Coverage Spatial Extent Type Type')
       end
     end
 

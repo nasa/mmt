@@ -22,11 +22,12 @@
       ]
     },
     {
-      "id": "related_url",
-      "title": "Related URL",
+      "id": "related_urls",
+      "title": "Related URLs",
       "fields": [
         {
-          "key": "RelatedURL",
+          "key": "RelatedURLs",
+          "title": "Related URLs",
           "type": "UmmPreviewRelatedURL"
         }
       ]

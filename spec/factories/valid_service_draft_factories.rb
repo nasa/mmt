@@ -19,7 +19,7 @@ FactoryGirl.define do
     draft_type 'ServiceDraft'
 
     draft {{
-      'Name': draft_short_name || "#{Faker::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(20)}",
+      'Name': draft_short_name || "#{Faker::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(90)}",
       'LongName': draft_entry_title || "#{Faker::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')}_#{Faker::Number.number(120)}",
       'Type': 'INVALID',
       'Version': '1.12345678987654321012345',
@@ -35,20 +35,22 @@ FactoryGirl.define do
           'Topic': 'INFRARED WAVELENGTHS'
         }
       ],
-      'RelatedURL': {
-        'Description': 'Test related url',
-        'URLContentType': 'DistributionURL',
-        'Type': 'GET SERVICE',
-        'Subtype': 'SOFTWARE PACKAGE',
-        'GetService': {
-          'MimeType': 'application/json',
-          'Protocol': 'HTTP',
-          'FullName': 'Test Service',
-          'DataID': 'Test data',
-          'DataType': 'Test data type',
-          'URI': ['Test URI 1', 'Test URI 2']
+      'RelatedURLs': [
+        {
+          'Description': 'Test related url',
+          'URLContentType': 'DistributionURL',
+          'Type': 'GET SERVICE',
+          'Subtype': 'SOFTWARE PACKAGE',
+          'GetService': {
+            'MimeType': 'application/json',
+            'Protocol': 'HTTP',
+            'FullName': 'Test Service',
+            'DataID': 'Test data',
+            'DataType': 'Test data type',
+            'URI': ['Test URI 1', 'Test URI 2']
+          }
         }
-      },
+      ],
       'ServiceOrganizations': [
         {
           'ShortName': 'DOI/USGS/CMG/WHSC',
@@ -135,21 +137,23 @@ FactoryGirl.define do
       'Type': 'NOT PROVIDED',
       'Version': '1.0',
       'Description': 'Description of the test service',
-      'RelatedURL': {
-        'Description': 'Test related url',
-        'URLContentType': 'DistributionURL',
-        'Type': 'GET SERVICE',
-        'Subtype': 'SOFTWARE PACKAGE',
-        'URL': 'nasa.gov',
-        'GetService': {
-          'MimeType': 'application/json',
-          'Protocol': 'HTTP',
-          'FullName': 'Test Service',
-          'DataID': 'Test data',
-          'DataType': 'Test data type',
-          'URI': ['Test URI 1', 'Test URI 2']
+      'RelatedURLs': [
+        {
+          'Description': 'Test related url',
+          'URLContentType': 'DistributionURL',
+          'Type': 'GET SERVICE',
+          'Subtype': 'SOFTWARE PACKAGE',
+          'URL': 'nasa.gov',
+          'GetService': {
+            'MimeType': 'application/json',
+            'Protocol': 'HTTP',
+            'FullName': 'Test Service',
+            'DataID': 'Test data',
+            'DataType': 'Test data type',
+            'URI': ['Test URI 1', 'Test URI 2']
+          }
         }
-      },
+      ],
       'OnlineAccessURLPatternMatch': 'Online Access URL Pattern Match',
       'OnlineAccessURLPatternSubstitution': 'Online Access URL Pattern Substitution',
       'ServiceQuality': {
@@ -157,8 +161,8 @@ FactoryGirl.define do
         'Traceability': 'traceability',
         'Lineage': 'lineage'
       },
-      'AccessConstraints': ['access constraint 1', 'access constraint 2'],
-      'UseConstraints': ['use constraint 1', 'use constraint 2'],
+      'AccessConstraints': 'access constraint 1',
+      'UseConstraints': 'use constraint 1',
       'ServiceKeywords': [
         {
           'ServiceCategory': 'EARTH SCIENCE SERVICES',
@@ -183,7 +187,6 @@ FactoryGirl.define do
           'Roles': ['DEVELOPER', 'PUBLISHER'],
           'ShortName': 'AARHUS-HYDRO',
           'LongName': 'Hydrogeophysics Group, Aarhus University ',
-          'Uuid': '7b1ac64e-8bdd-45db-831b-994b13f60100',
           'ContactGroups': [
             {
               'Roles': ['SCIENCE CONTACT', 'TECHNICAL CONTACT'],
@@ -596,7 +599,7 @@ FactoryGirl.define do
       'Coverage': {
         'Name': 'Coverage Name',
         'CoverageSpatialExtent': {
-          'Type': 'SPATIAL_POINT',
+          'CoverageSpatialExtentTypeType': 'SPATIAL_POINT',
           'Uuid': '13f5e348-ffad-4ef9-9600-12ad74f60f77',
           'SpatialPoints': [
             {

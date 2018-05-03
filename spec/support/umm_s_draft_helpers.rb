@@ -40,7 +40,6 @@ module Helpers
         select 'DEVELOPER', from: 'Roles', match: :first
         select 'PUBLISHER', from: 'Roles', match: :first
         select 'AARHUS-HYDRO', from: 'Short Name'
-        fill_in 'Uuid', with: '7b1ac64e-8bdd-45db-831b-994b13f60100', match: :first
 
         add_service_contact_information
         add_service_contact_groups

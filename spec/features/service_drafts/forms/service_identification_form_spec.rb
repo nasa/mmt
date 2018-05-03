@@ -14,13 +14,9 @@ describe 'Service Identification Form', js: true do
       fill_in 'Traceability', with: 'traceability'
       fill_in 'Lineage', with: 'lineage'
 
-      fill_in 'service_draft_draft_access_constraints_0', with: 'access constraint 1'
-      click_on 'Add another Access Constraint'
-      fill_in 'service_draft_draft_access_constraints_1', with: 'access constraint 2'
+      fill_in 'service_draft_draft_access_constraints', with: 'access constraint 1'
 
-      fill_in 'service_draft_draft_use_constraints_0', with: 'use constraint 1'
-      click_on 'Add another Use Constraint'
-      fill_in 'service_draft_draft_use_constraints_1', with: 'use constraint 2'
+      fill_in 'service_draft_draft_use_constraints', with: 'use constraint 1'
 
       within '.nav-top' do
         click_on 'Save'

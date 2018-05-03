@@ -89,7 +89,7 @@ class UmmPreviewForm < UmmPreview
   def render_field_preview(field)
     content_tag(:div, class: 'umm-preview-field-container preview', id: "#{idify_property_name(field['key'])}_preview") do
       concat(content_tag(:h5) do
-        concat field['key'].titleize
+        concat field_title(field)
 
         unless draft_id.nil?
           concat(link_to("/#{schema_type}_drafts/#{draft_id}/edit/#{form_id}##{idify_property_name(field['key'])}", class: 'hash-link') do
@@ -103,13 +103,17 @@ class UmmPreviewForm < UmmPreview
         type = field.fetch('type', 'UmmPreviewText')
         concat type.constantize.new(data[field['key']]).render
       else
-        concat content_tag(:p, "No value for #{field['key'].titleize} provided.", class: 'empty-section')
+        concat content_tag(:p, "No value for #{field_title(field)} provided.", class: 'empty-section')
       end
     end
   end
 
   def idify_property_name(name)
     draft = !draft_id.nil?
-    "#{schema_type}#{'_draft' if draft}_#{name.underscore}"
+    "#{schema_type}#{'_draft' if draft}_#{underscore_fix_for_related_urls(name)}"
+  end
+
+  def field_title(field)
+    field['title'] || field['key'].titleize
   end
 end

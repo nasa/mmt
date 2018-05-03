@@ -40,6 +40,7 @@ $(document).ready ->
       when 'URLs' then 'URLs'
       when 'URL' then 'URL'
       when 'RelatedURL' then 'Related URL'
+      when 'RelatedURLs' then 'Related URLs'
       when 'URI' then 'URI'
       when 'URLContentType' then 'URL Content Type'
       when 'DataID' then 'Data ID'

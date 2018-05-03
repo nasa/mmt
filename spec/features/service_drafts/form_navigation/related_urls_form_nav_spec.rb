@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Related URL Form Navigation', js: true do
+describe 'Related URLs Form Navigation', js: true do
   before do
     login
   end
@@ -8,7 +8,7 @@ describe 'Related URL Form Navigation', js: true do
   context 'When viewing the form with no stored values' do
     before do
       draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_service_draft_path(draft, 'related_url')
+      visit edit_service_draft_path(draft, 'related_urls')
       click_on 'Expand All'
     end
 
@@ -21,7 +21,7 @@ describe 'Related URL Form Navigation', js: true do
     it 'displays the form title in the breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Service Drafts')
-        expect(page).to have_content('Related URL')
+        expect(page).to have_content('Related URLs')
       end
     end
 
@@ -31,11 +31,11 @@ describe 'Related URL Form Navigation', js: true do
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
       within '.nav-top' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
       end
 
       within '.nav-bottom' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
       end
     end
 
@@ -143,12 +143,12 @@ describe 'Related URL Form Navigation', js: true do
     let(:draft) { create(:full_service_draft, user: User.where(urs_uid: 'testuser').first) }
 
     before do
-      visit edit_service_draft_path(draft, 'related_url')
+      visit edit_service_draft_path(draft, 'related_urls')
       click_on 'Expand All'
     end
 
     context 'when viewing the form' do
-      include_examples 'Related URL Form'
+      include_examples 'Related URLs Form'
     end
 
     context 'When clicking `Save` without making any changes' do
@@ -171,24 +171,24 @@ describe 'Related URL Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Related URL')
+          expect(page).to have_content('Related URLs')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Related URL')
+          expect(page).to have_content('Related URLs')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_url')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
         end
       end
 
       context 'when viewing the form' do
-        include_examples 'Related URL Form'
+        include_examples 'Related URLs Form'
       end
     end
   end

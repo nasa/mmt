@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe 'Related URL Form', js: true do
+describe 'Related URLs Form', js: true do
   before do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
-    visit edit_service_draft_path(draft, 'related_url')
+    visit edit_service_draft_path(draft, 'related_urls')
     click_on 'Expand All'
   end
 
@@ -20,9 +20,9 @@ describe 'Related URL Form', js: true do
       fill_in 'Full Name', with: 'Test Service'
       fill_in 'Data ID', with: 'Test data'
       fill_in 'Data Type', with: 'Test data type'
-      fill_in 'service_draft_draft_related_url_get_service_uri_0', with: 'Test URI 1'
+      fill_in 'service_draft_draft_related_urls_0_get_service_uri_0', with: 'Test URI 1'
       click_on 'Add another Uri'
-      fill_in 'service_draft_draft_related_url_get_service_uri_1', with: 'Test URI 2'
+      fill_in 'service_draft_draft_related_urls_0_get_service_uri_1', with: 'Test URI 2'
 
       fill_in 'Online Access Url Pattern Match', with: 'Online Access URL Pattern Match'
       fill_in 'Online Access Url Pattern Substitution', with: 'Online Access URL Pattern Substitution'
@@ -39,7 +39,7 @@ describe 'Related URL Form', js: true do
     end
 
     context 'when viewing the form' do
-      include_examples 'Related URL Form'
+      include_examples 'Related URLs Form'
     end
   end
 end

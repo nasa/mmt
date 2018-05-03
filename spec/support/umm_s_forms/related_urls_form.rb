@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-shared_examples_for 'Related URL Form' do
+shared_examples_for 'Related URLs Form' do
   it 'displays the form with values' do
     expect(page).to have_field('Description', with: 'Test related url')
     expect(page).to have_field('Url Content Type', with: 'DistributionURL')
@@ -12,8 +12,8 @@ shared_examples_for 'Related URL Form' do
     expect(page).to have_field('Full Name', with: 'Test Service')
     expect(page).to have_field('Data ID', with: 'Test data')
     expect(page).to have_field('Data Type', with: 'Test data type')
-    expect(page).to have_field('service_draft_draft_related_url_get_service_uri_0', with: 'Test URI 1')
-    expect(page).to have_field('service_draft_draft_related_url_get_service_uri_1', with: 'Test URI 2')
+    expect(page).to have_field('service_draft_draft_related_urls_0_get_service_uri_0', with: 'Test URI 1')
+    expect(page).to have_field('service_draft_draft_related_urls_0_get_service_uri_1', with: 'Test URI 2')
 
     expect(page).to have_field('Online Access Url Pattern Match', with: 'Online Access URL Pattern Match')
     expect(page).to have_field('Online Access Url Pattern Substitution', with: 'Online Access URL Pattern Substitution')
