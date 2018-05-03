@@ -126,7 +126,7 @@ describe 'Service Drafts Forms Field Validations', js: true do
 
     context 'when only filling out some of the required subfields of a required field' do
       before do
-        visit edit_service_draft_path(draft, 'related_url')
+        visit edit_service_draft_path(draft, 'related_urls')
         click_on 'Expand All'
 
         fill_in 'Url', with: 'http://example.com'
@@ -151,7 +151,7 @@ describe 'Service Drafts Forms Field Validations', js: true do
         end
 
         it 'displays an invalid progress circle' do
-          expect(page).to have_css('i.icon-red.related-url')
+          expect(page).to have_css('i.icon-red.related-urls')
         end
       end
     end

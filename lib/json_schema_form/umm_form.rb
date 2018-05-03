@@ -310,7 +310,15 @@ class UmmForm < JsonObj
   end
 
   def accordion_id
-    top_key.nil? ? parsed_json.fetch('title', '').gsub(/( )/, '-').downcase : top_key.underscore.dasherize
+    if top_key.nil?
+      parsed_json.fetch('title', '').gsub(/( )/, '-').downcase
+    elsif top_key == 'RelatedURLs'
+      # special case because the progress circles for RelatedURLs
+      # is getting 'related-ur-ls' from this method
+      'related-urls'
+    else
+      top_key.underscore.dasherize
+    end
   end
 end
 
@@ -433,7 +441,7 @@ class UmmFormElement < UmmForm
     end
     provided_key.gsub!('index_id', options['index'].to_s) if options['index']
 
-    json_form.element_path_for_object(provided_key, ignore_keys: ignore_keys).map.with_index { |key, index| index.zero? ? key.underscore : "[#{key.underscore}]" }.join
+    json_form.element_path_for_object(provided_key, ignore_keys: ignore_keys).map.with_index { |key, index| index.zero? ? underscore_fix_for_related_urls(key) : "[#{underscore_fix_for_related_urls(key)}]" }.join
   end
 
   def idify_property_name(ignore_keys: %w(items properties index_id))

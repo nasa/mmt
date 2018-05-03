@@ -4,7 +4,7 @@ shared_examples_for 'Coverage Form with Spatial Points' do
   it 'displays the form with values' do
     expect(page).to have_field('service_draft_draft_coverage_name', with: 'Coverage Name')
 
-    expect(page).to have_field('Type', with: 'SPATIAL_POINT')
+    expect(page).to have_field('Coverage Spatial Extent Type Type', with: 'SPATIAL_POINT')
     expect(page).to have_field('Uuid', with: '13f5e348-ffad-4ef9-9600-12ad74f60f77')
     within '.multiple.spatial-points' do
       within '.multiple-item-0' do
@@ -43,7 +43,7 @@ shared_examples_for 'Coverage Form with Spatial Ling Strings' do
   it 'displays the form with values' do
     expect(page).to have_field('service_draft_draft_coverage_name', with: 'Coverage Name')
 
-    expect(page).to have_field('Type', with: 'SPATIAL_LINE_STRING')
+    expect(page).to have_field('Coverage Spatial Extent Type Type', with: 'SPATIAL_LINE_STRING')
     expect(page).to have_field('Uuid', with: '13f5e348-ffad-4ef9-9600-12ad74f60f77')
     within '.multiple.spatial-line-strings' do
       within '.multiple-item-0' do
@@ -95,7 +95,7 @@ shared_examples_for 'Coverage Form with a Spatial Bounding Box' do
   it 'displays the form with values' do
     expect(page).to have_field('service_draft_draft_coverage_name', with: 'Coverage Name')
 
-    expect(page).to have_field('Type', with: 'BOUNDING_BOX')
+    expect(page).to have_field('Coverage Spatial Extent Type Type', with: 'BOUNDING_BOX')
     expect(page).to have_field('Uuid', with: '13f5e348-ffad-4ef9-9600-12ad74f60f77')
 
     expect(page).to have_field('Min X', with: '-5.0')
@@ -129,7 +129,7 @@ shared_examples_for 'Coverage Form with Spatial Polygons' do
   it 'displays the form with values' do
     expect(page).to have_field('service_draft_draft_coverage_name', with: 'Coverage Name')
 
-    expect(page).to have_field('Type', with: 'SPATIAL_POLYGON')
+    expect(page).to have_field('Coverage Spatial Extent Type Type', with: 'SPATIAL_POLYGON')
     expect(page).to have_field('Uuid', with: '13f5e348-ffad-4ef9-9600-12ad74f60f77')
     within '.multiple.spatial-polygons' do
       within '.multiple-item-0' do
