@@ -23,7 +23,7 @@ $(document).ready ->
       json = JSON.parse(json.serializeJSON())
       if isUmmSForm()
         json = json.ServiceDraft?.Draft or {}
-        fixRelatedURL(json)
+        fixRelatedURLs(json)
       else if isUmmVarForm()
         json = json.VariableDraft?.Draft or {}
 
@@ -35,7 +35,7 @@ $(document).ready ->
 
     return json
 
-  fixRelatedURL = (json) ->
+  fixRelatedURLs = (json) ->
     if json?.RelatedUrls?
       json.RelatedURLs = json.RelatedUrls
       delete json.RelatedUrls

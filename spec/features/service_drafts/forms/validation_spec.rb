@@ -164,7 +164,7 @@ describe 'Service Drafts Forms Field Validations', js: true do
 
     context 'when entering text into a number field' do
       before do
-        select 'BOUNDING_BOX', from: 'Type'
+        select 'BOUNDING_BOX', from: 'Coverage Spatial Extent Type Type'
         fill_in 'Min X', with: 'abcd'
       end
 
