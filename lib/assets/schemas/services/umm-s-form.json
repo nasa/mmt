@@ -836,6 +836,22 @@
       "key": "/CoverageTemporalExtent/properties",
       "items": [
         {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/CoverageTemporalExtentTypeType", "field": true, "htmlClass": "coverage-temporal-type-select", "type": "UmmSelect"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/Uuid", "field": true}]
+            }
+          ]
+        },
+        {
           "type": "UmmMultiItems",
           "label": "Coverage Time Points",
           "multiType": "CoverageTimePoints",
@@ -861,11 +877,6 @@
               ]
             }
           ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "col-6",
-          "items": [{"key": "/Uuid"}]
         }
       ]
     },

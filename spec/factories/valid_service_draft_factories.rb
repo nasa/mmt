@@ -615,6 +615,8 @@ FactoryGirl.define do
         'SpatialResolution': '50',
         'SpatialResolutionUnit': 'KM',
         'CoverageTemporalExtent': {
+          'CoverageTemporalExtentTypeType': 'TIME_STAMP',
+          'Uuid': '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40',
           'CoverageTimePoints': [
             {
               'TimeFormat': 'format 1',
@@ -626,8 +628,7 @@ FactoryGirl.define do
               'TimeValue': 'value 2',
               'Description': 'description 2'
             }
-          ],
-          'Uuid': '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40'
+          ]
         },
         'TemporalResolution': '7',
         'TemporalResolutionUnit': 'days',

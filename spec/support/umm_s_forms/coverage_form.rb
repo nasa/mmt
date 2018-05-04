@@ -19,6 +19,8 @@ shared_examples_for 'Coverage Form with Spatial Points' do
     expect(page).to have_field('Spatial Resolution', with: '50')
     expect(page).to have_field('Spatial Resolution Unit', with: 'KM')
 
+    expect(page).to have_field('Coverage Temporal Extent Type Type', with: 'TIME_STAMP')
+    expect(page).to have_field('Uuid', with: '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40')
     within '.multiple.coverage-time-points' do
       within '.multiple-item-0' do
         expect(page).to have_field('Time Format', with: 'format 1')
@@ -31,7 +33,6 @@ shared_examples_for 'Coverage Form with Spatial Points' do
         expect(page).to have_field('Description', with: 'description 2')
       end
     end
-    expect(page).to have_field('Uuid', with: '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40')
 
     expect(page).to have_field('Temporal Resolution', with: '7')
     expect(page).to have_field('Temporal Resolution', with: 'days')
@@ -70,6 +71,8 @@ shared_examples_for 'Coverage Form with Spatial Ling Strings' do
     expect(page).to have_field('Spatial Resolution', with: '50')
     expect(page).to have_field('Spatial Resolution Unit', with: 'KM')
 
+    expect(page).to have_field('Coverage Temporal Extent Type Type', with: 'TIME_STAMP')
+    expect(page).to have_field('Uuid', with: '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40')
     within '.multiple.coverage-time-points' do
       within '.multiple-item-0' do
         expect(page).to have_field('Time Format', with: 'format 1')
@@ -82,7 +85,6 @@ shared_examples_for 'Coverage Form with Spatial Ling Strings' do
         expect(page).to have_field('Description', with: 'description 2')
       end
     end
-    expect(page).to have_field('Uuid', with: '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40')
 
     expect(page).to have_field('Temporal Resolution', with: '7')
     expect(page).to have_field('Temporal Resolution', with: 'days')
@@ -105,6 +107,8 @@ shared_examples_for 'Coverage Form with a Spatial Bounding Box' do
     expect(page).to have_field('Spatial Resolution', with: '50')
     expect(page).to have_field('Spatial Resolution Unit', with: 'KM')
 
+    expect(page).to have_field('Coverage Temporal Extent Type Type', with: 'TIME_STAMP')
+    expect(page).to have_field('Uuid', with: '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40')
     within '.multiple.coverage-time-points' do
       within '.multiple-item-0' do
         expect(page).to have_field('Time Format', with: 'format 1')
@@ -117,7 +121,6 @@ shared_examples_for 'Coverage Form with a Spatial Bounding Box' do
         expect(page).to have_field('Description', with: 'description 2')
       end
     end
-    expect(page).to have_field('Uuid', with: '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40')
 
     expect(page).to have_field('Temporal Resolution', with: '7')
     expect(page).to have_field('Temporal Resolution', with: 'days')
@@ -152,6 +155,8 @@ shared_examples_for 'Coverage Form with Spatial Polygons' do
     expect(page).to have_field('Spatial Resolution', with: '50')
     expect(page).to have_field('Spatial Resolution Unit', with: 'KM')
 
+    expect(page).to have_field('Coverage Temporal Extent Type Type', with: 'TIME_STAMP')
+    expect(page).to have_field('Uuid', with: '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40')
     within '.multiple.coverage-time-points' do
       within '.multiple-item-0' do
         expect(page).to have_field('Time Format', with: 'format 1')
@@ -164,7 +169,6 @@ shared_examples_for 'Coverage Form with Spatial Polygons' do
         expect(page).to have_field('Description', with: 'description 2')
       end
     end
-    expect(page).to have_field('Uuid', with: '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40')
 
     expect(page).to have_field('Temporal Resolution', with: '7')
     expect(page).to have_field('Temporal Resolution', with: 'days')
