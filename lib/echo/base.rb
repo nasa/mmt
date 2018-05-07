@@ -25,6 +25,7 @@ module Echo
       response = connection.post do |req|
         req.headers['Content-Type'] = 'text/xml'
         req.body = body
+        req.options.timeout = 300
       end
 
       echo_response = Echo::Response.new(response)
