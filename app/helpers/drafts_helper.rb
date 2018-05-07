@@ -183,7 +183,7 @@ module DraftsHelper
     ['Horizontal and Vertical', 'HORIZONTAL_VERTICAL'],
     ['Orbital and Vertical', 'ORBITAL_VERTICAL']
   ]
-  URLContentTypeMap = {
+  url_content_type_map = {
     'CollectionURL' => {
       'text' => 'Collection URL',
       'types' => {
@@ -327,6 +327,12 @@ module DraftsHelper
       }
     }
   }
+  URLContentTypeMap = url_content_type_map.deep_dup
+  # UMM-S v1.1 added TOOL to GET SERVICE subtypes
+  umm_s_url_content_type_map = url_content_type_map.deep_dup
+  umm_s_url_content_type_map['DistributionURL']['types']['GET SERVICE']['subtypes'] << ['Tool','TOOL']
+  umm_s_url_content_type_map['DistributionURL']['types']['GET SERVICE']['subtypes'].sort!
+  UMMSURLContentTypeMap = umm_s_url_content_type_map
   URLContentTypeOptions = [
     ['Collection URL', 'CollectionURL'],
     ['Publication URL', 'PublicationURL'],
